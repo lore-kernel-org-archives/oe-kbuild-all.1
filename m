@@ -1,79 +1,78 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713ED30DEAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 08:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6641030FC2B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 08:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760431189; cv=none; b=suooyzp/8qvddpxyC0celqwgKS6dngbAwOWkAN2m6lesnFnrxXtPfpN9pj2+OXvxFWM2lLJqgJ4ByaKmIPToOjd0qkG0l/0RXhS+W/xSsmMbEJqW852bXO5Y8bVLLpFZ+QyEMkttaMHd32rvYsnl4u5nEDCjtg24weg9mhPt0Fc=
+	t=1760431350; cv=none; b=OmHrIgZGweN7c48/pJm5TA23kXZiudn1QrqX1ITitvTWh4Y7kVv/ji0b4EnIvt1GLlo/A1zNIN8dKl1hS8Tqpv5Z+F7WoUEASVTbdhsEAOlLjcsad4M6xX6J+qHDk3IXfEvObmgM/SnumKSSmzOer8rKl15G7mcmagFI0gjQMAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760431189; c=relaxed/simple;
-	bh=hoQgCpk0WoxOoFSs/WuXrmbPtqn324Nd1OaXF4bX8iw=;
+	s=arc-20240116; t=1760431350; c=relaxed/simple;
+	bh=HVI9WkSGPWOkAXQUy/ASJnp79EZmelndScNQlQVMQvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mECtvJ6LyYaqrOiyV4OuXLhAYVjsfCqzoPRrgvxt7LGhltUUX6XekL3xI3i95izP9tine0PCUwb4qgJRJKo7ouXk4rEzmSOHKrTXIy0BcBJFD1DpnHCsmNFdhlsID09bjqSBNYkT1/0RiabD0QzXvcctxsKD/c8ZMpHHtPX69KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Mjj64+wl; arc=none smtp.client-ip=209.85.221.51
+	 Content-Disposition:In-Reply-To; b=WwqyzVeQfJkAk3zaVwkJYH6NY9juMfD/Emz2r0tddVv8DtRzK/KKPNLxwvUmGdsrRrwWVSHTbdgSmbqodCTBFYQNdP67idCpMO85og+Zyp02utNAHaQkhXTv0dTrMZUuHTVST38tKAvl9oM6MGXPSa4pRW0DzDJSzugm8bXIll8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wNKWSGmB; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Mjj64+wl"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42421b1514fso2507978f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 01:39:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wNKWSGmB"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-46b303f755aso43837125e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 01:42:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760431186; x=1761035986; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1760431347; x=1761036147; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YFWOuvnUfMwybXOtMoOd4svMVvGqzTx63g0iMz9e+aA=;
-        b=Mjj64+wlNPKaJn0fMsOFm/WHy7mMDK7O0SuAPiH67OaCIcCZ50YUech8JnE72jsmHB
-         KTGLnmhAC6k6/hXR+2DbrYZ7hPm/vT/EDb8ANexq0pRl+LrF+ssGybS7t214gfSE+lhA
-         4vxjzdx8DfZ9tE1alvgzVPJJjbysrGMpFHeROS23Nqifb1OGDvSF+iWzaVJAhjs7r9ot
-         R8xMZz8uD0ioBudww9nc4avEhq1R6BkhmCc0tOB8DJW8joLhrTOMBWKPRrLQpviWVkUd
-         yTBDK/Glzq3oZBsx+Fb4j8uJXa4JQnKou1PjM/FgQzbIUWA+kbSS8hWnvK3ozKDcVdIR
-         ++gw==
+        bh=Bux6a4GJjBSEbuQlF9lC1lsY4+VsrC6xtyeGzyjuopE=;
+        b=wNKWSGmBfW9VuvMh3d5p30jwM1Yqq4dSi8TpqcpIyW3eXvk4uYvlMALrkJ17r4xdpT
+         3B8FQjafmC4IVXY0nj6agmbAS9+X/6MoXbBKm94iCS3jnjvrZoEzolCGE/M1ZMr9LJft
+         aU/6Gf9bmEVtlCefHqS33plRQj+mMoH0ZRwrSh34M/JBgoTQynwDZqjtzLJ45v03pOfu
+         nPZiV3qilpDJTImoiY91xNYnHWO8978FlTd24wxJsJz9neaIS7fDvWgU4zwIhi6B6fGp
+         o+byHaTA3H/9fuRD9brc3DuT32Ry3o24GZydpdKplHVYXEwlk/3CI29UKCpmUuiHigLp
+         QH3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760431186; x=1761035986;
+        d=1e100.net; s=20230601; t=1760431347; x=1761036147;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YFWOuvnUfMwybXOtMoOd4svMVvGqzTx63g0iMz9e+aA=;
-        b=ktknWhHhGlcJy7zeS211xzuzqEdJGZBI3JaAJWfKQfpGUgBEjav3lQUgxf27x1NFNH
-         iccGGhwpO0rUsIJq/3qxyIfPuaOXM1a0W05lcsWQ4gIvApuxoIDpUh3mv+661IeofT5R
-         40TFSSuuOCp4crcMsy/6yZRI3yfqCwlU3snKiJonC5s/gJixb+TpxnBleIn3uLzKB+S/
-         aw/gYItT0uf4rGIcM3tAK89A4a++xrk0z6qbWEBVFm3b+IqVDgtmMTA9KDelaZcgSaFl
-         vWerI/LqEtwk6R80MrGl82nUd32+ObPNcKWYoI+I365SLOJoMUyq5PsVf5gmFeVjphZf
-         GUrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+8Ok2t8vA6VT4EVt0JvKUw9aEMQMhnWN11BSNebEF0yEEWsPsqgnev5DX+cgf074Tu/rZbXlXQ/3PhRPW@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpN2/d607sldkMilC0DsPl7YeYjkZgIBeHfyJ4lA7gtS4pthDH
-	c1jiLqIlnMub5U46En6F42hwkOgFJ61/xTtVFVZvEI7BlzZZ5+viiPyStKRpzDWkXMs=
-X-Gm-Gg: ASbGncvAluYXtIOSArOXWdgFZnNPSS71Kt1lOzL87bMTBL48orUfxTUbFLBGjZREFiS
-	ACxutQfpPtB2gpdFpK6zPE2s8Ult+4XwBVkxEaEZ9mcEmCs08QMCENcETS75T7Vr3+sUSYM12xN
-	nrFRkLOiW3nVYQ96A3CeO6xQ7hjVBp/wNmXznJxefa03qMEe5f1PYdCLDcJ2k15MXkIRwUfAGgr
-	T+rxEGW/2CEGq80wzSvFAZIHAYSUmoYZ/oN1OcU4ulQ1Fnhl/ZjFLDwXArEPJN9GUnO3NfDJmBB
-	9I0aaFgAs4dgEu2hkpGo16+f0SDk6Ya3F2VS7xzyypCQDTolvgXAs7iQAidLx37WeiLsx57RVQn
-	/51ujcw6S9o89nMOu3t12Q404HDiqnGKj+xOTCixbzDBydPneSCM/YN7LSpIiGw==
-X-Google-Smtp-Source: AGHT+IFDjuNxGsj9w5KIK44evH4nW82BXa1kd591GncY0F3Cb/1CX97GoQ+hu6emUu0ZcgJJ0c1fpA==
-X-Received: by 2002:a05:6000:40da:b0:3f8:8aa7:465d with SMTP id ffacd0b85a97d-4266e7d4580mr13949163f8f.30.1760431185690;
-        Tue, 14 Oct 2025 01:39:45 -0700 (PDT)
+        bh=Bux6a4GJjBSEbuQlF9lC1lsY4+VsrC6xtyeGzyjuopE=;
+        b=Xs0g9NCDA+j7sWhGmETiAO1/RdJ2OFyihhCCBV+JfybrXGcD2Xedwpy/ypq6bukgeI
+         nfufNVcQ8T3VAMTtCQISaWvkGra+uCZtH02/mmNBcD+UEE0XkvmazOvsQxKGHkZ3sckB
+         ea3W4042wbxQEskVKuqfmFjCKW8+XTp1XSjn5ZlCT9wMkiAZS1I7wiUuy5FlALvtf67W
+         qdEAPfvW792j3zBujEBcB6ah843DPgSih1TI4TPmdEC859tAdOsWEGCh4eEJ6WQm/WIq
+         MKMyf0dblQsKKpmXgOiAPzEIUNKfASCR7Hrw9qnZw8+8AnWq1Z+Dh5zh4thHfG5QMzkV
+         W+ng==
+X-Forwarded-Encrypted: i=1; AJvYcCVa0muSXHxdBsWThuCWskd7rtcwdBZ1mAVN8zuNT2wZIDc3O/+fBA0wk/XRx2R/+/fCW6AuuRzNs1b4UOok@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjShF6cSgkfK6jC8eNQtXTCfoo1FnQSry9rCZ/7SVZLxImibAh
+	6wRZnHb/cr0YSnCWLiJxBHzHaq0QI0iejtXDQG8W3FdJ82vr4iXUViCYwivZ2dXeMhc=
+X-Gm-Gg: ASbGncuOXVfOpNerow8ZLwAgN5a/P51vzsB2FW2WodnSp1/heTnfJftguSelgUtyj9L
+	vquRAuwQVMBDDN9wbKakYEXDATv1+wvHyrC3sBFUCQPfuJmMoOP1RZEENmSgnvLB32BqyQpM/3z
+	Up21+S/3pxSho7TdyKktnP4HZ9M323yUaB/CBRBlQvBbUWxgBc51as0lTCApVbavd/EW8sq4TkB
+	VQLDlXqPCZzJnXbRfVa2AH9e+VvYunCnQEe/g8V05pxuUVu0zBxkMU0R26oWRvm7RlQs0mwrsVg
+	uW/Tk8SK/hjUWzrX08NOtOv/OJNnWYCvbW3tK8Nq9DVmi28btm7a8jwfS8cr4HBlynK/YnerEOD
+	PkLH1EaoLzDXWpc6nLGotVzXwN1doNNcghXJKsQlIHvCSRoEdPxsz5wpFB0UPNqFNoZ7D+0/0
+X-Google-Smtp-Source: AGHT+IEPeQ80dYAy/EoJvHRwS61zYc5L1iet9i9NnbknYK2xCI/PKnPoz8i4rHOQpXQTbmI6ft/ptQ==
+X-Received: by 2002:a05:600c:c083:b0:46f:b32e:5292 with SMTP id 5b1f17b1804b1-46fb32e5338mr94133085e9.8.1760431346590;
+        Tue, 14 Oct 2025 01:42:26 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce5e8a06sm22476317f8f.55.2025.10.14.01.39.44
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb482b99fsm234828405e9.3.2025.10.14.01.42.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 01:39:45 -0700 (PDT)
-Date: Tue, 14 Oct 2025 11:39:41 +0300
+        Tue, 14 Oct 2025 01:42:26 -0700 (PDT)
+Date: Tue, 14 Oct 2025 11:42:22 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Peng Fan <peng.fan@nxp.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Andrew Davis <afd@ti.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 4/7] remoteproc: core: Use cleanup.h macros to
- simplify lock handling
-Message-ID: <202510121908.7aduLIkw-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, hehuan1@eswincomputing.com,
+	ulf.hansson@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, jszhang@kernel.org, adrian.hunter@intel.com,
+	p.zabel@pengutronix.de, linux-mmc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
+	linmin@eswincomputing.com, pinkesh.vaghela@einfochips.com,
+	xuxiang@eswincomputing.com, luyulin@eswincomputing.com,
+	dongxuyang@eswincomputing.com, zhangsenchuan@eswincomputing.com,
+	weishangjuan@eswincomputing.com, lizhi2@eswincomputing.com,
+	caohang@eswincomputing.com, hehuan1@eswincomputing.com
+Subject: Re: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin
+ EIC7700
+Message-ID: <202510131636.lJ5QxMpK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,103 +81,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251010-remoteproc-cleanup-v2-4-7cecf1bfd81c@nxp.com>
+In-Reply-To: <20251011111216.570-1-hehuan1@eswincomputing.com>
 
-Hi Peng,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/remoteproc-core-Drop-redundant-initialization-of-ret-in-rproc_shutdown/20251010-202737
-base:   3b9b1f8df454caa453c7fb07689064edb2eda90a
-patch link:    https://lore.kernel.org/r/20251010-remoteproc-cleanup-v2-4-7cecf1bfd81c%40nxp.com
-patch subject: [PATCH v2 4/7] remoteproc: core: Use cleanup.h macros to simplify lock handling
-config: i386-randconfig-141-20251012 (https://download.01.org/0day-ci/archive/20251012/202510121908.7aduLIkw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hehuan1-eswincomputing-com/dt-bindings-mmc-sdhci-of-dwcmshc-Add-Eswin-EIC7700/20251011-191312
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251011111216.570-1-hehuan1%40eswincomputing.com
+patch subject: [PATCH v4 2/2] mmc: sdhci-of-dwcmshc: Add support for Eswin EIC7700
+config: s390-randconfig-r073-20251013 (https://download.01.org/0day-ci/archive/20251013/202510131636.lJ5QxMpK-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510121908.7aduLIkw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510131636.lJ5QxMpK-lkp@intel.com/
 
-smatch warnings:
-drivers/remoteproc/remoteproc_core.c:1841 rproc_trigger_recovery() warn: missing error code? 'ret'
-drivers/remoteproc/remoteproc_core.c:1993 rproc_shutdown() warn: missing error code? 'ret'
+New smatch warnings:
+drivers/mmc/host/sdhci-of-dwcmshc.c:1547 eic7700_init() warn: missing error code? 'ret'
 
-vim +/ret +1841 drivers/remoteproc/remoteproc_core.c
+vim +/ret +1547 drivers/mmc/host/sdhci-of-dwcmshc.c
 
-70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1829  int rproc_trigger_recovery(struct rproc *rproc)
-70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1830  {
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1831  	struct device *dev = &rproc->dev;
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1832  	int ret;
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1833  
-c42baf6f84c7694 Peng Fan             2025-10-10  1834  	ACQUIRE(mutex_intr, lock)(&rproc->lock);
-c42baf6f84c7694 Peng Fan             2025-10-10  1835  	ret = ACQUIRE_ERR(mutex_intr, &lock);
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1836  	if (ret)
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1837  		return ret;
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1838  
-0b145574b6cd2b3 Alex Elder           2020-02-28  1839  	/* State could have changed before we got the mutex */
-0b145574b6cd2b3 Alex Elder           2020-02-28  1840  	if (rproc->state != RPROC_CRASHED)
-c42baf6f84c7694 Peng Fan             2025-10-10 @1841  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1516  static int eic7700_init(struct device *dev, struct sdhci_host *host, struct dwcmshc_priv *dwc_priv)
+3c5c200f02eee8 Huan He 2025-10-11  1517  {
+3c5c200f02eee8 Huan He 2025-10-11  1518  	u32 emmc_caps = MMC_CAP2_NO_SD | MMC_CAP2_NO_SDIO;
+3c5c200f02eee8 Huan He 2025-10-11  1519  	unsigned int val, hsp_int_status, hsp_pwr_ctrl;
+3c5c200f02eee8 Huan He 2025-10-11  1520  	struct of_phandle_args args;
+3c5c200f02eee8 Huan He 2025-10-11  1521  	struct eic7700_priv *priv;
+3c5c200f02eee8 Huan He 2025-10-11  1522  	struct regmap *hsp_regmap;
+3c5c200f02eee8 Huan He 2025-10-11  1523  	int ret;
+3c5c200f02eee8 Huan He 2025-10-11  1524  
+3c5c200f02eee8 Huan He 2025-10-11  1525  	priv = devm_kzalloc(dev, sizeof(struct eic7700_priv), GFP_KERNEL);
+3c5c200f02eee8 Huan He 2025-10-11  1526  	if (!priv)
+3c5c200f02eee8 Huan He 2025-10-11  1527  		return -ENOMEM;
+3c5c200f02eee8 Huan He 2025-10-11  1528  
+3c5c200f02eee8 Huan He 2025-10-11  1529  	dwc_priv->priv = priv;
+3c5c200f02eee8 Huan He 2025-10-11  1530  
+3c5c200f02eee8 Huan He 2025-10-11  1531  	ret = sdhci_eic7700_reset_init(dev, dwc_priv->priv);
+3c5c200f02eee8 Huan He 2025-10-11  1532  	if (ret) {
+3c5c200f02eee8 Huan He 2025-10-11  1533  		dev_err(dev, "failed to reset\n");
+3c5c200f02eee8 Huan He 2025-10-11  1534  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1535  	}
+3c5c200f02eee8 Huan He 2025-10-11  1536  
+3c5c200f02eee8 Huan He 2025-10-11  1537  	ret = of_parse_phandle_with_fixed_args(dev->of_node, "eswin,hsp-sp-csr", 2, 0, &args);
+3c5c200f02eee8 Huan He 2025-10-11  1538  	if (ret) {
+3c5c200f02eee8 Huan He 2025-10-11  1539  		dev_err(dev, "Fail to parse 'eswin,hsp-sp-csr' phandle (%d)\n", ret);
+3c5c200f02eee8 Huan He 2025-10-11  1540  		return ret;
+3c5c200f02eee8 Huan He 2025-10-11  1541  	}
+3c5c200f02eee8 Huan He 2025-10-11  1542  
+3c5c200f02eee8 Huan He 2025-10-11  1543  	hsp_regmap = syscon_node_to_regmap(args.np);
+3c5c200f02eee8 Huan He 2025-10-11  1544  	if (IS_ERR(hsp_regmap)) {
+3c5c200f02eee8 Huan He 2025-10-11  1545  		dev_err(dev, "Failed to get regmap for 'eswin,hsp-sp-csr'\n");
+3c5c200f02eee8 Huan He 2025-10-11  1546  		of_node_put(args.np);
+3c5c200f02eee8 Huan He 2025-10-11 @1547  		return ret;
 
-Please change this to either "return 0;" or "return -ERRORCODE;"
+return PTR_ERR(hsp_regmap);
 
-0b145574b6cd2b3 Alex Elder           2020-02-28  1842  
-0b145574b6cd2b3 Alex Elder           2020-02-28  1843  	dev_err(dev, "recovering %s\n", rproc->name);
-0b145574b6cd2b3 Alex Elder           2020-02-28  1844  
-ba194232edc032b Peng Fan             2022-09-28  1845  	if (rproc_has_feature(rproc, RPROC_FEAT_ATTACH_ON_RECOVERY))
-ba194232edc032b Peng Fan             2022-09-28  1846  		ret = rproc_attach_recovery(rproc);
-ba194232edc032b Peng Fan             2022-09-28  1847  	else
-ba194232edc032b Peng Fan             2022-09-28  1848  		ret = rproc_boot_recovery(rproc);
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1849  
-7e83cab824a8670 Sarangdhar Joshi     2017-05-26  1850  	return ret;
-70b85ef83ce3523 Fernando Guzman Lugo 2012-08-30  1851  }
-
-[ snip ]
-
-c13b780c4597e1e Suman Anna           2022-02-13  1976  int rproc_shutdown(struct rproc *rproc)
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1977  {
-b5ab5e24e960b9f Ohad Ben-Cohen       2012-05-30  1978  	struct device *dev = &rproc->dev;
-ee3d85da617a065 Peng Fan             2025-10-10  1979  	int ret;
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1980  
-c42baf6f84c7694 Peng Fan             2025-10-10  1981  	ACQUIRE(mutex_intr, lock)(&rproc->lock);
-c42baf6f84c7694 Peng Fan             2025-10-10  1982  	ret = ACQUIRE_ERR(mutex_intr, &lock);
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1983  	if (ret) {
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1984  		dev_err(dev, "can't lock rproc %s: %d\n", rproc->name, ret);
-c13b780c4597e1e Suman Anna           2022-02-13  1985  		return ret;
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1986  	}
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1987  
-c42baf6f84c7694 Peng Fan             2025-10-10  1988  	if (rproc->state != RPROC_RUNNING && rproc->state != RPROC_ATTACHED)
-c42baf6f84c7694 Peng Fan             2025-10-10  1989  		return -EINVAL;
-5e6a0e05270e3a4 Shengjiu Wang        2022-03-28  1990  
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1991  	/* if the remote proc is still needed, bail out */
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1992  	if (!atomic_dec_and_test(&rproc->power))
-c42baf6f84c7694 Peng Fan             2025-10-10 @1993  		return ret;
-
-Same.
-
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1994  
-fcd58037f28bf70 Arnaud Pouliquen     2018-04-10  1995  	ret = rproc_stop(rproc, false);
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1996  	if (ret) {
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1997  		atomic_inc(&rproc->power);
-c42baf6f84c7694 Peng Fan             2025-10-10  1998  		return ret;
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  1999  	}
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2000  
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2001  	/* clean up all acquired resources */
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2002  	rproc_resource_cleanup(rproc);
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2003  
-33467ac3c8dc805 Loic Pallardy        2020-04-16  2004  	/* release HW resources if needed */
-33467ac3c8dc805 Loic Pallardy        2020-04-16  2005  	rproc_unprepare_device(rproc);
-33467ac3c8dc805 Loic Pallardy        2020-04-16  2006  
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2007  	rproc_disable_iommu(rproc);
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2008  
-988d204cdaf604c Bjorn Andersson      2016-08-11  2009  	/* Free the copy of the resource table */
-a0c10687ec9506b Bjorn Andersson      2016-12-30  2010  	kfree(rproc->cached_table);
-a0c10687ec9506b Bjorn Andersson      2016-12-30  2011  	rproc->cached_table = NULL;
-988d204cdaf604c Bjorn Andersson      2016-08-11  2012  	rproc->table_ptr = NULL;
-c42baf6f84c7694 Peng Fan             2025-10-10  2013  
-c13b780c4597e1e Suman Anna           2022-02-13  2014  	return ret;
-400e64df6b237eb Ohad Ben-Cohen       2011-10-20  2015  }
+3c5c200f02eee8 Huan He 2025-10-11  1548  	}
+3c5c200f02eee8 Huan He 2025-10-11  1549  	hsp_int_status = args.args[0];
+3c5c200f02eee8 Huan He 2025-10-11  1550  	hsp_pwr_ctrl = args.args[1];
+3c5c200f02eee8 Huan He 2025-10-11  1551  	of_node_put(args.np);
+3c5c200f02eee8 Huan He 2025-10-11  1552  	/*
+3c5c200f02eee8 Huan He 2025-10-11  1553  	 * Assert clock stability: write EIC7700_INT_CLK_STABLE to hsp_int_status.
+3c5c200f02eee8 Huan He 2025-10-11  1554  	 * This signals to the eMMC controller that platform clocks (card, ACLK,
+3c5c200f02eee8 Huan He 2025-10-11  1555  	 * BCLK, TMCLK) are enabled and stable.
+3c5c200f02eee8 Huan He 2025-10-11  1556  	 */
 
 -- 
 0-DAY CI Kernel Test Service
