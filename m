@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8101524DCEF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Oct 2025 19:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479CB2D239A;
+	Tue, 14 Oct 2025 19:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760470317; cv=none; b=XX6Iz7XFHQUjtKgX3VhcBekNgV9GCU5/kIkuu+8YF5Ed4CmFV79iCh0b2eEB1wj8I51+S0S0M3dCiEWjB8EWTHzYjgNKoprT0SH8lVHv30wvs3XZzynrvXKYiaEH2gnnOEgk7x6uE9HlyDMCmRJdMCGPLxUmZy1YeMaJmsnWGk4=
+	t=1760470984; cv=none; b=BzbsvVjbVFr6glMslpPjvRka6232f6PI7alLQFU9x+3FcdTbMHZQIJrtJ1U62sT/K1XFaRNY5ErY/A/e9dvmQOLXhjiS4S/AIq50E/HksH9+XeMLzLj7eprenjmlpfzXVEajTTdRKamRz7ppW3SOAdDG8YZ4HDpneFedxPaLAx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760470317; c=relaxed/simple;
-	bh=LhXF0R5ZtoEpckWmR/tjBAEL1cwkdWwQLWUgbuYqbHo=;
+	s=arc-20240116; t=1760470984; c=relaxed/simple;
+	bh=EWgw3GLR6oRJ1kHguVBl4EyHjggRRJZVdezRBUpJWNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e8czPo6UDWK7ar7oDBy6cCY/n/E4SKZCHac8miqDADF0p7lK2iXrx6n7FqytwxSVko/4rAimwHcGYUAGkNONwW0I3gyoYVZ7WXE7rRGaD2FGszEX+YuJq9Z5PJM9utiOwILs52TX5m05yegfdthoWhr7rYvPSrRlwYdjy0vyiCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJmCYk/K; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=eY8AxNgNFsMwalt1xwjiMG3WEqaJhOsnWfTMFRzssqmKUCKLPaOyFU1mBgZLYQmYLm+TvUVWNAOurTJhKBVzuQ6rUSr8QNeWOp4JxhxMIVpt2I41KaabSI0uEUYAm7seX5GmoXFGgZNLSmlzm5BE+3ApkifV7GFfzDmr+41LuCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlefJFjQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJmCYk/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlefJFjQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760470315; x=1792006315;
+  t=1760470982; x=1792006982;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LhXF0R5ZtoEpckWmR/tjBAEL1cwkdWwQLWUgbuYqbHo=;
-  b=HJmCYk/KEb+9Q1l9fb5eU6SVF7wzFNI/AVjfsu+irdYl2vJd5ajgEuNh
-   OBQ2RuYqZncViiSnQntjQjIK6d2mN4hCDbTplsI+ogxuz+0jjjqREDsJU
-   jfTonr6G0XaAjPGwFfB5tdmw3oDs5/tT5huFi8+O+b0i/bAUOoNkBhDW/
-   uuddNNU+jze8Yz1W2h/SfIS/AuiebhXnmpLFYhBOtCDZhed9mvHLYuAdl
-   9V1iN30jI9cRA5Dr6zOJMjQ2CDvucTlhl9UKCEKdg2Dat3gL6bDfCaCX8
-   YsClk+c7Z4GQHovhUVm1GZOyzJo9xi5UsMydDBgkqPg8co5PnMnQu8RJx
+  bh=EWgw3GLR6oRJ1kHguVBl4EyHjggRRJZVdezRBUpJWNY=;
+  b=VlefJFjQZ11KYKueeTGWWBdU4AtaZGogcuFfSmDB8Jd2egEiUnRItt2H
+   4kUO0yUfuLxsCyUriONEW/xD7O94oLhCSqaIo1Tsw9ifS5W/+qBEoRN2d
+   4LPq9U+NmJCXcL3g2IFv2xO6rAtEjMACVfwThpKiS6hSTcC+JcQ7TeKbv
+   bdQ5wCVUQ17/HauBbdVWaR7NvMbUhsXTEpfqX3a0tIF8zY4rpopbJ8wtS
+   xoKjAX/AInH+TXgdOt5d88JTtpRVEcArmAuaksv59l67FnftIhUqiKBeE
+   /1HI7PHn1BrYLgg8GmxFs3ULqm/RzMEdIG4pf/msAm/sB/zovvYLseqJE
    A==;
-X-CSE-ConnectionGUID: trrUY1UuRIqgMjS98YHdrw==
-X-CSE-MsgGUID: Hipe63v8QSiHpgnA9qi91g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62673241"
+X-CSE-ConnectionGUID: nGc9ChKZSZiwhXS6qmm8Ew==
+X-CSE-MsgGUID: fos1/Ra1TVOoKpL/NzHDVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="61847602"
 X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="62673241"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 12:31:52 -0700
-X-CSE-ConnectionGUID: jzjaq/TcQgCFsYczSdOA9Q==
-X-CSE-MsgGUID: XH/43ir8RcSTZ9gFK8Pohw==
+   d="scan'208";a="61847602"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 12:42:54 -0700
+X-CSE-ConnectionGUID: aXu6CnSrSEiPfneed3k1XQ==
+X-CSE-MsgGUID: ItSb2ZoMS0ma9rcCgTTF+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,229,1754982000"; 
-   d="scan'208";a="212585782"
+   d="scan'208";a="182751611"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 14 Oct 2025 12:31:52 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Oct 2025 12:42:51 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8kkO-00037X-2n;
-	Tue, 14 Oct 2025 19:31:48 +0000
-Date: Wed, 15 Oct 2025 03:31:42 +0800
+	id 1v8kv3-00037r-1x;
+	Tue, 14 Oct 2025 19:42:49 +0000
+Date: Wed, 15 Oct 2025 03:42:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Finn Thain <fthain@linux-m68k.org>
-Subject: [arnd-playground:to-build 5/9] include/linux/instrumented.h:71:9:
- error: implicit declaration of function 'WARN_ON_ONCE'
-Message-ID: <202510150353.GZykYFxI-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/vmxon_sucks 17/19] arch/x86/virt/hw.c:302:9: error:
+ assigning to 'int' from incompatible type 'void'
+Message-ID: <202510150357.nbUFdnh8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +62,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
-head:   b24255b1afbf1c9f6fd6e9baaa5ace64e4d2e94c
-commit: bd9bfac7160b3f7ff7cb190bcf2b5c0108bddf5b [5/9] atomic: Add alignment check to instrumented atomic operations
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20251015/202510150353.GZykYFxI-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150353.GZykYFxI-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/vmxon_sucks
+head:   24e9ac2db43ec73d19dc6896a507de1ff078c2bc
+commit: 72541a6245fb93cdc3c8aa8140b20dd1701c0e63 [17/19] KVM: x86: Extract VMXON and EFER.SVME enablement to kernel
+config: x86_64-buildonly-randconfig-004-20251015 (https://download.01.org/0day-ci/archive/20251015/202510150357.nbUFdnh8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510150357.nbUFdnh8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510150353.GZykYFxI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510150357.nbUFdnh8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/atomic/atomic-instrumented.h:17,
-                    from include/linux/atomic.h:82,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/instrumented.h: In function 'instrument_atomic_read':
->> include/linux/instrumented.h:71:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Wimplicit-function-declaration]
-      71 |         WARN_ON_ONCE(IS_ENABLED(CONFIG_DEBUG_ATOMIC) && ((unsigned long)v & (size - 1)));
-         |         ^~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: kernel/bounds.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1282: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> arch/x86/virt/hw.c:302:9: error: assigning to 'int' from incompatible type 'void'
+     302 |         BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
+         |         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/virt/hw.c:269:7: note: expanded from macro 'x86_virt_call'
+     269 |                 __r = x86_svm_##fn();                   \
+         |                     ^
+   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
+      71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+         |                                    ~~~~~~~~~^~~~~~~~~~
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+>> arch/x86/virt/hw.c:324:8: error: call to undeclared function 'x86_svm_emergency_disable_virtualization_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     324 |         (void)x86_virt_call(emergency_disable_virtualization_cpu);
+         |               ^
+   arch/x86/virt/hw.c:269:9: note: expanded from macro 'x86_virt_call'
+     269 |                 __r = x86_svm_##fn();                   \
+         |                       ^
+   <scratch space>:209:1: note: expanded from here
+     209 | x86_svm_emergency_disable_virtualization_cpu
+         | ^
+   arch/x86/virt/hw.c:324:8: note: did you mean 'x86_vmx_emergency_disable_virtualization_cpu'?
+   arch/x86/virt/hw.c:269:9: note: expanded from macro 'x86_virt_call'
+     269 |                 __r = x86_svm_##fn();                   \
+         |                       ^
+   <scratch space>:209:1: note: expanded from here
+     209 | x86_svm_emergency_disable_virtualization_cpu
+         | ^
+   arch/x86/virt/hw.c:121:12: note: 'x86_vmx_emergency_disable_virtualization_cpu' declared here
+     121 | static int x86_vmx_emergency_disable_virtualization_cpu(void)
+         |            ^
+   2 errors generated.
+--
+>> arch/x86/kernel/crash.c:114:2: error: call to undeclared function 'x86_virt_emergency_disable_virtualization_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     114 |         x86_virt_emergency_disable_virtualization_cpu();
+         |         ^
+   1 error generated.
 
 
-vim +/WARN_ON_ONCE +71 include/linux/instrumented.h
+vim +302 arch/x86/virt/hw.c
 
-    58	
-    59	/**
-    60	 * instrument_atomic_read - instrument atomic read access
-    61	 * @v: address of access
-    62	 * @size: size of access
-    63	 *
-    64	 * Instrument an atomic read access. The instrumentation should be inserted
-    65	 * before the actual read happens.
-    66	 */
-    67	static __always_inline void instrument_atomic_read(const volatile void *v, size_t size)
-    68	{
-    69		kasan_check_read(v, size);
-    70		kcsan_check_atomic_read(v, size);
-  > 71		WARN_ON_ONCE(IS_ENABLED(CONFIG_DEBUG_ATOMIC) && ((unsigned long)v & (size - 1)));
-    72	}
-    73	
+   293	
+   294	void x86_virt_put_cpu(int feat)
+   295	{
+   296		if (WARN_ON_ONCE(!this_cpu_read(virtualization_nr_users)))
+   297			return;
+   298	
+   299		if (this_cpu_dec_return(virtualization_nr_users) && !virt_rebooting)
+   300			return;
+   301	
+ > 302		BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
+   303	}
+   304	EXPORT_SYMBOL_GPL(x86_virt_put_cpu);
+   305	
+   306	/*
+   307	 * Disable virtualization, i.e. VMX or SVM, to ensure INIT is recognized during
+   308	 * reboot.  VMX blocks INIT if the CPU is post-VMXON, and SVM blocks INIT if
+   309	 * GIF=0, i.e. if the crash occurred between CLGI and STGI.
+   310	 */
+   311	int x86_virt_emergency_disable_virtualization_cpu(void)
+   312	{
+   313		/*
+   314		 * IRQs must be disabled as virtualization is enabled in hardware via
+   315		 * function call IPIs, i.e. IRQs need to be disabled to guarantee
+   316		 * virtualization stays disabled.
+   317		 */
+   318		lockdep_assert_irqs_disabled();
+   319	
+   320		/*
+   321		 * TODO: Track whether or not virtualization might be enabled on other
+   322		 *	 CPUs?  May not be worth avoiding the NMI shootdown...
+   323		 */
+ > 324		(void)x86_virt_call(emergency_disable_virtualization_cpu);
+   325		return 0;
+   326	}
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
