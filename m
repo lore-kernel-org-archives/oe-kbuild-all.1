@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265481D8DFB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 17:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832D8325486
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 18:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760550111; cv=none; b=ExZN3oX2udrhH/rqxQJlFpRF5V1vrtIL5W6mFUSHh8TX8YPGazg2hKlLaoFpbBDoVEh4b+TBBbjm9j+9qkHkS+OL0emdl1/I5eeuEKtITbglZoOoLmqUgML9F6tZrwVFFj1JOn2Pq0+HLKs8HP1eFmeRaHTO2gubS2rrKUDm+zA=
+	t=1760552632; cv=none; b=tUdPpbkhoTw47wh+FKC5pTfbQWFwDc6/kZE8sz4gGTiywClykSjLn3NlM4JuKGmBJ3Bk+qPXEShqkLYxbWkuITQ2aCCrbDDKitIG3GinzSGq4oBxp54ftXUL8pBDH6RgijlcllVu3eKrY3vvKjiYJu6U/CZuuO1Eop6+FggS5co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760550111; c=relaxed/simple;
-	bh=dtLpUXk6B/DNsmiTHB0RXuoPe8qLrJTYYwE5bIHPGY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tx+9aUKHtjzt8EeJ39zsodklmTSh2HhBklRmLTGOjpDjDUurlu/pls3sLyJDpbhZoR7u+ybRNGy4XIf5xvBPDignVS9WlDJCVjufVJi6QgolJtWH+fzEoGG1fTh3bWkRUNN652Ig6HZEV0XJSY+PZt+O9BJI8MBPOyYpXdkm4Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XRccZDyT; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1760552632; c=relaxed/simple;
+	bh=E3d1DBqC/oIEfIYOaGywi2U5DX5WXJXxiNkjW8A8ILY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H7tvV2mWLNLKXkH0KWG+U2W8OmCw6MxFj6VD1X4HYTPgSwdbSqvxIvUZdglidR5Rir0EdO59Di2vC7ILIPWc1s9aFDVgrv7pwgw8lGCsVl5/eHouQiRfSKMhUJkV9WoZqcA49GPWPCDI1M9C9LRt3qoo6LwryrP8l3EpGT2/6NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPEYCIj0; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XRccZDyT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPEYCIj0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760550110; x=1792086110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dtLpUXk6B/DNsmiTHB0RXuoPe8qLrJTYYwE5bIHPGY4=;
-  b=XRccZDyT1OUgYmE8GonDOFJVOkqgEcYrxgIAbTOpTGPnnTaFsJjYVzrg
-   aomm0d/Iqcy5R77HGorneimQGOX+344Tli/cjcyY35Qmq1QNiqlD8BD1A
-   faE5kCFAn1XHCpzv+i4cFtdP0Y/8OCjGbkagGkmu1zLqNGaEybyo7BCv7
-   Icq5hfcn54HXf4eZU05fgZc16fmqOXvL/xvYqQFtGOUoaVtv8XIQNHGBc
-   kG5JO4eTaBKvxDKdjJOSeo6W0xhlGdBUoWrBumBMC/kZ/Q3jMqkADStwA
-   JNAUuW+9+mHIe8v2S4cV79bywWgwhVrcF6Z6p/pX3Nrz5SGULJtFa/oZ5
+  t=1760552631; x=1792088631;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E3d1DBqC/oIEfIYOaGywi2U5DX5WXJXxiNkjW8A8ILY=;
+  b=ZPEYCIj0HEvn0TFBYV0e/3O6Mil5IMS1aQuyMF/NnGixsQ5lN/w/7fn9
+   kcNhTAWFZldvTvGw86sw8NoghTXcY0jwI8q/N19TIGy5DtBkwDO2jPNmp
+   z1jxjA3iUrIDUXMezaG9Y0NWKG4GssDiamgB41wklGOfGw8I48rh27S5+
+   /8xVzGkg2gyMH2h6nHUq49Jo+eTZ6chziPQegeDf0/0KEVOqGefye5492
+   b1rgE/cf550+YYJxyLiLGxJoOEYRvG6OaKMNuoSkG0S1Ud6dDo5iU7gV+
+   798TUwGf4SNasFHp1f3RDaQ8C95sbc5KzirUPlLrajhMYCBQaUq2Y82mH
    Q==;
-X-CSE-ConnectionGUID: zrjoFMbJRRyaZoTOvcfeyw==
-X-CSE-MsgGUID: s/itEragQvGM/PqxXbbBqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62634007"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="62634007"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 10:41:50 -0700
-X-CSE-ConnectionGUID: BptgaTwmTEiorr8Wda0uTw==
-X-CSE-MsgGUID: EDNcAc4dR/GiGSJlZ1pLBA==
+X-CSE-ConnectionGUID: RaM9cXlQSCmXvVxfGckANg==
+X-CSE-MsgGUID: ds7pINglThuXrMeHnJ6roQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="85355504"
+X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
+   d="scan'208";a="85355504"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 11:23:50 -0700
+X-CSE-ConnectionGUID: US63NYpIQeydNTcjAk/tbw==
+X-CSE-MsgGUID: dZvfnEG1RS+qzsF/70vCxQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
+   d="scan'208";a="219395798"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Oct 2025 10:41:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Oct 2025 11:23:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v95VQ-00045H-29;
-	Wed, 15 Oct 2025 17:41:44 +0000
-Date: Thu, 16 Oct 2025 01:41:36 +0800
+	id 1v96A6-000471-13;
+	Wed, 15 Oct 2025 18:23:46 +0000
+Date: Thu, 16 Oct 2025 02:23:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, kuba@kernel.org,
-	edumazet@google.com, davem@davemloft.net, andrew+netdev@lunn.ch,
-	Shyam-sundar.S-k@amd.com, Raju Rangoju <Raju.Rangoju@amd.com>
-Subject: Re: [PATCH net-next 1/4] amd-xgbe: introduce support ethtool selftest
-Message-ID: <202510160112.aE3SoRiU-lkp@intel.com>
-References: <20251014181040.2551144-2-Raju.Rangoju@amd.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/midr-cleanup 8/9]
+ drivers/char/hw_random/cavium-rng-vf.c:41:54: error: 'MIDR_THUNDERX_83XX'
+ undeclared
+Message-ID: <202510160222.oBv5HILT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +62,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014181040.2551144-2-Raju.Rangoju@amd.com>
 
-Hi Raju,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-introduce-support-ethtool-selftest/20251015-021414
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251014181040.2551144-2-Raju.Rangoju%40amd.com
-patch subject: [PATCH net-next 1/4] amd-xgbe: introduce support ethtool selftest
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20251016/202510160112.aE3SoRiU-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160112.aE3SoRiU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/midr-cleanup
+head:   f2e8e371703f9c36884aff77c5ab53806d02f44f
+commit: 672f85a0895129c591e4ccf1d1ee35f12dc2d6a7 [8/9] WIP: arm64: cputype: Delete unused MIDR definitions
+config: arm64-randconfig-002-20251015 (https://download.01.org/0day-ci/archive/20251016/202510160222.oBv5HILT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160222.oBv5HILT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510160112.aE3SoRiU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510160222.oBv5HILT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/amd/xgbe/xgbe-selftest.c: In function 'xgbe_selftest_get_strings':
->> drivers/net/ethernet/amd/xgbe/xgbe-selftest.c:387:52: warning: '%.27s' directive output may be truncated writing up to 27 bytes into a region of size between 19 and 28 [-Wformat-truncation=]
-     387 |                 snprintf(p, ETH_GSTRING_LEN, "%2d. %.27s", i + 1,
-         |                                                    ^~~~~
-   drivers/net/ethernet/amd/xgbe/xgbe-selftest.c:387:17: note: 'snprintf' output between 5 and 41 bytes into a destination of size 32
-     387 |                 snprintf(p, ETH_GSTRING_LEN, "%2d. %.27s", i + 1,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     388 |                          xgbe_selftests[i].name);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cavium-rng-vf.c: In function 'is_octeontx':
+>> drivers/char/hw_random/cavium-rng-vf.c:41:54: error: 'MIDR_THUNDERX_83XX' undeclared (first use in this function)
+      41 |         if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+         |                                                      ^~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cavium-rng-vf.c:41:54: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/char/hw_random/cavium-rng-vf.c:44:54: error: 'MIDR_THUNDERX_81XX' undeclared (first use in this function)
+      44 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+         |                                                      ^~~~~~~~~~~~~~~~~~
+>> drivers/char/hw_random/cavium-rng-vf.c:47:54: error: 'MIDR_THUNDERX' undeclared (first use in this function)
+      47 |             midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+         |                                                      ^~~~~~~~~~~~~
 
 
-vim +387 drivers/net/ethernet/amd/xgbe/xgbe-selftest.c
+vim +/MIDR_THUNDERX_83XX +41 drivers/char/hw_random/cavium-rng-vf.c
 
-   380	
-   381	void xgbe_selftest_get_strings(struct xgbe_prv_data *pdata, u8 *data)
-   382	{
-   383		u8 *p = data;
-   384		int i;
-   385	
-   386		for (i = 0; i < xgbe_selftest_get_count(pdata); i++) {
- > 387			snprintf(p, ETH_GSTRING_LEN, "%2d. %.27s", i + 1,
-   388				 xgbe_selftests[i].name);
-   389			p += ETH_GSTRING_LEN;
-   390		}
-   391	}
-   392	
+cc2f1908c6b8f6 Omer Khaliq   2016-08-23  38  
+680efb33546be8 Sunil Goutham 2021-10-29  39  static inline bool is_octeontx(struct pci_dev *pdev)
+680efb33546be8 Sunil Goutham 2021-10-29  40  {
+680efb33546be8 Sunil Goutham 2021-10-29 @41  	if (midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_83XX,
+680efb33546be8 Sunil Goutham 2021-10-29  42  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  43  				    MIDR_CPU_VAR_REV(3, 0)) ||
+680efb33546be8 Sunil Goutham 2021-10-29 @44  	    midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX_81XX,
+680efb33546be8 Sunil Goutham 2021-10-29  45  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  46  				    MIDR_CPU_VAR_REV(3, 0)) ||
+680efb33546be8 Sunil Goutham 2021-10-29 @47  	    midr_is_cpu_model_range(read_cpuid_id(), MIDR_THUNDERX,
+680efb33546be8 Sunil Goutham 2021-10-29  48  				    MIDR_CPU_VAR_REV(0, 0),
+680efb33546be8 Sunil Goutham 2021-10-29  49  				    MIDR_CPU_VAR_REV(3, 0)))
+680efb33546be8 Sunil Goutham 2021-10-29  50  		return true;
+680efb33546be8 Sunil Goutham 2021-10-29  51  
+680efb33546be8 Sunil Goutham 2021-10-29  52  	return false;
+680efb33546be8 Sunil Goutham 2021-10-29  53  }
+680efb33546be8 Sunil Goutham 2021-10-29  54  
+
+:::::: The code at line 41 was first introduced by commit
+:::::: 680efb33546be8960ccbb2f4e0e43034d9c93b30 hwrng: cavium - Check health status while reading random data
+
+:::::: TO: Sunil Goutham <sgoutham@marvell.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
