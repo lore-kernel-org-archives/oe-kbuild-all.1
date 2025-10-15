@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227F02D061B;
-	Wed, 15 Oct 2025 20:58:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CD52D5C7A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 21:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760561934; cv=none; b=qyEbn3ohezw5VrrLcefetUtdzyELBWUByWbjjNh4/wHPtCwYAiFZYGLSLmG9Tt8oijUuMBYMXOATGo0uSqhja2JbAVOAM0xafRkkSZHbweA5VJtXP5k5NSnAlJkrxSLD/3oVc7Q9Q9trAVQMmhxKfppEgOgKY5ysOqFWSai0sdU=
+	t=1760563132; cv=none; b=h5o5aNRw4S1DHJdLk0KIZANrBta6UF98yz2w7mP2ba4lJftfOZOjS43h1XReV/Lp6EaaHjYbSTMoeFN4hwdWG/hkA337cYHZMQCAQrfmShgBnHGF9ClgHsKRruHOROBiznllhI9OKbgyyRDlTTI2U95YoI0r1qtu3b3hwUNv0K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760561934; c=relaxed/simple;
-	bh=j7tLpJkQ2403J44PFm0M0xioWFYXeloLWMOvyjHAZ9w=;
+	s=arc-20240116; t=1760563132; c=relaxed/simple;
+	bh=CBvcYXORGUpoXJoLgqmO3zqw2DeRNqYzgxJL6uI1TsM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bpM5UlKxMl9Q11aJtySKNyrvhbPKa48+giLbwGcyu3oh4nhH/MF9CrugQ+iheCGqurrhXaUVajvv8detR9n5HN7tTAE/IiOrTNSwdt3+1Yoc7cucNAD3U4y6+cK1gSmi+X6/I5P/42MolsbDKYkKXsnGBoUFZ62hfq24Mz5kjcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lf7tXXL4; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=TansDtD7GNnYRflryadgs7DHAhihFFhJSJJN3u2rKD74IS03xlHB06tExHCIsAnZIRBX2NPq9KFYT/C+SH5S3SjnPHIYTAEeJdmq5oiBugNdK9442C54TswYC+HRxJuNIuxrqZhmZeD+WXt0bnBmfbVojISRV+BqW3DbXqUyMro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3gb/53Z; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lf7tXXL4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3gb/53Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760561932; x=1792097932;
+  t=1760563130; x=1792099130;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j7tLpJkQ2403J44PFm0M0xioWFYXeloLWMOvyjHAZ9w=;
-  b=Lf7tXXL4mH496A1UirgnVMp7s3dyHbM5HVwFxOkfnrsCjW4J1WHFDFQG
-   yi5YJgXgMG5/p/r9ArcU6G7MLxe7q5T3mTKKcpMsBlEMM58KyoD5gTX1h
-   HymdmBr+Hf72EUtXaBTFZ+f9H8c3J14QllBZM6d/j1UDljinXESkYwT0D
-   S0hM/DUQbzsqLhQTwK6HSYhoyHY3YihgOHaDS3mXJ90KoOLkpDFRC46IB
-   lwckRuwaiN8IlZME7ft5W1OgEpmlHk3YidxWXq7K1yjB6Df28uBh1R7J1
-   KMMdUp+CljAVUHGpWNuKQgtp7BShnrEyeLYs0YseBzDw8n0dr1l1LDHB+
-   g==;
-X-CSE-ConnectionGUID: 7ZRDDMV+SVu+aXltm8ml1w==
-X-CSE-MsgGUID: HzxsMn41T8mfYKsMDTK3TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="73348569"
+  bh=CBvcYXORGUpoXJoLgqmO3zqw2DeRNqYzgxJL6uI1TsM=;
+  b=B3gb/53ZnvcGRXpqdgw7oTbXbHCjtZF28Q9mb3G8aHOPAqmt4xAWCiA5
+   CPWopB2TMmXWPWw3d2OZsIM7leiL/kZ9bGsGvUVwL3F8QBMonZP2UCTCf
+   kWMTjL4uLEBUTGN07Ck++uimTn9ulUE6DPxCPPfH8OibAy7YAL4Ec0MD3
+   gSAv3dA5poQrBFhFJWVPdTStbBcd+wY6CKz9xdY+gfvUi0FbPwd82mAcV
+   TQojDSKUyVO64lqJDcyfUdMgGL0z7/HAEz/2OhTVaJcSxaYt/eV1HKWnz
+   pXrNOILUZDCAli7Pszq79wn+keGUUXdxmnE9cSjfjtD86F9A8b5D3AJyy
+   A==;
+X-CSE-ConnectionGUID: jZjc761PQYyW2+b1+FvEDQ==
+X-CSE-MsgGUID: psL2UZjnTa+AgjCzw5jyjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="73350318"
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="73348569"
+   d="scan'208";a="73350318"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 13:58:51 -0700
-X-CSE-ConnectionGUID: ERi2th30SZOnxLhMJ8rSUg==
-X-CSE-MsgGUID: 0mg+24sRSNKXvPQCVKwVYQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 14:18:50 -0700
+X-CSE-ConnectionGUID: /SNmf+mASUymr1z/QsZDhA==
+X-CSE-MsgGUID: w51bhWqVQcCcx3LWuA6SDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="182260199"
+   d="scan'208";a="182264613"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2025 13:58:49 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2025 14:18:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v98a6-0004Dz-1u;
-	Wed, 15 Oct 2025 20:58:46 +0000
-Date: Thu, 16 Oct 2025 04:57:58 +0800
+	id 1v98tS-0004Et-08;
+	Wed, 15 Oct 2025 21:18:46 +0000
+Date: Thu, 16 Oct 2025 05:18:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jeff Kirsher <jeff.kirsher@gmail.com>,
-	Martin KaFai Lau <martin.lau@kernel.org>
-Subject: [jkirsher-net-queue:master 4/4]
- arch/arm64/net/bpf_jit_comp.c:2258:6: warning: no previous prototype for
- function 'bpf_jit_supports_private_stack'
-Message-ID: <202510160449.pcIYMJSz-lkp@intel.com>
+To: Remi Buisson <remi.buisson@tdk.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [jic23-iio:testing 69/79]
+ drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:41:39: warning: field
+ accel within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than
+ 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct
+ inv_icm45600_fifo_2sensors_packet' b...
+Message-ID: <202510160550.GqthmiPd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,51 +66,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/net-queue.git master
-head:   c9a8544415241209a476e56cc98a09ab074e29a8
-commit: c9a8544415241209a476e56cc98a09ab074e29a8 [4/4] bpf: Add support for certain atomics in bpf_arena to x86 JIT
-config: arm64-randconfig-004-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160449.pcIYMJSz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   4b17a60d1e1c2d9d2ccbd58642f6f4ac2fa364ba
+commit: c7dd90861c9052f7e28ef93fa03aeb94cb5dc43b [69/79] iio: imu: inv_icm45600: add I2C driver for inv_icm45600 driver
+config: arm-randconfig-r072-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160550.GqthmiPd-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160449.pcIYMJSz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160550.GqthmiPd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510160449.pcIYMJSz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510160550.GqthmiPd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/net/bpf_jit_comp.c:2258:6: warning: no previous prototype for function 'bpf_jit_supports_private_stack' [-Wmissing-prototypes]
-    2258 | bool bpf_jit_supports_private_stack(void)
-         |      ^
-   arch/arm64/net/bpf_jit_comp.c:2258:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2258 | bool bpf_jit_supports_private_stack(void)
-         | ^
-         | static 
->> arch/arm64/net/bpf_jit_comp.c:3096:6: warning: no previous prototype for function 'bpf_jit_supports_timed_may_goto' [-Wmissing-prototypes]
-    3096 | bool bpf_jit_supports_timed_may_goto(void)
-         |      ^
-   arch/arm64/net/bpf_jit_comp.c:3096:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3096 | bool bpf_jit_supports_timed_may_goto(void)
-         | ^
-         | static 
-   2 warnings generated.
+>> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:41:39: warning: field accel within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_2sensors_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      41 |         struct inv_icm45600_fifo_sensor_data accel;
+         |                                              ^
+>> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:42:39: warning: field gyro within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_2sensors_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      42 |         struct inv_icm45600_fifo_sensor_data gyro;
+         |                                              ^
+>> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:35:39: warning: field data within 'struct inv_icm45600_fifo_1sensor_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_1sensor_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      35 |         struct inv_icm45600_fifo_sensor_data data;
+         |                                              ^
+   3 warnings generated.
 
 
-vim +/bpf_jit_supports_private_stack +2258 arch/arm64/net/bpf_jit_comp.c
+vim +41 drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c
 
-91fc957c9b1d6c5 Ard Biesheuvel 2018-11-23  2257  
-6c17a882d3804dc Puranjay Mohan 2025-07-24 @2258  bool bpf_jit_supports_private_stack(void)
-6c17a882d3804dc Puranjay Mohan 2025-07-24  2259  {
-6c17a882d3804dc Puranjay Mohan 2025-07-24  2260  	return true;
-6c17a882d3804dc Puranjay Mohan 2025-07-24  2261  }
-6c17a882d3804dc Puranjay Mohan 2025-07-24  2262  
+7e1e1e37402c95 Remi Buisson 2025-10-07  32  
+7e1e1e37402c95 Remi Buisson 2025-10-07  33  struct inv_icm45600_fifo_1sensor_packet {
+7e1e1e37402c95 Remi Buisson 2025-10-07  34  	u8 header;
+7e1e1e37402c95 Remi Buisson 2025-10-07 @35  	struct inv_icm45600_fifo_sensor_data data;
+7e1e1e37402c95 Remi Buisson 2025-10-07  36  	s8 temp;
+7e1e1e37402c95 Remi Buisson 2025-10-07  37  } __packed;
+7e1e1e37402c95 Remi Buisson 2025-10-07  38  
+7e1e1e37402c95 Remi Buisson 2025-10-07  39  struct inv_icm45600_fifo_2sensors_packet {
+7e1e1e37402c95 Remi Buisson 2025-10-07  40  	u8 header;
+7e1e1e37402c95 Remi Buisson 2025-10-07 @41  	struct inv_icm45600_fifo_sensor_data accel;
+7e1e1e37402c95 Remi Buisson 2025-10-07 @42  	struct inv_icm45600_fifo_sensor_data gyro;
+7e1e1e37402c95 Remi Buisson 2025-10-07  43  	s8 temp;
+7e1e1e37402c95 Remi Buisson 2025-10-07  44  	__le16 timestamp;
+7e1e1e37402c95 Remi Buisson 2025-10-07  45  } __packed;
+7e1e1e37402c95 Remi Buisson 2025-10-07  46  
 
-:::::: The code at line 2258 was first introduced by commit
-:::::: 6c17a882d3804dce1c66e1fec25f96d39a184067 bpf, arm64: JIT support for private stack
+:::::: The code at line 41 was first introduced by commit
+:::::: 7e1e1e37402c95acd5ae6aace9e363a982038b11 iio: imu: inv_icm45600: add buffer support in iio devices
 
-:::::: TO: Puranjay Mohan <puranjay@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+:::::: TO: Remi Buisson <remi.buisson@tdk.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
