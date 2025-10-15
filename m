@@ -1,64 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEDF2FDC5A;
-	Wed, 15 Oct 2025 04:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E0A2FF17A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 04:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760503825; cv=none; b=FFa55dkqNpc5hbmt6DZixWUgo9rwOAJqtXVwcmnCyKndIbB84g58kPezuGK0DgjM6mtq2eaciPhvCKyCT8lD5ajyAKW/ufVFgrunDFaJlFzjff0JcXPZ+Wf+6grCOU6hNbEoaJmORuyZ6ID6/xSpq9ER1S4ACgb1T6d2PdTZgt8=
+	t=1760503827; cv=none; b=ARDXPixxj9zwVwsLJnc/85qRepQHfsBzVTxxxhFHGxxS0bcfaUwe/j/NWfj33YCSq1I62cmRmpyth05nSKLM83zXRgJBw6fU2Vg90ISKk6ARGeHpCB2a4RQmSlEpi2KIrdpB/u+o7Tz8DTsmU6HlM8DeZu/ofGG67DIyLuSqEbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760503825; c=relaxed/simple;
-	bh=LqQqWnML8DclCbVCtkFguG/McePDuiseyX71RGUghcQ=;
+	s=arc-20240116; t=1760503827; c=relaxed/simple;
+	bh=1c3Jqm3wVNb92Z5FJcsFkBXhJiXPQVjq/7phEiXgND8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uglr2cxrBklFZr0XHb9Ez53Co4H5W995ltcUpc1v/weTScL5VQWVY/9xuFEaqqtozg0CsfTII8viTFTVI4X14L1O38AUZ38hyf6iufP3+w+lHAbG1Yfv7EehRTFPcpn96yxZk0xgbjb2AVYmqEQ9nvspu3Sy0rOnrplk0mhrozQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VIWWG9xi; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZ9yIzdHHu4wv5M0WsLdfF9DzVuAjeAfclrQDrgIR1w0poKByAszVhkplde9oBv2Cnor9QtD853Wm9iKoJwZMFZ4WpRJebzSzfr9xMVjO3Xkcfk5v2PDhljjGPhCK8awIhoIdYRxhwGRopk0JNJPmJPYJAy2mlKER5OSGbhlw9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGTOqGbf; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VIWWG9xi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGTOqGbf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760503823; x=1792039823;
+  t=1760503826; x=1792039826;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LqQqWnML8DclCbVCtkFguG/McePDuiseyX71RGUghcQ=;
-  b=VIWWG9xij1i9qcnh0U2jFiBK0F52rWkC2ZMy5hTWwQAXyyKIEeZajJ0F
-   xPVsCE+CzruE7TXRW8JNKAPMIBZBIXWRF78AnJ3dFLEdKmt+Mia+gb0/c
-   QvvpccBJAL4FLhYc41js7T8GPLwxuTELNFj6LZ2X0RJzCLk4/VA7Deb3T
-   FvUgHjt73Bx9UxagPBfnXo3Ki0miehjYYFCLhGptUHLb8bhnpsMuWZnlv
-   T+Kv8LtpdeBMlKq5i15O9s4g8+VSK7Gf3lVFrpUNc4QUNI5x/HvJN0B+0
-   rUhB+kqIQ3qj6zRU95I+Y3nmXCwlUx2yrCpnHRL5OmA1doqUMfzK6dDLN
-   A==;
-X-CSE-ConnectionGUID: 4sR5/jWOTrqgw/sKvuyyGA==
-X-CSE-MsgGUID: iB6f8fV6SOO+MAYQTif+uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="50234698"
+  bh=1c3Jqm3wVNb92Z5FJcsFkBXhJiXPQVjq/7phEiXgND8=;
+  b=iGTOqGbfxBzeb6KNkXvx1W8hfK+V+Kb50jM/2qZdw+SVpKNm8hvadJys
+   kvjmHm2WqDjEZP5q1lRD1RPPn/32J7/17vtJLCbgBcJBBXnwsQiWplTK8
+   YSiEJ13S/JN7vpdnZnjFCgwH4iwJ2fYeatFTZZBUOWWrYle94k6lOOxpZ
+   Kx+/5BaytbaGq10eCMyubBZrL7fyA+ZF2/ioA3hlD2wtTk4yLmVY7XlJc
+   BGOYIricWwIKXND8VDiaJp6wV4JggRnYZr0jn/8GzOv+sftLwJwrSqrqj
+   KY/xNEXxMQcTyk+bQ+uRB1crnTLxAStwemZb66CehndSnR7g0WmjY+TmP
+   w==;
+X-CSE-ConnectionGUID: GqkfWTAuRYmHHs4eEVlOLQ==
+X-CSE-MsgGUID: RaNPeTLnTdyxbYDVHHIH0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="62378066"
 X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
-   d="scan'208";a="50234698"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 21:50:23 -0700
-X-CSE-ConnectionGUID: SMWUyt40S7OMWDVvD/jLuQ==
-X-CSE-MsgGUID: J3aQ1pfEQXWAR4GohqDU3A==
+   d="scan'208";a="62378066"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 21:50:25 -0700
+X-CSE-ConnectionGUID: vTqsBFKDSgWS/FFl8+cgaA==
+X-CSE-MsgGUID: 1H+yDRUmRGWpZov5tgERsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
-   d="scan'208";a="182847741"
+   d="scan'208";a="181625697"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Oct 2025 21:50:20 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Oct 2025 21:50:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v8tSr-0003SD-1b;
+	id 1v8tSr-0003SB-1X;
 	Wed, 15 Oct 2025 04:50:17 +0000
-Date: Wed, 15 Oct 2025 12:49:54 +0800
+Date: Wed, 15 Oct 2025 12:49:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Changwoo Min <changwoo@igalia.com>, lukasz.luba@arm.com,
-	rafael@kernel.org, len.brown@intel.com, pavel@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, christian.loehle@arm.com, tj@kernel.org,
-	kernel-dev@igalia.com, linux-pm@vger.kernel.org,
-	sched-ext@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Changwoo Min <changwoo@igalia.com>
-Subject: Re: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the
- performance domain
-Message-ID: <202510151232.UNZ2J7TZ-lkp@intel.com>
-References: <20251014001055.772422-6-changwoo@igalia.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>, rostedt@goodmis.org,
+	lukas@wunner.de, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, helgaas@kernel.org,
+	ilpo.jarvinen@linux.intel.com, mattc@purestorage.com,
+	Jonathan.Cameron@huawei.com
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com, tony.luck@intel.com,
+	bp@alien8.de, xueshuai@linux.alibaba.com, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
+	davem@davemloft.net, mark.rutland@arm.com, peterz@infradead.org,
+	tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v12 2/3] PCI: trace: Add a RAS tracepoint to monitor link
+ speed changes
+Message-ID: <202510151212.ifOhr1Ak-lkp@intel.com>
+References: <20251014123159.57764-3-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,71 +72,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014001055.772422-6-changwoo@igalia.com>
+In-Reply-To: <20251014123159.57764-3-xueshuai@linux.alibaba.com>
 
-Hi Changwoo,
+Hi Shuai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on amd-pstate/linux-next]
-[also build test ERROR on amd-pstate/bleeding-edge linus/master v6.18-rc1 next-20251014]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.18-rc1 next-20251014]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Changwoo-Min/PM-EM-Assign-a-unique-ID-when-creating-a-performance-domain/20251014-082420
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20251014001055.772422-6-changwoo%40igalia.com
-patch subject: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the performance domain
-config: i386-buildonly-randconfig-001-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-trace-Add-a-generic-RAS-tracepoint-for-hotplug-event/20251014-203432
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20251014123159.57764-3-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v12 2/3] PCI: trace: Add a RAS tracepoint to monitor link speed changes
+config: sparc-randconfig-001-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151212.ifOhr1Ak-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510151212.ifOhr1Ak-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510151232.UNZ2J7TZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510151212.ifOhr1Ak-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/power/energy_model.c:1003:5: error: redefinition of 'for_each_em_perf_domain'
-    1003 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/power/energy_model.c:20:
-   kernel/power/em_netlink.h:18:5: note: previous definition of 'for_each_em_perf_domain' with type 'int(int (*)(struct em_perf_domain *, void *), void *)'
-      18 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/power/energy_model.c:1022:24: error: redefinition of 'em_perf_domain_get_by_id'
-    1022 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/power/em_netlink.h:24:24: note: previous definition of 'em_perf_domain_get_by_id' with type 'struct em_perf_domain *(int)'
-      24 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/for_each_em_perf_domain +1003 kernel/power/energy_model.c
-
-  1002	
-> 1003	int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
-  1004				    void *data)
-  1005	{
-  1006		struct em_perf_domain *pd;
-  1007	
-  1008		lockdep_assert_not_held(&em_pd_mutex);
-  1009		guard(mutex)(&em_pd_list_mutex);
-  1010	
-  1011		list_for_each_entry(pd, &em_pd_list, node) {
-  1012			int ret;
-  1013	
-  1014			ret = cb(pd, data);
-  1015			if (ret)
-  1016				return ret;
-  1017		}
-  1018	
-  1019		return 0;
-  1020	}
-  1021	
-> 1022	struct em_perf_domain *em_perf_domain_get_by_id(int id)
+   sparc64-linux-ld: drivers/pci/trace.o: in function `trace_raw_output_pcie_link_event':
+   trace.c:(.text+0x1dc): undefined reference to `pci_speed_string'
+>> sparc64-linux-ld: trace.c:(.text+0x1ec): undefined reference to `pci_speed_string'
 
 -- 
 0-DAY CI Kernel Test Service
