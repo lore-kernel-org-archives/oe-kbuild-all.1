@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CD52D5C7A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 21:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6681F2F90C4;
+	Wed, 15 Oct 2025 21:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760563132; cv=none; b=h5o5aNRw4S1DHJdLk0KIZANrBta6UF98yz2w7mP2ba4lJftfOZOjS43h1XReV/Lp6EaaHjYbSTMoeFN4hwdWG/hkA337cYHZMQCAQrfmShgBnHGF9ClgHsKRruHOROBiznllhI9OKbgyyRDlTTI2U95YoI0r1qtu3b3hwUNv0K4=
+	t=1760563793; cv=none; b=nxhJJBUmzJUMF3AoiAUMA53UqowfAZxbv7bADqfYUygDXFkv+ljjona+KmZN9OrFjNifFwROA0/zFpsvWHTBm3TAnq/2+q4WLZHpFOR8zGxGqPXesTn34mLtKGo8MImXVeyaNQW+yiuWI8nrEFe31MGCLuQjexmFFbz4uyfH1Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760563132; c=relaxed/simple;
-	bh=CBvcYXORGUpoXJoLgqmO3zqw2DeRNqYzgxJL6uI1TsM=;
+	s=arc-20240116; t=1760563793; c=relaxed/simple;
+	bh=Nkmo1RoC9dEgwJBIlTnvRz7B3zyertWUN6+Wcb6BTRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TansDtD7GNnYRflryadgs7DHAhihFFhJSJJN3u2rKD74IS03xlHB06tExHCIsAnZIRBX2NPq9KFYT/C+SH5S3SjnPHIYTAEeJdmq5oiBugNdK9442C54TswYC+HRxJuNIuxrqZhmZeD+WXt0bnBmfbVojISRV+BqW3DbXqUyMro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3gb/53Z; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=XxRgG5nccjE50yvfieSa8akF41QRjK1gWUIeLWu5AD4Li9VhwttW+czFVdnTS14Q/RcS1j85i1sKqIEzW190gc6vlKJej1UEYuECDE6+8K6RFlM+no6hiHcjYRHbViqFEKJGLYgQUxhRriokk9GdfBQLgIySzJNkXwLxfEvlgVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMb6AeVK; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3gb/53Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMb6AeVK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760563130; x=1792099130;
+  t=1760563792; x=1792099792;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CBvcYXORGUpoXJoLgqmO3zqw2DeRNqYzgxJL6uI1TsM=;
-  b=B3gb/53ZnvcGRXpqdgw7oTbXbHCjtZF28Q9mb3G8aHOPAqmt4xAWCiA5
-   CPWopB2TMmXWPWw3d2OZsIM7leiL/kZ9bGsGvUVwL3F8QBMonZP2UCTCf
-   kWMTjL4uLEBUTGN07Ck++uimTn9ulUE6DPxCPPfH8OibAy7YAL4Ec0MD3
-   gSAv3dA5poQrBFhFJWVPdTStbBcd+wY6CKz9xdY+gfvUi0FbPwd82mAcV
-   TQojDSKUyVO64lqJDcyfUdMgGL0z7/HAEz/2OhTVaJcSxaYt/eV1HKWnz
-   pXrNOILUZDCAli7Pszq79wn+keGUUXdxmnE9cSjfjtD86F9A8b5D3AJyy
-   A==;
-X-CSE-ConnectionGUID: jZjc761PQYyW2+b1+FvEDQ==
-X-CSE-MsgGUID: psL2UZjnTa+AgjCzw5jyjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="73350318"
+  bh=Nkmo1RoC9dEgwJBIlTnvRz7B3zyertWUN6+Wcb6BTRw=;
+  b=EMb6AeVKjks/loygfTpk+BQ3zk0EthSnqV9//sg4cpl0Z7sAcJ+K4TuE
+   E8SwURHGqBgHZGZJVnWxV5O68szW8Z7sMIt8D1jOGLAZ0MP8tCH2llgrJ
+   Q8JEf4x59RjNdXjGMORtqKx1n3I+7rvr8O60L4DXCh1xPKzwZxVf6syOv
+   p2wW6rwbNuvO8lEhXl91ILhcLtjZBzNTwiaOtnXaw1FeYUxi/ciHZ8PW3
+   reUFdrRa4RK+m/6tq0FkvrPIm7SCoXpFtVos94+PWvjF+EFYJewRjmZii
+   lYMh03euI/BtConluhE9b1hCbhmx324qmlszfe3IEIFpJxNRvPEPwdQrl
+   g==;
+X-CSE-ConnectionGUID: OIRg7AxzSOe8oTtrYhTyyQ==
+X-CSE-MsgGUID: /e53bVNgQ0OorF+mmc8xhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="80190417"
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="73350318"
+   d="scan'208";a="80190417"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 14:18:50 -0700
-X-CSE-ConnectionGUID: /SNmf+mASUymr1z/QsZDhA==
-X-CSE-MsgGUID: w51bhWqVQcCcx3LWuA6SDw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 14:29:51 -0700
+X-CSE-ConnectionGUID: dSsrKI4DT9i3XqTB4IMMEA==
+X-CSE-MsgGUID: 3CgWN4CZQqyC0oB5lymRLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="182264613"
+   d="scan'208";a="182267178"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2025 14:18:49 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Oct 2025 14:29:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v98tS-0004Et-08;
-	Wed, 15 Oct 2025 21:18:46 +0000
-Date: Thu, 16 Oct 2025 05:18:31 +0800
+	id 1v9947-0004F9-0v;
+	Wed, 15 Oct 2025 21:29:47 +0000
+Date: Thu, 16 Oct 2025 05:29:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Remi Buisson <remi.buisson@tdk.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [jic23-iio:testing 69/79]
- drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:41:39: warning: field
- accel within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than
- 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct
- inv_icm45600_fifo_2sensors_packet' b...
-Message-ID: <202510160550.GqthmiPd-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:master /575] fs/bcachefs/sb/io.c:238:23: error: call to
+ undeclared function 'bio_inline_vecs'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202510160526.gaQGq4Nb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,55 +64,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   4b17a60d1e1c2d9d2ccbd58642f6f4ac2fa364ba
-commit: c7dd90861c9052f7e28ef93fa03aeb94cb5dc43b [69/79] iio: imu: inv_icm45600: add I2C driver for inv_icm45600 driver
-config: arm-randconfig-r072-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160550.GqthmiPd-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160550.GqthmiPd-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   bb35ade3e8bb7af67734b746f416598002822df8
+commit: caffe5f36f39ef62d58383b77dfdce931104f8c2 [/575] bcachefs: Compatibility with v6.18
+config: x86_64-buildonly-randconfig-001-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160526.gaQGq4Nb-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160526.gaQGq4Nb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510160550.GqthmiPd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510160526.gaQGq4Nb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the bcachefs/master HEAD bb35ade3e8bb7af67734b746f416598002822df8 builds fine.
+      It only hurts bisectability.
 
->> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:41:39: warning: field accel within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_2sensors_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-      41 |         struct inv_icm45600_fifo_sensor_data accel;
-         |                                              ^
->> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:42:39: warning: field gyro within 'struct inv_icm45600_fifo_2sensors_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_2sensors_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-      42 |         struct inv_icm45600_fifo_sensor_data gyro;
-         |                                              ^
->> drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c:35:39: warning: field data within 'struct inv_icm45600_fifo_1sensor_packet' is less aligned than 'struct inv_icm45600_fifo_sensor_data' and is usually due to 'struct inv_icm45600_fifo_1sensor_packet' being packed, which can lead to unaligned accesses [-Wunaligned-access]
-      35 |         struct inv_icm45600_fifo_sensor_data data;
-         |                                              ^
-   3 warnings generated.
+All errors (new ones prefixed by >>):
+
+>> fs/bcachefs/sb/io.c:238:23: error: call to undeclared function 'bio_inline_vecs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     238 |                 bio_init(bio, NULL, bio_inline_vecs(bio), nr_bvecs, 0);
+         |                                     ^
+>> fs/bcachefs/sb/io.c:238:23: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct bio_vec *' [-Wint-conversion]
+     238 |                 bio_init(bio, NULL, bio_inline_vecs(bio), nr_bvecs, 0);
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bio.h:406:75: note: passing argument to parameter 'table' here
+     406 | void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+         |                                                                           ^
+   2 errors generated.
+--
+>> fs/bcachefs/journal/read.c:1083:36: error: call to undeclared function 'bio_inline_vecs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1083 |                         bio_init(bio, ca->disk_sb.bdev, bio_inline_vecs(bio), nr_bvecs, REQ_OP_READ);
+         |                                                         ^
+>> fs/bcachefs/journal/read.c:1083:36: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct bio_vec *' [-Wint-conversion]
+    1083 |                         bio_init(bio, ca->disk_sb.bdev, bio_inline_vecs(bio), nr_bvecs, REQ_OP_READ);
+         |                                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bio.h:406:75: note: passing argument to parameter 'table' here
+     406 | void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+         |                                                                           ^
+   2 errors generated.
+--
+>> fs/bcachefs/journal/init.c:543:36: error: call to undeclared function 'bio_inline_vecs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     543 |                 bio_init(&ja->bio[i]->bio, NULL, bio_inline_vecs(&ja->bio[i]->bio), nr_bvecs, 0);
+         |                                                  ^
+>> fs/bcachefs/journal/init.c:543:36: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct bio_vec *' [-Wint-conversion]
+     543 |                 bio_init(&ja->bio[i]->bio, NULL, bio_inline_vecs(&ja->bio[i]->bio), nr_bvecs, 0);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bio.h:406:75: note: passing argument to parameter 'table' here
+     406 | void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
+         |                                                                           ^
+   2 errors generated.
 
 
-vim +41 drivers/iio/imu/inv_icm45600/inv_icm45600_buffer.c
+vim +/bio_inline_vecs +238 fs/bcachefs/sb/io.c
 
-7e1e1e37402c95 Remi Buisson 2025-10-07  32  
-7e1e1e37402c95 Remi Buisson 2025-10-07  33  struct inv_icm45600_fifo_1sensor_packet {
-7e1e1e37402c95 Remi Buisson 2025-10-07  34  	u8 header;
-7e1e1e37402c95 Remi Buisson 2025-10-07 @35  	struct inv_icm45600_fifo_sensor_data data;
-7e1e1e37402c95 Remi Buisson 2025-10-07  36  	s8 temp;
-7e1e1e37402c95 Remi Buisson 2025-10-07  37  } __packed;
-7e1e1e37402c95 Remi Buisson 2025-10-07  38  
-7e1e1e37402c95 Remi Buisson 2025-10-07  39  struct inv_icm45600_fifo_2sensors_packet {
-7e1e1e37402c95 Remi Buisson 2025-10-07  40  	u8 header;
-7e1e1e37402c95 Remi Buisson 2025-10-07 @41  	struct inv_icm45600_fifo_sensor_data accel;
-7e1e1e37402c95 Remi Buisson 2025-10-07 @42  	struct inv_icm45600_fifo_sensor_data gyro;
-7e1e1e37402c95 Remi Buisson 2025-10-07  43  	s8 temp;
-7e1e1e37402c95 Remi Buisson 2025-10-07  44  	__le16 timestamp;
-7e1e1e37402c95 Remi Buisson 2025-10-07  45  } __packed;
-7e1e1e37402c95 Remi Buisson 2025-10-07  46  
-
-:::::: The code at line 41 was first introduced by commit
-:::::: 7e1e1e37402c95acd5ae6aace9e363a982038b11 iio: imu: inv_icm45600: add buffer support in iio devices
-
-:::::: TO: Remi Buisson <remi.buisson@tdk.com>
-:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+   190	
+   191	int bch2_sb_realloc(struct bch_sb_handle *sb, unsigned u64s)
+   192	{
+   193		size_t new_bytes = __vstruct_bytes(struct bch_sb, u64s);
+   194		size_t new_buffer_size;
+   195		struct bch_sb *new_sb;
+   196		struct bio *bio;
+   197	
+   198		if (sb->bdev)
+   199			new_bytes = max_t(size_t, new_bytes, bdev_logical_block_size(sb->bdev));
+   200	
+   201		new_buffer_size = roundup_pow_of_two(new_bytes);
+   202	
+   203		if (sb->sb && sb->buffer_size >= new_buffer_size)
+   204			return 0;
+   205	
+   206		if (sb->sb && sb->have_layout) {
+   207			u64 max_bytes = 512 << sb->sb->layout.sb_max_size_bits;
+   208	
+   209			if (new_bytes > max_bytes) {
+   210				CLASS(printbuf, buf)();
+   211	
+   212				prt_bdevname(&buf, sb->bdev);
+   213				prt_printf(&buf, ": superblock too big: want %zu but have %llu", new_bytes, max_bytes);
+   214				pr_err("%s", buf.buf);
+   215				return -BCH_ERR_ENOSPC_sb;
+   216			}
+   217		}
+   218	
+   219		if (sb->buffer_size >= new_buffer_size && sb->sb)
+   220			return 0;
+   221	
+   222		if (dynamic_fault("bcachefs:add:super_realloc"))
+   223			return -BCH_ERR_ENOMEM_sb_realloc_injected;
+   224	
+   225		new_sb = krealloc(sb->sb, new_buffer_size, GFP_NOFS|__GFP_ZERO);
+   226		if (!new_sb)
+   227			return -BCH_ERR_ENOMEM_sb_buf_realloc;
+   228	
+   229		sb->sb = new_sb;
+   230	
+   231		if (sb->have_bio) {
+   232			unsigned nr_bvecs = buf_pages(sb->sb, new_buffer_size);
+   233	
+   234			bio = bio_kmalloc(nr_bvecs, GFP_KERNEL);
+   235			if (!bio)
+   236				return -BCH_ERR_ENOMEM_sb_bio_realloc;
+   237	
+ > 238			bio_init(bio, NULL, bio_inline_vecs(bio), nr_bvecs, 0);
+   239	
+   240			kfree(sb->bio);
+   241			sb->bio = bio;
+   242		}
+   243	
+   244		sb->buffer_size = new_buffer_size;
+   245	
+   246		return 0;
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
