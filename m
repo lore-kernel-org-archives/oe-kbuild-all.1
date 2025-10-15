@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86D517B50F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 14:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C955F28D8DA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 16:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760539329; cv=none; b=fTNgdJI09kQT96uT6Z2hyQ5WVnJpXdWi2gGVac116gnO+9ON+X/KgSzdJa/e3EickSFvlD7BeyFJbqXRn1e2HtR9nDvLPxVRVMlBzUMqpLqcZE3tBsS8eMPvAq1Phc7ZAtLPYi68b9qQ9vof27CG+N7dK6ZJp33NWUJ8+p5wR7c=
+	t=1760545823; cv=none; b=Uttw3L5OcOYKjtbPgUWOqcXuiSCSG1ajAcAn94uSuN9lHZUJEjLn26ZXnYJ7QYW0t2aKIPwrxz3Ai2k9ZMYgXeqEcS9cZdtyjvdSyeS0EA39DrhYc6hONQO9CZoIpMbnfEIxpm9mNiNWT4r/mRDfhZoE9qfz7PJgYA5/96S8u+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760539329; c=relaxed/simple;
-	bh=6aRFjONqgF1SrmAUE83waiU1aE/oJZxrngEzJql3dvY=;
+	s=arc-20240116; t=1760545823; c=relaxed/simple;
+	bh=PcnJKfuVQsJGBUH5fjPouCd2YAFL6l73wYup8RCB85Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lT2L+/IJenuVB2rXfsl512vIeXlNccyGFPVe6nQhmoHbv+2buDDbhGpr+kN9lBt/pYs9FQaIjZQkzAElX4u9r77/snRUPaLuIKzC096D05m20maEqiTCkoW+NTGcB1Lg6lQ+g/QDj2HlHBGmgxEpoRQiT0cLyJgTH0XGjJuPQ9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/p7aERm; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=NcI/Fe2izQ+NnfkUNNPeRQkmH/JfgFMSFxD9KmjyIiWtGhw9mkVhJDc4LTNja0rDe6H42G3wjPWdUdi7jGed5DiB84m/4RzpXwB2nZ+tKmCRIYLWLNfNYcqRgunqzKjgPsFFFqKFUs8OYvcXCFMsVOBq2zSpwwILR56Nxt3UKiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fDKzlO4r; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/p7aERm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760539328; x=1792075328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6aRFjONqgF1SrmAUE83waiU1aE/oJZxrngEzJql3dvY=;
-  b=T/p7aERm7kF7couFiGh40kpbtnbR9NO7YZrVVnKstImGR4yswKKM284b
-   xHsNS8BtGrXCLmbzeOYSPBLHstjKzidMgGXvmJMqqryhdTMUhSzMo3TIg
-   JHc+eKTG/eObLSFNnZ/G5+2lowSIjfIz935TNS4eAZ5/nNYquM+Z+i766
-   A91AACBbki25JIX3/FrsMCFRwqDdopdcB/6v/T0Z5/reiKeXED0GHl84x
-   kQa7nfb0tOoqDOcL2L/P0NacEH7HzXsZKu+0n+f18QQPDGpRTUUCpMViI
-   gUinWZSehvkR4K0Cdli6RinCKjsIX6M3AKc1Lky24ZPShNBDuPYSAg+wO
-   w==;
-X-CSE-ConnectionGUID: A4J9AY/0Te+sDRFuuoAJkw==
-X-CSE-MsgGUID: W+ERcuZwT6OQ0/jsus498g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="50283644"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="50283644"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 07:42:05 -0700
-X-CSE-ConnectionGUID: 32bEMPYCRhOc5mYczZthQg==
-X-CSE-MsgGUID: c2CgthouQqu5OKlRt6DfXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="187485769"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2025 07:42:04 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v92hW-0003v9-0U;
-	Wed, 15 Oct 2025 14:42:02 +0000
-Date: Wed, 15 Oct 2025 22:41:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.18-rc 111/113]
- drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:66:29: warning:
- initialization of 'int' from 'const struct mtk_gate_regs *' makes integer
- from pointer without a cast
-Message-ID: <202510152210.peZ9fvLW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fDKzlO4r"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4710a1f9e4cso1082575e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 09:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760545819; x=1761150619; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aJFzXPFpDQS87d8LEEXFvQI0doaKVJlFcUZx53QgtSo=;
+        b=fDKzlO4raXlJJHTikzAH9TyocuSKZpF+lb1smaHWiPBhz8eEjj9x/dhOPrVNZOKGvA
+         Ddfr3hCakyE1wHVx7o8l6EE6sHgPNrJeHbE9z6hCg2OVHIi5U8FjEQBYmKMTQYoRJpgX
+         RyBpSTSL6hOyiE7NAEgrGDqyCixqIm4MloEpKC107uX9I2tn/cVpv15Bmp8BEiVmDRtc
+         BGCfFaYGAazyAjE4Z47P88WzfdukyhzQdiukfTm9K2Gmbis8BGGPo1rooA9vOn8zBUyY
+         lKYR0dRc1SOC2HaHeZ0LVJunUFxKmHUTxeq3sx6m95yvbt/jo0LRsVIx3CSvxzdQTf2/
+         NWXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760545819; x=1761150619;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aJFzXPFpDQS87d8LEEXFvQI0doaKVJlFcUZx53QgtSo=;
+        b=tWJFztvawTWmTp4ad+ZQK66rA5RmlnWt+8daAndKQ1kMrq3t7/5HLUH+Ie7s+IXR2f
+         G54K94y3MK2mkbnYJxaboQ7puDDZCKYAP7hUMin94EWupsoysMXoqkKsRHpXDYXI6inR
+         Lvp61FbmYn7gFs9b28g1/X4sWogu4LKIBvZdLfTdv0nvIhSwXlAJAz5MU4Svwnql3rGv
+         9oRDlF8vTbiBC7NVF7zLabiY6DqvuhCLuxZVMCJVGdut31EAxtHdo72GVVeompW3c20a
+         YC5j+/a18K17n04WlM0gjWG+mof2B6JtZrcY7zpYgqu80GYNc9LQYRSZPIK5d/AV9xKX
+         FjAw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Ah43WCO9RosTUPIhJm0pEgKcHPP7UqJNhn/rDyDNvbDDd6HByp3aNQfGXR9uHpP/0A9Mw8CH8Fr/81Nv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1KH6VM3bC0OUuv7F71vGnoWnFbN02gI29avTEN4yDihtPa6O7
+	La2DgKugbjUuU/1PZTmCNOGVyTKYTkQx13KjRVIPMRhzIbghtxyjaUJBPQpHT6zgyrY=
+X-Gm-Gg: ASbGncsHiQnYddK1oqnWZQLmS1D8blB5GhY9b13RdUk1O3okx4BIDLFU45B/s16f4hp
+	rRydbpTHOCtLeQ8/xM6uGAza7/e4PGqDOYFqsBIZ0z3GW71JFp3grlc7VGKyZr93wbu+eEefDOd
+	zfwNC6U9PuVEcqS7SWmltHuVOTGFG7G4bq1CCIiIA9a4x75uUZYcGqBEyyee/5saF1J85oaCrmD
+	TI4IGdJz1ioGEuNFQ3znkKzhva9Qb0GKJUhqZ+dZ7UWsw1rF5Bs8PyhoMNfBqPrd3K+nnhDu07J
+	VyXwq4Z4EirEpha7At/sqEE8ABzNxGud5zh9fpR4CBq1HwpD7foqGf8FHueq2ZibVRN2vlfh/1b
+	DCHDDdnkmQFGHeTIFIMBA9liHy7NbufBWyITQ67HdTOMpYGZ4m8I=
+X-Google-Smtp-Source: AGHT+IHKxHJ3/ojrKYdZz0teR0HP/P40/HKmZyUjoCkTXwzWaHi7eJSIIlIxOO+bIottWYntL9Ie2A==
+X-Received: by 2002:a05:600c:4753:b0:46e:1d8d:cfb6 with SMTP id 5b1f17b1804b1-46fa9af0621mr220694465e9.19.1760545818801;
+        Wed, 15 Oct 2025 09:30:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-426ce5e10e8sm29963485f8f.39.2025.10.15.09.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 09:30:18 -0700 (PDT)
+Date: Wed, 15 Oct 2025 19:30:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 3/8] Bluetooth: ISO: Add support to bind to trigger
+ PAST
+Message-ID: <202510152336.GJBjPRZF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,80 +73,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251014013308.174151-3-luiz.dentz@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc
-head:   1647e8b0f77cd242969efa444a594d834476c62f
-commit: b48042f17536424110d41582a4cf625b5969d84b [111/113] Revert "clk: mediatek: clk-gate: Add ops for gates with HW voter"
-config: powerpc-randconfig-002-20251015 (https://download.01.org/0day-ci/archive/20251015/202510152210.peZ9fvLW-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510152210.peZ9fvLW-lkp@intel.com/reproduce)
+Hi Luiz,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_core-Introduce-HCI_CONN_FLAG_PAST/20251014-094058
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20251014013308.174151-3-luiz.dentz%40gmail.com
+patch subject: [PATCH v4 3/8] Bluetooth: ISO: Add support to bind to trigger PAST
+config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251015/202510152336.GJBjPRZF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510152210.peZ9fvLW-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510152336.GJBjPRZF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/bluetooth/hci_sync.c:7286 hci_le_past_sync() warn: inconsistent returns '&hdev->lock'.
 
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:66:18: error: 'const struct mtk_gate' has no member named 'hwv_regs'
-      66 |                 .hwv_regs = &impn_hwv_regs,             \
-         |                  ^~~~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:9: note: in expansion of macro 'GATE_HWV_IMPN'
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |         ^~~~~~~~~~~~~
->> drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:66:29: warning: initialization of 'int' from 'const struct mtk_gate_regs *' makes integer from pointer without a cast [-Wint-conversion]
-      66 |                 .hwv_regs = &impn_hwv_regs,             \
-         |                             ^
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:9: note: in expansion of macro 'GATE_HWV_IMPN'
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |         ^~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:66:29: note: (near initialization for 'impn_clks[3].shift')
-      66 |                 .hwv_regs = &impn_hwv_regs,             \
-         |                             ^
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:9: note: in expansion of macro 'GATE_HWV_IMPN'
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |         ^~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:64: warning: initialized field overwritten [-Woverride-init]
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |                                                                ^
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:67:26: note: in definition of macro 'GATE_HWV_IMPN'
-      67 |                 .shift = _shift,                        \
-         |                          ^~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:64: note: (near initialization for 'impn_clks[3].shift')
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |                                                                ^
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:67:26: note: in definition of macro 'GATE_HWV_IMPN'
-      67 |                 .shift = _shift,                        \
-         |                          ^~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:68:25: error: 'mtk_clk_gate_hwv_ops_setclr' undeclared here (not in a function); did you mean 'mtk_clk_gate_ops_setclr'?
-      68 |                 .ops = &mtk_clk_gate_hwv_ops_setclr,    \
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c:76:9: note: in expansion of macro 'GATE_HWV_IMPN'
-      76 |         GATE_HWV_IMPN(CLK_IMPN_I2C7, "impn_i2c7", "i2c_north", 3),
-         |         ^~~~~~~~~~~~~
+Old smatch warnings:
+net/bluetooth/hci_sync.c:2622 hci_resume_advertising_sync() error: uninitialized symbol 'err'.
 
+vim +7286 net/bluetooth/hci_sync.c
 
-vim +66 drivers/clk/mediatek/clk-mt8196-imp_iic_wrap.c
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7269  static int hci_le_past_sync(struct hci_dev *hdev, void *data)
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7270  {
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7271  	struct past_data *past = data;
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7272  	struct hci_cp_le_past cp;
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7273  
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7274  	hci_dev_lock(hdev);
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7275  
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7276  	if (!hci_conn_valid(hdev, past->conn) ||
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7277  	    !hci_conn_valid(hdev, past->le))
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7278  		return -ECANCELED;
 
-8f61d9d319915e Laura Nao 2025-09-15  60  
-8f61d9d319915e Laura Nao 2025-09-15  61  #define GATE_HWV_IMPN(_id, _name, _parent, _shift) {	\
-8f61d9d319915e Laura Nao 2025-09-15  62  		.id = _id,				\
-8f61d9d319915e Laura Nao 2025-09-15  63  		.name = _name,				\
-8f61d9d319915e Laura Nao 2025-09-15  64  		.parent_name = _parent,			\
-8f61d9d319915e Laura Nao 2025-09-15  65  		.regs = &imp_cg_regs,			\
-8f61d9d319915e Laura Nao 2025-09-15 @66  		.hwv_regs = &impn_hwv_regs,		\
-8f61d9d319915e Laura Nao 2025-09-15  67  		.shift = _shift,			\
-8f61d9d319915e Laura Nao 2025-09-15  68  		.ops = &mtk_clk_gate_hwv_ops_setclr,	\
-8f61d9d319915e Laura Nao 2025-09-15  69  		.flags = CLK_OPS_PARENT_ENABLE,		\
-8f61d9d319915e Laura Nao 2025-09-15  70  	}
-8f61d9d319915e Laura Nao 2025-09-15  71  
+hci_dev_unlock(hdev);
 
-:::::: The code at line 66 was first introduced by commit
-:::::: 8f61d9d319915eb84511773dfa57fb0c60ead0f7 clk: mediatek: Add MT8196 I2C clock support
-
-:::::: TO: Laura Nao <laura.nao@collabora.com>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7279  
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7280  	memset(&cp, 0, sizeof(cp));
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7281  	cp.handle = cpu_to_le16(past->le->handle);
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7282  	cp.sync_handle = cpu_to_le16(past->conn->sync_handle);
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7283  
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7284  	hci_dev_unlock(hdev);
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7285  
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13 @7286  	return __hci_cmd_sync_status(hdev, HCI_OP_LE_PAST,
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7287  				     sizeof(cp), &cp, HCI_CMD_TIMEOUT);
+26071e0198f6b8 Luiz Augusto von Dentz 2025-10-13  7288  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
