@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCAA314D37
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 23:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85E92D47FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 23:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760571165; cv=none; b=rgKri5oYofMAQJWHTLe85oQRMc4VVeFP9lJ2unAaZ01uyu+cIQVWLCKSXDByeOeROORFWcdW0REmU4cOWjqyVRjIuG588i6jFdHrdyeikZRC7M605wOIsviXg0hY8Q25BAxqtqHPztMyONrNhb5IcWhDF78zmOq09ggWD/jpm6I=
+	t=1760571835; cv=none; b=GXvz0/M5M/96C2fOXY2bqKBvw3+RZdksppmyyS9PFZ1vMv5RYJoI9oVM6SJvK1w8aVGGBe1CdKLFuWMPqLCBVir347xGr+gVxhv6QJkh/hMqtAP6hCb78mEToviadem5+fNgaxF4uu94b8BQ7HlygyfA+gsW8SnCmltCy4MJ8ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760571165; c=relaxed/simple;
-	bh=s/196UpE6+FTVY7l0Bk4VHdEKYVfiGWt9eR9z9SSoT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kTae9Y+twbRpzv2S7b1L3tNYAQAsMXVJAbb030dCkN0pkPI39TSose7SjzZgu1QnEMhp/D2xAE0l135zeiS4AjAIVGaYZDT161MYzWhyIPBW9nrX+i3HxUF0CAAf+LgzXgvPY7gfkX8ZmbEo6X2cUyqRCWq5EA0qojjSJcXxCps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k4XkjFFC; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1760571835; c=relaxed/simple;
+	bh=0xdTqDw9WUR1MHTE6JTRUHIGJ2mKZvvcYBTUUih42x4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ssAi/yhFz99Hns0GYozPW3tSEaFabJ/uay4JZudyXWcrnKgHcqvbvjpPBLF3dkya44kGkg4OZNDdabDYCJks2CXWT6sYaLDRD/qtBmyDYG4IMF9q3MIjdlRerIYFMBPqE98PUk8s2Ghq4hpxtc8rf4TVKICUNlfexXKV3HCN+2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3tgJbwu; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k4XkjFFC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3tgJbwu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760571164; x=1792107164;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s/196UpE6+FTVY7l0Bk4VHdEKYVfiGWt9eR9z9SSoT0=;
-  b=k4XkjFFCn/2E6izNpOCZYD1xlsdYhoRGT8pqV0TdDNRDBQNhE5Ura26T
-   EV5ZJUv/xg+I191oOo2nbwMD46ShwXXuFpzthHMs3uoX3/ifU+cOC0K3C
-   g1hTaA0VglA5kmvSK8qGmN2uG8ZR2DVLVoEpW2WIohiXHSrPls3kYDHRb
-   7atKJCz/d2a3tEPXUmTL02YnFwJakpnqLZavSzrvT2FMPSkYJUC5hoosW
-   Fxhti+3xl2GuwhJ0byoBy0D7QGMsMgbbW/E2bNNBjo74VBGybCCHuTW8K
-   ZgjfjA/tUFhlbc0rx0DN72qVLh2JWq4tU1igNKurHTj73yvaGisazYtUt
-   w==;
-X-CSE-ConnectionGUID: y3D/1E83SFWeM9JpUWTa5g==
-X-CSE-MsgGUID: vCuCW1L2R7OBkRhLNXEoug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="85374489"
+  t=1760571832; x=1792107832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0xdTqDw9WUR1MHTE6JTRUHIGJ2mKZvvcYBTUUih42x4=;
+  b=K3tgJbwuU+EHnJwLDXudQqYISdk1LcmvH781B8it6NJMcaX7+FiHq0LI
+   CyGYNUE+Fms9h1uqj2smU2OMB3OgNnEBXdgedZjiNYFHjWULTDL3vNCAk
+   kTnVMxrctN+BrhUHtnitYP+OF9aotBJRCimVN5Npqt0sRhAZdFRLUbv03
+   qd5N2jBlCrUwtjENCOhKgBSPGNTygwMWeZ5STqYEkGTibpQjgY4Dd88AW
+   gimF8kd7yfqWkNTeQ85H+IBAlkU52xL1ZDC6PM4VpeD3dhcJLXc2UvSIl
+   tc42gUxBuZ8dsjZ85j2Cc8eXgdKR7QJKVb3fnBDkYmpwP5JjUse53Rq9e
+   g==;
+X-CSE-ConnectionGUID: 7b/Qxd2tTQi6Xyo2LH2jdA==
+X-CSE-MsgGUID: p/gD7gdURYODEvxK/3flGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="74204110"
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="85374489"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 16:32:43 -0700
-X-CSE-ConnectionGUID: pYC9QVplQuG6ux0XMuJT8Q==
-X-CSE-MsgGUID: o7/bmHn9R0e+Im1uWhH8Bg==
+   d="scan'208";a="74204110"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 16:43:52 -0700
+X-CSE-ConnectionGUID: Hso+wECATpWtOfTbPJ+EBQ==
+X-CSE-MsgGUID: NhZgz1k0SL+mUJXovZND2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="182705589"
+   d="scan'208";a="181853552"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Oct 2025 16:32:42 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Oct 2025 16:43:48 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9Az1-0004I7-38;
-	Wed, 15 Oct 2025 23:32:39 +0000
-Date: Thu, 16 Oct 2025 07:32:29 +0800
+	id 1v9B9g-0004Id-38;
+	Wed, 15 Oct 2025 23:43:42 +0000
+Date: Thu, 16 Oct 2025 07:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.2.3 17/19] powerpc64-linux-ld:
- mm/oom_kill.o:undefined reference to `bpf_psi_bpf_ops'
-Message-ID: <202510160721.PrNJAiuE-lkp@intel.com>
+To: Lizhe <sensor1010@163.com>, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	rmk+kernel@armlinux.org.uk, jonas@kwiboo.se,
+	chaoyi.chen@rock-chips.com, david.wu@rock-chips.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Lizhe <sensor1010@163.com>
+Subject: Re: [PATCH net-next] net: dwmac-rk: No need to check the return
+ value of the phy_power_on()
+Message-ID: <202510160726.OejMgsW0-lkp@intel.com>
+References: <20251015040847.6421-1-sensor1010@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +70,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251015040847.6421-1-sensor1010@163.com>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.2.3
-head:   900c780ff14a9c789a7b06ee8aaa608a4e461171
-commit: 6020a833d42e1b742616caaee76125414fb26a0f [17/19] sched: psi: implement bpf_psi struct ops
-config: powerpc64-randconfig-003-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160721.PrNJAiuE-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160721.PrNJAiuE-lkp@intel.com/reproduce)
+Hi Lizhe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhe/net-dwmac-rk-No-need-to-check-the-return-value-of-the-phy_power_on/20251015-121214
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251015040847.6421-1-sensor1010%40163.com
+patch subject: [PATCH net-next] net: dwmac-rk: No need to check the return value of the phy_power_on()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251016/202510160726.OejMgsW0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160726.OejMgsW0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510160721.PrNJAiuE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510160726.OejMgsW0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> powerpc64-linux-ld: mm/oom_kill.o:(.toc+0x0): undefined reference to `bpf_psi_bpf_ops'
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: In function 'rk_gmac_powerdown':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1670:9: error: implicit declaration of function 'phy_power_on'; did you mean 'rk_phy_power_on'? [-Wimplicit-function-declaration]
+    1670 |         phy_power_on(gmac, false);
+         |         ^~~~~~~~~~~~
+         |         rk_phy_power_on
+
+
+vim +1670 drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
+
+7ad269ea1a2b7d Roger Chen            2014-12-29  1662  
+229666c14c75ae Vincent Palatin       2016-06-15  1663  static void rk_gmac_powerdown(struct rk_priv_data *gmac)
+7ad269ea1a2b7d Roger Chen            2014-12-29  1664  {
+32c7bc0747bbd8 Jonas Karlman         2025-03-19  1665  	if (gmac->integrated_phy && gmac->ops->integrated_phy_powerdown)
+32c7bc0747bbd8 Jonas Karlman         2025-03-19  1666  		gmac->ops->integrated_phy_powerdown(gmac);
+fecd4d7eef8b21 David Wu              2017-08-10  1667  
+8f6503993911f0 Russell King (Oracle  2025-06-16  1668) 	pm_runtime_put_sync(gmac->dev);
+aec3f415f7244b Punit Agrawal         2021-09-29  1669  
+7ad269ea1a2b7d Roger Chen            2014-12-29 @1670  	phy_power_on(gmac, false);
+7ad269ea1a2b7d Roger Chen            2014-12-29  1671  	gmac_clk_enable(gmac, false);
+7ad269ea1a2b7d Roger Chen            2014-12-29  1672  }
+7ad269ea1a2b7d Roger Chen            2014-12-29  1673  
 
 -- 
 0-DAY CI Kernel Test Service
