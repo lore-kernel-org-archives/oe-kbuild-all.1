@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C78E33469D;
-	Thu, 16 Oct 2025 17:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8745D3346B7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 17:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760636082; cv=none; b=NAXhSGbWQIMH6MInKZydBUGv6kWSdvR80QoKM1HskfkJ74x+/F8BYSJukCX2WkXBtwZCwMEzsvHRJKJT5oAAVDmfGPvq40rqsVJRJOI56Z1LqqwLnmsvM8GgFSwMVM0bXuQ1wcCgAarbsuZOnRzfK7M+CjwCrMGaktFkqsFm9ig=
+	t=1760636730; cv=none; b=QbHjH4NBF7L/XTxvowaOhWuarcNNX87jUY5mpqLVJhFkhkDa1laBNAjb4Z0Xj0aYKic+rrFB3fgFSdT6LsKX1PqhukKDxqK8cvTloD81FFGTHd/pRnR+uj0lc76ZNfjd3ZHPCuHxNuL2TOkbGdD1qyMP9U3rJziaibyoy7TwEL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760636082; c=relaxed/simple;
-	bh=puWwUgbIkmSUIGQvlruSbfGxUgaFSKFb5ce0Qf3M8mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Su0VmPkUhBPqSu5V3YoegXOcVv0bMcy5eu2lvl2tSbB8UoiHmHv0F30jWUYbIWzcYdzeMjq2gj8KJUkAuRPOOB87T2j6JYYfEZp+ahl8nHzWjDJTOdCt7IN4LqDavmBgqdzUnwb+rN2g6AI0YdQMGt/SOYQmMs6C4YegnHFFG4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXs8FEXa; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1760636730; c=relaxed/simple;
+	bh=QHAwqHb04jHO0Yxan6oy6t0UIKUrKGY9ZNuUDqOqvzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qTLcdC3U3kfg5OJdTLXxy9499hqgNXcP5GhqAphtrb+3+NwunRJx/5VbXWWALEkMZN34HA3uHvrs/5lSJSczsPi1a9/09BtyHJv+OfPvU4SCBf8zVVqvj2Pw9BQoaUbhZ6qS712e29e5tqM1xPHkfdRNZF7PVpIXPI+0WewXhQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcbbIdTF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXs8FEXa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcbbIdTF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760636081; x=1792172081;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=puWwUgbIkmSUIGQvlruSbfGxUgaFSKFb5ce0Qf3M8mg=;
-  b=CXs8FEXaTgT/RZzdh/B26bPSqC1E7Ae4wkFDHTQnhVjuIGEFWKf9KDK1
-   X995/INUsvIoxSuoWStvITbqHRGGG4Q3VOReP0FxB/FuftfoVdmWQr8QD
-   CEZxs5U0fwxrj9flFvbqSAf5WmRd0pWRHg3K8cy/oYNCNmcDnt2uczTvp
-   V8jf8id68pqE/oz8qlC5OG8hlnaict71czYt7fyd1h61obx38+Ego/1lX
-   XjrZf3R+MjqirrmhrFjBuogbcmiOJpxTIOUHzuPtq/wFa8QvJPA71USGF
-   uki7TLMNj80aQVrgk2skhgbAk0gMuJnad0CNZGzhRDCDJOZMPitHH+19V
-   w==;
-X-CSE-ConnectionGUID: Lv88p4MYQwatMeiD/vNnkQ==
-X-CSE-MsgGUID: QGOCHw83TY6tzdSNbdtkqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="74280786"
+  t=1760636725; x=1792172725;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QHAwqHb04jHO0Yxan6oy6t0UIKUrKGY9ZNuUDqOqvzE=;
+  b=VcbbIdTF+O8VHotK6NtHmO32tQ6xVwzxYJ4g1pAHlOUSS7wkKeTU985r
+   z+TmhbIg0cLUr6Cza4wRaRhid6B7rAH+rBr5cK6HYFmhbockJG8KJLmc+
+   2tV+mYYR/et65DW5c0SQdcAq6KjYR8ch6po3pQ0Vkgc9/ojRfSfZ70mYv
+   hvL0h/hgefOLvRcnGddaJy3RzDMnR9jssQ6IFo10i3Vfp/L2BGBX42Ajr
+   VHxYZAObpwX7h8KvDryIAKMtZlGFHyZs3XB6rxe58qsT6IhAbzKEgCcpd
+   3U8h4ylRvpQqecpu4fc89V8RXIs4ScBkXNBf0y356fSGwrz+gapJB/CvN
+   A==;
+X-CSE-ConnectionGUID: 6oUYDYjgTeqEim9qCyHOAQ==
+X-CSE-MsgGUID: pkOMb85LRc6WK0rw3UkFUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62988529"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="74280786"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 10:34:41 -0700
-X-CSE-ConnectionGUID: s3+tVlIHTlehEX4Abro32Q==
-X-CSE-MsgGUID: w9YePRj6S0KtyF4lgOb/Qg==
+   d="scan'208";a="62988529"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 10:45:24 -0700
+X-CSE-ConnectionGUID: GOuZ0zvvQoCrmTvyGiBNBw==
+X-CSE-MsgGUID: Bp2p8yBgSpmBhJ+xBoT4sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="186783542"
+   d="scan'208";a="182924565"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2025 10:34:39 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2025 10:45:23 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9Rs4-00056B-1I;
-	Thu, 16 Oct 2025 17:34:36 +0000
-Date: Fri, 17 Oct 2025 01:34:02 +0800
+	id 1v9S1o-00056Z-2K;
+	Thu, 16 Oct 2025 17:45:10 +0000
+Date: Fri, 17 Oct 2025 01:44:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 04/10] net: Convert proto_ops connect() callbacks to
- use sockaddr_unspec
-Message-ID: <202510170116.jFQJJsY7-lkp@intel.com>
-References: <20251014224334.2344521-4-kees@kernel.org>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 562/583]
+ fs/bcachefs/debug/async_objs.c:64:28: error: invalid application of 'sizeof'
+ to incomplete type 'struct dump_iter'
+Message-ID: <202510170124.QnAuFN5q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +63,213 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014224334.2344521-4-kees@kernel.org>
 
-Hi Kees,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bluetooth-next/master]
-[also build test ERROR on next-20251016]
-[cannot apply to bluetooth/master bpf/master bpf-next/net bpf-next/master linus/master v6.18-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/net-Add-struct-sockaddr_unspec-for-sockaddr-of-unknown-length/20251015-064816
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20251014224334.2344521-4-kees%40kernel.org
-patch subject: [PATCH v2 04/10] net: Convert proto_ops connect() callbacks to use sockaddr_unspec
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251017/202510170116.jFQJJsY7-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170116.jFQJJsY7-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   3150a6c576f780df6a0c2f9259a4543ba9352cc1
+commit: 7ffabf342403e9f0e111566b87b8c040a83e6358 [562/583] bcachefs: kill CONFIG_BCACHEFS_ASYNC_OBJECT_LISTS
+config: m68k-sun3x_defconfig (https://download.01.org/0day-ci/archive/20251017/202510170124.QnAuFN5q-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170124.QnAuFN5q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510170116.jFQJJsY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510170124.QnAuFN5q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> samples/qmi/qmi_sample_client.c:471:41: error: incompatible pointer types passing 'struct sockaddr *' to parameter of type 'struct sockaddr_unspec *' [-Werror,-Wincompatible-pointer-types]
-     471 |         ret = kernel_connect(sample->qmi.sock, (struct sockaddr *)sq,
-         |                                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/net.h:351:65: note: passing argument to parameter 'addr' here
-     351 | int kernel_connect(struct socket *sock, struct sockaddr_unspec *addr, int addrlen,
-         |                                                                 ^
-   1 error generated.
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/radix-tree.h:16,
+                    from include/linux/backing-dev-defs.h:6,
+                    from fs/bcachefs/bcachefs.h:200,
+                    from fs/bcachefs/debug/async_objs.c:7:
+   fs/bcachefs/debug/async_objs.c: In function 'bch2_async_obj_list_open':
+>> fs/bcachefs/debug/async_objs.c:64:28: error: invalid application of 'sizeof' to incomplete type 'struct dump_iter'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |                            ^~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:64:13: note: in expansion of macro 'kzalloc'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |             ^~~~~~~
+>> fs/bcachefs/debug/async_objs.c:64:28: error: invalid application of 'sizeof' to incomplete type 'struct dump_iter'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |                            ^~~~~~
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:64:13: note: in expansion of macro 'kzalloc'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |             ^~~~~~~
+>> fs/bcachefs/debug/async_objs.c:64:28: error: invalid application of 'sizeof' to incomplete type 'struct dump_iter'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |                            ^~~~~~
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:1041:49: note: in expansion of macro 'alloc_hooks'
+    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:64:13: note: in expansion of macro 'kzalloc'
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |             ^~~~~~~
+>> fs/bcachefs/debug/async_objs.c:64:11: error: assignment to 'struct dump_iter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+         |           ^
+>> fs/bcachefs/debug/async_objs.c:69:10: error: invalid use of undefined type 'struct dump_iter'
+      69 |         i->from = POS_MIN;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:70:10: error: invalid use of undefined type 'struct dump_iter'
+      70 |         i->iter = 0;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:71:10: error: invalid use of undefined type 'struct dump_iter'
+      71 |         i->c    = container_of(list, struct bch_fs, async_objs[list->idx]);
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:72:10: error: invalid use of undefined type 'struct dump_iter'
+      72 |         i->list = list;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:73:10: error: invalid use of undefined type 'struct dump_iter'
+      73 |         i->buf  = PRINTBUF;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c: In function 'bch2_async_obj_list_read':
+   fs/bcachefs/debug/async_objs.c:81:40: error: invalid use of undefined type 'struct dump_iter'
+      81 |         struct async_obj_list *list = i->list;
+         |                                        ^~
+   fs/bcachefs/debug/async_objs.c:84:10: error: invalid use of undefined type 'struct dump_iter'
+      84 |         i->ubuf = buf;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:85:10: error: invalid use of undefined type 'struct dump_iter'
+      85 |         i->size = size;
+         |          ^~
+   fs/bcachefs/debug/async_objs.c:86:10: error: invalid use of undefined type 'struct dump_iter'
+      86 |         i->ret  = 0;
+         |          ^~
+   In file included from fs/bcachefs/util/fast_list.h:4,
+                    from fs/bcachefs/bcachefs.h:229:
+   fs/bcachefs/debug/async_objs.c:90:58: error: invalid use of undefined type 'struct dump_iter'
+      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
+         |                                                          ^~
+   include/linux/generic-radix-tree.h:190:25: note: in definition of macro '__genradix_idx_to_offset'
+     190 |         __idx_to_offset(_idx, __genradix_obj_size(_radix), _offset)
+         |                         ^~~~
+   fs/bcachefs/util/fast_list.h:28:22: note: in expansion of macro 'genradix_iter_init'
+      28 |         for (_iter = genradix_iter_init(&(_list)->items, _start);       \
+         |                      ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:90:9: note: in expansion of macro 'fast_list_for_each_from'
+      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:90:58: error: invalid use of undefined type 'struct dump_iter'
+      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
+         |                                                          ^~
+   include/linux/generic-radix-tree.h:292:28: note: in definition of macro 'genradix_iter_init'
+     292 |                 .pos    = (_idx),                               \
+         |                            ^~~~
+   fs/bcachefs/debug/async_objs.c:90:9: note: in expansion of macro 'fast_list_for_each_from'
+      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/debug/async_objs.c:91:23: error: implicit declaration of function 'bch2_debugfs_flush_buf' [-Wimplicit-function-declaration]
+      91 |                 ret = bch2_debugfs_flush_buf(i);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/debug/async_objs.c:95:23: error: invalid use of undefined type 'struct dump_iter'
+      95 |                 if (!i->size)
+         |                       ^~
+   fs/bcachefs/debug/async_objs.c:98:37: error: invalid use of undefined type 'struct dump_iter'
+      98 |                 list->obj_to_text(&i->buf, i->c, obj);
+         |                                     ^~
+   fs/bcachefs/debug/async_objs.c:98:45: error: invalid use of undefined type 'struct dump_iter'
+      98 |                 list->obj_to_text(&i->buf, i->c, obj);
+         |                                             ^~
+   fs/bcachefs/debug/async_objs.c:99:18: error: invalid use of undefined type 'struct dump_iter'
+      99 |                 i->iter = iter.pos;
+         |                  ^~
+   fs/bcachefs/debug/async_objs.c:102:14: error: invalid use of undefined type 'struct dump_iter'
+     102 |         if (i->buf.allocation_failure)
+         |              ^~
+   fs/bcachefs/debug/async_objs.c:108:24: error: invalid use of undefined type 'struct dump_iter'
+     108 |         return ret ?: i->ret;
+         |                        ^~
+   fs/bcachefs/debug/async_objs.c: At top level:
+>> fs/bcachefs/debug/async_objs.c:114:27: error: 'bch2_dump_release' undeclared here (not in a function); did you mean 'bch2_dump_bset'?
+     114 |         .release        = bch2_dump_release,
+         |                           ^~~~~~~~~~~~~~~~~
+         |                           bch2_dump_bset
 
 
-vim +471 samples/qmi/qmi_sample_client.c
+vim +64 fs/bcachefs/debug/async_objs.c
 
-842891be96bd2b9 Bjorn Andersson 2017-06-26  452  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  453  static int qmi_sample_probe(struct platform_device *pdev)
-842891be96bd2b9 Bjorn Andersson 2017-06-26  454  {
-842891be96bd2b9 Bjorn Andersson 2017-06-26  455  	struct sockaddr_qrtr *sq;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  456  	struct qmi_sample *sample;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  457  	char path[20];
-842891be96bd2b9 Bjorn Andersson 2017-06-26  458  	int ret;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  459  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  460  	sample = devm_kzalloc(&pdev->dev, sizeof(*sample), GFP_KERNEL);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  461  	if (!sample)
-842891be96bd2b9 Bjorn Andersson 2017-06-26  462  		return -ENOMEM;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  463  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  464  	ret = qmi_handle_init(&sample->qmi, TEST_DATA_REQ_MAX_MSG_LEN_V01,
-842891be96bd2b9 Bjorn Andersson 2017-06-26  465  			      NULL,
-842891be96bd2b9 Bjorn Andersson 2017-06-26  466  			      qmi_sample_handlers);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  467  	if (ret < 0)
-842891be96bd2b9 Bjorn Andersson 2017-06-26  468  		return ret;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  469  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  470  	sq = dev_get_platdata(&pdev->dev);
-842891be96bd2b9 Bjorn Andersson 2017-06-26 @471  	ret = kernel_connect(sample->qmi.sock, (struct sockaddr *)sq,
-842891be96bd2b9 Bjorn Andersson 2017-06-26  472  			     sizeof(*sq), 0);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  473  	if (ret < 0) {
-842891be96bd2b9 Bjorn Andersson 2017-06-26  474  		pr_err("failed to connect to remote service port\n");
-842891be96bd2b9 Bjorn Andersson 2017-06-26  475  		goto err_release_qmi_handle;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  476  	}
-842891be96bd2b9 Bjorn Andersson 2017-06-26  477  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  478  	snprintf(path, sizeof(path), "%d:%d", sq->sq_node, sq->sq_port);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  479  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  480  	sample->de_dir = debugfs_create_dir(path, qmi_debug_dir);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  481  	if (IS_ERR(sample->de_dir)) {
-842891be96bd2b9 Bjorn Andersson 2017-06-26  482  		ret = PTR_ERR(sample->de_dir);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  483  		goto err_release_qmi_handle;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  484  	}
-842891be96bd2b9 Bjorn Andersson 2017-06-26  485  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  486  	sample->de_data = debugfs_create_file("data", 0600, sample->de_dir,
-842891be96bd2b9 Bjorn Andersson 2017-06-26  487  					      sample, &data_fops);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  488  	if (IS_ERR(sample->de_data)) {
-842891be96bd2b9 Bjorn Andersson 2017-06-26  489  		ret = PTR_ERR(sample->de_data);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  490  		goto err_remove_de_dir;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  491  	}
-842891be96bd2b9 Bjorn Andersson 2017-06-26  492  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  493  	sample->de_ping = debugfs_create_file("ping", 0600, sample->de_dir,
-842891be96bd2b9 Bjorn Andersson 2017-06-26  494  					      sample, &ping_fops);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  495  	if (IS_ERR(sample->de_ping)) {
-842891be96bd2b9 Bjorn Andersson 2017-06-26  496  		ret = PTR_ERR(sample->de_ping);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  497  		goto err_remove_de_data;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  498  	}
-842891be96bd2b9 Bjorn Andersson 2017-06-26  499  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  500  	platform_set_drvdata(pdev, sample);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  501  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  502  	return 0;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  503  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  504  err_remove_de_data:
-842891be96bd2b9 Bjorn Andersson 2017-06-26  505  	debugfs_remove(sample->de_data);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  506  err_remove_de_dir:
-842891be96bd2b9 Bjorn Andersson 2017-06-26  507  	debugfs_remove(sample->de_dir);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  508  err_release_qmi_handle:
-842891be96bd2b9 Bjorn Andersson 2017-06-26  509  	qmi_handle_release(&sample->qmi);
-842891be96bd2b9 Bjorn Andersson 2017-06-26  510  
-842891be96bd2b9 Bjorn Andersson 2017-06-26  511  	return ret;
-842891be96bd2b9 Bjorn Andersson 2017-06-26  512  }
-842891be96bd2b9 Bjorn Andersson 2017-06-26  513  
+41e51769b8a649d fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   58  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   59  static int bch2_async_obj_list_open(struct inode *inode, struct file *file)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   60  {
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   61  	struct async_obj_list *list = inode->i_private;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   62  	struct dump_iter *i;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   63  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @64  	i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   65  	if (!i)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   66  		return -ENOMEM;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   67  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   68  	file->private_data = i;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @69  	i->from = POS_MIN;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   70  	i->iter	= 0;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   71  	i->c	= container_of(list, struct bch_fs, async_objs[list->idx]);
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   72  	i->list	= list;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   73  	i->buf	= PRINTBUF;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   74  	return 0;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   75  }
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   76  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   77  static ssize_t bch2_async_obj_list_read(struct file *file, char __user *buf,
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   78  					size_t size, loff_t *ppos)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   79  {
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   80  	struct dump_iter *i = file->private_data;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   81  	struct async_obj_list *list = i->list;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   82  	ssize_t ret = 0;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   83  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   84  	i->ubuf = buf;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   85  	i->size	= size;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   86  	i->ret	= 0;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   87  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   88  	struct genradix_iter iter;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   89  	void *obj;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   90  	fast_list_for_each_from(&list->list, iter, obj, i->iter) {
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @91  		ret = bch2_debugfs_flush_buf(i);
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   92  		if (ret)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   93  			return ret;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   94  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   95  		if (!i->size)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   96  			break;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   97  
+95e6b9a29ced98d fs/bcachefs/async_objs.c Kent Overstreet 2025-07-10   98  		list->obj_to_text(&i->buf, i->c, obj);
+fd3d5e942c77dff fs/bcachefs/async_objs.c Kent Overstreet 2025-07-10   99  		i->iter = iter.pos;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  100  	}
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  101  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  102  	if (i->buf.allocation_failure)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  103  		ret = -ENOMEM;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  104  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  105  	if (!ret)
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  106  		ret = bch2_debugfs_flush_buf(i);
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  107  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  108  	return ret ?: i->ret;
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  109  }
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  110  
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  111  static const struct file_operations async_obj_ops = {
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  112  	.owner		= THIS_MODULE,
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  113  	.open		= bch2_async_obj_list_open,
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21 @114  	.release	= bch2_dump_release,
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  115  	.read		= bch2_async_obj_list_read,
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  116  };
+0499a82b18b5dde fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  117  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: 0499a82b18b5ddee0d97d2cfcae0c0120f858c1f bcachefs: Async object debugging
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
