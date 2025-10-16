@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC7C31D75C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 12:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B147F324B39
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 12:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760616600; cv=none; b=cG/791V5+GP1Cf2UNH79em6ddcuGCEEwtc0U8dWHzgU6Xoo9E6QeEBzEF+0gomm4jGdEfGz+PFE30OF1fTGjBajSwSl1VAk1ffa/0TRbaWGJxYEXm5s2/rVMK3J6o+idw3Ur3YpdzT9456kYUDALiBThhXdIO3sCnOrBlGfyFpw=
+	t=1760617316; cv=none; b=OH8xA1ezAEAD9krO2/iJov3fEJv44/PtqNX2Y7QZtFfTUshlhgHOa94YLvSHu+FkqDz4S+QXeVGmiSW++IXrbVIBWLBm/ZiLVX6F1lgbJTcrMhGMXFK0o2daK7plE3YBKUsvBEd45IsE7NBvIl27AdaSg2Y9x+ZqDWFgm7WrzRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760616600; c=relaxed/simple;
-	bh=blmyTabLIwvXNelCk6jVZnkgHgG0lwYeciQW9zGW+Jw=;
+	s=arc-20240116; t=1760617316; c=relaxed/simple;
+	bh=lprsLCblBdi1mu/waKPPvN3tSSOdNGhBXu1B77jQ7P8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rsiss8GeUlkD/o5wPSo5YCO0gPAIpncgc7l4TQU/facyv+EZWtZrCOjblq7iRigTYs8wikgD+px3WFZD4w9bAEPAqLWdQwvjg5snoiEiqyiWF5iQuWXhcyNJ0+YKI95tdV78feQJc+T9hlCEqRVQVzGmsuJiMR5JHI1RZwSBDfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO0Vzwx0; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=S7QG3Ho07lE4xe6U9DgLhrr68BcGmrAmYSP/5f3L1wFBIekDSuGJxdp+II+JzV4i9hhp5Oql+BHq+Wlr1fJ3jfOnCJggatHrHGalp+k+tEXNRoxoA3PT9yPJCMrL6Owu4kRB8wVHur6zQarWMFE7i7vjeYlX7ZzCiR7EfOheRpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNqlL3pO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO0Vzwx0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNqlL3pO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760616599; x=1792152599;
+  t=1760617313; x=1792153313;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=blmyTabLIwvXNelCk6jVZnkgHgG0lwYeciQW9zGW+Jw=;
-  b=YO0Vzwx00Pw8TsnS/rvcd+En3DcM0j84B28nZWe6GTwXJJRnmjqtvvQA
-   sDCAt6una0Xap7yaSpcSo2GiRg8ZwsJ6d6a/sCWpPcWQdWkfI7hLZa3l3
-   RNkEFy7JCWk+D/1wIc1ybD32Qzz55zNK2WaV9+HkGg0LdzkZtc6FigfMC
-   TCKbX+vaEFbL2anvXaPG+1FDENHyyW+8EpTxdeunpbeRRLwZcYbqVmVv1
-   PNrVWtVy485HECiDniLPNuM2EvMsLAzhAW32Pp7LMqGTa4gnpWHSRryxN
-   93LYJRffGyhtoMKkzAA/xkB1Vss+0QKUkpzJ5pX+ymoGEOlKWVjRDoOPD
+  bh=lprsLCblBdi1mu/waKPPvN3tSSOdNGhBXu1B77jQ7P8=;
+  b=gNqlL3pOIo/nIM/8n9Qg7rjHphow/H27k4lbLwJKZFohzezwbYMAUaq5
+   FM5GQ0Z9NMQ3qg6N+/Te+ytq2Y3lU66DSvDPt/eHj9Rliyu4dYnN7Hy23
+   z/KxtGc0JVQnByddPWy2g63CSa68XfpaC0I3LGOyjh0q4tDPbH9p11OWT
+   XUG8owZt3HfuTgBD3EPCwzJTyYQxIvpIm+Cq0i8Kj/I4+k8YPV+Pjf+8E
+   8k3Bxa6+uGRtdVnreiPW68yrpywkkB0otZypa9zn5q3q7xNFfqaWmAlBi
+   amFauN58C9fPUVyyk0yJP9Z6ESuG89Rv4PINYq4g+t+GUDeVzuAeBdJvG
    A==;
-X-CSE-ConnectionGUID: krIt+jXsS3uGPY8USmmyaA==
-X-CSE-MsgGUID: l7bA0LHfQb+gQUYoHiekvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="74150242"
+X-CSE-ConnectionGUID: RFsrHRcKR2+05TlR2b5Lhw==
+X-CSE-MsgGUID: 2k5OSbp5RSqcL2j0i/Ba8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62706333"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="74150242"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 05:09:58 -0700
-X-CSE-ConnectionGUID: MqQiJNsfQpmhzxTZFl4Idg==
-X-CSE-MsgGUID: skpsWXTJRZmjV64RMnJM+Q==
+   d="scan'208";a="62706333"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 05:21:52 -0700
+X-CSE-ConnectionGUID: hup6fz5HRROV0Clxjqfs7A==
+X-CSE-MsgGUID: od+6l2uEQlqR2g+2/WYuJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="187527958"
+   d="scan'208";a="181571265"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 16 Oct 2025 05:09:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 16 Oct 2025 05:21:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9Mno-0004n1-2P;
-	Thu, 16 Oct 2025 12:09:52 +0000
-Date: Thu, 16 Oct 2025 20:09:50 +0800
+	id 1v9Myb-0004nP-2c;
+	Thu, 16 Oct 2025 12:21:11 +0000
+Date: Thu, 16 Oct 2025 20:20:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jeff Kirsher <jeff.kirsher@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [jkirsher-net-queue:master 3/4] include/linux/list.h:869:64:
- warning: left-hand operand of comma expression has no effect
-Message-ID: <202510162006.sqG68GmM-lkp@intel.com>
+To: Tiwei Bie <tiwei.btw@antgroup.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to
+ restricted __be16
+Message-ID: <202510162047.GoUq7DXY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,303 +63,379 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/net-queue.git master
-head:   c9a8544415241209a476e56cc98a09ab074e29a8
-commit: 342c35f4adfbb95a7be4bd984ee3546a594afde7 [3/4] af_unix: Suppress false-positive lockdep splat for spin_lock() in __unix_gc().
-config: arc-nsimosci_defconfig (https://download.01.org/0day-ci/archive/20251016/202510162006.sqG68GmM-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162006.sqG68GmM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ea30958b3054f5e488fa0b33c352723f7ab3a2a
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   5 months ago
+config: um-randconfig-r121-20251016 (https://download.01.org/0day-ci/archive/20251016/202510162047.GoUq7DXY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162047.GoUq7DXY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510162006.sqG68GmM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510162047.GoUq7DXY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/infiniband/core/mad.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/ib_mad.h):
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be64
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_mad.h:23:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: cast to restricted __be16
+   drivers/infiniband/core/mad.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/ib_mad.h):
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] wrtid @@     got restricted __be64 [usertype] tid @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned long long [usertype] wrtid
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be64 [usertype] tid
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] status @@     got restricted __be16 [usertype] status @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned short [usertype] status
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be16 [usertype] status
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] class_specific @@     got restricted __be16 [usertype] class_specific @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned short [usertype] class_specific
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be16 [usertype] class_specific
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] tid @@     got restricted __be64 [usertype] tid @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned long long [usertype] tid
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be64 [usertype] tid
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] attr_id @@     got restricted __be16 [usertype] attr_id @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned short [usertype] attr_id
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be16 [usertype] attr_id
+   include/trace/events/ib_mad.h:23:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] attr_mod @@     got restricted __be32 [usertype] attr_mod @@
+   include/trace/events/ib_mad.h:23:1: sparse:     expected unsigned int [usertype] attr_mod
+   include/trace/events/ib_mad.h:23:1: sparse:     got restricted __be32 [usertype] attr_mod
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] wrtid @@     got restricted __be64 [usertype] tid @@
+   include/trace/events/ib_mad.h:120:1: sparse:     expected unsigned long long [usertype] wrtid
+   include/trace/events/ib_mad.h:120:1: sparse:     got restricted __be64 [usertype] tid
+   include/trace/events/ib_mad.h:120:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] status @@     got restricted __be16 [usertype] status @@
+   include/trace/events/ib_mad.h:120:1: sparse:     expected unsigned short [usertype] status
+   include/trace/events/ib_mad.h:120:1: sparse:     got restricted __be16 [usertype] status
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] status @@     got restricted __be16 [usertype] status @@
+   include/trace/events/ib_mad.h:183:1: sparse:     expected unsigned short [usertype] status
+   include/trace/events/ib_mad.h:183:1: sparse:     got restricted __be16 [usertype] status
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] class_specific @@     got restricted __be16 [usertype] class_specific @@
+   include/trace/events/ib_mad.h:183:1: sparse:     expected unsigned short [usertype] class_specific
+   include/trace/events/ib_mad.h:183:1: sparse:     got restricted __be16 [usertype] class_specific
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] tid @@     got restricted __be64 [usertype] tid @@
+   include/trace/events/ib_mad.h:183:1: sparse:     expected unsigned long long [usertype] tid
+   include/trace/events/ib_mad.h:183:1: sparse:     got restricted __be64 [usertype] tid
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] attr_id @@     got restricted __be16 [usertype] attr_id @@
+   include/trace/events/ib_mad.h:183:1: sparse:     expected unsigned short [usertype] attr_id
+   include/trace/events/ib_mad.h:183:1: sparse:     got restricted __be16 [usertype] attr_id
+   include/trace/events/ib_mad.h:183:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] attr_mod @@     got restricted __be32 [usertype] attr_mod @@
+   include/trace/events/ib_mad.h:183:1: sparse:     expected unsigned int [usertype] attr_mod
+   include/trace/events/ib_mad.h:183:1: sparse:     got restricted __be32 [usertype] attr_mod
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] mkey @@     got restricted __be64 [usertype] mkey @@
+   include/trace/events/ib_mad.h:294:1: sparse:     expected unsigned long long [usertype] mkey
+   include/trace/events/ib_mad.h:294:1: sparse:     got restricted __be64 [usertype] mkey
+   include/trace/events/ib_mad.h:294:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dr_slid @@     got restricted __be32 [usertype] dr_slid @@
+   include/trace/events/ib_mad.h:294:1: sparse:     expected unsigned int [usertype] dr_slid
+   include/trace/events/ib_mad.h:294:1: sparse:     got restricted __be32 [usertype] dr_slid
+>> include/trace/events/ib_mad.h:294:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dr_dlid @@     got restricted __be32 [usertype] dr_dlid @@
+   include/trace/events/ib_mad.h:294:1: sparse:     expected unsigned int [usertype] dr_dlid
+   include/trace/events/ib_mad.h:294:1: sparse:     got restricted __be32 [usertype] dr_dlid
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] mkey @@     got restricted __be64 [usertype] mkey @@
+   include/trace/events/ib_mad.h:339:1: sparse:     expected unsigned long long [usertype] mkey
+   include/trace/events/ib_mad.h:339:1: sparse:     got restricted __be64 [usertype] mkey
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dr_slid @@     got restricted __be16 [usertype] dr_slid @@
+   include/trace/events/ib_mad.h:339:1: sparse:     expected unsigned int [usertype] dr_slid
+   include/trace/events/ib_mad.h:339:1: sparse:     got restricted __be16 [usertype] dr_slid
+   include/trace/events/ib_mad.h:339:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dr_dlid @@     got restricted __be16 [usertype] dr_dlid @@
+   include/trace/events/ib_mad.h:339:1: sparse:     expected unsigned int [usertype] dr_dlid
+   include/trace/events/ib_mad.h:339:1: sparse:     got restricted __be16 [usertype] dr_dlid
+--
+   drivers/infiniband/core/user_mad.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/ib_umad.h):
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be64
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be16
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: cast to restricted __be32
+   drivers/infiniband/core/user_mad.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/ib_umad.h):
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] qpn @@     got restricted __be32 [usertype] qpn @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned int [usertype] qpn
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be32 [usertype] qpn
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] qkey @@     got restricted __be32 [usertype] qkey @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned int [usertype] qkey
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be32 [usertype] qkey
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] lid @@     got restricted __be16 [usertype] lid @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned short [usertype] lid
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be16 [usertype] lid
+>> include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flow_label @@     got restricted __be32 [usertype] flow_label @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned int [usertype] flow_label
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be32 [usertype] flow_label
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] mad_status @@     got restricted __be16 [usertype] status @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned short [usertype] mad_status
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be16 [usertype] status
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] class_specific @@     got restricted __be16 [usertype] class_specific @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned short [usertype] class_specific
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be16 [usertype] class_specific
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] tid @@     got restricted __be64 [usertype] tid @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned long long [usertype] tid
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be64 [usertype] tid
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] attr_id @@     got restricted __be16 [usertype] attr_id @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned short [usertype] attr_id
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be16 [usertype] attr_id
+   include/trace/events/ib_umad.h:16:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] attr_mod @@     got restricted __be32 [usertype] attr_mod @@
+   include/trace/events/ib_umad.h:16:1: sparse:     expected unsigned int [usertype] attr_mod
+   include/trace/events/ib_umad.h:16:1: sparse:     got restricted __be32 [usertype] attr_mod
 
-   In file included from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from net/unix/garbage.c:66:
-   net/unix/garbage.c: In function '__unix_gc':
-   net/unix/garbage.c:591:34: error: 'u' undeclared (first use in this function); did you mean 'up'?
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |                                  ^
-   include/linux/list.h:869:14: note: in definition of macro 'list_for_each_entry_safe'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |              ^~~
-   net/unix/garbage.c:591:34: note: each undeclared identifier is reported only once for each function it appears in
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |                                  ^
-   include/linux/list.h:869:14: note: in definition of macro 'list_for_each_entry_safe'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |              ^~~
-   In file included from include/linux/list.h:5:
-   net/unix/garbage.c:591:44: error: 'gc_inflight_list' undeclared (first use in this function)
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |                                            ^~~~~~~~~~~~~~~~
-   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
-      20 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5:
-   include/linux/compiler_types.h:530:27: error: expression in static assertion is not an integer
-     530 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:869:20: note: in expansion of macro 'list_first_entry'
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                    ^~~~~~~~~~~~~~~~
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/unix/garbage.c:591:37: error: 'next' undeclared (first use in this function); did you mean 'net'?
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |                                     ^~~~
-   include/linux/list.h:870:17: note: in definition of macro 'list_for_each_entry_safe'
-     870 |                 n = list_next_entry(pos, member);                       \
-         |                 ^
-   include/linux/compiler_types.h:530:27: error: expression in static assertion is not an integer
-     530 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
-     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:870:21: note: in expansion of macro 'list_next_entry'
-     870 |                 n = list_next_entry(pos, member);                       \
-         |                     ^~~~~~~~~~~~~~~
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/list.h:869:64: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     869 |         for (pos = list_first_entry(head, typeof(*pos), member),        \
-         |                                                                ^
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:530:27: error: expression in static assertion is not an integer
-     530 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:667:9: note: in expansion of macro 'list_entry'
-     667 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:872:27: note: in expansion of macro 'list_next_entry'
-     872 |              pos = n, n = list_next_entry(n, member))
-         |                           ^~~~~~~~~~~~~~~
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:872:21: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     872 |              pos = n, n = list_next_entry(n, member))
-         |                     ^
-   net/unix/garbage.c:591:9: note: in expansion of macro 'list_for_each_entry_safe'
-     591 |         list_for_each_entry_safe(u, next, &gc_inflight_list, link) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/unix/garbage.c:600:51: error: 'gc_candidates' undeclared (first use in this function)
-     600 |                         list_move_tail(&u->link, &gc_candidates);
-         |                                                   ^~~~~~~~~~~~~
-   In file included from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9:
-   net/unix/garbage.c:601:35: error: 'UNIX_GC_CANDIDATE' undeclared (first use in this function)
-     601 |                         __set_bit(UNIX_GC_CANDIDATE, &u->gc_flags);
-         |                                   ^~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
-      43 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   net/unix/garbage.c:601:25: note: in expansion of macro '__set_bit'
-     601 |                         __set_bit(UNIX_GC_CANDIDATE, &u->gc_flags);
-         |                         ^~~~~~~~~
-   net/unix/garbage.c:602:35: error: 'UNIX_GC_MAYBE_CYCLE' undeclared (first use in this function)
-     602 |                         __set_bit(UNIX_GC_MAYBE_CYCLE, &u->gc_flags);
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
-      43 |         ((__builtin_constant_p(nr) &&                                   \
-         |                                ^~
-   net/unix/garbage.c:602:25: note: in expansion of macro '__set_bit'
-     602 |                         __set_bit(UNIX_GC_MAYBE_CYCLE, &u->gc_flags);
-         |                         ^~~~~~~~~
-   net/unix/garbage.c:605:33: error: implicit declaration of function 'unix_state_lock_nested'; did you mean 'mmap_write_lock_nested'? [-Wimplicit-function-declaration]
-     605 |                                 unix_state_lock_nested(sk, U_LOCK_GC_LISTENER);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                                 mmap_write_lock_nested
-   net/unix/garbage.c:626:1: warning: label 'skip_gc' defined but not used [-Wunused-label]
-     626 | skip_gc:
-         | ^~~~~~~
+vim +23 include/trace/events/ib_mad.h
 
+4d60cad5db7fb4 Ira Weiny     2019-03-19   22  
+4d60cad5db7fb4 Ira Weiny     2019-03-19  @23  DECLARE_EVENT_CLASS(ib_mad_send_template,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   24  	TP_PROTO(struct ib_mad_send_wr_private *wr,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   25  		 struct ib_mad_qp_info *qp_info),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   26  	TP_ARGS(wr, qp_info),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   27  
+4d60cad5db7fb4 Ira Weiny     2019-03-19   28  	TP_STRUCT__entry(
+4d60cad5db7fb4 Ira Weiny     2019-03-19   29  		__field(u8,             base_version)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   30  		__field(u8,             mgmt_class)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   31  		__field(u8,             class_version)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   32  		__field(u8,             port_num)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   33  		__field(u32,            qp_num)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   34  		__field(u8,             method)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   35  		__field(u8,             sl)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   36  		__field(u16,            attr_id)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   37  		__field(u32,            attr_mod)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   38  		__field(u64,            wrtid)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   39  		__field(u64,            tid)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   40  		__field(u16,            status)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   41  		__field(u16,            class_specific)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   42  		__field(u32,            length)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   43  		__field(u32,            dlid)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   44  		__field(u32,            rqpn)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   45  		__field(u32,            rqkey)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   46  		__field(u32,            dev_index)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   47  		__field(void *,         agent_priv)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   48  		__field(unsigned long,  timeout)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   49  		__field(int,            retries_left)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   50  		__field(int,            max_retries)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   51  		__field(int,            retry)
+4d60cad5db7fb4 Ira Weiny     2019-03-19   52  	),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   53  
+4d60cad5db7fb4 Ira Weiny     2019-03-19   54  	TP_fast_assign(
+4d60cad5db7fb4 Ira Weiny     2019-03-19   55  		__entry->dev_index = wr->mad_agent_priv->agent.device->index;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   56  		__entry->port_num = wr->mad_agent_priv->agent.port_num;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   57  		__entry->qp_num = wr->mad_agent_priv->qp_info->qp->qp_num;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   58  		__entry->agent_priv = wr->mad_agent_priv;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   59  		__entry->wrtid = wr->tid;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   60  		__entry->max_retries = wr->max_retries;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   61  		__entry->retries_left = wr->retries_left;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   62  		__entry->retry = wr->retry;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   63  		__entry->timeout = wr->timeout;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   64  		__entry->length = wr->send_buf.hdr_len +
+4d60cad5db7fb4 Ira Weiny     2019-03-19   65  				  wr->send_buf.data_len;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   66  		__entry->base_version =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   67  			((struct ib_mad_hdr *)wr->send_buf.mad)->base_version;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   68  		__entry->mgmt_class =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   69  			((struct ib_mad_hdr *)wr->send_buf.mad)->mgmt_class;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   70  		__entry->class_version =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   71  			((struct ib_mad_hdr *)wr->send_buf.mad)->class_version;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   72  		__entry->method =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   73  			((struct ib_mad_hdr *)wr->send_buf.mad)->method;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   74  		__entry->status =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   75  			((struct ib_mad_hdr *)wr->send_buf.mad)->status;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   76  		__entry->class_specific =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   77  			((struct ib_mad_hdr *)wr->send_buf.mad)->class_specific;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   78  		__entry->tid = ((struct ib_mad_hdr *)wr->send_buf.mad)->tid;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   79  		__entry->attr_id =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   80  			((struct ib_mad_hdr *)wr->send_buf.mad)->attr_id;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   81  		__entry->attr_mod =
+4d60cad5db7fb4 Ira Weiny     2019-03-19   82  			((struct ib_mad_hdr *)wr->send_buf.mad)->attr_mod;
+4d60cad5db7fb4 Ira Weiny     2019-03-19   83  		create_mad_addr_info(wr, qp_info, __entry);
+4d60cad5db7fb4 Ira Weiny     2019-03-19   84  	),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   85  
+4d60cad5db7fb4 Ira Weiny     2019-03-19   86  	TP_printk("%d:%d QP%d agent %p: " \
+4d60cad5db7fb4 Ira Weiny     2019-03-19   87  		  "wrtid 0x%llx; %d/%d retries(%d); timeout %lu length %d : " \
+4d60cad5db7fb4 Ira Weiny     2019-03-19   88  		  "hdr : base_ver 0x%x class 0x%x class_ver 0x%x " \
+4d60cad5db7fb4 Ira Weiny     2019-03-19   89  		  "method 0x%x status 0x%x class_specific 0x%x tid 0x%llx " \
+4d60cad5db7fb4 Ira Weiny     2019-03-19   90  		  "attr_id 0x%x attr_mod 0x%x  => dlid 0x%08x sl %d "\
+5c20311d76cbae Leonid Ravich 2022-11-09   91  		  "rpqn 0x%x rqpkey 0x%x",
+4d60cad5db7fb4 Ira Weiny     2019-03-19   92  		__entry->dev_index, __entry->port_num, __entry->qp_num,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   93  		__entry->agent_priv, be64_to_cpu(__entry->wrtid),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   94  		__entry->retries_left, __entry->max_retries,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   95  		__entry->retry, __entry->timeout, __entry->length,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   96  		__entry->base_version, __entry->mgmt_class,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   97  		__entry->class_version,
+4d60cad5db7fb4 Ira Weiny     2019-03-19   98  		__entry->method, be16_to_cpu(__entry->status),
+4d60cad5db7fb4 Ira Weiny     2019-03-19   99  		be16_to_cpu(__entry->class_specific),
+4d60cad5db7fb4 Ira Weiny     2019-03-19  100  		be64_to_cpu(__entry->tid), be16_to_cpu(__entry->attr_id),
+4d60cad5db7fb4 Ira Weiny     2019-03-19  101  		be32_to_cpu(__entry->attr_mod),
+5c20311d76cbae Leonid Ravich 2022-11-09  102  		be32_to_cpu(__entry->dlid), __entry->sl,
+4d60cad5db7fb4 Ira Weiny     2019-03-19  103  		__entry->rqpn, __entry->rqkey
+4d60cad5db7fb4 Ira Weiny     2019-03-19  104  	)
+4d60cad5db7fb4 Ira Weiny     2019-03-19  105  );
+4d60cad5db7fb4 Ira Weiny     2019-03-19  106  
 
-vim +869 include/linux/list.h
+:::::: The code at line 23 was first introduced by commit
+:::::: 4d60cad5db7fb450e64532afbbaba85af235fa5d IB/MAD: Add send path trace points
 
-4d70c74659d974 Andy Shevchenko          2022-11-30  765  
-e130816164e244 Andy Shevchenko          2020-10-15  766  /**
-e130816164e244 Andy Shevchenko          2020-10-15  767   * list_entry_is_head - test if the entry points to the head of the list
-e130816164e244 Andy Shevchenko          2020-10-15  768   * @pos:	the type * to cursor
-e130816164e244 Andy Shevchenko          2020-10-15  769   * @head:	the head for your list.
-e130816164e244 Andy Shevchenko          2020-10-15  770   * @member:	the name of the list_head within the struct.
-e130816164e244 Andy Shevchenko          2020-10-15  771   */
-e130816164e244 Andy Shevchenko          2020-10-15  772  #define list_entry_is_head(pos, head, member)				\
-2932fb0a927d30 Wei Yang                 2024-02-08  773  	list_is_head(&pos->member, (head))
-e130816164e244 Andy Shevchenko          2020-10-15  774  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  775  /**
-^1da177e4c3f41 Linus Torvalds           2005-04-16  776   * list_for_each_entry	-	iterate over list of given type
-8e3a67a99231f9 Randy Dunlap             2006-06-25  777   * @pos:	the type * to use as a loop cursor.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  778   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  779   * @member:	the name of the list_head within the struct.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  780   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  781  #define list_for_each_entry(pos, head, member)				\
-93be3c2eb3371f Oleg Nesterov            2013-11-12  782  	for (pos = list_first_entry(head, typeof(*pos), member);	\
-e130816164e244 Andy Shevchenko          2020-10-15  783  	     !list_entry_is_head(pos, head, member);			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  784  	     pos = list_next_entry(pos, member))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  785  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  786  /**
-^1da177e4c3f41 Linus Torvalds           2005-04-16  787   * list_for_each_entry_reverse - iterate backwards over list of given type.
-8e3a67a99231f9 Randy Dunlap             2006-06-25  788   * @pos:	the type * to use as a loop cursor.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  789   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  790   * @member:	the name of the list_head within the struct.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  791   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  792  #define list_for_each_entry_reverse(pos, head, member)			\
-93be3c2eb3371f Oleg Nesterov            2013-11-12  793  	for (pos = list_last_entry(head, typeof(*pos), member);		\
-e130816164e244 Andy Shevchenko          2020-10-15  794  	     !list_entry_is_head(pos, head, member); 			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  795  	     pos = list_prev_entry(pos, member))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  796  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  797  /**
-72fd4a35a82433 Robert P. J. Day         2007-02-10  798   * list_prepare_entry - prepare a pos entry for use in list_for_each_entry_continue()
-^1da177e4c3f41 Linus Torvalds           2005-04-16  799   * @pos:	the type * to use as a start point
-^1da177e4c3f41 Linus Torvalds           2005-04-16  800   * @head:	the head of the list
-3943f42c11896c Andrey Utkin             2014-11-14  801   * @member:	the name of the list_head within the struct.
-fe96e57d77481c Randy Dunlap             2006-06-25  802   *
-72fd4a35a82433 Robert P. J. Day         2007-02-10  803   * Prepares a pos entry for use as a start point in list_for_each_entry_continue().
-^1da177e4c3f41 Linus Torvalds           2005-04-16  804   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  805  #define list_prepare_entry(pos, head, member) \
-^1da177e4c3f41 Linus Torvalds           2005-04-16  806  	((pos) ? : list_entry(head, typeof(*pos), member))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  807  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  808  /**
-fe96e57d77481c Randy Dunlap             2006-06-25  809   * list_for_each_entry_continue - continue iteration over list of given type
-8e3a67a99231f9 Randy Dunlap             2006-06-25  810   * @pos:	the type * to use as a loop cursor.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  811   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  812   * @member:	the name of the list_head within the struct.
-fe96e57d77481c Randy Dunlap             2006-06-25  813   *
-fe96e57d77481c Randy Dunlap             2006-06-25  814   * Continue to iterate over list of given type, continuing after
-fe96e57d77481c Randy Dunlap             2006-06-25  815   * the current position.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  816   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  817  #define list_for_each_entry_continue(pos, head, member) 		\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  818  	for (pos = list_next_entry(pos, member);			\
-e130816164e244 Andy Shevchenko          2020-10-15  819  	     !list_entry_is_head(pos, head, member);			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  820  	     pos = list_next_entry(pos, member))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  821  
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  822  /**
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  823   * list_for_each_entry_continue_reverse - iterate backwards from the given point
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  824   * @pos:	the type * to use as a loop cursor.
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  825   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  826   * @member:	the name of the list_head within the struct.
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  827   *
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  828   * Start to iterate over list of given type backwards, continuing after
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  829   * the current position.
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  830   */
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  831  #define list_for_each_entry_continue_reverse(pos, head, member)		\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  832  	for (pos = list_prev_entry(pos, member);			\
-e130816164e244 Andy Shevchenko          2020-10-15  833  	     !list_entry_is_head(pos, head, member);			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  834  	     pos = list_prev_entry(pos, member))
-768f3591e2b1cc Pavel Emelyanov          2007-09-18  835  
-e229c2fb3370a0 Arnaldo Carvalho de Melo 2006-03-20  836  /**
-fe96e57d77481c Randy Dunlap             2006-06-25  837   * list_for_each_entry_from - iterate over list of given type from the current point
-8e3a67a99231f9 Randy Dunlap             2006-06-25  838   * @pos:	the type * to use as a loop cursor.
-e229c2fb3370a0 Arnaldo Carvalho de Melo 2006-03-20  839   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  840   * @member:	the name of the list_head within the struct.
-fe96e57d77481c Randy Dunlap             2006-06-25  841   *
-fe96e57d77481c Randy Dunlap             2006-06-25  842   * Iterate over list of given type, continuing from current position.
-e229c2fb3370a0 Arnaldo Carvalho de Melo 2006-03-20  843   */
-e229c2fb3370a0 Arnaldo Carvalho de Melo 2006-03-20  844  #define list_for_each_entry_from(pos, head, member) 			\
-e130816164e244 Andy Shevchenko          2020-10-15  845  	for (; !list_entry_is_head(pos, head, member);			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  846  	     pos = list_next_entry(pos, member))
-e229c2fb3370a0 Arnaldo Carvalho de Melo 2006-03-20  847  
-b862815c3ee7b4 Jiri Pirko               2017-02-03  848  /**
-b862815c3ee7b4 Jiri Pirko               2017-02-03  849   * list_for_each_entry_from_reverse - iterate backwards over list of given type
-b862815c3ee7b4 Jiri Pirko               2017-02-03  850   *                                    from the current point
-b862815c3ee7b4 Jiri Pirko               2017-02-03  851   * @pos:	the type * to use as a loop cursor.
-b862815c3ee7b4 Jiri Pirko               2017-02-03  852   * @head:	the head for your list.
-b862815c3ee7b4 Jiri Pirko               2017-02-03  853   * @member:	the name of the list_head within the struct.
-b862815c3ee7b4 Jiri Pirko               2017-02-03  854   *
-b862815c3ee7b4 Jiri Pirko               2017-02-03  855   * Iterate backwards over list of given type, continuing from current position.
-b862815c3ee7b4 Jiri Pirko               2017-02-03  856   */
-b862815c3ee7b4 Jiri Pirko               2017-02-03  857  #define list_for_each_entry_from_reverse(pos, head, member)		\
-e130816164e244 Andy Shevchenko          2020-10-15  858  	for (; !list_entry_is_head(pos, head, member);			\
-b862815c3ee7b4 Jiri Pirko               2017-02-03  859  	     pos = list_prev_entry(pos, member))
-b862815c3ee7b4 Jiri Pirko               2017-02-03  860  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  861  /**
-^1da177e4c3f41 Linus Torvalds           2005-04-16  862   * list_for_each_entry_safe - iterate over list of given type safe against removal of list entry
-8e3a67a99231f9 Randy Dunlap             2006-06-25  863   * @pos:	the type * to use as a loop cursor.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  864   * @n:		another type * to use as temporary storage
-^1da177e4c3f41 Linus Torvalds           2005-04-16  865   * @head:	the head for your list.
-3943f42c11896c Andrey Utkin             2014-11-14  866   * @member:	the name of the list_head within the struct.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  867   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  868  #define list_for_each_entry_safe(pos, n, head, member)			\
-93be3c2eb3371f Oleg Nesterov            2013-11-12 @869  	for (pos = list_first_entry(head, typeof(*pos), member),	\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  870  		n = list_next_entry(pos, member);			\
-e130816164e244 Andy Shevchenko          2020-10-15  871  	     !list_entry_is_head(pos, head, member); 			\
-8120e2e5141a42 Oleg Nesterov            2013-11-12  872  	     pos = n, n = list_next_entry(n, member))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  873  
-
-:::::: The code at line 869 was first introduced by commit
-:::::: 93be3c2eb3371f022ad88acf1ab6bee8e3c38378 list: introduce list_last_entry(), use list_{first,last}_entry()
-
-:::::: TO: Oleg Nesterov <oleg@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Ira Weiny <ira.weiny@intel.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 -- 
 0-DAY CI Kernel Test Service
