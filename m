@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B55E30F926
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 09:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202623081CF;
+	Thu, 16 Oct 2025 09:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760605238; cv=none; b=n5tC0qKpGfOzFKQytp5pMWdaZO57HV2RY/HPkk3yKFRVXUajBFMU+pXIU+iLhlEkED61xPz8rWEnnlqXeigWlNLaKCcyjvZ9Kxwe1RuDiYOHs1/LrM29BepajovuVWzOjGi+xe6uQEpsCraOBzxb1GJ1bKCnKEv6MoGnResUhRc=
+	t=1760605240; cv=none; b=O5R+b29UoqXTRQQMYvJ8s5Rg5YmPlraH5TY7po8cc48oRcl0xggQWJSHLSh6XMY4fTR7TnBPbUOJ0YMG3QDeIopUEBE1ki2pk2g4ef6NdFvCC1wj+gwIa8SCOtnv4uQcWFO0zdXNyyTIFUV5kMORsd/aCuzd46gDPHcno7uz3EM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760605238; c=relaxed/simple;
-	bh=FdenBHU5rcBSRQSKAfzbSTso6YQNkURXfQxyZlaIGC8=;
+	s=arc-20240116; t=1760605240; c=relaxed/simple;
+	bh=AW7nB6IN76ipnUXef9ZFBUX9Cq6m129avw212mcs+6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qG+deiXdp1QXjLoljj2u3imLZF+To6oqe59Mh4RbUa4qHxHBRjuYMSsjrPnjEDiUM0auuimw9fqcqXSBivhsYtjMpCFioj1kbxaQc+JcNG0WEHQ07TCpZm5qU7Wds/+AGBrqFT/W40dXmVucBNnyfl1FFiBxKsGhvpE3TVVVOhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eW2/ewSx; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=RL2PR6qcVYU8DhOHBYo5wh3efn/knrfQwKdjk+L41LKQKWbZK8GP4l8H8NTVIfepGWNwNPPgDUSUqufol6ANfMyOiXe4g7dxFx8WhvVn0qvGP1t4HnSQEzY4ZBvTvhAeKFeKh/06BQhsO4ojHlX/3fTeykqFtURgBZ86dKkxIE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTw+2o82; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eW2/ewSx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTw+2o82"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760605238; x=1792141238;
+  t=1760605239; x=1792141239;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FdenBHU5rcBSRQSKAfzbSTso6YQNkURXfQxyZlaIGC8=;
-  b=eW2/ewSxHcfE8vBVkfmmR0QpVglV+d2TX0yCdYvrJZPy9X7ZDN6sJ9Nu
-   BUdtrAW69Fcx1fKqBp74mTQgU+isItjXl2pdcQxJtMi1rdOgzQhTWcMAx
-   PbgKXVerThwSMZi9SzCQGYR6V4E3yqo1pj8vGayX6anz4t5FRXmktck2F
-   q9RV6DxWz0SBTx+LqF2Uo+nxvIFsRgomlFeAwICZlm4JTLuq9K+cIZ4Ns
-   0DkbSNQyPbBPS+ORW2L33LOuGdRybEbBzMHoxfWpBCYC6g1vVbWiOViZC
-   KnGYkPzQpMtQjEi7N20kxjLMhibg2PzjQuzQl/t3WiSY1p1+KQKJSpeGn
+  bh=AW7nB6IN76ipnUXef9ZFBUX9Cq6m129avw212mcs+6E=;
+  b=cTw+2o82QzIBHykapzUw4zfdofhJJhsNAXP4Y0WAye9s5bqHFt4/Ex3/
+   ekUn7YlxSP/7d4ymXXxvmQc5qya8sSMJJnCG6Eq5A6/qVE67exYyUYVVq
+   /ebCP4pWPsHheAFyG9ZrMVsjHksMwFpBtvB5qXQEypM5rV6aHg//gkOx5
+   sTgIlU1OBXn3N5qRQH+UpZNFmLCHT7lUaJsZ5X3AY0NTj+zUIS106GyA9
+   IHvhPA9I96CLYChFOiQ7NauaRrSFilZWIHUxKRZ5UAj6fMl68fbrFDqFo
+   ul3jaFnhvuSDcUM/Y1qvHGkQQDTdYZerlvYMaq2OWCDApSkqnnaNXf3gz
    Q==;
-X-CSE-ConnectionGUID: FQ6rm8i8R+C8P/+hEhCcxA==
-X-CSE-MsgGUID: 5jpapy4gRWqgTr0H+qmrTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62886216"
+X-CSE-ConnectionGUID: myHWUw74RWGph/SCNOC0XQ==
+X-CSE-MsgGUID: FdGiXeqiRLCXkd7n5KNCVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62886222"
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="62886216"
+   d="scan'208";a="62886222"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 02:00:37 -0700
-X-CSE-ConnectionGUID: Y67/g9b4Rt6HcpsjfqA+wA==
-X-CSE-MsgGUID: ufcDctIQT++VpEwHe1YDbw==
+X-CSE-ConnectionGUID: ZFx0uxHXTvqKR8uM02vRpw==
+X-CSE-MsgGUID: 8ygwFBOBSIahmV6x2k007g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="183200149"
+   d="scan'208";a="183200150"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
   by fmviesa010.fm.intel.com with ESMTP; 16 Oct 2025 02:00:34 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9JqZ-0004cD-36;
+	id 1v9JqZ-0004cB-32;
 	Thu, 16 Oct 2025 09:00:31 +0000
-Date: Thu, 16 Oct 2025 16:59:43 +0800
+Date: Thu, 16 Oct 2025 16:59:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Brendan Jackman <jackmanb@google.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
@@ -56,10 +56,11 @@ To: Brendan Jackman <jackmanb@google.com>,
 	"H. Peter Anvin" <hpa@zytor.com>,
 	Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Brendan Jackman <jackmanb@google.com>
 Subject: Re: [PATCH v2] KVM: x86: Unify L1TF flushing under per-CPU variable
-Message-ID: <202510161649.QbfhDLy3-lkp@intel.com>
+Message-ID: <202510161648.7Ere0Lfz-lkp@intel.com>
 References: <20251015-b4-l1tf-percpu-v2-1-6d7a8d3d40e9@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,25 +82,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/KVM-x86-U
 base:   6b36119b94d0b2bb8cea9d512017efafd461d6ac
 patch link:    https://lore.kernel.org/r/20251015-b4-l1tf-percpu-v2-1-6d7a8d3d40e9%40google.com
 patch subject: [PATCH v2] KVM: x86: Unify L1TF flushing under per-CPU variable
-config: i386-buildonly-randconfig-006-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161649.QbfhDLy3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161649.QbfhDLy3-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-005-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161648.7Ere0Lfz-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161648.7Ere0Lfz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510161649.QbfhDLy3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510161648.7Ere0Lfz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/x86.c: In function 'kvm_write_guest_virt_system':
->> arch/x86/kvm/x86.c:8003:9: error: implicit declaration of function 'kvm_set_cpu_l1tf_flush_l1d_raw'; did you mean 'kvm_set_cpu_l1tf_flush_l1d'? [-Wimplicit-function-declaration]
+>> arch/x86/kvm/x86.c:8003:2: error: call to undeclared function 'kvm_set_cpu_l1tf_flush_l1d_raw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     8003 |         kvm_set_cpu_l1tf_flush_l1d_raw();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         kvm_set_cpu_l1tf_flush_l1d
+         |         ^
+   arch/x86/kvm/x86.c:8003:2: note: did you mean 'kvm_set_cpu_l1tf_flush_l1d'?
+   arch/x86/include/asm/hardirq.h:97:29: note: 'kvm_set_cpu_l1tf_flush_l1d' declared here
+      97 | static __always_inline void kvm_set_cpu_l1tf_flush_l1d(void) { }
+         |                             ^
+   arch/x86/kvm/x86.c:9399:2: error: call to undeclared function 'kvm_set_cpu_l1tf_flush_l1d_raw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    9399 |         kvm_set_cpu_l1tf_flush_l1d_raw();
+         |         ^
+   2 errors generated.
 
 
-vim +8003 arch/x86/kvm/x86.c
+vim +/kvm_set_cpu_l1tf_flush_l1d_raw +8003 arch/x86/kvm/x86.c
 
   7998	
   7999	int kvm_write_guest_virt_system(struct kvm_vcpu *vcpu, gva_t addr, void *val,
