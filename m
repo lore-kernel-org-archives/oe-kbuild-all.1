@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85E92D47FD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 23:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DACB288D6;
+	Thu, 16 Oct 2025 00:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760571835; cv=none; b=GXvz0/M5M/96C2fOXY2bqKBvw3+RZdksppmyyS9PFZ1vMv5RYJoI9oVM6SJvK1w8aVGGBe1CdKLFuWMPqLCBVir347xGr+gVxhv6QJkh/hMqtAP6hCb78mEToviadem5+fNgaxF4uu94b8BQ7HlygyfA+gsW8SnCmltCy4MJ8ww=
+	t=1760573719; cv=none; b=XaiJaZiWZASn1N8EpcyqzpGvrBQU3sGOIkdBY7kLoWRo0VvYMGLR1Gzxkc/qEeAOUX8ddI7dkP16kdN0A6n5Z/ca/urTCyPgX93znTiLn8lYUCoF+sw+BS80SpfcHJ6XoiVe2bCG1OQ1ssNjnHY907h61cpxm/zUUzyr4tnYfAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760571835; c=relaxed/simple;
-	bh=0xdTqDw9WUR1MHTE6JTRUHIGJ2mKZvvcYBTUUih42x4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ssAi/yhFz99Hns0GYozPW3tSEaFabJ/uay4JZudyXWcrnKgHcqvbvjpPBLF3dkya44kGkg4OZNDdabDYCJks2CXWT6sYaLDRD/qtBmyDYG4IMF9q3MIjdlRerIYFMBPqE98PUk8s2Ghq4hpxtc8rf4TVKICUNlfexXKV3HCN+2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3tgJbwu; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1760573719; c=relaxed/simple;
+	bh=yona0hHwyPWZS6JEJRdaEaHZFb5RkayYXfcCQXttcG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gkZ03lT6qKjOUpjgVrCt+i9PEVYp8LHHbsVxwA7jey9TDo4kt3JUljnB1Dp3mej9bAxBtO/U5Y3TjBKtIpXz2Yo2HEHh3Jn2xSc1wqJg5njtVYId7wNlOhWnP3kGkDj93JDXA5QmJ8X1lnxi9bJbfyxfLD5klDU09XguDpDuPnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KB0W5aha; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3tgJbwu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KB0W5aha"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760571832; x=1792107832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0xdTqDw9WUR1MHTE6JTRUHIGJ2mKZvvcYBTUUih42x4=;
-  b=K3tgJbwuU+EHnJwLDXudQqYISdk1LcmvH781B8it6NJMcaX7+FiHq0LI
-   CyGYNUE+Fms9h1uqj2smU2OMB3OgNnEBXdgedZjiNYFHjWULTDL3vNCAk
-   kTnVMxrctN+BrhUHtnitYP+OF9aotBJRCimVN5Npqt0sRhAZdFRLUbv03
-   qd5N2jBlCrUwtjENCOhKgBSPGNTygwMWeZ5STqYEkGTibpQjgY4Dd88AW
-   gimF8kd7yfqWkNTeQ85H+IBAlkU52xL1ZDC6PM4VpeD3dhcJLXc2UvSIl
-   tc42gUxBuZ8dsjZ85j2Cc8eXgdKR7QJKVb3fnBDkYmpwP5JjUse53Rq9e
-   g==;
-X-CSE-ConnectionGUID: 7b/Qxd2tTQi6Xyo2LH2jdA==
-X-CSE-MsgGUID: p/gD7gdURYODEvxK/3flGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="74204110"
+  t=1760573717; x=1792109717;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yona0hHwyPWZS6JEJRdaEaHZFb5RkayYXfcCQXttcG8=;
+  b=KB0W5aha/3v6i2qmelqqiTkE3quCa7d6DI5/9tg6l14+EcfRoREsuhCc
+   ynEgJId1TL0suSvOX8jb017EgP+FGk+XBTFpGf0u3tm6h9Rui8jWdVA+0
+   GnQkkWdd0rfGmf2J9SkScdPpZFgIqXPEFECMX6iaC3jfGFbUjJ9YYCq24
+   LO4RS84xNNvkIrOAsFmmLcQaTszJYSWKjc7txyfw33J2szRDhoJyirilZ
+   FLofBmRQbcWBz3ZzLE9SX060OE/82zIqDGi0n7mBYBArVPGuUxtTUyCh3
+   ve69TfnQPutJQQblRcd/thqCWiIrpV3GRLa2YsCVbNDPoJEcVp3TxiVWa
+   Q==;
+X-CSE-ConnectionGUID: c96O6dhxQFW2NtSFMKJLbw==
+X-CSE-MsgGUID: 2Co3jc99TCetvDslFiytJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="74100052"
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="74204110"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 16:43:52 -0700
-X-CSE-ConnectionGUID: Hso+wECATpWtOfTbPJ+EBQ==
-X-CSE-MsgGUID: NhZgz1k0SL+mUJXovZND2w==
+   d="scan'208";a="74100052"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 17:15:16 -0700
+X-CSE-ConnectionGUID: VLnRiviqRgCsCJkWHng1NQ==
+X-CSE-MsgGUID: 7TUBNIODRPqu+At4Ri5xLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,232,1754982000"; 
-   d="scan'208";a="181853552"
+   d="scan'208";a="182713960"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 15 Oct 2025 16:43:48 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Oct 2025 17:15:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9B9g-0004Id-38;
-	Wed, 15 Oct 2025 23:43:42 +0000
-Date: Thu, 16 Oct 2025 07:43:07 +0800
+	id 1v9BeD-0004Jf-14;
+	Thu, 16 Oct 2025 00:15:13 +0000
+Date: Thu, 16 Oct 2025 08:14:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhe <sensor1010@163.com>, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	rmk+kernel@armlinux.org.uk, jonas@kwiboo.se,
-	chaoyi.chen@rock-chips.com, david.wu@rock-chips.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Lizhe <sensor1010@163.com>
-Subject: Re: [PATCH net-next] net: dwmac-rk: No need to check the return
- value of the phy_power_on()
-Message-ID: <202510160726.OejMgsW0-lkp@intel.com>
-References: <20251015040847.6421-1-sensor1010@163.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:uaccess/masked 9/11] kernel/futex/futex.h:292:3: error:
+ cannot jump from this asm goto statement to one of its possible targets
+Message-ID: <202510160811.WXvO1laX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,50 +61,239 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251015040847.6421-1-sensor1010@163.com>
 
-Hi Lizhe,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lizhe/net-dwmac-rk-No-need-to-check-the-return-value-of-the-phy_power_on/20251015-121214
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251015040847.6421-1-sensor1010%40163.com
-patch subject: [PATCH net-next] net: dwmac-rk: No need to check the return value of the phy_power_on()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251016/202510160726.OejMgsW0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160726.OejMgsW0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git uaccess/masked
+head:   acabe15d70b5c158154ca2c0e766e8e90ca15a59
+commit: f6ac10db12b5fa73d73089af300ac80c45255fd2 [9/11] futex: Convert to scoped masked user access
+config: arm64-randconfig-001-20251016 (https://download.01.org/0day-ci/archive/20251016/202510160811.WXvO1laX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510160811.WXvO1laX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510160726.OejMgsW0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510160811.WXvO1laX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: In function 'rk_gmac_powerdown':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1670:9: error: implicit declaration of function 'phy_power_on'; did you mean 'rk_phy_power_on'? [-Wimplicit-function-declaration]
-    1670 |         phy_power_on(gmac, false);
-         |         ^~~~~~~~~~~~
-         |         rk_phy_power_on
+   In file included from kernel/futex/pi.c:7:
+>> kernel/futex/futex.h:292:3: error: cannot jump from this asm goto statement to one of its possible targets
+     292 |                 unsafe_get_user(*dest, from, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:428:2: note: expanded from macro 'unsafe_get_user'
+     428 |         __raw_get_mem("ldtr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:220:3: note: expanded from macro '__raw_get_mem'
+     220 |                 __get_mem_asm(ldr, "%x",  __gu_val, (ptr), label, type);        \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:189:2: note: expanded from macro '__get_mem_asm'
+     189 |         asm_goto_output(                                                \
+         |         ^
+   include/linux/compiler_types.h:513:31: note: expanded from macro 'asm_goto_output'
+     513 | #define asm_goto_output(x...) asm volatile goto(x)
+         |                               ^
+   kernel/futex/futex.h:294:1: note: possible target of asm goto statement
+     294 | efault:
+         | ^
+   kernel/futex/futex.h:291:2: note: jump exits scope of variable with __attribute__((cleanup))
+     291 |         scoped_masked_user_read_access(from, efault)
+         |         ^
+   include/linux/uaccess.h:778:2: note: expanded from macro 'scoped_masked_user_read_access'
+     778 |         scoped_masked_user_read_access_size((_usrc), sizeof(*(_usrc)), _elbl)
+         |         ^
+   include/linux/uaccess.h:766:2: note: expanded from macro 'scoped_masked_user_read_access_size'
+     766 |         __scoped_masked_user_access(read, (_usrc), (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+>> kernel/futex/futex.h:292:3: error: cannot jump from this asm goto statement to one of its possible targets
+     292 |                 unsafe_get_user(*dest, from, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:428:2: note: expanded from macro 'unsafe_get_user'
+     428 |         __raw_get_mem("ldtr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:217:3: note: expanded from macro '__raw_get_mem'
+     217 |                 __get_mem_asm(ldr, "%w", __gu_val, (ptr), label, type);         \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:189:2: note: expanded from macro '__get_mem_asm'
+     189 |         asm_goto_output(                                                \
+         |         ^
+   include/linux/compiler_types.h:513:31: note: expanded from macro 'asm_goto_output'
+     513 | #define asm_goto_output(x...) asm volatile goto(x)
+         |                               ^
+   kernel/futex/futex.h:294:1: note: possible target of asm goto statement
+     294 | efault:
+         | ^
+   kernel/futex/futex.h:291:2: note: jump exits scope of variable with __attribute__((cleanup))
+     291 |         scoped_masked_user_read_access(from, efault)
+         |         ^
+   include/linux/uaccess.h:778:2: note: expanded from macro 'scoped_masked_user_read_access'
+     778 |         scoped_masked_user_read_access_size((_usrc), sizeof(*(_usrc)), _elbl)
+         |         ^
+   include/linux/uaccess.h:766:2: note: expanded from macro 'scoped_masked_user_read_access_size'
+     766 |         __scoped_masked_user_access(read, (_usrc), (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+>> kernel/futex/futex.h:292:3: error: cannot jump from this asm goto statement to one of its possible targets
+     292 |                 unsafe_get_user(*dest, from, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:428:2: note: expanded from macro 'unsafe_get_user'
+     428 |         __raw_get_mem("ldtr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:214:3: note: expanded from macro '__raw_get_mem'
+     214 |                 __get_mem_asm(ldr "h", "%w", __gu_val, (ptr), label, type);     \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:189:2: note: expanded from macro '__get_mem_asm'
+     189 |         asm_goto_output(                                                \
+         |         ^
+   include/linux/compiler_types.h:513:31: note: expanded from macro 'asm_goto_output'
+     513 | #define asm_goto_output(x...) asm volatile goto(x)
+         |                               ^
+   kernel/futex/futex.h:294:1: note: possible target of asm goto statement
+     294 | efault:
+         | ^
+   kernel/futex/futex.h:291:2: note: jump exits scope of variable with __attribute__((cleanup))
+     291 |         scoped_masked_user_read_access(from, efault)
+         |         ^
+   include/linux/uaccess.h:778:2: note: expanded from macro 'scoped_masked_user_read_access'
+     778 |         scoped_masked_user_read_access_size((_usrc), sizeof(*(_usrc)), _elbl)
+         |         ^
+   include/linux/uaccess.h:766:2: note: expanded from macro 'scoped_masked_user_read_access_size'
+     766 |         __scoped_masked_user_access(read, (_usrc), (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+>> kernel/futex/futex.h:292:3: error: cannot jump from this asm goto statement to one of its possible targets
+     292 |                 unsafe_get_user(*dest, from, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:428:2: note: expanded from macro 'unsafe_get_user'
+     428 |         __raw_get_mem("ldtr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:211:3: note: expanded from macro '__raw_get_mem'
+     211 |                 __get_mem_asm(ldr "b", "%w", __gu_val, (ptr), label, type);     \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:189:2: note: expanded from macro '__get_mem_asm'
+     189 |         asm_goto_output(                                                \
+         |         ^
+   include/linux/compiler_types.h:513:31: note: expanded from macro 'asm_goto_output'
+     513 | #define asm_goto_output(x...) asm volatile goto(x)
+         |                               ^
+   kernel/futex/futex.h:294:1: note: possible target of asm goto statement
+     294 | efault:
+         | ^
+   kernel/futex/futex.h:291:2: note: jump exits scope of variable with __attribute__((cleanup))
+     291 |         scoped_masked_user_read_access(from, efault)
+         |         ^
+   include/linux/uaccess.h:778:2: note: expanded from macro 'scoped_masked_user_read_access'
+     778 |         scoped_masked_user_read_access_size((_usrc), sizeof(*(_usrc)), _elbl)
+         |         ^
+   include/linux/uaccess.h:766:2: note: expanded from macro 'scoped_masked_user_read_access_size'
+     766 |         __scoped_masked_user_access(read, (_usrc), (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+   kernel/futex/futex.h:301:3: error: cannot jump from this asm goto statement to one of its possible targets
+     301 |                 unsafe_put_user(val, to, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:426:2: note: expanded from macro 'unsafe_put_user'
+     426 |         __raw_put_mem("sttr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:318:3: note: expanded from macro '__raw_put_mem'
+     318 |                 __put_mem_asm(str, "%x", __pu_val, (ptr), label, type);         \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:298:2: note: expanded from macro '__put_mem_asm'
+     298 |         asm goto(                                                       \
+         |         ^
+   kernel/futex/futex.h:303:1: note: possible target of asm goto statement
+     303 | efault:
+         | ^
+   kernel/futex/futex.h:300:2: note: jump exits scope of variable with __attribute__((cleanup))
+     300 |         scoped_masked_user_write_access(to, efault)
+         |         ^
+   include/linux/uaccess.h:808:2: note: expanded from macro 'scoped_masked_user_write_access'
+     808 |         scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
+         |         ^
+   include/linux/uaccess.h:796:2: note: expanded from macro 'scoped_masked_user_write_access_size'
+     796 |         __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+   kernel/futex/futex.h:301:3: error: cannot jump from this asm goto statement to one of its possible targets
+     301 |                 unsafe_put_user(val, to, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:426:2: note: expanded from macro 'unsafe_put_user'
+     426 |         __raw_put_mem("sttr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:315:3: note: expanded from macro '__raw_put_mem'
+     315 |                 __put_mem_asm(str, "%w", __pu_val, (ptr), label, type);         \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:298:2: note: expanded from macro '__put_mem_asm'
+     298 |         asm goto(                                                       \
+         |         ^
+   kernel/futex/futex.h:303:1: note: possible target of asm goto statement
+     303 | efault:
+         | ^
+   kernel/futex/futex.h:300:2: note: jump exits scope of variable with __attribute__((cleanup))
+     300 |         scoped_masked_user_write_access(to, efault)
+         |         ^
+   include/linux/uaccess.h:808:2: note: expanded from macro 'scoped_masked_user_write_access'
+     808 |         scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
+         |         ^
+   include/linux/uaccess.h:796:2: note: expanded from macro 'scoped_masked_user_write_access_size'
+     796 |         __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
+         |         ^
+   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
+     751 |                 for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+         |                                                          ^
+   In file included from kernel/futex/pi.c:7:
+   kernel/futex/futex.h:301:3: error: cannot jump from this asm goto statement to one of its possible targets
+     301 |                 unsafe_put_user(val, to, efault);
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:426:2: note: expanded from macro 'unsafe_put_user'
+     426 |         __raw_put_mem("sttr", x, uaccess_mask_ptr(ptr), label, U)
+         |         ^
+   arch/arm64/include/asm/uaccess.h:312:3: note: expanded from macro '__raw_put_mem'
+     312 |                 __put_mem_asm(str "h", "%w", __pu_val, (ptr), label, type);     \
+         |                 ^
+   arch/arm64/include/asm/uaccess.h:298:2: note: expanded from macro '__put_mem_asm'
+     298 |         asm goto(                                                       \
+         |         ^
+   kernel/futex/futex.h:303:1: note: possible target of asm goto statement
+     303 | efault:
 
 
-vim +1670 drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
+vim +292 kernel/futex/futex.h
 
-7ad269ea1a2b7d Roger Chen            2014-12-29  1662  
-229666c14c75ae Vincent Palatin       2016-06-15  1663  static void rk_gmac_powerdown(struct rk_priv_data *gmac)
-7ad269ea1a2b7d Roger Chen            2014-12-29  1664  {
-32c7bc0747bbd8 Jonas Karlman         2025-03-19  1665  	if (gmac->integrated_phy && gmac->ops->integrated_phy_powerdown)
-32c7bc0747bbd8 Jonas Karlman         2025-03-19  1666  		gmac->ops->integrated_phy_powerdown(gmac);
-fecd4d7eef8b21 David Wu              2017-08-10  1667  
-8f6503993911f0 Russell King (Oracle  2025-06-16  1668) 	pm_runtime_put_sync(gmac->dev);
-aec3f415f7244b Punit Agrawal         2021-09-29  1669  
-7ad269ea1a2b7d Roger Chen            2014-12-29 @1670  	phy_power_on(gmac, false);
-7ad269ea1a2b7d Roger Chen            2014-12-29  1671  	gmac_clk_enable(gmac, false);
-7ad269ea1a2b7d Roger Chen            2014-12-29  1672  }
-7ad269ea1a2b7d Roger Chen            2014-12-29  1673  
+   283	
+   284	/*
+   285	 * This does a plain atomic user space read, and the user pointer has
+   286	 * already been verified earlier by get_futex_key() to be both aligned
+   287	 * and actually in user space, just like futex_atomic_cmpxchg_inatomic().
+   288	 */
+   289	static __always_inline int futex_get_value(u32 *dest, u32 __user *from)
+   290	{
+   291		scoped_masked_user_read_access(from, efault)
+ > 292			unsafe_get_user(*dest, from, efault);
+   293		return 0;
+   294	efault:
+   295		return -EFAULT;
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
