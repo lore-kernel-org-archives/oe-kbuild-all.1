@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9AC749C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 12:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96573314B6;
+	Thu, 16 Oct 2025 12:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760617881; cv=none; b=Qs3r9eKBXXWaBdL05H4QLiWtCjTW6ONaMkU2CesjXJUkcWMZ32TbSs9ZZ1TdD6y2jlkLnsngYqt1zoa3k0imoP8LWJhiXBK4vUYwkHdiK1dmgv7PgoP7P7s16EmZSu+9BIQAXnjwlRiP7Vr+V4cmvb31qzndGHwWFsOGw6kYL6U=
+	t=1760619164; cv=none; b=mdlrgq78NZ3w5MyQS/zVwgrPbHhDoc0uGzvizAfOo4pZYD1b4klfNu/wOODHuscEXkiGWRIErMu6KntFY3GR8G1Jh7+akfPpGTVPU+4/KoHPqY35VJlhmrAzVBpJC+f1mMf9kgASn2k/UyPi98zFCEcmbDxcrruL4316S8cBpx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760617881; c=relaxed/simple;
-	bh=vsYHOrH4y+ZEuF3g01sa6AO1R/Ojzz1TRINN0l7PyIU=;
+	s=arc-20240116; t=1760619164; c=relaxed/simple;
+	bh=erPlD3QKhuGF+IPlXHF/p3Vqogb9ErA7n4F1s3blZ5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R8LMHtBHNU5xo2bFIT1IoluZgRx52Z1JYNdMg7gQTSsrts5nDCzqYrgHHjWiIjJOvChR/6Re9M5/68Fn8uglwLmzSEUCIYBUDc4GumqvThbmdw/TQPQCzSQf+iYgapRvq3jsbA6+ybJMiAL1d92P7ubMRJwAA5yxTVcXEQqgpF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4gdZFCY; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=s/X8OeEVQciCR7irtnB/MqWzRG3ZHfhji0KtueyHYKr6Ek3XuwxYldG2Fx1i/H2PWygolaObFgGj5xKjJd2g/FDH6XMfw4i26ALTbuWNz3zNT+gPTjPsExvtcMISUNLv25NtHnRrSEcwCtIxrna4GGFcpgR17KmtAapldb2aIV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7R2IJor; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4gdZFCY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7R2IJor"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760617879; x=1792153879;
+  t=1760619163; x=1792155163;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vsYHOrH4y+ZEuF3g01sa6AO1R/Ojzz1TRINN0l7PyIU=;
-  b=K4gdZFCYXnR4oJ3qFeJ6OC4lKzOpfcFgG3D4c5h9z3oCeRH1FmgY17CP
-   L6UCqMc6ioxFFT93GBMbox33GH/a9wr8k95OFlqVl4/UiwKzpVkKPQsdq
-   dtGSr+gZg33pHvP+aeTxrlbjMVH1ZiAea77yIsNoJEfdxuhGjloKe65dx
-   gZn8xiWhZtB1vdQ7o1HfFglZbqwsmSbkwS8X+UbvFpm//bgjTqVhDXN5N
-   BmVCEXCPRk8kVKHTfz/NvDei4A9kei8N5EpqId1VJfoW6zxOsSASE+pGX
-   KFDUJMh41Pp1BOslSzjVMPbJ+fFJN5xMMq9hzNpcW6rbCCZfKv5bfDCKN
-   w==;
-X-CSE-ConnectionGUID: O7++x2f9TY2h7pW9qq8LxA==
-X-CSE-MsgGUID: 1dHzTdC5SrKFlYk/8saYMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66638418"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="66638418"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 05:31:19 -0700
-X-CSE-ConnectionGUID: 0TYk0te6R4+7sMFlbM43BQ==
-X-CSE-MsgGUID: BuFTBtnjQE2u2JB9slF48w==
+  bh=erPlD3QKhuGF+IPlXHF/p3Vqogb9ErA7n4F1s3blZ5Q=;
+  b=d7R2IJorTnHOse8hcOzhnsuCgN091Dk71BBUPPVyBFLV91pZqMIVlv2w
+   lXvC8buL3skesEGDwMC10GFQasIV1rEwNo1L61gbgsvRbWv6qb1+CUh6g
+   JehgN44aY1wAj9Pwujda3Irmvr8wx1vzn0pvrA2anWrrt4fPOJUNqc9oY
+   kh7PhIUQQFWR6HjOLeFdd7vV+oe2j+icH7j0KWlm8BfFvBlNnwq67m1Ii
+   rz/TStPjGNqLrG/NpxsLZgq1SSXY4F51oyEMBWUrNaHFAPiWGIQ9wWDr5
+   +th66w2lvnvEwULDEkIHo383maYGQp0QDiTzJDSmrJQ9LYCxPCjLMAmZZ
+   Q==;
+X-CSE-ConnectionGUID: b3dvIHWzQUSU8EhU67daAw==
+X-CSE-MsgGUID: B4I5pH60QvK9xmlHYIrQKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62708348"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="62708348"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 05:52:42 -0700
+X-CSE-ConnectionGUID: ICuD30L/SreBwhOTzdMbAw==
+X-CSE-MsgGUID: +KvsWoiqRX6fVi3YpwQSNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="186455028"
+   d="scan'208";a="213405673"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 16 Oct 2025 05:31:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2025 05:52:41 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9N8V-0004o7-1l;
-	Thu, 16 Oct 2025 12:31:15 +0000
-Date: Thu, 16 Oct 2025 20:30:58 +0800
+	id 1v9NT6-0004p3-0v;
+	Thu, 16 Oct 2025 12:52:33 +0000
+Date: Thu, 16 Oct 2025 20:51:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:broadcom 1/1] drivers/pci/pci.c:1276:53: error: expected ')'
- before 'break'
-Message-ID: <202510162044.RqjvRJd9-lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sudeep Holla <sudeep.holla@arm.com>
+Subject: [sudeep-holla:acpi_scmi_telemetry 7/15]
+ drivers/firmware/arm_scmi/scmi_system_telemetry.c:1179:16: error: use of
+ undeclared identifier 'generic_delete_inode'
+Message-ID: <202510162057.WN9dTbHq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,96 +64,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/l1k/linux broadcom
-head:   248969a7aec19ca7f68ecb2a118ffee1a5eb8e9c
-commit: 248969a7aec19ca7f68ecb2a118ffee1a5eb8e9c [1/1] PCI: Check for Broadcom placeholder device in pci_dev_wait()
-config: x86_64-buildonly-randconfig-004-20251016 (https://download.01.org/0day-ci/archive/20251016/202510162044.RqjvRJd9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162044.RqjvRJd9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git acpi_scmi_telemetry
+head:   872204541d0c298cab365d5dcd343d9cdb749d31
+commit: 6440298ac987ad74689901af6c2009b3621a2591 [7/15] firmware: arm_scmi: Add System Telemetry driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251016/202510162057.WN9dTbHq-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162057.WN9dTbHq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510162044.RqjvRJd9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510162057.WN9dTbHq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/pci.c: In function 'pci_dev_ready':
-   drivers/pci/pci.c:1220:24: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
-    1220 |                 if (id == PCI_VENDOR_ID_LSI_LOGIC | 0x02b2 << 16)
-   drivers/pci/pci.c: In function 'pci_dev_wait':
->> drivers/pci/pci.c:1276:53: error: expected ')' before 'break'
-    1276 |                 if (pci_dev_ready(dev, root, bridge)
-         |                    ~                                ^
-         |                                                     )
-    1277 |                         break;
-         |                         ~~~~~                        
->> drivers/pci/pci.c:1299:9: error: expected expression before '}' token
-    1299 |         }
-         |         ^
->> drivers/pci/pci.c:1259:14: warning: variable 'retrain' set but not used [-Wunused-but-set-variable]
-    1259 |         bool retrain = false;
-         |              ^~~~~~~
+>> drivers/firmware/arm_scmi/scmi_system_telemetry.c:1179:16: error: use of undeclared identifier 'generic_delete_inode'
+    1179 |         .drop_inode = generic_delete_inode,
+         |                       ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1307:9: error: call to undeclared function 'mount_nodev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1307 |         return mount_nodev(fs_type, flags, data, tlm_fill_super);
+         |                ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1307:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct dentry *' [-Wint-conversion]
+    1307 |         return mount_nodev(fs_type, flags, data, tlm_fill_super);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-vim +1276 drivers/pci/pci.c
+vim +/generic_delete_inode +1179 drivers/firmware/arm_scmi/scmi_system_telemetry.c
 
-  1255	
-  1256	static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
-  1257	{
-  1258		int delay = 1;
-> 1259		bool retrain = false;
-  1260		struct pci_dev *root, *bridge = NULL;
-  1261	
-  1262		root = pcie_find_root_port(dev);
-  1263	
-  1264		if (pci_is_pcie(dev)) {
-  1265			bridge = pci_upstream_bridge(dev);
-  1266			if (bridge)
-  1267				retrain = true;
-  1268		}
-  1269	
-  1270		for (;;) {
-  1271			if (pci_dev_is_disconnected(dev)) {
-  1272				pci_dbg(dev, "disconnected; not waiting\n");
-  1273				return -ENOTTY;
-  1274			}
-  1275	
-> 1276			if (pci_dev_ready(dev, root, bridge)
-  1277				break;
-  1278	
-  1279			if (delay > timeout) {
-  1280				pci_warn(dev, "not ready %dms after %s; giving up\n",
-  1281					 delay - 1, reset_type);
-  1282				return -ENOTTY;
-  1283			}
-  1284	
-  1285			if (delay > PCI_RESET_WAIT) {
-  1286				if (retrain) {
-  1287					retrain = false;
-  1288					if (pcie_failed_link_retrain(bridge) == 0) {
-  1289						delay = 1;
-  1290						continue;
-  1291					}
-  1292				}
-  1293				pci_info(dev, "not ready %dms after %s; waiting\n",
-  1294					 delay - 1, reset_type);
-  1295			}
-  1296	
-  1297			msleep(delay);
-  1298			delay *= 2;
-> 1299		}
-  1300	
-  1301		if (delay > PCI_RESET_WAIT)
-  1302			pci_info(dev, "ready %dms after %s\n", delay - 1,
-  1303				 reset_type);
-  1304		else
-  1305			pci_dbg(dev, "ready %dms after %s\n", delay - 1,
-  1306				reset_type);
-  1307	
-  1308		return 0;
-  1309	}
-  1310	
+  1176	
+  1177	static const struct super_operations tlm_sops = {
+  1178		.statfs = simple_statfs,
+> 1179		.drop_inode = generic_delete_inode,
+  1180	};
+  1181	
 
 -- 
 0-DAY CI Kernel Test Service
