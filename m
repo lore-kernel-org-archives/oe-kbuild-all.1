@@ -1,62 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5EA346A02
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 14:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9893451A8;
+	Thu, 16 Oct 2025 14:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760626142; cv=none; b=WKcJzz2JuZ+uuk7Hai9WGBEH3R9OCOw4GJmeJ4kg3jdrlphNEn7lSPEZHMKyUnH1NPswgDo3ZHTZu3E+GX49MHSSn8Mi6P3ziVetrL8vH+66mjVSPSUE+NMqzYPRXyOthzfqrZ6WjRtGd+cr30OceWm6oDtob8PQ/tol5oGD2RY=
+	t=1760626147; cv=none; b=QbDmQzcY6dOxaRJ5lPqeoR9VwphtV7iDIdM/zKXyy0VM0SxC0jTz7Me3xbrsvZ4EAemN8qqAxcY60joLxfkHJYkbm+qVop3QLccGidtryal37N4Qp9Naz4XxV4mstoEHHmXfZHBN1EuoIeTdM6cF8PEVqo6yDGpgGM2ErRX72iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760626142; c=relaxed/simple;
-	bh=8ITsHesfnulo81f9e85ky5kKv8SNn64+QZIPERSk16M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QDeboKAgZBVbUcvMuHoU56bOnqwRK+U8Socy4xfWaiuAwzZEkzPxVo8q/SaeXo/uqBtzLDTcAejBMDwaLQpTbOZLwvrJgZWI0N5nb5JzVSzS01MezljfNiN28ywe5o4ZnfUXrZ2BVxCjh0PrdzYDLMfRTl5/ljUTtiApE+UmqXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVytiue7; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1760626147; c=relaxed/simple;
+	bh=UuaSQVv6dm0D0kN6ZVf9PFfmOCcnIoxeV4OMPhiTiIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q2QFlFQCKcBLo7yU3VG59A0xSpbGxSNVsoPmBTj0Rhb1FAZ1sCWyO3HZVw73s/WwKhkQ6o9lJtK3FdibCe0SA8yAulTky5s0SJKn1fPSWsLx0EI+ByWAVaFEnbHOavkH/ARUkbOKhjdrr7QGyoFCSDJK7zjQdG1cUtUZTiLJGZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGwEiQlP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVytiue7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGwEiQlP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760626134; x=1792162134;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8ITsHesfnulo81f9e85ky5kKv8SNn64+QZIPERSk16M=;
-  b=bVytiue73OscWTXbGZP6GkCQrSVuiWpzTfTk4P5F/uOJUgMy32CVIvmC
-   XOItCbF79Oo4kE8OxpfX8yYjDQK0OiCqcbY5ey9y4ndqOdw95Ezy9RynZ
-   vFeiI0AjyPBLmW4jGdSue0AbrGkf7l4WVpbo+I1mCmaFtBIR1ydO4Vl7J
-   AaRA/fA9pJxmF0hgS5d0USuLr5x6CaJ4GBfsjVgkc0iNeKlbKMF+uLbUd
-   LgTZRUmVMLyzsW2FWEWuyqTOU9F8snATUMxLmmJqhUuXsanIi/Vnh0eUa
-   kit75K3haSZA58QTQhJyhKtbP5aEJ+eYwlosG0o2eo3FWhmXH9dPu8mmz
-   A==;
-X-CSE-ConnectionGUID: t21bt/oDQh+vNuojGW10Hw==
-X-CSE-MsgGUID: B/aGHoWMRHyCvdJ2IfYAwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62730933"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62730933"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 07:48:50 -0700
-X-CSE-ConnectionGUID: tkv9OBKCSeuHKHYuwBSBlQ==
-X-CSE-MsgGUID: QTg8NjIMSHu84IdW7lMExw==
+  t=1760626138; x=1792162138;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UuaSQVv6dm0D0kN6ZVf9PFfmOCcnIoxeV4OMPhiTiIk=;
+  b=RGwEiQlP07ZZX2zM2cLqbhzOjpmYqeyBcoMZgVw0TkistebBR7PzOpfa
+   C+RoRhHwJBEE1EhvbjAXSPmlQf2aRSHdgXrgLrhxMORn9c4d8QKvJCi4x
+   utUZJ7Gm5Cqj13u1aVSFZvAXFTML+kfzXCI4aw2NPh9HkMsDjmXBojWtJ
+   amejn73ENXOYjSr7bThdL4YDRgAA5f1VrDLNDPLBf7ODc/1o5Yq5ZK6rU
+   6EpUbsKIl6iOerZYLAulgMWbuiD53Ugvj+pGU5+sWMmKkBns6itMd2YCa
+   1ECJTHfSqqH2X9q9lQD5CBy7V8doyVbD49eJPleVGSpuvZNS2frcc10OO
+   g==;
+X-CSE-ConnectionGUID: utTlC5sMTJSt7cgp/JR9Vg==
+X-CSE-MsgGUID: 77NIn56PRMGhezg/yFJeUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="65435739"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="65435739"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 07:48:53 -0700
+X-CSE-ConnectionGUID: txGvphJxSIe+Wkrpx74r1A==
+X-CSE-MsgGUID: vPVOaWWKReulJ8C0yPEhtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="182883351"
+   d="scan'208";a="186746061"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2025 07:48:47 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2025 07:48:48 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9PHZ-0004vH-1q;
+	id 1v9PHZ-0004vD-1i;
 	Thu, 16 Oct 2025 14:48:45 +0000
-Date: Thu, 16 Oct 2025 22:47:56 +0800
+Date: Thu, 16 Oct 2025 22:47:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>
-Subject: [tip:irq/drivers 11/18] drivers/irqchip/irq-imx-mu-msi.c:419:16:
- error: implicit declaration of function 'imx_mu_probe'; did you mean
- 'imx_mu_write'?
-Message-ID: <202510162257.g1RUy0bT-lkp@intel.com>
+To: "Herve Codina (Schneider Electric)" <herve.codina@bootlin.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pascal Eberhard <pascal.eberhard@se.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
+Message-ID: <202510162222.Fe1rY5aB-lkp@intel.com>
+References: <20251015142816.1274605-3-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,158 +78,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251015142816.1274605-3-herve.codina@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/drivers
-head:   45f8fdcfbf4e49075172cf1a3fd812b90160e903
-commit: 4265aed28d7de2a643b8e441bc25344f421f2f78 [11/18] irqchip: Pass platform device to platform drivers
-config: arm-randconfig-004-20251016 (https://download.01.org/0day-ci/archive/20251016/202510162257.g1RUy0bT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162257.g1RUy0bT-lkp@intel.com/reproduce)
+Hi Herve,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on geert-renesas-devel/next linus/master v6.18-rc1 next-20251015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina-Schneider-Electric/dt-bindings-iio-adc-Add-the-Renesas-RZ-N1-ADC/20251015-223254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251015142816.1274605-3-herve.codina%40bootlin.com
+patch subject: [PATCH 2/4] iio: adc: Add support for the Renesas RZ/N1 ADC
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251016/202510162222.Fe1rY5aB-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510162222.Fe1rY5aB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510162257.g1RUy0bT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510162222.Fe1rY5aB-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/irqchip/irq-imx-mu-msi.c: In function 'imx_mu_imx7ulp_probe':
->> drivers/irqchip/irq-imx-mu-msi.c:419:16: error: implicit declaration of function 'imx_mu_probe'; did you mean 'imx_mu_write'? [-Wimplicit-function-declaration]
-     419 |         return imx_mu_probe(pdev, parent, &imx_mu_cfg_imx7ulp);
-         |                ^~~~~~~~~~~~
-         |                imx_mu_write
-   drivers/irqchip/irq-imx-mu-msi.c: At top level:
->> drivers/irqchip/irq-imx-mu-msi.c:299:12: warning: 'imx_mu_of_init' defined but not used [-Wunused-function]
-     299 | static int imx_mu_of_init(struct platform_device *pdev, struct device_node *parent,
-         |            ^~~~~~~~~~~~~~
+>> drivers/iio/adc/rzn1-adc.c:243:35: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     243 |                 vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
+         |                                                 ^
+   drivers/iio/adc/rzn1-adc.c:53:42: note: expanded from macro 'RZN1_ADC_VC_ADC1_CHANNEL_SEL'
+      53 | #define RZN1_ADC_VC_ADC1_CHANNEL_SEL(_c)        FIELD_PREP(RZN1_ADC_VC_ADC1_CHANNEL_SEL_MASK, _c)
+         |                                                 ^
+>> drivers/iio/adc/rzn1-adc.c:304:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     304 |                 *adc1_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
+         |                              ^
+   drivers/iio/adc/rzn1-adc.c:58:38: note: expanded from macro 'RZN1_ADC_ADCX_GET_DATA'
+      58 | #define RZN1_ADC_ADCX_GET_DATA(_reg)    FIELD_GET(RZN1_ADC_ADCX_DATA_DATA_MASK, _reg)
+         |                                         ^
+   drivers/iio/adc/rzn1-adc.c:309:16: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     309 |                 *adc2_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
+         |                              ^
+   drivers/iio/adc/rzn1-adc.c:58:38: note: expanded from macro 'RZN1_ADC_ADCX_GET_DATA'
+      58 | #define RZN1_ADC_ADCX_GET_DATA(_reg)    FIELD_GET(RZN1_ADC_ADCX_DATA_DATA_MASK, _reg)
+         |                                         ^
+   3 errors generated.
 
 
-vim +419 drivers/irqchip/irq-imx-mu-msi.c
+vim +/FIELD_PREP +243 drivers/iio/adc/rzn1-adc.c
 
-   298	
- > 299	static int imx_mu_of_init(struct platform_device *pdev, struct device_node *parent,
-   300				  const struct imx_mu_dcfg *cfg)
-   301	{
-   302		struct device_link *pd_link_a;
-   303		struct device_link *pd_link_b;
-   304		struct imx_mu_msi *msi_data;
-   305		struct resource *res;
-   306		struct device *pd_a;
-   307		struct device *pd_b;
-   308		struct device *dev;
-   309		int ret;
-   310		int irq;
+   236	
+   237	static void rzn1_adc_vc_setup_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
+   238						 int adc1_ch, int adc2_ch)
+   239	{
+   240		u32 vc = 0;
+   241	
+   242		if (adc1_ch != -1)
+ > 243			vc |= RZN1_ADC_VC_ADC1_ENABLE | RZN1_ADC_VC_ADC1_CHANNEL_SEL(adc1_ch);
+   244	
+   245		if (adc2_ch != -1)
+   246			vc |= RZN1_ADC_VC_ADC2_ENABLE | RZN1_ADC_VC_ADC2_CHANNEL_SEL(adc2_ch);
+   247	
+   248		writel(vc, rzn1_adc->regs + RZN1_ADC_VC_REG(ch));
+   249	}
+   250	
+   251	static int rzn1_adc_vc_start_conversion(struct rzn1_adc *rzn1_adc, u32 ch)
+   252	{
+   253		u32 val;
+   254	
+   255		val = readl(rzn1_adc->regs + RZN1_ADC_FORCE_REG);
+   256		if (val & RZN1_ADC_FORCE_VC(ch))
+   257			return -EBUSY;
+   258	
+   259		writel(RZN1_ADC_FORCE_VC(ch), rzn1_adc->regs + RZN1_ADC_SET_FORCE_REG);
+   260	
+   261		return 0;
+   262	}
+   263	
+   264	static void rzn1_adc_vc_stop_conversion(struct rzn1_adc *rzn1_adc, u32 ch)
+   265	{
+   266		writel(RZN1_ADC_FORCE_VC(ch), rzn1_adc->regs + RZN1_ADC_CLEAR_FORCE_REG);
+   267	}
+   268	
+   269	static int rzn1_adc_vc_wait_conversion(struct rzn1_adc *rzn1_adc, u32 ch,
+   270					       u32 *adc1_data, u32 *adc2_data)
+   271	{
+   272		u32 data_reg;
+   273		int ret;
+   274		u32 v;
+   275	
+   276		/*
+   277		 * When a VC is selected, it needs 20 ADC clocks to perform the
+   278		 * conversion.
+   279		 *
+   280		 * The worst case is when the 16 VCs need to perform a conversion and
+   281		 * our VC is the lowest in term of priority.
+   282		 *
+   283		 * In that case, the conversion is performed in 16 * 20 ADC clocks.
+   284		 *
+   285		 * The ADC clock can be set from 4MHz to 20MHz. This leads to a worst
+   286		 * case of  16 * 20 * 1/4Mhz = 80us.
+   287		 *
+   288		 * Round it up to 100us
+   289		 */
+   290	
+   291		/*
+   292		 * Wait for the ADC_FORCE_VC(n) to clear.
+   293		 *
+   294		 * On timeout, ret is -ETIMEDOUT, otherwise it will be 0.
+   295		 */
+   296		ret = readl_poll_timeout_atomic(rzn1_adc->regs + RZN1_ADC_FORCE_REG,
+   297						v, !(v & RZN1_ADC_FORCE_VC(ch)),
+   298						0, 100);
+   299		if (ret)
+   300			return ret;
+   301	
+   302		if (adc1_data) {
+   303			data_reg = readl(rzn1_adc->regs + RZN1_ADC_ADC1_DATA_REG(ch));
+ > 304			*adc1_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
+   305		}
+   306	
+   307		if (adc2_data) {
+   308			data_reg = readl(rzn1_adc->regs + RZN1_ADC_ADC2_DATA_REG(ch));
+   309			*adc2_data = RZN1_ADC_ADCX_GET_DATA(data_reg);
+   310		}
    311	
-   312		dev = &pdev->dev;
-   313	
-   314		msi_data = devm_kzalloc(&pdev->dev, sizeof(*msi_data), GFP_KERNEL);
-   315		if (!msi_data)
-   316			return -ENOMEM;
-   317	
-   318		msi_data->cfg = cfg;
-   319	
-   320		msi_data->regs = devm_platform_ioremap_resource_byname(pdev, "processor-a-side");
-   321		if (IS_ERR(msi_data->regs)) {
-   322			dev_err(&pdev->dev, "failed to initialize 'regs'\n");
-   323			return PTR_ERR(msi_data->regs);
-   324		}
-   325	
-   326		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "processor-b-side");
-   327		if (!res)
-   328			return -EIO;
-   329	
-   330		msi_data->msiir_addr = res->start + msi_data->cfg->xTR;
-   331	
-   332		irq = platform_get_irq(pdev, 0);
-   333		if (irq < 0)
-   334			return irq;
-   335	
-   336		platform_set_drvdata(pdev, msi_data);
-   337	
-   338		msi_data->clk = devm_clk_get(dev, NULL);
-   339		if (IS_ERR(msi_data->clk))
-   340			return PTR_ERR(msi_data->clk);
-   341	
-   342		pd_a = dev_pm_domain_attach_by_name(dev, "processor-a-side");
-   343		if (IS_ERR(pd_a))
-   344			return PTR_ERR(pd_a);
-   345	
-   346		pd_b = dev_pm_domain_attach_by_name(dev, "processor-b-side");
-   347		if (IS_ERR(pd_b))
-   348			return PTR_ERR(pd_b);
-   349	
-   350		pd_link_a = device_link_add(dev, pd_a,
-   351				DL_FLAG_STATELESS |
-   352				DL_FLAG_PM_RUNTIME |
-   353				DL_FLAG_RPM_ACTIVE);
-   354	
-   355		if (!pd_link_a) {
-   356			dev_err(dev, "Failed to add device_link to mu a.\n");
-   357			goto err_pd_a;
-   358		}
-   359	
-   360		pd_link_b = device_link_add(dev, pd_b,
-   361				DL_FLAG_STATELESS |
-   362				DL_FLAG_PM_RUNTIME |
-   363				DL_FLAG_RPM_ACTIVE);
-   364	
-   365	
-   366		if (!pd_link_b) {
-   367			dev_err(dev, "Failed to add device_link to mu a.\n");
-   368			goto err_pd_b;
-   369		}
-   370	
-   371		ret = imx_mu_msi_domains_init(msi_data, dev);
-   372		if (ret)
-   373			goto err_dm_init;
-   374	
-   375		pm_runtime_enable(dev);
-   376	
-   377		irq_set_chained_handler_and_data(irq,
-   378						 imx_mu_msi_irq_handler,
-   379						 msi_data);
-   380	
-   381		return 0;
-   382	
-   383	err_dm_init:
-   384		device_link_remove(dev,	pd_b);
-   385	err_pd_b:
-   386		device_link_remove(dev, pd_a);
-   387	err_pd_a:
-   388		return -EINVAL;
-   389	}
-   390	
-   391	static int __maybe_unused imx_mu_runtime_suspend(struct device *dev)
-   392	{
-   393		struct imx_mu_msi *priv = dev_get_drvdata(dev);
-   394	
-   395		clk_disable_unprepare(priv->clk);
-   396	
-   397		return 0;
-   398	}
-   399	
-   400	static int __maybe_unused imx_mu_runtime_resume(struct device *dev)
-   401	{
-   402		struct imx_mu_msi *priv = dev_get_drvdata(dev);
-   403		int ret;
-   404	
-   405		ret = clk_prepare_enable(priv->clk);
-   406		if (ret)
-   407			dev_err(dev, "failed to enable clock\n");
-   408	
-   409		return ret;
-   410	}
-   411	
-   412	static const struct dev_pm_ops imx_mu_pm_ops = {
-   413		SET_RUNTIME_PM_OPS(imx_mu_runtime_suspend,
-   414				   imx_mu_runtime_resume, NULL)
-   415	};
-   416	
-   417	static int imx_mu_imx7ulp_probe(struct platform_device *pdev, struct device_node *parent)
-   418	{
- > 419		return imx_mu_probe(pdev, parent, &imx_mu_cfg_imx7ulp);
-   420	}
-   421	
+   312		return 0;
+   313	}
+   314	
 
 -- 
 0-DAY CI Kernel Test Service
