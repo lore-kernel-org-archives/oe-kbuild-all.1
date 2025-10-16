@@ -1,57 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27183218ADD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 21:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF572E0B71
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 22:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760651854; cv=none; b=tFG3qINtJ/Ss9try4VZwM/5l0KAHhudujHVV+kH2HKQKr87yfVtQSJbiXxgW1Ru+vFcrjHF0oZJqY6P0UM/37SfBv9wJJt3TyHtImZSinKltfWWr4ZhXacijRKkq/6GezgdVfNwjwjwuawZzB3ZGtLpxGs4XsUiSYIYFu1BHkMQ=
+	t=1760653727; cv=none; b=iAA7cv4X0Eb+YLVaa8Gr6n31zQxuxNlRdo9SvbMQaVrriZRmAhLdborEQWfsJ06jqqFV5FxrlolQc3oJJefNFUpXNgO0QTjjpJyW0JEj+fiys6LQfqMWHuSB5Bu/wTkzap5S3wFmgm+L5MHUy1fB53rXDs7z2UxThR1tdHcHq7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760651854; c=relaxed/simple;
-	bh=Ab3nbiYuwXak4+y6FtLehOiXDhzwSGXM7KYTjaRQ8tw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QB/ikAcvx1ve4G1hmC69v8fEi4lXJFV/44YZU7XPLV0ByUuiMSTlX3hiexwxyh7S6fkzq+p/Im2aF/bZJwnlxdN14u+RPpUD/403UJdgbOfvkWt4uqi3sMxdhaXIOVvyJ8nSCm4Dt3a+nUzf0u2q6tg0mOm8+5JBrNugGg7HAXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwcA7/u7; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1760653727; c=relaxed/simple;
+	bh=ciKQIk52+iRfgjCWilAdkX6YNbNDCJyfo9BtEuwQYqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=coIomgA/9D2l6X6Fmp69knMt04p/cG30HFXO4dDAPp4h+eLjmg7/EjaBY9XC4569vwhtPqDoY1LcFwzLcP7IGY7uEEA9jQwkVv5l49zmp89xqCkFblYqh0tT7Nid5XhsfBJlJ59CSG9VKy2MXBjXe3CHlZmcBhx24A7dqIsKovA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bU0brkBc; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwcA7/u7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bU0brkBc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760651852; x=1792187852;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ab3nbiYuwXak4+y6FtLehOiXDhzwSGXM7KYTjaRQ8tw=;
-  b=hwcA7/u7CSQs5o87jATExzpir5MNJwIukUFfhP6a3aczoAoC/NeJRG9K
-   f8nIVcHu6VsMLo/s/Essv2+jCU2e4G28WZpD3WOZ87M9LvdUgbVzGgt+I
-   at8boKsMXd+W0fUJ8G+9TOcXE9aqHvAOC6FYhC62dGh0FKPs+cElShgBC
-   lzwAJ7Jc1rGSh3Yd4Op0Vofe+kqWY1FbexB1b3Lpuo8hUtFLPVFr54OoG
-   sF2oBtCyVkCLZAO/FZnDrSowGj9n7HQ3EkCKY+rjA1L1OWF5RS0/OfHDI
-   v4k4x6Lx4YeLu37DwcgfnVZcFjeQ1hMjRB6KCyy/EflLzRraQ3GYZKYI4
-   g==;
-X-CSE-ConnectionGUID: 7OTqWODzR9+4/015b70cvQ==
-X-CSE-MsgGUID: m+xtzToGSTKoM0yv/nswCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="80492960"
+  t=1760653726; x=1792189726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ciKQIk52+iRfgjCWilAdkX6YNbNDCJyfo9BtEuwQYqQ=;
+  b=bU0brkBcVi/UuQSMcCxobLlxbuQ9Wy4msCdCg+X+ArFG+xYC16YRQv8s
+   vLw4+62ulFfwAqM6k55NFNkz3k29B2HxrgCO5GTL+mKT1QEZ2Sd/tQmj5
+   426xncBiIDuP2hMMcDXmbCdhCgcnAR2uuyi1+aBdy4RZVjzl7A+B272kD
+   8vwWU0222GHNapAwL4TYbg/YYynz7iK6AOXFwDYSTcnQ73fBSiOcwQzTH
+   DYwZ+DbrRtjefP5yyXamxqc1aPRAwtNw5EQ4+a7GWE4538s5GHmq98J3s
+   hOU2pcU8CWOi/O3AnG1V9zy1kUFJXgxARLt9m1avh8bC6ePQ6Fi8HWFNJ
+   Q==;
+X-CSE-ConnectionGUID: wtnen9evSWe8rDdN2+eRLw==
+X-CSE-MsgGUID: SN+K5LvHTUqGkcgXFXRTPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62071722"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="80492960"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 14:57:31 -0700
-X-CSE-ConnectionGUID: 7R7YRLzoS1arMslNbMQVnQ==
-X-CSE-MsgGUID: SUkaT07oS7Op7bjCR00Slw==
+   d="scan'208";a="62071722"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 15:28:45 -0700
+X-CSE-ConnectionGUID: /2MsaDmgTJmh3x2o1fWcuQ==
+X-CSE-MsgGUID: 4Xm1/v/rTaScrK/tKgO49Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="206271919"
+   d="scan'208";a="182132113"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Oct 2025 14:57:30 -0700
+  by orviesa009.jf.intel.com with ESMTP; 16 Oct 2025 15:28:41 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9VyS-0005I3-1Z;
-	Thu, 16 Oct 2025 21:57:28 +0000
-Date: Fri, 17 Oct 2025 05:57:02 +0800
+	id 1v9WSd-0005J9-0C;
+	Thu, 16 Oct 2025 22:28:39 +0000
+Date: Fri, 17 Oct 2025 06:28:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: shanaya-Gupta <shanaya-Gupta@users.noreply.github.com>
-Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:pr/1197 1/1] Kconfig:34: syntax error
-Message-ID: <202510170533.w09LJnt8-lkp@intel.com>
+To: JP Kobryn <inwardvessel@gmail.com>, shakeel.butt@linux.dev,
+	andrii@kernel.org, ast@kernel.org, mkoutny@suse.com,
+	yosryahmed@google.com, hannes@cmpxchg.org, tj@kernel.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org, bpf@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v2 1/2] memcg: introduce kfuncs for fetching memcg stats
+Message-ID: <202510170654.s2j4GuCs-lkp@intel.com>
+References: <20251015190813.80163-2-inwardvessel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,50 +67,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251015190813.80163-2-inwardvessel@gmail.com>
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1197
-head:   7773d8bc0eb57a9c6227f90a2792a72c65d08e36
-commit: 7773d8bc0eb57a9c6227f90a2792a72c65d08e36 [1/1] fix: Resolve #1196 - Apply PCI rewording suggestions
-config: csky-randconfig-001-20251017 (attached as .config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170533.w09LJnt8-lkp@intel.com/reproduce)
+Hi JP,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/net]
+[also build test WARNING on bpf-next/master bpf/master akpm-mm/mm-everything linus/master v6.18-rc1 next-20251016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn/memcg-introduce-kfuncs-for-fetching-memcg-stats/20251016-030920
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20251015190813.80163-2-inwardvessel%40gmail.com
+patch subject: [PATCH v2 1/2] memcg: introduce kfuncs for fetching memcg stats
+config: x86_64-randconfig-121-20251016 (https://download.01.org/0day-ci/archive/20251017/202510170654.s2j4GuCs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170654.s2j4GuCs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510170533.w09LJnt8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510170654.s2j4GuCs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/memcontrol.c:4236:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4236:52: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:4236:52: sparse:    struct task_struct *
+>> mm/memcontrol.c:876:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
+   mm/memcontrol.c:876:55: sparse:     expected struct cgroup_subsys_state *css
+   mm/memcontrol.c:876:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
+>> mm/memcontrol.c:876:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
+   mm/memcontrol.c:876:55: sparse:     expected struct cgroup_subsys_state *css
+   mm/memcontrol.c:876:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
+>> mm/memcontrol.c:876:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
+   mm/memcontrol.c:876:55: sparse:     expected struct cgroup_subsys_state *css
+   mm/memcontrol.c:876:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
+>> mm/memcontrol.c:876:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
+   mm/memcontrol.c:876:55: sparse:     expected struct cgroup_subsys_state *css
+   mm/memcontrol.c:876:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:729:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:729:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:729:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
 
-   Kconfig:34:warning: no new line at end of file
->> Kconfig:34: syntax error
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1 shuffle=2682883039
-   make[2]: *** [Makefile:742: oldconfig] Error 2 shuffle=2682883039
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2682883039
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2682883039
-   make: Target 'oldconfig' not remade because of errors.
---
-   Kconfig:34:warning: no new line at end of file
->> Kconfig:34: syntax error
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1 shuffle=2682883039
-   make[2]: *** [Makefile:742: olddefconfig] Error 2 shuffle=2682883039
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2682883039
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2682883039
-   make: Target 'olddefconfig' not remade because of errors.
+vim +876 mm/memcontrol.c
 
-
-vim +34 Kconfig
-
-6f377873cb2390 David Wei          2025-02-14  33  
-0d2cdc35e805eb Geert Uytterhoeven 2025-02-19 @34  source "io_uring/Kconfig"
-
-:::::: The code at line 34 was first introduced by commit
-:::::: 0d2cdc35e805eb50f4a33b7287995ef590f1b916 io_uring: Rename KConfig to Kconfig
-
-:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   873	
+   874	static inline struct mem_cgroup *memcg_from_cgroup(struct cgroup *cgrp)
+   875	{
+ > 876		return cgrp ? mem_cgroup_from_css(cgrp->subsys[memory_cgrp_id]) : NULL;
+   877	}
+   878	
 
 -- 
 0-DAY CI Kernel Test Service
