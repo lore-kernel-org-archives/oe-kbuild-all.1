@@ -1,76 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DBD31A7E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 11:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC4B306495
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 11:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760614647; cv=none; b=lQlUcxxuUZ9p3Y9wEQUobInD6RpCFJ2O/w14p4oiv+edXok/j+nkze5gi0mL6bnRr6CDLAJ6tFqi+Jc3uglmSnoYtn9/+YUNWCnesPUOpOWwRg9msajV1wneJnLM0hTd/yF7srUDI5heg82pRO0PoaPQbD0oDMiQ1/vZTXNQGqA=
+	t=1760615368; cv=none; b=aVx/pxf4ZF2TUAtOsaHZkyqKveCxU15oWQyOhXtUxQ21uDOi3LxMio1HjcZvOK3PI82RppYoH4sp13HCCDmgjO75/qd7P4HizwzAX0Ymi6aWwg6rQzqfgVHrBJ8kCVLFq8MQLjRMi53CneEfY/Rz8LR8ZAccnUB2GTg1j42ln8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760614647; c=relaxed/simple;
-	bh=v/p5WbwRu7MI/kgIQR21ZD5+uRNrgnKQRlHjro5dlgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GsMsLEtzmRQvGjSdt6iIctCD6w2C9m/K0EjZDhG6myTD6Wzn9+vn6q7ZhBzhiILYqvVAsZAJDu8sgMGP0+h7lUXNzYsml5wHvbptk+B0CIU6jfKexIHwbWmLrSSnr2Gn+4GAvwksiPE9D7XQEl1p4JCsMFwh7AJ/74bPyfeJKj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C64OeU9u; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1760615368; c=relaxed/simple;
+	bh=t8t1G8vXch7WJzz7wWHJBwCvAsR4r5mn2ZuhThPJHWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kITKDfyzROmE72OFqmhZNn+OJBNAzDaSKM149PNiuamHX4M36y+mF7LvyPepcdZqjUx1So/KQyOxIKKbr+afIT00xdavVhu0G890BhOPMy/y0pH7wgNd0a+cG4AkgTFKQZ4c4kymmtB7QMHMAt4jyMDPcginuSmmE2tpmVpJJHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCAJgU5e; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C64OeU9u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCAJgU5e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760614646; x=1792150646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v/p5WbwRu7MI/kgIQR21ZD5+uRNrgnKQRlHjro5dlgg=;
-  b=C64OeU9uV+bw4ZLAh/i0VZgMig2tpRmWbtPoAiAwp9laSIAOsqXSOjGw
-   rb4xG7nvCPLmFpOlCt4o0tWwwfD+rd8sWLrEoGhRjmPV1wlz9xLmyA+CX
-   8tAhMUcXVIu7sNH4VZrbxGakMMSAMx99CqLEDmNmWVxfi9RJBLWycAhbn
-   aM5LzdUYrCNuqi7zJGNYyGqCzhvjUtKU27T7OpUdZkBxdOqzK4lWTz0f7
-   J4G8aR9Ir891A73dSmsSgTjOtocEIWKMI2d3/Q3bTS79FDDt6m+GMdgv6
-   ojqYyhhh8gPLQbq78mJna2+LDD96orUYyppKDT8KyA/+QXZWJaPJd+6qS
-   A==;
-X-CSE-ConnectionGUID: npMss9AcTU6IgziQKY6k5Q==
-X-CSE-MsgGUID: 3P3yfNlmSnOCbv3bqyWwwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="73915746"
+  t=1760615366; x=1792151366;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t8t1G8vXch7WJzz7wWHJBwCvAsR4r5mn2ZuhThPJHWY=;
+  b=CCAJgU5epEv5TCCb958pNTCis88BJyQqcKyo4Yu3NQKfysrJV3C2xSY1
+   Rr+o4ZaDgpd2uviIKskCoXFAMJ2UMe8gm41PRXJbA2SL/87x9poxx0iKr
+   dLCOXb4FMInZfn7Phrh8x3rUKdTQgxyA8cXr998kok/LsnxewGmku7L+S
+   o/JpH5RNRI33X+beTqaj/wvcSw4hOmupm9GbzQsSpQNEfMmgYWef/m7lN
+   ryhmUA4XH0TMZAjovIRz6//G5eFd5VhRrCgUSRwz4q84HDUDbS8rmgzOX
+   SKiDajQwF1hpv1xUHSDN6gyljtawChreQT4iDPhfKvfmbGw904MZXq2gv
+   w==;
+X-CSE-ConnectionGUID: cBwvDMw4SJiueEn22gsQFw==
+X-CSE-MsgGUID: Ix4bnePiS/WE15cQVXzIDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62953268"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="73915746"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 04:37:26 -0700
-X-CSE-ConnectionGUID: nDMvKVvDQC+P6DB3xtuWrw==
-X-CSE-MsgGUID: WiXBWk7XTBaRTcb235v5bA==
+   d="scan'208";a="62953268"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 04:49:26 -0700
+X-CSE-ConnectionGUID: MP6LGdKVTPijYoCxVnMSXA==
+X-CSE-MsgGUID: ngjh0YLhTVmjsl8g765Tew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="182228181"
+   d="scan'208";a="183227078"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 16 Oct 2025 04:37:20 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Oct 2025 04:49:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9MIH-0004kr-35;
-	Thu, 16 Oct 2025 11:37:17 +0000
-Date: Thu, 16 Oct 2025 19:36:33 +0800
+	id 1v9MTj-0004lh-2L;
+	Thu, 16 Oct 2025 11:49:16 +0000
+Date: Thu, 16 Oct 2025 19:48:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Takaya Saeki <takayas@google.com>, Tom Zanussi <zanussi@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ian Rogers <irogers@google.com>,
-	Douglas Raillard <douglas.raillard@arm.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH v3 13/13] tracing: Have persistent ring buffer print
- syscalls normally
-Message-ID: <202510161956.5wnA6TUc-lkp@intel.com>
-References: <20251015173550.225723717@kernel.org>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3233/3233] arch/x86/kvm/x86.c:8661:5: warning:
+ no previous prototype for '__kvm_vcpu_halt'
+Message-ID: <202510161956.PnDe2iFY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,98 +61,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251015173550.225723717@kernel.org>
 
-Hi Steven,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.18-rc1 next-20251015]
-[cannot apply to trace/for-next acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Make-trace_user_fault_read-exposed-to-rest-of-tracing/20251016-014059
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251015173550.225723717%40kernel.org
-patch subject: [PATCH v3 13/13] tracing: Have persistent ring buffer print syscalls normally
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251016/202510161956.5wnA6TUc-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   55f16e7a2a3e273da30ccadd01b074c054ceb6fe
+commit: c499a3120204c834ff963c43d90a5ff33194b34c [3233/3233] KVM: SVM: Add support for booting APs in an SEV-ES guest
+config: x86_64-randconfig-161-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161956.PnDe2iFY-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161956.5wnA6TUc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161956.PnDe2iFY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510161956.5wnA6TUc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510161956.PnDe2iFY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace.c: In function 'print_trace_fmt':
->> kernel/trace/trace.c:4258:47: error: 'enter_syscall_print_funcs' undeclared (first use in this function)
-    4258 |                             (event->funcs != &enter_syscall_print_funcs) &&
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:4258:47: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/trace/trace.c:4259:47: error: 'exit_syscall_print_funcs' undeclared (first use in this function)
-    4259 |                             (event->funcs != &exit_syscall_print_funcs))
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function 'tracer_alloc_buffers':
-   kernel/trace/trace.c:11443:39: error: 'CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT' undeclared (first use in this function)
-   11443 |         global_trace.syscall_buf_sz = CONFIG_TRACE_SYSCALL_BUF_SIZE_DEFAULT;
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c:809:5: warning: no previous prototype for 'kvm_read_guest_page_mmu' [-Wmissing-prototypes]
+     809 | int kvm_read_guest_page_mmu(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:8661:5: warning: no previous prototype for '__kvm_vcpu_halt' [-Wmissing-prototypes]
+    8661 | int __kvm_vcpu_halt(struct kvm_vcpu *vcpu, int state, int reason)
+         |     ^~~~~~~~~~~~~~~
 
 
-vim +/enter_syscall_print_funcs +4258 kernel/trace/trace.c
+vim +/__kvm_vcpu_halt +8661 arch/x86/kvm/x86.c
 
-  4222	
-  4223	static enum print_line_t print_trace_fmt(struct trace_iterator *iter)
-  4224	{
-  4225		struct trace_array *tr = iter->tr;
-  4226		struct trace_seq *s = &iter->seq;
-  4227		unsigned long sym_flags = (tr->trace_flags & TRACE_ITER_SYM_MASK);
-  4228		struct trace_entry *entry;
-  4229		struct trace_event *event;
-  4230	
-  4231		entry = iter->ent;
-  4232	
-  4233		test_cpu_buff_start(iter);
-  4234	
-  4235		event = ftrace_find_event(entry->type);
-  4236	
-  4237		if (tr->trace_flags & TRACE_ITER_CONTEXT_INFO) {
-  4238			if (iter->iter_flags & TRACE_FILE_LAT_FMT)
-  4239				trace_print_lat_context(iter);
-  4240			else
-  4241				trace_print_context(iter);
-  4242		}
-  4243	
-  4244		if (trace_seq_has_overflowed(s))
-  4245			return TRACE_TYPE_PARTIAL_LINE;
-  4246	
-  4247		if (event) {
-  4248			if (tr->trace_flags & TRACE_ITER_FIELDS)
-  4249				return print_event_fields(iter, event);
-  4250			/*
-  4251			 * For TRACE_EVENT() events, the print_fmt is not
-  4252			 * safe to use if the array has delta offsets
-  4253			 * Force printing via the fields.
-  4254			 */
-  4255			if ((tr->text_delta)) {
-  4256				/* ftrace and system call events are still OK */
-  4257				if ((event->type > __TRACE_LAST_TYPE) &&
-> 4258				    (event->funcs != &enter_syscall_print_funcs) &&
-> 4259				    (event->funcs != &exit_syscall_print_funcs))
-  4260				return print_event_fields(iter, event);
-  4261			}
-  4262			return event->funcs->trace(iter, sym_flags, event);
-  4263		}
-  4264	
-  4265		trace_seq_printf(s, "Unknown type %d\n", entry->type);
-  4266	
-  4267		return trace_handle_return(s);
-  4268	}
-  4269	
+  8660	
+> 8661	int __kvm_vcpu_halt(struct kvm_vcpu *vcpu, int state, int reason)
+  8662	{
+  8663		++vcpu->stat.halt_exits;
+  8664		if (lapic_in_kernel(vcpu)) {
+  8665			vcpu->arch.mp_state = state;
+  8666			return 1;
+  8667		} else {
+  8668			vcpu->run->exit_reason = reason;
+  8669			return 0;
+  8670		}
+  8671	}
+  8672	
 
 -- 
 0-DAY CI Kernel Test Service
