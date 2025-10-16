@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16F22C08C4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 07:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352393043B6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 08:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760601485; cv=none; b=OxvoKu/MzzbVhPl+OV2CwQCxDFUyEtDEphqbIjXVSo5zjeMLinktkBobughk3PNLMOpTotgfhZDWfexSRFX3M1XKwPf5GlYgToE9ADOriSDXSswqNtNj2/vNZOWUWQxXHeKnHwaHQgPV+Mq3aZG0htLcb9sFY2z4owADGg7TMM0=
+	t=1760603366; cv=none; b=o4eY+foie5BYH9WQJAJi9u+Fo9jwe1aqLbpxr9Vy1OwNBv5WwzuQdzp5XIT0RM5T12KJgFQjadp6YtPXueZ5UgqbtsqbgTuHmWAfiBx7MLoL6Bv0aUzfy7pQnBud9mlL7TUci1OK8cNY++QiEA/MYH3IFe7yBFkFQMlKj6SnFOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760601485; c=relaxed/simple;
-	bh=id0rxMzslDZiLcyD35DRewcLUXVmc1DhkS97OpweEaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ufKQLhXpNpE4WPwHwl7zsl5wHgGkj81E6Fnidmb7LqA+31VV+txQ1XmkB++fmyHC7+VR7htVwITmu/t8cBkO4zBfCzq5PclEid9vBV6K5SxglBG4FVLY3+6BWwtWKZqmtFSjz0ISoMYf82i+iZvA/qESHBHiVo0OyEobOoeIxE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3+9M/cH; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1760603366; c=relaxed/simple;
+	bh=NRqMCO2UD2ZElId4/sDDauUesnj09RgQKU3DA85pH7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FXWT+QGeAcXQAhGeEWwEPi7pT/pbYr6U1HcjrmjgDpE/tTR6Jm0OoXgdZS+ubPS++yYP7X0Pg20xMFlhst4ECPh4sFd5mItbD1OtAfE09TwqQ5c+UwsCBMpNMcjhTgt1+8YIu3sreqS+wynXjNrluU7RH3LcUGFEGqL2Ad7R3/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YnmQVCPg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3+9M/cH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YnmQVCPg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760601484; x=1792137484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=id0rxMzslDZiLcyD35DRewcLUXVmc1DhkS97OpweEaA=;
-  b=A3+9M/cH5uDJGzC0yjv8euz1CD8CzCQv+JAvy1qb9PwTzHnOl/GbrZa+
-   9aGdIMQz8Q4rI1SxjZGVbBCKO3ZBvRbfzwrldCMTbhivrYt/q1MyTWQWB
-   Vkh2IXeMFK7PoZNc6lSGPBA8cxNlgJ7K/sRNWg0QZd2Bi59x0Xl2Ft0RY
-   Z8DBy4DoGSIgvc1ZX8ruJstoQnuHR3w5sAeYRD9kXSSDcMi5LbWwGTENt
-   xlPj+DURmHF9SGrDVoKk+ItwMjmw/c3ahY8ndFqCPbmt6tOD22WCakbyZ
-   4CWslVYF9UK8Tj0eXDeHb1RRiYvOO6DorxEjUq46QfYA+fSTBysi3T9pL
-   w==;
-X-CSE-ConnectionGUID: ERmVvsslQw+80fPWbtNOfg==
-X-CSE-MsgGUID: Q7QLMiqJRNCJWXJtrPbKoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="80227704"
+  t=1760603364; x=1792139364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NRqMCO2UD2ZElId4/sDDauUesnj09RgQKU3DA85pH7U=;
+  b=YnmQVCPg0TZu5QsQzi0yA/QRzjYTBNgg95i+s6WORwOo76od/w0xeQhx
+   tvi3xBa8LlcsICcwcj5w+yuj6JzfNv1CaGumaQRJNY+f7BT+YmQvahBJJ
+   NHn5zljbPjkjXWEWLI6mOPXsYzosdH0UXbQYr7TYfDwaqjzMr7AhjFfaF
+   slt4rLvg41rN0vMMoJisPtoB6jdMTdAzl6+CMHsnb4Y2ZNqvDARliOVYM
+   aGuJTVjnvoYMHEj34Q2JtZdDg4C08f7rXWh1vzrWeDE1QtvwsWTj9sgG4
+   XvyAMF3npbgalSZXQSJ4PAGCz5+cp3K9y5ubPw98BeFE8ilE4dYIwugbe
+   g==;
+X-CSE-ConnectionGUID: WxA9DmwtR6G+SP4/eNjYBg==
+X-CSE-MsgGUID: J0p1DF6uTBaEU8OVpAqrNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="66439710"
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="80227704"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 00:58:03 -0700
-X-CSE-ConnectionGUID: p88/b2/iTIOn7gOe2e1ujg==
-X-CSE-MsgGUID: o3Fh9PWqSL+aASgCFPTekw==
+   d="scan'208";a="66439710"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 01:29:24 -0700
+X-CSE-ConnectionGUID: m0sBl1kLTqOn+kmk8/YFNg==
+X-CSE-MsgGUID: hmBJhFAFSheM3NYWWDHmJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="182793012"
+   d="scan'208";a="182072902"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Oct 2025 00:58:01 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2025 01:29:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9Is2-0004Zn-30;
-	Thu, 16 Oct 2025 07:57:58 +0000
-Date: Thu, 16 Oct 2025 15:57:26 +0800
+	id 1v9JML-0004bH-2v;
+	Thu, 16 Oct 2025 08:29:17 +0000
+Date: Thu, 16 Oct 2025 16:29:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jonhunter:tegra/next-fixes 3/3] kernel/printk/internal.h:248:57:
- error: 'console_offload_blocked' undeclared
-Message-ID: <202510161511.dApiWAi6-lkp@intel.com>
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, nd@arm.com,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via
+ PWR_CONTROL
+Message-ID: <202510161626.f3OG4u62-lkp@intel.com>
+References: <20251014094337.1009601-7-karunika.choo@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,106 +71,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251014094337.1009601-7-karunika.choo@arm.com>
 
-tree:   https://github.com/jonhunter/linux tegra/next-fixes
-head:   ae173249d9028ef159fba040bdab260d80dda43f
-commit: ae173249d9028ef159fba040bdab260d80dda43f [3/3] printk: Avoid scheduling irq_work and kthreads on suspend
-config: um-randconfig-001-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161511.dApiWAi6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161511.dApiWAi6-lkp@intel.com/reproduce)
+Hi Karunika,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc1 next-20251015]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Factor-out-GPU_ID-register-read-into-separate-function/20251014-174729
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251014094337.1009601-7-karunika.choo%40arm.com
+patch subject: [PATCH v1 06/10] drm/panthor: Implement L2 power on/off via PWR_CONTROL
+config: arm-randconfig-r132-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161626.f3OG4u62-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 39f292ffa13d7ca0d1edff27ac8fd55024bb4d19)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161626.f3OG4u62-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510161511.dApiWAi6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510161626.f3OG4u62-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/printk/printk.c:62:
-   kernel/printk/internal.h: In function 'printk_get_console_flush_type':
->> kernel/printk/internal.h:248:57: error: 'console_offload_blocked' undeclared (first use in this function)
-     248 |                         if (printk_kthreads_running && !console_offload_blocked)
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/printk/internal.h:248:57: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/panthor/panthor_pwr.c:153:13: warning: shift count >= width of type [-Wshift-count-overflow]
+     152 |         ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val,
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     153 |                                       !(PWR_ALL_CORES_MASK & val), 100,
+         |                                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                                       timeout_us);
+         |                                       ~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_pwr.c:26:29: note: expanded from macro 'PWR_ALL_CORES_MASK'
+      26 | #define PWR_ALL_CORES_MASK              GENMASK(63, 0)
+         |                                         ^
+   include/linux/bits.h:51:24: note: expanded from macro 'GENMASK'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^
+   include/linux/bits.h:49:20: note: expanded from macro 'GENMASK_TYPE'
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^
+   drivers/gpu/drm/panthor/panthor_device.h:533:37: note: expanded from macro 'gpu_read64_poll_timeout'
+     533 |         read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false,   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     534 |                           dev, reg)
+         |                           ~~~~~~~~~
+   include/linux/iopoll.h:145:36: note: expanded from macro 'read_poll_timeout'
+     145 |         poll_timeout_us((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iopoll.h:49:7: note: expanded from macro 'poll_timeout_us'
+      49 |                 if (cond) { \
+         |                     ^~~~
+   drivers/gpu/drm/panthor/panthor_pwr.c:260:13: warning: shift count >= width of type [-Wshift-count-overflow]
+     259 |         ret = gpu_read64_poll_timeout(ptdev, PWR_STATUS, val,
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     260 |                                       !(PWR_STATUS_RETRACT_PENDING & val), 0,
+         |                                       ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     261 |                                       PWR_RETRACT_TIMEOUT_US);
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_regs.h:249:40: note: expanded from macro 'PWR_STATUS_RETRACT_PENDING'
+     249 | #define   PWR_STATUS_RETRACT_PENDING                    BIT(43)
+         |                                                         ^
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^
+   drivers/gpu/drm/panthor/panthor_device.h:533:37: note: expanded from macro 'gpu_read64_poll_timeout'
+     533 |         read_poll_timeout(gpu_read64, val, cond, delay_us, timeout_us, false,   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     534 |                           dev, reg)
+         |                           ~~~~~~~~~
+   include/linux/iopoll.h:145:36: note: expanded from macro 'read_poll_timeout'
+     145 |         poll_timeout_us((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/iopoll.h:49:7: note: expanded from macro 'poll_timeout_us'
+      49 |                 if (cond) { \
+         |                     ^~~~
+   2 warnings generated.
 
 
-vim +/console_offload_blocked +248 kernel/printk/internal.h
+vim +153 drivers/gpu/drm/panthor/panthor_pwr.c
 
-   236	
-   237	/*
-   238	 * Identify which console flushing methods should be used in the context of
-   239	 * the caller.
-   240	 */
-   241	static inline void printk_get_console_flush_type(struct console_flush_type *ft)
-   242	{
-   243		memset(ft, 0, sizeof(*ft));
-   244	
-   245		switch (nbcon_get_default_prio()) {
-   246		case NBCON_PRIO_NORMAL:
-   247			if (have_nbcon_console && !have_boot_console) {
- > 248				if (printk_kthreads_running && !console_offload_blocked)
-   249					ft->nbcon_offload = true;
-   250				else
-   251					ft->nbcon_atomic = true;
-   252			}
-   253	
-   254			/* Legacy consoles are flushed directly when possible. */
-   255			if (have_legacy_console || have_boot_console) {
-   256				if (!is_printk_legacy_deferred())
-   257					ft->legacy_direct = true;
-   258				else if (!console_offload_blocked)
-   259					ft->legacy_offload = true;
-   260			}
-   261			break;
-   262	
-   263		case NBCON_PRIO_EMERGENCY:
-   264			if (have_nbcon_console && !have_boot_console)
-   265				ft->nbcon_atomic = true;
-   266	
-   267			/* Legacy consoles are flushed directly when possible. */
-   268			if (have_legacy_console || have_boot_console) {
-   269				if (!is_printk_legacy_deferred())
-   270					ft->legacy_direct = true;
-   271				else if (!console_offload_blocked)
-   272					ft->legacy_offload = true;
-   273			}
-   274			break;
-   275	
-   276		case NBCON_PRIO_PANIC:
-   277			/*
-   278			 * In panic, the nbcon consoles will directly print. But
-   279			 * only allowed if there are no boot consoles.
-   280			 */
-   281			if (have_nbcon_console && !have_boot_console)
-   282				ft->nbcon_atomic = true;
-   283	
-   284			if (have_legacy_console || have_boot_console) {
-   285				/*
-   286				 * This is the same decision as NBCON_PRIO_NORMAL
-   287				 * except that offloading never occurs in panic.
-   288				 *
-   289				 * Note that console_flush_on_panic() will flush
-   290				 * legacy consoles anyway, even if unsafe.
-   291				 */
-   292				if (!is_printk_legacy_deferred())
-   293					ft->legacy_direct = true;
-   294	
-   295				/*
-   296				 * In panic, if nbcon atomic printing occurs,
-   297				 * the legacy consoles must remain silent until
-   298				 * explicitly allowed.
-   299				 */
-   300				if (ft->nbcon_atomic && !legacy_allow_panic_sync)
-   301					ft->legacy_direct = false;
-   302			}
-   303			break;
-   304	
-   305		default:
-   306			WARN_ON_ONCE(1);
-   307			break;
-   308		}
-   309	}
-   310	
+   144	
+   145	static int panthor_pwr_domain_wait_transition(struct panthor_device *ptdev, u32 domain,
+   146						      u32 timeout_us)
+   147	{
+   148		u32 pwrtrans_reg = get_domain_pwrtrans_reg(domain);
+   149		u64 val;
+   150		int ret = 0;
+   151	
+   152		ret = gpu_read64_poll_timeout(ptdev, pwrtrans_reg, val,
+ > 153					      !(PWR_ALL_CORES_MASK & val), 100,
+   154					      timeout_us);
+   155		if (ret) {
+   156			drm_err(&ptdev->base, "%s domain power in transition, pwrtrans(0x%llx)",
+   157				get_domain_name(domain), val);
+   158			return ret;
+   159		}
+   160	
+   161		return 0;
+   162	}
+   163	
 
 -- 
 0-DAY CI Kernel Test Service
