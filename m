@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4E2233D9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 19:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AF422068F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 19:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760643597; cv=none; b=cHDbckQjgiDrxr1MxcfmwPQe9YLH4mfZUQZY1n2bXyJ4hZM6HmC5DKeb8Tq0DhByisYDYkcP+TyijXDCppH/h13qi+QHFsHsOBCECA84z5oPOQUyaGeL1oNE6rX+lccrVJQI26JKS79ysvwsPXJTQhdw7G2YKY8jz6fzIsDSLoQ=
+	t=1760644256; cv=none; b=Y55rPuTgfVSBynKF/8hqxqwLEChZBrH8gL9FkIBmxh+kTupqicf7+4pcJJoCw0dSAX6N4V4XUIDdhEeiqvf8QSFheT5aaJ8W6XG0v40G7vGcOlP6tLyGyVbBEYZf8ml7AkuwOikSMqby1UHkCkM1CGedYcfYq+TUIDBC9oHybrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760643597; c=relaxed/simple;
-	bh=CC/AgS6gk9HMNPlrpGG6X9jAb39xkIRmyJwwtgPVL0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AxDzCaOauYRH9dma5veNSu6g9IiKN9PP1HB7U7wbaNp6LKxZ3a+3JLjDJO2/jK3LmFmeZpB951ZQtWkoJQQMdCQ13Kl3D0FiKMrBOnJ+yViOfhZqTKdClvqA69FgUQ49freBnNUNRst6xTb8sS3QhHVEPJP3zu2sqxRa4LdOyCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa4cbksi; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1760644256; c=relaxed/simple;
+	bh=RS+t6YGgDPGH0QrJikpuL0YqHttAKS08N3658tleLhw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hIElf/Sd14FweNVhL51IFBMWL8G9RodkID+r5mSzivWVdyiZjIr4B5qmzCKnPBTPsl2d0vNK7bvUFIFuu/EyrOIhUJRw1oeEi0kMEEfJs5TSmf4DmP/RotYii9F9x4PNqtMFBJvWgD+PS0a+3KAKsDYWnxwC12qBDj49xdVjBEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MdII5gRA; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa4cbksi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdII5gRA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760643596; x=1792179596;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CC/AgS6gk9HMNPlrpGG6X9jAb39xkIRmyJwwtgPVL0Q=;
-  b=Xa4cbksieYVCNshC28sOwNRMFWq7gsWVvZfryWEg/tTw5Ox1gIuY2xnN
-   NqXwBt/rXJvwsZynFWQdNrr8B2a0iAzVnncrwA5wUhmhaC1PoUo/5Lnho
-   T/Bkju0D3f5fO+E8ixDm8KwaQEJFAzWQtRga8eGTqSf75i7XOFiXbrPCj
-   PYtWdqWbWuCMRYQxxwJpMN2V+rxa7he/DWQ/T7AFV+khAzx1+CN7CrT0H
-   cvPVz6KXgAffQCntpxeiHsl5omV94DtTnUttZFxiE7YRc/vkaL0kj84+e
-   eAkt8PudTA/BqLilbRrbPmoqflkOLV08XgqRGAkRlVQgngEpV9pc2LP0G
-   g==;
-X-CSE-ConnectionGUID: bWcsBUHHQ2qXthn92yvqqQ==
-X-CSE-MsgGUID: fIsGkVuuS4i0gEklOikqKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="73966930"
+  t=1760644255; x=1792180255;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RS+t6YGgDPGH0QrJikpuL0YqHttAKS08N3658tleLhw=;
+  b=MdII5gRAPYIsVgxbve2ZzamexQAZKas2dLC9Wk9DmKtkhcd4NkfCO4Jc
+   m3knIQ6mHaC3TWID5HVybAHg7SplIgr4CIspHkOrH609UqwgZJ8WevAM+
+   UTWBNwUbcrQNb93yOlCZkn8DMKrfAh+3A5b0KXf6+/b1ExC0QkqA7xZEL
+   tHNLkJLnalv1/ZAEOIDfo5FTKrEwTtignCYUOnSKM5XObR0mBElOlq4n/
+   FCedf6yWEdIoXePjECstO71jybh5iwA44Hbrr2EEV2nVxdFMLPK4I3vHf
+   UwVmFKFoObyUw+jXZE2imAbd6BLq5tlYDiRIp3rFzpSTJ7QcReSwEBFbc
+   w==;
+X-CSE-ConnectionGUID: IUfhC73DQIS5qRrk4eEadQ==
+X-CSE-MsgGUID: /TI1y4NvTz2nODHLNAgu+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62945676"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="73966930"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:39:55 -0700
-X-CSE-ConnectionGUID: NiWqnOR8QWa3OZf6Nqok/A==
-X-CSE-MsgGUID: ceApWpnpTTWBjGlb+XGk2g==
+   d="scan'208";a="62945676"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:50:54 -0700
+X-CSE-ConnectionGUID: xRONJ1hoQFyq/QQF3OAmEg==
+X-CSE-MsgGUID: 01T0xB3USC+zJIsevlUfTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="182224908"
+   d="scan'208";a="182478169"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Oct 2025 12:39:50 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 16 Oct 2025 12:50:52 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9TpE-0005Br-2h;
-	Thu, 16 Oct 2025 19:39:48 +0000
-Date: Fri, 17 Oct 2025 03:39:24 +0800
+	id 1v9TzZ-0005C7-38;
+	Thu, 16 Oct 2025 19:50:31 +0000
+Date: Fri, 17 Oct 2025 03:50:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "D. Wythe" <alibuda@linux.alibaba.com>, mjambigi@linux.ibm.com,
-	wenjia@linux.ibm.com, wintera@linux.ibm.com,
-	dust.li@linux.alibaba.com, tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
-	netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-rdma@vger.kernel.org, pabeni@redhat.com, edumazet@google.com,
-	sidraya@linux.ibm.com, jaka@linux.ibm.com
-Subject: Re: [PATCH net-next] net/smc: add full IPv6 support for SMC
-Message-ID: <202510170341.RsDKVdRg-lkp@intel.com>
-References: <20251016054541.692-1-alibuda@linux.alibaba.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15-2025-07 4/4]
+ crypto/fips140-module.c:482:8: error: implicit declaration of function
+ 'register_trace_android_vh_sha256'
+Message-ID: <202510170330.oa16ixWW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,130 +62,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016054541.692-1-alibuda@linux.alibaba.com>
 
-Hi Wythe,
+Hi Eric,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/net-smc-add-full-IPv6-support-for-SMC/20251016-134735
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251016054541.692-1-alibuda%40linux.alibaba.com
-patch subject: [PATCH net-next] net/smc: add full IPv6 support for SMC
-config: s390-randconfig-002-20251017 (https://download.01.org/0day-ci/archive/20251017/202510170341.RsDKVdRg-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170341.RsDKVdRg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-07
+head:   64f9c442f2da497a5771ed13325c0c7fe99eca39
+commit: ae4ca7a09bb6715a0f3533fa6e499ce40b5d7ac1 [4/4] ANDROID: fips140: allow building without LTO
+config: arm64-randconfig-004-20251016 (https://download.01.org/0day-ci/archive/20251017/202510170330.oa16ixWW-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170330.oa16ixWW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510170341.RsDKVdRg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510170330.oa16ixWW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/smc/smc_wr.h:20,
-                    from net/smc/smc_llc.h:16,
-                    from net/smc/af_smc.c:47:
-   net/smc/af_smc.c: In function 'smc_find_proposal_devices':
->> include/net/sock.h:389:37: error: 'struct sock_common' has no member named 'skc_v6_rcv_saddr'; did you mean 'skc_rcv_saddr'?
-    #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-                                        ^~~~~~~~~~~~~~~~
-   net/smc/smc_core.h:639:30: note: in definition of macro 'smc_ipaddr_from'
-       __ipaddr->addr_v6 = __sk->_v6_member; \
-                                 ^~~~~~~~~~
-   net/smc/af_smc.c:1136:70: note: in expansion of macro 'sk_v6_rcv_saddr'
-     smc_ipaddr_from(&ini->smcrv2.saddr, smc->clcsock->sk, sk_rcv_saddr, sk_v6_rcv_saddr);
-                                                                         ^~~~~~~~~~~~~~~
-   In file included from net/smc/af_smc.c:32:
-   net/smc/af_smc.c: In function 'smc_connect_rdma_v2_prepare':
->> include/net/sock.h:389:37: error: 'struct sock_common' has no member named 'skc_v6_rcv_saddr'; did you mean 'skc_rcv_saddr'?
-    #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-                                        ^~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1241:53: note: in expansion of macro 'sk_v6_rcv_saddr'
-       if (smc_ib_find_route_v6(net, &smc->clcsock->sk->sk_v6_rcv_saddr,
-                                                        ^~~~~~~~~~~~~~~
-   In file included from net/smc/smc_wr.h:20,
-                    from net/smc/smc_llc.h:16,
-                    from net/smc/af_smc.c:47:
-   net/smc/af_smc.c: In function 'smc_find_rdma_v2_device_serv':
->> include/net/sock.h:389:37: error: 'struct sock_common' has no member named 'skc_v6_rcv_saddr'; did you mean 'skc_rcv_saddr'?
-    #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-                                        ^~~~~~~~~~~~~~~~
-   net/smc/smc_core.h:639:30: note: in definition of macro 'smc_ipaddr_from'
-       __ipaddr->addr_v6 = __sk->_v6_member; \
-                                 ^~~~~~~~~~
-   net/smc/af_smc.c:2320:74: note: in expansion of macro 'sk_v6_rcv_saddr'
-     smc_ipaddr_from(&ini->smcrv2.saddr, new_smc->clcsock->sk, sk_rcv_saddr, sk_v6_rcv_saddr);
-                                                                             ^~~~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:366:9: note: previous definition is here
+     366 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> crypto/fips140-module.c:482:8: error: implicit declaration of function 'register_trace_android_vh_sha256' [-Werror,-Wimplicit-function-declaration]
+     482 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:482:8: note: did you mean 'trace_android_vh_sha256'?
+   include/trace/hooks/fips140.h:19:1: note: 'trace_android_vh_sha256' declared here
+      19 | DECLARE_HOOK(android_vh_sha256,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     571 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:185:1: note: expanded from here
+     185 | trace_android_vh_sha256
+         | ^
+>> crypto/fips140-module.c:483:8: error: implicit declaration of function 'register_trace_android_vh_aes_expandkey' [-Werror,-Wimplicit-function-declaration]
+     483 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:483:8: note: did you mean 'trace_android_vh_aes_expandkey'?
+   include/trace/hooks/fips140.h:26:1: note: 'trace_android_vh_aes_expandkey' declared here
+      26 | DECLARE_HOOK(android_vh_aes_expandkey,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     571 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:188:1: note: expanded from here
+     188 | trace_android_vh_aes_expandkey
+         | ^
+>> crypto/fips140-module.c:484:8: error: implicit declaration of function 'register_trace_android_vh_aes_encrypt' [-Werror,-Wimplicit-function-declaration]
+     484 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+         |               ^
+>> crypto/fips140-module.c:485:8: error: implicit declaration of function 'register_trace_android_vh_aes_decrypt' [-Werror,-Wimplicit-function-declaration]
+     485 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+         |               ^
+   1 warning and 4 errors generated.
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
    Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +389 include/net/sock.h
+vim +/register_trace_android_vh_sha256 +482 crypto/fips140-module.c
 
-4dc6dc7162c08b Eric Dumazet             2009-07-15  368  
-68835aba4d9b74 Eric Dumazet             2010-11-30  369  #define sk_dontcopy_begin	__sk_common.skc_dontcopy_begin
-68835aba4d9b74 Eric Dumazet             2010-11-30  370  #define sk_dontcopy_end		__sk_common.skc_dontcopy_end
-4dc6dc7162c08b Eric Dumazet             2009-07-15  371  #define sk_hash			__sk_common.skc_hash
-5080546682bae3 Eric Dumazet             2013-10-02  372  #define sk_portpair		__sk_common.skc_portpair
-05dbc7b59481ca Eric Dumazet             2013-10-03  373  #define sk_num			__sk_common.skc_num
-05dbc7b59481ca Eric Dumazet             2013-10-03  374  #define sk_dport		__sk_common.skc_dport
-5080546682bae3 Eric Dumazet             2013-10-02  375  #define sk_addrpair		__sk_common.skc_addrpair
-5080546682bae3 Eric Dumazet             2013-10-02  376  #define sk_daddr		__sk_common.skc_daddr
-5080546682bae3 Eric Dumazet             2013-10-02  377  #define sk_rcv_saddr		__sk_common.skc_rcv_saddr
-^1da177e4c3f41 Linus Torvalds           2005-04-16  378  #define sk_family		__sk_common.skc_family
-^1da177e4c3f41 Linus Torvalds           2005-04-16  379  #define sk_state		__sk_common.skc_state
-^1da177e4c3f41 Linus Torvalds           2005-04-16  380  #define sk_reuse		__sk_common.skc_reuse
-055dc21a1d1d21 Tom Herbert              2013-01-22  381  #define sk_reuseport		__sk_common.skc_reuseport
-9fe516ba3fb29b Eric Dumazet             2014-06-27  382  #define sk_ipv6only		__sk_common.skc_ipv6only
-26abe14379f8e2 Eric W. Biederman        2015-05-08  383  #define sk_net_refcnt		__sk_common.skc_net_refcnt
-^1da177e4c3f41 Linus Torvalds           2005-04-16  384  #define sk_bound_dev_if		__sk_common.skc_bound_dev_if
-^1da177e4c3f41 Linus Torvalds           2005-04-16  385  #define sk_bind_node		__sk_common.skc_bind_node
-8feaf0c0a5488b Arnaldo Carvalho de Melo 2005-08-09  386  #define sk_prot			__sk_common.skc_prot
-07feaebfcc10cd Eric W. Biederman        2007-09-12  387  #define sk_net			__sk_common.skc_net
-efe4208f47f907 Eric Dumazet             2013-10-03  388  #define sk_v6_daddr		__sk_common.skc_v6_daddr
-efe4208f47f907 Eric Dumazet             2013-10-03 @389  #define sk_v6_rcv_saddr	__sk_common.skc_v6_rcv_saddr
-33cf7c90fe2f97 Eric Dumazet             2015-03-11  390  #define sk_cookie		__sk_common.skc_cookie
-70da268b569d32 Eric Dumazet             2015-10-08  391  #define sk_incoming_cpu		__sk_common.skc_incoming_cpu
-8e5eb54d303b7c Eric Dumazet             2015-10-08  392  #define sk_flags		__sk_common.skc_flags
-ed53d0ab761f5c Eric Dumazet             2015-10-08  393  #define sk_rxhash		__sk_common.skc_rxhash
-efe4208f47f907 Eric Dumazet             2013-10-03  394  
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  395  	__cacheline_group_begin(sock_write_rx);
-43f51df4172955 Eric Dumazet             2021-11-15  396  
-9115e8cd2a0c6e Eric Dumazet             2016-12-03  397  	atomic_t		sk_drops;
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  398  	__s32			sk_peek_off;
-7d452516b67add Eric Dumazet             2025-09-29  399  	struct sk_buff_head	sk_error_queue;
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  400  	struct sk_buff_head	sk_receive_queue;
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  401  	/*
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  402  	 * The backlog queue is special, it is always used with
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  403  	 * the per-socket spinlock held and requires low latency
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  404  	 * access. Therefore we special case it's implementation.
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  405  	 * Note : rmem_alloc is in this structure to fill a hole
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  406  	 * on 64bit arches, not because its logically part of
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  407  	 * backlog.
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  408  	 */
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  409  	struct {
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  410  		atomic_t	rmem_alloc;
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  411  		int		len;
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  412  		struct sk_buff	*head;
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  413  		struct sk_buff	*tail;
-fa438ccfdfd3f6 Eric Dumazet             2007-03-04  414  	} sk_backlog;
-b178bb3dfc30d9 Eric Dumazet             2010-11-16  415  #define sk_rmem_alloc sk_backlog.rmem_alloc
-2c8c56e15df3d4 Eric Dumazet             2014-11-11  416  
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  417  	__cacheline_group_end(sock_write_rx);
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  418  
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  419  	__cacheline_group_begin(sock_read_rx);
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  420  	/* early demux fields */
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  421  	struct dst_entry __rcu	*sk_rx_dst;
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  422  	int			sk_rx_dst_ifindex;
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  423  	u32			sk_rx_dst_cookie;
-5d4cc87414c5d1 Eric Dumazet             2024-02-16  424  
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  477  
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  478  static bool update_fips140_library_routines(void)
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  479  {
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  480  	int ret;
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  481  
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @482  	ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @483  	      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @484  	      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @485  	      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  486  
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  487  	return ret == 0;
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  488  }
+2db9143a1b5a70 Ard Biesheuvel 2021-03-23  489  
+
+:::::: The code at line 482 was first introduced by commit
+:::::: 2db9143a1b5a70edaa69a5e1b12acfef490c6d38 ANDROID: fips140: add kernel crypto module
+
+:::::: TO: Ard Biesheuvel <ardb@google.com>
+:::::: CC: Eric Biggers <ebiggers@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
