@@ -1,177 +1,294 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA46D1DB122
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 03:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D445F214A79
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 03:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760585298; cv=none; b=WMa28mTuQ33tzYuSNhF5b4ecorseI3J0C/HcIzgQd36fiHi8IqSEE43hhD8vrj/qGtYMh27UiSBm9GKh+koKYzaQOJBYUWRMAlDFITECyG8v4YVgCAukhotBoOL1SBhp4Cf7X1bvrxz/q1jZm4nsF0/39eeBUe4RP9pEOfUfA+g=
+	t=1760586922; cv=none; b=dRlaTIHXInM7ggGnqXFFELaDY5MAtjZTf0jb5fSg4xtsMUi+lPgPCiSCFDdUoLFXaeyvPawXJk8z4sUu87uROsjvWZHRya+VZHtNR3bikwDZskFQLfb8RUdM5HrgrZny3d6+qM93/xyzmoqfQB2ioq4itTT6dFgyTbtiqYQDUM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760585298; c=relaxed/simple;
-	bh=YuhMJ7IURSN/c0WscS4LqfJVABe59UgRlw5ETqTHE4w=;
+	s=arc-20240116; t=1760586922; c=relaxed/simple;
+	bh=uyz1GY4+vfaKF69cegJW5F5FnUUtXIpdHDZD1SOvAZ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nky7Q43zkRgfwI6jQdIbVhG8r1kkrJhpvffP5ymt4beCP6c/12wpTv56Dv3mermQHWrop52J8mvVUdJSPMCgw0DY+9m5fO9peHhOkLGFl2PyGyzro/UzzDME5rQDgdJqK3FST1nHeQtY73yxOX4yiNSNgP/fuadw8l/Knd6Ne2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIyykUIR; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=fg23OrjeA7tj3Z13UVpqRX9clUm9HWv/w8k3jbDGGerWGKqfEb7AidhUqGsXNGOAmGLFyqQ0BXjwiUylCIuVq84mfCENwRsLQ3uqcQ8wJivTbyHGFoUDp4JYg+7DhhW5rOlCYGLzFdOr7lFjc8io9ltZMdxGuucb0KII2YPdYH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QFuoeJjg; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIyykUIR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760585297; x=1792121297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YuhMJ7IURSN/c0WscS4LqfJVABe59UgRlw5ETqTHE4w=;
-  b=ZIyykUIRPKZ6rnzMzHG+69oZCYeoRgsLdv/Ux4LsetyP2K5/BcfMakGu
-   a4jRiCnrPWYfuYNr0NiiG1GFmJ9nXXPnDfQY7g9oazyBQHnR7XPYeMyJJ
-   mEsxH5P6uN8ts6wGHh4zGcU1vKt7ha3BFsaZ2YIISsc5j3VIRukqtVVuD
-   IKB6+jNRSUgwrVThEnfGSnJnuVZ54knAlOXXSTJ0H0FnX+/l6TroxLWDs
-   74cJsPiNGGaS58vizNe/q5QYnto10YhMvS8qLbHDOpLho9Isx8zgglPWD
-   V9psKlcvbIcjTn7J7YAM8wCksHF+cEYi/bGvExjZu9KH/EUB7TWFVoV5B
-   Q==;
-X-CSE-ConnectionGUID: 55sltDAXS4+XT9R5r+1ZXw==
-X-CSE-MsgGUID: v/yTQmf/QxmEvGTJzq4DyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="80211157"
-X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="80211157"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 20:28:16 -0700
-X-CSE-ConnectionGUID: h4zjBHpbS4WOJ1jCF0CC1w==
-X-CSE-MsgGUID: a2/yikpcSgKQK1Ay7/R7Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="187431115"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2025 20:28:12 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v9Eew-0004Q9-0R;
-	Thu, 16 Oct 2025 03:28:10 +0000
-Date: Thu, 16 Oct 2025 11:25:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elaine Zhang <zhangqing@rock-chips.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, sugar.zhang@rock-chips.com, heiko@sntech.de,
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	huangtao@rock-chips.com
-Subject: Re: [PATCH v1 3/5] clk: rockchip: Add clock controller for the
- RV1126B
-Message-ID: <202510161113.KpOm5Unm-lkp@intel.com>
-References: <20251015091325.71333-4-zhangqing@rock-chips.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QFuoeJjg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760586919;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zc86LD6zugfOCllRI8l5UX622RRX/t1Ywr+EQbxvvEc=;
+	b=QFuoeJjgw5KcElF91/mRLiXzjB8mHs3Epsgf8JvwNRWu5yy4NL3uiDi6d+S2ehDkQH8Yod
+	ToWcngKQyreJJQ7BISZQ7JLiXaAneoJj0YktfzmT1wX0tO8vvHoyaFrJpaMuBBEM+JAh2A
+	AEpuhwVA7LcipjmyGg0NIGJIggJ9kTo=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-210-Hdd2yNu_Oe6h4qncFVr5mw-1; Wed, 15 Oct 2025 23:55:16 -0400
+X-MC-Unique: Hdd2yNu_Oe6h4qncFVr5mw-1
+X-Mimecast-MFC-AGG-ID: Hdd2yNu_Oe6h4qncFVr5mw_1760586915
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-32ec2211659so293209a91.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Oct 2025 20:55:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760586915; x=1761191715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zc86LD6zugfOCllRI8l5UX622RRX/t1Ywr+EQbxvvEc=;
+        b=oDth5DbE55B+wLdBx7NbL2xM0PZBOczCY/uL+k0OdQAhuL8gNpt8q+3h8dwvscXzV4
+         8nDnWmMphN3xNTmx7ZBEku23BaMnNBXantYPe1kE4QPV/COMf2JoCnzwDfWInJSpcLQX
+         yJW7UvmIoYrZJzN9zyMGDvkO5mfPlaeejfQIalClw/qkUVXNkbM+5Ha6bcn7GIl67QIy
+         5S0uqBHv2hn5zgmxXNKYU2oEpuMdk1uxiDXEPPto4GGyXZjKJxiVsjnlTFBD2uay5iYn
+         +8N3nUCTjigYHcR5M1UHqEXTKkDIL9iRVoHKQLrSolkqFHMUQpKdLz9dH5KYPT1L9bDr
+         eRoA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeuMOKfh8hqHDf6FE+5NIYuk4JEN+D3EqsSLWf7i5IFYZf1pknuHw9x0cDGnClfoIeD6mqYn8A4mJquwF8@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS/tBj+mw/wBqZ5HILkQUUG3MO1P2i82cztUD1f9wm+9c3Cl+k
+	2WT/2P16/9MPgbEYTxyKrS6i/lUxcNeMrsa8Op5mjWRQS48GBiT9v9Ka0MvHHJGrLBoHQvr1cU4
+	pFwbXEqBjar1malFj7kQFbHnUzmYlrDrCEnhF7mACul4PdPUVhDSEkhSW6zyzUtDptz0=
+X-Gm-Gg: ASbGncvKcR35wXl870xwv/9Eh/tAb8vyExC3iJt6GHb88jwSBPOkON3f1T8Cr8hiBNP
+	eQDdCKxtXmRK63VGJ0RnMSWCB7f6zhBCYaZ7t96WysEehqo4oWmIHH47//16ZRT17IiOKN0ASy/
+	hL6Er8spO/doh4aTENY70Cly0b8aJ5ZSuZOek29EOCo6+SaoexKTsjwZr+H+ZW6v8AZL7h4ClM0
+	qYiK2ud0VmVsnQ9rCOuXsck/0y3vPMUxDn5fHrdKQM7zzxmZe8aslp5iudYF9LhF3BJdVrPPECP
+	iyOmoZjOULK9IvxKfa8CUc4hHd3LDGmQTLSm2F8dQHTxrA4iXMBRNFpYrLuhtZ58CA==
+X-Received: by 2002:a17:90b:4d05:b0:32e:96b1:fb70 with SMTP id 98e67ed59e1d1-33b51118904mr44538919a91.12.1760586915104;
+        Wed, 15 Oct 2025 20:55:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEg1HSgO+nMcnXRtAKiTx8Q7AQAReMvTuE/C3S8VuhwzjFekqA1Fpb56U887OfER7DJGa5MQ==
+X-Received: by 2002:a17:90b:4d05:b0:32e:96b1:fb70 with SMTP id 98e67ed59e1d1-33b51118904mr44538861a91.12.1760586914538;
+        Wed, 15 Oct 2025 20:55:14 -0700 (PDT)
+Received: from localhost ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6a2472fe0bsm750566a12.17.2025.10.15.20.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 20:55:14 -0700 (PDT)
+Date: Thu, 16 Oct 2025 11:51:23 +0800
+From: Coiby Xu <coxu@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-integrity@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Karel Srot <ksrot@redhat.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ima: Fall back to default kernel module signature
+ verification
+Message-ID: <barlwlddbdnk5ke2a4zbu7ckfzjssfo7lc4w6ffsg2cl6c7rmn@buuhox6wd6zt>
+References: <20250928030358.3873311-1-coxu@redhat.com>
+ <202510030029.VRKgik99-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <202510030029.VRKgik99-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: NI0n2Pci5yM8a-sjvjFJGwm-OQIeFiNkOh32vLaQV1s_1760586915
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20251015091325.71333-4-zhangqing@rock-chips.com>
 
-Hi Elaine,
+On Fri, Oct 03, 2025 at 01:17:30AM +0800, kernel test robot wrote:
+>Hi Coiby,
 
-kernel test robot noticed the following build warnings:
+Hi,
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on clk/clk-next pza/reset/next linus/master v6.18-rc1 next-20251015]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>kernel test robot noticed the following build errors:
+>
+>[auto build test ERROR on cec1e6e5d1ab33403b809f79cd20d6aff124ccfe]
+>
+>url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/ima-Fall-back-to-default-kernel-module-signature-verification/20250928-110501
+>base:   cec1e6e5d1ab33403b809f79cd20d6aff124ccfe
+>patch link:    https://lore.kernel.org/r/20250928030358.3873311-1-coxu%40redhat.com
+>patch subject: [PATCH] ima: Fall back to default kernel module signature verification
+>config: i386-randconfig-012-20251002 (https://download.01.org/0day-ci/archive/20251003/202510030029.VRKgik99-lkp@intel.com/config)
+>compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251003/202510030029.VRKgik99-lkp@intel.com/reproduce)
+>
+>If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Closes: https://lore.kernel.org/oe-kbuild-all/202510030029.VRKgik99-lkp@intel.com/
+>
+>All errors (new ones prefixed by >>):
+>
+>   ld: security/integrity/ima/ima_appraise.o: in function `ima_appraise_measurement':
+>>> security/integrity/ima/ima_appraise.c:587:(.text+0xbbb): undefined reference to `set_module_sig_enforced'
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elaine-Zhang/clk-rockchip-Implement-rockchip_clk_register_armclk_v2/20251015-175108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20251015091325.71333-4-zhangqing%40rock-chips.com
-patch subject: [PATCH v1 3/5] clk: rockchip: Add clock controller for the RV1126B
-config: arm64-randconfig-003-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161113.KpOm5Unm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161113.KpOm5Unm-lkp@intel.com/reproduce)
+Thanks for reporting the error! This happens when
+set_module_sig_enforced is called without CONFIG_MODULE_SIG not enabled.
+I'll address this issue by declaring set_module_sig_enforced only when
+CONFIG_MODULE_SIG is enabled.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510161113.KpOm5Unm-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/clk/rockchip/clk-rv1126b.c:17:
->> drivers/clk/rockchip/clk-rv1126b.c:146:7: warning: 'mux_ddrphy_p' defined but not used [-Wunused-const-variable=]
-     146 | PNAME(mux_ddrphy_p)   = { "dpll", "aclk_sysmem" };
-         |       ^~~~~~~~~~~~
-   drivers/clk/rockchip/clk.h:740:43: note: in definition of macro 'PNAME'
-     740 | #define PNAME(x) static const char *const x[] __initconst
-         |                                           ^
-
-
-vim +/mux_ddrphy_p +146 drivers/clk/rockchip/clk-rv1126b.c
-
-    86	
-    87	PNAME(mux_pll_p)			= { "xin24m" };
-    88	PNAME(mux_gpll_cpll_p)			= { "gpll", "cpll" };
-    89	PNAME(mux_gpll_aupll_p)			= { "gpll", "aupll" };
-    90	PNAME(mux_gpll_aupll_cpll_p)		= { "gpll", "aupll", "cpll" };
-    91	PNAME(mux_gpll_cpll_24m_p)		= { "gpll", "cpll", "xin24m" };
-    92	PNAME(mux_cpll_24m_p)			= { "cpll", "xin24m" };
-    93	PNAME(mux_24m_gpll_aupll_cpll_p)	= { "xin24m", "gpll", "aupll", "cpll" };
-    94	PNAME(mux_24m_gpll_cpll_p)		= { "xin24m", "gpll", "cpll" };
-    95	PNAME(mux_24m_gpll_aupll_p)		= { "xin24m", "gpll", "aupll" };
-    96	PNAME(mux_sclk_uart_src_p)		= { "xin24m", "clk_cm_frac0", "clk_cm_frac1", "clk_cm_frac2",
-    97						    "clk_uart_frac0", "clk_uart_frac1" };
-    98	PNAME(mclk_sai0_src_p)			= { "xin24m", "clk_cm_frac0", "clk_cm_frac1", "clk_cm_frac2",
-    99						    "clk_audio_frac0", "clk_audio_frac1", "clk_audio_int0", "clk_audio_int1", "mclk_sai0_from_io" };
-   100	PNAME(mclk_sai1_src_p)			= { "xin24m", "clk_cm_frac0", "clk_cm_frac1", "clk_cm_frac2", "clk_audio_frac0",
-   101						    "clk_audio_frac1", "clk_audio_int0", "clk_audio_int1", "mclk_sai1_from_io" };
-   102	PNAME(mclk_sai2_src_p)			= { "xin24m", "clk_cm_frac0", "clk_cm_frac1", "clk_cm_frac2", "clk_audio_frac0",
-   103						    "clk_audio_frac1", "clk_audio_int0", "clk_audio_int1", "mclk_sai2_from_io" };
-   104	PNAME(mux_sai_src_p)			= { "xin24m", "clk_cm_frac0", "clk_cm_frac1", "clk_cm_frac2", "clk_audio_frac0",
-   105						    "clk_audio_frac1", "clk_audio_int0", "clk_audio_int1", "mclk_sai0_from_io",
-   106						    "mclk_sai1_from_io", "mclk_sai2_from_io"};
-   107	PNAME(mux_100m_24m_p)			= { "clk_cpll_div10", "xin24m" };
-   108	PNAME(mux_200m_24m_p)			= { "clk_gpll_div6", "xin24m" };
-   109	PNAME(mux_500m_400m_200m_p)		= { "clk_cpll_div2", "clk_gpll_div3", "clk_gpll_div6" };
-   110	PNAME(mux_300m_200m_p)			= { "clk_gpll_div4", "clk_gpll_div6" };
-   111	PNAME(mux_500m_400m_300m_p)		= { "clk_cpll_div2", "clk_gpll_div3", "clk_gpll_div4" };
-   112	PNAME(mux_333m_200m_p)			= { "clk_cpll_div3", "clk_gpll_div6" };
-   113	PNAME(mux_600m_400m_200m_p)		= { "clk_gpll_div2", "clk_gpll_div3", "clk_gpll_div6" };
-   114	PNAME(mux_400m_300m_200m_p)		= { "clk_gpll_div3", "clk_gpll_div4", "clk_gpll_div6" };
-   115	PNAME(mux_200m_100m_p)			= { "clk_gpll_div6", "clk_cpll_div10" };
-   116	PNAME(mux_200m_100m_50m_24m_p)		= { "clk_gpll_div6", "clk_cpll_div10", "clk_cpll_div20", "xin24m" };
-   117	PNAME(mux_600m_24m_p)			= { "clk_gpll_div2", "xin24m" };
-   118	PNAME(mux_armclk_p)			= { "clk_core_pll", "clk_core_pvtpll" };
-   119	PNAME(aclk_npu_root_p)			= { "clk_npu_pll", "clk_npu_pvtpll" };
-   120	PNAME(clk_saradc0_p)			= { "clk_saradc0_src", "clk_saradc0_rcosc_io" };
-   121	PNAME(clk_core_vepu_p)			= { "clk_vepu_pll", "clk_vepu_pvtpll" };
-   122	PNAME(clk_core_fec_p)			= { "clk_core_fec_src", "clk_vcp_pvtpll" };
-   123	PNAME(clk_core_aisp_p)			= { "clk_aisp_pll", "clk_vcp_pvtpll" };
-   124	PNAME(clk_core_isp_root_p)		= { "clk_isp_pll", "clk_isp_pvtpll" };
-   125	PNAME(clk_gmac_ptp_ref_p)		= { "clk_gmac_ptp_ref_src", "clk_gmac_ptp_from_io" };
-   126	PNAME(clk_saradc1_p)			= { "clk_saradc1_src", "clk_saradc1_rcosc_io" };
-   127	PNAME(clk_saradc2_p)			= { "clk_saradc2_src", "clk_saradc2_rcosc_io" };
-   128	PNAME(clk_rcosc_src_p)			= { "xin24m", "clk_rcosc", "clk_rcosc_div2", "clk_rcosc_div3", "clk_rcosc_div4" };
-   129	PNAME(busclk_pmu_mux_p)			= { "clk_cpll_div10", "clk_rcosc_src" };
-   130	PNAME(clk_xin_rc_div_p)			= { "xin24m", "clk_rcosc_src" };
-   131	PNAME(clk_32k_p)			= { "clk_xin_rc_div", "clk_32k_rtc", "clk_32k_io" };
-   132	PNAME(mux_24m_32k_p)			= { "xin24m", "clk_32k" };
-   133	PNAME(mux_24m_rcosc_buspmu_p)		= { "xin24m", "clk_rcosc_src", "busclk_pmu_src" };
-   134	PNAME(mux_24m_rcosc_buspmu_32k_p)	= { "xin24m", "clk_rcosc_src", "busclk_pmu_src", "clk_32k" };
-   135	PNAME(sclk_uart0_p)			= { "sclk_uart0_src", "xin24m", "clk_rcosc_src" };
-   136	PNAME(clk_osc_rcosc_ctrl_p)		= { "clk_rcosc_src", "clk_testout_out" };
-   137	PNAME(lrck_src_asrc_p)			= { "mclk_asrc0", "mclk_asrc1", "mclk_asrc2", "mclk_asrc3",
-   138						    "fs_inter_from_sai0", "fs_inter_from_sai1", "fs_inter_from_sai2", "clkout_pdm"};
-   139	PNAME(clk_ref_pipephy_p)		= { "clk_ref_pipephy_cpll_src", "xin24m" };
-   140	PNAME(clk_timer0_parents_p)		= { "clk_timer_root", "mclk_sai0_from_io", "sclk_sai0_from_io" };
-   141	PNAME(clk_timer1_parents_p)		= { "clk_timer_root", "mclk_sai1_from_io", "sclk_sai1_from_io" };
-   142	PNAME(clk_timer2_parents_p)		= { "clk_timer_root", "mclk_sai2_from_io", "sclk_sai2_from_io" };
-   143	PNAME(clk_timer3_parents_p)		= { "clk_timer_root", "mclk_asrc0", "mclk_asrc1" };
-   144	PNAME(clk_timer4_parents_p)		= { "clk_timer_root", "mclk_asrc2", "mclk_asrc3" };
-   145	PNAME(clk_macphy_p)			= { "xin24m", "clk_cpll_div20" };
- > 146	PNAME(mux_ddrphy_p)			= { "dpll", "aclk_sysmem" };
-   147	PNAME(clk_cpll_div10_p)			= { "gpll", "clk_aisp_pll_src" };
-   148	
+>
+>
+>vim +587 security/integrity/ima/ima_appraise.c
+>
+>   483	
+>   484	/*
+>   485	 * ima_appraise_measurement - appraise file measurement
+>   486	 *
+>   487	 * Call evm_verifyxattr() to verify the integrity of 'security.ima'.
+>   488	 * Assuming success, compare the xattr hash with the collected measurement.
+>   489	 *
+>   490	 * Return 0 on success, error code otherwise
+>   491	 */
+>   492	int ima_appraise_measurement(enum ima_hooks func, struct ima_iint_cache *iint,
+>   493				     struct file *file, const unsigned char *filename,
+>   494				     struct evm_ima_xattr_data *xattr_value,
+>   495				     int xattr_len, const struct modsig *modsig)
+>   496	{
+>   497		static const char op[] = "appraise_data";
+>   498		int audit_msgno = AUDIT_INTEGRITY_DATA;
+>   499		const char *cause = "unknown";
+>   500		struct dentry *dentry = file_dentry(file);
+>   501		struct inode *inode = d_backing_inode(dentry);
+>   502		enum integrity_status status = INTEGRITY_UNKNOWN;
+>   503		int rc = xattr_len;
+>   504		bool try_modsig = iint->flags & IMA_MODSIG_ALLOWED && modsig;
+>   505		bool enforce_module_sig = iint->flags & IMA_DIGSIG_REQUIRED && func == MODULE_CHECK;
+>   506	
+>   507		/* If not appraising a modsig or using default module verification, we need an xattr. */
+>   508		if (!(inode->i_opflags & IOP_XATTR) && !try_modsig && !enforce_module_sig)
+>   509			return INTEGRITY_UNKNOWN;
+>   510	
+>   511		/*
+>   512		 * Unlike any of the other LSM hooks where the kernel enforces file
+>   513		 * integrity, enforcing file integrity for the bprm_creds_for_exec()
+>   514		 * LSM hook with the AT_EXECVE_CHECK flag is left up to the discretion
+>   515		 * of the script interpreter(userspace). Differentiate kernel and
+>   516		 * userspace enforced integrity audit messages.
+>   517		 */
+>   518		if (is_bprm_creds_for_exec(func, file))
+>   519			audit_msgno = AUDIT_INTEGRITY_USERSPACE;
+>   520	
+>   521		/* If reading the xattr failed and there's no modsig or module verification, error out. */
+>   522		if (rc <= 0 && !try_modsig && !enforce_module_sig) {
+>   523			if (rc && rc != -ENODATA)
+>   524				goto out;
+>   525	
+>   526			if (iint->flags & IMA_DIGSIG_REQUIRED) {
+>   527				if (iint->flags & IMA_VERITY_REQUIRED)
+>   528					cause = "verity-signature-required";
+>   529				else
+>   530					cause = "IMA-signature-required";
+>   531			} else {
+>   532				cause = "missing-hash";
+>   533			}
+>   534	
+>   535			status = INTEGRITY_NOLABEL;
+>   536			if (file->f_mode & FMODE_CREATED)
+>   537				iint->flags |= IMA_NEW_FILE;
+>   538			if ((iint->flags & IMA_NEW_FILE) &&
+>   539			    (!(iint->flags & IMA_DIGSIG_REQUIRED) ||
+>   540			     (inode->i_size == 0)))
+>   541				status = INTEGRITY_PASS;
+>   542			goto out;
+>   543		}
+>   544	
+>   545		status = evm_verifyxattr(dentry, XATTR_NAME_IMA, xattr_value,
+>   546					 rc < 0 ? 0 : rc);
+>   547		switch (status) {
+>   548		case INTEGRITY_PASS:
+>   549		case INTEGRITY_PASS_IMMUTABLE:
+>   550		case INTEGRITY_UNKNOWN:
+>   551			break;
+>   552		case INTEGRITY_NOXATTRS:	/* No EVM protected xattrs. */
+>   553			/* Fine to not have xattrs when using a modsig or default module verification. */
+>   554			if (try_modsig || enforce_module_sig)
+>   555				break;
+>   556			fallthrough;
+>   557		case INTEGRITY_NOLABEL:		/* No security.evm xattr. */
+>   558			cause = "missing-HMAC";
+>   559			goto out;
+>   560		case INTEGRITY_FAIL_IMMUTABLE:
+>   561			set_bit(IMA_DIGSIG, &iint->atomic_flags);
+>   562			cause = "invalid-fail-immutable";
+>   563			goto out;
+>   564		case INTEGRITY_FAIL:		/* Invalid HMAC/signature. */
+>   565			cause = "invalid-HMAC";
+>   566			goto out;
+>   567		default:
+>   568			WARN_ONCE(true, "Unexpected integrity status %d\n", status);
+>   569		}
+>   570	
+>   571		if (xattr_value)
+>   572			rc = xattr_verify(func, iint, xattr_value, xattr_len, &status,
+>   573					  &cause);
+>   574	
+>   575		/*
+>   576		 * If we have a modsig and either no imasig or the imasig's key isn't
+>   577		 * known, then try verifying the modsig.
+>   578		 */
+>   579		if (try_modsig &&
+>   580		    (!xattr_value || xattr_value->type == IMA_XATTR_DIGEST_NG ||
+>   581		     rc == -ENOKEY))
+>   582			rc = modsig_verify(func, modsig, &status, &cause);
+>   583	
+>   584		/* Fall back to default kernel module signature verification */
+>   585		if (rc && enforce_module_sig) {
+>   586			rc = 0;
+> > 587			set_module_sig_enforced();
+>   588			/* CONFIG_MODULE_SIG may be disabled */
+>   589			if (is_module_sig_enforced()) {
+>   590				rc = 0;
+>   591				status = INTEGRITY_PASS;
+>   592				pr_debug("Fall back to default kernel module verification for %s\n", filename);
+>   593			}
+>   594		}
+>   595	
+>   596	out:
+>   597		/*
+>   598		 * File signatures on some filesystems can not be properly verified.
+>   599		 * When such filesystems are mounted by an untrusted mounter or on a
+>   600		 * system not willing to accept such a risk, fail the file signature
+>   601		 * verification.
+>   602		 */
+>   603		if ((inode->i_sb->s_iflags & SB_I_IMA_UNVERIFIABLE_SIGNATURE) &&
+>   604		    ((inode->i_sb->s_iflags & SB_I_UNTRUSTED_MOUNTER) ||
+>   605		     (iint->flags & IMA_FAIL_UNVERIFIABLE_SIGS))) {
+>   606			status = INTEGRITY_FAIL;
+>   607			cause = "unverifiable-signature";
+>   608			integrity_audit_msg(audit_msgno, inode, filename,
+>   609					    op, cause, rc, 0);
+>   610		} else if (status != INTEGRITY_PASS) {
+>   611			/* Fix mode, but don't replace file signatures. */
+>   612			if ((ima_appraise & IMA_APPRAISE_FIX) && !try_modsig &&
+>   613			    (!xattr_value ||
+>   614			     xattr_value->type != EVM_IMA_XATTR_DIGSIG)) {
+>   615				if (!ima_fix_xattr(dentry, iint))
+>   616					status = INTEGRITY_PASS;
+>   617			}
+>   618	
+>   619			/*
+>   620			 * Permit new files with file/EVM portable signatures, but
+>   621			 * without data.
+>   622			 */
+>   623			if (inode->i_size == 0 && iint->flags & IMA_NEW_FILE &&
+>   624			    test_bit(IMA_DIGSIG, &iint->atomic_flags)) {
+>   625				status = INTEGRITY_PASS;
+>   626			}
+>   627	
+>   628			integrity_audit_msg(audit_msgno, inode, filename,
+>   629					    op, cause, rc, 0);
+>   630		} else {
+>   631			ima_cache_flags(iint, func);
+>   632		}
+>   633	
+>   634		ima_set_cache_status(iint, func, status);
+>   635		return status;
+>   636	}
+>   637	
+>
+>-- 
+>0-DAY CI Kernel Test Service
+>https://github.com/intel/lkp-tests/wiki
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Coiby
+
