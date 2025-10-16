@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDC42E716A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 06:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004BC19CCFC;
+	Thu, 16 Oct 2025 07:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760597152; cv=none; b=DT/bCn5WKTGd9mw28L/eheVLtC3gN0KRr7Q1+VYrchBqOkS3t+oR0/TdurrT8W/Nnw2mKb7PLqjCbrTup9HRLbx6pYAxHZQlmWwZ4g5FfcGq2KhQ/N2ZfOz5AVquUru6fvZwzI4hXTFP5M8gdBQJbxHc6zx0F7lEkV7M04m1/as=
+	t=1760599015; cv=none; b=FLEckkJXeEohzddgFjEkSEBsC4J+075RZ5nCbaS0qjf8HzSR6k8U4GFE0TTDyJccIkqld5VAmM//wl0OPsDkeLn+xUbP5o3fxMa1dReRjo9YGjvSQLAoO7GBmSBHzEEFeP/lo7BylVnxyv8bdw27O8baW9ydRTMNChcnDZUfddg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760597152; c=relaxed/simple;
-	bh=aNy7KpAeYVvbjGEhJdIEPScpEEu0oaDfMEWkMvN+tDI=;
+	s=arc-20240116; t=1760599015; c=relaxed/simple;
+	bh=1x7wQQk4NaqCkw/9AblfypaPIYlk84xJ4iuiadImZeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sVi8f9w7SaG+V90XkBNSwmR28OrYvkFozujSUycZI9txbp3Gk8eh+3nDmZjxejvQ6//Rn63hdl0SCsHtPRP3ZgtRMrdicZruHiDJ8f7GXTQO97QqqlzoqsORnAYgRIH3k7E4qFXZauXaFM+bJztcu/XGU6kCQrS32yMLP0SmNEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jbgV6kJ6; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=gcZKfk+kRHy/fbiP8dGZkk8s0F43FM3jhnSiK3yQ+ln22hWFSHUkd9tYQ/ad5YgBopVXLhrAhBd4gfgGhMtbisDi2IsKQvz7tuRdpZ+qCXlVxhitb3pIuRCaP38EjUOoV8lYabzwIsgISJTs5lwA1rbFwdrIxmwDJ5TVERZ/Iv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYzpGuWt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jbgV6kJ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYzpGuWt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760597150; x=1792133150;
+  t=1760599013; x=1792135013;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aNy7KpAeYVvbjGEhJdIEPScpEEu0oaDfMEWkMvN+tDI=;
-  b=jbgV6kJ6Pu2XWEitiYOr/tNqLW+OnXf7aZKsxdh0yL/466r+Gu2QclIr
-   b/JMcpf/y8G3UaYKrph5uDlq4TRhrGCpOd0WIbYBVzgEhpSn86KXUrKC+
-   Fcd8+EdNT+FTU22mR/m3ZAzBUh3YhEi32HrLfpu7WcRkNvVq/NjyM1N2K
-   moyXoHRFYSs/vJ6Ztx/rXIKK20er2JIeuGsytuXn6BB9AKUyoxrqE5PEu
-   upVkbhx+B5FoZRCwpVjxiwipOK3WDGXLJ3dXRHcSgGitpNc5PJHcFYtEe
-   yqGJifHDUitit+4tXGLorRAOTyWaUa+dFUqkz3hV18zAhKUDmIWLMDEu6
+  bh=1x7wQQk4NaqCkw/9AblfypaPIYlk84xJ4iuiadImZeY=;
+  b=bYzpGuWttioO750BFX/SyOj2a7G6VvYWFi6UkBgzwCrDEShPu0MxeWbR
+   Jx3f2QELruW0xLyqYxESTue1KZN6Y/8aE1meKJm706eJoVR1WNZoBO1pe
+   CDjRvq+8HaJx27VtfjgO2vTvwfevvh+5XwIrs1n90jGbXCdTGAXxPbK+x
+   2lpQUowkpiSKeoyJ4kB15Qk4oCPclmXRi0iTze0a6n9f+Za0mNS+UZlFr
+   kLuxjx3uHbTBqU8n3YwN0wxkceMJIIEbj2r8RcloA69FjzZ8mTTci076g
+   vGjk42urLgPcRRLsYi3/DtonYgCsdYfP7TlD5dz1tEWmpPkTLfPxFzJkR
    g==;
-X-CSE-ConnectionGUID: 9QwNY8rMTTSyeEeeziUzlQ==
-X-CSE-MsgGUID: C23Un8TdQNybXggvwHUA7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="62822507"
+X-CSE-ConnectionGUID: a9QuWcsYSU6cjLjBEUBdxA==
+X-CSE-MsgGUID: 8FpYUIFWTPCImdYPRQMUag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11583"; a="74126726"
 X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="62822507"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 23:45:49 -0700
-X-CSE-ConnectionGUID: qvR79XUaSKmzjA8Ut9qarA==
-X-CSE-MsgGUID: /cQJueChQyeN5bu29QZcGA==
+   d="scan'208";a="74126726"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 00:16:51 -0700
+X-CSE-ConnectionGUID: /PzH+kKSSwCUZDuJUhQrZw==
+X-CSE-MsgGUID: EB5yHv1JQTGxcGY6L3uRhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,233,1754982000"; 
-   d="scan'208";a="182166200"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 15 Oct 2025 23:45:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 16 Oct 2025 00:16:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9Hk9-0004XZ-29;
-	Thu, 16 Oct 2025 06:45:45 +0000
-Date: Thu, 16 Oct 2025 14:45:27 +0800
+	id 1v9IEC-0004YV-0D;
+	Thu, 16 Oct 2025 07:16:48 +0000
+Date: Thu, 16 Oct 2025 15:15:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Brendan Jackman <jackmanb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bjackman:asi/next 42/49] mm/page_alloc.c:6445:9: error: implicit
- declaration of function 'set_direct_map_sensitive'
-Message-ID: <202510161427.B004haPH-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bjackman:asi/next 42/49] mm/page_alloc.c:6445:2: error: call to
+ undeclared function 'set_direct_map_sensitive'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202510161544.JO6MpoKg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,22 +64,21 @@ Content-Disposition: inline
 tree:   https://github.com/bjackman/linux asi/next
 head:   0c9d948029f991e9bf7db4697780d96945231c3c
 commit: 74e49455c79ba9e1df24ddd6f9989f87e5842b32 [42/49] ASI-map all memblock regions (INSECURE)
-config: s390-randconfig-002-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161427.B004haPH-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161427.B004haPH-lkp@intel.com/reproduce)
+config: s390-randconfig-001-20251016 (https://download.01.org/0day-ci/archive/20251016/202510161544.JO6MpoKg-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251016/202510161544.JO6MpoKg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510161427.B004haPH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510161544.JO6MpoKg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/page_alloc.c: In function 'free_reserved_area':
->> mm/page_alloc.c:6445:9: error: implicit declaration of function 'set_direct_map_sensitive' [-Werror=implicit-function-declaration]
+>> mm/page_alloc.c:6445:2: error: call to undeclared function 'set_direct_map_sensitive'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     6445 |         set_direct_map_sensitive(virt_to_page(start),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |         ^
+   1 error generated.
 
 
 vim +/set_direct_map_sensitive +6445 mm/page_alloc.c
