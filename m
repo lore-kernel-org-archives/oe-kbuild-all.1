@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AF422068F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 19:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D8A3346BC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Oct 2025 20:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760644256; cv=none; b=Y55rPuTgfVSBynKF/8hqxqwLEChZBrH8gL9FkIBmxh+kTupqicf7+4pcJJoCw0dSAX6N4V4XUIDdhEeiqvf8QSFheT5aaJ8W6XG0v40G7vGcOlP6tLyGyVbBEYZf8ml7AkuwOikSMqby1UHkCkM1CGedYcfYq+TUIDBC9oHybrc=
+	t=1760647408; cv=none; b=quiicyAeXtgyCWBHFmba3sugq8EHF5GiuyXUQrUw4/OrM37ZV/zN9gmB+bU5AWhGNxtaKnI2gHp3bZEkshNyYBeTqEA3345JsbtXzsFh8cBwqMIcnufKvSnQ1f9lSD2GKn58Duh+lxgHwKx/tBh1N82IDvgmQRwdgwbUh6JTgg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760644256; c=relaxed/simple;
-	bh=RS+t6YGgDPGH0QrJikpuL0YqHttAKS08N3658tleLhw=;
+	s=arc-20240116; t=1760647408; c=relaxed/simple;
+	bh=7OEXAbPPofo5QMgO6hx1rTSGSBtttUj/iC/zqgzHq0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hIElf/Sd14FweNVhL51IFBMWL8G9RodkID+r5mSzivWVdyiZjIr4B5qmzCKnPBTPsl2d0vNK7bvUFIFuu/EyrOIhUJRw1oeEi0kMEEfJs5TSmf4DmP/RotYii9F9x4PNqtMFBJvWgD+PS0a+3KAKsDYWnxwC12qBDj49xdVjBEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MdII5gRA; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=IaJIY2Ba5yfWqG6i+NF4T+x11YRxFCnOMDCpOA3NZa0UtnMA8j+8kKIIoHuSX/JmavRyi8piEEiH2JtqBvLpMHc/EGYl3Vr6T90NYOYoPiN5YdyVISCG45AWlYb4X0pw/fZfx2b5eRpLqDO71zo6o/9LS1cyoSuYiO77ExI51q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSeRzroK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdII5gRA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSeRzroK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760644255; x=1792180255;
+  t=1760647406; x=1792183406;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RS+t6YGgDPGH0QrJikpuL0YqHttAKS08N3658tleLhw=;
-  b=MdII5gRAPYIsVgxbve2ZzamexQAZKas2dLC9Wk9DmKtkhcd4NkfCO4Jc
-   m3knIQ6mHaC3TWID5HVybAHg7SplIgr4CIspHkOrH609UqwgZJ8WevAM+
-   UTWBNwUbcrQNb93yOlCZkn8DMKrfAh+3A5b0KXf6+/b1ExC0QkqA7xZEL
-   tHNLkJLnalv1/ZAEOIDfo5FTKrEwTtignCYUOnSKM5XObR0mBElOlq4n/
-   FCedf6yWEdIoXePjECstO71jybh5iwA44Hbrr2EEV2nVxdFMLPK4I3vHf
-   UwVmFKFoObyUw+jXZE2imAbd6BLq5tlYDiRIp3rFzpSTJ7QcReSwEBFbc
-   w==;
-X-CSE-ConnectionGUID: IUfhC73DQIS5qRrk4eEadQ==
-X-CSE-MsgGUID: /TI1y4NvTz2nODHLNAgu+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62945676"
+  bh=7OEXAbPPofo5QMgO6hx1rTSGSBtttUj/iC/zqgzHq0A=;
+  b=LSeRzroKS+BF30vCX8udRjZAMWgyfDxxx7lIq7053FRJYODjq7t7TU55
+   n4CXT9W9elsdPjGgE+7psKPqm/j3qsUoy0yZqPEqTc26r8sHFwdJZ5KJU
+   FGsWiDGgMowunz8QNtHK98pWy9/p9TeZ3Re+KuMQpACp98momjkqQngr9
+   vqwwvRrBsZrvBYwJe1+aLsefbco4Y4brHxOU1giG/ywx2xei//ugztRCr
+   5FrfD4l6U2DA/HD4KesLPYO1bSBQFl+EAxXccZlmXPyTM0PxmiE8Q+wry
+   0v+apJ1XTrj7RzKG4A58Xtm6ZNwuphp63wQfh6me5ALznPfObRBNo/Ycw
+   g==;
+X-CSE-ConnectionGUID: btFjfbt5QcOH4WKJKuUHVQ==
+X-CSE-MsgGUID: SnYK05t2QVmA9HGGG/gDJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62902173"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="62945676"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:50:54 -0700
-X-CSE-ConnectionGUID: xRONJ1hoQFyq/QQF3OAmEg==
-X-CSE-MsgGUID: 01T0xB3USC+zJIsevlUfTw==
+   d="scan'208";a="62902173"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 13:43:26 -0700
+X-CSE-ConnectionGUID: ANkePw1wRV2Lds0m6+zjFw==
+X-CSE-MsgGUID: pp7JqTfORPakSeyQjiYq0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="182478169"
+   d="scan'208";a="219711673"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Oct 2025 12:50:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Oct 2025 13:43:24 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9TzZ-0005C7-38;
-	Thu, 16 Oct 2025 19:50:31 +0000
-Date: Fri, 17 Oct 2025 03:50:03 +0800
+	id 1v9Uok-0005EJ-10;
+	Thu, 16 Oct 2025 20:43:22 +0000
+Date: Fri, 17 Oct 2025 04:42:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15-2025-07 4/4]
- crypto/fips140-module.c:482:8: error: implicit declaration of function
- 'register_trace_android_vh_sha256'
-Message-ID: <202510170330.oa16ixWW-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-5.10-CWF-EDAC-ANBZ25520 15/15]
+ drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:534:5: error: no
+ previous prototype for 'sss_pci_probe'
+Message-ID: <202510170408.d3FKWhBZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,120 +63,171 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Eric,
+Hi Steven,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-07
-head:   64f9c442f2da497a5771ed13325c0c7fe99eca39
-commit: ae4ca7a09bb6715a0f3533fa6e499ce40b5d7ac1 [4/4] ANDROID: fips140: allow building without LTO
-config: arm64-randconfig-004-20251016 (https://download.01.org/0day-ci/archive/20251017/202510170330.oa16ixWW-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170330.oa16ixWW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-CWF-EDAC-ANBZ25520
+head:   31f4ee37032251af8f106ffe418b8235f5e08468
+commit: 3f63e55de387ff1ef9405747ecd67ea49dd18ed9 [15/15] Net: ethernet: Support 3snic 3s9xx network card
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20251017/202510170408.d3FKWhBZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170408.d3FKWhBZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510170330.oa16ixWW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510170408.d3FKWhBZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:80:
-   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      24 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:366:9: note: previous definition is here
-     366 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> crypto/fips140-module.c:482:8: error: implicit declaration of function 'register_trace_android_vh_sha256' [-Werror,-Wimplicit-function-declaration]
-     482 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-         |               ^
-   crypto/fips140-module.c:482:8: note: did you mean 'trace_android_vh_sha256'?
-   include/trace/hooks/fips140.h:19:1: note: 'trace_android_vh_sha256' declared here
-      19 | DECLARE_HOOK(android_vh_sha256,
-         | ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
-         |                      ^
-   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-     571 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:185:1: note: expanded from here
-     185 | trace_android_vh_sha256
-         | ^
->> crypto/fips140-module.c:483:8: error: implicit declaration of function 'register_trace_android_vh_aes_expandkey' [-Werror,-Wimplicit-function-declaration]
-     483 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-         |               ^
-   crypto/fips140-module.c:483:8: note: did you mean 'trace_android_vh_aes_expandkey'?
-   include/trace/hooks/fips140.h:26:1: note: 'trace_android_vh_aes_expandkey' declared here
-      26 | DECLARE_HOOK(android_vh_aes_expandkey,
-         | ^
-   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
-     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
-         |                      ^
-   include/linux/tracepoint.h:571:21: note: expanded from macro 'DECLARE_EVENT_NOP'
-     571 |         static inline void trace_##name(proto)                          \
-         |                            ^
-   <scratch space>:188:1: note: expanded from here
-     188 | trace_android_vh_aes_expandkey
-         | ^
->> crypto/fips140-module.c:484:8: error: implicit declaration of function 'register_trace_android_vh_aes_encrypt' [-Werror,-Wimplicit-function-declaration]
-     484 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-         |               ^
->> crypto/fips140-module.c:485:8: error: implicit declaration of function 'register_trace_android_vh_aes_decrypt' [-Werror,-Wimplicit-function-declaration]
-     485 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-         |               ^
-   1 warning and 4 errors generated.
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:275:5: error: no previous prototype for 'sss_attach_uld_driver' [-Werror=missing-prototypes]
+     275 | int sss_attach_uld_driver(struct sss_pci_adapter *adapter,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:534:5: error: no previous prototype for 'sss_pci_probe' [-Werror=missing-prototypes]
+     534 | int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+         |     ^~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:89:6: error: no previous prototype for 'sss_detach_uld_driver' [-Werror=missing-prototypes]
+      89 | void sss_detach_uld_driver(struct sss_pci_adapter *adapter,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:119:6: error: no previous prototype for 'sss_detach_all_uld_driver' [-Werror=missing-prototypes]
+     119 | void sss_detach_all_uld_driver(struct sss_pci_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:137:6: error: no previous prototype for 'sss_dettach_uld_dev' [-Werror=missing-prototypes]
+     137 | void sss_dettach_uld_dev(struct sss_pci_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:178:6: error: no previous prototype for 'sss_deinit_function' [-Werror=missing-prototypes]
+     178 | void sss_deinit_function(struct pci_dev *pdev)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:195:6: error: no previous prototype for 'sss_unmap_pci_bar' [-Werror=missing-prototypes]
+     195 | void sss_unmap_pci_bar(struct sss_pci_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:206:5: error: no previous prototype for 'sss_deinit_adapter' [-Werror=missing-prototypes]
+     206 | int sss_deinit_adapter(struct sss_pci_adapter *adapter)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:232:6: error: no previous prototype for 'sss_deinit_pci_dev' [-Werror=missing-prototypes]
+     232 | void sss_deinit_pci_dev(struct pci_dev *pdev)
+         |      ^~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:244:6: error: no previous prototype for 'sss_pci_remove' [-Werror=missing-prototypes]
+     244 | void sss_pci_remove(struct pci_dev *pdev)
+         |      ^~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_shutdown.c:28:6: error: no previous prototype for 'sss_pci_shutdown' [-Werror=missing-prototypes]
+      28 | void sss_pci_shutdown(struct pci_dev *pdev)
+         |      ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_error.c:34:18: error: no previous prototype for 'sss_detect_pci_error' [-Werror=missing-prototypes]
+      34 | pci_ers_result_t sss_detect_pci_error(struct pci_dev *pdev,
+         |                  ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:37:6: error: no previous prototype for 'sss_init_uld_lock' [-Werror=missing-prototypes]
+      37 | void sss_init_uld_lock(void)
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:42:6: error: no previous prototype for 'sss_lock_uld' [-Werror=missing-prototypes]
+      42 | void sss_lock_uld(void)
+         |      ^~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:47:6: error: no previous prototype for 'sss_unlock_uld' [-Werror=missing-prototypes]
+      47 | void sss_unlock_uld(void)
+         |      ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:52:14: error: no previous prototype for 'sss_get_uld_names' [-Werror=missing-prototypes]
+      52 | const char **sss_get_uld_names(void)
+         |              ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:57:22: error: no previous prototype for 'sss_get_uld_info' [-Werror=missing-prototypes]
+      57 | struct sss_uld_info *sss_get_uld_info(void)
+         |                      ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:62:6: error: no previous prototype for 'sss_attach_is_enable' [-Werror=missing-prototypes]
+      62 | bool sss_attach_is_enable(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c: In function 'sss_heartbeat_lost_handler':
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:185:13: error: variable 'pcie_src' set but not used [-Werror=unused-but-set-variable]
+     185 |         u16 pcie_src;
+         |             ^~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:184:13: error: variable 'fault_level' set but not used [-Werror=unused-but-set-variable]
+     184 |         u16 fault_level;
+         |             ^~~~~~~~~~~
+   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c: At top level:
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:384:5: error: no previous prototype for 'sss_init_hwdev' [-Werror=missing-prototypes]
+     384 | int sss_init_hwdev(struct sss_pci_adapter *adapter)
+         |     ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:487:6: error: no previous prototype for 'sss_deinit_hwdev' [-Werror=missing-prototypes]
+     487 | void sss_deinit_hwdev(void *hwdev)
+         |      ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:518:6: error: no previous prototype for 'sss_hwdev_stop' [-Werror=missing-prototypes]
+     518 | void sss_hwdev_stop(void *hwdev)
+         |      ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:531:6: error: no previous prototype for 'sss_hwdev_detach' [-Werror=missing-prototypes]
+     531 | void sss_hwdev_detach(void *hwdev)
+         |      ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:539:6: error: no previous prototype for 'sss_hwdev_shutdown' [-Werror=missing-prototypes]
+     539 | void sss_hwdev_shutdown(void *hwdev)
+         |      ^~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:54:5: error: no previous prototype for 'sss_init_mgmt_info' [-Werror=missing-prototypes]
+      54 | int sss_init_mgmt_info(struct sss_hwdev *hwdev)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:90:6: error: no previous prototype for 'sss_deinit_mgmt_info' [-Werror=missing-prototypes]
+      90 | void sss_deinit_mgmt_info(struct sss_hwdev *hwdev)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_io_flush.c:91:5: error: no previous prototype for 'sss_hwdev_flush_io' [-Werror=missing-prototypes]
+      91 | int sss_hwdev_flush_io(struct sss_hwdev *hwdev, u16 channel)
+         |     ^~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:277:5: error: no previous prototype for 'sss_reinit_ctrlq_ctx' [-Werror=missing-prototypes]
+     277 | int sss_reinit_ctrlq_ctx(struct sss_hwdev *hwdev)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:367:6: error: no previous prototype for 'sss_deinit_ctrlq' [-Werror=missing-prototypes]
+     367 | void sss_deinit_ctrlq(struct sss_hwdev *hwdev)
+         |      ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:501:5: error: no previous prototype for 'sss_init_ctrlq_channel' [-Werror=missing-prototypes]
+     501 | int sss_init_ctrlq_channel(struct sss_hwdev *hwdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:538:6: error: no previous prototype for 'sss_deinit_ctrlq_channel' [-Werror=missing-prototypes]
+     538 | void sss_deinit_ctrlq_channel(struct sss_hwdev *hwdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:547:6: error: no previous prototype for 'sss_ctrlq_flush_sync_cmd' [-Werror=missing-prototypes]
+     547 | void sss_ctrlq_flush_sync_cmd(struct sss_hwdev *hwdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:573:5: error: no previous prototype for 'sss_wait_ctrlq_stop' [-Werror=missing-prototypes]
+     573 | int sss_wait_ctrlq_stop(struct sss_hwdev *hwdev)
+         |     ^~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:253:5: error: no previous prototype for 'sss_init_func_mbx_msg' [-Werror=missing-prototypes]
+     253 | int sss_init_func_mbx_msg(void *hwdev, u16 func_num)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:402:5: error: no previous prototype for 'sss_hwif_init_mbx' [-Werror=missing-prototypes]
+     402 | int sss_hwif_init_mbx(struct sss_hwdev *hwdev)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:450:6: error: no previous prototype for 'sss_hwif_deinit_mbx' [-Werror=missing-prototypes]
+     450 | void sss_hwif_deinit_mbx(struct sss_hwdev *hwdev)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:871:6: error: no previous prototype for 'sss_recv_mbx_aeq_handler' [-Werror=missing-prototypes]
+     871 | void sss_recv_mbx_aeq_handler(void *handle, u8 *header, u8 size)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+--
+>> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:506:5: error: no previous prototype for 'sss_sync_send_adm_msg' [-Werror=missing-prototypes]
+     506 | int sss_sync_send_adm_msg(void *hwdev, u8 mod, u16 cmd, void *buf_in,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+..
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
+vim +/sss_pci_probe +534 drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c
 
-vim +/register_trace_android_vh_sha256 +482 crypto/fips140-module.c
-
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  477  
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  478  static bool update_fips140_library_routines(void)
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  479  {
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  480  	int ret;
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  481  
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @482  	ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @483  	      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @484  	      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23 @485  	      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  486  
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  487  	return ret == 0;
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  488  }
-2db9143a1b5a70 Ard Biesheuvel 2021-03-23  489  
-
-:::::: The code at line 482 was first introduced by commit
-:::::: 2db9143a1b5a70edaa69a5e1b12acfef490c6d38 ANDROID: fips140: add kernel crypto module
-
-:::::: TO: Ard Biesheuvel <ardb@google.com>
-:::::: CC: Eric Biggers <ebiggers@google.com>
+   533	
+ > 534	int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
 
 -- 
 0-DAY CI Kernel Test Service
