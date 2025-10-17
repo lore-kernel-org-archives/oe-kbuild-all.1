@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5844204E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 04:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B5030CD91
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 05:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760676913; cv=none; b=m/Zpe22qX5X1zE2ltP8u5I+OMWcbiFXfm8gIYVp5hiLDDUuaJ3Ie8wEA0axHcKcrj9vr88bRuEqVMYURuuP9a43ziSKIbqSFX8QH4KW1IhVDZEXPYloLcg/K3A7LXShrAykOkh1E5way0VvqSlZ6BqLlnuwhbQQBbHkHp4LZIm4=
+	t=1760677577; cv=none; b=rIpHpo4v7cZfWegE+imlh0mqfZez8ngLVMM+mX4zSZa45iVLJGDqEMQ0NxZ8AzPagMk5yGqBjlEiAaFxq4oBVkwjvirS//rgsk5P7veY2Nga9CVA7984louS36um4v4SUcW3xwXOjmqrx/biXuWtPuX2X5tldCNv5DouLursyoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760676913; c=relaxed/simple;
-	bh=cFWHVZsc4a6CmD9dvCJ/sJwIN6GmsLf2mBle2ES8xcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKllQONyxX0pLOEKVN5/JGa+8uMhuUKzxYkeGLFX9ylhvRmCxlRjnFRtApEiRDfBqOXzapZ0CVj7u8Xb4asnRJfxG37jdtKg0D75obOauR3z8yh0KbXyJFgrGuz3zbyG32SgfTkyq83R0vJyan45T3VM+mtDKVHF+Zwrvkn2J8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RS4mDZT+; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1760677577; c=relaxed/simple;
+	bh=UF5WZ86ftoxaAgv61b2WGOkBH1DbT1e+3cbFveJchtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LcCU0FwH8KKiI9kn4Tte2Ss7hQyI3QlArl3Go7aqj2h9qvawy/uHbkIgfz2QLu3gb3qc81PQt8QLIx1bo4qIh0mlGIJRgTIoOMR3ZxLcJ4bYQNtJK2gqd/IqZ2J7j/0SbEz7NqH6VI2ItKX+bKOY6sSoITJFKG3aaDgg125AvcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQsYQtn8; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RS4mDZT+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQsYQtn8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760676911; x=1792212911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cFWHVZsc4a6CmD9dvCJ/sJwIN6GmsLf2mBle2ES8xcY=;
-  b=RS4mDZT+S3FFV9jODhKxNgFr10sbH3c4DAbFbefh/knZtshsYm0Xuld6
-   RrL+7TawGWkjBuPh27zQCQl16vY+TK1DIU8jfRynYtoHnMGRsBjPzsNR+
-   dGAVmR/2SyuBpBdhuLSrCa9ZT384YVWElyCxn5JwAQZ4msLmF/8elkPW+
-   pd3gLzGAdk8HwXWQi62cCHfRaX1bzuv9fI1UomFl8J+/CKRDcdcHXCALV
-   a1xO8pzfliePHy4Ry+vyGxKt6K8UXaAOwk48PjPHkZfsUJzuiuklneOvL
-   LoATqSgrRg1mcBpaxxBRkGI713CD22UNcb05T7GeljSBksF4CTvRF6kWE
-   Q==;
-X-CSE-ConnectionGUID: aqyRJZtxSQeJ3/3fcNgh1A==
-X-CSE-MsgGUID: QPHepogvRuaHfqeritENag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62928203"
+  t=1760677575; x=1792213575;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UF5WZ86ftoxaAgv61b2WGOkBH1DbT1e+3cbFveJchtA=;
+  b=AQsYQtn8paG0Uem0IVaVEazxjRu+K/KRKu5Z47CqBqdqi3nsGVhSD398
+   HIxYpQ8hzPqx5M4/Yui8h8I8dDT0Xf5tDAPWFdsZudRtpf48hWfLgAG3d
+   P16bReRxRi5ZQpEHEHuPPZaxInNp0Qxatxx6G2YjGZl3RL1d8JCNxMVta
+   weZYxIsoV+so3HLTtL5QkEZHBtuDay0oMmJ6qXwT0UWuyMG/7HazoNMz8
+   dyttSeMaZuxQj6QE31/nF8i5Oz8IHXlg7VBDNRhzfuSgFcfpH05H8A60c
+   Uocto7WllmAYOu4siVjqKLJ3RQl2rPWxynUYYYd7+i71qTTTHCOCWKhVd
+   g==;
+X-CSE-ConnectionGUID: aWwShhiWQr23WfRcM5eg3w==
+X-CSE-MsgGUID: lCXUN5s1Tsa3GeYY1EEvHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62591613"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="62928203"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 21:55:11 -0700
-X-CSE-ConnectionGUID: JHzYp8xuTQmTl3baOClZ5A==
-X-CSE-MsgGUID: jkPJappmQ+e+sSE4W4rwsQ==
+   d="scan'208";a="62591613"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 22:06:14 -0700
+X-CSE-ConnectionGUID: XjnOVXPXRR+42xsZBaPdrg==
+X-CSE-MsgGUID: GNE2/aXLRBuCuNt3JucJrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="181836215"
+   d="scan'208";a="187922107"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 16 Oct 2025 21:55:08 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 16 Oct 2025 22:06:12 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9cUb-0005Xj-2D;
-	Fri, 17 Oct 2025 04:55:05 +0000
-Date: Fri, 17 Oct 2025 12:54:48 +0800
+	id 1v9cfG-0005YB-1o;
+	Fri, 17 Oct 2025 05:06:09 +0000
+Date: Fri, 17 Oct 2025 13:05:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Junxian Huang <huangjunxian6@hisilicon.com>, jgg@ziepe.ca,
-	leon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	linuxarm@huawei.com, huangjunxian6@hisilicon.com,
-	tangchengchang@huawei.com
-Subject: Re: [PATCH v2 for-next 5/8] RDMA/hns: Implement bonding init/uninit
- process
-Message-ID: <202510171225.QiCg3w7E-lkp@intel.com>
-References: <20251016132023.3043538-6-huangjunxian6@hisilicon.com>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
+Subject: [sean-jc:x86/l1tf_mitigation_mitigation 5/5]
+ arch/x86/kvm/vmx/vmx.c:406:25: error: 'return' with no value, in function
+ returning non-void
+Message-ID: <202510171230.aW9afrzB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,62 +62,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016132023.3043538-6-huangjunxian6@hisilicon.com>
 
-Hi Junxian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.18-rc1 next-20251016]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Junxian-Huang/RDMA-hns-Add-helpers-to-obtain-netdev-and-bus_num-from-hr_dev/20251016-212255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20251016132023.3043538-6-huangjunxian6%40hisilicon.com
-patch subject: [PATCH v2 for-next 5/8] RDMA/hns: Implement bonding init/uninit process
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251017/202510171225.QiCg3w7E-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171225.QiCg3w7E-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/l1tf_mitigation_mitigation
+head:   6b03b37c78d0bdc369aa93991cfa0f209cf20964
+commit: 87082229a1fad68bb7fcc327838157ebcd030c9f [5/5] KVM: x86: Unify L1TF flushing under per-CPU variable
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251017/202510171230.aW9afrzB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171230.aW9afrzB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171225.QiCg3w7E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171230.aW9afrzB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/hns/hns_roce_main.c:645:6: warning: unused variable 'i' [-Wunused-variable]
-     645 |         int i;
-         |             ^
-   1 warning generated.
+   arch/x86/kvm/vmx/vmx.c: In function 'vmx_setup_l1d_flush':
+   arch/x86/kvm/vmx/vmx.c:313:16: error: too many arguments to function 'vmx_setup_l1d_flush'
+     313 |         return vmx_setup_l1d_flush(vmentry_l1d_flush_param);
+         |                ^~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/vmx.c:306:12: note: declared here
+     306 | static int vmx_setup_l1d_flush(void)
+         |            ^~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/vmx.c: In function 'vmx_l1d_flush':
+>> arch/x86/kvm/vmx/vmx.c:406:25: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+     406 |                         return;
+         |                         ^~~~~~
+   arch/x86/kvm/vmx/vmx.c:386:21: note: declared here
+     386 | static noinstr bool vmx_l1d_flush(struct kvm_vcpu *vcpu)
+         |                     ^~~~~~~~~~~~~
 
 
-vim +/i +645 drivers/infiniband/hw/hns/hns_roce_main.c
+vim +/return +406 arch/x86/kvm/vmx/vmx.c
 
-   637	
-   638	static void hns_roce_unregister_device(struct hns_roce_dev *hr_dev,
-   639					       bool bond_cleanup)
-   640	{
-   641		struct net_device *net_dev = get_hr_netdev(hr_dev, 0);
-   642		struct hns_roce_ib_iboe *iboe = &hr_dev->iboe;
-   643		struct hns_roce_bond_group *bond_grp;
-   644		u8 bus_num = get_hr_bus_num(hr_dev);
- > 645		int i;
-   646	
-   647		if (bond_cleanup && hr_dev->caps.flags & HNS_ROCE_CAP_FLAG_BOND) {
-   648			bond_grp = hns_roce_get_bond_grp(net_dev, bus_num);
-   649			if (bond_grp)
-   650				hns_roce_unregister_bond_cleanup(hr_dev, bond_grp);
-   651		}
-   652	
-   653		hr_dev->active = false;
-   654		unregister_netdevice_notifier(&iboe->nb);
-   655		ib_unregister_device(&hr_dev->ib_dev);
-   656	}
-   657	
+   375	
+   376	/*
+   377	 * Software based L1D cache flush which is used when microcode providing
+   378	 * the cache control MSR is not loaded.
+   379	 *
+   380	 * The L1D cache is 32 KiB on Nehalem and later microarchitectures, but to
+   381	 * flush it is required to read in 64 KiB because the replacement algorithm
+   382	 * is not exactly LRU. This could be sized at runtime via topology
+   383	 * information but as all relevant affected CPUs have 32KiB L1D cache size
+   384	 * there is no point in doing so.
+   385	 */
+   386	static noinstr bool vmx_l1d_flush(struct kvm_vcpu *vcpu)
+   387	{
+   388		int size = PAGE_SIZE << L1D_CACHE_ORDER;
+   389	
+   390		if (!static_branch_unlikely(&vmx_l1d_should_flush))
+   391			return false;
+   392	
+   393		/*
+   394		 * This code is only executed when the flush mode is 'cond' or
+   395		 * 'always'
+   396		 */
+   397		if (static_branch_likely(&vmx_l1d_flush_cond)) {
+   398			/*
+   399			 * Clear the per-cpu flush bit, it gets set again if the vCPU
+   400			 * is reloaded, i.e. if the vCPU is scheduled out or if KVM
+   401			 * exits to userspace, or if KVM reaches one of the unsafe
+   402			 * VMEXIT handlers, e.g. if KVM calls into the emulator,
+   403			 * or from the interrupt handlers.
+   404			 */
+   405			if (!kvm_get_cpu_l1tf_flush_l1d())
+ > 406				return;
+   407			kvm_clear_cpu_l1tf_flush_l1d();
+   408		}
+   409	
+   410		vcpu->stat.l1d_flush++;
+   411	
+   412		if (static_cpu_has(X86_FEATURE_FLUSH_L1D)) {
+   413			native_wrmsrq(MSR_IA32_FLUSH_CMD, L1D_FLUSH);
+   414			return true;
+   415		}
+   416	
+   417		asm volatile(
+   418			/* First ensure the pages are in the TLB */
+   419			"xorl	%%eax, %%eax\n"
+   420			".Lpopulate_tlb:\n\t"
+   421			"movzbl	(%[flush_pages], %%" _ASM_AX "), %%ecx\n\t"
+   422			"addl	$4096, %%eax\n\t"
+   423			"cmpl	%%eax, %[size]\n\t"
+   424			"jne	.Lpopulate_tlb\n\t"
+   425			"xorl	%%eax, %%eax\n\t"
+   426			"cpuid\n\t"
+   427			/* Now fill the cache */
+   428			"xorl	%%eax, %%eax\n"
+   429			".Lfill_cache:\n"
+   430			"movzbl	(%[flush_pages], %%" _ASM_AX "), %%ecx\n\t"
+   431			"addl	$64, %%eax\n\t"
+   432			"cmpl	%%eax, %[size]\n\t"
+   433			"jne	.Lfill_cache\n\t"
+   434			"lfence\n"
+   435			:: [flush_pages] "r" (vmx_l1d_flush_pages),
+   436			    [size] "r" (size)
+   437			: "eax", "ebx", "ecx", "edx");
+   438		return true;
+   439	}
+   440	
 
 -- 
 0-DAY CI Kernel Test Service
