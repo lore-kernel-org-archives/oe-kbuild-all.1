@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9F92741A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B122777E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760756803; cv=none; b=XZBnG3BFBkVirDIgzqGcvjhY915NGgE0zAUaLkMnCOpOwoufBnYnsxFP/ygxensQOhVBJlpb2IMlpcqNYbp+Lxer94i8KF5dijEpDQPy+MbRp956Zt1xksPsME33iFeBQCKIq7krSN6nGk6p5wS5mxDuFFdJZQckYdV+/KLcFVc=
+	t=1760756805; cv=none; b=Eo6lfLzQVq3+uSjUjv2hHh2/0+mBjGoFZD4rEEB0YZn5yvCgsbyEwD4NIh5xergzUD+yF+neqX1o+szgsxh9c84YPbicJmQeyXPTwlyov54asLCUr8cWpYt1+sh/b79dHGEe5ich3AU65eHCd7RkV7VGsW+aF0lpsPBW3O0Xj6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760756803; c=relaxed/simple;
-	bh=w5GDNu5ychOmh8Zh3RazTCx5Mzw5xlUMXPpK7Yb//KI=;
+	s=arc-20240116; t=1760756805; c=relaxed/simple;
+	bh=l/nnb202POnGDDF30HcXYZ05Odzz72DFUVNrxiDzpik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cTk2YTIhlJjYXVPcgUzkI9XCtl1aDsMIm2Bh1Fvc6PjLqw4F4ao4supaCfoOomLLuMn8y2xZPOt6cOypH91lNGgRDbFR3atETo8tZOeMbXajmleKXAoyowle0hUuNIpiblFNpfexA9BB6vKyN6agShi2ui+PhI9LMX7/bNTrM4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpAnTx7u; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=SE5OQ2FBx+G39AI8aKZ0VpdZmldWvRc62Dc5OVtDvrF08qSg/REa4+9T8XGWqbvy1lFQWqTY8HW8FxQ857MgWvnewzC0ZqPTkxzSQOpCKP9gnFZwJVNZ00BiBlnqA2Cit1lofa/B35ixQP5BemBAEVvZkjoiIsAapNq8A4EPbYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0t2Z78A; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpAnTx7u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0t2Z78A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760756801; x=1792292801;
+  t=1760756803; x=1792292803;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w5GDNu5ychOmh8Zh3RazTCx5Mzw5xlUMXPpK7Yb//KI=;
-  b=YpAnTx7ui9QI34HH7kqfQ6jv5ISInDUonXegfJjqIrcHtMZBbVkgXXyp
-   XKL8BKW0VfZhFiBlbCQpNVxiInQsc88rl19KZZLk6NbtvchzwtkkLjoav
-   3nT32tRw3J+yirkJqkUOLeobDSUtxNXOylVYCC9ukg7aiLM2eIiZ3NnDS
-   KDRIoDVp9m/fChewp9jpyL55vDWmhIFV1FcZSK/CKr/oNSABC/pUoRwm3
-   WGQLxW+BFhYAIEBFtKXuAvDUsh3+gzdQrQ+EZnECmxxI1MkBOZAyMze7Y
-   EKxyApan0lcQXHAaThfE5d4Z4q8ov8QuRUhxSOu1wSSTmvu3qq1GwwA/F
+  bh=l/nnb202POnGDDF30HcXYZ05Odzz72DFUVNrxiDzpik=;
+  b=C0t2Z78AkSA0ue4K3ZUPv1+nLCmceddL2oLxzn6DhOJvHiArHhhb/q/T
+   y4u0AqXWt3y0wysxWkpI+xGXKQ55MUpMEN63I0axIVJjblOivlf1i0Vv2
+   Ine1kZPfg5XuCUA9PQDWrOTVhvyMHrmxLJrHd5H/a6SqNMHSWiowPJ1KB
+   2rGjJXeDyT/+A5ECVVpUN9dpLdn2O/GsiRU1mwdrePodMCrE6EPDQME/3
+   6AHw/+VTU7HXFv2IsYm/hUiVDfomGOd0pSbf/pgpzk/LPZghDMLPkKxxe
+   d0Z/JHeEidpgGKPrLkTuRxI4xH6/kOvRZazEC9mnVnrjAQefSzmfojcNt
    w==;
-X-CSE-ConnectionGUID: G6FNkal/QnyTZ2D97M0vgA==
-X-CSE-MsgGUID: rzUxBMlxSZqg52j6JHuR3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73648671"
+X-CSE-ConnectionGUID: YgE808UnRBq8Ycik6mPdsw==
+X-CSE-MsgGUID: shVsX8y9TziQQdXMVmwOhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73648669"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="73648671"
+   d="scan'208";a="73648669"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:06:41 -0700
-X-CSE-ConnectionGUID: ioe0dwWoRPiAq5Uaw48kZQ==
-X-CSE-MsgGUID: +/OcDUswSzGtFJkscSC1kA==
+X-CSE-ConnectionGUID: 9RTsEZuYSPq5aJ+JG5OR4g==
+X-CSE-MsgGUID: iHheX0H3S96MA3XlUW9pOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="183299308"
+   d="scan'208";a="183289588"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Oct 2025 13:56:43 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 Oct 2025 12:44:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9rVB-0007lP-1V;
-	Fri, 17 Oct 2025 20:56:41 +0000
-Date: Sat, 18 Oct 2025 04:56:14 +0800
+	id 1v9qN8-0007iV-0H;
+	Fri, 17 Oct 2025 19:44:18 +0000
+Date: Sat, 18 Oct 2025 03:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhang Qiao <zhangqiao22@huawei.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3201/3201] kernel/sched/soft_domain.c:186:10:
- error: implicit declaration of function 'cpu_util_cfs'
-Message-ID: <202510180419.loPaVsWm-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1480/1480] mm/debug.c:174:3: warning:
+ format specifies type 'void *' but the argument has type 'int'
+Message-ID: <202510180359.p5udImw7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +62,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhang,
+Hi Ding,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   8d2412bb9958a209d2d0344ea1b88dd633699677
-commit: dd6655291bf7230ef984e1d283a5ec05821f996f [3201/3201] sched: Attach task group to soft domain
-config: x86_64-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20251018/202510180419.loPaVsWm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180419.loPaVsWm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   045418106c25769e424b67183bab8f2333dc6278
+commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [1480/1480] ascend: mm: add an owner for mm_struct
+config: x86_64-randconfig-r112-20250311 (https://download.01.org/0day-ci/archive/20251018/202510180359.p5udImw7-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180359.p5udImw7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180419.loPaVsWm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180359.p5udImw7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/soft_domain.c:186:10: error: implicit declaration of function 'cpu_util_cfs' [-Werror,-Wimplicit-function-declaration]
-     186 |                 sum += cpu_util_cfs(cpu_rq(cpu));
-         |                        ^
-   kernel/sched/soft_domain.c:186:10: note: did you mean 'cpu_util_irq'?
-   kernel/sched/sched.h:3118:29: note: 'cpu_util_irq' declared here
-    3118 | static inline unsigned long cpu_util_irq(struct rq *rq)
-         |                             ^
-   kernel/sched/soft_domain.c:269:6: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-     269 |         int cpu;
-         |             ^
-   1 warning and 1 error generated.
+   mm/debug.c: note: in included file (through include/linux/kernel.h):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/debug.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/debug.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+>> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
+     135 |                 atomic_read(&mm->tlb_flush_pending),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+     142 |                 mm->def_flags, &mm->def_flags
+         |                 ^~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
+     143 |                 mm->def_flags, &mm->def_flags
+         |                                ^~~~~~~~~~~~~~
+   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+>> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     143 |                 "def_flags: %#lx(%pGv)\n",
+         |                                  ~^
+   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
+     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ^~~
+   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
+     332 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   4 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
+vim +174 mm/debug.c
 
-vim +/cpu_util_cfs +186 kernel/sched/soft_domain.c
+82742a3a515219 Sasha Levin           2014-10-09  114  
+31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
+31c9afa6db122a Sasha Levin           2014-10-09  116  {
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
+31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
+152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
+84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
+31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
+152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
+152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
+2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
+152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
+31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
+152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
+152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
+31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
+31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
+31c9afa6db122a Sasha Levin           2014-10-09  144  
+7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
+31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
+31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
+31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
+31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
+31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
+af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
+31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
+53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
+53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
+84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
+31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
+31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
+31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
+31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
+31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
+31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
+31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
+31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
+31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
+31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
+31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
+31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
+31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
+31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
+31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
+16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
+b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
+31c9afa6db122a Sasha Levin           2014-10-09  176  	);
+31c9afa6db122a Sasha Levin           2014-10-09  177  }
+31c9afa6db122a Sasha Levin           2014-10-09  178  
 
-   179	
-   180	static unsigned long sum_util(struct cpumask *mask)
-   181	{
-   182		unsigned long sum = 0;
-   183		int cpu;
-   184	
-   185		for_each_cpu(cpu, mask)
- > 186			sum += cpu_util_cfs(cpu_rq(cpu));
-   187	
-   188		return sum;
-   189	}
-   190	
+:::::: The code at line 174 was first introduced by commit
+:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
+
+:::::: TO: Nadav Amit <nadav.amit@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
