@@ -1,61 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AD9306B2D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 17:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05745306B2D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 17:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760723340; cv=none; b=HJPa+NdzQUlvg70IHPm6loyohdZx8T0spgQQrkQSOhn/I/hzR970DEABBOsm0nRrlb3Nh6Z1fHqjD75VHS0+/7pb4gKtWG2Lt4gsqhJIod+J1tKwYB8mHMlzqYSICD0e1rWrgMHmoAp4QVu4D6pKdx8s3qQYTHQZSm1bHURdgnI=
+	t=1760723350; cv=none; b=lYUxO//DTKtaEpF/lDkqB54b8F9ObU5Eh9TMJMAPMLEQlOy98LIe3OokbMs2cibArVm+mhP+F2F3Ln5VcPqLqCkUmWuhqRxkV1TgaTG4Jfr1Ui69JP90SgwGEX9uO3ZHoLnHPerksngI40eYtu+IWvIOU6u+XZ11ygheIFPx7aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760723340; c=relaxed/simple;
-	bh=VSBaJAEjb+QhA14JtrkfCJ9jZ2zKpCDqekh3R9KtV2s=;
+	s=arc-20240116; t=1760723350; c=relaxed/simple;
+	bh=HmST2Yy966eXpVK7COi5LbV6bELA0SP+8ql4LqLqFzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jMQDL+rgrvg9XW/wEHxCwjeKYQwh4sCUcOlD9RhSmuVV17CahDbNdTsL6NNu7WkLWvlQX0vV7aPeFSVxhd8PD/0WPs92zumZ4AimtbPowHXGGLLuSc8WIRajA6GTqpVZK0TfQ/fFkEUIs5fEn+ZbzqVG3WArzG36HNFIP/XbEjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzOCY548; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=qQ1h/JFXuaVS016Fx0GvJpi8LrvrFG5oqfetqMla0Uk/VYzZ+Q27hS9APPnlPjzPOF2OexjO2IS/ou5nlAnBeoNwmWMKSnnLQfA9EnAEihD0N06RZ6g88x3GKN/rLRvqKYrdFPfv2L11xUlJoLlk13/pytv8ig2ioRutzFm08Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApokiWgg; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzOCY548"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApokiWgg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760723338; x=1792259338;
+  t=1760723349; x=1792259349;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VSBaJAEjb+QhA14JtrkfCJ9jZ2zKpCDqekh3R9KtV2s=;
-  b=nzOCY548jyprw4nGENiIux/pRzhKs4QgPczv9DHD4qqwMgoG4hjOMquz
-   gK9lBFuvKZrl755wKbzk8Qb2bZNI3O4YbWnx50i0AREPvBNDazLdO2H7a
-   lDnGtriHdf1LdQ5I9rHDvJJ9HaJ6Irggtqf4e2lA0H4tyrD75zX8Es16h
-   Xpce2JFhB1exQ3tY0JaHUlcfVu7nACH8B5dUAthQo5L4cUnvmd/DKktVz
-   StdbTn0hVba3QHoqIWrUCb+n1mPRNU2iBAGn30lgw+2A+sUg7r7HF8oF7
-   6cJNlD46KJ8qzk5sbWSSTPTo6pGrL6PhNaVIiWSO4Kd03jptOSiNu+XJt
-   Q==;
-X-CSE-ConnectionGUID: CqKbP2D1QCyDFh5JeDn3uQ==
-X-CSE-MsgGUID: XSFpjxHaRY+74WCTM0bn6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74056158"
+  bh=HmST2Yy966eXpVK7COi5LbV6bELA0SP+8ql4LqLqFzM=;
+  b=ApokiWggO4YVqyXMs+WtvuFvGglMQEJYXj7IdiRJ7vTsRLyZ2P1TQvDt
+   i1VaYRRHzTe7QEmA/WLasrM+wT18XgjpxtpD//m7vGHLsVIzQ7kUe7gLG
+   9/mDFGs8ozYYX63+dbUbG2e2c5aCefozZF4Bl3PQQezDj3bzTs13ofFpy
+   EoyS2wEAEqbTcq4wfSa2tAmBCHVi9PgsT/N/YyI+MGh0Q+SFgfMLtWZy8
+   Pbv1iZT3awbfk8VLpHRnG/Nc/4TXw7RymgKj9myNtL45ui3sD7254poD5
+   lpfw7tE2jVUKfhXooYZTLw5nHaFkR9o4KyLDtQFP6PL+UJkxETrQjstIN
+   A==;
+X-CSE-ConnectionGUID: XnMW9y93Q7qxpsl5UUVGQw==
+X-CSE-MsgGUID: b8XhVfSwRZWyeg40wYuQog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74056173"
 X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="74056158"
+   d="scan'208";a="74056173"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 10:48:57 -0700
-X-CSE-ConnectionGUID: nx03lFQ4Rni62dFpUAYshA==
-X-CSE-MsgGUID: bF1EmUgSTkCoB8cb2CJJUw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 10:49:08 -0700
+X-CSE-ConnectionGUID: t9FN+qI1RHSKI2etnRksNg==
+X-CSE-MsgGUID: nOA1jg2PSOuAaG1bck2zOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="213764560"
+   d="scan'208";a="213764587"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2025 10:48:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2025 10:49:07 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9oZ0-0007cV-0C;
-	Fri, 17 Oct 2025 17:48:32 +0000
+	id 1v9oZQ-0007cX-0D;
+	Fri, 17 Oct 2025 17:48:55 +0000
 Date: Sat, 18 Oct 2025 01:48:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1]
- drivers/net/ethernet/qlogic/qede/qede_main.c:199:35: error: initialization
- of 'void (*)(void *, u16,  u16)' {aka 'void (*)(void *, short unsigned int,
-  short unsigned int)'} from incompatible pointer type 'void (*)(void *, void
- *, u8)' {aka 'void (*)(void...
-Message-ID: <202510180133.vcDKJ78Y-lkp@intel.com>
+Subject: [jgunthorpe:iommufd_dmabuf 20/24]
+ drivers/iommu/iommufd/iommufd_private.h:740:5: warning: no previous
+ prototype for 'iommufd_test_dma_buf_iommufd_map'
+Message-ID: <202510180154.x3k1LkhX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,115 +63,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   34ff804b81297bab2f9bcd59e33e6c61925ca2d1
-commit: 34ff804b81297bab2f9bcd59e33e6c61925ca2d1 [1/1] UPSTREAM: crypto: af_alg - Disallow concurrent writes in af_alg_sendmsg
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251018/202510180133.vcDKJ78Y-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180133.vcDKJ78Y-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
+head:   e1e0600b1a5699114df3ae378cd69a7f953e5b3d
+commit: 5849b503c1771ec07a34aca7fa51ef3788514f29 [20/24] iommufd/selftest: Add some tests for the dmabuf flow
+config: microblaze-randconfig-r073-20251017 (https://download.01.org/0day-ci/archive/20251018/202510180154.x3k1LkhX-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180154.x3k1LkhX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180133.vcDKJ78Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180154.x3k1LkhX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/net/inet_sock.h:22,
-                    from include/linux/udp.h:16,
-                    from drivers/net/ethernet/qlogic/qede/qede_main.c:23:
-   include/net/sock.h: In function '__dst_negative_advice':
-   include/net/sock.h:2120:35: warning: cast between incompatible function types from 'struct dst_entry * (*)(struct dst_entry *)' to 'void (*)(struct sock *, struct dst_entry *)' [-Wcast-function-type]
-    2120 |                 negative_advice = (android_dst_ops_negative_advice_new_t)dst->ops->negative_advice;
-         |                                   ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c: At top level:
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: warning: braces around scalar initializer
-     197 |         {
-         |         ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:17: error: field name not in record or union initializer
-     199 |                 .arfs_filter_op = qede_arfs_filter_op,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:17: note: (near initialization for 'qede_ll_ops.ports_update')
->> drivers/net/ethernet/qlogic/qede/qede_main.c:199:35: error: initialization of 'void (*)(void *, u16,  u16)' {aka 'void (*)(void *, short unsigned int,  short unsigned int)'} from incompatible pointer type 'void (*)(void *, void *, u8)' {aka 'void (*)(void *, void *, unsigned char)'} [-Werror=incompatible-pointer-types]
-     199 |                 .arfs_filter_op = qede_arfs_filter_op,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:199:35: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:17: error: field name not in record or union initializer
-     201 |                 .link_update = qede_link_update,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:17: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:32: warning: excess elements in scalar initializer
-     201 |                 .link_update = qede_link_update,
-         |                                ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:201:32: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:17: error: field name not in record or union initializer
-     202 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:17: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:46: warning: excess elements in scalar initializer
-     202 |                 .schedule_recovery_handler = qede_schedule_recovery_handler,
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:202:46: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:17: error: field name not in record or union initializer
-     203 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:17: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:44: warning: excess elements in scalar initializer
-     203 |                 .schedule_hw_err_handler = qede_schedule_hw_err_handler,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:203:44: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:17: error: field name not in record or union initializer
-     204 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:17: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:41: warning: excess elements in scalar initializer
-     204 |                 .get_generic_tlv_data = qede_get_generic_tlv_data,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:204:41: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:17: error: field name not in record or union initializer
-     205 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
-         |                 ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:17: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:42: warning: excess elements in scalar initializer
-     205 |                 .get_protocol_tlv_data = qede_get_eth_tlv_data,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:205:42: note: (near initialization for 'qede_ll_ops.ports_update')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-     197 |         {
-         |         ^
-   drivers/net/ethernet/qlogic/qede/qede_main.c:197:9: note: (near initialization for 'qede_ll_ops')
-   drivers/net/ethernet/qlogic/qede/qede_main.c:208:25: warning: initialized field overwritten [-Woverride-init]
-     208 |         .ports_update = qede_udp_ports_update,
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qede/qede_main.c:208:25: note: (near initialization for 'qede_ll_ops.ports_update')
-   cc1: some warnings being treated as errors
+   In file included from drivers/iommu/iommufd/io_pagetable.h:13,
+                    from drivers/iommu/iommufd/device.c:11:
+>> drivers/iommu/iommufd/iommufd_private.h:740:5: warning: no previous prototype for 'iommufd_test_dma_buf_iommufd_map' [-Wmissing-prototypes]
+     740 | int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/iommu/iommufd/io_pagetable.h:13,
+                    from drivers/iommu/iommufd/pages.c:61:
+>> drivers/iommu/iommufd/iommufd_private.h:740:5: warning: no previous prototype for 'iommufd_test_dma_buf_iommufd_map' [-Wmissing-prototypes]
+     740 | int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/iommufd/pages.c:58:
+   drivers/iommu/iommufd/pages.c: In function 'sym_vfio_pci_dma_buf_iommufd_map':
+   include/linux/vfio_pci_core.h:172:1: error: weak declaration of 'vfio_pci_dma_buf_iommufd_map' being applied to a already existing, static definition
+     172 | vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +199 drivers/net/ethernet/qlogic/qede/qede_main.c
+vim +/iommufd_test_dma_buf_iommufd_map +740 drivers/iommu/iommufd/iommufd_private.h
 
-e712d52b9f2a8e Yuval Mintz             2015-10-26  195  
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  196  static struct qed_eth_cb_ops qede_ll_ops = {
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  197  	{
-e4917d46a6537c Chopra, Manish          2017-04-13  198  #ifdef CONFIG_RFS_ACCEL
-e4917d46a6537c Chopra, Manish          2017-04-13 @199  		.arfs_filter_op = qede_arfs_filter_op,
-e4917d46a6537c Chopra, Manish          2017-04-13  200  #endif
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  201  		.link_update = qede_link_update,
-ccc67ef50b9085 Tomer Tayar             2019-01-28  202  		.schedule_recovery_handler = qede_schedule_recovery_handler,
-a8736ea83b8052 Igor Russkikh           2020-05-14  203  		.schedule_hw_err_handler = qede_schedule_hw_err_handler,
-d25b859ccd614d Sudarsana Reddy Kalluru 2018-05-22  204  		.get_generic_tlv_data = qede_get_generic_tlv_data,
-d25b859ccd614d Sudarsana Reddy Kalluru 2018-05-22  205  		.get_protocol_tlv_data = qede_get_eth_tlv_data,
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  206  	},
-eff169608c2501 Yuval Mintz             2016-05-11  207  	.force_mac = qede_force_mac,
-97379f15c21e7a Chopra, Manish          2017-04-24  208  	.ports_update = qede_udp_ports_update,
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  209  };
-a2ec6172d29cf3 Sudarsana Kalluru       2015-10-26  210  
-
-:::::: The code at line 199 was first introduced by commit
-:::::: e4917d46a6537c5bf05acc2e42df3b67d87775e4 qede: Add aRFS support
-
-:::::: TO: Chopra, Manish <Manish.Chopra@cavium.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   706	
+   707	#ifdef CONFIG_IOMMUFD_TEST
+   708	int iommufd_test(struct iommufd_ucmd *ucmd);
+   709	void iommufd_selftest_destroy(struct iommufd_object *obj);
+   710	extern size_t iommufd_test_memory_limit;
+   711	void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd,
+   712					   unsigned int ioas_id, u64 *iova, u32 *flags);
+   713	bool iommufd_should_fail(void);
+   714	int __init iommufd_test_init(void);
+   715	void iommufd_test_exit(void);
+   716	bool iommufd_selftest_is_mock_dev(struct device *dev);
+   717	int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+   718					     struct phys_vec *phys);
+   719	#else
+   720	static inline void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd,
+   721							 unsigned int ioas_id,
+   722							 u64 *iova, u32 *flags)
+   723	{
+   724	}
+   725	static inline bool iommufd_should_fail(void)
+   726	{
+   727		return false;
+   728	}
+   729	static inline int __init iommufd_test_init(void)
+   730	{
+   731		return 0;
+   732	}
+   733	static inline void iommufd_test_exit(void)
+   734	{
+   735	}
+   736	static inline bool iommufd_selftest_is_mock_dev(struct device *dev)
+   737	{
+   738		return false;
+   739	}
+ > 740	int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
 
 -- 
 0-DAY CI Kernel Test Service
