@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF011217F31
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 02:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76A66FBF;
+	Sat, 18 Oct 2025 03:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760755709; cv=none; b=qRuy2J56QgZvdf9QdQD6XEuPBKkAbEqWwB7C9Rel2m9COnMdbNBzj7Vo1eacgHg4BbLHfKHJr0tdPoyFPAzzOhuHY9MhSjxW5fAQVGT0PtQq1/QDuair2vQLF6MkUF9LzpcscBAifs1jZjvVw1NCMjXuBk9RR360ec0vcCQonGA=
+	t=1760756453; cv=none; b=o/O8XX4EDRSP0I1pJGknS7cLezUz97TEkDuZlMxxFE/WIVTemBTMRVe/HIFX24ZBUW72pcewLFvU9LP6Hfxgl/mSMlgdz7apEt35JpPTl7AelxgLH5JHLF/V3jkIIKO2hsJAs6wN4Dwom19X0Z5ZcJCoT6SS9LGECr4YLPrGGKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760755709; c=relaxed/simple;
-	bh=QQBHa7pal8At7ITFoh0REpSWZHHp3fA6KZPvVhFo8bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mrgN6/gJR1cmKFNpwu0FJVs8EoyNB3L+ywDQfZqy8L/6qkFyxkIYV4cN0avb6WIUHA9DCbHHvtftbksUtOymEzrXLRNexLPukRE5GahTRBq/Y3JSj1vG22y5YbkEKjqAcSmypuJ4N8zTVNG1ay3SP2Nm8H8IG8YvppuVKk+Kc08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLAzO8ZV; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1760756453; c=relaxed/simple;
+	bh=8tlgm7mpNKkm6Twri/qRQ3J3jM/rabJxb5EwJ6nhYwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=owz0tL7QCf9xhpHA0Ropqf5ZaDbWHIfR0nZtjTZMQciyvHWkQTs23kYLwgkBxHQZbX2gEa6T9XAGRfxqMbecleEay/VohJReKX8BS+n+MIfYU0iDsTXT0CUE2eggMiXYK0Fy5ze0Hukszmvzp4oGxpLNBrBNs6W01MrC9Qa7IDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6GJ2eXl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLAzO8ZV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6GJ2eXl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760755708; x=1792291708;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QQBHa7pal8At7ITFoh0REpSWZHHp3fA6KZPvVhFo8bg=;
-  b=dLAzO8ZV5/oQBVjktSuvfuP0azKv55y8V8EY3dLH7Ry17Xaynm08nwwF
-   dZNcTw25elHwQ9ZePGGrmSp3LvoO4bPC9beY2WXg6Up1a0/Rw7vFm4ljV
-   9rggF0R+9I0hkKR4FHFY8DaMzNVaBgX+CpJU/cpB8dYSBXtckMf1TkD6a
-   qqqoaeCzqP/DFxuslUxQ8fchtbscs9P7Ignt559hcWBL9BhDaBW1eb2z8
-   dAGISlqWPiDS30FOo/FaAAgotSF8/sOt03KRqVX2TmRQbc/NKLOA/6MUs
-   CFXRSjZV7gD87mCjREQ37bTTna1jtV8L0WI/3+5J3UaW1wSHluWaWVX/3
-   w==;
-X-CSE-ConnectionGUID: zT1lB1FPQZaIdhSREDpY+g==
-X-CSE-MsgGUID: MpAxoJ9rQ1KhuXZRnv7k4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="66611758"
+  t=1760756452; x=1792292452;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8tlgm7mpNKkm6Twri/qRQ3J3jM/rabJxb5EwJ6nhYwY=;
+  b=D6GJ2eXlq/rMQuiV5hlkUHSyGTYpuEovALSqnrf7SOLqw43UfcIT7zni
+   rWgq99pqQVed53EtuS/rChvnhPxocQor2heLJi7nlK6lxzlU8HIFvgWtg
+   RQXqtFOFCj/Y8WgOcQ8zlkIjS7XA6/yhesW6le18BVLzhPxKBkBIQFs4S
+   7Ms1tCc+zBx/RZwevwb669C5G8l3rl41Mv85euSWImEliOOj8e3nNArOu
+   JV9dU6HPx0zdV+QOIkWVoDUijr01zGR7tVXcCpgANtfBz1UmTddVKK30w
+   HkgEUoyynptzpAFYmg1Th5kQlbwgcrPejuHpZUcPu/vpnwIXlmgDYxw0N
+   g==;
+X-CSE-ConnectionGUID: R74MU+S9S6Wxglxqfh3/Ng==
+X-CSE-MsgGUID: b+PW6xdvSmiWmzeAywc7qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74412435"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="66611758"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 19:48:26 -0700
-X-CSE-ConnectionGUID: CI3n8+9ARhOdSFNW0x0SvA==
-X-CSE-MsgGUID: LGdwScD6S92jsW+ba06P5w==
+   d="scan'208";a="74412435"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:00:51 -0700
+X-CSE-ConnectionGUID: ADOMSsp+RnanSXRgi5+9ow==
+X-CSE-MsgGUID: 5Eszuh4cTJOo7CFlljaCmg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="182530787"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Oct 2025 17:34:39 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 17 Oct 2025 11:41:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9uu4-0007sZ-0Y;
-	Sat, 18 Oct 2025 00:34:36 +0000
-Date: Sat, 18 Oct 2025 08:33:46 +0800
+	id 1v9pOd-0007fD-2S;
+	Fri, 17 Oct 2025 18:41:47 +0000
+Date: Sat, 18 Oct 2025 02:40:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 6/17] crypto/jitterentropy.h:8:34: warning:
- 'struct sha3_256_ctx' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202510180826.OZ7JEeuK-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 3/4] KVM: VMX: Disable L1TF L1 data cache flush if
+ CONFIG_CPU_MITIGATIONS=n
+Message-ID: <202510180204.NTht8SEU-lkp@intel.com>
+References: <20251016200417.97003-4-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +61,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251016200417.97003-4-seanjc@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   91d7b63566e977976872603971e4a3ec4efeeb60
-commit: 3a417817ad73f1bd4708285f0d3364d6b4a20c40 [6/17] crypto/jitterentropy: Use lib/crypto/sha3
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251018/202510180826.OZ7JEeuK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180826.OZ7JEeuK-lkp@intel.com/reproduce)
+Hi Sean,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f222788458c8a7753d43befef2769cd282dc008e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Christopherson/KVM-VMX-Flush-CPU-buffers-as-needed-if-L1D-cache-flush-is-skipped/20251017-040642
+base:   f222788458c8a7753d43befef2769cd282dc008e
+patch link:    https://lore.kernel.org/r/20251016200417.97003-4-seanjc%40google.com
+patch subject: [PATCH v3 3/4] KVM: VMX: Disable L1TF L1 data cache flush if CONFIG_CPU_MITIGATIONS=n
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251018/202510180204.NTht8SEU-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180204.NTht8SEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180826.OZ7JEeuK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180204.NTht8SEU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from crypto/jitterentropy-testing.c:12:
->> crypto/jitterentropy.h:8:34: warning: 'struct sha3_256_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-       8 | extern int jent_hash_time(struct sha3_256_ctx *hash_state, __u64 time, u8 *addtl,
-         |                                  ^~~~~~~~~~~~
-   crypto/jitterentropy.h:11:35: warning: 'struct sha3_256_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-      11 | int jent_read_random_block(struct sha3_256_ctx *hash_state, char *dst, unsigned int dst_len);
-         |                                   ^~~~~~~~~~~~
-   crypto/jitterentropy.h:15:37: warning: 'struct sha3_256_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-      15 |                              struct sha3_256_ctx *hash_state, struct rand_data *p_ec);
-         |                                     ^~~~~~~~~~~~
-   crypto/jitterentropy.h:21:62: warning: 'struct sha3_256_ctx' declared inside parameter list will not be visible outside of this definition or declaration
-      21 |                                                       struct sha3_256_ctx *hash_state);
-         |                                                              ^~~~~~~~~~~~
+>> arch/x86/kvm/vmx/vmx.c:313:29: error: too many arguments to function call, expected 0, have 1
+     313 |         return vmx_setup_l1d_flush(vmentry_l1d_flush_param);
+         |                ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/vmx/vmx.c:306:12: note: 'vmx_setup_l1d_flush' declared here
+     306 | static int vmx_setup_l1d_flush(void)
+         |            ^
+   1 error generated.
 
 
-vim +8 crypto/jitterentropy.h
+vim +313 arch/x86/kvm/vmx/vmx.c
 
-     2	
-     3	extern void *jent_kvzalloc(unsigned int len);
-     4	extern void jent_kvzfree(void *ptr, unsigned int len);
-     5	extern void *jent_zalloc(unsigned int len);
-     6	extern void jent_zfree(void *ptr);
-     7	extern void jent_get_nstime(__u64 *out);
-   > 8	extern int jent_hash_time(struct sha3_256_ctx *hash_state, __u64 time, u8 *addtl,
-     9				  unsigned int addtl_len, __u64 hash_loop_cnt,
-    10				  unsigned int stuck);
-    11	int jent_read_random_block(struct sha3_256_ctx *hash_state, char *dst, unsigned int dst_len);
-    12	
+   305	
+   306	static int vmx_setup_l1d_flush(void)
+   307	{
+   308		/*
+   309		 * Hand the parameter mitigation value in which was stored in the pre
+   310		 * module init parser. If no parameter was given, it will contain
+   311		 * 'auto' which will be turned into the default 'cond' mitigation mode.
+   312		 */
+ > 313		return vmx_setup_l1d_flush(vmentry_l1d_flush_param);
+   314	}
+   315	
 
 -- 
 0-DAY CI Kernel Test Service
