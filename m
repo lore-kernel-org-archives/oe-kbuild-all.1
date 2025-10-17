@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72F13595C;
-	Sat, 18 Oct 2025 03:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E02F3595C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760757441; cv=none; b=nFXkCOVIYuL3cRTFW+zGpsrqB2lTdmXaURPyV31hggYX0Wt0EGxV47oSU1OJlHtlBS4wmTl9Ug0g55YeriiO/hqb1oYaQ1R+3CZBWxGwPc3qwYk5JtQ/NgR/h9r7yfRN6Fnf2vDbgemLsh/Nc/grG9XUfay/fx/cMoefyrI7OWo=
+	t=1760757443; cv=none; b=lfn9Bhqh9hwimZRVl8pg40rLI56Cxqg9IR92NCgWRDJPd3ZGSwRnBL9zTvKDiW9f2HhAzfi/l+wiynNCMW3j4SwXUCs9RtbZPgi7v6SKFGQ5t4jNnAQNQbyBU0aawy0frTpl2eoYOnFjPSdmBHGZPdzavotdbVRef90pP8L3SMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760757441; c=relaxed/simple;
-	bh=L/U7xd9gb+jHw+YgiS3x5RWCh/W7CkWcbM/hRqItctY=;
+	s=arc-20240116; t=1760757443; c=relaxed/simple;
+	bh=4LEdStxS6AyFYp91UBkvt11xG4HZW0OkQEvApvbX9XU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nUzvzECqDYRmdTiqERv8056Q4sUn1hPiipwgk0St6vdN0cqu0mPTT7NS76g1i5Kd6YH4HzplxlFgYUGOiLK6kccuAp+5LC9a4NdfXUZY3YdUtdHcOOugNEqHYC29M4KYRirBBvpT4aoh1N/zUdCb4+PG5AJoFzJE9f9nyQ9Hs2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfOhby0K; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=fCHeVnCO9vNBAdPoJoWpiyX9FkZ/FdighFVtI9IiKee4ylE151WSeyEXVfPAsMCCcKsilRZm2i9Lenmtpj75rVIOmq2ZG+yE+U9HK9I9PcedQ6pNMZAvWJoctA7bhm4PHgjVt/MjydOCsAwXwEIz0UPf3GAc0oBy1nNyTfDmHp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+9uJdFr; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfOhby0K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+9uJdFr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760757435; x=1792293435;
+  t=1760757441; x=1792293441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L/U7xd9gb+jHw+YgiS3x5RWCh/W7CkWcbM/hRqItctY=;
-  b=nfOhby0K/ftXEKtZiAGG2RPjG7JKjOzrx7hS3ppiktt+ltAHrN/FdFic
-   LxwWMXNPmfnhhI+p2Edd01K/MoJUR1vcydIjGZ9hRjoxI26B4nuHas2B0
-   CiS4IUVns3Ub0f920pzXMFKH7n30vdrB6bb5CO7KpBJXRVh3803uCxQea
-   ZGZK3xpESwcFaYrXx34retiFsivbnnG1Cuee2VRY7KvPq3aMCRMla3fuN
-   +0wipvcSNZJj8c6WeM4ATaPsQwjwFFD6GjbgGuuZsfaPgtoWLXF0z5+2Q
-   jCLjANQvR2hCvJZY5RDRbt9SXEVkXRaocM+y1N7H+htv1b1pdiE8/PEw6
+  bh=4LEdStxS6AyFYp91UBkvt11xG4HZW0OkQEvApvbX9XU=;
+  b=V+9uJdFraWx/Mv/FBoEoaAXnvlV7Pcb+BxBI3/AZ042YTq/PJakfpn8I
+   K6n53Y8Azv3XxyM84RH+MRWt8TBrYSn8Ul8AuoC++knuZlKtXuTv/wsy8
+   9AVxoKF1KUT1OGzT3QHT2mS+j+8yelj2BUjoCiOFTQoEUR274pQ4NOoU4
+   Nth8y7HPSd/qMYEKGuPBXy/gYNDLsJG7tJVXgvGEcT1Vj1fkCBagiIf6Z
+   srZ90nv0PViNV1ffmmVcgjywtjc4SSnoRok57XgeCwjsZ1Tz0tLhx3tMf
+   zoFV0gEtNj9ZM9MQLZLmAmfRtoqc/lI9c0ORYS2kF7jozWUqd+Q/4PUJ4
    w==;
-X-CSE-ConnectionGUID: LO+WsgSuQeeS+5GaB1i3eg==
-X-CSE-MsgGUID: i0xgTMt8RUqiyi7QbNsvug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="63120459"
+X-CSE-ConnectionGUID: kzZ+Zw2FRRWJ378YiheEtQ==
+X-CSE-MsgGUID: oAoZPqfHTquIhP7ZR4vRhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="63120458"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="63120459"
+   d="scan'208";a="63120458"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:17:14 -0700
-X-CSE-ConnectionGUID: ULYFs5NlTAuapXbaVg15KQ==
-X-CSE-MsgGUID: 7YVFTZvjT/SlP5xSMtMJCQ==
+X-CSE-ConnectionGUID: 1HOTFB2rRduC6Ciu6pTZFg==
+X-CSE-MsgGUID: 9q3HmR7CSS+6lWUKjEqtpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="186846531"
+   d="scan'208";a="186830506"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2025 15:51:18 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2025 12:55:23 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9tI3-0007pX-1k;
-	Fri, 17 Oct 2025 22:51:15 +0000
-Date: Sat, 18 Oct 2025 06:51:03 +0800
+	id 1v9qXn-0007ir-0c;
+	Fri, 17 Oct 2025 19:55:19 +0000
+Date: Sat, 18 Oct 2025 03:54:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 6/17] crypto/jitterentropy.h:8:34: warning:
- declaration of 'struct sha3_256_ctx' will not be visible outside of this
- function
-Message-ID: <202510180655.LxM4kUi3-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommufd_dmabuf 20/24]
+ drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of
+ `iommufd_test_dma_buf_iommufd_map';
+ drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742:
+ first defined here
+Message-ID: <202510180312.E1VVzjXy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,49 +65,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   91d7b63566e977976872603971e4a3ec4efeeb60
-commit: 3a417817ad73f1bd4708285f0d3364d6b4a20c40 [6/17] crypto/jitterentropy: Use lib/crypto/sha3
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251018/202510180655.LxM4kUi3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180655.LxM4kUi3-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
+head:   e1e0600b1a5699114df3ae378cd69a7f953e5b3d
+commit: 5849b503c1771ec07a34aca7fa51ef3788514f29 [20/24] iommufd/selftest: Add some tests for the dmabuf flow
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251018/202510180312.E1VVzjXy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180312.E1VVzjXy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180655.LxM4kUi3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180312.E1VVzjXy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from crypto/jitterentropy-testing.c:12:
->> crypto/jitterentropy.h:8:34: warning: declaration of 'struct sha3_256_ctx' will not be visible outside of this function [-Wvisibility]
-       8 | extern int jent_hash_time(struct sha3_256_ctx *hash_state, __u64 time, u8 *addtl,
-         |                                  ^
-   crypto/jitterentropy.h:11:35: warning: declaration of 'struct sha3_256_ctx' will not be visible outside of this function [-Wvisibility]
-      11 | int jent_read_random_block(struct sha3_256_ctx *hash_state, char *dst, unsigned int dst_len);
-         |                                   ^
-   crypto/jitterentropy.h:15:16: warning: declaration of 'struct sha3_256_ctx' will not be visible outside of this function [-Wvisibility]
-      15 |                              struct sha3_256_ctx *hash_state, struct rand_data *p_ec);
-         |                                     ^
-   crypto/jitterentropy.h:21:20: warning: declaration of 'struct sha3_256_ctx' will not be visible outside of this function [-Wvisibility]
-      21 |                                                       struct sha3_256_ctx *hash_state);
-         |                                                              ^
-   4 warnings generated.
+   ld: drivers/iommu/iommufd/eventq.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/hw_pagetable.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/ioas.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/main.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/pages.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/vfio_compat.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
+   ld: drivers/iommu/iommufd/viommu.o: in function `iommufd_test_dma_buf_iommufd_map':
+>> drivers/iommu/iommufd/iommufd_private.h:742: multiple definition of `iommufd_test_dma_buf_iommufd_map'; drivers/iommu/iommufd/device.o:drivers/iommu/iommufd/iommufd_private.h:742: first defined here
 
 
-vim +8 crypto/jitterentropy.h
+vim +742 drivers/iommu/iommufd/iommufd_private.h
 
-     2	
-     3	extern void *jent_kvzalloc(unsigned int len);
-     4	extern void jent_kvzfree(void *ptr, unsigned int len);
-     5	extern void *jent_zalloc(unsigned int len);
-     6	extern void jent_zfree(void *ptr);
-     7	extern void jent_get_nstime(__u64 *out);
-   > 8	extern int jent_hash_time(struct sha3_256_ctx *hash_state, __u64 time, u8 *addtl,
-     9				  unsigned int addtl_len, __u64 hash_loop_cnt,
-    10				  unsigned int stuck);
-    11	int jent_read_random_block(struct sha3_256_ctx *hash_state, char *dst, unsigned int dst_len);
-    12	
+   706	
+   707	#ifdef CONFIG_IOMMUFD_TEST
+   708	int iommufd_test(struct iommufd_ucmd *ucmd);
+   709	void iommufd_selftest_destroy(struct iommufd_object *obj);
+   710	extern size_t iommufd_test_memory_limit;
+   711	void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd,
+   712					   unsigned int ioas_id, u64 *iova, u32 *flags);
+   713	bool iommufd_should_fail(void);
+   714	int __init iommufd_test_init(void);
+   715	void iommufd_test_exit(void);
+   716	bool iommufd_selftest_is_mock_dev(struct device *dev);
+   717	int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+   718					     struct phys_vec *phys);
+   719	#else
+   720	static inline void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd,
+   721							 unsigned int ioas_id,
+   722							 u64 *iova, u32 *flags)
+   723	{
+   724	}
+   725	static inline bool iommufd_should_fail(void)
+   726	{
+   727		return false;
+   728	}
+   729	static inline int __init iommufd_test_init(void)
+   730	{
+   731		return 0;
+   732	}
+   733	static inline void iommufd_test_exit(void)
+   734	{
+   735	}
+   736	static inline bool iommufd_selftest_is_mock_dev(struct device *dev)
+   737	{
+   738		return false;
+   739	}
+   740	int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+   741					     struct phys_vec *phys)
+ > 742	{
 
 -- 
 0-DAY CI Kernel Test Service
