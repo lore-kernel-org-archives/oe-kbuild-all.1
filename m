@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E323EAA8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 07:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FC43C1F;
+	Fri, 17 Oct 2025 07:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760685640; cv=none; b=M2n0/F8a0A/f/QqHRI2B8LwKYXTAL9ZUnELU2i3ru8Sxr5Sd33k+Rz5qJ7sDZHHRIvEg4R4SS0/ny4nHmJBuBfD+R6sNryOjx3VgVClgqTiaz5o+mV/L9I3BDHFO/7Ma9D1eog38D4syfS7BOkt4pP6POfASZsJG9DGm5o5COzg=
+	t=1760686215; cv=none; b=GGO6gP0HybeUuysStFAKKyyx/rQ7OQOWsnhe46A5aB2PhnhWM+xCt+EssFG5MWa2L0zOsVWdzwVr6JEys/eXFuL0njfC6X4xo7LHg9lPu4/ZG9hTLRFYeNNQssZGpHio0e1PPncRJ798nENzsB52/hKJXlRnZC8FfJmm8oNDTrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760685640; c=relaxed/simple;
-	bh=+Q70WKO2l7or27Kg3QqpFB4NgM3dvZpGl7hkoR13fiI=;
+	s=arc-20240116; t=1760686215; c=relaxed/simple;
+	bh=NdnacDFE0MaD8u20DR2+szurTVV7RgeK82cTD3saUdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oSPOdDnWPb7KAVXVHwcmGtyRtx9yYwP/pS7/LHmAbPOApwR70NMvw8tUxM7tIQLXj5hmUZMWyboCi0t1xfsvujeQh8y/vEEd7Bp+9CAjZkhyBGBQXJ9Hrf0DUwtQQxTWGs9+4Z+m8AKEQzLyaYswEzICy1OuBaC02Ms3krc6DHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WiNWr1Pf; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD66xXWFKGSR6PQSF6SJBMWu+MhWqO4567cGSyx1ZeBTCcorUEvpI3PT8pcB3rg31wwP5WaPjZ9MaJtPfKFxo/omL9yDgMIXdW8evoIr4R90ryJjWbtdRFbQv8SJsmrHT/nZZ2GBuz4JcCYoBV6UUfQv7WfT3Np9Z7P5v4CVC2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L/B89fs0; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WiNWr1Pf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/B89fs0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760685639; x=1792221639;
+  t=1760686214; x=1792222214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+Q70WKO2l7or27Kg3QqpFB4NgM3dvZpGl7hkoR13fiI=;
-  b=WiNWr1Pf10RB+caoPaHfOgIZqNueg60vnFGYfBBqkIY0YfpEQnfWaB3D
-   KHFLme4qNdDmuP2mVo9t9Amu4JzGtH/7kUixawgDFGdzxYOAcoEVv+yfc
-   qPUTfoq3Zfv2PlVYyi1yulF0gUpU1nWw8Cd+XB1QBaRVEl2nOxfWMlJyG
-   Zva21YsrEqZfvWTTmRU4NeHhNlFvgM/ZPgsxKZk+NBCDk7BhM8pxNyvGe
-   I25/6Scycfsv8IpbqvhT9BunC07JhJ33y3X90k3ubl8sBfEX4SyQhZF7T
-   OWs+VMspZcRwEPano9HqLYYhd2oYICr42ZM5QWr6TzjGFx5xjj3/i1H7m
-   w==;
-X-CSE-ConnectionGUID: Y+uaqABYTYC42pCqp8YRqQ==
-X-CSE-MsgGUID: 5WYMDpE5TJed3J8TwfN9Hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66757537"
+  bh=NdnacDFE0MaD8u20DR2+szurTVV7RgeK82cTD3saUdc=;
+  b=L/B89fs0xNSOtGYwiUGdT2KBkgdDRnT/aU7J48bzX6RKDC17YY6fnJ3y
+   bxhqfDWf/pWUdb91liDnA6aEp5E+jbYcHCOXGrsgKQWYeUmOzTPvEyUxa
+   xZSOomg+2odLMeo/14oT/pdFP/9JsxJRc5cFGQLFqPyl9lpd2DORn4vlv
+   07ZCgge2RV3nnEMJHUwI/JcOwVPh7v5HBaRF+QNhBqdVncyGUW/r+Mw2H
+   qEa0TQVk0QIebJNPJKrhxLBX/WV9j7inTGbIaRLTabvxiMAs3XX1XSZRE
+   YClhagDQ3trOERVsFFFUk8ZMOggfUmlVD8ZR3C9tbDy/QTZnw8qBulA5Y
+   A==;
+X-CSE-ConnectionGUID: 4Lb5rlgDRkmx5P7nQWMDYw==
+X-CSE-MsgGUID: ZQGFXjBbRaGKYH4UDsS4Cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="88362382"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="66757537"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:20:38 -0700
-X-CSE-ConnectionGUID: WabAx5iESUmWJ2UVrKbjpw==
-X-CSE-MsgGUID: 6XsIiTXiSiyeKVbjYiCj1A==
+   d="scan'208";a="88362382"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:30:14 -0700
+X-CSE-ConnectionGUID: SBe2WfJaQzCenzcldM3M2Q==
+X-CSE-MsgGUID: 96OQbVvMQnihCWUZ9srV3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="187947824"
+   d="scan'208";a="182221968"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2025 00:20:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Oct 2025 00:30:12 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9el4-0005g3-0l;
-	Fri, 17 Oct 2025 07:20:14 +0000
-Date: Fri, 17 Oct 2025 15:14:34 +0800
+	id 1v9eug-0005h6-1G;
+	Fri, 17 Oct 2025 07:30:10 +0000
+Date: Fri, 17 Oct 2025 15:25:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marcos Paulo de Souza <mpdesouza@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	Marcos Paulo de Souza <mpdesouza@suse.com>
-Subject: Re: [PATCH v6 5/5] kdb: Adapt kdb_msg_write to work with NBCON
- consoles
-Message-ID: <202510171450.G2KdvDMm-lkp@intel.com>
-References: <20251016-nbcon-kgdboc-v6-5-866aac60a80e@suse.com>
+To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3] selftests: complete kselftest include centralization
+Message-ID: <202510171513.6IWk005g-lkp@intel.com>
+References: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,121 +62,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016-nbcon-kgdboc-v6-5-866aac60a80e@suse.com>
+In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
 
-Hi Marcos,
+Hi Bala-Vignesh-Reddy,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on linus/master v6.18-rc1 next-20251016]
+[cannot apply to shuah-kselftest/fixes akpm-mm/mm-everything tip/timers/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/printk-nbcon-Export-console_is_usable/20251016-225503
-base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-patch link:    https://lore.kernel.org/r/20251016-nbcon-kgdboc-v6-5-866aac60a80e%40suse.com
-patch subject: [PATCH v6 5/5] kdb: Adapt kdb_msg_write to work with NBCON consoles
-config: sh-randconfig-002-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171450.G2KdvDMm-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171450.G2KdvDMm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bala-Vignesh-Reddy/selftests-complete-kselftest-include-centralization/20251016-185024
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20251016104409.68985-1-reddybalavignesh9979%40gmail.com
+patch subject: [PATCH v3] selftests: complete kselftest include centralization
+config: i386-buildonly-randconfig-003-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171513.6IWk005g-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171513.6IWk005g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171450.G2KdvDMm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171513.6IWk005g-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/debug/kdb/kdb_io.c: In function 'kdb_msg_write':
->> kernel/debug/kdb/kdb_io.c:612:43: error: passing argument 1 of 'nbcon_kdb_release' from incompatible pointer type [-Wincompatible-pointer-types]
-     612 |                         nbcon_kdb_release(&wctxt);
-         |                                           ^~~~~~
-         |                                           |
-         |                                           struct nbcon_write_context *
-   In file included from kernel/debug/kdb/kdb_io.c:17:
-   include/linux/console.h:667:54: note: expected 'struct console *' but argument is of type 'struct nbcon_write_context *'
-     667 | static inline void nbcon_kdb_release(struct console *con) { }
-         |                                      ~~~~~~~~~~~~~~~~^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+   In file included from samples/vfs/test-list-all-mounts.c:11:
+>> samples/vfs/../../tools/testing/selftests/pidfd/pidfd.h:28:10: fatal error: 'kselftest.h' file not found
+      28 | #include "kselftest.h"
+         |          ^~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/nbcon_kdb_release +612 kernel/debug/kdb/kdb_io.c
+vim +28 samples/vfs/../../tools/testing/selftests/pidfd/pidfd.h
 
-   560	
-   561	static void kdb_msg_write(const char *msg, int msg_len)
-   562	{
-   563		struct console *c;
-   564		const char *cp;
-   565		int cookie;
-   566		int len;
-   567	
-   568		if (msg_len == 0)
-   569			return;
-   570	
-   571		cp = msg;
-   572		len = msg_len;
-   573	
-   574		while (len--) {
-   575			dbg_io_ops->write_char(*cp);
-   576			cp++;
-   577		}
-   578	
-   579		/*
-   580		 * The console_srcu_read_lock() only provides safe console list
-   581		 * traversal. The use of the ->write() callback relies on all other
-   582		 * CPUs being stopped at the moment and console drivers being able to
-   583		 * handle reentrance when @oops_in_progress is set.
-   584		 *
-   585		 * There is no guarantee that every console driver can handle
-   586		 * reentrance in this way; the developer deploying the debugger
-   587		 * is responsible for ensuring that the console drivers they
-   588		 * have selected handle reentrance appropriately.
-   589		 */
-   590		cookie = console_srcu_read_lock();
-   591		for_each_console_srcu(c) {
-   592			short flags = console_srcu_read_flags(c);
-   593	
-   594			if (!console_is_usable(c, flags, true))
-   595				continue;
-   596			if (c == dbg_io_ops->cons)
-   597				continue;
-   598	
-   599			if (flags & CON_NBCON) {
-   600				struct nbcon_write_context wctxt = { };
-   601	
-   602				/*
-   603				 * Do not continue if the console is NBCON and the context
-   604				 * can't be acquired.
-   605				 */
-   606				if (!nbcon_kdb_try_acquire(c, &wctxt))
-   607					continue;
-   608	
-   609				nbcon_write_context_set_buf(&wctxt, (char *)msg, msg_len);
-   610	
-   611				c->write_atomic(c, &wctxt);
- > 612				nbcon_kdb_release(&wctxt);
-   613			} else {
-   614				/*
-   615				 * Set oops_in_progress to encourage the console drivers to
-   616				 * disregard their internal spin locks: in the current calling
-   617				 * context the risk of deadlock is a bigger problem than risks
-   618				 * due to re-entering the console driver. We operate directly on
-   619				 * oops_in_progress rather than using bust_spinlocks() because
-   620				 * the calls bust_spinlocks() makes on exit are not appropriate
-   621				 * for this calling context.
-   622				 */
-   623				++oops_in_progress;
-   624				c->write(c, msg, msg_len);
-   625				--oops_in_progress;
-   626			}
-   627			touch_nmi_watchdog();
-   628		}
-   629		console_srcu_read_unlock(cookie);
-   630	}
-   631	
+    27	
+  > 28	#include "kselftest.h"
+    29	#include "../clone3/clone3_selftests.h"
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
