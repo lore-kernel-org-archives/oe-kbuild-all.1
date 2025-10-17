@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CEE72D97AF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 06:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8505F24166D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 07:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760682115; cv=none; b=IX35ZfEfvnHBm1K1wj+rqyhA4FBpvW0rr/SPnDXkw89zR9bYNlint9zFV6rQ/xAAowmiK/0+PV0pJTxbydtZb9MwNRfzoYmJZmsrk0EW5Hhxu/FnOh9KiyorTE4zzzFADnKJuUXDSdcCUTutS0JTKUL4S/hbAg5lZRzsrW5oClo=
+	t=1760684753; cv=none; b=eWA6sBNZqzk7Qn0Q91RGJF0b7pZYsdJZD1gRN4FEPvH590ikNBpCfmo+p3rO0bUfopHgD9Z48RKwt+ky+t8dfLoWBxvbQHGK1g21BiTbE4O7s6T/QPCOfB2SqxM3EhZKEA3Zch8dgWD2V4zb6aq3vdZX7nyCVsi+86/b0BYyil4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760682115; c=relaxed/simple;
-	bh=Crh6PSnzKrPdIlWltmFVXOY8Z9b0XtaxQ56lpajh7ck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ai/AkYbgMfzhPIu5T+qoafxYaZqB9ai2VE7yPwHfALLxtqkT7vwNuDeWfybQcktYrfAi9xFlZVTcJuOAO3lXEz4Z58wATNw7kmmDrGW1geFCRT4GdSAPaG43fkKOFVBadUJg2cjvMLF4MRmVPbq/byDXzCk7xiFvvfdu62oTKRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fO+cB6MN; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1760684753; c=relaxed/simple;
+	bh=C8SmcyaMRymiEVcS3jfzjWAG+pE+A1lXxs1eW7YN7JA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=t3YwkXussoMTjk9utfkPaD1hwe4ErFF86euWhrIlmr/I/HxiddoianGx1SmdytHyXEQ5Jz7aeS3+K4SiKzgWfjfxBiDbnqi/KSLI1I/HdnC1fMJLb6ew4MEkeWRmNySkjrWAwpta5FypQhayoqNyo4upSX2eXHycIgiN5LwjX+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bn6I5x9k; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fO+cB6MN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bn6I5x9k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760682112; x=1792218112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Crh6PSnzKrPdIlWltmFVXOY8Z9b0XtaxQ56lpajh7ck=;
-  b=fO+cB6MNyqPwgkvmMtO4boBrWYrV6y31eQwb0UNqnJWS2W0gJzBuyGGy
-   RZafoNYGyh1b00KI2/f3d1xW8pNHZqZTwwpd41sNZFzi3ySiuYmj9OKqs
-   z5TMJA9fSm8kk9wGZVmV0ALbNQcQZIEuSDl9/75ZbLN7SHjkMHIkvfnYp
-   OwfMPyGTnHJU8sO3OVVXk0xBiQ4XuuEnMJKkPO95g7Ke8R7OPTtST6lpd
-   DEekiEswfiAu1MWSi1V/L0aoDhQNe4Ik6Qa6cXJeJ4jtHbaYWFBQ9mBEC
-   aoHQF5nhAKpfqzxjym8r4qRAG2C16uG0evZggQU4aumsbvOCxceXRgG41
-   A==;
-X-CSE-ConnectionGUID: X9ovr5N8SwGGF81QWlcMFA==
-X-CSE-MsgGUID: HzQTLt2KTMiQSNRKUiPVmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66532931"
+  t=1760684750; x=1792220750;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=C8SmcyaMRymiEVcS3jfzjWAG+pE+A1lXxs1eW7YN7JA=;
+  b=Bn6I5x9kPtbA05hDtVweRI70YRFwHAZL2GhhumkI9nGkiOACSD+UZPai
+   JJGPkFzOjx+LdJiPJ8c4S6Kyrs2Kfv2R2TBZfZxm7Yq5Jhvfu7JEq6/sk
+   7uzVJqQxyAY6iG1SvK8mqeE1/RlzILBYbTEjSwDR6353Hs86q7bjAbz4/
+   wJciuos6DWIPIB+B2CE2WpUyyGagIeWkmKUxkAm0rxSkX3Tqqsq3AoqBH
+   kCwSZ0ZAWvwIUgn+mez3i1r7OEYRKKMI/ofP4D8sr2OU0YLq5/0VEAvIL
+   6dgJU9VGetilb88yRCl3dBjBgauYM0TRWZ/hpbha8N7MQBrGUhzEhgSG2
+   Q==;
+X-CSE-ConnectionGUID: 9Vd1Jmk0R2y16mOIc2b79g==
+X-CSE-MsgGUID: 0d3gpZWjQ0isfA3TFo3GSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="73563161"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="66532931"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 23:21:52 -0700
-X-CSE-ConnectionGUID: /l1ULNEYSm+pyaZoXUfjMA==
-X-CSE-MsgGUID: PKREFLeeSNum1Tl5noJqWA==
+   d="scan'208";a="73563161"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:05:49 -0700
+X-CSE-ConnectionGUID: ovSKhT3lQ/KyahZBAHTztw==
+X-CSE-MsgGUID: 0z9rnfrnRw6NtC5NFW11CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="186909673"
+   d="scan'208";a="186689899"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2025 23:21:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2025 00:05:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9dpk-0005bj-38;
-	Fri, 17 Oct 2025 06:21:25 +0000
-Date: Fri, 17 Oct 2025 14:19:20 +0800
+	id 1v9eWO-0005eh-27;
+	Fri, 17 Oct 2025 07:05:15 +0000
+Date: Fri, 17 Oct 2025 15:02:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xin Zhao <jackzxcui1989@163.com>, tj@kernel.org, jiangshanlai@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Xin Zhao <jackzxcui1989@163.com>
-Subject: Re: [PATCH] workqueue: Support RT workqueue
-Message-ID: <202510171328.eE4qdf84-lkp@intel.com>
-References: <20251016102345.2200815-1-jackzxcui1989@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/1] crypto/af_alg.c:1038:21:
+ warning: overflow in conversion from 'int' to 'unsigned char:1' changes
+ value from 'flags & 32768' to '0'
+Message-ID: <202510171437.JHIO6Zep-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,167 +62,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016102345.2200815-1-jackzxcui1989@163.com>
 
-Hi Xin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.17]
-[cannot apply to tj-wq/for-next v6.18-rc1 linus/master next-20251016]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Zhao/workqueue-Support-RT-workqueue/20251016-182514
-base:   v6.17
-patch link:    https://lore.kernel.org/r/20251016102345.2200815-1-jackzxcui1989%40163.com
-patch subject: [PATCH] workqueue: Support RT workqueue
-config: csky-randconfig-002-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171328.eE4qdf84-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171328.eE4qdf84-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   3522ea727e6ecd3b88462771ccb692ae7577b332
+commit: 3522ea727e6ecd3b88462771ccb692ae7577b332 [1/1] UPSTREAM: crypto: af_alg - Disallow concurrent writes in af_alg_sendmsg
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251017/202510171437.JHIO6Zep-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171437.JHIO6Zep-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171328.eE4qdf84-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171437.JHIO6Zep-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/workqueue.c: In function 'workqueue_init_early':
->> kernel/workqueue.c:7791:4: warning: iteration 2 invokes undefined behavior [-Waggressive-loop-optimizations]
-    7791 |    init_irq_work(bh_pool_irq_work(pool), irq_work_fns[i]);
-         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/workqueue.c:552:2: note: within this loop
-     552 |  for ((pool) = &per_cpu(bh_worker_pools, cpu)[0];  \
-         |  ^~~
-   kernel/workqueue.c:7788:3: note: in expansion of macro 'for_each_bh_worker_pool'
-    7788 |   for_each_bh_worker_pool(pool, cpu) {
-         |   ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/crypto/if_alg.h:17,
+                    from crypto/af_alg.c:11:
+   include/net/sock.h: In function '__dst_negative_advice':
+   include/net/sock.h:2125:35: warning: cast between incompatible function types from 'struct dst_entry * (*)(struct dst_entry *)' to 'void (*)(struct sock *, struct dst_entry *)' [-Wcast-function-type]
+    2125 |                 negative_advice = (android_dst_ops_negative_advice_new_t)dst->ops->negative_advice;
+         |                                   ^
+   crypto/af_alg.c: In function 'af_alg_sendpage':
+>> crypto/af_alg.c:1038:21: warning: overflow in conversion from 'int' to 'unsigned char:1' changes value from 'flags & 32768' to '0' [-Woverflow]
+    1038 |         ctx->more = flags & MSG_MORE;
+         |                     ^~~~~
 
 
-vim +7791 kernel/workqueue.c
+vim +1038 crypto/af_alg.c
 
-2fcdb1b44491e08 Tejun Heo           2024-02-04  7722  
-3347fa0928210d9 Tejun Heo           2016-09-16  7723  /**
-3347fa0928210d9 Tejun Heo           2016-09-16  7724   * workqueue_init_early - early init for workqueue subsystem
-3347fa0928210d9 Tejun Heo           2016-09-16  7725   *
-2930155b2e27232 Tejun Heo           2023-08-07  7726   * This is the first step of three-staged workqueue subsystem initialization and
-2930155b2e27232 Tejun Heo           2023-08-07  7727   * invoked as soon as the bare basics - memory allocation, cpumasks and idr are
-2930155b2e27232 Tejun Heo           2023-08-07  7728   * up. It sets up all the data structures and system workqueues and allows early
-2930155b2e27232 Tejun Heo           2023-08-07  7729   * boot code to create workqueues and queue/cancel work items. Actual work item
-2930155b2e27232 Tejun Heo           2023-08-07  7730   * execution starts only after kthreads can be created and scheduled right
-2930155b2e27232 Tejun Heo           2023-08-07  7731   * before early initcalls.
-3347fa0928210d9 Tejun Heo           2016-09-16  7732   */
-2333e829952fb43 Yu Chen             2020-02-23  7733  void __init workqueue_init_early(void)
-^1da177e4c3f415 Linus Torvalds      2005-04-16  7734  {
-84193c07105c62d Tejun Heo           2023-08-07  7735  	struct wq_pod_type *pt = &wq_pod_types[WQ_AFFN_SYSTEM];
-7456d72db76b9c5 Xin Zhao            2025-10-16  7736  	int std_nice[NR_STD_WORKER_POOLS] = { 0, HIGHPRI_NICE_LEVEL, RTPRI_LEVEL };
-2f34d7337d98f3e Tejun Heo           2024-02-14  7737  	void (*irq_work_fns[2])(struct irq_work *) = { bh_pool_kick_normal,
-2f34d7337d98f3e Tejun Heo           2024-02-14  7738  						       bh_pool_kick_highpri };
-7a4e344c5675eef Tejun Heo           2013-03-12  7739  	int i, cpu;
-c34056a3fdde777 Tejun Heo           2010-06-29  7740  
-10cdb15759540f0 Lai Jiangshan       2020-06-01  7741  	BUILD_BUG_ON(__alignof__(struct pool_workqueue) < __alignof__(long long));
-e904e6c2668bba7 Tejun Heo           2013-03-12  7742  
-8d84baf76045f5b Lai Jiangshan       2024-07-11  7743  	BUG_ON(!alloc_cpumask_var(&wq_online_cpumask, GFP_KERNEL));
-b05a79280b346eb Frederic Weisbecker 2015-04-27  7744  	BUG_ON(!alloc_cpumask_var(&wq_unbound_cpumask, GFP_KERNEL));
-fe28f631fa941fb Waiman Long         2023-10-25  7745  	BUG_ON(!alloc_cpumask_var(&wq_requested_unbound_cpumask, GFP_KERNEL));
-fe28f631fa941fb Waiman Long         2023-10-25  7746  	BUG_ON(!zalloc_cpumask_var(&wq_isolated_cpumask, GFP_KERNEL));
-b05a79280b346eb Frederic Weisbecker 2015-04-27  7747  
-8d84baf76045f5b Lai Jiangshan       2024-07-11  7748  	cpumask_copy(wq_online_cpumask, cpu_online_mask);
-4a6c5607d4502cc Tejun Heo           2023-11-21  7749  	cpumask_copy(wq_unbound_cpumask, cpu_possible_mask);
-4a6c5607d4502cc Tejun Heo           2023-11-21  7750  	restrict_unbound_cpumask("HK_TYPE_WQ", housekeeping_cpumask(HK_TYPE_WQ));
-4a6c5607d4502cc Tejun Heo           2023-11-21  7751  	restrict_unbound_cpumask("HK_TYPE_DOMAIN", housekeeping_cpumask(HK_TYPE_DOMAIN));
-ace3c5499e61ef7 tiozhang            2023-06-29  7752  	if (!cpumask_empty(&wq_cmdline_cpumask))
-4a6c5607d4502cc Tejun Heo           2023-11-21  7753  		restrict_unbound_cpumask("workqueue.unbound_cpus", &wq_cmdline_cpumask);
-ace3c5499e61ef7 tiozhang            2023-06-29  7754  
-fe28f631fa941fb Waiman Long         2023-10-25  7755  	cpumask_copy(wq_requested_unbound_cpumask, wq_unbound_cpumask);
-261dce3d64021e7 Chuyi Zhou          2025-06-17  7756  	cpumask_andnot(wq_isolated_cpumask, cpu_possible_mask,
-261dce3d64021e7 Chuyi Zhou          2025-06-17  7757  						housekeeping_cpumask(HK_TYPE_DOMAIN));
-e904e6c2668bba7 Tejun Heo           2013-03-12  7758  	pwq_cache = KMEM_CACHE(pool_workqueue, SLAB_PANIC);
-e904e6c2668bba7 Tejun Heo           2013-03-12  7759  
-b2b1f9338400de0 Lai Jiangshan       2024-07-11  7760  	unbound_wq_update_pwq_attrs_buf = alloc_workqueue_attrs();
-b2b1f9338400de0 Lai Jiangshan       2024-07-11  7761  	BUG_ON(!unbound_wq_update_pwq_attrs_buf);
-2930155b2e27232 Tejun Heo           2023-08-07  7762  
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7763  	/*
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7764  	 * If nohz_full is enabled, set power efficient workqueue as unbound.
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7765  	 * This allows workqueue items to be moved to HK CPUs.
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7766  	 */
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7767  	if (housekeeping_enabled(HK_TYPE_TICK))
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7768  		wq_power_efficient = true;
-7bd20b6b87183db Marcelo Tosatti     2024-01-19  7769  
-84193c07105c62d Tejun Heo           2023-08-07  7770  	/* initialize WQ_AFFN_SYSTEM pods */
-84193c07105c62d Tejun Heo           2023-08-07  7771  	pt->pod_cpus = kcalloc(1, sizeof(pt->pod_cpus[0]), GFP_KERNEL);
-84193c07105c62d Tejun Heo           2023-08-07  7772  	pt->pod_node = kcalloc(1, sizeof(pt->pod_node[0]), GFP_KERNEL);
-84193c07105c62d Tejun Heo           2023-08-07  7773  	pt->cpu_pod = kcalloc(nr_cpu_ids, sizeof(pt->cpu_pod[0]), GFP_KERNEL);
-84193c07105c62d Tejun Heo           2023-08-07  7774  	BUG_ON(!pt->pod_cpus || !pt->pod_node || !pt->cpu_pod);
-84193c07105c62d Tejun Heo           2023-08-07  7775  
-84193c07105c62d Tejun Heo           2023-08-07  7776  	BUG_ON(!zalloc_cpumask_var_node(&pt->pod_cpus[0], GFP_KERNEL, NUMA_NO_NODE));
-84193c07105c62d Tejun Heo           2023-08-07  7777  
-84193c07105c62d Tejun Heo           2023-08-07  7778  	pt->nr_pods = 1;
-84193c07105c62d Tejun Heo           2023-08-07  7779  	cpumask_copy(pt->pod_cpus[0], cpu_possible_mask);
-84193c07105c62d Tejun Heo           2023-08-07  7780  	pt->pod_node[0] = NUMA_NO_NODE;
-84193c07105c62d Tejun Heo           2023-08-07  7781  	pt->cpu_pod[0] = 0;
-84193c07105c62d Tejun Heo           2023-08-07  7782  
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7783  	/* initialize BH and CPU pools */
-29c91e9912bed70 Tejun Heo           2013-03-12  7784  	for_each_possible_cpu(cpu) {
-4ce62e9e30cacc2 Tejun Heo           2012-07-13  7785  		struct worker_pool *pool;
-8b03ae3cde59af9 Tejun Heo           2010-06-29  7786  
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7787  		i = 0;
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7788  		for_each_bh_worker_pool(pool, cpu) {
-2f34d7337d98f3e Tejun Heo           2024-02-14  7789  			init_cpu_worker_pool(pool, cpu, std_nice[i]);
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7790  			pool->flags |= POOL_BH;
-2f34d7337d98f3e Tejun Heo           2024-02-14 @7791  			init_irq_work(bh_pool_irq_work(pool), irq_work_fns[i]);
-2f34d7337d98f3e Tejun Heo           2024-02-14  7792  			i++;
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7793  		}
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7794  
-7a4e344c5675eef Tejun Heo           2013-03-12  7795  		i = 0;
-2fcdb1b44491e08 Tejun Heo           2024-02-04  7796  		for_each_cpu_worker_pool(pool, cpu)
-2fcdb1b44491e08 Tejun Heo           2024-02-04  7797  			init_cpu_worker_pool(pool, cpu, std_nice[i++]);
-8b03ae3cde59af9 Tejun Heo           2010-06-29  7798  	}
-8b03ae3cde59af9 Tejun Heo           2010-06-29  7799  
-8a2b75384444488 Tejun Heo           2013-09-05  7800  	/* create default unbound and ordered wq attrs */
-29c91e9912bed70 Tejun Heo           2013-03-12  7801  	for (i = 0; i < NR_STD_WORKER_POOLS; i++) {
-29c91e9912bed70 Tejun Heo           2013-03-12  7802  		struct workqueue_attrs *attrs;
-29c91e9912bed70 Tejun Heo           2013-03-12  7803  
-be69d00d9769575 Thomas Gleixner     2019-06-26  7804  		BUG_ON(!(attrs = alloc_workqueue_attrs()));
-29c91e9912bed70 Tejun Heo           2013-03-12  7805  		attrs->nice = std_nice[i];
-29c91e9912bed70 Tejun Heo           2013-03-12  7806  		unbound_std_wq_attrs[i] = attrs;
-8a2b75384444488 Tejun Heo           2013-09-05  7807  
-8a2b75384444488 Tejun Heo           2013-09-05  7808  		/*
-8a2b75384444488 Tejun Heo           2013-09-05  7809  		 * An ordered wq should have only one pwq as ordering is
-8a2b75384444488 Tejun Heo           2013-09-05  7810  		 * guaranteed by max_active which is enforced by pwqs.
-8a2b75384444488 Tejun Heo           2013-09-05  7811  		 */
-be69d00d9769575 Thomas Gleixner     2019-06-26  7812  		BUG_ON(!(attrs = alloc_workqueue_attrs()));
-8a2b75384444488 Tejun Heo           2013-09-05  7813  		attrs->nice = std_nice[i];
-af73f5c9febe509 Tejun Heo           2023-08-07  7814  		attrs->ordered = true;
-8a2b75384444488 Tejun Heo           2013-09-05  7815  		ordered_wq_attrs[i] = attrs;
-29c91e9912bed70 Tejun Heo           2013-03-12  7816  	}
-29c91e9912bed70 Tejun Heo           2013-03-12  7817  
-d320c03830b17af Tejun Heo           2010-06-29  7818  	system_wq = alloc_workqueue("events", 0, 0);
-128ea9f6ccfb696 Marco Crivellari    2025-06-14  7819  	system_percpu_wq = alloc_workqueue("events", 0, 0);
-1aabe902ca3638d Joonsoo Kim         2012-08-15  7820  	system_highpri_wq = alloc_workqueue("events_highpri", WQ_HIGHPRI, 0);
-7456d72db76b9c5 Xin Zhao            2025-10-16  7821  	system_rt_wq = alloc_workqueue("events_rt", WQ_RT, 0);
-d320c03830b17af Tejun Heo           2010-06-29  7822  	system_long_wq = alloc_workqueue("events_long", 0, 0);
-128ea9f6ccfb696 Marco Crivellari    2025-06-14  7823  	system_unbound_wq = alloc_workqueue("events_unbound", WQ_UNBOUND, WQ_MAX_ACTIVE);
-128ea9f6ccfb696 Marco Crivellari    2025-06-14  7824  	system_dfl_wq = alloc_workqueue("events_unbound", WQ_UNBOUND, WQ_MAX_ACTIVE);
-24d51add7438f96 Tejun Heo           2011-02-21  7825  	system_freezable_wq = alloc_workqueue("events_freezable",
-24d51add7438f96 Tejun Heo           2011-02-21  7826  					      WQ_FREEZABLE, 0);
-0668106ca3865ba Viresh Kumar        2013-04-24  7827  	system_power_efficient_wq = alloc_workqueue("events_power_efficient",
-0668106ca3865ba Viresh Kumar        2013-04-24  7828  					      WQ_POWER_EFFICIENT, 0);
-8318d6a6362f590 Audra Mitchell      2024-01-25  7829  	system_freezable_power_efficient_wq = alloc_workqueue("events_freezable_pwr_efficient",
-0668106ca3865ba Viresh Kumar        2013-04-24  7830  					      WQ_FREEZABLE | WQ_POWER_EFFICIENT,
-0668106ca3865ba Viresh Kumar        2013-04-24  7831  					      0);
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7832  	system_bh_wq = alloc_workqueue("events_bh", WQ_BH, 0);
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7833  	system_bh_highpri_wq = alloc_workqueue("events_bh_highpri",
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7834  					       WQ_BH | WQ_HIGHPRI, 0);
-7456d72db76b9c5 Xin Zhao            2025-10-16  7835  	BUG_ON(!system_wq || !system_percpu_wq || !system_highpri_wq || !system_rt_wq ||
-7456d72db76b9c5 Xin Zhao            2025-10-16  7836  	       !system_long_wq || !system_unbound_wq || !system_freezable_wq || !system_dfl_wq ||
-0668106ca3865ba Viresh Kumar        2013-04-24  7837  	       !system_power_efficient_wq ||
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7838  	       !system_freezable_power_efficient_wq ||
-4cb1ef64609f9b0 Tejun Heo           2024-02-04  7839  	       !system_bh_wq || !system_bh_highpri_wq);
-3347fa0928210d9 Tejun Heo           2016-09-16  7840  }
-3347fa0928210d9 Tejun Heo           2016-09-16  7841  
+2d97591ef43d05 Stephan Mueller 2017-08-02   984  
+2d97591ef43d05 Stephan Mueller 2017-08-02   985  /**
+2d97591ef43d05 Stephan Mueller 2017-08-02   986   * af_alg_sendpage - sendpage system call handler
+b2a4411aca29ab Randy Dunlap    2021-04-11   987   * @sock: socket of connection to user space to write to
+b2a4411aca29ab Randy Dunlap    2021-04-11   988   * @page: data to send
+b2a4411aca29ab Randy Dunlap    2021-04-11   989   * @offset: offset into page to begin sending
+b2a4411aca29ab Randy Dunlap    2021-04-11   990   * @size: length of data
+b2a4411aca29ab Randy Dunlap    2021-04-11   991   * @flags: message send/receive flags
+2d97591ef43d05 Stephan Mueller 2017-08-02   992   *
+2d97591ef43d05 Stephan Mueller 2017-08-02   993   * This is a generic implementation of sendpage to fill ctx->tsgl_list.
+2d97591ef43d05 Stephan Mueller 2017-08-02   994   */
+2d97591ef43d05 Stephan Mueller 2017-08-02   995  ssize_t af_alg_sendpage(struct socket *sock, struct page *page,
+2d97591ef43d05 Stephan Mueller 2017-08-02   996  			int offset, size_t size, int flags)
+2d97591ef43d05 Stephan Mueller 2017-08-02   997  {
+2d97591ef43d05 Stephan Mueller 2017-08-02   998  	struct sock *sk = sock->sk;
+2d97591ef43d05 Stephan Mueller 2017-08-02   999  	struct alg_sock *ask = alg_sk(sk);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1000  	struct af_alg_ctx *ctx = ask->private;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1001  	struct af_alg_tsgl *sgl;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1002  	int err = -EINVAL;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1003  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1004  	if (flags & MSG_SENDPAGE_NOTLAST)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1005  		flags |= MSG_MORE;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1006  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1007  	lock_sock(sk);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1008  	if (!ctx->more && ctx->used)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1009  		goto unlock;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1010  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1011  	if (!size)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1012  		goto done;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1013  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1014  	if (!af_alg_writable(sk)) {
+2d97591ef43d05 Stephan Mueller 2017-08-02  1015  		err = af_alg_wait_for_wmem(sk, flags);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1016  		if (err)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1017  			goto unlock;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1018  	}
+2d97591ef43d05 Stephan Mueller 2017-08-02  1019  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1020  	err = af_alg_alloc_tsgl(sk);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1021  	if (err)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1022  		goto unlock;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1023  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1024  	ctx->merge = 0;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1025  	sgl = list_entry(ctx->tsgl_list.prev, struct af_alg_tsgl, list);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1026  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1027  	if (sgl->cur)
+2d97591ef43d05 Stephan Mueller 2017-08-02  1028  		sg_unmark_end(sgl->sg + sgl->cur - 1);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1029  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1030  	sg_mark_end(sgl->sg + sgl->cur);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1031  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1032  	get_page(page);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1033  	sg_set_page(sgl->sg + sgl->cur, page, size, offset);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1034  	sgl->cur++;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1035  	ctx->used += size;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1036  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1037  done:
+2d97591ef43d05 Stephan Mueller 2017-08-02 @1038  	ctx->more = flags & MSG_MORE;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1039  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1040  unlock:
+2d97591ef43d05 Stephan Mueller 2017-08-02  1041  	af_alg_data_wakeup(sk);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1042  	release_sock(sk);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1043  
+2d97591ef43d05 Stephan Mueller 2017-08-02  1044  	return err ?: size;
+2d97591ef43d05 Stephan Mueller 2017-08-02  1045  }
+2d97591ef43d05 Stephan Mueller 2017-08-02  1046  EXPORT_SYMBOL_GPL(af_alg_sendpage);
+2d97591ef43d05 Stephan Mueller 2017-08-02  1047  
+
+:::::: The code at line 1038 was first introduced by commit
+:::::: 2d97591ef43d0587be22ad1b0d758d6df4999a0b crypto: af_alg - consolidation of duplicate code
+
+:::::: TO: Stephan Mueller <smueller@chronox.de>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
