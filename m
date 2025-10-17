@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B122777E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890CE248891;
+	Sat, 18 Oct 2025 03:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760756805; cv=none; b=Eo6lfLzQVq3+uSjUjv2hHh2/0+mBjGoFZD4rEEB0YZn5yvCgsbyEwD4NIh5xergzUD+yF+neqX1o+szgsxh9c84YPbicJmQeyXPTwlyov54asLCUr8cWpYt1+sh/b79dHGEe5ich3AU65eHCd7RkV7VGsW+aF0lpsPBW3O0Xj6k=
+	t=1760757221; cv=none; b=PAL9PfD2sV7p53dJXGLOE+o/4t6N1xr/Cjq6VObCF3Vlm9dXMw6pti3ZGjo8lg1IFhxRvS8rI0nDXUhKNlgJCByS49ZTgpNp8usC4F13Sf+5DwHLtfpCzuiuT676J3J0BQXcC5ENMbujPmmMjVjWuA7f3cX7OUmbhG7LfxQce8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760756805; c=relaxed/simple;
-	bh=l/nnb202POnGDDF30HcXYZ05Odzz72DFUVNrxiDzpik=;
+	s=arc-20240116; t=1760757221; c=relaxed/simple;
+	bh=/L+7nWGWkNlsl9lUpSsZUra54FUuZ1H3XU/R+yyXpzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SE5OQ2FBx+G39AI8aKZ0VpdZmldWvRc62Dc5OVtDvrF08qSg/REa4+9T8XGWqbvy1lFQWqTY8HW8FxQ857MgWvnewzC0ZqPTkxzSQOpCKP9gnFZwJVNZ00BiBlnqA2Cit1lofa/B35ixQP5BemBAEVvZkjoiIsAapNq8A4EPbYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0t2Z78A; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=ooZIhEczY0wtCA3rvmypKSAa0dtF3It2O1F4e7xus8CkQtWyUonUDKx9jcoN0bAqhq/DiDhuzpHQM7FAJbS3EEkdcGUkB8vUIjkOIC1yXU3CO4+kUPNHROQnxnN5HW9Y8Q7kQNKGO6ZrJ4vMVWOj+xt6/WacgBaoK263w8EE9uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cD2q6Ags; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0t2Z78A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cD2q6Ags"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760756803; x=1792292803;
+  t=1760757219; x=1792293219;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l/nnb202POnGDDF30HcXYZ05Odzz72DFUVNrxiDzpik=;
-  b=C0t2Z78AkSA0ue4K3ZUPv1+nLCmceddL2oLxzn6DhOJvHiArHhhb/q/T
-   y4u0AqXWt3y0wysxWkpI+xGXKQ55MUpMEN63I0axIVJjblOivlf1i0Vv2
-   Ine1kZPfg5XuCUA9PQDWrOTVhvyMHrmxLJrHd5H/a6SqNMHSWiowPJ1KB
-   2rGjJXeDyT/+A5ECVVpUN9dpLdn2O/GsiRU1mwdrePodMCrE6EPDQME/3
-   6AHw/+VTU7HXFv2IsYm/hUiVDfomGOd0pSbf/pgpzk/LPZghDMLPkKxxe
-   d0Z/JHeEidpgGKPrLkTuRxI4xH6/kOvRZazEC9mnVnrjAQefSzmfojcNt
-   w==;
-X-CSE-ConnectionGUID: YgE808UnRBq8Ycik6mPdsw==
-X-CSE-MsgGUID: shVsX8y9TziQQdXMVmwOhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73648669"
+  bh=/L+7nWGWkNlsl9lUpSsZUra54FUuZ1H3XU/R+yyXpzI=;
+  b=cD2q6AgsIOiAcYHYZVD/YHFFw4/6S/I68mVdYP6PeZsldG0VSalWR9yj
+   9U3tJSCN3w2WeHtLFKX2n0Jdxdgye1G/l0TW34XHUg9uJMgwUIFg1rg7T
+   vKbEevBG1B09To3Q8oWdwLhe/KD37Iu7Zq3j+hn3j/rP6Nf9az15G7mfA
+   IJ8cczfKp9jVK1hOmU055AqVadIZTTUvr5uB6pM/IbcdL0gNQzxHrim1l
+   DGWFaopPzukdgaZ7q87uwRKr7VWDmA5oUbx9riHj/ws3TCWfQfPVkrQCH
+   ZT6HzZf16CunHfLNsNbNCpGLoTD67U/7sfkf8ufCwbnM31SM61Lj+aVWK
+   g==;
+X-CSE-ConnectionGUID: XZn60/o8QFK6heOaRNE2ww==
+X-CSE-MsgGUID: qgt3FNUDReuCOX+m3fSYTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="62676638"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="73648669"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:06:41 -0700
-X-CSE-ConnectionGUID: 9RTsEZuYSPq5aJ+JG5OR4g==
-X-CSE-MsgGUID: iHheX0H3S96MA3XlUW9pOA==
+   d="scan'208";a="62676638"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:13:38 -0700
+X-CSE-ConnectionGUID: Ah9/WqR0QZaf4DugTosfDA==
+X-CSE-MsgGUID: +HDCTTWETbe4/m87pRt0Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="183289588"
+   d="scan'208";a="187061301"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Oct 2025 12:44:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 Oct 2025 11:51:53 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9qN8-0007iV-0H;
-	Fri, 17 Oct 2025 19:44:18 +0000
-Date: Sat, 18 Oct 2025 03:44:13 +0800
+	id 1v9pYM-0007gv-06;
+	Fri, 17 Oct 2025 18:51:50 +0000
+Date: Sat, 18 Oct 2025 02:51:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1480/1480] mm/debug.c:174:3: warning:
- format specifies type 'void *' but the argument has type 'int'
-Message-ID: <202510180359.p5udImw7-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommufd_dmabuf 20/24] ld.lld: error: duplicate symbol:
+ iommufd_test_dma_buf_iommufd_map
+Message-ID: <202510180244.QPF0KYzq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,142 +62,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ding,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   045418106c25769e424b67183bab8f2333dc6278
-commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [1480/1480] ascend: mm: add an owner for mm_struct
-config: x86_64-randconfig-r112-20250311 (https://download.01.org/0day-ci/archive/20251018/202510180359.p5udImw7-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180359.p5udImw7-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
+head:   e1e0600b1a5699114df3ae378cd69a7f953e5b3d
+commit: 5849b503c1771ec07a34aca7fa51ef3788514f29 [20/24] iommufd/selftest: Add some tests for the dmabuf flow
+config: i386-buildonly-randconfig-002-20251017 (https://download.01.org/0day-ci/archive/20251018/202510180244.QPF0KYzq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180244.QPF0KYzq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180359.p5udImw7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180244.QPF0KYzq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/debug.c: note: in included file (through include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
-     135 |                 atomic_read(&mm->tlb_flush_pending),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-     142 |                 mm->def_flags, &mm->def_flags
-         |                 ^~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
-     143 |                 mm->def_flags, &mm->def_flags
-         |                                ^~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-     143 |                 "def_flags: %#lx(%pGv)\n",
-         |                                  ~^
-   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~
-   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
-     332 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   4 warnings generated.
-
-
-vim +174 mm/debug.c
-
-82742a3a515219 Sasha Levin           2014-10-09  114  
-31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
-31c9afa6db122a Sasha Levin           2014-10-09  116  {
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
-31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
-152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
-84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
-152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
-2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
-152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
-31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
-152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
-152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
-31c9afa6db122a Sasha Levin           2014-10-09  144  
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
-31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
-31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
-31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
-31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
-31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
-af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
-31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
-53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
-53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
-84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
-31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
-31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
-31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
-31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
-31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
-31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
-31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
-31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
-31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
-31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
-31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
-31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
-31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
-16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
-31c9afa6db122a Sasha Levin           2014-10-09  176  	);
-31c9afa6db122a Sasha Levin           2014-10-09  177  }
-31c9afa6db122a Sasha Levin           2014-10-09  178  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
-
-:::::: TO: Nadav Amit <nadav.amit@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   In file included from drivers/iommu/iommufd/driver.c:4:
+>> drivers/iommu/iommufd/iommufd_private.h:740:5: warning: no previous prototype for function 'iommufd_test_dma_buf_iommufd_map' [-Wmissing-prototypes]
+     740 | int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+         |     ^
+   drivers/iommu/iommufd/iommufd_private.h:740:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     740 | int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+         | ^
+         | static 
+   1 warning generated.
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at viommu.c
+   >>>            drivers/iommu/iommufd/viommu.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at vfio_compat.c
+   >>>            drivers/iommu/iommufd/vfio_compat.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at pages.c
+   >>>            drivers/iommu/iommufd/pages.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at main.c
+   >>>            drivers/iommu/iommufd/main.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at ioas.c
+   >>>            drivers/iommu/iommufd/ioas.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at io_pagetable.c
+   >>>            drivers/iommu/iommufd/io_pagetable.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at hw_pagetable.c
+   >>>            drivers/iommu/iommufd/hw_pagetable.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            drivers/iommu/iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at eventq.c
+   >>>            drivers/iommu/iommufd/eventq.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at viommu.c
+   >>>            iommufd/viommu.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: iommufd_test_dma_buf_iommufd_map
+   >>> defined at device.c
+   >>>            iommufd/device.o:(iommufd_test_dma_buf_iommufd_map)
+   >>> defined at vfio_compat.c
+   >>>            iommufd/vfio_compat.o:(.text+0x0)
+..
 
 -- 
 0-DAY CI Kernel Test Service
