@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1CD3595C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA403595C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760757469; cv=none; b=aHFd461sI5YBSTw/XpzC5hlvl28FyZaT0a5k8Ts12T8jx+cH8F4Qrsckwul3NFDhOmjW9rykVqUILbgJsAlJgflPTzfCIPdBh73t/YH695wkav3bpGvmoJdIvutPw6t64Mq+4yFYOYK51WqtGV6JPBDozM0QYybNO4+0cQalEQY=
+	t=1760757489; cv=none; b=UkPgHXvW9dlnKKFE60sXL3Fkb0Gl+xOIZfeX3zgnbjKVNuTOQE7VH4heHDwG9hQaxlrlOnhxhdX+htwpUL4Bx/CLgO7uFMxgmVZFKMr1KAIDtpgee4KTzEAq0UYAVBlveJ5b+6fwSDTdh1ivg/HuPmDiHEA+mx1K5FJkOOHBQJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760757469; c=relaxed/simple;
-	bh=/ZPmH4lYkHsggufwvRdkbwQ+doZooO3d11W3wHF8eTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fdvtkg9Rq8WWjuSWLlm+Vwh/J9ABPyercUkvByS5uHP++OsQVtPvpw5iWxC5WbNVKPWTr8Y2KKycqxyAXZC59RpO0Qhpv5yHqHRxWkexAESoTIY9xcceVY2wLpJ8KNr9NcLxh21R1TPoJBJ53uQ5c4+9dRX70Tiz3VlBynHcnZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqiVJ7RM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1760757489; c=relaxed/simple;
+	bh=wzo7TncrjOa0kLHM843VDtvPDaUwrJutCnzYnLr6pQw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fz9f5bgc6k4YkKmOnIyjW3ti2+aJm6AMZE63mACaqBJYoLE3dXS/+2NOGVBswAi9reJOF6vSITjIT4rKwoIHHmiXk4ZpfrbjGaqMToCSAS/nnrWLkMznH9XgqFclhc805UZcIu+vO8tz6lpRr7EaFEoi2c/K7wZXYko/H77QspE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsZjJlQ8; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqiVJ7RM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsZjJlQ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760757468; x=1792293468;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/ZPmH4lYkHsggufwvRdkbwQ+doZooO3d11W3wHF8eTQ=;
-  b=HqiVJ7RMSNhpl7z8/hvph2oaXfi5m1JUQhQSsPqfniAnRc09c4dvLagK
-   1HaahLBI1QFxGE4gkYgCUtYDboQ34Dmj2iwpHWPF/piKaRU+4JasW3939
-   2pndn62sprBs2Q5tg4T+kgKQCOwDJHH+bmNyA03J4Ch8v8FxKVdDNP6Y8
-   PeTXN9GrGZoZJnxMuliEQ2s1n9J4zp0Dp0gvgV9r8kX/Xt9ibCACIKQQt
-   HxzTJzlbLMsdAv9vBau+3G9DrM2TPRM33rfFkBbfGZB8ELK6vhlgy76ro
-   S4YogKd4vIQLkI9+w3I82qWAGJ7jJRoONgjhSTC7FUgZiL5j4q0hbSMnb
-   w==;
-X-CSE-ConnectionGUID: v3jZMivgQrCF/+nULr6/Sw==
-X-CSE-MsgGUID: EjjQ/KWgRleu8wCpQWx/fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="80412385"
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="80412385"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:17:45 -0700
-X-CSE-ConnectionGUID: 2DnvxapsRK+7j8rtICLRzg==
-X-CSE-MsgGUID: GxiTUOrDQKmJFNciETW/fA==
+  t=1760757488; x=1792293488;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wzo7TncrjOa0kLHM843VDtvPDaUwrJutCnzYnLr6pQw=;
+  b=OsZjJlQ87U65Sz1QKtpEBbMvmbv6bxR/q4FgaG29KnERuWBWn+2M4ZsU
+   94IaGtgO2DXf4CslwpjHmSPaJR6Bpf8rHYDs33tIoFE5F03U6BdLO796O
+   O5gH1EbtdO1cqyHPhoZ2UzAtc+rp8GIBKTog73ns5e3IsMmsVbBkLs/sR
+   h/ZXPq8Or7EuwPxTymw5yrmcDbcZTjNOav37lCsyl+DxBr69PIl8FfyiA
+   xUY/ICXV1Kbxvcp0jAnOIiHPKLwh4KR8CGUPRGM42PJ8NcVbTeYohFBwB
+   9xvjC6Kvoaz4Z2gfebTHzUuOMp2pOLqAtKmbuyZUEqDCa36qPS997o+ep
+   A==;
+X-CSE-ConnectionGUID: swobkPLuRouyquscEpdqUg==
+X-CSE-MsgGUID: l/t5+wolRgWq+dR87/asRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62880181"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62880181"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:18:06 -0700
+X-CSE-ConnectionGUID: gD3HGXCvTgmOSBM1HMEAtQ==
+X-CSE-MsgGUID: QXED3QsXR7a+W7H6lKbO2Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="182064327"
+X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
+   d="scan'208";a="182621973"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 17 Oct 2025 19:38:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Oct 2025 12:55:21 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9wqI-00080Z-2r;
-	Sat, 18 Oct 2025 02:38:50 +0000
-Date: Sat, 18 Oct 2025 10:38:42 +0800
+	id 1v9qXn-0007ip-0Y;
+	Fri, 17 Oct 2025 19:55:19 +0000
+Date: Sat, 18 Oct 2025 03:54:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kiryl Shutsemau <kirill@shutemov.name>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
-	Kiryl Shutsemau <kas@kernel.org>
-Subject: Re: [PATCH] mm/filemap: Implement fast short reads
-Message-ID: <202510181054.Fmf1S18u-lkp@intel.com>
-References: <20251017141536.577466-1-kirill@shutemov.name>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2025-06 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name'
+ defined but not used
+Message-ID: <202510180319.vT8UibdM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,70 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017141536.577466-1-kirill@shutemov.name>
 
-Hi Kiryl,
+Hi Yun,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kiryl-Shutsemau/mm-filemap-Implement-fast-short-reads/20251017-221655
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251017141536.577466-1-kirill%40shutemov.name
-patch subject: [PATCH] mm/filemap: Implement fast short reads
-config: riscv-randconfig-001-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181054.Fmf1S18u-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181054.Fmf1S18u-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-06
+head:   0da2761b0d573a9074ab1a5d3063c46a7a743861
+commit: a1fc1fba460be48dff2484b438888ede557930d4 [1/1] ANDROID: sched: add restrict vendor hook to modify task placement policy in EAS
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251018/202510180319.vT8UibdM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180319.vT8UibdM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181054.Fmf1S18u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510180319.vT8UibdM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched.h:45,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/dcache.h:8,
-                    from include/linux/fs.h:9,
-                    from fs/inode.c:7:
-   fs/inode.c: In function '__address_space_init_once':
->> fs/inode.c:486:28: error: invalid type argument of '->' (have 'struct xarray')
-              &mapping->i_pages->xa_lock);
-                               ^~
-   include/linux/seqlock_types.h:57:26: note: in definition of macro '__SEQ_LOCK'
-    #define __SEQ_LOCK(expr) expr
-                             ^~~~
-   include/linux/seqlock.h:131:42: note: in expansion of macro 'seqcount_LOCKNAME_init'
-    #define seqcount_spinlock_init(s, lock)  seqcount_LOCKNAME_init(s, lock, spinlock)
-                                             ^~~~~~~~~~~~~~~~~~~~~~
-   fs/inode.c:485:2: note: in expansion of macro 'seqcount_spinlock_init'
-     seqcount_spinlock_init(&mapping->i_pages_delete_seqcnt,
-     ^~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=n]
-   Selected by [y]:
-   - RISCV [=y]
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:23,
+                    from drivers/android/vendor_hooks.c:11:
+>> include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +486 fs/inode.c
+vim +/str__sched__trace_system_name +27 include/trace/trace_events.h
 
-   481	
-   482	static void __address_space_init_once(struct address_space *mapping)
-   483	{
-   484		xa_init_flags(&mapping->i_pages, XA_FLAGS_LOCK_IRQ | XA_FLAGS_ACCOUNT);
-   485		seqcount_spinlock_init(&mapping->i_pages_delete_seqcnt,
- > 486				       &mapping->i_pages->xa_lock);
-   487		init_rwsem(&mapping->i_mmap_rwsem);
-   488		INIT_LIST_HEAD(&mapping->i_private_list);
-   489		spin_lock_init(&mapping->i_private_lock);
-   490		mapping->i_mmap = RB_ROOT_CACHED;
-   491	}
-   492	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
