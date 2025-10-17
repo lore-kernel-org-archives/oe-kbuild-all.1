@@ -1,130 +1,110 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AD92D7DF7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 09:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BB33128BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 09:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760692799; cv=none; b=AFzZHCspwMZRbgsLerKnYIvtvGL4u9M87o1ha1kX0qNe2e0IzXQh1iIxOuZzY2G7ew3LayLesPx+NGpITw+0kw587b5R8Wo1MYbaWPKLjrI8QAJwChHtSmRSSdyqUUiIcPPsaXd2bTvEyyV1p0a5GSfZ+vgNbKeSKt2hKrTjr7Y=
+	t=1760692868; cv=none; b=VEc1uVGlPj4Yz6TNrB6hE4/OZkdXnz7DQRm1ky1tvoKmudWuBi13Lcs5eb8gUxLq0kZKguzBJmN+yBPu7IwTn/kagQkkp1GV0kl012fuYi42W9y2Ra+zM7Yd2bDSHHMUGnpG/zNN0uEUWBcWS+OYNhD2+qOIfWRXHMHjb+RANM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760692799; c=relaxed/simple;
-	bh=FqcMRwFrInYrZOE7KriUyn4LQ40X/JXpvDnENpAmkUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GDdDCia1NMYMV141hLJ8YPi453v+ZDrJ8a9qGxM+rS9wWwt0dagUHMQbyxR4bL1SaRWgen5camBJXjxvmjyd5kE4BAK4neTNnDkfI197EUCKZ5ggcEpt8XVcbysH/3SpcYw2T6FrIDysfl7fAdPhhA3FlMKC+BO9iQ+HEY3K8mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DFxhVDIU; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1760692868; c=relaxed/simple;
+	bh=XwbL7/L7C9/nDL2/xmbaFiG9RcBj6a+Cj3r3ADzcpU0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A1SGj6wlfEdaZt/XfLWY9K2EeShUruA68G41TvD2HlatwySmabINiXk9ITwrR4vsrrUqQRjlL6gH6WEUc2WRd12B8XrN+oz+YV0KnlZRaG7PBlKEtB0OuZypPEUXfz529JD3mpedB63N3R54ovrnLf5L83YcPpxfA8Uc8c08sSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V+qfbrn8; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DFxhVDIU"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-426f1574a14so953937f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 02:19:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V+qfbrn8"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-63c3d7e2217so31583a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 02:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1760692795; x=1761297595; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VPMqXFh/dNNEvS2vqa7Ou7b74ZgoKM83pdwBrATLUys=;
-        b=DFxhVDIUZQ10raKq7HkPwcwlnhT6LV1gF0JmLz3b1cNsQvLlQDxFLZjwCehl7uqbO8
-         SL412tim1vcQuS1kmqU31dIgz9vEnWL8qsf2+/rgpM7+NwNxjXgTe4uZxMZzlaOEgrvT
-         5wTnaS64PxagI1sAZ1TsWNXjt70gYehbRZ0kNT3mHj05krlVdPPq9fV37NoA+cxHguJy
-         VPTqxLr9g6FkP2XaSNl2c/POvnm6gxFtTPmny3m6GkEXvUMeOwjW7AjoXd1B42pfjNpM
-         9bBPk3frk/CiC2CgYBWx6rjVBvHciSQBf2bVRoaG9gtgmUZlAAqnfJ37ApiXLSGBTWAf
-         WyaQ==
+        d=gmail.com; s=20230601; t=1760692865; x=1761297665; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XwbL7/L7C9/nDL2/xmbaFiG9RcBj6a+Cj3r3ADzcpU0=;
+        b=V+qfbrn82i6H4zDSrAxTy7n4lIs+KkGUh/ayOrY+Ip292rXWOecCZeYa+ttPSM5LFY
+         Dn7XzcHG+qSfqZPmlOEy2+RAlwXCuZuC6ETdifzTg1lONyTra/Cy890RL3F5ZQClJyr4
+         ThCY3yft6jHFysjKQ3ud7Amld01xFK5cuVVJOA63JFsOftDyGWGPmnFBE5csBbpprphM
+         +eJaRP0YbnZ4FHT7RVBoXkLn10v95S4jRw+ddTcXJkNezmzmfzmSMPJdm7JjohFKkfPR
+         /p3doPZD6IJuovnxlq4k5R9k+AsWmzuSUQifJ6CUrQA4sLmOBAJJyAw6nV17zcdtKL5Q
+         ewwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760692795; x=1761297595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VPMqXFh/dNNEvS2vqa7Ou7b74ZgoKM83pdwBrATLUys=;
-        b=XJ5qDZKuZ+nGd0ku8c8mfxXkWrX2zVsb22t2yyuWcPNcdKoImqbXb2hrKFAg8FRjPV
-         ZH+3z4omQ6t0kjDgaTZmNmG1ayAaza8pHN/wPe7TCZIDaWn8NK6sfWJiq8r9j+3u8vji
-         dWtmaHZZZfCHpDtF56UPiSGgjOL1rGVnG+V5W0pHP+Gh14xHGkSxtULN5SdwymFYhDuc
-         qgLeQ2zcAKSmRLXfzHToAe0szDVxiKzUZQ7RKiOD+PNBUQ5zYgTTMLGwLHGOHX4C3M0l
-         l1diw7JhcB+JcHBlir/sfyekf0g0/+Gguhhq4dLk26n9jN2BQFscxskecLzGLFUy2OLt
-         RvAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUO9fEktoKF6CPfe0HT2/3ZkpQLTOBOTW3HAegaE5ZI+mQGmHs7ihK2iY5N5ErFRrE1S/hKckrlzC3apQ6I@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaOKkhbFqTGogw4xZUn2UmmnOXQMLDl+YChJl9H+EW0rt/Qb/b
-	yIwC0PmVp0Tk/Ec2lrkTtvcurvceETBH7NUbFq6vtSf2yLeKjMD/DECvOYNbp5dT+g4=
-X-Gm-Gg: ASbGncsftbYzr3I48A0BIncoYo5ppna7lflmugTlERp6KJ5eAIQ98g1y2aVhRXrolmZ
-	mrkl8MdFOqFz5y7r/6XWAYZwbcDSfjzZUmwiVpeVBbo2S1jdEDjybPoOTDimgqnrfjJM/J3Tl5Z
-	rTuaX+Sf7a12e+qM+mVenRO2td5qnHa+MV0qAyba7m/SmxhYa/jTXWC8i0yJ/lHqtWllWboz83x
-	tITme3WyffNcQQmYXgwvgithWyc7X8xDWVKQx5aY3kgLLvK8OQ45OxQ0a2Zs8/IbHUsgJl5w31d
-	n0rvE7thVqIOFRkAGNp5f49/u/Q6HErn774tbia+ND/2QVNFlkYDjIftdx4X9ykvH5ymu3BrZM7
-	HovSozuNRA7aGkmH2nHHD/7vjbkCtgWpiX9um09+RA+DsVqvp1DhyPerSJBu/B+uNvPo14+dr/l
-	6/jwxwxkQpH8cdJg==
-X-Google-Smtp-Source: AGHT+IHdkNU1vaYBqPsplsa4EJzoy/8Ut9krm5VAfFBmljD+VWsSOkiW4JEtZfw1U4XSgBeWnDsD2Q==
-X-Received: by 2002:a05:6000:258a:b0:3e9:9f7f:6c36 with SMTP id ffacd0b85a97d-42704ddc6a4mr2107502f8f.54.1760692795387;
-        Fri, 17 Oct 2025 02:19:55 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144b5c29sm73120275e9.12.2025.10.17.02.19.54
+        d=1e100.net; s=20230601; t=1760692865; x=1761297665;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XwbL7/L7C9/nDL2/xmbaFiG9RcBj6a+Cj3r3ADzcpU0=;
+        b=NMkgpzeoziJ+Fh2Mzldo/oStNQKc8/eNcx4z4DDozFOWuyr3wAPdl1+t0aK2B+yGYi
+         HbW5qVBnGkCaaEN/qlDdFblemy+kWCde4skamKEFIgOo2P0LhcuvssOhRIEEImLu/PnQ
+         1RxCjhKCx0cjLj4bCy5f0oHva8mExkl/ayQYz79HAbBgaOMnZua+in3lAdJFdPal/mgA
+         ZcW4LQI2kk0R2ZZzBXLRB5DedjgPW8bAvhUPalTnVyYItKw5xGHvacvKtexQur/LVjc4
+         z5FFpYiinHH1+fuqPTk6NM5EmcItfL5lCFJ/cLHBvSUWpb0/6A0NF/nwSJu9MsGDq8sF
+         sMBw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKZnMqfXNa+MBd1izEzE9T5+7yjdM2xJE7V+FacLv9mHNb7+wvQ1DvKRFKPjGnXoXiDdwwO2oMSYm4wr9b@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYMWC+nsDQamBHHDM1U+sWgJP0sELDaM2W1C0R9Jvg8gMtuKep
+	bwRp3FM2QImSUIi8CbQ8r40oE/nlehlCfijD3+4qinmCdMinZ7T8VnB8
+X-Gm-Gg: ASbGncs5UcXPVhZd/z5mkfZbRZ4KuP4WDRQxeBq5ddFCfNKVnTZVSN6BcaASI9iTVL6
+	WjjcZ8nywWOiVfpb9kD71qdVxD7uVUvFgi2jO8vf52K3hslEDToEFLEXBFr8AbO7/Npl+gfs9yt
+	Qz5zyYY8Va8S7r/UmuGyaZrYc+kuelN5VLwjFbyoLWVMGAfEnAuuSgRRQp30Ap0vd1OdyHJ6+//
+	XLG2w53nfIOmk04x77qfx262TngaAihCtjXE/9d8BJ45Xa4AvckHuQqgvrV428gLQbe5jgPudin
+	CNdnOMo7sMwOezbxF/iLZeWOKz/hVNhqAM2ly7lF/SJ54pMo3eD9ZtA5H6BftEBiyb4r+a7n9dz
+	0wMwGQh2SLhmF1oEPhoL+GmlOeqFggtPMQW6CRmsfcyYCcHVwOQyxyCYP1mTMSrS9dC8JyU0ObC
+	7F8H/GHb0FGpDSma3MzAY3FtjZ7mgS/DDNZ/JQPbPrk1IlGR+YyXA1pnQ6AL/ggo39oRgBkA48s
+	N53i7NKLGy2fYDIKHa7ay+xSoKLJ4Ja8SvGmLcdEA==
+X-Google-Smtp-Source: AGHT+IE7BCFzUNiw2i4QfZjW5SFw2tnLjupBLrUZan9DS+NtJPOwUeqzaVj412XY3mXWNnoOXTZFIg==
+X-Received: by 2002:a05:6402:2681:b0:634:ba7e:f6c8 with SMTP id 4fb4d7f45d1cf-63c1f6d5e1bmr2398533a12.34.1760692864549;
+        Fri, 17 Oct 2025 02:21:04 -0700 (PDT)
+Received: from p200300c5871d09695ffbc7296f39d3ed.dip0.t-ipconnect.de (p200300c5871d09695ffbc7296f39d3ed.dip0.t-ipconnect.de. [2003:c5:871d:969:5ffb:c729:6f39:d3ed])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63c0eb3a235sm3458175a12.30.2025.10.17.02.21.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 02:19:54 -0700 (PDT)
-Date: Fri, 17 Oct 2025 11:19:52 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Marcos Paulo de Souza <mpdesouza@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jason Wessel <jason.wessel@windriver.com>,
-	Daniel Thompson <danielt@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net
-Subject: Re: [PATCH v6 3/5] printk: nbcon: Allow KDB to acquire the NBCON
- context
-Message-ID: <aPIKOOBfOH1cg01F@pathway.suse.cz>
-References: <20251016-nbcon-kgdboc-v6-3-866aac60a80e@suse.com>
- <202510170949.NTx9lt0p-lkp@intel.com>
+        Fri, 17 Oct 2025 02:21:04 -0700 (PDT)
+Message-ID: <8dd21b9be370998277cdc014d7e5d4d333adf575.camel@gmail.com>
+Subject: Re: [PATCH v4 3/3] scsi: ufs: core: Add OP-TEE based RPMB driver
+ for UFS devices
+From: Bean Huo <huobean@gmail.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: kernel test robot <lkp@intel.com>, avri.altman@wdc.com, 
+ avri.altman@sandisk.com, bvanassche@acm.org, alim.akhtar@samsung.com, 
+ jejb@linux.ibm.com, martin.petersen@oracle.com, can.guo@oss.qualcomm.com, 
+ beanhuo@micron.com, jens.wiklander@linaro.org,
+ oe-kbuild-all@lists.linux.dev,  linux-scsi@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Fri, 17 Oct 2025 11:21:02 +0200
+In-Reply-To: <CAPDyKFrsMxyD5ASGmsQ8658eBR0vHOSUqJ4axuSpAXuue6d5Uw@mail.gmail.com>
+References: <20251008201920.89575-4-beanhuo@iokpp.de>
+	 <202510100521.pnAPqTFK-lkp@intel.com>
+	 <eccb18abe33299edde64f96e0c3de88c4183cb78.camel@gmail.com>
+	 <CAPDyKFrsMxyD5ASGmsQ8658eBR0vHOSUqJ4axuSpAXuue6d5Uw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202510170949.NTx9lt0p-lkp@intel.com>
 
-On Fri 2025-10-17 09:25:53, kernel test robot wrote:
-> Hi Marcos,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/printk-nbcon-Export-console_is_usable/20251016-225503
-> base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-> patch link:    https://lore.kernel.org/r/20251016-nbcon-kgdboc-v6-3-866aac60a80e%40suse.com
-> patch subject: [PATCH v6 3/5] printk: nbcon: Allow KDB to acquire the NBCON context
-> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251017/202510170949.NTx9lt0p-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510170949.NTx9lt0p-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510170949.NTx9lt0p-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/kallsyms.c:19:
->    include/linux/kdb.h: In function 'kdb_printf_on_this_cpu':
-> >> include/linux/kdb.h:229:63: error: expected ';' before '}' token
->      229 | static inline bool kdb_printf_on_this_cpu(void) { return false };
+On Fri, 2025-10-17 at 11:11 +0200, Ulf Hansson wrote:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git/commit/?h=
+=3Dnext
+> >=20
+> >=20
+> > do I need to add this queued patch for scsi tree as well?
+>=20
+> I have just sent the patch to Linus to get included in rc2. Sorry, I
+> failed to send it for rc1.
+>=20
+> That said, if you re-spin a version of the series that is based on rc2
+> on Monday that should work, I think.
+>=20
 
-Great catch! This should be:
+Thanks, I=E2=80=99ll send the updated version to address the unique device =
+ID concern.
 
-	static inline bool kdb_printf_on_this_cpu(void) { return false; }
 
-No need for v7. I could fix it when commtting the change.
+Kind regards,
+Bean
 
-BTW: It is interesting that the robot was so quick this time but
-     it did not catch it in the earlier versions of the patchset.
-     Maybe the robot had a summer vacation as well ;-)
-
-     I am just joking. I know that any resources are limited and
-     could not test everything. It is great to have the robot around.
-
-Best Regards,
-Petr
