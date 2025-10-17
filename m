@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FC43C1F;
-	Fri, 17 Oct 2025 07:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9413D182D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 07:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760686215; cv=none; b=GGO6gP0HybeUuysStFAKKyyx/rQ7OQOWsnhe46A5aB2PhnhWM+xCt+EssFG5MWa2L0zOsVWdzwVr6JEys/eXFuL0njfC6X4xo7LHg9lPu4/ZG9hTLRFYeNNQssZGpHio0e1PPncRJ798nENzsB52/hKJXlRnZC8FfJmm8oNDTrM=
+	t=1760686216; cv=none; b=QS6EOgnzhunFUhiHWGmAh2au/a8lKaL3e07m8oVkrHPHlA7iHR/kR6nS4X5Sn9OcgpFXH+S0MKkQVmrR52Rj7ocEiHLOoJnSNW7tYWZ4bzOa7eOkIxqLPI09n3a12XFjA2sIF1EYRNsVm9Ktics7nzrDVMz0CZjh7ySJGRXP2SA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760686215; c=relaxed/simple;
-	bh=NdnacDFE0MaD8u20DR2+szurTVV7RgeK82cTD3saUdc=;
+	s=arc-20240116; t=1760686216; c=relaxed/simple;
+	bh=94q7hjUFhw+N6XCp7Xyj+iOAYOIaGt7n4W8/rmeaHOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dD66xXWFKGSR6PQSF6SJBMWu+MhWqO4567cGSyx1ZeBTCcorUEvpI3PT8pcB3rg31wwP5WaPjZ9MaJtPfKFxo/omL9yDgMIXdW8evoIr4R90ryJjWbtdRFbQv8SJsmrHT/nZZ2GBuz4JcCYoBV6UUfQv7WfT3Np9Z7P5v4CVC2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L/B89fs0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgAdc8cxqIlz64ectXPiy/m8r89Wf56ZvxrWp2CHpIUrOuHp8pCdd8i3R8E0ZamorEnjGQvpDL1sFW4fdOTGdotewWZIkhPCwVG86GqstnMYuzFJxp+59Al351sRBWVwevn6nI4yJ9TWGUlSMvpsbh1nIxm4mKVRzYKyGMittwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhFD5Foi; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/B89fs0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhFD5Foi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760686214; x=1792222214;
+  t=1760686215; x=1792222215;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NdnacDFE0MaD8u20DR2+szurTVV7RgeK82cTD3saUdc=;
-  b=L/B89fs0xNSOtGYwiUGdT2KBkgdDRnT/aU7J48bzX6RKDC17YY6fnJ3y
-   bxhqfDWf/pWUdb91liDnA6aEp5E+jbYcHCOXGrsgKQWYeUmOzTPvEyUxa
-   xZSOomg+2odLMeo/14oT/pdFP/9JsxJRc5cFGQLFqPyl9lpd2DORn4vlv
-   07ZCgge2RV3nnEMJHUwI/JcOwVPh7v5HBaRF+QNhBqdVncyGUW/r+Mw2H
-   qEa0TQVk0QIebJNPJKrhxLBX/WV9j7inTGbIaRLTabvxiMAs3XX1XSZRE
-   YClhagDQ3trOERVsFFFUk8ZMOggfUmlVD8ZR3C9tbDy/QTZnw8qBulA5Y
+  bh=94q7hjUFhw+N6XCp7Xyj+iOAYOIaGt7n4W8/rmeaHOc=;
+  b=RhFD5FoiXlMVZiRAg7szO9DCk8NkyyfyvxjAG/jKaVlKYE6LBjaP0Z39
+   6qPC/Pf2CGqr1eZqCcPmEAH0jGGyKwIbvJ3yUH1MoAQgP4/C5uzxfTqrL
+   mSAMb6bZ9ke5uDo2shy36AK7Ez4A/HuTLRqBrZKPMFbyviRzY1QFTcQJ8
+   /DQxzjwJTgTGgD4wfCK3TJ/u2gr2IxnJdm9uY0spfVXpnLFxOEwT01C3c
+   qWB5ie8AXkCiNKzSRsPmxEGIeNPzjbtCfvUeoZxi4sE8oz6fNBP6Qzatn
+   NDgyUdjAtV4CoPboZrKk6JkKoea+K31cavcAeiJKrjy2UsB9JVZHYTg2p
    A==;
-X-CSE-ConnectionGUID: 4Lb5rlgDRkmx5P7nQWMDYw==
-X-CSE-MsgGUID: ZQGFXjBbRaGKYH4UDsS4Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="88362382"
+X-CSE-ConnectionGUID: MqiLMlnkQvCa85sU+5ONWQ==
+X-CSE-MsgGUID: w6qIqL3wShSF8MhbbT7lbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62796118"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="88362382"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:30:14 -0700
-X-CSE-ConnectionGUID: SBe2WfJaQzCenzcldM3M2Q==
-X-CSE-MsgGUID: 96OQbVvMQnihCWUZ9srV3Q==
+   d="scan'208";a="62796118"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:30:14 -0700
+X-CSE-ConnectionGUID: FjfG6+ENSBqjWfhcEE3+Tw==
+X-CSE-MsgGUID: INzcuHrrSuyWuqA7vQsI+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="182221968"
+   d="scan'208";a="206378759"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 17 Oct 2025 00:30:12 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Oct 2025 00:30:12 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9eug-0005h6-1G;
+	id 1v9eug-0005h3-1C;
 	Fri, 17 Oct 2025 07:30:10 +0000
-Date: Fri, 17 Oct 2025 15:25:08 +0800
+Date: Fri, 17 Oct 2025 15:28:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] selftests: complete kselftest include centralization
-Message-ID: <202510171513.6IWk005g-lkp@intel.com>
-References: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+To: XueBing Chen <chenxb_99091@126.com>, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	XueBing Chen <chenxb_99091@126.com>
+Subject: Re: [PATCH] lib/bsearch: add mutex protection for thread-safe binary
+ search
+Message-ID: <202510171538.n1mAFlu0-lkp@intel.com>
+References: <20251016090640.6331-1-chenxb_99091@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +64,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016104409.68985-1-reddybalavignesh9979@gmail.com>
+In-Reply-To: <20251016090640.6331-1-chenxb_99091@126.com>
 
-Hi Bala-Vignesh-Reddy,
+Hi XueBing,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on linus/master v6.18-rc1 next-20251016]
-[cannot apply to shuah-kselftest/fixes akpm-mm/mm-everything tip/timers/core]
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on akpm-mm/mm-everything linus/master v6.18-rc1 next-20251016]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bala-Vignesh-Reddy/selftests-complete-kselftest-include-centralization/20251016-185024
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20251016104409.68985-1-reddybalavignesh9979%40gmail.com
-patch subject: [PATCH v3] selftests: complete kselftest include centralization
-config: i386-buildonly-randconfig-003-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171513.6IWk005g-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171513.6IWk005g-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/XueBing-Chen/lib-bsearch-add-mutex-protection-for-thread-safe-binary-search/20251016-171911
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20251016090640.6331-1-chenxb_99091%40126.com
+patch subject: [PATCH] lib/bsearch: add mutex protection for thread-safe binary search
+config: arm-randconfig-r121-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171538.n1mAFlu0-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171538.n1mAFlu0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171513.6IWk005g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171538.n1mAFlu0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/bsearch.c:34:1: sparse: sparse: symbol 'cmp_mutex' was not declared. Should it be static?
 
-   In file included from samples/vfs/test-list-all-mounts.c:11:
->> samples/vfs/../../tools/testing/selftests/pidfd/pidfd.h:28:10: fatal error: 'kselftest.h' file not found
-      28 | #include "kselftest.h"
-         |          ^~~~~~~~~~~~~
-   1 error generated.
+vim +/cmp_mutex +34 lib/bsearch.c
 
-
-vim +28 samples/vfs/../../tools/testing/selftests/pidfd/pidfd.h
-
-    27	
-  > 28	#include "kselftest.h"
-    29	#include "../clone3/clone3_selftests.h"
-    30	
+    15	
+    16	/*
+    17	 * bsearch - binary search an array of elements
+    18	 * @key: pointer to item being searched for
+    19	 * @base: pointer to first element to search
+    20	 * @num: number of elements
+    21	 * @size: size of each element
+    22	 * @cmp: pointer to comparison function
+    23	 *
+    24	 * This function does a binary search on the given array.  The
+    25	 * contents of the array should already be in ascending sorted order
+    26	 * under the provided comparison function.
+    27	 *
+    28	 * Note that the key need not have the same type as the elements in
+    29	 * the array, e.g. key could be a string and the comparison function
+    30	 * could compare the string with the struct's name field.  However, if
+    31	 * the key and elements in the array are of the same type, you can use
+    32	 * the same comparison function for both sort() and bsearch().
+    33	 */
+  > 34	DEFINE_MUTEX(cmp_mutex);
 
 -- 
 0-DAY CI Kernel Test Service
