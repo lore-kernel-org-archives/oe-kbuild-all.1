@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82AB2367CF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 13:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0CE34AB13;
+	Fri, 17 Oct 2025 13:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760706859; cv=none; b=pjRS3z8ItQcq/8z9ytTlWLpTb4tGnMGXTnAmvTarz37g9cARe7DNCYbihfwmVxs6n9kPCmjpkiboQAs2s33jPoSUMT4nk3kTvOktFWeqyNY0Q+S590oUDjc+TkCYQyGiYHDjJIqYFinm8bHndhmEKkIn4AC691krO0yxMmingOI=
+	t=1760706919; cv=none; b=N+8GpudMbjxWdgHYSz+o/lqWzsPFZ9MrvXG8SeTHZ760uOzBUELHgS7T15UlM5ZH+4x1kNrgmnhWqp5D2NfSkGxXQ6cvY7j0Uk57M67JCL/IhybC8XGnd3jE/92znCrgp5uYze7hn+/VRlYPvPhzZALhGkXHrd58FAPCX6Zm/rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760706859; c=relaxed/simple;
-	bh=1YRdBPFwzh/hlupBhYrFOSyuktI7V1VCHeFdqLAzI9c=;
+	s=arc-20240116; t=1760706919; c=relaxed/simple;
+	bh=DstMHqDbb2O59u5RcZooqCP/wepBOykrbQ8K8sOpv2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IPNGAxHpf1pmLrTOI8Jm1wuVqqdDYFKTaTZFoF1Pq3aB0wpzU3YoxKnyLHYzdjH5xK1F+tgWWx5wHJhhERWEOVbmFYOQ9hBKel7fF2OR0WsNHNIfCsSDKYN0DOCsEZjgjygLZ8/c5xcGwYpNHWHS53V997O7KWwATy7tx86v85g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5/uZQiT; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=QP0o0vQwl66B6zz/fhzwa+0XV+iuXDjjk5JcouxdJVmf57QHczfNxlTHPlBQEUzoNf+m+QJS0TuM1+ua5WDxi98P7FrgxtwvfAju5tYw3PA8t0jC0FuF6mAa1/mStdeGKteT/NyK9/WxBJZOS/QlzbhVj7Gak6Rt+pwDbyfPH2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N481lK5I; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5/uZQiT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N481lK5I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760706857; x=1792242857;
+  t=1760706918; x=1792242918;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1YRdBPFwzh/hlupBhYrFOSyuktI7V1VCHeFdqLAzI9c=;
-  b=J5/uZQiTkwCa3fnZ2NiBiP0SJ4vgczPXqHJcB7C7gNbbWr5oTmfQrEPe
-   1QJjZ+oheZ+8FNXumynoVPTJGdRmBxWTti+T12PizQfJj32Lbp5nH3XHp
-   A+Zr8OAWJl2aKVKMcBLkEqB3zWg078JVznhcYfdEDuG7yo8cAMlg5R1Ud
-   +oFLWyeu+YzI/X7aTaJUOzruTEUZQcEAcKxB1xzpac5LXyCXY9HFj1AEY
-   7K/ARo7cp8DGJn/pqeCeti0X0yXtnjAfpV/62aT9alSrXx8ZtyYe48Xp+
-   i7U+dF5+IEoDwzM5T8y8MasMH8wxBrBGL6cOBnGnM1E1+cFNOQp4RrxFV
-   g==;
-X-CSE-ConnectionGUID: I2XvnYApTNa7IVg3pTUuZA==
-X-CSE-MsgGUID: OXYXZa3nTiy5ZltheDw2yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="73520098"
-X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="73520098"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 06:14:17 -0700
-X-CSE-ConnectionGUID: FY15YFr3QYe4biiZmEv3CA==
-X-CSE-MsgGUID: KuasnkiKRqG91EBeBRddmw==
+  bh=DstMHqDbb2O59u5RcZooqCP/wepBOykrbQ8K8sOpv2o=;
+  b=N481lK5I1Q8pius1kBlG19qfBXX5tXRFKiXOxr4cgRrN+FXBCteJ+Exm
+   bkokcq2apegu//K0LlFwvZM7YH2ysr2LxkpnEEj1LC+WS8TFiILco5slu
+   PbsqiEANzRYy4g9PKXC6Mr6Fdvs5e9+BBHTugSqCtDo5ILRH3wW2CddCf
+   nplGibELSbv3kF6gbop0FaSS1C3hW83JJZ3dhohknXKPHiPPP8Wn/VDvA
+   yU32sEq3Dhjs3JlBmg/EMNXrmJGoOdK1aIgR7kaVmQ98XbFKb6IzsiWM5
+   zYrOxPy3aFXTrMvXWDtxwSYcbuvtU/6ZV1rTBSNaQ6u4VZzFoIEJr/9cj
+   A==;
+X-CSE-ConnectionGUID: kR667i4LTlW8NGWkRX5qlg==
+X-CSE-MsgGUID: Ry8BJy18RWS1xqlkgZwqeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62825233"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62825233"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 06:15:18 -0700
+X-CSE-ConnectionGUID: /PeT5G8YR52JwCOpAL4O7g==
+X-CSE-MsgGUID: da/e4EKiQKWgijNTJb+1HA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
-   d="scan'208";a="219888753"
+   d="scan'208";a="187138818"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 17 Oct 2025 06:14:16 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Oct 2025 06:15:16 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9kHd-0005yp-2j;
-	Fri, 17 Oct 2025 13:14:13 +0000
-Date: Fri, 17 Oct 2025 21:13:59 +0800
+	id 1v9kIb-0005yt-31;
+	Fri, 17 Oct 2025 13:15:13 +0000
+Date: Fri, 17 Oct 2025 21:14:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21:
- warning: invalid suffix on literal; C++11 requires a space between literal
- and string macro
-Message-ID: <202510172157.fKw7JYr2-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/cid-v2 40/62] kernel/entry/common.o: warning:
+ objtool: .altinstr_replacement+0x6b: redundant UACCESS disable
+Message-ID: <202510172153.4PZs3z5I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +62,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Valdis,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   8d2412bb9958a209d2d0344ea1b88dd633699677
-commit: 0908fe0570df658beb3866ddcb7bc55b0fb834b0 [2818/2818] gcc-plugins: fix gcc 11 indigestion with plugins...
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20251017/202510172157.fKw7JYr2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172157.fKw7JYr2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/cid-v2
+head:   64baaab00f25781e1449f942fee472a2575cb5bf
+commit: c0c20d50c60c323e4aa7f7cf0fdb7fb661fb3c51 [40/62] rseq: Switch to fast path processing on exit to user
+config: x86_64-buildonly-randconfig-005-20251017 (https://download.01.org/0day-ci/archive/20251017/202510172153.4PZs3z5I-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172153.4PZs3z5I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510172157.fKw7JYr2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510172153.4PZs3z5I-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1 shuffle=1096673560
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
+>> kernel/entry/common.o: warning: objtool: .altinstr_replacement+0x6b: redundant UACCESS disable
+   kernel/entry/common.o: warning: objtool: .altinstr_replacement+0x6e: redundant UACCESS disable
+   kernel/entry/common.o: warning: objtool: irqentry_exit+0x449: call to class_masked_user_rw_access_destructor() with UACCESS enabled
 
 -- 
 0-DAY CI Kernel Test Service
