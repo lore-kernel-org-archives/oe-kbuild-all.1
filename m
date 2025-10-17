@@ -1,120 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF21930FC3D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 07:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775E323EAA8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Oct 2025 07:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760685002; cv=none; b=oKxMKYdQhsaQW2oyqlRBkeFYMyd2g1x4cUwXVQAYUaKCj3ILcUeBCAhwFQ88MDru7JE4Eue9cYTWk6NV/zeXWyRgqYhV6IAunWEc/esZLmgpzVnRdzq2jGCFM6DUuw65C1HY6+7uELSpV5VUtvPqn2YqkX4iLDqccWD3pjyoJRM=
+	t=1760685640; cv=none; b=M2n0/F8a0A/f/QqHRI2B8LwKYXTAL9ZUnELU2i3ru8Sxr5Sd33k+Rz5qJ7sDZHHRIvEg4R4SS0/ny4nHmJBuBfD+R6sNryOjx3VgVClgqTiaz5o+mV/L9I3BDHFO/7Ma9D1eog38D4syfS7BOkt4pP6POfASZsJG9DGm5o5COzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760685002; c=relaxed/simple;
-	bh=nWU/4glpO+j4fWX16cxl4SfFRtva3o9O3PCaONoR/mQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lffD9z4p/caMTpGUND2WT2Tf0YUJKcpUqJMjUT4vh1r8mNfbgP5UKY22xAvz4vNqqjbMBc/UVnqN0OeKfujmdENVXBBIKg/YNqz9Q2vnIdcCJA86g2s6SUuhXOTj5hRuItUY+rCKqfAeKJGbbxQX100hsU9kyI8o+CYjbJtzph0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvqU1dbR; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1760685640; c=relaxed/simple;
+	bh=+Q70WKO2l7or27Kg3QqpFB4NgM3dvZpGl7hkoR13fiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSPOdDnWPb7KAVXVHwcmGtyRtx9yYwP/pS7/LHmAbPOApwR70NMvw8tUxM7tIQLXj5hmUZMWyboCi0t1xfsvujeQh8y/vEEd7Bp+9CAjZkhyBGBQXJ9Hrf0DUwtQQxTWGs9+4Z+m8AKEQzLyaYswEzICy1OuBaC02Ms3krc6DHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WiNWr1Pf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvqU1dbR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WiNWr1Pf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760685000; x=1792221000;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nWU/4glpO+j4fWX16cxl4SfFRtva3o9O3PCaONoR/mQ=;
-  b=AvqU1dbRaUJHo52fGIxsAzQDaf1tKPfTYgwGh6fog8kKFI0t8no/eixG
-   knmg2E0DUjWmFL4tq5PNpFAJPOQLBWrGGvynXId+yUofrkpAHzqFJ6eSH
-   P++x+1SbkFITlWZU59AnVfmItGto47JtT3eLDOskFs7hj+wMj6giJsJxf
-   rtUfkLJcoHo0C7OzY3gzn7g/ryLFAWRMJVIgs+yxf6MaItZ0svTWU4ImM
-   /dt9l15CGpIOc0fzdkHr08neF49HUNzXL4njGnLvUdkKNyJQsLAUYVzU+
-   NWAzqa7K3SZadUnJU2tithOgZROZeSja2HOfdZ13b1qkD8lvMVSPZI57e
-   g==;
-X-CSE-ConnectionGUID: wZJOSaZ2QjO4VwD9xZyRoA==
-X-CSE-MsgGUID: i96CKvhGR+eGnHGUrEypLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="62980097"
+  t=1760685639; x=1792221639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+Q70WKO2l7or27Kg3QqpFB4NgM3dvZpGl7hkoR13fiI=;
+  b=WiNWr1Pf10RB+caoPaHfOgIZqNueg60vnFGYfBBqkIY0YfpEQnfWaB3D
+   KHFLme4qNdDmuP2mVo9t9Amu4JzGtH/7kUixawgDFGdzxYOAcoEVv+yfc
+   qPUTfoq3Zfv2PlVYyi1yulF0gUpU1nWw8Cd+XB1QBaRVEl2nOxfWMlJyG
+   Zva21YsrEqZfvWTTmRU4NeHhNlFvgM/ZPgsxKZk+NBCDk7BhM8pxNyvGe
+   I25/6Scycfsv8IpbqvhT9BunC07JhJ33y3X90k3ubl8sBfEX4SyQhZF7T
+   OWs+VMspZcRwEPano9HqLYYhd2oYICr42ZM5QWr6TzjGFx5xjj3/i1H7m
+   w==;
+X-CSE-ConnectionGUID: Y+uaqABYTYC42pCqp8YRqQ==
+X-CSE-MsgGUID: 5WYMDpE5TJed3J8TwfN9Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66757537"
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="62980097"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:09:59 -0700
-X-CSE-ConnectionGUID: lvx1pogCTeCGJC476rFpKQ==
-X-CSE-MsgGUID: 976QWl0fQJyijvVDhOeBeA==
+   d="scan'208";a="66757537"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 00:20:38 -0700
+X-CSE-ConnectionGUID: WabAx5iESUmWJ2UVrKbjpw==
+X-CSE-MsgGUID: 6XsIiTXiSiyeKVbjYiCj1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
-   d="scan'208";a="181800277"
+   d="scan'208";a="187947824"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 17 Oct 2025 00:09:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2025 00:20:34 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9eak-0005ev-28;
-	Fri, 17 Oct 2025 07:09:43 +0000
-Date: Fri, 17 Oct 2025 15:03:55 +0800
+	id 1v9el4-0005g3-0l;
+	Fri, 17 Oct 2025 07:20:14 +0000
+Date: Fri, 17 Oct 2025 15:14:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kunit-kselftests 22/26]
- include/kunit/test-bug.h:60:23: sparse: sparse: incompatible types in
- comparison expression (different address spaces):
-Message-ID: <202510171557.OFyLdVV1-lkp@intel.com>
+To: Marcos Paulo de Souza <mpdesouza@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jason Wessel <jason.wessel@windriver.com>,
+	Daniel Thompson <danielt@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	Marcos Paulo de Souza <mpdesouza@suse.com>
+Subject: Re: [PATCH v6 5/5] kdb: Adapt kdb_msg_write to work with NBCON
+ consoles
+Message-ID: <202510171450.G2KdvDMm-lkp@intel.com>
+References: <20251016-nbcon-kgdboc-v6-5-866aac60a80e@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251016-nbcon-kgdboc-v6-5-866aac60a80e@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
-head:   f55c4073139308d7f4b672c67400b0397a58a9ef
-commit: abee7c863f6c7d310f7234ad80e117444ff08cf9 [22/26] kunit: Introduce UAPI testing framework
-config: x86_64-randconfig-121-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171557.OFyLdVV1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171557.OFyLdVV1-lkp@intel.com/reproduce)
+Hi Marcos,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/printk-nbcon-Export-console_is_usable/20251016-225503
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251016-nbcon-kgdboc-v6-5-866aac60a80e%40suse.com
+patch subject: [PATCH v6 5/5] kdb: Adapt kdb_msg_write to work with NBCON consoles
+config: sh-randconfig-002-20251017 (https://download.01.org/0day-ci/archive/20251017/202510171450.G2KdvDMm-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510171450.G2KdvDMm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510171557.OFyLdVV1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510171450.G2KdvDMm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/kunit/kunit-uapi.c: note: in included file:
->> include/kunit/test-bug.h:60:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/kunit/test-bug.h:60:23: sparse:    struct task_struct *
-   include/kunit/test-bug.h:60:23: sparse:    struct task_struct [noderef] __rcu *
->> include/kunit/test-bug.h:60:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/kunit/test-bug.h:60:23: sparse:    struct task_struct *
-   include/kunit/test-bug.h:60:23: sparse:    struct task_struct [noderef] __rcu *
+All errors (new ones prefixed by >>):
 
-vim +60 include/kunit/test-bug.h
+   kernel/debug/kdb/kdb_io.c: In function 'kdb_msg_write':
+>> kernel/debug/kdb/kdb_io.c:612:43: error: passing argument 1 of 'nbcon_kdb_release' from incompatible pointer type [-Wincompatible-pointer-types]
+     612 |                         nbcon_kdb_release(&wctxt);
+         |                                           ^~~~~~
+         |                                           |
+         |                                           struct nbcon_write_context *
+   In file included from kernel/debug/kdb/kdb_io.c:17:
+   include/linux/console.h:667:54: note: expected 'struct console *' but argument is of type 'struct nbcon_write_context *'
+     667 | static inline void nbcon_kdb_release(struct console *con) { }
+         |                                      ~~~~~~~~~~~~~~~~^~~
 
-91e93592219f74 David Gow        2022-11-25  48  
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  49  static inline struct kunit *kunit_get_current_or_parent_test(void)
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  50  {
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  51  	struct task_struct *t = current;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  52  
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  53  	if (!static_branch_unlikely(&kunit_running))
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  54  		return NULL;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  55  
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  56  	while (t) {
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  57  		if (t->kunit_test)
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  58  			return t->kunit_test;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  59  
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26 @60  		if (t == t->real_parent)
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  61  			t = NULL;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  62  		else
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  63  			t = t->real_parent;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  64  	}
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  65  
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  66  	return NULL;
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  67  }
-edcc4fdc930076 Thomas Weiﬂschuh 2025-09-26  68  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
-:::::: The code at line 60 was first introduced by commit
-:::::: edcc4fdc930076efed79770ef16f10a814c9b030 kunit_get_current_or_parent_test
 
-:::::: TO: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-:::::: CC: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+vim +/nbcon_kdb_release +612 kernel/debug/kdb/kdb_io.c
+
+   560	
+   561	static void kdb_msg_write(const char *msg, int msg_len)
+   562	{
+   563		struct console *c;
+   564		const char *cp;
+   565		int cookie;
+   566		int len;
+   567	
+   568		if (msg_len == 0)
+   569			return;
+   570	
+   571		cp = msg;
+   572		len = msg_len;
+   573	
+   574		while (len--) {
+   575			dbg_io_ops->write_char(*cp);
+   576			cp++;
+   577		}
+   578	
+   579		/*
+   580		 * The console_srcu_read_lock() only provides safe console list
+   581		 * traversal. The use of the ->write() callback relies on all other
+   582		 * CPUs being stopped at the moment and console drivers being able to
+   583		 * handle reentrance when @oops_in_progress is set.
+   584		 *
+   585		 * There is no guarantee that every console driver can handle
+   586		 * reentrance in this way; the developer deploying the debugger
+   587		 * is responsible for ensuring that the console drivers they
+   588		 * have selected handle reentrance appropriately.
+   589		 */
+   590		cookie = console_srcu_read_lock();
+   591		for_each_console_srcu(c) {
+   592			short flags = console_srcu_read_flags(c);
+   593	
+   594			if (!console_is_usable(c, flags, true))
+   595				continue;
+   596			if (c == dbg_io_ops->cons)
+   597				continue;
+   598	
+   599			if (flags & CON_NBCON) {
+   600				struct nbcon_write_context wctxt = { };
+   601	
+   602				/*
+   603				 * Do not continue if the console is NBCON and the context
+   604				 * can't be acquired.
+   605				 */
+   606				if (!nbcon_kdb_try_acquire(c, &wctxt))
+   607					continue;
+   608	
+   609				nbcon_write_context_set_buf(&wctxt, (char *)msg, msg_len);
+   610	
+   611				c->write_atomic(c, &wctxt);
+ > 612				nbcon_kdb_release(&wctxt);
+   613			} else {
+   614				/*
+   615				 * Set oops_in_progress to encourage the console drivers to
+   616				 * disregard their internal spin locks: in the current calling
+   617				 * context the risk of deadlock is a bigger problem than risks
+   618				 * due to re-entering the console driver. We operate directly on
+   619				 * oops_in_progress rather than using bust_spinlocks() because
+   620				 * the calls bust_spinlocks() makes on exit are not appropriate
+   621				 * for this calling context.
+   622				 */
+   623				++oops_in_progress;
+   624				c->write(c, msg, msg_len);
+   625				--oops_in_progress;
+   626			}
+   627			touch_nmi_watchdog();
+   628		}
+   629		console_srcu_read_unlock(cookie);
+   630	}
+   631	
 
 -- 
 0-DAY CI Kernel Test Service
