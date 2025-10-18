@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD36CA52
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 16:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C41D27462
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 16:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760803620; cv=none; b=kA7gs2fjfVIE2859s/k+y0dYBliUFNgAneM0fVz2sajD91GoJPS+WaYqAWNQMcTt5V9FR6fEhthUeR+1Me6SSZ3mQkvrxQgdeEYJ5g9lewdpyLQ7/dbvYtfrGESWk4Aqcw400oidR/VCR4iyEaNMmjyGNsEXDG3oKVlxPppaC3g=
+	t=1760805448; cv=none; b=Fxz7qPtcqnurTcSKxvACFClNBdpfBQRItkyEzVUwayKkPAftSaae1gd/0A51FIUBeUovokcPwrD/FQumD/hjgIGmQPfyHe8WPGYaadbAE/RdjFjeLqk/+OELVn71qCE3vMI7ma8DmdE+RFVeR7VbvcWvLwyvYNfzKNr5FyNgsEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760803620; c=relaxed/simple;
-	bh=T5pVb4efS9YeLL5J8KR7nvvVA9Yi1LV/1pCOO0RNGkw=;
+	s=arc-20240116; t=1760805448; c=relaxed/simple;
+	bh=mPJ3wydlzm7StIv6CFwQxZxuQP9pQN7xoTpW4eUOQsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eOWJ5CdF7kyJx4vFUjua8OzdxgXggR4zfu+pzRpuPCnaMQYH65orzcdTEnUw372fnar3yDgQCNruSQGvUSXDZxGrq4+sqGq9OGo2vGBsu0NRYBYE4oYoS0Wx+wQKaTiJ5AozJPiaaOVDwXWfRF1O8hnYwLLPFGHzCXYvap8ymqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlLTTcrQ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=pYYNtv1bhX/BW2Fze9vpqUXb+WuUAFI+eRK32fCDbsmGU2w1JyP7vogh05ph9eagh8gdtJy0X4eYtVINhsJ5o55lazwFV1eBLH/SMACgnegkpoJaQNxynLTj9SmEV8vpC084RMKwqSxwAssa7irJ2vGczcVFiN47UsALBqPMQDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmFxdavC; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlLTTcrQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmFxdavC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760803619; x=1792339619;
+  t=1760805448; x=1792341448;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T5pVb4efS9YeLL5J8KR7nvvVA9Yi1LV/1pCOO0RNGkw=;
-  b=TlLTTcrQkFl+iWP7rBOIpcXA5lrMMUbE9nxD3byhhr5xT5fN4rlff9i1
-   ZWJ9bZubw4i/LOF879lRXuDMUaFHbSJnXI9+mYdenRmQf3Ghr2Zr/6IG/
-   rs69dlACOKT9FdNts1AisejiEkRMIUz0JHDRl0jDrceTL5Yi0YF8G2ynW
-   pLATVKggTtUChDJt9VsEsiIHsP4fSN79NJQsHckClvuG1A/cctneoRO/i
-   O4/kbn9HfLKtS+a/+cRx+DoKF2sgSJzrH6TUfF6sxa757ila0DyNH+TlU
-   kQXOMkQ4xdLSn4ePEtKH/j1LIRxsvcRA4tI6l0L4+79f4gkm2B3n1UWDo
-   g==;
-X-CSE-ConnectionGUID: GarzRgd+QiiaHvTpv6gbNw==
-X-CSE-MsgGUID: cp5qdpnIQEqufd6bQj22jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63035630"
-X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="63035630"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 09:06:58 -0700
-X-CSE-ConnectionGUID: 8bW5VzmGSBGD//9G1MgS+g==
-X-CSE-MsgGUID: sUrmDik8RM21bjZ0ktOoyQ==
+  bh=mPJ3wydlzm7StIv6CFwQxZxuQP9pQN7xoTpW4eUOQsY=;
+  b=CmFxdavCtG44vRHLGizjw/PJo8Mqw8jmrD+8vXB7FwCvYQpHIIBmPT/N
+   ZZgOsAe4oukWfdSMLKfWvaSzfErCiUb4v+nv/eCxBia12OAQgMYFTrB1d
+   uDkciM/IfC/X6bAEkx/aKXQR1sX8PJbEOtfR74h1wjZ+ucYUAYgdadl/7
+   Y8ctYhDZNXjAIpmc2S6/I/M23FP1fT9mPFSbLit2TRPpBTIfhpgsj/e+u
+   mnU4F9OlnEBOScTT7k76//YOyy0JnSBdd7myfREwoHHpQa/XNYeXBA5mo
+   D6I9fcB/23tneezcEFLaKDLnQ6CbZLWz8QvWvFSQ9JRaKoyq2nHN3XbdG
+   Q==;
+X-CSE-ConnectionGUID: 3tth3GFvQSqmbObihjyOKw==
+X-CSE-MsgGUID: KWYBkzxRQT21mJ2pbX39KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66827604"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66827604"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 09:37:27 -0700
+X-CSE-ConnectionGUID: we0+JCQCR9u0/gkDoiFtxw==
+X-CSE-MsgGUID: vvDKvGnsQcy7o4cMwXfDwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="188062764"
+   d="scan'208";a="182525436"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 18 Oct 2025 09:06:57 -0700
+  by orviesa009.jf.intel.com with ESMTP; 18 Oct 2025 09:37:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA9SI-0008OD-29;
-	Sat, 18 Oct 2025 16:06:54 +0000
-Date: Sun, 19 Oct 2025 00:06:17 +0800
+	id 1vA9vn-0008Pt-0C;
+	Sat, 18 Oct 2025 16:37:23 +0000
+Date: Sun, 19 Oct 2025 00:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/slice-v2 64/74] kernel/rseq.c:453:3: error: cannot
- jump from this asm goto statement to one of its possible targets
-Message-ID: <202510182338.HdMkelsT-lkp@intel.com>
+To: Mukesh Rathor <mrathor@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Wei Liu <wei.liu@kernel.org>
+Subject: [hyperv:hyperv-next 34/34] arch/x86/hyperv/hv_init.c:558:17: error:
+ implicit declaration of function 'hv_root_crash_init'
+Message-ID: <202510190004.vjGlskRt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,199 +62,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice-v2
-head:   f4c041bf2cba96b2c1b76073cf7f3c97f7d50a79
-commit: 9c384f8d51345aded026335237e7698df6c42997 [64/74] rseq: Add fields and constants for time slice extension
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251018/202510182338.HdMkelsT-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182338.HdMkelsT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git hyperv-next
+head:   60116744be534090c62686f441dc16f36dd7e42e
+commit: 60116744be534090c62686f441dc16f36dd7e42e [34/34] x86/hyperv: Enable build of hypervisor crashdump collection files
+config: x86_64-randconfig-075-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190004.vjGlskRt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190004.vjGlskRt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510182338.HdMkelsT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510190004.vjGlskRt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/rseq.c:453:3: error: cannot jump from this asm goto statement to one of its possible targets
-                   unsafe_put_user(0UL, &rseq->rseq_cs, efault);
-                   ^
-   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
-           arch_unsafe_put_user(x, ptr, local_label);      \
-           ^
-   arch/riscv/include/asm/uaccess.h:464:2: note: expanded from macro 'arch_unsafe_put_user'
-           __put_user_nocheck(x, (ptr), label)
-           ^
-   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
-                   __put_user_asm("sb", (x), __gu_ptr, label);     \
-                   ^
-   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
-           asm goto(                                               \
-           ^
-   kernel/rseq.c:465:6: note: possible target of asm goto statement
-           if (put_user_masked(rseqfl, &rseq->flags))
-               ^
-   include/linux/uaccess.h:868:3: note: expanded from macro 'put_user_masked'
-                   unsafe_put_user(_val, _tmpdst, efault);         \
-                   ^
-   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
-           local_label:                                    \
-           ^
-   kernel/rseq.c:445:2: note: jump exits scope of variable with __attribute__((cleanup))
-           scoped_masked_user_write_access(rseq, efault) {
-           ^
-   include/linux/uaccess.h:807:2: note: expanded from macro 'scoped_masked_user_write_access'
-           scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
-           ^
-   include/linux/uaccess.h:795:2: note: expanded from macro 'scoped_masked_user_write_access_size'
-           __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
-           ^
-   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
-                   for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
-                                                            ^
-   kernel/rseq.c:465:6: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           if (put_user_masked(rseqfl, &rseq->flags))
-               ^
-   include/linux/uaccess.h:867:2: note: expanded from macro 'put_user_masked'
-           scoped_masked_user_write_access(_tmpdst, efault)        \
-           ^
-   include/linux/uaccess.h:807:2: note: expanded from macro 'scoped_masked_user_write_access'
-           scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
-           ^
-   include/linux/uaccess.h:795:2: note: expanded from macro 'scoped_masked_user_write_access_size'
-           __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
-           ^
-   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
-                   for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
-                                                            ^
-   kernel/rseq.c:465:6: error: cannot jump from this asm goto statement to one of its possible targets
-           if (put_user_masked(rseqfl, &rseq->flags))
-               ^
-   include/linux/uaccess.h:868:3: note: expanded from macro 'put_user_masked'
-                   unsafe_put_user(_val, _tmpdst, efault);         \
-                   ^
-   include/linux/uaccess.h:616:2: note: expanded from macro 'unsafe_put_user'
-           arch_unsafe_put_user(x, ptr, local_label);      \
-           ^
-   arch/riscv/include/asm/uaccess.h:464:2: note: expanded from macro 'arch_unsafe_put_user'
-           __put_user_nocheck(x, (ptr), label)
-           ^
-   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
-                   __put_user_asm("sb", (x), __gu_ptr, label);     \
-                   ^
-   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
-           asm goto(                                               \
-           ^
-   kernel/rseq.c:453:3: note: possible target of asm goto statement
-                   unsafe_put_user(0UL, &rseq->rseq_cs, efault);
-                   ^
-   include/linux/uaccess.h:618:2: note: expanded from macro 'unsafe_put_user'
-           local_label:                                    \
-           ^
-   kernel/rseq.c:465:6: note: jump exits scope of variable with __attribute__((cleanup))
-           if (put_user_masked(rseqfl, &rseq->flags))
-               ^
-   include/linux/uaccess.h:867:2: note: expanded from macro 'put_user_masked'
-           scoped_masked_user_write_access(_tmpdst, efault)        \
-           ^
-   include/linux/uaccess.h:807:2: note: expanded from macro 'scoped_masked_user_write_access'
-           scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
-           ^
-   include/linux/uaccess.h:795:2: note: expanded from macro 'scoped_masked_user_write_access_size'
-           __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
-           ^
-   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
-                   for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
-                                                            ^
-   kernel/rseq.c:445:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           scoped_masked_user_write_access(rseq, efault) {
-           ^
-   include/linux/uaccess.h:807:2: note: expanded from macro 'scoped_masked_user_write_access'
-           scoped_masked_user_write_access_size((_udst), sizeof(*(_udst)), _elbl)
-           ^
-   include/linux/uaccess.h:795:2: note: expanded from macro 'scoped_masked_user_write_access_size'
-           __scoped_masked_user_access(write, (_udst),  (_size), _elbl)
-           ^
-   include/linux/uaccess.h:751:44: note: expanded from macro '__scoped_masked_user_access'
-                   for (CLASS(masked_user_##_mode##_access, scope) (_tmpptr); !____stop;           \
+   arch/x86/hyperv/hv_init.c: In function 'hyperv_init':
+>> arch/x86/hyperv/hv_init.c:558:17: error: implicit declaration of function 'hv_root_crash_init' [-Wimplicit-function-declaration]
+     558 |                 hv_root_crash_init();
+         |                 ^~~~~~~~~~~~~~~~~~
 
 
-vim +453 kernel/rseq.c
+vim +/hv_root_crash_init +558 arch/x86/hyperv/hv_init.c
 
-e9c9a765b8fb0a Thomas Gleixner   2025-09-08  386  
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  387  /*
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  388   * sys_rseq - setup restartable sequences for caller thread.
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  389   */
-6f095d60071f3d Thomas Gleixner   2025-09-08  390  SYSCALL_DEFINE4(rseq, struct rseq __user *, rseq, u32, rseq_len, int, flags, u32, sig)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  391  {
-9c384f8d51345a Thomas Gleixner   2025-08-09  392  	u32 rseqfl = 0;
-9c384f8d51345a Thomas Gleixner   2025-08-09  393  
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  394  	if (flags & RSEQ_FLAG_UNREGISTER) {
-66528a4575eee9 Mathieu Desnoyers 2019-12-11  395  		if (flags & ~RSEQ_FLAG_UNREGISTER)
-66528a4575eee9 Mathieu Desnoyers 2019-12-11  396  			return -EINVAL;
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  397  		/* Unregister rseq for current thread. */
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  398  		if (current->rseq.usrptr != rseq || !current->rseq.usrptr)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  399  			return -EINVAL;
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  400  		if (rseq_len != current->rseq.len)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  401  			return -EINVAL;
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  402  		if (current->rseq.sig != sig)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  403  			return -EPERM;
-e9c9a765b8fb0a Thomas Gleixner   2025-09-08  404  		if (!rseq_reset_ids())
-e9c9a765b8fb0a Thomas Gleixner   2025-09-08  405  			return -EFAULT;
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  406  		rseq_reset(current);
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  407  		return 0;
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  408  	}
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  409  
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  410  	if (unlikely(flags))
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  411  		return -EINVAL;
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  412  
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  413  	if (current->rseq.usrptr) {
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  414  		/*
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  415  		 * If rseq is already registered, check whether
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  416  		 * the provided address differs from the prior
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  417  		 * one.
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  418  		 */
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  419  		if (current->rseq.usrptr != rseq || rseq_len != current->rseq.len)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  420  			return -EINVAL;
-4f9a6b0406dd22 Thomas Gleixner   2025-09-08  421  		if (current->rseq.sig != sig)
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  422  			return -EPERM;
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  423  		/* Already registered. */
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  424  		return -EBUSY;
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  425  	}
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  426  
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  427  	/*
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  428  	 * If there was no rseq previously registered, ensure the provided rseq
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  429  	 * is properly aligned, as communcated to user-space through the ELF
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  430  	 * auxiliary vector AT_RSEQ_ALIGN. If rseq_len is the original rseq
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  431  	 * size, the required alignment is the original struct rseq alignment.
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  432  	 *
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  433  	 * In order to be valid, rseq_len is either the original rseq size, or
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  434  	 * large enough to contain all supported fields, as communicated to
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  435  	 * user-space through the ELF auxiliary vector AT_RSEQ_FEATURE_SIZE.
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  436  	 */
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  437  	if (rseq_len < ORIG_RSEQ_SIZE ||
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  438  	    (rseq_len == ORIG_RSEQ_SIZE && !IS_ALIGNED((unsigned long)rseq, ORIG_RSEQ_SIZE)) ||
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  439  	    (rseq_len != ORIG_RSEQ_SIZE && (!IS_ALIGNED((unsigned long)rseq, __alignof__(*rseq)) ||
-ee3e3ac05c2631 Mathieu Desnoyers 2022-11-22  440  					    rseq_len < offsetof(struct rseq, end))))
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  441  		return -EINVAL;
-96d4f267e40f95 Linus Torvalds    2019-01-03  442  	if (!access_ok(rseq, rseq_len))
-d7822b1e24f2df Mathieu Desnoyers 2018-06-02  443  		return -EFAULT;
-fd881d0a085fc5 Michael Jeanson   2025-03-06  444  
-e9c9a765b8fb0a Thomas Gleixner   2025-09-08  445  	scoped_masked_user_write_access(rseq, efault) {
-fd881d0a085fc5 Michael Jeanson   2025-03-06  446  		/*
-fd881d0a085fc5 Michael Jeanson   2025-03-06  447  		 * If the rseq_cs pointer is non-NULL on registration, clear it to
-fd881d0a085fc5 Michael Jeanson   2025-03-06  448  		 * avoid a potential segfault on return to user-space. The proper thing
-fd881d0a085fc5 Michael Jeanson   2025-03-06  449  		 * to do would have been to fail the registration but this would break
-fd881d0a085fc5 Michael Jeanson   2025-03-06  450  		 * older libcs that reuse the rseq area for new threads without
-6f095d60071f3d Thomas Gleixner   2025-09-08  451  		 * clearing the fields. Don't bother reading it, just reset it.
-fd881d0a085fc5 Michael Jeanson   2025-03-06  452  		 */
-e9c9a765b8fb0a Thomas Gleixner   2025-09-08 @453  		unsafe_put_user(0UL, &rseq->rseq_cs, efault);
-
-:::::: The code at line 453 was first introduced by commit
-:::::: e9c9a765b8fb0aef6b350a2103c9fa3c144fe399 rseq: Provide and use rseq_set_ids()
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   438	
+   439	/*
+   440	 * This function is to be invoked early in the boot sequence after the
+   441	 * hypervisor has been detected.
+   442	 *
+   443	 * 1. Setup the hypercall page.
+   444	 * 2. Register Hyper-V specific clocksource.
+   445	 * 3. Setup Hyper-V specific APIC entry points.
+   446	 */
+   447	void __init hyperv_init(void)
+   448	{
+   449		u64 guest_id;
+   450		union hv_x64_msr_hypercall_contents hypercall_msr;
+   451		int cpuhp;
+   452	
+   453		if (x86_hyper_type != X86_HYPER_MS_HYPERV)
+   454			return;
+   455	
+   456		if (hv_common_init())
+   457			return;
+   458	
+   459		/*
+   460		 * The VP assist page is useless to a TDX guest: the only use we
+   461		 * would have for it is lazy EOI, which can not be used with TDX.
+   462		 */
+   463		if (hv_isolation_type_tdx())
+   464			hv_vp_assist_page = NULL;
+   465		else
+   466			hv_vp_assist_page = kcalloc(nr_cpu_ids,
+   467						    sizeof(*hv_vp_assist_page),
+   468						    GFP_KERNEL);
+   469		if (!hv_vp_assist_page) {
+   470			ms_hyperv.hints &= ~HV_X64_ENLIGHTENED_VMCS_RECOMMENDED;
+   471	
+   472			if (!hv_isolation_type_tdx())
+   473				goto common_free;
+   474		}
+   475	
+   476		if (ms_hyperv.paravisor_present && hv_isolation_type_snp()) {
+   477			/* Negotiate GHCB Version. */
+   478			if (!hv_ghcb_negotiate_protocol())
+   479				hv_ghcb_terminate(SEV_TERM_SET_GEN,
+   480						  GHCB_SEV_ES_PROT_UNSUPPORTED);
+   481	
+   482			hv_ghcb_pg = alloc_percpu(union hv_ghcb *);
+   483			if (!hv_ghcb_pg)
+   484				goto free_vp_assist_page;
+   485		}
+   486	
+   487		cpuhp = cpuhp_setup_state(CPUHP_AP_HYPERV_ONLINE, "x86/hyperv_init:online",
+   488					  hv_cpu_init, hv_cpu_die);
+   489		if (cpuhp < 0)
+   490			goto free_ghcb_page;
+   491	
+   492		/*
+   493		 * Setup the hypercall page and enable hypercalls.
+   494		 * 1. Register the guest ID
+   495		 * 2. Enable the hypercall and register the hypercall page
+   496		 *
+   497		 * A TDX VM with no paravisor only uses TDX GHCI rather than hv_hypercall_pg:
+   498		 * when the hypercall input is a page, such a VM must pass a decrypted
+   499		 * page to Hyper-V, e.g. hv_post_message() uses the per-CPU page
+   500		 * hyperv_pcpu_input_arg, which is decrypted if no paravisor is present.
+   501		 *
+   502		 * A TDX VM with the paravisor uses hv_hypercall_pg for most hypercalls,
+   503		 * which are handled by the paravisor and the VM must use an encrypted
+   504		 * input page: in such a VM, the hyperv_pcpu_input_arg is encrypted and
+   505		 * used in the hypercalls, e.g. see hv_mark_gpa_visibility() and
+   506		 * hv_arch_irq_unmask(). Such a VM uses TDX GHCI for two hypercalls:
+   507		 * 1. HVCALL_SIGNAL_EVENT: see vmbus_set_event() and _hv_do_fast_hypercall8().
+   508		 * 2. HVCALL_POST_MESSAGE: the input page must be a decrypted page, i.e.
+   509		 * hv_post_message() in such a VM can't use the encrypted hyperv_pcpu_input_arg;
+   510		 * instead, hv_post_message() uses the post_msg_page, which is decrypted
+   511		 * in such a VM and is only used in such a VM.
+   512		 */
+   513		guest_id = hv_generate_guest_id(LINUX_VERSION_CODE);
+   514		wrmsrq(HV_X64_MSR_GUEST_OS_ID, guest_id);
+   515	
+   516		/* With the paravisor, the VM must also write the ID via GHCB/GHCI */
+   517		hv_ivm_msr_write(HV_X64_MSR_GUEST_OS_ID, guest_id);
+   518	
+   519		/* A TDX VM with no paravisor only uses TDX GHCI rather than hv_hypercall_pg */
+   520		if (hv_isolation_type_tdx() && !ms_hyperv.paravisor_present)
+   521			goto skip_hypercall_pg_init;
+   522	
+   523		hv_hypercall_pg = __vmalloc_node_range(PAGE_SIZE, 1, MODULES_VADDR,
+   524				MODULES_END, GFP_KERNEL, PAGE_KERNEL_ROX,
+   525				VM_FLUSH_RESET_PERMS, NUMA_NO_NODE,
+   526				__builtin_return_address(0));
+   527		if (hv_hypercall_pg == NULL)
+   528			goto clean_guest_os_id;
+   529	
+   530		rdmsrq(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+   531		hypercall_msr.enable = 1;
+   532	
+   533		if (hv_root_partition()) {
+   534			struct page *pg;
+   535			void *src;
+   536	
+   537			/*
+   538			 * For the root partition, the hypervisor will set up its
+   539			 * hypercall page. The hypervisor guarantees it will not show
+   540			 * up in the root's address space. The root can't change the
+   541			 * location of the hypercall page.
+   542			 *
+   543			 * Order is important here. We must enable the hypercall page
+   544			 * so it is populated with code, then copy the code to an
+   545			 * executable page.
+   546			 */
+   547			wrmsrq(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+   548	
+   549			pg = vmalloc_to_page(hv_hypercall_pg);
+   550			src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
+   551					MEMREMAP_WB);
+   552			BUG_ON(!src);
+   553			memcpy_to_page(pg, 0, src, HV_HYP_PAGE_SIZE);
+   554			memunmap(src);
+   555	
+   556			hv_remap_tsc_clocksource();
+   557	#ifdef CONFIG_X86_64
+ > 558			hv_root_crash_init();
+   559	#endif
+   560		} else {
+   561			hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+   562			wrmsrq(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+   563		}
+   564	
+   565		hv_set_hypercall_pg(hv_hypercall_pg);
+   566	
+   567	skip_hypercall_pg_init:
+   568		/*
+   569		 * hyperv_init() is called before LAPIC is initialized: see
+   570		 * apic_intr_mode_init() -> x86_platform.apic_post_init() and
+   571		 * apic_bsp_setup() -> setup_local_APIC(). The direct-mode STIMER
+   572		 * depends on LAPIC, so hv_stimer_alloc() should be called from
+   573		 * x86_init.timers.setup_percpu_clockev.
+   574		 */
+   575		old_setup_percpu_clockev = x86_init.timers.setup_percpu_clockev;
+   576		x86_init.timers.setup_percpu_clockev = hv_stimer_setup_percpu_clockev;
+   577	
+   578		hv_apic_init();
+   579	
+   580		x86_init.pci.arch_init = hv_pci_init;
+   581	
+   582		register_syscore_ops(&hv_syscore_ops);
+   583	
+   584		if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
+   585			hv_get_partition_id();
+   586	
 
 -- 
 0-DAY CI Kernel Test Service
