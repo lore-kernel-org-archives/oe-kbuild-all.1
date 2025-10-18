@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA403595C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1CD1DFCB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 03:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760757489; cv=none; b=UkPgHXvW9dlnKKFE60sXL3Fkb0Gl+xOIZfeX3zgnbjKVNuTOQE7VH4heHDwG9hQaxlrlOnhxhdX+htwpUL4Bx/CLgO7uFMxgmVZFKMr1KAIDtpgee4KTzEAq0UYAVBlveJ5b+6fwSDTdh1ivg/HuPmDiHEA+mx1K5FJkOOHBQJs=
+	t=1760758449; cv=none; b=DkhQfIIAO1FhWt2aba2OxUhgxbpYvElJvCM2DmWctEfvGAa31NuyUjMf+gQBONFbXk2WNYUIaKet9j5e47J0FtM/5RH3xCzZsfg6wJp62w0BhOH0hYg7/pp41p0BsEGwE2T8YhW/SQXQEiihzL975DzFjFSNJJMT67inbhCdurA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760757489; c=relaxed/simple;
-	bh=wzo7TncrjOa0kLHM843VDtvPDaUwrJutCnzYnLr6pQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fz9f5bgc6k4YkKmOnIyjW3ti2+aJm6AMZE63mACaqBJYoLE3dXS/+2NOGVBswAi9reJOF6vSITjIT4rKwoIHHmiXk4ZpfrbjGaqMToCSAS/nnrWLkMznH9XgqFclhc805UZcIu+vO8tz6lpRr7EaFEoi2c/K7wZXYko/H77QspE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsZjJlQ8; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1760758449; c=relaxed/simple;
+	bh=gYmdi6JiwWVpQ6TBq+3bLWOKPe4TLx5SGGvSpAVDKtw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+1RWKuOymQwbEOhBwsDiX84vwRQYvSNu1rlw3Q09bY5W8YNzX2IeW7UUzTvT0RGk8fS3b/Baurw2Wf4QZeeKJOpPZfHPALCvwj8HF1LHinmXJCoYXgVO2KWXyu9UhtAL/bGZEpPG696JoEplUX/kZmKdMSw0k69Zzvdm/2R3Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h52AdsDx; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsZjJlQ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h52AdsDx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760757488; x=1792293488;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wzo7TncrjOa0kLHM843VDtvPDaUwrJutCnzYnLr6pQw=;
-  b=OsZjJlQ87U65Sz1QKtpEBbMvmbv6bxR/q4FgaG29KnERuWBWn+2M4ZsU
-   94IaGtgO2DXf4CslwpjHmSPaJR6Bpf8rHYDs33tIoFE5F03U6BdLO796O
-   O5gH1EbtdO1cqyHPhoZ2UzAtc+rp8GIBKTog73ns5e3IsMmsVbBkLs/sR
-   h/ZXPq8Or7EuwPxTymw5yrmcDbcZTjNOav37lCsyl+DxBr69PIl8FfyiA
-   xUY/ICXV1Kbxvcp0jAnOIiHPKLwh4KR8CGUPRGM42PJ8NcVbTeYohFBwB
-   9xvjC6Kvoaz4Z2gfebTHzUuOMp2pOLqAtKmbuyZUEqDCa36qPS997o+ep
+  t=1760758447; x=1792294447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gYmdi6JiwWVpQ6TBq+3bLWOKPe4TLx5SGGvSpAVDKtw=;
+  b=h52AdsDxFttHXN2wTf82Qr4Qap8yQTSx/zBQbKev0ytwX9UAUaQfeqUW
+   vjDI4KcFDlqdf+nW1K+YLpbtlh71XE4NRD6qMBDOAGbMJXHlz0qD/qF7W
+   x3c+RP658NMr6hEmcz144McxzVDZeL2ATDU5QhtyiQhw7ywaMSAw/m4PF
+   q3ZjrgJh8HWJjHNd1qSyhqRy3a6rFD0L/j0pqQUZeIvoH5AkVFCRfRNne
+   WcxrNWsZETaCPIlRzaaZ6B2xwFNioguL5LCjUGfUrQvkpclDqz/fXPd9V
+   7HEgzToNrtuBGxTVsUbCdsox3UuLt5jh4Bf65BwhdxzGdGeaurZHfVGY1
    A==;
-X-CSE-ConnectionGUID: swobkPLuRouyquscEpdqUg==
-X-CSE-MsgGUID: l/t5+wolRgWq+dR87/asRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62880181"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62880181"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:18:06 -0700
-X-CSE-ConnectionGUID: gD3HGXCvTgmOSBM1HMEAtQ==
-X-CSE-MsgGUID: QXED3QsXR7a+W7H6lKbO2Q==
+X-CSE-ConnectionGUID: GwRkUb4fRQelZm6OJ+kgwA==
+X-CSE-MsgGUID: 5c78lThwRZuBeSRbdXg6zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="50546792"
+X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
+   d="scan'208";a="50546792"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 20:34:06 -0700
+X-CSE-ConnectionGUID: dd69f0azSbSAVVL/9C0exA==
+X-CSE-MsgGUID: gZZK3RFBT0yEZJ7ZRqWNzA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,237,1754982000"; 
-   d="scan'208";a="182621973"
+X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
+   d="scan'208";a="183647805"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 17 Oct 2025 12:55:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Oct 2025 20:34:04 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1v9qXn-0007ip-0Y;
-	Fri, 17 Oct 2025 19:55:19 +0000
-Date: Sat, 18 Oct 2025 03:54:51 +0800
+	id 1v9xha-00081j-12;
+	Sat, 18 Oct 2025 03:33:57 +0000
+Date: Sat, 18 Oct 2025 11:33:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2025-06 1/1]
- include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name'
- defined but not used
-Message-ID: <202510180319.vT8UibdM-lkp@intel.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, kuba@kernel.org,
+	edumazet@google.com, davem@davemloft.net, andrew+netdev@lunn.ch,
+	Shyam-sundar.S-k@amd.com, Raju Rangoju <Raju.Rangoju@amd.com>
+Subject: Re: [PATCH net-next v2 2/4] amd-xgbe: add ethtool phy selftest
+Message-ID: <202510181124.5LDfdemg-lkp@intel.com>
+References: <20251017064704.3911798-3-Raju.Rangoju@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +64,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251017064704.3911798-3-Raju.Rangoju@amd.com>
 
-Hi Yun,
+Hi Raju,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-06
-head:   0da2761b0d573a9074ab1a5d3063c46a7a743861
-commit: a1fc1fba460be48dff2484b438888ede557930d4 [1/1] ANDROID: sched: add restrict vendor hook to modify task placement policy in EAS
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251018/202510180319.vT8UibdM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510180319.vT8UibdM-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-introduce-support-ethtool-selftest/20251017-151230
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251017064704.3911798-3-Raju.Rangoju%40amd.com
+patch subject: [PATCH net-next v2 2/4] amd-xgbe: add ethtool phy selftest
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251018/202510181124.5LDfdemg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181124.5LDfdemg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510180319.vT8UibdM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181124.5LDfdemg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sched.h:23,
-                    from drivers/android/vendor_hooks.c:11:
->> include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/amd/xgbe/xgbe-selftest.c: In function 'xgbe_selftest_get_strings':
+>> drivers/net/ethernet/amd/xgbe/xgbe-selftest.c:427:52: warning: '%s' directive output may be truncated writing up to 95 bytes into a region of size 28 [-Wformat-truncation=]
+     427 |                 snprintf(p, ETH_GSTRING_LEN, "%2d. %s", i + 1,
+         |                                                    ^~
+   drivers/net/ethernet/amd/xgbe/xgbe-selftest.c:427:17: note: 'snprintf' output between 5 and 100 bytes into a destination of size 32
+     427 |                 snprintf(p, ETH_GSTRING_LEN, "%2d. %s", i + 1,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     428 |                          xgbe_selftests[i].name);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/str__sched__trace_system_name +27 include/trace/trace_events.h
+vim +427 drivers/net/ethernet/amd/xgbe/xgbe-selftest.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+066e40696db52b Raju Rangoju 2025-10-17  420  
+066e40696db52b Raju Rangoju 2025-10-17  421  void xgbe_selftest_get_strings(struct xgbe_prv_data *pdata, u8 *data)
+066e40696db52b Raju Rangoju 2025-10-17  422  {
+066e40696db52b Raju Rangoju 2025-10-17  423  	u8 *p = data;
+066e40696db52b Raju Rangoju 2025-10-17  424  	int i;
+066e40696db52b Raju Rangoju 2025-10-17  425  
+066e40696db52b Raju Rangoju 2025-10-17  426  	for (i = 0; i < xgbe_selftest_get_count(pdata); i++) {
+066e40696db52b Raju Rangoju 2025-10-17 @427  		snprintf(p, ETH_GSTRING_LEN, "%2d. %s", i + 1,
+066e40696db52b Raju Rangoju 2025-10-17  428  			 xgbe_selftests[i].name);
+066e40696db52b Raju Rangoju 2025-10-17  429  		p += ETH_GSTRING_LEN;
+066e40696db52b Raju Rangoju 2025-10-17  430  	}
+066e40696db52b Raju Rangoju 2025-10-17  431  }
+066e40696db52b Raju Rangoju 2025-10-17  432  
 
 -- 
 0-DAY CI Kernel Test Service
