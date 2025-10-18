@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E046354AF6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3C2354AF6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760789842; cv=none; b=K2J6bGpg7gf2PnBuPx9qjFjhijqPBmKKE3lV9GTfWu0iZF8idvbexUiHEz6dcCzhZgut8AY5oUbmteT0IgMGh5+9rj/rfn9S+IHlntkpMYLuNNHBRCrjzng/JeCHGdHZgJwntB+MmkrXBeHibFvojT4+s4gSavK0nLP0H+T6AMg=
+	t=1760791230; cv=none; b=O7BMghLtH9nx2p/OdefAXd+O6FqbRyZKDnXWeUibWfPbwc5Jj4UT2BsOSIjyj+pQSokDVgQTml1QfIXnuLbmfqBdRh+BJavgEg8N1zK80i+MGBLiwQskIvOiT7KZDbXJuXe/ALc4DCf1b1hNfRKT0Q4ym0SlhKV6W59/xIi79jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760789842; c=relaxed/simple;
-	bh=NVgGAPwwrLSCwbHx+kIcEztaGnNRLWNphzvMd9GtKb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QMwXh8wpY+iSs7uVpjskDJkz0TXi3ZAl5LY4lcJea85a2tOghiGjCmPwdLpADeOD5p2bft0Ph/h4Fowx0Qp6a3A+XtSXcOEzNrqi1PgOkjmJ2r+6z1JOIcxoOvdw9C1TOA+nMmyldh29HQ0SOXdvWXTtihdRkuMHUGUsxwd/9sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EsBoq2FC; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1760791230; c=relaxed/simple;
+	bh=H3WK0t/V2VoTFN8BT9sadD++/B4PncNJL3s9HMGDF+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Onq9HxFGL7Pn4MXaXwGjK/FuIpeZbblPL2yK8IdhXrDnTIVy/40eP0ezZBgEW7PwJdwaY0yZhZQ/YsjI1vchJ9stvQHkp6tEgb1km14nc0EtFRxeNb1yMKzgeQSObimoYZziG+q/xKAKB0QaWbR9EK7XMUcGB2DIDmBdE/BaEbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DespCvrS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EsBoq2FC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DespCvrS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760789841; x=1792325841;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NVgGAPwwrLSCwbHx+kIcEztaGnNRLWNphzvMd9GtKb4=;
-  b=EsBoq2FCNNWf4NbWJC2fTHdjPA1KmmbioRKD/Cvn07AzB2U+TUyMyuyQ
-   4w2t+MdBLhoKLWJCDWqVIdTKr/dKr8EykXACyXMC9Kpj6X4k4dWOtaj+C
-   pDAwLfhfHaXoIS4Fa8ROJnXhvL7mhiypRsHCnyPc95MoEotZG/qhOUn/C
-   +fOxn+EP4BlLfnFy8FfyW/IiYi3X27cZpHfg1WEjYRkNjK/8GZSw7nVzu
-   YaR1tLc4XI1mt0cV2E5l4POAbwzVbDj2siM0AFFlm5R1G8jw6DluVgTQ1
-   NL6dxPuKdB6mbWUEAcf1HqvgeO5O64Edb4Zo3NU3mgGz0cmID1TmzPQlX
-   w==;
-X-CSE-ConnectionGUID: sdPncuJ8Q4qUO5x9z5bCVg==
-X-CSE-MsgGUID: Svy6bXrRR2COdTiNiXzKGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73589142"
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="73589142"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:17:20 -0700
-X-CSE-ConnectionGUID: 7pe2GAzGR+qZ0MPAOZtUHA==
-X-CSE-MsgGUID: 9nY2xmu0SZWwn7mBDZKc5A==
+  t=1760791228; x=1792327228;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H3WK0t/V2VoTFN8BT9sadD++/B4PncNJL3s9HMGDF+k=;
+  b=DespCvrS1pW0pgM+whL+Ca4hyawrUDZhmwIOzRpo/DBIl35nXXK/Pvsu
+   btu3EcBsF9340wMRD3Ma0ck+fwDqwUgGp49hVsoSXdFMmYhjDgckeQurg
+   d2VWzGzI5DF6NL1B9IdKna0c0yIB1x1HF/zVB62AJHerMuQ9TC/eTYelH
+   Tjt+SYoK4YveUbV6nAmSOhlVsfJJUXCaSGwJgnQiMtS6YBS41XCDL641B
+   YdVudV/2dInk9pKSmzFKGdHQGUVqYW+wmqAJz2IbsPmc2jn369MAxTG2G
+   xR5FpvbuckyKNvEHT3ld01RX+58z3GtBNCq20/4deXBs+My3mB6Mjr33L
+   Q==;
+X-CSE-ConnectionGUID: QOc211RyQTCabOloPM1aVA==
+X-CSE-MsgGUID: OJ/CVdFYS0SCXjb1GQ+cEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62021823"
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="62021823"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:40:27 -0700
+X-CSE-ConnectionGUID: 5U15FjJtSBGBYWHi9hmrlg==
+X-CSE-MsgGUID: jeOF9QHgRceImIylS2+Xsg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="188253747"
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="183439267"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2025 05:17:18 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 18 Oct 2025 05:40:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA5rZ-0008Gv-2C;
-	Sat, 18 Oct 2025 12:16:49 +0000
-Date: Sat, 18 Oct 2025 20:16:08 +0800
+	id 1vA6DL-0008Hd-19;
+	Sat, 18 Oct 2025 12:39:44 +0000
+Date: Sat, 18 Oct 2025 20:36:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] tracing: Add an option to show symbols in
- _text+offset for function profiler
-Message-ID: <202510181934.DYd8mdHX-lkp@intel.com>
-References: <176071775059.175601.3827350589430991963.stgit@devnote2>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/mem_reliable.c:272:5:
+ sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it
+ be static?
+Message-ID: <202510182012.jZtZFjLW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,101 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <176071775059.175601.3827350589430991963.stgit@devnote2>
 
-Hi Masami,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.18-rc1 next-20251017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Allow-tracer-to-add-more-than-32-options/20251018-004104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/176071775059.175601.3827350589430991963.stgit%40devnote2
-patch subject: [PATCH v4 2/2] tracing: Add an option to show symbols in _text+offset for function profiler
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251018/202510181934.DYd8mdHX-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181934.DYd8mdHX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e98deea13d81cacd6479edf0de6267118ae7c639
+commit: 851a3ff0b4de68403c9a344c3d5378aa590705b7 [1740/1740] mm: Introduce proc interface to control memory reliable features
+config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20251018/202510182012.jZtZFjLW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182012.jZtZFjLW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181934.DYd8mdHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510182012.jZtZFjLW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/mem_reliable.c:52:14: sparse: sparse: restricted gfp_t degrades to integer
+   mm/mem_reliable.c:199:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
+>> mm/mem_reliable.c:272:5: sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:199:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
+     199 | int reliable_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   mm/mem_reliable.c:272:5: warning: no previous prototype for 'reliable_debug_handler' [-Wmissing-prototypes]
+     272 | int reliable_debug_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
-   In file included from kernel/trace/trace_output.h:6,
-                    from kernel/trace/ftrace.c:45:
->> kernel/trace/trace.h:1434:34: error: enumerator value outside the range of underlying type
-    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
-         |                                  ^
-   kernel/trace/trace.h:1369:17: note: in expansion of macro 'C'
-    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
-         |                 ^
-   kernel/trace/trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
-    1414 |                 PROFILER_FLAGS
-         |                 ^~~~~~~~~~~~~~
-   kernel/trace/trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
-    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-         |                                        ^~~~~~~~~~~
---
-   In file included from kernel/trace/trace_probe.h:31,
-                    from kernel/trace/bpf_trace.c:35:
->> kernel/trace/trace.h:1434:34: error: enumerator value outside the range of underlying type
-    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
-         |                                  ^
-   kernel/trace/trace.h:1369:17: note: in expansion of macro 'C'
-    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
-         |                 ^
-   kernel/trace/trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
-    1414 |                 PROFILER_FLAGS
-         |                 ^~~~~~~~~~~~~~
-   kernel/trace/trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
-    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-         |                                        ^~~~~~~~~~~
-   kernel/trace/bpf_trace.c: In function '____bpf_trace_printk':
-   kernel/trace/bpf_trace.c:378:9: warning: function '____bpf_trace_printk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     378 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
-         |         ^~~
-   kernel/trace/bpf_trace.c: In function '____bpf_trace_vprintk':
-   kernel/trace/bpf_trace.c:434:9: warning: function '____bpf_trace_vprintk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     434 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
-         |         ^~~
-   kernel/trace/bpf_trace.c: In function '____bpf_seq_printf':
-   kernel/trace/bpf_trace.c:476:9: warning: function '____bpf_seq_printf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     476 |         seq_bprintf(m, fmt, data.bin_args);
-         |         ^~~~~~~~~~~
---
-   In file included from kernel/trace/rv/rv.h:9,
-                    from kernel/trace/rv/rv.c:151:
->> kernel/trace/rv/../trace.h:1434:34: error: enumerator value outside the range of underlying type
-    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
-         |                                  ^
-   kernel/trace/rv/../trace.h:1369:17: note: in expansion of macro 'C'
-    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
-         |                 ^
-   kernel/trace/rv/../trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
-    1414 |                 PROFILER_FLAGS
-         |                 ^~~~~~~~~~~~~~
-   kernel/trace/rv/../trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
-    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-         |                                        ^~~~~~~~~~~
+vim +/reliable_debug_handler +272 mm/mem_reliable.c
 
-
-vim +1434 kernel/trace/trace.h
-
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1428) 
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1429) /*
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1430)  * By redefining C, we can make TRACE_FLAGS a list of masks that
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1431)  * use the bits as defined above.
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1432)  */
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1433) #undef C
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29 @1434) #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
-a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1435) 
+   271	
+ > 272	int reliable_debug_handler(struct ctl_table *table, int write,
+   273		void __user *buffer, size_t *length, loff_t *ppos)
+   274	{
+   275		unsigned long old_ctrl_bits, new_ctrl_bits;
+   276		static DEFINE_MUTEX(reliable_debug_mutex);
+   277		int ret;
+   278	
+   279		mutex_lock(&reliable_debug_mutex);
+   280		old_ctrl_bits = mem_reliable_ctrl_bits;
+   281		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   282		if (ret == 0 && write) {
+   283			if (mem_reliable_ctrl_bits > (1 << CTRL_BITS_SHIFT) - 1) {
+   284				mem_reliable_ctrl_bits = old_ctrl_bits;
+   285				mutex_unlock(&reliable_debug_mutex);
+   286	
+   287				return -EINVAL;
+   288			}
+   289	
+   290			new_ctrl_bits = mem_reliable_ctrl_bits;
+   291			mem_reliable_ctrl_bits = old_ctrl_bits;
+   292			if (!!test_bit(MEM_RELIABLE_ALL, &new_ctrl_bits))
+   293				mem_reliable_parse_ctrl_bits(new_ctrl_bits);
+   294			else
+   295				mem_reliable_disable_all();
+   296		}
+   297	
+   298		mutex_unlock(&reliable_debug_mutex);
+   299	
+   300		return ret;
+   301	}
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
