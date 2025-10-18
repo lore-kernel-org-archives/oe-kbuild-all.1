@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3E1EE033
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E046354AF6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760789200; cv=none; b=PF8MRbMYXqQsT02BkOETs9F2PbLM6h4HHvGNtp7cyu6cHGZY4zvJK7IDEiQqwaG8z9tzMWkZvfOFic8RwoL/V3dhhSthcGi7N+91E8bK9aKCtDFMCl7m+nL7uYSeGUXNB9TfvIR+TMlR5gkMLlvMLtfkmNPJlynX5Td1EOhlQ6M=
+	t=1760789842; cv=none; b=K2J6bGpg7gf2PnBuPx9qjFjhijqPBmKKE3lV9GTfWu0iZF8idvbexUiHEz6dcCzhZgut8AY5oUbmteT0IgMGh5+9rj/rfn9S+IHlntkpMYLuNNHBRCrjzng/JeCHGdHZgJwntB+MmkrXBeHibFvojT4+s4gSavK0nLP0H+T6AMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760789200; c=relaxed/simple;
-	bh=amcyDQ0ZSqfKRHQvB06Ill1m9TP4roTiAJ8m7kuDqWI=;
+	s=arc-20240116; t=1760789842; c=relaxed/simple;
+	bh=NVgGAPwwrLSCwbHx+kIcEztaGnNRLWNphzvMd9GtKb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfS4N6OJjJkkdYnEhpcps8sfU69HBXHA+X5A74UAZvYLrHYyZ9DX52+Esq3jLSmSOiaAKFzRWfhWLjfhnLrOo61B13SRj+ckLZUtSDwnN7nfP24ssOI4po0ZognRnF03VpKB552sXpQIB+KnguSwXHpqMVKXghPiSOCh7GQsJzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=loOx0PKG; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=QMwXh8wpY+iSs7uVpjskDJkz0TXi3ZAl5LY4lcJea85a2tOghiGjCmPwdLpADeOD5p2bft0Ph/h4Fowx0Qp6a3A+XtSXcOEzNrqi1PgOkjmJ2r+6z1JOIcxoOvdw9C1TOA+nMmyldh29HQ0SOXdvWXTtihdRkuMHUGUsxwd/9sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EsBoq2FC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="loOx0PKG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EsBoq2FC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760789198; x=1792325198;
+  t=1760789841; x=1792325841;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=amcyDQ0ZSqfKRHQvB06Ill1m9TP4roTiAJ8m7kuDqWI=;
-  b=loOx0PKGOlvVA1DnXH+NykIc76KrnkNBl59xuXKwyCEMwY9oO79jjwnY
-   7AaNgoCK9fw9Pukx5wMMrhRDfZ1l1PMQQkZu/s3m6o/l7YtoFGmmXI65F
-   XlHbg5cDVFVWXmr8/t6CIVUXNr8rC/t45fgX1NqlxCDmWmQzOF45889Oq
-   Xr5wLtBD+jNAO/UvE5BorFGP6fmUQ505JDI3sLEtjabpKoOQrdaecHwvl
-   x66a7eKaPk+ojsE6yLQo34Nh5k9a9zy0sNHtkGyxZYz+I+XsdEW7D0Io8
-   RFgbCw08SIV25mL90Q5WxqV/4qouIE4PaH1yWA9N9Rltjjaoh375os1Tj
+  bh=NVgGAPwwrLSCwbHx+kIcEztaGnNRLWNphzvMd9GtKb4=;
+  b=EsBoq2FCNNWf4NbWJC2fTHdjPA1KmmbioRKD/Cvn07AzB2U+TUyMyuyQ
+   4w2t+MdBLhoKLWJCDWqVIdTKr/dKr8EykXACyXMC9Kpj6X4k4dWOtaj+C
+   pDAwLfhfHaXoIS4Fa8ROJnXhvL7mhiypRsHCnyPc95MoEotZG/qhOUn/C
+   +fOxn+EP4BlLfnFy8FfyW/IiYi3X27cZpHfg1WEjYRkNjK/8GZSw7nVzu
+   YaR1tLc4XI1mt0cV2E5l4POAbwzVbDj2siM0AFFlm5R1G8jw6DluVgTQ1
+   NL6dxPuKdB6mbWUEAcf1HqvgeO5O64Edb4Zo3NU3mgGz0cmID1TmzPQlX
    w==;
-X-CSE-ConnectionGUID: 8pyeDcAdSgK+QTDln+Y7Lw==
-X-CSE-MsgGUID: qomjwrC6S/uIl0zNABmMxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74426673"
+X-CSE-ConnectionGUID: sdPncuJ8Q4qUO5x9z5bCVg==
+X-CSE-MsgGUID: Svy6bXrRR2COdTiNiXzKGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73589142"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="74426673"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:06:37 -0700
-X-CSE-ConnectionGUID: nfs33RDKS5m+TSeTk1j45w==
-X-CSE-MsgGUID: 2VrXg+YDTn6HK9yWeDUEIw==
+   d="scan'208";a="73589142"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:17:20 -0700
+X-CSE-ConnectionGUID: 7pe2GAzGR+qZ0MPAOZtUHA==
+X-CSE-MsgGUID: 9nY2xmu0SZWwn7mBDZKc5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="182957412"
+   d="scan'208";a="188253747"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 Oct 2025 05:06:35 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2025 05:17:18 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA5hT-0008Gf-1J;
-	Sat, 18 Oct 2025 12:06:25 +0000
-Date: Sat, 18 Oct 2025 20:05:22 +0800
+	id 1vA5rZ-0008Gv-2C;
+	Sat, 18 Oct 2025 12:16:49 +0000
+Date: Sat, 18 Oct 2025 20:16:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Yang <gary.yang@cixtech.com>, linus.walleij@linaro.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	cix-kernel-upstream@cixtech.com, Gary Yang <gary.yang@cixtech.com>
-Subject: Re: [PATCH v4 2/3] pinctrl: cix: Add pin-controller support for sky1
-Message-ID: <202510181916.q32y7Jel-lkp@intel.com>
-References: <20251017074646.3344924-3-gary.yang@cixtech.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] tracing: Add an option to show symbols in
+ _text+offset for function profiler
+Message-ID: <202510181934.DYd8mdHX-lkp@intel.com>
+References: <176071775059.175601.3827350589430991963.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,80 +67,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017074646.3344924-3-gary.yang@cixtech.com>
+In-Reply-To: <176071775059.175601.3827350589430991963.stgit@devnote2>
 
-Hi Gary,
+Hi Masami,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next robh/for-next linus/master v6.18-rc1 next-20251017]
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.18-rc1 next-20251017]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Yang/dt-bindings-pinctrl-Add-cix-sky1-pinctrl/20251017-155001
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20251017074646.3344924-3-gary.yang%40cixtech.com
-patch subject: [PATCH v4 2/3] pinctrl: cix: Add pin-controller support for sky1
-config: nios2-randconfig-r121-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181916.q32y7Jel-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181916.q32y7Jel-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Allow-tracer-to-add-more-than-32-options/20251018-004104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/176071775059.175601.3827350589430991963.stgit%40devnote2
+patch subject: [PATCH v4 2/2] tracing: Add an option to show symbols in _text+offset for function profiler
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251018/202510181934.DYd8mdHX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181934.DYd8mdHX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181916.q32y7Jel-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181934.DYd8mdHX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse:     expected unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse:     got void [noderef] __iomem *
->> drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse:     got unsigned int [usertype] *pin_reg
->> drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse:     got unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse:     expected unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse:     got void [noderef] __iomem *
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse:     got unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse:     got unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse:     expected unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse:     got void [noderef] __iomem *
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse:     got unsigned int [usertype] *pin_reg
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse:     got unsigned int [usertype] *pin_reg
+All errors (new ones prefixed by >>):
 
-vim +289 drivers/pinctrl/cix/pinctrl-sky1-base.c
+   In file included from kernel/trace/trace_output.h:6,
+                    from kernel/trace/ftrace.c:45:
+>> kernel/trace/trace.h:1434:34: error: enumerator value outside the range of underlying type
+    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+         |                                  ^
+   kernel/trace/trace.h:1369:17: note: in expansion of macro 'C'
+    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
+         |                 ^
+   kernel/trace/trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
+    1414 |                 PROFILER_FLAGS
+         |                 ^~~~~~~~~~~~~~
+   kernel/trace/trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
+    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
+         |                                        ^~~~~~~~~~~
+--
+   In file included from kernel/trace/trace_probe.h:31,
+                    from kernel/trace/bpf_trace.c:35:
+>> kernel/trace/trace.h:1434:34: error: enumerator value outside the range of underlying type
+    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+         |                                  ^
+   kernel/trace/trace.h:1369:17: note: in expansion of macro 'C'
+    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
+         |                 ^
+   kernel/trace/trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
+    1414 |                 PROFILER_FLAGS
+         |                 ^~~~~~~~~~~~~~
+   kernel/trace/trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
+    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
+         |                                        ^~~~~~~~~~~
+   kernel/trace/bpf_trace.c: In function '____bpf_trace_printk':
+   kernel/trace/bpf_trace.c:378:9: warning: function '____bpf_trace_printk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     378 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
+         |         ^~~
+   kernel/trace/bpf_trace.c: In function '____bpf_trace_vprintk':
+   kernel/trace/bpf_trace.c:434:9: warning: function '____bpf_trace_vprintk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     434 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
+         |         ^~~
+   kernel/trace/bpf_trace.c: In function '____bpf_seq_printf':
+   kernel/trace/bpf_trace.c:476:9: warning: function '____bpf_seq_printf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     476 |         seq_bprintf(m, fmt, data.bin_args);
+         |         ^~~~~~~~~~~
+--
+   In file included from kernel/trace/rv/rv.h:9,
+                    from kernel/trace/rv/rv.c:151:
+>> kernel/trace/rv/../trace.h:1434:34: error: enumerator value outside the range of underlying type
+    1434 | #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+         |                                  ^
+   kernel/trace/rv/../trace.h:1369:17: note: in expansion of macro 'C'
+    1369 |                 C(PROF_TEXT_OFFSET,     "prof-text-offset"),
+         |                 ^
+   kernel/trace/rv/../trace.h:1414:17: note: in expansion of macro 'PROFILER_FLAGS'
+    1414 |                 PROFILER_FLAGS
+         |                 ^~~~~~~~~~~~~~
+   kernel/trace/rv/../trace.h:1436:40: note: in expansion of macro 'TRACE_FLAGS'
+    1436 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
+         |                                        ^~~~~~~~~~~
 
-   282	
-   283	static int sky1_pmx_set_one_pin(struct sky1_pinctrl *spctl,
-   284					    unsigned int pin, unsigned char muxval)
-   285	{
-   286		u32 reg_val;
-   287		u32 *pin_reg;
-   288	
- > 289		pin_reg = spctl->base + pin * SKY1_PIN_SIZE;
- > 290		reg_val = readl(pin_reg);
-   291		reg_val &= ~SKY1_MUX_MASK;
-   292		reg_val |= muxval << SKY1_MUX_SHIFT;
- > 293		writel(reg_val, pin_reg);
-   294	
-   295		dev_dbg(spctl->dev, "write: offset 0x%x val 0x%x\n",
-   296			pin * SKY1_PIN_SIZE, reg_val);
-   297		return 0;
-   298	}
-   299	
+
+vim +1434 kernel/trace/trace.h
+
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1428) 
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1429) /*
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1430)  * By redefining C, we can make TRACE_FLAGS a list of masks that
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1431)  * use the bits as defined above.
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1432)  */
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1433) #undef C
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29 @1434) #define C(a, b) TRACE_ITER_##a = (1 << TRACE_ITER_##a##_BIT)
+a3418a364ec3c8 Steven Rostedt (Red Hat  2015-09-29  1435) 
 
 -- 
 0-DAY CI Kernel Test Service
