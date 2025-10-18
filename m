@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FDB3B2A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 21:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146742566E9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 22:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760823471; cv=none; b=uVSVMelJOkYVB7sAd3Dab7uZPTQgF6FcqYZNeH0OQf29TygLQblv7uH4WtOCVp8ILPUNKqQL2YXwGnoZnjsN0CBf0aQXm5CYBAO49jMBw2xUFhQT7mv/NYYTrcyr09prVPSLIdUK6/DI9OKEP8wTQLezBnxlszJ6zmjWyD0EIZE=
+	t=1760825965; cv=none; b=aS1PGzndK1CVVnOWv3mdcQ+rMIPBiW5k/JDcBlRzMV+tbBNlUHJyXEyGlAB12lUC8PMce/Q+Ant+7g2A5BwU+utMdB6gYlANTWKFqUxnTwlMc6jwXX0Rhp+cv7EPiGxJfpGov1pehue81i4GnPGtsOTzyPOvEwnM9mUpqhisaSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760823471; c=relaxed/simple;
-	bh=IvTEGoV/2rSFtJ0hI+CB0ql47gWapkY2EGZom9D2XoM=;
+	s=arc-20240116; t=1760825965; c=relaxed/simple;
+	bh=AGcPX2vqwL+vJs9Fzlh0Lfhzj2eqjMIbIp57q5ox3VU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KZTCv5YPhzafyZWVIwFZZh6/lTvWrDA+F8WpC8mglDvzu1pZIVXfhRqrabKyP92SwA9iOmCzCoZpQsVx5nCkN9uC/q05+Duh6ioTe8qCQNaptQJyWBeHHH7jAL/DjBJ06o52XjjeVx7x8/ZP1UwRNtZO78VKe9z2QVDzX2xIrOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Km1h1VhM; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=UGbodiCdIiDYXG5k6VDLQWxHvQ7qMSLwbjRjplO3fV+IaH6O4V5DL1xqxipyAuoNk8fayo37ppsIo3lODcJLpZBkFufFrN1/QzfaNEwoT5jMXuCjho/KCzVHWyVkE93T5CssczcmAZn5Bt/9JZB/nLLBk4LPSPYMOUg/PPziPpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpdNW0fb; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Km1h1VhM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpdNW0fb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760823469; x=1792359469;
+  t=1760825963; x=1792361963;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IvTEGoV/2rSFtJ0hI+CB0ql47gWapkY2EGZom9D2XoM=;
-  b=Km1h1VhMHr+vbVTHzfZNubHereCvvseZ1ymgkRSdDo5+WVb2FxmiXzRG
-   zw6K/vQiiFqZm0KzK2hJ8PYpLaSpT6LHMONmkosVd2NeDtPvl3RqR/RUA
-   4KZSypsVWTRJPOnvUMsQ/4wa0erBuM4u4zyGjPNpVgj2IaId7xZ1dQnlZ
-   0TidELL1JuDSRAoSJt4bK3md+TWJ3zDrhVYOF2EuKcSbjI0ziNGXgBU7/
-   MTtZoFReCPf54UlOY0dnzGsrduvPrkiTOpXb7VqfZ4ic4tRgSvKnOgM9D
-   IMgT74unjEoCumrJdGm2vnQ1ZLHtbmUWkpfWaiSJSmWw9Pxw56ekDtmWb
-   A==;
-X-CSE-ConnectionGUID: XQIi+fthQIKxoNWlz1Gqwg==
-X-CSE-MsgGUID: qbg9g5EpQ1SuF8SAYrL8Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73283237"
+  bh=AGcPX2vqwL+vJs9Fzlh0Lfhzj2eqjMIbIp57q5ox3VU=;
+  b=BpdNW0fb9p8Vws3klgQSivUi6PPc6ArX29W4pcZBc0jPP00hGSp9KtLf
+   2NG+X8Gn4y51fxwdfStkmRQkRroi6WZmECTVjKtwYPyJm1HFf1GCAKkda
+   tjOu0re7MBzxtS8IOIfNOMQx9J8CSZ+aBLWKU66Y3LG+b0gTV5X6bpYtl
+   nZkebGx/nqo1I4I7CIGjBEU3EIE0X8qLwv2hMZ+DWrW0J5nYHjF23d7lu
+   iWHu5WGFTpWud922GHXK+/BUE9m1WPqL+jvaWlmvrrV0GDCdG55wCOFi6
+   t1uW76OIyJQBR1S+NIP2wmeTcxl/3gmERWn/1ovWgxzi9MBVFFZU1zWHv
+   w==;
+X-CSE-ConnectionGUID: yTog4qu0SgSziAaxdd/iYQ==
+X-CSE-MsgGUID: LWebBFSsT7m8czmZxorpLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73676214"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="73283237"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 14:37:49 -0700
-X-CSE-ConnectionGUID: NPmztDNaR/+vqijKXQzK9w==
-X-CSE-MsgGUID: wNJ6U0hNQ0eu7du/A/KCCQ==
+   d="scan'208";a="73676214"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 15:19:22 -0700
+X-CSE-ConnectionGUID: d5H6GCa7Sm2QRSyfKDbDNQ==
+X-CSE-MsgGUID: 9sEWmfusRHWFI9HvJyFjzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="183024703"
+   d="scan'208";a="220161932"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 Oct 2025 14:37:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Oct 2025 15:19:21 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAEcT-0008cf-1H;
-	Sat, 18 Oct 2025 21:37:45 +0000
-Date: Sun, 19 Oct 2025 05:36:58 +0800
+	id 1vAFGg-0008fV-34;
+	Sat, 18 Oct 2025 22:19:18 +0000
+Date: Sun, 19 Oct 2025 06:19:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Subject: drivers/net/ethernet/meta/fbnic/fbnic_tlv.h:83:24: warning:
- conversion from 'long unsigned int' to 'short unsigned int' changes value
- from '261632' to '65024'
-Message-ID: <202510190541.XNb7ePlI-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/030-misc 13/18] kernel/locking/lockdep.c:3407:49:
+ sparse: sparse: cast truncates bits from constant value (a0000 becomes 0)
+Message-ID: <202510190621.tQC7FDW0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,56 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c64efcb083c48c85227cb4d72ab137feef2cdac
-commit: 5df1d0a08483eff13f0da1cc66883e0bc2cf4fcf eth: fbnic: support FW communication for core dump
-date:   4 weeks ago
-config: powerpc-randconfig-002-20251019 (https://download.01.org/0day-ci/archive/20251019/202510190541.XNb7ePlI-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190541.XNb7ePlI-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   e1bd1563f71cd7814575f327a42233a3a839fad6
+commit: 7ef2386f796b854caa982459b1e6aabecfb513b9 [13/18] Increase MAX_LOCKDEP_CHAIN_HLOCKS
+config: x86_64-randconfig-122-20251018 (https://download.01.org/0day-ci/archive/20251019/202510190621.tQC7FDW0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190621.tQC7FDW0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510190541.XNb7ePlI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510190621.tQC7FDW0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/locking/lockdep.c:3407:49: sparse: sparse: cast truncates bits from constant value (a0000 becomes 0)
+>> kernel/locking/lockdep.c:3407:49: sparse: sparse: cast truncates bits from constant value (a0000 becomes 0)
 
-   In file included from drivers/net/ethernet/meta/fbnic/fbnic_fw.c:13:
->> drivers/net/ethernet/meta/fbnic/fbnic_tlv.h:83:24: warning: conversion from 'long unsigned int' to 'short unsigned int' changes value from '261632' to '65024' [-Woverflow]
-      83 | #define TLV_MAX_DATA   (PAGE_SIZE - 512)
-         |                        ^
-   drivers/net/ethernet/meta/fbnic/fbnic_tlv.h:94:43: note: in expansion of macro 'TLV_MAX_DATA'
-      94 | #define FBNIC_TLV_ATTR_RAW_DATA(id) { id, TLV_MAX_DATA, FBNIC_TLV_BINARY }
-         |                                           ^~~~~~~~~~~~
-   drivers/net/ethernet/meta/fbnic/fbnic_fw.c:927:2: note: in expansion of macro 'FBNIC_TLV_ATTR_RAW_DATA'
-     927 |  FBNIC_TLV_ATTR_RAW_DATA(FBNIC_FW_COREDUMP_READ_DATA),
-         |  ^~~~~~~~~~~~~~~~~~~~~~~
+vim +3407 kernel/locking/lockdep.c
 
+810507fe6fd5ff Waiman Long 2020-02-06  3399  
+810507fe6fd5ff Waiman Long 2020-02-06  3400  static inline void init_chain_block(int offset, int next, int bucket, int size)
+810507fe6fd5ff Waiman Long 2020-02-06  3401  {
+810507fe6fd5ff Waiman Long 2020-02-06  3402  	chain_hlocks[offset] = (next >> 16) | CHAIN_BLK_FLAG;
+810507fe6fd5ff Waiman Long 2020-02-06  3403  	chain_hlocks[offset + 1] = (u16)next;
+810507fe6fd5ff Waiman Long 2020-02-06  3404  
+810507fe6fd5ff Waiman Long 2020-02-06  3405  	if (size && !bucket) {
+810507fe6fd5ff Waiman Long 2020-02-06  3406  		chain_hlocks[offset + 2] = size >> 16;
+810507fe6fd5ff Waiman Long 2020-02-06 @3407  		chain_hlocks[offset + 3] = (u16)size;
+810507fe6fd5ff Waiman Long 2020-02-06  3408  	}
+810507fe6fd5ff Waiman Long 2020-02-06  3409  }
+810507fe6fd5ff Waiman Long 2020-02-06  3410  
 
-vim +83 drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
+:::::: The code at line 3407 was first introduced by commit
+:::::: 810507fe6fd5ff3de429121adff49523fabb643a locking/lockdep: Reuse freed chain_hlocks entries
 
-c6203e678cc9a5 Alexander Duyck 2024-07-12  82  
-c6203e678cc9a5 Alexander Duyck 2024-07-12 @83  #define TLV_MAX_DATA			(PAGE_SIZE - 512)
-c6203e678cc9a5 Alexander Duyck 2024-07-12  84  #define FBNIC_TLV_ATTR_ID_UNKNOWN	USHRT_MAX
-c6203e678cc9a5 Alexander Duyck 2024-07-12  85  #define FBNIC_TLV_ATTR_STRING(id, len)	{ id, len, FBNIC_TLV_STRING }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  86  #define FBNIC_TLV_ATTR_FLAG(id)		{ id, 0, FBNIC_TLV_FLAG }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  87  #define FBNIC_TLV_ATTR_U32(id)		{ id, sizeof(u32), FBNIC_TLV_UNSIGNED }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  88  #define FBNIC_TLV_ATTR_U64(id)		{ id, sizeof(u64), FBNIC_TLV_UNSIGNED }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  89  #define FBNIC_TLV_ATTR_S32(id)		{ id, sizeof(s32), FBNIC_TLV_SIGNED }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  90  #define FBNIC_TLV_ATTR_S64(id)		{ id, sizeof(s64), FBNIC_TLV_SIGNED }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  91  #define FBNIC_TLV_ATTR_MAC_ADDR(id)	{ id, ETH_ALEN, FBNIC_TLV_BINARY }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  92  #define FBNIC_TLV_ATTR_NESTED(id)	{ id, 0, FBNIC_TLV_NESTED }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  93  #define FBNIC_TLV_ATTR_ARRAY(id)	{ id, 0, FBNIC_TLV_ARRAY }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  94  #define FBNIC_TLV_ATTR_RAW_DATA(id)	{ id, TLV_MAX_DATA, FBNIC_TLV_BINARY }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  95  #define FBNIC_TLV_ATTR_LAST		{ FBNIC_TLV_ATTR_ID_UNKNOWN, 0, 0 }
-c6203e678cc9a5 Alexander Duyck 2024-07-12  96  
-
-:::::: The code at line 83 was first introduced by commit
-:::::: c6203e678cc9a5bf01ec7ae382851f504870777f eth: fbnic: Add message parsing for FW messages
-
-:::::: TO: Alexander Duyck <alexanderduyck@fb.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+:::::: TO: Waiman Long <longman@redhat.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
