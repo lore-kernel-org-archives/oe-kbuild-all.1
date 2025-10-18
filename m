@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258A019DF9A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 11:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC91354ADF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 11:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760785320; cv=none; b=T3LZloYTu9Ks+OIbRtwtvMPeoiCHPAiegxXCohSUIbqTLjv4mttUFUZIAAoPrl7U6KwjNJKX9lK1O/QVxR4ZUQfuIOhFKCsszXalc90Nbz6TQNUrJcT/A3OBOXFnjE8F6kLqAShoc5yiIcBYvZdCowZtIcNGg0DG8WgJ6rBZeJI=
+	t=1760787263; cv=none; b=TVnaxyCbGKQaf5I9j4biTv5nwd7oXuaUd9nN2wL2oRr6+A6B5CF+apX7HtqwCuSHygqzwyCF29fv+gI+hf8tvRAF3maa2rmVCLAqK3FMFf94e+wQuNg+GGQvdpkZcie8rb/29XhUbr+xR31PhvuTTjm/k1bLArplghZdx2UZoco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760785320; c=relaxed/simple;
-	bh=RLAaTmnfd4qDaSZjwspLJ0Th8IfreYiAcDPtvl8mnCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NcX25ZuYp+vK34Liuc3AZ0y1zV56Jy4flxwgL4pXrFlmzdzG0FBiFoU+pi0KOlSF7zE5Bs/ypPFdBXWKQrHLdDoP9/wapfayfRUtyxexcJvvKFtS83Z/E7L1fQejA/iP74dWnuHk6H0SaQ704JytngTxWDsc6z5/PTZR5+lrvfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NZcB2NlB; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1760787263; c=relaxed/simple;
+	bh=yjr4jzIXRU6ZSHNS4yyMqvTIdN3dtjiYV4fg5nTmY9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ogS3O2YS2YuMVfzUyCYaVb0Jwxu0ICflwKh6Fxv3cIhxUkxMqcSW8mbgHP/3zVY1r6E+YX3d0WttcBG4UQFQTuTGf2nAbmXTNjgZL7Iw3oPGL2Lij26ozHYHX45Mu9hWWqRpW5rcNRk3WOElJ0xZgO/XNevG4TxSNo11fNAbaYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2O7CZ7U; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZcB2NlB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2O7CZ7U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760785318; x=1792321318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RLAaTmnfd4qDaSZjwspLJ0Th8IfreYiAcDPtvl8mnCA=;
-  b=NZcB2NlBQGtcxAIuaT0E3xZO3CM0I3+/vdRkzEXUm2FvlWaORFGoQgfl
-   GN1UmZuAwbz8i+uEsXDmhAu5bO3svHuHiOfWPtGuQg3tyQSGZTbyFXZLF
-   ZzjJs7nx4VLONmrf4DzD+67lF6aNNNcZjkuX4Y5kN8TBtNIr78CtbPcS1
-   kP7plaZFlvH81LeSRMbmL+Wk3lsljvjdnYrr1/NO5q7cuCOD/5BQm1/kX
-   qEegwQ4ayRTYIQ59pBIfp3TyW5Dt6YGDyTCeVijrMu5FEJCX082Kjsm2N
-   /ocHSxtk4wgcIT47GvFmYyB9zjkJuQIx+PRL9lEKZOF5UDV1pMeJZBUPn
+  t=1760787262; x=1792323262;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yjr4jzIXRU6ZSHNS4yyMqvTIdN3dtjiYV4fg5nTmY9c=;
+  b=U2O7CZ7UaTkkTS3eeM5HOGUxm93+RAGGdA8Gi48+OvuppzdTiEaz2mqC
+   ovprwa6v73+0MukhBZHTyhwblufTWGwgs+aNo6SLt9Hyy7yDzb+/A6/3S
+   xNZ5/RNZ0o1qtwp1qloaNaz0lDXlylWRkTkBtHNM+8bXqQUWKBkK1M8RO
+   1c8nLHr79KxmJmG/GL8QNwHK/O7GpGguvK12zDy1FaE+uZHwk3nmV5qU4
+   F7uyWCdkxs35R48bndACYAk/IpfZ0IADBpX1czvM69k0gRdoFVwB5E9lr
+   i53qvQuloEQI9z4P+L5WFCkI85a+EWV6u6hxejqEJK2Jvg+06KJECTLRZ
    A==;
-X-CSE-ConnectionGUID: TVYI+K6ZSMac4UERdw1B8A==
-X-CSE-MsgGUID: VgJlu7rpQuicjlc4wpGGWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66818612"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="66818612"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 04:01:58 -0700
-X-CSE-ConnectionGUID: Zcbjl+pYSwaT3gWropW00g==
-X-CSE-MsgGUID: vf3+PPDtQ3yNnXIlauYXJw==
+X-CSE-ConnectionGUID: +dT5OBeEQuaLF+1YxOgX+Q==
+X-CSE-MsgGUID: wgwHjo1DQdWAqGCs3HpmDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73661297"
+X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
+   d="scan'208";a="73661297"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 04:34:21 -0700
+X-CSE-ConnectionGUID: fpVK99pPTeulQXt47V8p9A==
+X-CSE-MsgGUID: oonHqtKjTTeG7g9GbVaz7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="183700213"
+   d="scan'208";a="182134332"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Oct 2025 04:01:55 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2025 04:34:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA4h4-0008F7-1v;
-	Sat, 18 Oct 2025 11:01:52 +0000
-Date: Sat, 18 Oct 2025 19:01:44 +0800
+	id 1vA5CU-0008GB-0Q;
+	Sat, 18 Oct 2025 11:34:18 +0000
+Date: Sat, 18 Oct 2025 19:33:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] tracing: Allow tracer to add more than 32 options
-Message-ID: <202510181829.4FNFzdXV-lkp@intel.com>
-References: <176071774097.175601.10233017390618260565.stgit@devnote2>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:BITS 5/5] sound/core/oss/rate.c:28:9: warning: 'BITS' macro
+ redefined
+Message-ID: <202510181912.xbP9Gsb5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,362 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <176071774097.175601.10233017390618260565.stgit@devnote2>
 
-Hi Masami,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.18-rc1 next-20251017]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Allow-tracer-to-add-more-than-32-options/20251018-004104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/176071774097.175601.10233017390618260565.stgit%40devnote2
-patch subject: [PATCH v4 1/2] tracing: Allow tracer to add more than 32 options
-config: arc-randconfig-002-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181829.4FNFzdXV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181829.4FNFzdXV-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux BITS
+head:   266545210d5afb06e8040b7c5bb21fd1bc9ff862
+commit: 266545210d5afb06e8040b7c5bb21fd1bc9ff862 [5/5] move BITS() macro
+config: arm64-randconfig-002-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181912.xbP9Gsb5-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181912.xbP9Gsb5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181829.4FNFzdXV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181912.xbP9Gsb5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/trace/trace_events_filter.c:15:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
---
-   In file included from kernel/trace/trace_output.c:8:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
-   kernel/trace/trace_output.c: In function 'seq_print_user_ip':
->> kernel/trace/trace_output.c:423:27: error: 'TRACE_ITER_SYM_ADDR' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_ADDR_BIT'?
-     if (ret && ((sym_flags & TRACE_ITER_SYM_ADDR) || !file))
-                              ^~~~~~~~~~~~~~~~~~~
-                              TRACE_ITER_SYM_ADDR_BIT
-   kernel/trace/trace_output.c:423:27: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/trace/trace_output.c: In function 'seq_print_ip_sym':
->> kernel/trace/trace_output.c:436:41: error: 'TRACE_ITER_SYM_OFFSET' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_OFFSET_BIT'?
-     trace_seq_print_sym(s, ip, sym_flags & TRACE_ITER_SYM_OFFSET);
-                                            ^~~~~~~~~~~~~~~~~~~~~
-                                            TRACE_ITER_SYM_OFFSET_BIT
-   kernel/trace/trace_output.c:438:18: error: 'TRACE_ITER_SYM_ADDR' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_ADDR_BIT'?
-     if (sym_flags & TRACE_ITER_SYM_ADDR)
-                     ^~~~~~~~~~~~~~~~~~~
-                     TRACE_ITER_SYM_ADDR_BIT
-   kernel/trace/trace_output.c: In function 'lat_print_timestamp':
->> kernel/trace/trace_output.c:572:44: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
-     unsigned long verbose = tr->trace_flags & TRACE_ITER_VERBOSE;
-                                               ^~~~~~~~~~~~~~~~~~
-                                               TRACE_ITER_VERBOSE_BIT
-   kernel/trace/trace_output.c: In function 'trace_print_context':
->> kernel/trace/trace_output.c:639:24: error: 'TRACE_ITER_RECORD_TGID' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_TGID_BIT'?
-     if (tr->trace_flags & TRACE_ITER_RECORD_TGID) {
-                           ^~~~~~~~~~~~~~~~~~~~~~
-                           TRACE_ITER_RECORD_TGID_BIT
->> kernel/trace/trace_output.c:650:24: error: 'TRACE_ITER_IRQ_INFO' undeclared (first use in this function); did you mean 'TRACE_ITER_IRQ_INFO_BIT'?
-     if (tr->trace_flags & TRACE_ITER_IRQ_INFO)
-                           ^~~~~~~~~~~~~~~~~~~
-                           TRACE_ITER_IRQ_INFO_BIT
-   kernel/trace/trace_output.c: In function 'trace_print_lat_context':
-   kernel/trace/trace_output.c:664:45: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
-     unsigned long verbose = (tr->trace_flags & TRACE_ITER_VERBOSE);
-                                                ^~~~~~~~~~~~~~~~~~
-                                                TRACE_ITER_VERBOSE_BIT
-   kernel/trace/trace_output.c: In function 'print_fn_trace':
->> kernel/trace/trace_output.c:1130:15: error: 'TRACE_ITER_PRINT_PARENT' undeclared (first use in this function); did you mean 'TRACE_ITER_PRINT_PARENT_BIT'?
-     if ((flags & TRACE_ITER_PRINT_PARENT) && parent_ip) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-                  TRACE_ITER_PRINT_PARENT_BIT
-   kernel/trace/trace_output.c: In function 'trace_user_stack_print':
->> kernel/trace/trace_output.c:1420:24: error: 'TRACE_ITER_SYM_USEROBJ' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_USEROBJ_BIT'?
-     if (tr->trace_flags & TRACE_ITER_SYM_USEROBJ) {
-                           ^~~~~~~~~~~~~~~~~~~~~~
-                           TRACE_ITER_SYM_USEROBJ_BIT
---
-   In file included from kernel/trace/trace_output.h:6,
-                    from kernel/trace/trace_syscalls.c:13:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
-   kernel/trace/trace_syscalls.c: In function 'print_syscall_enter':
->> kernel/trace/trace_syscalls.c:160:31: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
-      if (tr && tr->trace_flags & TRACE_ITER_VERBOSE)
-                                  ^~~~~~~~~~~~~~~~~~
-                                  TRACE_ITER_VERBOSE_BIT
-   kernel/trace/trace_syscalls.c:160:31: note: each undeclared identifier is reported only once for each function it appears in
---
-   In file included from kernel/trace/trace_output.h:6,
-                    from kernel/trace/trace_events.c:31:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
-   kernel/trace/trace_events.c: In function '__ftrace_event_enable_disable':
->> kernel/trace/trace_events.c:848:26: error: 'TRACE_ITER_RECORD_CMD' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_CMD_BIT'?
-       if (tr->trace_flags & TRACE_ITER_RECORD_CMD) {
-                             ^~~~~~~~~~~~~~~~~~~~~
-                             TRACE_ITER_RECORD_CMD_BIT
-   kernel/trace/trace_events.c:848:26: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/trace/trace_events.c:854:26: error: 'TRACE_ITER_RECORD_TGID' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_TGID_BIT'?
-       if (tr->trace_flags & TRACE_ITER_RECORD_TGID) {
-                             ^~~~~~~~~~~~~~~~~~~~~~
-                             TRACE_ITER_RECORD_TGID_BIT
---
-   In file included from kernel/trace/trace.c:58:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
->> kernel/trace/trace.c:516:3: error: 'TRACE_ITER_PRINT_PARENT' undeclared here (not in a function); did you mean 'TRACE_ITER_PRINT_PARENT_BIT'?
-      TRACE_ITER_PRINT_PARENT | TRACE_ITER_PRINTK |   \
-      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:516:29: error: 'TRACE_ITER_PRINTK' undeclared here (not in a function); did you mean 'TRACE_ITER_PRINTK_BIT'?
-      TRACE_ITER_PRINT_PARENT | TRACE_ITER_PRINTK |   \
-                                ^~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:517:3: error: 'TRACE_ITER_ANNOTATE' undeclared here (not in a function); did you mean 'TRACE_FILE_ANNOTATE'?
-      TRACE_ITER_ANNOTATE | TRACE_ITER_CONTEXT_INFO |  \
-      ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:517:25: error: 'TRACE_ITER_CONTEXT_INFO' undeclared here (not in a function); did you mean 'TRACE_ITER_CONTEXT_INFO_BIT'?
-      TRACE_ITER_ANNOTATE | TRACE_ITER_CONTEXT_INFO |  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:518:3: error: 'TRACE_ITER_RECORD_CMD' undeclared here (not in a function); did you mean 'TRACE_ITER_RECORD_CMD_BIT'?
-      TRACE_ITER_RECORD_CMD | TRACE_ITER_OVERWRITE |   \
-      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:518:27: error: 'TRACE_ITER_OVERWRITE' undeclared here (not in a function); did you mean 'TRACE_ITER_OVERWRITE_BIT'?
-      TRACE_ITER_RECORD_CMD | TRACE_ITER_OVERWRITE |   \
-                              ^~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:519:3: error: 'TRACE_ITER_IRQ_INFO' undeclared here (not in a function); did you mean 'TRACE_ITER_IRQ_INFO_BIT'?
-      TRACE_ITER_IRQ_INFO | TRACE_ITER_MARKERS |   \
-      ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:519:25: error: 'TRACE_ITER_MARKERS' undeclared here (not in a function); did you mean 'TRACE_ITER_MARKERS_BIT'?
-      TRACE_ITER_IRQ_INFO | TRACE_ITER_MARKERS |   \
-                            ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:520:3: error: 'TRACE_ITER_HASH_PTR' undeclared here (not in a function); did you mean 'TRACE_ITER_HASH_PTR_BIT'?
-      TRACE_ITER_HASH_PTR | TRACE_ITER_TRACE_PRINTK |  \
-      ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:520:25: error: 'TRACE_ITER_TRACE_PRINTK' undeclared here (not in a function); did you mean 'TRACE_ITER_TRACE_PRINTK_BIT'?
-      TRACE_ITER_HASH_PTR | TRACE_ITER_TRACE_PRINTK |  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:521:3: error: 'TRACE_ITER_COPY_MARKER' undeclared here (not in a function); did you mean 'TRACE_ITER_COPY_MARKER_BIT'?
-      TRACE_ITER_COPY_MARKER)
-      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:537:17: note: in expansion of macro 'TRACE_DEFAULT_FLAGS'
-     .trace_flags = TRACE_DEFAULT_FLAGS,
-                    ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function 'ftrace_trace_stack':
->> kernel/trace/trace.c:3081:26: error: 'TRACE_ITER_STACKTRACE' undeclared (first use in this function); did you mean 'TRACE_ITER_STACKTRACE_BIT'?
-     if (!(tr->trace_flags & TRACE_ITER_STACKTRACE))
-                             ^~~~~~~~~~~~~~~~~~~~~
-                             TRACE_ITER_STACKTRACE_BIT
-   kernel/trace/trace.c:3081:26: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/trace/trace.c: In function 'print_func_help_header':
->> kernel/trace/trace.c:4116:22: error: 'TRACE_ITER_RECORD_TGID' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_TGID_BIT'?
-     bool tgid = flags & TRACE_ITER_RECORD_TGID;
-                         ^~~~~~~~~~~~~~~~~~~~~~
-                         TRACE_ITER_RECORD_TGID_BIT
-   kernel/trace/trace.c: In function 'print_func_help_header_irq':
-   kernel/trace/trace.c:4127:22: error: 'TRACE_ITER_RECORD_TGID' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_TGID_BIT'?
-     bool tgid = flags & TRACE_ITER_RECORD_TGID;
-                         ^~~~~~~~~~~~~~~~~~~~~~
-                         TRACE_ITER_RECORD_TGID_BIT
-   In file included from kernel/trace/trace.c:58:
-   kernel/trace/trace.c: In function 'print_trace_header':
->> kernel/trace/trace.h:1434:27: error: 'TRACE_ITER_SYM_OFFSET' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_OFFSET_BIT'?
-     (TRACE_ITER_PRINT_PARENT|TRACE_ITER_SYM_OFFSET|TRACE_ITER_SYM_ADDR)
-                              ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:4146:56: note: in expansion of macro 'TRACE_ITER_SYM_MASK'
-     unsigned long sym_flags = (global_trace.trace_flags & TRACE_ITER_SYM_MASK);
-                                                           ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.h:1434:49: error: 'TRACE_ITER_SYM_ADDR' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_ADDR_BIT'?
-     (TRACE_ITER_PRINT_PARENT|TRACE_ITER_SYM_OFFSET|TRACE_ITER_SYM_ADDR)
-                                                    ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:4146:56: note: in expansion of macro 'TRACE_ITER_SYM_MASK'
-     unsigned long sym_flags = (global_trace.trace_flags & TRACE_ITER_SYM_MASK);
-                                                           ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function 'print_trace_fmt':
->> kernel/trace/trace.h:1434:27: error: 'TRACE_ITER_SYM_OFFSET' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_OFFSET_BIT'?
-     (TRACE_ITER_PRINT_PARENT|TRACE_ITER_SYM_OFFSET|TRACE_ITER_SYM_ADDR)
-                              ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:4226:47: note: in expansion of macro 'TRACE_ITER_SYM_MASK'
-     unsigned long sym_flags = (tr->trace_flags & TRACE_ITER_SYM_MASK);
-                                                  ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.h:1434:49: error: 'TRACE_ITER_SYM_ADDR' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_ADDR_BIT'?
-     (TRACE_ITER_PRINT_PARENT|TRACE_ITER_SYM_OFFSET|TRACE_ITER_SYM_ADDR)
-                                                    ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:4226:47: note: in expansion of macro 'TRACE_ITER_SYM_MASK'
-     unsigned long sym_flags = (tr->trace_flags & TRACE_ITER_SYM_MASK);
-                                                  ^~~~~~~~~~~~~~~~~~~
->> kernel/trace/trace.c:4247:25: error: 'TRACE_ITER_FIELDS' undeclared (first use in this function); did you mean 'TRACE_ITER_FIELDS_BIT'?
-      if (tr->trace_flags & TRACE_ITER_FIELDS)
-                            ^~~~~~~~~~~~~~~~~
-                            TRACE_ITER_FIELDS_BIT
-   kernel/trace/trace.c: In function 'print_trace_line':
->> kernel/trace/trace.c:4402:18: error: 'TRACE_ITER_PRINTK_MSGONLY' undeclared (first use in this function); did you mean 'TRACE_ITER_PRINTK_MSGONLY_BIT'?
-       trace_flags & TRACE_ITER_PRINTK_MSGONLY)
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-                     TRACE_ITER_PRINTK_MSGONLY_BIT
-   kernel/trace/trace.c:4415:20: error: 'TRACE_ITER_BIN' undeclared (first use in this function); did you mean 'TRACE_ITER_BIN_BIT'?
-     if (trace_flags & TRACE_ITER_BIN)
-                       ^~~~~~~~~~~~~~
-                       TRACE_ITER_BIN_BIT
-   kernel/trace/trace.c:4418:20: error: 'TRACE_ITER_HEX' undeclared (first use in this function); did you mean 'TRACE_ITER_HEX_BIT'?
-     if (trace_flags & TRACE_ITER_HEX)
-                       ^~~~~~~~~~~~~~
-                       TRACE_ITER_HEX_BIT
-   kernel/trace/trace.c:4421:20: error: 'TRACE_ITER_RAW' undeclared (first use in this function); did you mean 'TRACE_ITER_RAW_BIT'?
-     if (trace_flags & TRACE_ITER_RAW)
-                       ^~~~~~~~~~~~~~
-                       TRACE_ITER_RAW_BIT
-   kernel/trace/trace.c: In function 'trace_latency_header':
-   kernel/trace/trace.c:4439:26: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
-     if (!(tr->trace_flags & TRACE_ITER_VERBOSE))
-                             ^~~~~~~~~~~~~~~~~~
-                             TRACE_ITER_VERBOSE_BIT
-   kernel/trace/trace.c: In function 'trace_default_header':
-   kernel/trace/trace.c:4457:23: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
-      if (!(trace_flags & TRACE_ITER_VERBOSE))
-                          ^~~~~~~~~~~~~~~~~~
-                          TRACE_ITER_VERBOSE_BIT
-   kernel/trace/trace.c: In function '__tracing_open':
-   kernel/trace/trace.c:4685:44: error: 'TRACE_ITER_PAUSE_ON_TRACE' undeclared (first use in this function); did you mean 'TRACE_ITER_PAUSE_ON_TRACE_BIT'?
-     if (!iter->snapshot && (tr->trace_flags & TRACE_ITER_PAUSE_ON_TRACE))
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-                                               TRACE_ITER_PAUSE_ON_TRACE_BIT
-   kernel/trace/trace.c: In function 'tracing_open':
-   kernel/trace/trace.c:4885:30: error: 'TRACE_ITER_LATENCY_FMT' undeclared (first use in this function); did you mean 'TRACE_ITER_LATENCY_FMT_BIT'?
-      else if (tr->trace_flags & TRACE_ITER_LATENCY_FMT)
-                                 ^~~~~~~~~~~~~~~~~~~~~~
-                                 TRACE_ITER_LATENCY_FMT_BIT
-   kernel/trace/trace.c: In function 'set_tracer_flag':
-   kernel/trace/trace.c:5220:15: error: 'TRACE_ITER_RECORD_TGID' undeclared (first use in this function); did you mean 'TRACE_ITER_RECORD_TGID_BIT'?
-     if ((mask == TRACE_ITER_RECORD_TGID) ||
-                  ^~~~~~~~~~~~~~~~~~~~~~
-                  TRACE_ITER_RECORD_TGID_BIT
-   kernel/trace/trace.c:5275:14: error: 'TRACE_ITER_EVENT_FORK' undeclared (first use in this function); did you mean 'TRACE_ITER_EVENT_FORK_BIT'?
-     if (mask == TRACE_ITER_EVENT_FORK)
-                 ^~~~~~~~~~~~~~~~~~~~~
-                 TRACE_ITER_EVENT_FORK_BIT
-   kernel/trace/trace.c: In function 'tracing_open_pipe':
-   kernel/trace/trace.c:6548:24: error: 'TRACE_ITER_LATENCY_FMT' undeclared (first use in this function); did you mean 'TRACE_ITER_LATENCY_FMT_BIT'?
-     if (tr->trace_flags & TRACE_ITER_LATENCY_FMT)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-                           TRACE_ITER_LATENCY_FMT_BIT
-   kernel/trace/trace.c: In function 'trace_poll':
-   kernel/trace/trace.c:6609:24: error: 'TRACE_ITER_BLOCK' undeclared (first use in this function); did you mean 'TRACE_ITER_BLOCK_BIT'?
-     if (tr->trace_flags & TRACE_ITER_BLOCK)
-                           ^~~~~~~~~~~~~~~~
-                           TRACE_ITER_BLOCK_BIT
-   kernel/trace/trace.c: In function 'tracing_free_buffer_release':
-   kernel/trace/trace.c:7161:24: error: 'TRACE_ITER_STOP_ON_FREE' undeclared (first use in this function); did you mean 'TRACE_ITER_STOP_ON_FREE_BIT'?
-     if (tr->trace_flags & TRACE_ITER_STOP_ON_FREE)
-                           ^~~~~~~~~~~~~~~~~~~~~~~
-                           TRACE_ITER_STOP_ON_FREE_BIT
-   kernel/trace/trace.c: In function 'create_trace_options_dir':
-   kernel/trace/trace.c:525:9: error: 'TRACE_ITER_PRINTK_MSGONLY' undeclared (first use in this function); did you mean 'TRACE_ITER_PRINTK_MSGONLY_BIT'?
-            TRACE_ITER_PRINTK_MSGONLY | TRACE_ITER_RECORD_CMD)
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:9332:23: note: in expansion of macro 'TOP_LEVEL_TRACE_FLAGS'
-          !((1ULL << i) & TOP_LEVEL_TRACE_FLAGS)) {
-                          ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function 'trace_array_create_systems':
-   kernel/trace/trace.c:529:3: error: 'TRACE_ITER_EVENT_FORK' undeclared (first use in this function); did you mean 'TRACE_ITER_EVENT_FORK_BIT'?
-     (TRACE_ITER_EVENT_FORK | TRACE_ITER_FUNC_FORK | TRACE_ITER_TRACE_PRINTK | \
-      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:9848:48: note: in expansion of macro 'ZEROED_TRACE_FLAGS'
-     tr->trace_flags = global_trace.trace_flags & ~ZEROED_TRACE_FLAGS;
-                                                   ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function '__remove_instance':
-   kernel/trace/trace.c:529:3: error: 'TRACE_ITER_EVENT_FORK' undeclared (first use in this function); did you mean 'TRACE_ITER_EVENT_FORK_BIT'?
-     (TRACE_ITER_EVENT_FORK | TRACE_ITER_FUNC_FORK | TRACE_ITER_TRACE_PRINTK | \
-      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:10017:18: note: in expansion of macro 'ZEROED_TRACE_FLAGS'
-      if ((1 << i) & ZEROED_TRACE_FLAGS)
-                     ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c: In function 'ftrace_dump_one':
-   kernel/trace/trace.c:10609:34: error: 'TRACE_ITER_SYM_USEROBJ' undeclared (first use in this function); did you mean 'TRACE_ITER_SYM_USEROBJ_BIT'?
-     old_userobj = tr->trace_flags & TRACE_ITER_SYM_USEROBJ;
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-                                     TRACE_ITER_SYM_USEROBJ_BIT
-   kernel/trace/trace.c: In function 'trace_poll':
-   kernel/trace/trace.c:6617:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
---
-   In file included from kernel/trace/trace_sched_wakeup.c:20:
->> kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
-    enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-                              ^
-   kernel/trace/trace_sched_wakeup.c: In function '__wakeup_tracer_init':
->> kernel/trace/trace_sched_wakeup.c:688:22: error: 'TRACE_ITER_OVERWRITE' undeclared (first use in this function); did you mean 'TRACE_ITER_OVERWRITE_BIT'?
-     set_tracer_flag(tr, TRACE_ITER_OVERWRITE, 1);
-                         ^~~~~~~~~~~~~~~~~~~~
-                         TRACE_ITER_OVERWRITE_BIT
-   kernel/trace/trace_sched_wakeup.c:688:22: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/trace/trace_sched_wakeup.c:689:22: error: 'TRACE_ITER_LATENCY_FMT' undeclared (first use in this function); did you mean 'TRACE_ITER_LATENCY_FMT_BIT'?
-     set_tracer_flag(tr, TRACE_ITER_LATENCY_FMT, 1);
-                         ^~~~~~~~~~~~~~~~~~~~~~
-                         TRACE_ITER_LATENCY_FMT_BIT
-   kernel/trace/trace_sched_wakeup.c: In function 'wakeup_tracer_reset':
-   kernel/trace/trace_sched_wakeup.c:732:30: error: 'TRACE_ITER_LATENCY_FMT' undeclared (first use in this function); did you mean 'TRACE_ITER_LATENCY_FMT_BIT'?
-     int lat_flag = save_flags & TRACE_ITER_LATENCY_FMT;
-                                 ^~~~~~~~~~~~~~~~~~~~~~
-                                 TRACE_ITER_LATENCY_FMT_BIT
-   kernel/trace/trace_sched_wakeup.c:733:36: error: 'TRACE_ITER_OVERWRITE' undeclared (first use in this function); did you mean 'TRACE_ITER_OVERWRITE_BIT'?
-     int overwrite_flag = save_flags & TRACE_ITER_OVERWRITE;
-                                       ^~~~~~~~~~~~~~~~~~~~
-                                       TRACE_ITER_OVERWRITE_BIT
-..
+>> sound/core/oss/rate.c:28:9: warning: 'BITS' macro redefined [-Wmacro-redefined]
+      28 | #define BITS    (1<<SHIFT)
+         |         ^
+   include/vdso/bits.h:10:9: note: previous definition is here
+      10 | #define BITS(b, e)      ((BIT(e) - BIT(b)) + BIT(e))
+         |         ^
+   1 warning generated.
 
 
-vim +1427 kernel/trace/trace.h
+vim +/BITS +28 sound/core/oss/rate.c
 
-  1426	
-> 1427	enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
-  1428	
-  1429	/*
-  1430	 * TRACE_ITER_SYM_MASK masks the options in trace_flags that
-  1431	 * control the output of kernel symbols.
-  1432	 */
-  1433	#define TRACE_ITER_SYM_MASK \
-> 1434		(TRACE_ITER_PRINT_PARENT|TRACE_ITER_SYM_OFFSET|TRACE_ITER_SYM_ADDR)
-  1435	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  26  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  27  #define SHIFT	11
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @28  #define BITS	(1<<SHIFT)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  29  #define R_MASK	(BITS-1)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  30  
+
+:::::: The code at line 28 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
