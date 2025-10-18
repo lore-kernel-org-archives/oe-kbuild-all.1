@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1852727E0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 10:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08D2874FF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 10:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760782215; cv=none; b=rId9A4/D0hKylSbEbMXGUKrzu+fwq+rv1MF2oTO4V+nA8lzd54efTPDK038p3p95z9z4BYRwpxwWXtunRhWd+uXuXSppgAfAjyNJj+ZAiw2x9c3WlP/qWe5sVPzKpUKrBRbdkUlwXt2DusPd3L7XYpn/xcAat4LojzT19ASR8ZY=
+	t=1760782216; cv=none; b=rUJmF7FLoqbgzH+qhGV81pnrjltnIzStXSAS098eC6x2o2qrfh7A9s6E3R/aF6shiI2ZOzaAoVPwWcnHya1GLCxKv4sWr444l/sbBxRK9jO0BSrpTM3YrgiBt0KJ/v0c48ci5tWBx0swpL63my+HcLLuoLOdn53DDtu9prsznqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760782215; c=relaxed/simple;
-	bh=5YYKchnGTBKNSMA25es0qRcpJGI6v8j2Bpc4Qxrk/GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MH48nSTgshhghywCt2IdIjsDButPdDJwf2DvFoBoHHpXiyyQRngUjt3RSiD+imY98n6w5IVHrnI7uCv6cBhsHUqy+WbwcuU55Gjz5EEaBj0CwsAZV5c5x8ImWNZWIdf/u3Jm72vWeX02T46A/GXfavPyYe/hUNdMUAd4FPH0ya4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZoY/eXN; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1760782216; c=relaxed/simple;
+	bh=9GBDpmBli+4dcWpzmocu7ImRqmP28MXZDVF3ALI9+KA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lk/Wg8iLDOWugHHUgK6NjM6WKyGUlLD7qD1J1fuXyUHrPU5OU3Tskek5l+FmrR6PGxmvXN7/S5uD88whYsPTKrkGI5ye8wAnwyeB7gsm61qC/d68CIZh7J+Zo56i4IIBbYwnOL4G5gQ+AT+T3IZlBp5mV/NnQm/gcQw9RTG7494=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mTxn2gu8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZoY/eXN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mTxn2gu8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760782213; x=1792318213;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5YYKchnGTBKNSMA25es0qRcpJGI6v8j2Bpc4Qxrk/GE=;
-  b=MZoY/eXNZrTGRl0SEn0pmVknP1xbDJeS+Wa5OyFrhs36k56JLeaimTr4
-   Em2kurBazdSu6Navsp0Mwsb85nH+UGPDxvuAgtoy1UsB47OKs9D/elZ2R
-   5RiJBou0gHgOU22fFeJ0Z3w7GzGEtlHWvZEFHgSKMuzeOz1l22IU9PSvg
-   piG1vxmNTQ6TKAupVs820bahAhO3vRH4DrnCZFwtWZ1ySIGzI7nUWGevS
-   No2pWyavpbAPrZ202BKdPbcpas8dOza4/npZfL5J1rfySYu01MVYUopjd
-   e2HXs92vImTz3GWYpumDhiuOFOd9+of7FkeaiJJumTQXP/erhi+7J3Xgn
-   g==;
-X-CSE-ConnectionGUID: N+tzE06bQwSS5HipZ9PpVQ==
-X-CSE-MsgGUID: wFOHKpg5TB6vxYAK3d0u4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74329596"
+  t=1760782215; x=1792318215;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9GBDpmBli+4dcWpzmocu7ImRqmP28MXZDVF3ALI9+KA=;
+  b=mTxn2gu87FKGgIvQNj4mRHW5+5KQU4JIbKVT20OddCZAVvnqPrBueGqL
+   b301oa8LWoO7bZpk7j4SyuOwwo7aqouKTmclSY2goQY1NUPz+07uzRAsD
+   z1pVvjSUIxwLtuTjRCodPsknSodgH4IDNfRLZ639H6o1ARWKfK5dQGQTM
+   V1laI0kbmzUJ4PBpHLOQPKDwznrYaYsaIr0zWAhfwZVxyHg0gyovh0PuJ
+   o/zhUixFVQqE5ZV1taouzuXSWwRK9meMgVt8OpOhUPNxrHz1k1G+Y75wi
+   WcVj1/EXWFA07uSpbmIcX2x9LVGvmRJ9s3aPK/6jctahomdk/aaUckSWO
+   w==;
+X-CSE-ConnectionGUID: fiHdnErbTN2OJLNGwacGZg==
+X-CSE-MsgGUID: oizbEeLAS0mqyG0wThq1mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="63027003"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="74329596"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 03:10:12 -0700
-X-CSE-ConnectionGUID: zFvmVnL7TgCXdU18acKvpQ==
-X-CSE-MsgGUID: g3YkONqkT1W8OruCq22f9w==
+   d="scan'208";a="63027003"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 03:10:14 -0700
+X-CSE-ConnectionGUID: UbMZ9dhURbW2f9VQVxfeMw==
+X-CSE-MsgGUID: +Qkb8nJXR9eb6S0mUfIq2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="187185862"
+   d="scan'208";a="206649296"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 18 Oct 2025 03:10:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Oct 2025 03:10:11 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA3t3-0008DA-0H;
+	id 1vA3t3-0008D7-0D;
 	Sat, 18 Oct 2025 10:10:09 +0000
-Date: Sat, 18 Oct 2025 18:09:53 +0800
+Date: Sat, 18 Oct 2025 18:10:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/mem_reliable.c:126:5:
- sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it
- be static?
-Message-ID: <202510181808.04lWorDM-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] tracing: Allow tracer to add more than 32 options
+Message-ID: <202510181711.rxbGAQu7-lkp@intel.com>
+References: <176071774097.175601.10233017390618260565.stgit@devnote2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +66,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <176071774097.175601.10233017390618260565.stgit@devnote2>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e98deea13d81cacd6479edf0de6267118ae7c639
-commit: 1845e7add95773a24019fb72bbea24a0a568663b [1740/1740] mm: Add reliable memory use limit for user tasks
-config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20251018/202510181808.04lWorDM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181808.04lWorDM-lkp@intel.com/reproduce)
+Hi Masami,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.18-rc1 next-20251017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Allow-tracer-to-add-more-than-32-options/20251018-004104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/176071774097.175601.10233017390618260565.stgit%40devnote2
+patch subject: [PATCH v4 1/2] tracing: Allow tracer to add more than 32 options
+config: parisc-randconfig-001-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181711.rxbGAQu7-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181711.rxbGAQu7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181808.04lWorDM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181711.rxbGAQu7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/mem_reliable.c:126:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
-   mm/mem_reliable.c:126:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
-     126 | int reliable_limit_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-vim +/reliable_limit_handler +126 mm/mem_reliable.c
+   In file included from kernel/trace/trace_probe.h:31,
+                    from kernel/trace/trace_events_synth.c:20:
+   kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
+    1427 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
+         |                           ^
+   kernel/trace/trace_events_synth.c: In function 'print_synth_event':
+>> kernel/trace/trace_events_synth.c:362:31: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
+     362 |   if (tr && tr->trace_flags & TRACE_ITER_VERBOSE)
+         |                               ^~~~~~~~~~~~~~~~~~
+         |                               TRACE_ITER_VERBOSE_BIT
+   kernel/trace/trace_events_synth.c:362:31: note: each undeclared identifier is reported only once for each function it appears in
 
-   124	
-   125	#ifdef CONFIG_SYSCTL
- > 126	int reliable_limit_handler(struct ctl_table *table, int write,
-   127		void __user *buffer, size_t *length, loff_t *ppos)
-   128	{
-   129		unsigned long old = task_reliable_limit;
-   130		int ret;
-   131	
-   132		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   133		if (ret == 0 && write) {
-   134			if (task_reliable_limit > total_reliable_mem_sz()) {
-   135				task_reliable_limit = old;
-   136				return -EINVAL;
-   137			}
-   138		}
-   139	
-   140		return ret;
-   141	}
-   142	
+
+vim +362 kernel/trace/trace_events_synth.c
+
+726721a51838e3 Tom Zanussi             2020-05-28  337  
+726721a51838e3 Tom Zanussi             2020-05-28  338  static enum print_line_t print_synth_event(struct trace_iterator *iter,
+726721a51838e3 Tom Zanussi             2020-05-28  339  					   int flags,
+726721a51838e3 Tom Zanussi             2020-05-28  340  					   struct trace_event *event)
+726721a51838e3 Tom Zanussi             2020-05-28  341  {
+726721a51838e3 Tom Zanussi             2020-05-28  342  	struct trace_array *tr = iter->tr;
+726721a51838e3 Tom Zanussi             2020-05-28  343  	struct trace_seq *s = &iter->seq;
+726721a51838e3 Tom Zanussi             2020-05-28  344  	struct synth_trace_event *entry;
+726721a51838e3 Tom Zanussi             2020-05-28  345  	struct synth_event *se;
+887f92e09ef34a Sven Schnelle           2023-08-16  346  	unsigned int i, j, n_u64;
+726721a51838e3 Tom Zanussi             2020-05-28  347  	char print_fmt[32];
+726721a51838e3 Tom Zanussi             2020-05-28  348  	const char *fmt;
+726721a51838e3 Tom Zanussi             2020-05-28  349  
+726721a51838e3 Tom Zanussi             2020-05-28  350  	entry = (struct synth_trace_event *)iter->ent;
+726721a51838e3 Tom Zanussi             2020-05-28  351  	se = container_of(event, struct synth_event, call.event);
+726721a51838e3 Tom Zanussi             2020-05-28  352  
+726721a51838e3 Tom Zanussi             2020-05-28  353  	trace_seq_printf(s, "%s: ", se->name);
+726721a51838e3 Tom Zanussi             2020-05-28  354  
+726721a51838e3 Tom Zanussi             2020-05-28  355  	for (i = 0, n_u64 = 0; i < se->n_fields; i++) {
+726721a51838e3 Tom Zanussi             2020-05-28  356  		if (trace_seq_has_overflowed(s))
+726721a51838e3 Tom Zanussi             2020-05-28  357  			goto end;
+726721a51838e3 Tom Zanussi             2020-05-28  358  
+726721a51838e3 Tom Zanussi             2020-05-28  359  		fmt = synth_field_fmt(se->fields[i]->type);
+726721a51838e3 Tom Zanussi             2020-05-28  360  
+726721a51838e3 Tom Zanussi             2020-05-28  361  		/* parameter types */
+726721a51838e3 Tom Zanussi             2020-05-28 @362  		if (tr && tr->trace_flags & TRACE_ITER_VERBOSE)
+726721a51838e3 Tom Zanussi             2020-05-28  363  			trace_seq_printf(s, "%s ", fmt);
+726721a51838e3 Tom Zanussi             2020-05-28  364  
+726721a51838e3 Tom Zanussi             2020-05-28  365  		snprintf(print_fmt, sizeof(print_fmt), "%%s=%s%%s", fmt);
+726721a51838e3 Tom Zanussi             2020-05-28  366  
+726721a51838e3 Tom Zanussi             2020-05-28  367  		/* parameter values */
+726721a51838e3 Tom Zanussi             2020-05-28  368  		if (se->fields[i]->is_string) {
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  369  			if (se->fields[i]->is_dynamic) {
+ddeea494a16f32 Sven Schnelle           2023-08-16  370  				union trace_synth_field *data = &entry->fields[n_u64];
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  371  
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  372  				trace_seq_printf(s, print_fmt, se->fields[i]->name,
+ddeea494a16f32 Sven Schnelle           2023-08-16  373  						 (char *)entry + data->as_dynamic.offset,
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  374  						 i == se->n_fields - 1 ? "" : " ");
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  375  				n_u64++;
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  376  			} else {
+726721a51838e3 Tom Zanussi             2020-05-28  377  				trace_seq_printf(s, print_fmt, se->fields[i]->name,
+8db4d6bfbbf920 Steven Rostedt (VMware  2020-10-04  378) 						 STR_VAR_LEN_MAX,
+ddeea494a16f32 Sven Schnelle           2023-08-16  379  						 (char *)&entry->fields[n_u64].as_u64,
+726721a51838e3 Tom Zanussi             2020-05-28  380  						 i == se->n_fields - 1 ? "" : " ");
+726721a51838e3 Tom Zanussi             2020-05-28  381  				n_u64 += STR_VAR_LEN_MAX / sizeof(u64);
+bd82631d7ccdc8 Tom Zanussi             2020-10-04  382  			}
+00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  383) 		} else if (se->fields[i]->is_stack) {
+ddeea494a16f32 Sven Schnelle           2023-08-16  384  			union trace_synth_field *data = &entry->fields[n_u64];
+887f92e09ef34a Sven Schnelle           2023-08-16  385  			unsigned long *p = (void *)entry + data->as_dynamic.offset;
+00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  386) 
+00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  387) 			trace_seq_printf(s, "%s=STACK:\n", se->fields[i]->name);
+887f92e09ef34a Sven Schnelle           2023-08-16  388  			for (j = 1; j < data->as_dynamic.len / sizeof(long); j++)
+887f92e09ef34a Sven Schnelle           2023-08-16  389  				trace_seq_printf(s, "=> %pS\n", (void *)p[j]);
+00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  390) 			n_u64++;
+726721a51838e3 Tom Zanussi             2020-05-28  391  		} else {
+726721a51838e3 Tom Zanussi             2020-05-28  392  			struct trace_print_flags __flags[] = {
+726721a51838e3 Tom Zanussi             2020-05-28  393  			    __def_gfpflag_names, {-1, NULL} };
+726721a51838e3 Tom Zanussi             2020-05-28  394  			char *space = (i == se->n_fields - 1 ? "" : " ");
+726721a51838e3 Tom Zanussi             2020-05-28  395  
+726721a51838e3 Tom Zanussi             2020-05-28  396  			print_synth_event_num_val(s, print_fmt,
+726721a51838e3 Tom Zanussi             2020-05-28  397  						  se->fields[i]->name,
+726721a51838e3 Tom Zanussi             2020-05-28  398  						  se->fields[i]->size,
+ddeea494a16f32 Sven Schnelle           2023-08-16  399  						  &entry->fields[n_u64],
+726721a51838e3 Tom Zanussi             2020-05-28  400  						  space);
+726721a51838e3 Tom Zanussi             2020-05-28  401  
+726721a51838e3 Tom Zanussi             2020-05-28  402  			if (strcmp(se->fields[i]->type, "gfp_t") == 0) {
+726721a51838e3 Tom Zanussi             2020-05-28  403  				trace_seq_puts(s, " (");
+726721a51838e3 Tom Zanussi             2020-05-28  404  				trace_print_flags_seq(s, "|",
+ddeea494a16f32 Sven Schnelle           2023-08-16  405  						      entry->fields[n_u64].as_u64,
+726721a51838e3 Tom Zanussi             2020-05-28  406  						      __flags);
+726721a51838e3 Tom Zanussi             2020-05-28  407  				trace_seq_putc(s, ')');
+726721a51838e3 Tom Zanussi             2020-05-28  408  			}
+726721a51838e3 Tom Zanussi             2020-05-28  409  			n_u64++;
+726721a51838e3 Tom Zanussi             2020-05-28  410  		}
+726721a51838e3 Tom Zanussi             2020-05-28  411  	}
+726721a51838e3 Tom Zanussi             2020-05-28  412  end:
+726721a51838e3 Tom Zanussi             2020-05-28  413  	trace_seq_putc(s, '\n');
+726721a51838e3 Tom Zanussi             2020-05-28  414  
+726721a51838e3 Tom Zanussi             2020-05-28  415  	return trace_handle_return(s);
+726721a51838e3 Tom Zanussi             2020-05-28  416  }
+726721a51838e3 Tom Zanussi             2020-05-28  417  
 
 -- 
 0-DAY CI Kernel Test Service
