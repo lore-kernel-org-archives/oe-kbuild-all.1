@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3C2354AF6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4901D9A54
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 13:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760791230; cv=none; b=O7BMghLtH9nx2p/OdefAXd+O6FqbRyZKDnXWeUibWfPbwc5Jj4UT2BsOSIjyj+pQSokDVgQTml1QfIXnuLbmfqBdRh+BJavgEg8N1zK80i+MGBLiwQskIvOiT7KZDbXJuXe/ALc4DCf1b1hNfRKT0Q4ym0SlhKV6W59/xIi79jE=
+	t=1760793633; cv=none; b=VKJm0LBvhSCiASq7rwAGw+ENxXw/v1lSom5iflXRAADLTXVazHrrsbAgosucDyGT2YxUBLoiIN0BGVuw7216d44kr2cAA/6gv+LYMYTex/TfnZ10iuZ1sFNt1r1GBHTaEOGkPyZKT9XJmzdWCb4r/iwnzbg4jWOOl0gMHnkEngg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760791230; c=relaxed/simple;
-	bh=H3WK0t/V2VoTFN8BT9sadD++/B4PncNJL3s9HMGDF+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Onq9HxFGL7Pn4MXaXwGjK/FuIpeZbblPL2yK8IdhXrDnTIVy/40eP0ezZBgEW7PwJdwaY0yZhZQ/YsjI1vchJ9stvQHkp6tEgb1km14nc0EtFRxeNb1yMKzgeQSObimoYZziG+q/xKAKB0QaWbR9EK7XMUcGB2DIDmBdE/BaEbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DespCvrS; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1760793633; c=relaxed/simple;
+	bh=4h5qMKzR7GKLn8DUw5HPEhwvsGZS8JdHYq+ypNidyKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNfSe77k7xWeANEv316Y1QsxPP/QsPTBvyidYINJU1sxp6Ub2wk0cEQNhkIf8SZIRHKFFqq9t5AQTnACFbXLhhZQHGTsu3PLzjR2QSSaZz3mVxLk/obJiJ3i5NXl6IIfoA6HWpa2MFQb6BBj25RBoDsFV3Siu4tqecgm5yhxiwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WfENptPT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DespCvrS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WfENptPT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760791228; x=1792327228;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H3WK0t/V2VoTFN8BT9sadD++/B4PncNJL3s9HMGDF+k=;
-  b=DespCvrS1pW0pgM+whL+Ca4hyawrUDZhmwIOzRpo/DBIl35nXXK/Pvsu
-   btu3EcBsF9340wMRD3Ma0ck+fwDqwUgGp49hVsoSXdFMmYhjDgckeQurg
-   d2VWzGzI5DF6NL1B9IdKna0c0yIB1x1HF/zVB62AJHerMuQ9TC/eTYelH
-   Tjt+SYoK4YveUbV6nAmSOhlVsfJJUXCaSGwJgnQiMtS6YBS41XCDL641B
-   YdVudV/2dInk9pKSmzFKGdHQGUVqYW+wmqAJz2IbsPmc2jn369MAxTG2G
-   xR5FpvbuckyKNvEHT3ld01RX+58z3GtBNCq20/4deXBs+My3mB6Mjr33L
-   Q==;
-X-CSE-ConnectionGUID: QOc211RyQTCabOloPM1aVA==
-X-CSE-MsgGUID: OJ/CVdFYS0SCXjb1GQ+cEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62021823"
+  t=1760793631; x=1792329631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4h5qMKzR7GKLn8DUw5HPEhwvsGZS8JdHYq+ypNidyKo=;
+  b=WfENptPT//UnrgxePgRHX+TqLIJpJwKrMm7Rm+dflosP8v1o+bMKugIB
+   NqIGcQBwKNxfyYtzAEGZLDBKlPsANGqXuWM1gYQwpZNw+JhDK/qHljCXo
+   iMGq9LaqwhhB5aw7+RPQZWMla6/4Pw9u8rIvYt/31K3PWd/2EkFOPXJlW
+   DJb5eSIHExUBPP1OM5tJyfxcMcLfTKkAEl8j4+/bsLtJXoT1xrl64pREp
+   pDgn4FBjZhjOKGGIFKMvCc675yKBIbzLd/Fd64Wb9M8sIdzQjAeHzIb21
+   rOGxcDh5Fnm8onA5AZFKSlNb4dckRaGSPhsEOUV9RkdmG8McPZq1+ktOo
+   w==;
+X-CSE-ConnectionGUID: 7G63VeuJQKeCXUYWc2phew==
+X-CSE-MsgGUID: J4Dbr/leTF2aUgikw+yIXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66857325"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="62021823"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:40:27 -0700
-X-CSE-ConnectionGUID: 5U15FjJtSBGBYWHi9hmrlg==
-X-CSE-MsgGUID: jeOF9QHgRceImIylS2+Xsg==
+   d="scan'208";a="66857325"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 06:20:30 -0700
+X-CSE-ConnectionGUID: Gyv/mZwfRTefgpi1HOkP/A==
+X-CSE-MsgGUID: QZlBs95XQMGaadl3hDJ5vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="183439267"
+   d="scan'208";a="188260456"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Oct 2025 05:40:25 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2025 06:20:27 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA6DL-0008Hd-19;
-	Sat, 18 Oct 2025 12:39:44 +0000
-Date: Sat, 18 Oct 2025 20:36:45 +0800
+	id 1vA6qx-0008Ib-2P;
+	Sat, 18 Oct 2025 13:20:12 +0000
+Date: Sat, 18 Oct 2025 21:19:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/mem_reliable.c:272:5:
- sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it
- be static?
-Message-ID: <202510182012.jZtZFjLW-lkp@intel.com>
+To: Samuel Wu <wusamuel@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, tuhaowen@uniontech.com,
+	Samuel Wu <wusamuel@google.com>,
+	Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] PM: Support aborting sleep during filesystem sync
+Message-ID: <202510182014.I0BvTZvE-lkp@intel.com>
+References: <20251017233907.2305303-1-wusamuel@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +69,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251017233907.2305303-1-wusamuel@google.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e98deea13d81cacd6479edf0de6267118ae7c639
-commit: 851a3ff0b4de68403c9a344c3d5378aa590705b7 [1740/1740] mm: Introduce proc interface to control memory reliable features
-config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20251018/202510182012.jZtZFjLW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182012.jZtZFjLW-lkp@intel.com/reproduce)
+Hi Samuel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.18-rc1 next-20251017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Wu/PM-Support-aborting-sleep-during-filesystem-sync/20251018-091422
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20251017233907.2305303-1-wusamuel%40google.com
+patch subject: [PATCH v5] PM: Support aborting sleep during filesystem sync
+config: x86_64-buildonly-randconfig-001-20251018 (https://download.01.org/0day-ci/archive/20251018/202510182014.I0BvTZvE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182014.I0BvTZvE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510182012.jZtZFjLW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510182014.I0BvTZvE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mem_reliable.c:52:14: sparse: sparse: restricted gfp_t degrades to integer
-   mm/mem_reliable.c:199:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
->> mm/mem_reliable.c:272:5: sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it be static?
-   mm/mem_reliable.c:199:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
-     199 | int reliable_limit_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:272:5: warning: no previous prototype for 'reliable_debug_handler' [-Wmissing-prototypes]
-     272 | int reliable_debug_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+All error/warnings (new ones prefixed by >>):
 
-vim +/reliable_debug_handler +272 mm/mem_reliable.c
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+>> include/linux/suspend.h:510:15: error: return type defaults to 'int' [-Wimplicit-int]
+     510 | static inline pm_stop_waiting_for_fs_sync(void) {}
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/suspend.h: In function 'pm_sleep_fs_sync':
+>> include/linux/suspend.h:511:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     511 | static inline int pm_sleep_fs_sync(void) {}
+         | ^~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=496665200
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=496665200
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=496665200
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=496665200
+   make: Target 'prepare' not remade because of errors.
 
-   271	
- > 272	int reliable_debug_handler(struct ctl_table *table, int write,
-   273		void __user *buffer, size_t *length, loff_t *ppos)
-   274	{
-   275		unsigned long old_ctrl_bits, new_ctrl_bits;
-   276		static DEFINE_MUTEX(reliable_debug_mutex);
-   277		int ret;
-   278	
-   279		mutex_lock(&reliable_debug_mutex);
-   280		old_ctrl_bits = mem_reliable_ctrl_bits;
-   281		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   282		if (ret == 0 && write) {
-   283			if (mem_reliable_ctrl_bits > (1 << CTRL_BITS_SHIFT) - 1) {
-   284				mem_reliable_ctrl_bits = old_ctrl_bits;
-   285				mutex_unlock(&reliable_debug_mutex);
-   286	
-   287				return -EINVAL;
-   288			}
-   289	
-   290			new_ctrl_bits = mem_reliable_ctrl_bits;
-   291			mem_reliable_ctrl_bits = old_ctrl_bits;
-   292			if (!!test_bit(MEM_RELIABLE_ALL, &new_ctrl_bits))
-   293				mem_reliable_parse_ctrl_bits(new_ctrl_bits);
-   294			else
-   295				mem_reliable_disable_all();
-   296		}
-   297	
-   298		mutex_unlock(&reliable_debug_mutex);
-   299	
-   300		return ret;
-   301	}
-   302	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +/int +510 include/linux/suspend.h
+
+   508	
+   509	static inline void ksys_sync_helper(void) {}
+ > 510	static inline pm_stop_waiting_for_fs_sync(void) {}
+ > 511	static inline int pm_sleep_fs_sync(void) {}
+   512	
 
 -- 
 0-DAY CI Kernel Test Service
