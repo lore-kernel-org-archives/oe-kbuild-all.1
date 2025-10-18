@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B5C354AEE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 15:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C8423EAAF;
+	Sat, 18 Oct 2025 15:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760801694; cv=none; b=iuoxZuvmmRm8noKxEOnkIvSmX5UGb/WYrBslyLJfSjFpctWvdTnGXKF+am/mDYtMubOJJ1r04ZvkYq9Vc19sM3EWLzkau3vtLWbMnRIcb0ehPs/2QW2d+PoRcMyqapjnxEfUhYbWMQVl72udxiTMeyTyTmtuiUgbm7o+abn4BIQ=
+	t=1760802965; cv=none; b=Xa1092BzE8iaSTMJnlsrh+eCvW9nQL1aMQPxmXeiMYcbAv5CmMToS+Z+Bi4GmZp3ReNQXMJGfsEWvS/e+jUBsP1Z+xD3PO3DHHgi70IvfJoGYkNZ5jSrpDn7m6M7RUPx7ZS6oESNn7mSLVojlZBq/xKWGd37JZJJklm8ajs6iOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760801694; c=relaxed/simple;
-	bh=yuTR4/6g/1L1szw2XAAjLvlrpMk9sqYD6c2QK0i1DK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=INPR3b1AfTmGQAsZdXE1lNPx0dncSUpr7Tw7frj0ldv5IzECiWDkvd0Qf+cbEze2xNv/biR3zpRORYXCM6Y+8UV9VLx4nia0xi5revJQ4djdpAmYjDJRne5ZYf1hSPN3DOqugqpAPoabOyAu8jRO3MjVtxKPlce4WUL8kiukQ84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4bLk0NE; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1760802965; c=relaxed/simple;
+	bh=1gVJ8CjsGwA0FTk/Tm3gXx44AUXg3U1s1eJGlpVlkHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dcj9ogXT4J9h78txLZz3ZbpcXbhXyxK3jYBauumYtBkgBtL8jJL5NBxGaLaFOIlTIdW89uNgMXCYle0yX9rzekE6FYTB711x9ICVbosDCZWQaTWm4a2/qFqc/y2WZB398BZ4ptf76W/3Rnm/4YCV6hCX79oJnGvZ2bTNMVhuq7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCDjVzEc; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4bLk0NE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCDjVzEc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760801692; x=1792337692;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yuTR4/6g/1L1szw2XAAjLvlrpMk9sqYD6c2QK0i1DK4=;
-  b=K4bLk0NEptnJPv0ySJZ4z0WVG5x3M57FWU/l0wfQXZK/JH4KaiWs/p4h
-   f1NoDshyddJyUmXxeEaaiulyDjr6GE9d9r+TtxNshn4YqyCd5MCupgPWA
-   YmOqMYE7Fgv0FymKlQrwI+D6/A3su+f7XhGDJ9MQOLH+RhzWpBmRn0EOT
-   nlNwZqrQUqbX9FUqbxncEYg6FB3Ab07Luw4uz2DHqS2fF2DjsO2nJYVbL
-   WYOHabdrLsy0SW+cpeaH8E7Gox9CkshaMQ/3H6OJCbhP4TxzypRIMmuxL
-   gLaR4pYy4N8tx6w4Y2GX8h8yIE9fRU6DUu8DB3fhQl28Va+80cppsyk5e
-   Q==;
-X-CSE-ConnectionGUID: YU7t8PdCTICWIC4Muz1dbQ==
-X-CSE-MsgGUID: X6wPG8tvT+GdqSU4sZARAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74108139"
+  t=1760802962; x=1792338962;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1gVJ8CjsGwA0FTk/Tm3gXx44AUXg3U1s1eJGlpVlkHM=;
+  b=nCDjVzEcJzV9ry7Jgo9Epj9G+o+HQQik0o6sFDtQHEHhDSUnsLym3l2t
+   +5X46nAgfbDvPLeTJPgPH4pqbS/mWBHz3Fzwd/czuRbROio0ipT5+6Q83
+   pLKz9LCLQHHRTbarNy9PN6nmStQm5S6EdA2y6uLiFKwbna8mF9z2lZTwL
+   tAiD+xKmRo7+h/gyPFFU15QqjaQ+pNbWsq4NEJGpjUMewFOFiEyOspUb5
+   3bnlIoDmccj1GKQ/Fi6bypi7PCurv7R77w8q0b5fBH+UfbHop0B+tQqaZ
+   6b/CSDz476i7oXoCFcD+fur15L6tQzFW5NjLtfqYaey5ymtyAy4bofUOQ
+   g==;
+X-CSE-ConnectionGUID: QJ8rfImQS8Wp3zPuVazSNw==
+X-CSE-MsgGUID: GVb/UDkCSS+gPwrn7q5XNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62889314"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="74108139"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 08:34:52 -0700
-X-CSE-ConnectionGUID: MwMnNkxMTHCyO0Ss3rQ0tg==
-X-CSE-MsgGUID: nJU4VyJZSHqjC+aAn/2lng==
+   d="scan'208";a="62889314"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 08:56:00 -0700
+X-CSE-ConnectionGUID: I4TNBVbjTM+FEQOJ8MGs+Q==
+X-CSE-MsgGUID: IsFoQzfXSWehBMmDnrDCzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="220116772"
+   d="scan'208";a="182985402"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Oct 2025 08:34:51 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Oct 2025 08:55:56 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA8xE-0008NR-0Q;
-	Sat, 18 Oct 2025 15:34:48 +0000
-Date: Sat, 18 Oct 2025 23:34:22 +0800
+	id 1vA9Hd-0008Nl-1H;
+	Sat, 18 Oct 2025 15:55:53 +0000
+Date: Sat, 18 Oct 2025 23:55:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-09 1/1]
- include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202510182333.RwYla1lg-lkp@intel.com>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	imx@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH v2 3/8] clk: imx: add driver for imx8ulp's sim lpav
+Message-ID: <202510182350.57sb54Rm-lkp@intel.com>
+References: <20251017112025.11997-4-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,126 +74,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251017112025.11997-4-laurentiumihalcea111@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-09
-head:   7752340191612c1c4ec42f9603a87b523eb72f71
-commit: e74b4da79162aaf5ad40d1df6200da47953d0ff1 [1/1] ANDROID: bug: add vendor hook for bug trap
-config: arm64-randconfig-r121-20251018 (https://download.01.org/0day-ci/archive/20251018/202510182333.RwYla1lg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182333.RwYla1lg-lkp@intel.com/reproduce)
+Hi Laurentiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pza/reset/next]
+[also build test ERROR on abelvesa/clk/imx abelvesa/for-next linus/master v6.18-rc1 next-20251017]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurentiu-Mihalcea/reset-imx8mp-audiomix-Fix-bad-mask-values/20251017-192620
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20251017112025.11997-4-laurentiumihalcea111%40gmail.com
+patch subject: [PATCH v2 3/8] clk: imx: add driver for imx8ulp's sim lpav
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251018/202510182350.57sb54Rm-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510182350.57sb54Rm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510182333.RwYla1lg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510182350.57sb54Rm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
-   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cpufreq.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
-   include/trace/hooks/preemptirq.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
-   include/trace/hooks/cgroup.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cgroup.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cgroup.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
-   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:34:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:34:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:34:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/iommu.h:38:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:38:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:38:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
-   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
-   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
-   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
-   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
-   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
-   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
->> include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+All errors (new ones prefixed by >>):
 
-vim +10 include/trace/hooks/bug.h
+   drivers/clk/imx/clk-imx8ulp-sim-lpav.c: In function 'clk_imx8ulp_sim_lpav_aux_reset_release':
+>> drivers/clk/imx/clk-imx8ulp-sim-lpav.c:52:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+      52 |         kfree(adev);
+         |         ^~~~~
+   drivers/clk/imx/clk-imx8ulp-sim-lpav.c: In function 'clk_imx8ulp_sim_lpav_register_aux_reset':
+>> drivers/clk/imx/clk-imx8ulp-sim-lpav.c:65:16: error: cleanup argument not a function
+      65 |         struct auxiliary_device *adev __free(kfree) = NULL;
+         |                ^~~~~~~~~~~~~~~~
+>> drivers/clk/imx/clk-imx8ulp-sim-lpav.c:68:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+      68 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+         |                ^~~~~~~
+>> drivers/clk/imx/clk-imx8ulp-sim-lpav.c:68:14: error: assignment to 'struct auxiliary_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      68 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+         |              ^
 
-     9	
-  > 10	DECLARE_RESTRICTED_HOOK(android_rvh_report_bug,
-    11		TP_PROTO(const char *file, unsigned int line, unsigned long bugaddr),
-    12		TP_ARGS(file, line, bugaddr), 1);
-    13	
+
+vim +/kfree +52 drivers/clk/imx/clk-imx8ulp-sim-lpav.c
+
+    46	
+    47	#ifdef CONFIG_RESET_CONTROLLER
+    48	static void clk_imx8ulp_sim_lpav_aux_reset_release(struct device *dev)
+    49	{
+    50		struct auxiliary_device *adev = to_auxiliary_dev(dev);
+    51	
+  > 52		kfree(adev);
+    53	}
+    54	
+    55	static void clk_imx8ulp_sim_lpav_unregister_aux_reset(void *data)
+    56	{
+    57		struct auxiliary_device *adev = data;
+    58	
+    59		auxiliary_device_delete(adev);
+    60		auxiliary_device_uninit(adev);
+    61	}
+    62	
+    63	static int clk_imx8ulp_sim_lpav_register_aux_reset(struct platform_device *pdev)
+    64	{
+  > 65		struct auxiliary_device *adev __free(kfree) = NULL;
+    66		int ret;
+    67	
+  > 68		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
+    69		if (!adev)
+    70			return -ENOMEM;
+    71	
+    72		adev->name = "reset";
+    73		adev->dev.parent = &pdev->dev;
+    74		adev->dev.release = clk_imx8ulp_sim_lpav_aux_reset_release;
+    75	
+    76		ret = auxiliary_device_init(adev);
+    77		if (ret) {
+    78			dev_err(&pdev->dev, "failed to initialize aux dev\n");
+    79			return ret;
+    80		}
+    81	
+    82		ret = auxiliary_device_add(adev);
+    83		if (ret) {
+    84			auxiliary_device_uninit(adev);
+    85			dev_err(&pdev->dev, "failed to add aux dev\n");
+    86			return ret;
+    87		}
+    88	
+    89		return devm_add_action_or_reset(&pdev->dev,
+    90						clk_imx8ulp_sim_lpav_unregister_aux_reset,
+    91						no_free_ptr(adev));
+    92	}
+    93	#else
+    94	static int clk_imx8ulp_sim_lpav_register_aux_reset(struct platform_device *pdev)
+    95	{
+    96		return 0;
+    97	}
+    98	#endif /* CONFIG_RESET_CONTROLLER */
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
