@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A3C139D0A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 08:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD66C28C2BF;
+	Sat, 18 Oct 2025 08:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760774681; cv=none; b=HmfUCJhO7W/d5Q4rmAHGuoEEUc2cu7Vpp+xmIpwETD3to5a8CMioN8te03950FTBCMszYqBkU1b30tqDzU7XxQ/4PRTpXpeMkV8rELUejQ1KFuHIubdHg+T9y2Rq8PZmJLAi8zq32DeOwahbHUorzdGFP7HouIkjrjrJwb1y2Xw=
+	t=1760775884; cv=none; b=jJpRTr71YbVZOMrx3cxeXgT9ec/c+jI70FhS4gDiEQiTH0c+zqO43UhbxhQW89S4W3PXlVHghFYiIvarctKET4lMArX77r4O8vSTYwQ7sct/lPPVT4mSWCJ2ene/aN6JU9ZEESjCNRhXM0Hiilt3d9+UUzG7kCxpheryPwLT7qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760774681; c=relaxed/simple;
-	bh=fwZz8EbhKzZCpMfm9FineV++ok1Cs2g3XDw3rptrbeY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sFWjxH/1NjDR8nwGYqs3l7QX4NBpzi07oTzeBGlpYH+ctE7zPsRDfZseUh8DYEKa0tG9UUp+z5V+4oN5TPyZmYFDWffq5Z6OaFod5VhpFPNQpoI45UlyvYAReRJXZrfpLBCQt/5mGH7BsDc/H6Gs0bbn9B1KtATzuD8hPD5eGlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxjxH2b8; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1760775884; c=relaxed/simple;
+	bh=xveeeHbBkRzYTsyaDDmpSiybjRa5hkiGj6eDae8sz/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FiUaFQX5XpHFuc6YwgNpOS96FWejFLYky/D3pXsoxHmhEZl64z8M4jvxzGbALmERrpEDZ749dYHJmmvSx0OpT5u/D/U3asLxlGThAVgMXI+eu0tx3cZ2ha2u/beUkmfEXjpPZGGYoTJYBD9LFTvSPqdkQF66JO7RReoke8HNXFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSQ9tcYm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxjxH2b8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSQ9tcYm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760774679; x=1792310679;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fwZz8EbhKzZCpMfm9FineV++ok1Cs2g3XDw3rptrbeY=;
-  b=OxjxH2b867KOYGPrgp+qGLJ3bqw9XiPuBa1Cm4vOM29KCRrq+krq6jNl
-   UIWVzctJBhz0++qwEB0v5IraZ1HAS+2H8J6Ddc0Z0PUUe3SLX2H6aW1AU
-   uVGrPhKVB7haeAles7hRUTWpS+3l1C9uXZ7RCTJkXBugCtttmDgvPPigR
-   cQZC6wumUj/yVbZkkzeqKkSgt+PAgdENPRBiyjim45AvbKVlDSG0XSxPI
-   2cEtFa1l1svHYOdOey5Tj5XvBoTIzbJ7tlMhUZvWwabVhmkQIzZNmheYL
-   /YpxpAUXdvPAoPpdn2j2R4eDYeIRldwryigABPGHLISPapkD9Eht7WB3m
-   A==;
-X-CSE-ConnectionGUID: U58NT7+7RQmjuHgPZpp9Ng==
-X-CSE-MsgGUID: ZXs8a47ZSoitg8A/zNjv0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="66849863"
+  t=1760775882; x=1792311882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xveeeHbBkRzYTsyaDDmpSiybjRa5hkiGj6eDae8sz/U=;
+  b=BSQ9tcYmvg61UQOhdv2yQ/YGX6r/pBWPKP2FeiuH68c25HJMm2rrZspH
+   cmIkX3igYNHh+Qc3nOGnhgqsmb6yKhYn5oJGzhLmNt085Jp5zr1Ja6CQw
+   NmvyNiYC/CdziEdEsAh+w5mHfcWlGyq1xhQXTkPrNcoIo1n2Of5FTHBqP
+   1P+IoaPt35mw7uBj+SS6zwgLSOSzuZQu5HlfXlUxL/3kinIiw8xPn/MYb
+   sjxAH95WU9t2boPYM9UdYWHdU041RtIsFlk8RytHVWz77vVM+YSleDup8
+   uqb1/8sPbLszmpxsqI6YDGcJmQ1fBHG5mIgs52EiCPl/mMrKPFlbROOx4
+   g==;
+X-CSE-ConnectionGUID: MZaxMk95Q6ydWyFoFUH3Pw==
+X-CSE-MsgGUID: vhdWj4rETl+wFrMyDcAq9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="85601631"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="66849863"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 01:04:39 -0700
-X-CSE-ConnectionGUID: N4/HoL1qQHunaAFpbq4jYA==
-X-CSE-MsgGUID: MYCx1AY6QsKH8BghQu7rog==
+   d="scan'208";a="85601631"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 01:24:42 -0700
+X-CSE-ConnectionGUID: w+gjILSNQPaSKyWWiEmNuQ==
+X-CSE-MsgGUID: ZQJmWX4mQGWqARhTuZxczA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="213529337"
+   d="scan'208";a="182051693"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2025 01:04:38 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Oct 2025 01:24:39 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA1vX-00089r-1a;
-	Sat, 18 Oct 2025 08:04:35 +0000
-Date: Sat, 18 Oct 2025 16:03:44 +0800
+	id 1vA2Eu-0008AF-2n;
+	Sat, 18 Oct 2025 08:24:36 +0000
+Date: Sat, 18 Oct 2025 16:24:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.17/fixes 4/6] drivers/pci/msi/irqdomain.c:156:3: error: call
- to undeclared function 'irq_chip_shutdown_parent'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202510181524.Z9u9wUSa-lkp@intel.com>
+To: Bill Tsui <b10902118@ntu.edu.tw>, oleg@redhat.com,
+	catalin.marinas@arm.com, will@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, nathan@kernel.org,
+	nick.desaulniers+lkml@gmail.com, morbo@google.com,
+	justinstitt@google.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Bill Tsui <b10902118@ntu.edu.tw>
+Subject: Re: [PATCH v3 1/1] arm64: ptrace: fix hw_break_set() to set addr and
+ ctrl together
+Message-ID: <202510181547.dI5kyPuT-lkp@intel.com>
+References: <20251016154401.35799-2-b10902118@ntu.edu.tw>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +68,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251016154401.35799-2-b10902118@ntu.edu.tw>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.17/fixes
-head:   2204ae45596c83fbcec13b2e8776b66d2e41a261
-commit: 9c72540edfd20c69769955971be0675cf3e73bbb [4/6] PCI/MSI: Add startup/shutdown for per device domains
-config: x86_64-buildonly-randconfig-006-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181524.Z9u9wUSa-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181524.Z9u9wUSa-lkp@intel.com/reproduce)
+Hi Bill,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on linus/master v6.18-rc1 next-20251017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bill-Tsui/arm64-ptrace-fix-hw_break_set-to-set-addr-and-ctrl-together/20251016-235711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20251016154401.35799-2-b10902118%40ntu.edu.tw
+patch subject: [PATCH v3 1/1] arm64: ptrace: fix hw_break_set() to set addr and ctrl together
+config: arm64-randconfig-r113-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181547.dI5kyPuT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181547.dI5kyPuT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181524.Z9u9wUSa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181547.dI5kyPuT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pci/msi/irqdomain.c:156:3: error: call to undeclared function 'irq_chip_shutdown_parent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     156 |                 irq_chip_shutdown_parent(data);
-         |                 ^
->> drivers/pci/msi/irqdomain.c:164:10: error: call to undeclared function 'irq_chip_startup_parent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     164 |                 return irq_chip_startup_parent(data);
-         |                        ^
-   drivers/pci/msi/irqdomain.c:164:10: note: did you mean 'irq_chip_set_type_parent'?
-   include/linux/irq.h:686:12: note: 'irq_chip_set_type_parent' declared here
-     686 | extern int irq_chip_set_type_parent(struct irq_data *data, unsigned int type);
-         |            ^
-   2 errors generated.
+>> arch/arm64/kernel/ptrace.c:449:12: warning: 'ptrace_hbp_set_addr' defined but not used [-Wunused-function]
+    static int ptrace_hbp_set_addr(unsigned int note_type,
+               ^~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/ptrace.c:424:12: warning: 'ptrace_hbp_set_ctrl' defined but not used [-Wunused-function]
+    static int ptrace_hbp_set_ctrl(unsigned int note_type,
+               ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/irq_chip_shutdown_parent +156 drivers/pci/msi/irqdomain.c
+vim +/ptrace_hbp_set_addr +449 arch/arm64/kernel/ptrace.c
 
-   150	
-   151	static void cond_shutdown_parent(struct irq_data *data)
-   152	{
-   153		struct msi_domain_info *info = data->domain->host_data;
-   154	
-   155		if (unlikely(info->flags & MSI_FLAG_PCI_MSI_STARTUP_PARENT))
- > 156			irq_chip_shutdown_parent(data);
-   157	}
-   158	
-   159	static unsigned int cond_startup_parent(struct irq_data *data)
-   160	{
-   161		struct msi_domain_info *info = data->domain->host_data;
-   162	
-   163		if (unlikely(info->flags & MSI_FLAG_PCI_MSI_STARTUP_PARENT))
- > 164			return irq_chip_startup_parent(data);
-   165		return 0;
-   166	}
-   167	
+478fcb2cdb2351 Will Deacon 2012-03-05  423  
+478fcb2cdb2351 Will Deacon 2012-03-05 @424  static int ptrace_hbp_set_ctrl(unsigned int note_type,
+478fcb2cdb2351 Will Deacon 2012-03-05  425  			       struct task_struct *tsk,
+478fcb2cdb2351 Will Deacon 2012-03-05  426  			       unsigned long idx,
+478fcb2cdb2351 Will Deacon 2012-03-05  427  			       u32 uctrl)
+478fcb2cdb2351 Will Deacon 2012-03-05  428  {
+478fcb2cdb2351 Will Deacon 2012-03-05  429  	int err;
+478fcb2cdb2351 Will Deacon 2012-03-05  430  	struct perf_event *bp;
+478fcb2cdb2351 Will Deacon 2012-03-05  431  	struct perf_event_attr attr;
+478fcb2cdb2351 Will Deacon 2012-03-05  432  	struct arch_hw_breakpoint_ctrl ctrl;
+478fcb2cdb2351 Will Deacon 2012-03-05  433  
+478fcb2cdb2351 Will Deacon 2012-03-05  434  	bp = ptrace_hbp_get_initialised_bp(note_type, tsk, idx);
+478fcb2cdb2351 Will Deacon 2012-03-05  435  	if (IS_ERR(bp)) {
+478fcb2cdb2351 Will Deacon 2012-03-05  436  		err = PTR_ERR(bp);
+478fcb2cdb2351 Will Deacon 2012-03-05  437  		return err;
+478fcb2cdb2351 Will Deacon 2012-03-05  438  	}
+478fcb2cdb2351 Will Deacon 2012-03-05  439  
+478fcb2cdb2351 Will Deacon 2012-03-05  440  	attr = bp->attr;
+478fcb2cdb2351 Will Deacon 2012-03-05  441  	decode_ctrl_reg(uctrl, &ctrl);
+478fcb2cdb2351 Will Deacon 2012-03-05  442  	err = ptrace_hbp_fill_attr_ctrl(note_type, ctrl, &attr);
+478fcb2cdb2351 Will Deacon 2012-03-05  443  	if (err)
+478fcb2cdb2351 Will Deacon 2012-03-05  444  		return err;
+478fcb2cdb2351 Will Deacon 2012-03-05  445  
+478fcb2cdb2351 Will Deacon 2012-03-05  446  	return modify_user_hw_breakpoint(bp, &attr);
+478fcb2cdb2351 Will Deacon 2012-03-05  447  }
+478fcb2cdb2351 Will Deacon 2012-03-05  448  
+478fcb2cdb2351 Will Deacon 2012-03-05 @449  static int ptrace_hbp_set_addr(unsigned int note_type,
+478fcb2cdb2351 Will Deacon 2012-03-05  450  			       struct task_struct *tsk,
+478fcb2cdb2351 Will Deacon 2012-03-05  451  			       unsigned long idx,
+478fcb2cdb2351 Will Deacon 2012-03-05  452  			       u64 addr)
+478fcb2cdb2351 Will Deacon 2012-03-05  453  {
+478fcb2cdb2351 Will Deacon 2012-03-05  454  	int err;
+478fcb2cdb2351 Will Deacon 2012-03-05  455  	struct perf_event *bp;
+478fcb2cdb2351 Will Deacon 2012-03-05  456  	struct perf_event_attr attr;
+478fcb2cdb2351 Will Deacon 2012-03-05  457  
+478fcb2cdb2351 Will Deacon 2012-03-05  458  	bp = ptrace_hbp_get_initialised_bp(note_type, tsk, idx);
+478fcb2cdb2351 Will Deacon 2012-03-05  459  	if (IS_ERR(bp)) {
+478fcb2cdb2351 Will Deacon 2012-03-05  460  		err = PTR_ERR(bp);
+478fcb2cdb2351 Will Deacon 2012-03-05  461  		return err;
+478fcb2cdb2351 Will Deacon 2012-03-05  462  	}
+478fcb2cdb2351 Will Deacon 2012-03-05  463  
+478fcb2cdb2351 Will Deacon 2012-03-05  464  	attr = bp->attr;
+478fcb2cdb2351 Will Deacon 2012-03-05  465  	attr.bp_addr = addr;
+478fcb2cdb2351 Will Deacon 2012-03-05  466  	err = modify_user_hw_breakpoint(bp, &attr);
+478fcb2cdb2351 Will Deacon 2012-03-05  467  	return err;
+478fcb2cdb2351 Will Deacon 2012-03-05  468  }
+478fcb2cdb2351 Will Deacon 2012-03-05  469  
 
 -- 
 0-DAY CI Kernel Test Service
