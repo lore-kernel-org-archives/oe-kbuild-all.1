@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F31B1891AB;
-	Sat, 18 Oct 2025 11:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3E1EE033
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 12:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760787267; cv=none; b=c1uk2kI8Fc3kyoHJF37hvxM1W+0owuMQfw41AOvdd0iAMAgDnjguesctbfj3a/6YGb4HllvObq42T7/dBnUvxL8f8xS8ydyUxMREaUOstGfa2+3hlpiHA36KQ/LSZd8ssozwVCX9ldNYFsyK1EK9fzF8q+mv7r+pKaSIL9iNMLU=
+	t=1760789200; cv=none; b=PF8MRbMYXqQsT02BkOETs9F2PbLM6h4HHvGNtp7cyu6cHGZY4zvJK7IDEiQqwaG8z9tzMWkZvfOFic8RwoL/V3dhhSthcGi7N+91E8bK9aKCtDFMCl7m+nL7uYSeGUXNB9TfvIR+TMlR5gkMLlvMLtfkmNPJlynX5Td1EOhlQ6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760787267; c=relaxed/simple;
-	bh=lxmXxI9NVNvUFbJkHjVwI4PAcvRKTU8tPXimX86qghE=;
+	s=arc-20240116; t=1760789200; c=relaxed/simple;
+	bh=amcyDQ0ZSqfKRHQvB06Ill1m9TP4roTiAJ8m7kuDqWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1dhfoYc2J2VjnfnMWZZaL1YJZfP18k8AFPyTCv8b2SK96vz2jztWKBA3gDS2zXStBnfxBmveMnR6/2ADAKE6KYAkvBt49kzinpZfOwjQmYK8izWbbKLabtE17hbnlJ491faCfAGL6nM8JIVNYiI8y8lsMPUaM7AbLgXNaToJbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXD+BNUK; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=lfS4N6OJjJkkdYnEhpcps8sfU69HBXHA+X5A74UAZvYLrHYyZ9DX52+Esq3jLSmSOiaAKFzRWfhWLjfhnLrOo61B13SRj+ckLZUtSDwnN7nfP24ssOI4po0ZognRnF03VpKB552sXpQIB+KnguSwXHpqMVKXghPiSOCh7GQsJzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=loOx0PKG; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXD+BNUK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="loOx0PKG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760787266; x=1792323266;
+  t=1760789198; x=1792325198;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lxmXxI9NVNvUFbJkHjVwI4PAcvRKTU8tPXimX86qghE=;
-  b=cXD+BNUK15x2DaVHETizGjZvPMTkYntmBc6Kx7r5yOBVZtqvudKCRrD+
-   ZeGcG/SS/EssfXQjB8hYjBmEDDxQHubNhPhz3BP+nrel6YJIRa9q0AwLA
-   YuPwg+JheXBkzbkqB9PQZicI/slRoY5iYBOGnE13XOlWj2kIvz1cJDFDl
-   cZl/KyAEY70qyTLak3SOVPJqmmDf4QUbNeN0voBku1UKOPEuYUabafMeF
-   7yZwWS4XTTr5MxnUjIKNiCkoYGjkqVCNKeo67aWVUkMGJd2LOEtWB8Dlc
-   oRwSpPIbQ5pcQtOGZsR7sCSLrX7jHpB5M+l6KYabGdLAmAyCQtxj0BVJd
-   Q==;
-X-CSE-ConnectionGUID: w4e8yuqsT++vnBnR99cYOw==
-X-CSE-MsgGUID: OGq7gKm+TLq5hCL2ucSh8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="66854386"
+  bh=amcyDQ0ZSqfKRHQvB06Ill1m9TP4roTiAJ8m7kuDqWI=;
+  b=loOx0PKGOlvVA1DnXH+NykIc76KrnkNBl59xuXKwyCEMwY9oO79jjwnY
+   7AaNgoCK9fw9Pukx5wMMrhRDfZ1l1PMQQkZu/s3m6o/l7YtoFGmmXI65F
+   XlHbg5cDVFVWXmr8/t6CIVUXNr8rC/t45fgX1NqlxCDmWmQzOF45889Oq
+   Xr5wLtBD+jNAO/UvE5BorFGP6fmUQ505JDI3sLEtjabpKoOQrdaecHwvl
+   x66a7eKaPk+ojsE6yLQo34Nh5k9a9zy0sNHtkGyxZYz+I+XsdEW7D0Io8
+   RFgbCw08SIV25mL90Q5WxqV/4qouIE4PaH1yWA9N9Rltjjaoh375os1Tj
+   w==;
+X-CSE-ConnectionGUID: 8pyeDcAdSgK+QTDln+Y7Lw==
+X-CSE-MsgGUID: qomjwrC6S/uIl0zNABmMxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="74426673"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="66854386"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 04:34:25 -0700
-X-CSE-ConnectionGUID: hItXz9+CR9+morbJD6EyVA==
-X-CSE-MsgGUID: MR5JyuycRausU/z8Jyg5Pw==
+   d="scan'208";a="74426673"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 05:06:37 -0700
+X-CSE-ConnectionGUID: nfs33RDKS5m+TSeTk1j45w==
+X-CSE-MsgGUID: 2VrXg+YDTn6HK9yWeDUEIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="182491676"
+   d="scan'208";a="182957412"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 Oct 2025 04:34:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 18 Oct 2025 05:06:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA5CU-0008G9-0M;
-	Sat, 18 Oct 2025 11:34:18 +0000
-Date: Sat, 18 Oct 2025 19:33:56 +0800
+	id 1vA5hT-0008Gf-1J;
+	Sat, 18 Oct 2025 12:06:25 +0000
+Date: Sat, 18 Oct 2025 20:05:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	imx@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH v2 3/8] clk: imx: add driver for imx8ulp's sim lpav
-Message-ID: <202510181949.IazLEB6V-lkp@intel.com>
-References: <20251017112025.11997-4-laurentiumihalcea111@gmail.com>
+To: Gary Yang <gary.yang@cixtech.com>, linus.walleij@linaro.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	cix-kernel-upstream@cixtech.com, Gary Yang <gary.yang@cixtech.com>
+Subject: Re: [PATCH v4 2/3] pinctrl: cix: Add pin-controller support for sky1
+Message-ID: <202510181916.q32y7Jel-lkp@intel.com>
+References: <20251017074646.3344924-3-gary.yang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,91 +66,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017112025.11997-4-laurentiumihalcea111@gmail.com>
+In-Reply-To: <20251017074646.3344924-3-gary.yang@cixtech.com>
 
-Hi Laurentiu,
+Hi Gary,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pza/reset/next]
-[also build test WARNING on abelvesa/clk/imx abelvesa/for-next linus/master v6.18-rc1 next-20251017]
-[cannot apply to pza/imx-drm/next]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next robh/for-next linus/master v6.18-rc1 next-20251017]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Laurentiu-Mihalcea/reset-imx8mp-audiomix-Fix-bad-mask-values/20251017-192620
-base:   https://git.pengutronix.de/git/pza/linux reset/next
-patch link:    https://lore.kernel.org/r/20251017112025.11997-4-laurentiumihalcea111%40gmail.com
-patch subject: [PATCH v2 3/8] clk: imx: add driver for imx8ulp's sim lpav
-config: xtensa-randconfig-r132-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181949.IazLEB6V-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181949.IazLEB6V-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gary-Yang/dt-bindings-pinctrl-Add-cix-sky1-pinctrl/20251017-155001
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20251017074646.3344924-3-gary.yang%40cixtech.com
+patch subject: [PATCH v4 2/3] pinctrl: cix: Add pin-controller support for sky1
+config: nios2-randconfig-r121-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181916.q32y7Jel-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181916.q32y7Jel-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181949.IazLEB6V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181916.q32y7Jel-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse:     expected unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:289:17: sparse:     got void [noderef] __iomem *
+>> drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:290:25: sparse:     got unsigned int [usertype] *pin_reg
+>> drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:293:25: sparse:     got unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse:     expected unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:358:17: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:359:25: sparse:     got unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:372:25: sparse:     got unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned int [usertype] *pin_reg @@     got void [noderef] __iomem * @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse:     expected unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:398:17: sparse:     got void [noderef] __iomem *
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:399:25: sparse:     got unsigned int [usertype] *pin_reg
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *pin_reg @@
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/pinctrl/cix/pinctrl-sky1-base.c:403:25: sparse:     got unsigned int [usertype] *pin_reg
 
-   drivers/clk/imx/clk-imx8ulp-sim-lpav.c: In function 'clk_imx8ulp_sim_lpav_aux_reset_release':
-   drivers/clk/imx/clk-imx8ulp-sim-lpav.c:52:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
-      52 |         kfree(adev);
-         |         ^~~~~
-   drivers/clk/imx/clk-imx8ulp-sim-lpav.c: In function 'clk_imx8ulp_sim_lpav_register_aux_reset':
-   drivers/clk/imx/clk-imx8ulp-sim-lpav.c:65:16: error: cleanup argument not a function
-      65 |         struct auxiliary_device *adev __free(kfree) = NULL;
-         |                ^~~~~~~~~~~~~~~~
-   drivers/clk/imx/clk-imx8ulp-sim-lpav.c:68:16: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-      68 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |                ^~~~~~~
->> drivers/clk/imx/clk-imx8ulp-sim-lpav.c:68:14: warning: assignment to 'struct auxiliary_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      68 |         adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-         |              ^
-   cc1: some warnings being treated as errors
+vim +289 drivers/pinctrl/cix/pinctrl-sky1-base.c
 
-
-vim +68 drivers/clk/imx/clk-imx8ulp-sim-lpav.c
-
-    62	
-    63	static int clk_imx8ulp_sim_lpav_register_aux_reset(struct platform_device *pdev)
-    64	{
-    65		struct auxiliary_device *adev __free(kfree) = NULL;
-    66		int ret;
-    67	
-  > 68		adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-    69		if (!adev)
-    70			return -ENOMEM;
-    71	
-    72		adev->name = "reset";
-    73		adev->dev.parent = &pdev->dev;
-    74		adev->dev.release = clk_imx8ulp_sim_lpav_aux_reset_release;
-    75	
-    76		ret = auxiliary_device_init(adev);
-    77		if (ret) {
-    78			dev_err(&pdev->dev, "failed to initialize aux dev\n");
-    79			return ret;
-    80		}
-    81	
-    82		ret = auxiliary_device_add(adev);
-    83		if (ret) {
-    84			auxiliary_device_uninit(adev);
-    85			dev_err(&pdev->dev, "failed to add aux dev\n");
-    86			return ret;
-    87		}
-    88	
-    89		return devm_add_action_or_reset(&pdev->dev,
-    90						clk_imx8ulp_sim_lpav_unregister_aux_reset,
-    91						no_free_ptr(adev));
-    92	}
-    93	#else
-    94	static int clk_imx8ulp_sim_lpav_register_aux_reset(struct platform_device *pdev)
-    95	{
-    96		return 0;
-    97	}
-    98	#endif /* CONFIG_RESET_CONTROLLER */
-    99	
+   282	
+   283	static int sky1_pmx_set_one_pin(struct sky1_pinctrl *spctl,
+   284					    unsigned int pin, unsigned char muxval)
+   285	{
+   286		u32 reg_val;
+   287		u32 *pin_reg;
+   288	
+ > 289		pin_reg = spctl->base + pin * SKY1_PIN_SIZE;
+ > 290		reg_val = readl(pin_reg);
+   291		reg_val &= ~SKY1_MUX_MASK;
+   292		reg_val |= muxval << SKY1_MUX_SHIFT;
+ > 293		writel(reg_val, pin_reg);
+   294	
+   295		dev_dbg(spctl->dev, "write: offset 0x%x val 0x%x\n",
+   296			pin * SKY1_PIN_SIZE, reg_val);
+   297		return 0;
+   298	}
+   299	
 
 -- 
 0-DAY CI Kernel Test Service
