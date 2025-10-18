@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1571F5437
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 07:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A78E277C9B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Oct 2025 07:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760770943; cv=none; b=UobJ1zwLJyCvole9HUgOiI18AYxHSu/JCR8/KT7yvMkIBI11szcaZJOX6rPCcsyEH57AQVnmSek/eRb369qoBC3wixFQwFE1aMjplcMsLaUcyNIWKGCDhj3s8jHf1bXHahqj7gx13uD4rE6zqn4CxCAlfP+ZJdjCeDc0G/1+Jtg=
+	t=1760773356; cv=none; b=Hym+3xRkMAm3vSz+fs8Ro99x+fCsQ+7WlXXG48QS0Eht5GO1Bj5CuPiy8c7PHMXtn/4Xwto1mhvEh6Q3mtHvSLpa3dkZ5VcDY0ZIbpNT5i5LpOMQU+Xv7AkSYmGnyHy5QSupTpw26ModufSVeJWsoAROfBF5h6LQMN3TSkCuUQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760770943; c=relaxed/simple;
-	bh=TSiEqBnl00Iyoj5x1sNd17EmuTdQ8NtthzW0DC34O9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FbRRtUbCXxQC39M9f1bE5F5gWebp8pw8OfenWjhf+gExt9Uw0shjozGZOsEPg7shv5rkWuPORCFTX2xN5ZwNlSptEFrzniX59JQrhJlg3s0PU9yjbK6E28sDrCJ+M85ftUza9SehvAmaOcpxqrHeB/cKdKcRaMCkDv7USAeLGkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c7orrhMm; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1760773356; c=relaxed/simple;
+	bh=xOpTd5jO+0NrF41257k6j4GF9gYFVtKH/e12dm4NH6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJu985brKXLln8eGKB2YyJrCMvCAFRDFNpSQBhO/0ITpc+0eY/AGbE6H0wCfcpXqX5+yqisfdF5sy5wstFI3cOB6RhnksXOI0APpJGF5/1OsqmdX8lq9p2uqyRQzA1Y8Jzc9ZUVJH4PJ61NoTZuR2nZ/Zu98o4sl+ZoPQph4jwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VO+qNQc9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c7orrhMm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VO+qNQc9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760770942; x=1792306942;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TSiEqBnl00Iyoj5x1sNd17EmuTdQ8NtthzW0DC34O9c=;
-  b=c7orrhMmqTx/ROY0fJuiLPrAdiqA+jg5VBZWDQ0oyxvqt4OV16qQGxMc
-   U70K66vDjl2lU7ynF/ykNrZMJoszzK2Q7NBzsTQPSsf+SrSM1vYxonrn+
-   nK3ASePt1GAe7oP/vr5S2BMeQ8Npy7eazBw4TjQnKNmLHTrt7VOSjCJJL
-   vz2veymWC5sZSC8NtAFficIBaaXcXLUIDhjuqttZCuZOb7d2JQ5qTrHi8
-   NOy0D7NW0Fud3rp1wCrIQHfvx/FuXpzyEgGp7icgMc9RtVDPY766rJuPK
-   YOj14JqMK5nXVVEhFFIde7+m1zZa+GX8tnQVwLBi8i3PNqkCf3CHxiYnc
-   A==;
-X-CSE-ConnectionGUID: 9c0H8obhTRm1hY33P6/qoQ==
-X-CSE-MsgGUID: IdFj23KWTUqLWIMu2WC03w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="62191282"
+  t=1760773354; x=1792309354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xOpTd5jO+0NrF41257k6j4GF9gYFVtKH/e12dm4NH6Y=;
+  b=VO+qNQc9Ff9f5Xp97idHV3B9JvC6tC3kA+vD2eK8J5rg16irXzpSo5lz
+   fPH9TgBQVwCGLmrPqerzDUFjbf2qKmJXDghKjd+5AGQgDd2Dt2EKkwu6S
+   OQOX6ReIpqg7CYxGDHVn+aLttWVu3A+KCod0J7ugOF5XqEvHhzZO0kkSf
+   gZxFFyjFtjkto5dijdcaucGsXM/S//uepPmOuXads7Mdsh8ESbOY4AgKV
+   BP/hbBXFoCQWfMWgsoO9//NJpe8f2cZTwFNUaBrVmXSuqUfyAdLcm6uET
+   vMlFpxfiY6Xa8RkS3QcBBeqWz/0uNi/+X+d7drGnnJUPKCEd0zXwpbooK
+   w==;
+X-CSE-ConnectionGUID: mpXp15dvQ8+KsOsUjGsOkg==
+X-CSE-MsgGUID: 1FoHqTZKQY+FTYtE2S4IIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="66622719"
 X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="62191282"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 00:02:21 -0700
-X-CSE-ConnectionGUID: XfAnEfwRQ/ux6rxm1Wf3bA==
-X-CSE-MsgGUID: OC0hPVGDRFG5i4aUYyWm9A==
+   d="scan'208";a="66622719"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 00:42:34 -0700
+X-CSE-ConnectionGUID: T+eAZmiBSBiHBRx2tLFw8g==
+X-CSE-MsgGUID: kL5icr7USp+7ev58pbJpRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="188215559"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2025 00:02:15 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Oct 2025 00:42:30 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vA0xB-00087z-1X;
-	Sat, 18 Oct 2025 07:02:13 +0000
-Date: Sat, 18 Oct 2025 15:01:31 +0800
+	id 1vA1Zw-000895-36;
+	Sat, 18 Oct 2025 07:42:21 +0000
+Date: Sat, 18 Oct 2025 15:42:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:BITS 5/5] sound/core/oss/rate.c:28:9: warning: "BITS"
- redefined
-Message-ID: <202510181425.qOljV2CX-lkp@intel.com>
+To: Saeed Mahameed <saeed@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, mbloch@nvidia.com,
+	Adithya Jayachandran <ajayachandra@nvidia.com>
+Subject: Re: [PATCH net-next 2/3] net/mlx5: MPFS, add support for dynamic
+ enable/disable
+Message-ID: <202510181424.S8zAzGjf-lkp@intel.com>
+References: <20251016013618.2030940-3-saeed@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +68,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251016013618.2030940-3-saeed@kernel.org>
 
-tree:   https://github.com/norov/linux BITS
-head:   266545210d5afb06e8040b7c5bb21fd1bc9ff862
-commit: 266545210d5afb06e8040b7c5bb21fd1bc9ff862 [5/5] move BITS() macro
-config: i386-buildonly-randconfig-002-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181425.qOljV2CX-lkp@intel.com/config)
+Hi Saeed,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saeed-Mahameed/devlink-Introduce-devlink-eswitch-state/20251016-094245
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251016013618.2030940-3-saeed%40kernel.org
+patch subject: [PATCH net-next 2/3] net/mlx5: MPFS, add support for dynamic enable/disable
+config: i386-buildonly-randconfig-001-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181424.S8zAzGjf-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181425.qOljV2CX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181424.S8zAzGjf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510181425.qOljV2CX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510181424.S8zAzGjf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/core/oss/rate.c:28:9: warning: "BITS" redefined
-      28 | #define BITS    (1<<SHIFT)
-         |         ^~~~
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from sound/core/oss/rate.c:22:
-   include/vdso/bits.h:10:9: note: this is the location of the previous definition
-      10 | #define BITS(b, e)      ((BIT(e) - BIT(b)) + BIT(e))
-         |         ^~~~
+   ld: drivers/net/ethernet/mellanox/mlx5/core/eq.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/eq.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/vport.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/vport.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/sriov.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/sriov.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/fs_cmd.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/lag/lag.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/lag/lag.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/devlink.o: in function `mlx5_mpfs_enable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: multiple definition of `mlx5_mpfs_enable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:97: first defined here
+   ld: drivers/net/ethernet/mellanox/mlx5/core/devlink.o: in function `mlx5_mpfs_disable':
+>> drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: multiple definition of `mlx5_mpfs_disable'; drivers/net/ethernet/mellanox/mlx5/core/main.o:drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h:98: first defined here
 
 
-vim +/BITS +28 sound/core/oss/rate.c
+vim +97 drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  26  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  27  #define SHIFT	11
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @28  #define BITS	(1<<SHIFT)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  29  #define R_MASK	(BITS-1)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  30  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+    87	
+    88	#ifdef CONFIG_MLX5_MPFS
+    89	struct mlx5_core_dev;
+    90	int  mlx5_mpfs_init(struct mlx5_core_dev *dev);
+    91	void mlx5_mpfs_cleanup(struct mlx5_core_dev *dev);
+    92	int mlx5_mpfs_enable(struct mlx5_core_dev *dev);
+    93	void mlx5_mpfs_disable(struct mlx5_core_dev *dev);
+    94	#else /* #ifndef CONFIG_MLX5_MPFS */
+    95	static inline int  mlx5_mpfs_init(struct mlx5_core_dev *dev) { return 0; }
+    96	static inline void mlx5_mpfs_cleanup(struct mlx5_core_dev *dev) {}
+  > 97	int mlx5_mpfs_enable(struct mlx5_core_dev *dev) { return 0; }
+  > 98	void mlx5_mpfs_disable(struct mlx5_core_dev *dev) {}
+    99	#endif
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
