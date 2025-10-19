@@ -1,220 +1,301 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F9221B9E2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 05:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760850695; cv=fail; b=aoYoD6D8rgs3qGS8ppWEHAJhvxNtmfR4OxLI9I+x59bS+no9qcNHeuYttsUEWTU/eBIJPSj77v3VI7N4erZT5Zx6yVytnSThmXK3qgX4MEEoV4bh1/wLZWs7Kuq67KARTdu1W9ocT6UspXnkVBaDFJwk0guLZSzwUpEYrKVnOqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760850695; c=relaxed/simple;
-	bh=8Tm24BID7V6WZV2xGJf0+CHsjK8rgQrFJVH+LMuESIU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=osw9V/r7zouSLqsDkgqVhTzS/pu+MdF7KsxBO7huyW4tk8+JHvs0pzuprxZt/wetFJ2SHRhk23qHj5BxBkp47WEuTvuhcguIFeEFtr6LsMT5fC+5fnNwYIDBk0tufwxIvDzjsgM/slhfAMMMoMlbPptu6voncE95libUIpmH+CI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxqeqdMe; arc=fail smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E11DEFF5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 05:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760851925; cv=none; b=A1vkVu70J1rWr1NQu6TeXfFP8EgfL4LecEkvrXwYSjerhJ2Q2JUQcS1b3vYLmCs5sSGg6hFfE83/zvII5KE+iZCpZh5YrS2TaOOtZcAMomoo190ozWGmifbqJqCZP6hY4oNkBabSLb8uChRgRMCa7C30zM18Th+Uq+NVaXxwvCw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760851925; c=relaxed/simple;
+	bh=DHp5kLXG9ozR57J1V9QGtKJYWlApl4WvGIeiRFq6MlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tkc4dtM3GvK5FhB253BZBh+jxdRvH/B9oYYw/tTO9z6kQqlu88pfpD9LHjoEvd0MpcXQhsGaTAFxgfstMqukw4j7lmWatXkGruzWmK99apfU7lIUx/yF6Vh1uhVkA8SQOzz40ky0rStUAHUI/Q0DtilmTmZKeWgdciBjl1F0J18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZEHfDoJ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxqeqdMe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZEHfDoJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760850692; x=1792386692;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=8Tm24BID7V6WZV2xGJf0+CHsjK8rgQrFJVH+LMuESIU=;
-  b=YxqeqdMefE+wZWe4P35o8Lp5dhcXxFPmwb2LLhCP+BHwNJz5mijeZa/P
-   JloB0b2grd1pNtgsa64MqK8r5XqkpTxjf7BM23Of7XTiZiJKNluXFqKPH
-   UewmOmmDg7AiBdGg8x0C8PFQBPGaLSfDFQwiNUQCb/CIVs9vtfOKYrs/G
-   HyDT7s4W8TPoyNYwwjFk+H6NNCkhbZCto2kv7IDhf3jsnOLJcEi9NQ7hs
-   VfWdbQKgLG/qc2+27qVBc66/Fw5RPvYSTY/17JE0B3iXtzsxTN90ycnFu
-   5in+P6MInUrpN7sMQBPqF3ZN1SbLsKAo2UQbPmcAH37SeazAOt2eEomWX
+  t=1760851922; x=1792387922;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DHp5kLXG9ozR57J1V9QGtKJYWlApl4WvGIeiRFq6MlA=;
+  b=nZEHfDoJB/fonbT5pAKfD8JduaadmcTsLevieydBNxFsOjHxggurbhVA
+   SjA0a4QsFqf37xIjOaWw4Ypt7GF1Au/XFSW7KBRG92kPXDEKJB2yLEpj5
+   tI9L0fqQllDmNB+LWIIn7whA2Qy8vMojbULXZqh4ui+poHf+VzVMXTyjF
+   AYtAb8iVpO0Bksf1HgqqZtd1Egnz2ttS72BkT5QuVq/+0iKEGd91wVHnN
+   mrCwUjONuqNVMU9uqku92R9jWxd2mjiERVVD1uA8dxYdW0gDI9XXqpCDO
+   ywZ+Z2phH/wNDmSrfRg/2Ijrb1kn5cgvmC2HQ60jDsNv08e4h7WPtXBCM
    A==;
-X-CSE-ConnectionGUID: TrKo7D/mTO+OfSxCH4zggw==
-X-CSE-MsgGUID: KZ2Pd4RLRv+fzWqTYkm+wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66652399"
+X-CSE-ConnectionGUID: dgjL8f/EQuuv4CT2mwhJcw==
+X-CSE-MsgGUID: yv1wxrytQKWyaWQqSHmvlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50583094"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="66652399"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:11:31 -0700
-X-CSE-ConnectionGUID: CwEthPnbSFysv63A2jFoOA==
-X-CSE-MsgGUID: kRdAVhQzTs+AfTZW6HfINQ==
+   d="scan'208";a="50583094"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:32:02 -0700
+X-CSE-ConnectionGUID: BOQ6Q6OXS+edX6IWoyHRQw==
+X-CSE-MsgGUID: MizuWHoRS4Sqre+dsz6VOg==
 X-ExtLoop1: 1
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:11:31 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sat, 18 Oct 2025 22:11:30 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Sat, 18 Oct 2025 22:11:30 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.11) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sat, 18 Oct 2025 22:11:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QF5g8xwGnklIrrrhiXT1y07CkdQuxC3peWADFvJmx1cvF6cv7vyxO1AMXLSz/LkBEsj1ogOD3xvzV4eyWXlUroZWt1KlZy6jDjrQeCqW6EeIVg/jO3WjSMwlUV/sHtJk/pSxo6KVesiGCB3ssCkamPRnCBBYdGgOPP6xK7mpQu58mBbkv5VwTeijTo+Z/ui5gZsFbo9UjGt7RT7oRFkC1JYkEYbWwqO9Dw7VilCoJvmmK9niTbuq3Ih3siqUkTSwXDxi6D3aoYqT9zueDXMZ4hLuP4cHQZNz1AWT8jDbvSm5WS09facd8J+IKa48lMFxMs8x6YqiCAMuBHwxhqSZwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIC5pDzd3GqLidk2O12CJufTV8VbRMkeG/tRmMiYvV4=;
- b=wK2mNbC3bREd9qVVQ8c8lBhSdmmgVjkdRV9ypwlIpNFxuzb0bmqun3SxqYS6dy8ggQlNagf0DvqR94cYJhljwZ79aq+zmgxmx97rsb9ppsgefPZ4EVRMXMiW9Xyyj4G/O3RYGUMe65Wt+ZBjq3pJSp6zkdRJkEHZXATwRWcWJ1rIiidy/gpNqlWZDTR/nHEZJWlico/WPH2fPflC9gl+Kj1vFRhgHdv1PdGSZvnf7olui4E0cVFscZWrXl/OsFEODo2BNh1RnEGG/06bWhvv6qrtysOPkE02oRVv3Xf8p6wgOYJHlSkxTEtOip1wIm3VpOHIRubGI+DY/BrR1p8vVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by PH3PPFEC5C0F28D.namprd11.prod.outlook.com (2603:10b6:518:1::d5c) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.15; Sun, 19 Oct
- 2025 05:11:22 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9228.014; Sun, 19 Oct 2025
- 05:11:22 +0000
-Date: Sun, 19 Oct 2025 13:11:12 +0800
-From: Philip Li <philip.li@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Borislav Petkov <bp@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, X86 ML <x86@kernel.org>, LKML
-	<linux-kernel@vger.kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>
-Subject: Re: [PATCH] objtool/klp: Add the debian-based package name of xxhash
- to the hint
-Message-ID: <aPRy8LuQra4b7d4T@rli9-mobl>
-References: <20251017194732.7713-1-bp@kernel.org>
- <aPRyCq55erNhA8CI@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aPRyCq55erNhA8CI@rli9-mobl>
-X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="183554556"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 18 Oct 2025 22:32:01 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAM1K-0008sB-1J;
+	Sun, 19 Oct 2025 05:31:56 +0000
+Date: Sun, 19 Oct 2025 13:31:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommufd_dmabuf 14/28] include/linux/stddef.h:8:16:
+ error: expected identifier or '(' before 'void'
+Message-ID: <202510191300.b3i7AVRW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|PH3PPFEC5C0F28D:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7341fd75-9270-40bc-864a-08de0ecdf20a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?W2oCSb6lrFBMm5GwQRN5NeyJt6EjRLBIkGi6Jv9+3F1XgFZHColfP5lbzSik?=
- =?us-ascii?Q?k1xoXfHJa/GDEE+f/Cdfv304FTHCTphXrXr5K0JdNUX2DelpNnlO1p6ahqiA?=
- =?us-ascii?Q?lo0BybEBi/xdbMlYFGekezDMd3jRP6ETqQlr2G9Cz+9HZ+5HSm3/49EUnVP/?=
- =?us-ascii?Q?XbgfrjfHt+EVyHAxX6EozUo4XZA0r+o3D01G28y7jm44nqd7+vXfoCrOIb8q?=
- =?us-ascii?Q?AkEtzhMveh+zdsOMRvusb8elSAtZnxtkWIgmcQxupTgc/BPgp8GNNN5R0mpe?=
- =?us-ascii?Q?RvEU9ATtYjpYSdl8b/ECFZNUIMMEOR32yFScfzct/tKuCGKHeziyZX14ahhF?=
- =?us-ascii?Q?UP8FvMLhUr2Tnkx9BuOKwTzW0xmZuemmo+HMa4Ujnayei2G8lnueL23L9Nho?=
- =?us-ascii?Q?Ek8O9G/C1Ca2xOBWW3/ifCGw4FD9p7iu58EnUtdEt8BxqCENqCD9PjQvXBNb?=
- =?us-ascii?Q?juZqqNN912AotCH94f+JyiyDODoXlx703xzJ+pz0VwdrS3iKXolEU9OIAQlD?=
- =?us-ascii?Q?fjiu0a/J1AIDwUXFPZF/T48dJOqf9ax9i3ChaEQJIv8SK5teJiAOW/96rzih?=
- =?us-ascii?Q?7OpL3qDsnV5/GTj/1PtNP55QztyVep8YLr615oleePeKCnv5j2bXZ94IJyCF?=
- =?us-ascii?Q?LZGG3+cbJ07608dN1uU0VIdidgniQvkuxBz4isjGao+mvrFwgJMeDdDQwTDo?=
- =?us-ascii?Q?Nr0F89gaJ+W4x2fXcNZwc4LENQbDx3GFWz8CqUokLPap1nui1iY4VsuYfLGm?=
- =?us-ascii?Q?sFKE/QnRljGdnxY36LI6BNpU9rjWEcBYuU4qg0H4oWUTd0hSgRPleGY3j8EZ?=
- =?us-ascii?Q?//wx0f+G4xGkqgK6O77BOOwndLC0DKtzBq/vU/j3MTeDxE88dSJuX49BXlRM?=
- =?us-ascii?Q?+ZqZ/HM46vYXJ8RxaVMpxr7s/XzdpKG1rIUM9V1rhl0aBA09+uY4WKhDhNDv?=
- =?us-ascii?Q?ppcKyCYgni4X2fxRuIEugX2K6agmAxX6hTNs4g8oyLYkqXGXRkvENdrLsgVY?=
- =?us-ascii?Q?0XnkuWyEFARozFioQPLXfzUOme8LegugB18GXCzATjTFIOhtpWPH3pVZPP0K?=
- =?us-ascii?Q?e4rd+GHhAmlnR+xHfZz9s7r4svKnZ15IHYqo7j0bmHx4wpystyfox1FdaN7R?=
- =?us-ascii?Q?H8ZCli6FyZ9y35daePjrkg6yJrzXu7KdH6QOkWgkMXV3KAu3omHouF/b+SR8?=
- =?us-ascii?Q?VrFqaNC5oX2pA8wCUxDtfTzuxi3AWOBxHtpJ/nuQyEfLL6EkViR7VdA5AfEr?=
- =?us-ascii?Q?EuP2owwZ7J0HxvWhJg1IQE15mffI94eON8RWAsDyU6DUJw/MBvy5WqDbS04P?=
- =?us-ascii?Q?3Cwc/nPFjGD0GeIkHwNmhpk44aY+1+ajcHtD8mlFmIc7H6UYTIapbjWmyo+d?=
- =?us-ascii?Q?BGzaQoYOtcJzAGZvswWOHatpG8DDUnUi34satRuvd8XrQ0GB4urmT2SOqth5?=
- =?us-ascii?Q?fB9iJx2gSeAIzhsT5EOR4RwkHYU1EGBKSQ4dhGzJVhpgvLAv6ua9lQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9l65r/2mMBdreM6SJ+LO3UQFbqDyQru/HvKgl9ky6N1oF7rYXTD67bfZ2QpU?=
- =?us-ascii?Q?AYs8OZxs1c/pCi+dmICzmpemiu6EtyrigK3rJa1G4MQJUOgxAjPhRP/Sbk4f?=
- =?us-ascii?Q?f8hxLLOB1biecuRueoy2qJUbIsijPghx7/LjU9QIQWFWV6bJLoDDhCkxtEgu?=
- =?us-ascii?Q?ojBP+WCUOgMbNkdPs7aJDOEnySsw/folCmGCh/8dPEquMl5Av//Gz+Spybro?=
- =?us-ascii?Q?V5UvesLKQ4GF+LX4p7u8pEd8j7msdX4YOBHAEjqPKQ13tCPcniie42lpW8UR?=
- =?us-ascii?Q?5LoPijHQl087dRNtxla4igOTQTPBxtHFZNERQe9q11V5dmhPSpKNHf1sGfJ7?=
- =?us-ascii?Q?J7yhQs8BScqlIyOqrMZJo+ZzodId6gaZVLXL+Ba4rW/llLQ3fFmfUaSHqNas?=
- =?us-ascii?Q?05glbYqqISoKfnV7+nZxax8r8/SkZ16jzshAYO3O1k4AfLqsYVk/xJ1QXFoJ?=
- =?us-ascii?Q?U3KKIceCP19g13XFb/G2hpE1/JfElXrRFi9ElLy8Z46aa8pALZluqwBNbyr6?=
- =?us-ascii?Q?kqkAkW+HY+is3LnfRqS1ROKOz8p3AIib/Xv3+kLb8tLS3KN4bmvT3Only1yh?=
- =?us-ascii?Q?Sz+w2p2WgUiGbFqvI5pNIe01xl97vbhpEC0lPA1VCwL49dTv7OoEYA27ymU/?=
- =?us-ascii?Q?1bHrxs/0kp/eAQI4ojXufqttNtJ9zAca2SuQy94d57TJ1QdnHxngUivWpc49?=
- =?us-ascii?Q?j0Cf0c1T2b2u5xLb++9i6P5sO8jbRNgW7h7ro57++DDCmgpXqkda6jUzRLGo?=
- =?us-ascii?Q?jGuxFRfkszTMQaZZMeemPO0DFBpQIQc+Z6WxEd7Kj+7x3db8icIm9vmY5t96?=
- =?us-ascii?Q?amxKr0iCEOoU347707cunawzUdYbe/B+VLbqMCTUmZ7YVXiQC5aId1kM1aqI?=
- =?us-ascii?Q?ExQYQMRPnHJj2wc+97uXfHgxXgSyKj81ySRvco37vUY3wuHXeu1E8KOX8ReC?=
- =?us-ascii?Q?p8hLl4zhwD1UUiszXtzNx3Ng3lXxRW6dhrH4x80PuBK+OhkZ7Bq1faz5d59I?=
- =?us-ascii?Q?Ex0IFT7xuyeoePAbJv0ymr2hZFVG5fcGyyRtR7owc34X8D142t1hjQ+X5LPG?=
- =?us-ascii?Q?l/rLavSao6j+nEGf/Da4P7MnRBS3LpPj7enGmpJmwnK5I0YtLL/xXV3D0Y0e?=
- =?us-ascii?Q?UuUlMHklTJ1As67tEuoJX8TU7ML1UFUZBg0DHkIaUhcI5LyNr9MJgw2oGLpS?=
- =?us-ascii?Q?8hyWHNFlqyiFeqRwnZmrOiqcQirbyljzOaNWKaoZQqcQUTGfHgIvuNucfWSJ?=
- =?us-ascii?Q?zfW4uV2KAw9PdZ6S9oCULlImh0x2DnsYbODW2VfO+VTlma4v6hT6g1SJYRsT?=
- =?us-ascii?Q?Bpk4y6KbmoUCSgqwmm16AmkbAvoD+FM7J98iW+4M5f0HVBGqBocLjKOF+t3N?=
- =?us-ascii?Q?dZRV2o0z0ZB6zporz0wg4KiDJCiVWdR7vMZB9kD/PHyx/+tvFjwRwMsDF1Bj?=
- =?us-ascii?Q?683CVkJVN0Dr97o2yHwJLJCUT5ok5HaFQ0dxGEIwirhzshVR76e2lJVTTWE5?=
- =?us-ascii?Q?uOpfrb6JYfoUBZk6a9Y3Mj/wfvPrHPRMt6HdK2z0Xr9cgvpxWxNpDqqVgaBx?=
- =?us-ascii?Q?j1SQHGZPeGFlfwioG87in5vJXaj1HC4rXdBe6ix7?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7341fd75-9270-40bc-864a-08de0ecdf20a
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2025 05:11:22.7577
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1JciDk1CKknDrDT1o6ezqBo3j7RT6w6cGA/9xlg97qU0x53XUuc2UClF/3mLoTsVlrKW+i9sEK0Hb5vzoocpIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFEC5C0F28D
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Oct 19, 2025 at 01:07:22PM +0800, kernel test robot wrote:
-> Hi Borislav,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on next-20251017]
-> [cannot apply to linus/master v6.18-rc1 v6.17 v6.17-rc7 v6.18-rc1]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Borislav-Petkov/objtool-klp-Add-the-debian-based-package-name-of-xxhash-to-the-hint/20251018-091553
-> base:   next-20251017
-> patch link:    https://lore.kernel.org/r/20251017194732.7713-1-bp%40kernel.org
-> patch subject: [PATCH] objtool/klp: Add the debian-based package name of xxhash to the hint
-> :::::: branch date: 25 hours ago
-> :::::: commit date: 25 hours ago
-> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251019/202510190931.1SovbysA-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190931.1SovbysA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202510190931.1SovbysA-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
+tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
+head:   fa05815572860da32b9145bb5e396a511cc081a9
+commit: 7323ffb6a7a00fcc9c21bcb5ded7119da356110c [14/28] Make  vfio_pci_core_get_dmabuf_phys()
+config: i386-buildonly-randconfig-003-20251019 (https://download.01.org/0day-ci/archive/20251019/202510191300.b3i7AVRW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510191300.b3i7AVRW-lkp@intel.com/reproduce)
 
-Sorry, kindly ignore this report. which is a false positve.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510191300.b3i7AVRW-lkp@intel.com/
 
-> 
-> >> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
-> --
->    drivers/message/fusion/mptsas.c: In function 'mptsas_issue_tm':
->    drivers/message/fusion/mptsas.c:4791:26: warning: variable 'timeleft' set but not used [-Wunused-but-set-variable]
->     4791 |         unsigned long    timeleft;
->          |                          ^~~~~~~~
-> >> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
-> --
->    mptsas.c: In function 'mptsas_issue_tm':
->    mptsas.c:4791:26: warning: variable 'timeleft' set but not used [-Wunused-but-set-variable]
->     4791 |         unsigned long    timeleft;
->          |                          ^~~~~~~~
-> >> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-> 
+All errors (new ones prefixed by >>):
+
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/aperture.h:6,
+                    from drivers/vfio/pci/vfio_pci_core.c:13:
+>> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
+       8 | #define NULL ((void *)0)
+         |                ^~~~
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2593:5: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2593 | int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
+       8 | #define NULL ((void *)0)
+         |                       ^
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2593:5: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2593 | int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/vfio/pci/vfio_pci_core.c:14:
+>> include/linux/stddef.h:8:16: error: expected identifier or '(' before 'void'
+       8 | #define NULL ((void *)0)
+         |                ^~~~
+   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:19: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:8:23: error: expected ')' before numeric constant
+       8 | #define NULL ((void *)0)
+         |                       ^
+   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:19: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+>> include/linux/compiler.h:286:29: error: pasting "__addressable_" and "(" does not give a valid preprocessing token
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                             ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:286:21: note: in expansion of macro '__PASTE'
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                     ^~~~~~~
+   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
+     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:77:9: note: in expansion of macro '__ADDRESSABLE'
+      77 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:86:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:8:15: error: expected declaration specifiers or '...' before '(' token
+       8 | #define NULL ((void *)0)
+         |               ^
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:286:9: note: in expansion of macro '__UNIQUE_ID'
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:286:21: note: in expansion of macro '__PASTE'
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                     ^~~~~~~
+   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
+     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:77:9: note: in expansion of macro '__ADDRESSABLE'
+      77 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:86:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:19: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/stddef.h:8:24: error: pasting ")" and "343" does not give a valid preprocessing token
+       8 | #define NULL ((void *)0)
+         |                        ^
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:286:9: note: in expansion of macro '__UNIQUE_ID'
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:286:21: note: in expansion of macro '__PASTE'
+     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |                     ^~~~~~~
+   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
+     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:77:9: note: in expansion of macro '__ADDRESSABLE'
+      77 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:86:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
+      75 | #define vfio_pci_core_get_dmabuf_phys NULL
+         |                                       ^~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:19: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/export.h:35:9: error: pasting "__export_symbol_" and "(" does not give a valid preprocessing token
+      35 |         __export_symbol_##sym:                  ASM_NL  \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/export.h:79:25: note: in expansion of macro '___EXPORT_SYMBOL'
+      79 |         asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
+         |                         ^~~~~~~~~~~~~~~~
+   include/linux/export.h:86:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/vfio/pci/vfio_pci_core.c:2602:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    2602 | EXPORT_SYMBOL_GPL(vfio_pci_core_get_dmabuf_phys);
+         | ^~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +8 include/linux/stddef.h
+
+^1da177e4c3f415 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f415 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f415 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e2182874324727 Richard Knutsson 2006-09-30  9  
+
+:::::: The code at line 8 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
