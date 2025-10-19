@@ -1,136 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81461B4F2C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 04:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760848168; cv=none; b=AQgUsTHjFOlIkxZHJQ7lmKX2Gbo02CWN4luqoLFjdR84zGjEZQKlsRvFolzjyrrcIauq7Hv6wgYDtX1mAGYwC5XNme4hE/rAXwhs7YKQPK1toeyMhXq2jFdpQcRelB2HYB5Gw4EEVyCUkBCasnHksNPe1bfMbZ6/mMNaUgm2LeU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760848168; c=relaxed/simple;
-	bh=C3wkNQ8aUiQFEYO6K96oVISdonY8e8WxgeJ+l1eJKG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FI5mRvc1SGR0a3x6zrae7pRC0r1wRpNVOk3fAkyssOr6s92qaV8baYu49Iw2Q73lJP0HWKQhpXpgReM3fdh7oOX0LZvfTCnpHgtzdWXzQOcie1jbTvAKAZ2hxhWAACqrAalXjGjIa5TMnm8UVSNIqZprSymXUZpkBtd1SFXjG8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TK4g0+uE; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E471AAA1C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 05:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760850460; cv=fail; b=NakbTWni/IvfXOXLL1BDirlZfKDpMdw4f2UWf3slH0c9e8Eo8fkURY6WcPBgl4YrqEEWchE1NCCsgnHdwzS/SZHwG9ouFV/zbRtpWuCRKgpxsav8oa872q9U6Pb4xd8WQPn22B26XmxpQiuKuvfNuZIxyB5Mzwbc6HNjDxqd4ZY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760850460; c=relaxed/simple;
+	bh=UmsOZuppTWL4BDrQz3EgulrQYiNLeRRz3IcXd3QCN1o=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=U6EDbWUu66WQcBOQ/vnm9L8w9sl0qFRWechgeuLEK6ejsBrn4vjRz2mNbzB86LaZn7AiGe/Yj3iEbc4o/56ioNwIMSBwmc0dxBMzOcJvNUtjnXbEuHyiscTXhdVn0wJw6Pei27LGtJqi6ktiZSviICQYmXWQySCFPmHZJaX7YSs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKMr40A0; arc=fail smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TK4g0+uE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKMr40A0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760848168; x=1792384168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C3wkNQ8aUiQFEYO6K96oVISdonY8e8WxgeJ+l1eJKG8=;
-  b=TK4g0+uE5bCpEiWJrMHtMxtkfi9mqj484nCi+8O6kL/LqR+Vd1/q8RXJ
-   txnhG1fJpofgG4n75ew352QcIaXSKte/VWRlr4d5zB3Q2VZ7ehqyW1Jew
-   8vrDjQEb/wIdHCQ2GxI+JjJHS7HOldmhqHaqEZmzY/qUHtEPxevpaD+kQ
-   b699tCcMIGYxFnh9QX2yOY0OqQAhGS4q1Ai4j81LM1xinwkESnnyn7n9n
-   G99BY5WJ88D4etHvxkp8EYHTKswVtzznacnYNqGI2FSLUwiirPAp/f4Qs
-   4fJdaQV308ubyu53v4Q8tmZvJwzCgsGxuV0FH6zic4LpOS9plhu9DBTaV
-   g==;
-X-CSE-ConnectionGUID: tSB8HMc3SCSLldsODLVrOQ==
-X-CSE-MsgGUID: xCgiLa0HQQWL4uiNqxNX9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62907063"
+  t=1760850456; x=1792386456;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=UmsOZuppTWL4BDrQz3EgulrQYiNLeRRz3IcXd3QCN1o=;
+  b=iKMr40A0h+6RntQDEazUraj8UbiB5IYBmnDQHzqx73qDDje1BaNFI35S
+   VFAQNBOz99poTW1Bep1MjVQidLB4MvvbJrE2VOFhUTwJ9MFAVZXnL0XWN
+   md1KdTlkYxU/Uk97BH6aZPKcKpsyhApQp7bQ3dTH2dgefLwElQZWAHkxa
+   RgL0p0tNFi5W8mPon+JpXAsbIlOmj+rskSIKM1FmyxNu/MZQl2RMN8sQX
+   sESjWc1+1Qe7P5Az5oyygbXRS7RvVve7B+KN9bgagBlg1I1UedygUtAGK
+   icXp2+d/BCNStd/XLZE+5/c8BzavCSl+ftlrYVdi6wOi7F7enxC59kJjI
+   A==;
+X-CSE-ConnectionGUID: A2QDVqkmQ+mPGkfDb5UAzg==
+X-CSE-MsgGUID: XFg2jfjTQ+2+O67BriNQYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85630951"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="62907063"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 21:29:27 -0700
-X-CSE-ConnectionGUID: jv85oiWjSn6LROALMP62nA==
-X-CSE-MsgGUID: YR+Am7CUSQuU+6q/H3HCuQ==
+   d="scan'208";a="85630951"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:07:36 -0700
+X-CSE-ConnectionGUID: ytzGQ3paTMeQGRAglW4azg==
+X-CSE-MsgGUID: Wpm0MTciSJW5h9gv4BvQDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="214030391"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2025 21:29:24 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAL2n-0008ph-2X;
-	Sun, 19 Oct 2025 04:29:21 +0000
-Date: Sun, 19 Oct 2025 12:28:56 +0800
+   d="scan'208";a="182766528"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:07:37 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 18 Oct 2025 22:07:36 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Sat, 18 Oct 2025 22:07:36 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.1) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 18 Oct 2025 22:07:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d0sMLIYJz2pfh3IaJn7KgTHy7uI0ud2/YDI/jgFwdYBhEGUDbxJb6miUKRaE6KNmMdf5tRTWuH+rzR42bWKFv6QtY4wRKuri3835TYgPOXDY/g5ZdjUPoE0esQXNUAq1MuM/uAIIJn/X4fUkyTsBKnay7Tyjcq9QrTobQwdN0yJBp+dng+f6Lf5ecKOq9QwpHkicA8U7kZG4JqmKI8ndzvn2tnI7HcPgvjC6w4Xb87R1HENpd3OXoDf8/1dSgWeGK0DL+W+xoUKUGSn+IHDk6Mze/TxBrXoWqR8u2X3uitXzSmL+n+NCnDNRI9QpRmG8lx0JPLkCurDyhiVFoxxZDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lSZjgVYvL7A0YdGfoFOYP94J3IDkN8VTqzj6QsR5vk0=;
+ b=hESw812lqGppdnLKwk+NkjNWKadUPqoYWTrCZ6jpUVJZLhalA7H/y3A4ta/NEarzZHjaw51l0Wyg9Ez5FFxSWWutodwOXbSpC6veM02WNGYdpagGdUlIMeL1Wg80prrctzCgob3JowX+hbCmmoH0ACeVon3ZVERTcfufXOIU5Q19TE9MXh1fVbgH6Vfgk/XKTKX6imjweByEPGIyaQw77tEtzTgckYaWKzp0zvWlGjON9cUKYIRE+eqYH+QCNBRRa6uOPxFqfJjnectJtYcX3sG2kVvlb4cQJWMGmaadX3N41Azg2CLxisOVBmvIAobf78auvu0CjuXvthwB7C1HzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by PH3PPFEC5C0F28D.namprd11.prod.outlook.com (2603:10b6:518:1::d5c) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.15; Sun, 19 Oct
+ 2025 05:07:33 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9228.014; Sun, 19 Oct 2025
+ 05:07:33 +0000
+Date: Sun, 19 Oct 2025 13:07:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qinxin Xia <xiaqinxin@huawei.com>, 21cnbao@gmail.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, prime.zeng@huawei.com,
-	fanghao11@huawei.com, linux-kernel@vger.kernel.org,
-	linuxarm@huawei.com, xiaqinxin@huawei.com, wangzhou1@hisilicon.com
-Subject: Re: [PATCH v2] tools/dma: move dma_map_benchmark from selftests to
- tools/dma
-Message-ID: <202510191133.ThgrGhqL-lkp@intel.com>
-References: <20251018101402.3079372-1-xiaqinxin@huawei.com>
+To: Borislav Petkov <bp@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, X86 ML <x86@kernel.org>, LKML
+	<linux-kernel@vger.kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: Re: [PATCH] objtool/klp: Add the debian-based package name of xxhash
+ to the hint
+Message-ID: <aPRyCq55erNhA8CI@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251017194732.7713-1-bp@kernel.org>
+X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251018101402.3079372-1-xiaqinxin@huawei.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|PH3PPFEC5C0F28D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 874d6dc5-f92f-4b87-d108-08de0ecd6807
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?THXC3QrVAIqkF6eYB4sSCGDLwAGQv5Vlfr/ydeHeDsoxT4WFWiL0FPWZiMiz?=
+ =?us-ascii?Q?wD8tx2F0CeZ8LZQeRWc6Xl/8bEdNb6jCFRocFX2bTtBxCTd158UQzi4Q8bNj?=
+ =?us-ascii?Q?4PRvY9qGhu1aIM3CtXW4mvxbbCg49DRKdIWI5rKnUwJm4h9LeQ+Jg/dyyuI8?=
+ =?us-ascii?Q?/CJnNgVwAcvdNMjONud53RUJVVsRI4t+e50Vw+0uK8S45GyMR4I4VDnUblH+?=
+ =?us-ascii?Q?lrBCQBN4tnBG3syC9Kkggo2VTvwYbcioCiInwcPoook4YR961vG5x7+ws0t1?=
+ =?us-ascii?Q?wqmzEdBNoi2I7UjbKkgAfaw+PEY3Y+0t662GVZu9WE892YHpu+wUrJxsIemN?=
+ =?us-ascii?Q?n44HzBAoo6DHc//aDi1CmrbG99URGGHOUz/HjxcDOTMdtxYYhO+HUjQWivlB?=
+ =?us-ascii?Q?dfh88E/prUZk1aF+shC0o3OLJ0DZaPfVMf78lN+Rv6vnhaC2EPiSQLrVtNRY?=
+ =?us-ascii?Q?TwXDlUrw2xYchKBxkgZ9XqHgtmA/dlraUDBY+7bU6FakRXhqFlAetl91O8fe?=
+ =?us-ascii?Q?Rwb/LapmZ3TtSg2+Zy/uXQ/ZALyDefvI169AQg0+n3FqmQNdhwASdaFAN7AT?=
+ =?us-ascii?Q?luBBgR+wRHEfA4LhB8fOt9d5gbJjO/pDhgwp5ek18AMdN56u6sCTLuAgZ3JF?=
+ =?us-ascii?Q?1K0LtOwrcQoLygRUOTaikXEDic9sxMGJg0d4gEBuBjnpTtmB7e5oMYo2eLE0?=
+ =?us-ascii?Q?YYik7TUk1+72DP/HqNnxuf6Xs5VxJ1PUpnfbVFLjeUNtcgNWSpLw6COIcSCb?=
+ =?us-ascii?Q?TKCNrAyFg8E+ExjAKWVxb1acmFNNCAEfBnLzktz2xtfCIob77JeGEEljb5bc?=
+ =?us-ascii?Q?PU1U/HmRLedAvFrR/+eWIKQKah4IvsBYdYoIFgkbHiF9K+9GT4ij1j0LVlku?=
+ =?us-ascii?Q?wJj1SQh+lu8pd+H9YYAEzXvzuRUkDWbaU8/ixeyEUvGBTEM+Q4gfUqd6Mthn?=
+ =?us-ascii?Q?+pB6xDY6Ni9SVdanCMIpT+91uBgSX7Rlkui0iq1eROJsYIPfAl8nGVpr/WZG?=
+ =?us-ascii?Q?lshfj9wEWn39mMkx9g61gdb+Lj2mJg9zGZSzQCrcrbigrLSNNvryd+la9fD2?=
+ =?us-ascii?Q?kRHHVb3vrbvK0bUOEbES0ZhBpwhICxiXtaJe/u91+8jNzETCQMnT6bk0bgFv?=
+ =?us-ascii?Q?g1cbGa/Quql064j/FINqFmiQDInNxa+yqyi7yAfIGQ6mCoyK1G4xxv3DPPVU?=
+ =?us-ascii?Q?TeMzv+pgHDptJE9J1IPq4dY1A/Ork5Xjs5UzQ4XXjivkX6Y5xUkEr19OiRji?=
+ =?us-ascii?Q?48AxYPxUCYbjvpXVDUg5gGh5rclp/PKv0pK/4wnwIjY+o4b+FjrdHTeeTU6N?=
+ =?us-ascii?Q?hB5Ig51I+CD4l9G1h1qE3TEdB3lePmZaWcQHDlqg9t08wwL9IT75rm+QdpyI?=
+ =?us-ascii?Q?sItSZmYaTBlvT7E6djxYfQSEKFV/vevWA2xjhk8u66yPNXZi0vh+W/8pw1Zr?=
+ =?us-ascii?Q?q+fXII0dwOsl7PMfzPA5qColvldZQgBCGTpuG57UTrEPEGyRwcwVQA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LS7qknvsMfFeDo/sf6rhj0V6Pc1I7NpMawW0f31dW+cnXgMylpxQ3vsP6RQ0?=
+ =?us-ascii?Q?/1U9NgQthx80srq3+ZXd67ohwIXBUUT4XYQd7bs4iBm4FT/CX44V+hjWD1oM?=
+ =?us-ascii?Q?3qEl7zvVZivfQQT9orH38fF11nr+hxt5t9PMCNEfa7SYFqO9cb8hv1+72S/M?=
+ =?us-ascii?Q?BKIM9myYmMx4nIAMCcwj1xb/HVAX0tP/KY7gp8OVzj6d7+vSoG/eEri5MlLN?=
+ =?us-ascii?Q?l/v0fhwHHE7pKFRHaE9swG6KFMG42brQi7ElkFCTcCyMPO24dmh9k+3LO9hl?=
+ =?us-ascii?Q?XZIF+gXLqkZJmRGqPu1WgZgFysiJLvWZ0+lfYbzRL0pLfUdDzRSy2wTwCUh1?=
+ =?us-ascii?Q?G8EBH3sYA3F9vrOo9YADcOQGXsj0LxdTmzWdirMcuDKGc2MaT8mVCMRA/THo?=
+ =?us-ascii?Q?yz89d9N+W4tQvB8/+pH7FzMF5zmzvKNr1S3wUPEuVypKpyvH6vQseHkSjXlY?=
+ =?us-ascii?Q?IOWLCuLwQwKwOI4vHAtXq+xEgolvwz0j5jdkSQsaNhW3XgIP/mFyRNyUi/oP?=
+ =?us-ascii?Q?a0r+GgoiGem0h+rlWQHm64JPB7hGtcJbmA0s/x7/A/UFgYciZA/OwoMWDDic?=
+ =?us-ascii?Q?t8FgVY7+KHt10Iw4SzI0AiSkEeV+Hdb5C8KY9UGV5uwB1Bs6FPZqbdQ7Hn6R?=
+ =?us-ascii?Q?iUxbptSxvVCAK4XS8vYSGPLxq8aFRXUpmgDzxH5nesgmpOcENjWDx2z8sl7d?=
+ =?us-ascii?Q?OA+yGOc2dLS7x5ISg/+NwKC0BoRybAOB5tDtZhuM2VzSuDcET38/N2p90ZzY?=
+ =?us-ascii?Q?t5bVd/gSCg4+tLHYLOkopjV51n/5KeftV04jjnXufx36EbNyu4HRv/cyFz5Y?=
+ =?us-ascii?Q?sTKMMLIbSs2UVFKByiqmGdQki/ANcUJoQyvMMYJFt9uxU61ivU1rpWLIHbZ0?=
+ =?us-ascii?Q?SwV+A4hzOnXbActEYF6l06HmiNU+rrCxD35KPodT0ZCITtGgTs5gdAGmx166?=
+ =?us-ascii?Q?CXchDeVgMwYPbGqh1u4n8R+cMDPINpBEWl5x+3jQ/DM5mdfkbD/llqI6uYXb?=
+ =?us-ascii?Q?g9JAWmORHUNZG32/yCovalgnzvUCbCZ7aFOrcrWMG1e/HAdKTO29Pw52vEyU?=
+ =?us-ascii?Q?JhxRgl/wj/mvWIhnpMvh2I2d9ixK6r47M1mJu3QVhhMjIMYdCoWOoQL7Mqvh?=
+ =?us-ascii?Q?H0q6o2cvmO//CeqS6GLe9gY7Y2arGBtNuX5P4IXKkSgOkrwBHronZUcrOpFg?=
+ =?us-ascii?Q?k11KHxIh9+byveKleewRGvw123eenpaygZmqZxDcnT8muiEXxUzmdA3EVhl8?=
+ =?us-ascii?Q?xNztMgl679kA37OKIwat7/PRHuM0W7+BIdoZyhQ1YO4sNNd0STWgODtb0L5s?=
+ =?us-ascii?Q?8iQuUajdp4WCKr6JAlUhEh9noOTERB8HF8ye8Oys8+TmEMnMNOchmIcavJMj?=
+ =?us-ascii?Q?NKzZriqI1rraA2/InSfGU+CT/KxXSDko5Hpy2ICmIHJOH+Y/EKac9uHjVNor?=
+ =?us-ascii?Q?e32e4viaP1KPVT345aYmyzYWxPPuSEiMVxkryUspbBYPAHDYaRzV82qklnHI?=
+ =?us-ascii?Q?6M2607VmtC6GhhYQ8PRmnO3Jb/GakZN2xlhCPKYtKuKJZAm2H11fHLscVF3o?=
+ =?us-ascii?Q?cavrISe3IrCez6fjla1W3NZoNShUkqptDgyzDtqL?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 874d6dc5-f92f-4b87-d108-08de0ecd6807
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2025 05:07:33.4660
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Apo9UYgNESij4RnBNj/85W8UivEZ+nl/pz/VTVDBZ0DeYAaKdeKeCVnjiy/12AENLQbJqrt+eGn591uRqlq3ng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFEC5C0F28D
+X-OriginatorOrg: intel.com
 
-Hi Qinxin,
+Hi Borislav,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on shuah-kselftest/fixes linus/master v6.18-rc1 next-20251017]
+[auto build test ERROR on next-20251017]
+[cannot apply to linus/master v6.18-rc1 v6.17 v6.17-rc7 v6.18-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qinxin-Xia/tools-dma-move-dma_map_benchmark-from-selftests-to-tools-dma/20251018-181628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20251018101402.3079372-1-xiaqinxin%40huawei.com
-patch subject: [PATCH v2] tools/dma: move dma_map_benchmark from selftests to tools/dma
-config: x86_64-buildonly-randconfig-002-20251019 (https://download.01.org/0day-ci/archive/20251019/202510191133.ThgrGhqL-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510191133.ThgrGhqL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Borislav-Petkov/objtool-klp-Add-the-debian-based-package-name-of-xxhash-to-the-hint/20251018-091553
+base:   next-20251017
+patch link:    https://lore.kernel.org/r/20251017194732.7713-1-bp%40kernel.org
+patch subject: [PATCH] objtool/klp: Add the debian-based package name of xxhash to the hint
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251019/202510190931.1SovbysA-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510190931.1SovbysA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510191133.ThgrGhqL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510190931.1SovbysA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/map_benchmark.h:19:9: error: unknown type name '__u64'
-      19 |         __u64 avg_map_100ns; /* average map latency in 100ns */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:20:9: error: unknown type name '__u64'
-      20 |         __u64 map_stddev; /* standard deviation of map latency */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:21:9: error: unknown type name '__u64'
-      21 |         __u64 avg_unmap_100ns; /* as above */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:22:9: error: unknown type name '__u64'
-      22 |         __u64 unmap_stddev;
-         |         ^~~~~
->> ./usr/include/linux/map_benchmark.h:23:9: error: unknown type name '__u32'
-      23 |         __u32 threads; /* how many threads will do map/unmap in parallel */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:24:9: error: unknown type name '__u32'
-      24 |         __u32 seconds; /* how long the test will last */
-         |         ^~~~~
->> ./usr/include/linux/map_benchmark.h:25:9: error: unknown type name '__s32'
-      25 |         __s32 node; /* which numa node this benchmark will run on */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:26:9: error: unknown type name '__u32'
-      26 |         __u32 dma_bits; /* DMA addressing capability */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:27:9: error: unknown type name '__u32'
-      27 |         __u32 dma_dir; /* DMA data direction */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:28:9: error: unknown type name '__u32'
-      28 |         __u32 dma_trans_ns; /* time for DMA transmission in ns */
-         |         ^~~~~
-   ./usr/include/linux/map_benchmark.h:29:9: error: unknown type name '__u32'
-      29 |         __u32 granule;  /* how many PAGE_SIZE will do map/unmap once a time */
-         |         ^~~~~
->> ./usr/include/linux/map_benchmark.h:30:9: error: unknown type name '__u8'
-      30 |         __u8 expansion[76]; /* For future use */
-         |         ^~~~
+>> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
+--
+   drivers/message/fusion/mptsas.c: In function 'mptsas_issue_tm':
+   drivers/message/fusion/mptsas.c:4791:26: warning: variable 'timeleft' set but not used [-Wunused-but-set-variable]
+    4791 |         unsigned long    timeleft;
+         |                          ^~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
+--
+   mptsas.c: In function 'mptsas_issue_tm':
+   mptsas.c:4791:26: warning: variable 'timeleft' set but not used [-Wunused-but-set-variable]
+    4791 |         unsigned long    timeleft;
+         |                          ^~~~~~~~
+>> error: objtool: --checksum not supported; install xxhash-devel/libxxhash-dev and recompile
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
