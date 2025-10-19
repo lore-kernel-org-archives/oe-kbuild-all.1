@@ -1,143 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06926246782
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 22:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86DE1F3B9E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760912696; cv=none; b=p23/Dyd64H+PhBTabdAXQsNqHZJLpfJeMLtacPQvwIj1VNdZvXv38YfhfD/PCSENPpwAIeH4Mn5VVxZHDQ921I98mVRakuXhwSMWouvwC14gIFwyZRjy525YgNNfxL8Tk6DsbSYXZ/iRqkxIBqGZDWcgZi0inkK9UOinzvTPzS8=
+	t=1760914851; cv=none; b=CnYK2thvAsCK3lGKDRNKWIsUnyJJgb9jV1B7A61ILWGeKWVqp5wG/geqOWmWUMsMTNOLSuoqTGWQMZupNMfSvE3JXU+jB1p8pK2uRguSbwr2ftyExV5awj09i54WkForSEZ9Uu3XWN7POpmam/cCgy40JQtte0mGBaTejAY8UKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760912696; c=relaxed/simple;
-	bh=1LNy99L8zqlHOMwf52esQ3C62U90F1d7tlZehh69oQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TIqa1VNOk4iPWjzT8mPQadFaE0S5gHuk5XaUA9JMK+ECl7cimQ0XXjcMuKN//DXFi/X+QenKQWtvSAJHDG0a5GZCRricmUd0p1lZEkG8eZIhHCXBU2IvEv2doq6zd0w3z7fJUtT5XKt75NfTXVhGFC+AgZXrHsaEPt2n6xqdZl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YPa6PkIm; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760914851; c=relaxed/simple;
+	bh=vDSwGwbdYtsn7LQdKYHvWAIvfQA1/egDi0A2fjbkEuA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/oaOUfCo1DBVzgF8NoM3BaIkOrY9/RG+VHUwtMMuhCXd7BbB5JZlSU7+ORFZYMNCucomqc45zzbS0wFHQnNTzfinUsPSd8qqge7vKresfDfyxpz572Bifsppy449zpAKIX5JZqE2up6bNU1Q9PPf6xuF/IBoU3JIsc34JKiQ+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=4nuaGIy/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QhDFAL4k; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YPa6PkIm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760912695; x=1792448695;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1LNy99L8zqlHOMwf52esQ3C62U90F1d7tlZehh69oQ8=;
-  b=YPa6PkIm+MxPcyB2OH76X4NHo3w/79Jsh0xocsyY8kms0lrMQuJ2gy1f
-   nweo5MQp1h5lUymNO0okEjFL0LoGAMiuohv31jRkLkQWps3kwJKH4ZcL6
-   uttjBUGV3L2pnHmzVNtITkqe1vLww7DxD6cibXSzAL0P9WURkDepPHR1R
-   spGRsj72Pef8zx9/TnxEruZpB8PODhRb0SVuzfXHoldDGsFCp6g162sZ2
-   sDQ5FRa/3gBChOGgvOyrOgp4JuUQoBryAjXVRNctqQ1maYpSk1Y7gfm80
-   ozD2OMncd5q8ogXy9YHs625Z2t/HUnIPva/3YsPedhqExcSghCN54CFPC
-   A==;
-X-CSE-ConnectionGUID: 6F57uPE5TOSX7jekNOio9A==
-X-CSE-MsgGUID: +er5mXhKQVqXIXwARp8s9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="63184853"
-X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="63184853"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 15:24:55 -0700
-X-CSE-ConnectionGUID: l97go/YMQ/+CcswmoeJD6A==
-X-CSE-MsgGUID: tUiSXWyMRICVOXx+/P4M0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="183602792"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Oct 2025 15:24:53 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAbpb-0009Kv-0J;
-	Sun, 19 Oct 2025 22:24:51 +0000
-Date: Mon, 20 Oct 2025 06:24:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommufd_dmabuf 15/28]
- drivers/vfio/pci/nvgrace-gpu/main.c:716:1: warning: control reaches end of
- non-void function
-Message-ID: <202510200619.a56qirOl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="4nuaGIy/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QhDFAL4k"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id CC16EEC0122;
+	Sun, 19 Oct 2025 19:00:45 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sun, 19 Oct 2025 19:00:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1760914845; x=
+	1761001245; bh=29TPynyEp1oN42nw9gedUTkz9DI5eNHDBplK4IjE9YQ=; b=4
+	nuaGIy/83sbxawN39TsBQQhjsOiAT+oPtOKIhWWZgkNHdeJZzcg5L95vBbxdNQ1n
+	ihWEVwOrWJoDODxvmsFcUyzQO8autsuLbe+D4ze3vRZA+Lh7y78AHg9Yuu1q9X2U
+	ibqGZ0Vf7KzDxqj4owsMe+uOKAsNFL1urUSbFS1W40CGh63aNyyufv+5EZpcl5I1
+	4jfa7PuQEYj+bu+oc6mX+SE0rVHTq3D3jYa9xE7/wyagVqXs1A3qQ9kJy6++M5qf
+	Lz6WjjNRXRSh/hHbN1aJui9/5PY6eiw2XgfqNII5JD7SMStf0yqOeLLI4mcSpXDL
+	59SF1mcbazT3snIvExQCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1760914845; x=1761001245; bh=29TPynyEp1oN42nw9gedUTkz9DI5eNHDBpl
+	K4IjE9YQ=; b=QhDFAL4k5TSJ3JCM6xfHsPVvyQWBLAlmoBbeiYik6aFQq9WL98v
+	1/+0OVLJ09WcPXfpLBq4Zw1+qVdEgHlgEILang0wzMAlelqcCeGmXFdoiIMLEDox
+	Ia1gVelrenJIrZPtQ8biL1Xl7B/euJvWO4dQTGzjEGjdfnkdERue0hKJ7wLveAw9
+	kjKJpecnLc9yKLClWw69QkRDlwVtRz8dzbqYs5JY3k031lh0LB/JFHDmiy5YaYmm
+	eSfc4XEn5tv/KF7kH3Pik9NOrFbpFWgh6XjDf1KQqL0bbPNQP8sOoDKpp+Nzxm4M
+	ddfSTeZLyvCWgiDlFkkkBj5mmBkwsR2pHUw==
+X-ME-Sender: <xms:nG31aHnknRrm674WvE-ajArqsWxiFE6-0swwNyme_rip8i4JVT1D3Q>
+    <xme:nG31aMUnrEO3x1G12IkzptbFNjpD8HxX0s0FDzRFWYtgadaJNH30VriqkQmC4k16D
+    Y9XjggNKpt17ar9aAK8t106wpwuKtF8pSK3PE3lWxLW4sX-1e0EPg>
+X-ME-Received: <xmr:nG31aNupuTBjf8heh7x7k2RO02FZJxJafVaP3EoYiDutFktSpExfOT5yr5hn>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddufeeivdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
+    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
+    grthhtvghrnhepueejjeeivdejvddtgffgfeelvedvvdfgjeffudfhgefhudekkefhffef
+    heduieeunecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomh
+    dpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehsugesqhhuvggrshihshhnrghilhdrnhgvthdpnh
+    gspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhtvghf
+    fhgvnhdrkhhlrghsshgvrhhtsehsvggtuhhnvghtrdgtohhmpdhrtghpthhtohepnhgvth
+    guvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhl
+    ugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlkhhpsehinh
+    htvghlrdgtohhmpdhrtghpthhtoheprgguohgsrhhihigrnhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:nW31aPZtiBE8qkt4xqWUb9j5UtBcMC5whh2X0fyJu79dD_9mP9HY5A>
+    <xmx:nW31aMUd4xK-Fnh-vK1kOkpBAhISodgDt5sb52NTdawoZIZxT43BrQ>
+    <xmx:nW31aETsf1bkqq3xW7U3s6PxoCHZdwxkgrLLhGtXMt_BXwUYnTFTVQ>
+    <xmx:nW31aKMLMNLVGJbp6gA3JUkGqIatisQPFvj75-u3re7ksjJs0x_qfQ>
+    <xmx:nW31aOTsDrisoF49dyF6deIW7Oiq9IGIAFpeV7DV2I_CF7QTmaAnyn_V>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 19 Oct 2025 19:00:44 -0400 (EDT)
+Date: Mon, 20 Oct 2025 01:00:42 +0200
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: steffen.klassert@secunet.com
+Cc: netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>
+Subject: Re: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover
+ states during netns deletion
+Message-ID: <aPVtmloGOCQi_7ue@krikkit>
+References: <2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd@queasysnail.net>
+ <202510172159.iLR9bfcc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202510172159.iLR9bfcc-lkp@intel.com>
 
-tree:   https://github.com/jgunthorpe/linux iommufd_dmabuf
-head:   fa05815572860da32b9145bb5e396a511cc081a9
-commit: b223fd6ff7a3c77e15e53a2068a3906acf8f178b [15/28] vfio/nvgrace: Support get_dmabuf_phys
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251020/202510200619.a56qirOl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510200619.a56qirOl-lkp@intel.com/reproduce)
+Hi Steffen,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510200619.a56qirOl-lkp@intel.com/
+2025-10-17, 23:10:36 +0800, kernel test robot wrote:
+> Hi Sabrina,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on klassert-ipsec-next/master]
+> [also build test WARNING on klassert-ipsec/master net/main net-next/main linus/master v6.18-rc1 next-20251016]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/xfrm-drop-SA-reference-in-xfrm_state_update-if-dir-doesn-t-match/20251016-184507
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+> patch link:    https://lore.kernel.org/r/2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd%40queasysnail.net
+> patch subject: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover states during netns deletion
+> config: x86_64-randconfig-r123-20251017 (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510172159.iLR9bfcc-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+[...]
+>   3308	void xfrm_state_fini(struct net *net)
+>   3309	{
+>   3310		unsigned int sz;
+>   3311		int i;
+>   3312	
+>   3313		flush_work(&net->xfrm.state_hash_work);
+>   3314		xfrm_state_flush(net, 0, false);
+>   3315		flush_work(&xfrm_state_gc_work);
+>   3316	
+>   3317		WARN_ON(!list_empty(&net->xfrm.state_all));
+>   3318	
+>   3319		for (i = 0; i <= net->xfrm.state_hmask; i++) {
+> > 3320			WARN_ON(!hlist_empty(net->xfrm.state_byseq + i));
 
-All warnings (new ones prefixed by >>):
+So, before my patch there was a sparse waraning on the
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:382,
-                    from arch/um/include/asm/current.h:5,
-                    from include/linux/mutex.h:14,
-                    from include/linux/vfio_pci_core.h:11,
-                    from drivers/vfio/pci/nvgrace-gpu/main.c:7:
-   drivers/vfio/pci/nvgrace-gpu/main.c: In function 'nvgrace_get_dmabuf_phys':
-   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/vfio_pci_core.h:75:39: note: in expansion of macro 'NULL'
-      75 | #define vfio_pci_core_get_dmabuf_phys NULL
-         |                                       ^~~~
-   drivers/vfio/pci/nvgrace-gpu/main.c:714:16: note: in expansion of macro 'vfio_pci_core_get_dmabuf_phys'
-     714 |         return vfio_pci_core_get_dmabuf_phys(core_vdev, provider, region_index,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/vfio/pci/nvgrace-gpu/main.c:716:1: warning: control reaches end of non-void function [-Wreturn-type]
-     716 | }
-         | ^
+	WARN_ON(!hlist_empty(net->xfrm.state_by*));
 
+lines, and now there's a sparse warning on the loop.
+(and plenty on other lines in net/xfrm/xfrm_state.c)
 
-vim +716 drivers/vfio/pci/nvgrace-gpu/main.c
+This bot message gave me the push to finally take a look at all the
+sparse warnings in net/xfrm/xfrm_state.c, I have solutions for a big
+chunk of them (and a few in other files).
 
-   686	
-   687	static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vdev,
-   688					   struct p2pdma_provider **provider,
-   689					   unsigned int region_index,
-   690					   struct phys_vec *phys_vec,
-   691					   struct vfio_region_dma_range *dma_ranges,
-   692					   size_t nr_ranges)
-   693	{
-   694		struct nvgrace_gpu_pci_core_device *nvdev = container_of(
-   695			core_vdev, struct nvgrace_gpu_pci_core_device, core_device);
-   696		struct pci_dev *pdev = core_vdev->pdev;
-   697	
-   698		if (region_index == RESMEM_REGION_INDEX) {
-   699			*provider = pcim_p2pdma_provider(pdev, 0);
-   700			if (!*provider)
-   701				return -EINVAL;
-   702			return vfio_pci_core_fill_phys_vec(phys_vec, dma_ranges,
-   703							   nr_ranges,
-   704							   nvdev->resmem.memphys,
-   705							   nvdev->resmem.memlength);
-   706		} else if (region_index == USEMEM_REGION_INDEX) {
-   707			/* Indicates cachable memory. */
-   708			*provider = NULL;
-   709			return vfio_pci_core_fill_phys_vec(phys_vec, dma_ranges,
-   710							   nr_ranges,
-   711							   nvdev->usemem.memphys,
-   712							   nvdev->usemem.memlength);
-   713		}
- > 714		return vfio_pci_core_get_dmabuf_phys(core_vdev, provider, region_index,
-   715						     phys_vec, dma_ranges, nr_ranges);
- > 716	}
-   717	
+If you want to drop this patch from the set, I'll re-send it later, on
+top of the sparse stuff. The rest of the series works without it. If
+you want to take it as is, it doesn't change the sparse situation in
+this file (a few warnings moved around) and I'll do the sparse
+cleanups on top of it.
+
+Thanks,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sabrina
