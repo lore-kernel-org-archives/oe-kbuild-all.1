@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4452210A1E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 05:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD90199E89
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 05:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760851957; cv=none; b=D8Mia11Cv0JTziEf8tcaq8xgyVLocwi/WepvzM+SvVBeNzsm1JS/7fae17nCwtbggRSimqrGwuMQC0hDQI8xhyW02l48hkk3tDXcrqCnFC3IYbtHGx+qgRCQQ6N0CPd+UbGwIvm6qvmse456AFQFTh9Sw/JphrRH8/UU+H/DXdc=
+	t=1760852559; cv=none; b=t+mliZI+FNlHZgwuX9MvQyq8qgURq1uXjhwwyxqG5hNuZQ5IOOz5uvD8IU6bXQv20m9TjZMTPJuUdukLoV/WdvlKGdzM7Yzg3hKR3DiMTvLnb3UwC3Nyj6SBT3rBznMYCS0ygvFF+y2nsW+HqATiRjNRebfafbv6zRQAlARfwBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760851957; c=relaxed/simple;
-	bh=bWGsBC58nVw/sxl2Hx9QNQsauG04QZleHom4h2dfg0U=;
+	s=arc-20240116; t=1760852559; c=relaxed/simple;
+	bh=JwvyXEk5u7W/dNhcRhuFNYkPJTG9KPcmeDQEyLfTKwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ErRYqXyAM58Vj5RbCulb5J3U1aZF5j7olIbYYPpVpwS39rfQ5MFeSLuskkd1mvJiij0rOF/0EM1p7CRFaKCKWL1zujF2q9r2QIo/l5P4+TvMDH3SYvOhw66Q+NXLYz3RRCx0GBkKtTZWZ/XB43XBS9peb+Tb0O6XC+O5SJeMj1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gVOAWL30; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=QK2hFeuLM0C8tNT/+3sE2ugzB3fBwylRCahomZ+gRiDdzBCHgxhn5WoNHGsFlX05E/1tjPhYoGBB+3RC4pOQx14EsEHD8Q7cj5sbYiLsQe0EEapwWpRnrrYsyChrGJ6UB7PomJyGmJkinPeNHVbro2VyCOMFRx6cmWhSnowgfZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnEb356I; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gVOAWL30"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnEb356I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760851956; x=1792387956;
+  t=1760852558; x=1792388558;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bWGsBC58nVw/sxl2Hx9QNQsauG04QZleHom4h2dfg0U=;
-  b=gVOAWL30yM/6JyqJqiJ8MqokQZ0GKLQcb3cp6ltjH90tBE7RU1xqU6YC
-   FIMQ5smlIUeStpCGUZZy5FzVPA/6XU187TeGMRTPEcMNlT8LsaImh3jhn
-   gmm+SZUt7TT9soO1G83zWr9nsq6qGk+mCxeC+ru5ZwQAwW+uWg9B5Ua8T
-   h4fPmgi38Hs95ouQPr6LPnm9sV05dU331WdnE4pKZPK+RstHseUVNxy6g
-   ZOkFHTysHEPUbhIZKPO8HjsMr2igzwyNdmzsxFotzqrkPkv5DafO/oxxu
-   COEbgJEuBRhgNZ5eHq2tDoACF+DSgdHvrWgb78nmk9KcrJ9P9PvUDsRsB
-   Q==;
-X-CSE-ConnectionGUID: 8X4/dF4pQe2pBTpvwTqZvA==
-X-CSE-MsgGUID: sPBn/kwGRmyajuulJ27ZTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62927851"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62927851"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:32:00 -0700
-X-CSE-ConnectionGUID: XocagptQREO66ibi0urNnA==
-X-CSE-MsgGUID: FCeZMkrnTHOQr5UUKBE7mg==
+  bh=JwvyXEk5u7W/dNhcRhuFNYkPJTG9KPcmeDQEyLfTKwM=;
+  b=ZnEb356IwaAYfQEp1mWoHj++8ICz4QHMsKIdxZsOlZXa6Z0O69r3RoTY
+   XEf7K9Qa/Qvucc1HVAmUrQoxM0jpsGZje5WDurs2mqDTEXHn0CaWSq4FQ
+   nphCu0UjNKS4GLAMq8EfAGn8nu5q7hG6cJfMe/c0giI1X2KLT1rvmJpLE
+   AMqN4L5Imfi95PZefAP0j3kU6De2HHLu3WdPmTGlSw5mYDJEALO5o09Py
+   aAD9+ZskiEBkpGtP3Duq6mS7ZMi8HQa+Iw/bpAsGfkOHv833rORjPxln7
+   uSwFzZvOUeOzHKBa2JZrIFgg7zgpVGh/ap6wKJFNyMNNAeGo4OY91ObBX
+   A==;
+X-CSE-ConnectionGUID: LidgY4mGTcO/yqLNrJa5Kg==
+X-CSE-MsgGUID: Yglqj4W2RzmoO93/AlzruQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63101547"
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="63101547"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 22:42:37 -0700
+X-CSE-ConnectionGUID: Cr2lA1C4S4ukm6k8N8sLbQ==
+X-CSE-MsgGUID: fFsTQQWeSlyZep3EjYx+nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="220213467"
+   d="scan'208";a="188159912"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Oct 2025 22:31:57 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Oct 2025 22:42:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAM1F-0008s9-3C;
-	Sun, 19 Oct 2025 05:31:51 +0000
-Date: Sun, 19 Oct 2025 13:30:56 +0800
+	id 1vAMBc-0008sT-1e;
+	Sun, 19 Oct 2025 05:42:32 +0000
+Date: Sun, 19 Oct 2025 13:42:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elaine Zhang <zhangqing@rock-chips.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, sugar.zhang@rock-chips.com, heiko@sntech.de,
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	huangtao@rock-chips.com
-Subject: Re: [PATCH v2 3/5] clk: rockchip: Add clock controller for the
- RV1126B
-Message-ID: <202510191337.86OcUAWo-lkp@intel.com>
-References: <20251017063107.1606965-4-zhangqing@rock-chips.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, kuba@kernel.org,
+	edumazet@google.com, davem@davemloft.net, andrew+netdev@lunn.ch,
+	Shyam-sundar.S-k@amd.com, Raju Rangoju <Raju.Rangoju@amd.com>
+Subject: Re: [PATCH net-next v2 1/4] amd-xgbe: introduce support ethtool
+ selftest
+Message-ID: <202510191317.AG2Qwfkm-lkp@intel.com>
+References: <20251017064704.3911798-2-Raju.Rangoju@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,92 +65,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017063107.1606965-4-zhangqing@rock-chips.com>
+In-Reply-To: <20251017064704.3911798-2-Raju.Rangoju@amd.com>
 
-Hi Elaine,
+Hi Raju,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rockchip/for-next]
-[also build test ERROR on clk/clk-next pza/reset/next linus/master v6.18-rc1 next-20251017]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elaine-Zhang/clk-rockchip-Implement-rockchip_clk_register_armclk_multi_pll/20251017-180259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20251017063107.1606965-4-zhangqing%40rock-chips.com
-patch subject: [PATCH v2 3/5] clk: rockchip: Add clock controller for the RV1126B
-config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20251019/202510191337.86OcUAWo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510191337.86OcUAWo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-introduce-support-ethtool-selftest/20251017-151230
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251017064704.3911798-2-Raju.Rangoju%40amd.com
+patch subject: [PATCH net-next v2 1/4] amd-xgbe: introduce support ethtool selftest
+config: xtensa-randconfig-002-20251019 (https://download.01.org/0day-ci/archive/20251019/202510191317.AG2Qwfkm-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251019/202510191317.AG2Qwfkm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510191337.86OcUAWo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510191317.AG2Qwfkm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/clk/rockchip/clk-rv1126b.o: in function `rv1126b_clk_init':
->> drivers/clk/rockchip/clk-rv1126b.c:1050:(.init.text+0xc8): undefined reference to `rk3576_rst_init'
-
-
-vim +1050 drivers/clk/rockchip/clk-rv1126b.c
-
-  1012	
-  1013	static struct rockchip_clk_branch rv1126b_armclk __initdata =
-  1014		MUX(ARMCLK, "armclk", mux_armclk_p, CLK_IS_CRITICAL | CLK_SET_RATE_PARENT,
-  1015				RV1126B_CORECLKSEL_CON(0), 1, 1, MFLAGS);
-  1016	
-  1017	static void __init rv1126b_clk_init(struct device_node *np)
-  1018	{
-  1019		struct rockchip_clk_provider *ctx;
-  1020		void __iomem *reg_base;
-  1021		unsigned long clk_nr_clks;
-  1022	
-  1023		clk_nr_clks = rockchip_clk_find_max_clk_id(rv1126b_clk_branches,
-  1024							   ARRAY_SIZE(rv1126b_clk_branches)) + 1;
-  1025	
-  1026		reg_base = of_iomap(np, 0);
-  1027		if (!reg_base) {
-  1028			pr_err("%s: could not map cru region\n", __func__);
-  1029			return;
-  1030		}
-  1031	
-  1032		ctx = rockchip_clk_init(np, reg_base, clk_nr_clks);
-  1033		if (IS_ERR(ctx)) {
-  1034			pr_err("%s: rockchip clk init failed\n", __func__);
-  1035			iounmap(reg_base);
-  1036			return;
-  1037		}
-  1038	
-  1039		rockchip_clk_register_plls(ctx, rv1126b_pll_clks,
-  1040					   ARRAY_SIZE(rv1126b_pll_clks),
-  1041					   RV1126B_GRF_SOC_STATUS0);
-  1042	
-  1043		rockchip_clk_register_branches(ctx, rv1126b_clk_branches,
-  1044					       ARRAY_SIZE(rv1126b_clk_branches));
-  1045	
-  1046		rockchip_clk_register_armclk_multi_pll(ctx, &rv1126b_armclk,
-  1047						       rv1126b_cpuclk_rates,
-  1048						       ARRAY_SIZE(rv1126b_cpuclk_rates));
-  1049	
-> 1050		rk3576_rst_init(np, reg_base);
-  1051	
-  1052		rockchip_register_restart_notifier(ctx, RV1126B_GLB_SRST_FST, NULL);
-  1053	
-  1054		rockchip_clk_of_add_provider(np, ctx);
-  1055	
-  1056		/* pvtpll src init */
-  1057		writel_relaxed(PVTPLL_SRC_SEL_PVTPLL, reg_base + RV1126B_CORECLKSEL_CON(0));
-  1058		writel_relaxed(PVTPLL_SRC_SEL_PVTPLL, reg_base + RV1126B_NPUCLKSEL_CON(0));
-  1059		writel_relaxed(PVTPLL_SRC_SEL_PVTPLL, reg_base + RV1126B_VICLKSEL_CON(0));
-  1060		writel_relaxed(PVTPLL_SRC_SEL_PVTPLL, reg_base + RV1126B_VEPUCLKSEL_CON(0));
-  1061		writel_relaxed(PVTPLL_SRC_SEL_PVTPLL, reg_base + RV1126B_VCPCLKSEL_CON(0));
-  1062	}
-  1063	
+   xtensa-linux-ld: drivers/net/ethernet/amd/xgbe/xgbe-selftest.o: in function `xgbe_test_loopback_validate':
+>> xgbe-selftest.c:(.text+0x250): undefined reference to `ip_send_check'
+   xtensa-linux-ld: drivers/net/ethernet/amd/xgbe/xgbe-selftest.o: in function `xgbe_test_mac_loopback':
+   xgbe-selftest.c:(.text+0x4c2): undefined reference to `ip_send_check'
+   xtensa-linux-ld: drivers/net/ethernet/amd/xgbe/xgbe-selftest.o: in function `xgbe_test_loopback_validate':
+>> xgbe-selftest.c:(.text+0x260): undefined reference to `udp4_hwcsum'
+   xtensa-linux-ld: drivers/net/ethernet/amd/xgbe/xgbe-selftest.o: in function `xgbe_test_mac_loopback':
+   xgbe-selftest.c:(.text+0x5b2): undefined reference to `udp4_hwcsum'
 
 -- 
 0-DAY CI Kernel Test Service
