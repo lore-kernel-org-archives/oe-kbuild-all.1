@@ -1,157 +1,182 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86DE1F3B9E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67471FECD4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760914851; cv=none; b=CnYK2thvAsCK3lGKDRNKWIsUnyJJgb9jV1B7A61ILWGeKWVqp5wG/geqOWmWUMsMTNOLSuoqTGWQMZupNMfSvE3JXU+jB1p8pK2uRguSbwr2ftyExV5awj09i54WkForSEZ9Uu3XWN7POpmam/cCgy40JQtte0mGBaTejAY8UKY=
+	t=1760915823; cv=none; b=uvUBhr7goR7IE3bzQfWTIcvEFdO+L3DiVrg/rZo4/7Q4bPYE6icaZm4dnNgVKDEWXh35HC4Yc5hCGespOWRFGHizrex9Qp0pVoFPyu/vqxzcmJenPJejdu9dwlq2RsL7IlP8SdF0usOqKbsrsmy1KqsqKV2EdWXCmaDZ9+U/u2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760914851; c=relaxed/simple;
-	bh=vDSwGwbdYtsn7LQdKYHvWAIvfQA1/egDi0A2fjbkEuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/oaOUfCo1DBVzgF8NoM3BaIkOrY9/RG+VHUwtMMuhCXd7BbB5JZlSU7+ORFZYMNCucomqc45zzbS0wFHQnNTzfinUsPSd8qqge7vKresfDfyxpz572Bifsppy449zpAKIX5JZqE2up6bNU1Q9PPf6xuF/IBoU3JIsc34JKiQ+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=4nuaGIy/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QhDFAL4k; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1760915823; c=relaxed/simple;
+	bh=+XP3O/pH9VGX4P6NIF+sV/AxaAh3pi1AFopqYI0atx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LE51TQ6O3HexE8joxYUt2yVO04zpvdbWzmMrqc+WGM0eNgQgD3oipVsmsblk/R8ub9LaUOoFe/B2n6n721RrHTZO5JUQmDZIQeXKTxcKPDx4AgByNRIEo3vROLO59zRI9L4fEgqapUxG3bClq3S6N8yuxIuPXc0z3lROeKsLlVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJI8l0dO; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="4nuaGIy/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QhDFAL4k"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id CC16EEC0122;
-	Sun, 19 Oct 2025 19:00:45 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 19 Oct 2025 19:00:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1760914845; x=
-	1761001245; bh=29TPynyEp1oN42nw9gedUTkz9DI5eNHDBplK4IjE9YQ=; b=4
-	nuaGIy/83sbxawN39TsBQQhjsOiAT+oPtOKIhWWZgkNHdeJZzcg5L95vBbxdNQ1n
-	ihWEVwOrWJoDODxvmsFcUyzQO8autsuLbe+D4ze3vRZA+Lh7y78AHg9Yuu1q9X2U
-	ibqGZ0Vf7KzDxqj4owsMe+uOKAsNFL1urUSbFS1W40CGh63aNyyufv+5EZpcl5I1
-	4jfa7PuQEYj+bu+oc6mX+SE0rVHTq3D3jYa9xE7/wyagVqXs1A3qQ9kJy6++M5qf
-	Lz6WjjNRXRSh/hHbN1aJui9/5PY6eiw2XgfqNII5JD7SMStf0yqOeLLI4mcSpXDL
-	59SF1mcbazT3snIvExQCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1760914845; x=1761001245; bh=29TPynyEp1oN42nw9gedUTkz9DI5eNHDBpl
-	K4IjE9YQ=; b=QhDFAL4k5TSJ3JCM6xfHsPVvyQWBLAlmoBbeiYik6aFQq9WL98v
-	1/+0OVLJ09WcPXfpLBq4Zw1+qVdEgHlgEILang0wzMAlelqcCeGmXFdoiIMLEDox
-	Ia1gVelrenJIrZPtQ8biL1Xl7B/euJvWO4dQTGzjEGjdfnkdERue0hKJ7wLveAw9
-	kjKJpecnLc9yKLClWw69QkRDlwVtRz8dzbqYs5JY3k031lh0LB/JFHDmiy5YaYmm
-	eSfc4XEn5tv/KF7kH3Pik9NOrFbpFWgh6XjDf1KQqL0bbPNQP8sOoDKpp+Nzxm4M
-	ddfSTeZLyvCWgiDlFkkkBj5mmBkwsR2pHUw==
-X-ME-Sender: <xms:nG31aHnknRrm674WvE-ajArqsWxiFE6-0swwNyme_rip8i4JVT1D3Q>
-    <xme:nG31aMUnrEO3x1G12IkzptbFNjpD8HxX0s0FDzRFWYtgadaJNH30VriqkQmC4k16D
-    Y9XjggNKpt17ar9aAK8t106wpwuKtF8pSK3PE3lWxLW4sX-1e0EPg>
-X-ME-Received: <xmr:nG31aNupuTBjf8heh7x7k2RO02FZJxJafVaP3EoYiDutFktSpExfOT5yr5hn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddufeeivdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepueejjeeivdejvddtgffgfeelvedvvdfgjeffudfhgefhudekkefhffef
-    heduieeunecuffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomh
-    dpkhgvrhhnvghlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehsugesqhhuvggrshihshhnrghilhdrnhgvthdpnh
-    gspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhtvghf
-    fhgvnhdrkhhlrghsshgvrhhtsehsvggtuhhnvghtrdgtohhmpdhrtghpthhtohepnhgvth
-    guvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhl
-    ugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlkhhpsehinh
-    htvghlrdgtohhmpdhrtghpthhtoheprgguohgsrhhihigrnhesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:nW31aPZtiBE8qkt4xqWUb9j5UtBcMC5whh2X0fyJu79dD_9mP9HY5A>
-    <xmx:nW31aMUd4xK-Fnh-vK1kOkpBAhISodgDt5sb52NTdawoZIZxT43BrQ>
-    <xmx:nW31aETsf1bkqq3xW7U3s6PxoCHZdwxkgrLLhGtXMt_BXwUYnTFTVQ>
-    <xmx:nW31aKMLMNLVGJbp6gA3JUkGqIatisQPFvj75-u3re7ksjJs0x_qfQ>
-    <xmx:nW31aOTsDrisoF49dyF6deIW7Oiq9IGIAFpeV7DV2I_CF7QTmaAnyn_V>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 19 Oct 2025 19:00:44 -0400 (EDT)
-Date: Mon, 20 Oct 2025 01:00:42 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: steffen.klassert@secunet.com
-Cc: netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>
-Subject: Re: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover
- states during netns deletion
-Message-ID: <aPVtmloGOCQi_7ue@krikkit>
-References: <2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd@queasysnail.net>
- <202510172159.iLR9bfcc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJI8l0dO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760915822; x=1792451822;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+XP3O/pH9VGX4P6NIF+sV/AxaAh3pi1AFopqYI0atx8=;
+  b=LJI8l0dOzjJ18qCQlGSJF1+yscslxOvjO9s3j3iIZyoFNQ1GDIxdkQ5z
+   PA6A6tbCTPg5R6rQP3jo9Iv2agBIEaox2wadPBocpr9TAkWsZ6qrd35EW
+   Bo1KUczf1wrIhweXOBxUR4+XOS8LT268mIrolZWXOVS1HkhIZ9apYeH3H
+   /XMMezY5X3oQxMXoJYlpyf0zO2H8p2AuqvIdUGY6K0JYu1R042R+c/mLe
+   1USe4hRjmqoAwYK2cizkrO8X+H9NWRXjrcqiI0QKYbsVp9KFsFgFH1gNl
+   ZkHQmX7KZJr/lEAJAkh5z4+RDzifZwfMJ2pwgNcyBc74Z3ghzsahS7WAv
+   g==;
+X-CSE-ConnectionGUID: dnBNNw37TXa5Fou4uvqaqQ==
+X-CSE-MsgGUID: gI2kk+2ISTyF0m3DfrP12Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62958321"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62958321"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 16:17:02 -0700
+X-CSE-ConnectionGUID: 4gQDfd8QT2ORvqYng+buQg==
+X-CSE-MsgGUID: 6KqBbITOSa265aPj1NaLlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
+   d="scan'208";a="187212966"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 19 Oct 2025 16:17:00 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAce2-0009Lp-0m;
+	Sun, 19 Oct 2025 23:16:58 +0000
+Date: Mon, 20 Oct 2025 07:16:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-5.10-CWF-EDAC-ANBZ25520 15/15]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error:
+ 'nbl_product_base.h' file not found
+Message-ID: <202510200718.9NUDHXNO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202510172159.iLR9bfcc-lkp@intel.com>
 
-Hi Steffen,
+Hi nebula_matrix_driver,
 
-2025-10-17, 23:10:36 +0800, kernel test robot wrote:
-> Hi Sabrina,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on klassert-ipsec-next/master]
-> [also build test WARNING on klassert-ipsec/master net/main net-next/main linus/master v6.18-rc1 next-20251016]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/xfrm-drop-SA-reference-in-xfrm_state_update-if-dir-doesn-t-match/20251016-184507
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-> patch link:    https://lore.kernel.org/r/2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd%40queasysnail.net
-> patch subject: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover states during netns deletion
-> config: x86_64-randconfig-r123-20251017 (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510172159.iLR9bfcc-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-[...]
->   3308	void xfrm_state_fini(struct net *net)
->   3309	{
->   3310		unsigned int sz;
->   3311		int i;
->   3312	
->   3313		flush_work(&net->xfrm.state_hash_work);
->   3314		xfrm_state_flush(net, 0, false);
->   3315		flush_work(&xfrm_state_gc_work);
->   3316	
->   3317		WARN_ON(!list_empty(&net->xfrm.state_all));
->   3318	
->   3319		for (i = 0; i <= net->xfrm.state_hmask; i++) {
-> > 3320			WARN_ON(!hlist_empty(net->xfrm.state_byseq + i));
+FYI, the error/warning still remains.
 
-So, before my patch there was a sparse waraning on the
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-CWF-EDAC-ANBZ25520
+head:   31f4ee37032251af8f106ffe418b8235f5e08468
+commit: dd70f3837d475e33fd445bd822d8e058547e6dee [15/15] anolis: net/nbl_core: Add nbl_core-driver for nebula-matrix S1000 series smart NIC.
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251020/202510200718.9NUDHXNO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510200718.9NUDHXNO-lkp@intel.com/reproduce)
 
-	WARN_ON(!hlist_empty(net->xfrm.state_by*));
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510200718.9NUDHXNO-lkp@intel.com/
 
-lines, and now there's a sparse warning on the loop.
-(and plenty on other lines in net/xfrm/xfrm_state.c)
+All errors (new ones prefixed by >>):
 
-This bot message gave me the push to finally take a look at all the
-sparse warnings in net/xfrm/xfrm_state.c, I have solutions for a big
-chunk of them (and a few in other files).
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: 'nbl_product_base.h' file not found
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.h:9:10: fatal error: 'nbl_resource.h' file not found
+       9 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_tun_leonis.c:1:10: fatal error: 'nbl_resource.h' file not found
+       1 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.h:10:10: fatal error: 'nbl_resource.h' file not found
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h:10:10: fatal error: 'nbl_resource.h' file not found
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c:7:
+   In file included from include/net/xfrm.h:26:
+   include/net/ip6_fib.h:273:10: warning: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+     273 |                 return time_after(jiffies, f6i->expires);
+         |                        ^
+   include/linux/jiffies.h:106:3: note: expanded from macro 'time_after'
+     106 |          typecheck(unsigned long, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c:8:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h:10:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: 'nbl_product_base.h' file not found
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+   clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_tc_tun.c:1:
+   In file included from include/net/vxlan.h:6:
+   In file included from include/net/udp_tunnel.h:5:
+   In file included from include/net/ip_tunnels.h:19:
+   In file included from include/net/dst_cache.h:8:
+   include/net/ip6_fib.h:273:10: warning: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+     273 |                 return time_after(jiffies, f6i->expires);
+         |                        ^
+   include/linux/jiffies.h:106:3: note: expanded from macro 'time_after'
+     106 |          typecheck(unsigned long, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_tc_tun.c:5:10: fatal error: 'nbl_resource.h' file not found
+       5 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
-If you want to drop this patch from the set, I'll re-send it later, on
-top of the sparse stuff. The rest of the series works without it. If
-you want to take it as is, it doesn't change the sparse situation in
-this file (a few warnings moved around) and I'll do the sparse
-cleanups on top of it.
 
-Thanks,
+vim +10 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+
+     9	
+  > 10	#include "nbl_product_base.h"
+    11	#include "nbl_def_channel.h"
+    12	#include "nbl_def_phy.h"
+    13	#include "nbl_def_resource.h"
+    14	#include "nbl_def_dispatch.h"
+    15	#include "nbl_def_service.h"
+    16	#include "nbl_def_dev.h"
+    17	#include "nbl_def_common.h"
+    18	
 
 -- 
-Sabrina
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
