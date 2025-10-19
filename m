@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCD24A3E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 18:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00BA354AE4;
+	Sun, 19 Oct 2025 19:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760897867; cv=none; b=EPrMv5Trm/0YhbiZ6VfLLvesBu5s14KvdSpewQpSdZJshqwXq6hjSkDUuFhqwHZJtq/tmU8A0RO+YqYAcMfJcb17fq194cspRpUDMY5vvW7pO5/MzZrfKFCVmX8HDFKb21PLKCiAaoSrGy9RxB0o/eCpK5l91SZCQPpRG7v7mfc=
+	t=1760901596; cv=none; b=B0Ftl7n/Gl9UpoyxEpbcQiqsnB0c5V99QYqIxR7qW+aAv75k2oRNBgYomAh1CM1mg8TwoH7mgSbEugpyQnr03GX74gdq07PXtblAAtBuTsoxALYF9ZeBa9/SA38QI7PYy+xaRpctcM2sLgXyHoHxeXc2lwx8Z6s+m3sHyw5dDBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760897867; c=relaxed/simple;
-	bh=np5DJCYV5CKNvV/Qx7NZkBny/nhGskPLxiLF61mmrTM=;
+	s=arc-20240116; t=1760901596; c=relaxed/simple;
+	bh=Q/Zv2yLp98b/RmFOKLotKB0UTJLVzwOIP1Qoaa0SczQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JINCIDHAW+A3bkV2j4BKF/atO/XUllq7KH22Joia4xPuj3ckBFOfeQVaVR4yE6WANwGDqlXnQPeeu37buQer94m/4QEpHMyt0r1keWsSvm+4X3GOL6YxfYbAxGsOV1+GCARMWNTeT+Y4a8cPaKwEzj42ZOE4wH20VAlrCAbHe74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mnI2pzC9; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=UmRlq8ETrLGblcRDKabASrENNa7BlxsRZZVtAdYvlfdV9PQQpcIvIvrjdY0VUyMpXU3cxLe/2eXddofAIWts0F/nolzOQFSnUTWHScFmgnooEY5Rgx9vPJrtXyDa2Y5JhGJOOOX4vbGYk2YzW4Te/a66rEuAfyfqy4VMuU/lAWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j3BgrmZe; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mnI2pzC9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3BgrmZe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760897865; x=1792433865;
+  t=1760901595; x=1792437595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=np5DJCYV5CKNvV/Qx7NZkBny/nhGskPLxiLF61mmrTM=;
-  b=mnI2pzC9gkS3OZdbF7GNz+U8kk2kUEfqBjDGadrcA0kD8RPi8WCweVgK
-   SPNRWqf66/v0jpCL57gkVj5m7MDl/+nt4L9Smo/UCetL7EQMfLPfVTotv
-   Cj6ykeH61fnF1Y/e+fLzZ1oGhgh2Jyk8Rc0UuhsTvwdcZJ7FK0qScLIrq
-   zFEGEul1VlofIUARBx1NdU16/Y16n9o198w9MoZLCAEWTHcLmCvsROeN/
-   MvSR3bF6upILEr7m8nymoYg/dmq4GE5cykn341ZErW25xLlUzGoBFsNro
-   npIR0gQ44BbM62kOomFXTUz5vMBpXG81rs+sfpN1XlofIAaybBvX70KTZ
+  bh=Q/Zv2yLp98b/RmFOKLotKB0UTJLVzwOIP1Qoaa0SczQ=;
+  b=j3BgrmZe6tqMmKe+h9vnN6+7OzXOlvXB9kciNzbhxx9CDnzVk6+3wGei
+   ANpIscpDtXxUozw7zPQLlAueS3MQ25v2geJTUJ7X4t8xKvgd0kUo5CyxJ
+   xxcfzCTEkNxeYBrOPCZ/27eQCdU8JJ953VxV+ez5map68pVEbfjlrIAiB
+   zHiE5s8XEBk8wXGDfEluDZU6iQR3KbWirvRprRtV++Nr1JVewIh5Ki80O
+   FAyE/AlIE7owiVyXKG7Z6InVygvnMlBTe9XS78KUkjAQYvkT4mGq9uVCA
+   FirUAszhaE3+BH5pW1IsfdqKVGszy/q1JyXk3Aov2CfnLfLc3OpzaqFC6
    A==;
-X-CSE-ConnectionGUID: 2ZbDSFHzS0OObv4+Eg47cw==
-X-CSE-MsgGUID: mciuYP3KT0qMDGybRtmeug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="73324314"
+X-CSE-ConnectionGUID: WF4vjz1KQxyd0BcfBeuYEg==
+X-CSE-MsgGUID: 8OcL1pczSJKhOND900gBjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="63132442"
 X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="73324314"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 11:17:44 -0700
-X-CSE-ConnectionGUID: 6HV98DaRR62O/GxzDN02+w==
-X-CSE-MsgGUID: A72itsFtRAmXAhUQYGh6gg==
+   d="scan'208";a="63132442"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 12:19:54 -0700
+X-CSE-ConnectionGUID: 5Ua9T6ljQ96GmLmX0vI81Q==
+X-CSE-MsgGUID: IIKaZFG2Q1iTHqtQndnlZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,241,1754982000"; 
-   d="scan'208";a="183121041"
+   d="scan'208";a="187433917"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Oct 2025 11:17:42 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 Oct 2025 12:19:53 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAXy6-0009Fd-19;
-	Sun, 19 Oct 2025 18:17:30 +0000
-Date: Mon, 20 Oct 2025 02:16:31 +0800
+	id 1vAYwX-0009HT-0z;
+	Sun, 19 Oct 2025 19:19:49 +0000
+Date: Mon, 20 Oct 2025 03:18:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-drm-fix-6.17 24/66] lib/dynamic_debug.c:1094:21: error:
- implicit declaration of function 'class_in_range'
-Message-ID: <202510200209.AQaf6ShC-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:void-gfp/v2 2/2] drivers/tty/vt/vc_screen.c:56:44: error:
+ incompatible integer to pointer conversion passing 'unsigned long' to
+ parameter of type 'void *'
+Message-ID: <202510200314.T6g7HRpE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,49 +64,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-drm-fix-6.17
-head:   8bb67a0fa5ebb8abb2a6b99571d578e7312176ee
-commit: 9a5f996fbf6813690e55ea7ba6c0a710440627ff [24/66] dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP
-config: i386-randconfig-016-20251019 (https://download.01.org/0day-ci/archive/20251020/202510200209.AQaf6ShC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510200209.AQaf6ShC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git void-gfp/v2
+head:   5bc4806712d9e97f6b0344869d11b529287dc037
+commit: 5bc4806712d9e97f6b0344869d11b529287dc037 [2/2] mm, treewide: make addr parameter of free_pages() void *
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251020/202510200314.T6g7HRpE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510200314.T6g7HRpE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510200209.AQaf6ShC-lkp@intel.com/
-
-Note: the jimc/dd-drm-fix-6.17 HEAD 8bb67a0fa5ebb8abb2a6b99571d578e7312176ee builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510200314.T6g7HRpE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/dynamic_debug.c: In function 'ddebug_class_name':
->> lib/dynamic_debug.c:1094:21: error: implicit declaration of function 'class_in_range' [-Wimplicit-function-declaration]
-    1094 |                 if (class_in_range(dp->class_id, cli->map))
-         |                     ^~~~~~~~~~~~~~
+>> drivers/tty/vt/vc_screen.c:56:44: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'void *' [-Wint-conversion]
+      56 | DEFINE_FREE(free_page_ptr, void *, if (_T) free_page((unsigned long)_T));
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/gfp.h:386:36: note: expanded from macro 'free_page'
+     386 | #define free_page(addr) free_pages((addr), 0)
+         |                                    ^
+   include/linux/cleanup.h:211:71: note: expanded from macro 'DEFINE_FREE'
+     211 |         static inline void __free_##_name(void *p) { _type _T = *(_type *)p; _free; }
+         |                                                                              ^~~~~
+   include/linux/gfp.h:383:30: note: passing argument to parameter 'addr' here
+     383 | extern void free_pages(void *addr, unsigned int order);
+         |                              ^
+   1 error generated.
 
 
-vim +/class_in_range +1094 lib/dynamic_debug.c
+vim +56 drivers/tty/vt/vc_screen.c
 
-  1082	
-  1083	static const char *ddebug_class_name(struct _ddebug_info *di, struct _ddebug *dp)
-  1084	{
-  1085		struct _ddebug_class_map *map;
-  1086		struct _ddebug_class_user *cli;
-  1087		int i;
-  1088	
-  1089		for_subvec(i, map, di, maps)
-  1090			if (ddebug_class_in_range(dp->class_id, map))
-  1091				return map->class_names[dp->class_id - map->base];
-  1092	
-  1093		for_subvec(i, cli, di, users)
-> 1094			if (class_in_range(dp->class_id, cli->map))
-  1095				return cli->map->class_names[dp->class_id - cli->map->base];
-  1096	
-  1097		return NULL;
-  1098	}
-  1099	
+fcdba07ee390d9 Jiri Olsa         2011-02-07  55  
+e730c373b6ff16 Jiri Slaby (SUSE  2025-08-14 @56) DEFINE_FREE(free_page_ptr, void *, if (_T) free_page((unsigned long)_T));
+e730c373b6ff16 Jiri Slaby (SUSE  2025-08-14  57) 
+
+:::::: The code at line 56 was first introduced by commit
+:::::: e730c373b6ff16a177e132859bf6ea4dbb15105f tty/vt: use guard()s
+
+:::::: TO: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
