@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F872D5C97;
-	Mon, 20 Oct 2025 20:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14ABA1E492A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 20:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760991087; cv=none; b=BTlg7e2xA3etgQvgztoVXa0Ylot1L0k6U8LlPC6vewnKIOBiRwm6vt7vp0ToVsLbYiX3GynjTCKws4BOLzbKn2UQ69mNdL+QUh1gUjVVQ1jEBWrhKP9Hu71hT42/4EZwuPlevRw6YNp89xlWnQJlJR759hrSByoEgYRcADZejxU=
+	t=1760992963; cv=none; b=VCwOPFiyjy7UuO/ZjR0ibNHJDCWeOvQgbb/QBNSk9Y/BHfgmUFDiH9NacpT33fxcgwGq3H0mzA7TwbKOQZRaGHRDgRX9OR0uo5f4GzesV9FX4vBU6WOm4syF1vwmLDBuvTLI8TL3TDyW/GrvwsP1msy2o9oCyUETB/kLuaxNZyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760991087; c=relaxed/simple;
-	bh=rAof/wFe8d1Lg9fIBWp0u8gzJC3DIyE6skiRcnkaQ44=;
+	s=arc-20240116; t=1760992963; c=relaxed/simple;
+	bh=ZUNQgCJt4qCV5DcAvvkXEnEXv4+LKQT8z9tiLVkoCGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IvR/ECiJ7xJlFLHzIFf0KM4B1cv5GFGl+EYkQA2WbRYegSWM5SOJqa3WLi1OW7l33OUGejinjCSn+kXAYJPJwMXXZUkxEYpCoFc6v9apvbxC28A9PTVaMAnqwQbIOTv+niOKBGxSbda6AhMp1pbjFDDnF7qY+oaEYx6i5EXlBxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWDjfbSp; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=LFo4Mi94+cgQ7bJQ5kvZ/gmZgRBSqRlELzguUoqzjIhK1/dY+J3pKkg8XF96xB1l4LCQ7Q1clTvk2bpN+a1+pKMfgODggyX5BhRPu32ewLr/7HplikeBCK3u7dfuhbkoE31tE5Ay0NR3ZiwTx+wcvTdPUL3inNwZjDZu0lZiGq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjUhhgMR; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWDjfbSp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjUhhgMR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760991087; x=1792527087;
+  t=1760992962; x=1792528962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rAof/wFe8d1Lg9fIBWp0u8gzJC3DIyE6skiRcnkaQ44=;
-  b=dWDjfbSpgaxg15FRQOLmibt18wUxAr2hz08OWbqv8Q9YcWnoQV210GgP
-   Y/5Yh8v1qs27A/C/huVWQY87PGVHFq7moImUrbleFWe93U9RYZOVMEDgq
-   KmlJEPtJCRe/+69MHFHIfnU2lB+ov72XquZ4D02r0kJx5of/HwKjEzDrT
-   GTdMsZWlFrEEfjLq1EEFRhbvqT5eIJrYzg0Bynehd5GNs0KQDyeo8IloS
-   2b8NH9Uun57Fh/cnZwFeApSYerZqofd0gVGgvRZSpoFgdnz8uCs8yjK6X
-   YvDa9uw3z4dL97rKZ7klX+5go2SBPwft3GmeqQeB804/VAZXsl1jr9gZA
-   g==;
-X-CSE-ConnectionGUID: +QCI2LU0SIKbwt1lSUCQew==
-X-CSE-MsgGUID: tYI+0x8zSqG3LaFDTrizXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63210017"
+  bh=ZUNQgCJt4qCV5DcAvvkXEnEXv4+LKQT8z9tiLVkoCGg=;
+  b=RjUhhgMRBxOy1vm4P6ppF4xRY2+rLf7EHwBZe9wzoFp16+pnDY0KECUM
+   Wbd46A0dsIEX/2jBuIJwzbe7sz+aPaITfEioVRq+3vq9NKjEbn+MtG8vw
+   MmsHRa5EzmMnwgiPOzXBVjLXMD8f984WYR3OphSKStIIax8cOyMiiu3Y0
+   X/gGg1EA4PpHAKKKi6+PYWJq9NZ52JOSoFI447XP2TaSOkIFRMgutmPBg
+   D11U7c1P/mru1yJaFvho5Ax6Fr/+mpMz5ka7tFuyWT4fIEaQlfhfREk08
+   6+9FW1S2eH59ltLe+LxA4dGh6SunpLUQIWxL+RVShkkpTOQsRi4zO8Ju3
+   Q==;
+X-CSE-ConnectionGUID: pVyB7FA0RfSuSzZh8UYeQw==
+X-CSE-MsgGUID: eg6pWRwKRCedLsjXbsVY5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63013669"
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="63210017"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 13:11:26 -0700
-X-CSE-ConnectionGUID: VR2G52cgTqiP7k/2sbn2jA==
-X-CSE-MsgGUID: RRxsUXTiTnuOhT8doq9jLg==
+   d="scan'208";a="63013669"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 13:42:41 -0700
+X-CSE-ConnectionGUID: kr1pTGOQSAabyp3rSjBRyQ==
+X-CSE-MsgGUID: DjPVvfLbSI6jPXqIhtNqWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183116151"
+   d="scan'208";a="183899373"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2025 13:11:25 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 20 Oct 2025 13:42:40 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vAwDy-000A85-2O;
-	Mon, 20 Oct 2025 20:11:22 +0000
-Date: Tue, 21 Oct 2025 04:10:50 +0800
+	id 1vAwi8-000A9d-21;
+	Mon, 20 Oct 2025 20:42:38 +0000
+Date: Tue, 21 Oct 2025 04:42:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:movable_gigantic 4/4] mm/page_alloc.c:6998:9: error:
- use of undeclared identifier 'CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION'
-Message-ID: <202510210449.M2pCsgzB-lkp@intel.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lpieralisi:dev/gic-v5-acpi 6/7] include/linux/acpi_iort.h:54:
+ multiple definition of `iort_its_translate_pa';
+ drivers/acpi/glue.o:include/linux/acpi_iort.h:54: first defined here
+Message-ID: <202510210413.zBRo125g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +63,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gourryinverse/linux movable_gigantic
-head:   cf3e52163565dce5fff0f9f15a92cbbd452fc470
-commit: cf3e52163565dce5fff0f9f15a92cbbd452fc470 [4/4] page_alloc: allow migration of smaller hugepages during contig alloc.
-config: hexagon-randconfig-001-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210449.M2pCsgzB-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210449.M2pCsgzB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/gic-v5-acpi
+head:   2507aff522df8a03ac3b31cfd2f5cf564bf77be1
+commit: c7e5798c025e652428c0b5164fedfc23d26bea33 [6/7] irqchip/gic-v5: Add ACPI ITS probing
+config: x86_64-buildonly-randconfig-001-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210413.zBRo125g-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210413.zBRo125g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510210449.M2pCsgzB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510210413.zBRo125g-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/page_alloc.c:6998:9: error: use of undeclared identifier 'CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION'
-    6998 |                         if (!CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION ||
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from drivers/iommu/dma-iommu.c:11:
+>> include/linux/acpi_iort.h:53:5: warning: no previous prototype for 'iort_its_translate_pa' [-Wmissing-prototypes]
+      53 | int iort_its_translate_pa(struct fwnode_handle *node, phys_addr_t *base)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+--
+   ld: drivers/acpi/scan.o: in function `iort_its_translate_pa':
+>> include/linux/acpi_iort.h:54: multiple definition of `iort_its_translate_pa'; drivers/acpi/glue.o:include/linux/acpi_iort.h:54: first defined here
+   ld: drivers/iommu/dma-iommu.o: in function `iort_its_translate_pa':
+>> include/linux/acpi_iort.h:54: multiple definition of `iort_its_translate_pa'; drivers/acpi/glue.o:include/linux/acpi_iort.h:54: first defined here
+   ld: drivers/perf/arm_smmuv3_pmu.o: in function `iort_its_translate_pa':
+>> include/linux/acpi_iort.h:54: multiple definition of `iort_its_translate_pa'; drivers/acpi/glue.o:include/linux/acpi_iort.h:54: first defined here
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 
-vim +/CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION +6998 mm/page_alloc.c
+vim +54 include/linux/acpi_iort.h
 
-  6978	
-  6979	static bool pfn_range_valid_contig(struct zone *z, unsigned long start_pfn,
-  6980					   unsigned long nr_pages)
-  6981	{
-  6982		unsigned long i, end_pfn = start_pfn + nr_pages;
-  6983		struct page *page;
-  6984	
-  6985		for (i = start_pfn; i < end_pfn; i++) {
-  6986			page = pfn_to_online_page(i);
-  6987			if (!page)
-  6988				return false;
-  6989	
-  6990			if (page_zone(page) != z)
-  6991				return false;
-  6992	
-  6993			if (PageReserved(page))
-  6994				return false;
-  6995	
-  6996			if (PageHuge(page)) {
-  6997				/* Don't consider moving same size/larger pages */
-> 6998				if (!CONFIG_ARCH_ENABLE_HUGEPAGE_MIGRATION ||
-  6999				    ((1 << compound_order(page)) >= nr_pages))
-  7000					return false;
-  7001			}
-  7002		}
-  7003		return true;
-  7004	}
-  7005	
+    30	
+    31	#ifdef CONFIG_ACPI_IORT
+    32	u32 iort_msi_map_id(struct device *dev, u32 id);
+    33	u32 iort_msi_map_id_fwnode(struct device *dev, u32 id, struct fwnode_handle **node);
+    34	int iort_its_translate_pa(struct fwnode_handle *node, phys_addr_t *base);
+    35	struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+    36						  enum irq_domain_bus_token bus_token);
+    37	int iort_pmsi_get_msi_info(struct device *dev, u32 *dev_id, phys_addr_t *pa);
+    38	void acpi_configure_pmsi_domain(struct device *dev);
+    39	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
+    40			       struct list_head *head);
+    41	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
+    42			       struct list_head *head);
+    43	/* IOMMU interface */
+    44	int iort_dma_get_ranges(struct device *dev, u64 *limit);
+    45	int iort_iommu_configure_id(struct device *dev, const u32 *id_in);
+    46	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head);
+    47	phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
+    48	#else
+    49	static inline u32 iort_msi_map_id(struct device *dev, u32 id)
+    50	{ return id; }
+    51	static inline u32 iort_msi_map_id_fwnode(struct device *dev, u32 id, struct fwnode_handle **node)
+    52	{ return id; }
+  > 53	int iort_its_translate_pa(struct fwnode_handle *node, phys_addr_t *base)
+  > 54	{ return -ENODEV; }
+    55	static inline struct irq_domain *iort_get_device_domain(
+    56		struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
+    57	{ return NULL; }
+    58	static inline int iort_pmsi_get_msi_info(struct device *dev, u32 *dev_id, phys_addr_t *pa)
+    59	{ return -ENODEV; }
+    60	static inline void acpi_configure_pmsi_domain(struct device *dev) { }
+    61	static inline
+    62	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+    63	static inline
+    64	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+    65	/* IOMMU interface */
+    66	static inline int iort_dma_get_ranges(struct device *dev, u64 *limit)
+    67	{ return -ENODEV; }
+    68	static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
+    69	{ return -ENODEV; }
+    70	static inline
+    71	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head)
+    72	{ }
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
