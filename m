@@ -1,83 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38B12D94B6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 21:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8EB21ABD7;
+	Mon, 20 Oct 2025 21:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760994224; cv=none; b=YtCpYyBvefcu6jN/e+zcbWg/Cr2kzPWNObnU19ieVWxzYkTkQXNl/Qj1lrXiCwdMZlVDNKkGAp/jKAn4csNXo9dofwo9njlzpGP4aF5unrvd2fg/jqAUFJjFsmIR94ifQtmJVlXjlIBpx9Pp8XQOJ5A+hj93Gh/Sr9D5SW3Ba0s=
+	t=1760996147; cv=none; b=HdYeSTKR43VMdchVYuScNPr38O+vN+hmqrtv9M7hq2sGu5FCJaj2x8mYoR0rminIyD6nP+PFm+I8e6edZEMVVOk7wYRbR+LHxQ/Dezchhe0U2RJvFq+4eyweU2uZ82Gy3IgL4Rq3RXnkD9zvhC/8UwUu/Zj6e7nUIWScSYV9hmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760994224; c=relaxed/simple;
-	bh=WiRQKKMw8YU8wQ3qr3d0qrsjgx9N7xfTkkwy58HMCHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fzwLIHY/GfLMzJnHCKkVpTK0esHKPjOUVNU7TR0ToMT3X8exMUsY5Xa36X/bynApcMr2WVnWGpKEHzCZSV2B2aMNNRach+ZSTDwNwdUkPKkkj3t7NiZXoNusOQnOcGcMrNWlKeQoga0nV/IJc2lZdJunncKRrkzKE5uvvoRkIt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bK1uE1A/; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760996147; c=relaxed/simple;
+	bh=O3gKx5Rj2VOWiy+K0H59IGE1QBF6cjEbBSIJ2Vxbkns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bDUFVi3z1386202LP8dZCU3QNCBRte8KSj1BFtRtTmUNCXZDsaU4moXnTcaMt+LWzoy88MkgiyOwMs6INiQHuS9tEue1Te05jOSY3GSbOClUyUVjqaANcODFUYIAz1lUL7yEKYcSJMnpi+o47xaeyUccoEZc+q7Ol3DTUBfSZ9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=KJ7t5kIS; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bK1uE1A/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760994223; x=1792530223;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WiRQKKMw8YU8wQ3qr3d0qrsjgx9N7xfTkkwy58HMCHc=;
-  b=bK1uE1A/NJ/bmzZSXTyr8ifYhNoLPqQ8OClk+HPWN9iC02tIAHbqA4IY
-   p4XBcahIusaXyap3pOb/51+vG3MF9gZLAT5NJAQyRs1ztamcDdCNnO0a9
-   D/H1oX8giBSuQtlEFZLujmyva6N0A7c4eX1w8b/B6BogEqxRnwkyZb70O
-   em9acAOZOPR2uOPTT5exotkArT6BSgJn5zyzi6kdj165b2DTIpdt5HlEM
-   uu6WOPSjegpvswy4gdgT4LCwc7PkS/InMUXNi03mz6JiRfYfBH5n9J4zx
-   h9pvcX7u6EHCAIH58rjmaWgHPdmThtzulEim9QIhvDznIm1xKu8vdym/O
-   Q==;
-X-CSE-ConnectionGUID: g6p3Lbr4QLybf12D7ERySA==
-X-CSE-MsgGUID: n60/GcLaTe+di2ne6wHqNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65733114"
-X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="65733114"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 14:03:42 -0700
-X-CSE-ConnectionGUID: LQ13yIpUQ76NOifvpqBzew==
-X-CSE-MsgGUID: OjlJDaarSeuyqgARPl3thg==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Oct 2025 14:03:41 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAx2Z-000AA1-2E;
-	Mon, 20 Oct 2025 21:03:39 +0000
-Date: Tue, 21 Oct 2025 05:03:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:dev/gic-v5-acpi 6/7] scan.c:(.text+0x17b0): multiple
- definition of `iort_its_translate_pa';
- drivers/acpi/glue.o:glue.c:(.text+0x740): first defined here
-Message-ID: <202510210425.LsmSa3wZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="KJ7t5kIS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Apw2ko+AxH0CsXs7vBtTeoN9MrrD1jme4QTPmBSX9yA=; b=KJ7t5kIS0nuNSItWb5IMKwFEEb
+	xd0Jah9HUvMknufapOJo3x+MpBXpdrA/1uV9QWhneBUCmjF0qW6QPohN0uHSrQRoSMsQ4zLn+dWuR
+	9c+IVTrwGFri/X62NsZJQJWpJIMrJOlUuv207ZEcr0ho0SZ60mM6A5If9P9d+31tJn0TKkK+xG+dE
+	3YmOJ0OS3T0JFcxZgGFeKk5BSGRwDQqAedT+Zjwjcx/0CyyN2ZFssp5tS6FXhxAR/3HWZ6Q9K5bzo
+	HbE/NbjfYyTf3Y5D6LjN2g+o61ZCGj30+lp6abHVR7PLDTMdXHCCqhkF4UKnNh1wIbqj+JFOy0bm9
+	AljfkgFw==;
+Received: from [58.29.143.236] (helo=[192.168.1.7])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vAxXW-00CGru-9Z; Mon, 20 Oct 2025 23:35:38 +0200
+Message-ID: <57a19531-de5f-44ee-bff0-d3a956131d29@igalia.com>
+Date: Tue, 21 Oct 2025 06:35:31 +0900
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the
+ performance domain
+To: "Rafael J. Wysocki" <rafael@kernel.org>, kernel test robot <lkp@intel.com>
+Cc: lukasz.luba@arm.com, len.brown@intel.com, pavel@kernel.org,
+ oe-kbuild-all@lists.linux.dev, christian.loehle@arm.com, tj@kernel.org,
+ kernel-dev@igalia.com, linux-pm@vger.kernel.org, sched-ext@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251014001055.772422-6-changwoo@igalia.com>
+ <202510151232.UNZ2J7TZ-lkp@intel.com>
+ <CAJZ5v0hAnKEUP7n_d3bzVEi0HGmgZXC-+U=_RmS1n0wGniv8qQ@mail.gmail.com>
+From: Changwoo Min <changwoo@igalia.com>
+Content-Language: en-US, ko-KR, en-US-large, ko
+In-Reply-To: <CAJZ5v0hAnKEUP7n_d3bzVEi0HGmgZXC-+U=_RmS1n0wGniv8qQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/gic-v5-acpi
-head:   2507aff522df8a03ac3b31cfd2f5cf564bf77be1
-commit: c7e5798c025e652428c0b5164fedfc23d26bea33 [6/7] irqchip/gic-v5: Add ACPI ITS probing
-config: i386-buildonly-randconfig-005-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210425.LsmSa3wZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210425.LsmSa3wZ-lkp@intel.com/reproduce)
+Hi Rafael,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510210425.LsmSa3wZ-lkp@intel.com/
+On 10/21/25 02:44, Rafael J. Wysocki wrote:
+> On Wed, Oct 15, 2025 at 6:50 AM kernel test robot <lkp@intel.com> wrote:
+>>
+>> Hi Changwoo,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on amd-pstate/linux-next]
+>> [also build test ERROR on amd-pstate/bleeding-edge linus/master v6.18-rc1 next-20251014]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Changwoo-Min/PM-EM-Assign-a-unique-ID-when-creating-a-performance-domain/20251014-082420
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+>> patch link:    https://lore.kernel.org/r/20251014001055.772422-6-changwoo%40igalia.com
+>> patch subject: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the performance domain
+>> config: i386-buildonly-randconfig-001-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/config)
+>> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202510151232.UNZ2J7TZ-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> kernel/power/energy_model.c:1003:5: error: redefinition of 'for_each_em_perf_domain'
+>>      1003 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
+>>           |     ^~~~~~~~~~~~~~~~~~~~~~~
+>>     In file included from kernel/power/energy_model.c:20:
+>>     kernel/power/em_netlink.h:18:5: note: previous definition of 'for_each_em_perf_domain' with type 'int(int (*)(struct em_perf_domain *, void *), void *)'
+>>        18 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
+>>           |     ^~~~~~~~~~~~~~~~~~~~~~~
+>>>> kernel/power/energy_model.c:1022:24: error: redefinition of 'em_perf_domain_get_by_id'
+>>      1022 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
+>>           |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+>>     kernel/power/em_netlink.h:24:24: note: previous definition of 'em_perf_domain_get_by_id' with type 'struct em_perf_domain *(int)'
+>>        24 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
+>>           |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+>>
+> 
+> Please update the patch to address this report and resend it, thanks!
 
-All errors (new ones prefixed by >>):
+Sure, I will send v6 with these two fixes in.
 
-   ld: drivers/acpi/scan.o: in function `iort_its_translate_pa':
->> scan.c:(.text+0x17b0): multiple definition of `iort_its_translate_pa'; drivers/acpi/glue.o:glue.c:(.text+0x740): first defined here
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Changwoo Min
