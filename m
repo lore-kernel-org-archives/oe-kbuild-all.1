@@ -1,100 +1,83 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE91301013
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 14:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0781F1DE3DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 15:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760970131; cv=none; b=OQ7lwc+sPUjhiYu5yEpaBZ7TQq3JdAKyi2MGJPFddKttgVohIljtaeAumuNvwi8MuOe+bPWljHo4LevhdtZNUaqXiE8QKY/Jpn4okSPOiFiYcOEowcoqIWGJLamLO4XC/r8OBwwSbdSSFHQ8xdJ6UtfCcqXRpn2NoS45vhROdos=
+	t=1760973274; cv=none; b=T7cbxOkC7QLwWe6pLhn2KQDYX+ap/76WWiDmfrabulkhoTAw77R5KHogURhiwQtqfAMIoYTZXvw9KpJ4m2yhY4XkdlCxh1bgYNdXoVTpCMQIRiBlo6WKOX8nCz7xtC+a7X8yGW+P3skGpz7lUE0jS1F8AF2Pd4a5p9rHO0BhANk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760970131; c=relaxed/simple;
-	bh=eVXqdZWOtZ7txBWnH50nnMS7XqFYpHtuEUVHW4IWcvc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=cuMXV67J0OJNbpvvJL/caFLoonPqT8rnn3e7FmiEeV19KbJj9hiOQWGsLUnUnFg/E9WwAE9ZDpJpYc2dnZ09LFWw9ToXhegSG1hzfqyegVecI9o5kvIY2zhdk8qmJfeQiIRGv1eIPG+znV9RxjKrkMVc6v9sJv2mJ4zyZeYwa+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=QaQdlt4X; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1760973274; c=relaxed/simple;
+	bh=vLJ6nVrrFHG2HYJmabRbMGOw/7MUIewRcCP9ikJT+y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=clcMTSgmF5xyyaV+jIeaXHQENKfjWmDc0uo45weJ8WqwJdlFNlaBWhSdpPStYCutI5WYmBtQfJwEuqmnvULbdZBL+YiY5pApcRGAYJmfjlNIwXTuSUVs7EB14T2ichTR2wnl/+VHlea0BJxEtUhfDzvlIAcEce4eiIoHjHK+6QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVNe/PLM; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="QaQdlt4X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1760970120;
-	bh=eVXqdZWOtZ7txBWnH50nnMS7XqFYpHtuEUVHW4IWcvc=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=QaQdlt4XnQ8bxCpMVnwjRx90bajlP0wfryt4Gbw7RtcN+WcMPM1zMP1VeLsgpwjA3
-	 zgy7qZNFc2U7x3kknp6brY8sa0gtQQ7haUGK4WV+m9q/1BSq7JZ/ucq1O6i4LRuM5Y
-	 BB9um2wxslxBhnvVPm3c1K7gp9lSJMJH0RNh/Gpg=
-Date: Mon, 20 Oct 2025 17:21:56 +0300 (GMT+03:00)
-From: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Benjamin Berg <benjamin@sipsolutions.net>
-Cc: linux-um@lists.infradead.org, Willy Tarreau <w@1wt.eu>,
-	linux-kselftest@vger.kernel.org, kernel test robot <lkp@intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Benjamin Berg <benjamin.berg@intel.com>
-Message-ID: <99359472-8b1e-4d51-adb8-5b16f1f90a9f@weissschuh.net>
-In-Reply-To: <aNaNtI+mbyc4zgFy@rli9-mobl>
-References: <aNaNtI+mbyc4zgFy@rli9-mobl>
-Subject: Re: [PATCH v3 09/12] um: use nolibc for the --showconfig
- implementation
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVNe/PLM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760973273; x=1792509273;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=vLJ6nVrrFHG2HYJmabRbMGOw/7MUIewRcCP9ikJT+y4=;
+  b=JVNe/PLMmG2pw/zmI3ysYZdWryH5Mxg62ML5xLviUF5+ZKfV/d8uZ1jV
+   I1faZ86mzRY46cPmnttYDdr7ph8xs0s3j7/5wOqHNJ1bU8HGCI+6i17XY
+   AOVu76VQSNa0KxT+h7wwgbTfQ39I0V/80Ajh1ezsIi5iZ2qlEffp2rS7T
+   nccTtScTB5roscMIp6m6oUJQaxJyY3D6R5G4ngB0CcxDcX2R4U/gvfDeN
+   c8AVXHNufL9Pob33Vr3eFd7tSv4q+0wzkcR0Ilq3tyBCEmPeqm1Ub91Yw
+   nuBrKc0cXm0tNbv/xq1gXPD/KcWdJKBhI7MQBs8XvRnQ5h5GIiNEcUujX
+   w==;
+X-CSE-ConnectionGUID: Dwt2nKoAQV28gzWZCPI2IA==
+X-CSE-MsgGUID: 0aZ+3pTQR66dLKmPs1BiZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63235111"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="63235111"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 08:14:32 -0700
+X-CSE-ConnectionGUID: jDEOJHbFQ/O5wrAMZLr/gQ==
+X-CSE-MsgGUID: v9bIdW3kQkq3gd+XEGEBSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="183194989"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 20 Oct 2025 08:14:32 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vArac-0009w9-1o;
+	Mon, 20 Oct 2025 15:14:27 +0000
+Date: Mon, 20 Oct 2025 23:13:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] rtc: amlogic-a4: fix double free caused by devm
+Message-ID: <aPZRpDqWDPPVR8C0@c50de720c4f1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <99359472-8b1e-4d51-adb8-5b16f1f90a9f@weissschuh.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251020150956.491-1-vulab@iscas.ac.cn>
 
-Hi Benjamin,
+Hi,
 
-Sep 26, 2025 15:57:43 kernel test robot <lkp@intel.com>:
+Thanks for your patch.
 
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on uml/next]
-> [also build test WARNING on uml/fixes shuah-kselftest/next shuah-kselftes=
-t/fixes linus/master v6.17-rc7 next-20250925]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:=C2=A0=C2=A0=C2=A0 https://github.com/intel-lab-lkp/linux/commits/Ben=
-jamin-Berg/tools-compiler-h-fix-__used-definition/20250924-222547
-> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/uml/lin=
-ux next
-> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20250924142059.52=
-7768-10-benjamin%40sipsolutions.net
-> patch subject: [PATCH v3 09/12] um: use nolibc for the --showconfig imple=
-mentation
-> :::::: branch date: 2 days ago
-> :::::: commit date: 2 days ago
-> config: um-randconfig-r111-20250926 (https://download.01.org/0day-ci/arch=
-ive/20250926/202509261452.g5peaXCc-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250926/202509261452.g5peaXCc-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/r/202509261452.g5peaXCc-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> =C2=A0=C2=A0 command-line: note: in included file (through tools/include/=
-nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user=
-.h, builtin):
->>> tools/include/nolibc/sys.h:109:29: sparse: sparse: Using plain integer =
-as NULL pointer
-> =C2=A0=C2=A0unistd.h:70:30: sparse: sparse: Using plain integer as NULL p=
-ointer
-> =C2=A0=C2=A0 tools/include/nolibc/unistd.h:70:33: sparse: sparse: Using p=
-lain integer as NULL pointer
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Do you intend to work on your UML with nolibc patches this cycle?
-If not I would fix these sparse warnings in the nolibc tree and also apply =
-your nolibc patches.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] rtc: amlogic-a4: fix double free caused by devm
+Link: https://lore.kernel.org/stable/20251020150956.491-1-vulab%40iscas.ac.cn
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
-Thomas
+
