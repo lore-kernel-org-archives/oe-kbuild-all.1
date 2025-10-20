@@ -1,69 +1,58 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621662D8DB1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 06:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887FD2D9ECE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 06:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760942026; cv=none; b=LQ2u2F5GSc+kT3yk+C85oPnSBd6NtRuP1hy1oNmpRldbaV+oursfz0KXPf1fjLhS5Qczb4zSTp7/5jjCmM2hBLdOCNprvMm8S1m/biX5+rG5z0o0AY69Jt2P5cKFl0zF8Jeba8RsxoKrj/s3P739xHDmOkNi2YXf0wLeD1WMYj4=
+	t=1760943559; cv=none; b=BTsTWgJzesOyiiF6Sz706/5vRgPvC9x265lxTPe1lhhWHtl/r04GCjEE15FlqbSquzILqRuCcBCk9hDbv5YJdNZKZRl32GkOOxqgZKy8CtT3JGqwQku7HVpv+3FdO6fWSxoOKHw24GMSOnpB/8tAk0VBT084TCEqcAi4Gp6SIIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760942026; c=relaxed/simple;
-	bh=mlp97g/Ep+BsSFjfD7A7N/xv9QnAORBmJOYQUYj87ZU=;
+	s=arc-20240116; t=1760943559; c=relaxed/simple;
+	bh=9RewauUbDN6v7rmNLCuZum9ZMiGMk4Fpj+f7f4/XtYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S1VBBPZStpupmlwKlK6Yuz4P+qLJEgl5fQRsoRY5uoEN3KYS5igVMGY7c/Tg5JsXlcXI283USRQ8V8mV+HKxGYwkj5vhiHSJfvoEh3IPNzcsmz9WyZ8meLdRzD7kw6ijof6+gwLtlMxgnmD+LqRl5kFXqGstIKgJSUNPzCKqnoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PichgMW0; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=WgVWqpUl+5E2PAyIrp7q46pvV778HV9mDmwGI7fHIMPIwfzY0auMGjaHLlD4vqIuc+AnCAiv29HJjNLhaMJ+vJCMzbspRo8AQs/dA7xT6zWqHsn7YsC3PkMtyxpjnKXOX4BTsTK0U8SzJtIJkBOnG1/Dr+yM53ursvs8v+klo+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0k977ZF; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PichgMW0"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3f2cf786abeso3033192f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760942023; x=1761546823; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
-        b=PichgMW0YJspYFx7jE+Lq7f3CtKnMXZTGP9gOalQvkm087p5sXd15FraMXUrgGjDUW
-         HqzSJ4DBvEm1FiRB9PnkYSU30ftib8baIkrmreMGFnrOR6bjxD22CL7oF9Vn+D5qHHug
-         E1OtmO6dc56PMBwj9jT1J8jywGjEP85Xngj1hm3RCkgS85wHT16sCJcOEPB/njq8L1Ly
-         5qZIKvzqCwb9qGP6K6DbNTD0g199D/vBUvzdmsPBWRqisjUDgjBKTd1L8BGqxQ/leOZH
-         qAYmvW+YU61Q/rfQRzQEQBIIo2F9itPDg8GC1OWuBM5JgUHXrOt94Fdl1gpLqbTo046/
-         6+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760942023; x=1761546823;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
-        b=sabK49VUkzQmtfOWKDH2YFm3Cz2NBvTTKdfwT1WtbOtndbFpgXrGML8S6sgTK4VNQY
-         NvdCv/QnfwsZfm1PkOcvHLgShr2RZGwWocl/AKYwG0Bd8RX9kCMQhNfi+b3m8LjpmjKW
-         AxebTTSv3Uw30nCRplFihmwaCGOB29APq28DeOLpkJ7OY2a3zv5tBW26cn+n9Pt3Cj9K
-         PQqUGD9f00OeDJWIsh4KdnpELQumDNKXR8StOIO1g13183JSdGJCpCirEOtOsZ2kARyj
-         MwbQz0pfSyr/0QJTM7c1QfFQKIj78rBAw6MGZBJ9UJrSnhzFWlcKldmJxU2hp7JzSRV+
-         JRyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWG+V2SNUmzpp4/iJoix6XHjm+s/zTqzcKrZi9YvxVCTLrg60U9WutZKsocBn7g7C41Cwa3ZgtN/7yObpLK@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFSrkb7d6NK6sNlhILEmHDEi3Xy805jdxqtsk+GkSMjh0h0JKh
-	Lj40MDxqyhbA0wFiuUm6p4yE3F/BNTw3s5qYXCCGbQhT/al8+GJUaZxYeYv1SlTHTNw=
-X-Gm-Gg: ASbGncu5GaU9eTVegLQODqZkl01cZGUO4BW7Szo0dxhF21HLKkFscYxZkHnJVFshAkw
-	wElUQftgHKD1RHD9nx5aY5j4+MRgqWpNC9AKHP9HKRn2jB69KpCIxX1fCI3I6CL3JmhtJcy6bEt
-	D5y5/HhDFdKqZcOKG4n4bFD2sYl4jpmxxI7Nq+stXhySVOo7xouvA64rofsYgSm/O0BgfPY3AtR
-	ZDmA1OWiXF0ZYpJx/OaCGsf+AjjSuHIchZxgIYt2JX4BAlxzuLj31OcnTe/C0wUg5dBEdacFw/Q
-	w+S7OM6kbWMclqmcaOK71CtvXZ7gAJkVGUzg1YrntBduUQNSczISXNgJQ84GEvaa5mHQs8QBR28
-	teblG2uzfcPAm8hZ8y5BMPZutwxdlcTM5P2qc4Fu+4+ZHuPsIP57BjHG2rnObOXQ8CwMK1d/G+v
-	PhLYaI0A==
-X-Google-Smtp-Source: AGHT+IF+iwxN0Wn2Qgp9zceiF70dnTKZUmoxnsQ+EXXtbsTV8HUbRMaapCpwEul2gA5BkOaWNMWH8A==
-X-Received: by 2002:a05:6000:2507:b0:427:370:20a3 with SMTP id ffacd0b85a97d-42704d96174mr8890713f8f.38.1760942022395;
-        Sun, 19 Oct 2025 23:33:42 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4710ed9e7d7sm110465655e9.3.2025.10.19.23.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 23:33:41 -0700 (PDT)
-Date: Mon, 20 Oct 2025 09:33:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-quota-cleanups 14/20] fs/xfs/scrub/quotacheck.c:605
- xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
-Message-ID: <202510191855.DAo2A5zX-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0k977ZF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760943557; x=1792479557;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9RewauUbDN6v7rmNLCuZum9ZMiGMk4Fpj+f7f4/XtYQ=;
+  b=W0k977ZFGeXoXAqK4a1taobnx5oSYmKjPvZ5FCFAalQS4GFAgXK/tXkE
+   t1485Vve7Xzxud7sbp3wPXlZcSSjHO24ol10L5IDjVvgPNvZFRU614Rpd
+   OuqyRsnf7ty5zi896dkbFU8Jq6FlUdeD7xd5svagtBbT0frajd+WbY1hh
+   MSs0qJaVmemCvxb0cEIV1WUuql5o0nwkU5qaNBMvK1MwcK1fsoKpr8kj/
+   J09dbxayVK/KwLVlbh5DkttFpjTRZpyxRit0QOnP6yiyM0emKs8MY6tsw
+   XHUZ9E00cLPQM5mfWCOWkpqf122hU3ATFiU3nic9KthAQPAbVcccgt1HM
+   A==;
+X-CSE-ConnectionGUID: wwxx2iEURNOZzVJms0+7rQ==
+X-CSE-MsgGUID: xag+MtlEQIiwxhSSR1Yo+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="74494376"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="74494376"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2025 23:59:17 -0700
+X-CSE-ConnectionGUID: NasJsiFdSzud/AeeV7ZDnw==
+X-CSE-MsgGUID: xeMlOZLrQQ2WLOgooNM0TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="187674618"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2025 23:59:16 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAjrN-0009Zh-2l;
+	Mon, 20 Oct 2025 06:59:13 +0000
+Date: Mon, 20 Oct 2025 14:58:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org
+Subject: [groeck-staging:testing 90/132] drivers/hwmon/powerz.c:221:13:
+ error: 'struct powerz_priv' has no member named 'hwmon_dev'
+Message-ID: <202510201412.huiIFstK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,84 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-quota-cleanups
-head:   65122be191ff384c885bb15ab86d84951a501c49
-commit: 2b4f89bdf5696bbc066f43533a17b891f4cd3ef9 [14/20] xfs: move q_qlock locking into xqcheck_compare_dquot
-config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251019/202510191855.DAo2A5zX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git testing
+head:   aaf90608ff3d4f230feea2805d35f8fa93830240
+commit: 1a0484738488b8c7a998c09a842a18a260dc3f40 [90/132] hwmon: (powerz) Rely on subsystem locking
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251020/202510201412.huiIFstK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510201412.huiIFstK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510191855.DAo2A5zX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510201412.huiIFstK-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/scrub/quotacheck.c:605 xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
+All errors (new ones prefixed by >>):
 
-vim +605 fs/xfs/scrub/quotacheck.c
+   drivers/hwmon/powerz.c: In function 'powerz_probe':
+>> drivers/hwmon/powerz.c:221:13: error: 'struct powerz_priv' has no member named 'hwmon_dev'
+     221 |         priv->hwmon_dev =
+         |             ^~
+   drivers/hwmon/powerz.c:224:24: error: 'struct powerz_priv' has no member named 'hwmon_dev'
+     224 |         if (IS_ERR(priv->hwmon_dev)) {
+         |                        ^~
+   drivers/hwmon/powerz.c:226:36: error: 'struct powerz_priv' has no member named 'hwmon_dev'
+     226 |                 return PTR_ERR(priv->hwmon_dev);
+         |                                    ^~
 
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  551  STATIC int
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  552  xqcheck_compare_dquot(
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  553  	struct xqcheck		*xqc,
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  554  	xfs_dqtype_t		dqtype,
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  555  	struct xfs_dquot	*dq)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  556  {
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  557  	struct xqcheck_dquot	xcdq;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  558  	struct xfarray		*counts = xqcheck_counters_for(xqc, dqtype);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  559  	int			error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  560  
-200491875ce144f Darrick J. Wong   2024-02-22  561  	if (xchk_iscan_aborted(&xqc->iscan)) {
-200491875ce144f Darrick J. Wong   2024-02-22  562  		xchk_set_incomplete(xqc->sc);
-200491875ce144f Darrick J. Wong   2024-02-22  563  		return -ECANCELED;
-200491875ce144f Darrick J. Wong   2024-02-22  564  	}
-200491875ce144f Darrick J. Wong   2024-02-22  565  
-2b4f89bdf5696bb Christoph Hellwig 2025-09-20  566  	mutex_lock(&dq->q_qlock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  567  	mutex_lock(&xqc->lock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  568  	error = xfarray_load_sparse(counts, dq->q_id, &xcdq);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  569  	if (error)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  570  		goto out_unlock;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  571  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  572  	if (xcdq.icount != dq->q_ino.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  573  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  574  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  575  	if (xcdq.bcount != dq->q_blk.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  576  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  577  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  578  	if (xcdq.rtbcount != dq->q_rtb.count)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  579  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  580  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  581  	xcdq.flags |= (XQCHECK_DQUOT_COMPARE_SCANNED | XQCHECK_DQUOT_WRITTEN);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  582  	error = xfarray_store(counts, dq->q_id, &xcdq);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  583  	if (error == -EFBIG) {
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  584  		/*
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  585  		 * EFBIG means we tried to store data at too high a byte offset
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  586  		 * in the sparse array.  IOWs, we cannot complete the check and
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  587  		 * must notify userspace that the check was incomplete.  This
-200491875ce144f Darrick J. Wong   2024-02-22  588  		 * should never happen outside of the collection phase.
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  589  		 */
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  590  		xchk_set_incomplete(xqc->sc);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  591  		error = -ECANCELED;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  592  	}
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  593  	mutex_unlock(&xqc->lock);
-2b4f89bdf5696bb Christoph Hellwig 2025-09-20  594  	mutex_unlock(&dq->q_qlock);
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  595  	if (error)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  596  		return error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  597  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  598  	if (xqc->sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  599  		return -ECANCELED;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  600  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  601  	return 0;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  602  
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  603  out_unlock:
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  604  	mutex_unlock(&xqc->lock);
 
-Needs a mutex_unlock(&dq->q_qlock);
+vim +221 drivers/hwmon/powerz.c
 
-48dd9117a34fe9a Darrick J. Wong   2024-02-22 @605  	return error;
-48dd9117a34fe9a Darrick J. Wong   2024-02-22  606  }
+   203	
+   204	static int powerz_probe(struct usb_interface *intf,
+   205				const struct usb_device_id *id)
+   206	{
+   207		struct powerz_priv *priv;
+   208		struct device *parent;
+   209	
+   210		parent = &intf->dev;
+   211	
+   212		priv = devm_kzalloc(parent, sizeof(*priv), GFP_KERNEL);
+   213		if (!priv)
+   214			return -ENOMEM;
+   215	
+   216		priv->urb = usb_alloc_urb(0, GFP_KERNEL);
+   217		if (!priv->urb)
+   218			return -ENOMEM;
+   219		init_completion(&priv->completion);
+   220	
+ > 221		priv->hwmon_dev =
+   222		    devm_hwmon_device_register_with_info(parent, DRIVER_NAME, priv,
+   223							 &powerz_chip_info, NULL);
+   224		if (IS_ERR(priv->hwmon_dev)) {
+   225			usb_free_urb(priv->urb);
+   226			return PTR_ERR(priv->hwmon_dev);
+   227		}
+   228	
+   229		usb_set_intfdata(intf, priv);
+   230	
+   231		return 0;
+   232	}
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
