@@ -1,77 +1,74 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFC02DF13F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 07:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4582D6E51
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 07:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760944410; cv=none; b=H4wMljq+gVtjW2R76K8eB7hxJmquB+v5v9XLZVhvQ9w3T2VrYQ04f/6PzUB2UnzjgGEhtxke9xQrpxtR9und9RJTh1BzZ38Lq8IMbqQtlPiSk4x9ejSTnoB40KmXdWufh+ls681KMGlblPT3isjQpyXutumywh4jRFn2iFAjuaU=
+	t=1760944566; cv=none; b=E/21BJUj6Z6M1EmumPWLwvFTkpFsSyYhj22++TRTiBjx1qwiCU+MtkTvnGKunwe8A/h2WklxIRY9EQCriNmbnCPNINR+HWggIh1EYEpcI/GQfe+pfPuTGNl4zRlJqtxT5SPcpIcj5JJ8u38oJZLs0pJi1aoQkjdwBSH6f8jYdLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760944410; c=relaxed/simple;
-	bh=PeGTn3iFxDHG7Zzquzk+8Eb8iZsO1eg0YMwOWsI8x/Q=;
+	s=arc-20240116; t=1760944566; c=relaxed/simple;
+	bh=yxof3URmX9rLtpmiczmpq9jXxEYmxv/5pWBYF7OQFKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RijNPfjJ/y1Z1irtP9Zls1StBL8+uaYVc0WdZvPPy1pve33J4/guX5jNLsPUQ1jo+0NMlvZ8hleWLhecmtuPeLB5w7tTy4SBAmXG17Bomxg649kF59jL+W3lURfrYs+VjH4jujdXexQ+O1UFNOHOCtzmhgJeZBx+K2G6Zxbfpfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yea40z+1; arc=none smtp.client-ip=209.85.221.50
+	 Content-Disposition:In-Reply-To; b=e/it2XEKwH2/ScwK6Yjij5K24VP9PGzfqW8mevocvKjpQzRQwiXR1OQX/bnWLIWOhW4WytAt00LOSdP7ldMFqnzKgP0VzpEqiQLFLmV4UgJ+TABtiqv78NWcVng753o94TMfZ+H730K2zpIj4OIXCfkfkhMN2yFL71GzZVwTXzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qiE3Aywh; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yea40z+1"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso3807649f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 00:13:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qiE3Aywh"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4710665e7deso12863915e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 00:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760944406; x=1761549206; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1760944563; x=1761549363; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v29GrQR+ncc3DZUAcuhlbn2tQqEiegD397LZB82cRuo=;
-        b=yea40z+1Ja3bzIKh8+mPpiGH8wtrcDV/VMM6cIDAXGiP5l6f76MyItxzsd4Yx4lZwW
-         PRg918kQfoVR8+EdUL9Kuex5uiAMyoIG2Jaucg+tDBIqkLoARp990mc8KKvXlj+b0sE5
-         lIRzpxLoHXWy7lo3u7wQXRUAMc19Z9O1Wy9LkJ9eUikMI2wPl0cPMBAo3G0VP3reZhl5
-         ngOpO2kboeu9zVgZ1rvVN0iILdS5cOcpkfGDwVyNp/aBV/YejEyjiTfQDHSJHGBK0dC3
-         u3fgQ/M7/wMOdKSNO6+PvigjQK7W7PB8Fh7R27uNXqbMQalB7xlYeL0imn0lWvewlqzK
-         EoDA==
+        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
+        b=qiE3AywhGtmaFWwxCcCmPzBVWGzXxCTi/frN5HMVNCj/Tea0PMePNAw7r8brBICriR
+         5X0FDglBaNlJgqDHjJxeB3dELSUBCjeKKkLOhja6KZIeClSwOY42i1pI60zl/4TGOEqa
+         Ndp1ZyZqG1r8uT0dlZ7IMnPm83e1a/HtU11DflMtH8OMpAh8cH7tk8LOapBnzT8UXgMs
+         LE8vuxJRAzpn3EL54yX83PjB+/jk50suZ28MtmLZ1dAilUviKxRtvKQ6Kf0eAYTBjQKZ
+         poxGmS7nSntGgDwCJ3mOrBHL6FLOKL0FNHS4rJcaZPtpJ4povYcwA9m17rIWOIb8F3Dn
+         CBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760944406; x=1761549206;
+        d=1e100.net; s=20230601; t=1760944563; x=1761549363;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v29GrQR+ncc3DZUAcuhlbn2tQqEiegD397LZB82cRuo=;
-        b=p2jIzHzvZdjfArn7FtCp9/SjY1WDKt/m5xJSb+OhmJq+BP4TuwjnrIXwd0t0DUQG12
-         H6OfMUP8T13s7p45JO1QfTtEsGr9uqaubceprWnb/na2aVGJRo6+JyjoGPVGewpt2ZK9
-         YgwLzfcb2Mn4DCsrUxlwv2d/7jnkei8wp0l3Xu8Q7bj1G+c32bbJ9ROH9QmD6xQ9Ci7C
-         GA3kelKRSOww0GVn+bQthIp+m5bDq9zFUFXYONBh5/HaOlLDiDeb37M9f2XzUnDW0Of1
-         AhPeqUJMbPXeuSOqVv42kfp+Wd7d6gAPVhX2Tf8wCTXwEDRTCv2b+ixv+6HPHnbpmhC/
-         AMGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVtacddyUCOw33nfwdNp+n+zxNQr0iBcK0ja3bVt9C4fdh63DxWuyupY0ALs2nr28Bl1CKFw7vpwzsxfMDc@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJ2iJLm41QulILw3HAAaoPXbvQ4+ENEwqhmt7t2cqNOyFC90f6
-	RCjOkEQPLjI30zZ2qGeRGJ1DYwzb9jsduEGAU1Wr4GRFp2JkL36YUwmh8q4c2KDhIHg=
-X-Gm-Gg: ASbGnctewPRRhBCeIK8gCzjbyXMUqmhJhL2zTnrLQ37IDtJ/ZFTwWsyhO/BIXX/lxVg
-	c4x6RQDoHW7regUv3DGcpw/YGfYqCS69mN/lgiHyYwcAqqCdu1DtYIGReqA0fHLiCcP0oty0qU/
-	WOczILOsI4Mu0LpOyXcqAqaUN3MuUY5HtCupXiq3qpdDOuILCmCHMBFFBy7ZjoSsgNQXahMaDJW
-	B1Tcp7R7isIIewxrrg1mV4m+CGe6XtT/MDnnHq6FRla4VHnE1dOBoUo0WztnBA1MfllAibzsAhx
-	mRpz7RC9O8Ocw+uD8SC9fb9oMqBpLzg2pTXFPXrqjiwwfo12VeE9BZ5nFDJ0z7hZs+V7L6aElPD
-	fCIiAsANcaBwyJ1lvvuGUUKTPvaZnNSUUdd8HRTfOPVKKDMRgmAj+5k9U8RJEZsDQB35W45o4ou
-	whMxuk/erl/wK59q2B
-X-Google-Smtp-Source: AGHT+IGCWcj+ZeSsBGtAZjJoabbi0svPUJxfv7bQF2wz0Kk+abDltn5J9+7dAFKFJ6moPAKqLR/Rtg==
-X-Received: by 2002:a05:6000:25fd:b0:427:587:d9ae with SMTP id ffacd0b85a97d-4270587d9c1mr6413104f8f.9.1760944406004;
-        Mon, 20 Oct 2025 00:13:26 -0700 (PDT)
+        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
+        b=hJAx658K9U73gKRJO1i+a4sYiKR8s4EGSe0CqN8EnaByH5fu+EmI2THFoxIEby3LvQ
+         l2GdRD2ew+gVBi+GGb+J631jqn18CrxwUim0BEDuEBmUK5nyHHq+Kq5NDvuv9Zi41KpQ
+         GDHwnKzDumXV5RzRFcnwECdrzTC0UIGVADh0PABsqCJRK2u5mlPMHWonfMm+wK6vnvm8
+         0S9T7KrbHOcT4EqQrdmElmhMR03SHlLPROkE1T1oymGhaY6mT23CXaiFaC3DQI2UyGbX
+         epoEvu842K0pKNNheN/3lDGVk2AFmSNVk/ql9Zy22KsRKtOdftumpLOh85lz+KrFPhJG
+         fJAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhop/ZqLxu1abXTEX3IL2w4WiQbFSSHJwFGWPkgaUeFzrGiawyC90Xdrr77g+KNlGjSe/GV2uQu61ko0wc@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0+HYM99tKIjRdQdpdSK8ViiYbZ1BdOVK6DKQELNS5GlqwqdYa
+	7P/wKf7KSuZA6RQ9hf8k+M0IqtE9TAOyoOpm5liXwk3avsaaKYAcWwYKatz235f4un0=
+X-Gm-Gg: ASbGncu9jUUgG1iCowrVPMO3aGcYI299+UKKwMkzK0dxf4gve3ROMO1v27kyu3Ao0BE
+	LWEbmn6zkRJ8/YhK6htJV7/fcogaL50s8nIJkYSy735RYU/8HnS5AUBZBp8nZ5MMXngTRttAqta
+	BawkDZ8iLWc2nyTcV6t+c8L3MB18eDyTG20BCbmegdKAZGOUR4iFpVXIv0PZGT8mu4MdgiZ69OJ
+	Vx0AmzdCPJDXhWammpT/cLJu1YxyzQyn/GmNvqhS30nkmOAV7XOPuuoe1WLVGAlLIz8J4Nt4cjB
+	eEYqg8qMkN1yu7uqvCyI+a7qIDL/ztxM2U/xkYk3QpOb4KxgzjvAfDpyzZwOSJNG4TNs1FqWyKc
+	m+4begMuTahj1EmE7b+lTuquxwT7XLVN16k5ihBDBotufTDdz0xO3b906LmogkTjzbVhURu1bBu
+	cuhjMqGg==
+X-Google-Smtp-Source: AGHT+IGQTm5EXLM1N/aEKkpBtHNfkR7A7sUK0vTw/Crg1lHtzbbVskltQEePc3eMuv4zrbEPcEQ0lQ==
+X-Received: by 2002:a05:600c:3e07:b0:468:7a5a:1494 with SMTP id 5b1f17b1804b1-4711787350dmr69398345e9.1.1760944562808;
+        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00b9f71sm13715262f8f.37.2025.10.20.00.13.25
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144c82c9sm216041635e9.14.2025.10.20.00.16.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 00:13:25 -0700 (PDT)
-Date: Mon, 20 Oct 2025 10:13:22 +0300
+        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
+Date: Mon, 20 Oct 2025 10:15:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jonathan Brophy <professorjonny98@gmail.com>,
-	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Jonathan Brophy <professor_jonny@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
+To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
+	Miklos Szeredi <miklos@szeredi.hu>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-Message-ID: <202510201457.uOrhkKly-lkp@intel.com>
+	Joanne Koong <joannelkoong@gmail.com>,
+	linux-fsdevel@vger.kernel.org, Luis Henriques <luis@igalia.com>,
+	Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
+Subject: Re: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a
+ different core
+Message-ID: <202510201259.MevZAfl5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,71 +77,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251019092331.49531-5-professorjonny98@gmail.com>
+In-Reply-To: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
 
-Hi Jonathan,
+Hi Bernd,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/dt-bindings-Add-virtualcolor-class-dt-bindings-documentation/20251019-172647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20251019092331.49531-5-professorjonny98%40gmail.com
-patch subject: [PATCH v3 4/4] leds: Add virtualcolor LED group driver
-config: parisc-randconfig-r072-20251020 (https://download.01.org/0day-ci/archive/20251020/202510201457.uOrhkKly-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-io-uring-Add-queue-length-counters/20251014-024703
+base:   ec714e371f22f716a04e6ecb2a24988c92b26911
+patch link:    https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae%40ddn.com
+patch subject: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a different core
+config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251020/202510201259.MevZAfl5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510201457.uOrhkKly-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510201259.MevZAfl5-lkp@intel.com/
 
 smatch warnings:
-drivers/leds/rgb/leds-group-virtualcolor.c:303 parse_monochromatic_leds() warn: 'mono_count' unsigned <= 0
-drivers/leds/rgb/leds-group-virtualcolor.c:303 parse_monochromatic_leds() warn: error code type promoted to positive: 'mono_count'
+fs/fuse/dev_uring.c:1389 fuse_uring_get_queue() error: uninitialized symbol 'best_numa'.
 
-vim +/mono_count +303 drivers/leds/rgb/leds-group-virtualcolor.c
+vim +/best_numa +1389 fs/fuse/dev_uring.c
 
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  296  static int parse_monochromatic_leds(struct device *dev, struct device_node *child,
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  297  				    struct virtual_led *vled)
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  298  {
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  299  	u32 mono_count;
+2482ae85881b957 Bernd Schubert 2025-10-13  1306  static struct fuse_ring_queue *fuse_uring_get_queue(struct fuse_ring *ring,
+2482ae85881b957 Bernd Schubert 2025-10-13  1307  						    bool background)
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1308  {
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1309  	unsigned int qid;
+aca09b212467554 Bernd Schubert 2025-10-13  1310  	struct fuse_ring_queue *local_queue, *best_numa, *best_global;
+aca09b212467554 Bernd Schubert 2025-10-13  1311  	int local_node;
+aca09b212467554 Bernd Schubert 2025-10-13  1312  	const struct cpumask *numa_mask, *global_mask;
+2482ae85881b957 Bernd Schubert 2025-10-13  1313  	int retries = 0;
+2482ae85881b957 Bernd Schubert 2025-10-13  1314  	int weight = -1;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1315  
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1316  	qid = task_cpu(current);
+868e7728394dbc8 Bernd Schubert 2025-10-13  1317  	if (WARN_ONCE(qid >= ring->max_nr_queues,
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1318  		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+868e7728394dbc8 Bernd Schubert 2025-10-13  1319  		      ring->max_nr_queues))
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1320  		qid = 0;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1321  
+aca09b212467554 Bernd Schubert 2025-10-13  1322  	local_node = cpu_to_node(qid);
+aca09b212467554 Bernd Schubert 2025-10-13  1323  	if (WARN_ON_ONCE(local_node > ring->nr_numa_nodes))
+aca09b212467554 Bernd Schubert 2025-10-13  1324  		local_node = 0;
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1325  
+2482ae85881b957 Bernd Schubert 2025-10-13  1326  	local_queue = READ_ONCE(ring->queues[qid]);
+2482ae85881b957 Bernd Schubert 2025-10-13  1327  
+2482ae85881b957 Bernd Schubert 2025-10-13  1328  retry:
+2482ae85881b957 Bernd Schubert 2025-10-13  1329  	/*
+2482ae85881b957 Bernd Schubert 2025-10-13  1330  	 * For background requests, try next CPU in same NUMA domain.
+2482ae85881b957 Bernd Schubert 2025-10-13  1331  	 * I.e. cpu-0 creates async requests, cpu-1 io processes.
+2482ae85881b957 Bernd Schubert 2025-10-13  1332  	 * Similar for foreground requests, when the local queue does not
+2482ae85881b957 Bernd Schubert 2025-10-13  1333  	 * exist - still better to always wake the same cpu id.
+2482ae85881b957 Bernd Schubert 2025-10-13  1334  	 */
+2482ae85881b957 Bernd Schubert 2025-10-13  1335  	if (background || !local_queue) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1336  		numa_mask = ring->numa_registered_q_mask[local_node];
+2482ae85881b957 Bernd Schubert 2025-10-13  1337  
+2482ae85881b957 Bernd Schubert 2025-10-13  1338  		if (weight == -1)
+2482ae85881b957 Bernd Schubert 2025-10-13  1339  			weight = cpumask_weight(numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1340  
+2482ae85881b957 Bernd Schubert 2025-10-13  1341  		if (weight == 0)
+2482ae85881b957 Bernd Schubert 2025-10-13  1342  			goto global;
 
-This needs to be an int.
+best_numa not set on this path.
 
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  300  	int ret, i;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  301  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  302  	mono_count = of_property_count_elems_of_size(child, "leds", sizeof(u32));
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19 @303  	if (mono_count <= 0) {
-                                                            ^^^^^^^^^^^^^^^
+2482ae85881b957 Bernd Schubert 2025-10-13  1343  
+2482ae85881b957 Bernd Schubert 2025-10-13  1344  		if (weight > 1) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1345  			int idx = (qid + 1) % weight;
+2482ae85881b957 Bernd Schubert 2025-10-13  1346  
+2482ae85881b957 Bernd Schubert 2025-10-13  1347  			qid = cpumask_nth(idx, numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1348  		} else {
+2482ae85881b957 Bernd Schubert 2025-10-13  1349  			qid = cpumask_first(numa_mask);
+2482ae85881b957 Bernd Schubert 2025-10-13  1350  		}
+2482ae85881b957 Bernd Schubert 2025-10-13  1351  
+2482ae85881b957 Bernd Schubert 2025-10-13  1352  		local_queue = READ_ONCE(ring->queues[qid]);
+2482ae85881b957 Bernd Schubert 2025-10-13  1353  		if (WARN_ON_ONCE(!local_queue))
+2482ae85881b957 Bernd Schubert 2025-10-13  1354  			return NULL;
+2482ae85881b957 Bernd Schubert 2025-10-13  1355  	}
+2482ae85881b957 Bernd Schubert 2025-10-13  1356  
+2482ae85881b957 Bernd Schubert 2025-10-13  1357  	if (READ_ONCE(local_queue->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1358  		return local_queue;
+aca09b212467554 Bernd Schubert 2025-10-13  1359  
+2482ae85881b957 Bernd Schubert 2025-10-13  1360  	if (retries < FURING_NEXT_QUEUE_RETRIES && weight > retries + 1) {
+2482ae85881b957 Bernd Schubert 2025-10-13  1361  		retries++;
+2482ae85881b957 Bernd Schubert 2025-10-13  1362  		local_queue = NULL;
+2482ae85881b957 Bernd Schubert 2025-10-13  1363  		goto retry;
+2482ae85881b957 Bernd Schubert 2025-10-13  1364  	}
+2482ae85881b957 Bernd Schubert 2025-10-13  1365  
+aca09b212467554 Bernd Schubert 2025-10-13  1366  	/* Find best NUMA-local queue */
+aca09b212467554 Bernd Schubert 2025-10-13  1367  	numa_mask = ring->numa_registered_q_mask[local_node];
+aca09b212467554 Bernd Schubert 2025-10-13  1368  	best_numa = fuse_uring_best_queue(numa_mask, ring);
+aca09b212467554 Bernd Schubert 2025-10-13  1369  
+aca09b212467554 Bernd Schubert 2025-10-13  1370  	/* If NUMA queue is under threshold, use it */
+aca09b212467554 Bernd Schubert 2025-10-13  1371  	if (best_numa &&
+aca09b212467554 Bernd Schubert 2025-10-13  1372  	    READ_ONCE(best_numa->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1373  		return best_numa;
+aca09b212467554 Bernd Schubert 2025-10-13  1374  
+2482ae85881b957 Bernd Schubert 2025-10-13  1375  global:
+aca09b212467554 Bernd Schubert 2025-10-13  1376  	/* NUMA queues above threshold, try global queues */
+aca09b212467554 Bernd Schubert 2025-10-13  1377  	global_mask = ring->registered_q_mask;
+aca09b212467554 Bernd Schubert 2025-10-13  1378  	best_global = fuse_uring_best_queue(global_mask, ring);
+aca09b212467554 Bernd Schubert 2025-10-13  1379  
+aca09b212467554 Bernd Schubert 2025-10-13  1380  	/* Might happen during tear down */
+aca09b212467554 Bernd Schubert 2025-10-13  1381  	if (!best_global)
+aca09b212467554 Bernd Schubert 2025-10-13  1382  		return NULL;
+aca09b212467554 Bernd Schubert 2025-10-13  1383  
+aca09b212467554 Bernd Schubert 2025-10-13  1384  	/* If global queue is under double threshold, use it */
+aca09b212467554 Bernd Schubert 2025-10-13  1385  	if (READ_ONCE(best_global->nr_reqs) <= FURING_Q_GLOBAL_THRESHOLD)
+aca09b212467554 Bernd Schubert 2025-10-13  1386  		return best_global;
+aca09b212467554 Bernd Schubert 2025-10-13  1387  
+aca09b212467554 Bernd Schubert 2025-10-13  1388  	/* There is no ideal queue, stay numa_local if possible */
+aca09b212467554 Bernd Schubert 2025-10-13 @1389  	return best_numa ? best_numa : best_global;
+                                                               ^^^^^^^^^
+Uninitialized
 
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  304  		vled->num_monochromatics = 0;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  305  		return 0;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  306  	}
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  307  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  308  	vled->num_monochromatics = mono_count;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  309  	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  310  					    sizeof(*vled->monochromatics), GFP_KERNEL);
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  311  	if (!vled->monochromatics)
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  312  		return -ENOMEM;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  313  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  314  	for (i = 0; i < vled->num_monochromatics; i++) {
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  315  		struct led_classdev *led_cdev;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  316  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  317  		led_cdev = devm_of_led_get(dev, i);
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  318  		if (IS_ERR(led_cdev)) {
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  319  			ret = PTR_ERR(led_cdev);
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  320  			return dev_err_probe(dev, ret,
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  321  					     "Failed to get monochromatic LED %d\n", i);
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  322  		}
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  323  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  324  		vled->monochromatics[i] = led_cdev;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  325  	}
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  326  
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  327  	return 0;
-bc8d39d8adf81b2 Jonathan Brophy 2025-10-19  328  }
+c2c9af9a0b13261 Bernd Schubert 2025-01-20  1390  }
 
 -- 
 0-DAY CI Kernel Test Service
