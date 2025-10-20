@@ -1,74 +1,68 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4582D6E51
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 07:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551819C542;
+	Mon, 20 Oct 2025 07:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760944566; cv=none; b=E/21BJUj6Z6M1EmumPWLwvFTkpFsSyYhj22++TRTiBjx1qwiCU+MtkTvnGKunwe8A/h2WklxIRY9EQCriNmbnCPNINR+HWggIh1EYEpcI/GQfe+pfPuTGNl4zRlJqtxT5SPcpIcj5JJ8u38oJZLs0pJi1aoQkjdwBSH6f8jYdLQ=
+	t=1760944809; cv=none; b=ddan/9t+QAIdA1SsIbE9hmuftgTHR8KVF7jfHuE2IYCtxQDuepFRjSO2jahCNvEa5ow2AktVOZWNYc7HlQsFB1qvHvY7/yEZ+aoAfey8v6oZmCD24H1O3IWBYVp160hMZBwc28gjSNoVACjTmxeywolwrCR/wZGolp1IqOTpxWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760944566; c=relaxed/simple;
-	bh=yxof3URmX9rLtpmiczmpq9jXxEYmxv/5pWBYF7OQFKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=e/it2XEKwH2/ScwK6Yjij5K24VP9PGzfqW8mevocvKjpQzRQwiXR1OQX/bnWLIWOhW4WytAt00LOSdP7ldMFqnzKgP0VzpEqiQLFLmV4UgJ+TABtiqv78NWcVng753o94TMfZ+H730K2zpIj4OIXCfkfkhMN2yFL71GzZVwTXzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qiE3Aywh; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1760944809; c=relaxed/simple;
+	bh=UUFihtK4Ok4cUMT7emCE/58qLLeQEky4Qc5eIDDDrrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEFIeIbBTDRVGqP5y2cE7dzV3GHJQDqBCas4NWMwzfQd4vc8ITKYyDQee9wjsNy3hisMRf5WdoI3ZmTdQSi2EFnA5Qe53n3Maqw3jy48c0luYvtiSRiSyjD786lOXNN+9wwaZUnyGRFZcljzQSDzPNZ6UNcWrtXOGEf4tSboiJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jlDP9fC7; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qiE3Aywh"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4710665e7deso12863915e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 00:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760944563; x=1761549363; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
-        b=qiE3AywhGtmaFWwxCcCmPzBVWGzXxCTi/frN5HMVNCj/Tea0PMePNAw7r8brBICriR
-         5X0FDglBaNlJgqDHjJxeB3dELSUBCjeKKkLOhja6KZIeClSwOY42i1pI60zl/4TGOEqa
-         Ndp1ZyZqG1r8uT0dlZ7IMnPm83e1a/HtU11DflMtH8OMpAh8cH7tk8LOapBnzT8UXgMs
-         LE8vuxJRAzpn3EL54yX83PjB+/jk50suZ28MtmLZ1dAilUviKxRtvKQ6Kf0eAYTBjQKZ
-         poxGmS7nSntGgDwCJ3mOrBHL6FLOKL0FNHS4rJcaZPtpJ4povYcwA9m17rIWOIb8F3Dn
-         CBFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760944563; x=1761549363;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z1ej+8gtsvFOBhqZuaO9KMzSX5cvqPOefoo5CYnjI/Q=;
-        b=hJAx658K9U73gKRJO1i+a4sYiKR8s4EGSe0CqN8EnaByH5fu+EmI2THFoxIEby3LvQ
-         l2GdRD2ew+gVBi+GGb+J631jqn18CrxwUim0BEDuEBmUK5nyHHq+Kq5NDvuv9Zi41KpQ
-         GDHwnKzDumXV5RzRFcnwECdrzTC0UIGVADh0PABsqCJRK2u5mlPMHWonfMm+wK6vnvm8
-         0S9T7KrbHOcT4EqQrdmElmhMR03SHlLPROkE1T1oymGhaY6mT23CXaiFaC3DQI2UyGbX
-         epoEvu842K0pKNNheN/3lDGVk2AFmSNVk/ql9Zy22KsRKtOdftumpLOh85lz+KrFPhJG
-         fJAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhop/ZqLxu1abXTEX3IL2w4WiQbFSSHJwFGWPkgaUeFzrGiawyC90Xdrr77g+KNlGjSe/GV2uQu61ko0wc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0+HYM99tKIjRdQdpdSK8ViiYbZ1BdOVK6DKQELNS5GlqwqdYa
-	7P/wKf7KSuZA6RQ9hf8k+M0IqtE9TAOyoOpm5liXwk3avsaaKYAcWwYKatz235f4un0=
-X-Gm-Gg: ASbGncu9jUUgG1iCowrVPMO3aGcYI299+UKKwMkzK0dxf4gve3ROMO1v27kyu3Ao0BE
-	LWEbmn6zkRJ8/YhK6htJV7/fcogaL50s8nIJkYSy735RYU/8HnS5AUBZBp8nZ5MMXngTRttAqta
-	BawkDZ8iLWc2nyTcV6t+c8L3MB18eDyTG20BCbmegdKAZGOUR4iFpVXIv0PZGT8mu4MdgiZ69OJ
-	Vx0AmzdCPJDXhWammpT/cLJu1YxyzQyn/GmNvqhS30nkmOAV7XOPuuoe1WLVGAlLIz8J4Nt4cjB
-	eEYqg8qMkN1yu7uqvCyI+a7qIDL/ztxM2U/xkYk3QpOb4KxgzjvAfDpyzZwOSJNG4TNs1FqWyKc
-	m+4begMuTahj1EmE7b+lTuquxwT7XLVN16k5ihBDBotufTDdz0xO3b906LmogkTjzbVhURu1bBu
-	cuhjMqGg==
-X-Google-Smtp-Source: AGHT+IGQTm5EXLM1N/aEKkpBtHNfkR7A7sUK0vTw/Crg1lHtzbbVskltQEePc3eMuv4zrbEPcEQ0lQ==
-X-Received: by 2002:a05:600c:3e07:b0:468:7a5a:1494 with SMTP id 5b1f17b1804b1-4711787350dmr69398345e9.1.1760944562808;
-        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144c82c9sm216041635e9.14.2025.10.20.00.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 00:16:02 -0700 (PDT)
-Date: Mon, 20 Oct 2025 10:15:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bernd Schubert <bschubert@ddn.com>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Joanne Koong <joannelkoong@gmail.com>,
-	linux-fsdevel@vger.kernel.org, Luis Henriques <luis@igalia.com>,
-	Gang He <dchg2000@gmail.com>, Bernd Schubert <bschubert@ddn.com>
-Subject: Re: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a
- different core
-Message-ID: <202510201259.MevZAfl5-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlDP9fC7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760944807; x=1792480807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UUFihtK4Ok4cUMT7emCE/58qLLeQEky4Qc5eIDDDrrg=;
+  b=jlDP9fC7cqImlFqioOyL3Ucbb7kcNVjGS2wZo3OfYnLDFui27mlSYKhd
+   ZI1M54AS6qpHPxkvsC6Edvhu6ijzLcpPduxvNGjiPtIVjJnqzkrDKN0ZA
+   SBVp7ZelTUuvhg2D4fRyhn0ynphwqf/snEQkqDAtweT/NYr3EW5qubteA
+   siWUQbq4jKo/B1wtn8e9QHFkqauDfkrvnRQlB40K5SdMn9ePTHWQ1D2xD
+   d7S/7q2rJHLeprgNhJlMyryRzq2TAXopIXg6A9IDoMQC477ZxRcBlkPED
+   rBaVh1ns8QgHKdKN69xy3a6AI5VpZwhtOHrpRljxSynwv7KXEfNene6Dg
+   A==;
+X-CSE-ConnectionGUID: YJLQoPT4TU6m8CLxe7w2og==
+X-CSE-MsgGUID: qQlzsyUATWyAPM5nrwRplg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="80683367"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="80683367"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 00:20:06 -0700
+X-CSE-ConnectionGUID: QSZApNFnR6+WKt45uNjbJQ==
+X-CSE-MsgGUID: 9IjP+zuSTS6864fyXuru/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="214228153"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 20 Oct 2025 00:20:02 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAkBU-0009an-0H;
+	Mon, 20 Oct 2025 07:20:00 +0000
+Date: Mon, 20 Oct 2025 15:19:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: hans.zhang@cixtech.com, bhelgaas@google.com, helgaas@kernel.org,
+	lpieralisi@kernel.org, kw@linux.com, mani@kernel.org,
+	robh@kernel.org, kwilczynski@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mpillai@cadence.com, fugang.duan@cixtech.com,
+	guoyin.chen@cixtech.com, peter.chen@cixtech.com,
+	cix-kernel-upstream@cixtech.com, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <hans.zhang@cixtech.com>
+Subject: Re: [PATCH v10 04/10] PCI: cadence: Add support for High Perf
+ Architecture (HPA) controller
+Message-ID: <202510201553.x7S0SaZ1-lkp@intel.com>
+References: <20251020042857.706786-5-hans.zhang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,123 +71,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae@ddn.com>
+In-Reply-To: <20251020042857.706786-5-hans.zhang@cixtech.com>
 
-Hi Bernd,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-io-uring-Add-queue-length-counters/20251014-024703
-base:   ec714e371f22f716a04e6ecb2a24988c92b26911
-patch link:    https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-6-6d87c8aa31ae%40ddn.com
-patch subject: [PATCH v3 6/6] fuse: {io-uring} Queue background requests on a different core
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251020/202510201259.MevZAfl5-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+[auto build test WARNING on 211ddde0823f1442e4ad052a2f30f050145ccada]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/PCI-cadence-Add-module-support-for-platform-controller-driver/20251020-123246
+base:   211ddde0823f1442e4ad052a2f30f050145ccada
+patch link:    https://lore.kernel.org/r/20251020042857.706786-5-hans.zhang%40cixtech.com
+patch subject: [PATCH v10 04/10] PCI: cadence: Add support for High Perf Architecture (HPA) controller
+config: i386-buildonly-randconfig-002-20251020 (https://download.01.org/0day-ci/archive/20251020/202510201553.x7S0SaZ1-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510201553.x7S0SaZ1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510201259.MevZAfl5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510201553.x7S0SaZ1-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/dev_uring.c:1389 fuse_uring_get_queue() error: uninitialized symbol 'best_numa'.
+All warnings (new ones prefixed by >>):
 
-vim +/best_numa +1389 fs/fuse/dev_uring.c
+>> drivers/pci/controller/cadence/pcie-cadence-host-hpa.c:96:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      96 |         if (rc->quirk_retrain_flag)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/cadence/pcie-cadence-host-hpa.c:98:9: note: uninitialized use occurs here
+      98 |         return ret;
+         |                ^~~
+   drivers/pci/controller/cadence/pcie-cadence-host-hpa.c:96:2: note: remove the 'if' if its condition is always true
+      96 |         if (rc->quirk_retrain_flag)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      97 |                 ret = cdns_pcie_retrain(pcie);
+   drivers/pci/controller/cadence/pcie-cadence-host-hpa.c:84:18: note: initialize the variable 'ret' to silence this warning
+      84 |         int retries, ret;
+         |                         ^
+         |                          = 0
+   1 warning generated.
 
-2482ae85881b957 Bernd Schubert 2025-10-13  1306  static struct fuse_ring_queue *fuse_uring_get_queue(struct fuse_ring *ring,
-2482ae85881b957 Bernd Schubert 2025-10-13  1307  						    bool background)
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1308  {
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1309  	unsigned int qid;
-aca09b212467554 Bernd Schubert 2025-10-13  1310  	struct fuse_ring_queue *local_queue, *best_numa, *best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1311  	int local_node;
-aca09b212467554 Bernd Schubert 2025-10-13  1312  	const struct cpumask *numa_mask, *global_mask;
-2482ae85881b957 Bernd Schubert 2025-10-13  1313  	int retries = 0;
-2482ae85881b957 Bernd Schubert 2025-10-13  1314  	int weight = -1;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1315  
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1316  	qid = task_cpu(current);
-868e7728394dbc8 Bernd Schubert 2025-10-13  1317  	if (WARN_ONCE(qid >= ring->max_nr_queues,
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1318  		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
-868e7728394dbc8 Bernd Schubert 2025-10-13  1319  		      ring->max_nr_queues))
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1320  		qid = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1321  
-aca09b212467554 Bernd Schubert 2025-10-13  1322  	local_node = cpu_to_node(qid);
-aca09b212467554 Bernd Schubert 2025-10-13  1323  	if (WARN_ON_ONCE(local_node > ring->nr_numa_nodes))
-aca09b212467554 Bernd Schubert 2025-10-13  1324  		local_node = 0;
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1325  
-2482ae85881b957 Bernd Schubert 2025-10-13  1326  	local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1327  
-2482ae85881b957 Bernd Schubert 2025-10-13  1328  retry:
-2482ae85881b957 Bernd Schubert 2025-10-13  1329  	/*
-2482ae85881b957 Bernd Schubert 2025-10-13  1330  	 * For background requests, try next CPU in same NUMA domain.
-2482ae85881b957 Bernd Schubert 2025-10-13  1331  	 * I.e. cpu-0 creates async requests, cpu-1 io processes.
-2482ae85881b957 Bernd Schubert 2025-10-13  1332  	 * Similar for foreground requests, when the local queue does not
-2482ae85881b957 Bernd Schubert 2025-10-13  1333  	 * exist - still better to always wake the same cpu id.
-2482ae85881b957 Bernd Schubert 2025-10-13  1334  	 */
-2482ae85881b957 Bernd Schubert 2025-10-13  1335  	if (background || !local_queue) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1336  		numa_mask = ring->numa_registered_q_mask[local_node];
-2482ae85881b957 Bernd Schubert 2025-10-13  1337  
-2482ae85881b957 Bernd Schubert 2025-10-13  1338  		if (weight == -1)
-2482ae85881b957 Bernd Schubert 2025-10-13  1339  			weight = cpumask_weight(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1340  
-2482ae85881b957 Bernd Schubert 2025-10-13  1341  		if (weight == 0)
-2482ae85881b957 Bernd Schubert 2025-10-13  1342  			goto global;
 
-best_numa not set on this path.
+vim +96 drivers/pci/controller/cadence/pcie-cadence-host-hpa.c
 
-2482ae85881b957 Bernd Schubert 2025-10-13  1343  
-2482ae85881b957 Bernd Schubert 2025-10-13  1344  		if (weight > 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1345  			int idx = (qid + 1) % weight;
-2482ae85881b957 Bernd Schubert 2025-10-13  1346  
-2482ae85881b957 Bernd Schubert 2025-10-13  1347  			qid = cpumask_nth(idx, numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1348  		} else {
-2482ae85881b957 Bernd Schubert 2025-10-13  1349  			qid = cpumask_first(numa_mask);
-2482ae85881b957 Bernd Schubert 2025-10-13  1350  		}
-2482ae85881b957 Bernd Schubert 2025-10-13  1351  
-2482ae85881b957 Bernd Schubert 2025-10-13  1352  		local_queue = READ_ONCE(ring->queues[qid]);
-2482ae85881b957 Bernd Schubert 2025-10-13  1353  		if (WARN_ON_ONCE(!local_queue))
-2482ae85881b957 Bernd Schubert 2025-10-13  1354  			return NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1355  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1356  
-2482ae85881b957 Bernd Schubert 2025-10-13  1357  	if (READ_ONCE(local_queue->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1358  		return local_queue;
-aca09b212467554 Bernd Schubert 2025-10-13  1359  
-2482ae85881b957 Bernd Schubert 2025-10-13  1360  	if (retries < FURING_NEXT_QUEUE_RETRIES && weight > retries + 1) {
-2482ae85881b957 Bernd Schubert 2025-10-13  1361  		retries++;
-2482ae85881b957 Bernd Schubert 2025-10-13  1362  		local_queue = NULL;
-2482ae85881b957 Bernd Schubert 2025-10-13  1363  		goto retry;
-2482ae85881b957 Bernd Schubert 2025-10-13  1364  	}
-2482ae85881b957 Bernd Schubert 2025-10-13  1365  
-aca09b212467554 Bernd Schubert 2025-10-13  1366  	/* Find best NUMA-local queue */
-aca09b212467554 Bernd Schubert 2025-10-13  1367  	numa_mask = ring->numa_registered_q_mask[local_node];
-aca09b212467554 Bernd Schubert 2025-10-13  1368  	best_numa = fuse_uring_best_queue(numa_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1369  
-aca09b212467554 Bernd Schubert 2025-10-13  1370  	/* If NUMA queue is under threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1371  	if (best_numa &&
-aca09b212467554 Bernd Schubert 2025-10-13  1372  	    READ_ONCE(best_numa->nr_reqs) <= FURING_Q_NUMA_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1373  		return best_numa;
-aca09b212467554 Bernd Schubert 2025-10-13  1374  
-2482ae85881b957 Bernd Schubert 2025-10-13  1375  global:
-aca09b212467554 Bernd Schubert 2025-10-13  1376  	/* NUMA queues above threshold, try global queues */
-aca09b212467554 Bernd Schubert 2025-10-13  1377  	global_mask = ring->registered_q_mask;
-aca09b212467554 Bernd Schubert 2025-10-13  1378  	best_global = fuse_uring_best_queue(global_mask, ring);
-aca09b212467554 Bernd Schubert 2025-10-13  1379  
-aca09b212467554 Bernd Schubert 2025-10-13  1380  	/* Might happen during tear down */
-aca09b212467554 Bernd Schubert 2025-10-13  1381  	if (!best_global)
-aca09b212467554 Bernd Schubert 2025-10-13  1382  		return NULL;
-aca09b212467554 Bernd Schubert 2025-10-13  1383  
-aca09b212467554 Bernd Schubert 2025-10-13  1384  	/* If global queue is under double threshold, use it */
-aca09b212467554 Bernd Schubert 2025-10-13  1385  	if (READ_ONCE(best_global->nr_reqs) <= FURING_Q_GLOBAL_THRESHOLD)
-aca09b212467554 Bernd Schubert 2025-10-13  1386  		return best_global;
-aca09b212467554 Bernd Schubert 2025-10-13  1387  
-aca09b212467554 Bernd Schubert 2025-10-13  1388  	/* There is no ideal queue, stay numa_local if possible */
-aca09b212467554 Bernd Schubert 2025-10-13 @1389  	return best_numa ? best_numa : best_global;
-                                                               ^^^^^^^^^
-Uninitialized
-
-c2c9af9a0b13261 Bernd Schubert 2025-01-20  1390  }
+    79	
+    80	static int cdns_pcie_hpa_host_wait_for_link(struct cdns_pcie *pcie)
+    81	{
+    82		struct device *dev = pcie->dev;
+    83		struct cdns_pcie_rc *rc;
+    84		int retries, ret;
+    85	
+    86		rc = container_of(pcie, struct cdns_pcie_rc, pcie);
+    87	
+    88		/* Check if the link is up or not */
+    89		for (retries = 0; retries < LINK_WAIT_MAX_RETRIES; retries++) {
+    90			if (cdns_pcie_hpa_link_up(pcie)) {
+    91				dev_info(dev, "Link up\n");
+    92				return 0;
+    93			}
+    94			usleep_range(LINK_WAIT_USLEEP_MIN, LINK_WAIT_USLEEP_MAX);
+    95		}
+  > 96		if (rc->quirk_retrain_flag)
+    97			ret = cdns_pcie_retrain(pcie);
+    98		return ret;
+    99	}
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
