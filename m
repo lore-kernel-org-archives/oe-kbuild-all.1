@@ -1,84 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BA12F60CF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 09:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5AA32A1CF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760952634; cv=none; b=XmY5d+NcHTOcd5aBskqyU6czMQaCtCG3lf7kKWrWNcTIRfECS54nYgE044AD28tgXCU/xoyq+lIRgAHxlkMTcxl/hXEiOpbRpuAqhduAAeWEtAUwsX2HK/1C9PPn6++9u+tVAR1I1t85mrAn8o7AcTHk27F6TwP7Uk+X6ssvIUI=
+	t=1760952863; cv=none; b=tROwPJNS52361/T/0giExKtO5RALArC5+WtsEy5I4HkmTMLL9+GjlzrCbbuvhTb/PM+zevFkNJfvc+h7ne8wKSfzp4zEqokdeW/YwcDxKRuGg+2+NE1zL1aK9WknWEMWvJPGQyHR3gD6EWOYfKShojpNdmRyLxXplZ+nDfv5+jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760952634; c=relaxed/simple;
-	bh=YWv0wUMNSMPgNRqdl9ln5qfNkK/W4QOJi6WtJPcAoJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=tBvXyn6alYCRlsFl+x0crruGuunW5oP3F5qGpoKoHHtDG3PaTzkTIL9lNCV/Wqqt/bA36P3tPWoFzkfzYXfEBOq41Pe4krAmbfjs50tFk1KNbz0Lv9qpoajnFEL43OYL814HBpsnwg3EHExR6193yw+SGJv61lGGo3zfnhVcsEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9JEz9GP; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9JEz9GP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760952627; x=1792488627;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=YWv0wUMNSMPgNRqdl9ln5qfNkK/W4QOJi6WtJPcAoJc=;
-  b=A9JEz9GPitDO6SdOKZ4WaaIEaw+f2rBvEohmQhTz/JCTYazvlkJMfdM3
-   Q0lBQZPEJi7fJosiCHW2cVkEnBJfnQluPOtjSldfINZ+Hz8BwilyfbTt6
-   aDbNtTBHIsmk9UMIy/FSOs7roX4iwnh+f26bOvTF9auVOpuz1/TUXngx0
-   sM9z4w7GhE/ppJPu69cddM6eraCdoY7ez+nkry+eYfUmzCeQuD5fsnLf4
-   PSurgWp0QqbH6RcoV/p1BasJEW2qGA0y8Of/yrNYZjvF6ndE4GevqBRIK
-   LZuVb/qX07I+lesCztWNxqcUcFrYsq2yFOc4yGSfbjHUEm/Bcco1CUlZl
-   w==;
-X-CSE-ConnectionGUID: EHKGc2RbRt2fIlRnWAHvww==
-X-CSE-MsgGUID: PHg+rxc1Qb6oeNdyh29Ltg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="73356757"
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
-   d="scan'208";a="73356757"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:30:27 -0700
-X-CSE-ConnectionGUID: 8PJTP3SJTiiwZPs+L6GLNQ==
-X-CSE-MsgGUID: 77U0ztMoTz2owSUNRRntJA==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Oct 2025 02:30:25 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAmDf-0009hN-14;
-	Mon, 20 Oct 2025 09:30:23 +0000
-Date: Mon, 20 Oct 2025 17:30:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.16-6.17 2/2] arm64: errata: Apply workarounds for
- Neoverse-V3AE
-Message-ID: <aPYBJGWKS1hS5NFF@ff1a9926167f>
+	s=arc-20240116; t=1760952863; c=relaxed/simple;
+	bh=UCdY04ZMgpn5WUuJacaJ2RPGhxuerxAWgsB/MdcYWNA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V5rOenbQDrXz5/XrMXJM5dIz8LM/1nfPaWf0xBU4oULKccQMjC9KaE40U+fgBmvBJbM368xeKwvfy9Jryfk4KSwdTBxSLD1PVP1KP4y9UuKZQHCjKfhWiilq4btKL3jD0wbzGcWsHYohWXdNgaxyb2fYM2VZjRCE2OGaQYXLYW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F47F1063;
+	Mon, 20 Oct 2025 02:34:13 -0700 (PDT)
+Received: from [10.1.30.161] (unknown [10.1.30.161])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A7E83F66E;
+	Mon, 20 Oct 2025 02:34:20 -0700 (PDT)
+Message-ID: <f3524b4c-f271-40ac-9038-c38c0bd07901@arm.com>
+Date: Mon, 20 Oct 2025 10:34:18 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020092741.592431-3-ryan.roberts@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.16-6.17 2/2] arm64: errata: Apply workarounds for
+ Neoverse-V3AE
+Content-Language: en-GB
+To: kernel test robot <lkp@intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+References: <aPYBJGWKS1hS5NFF@ff1a9926167f>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <aPYBJGWKS1hS5NFF@ff1a9926167f>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 20/10/2025 10:30, kernel test robot wrote:
+> Hi,
+> 
+> Thanks for your patch.
+> 
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> 
+> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+> 
+> Rule: The upstream commit ID must be specified with a separate line above the commit text.
+> Subject: [PATCH 6.16-6.17 2/2] arm64: errata: Apply workarounds for Neoverse-V3AE
+> Link: https://lore.kernel.org/stable/20251020092741.592431-3-ryan.roberts%40arm.com
+> 
+> Please ignore this mail if the patch is not relevant for upstream.
+> 
 
-Thanks for your patch.
-
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
-
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.16-6.17 2/2] arm64: errata: Apply workarounds for Neoverse-V3AE
-Link: https://lore.kernel.org/stable/20251020092741.592431-3-ryan.roberts%40arm.com
-
-Please ignore this mail if the patch is not relevant for upstream.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+Ugh, I re-backported this verion from mainline and forgot to re-add the extras
+to the commit log. I'll resend the 6.16-617 series. Sorry about that...
 
