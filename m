@@ -1,69 +1,69 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0211829B239
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 06:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621662D8DB1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 06:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760941780; cv=none; b=OH35t/ySkKFUW4smWYyppIbOG0gYAEhcOP8GjQsjr411ezylSUMRdqSfgxpH1+GtXwUJTMQtuS/oimCrWLKe/WSpMuA4q3oX1iNx3stAaMJus/jbb7ZpIOx4z6VPGi4+Ne9qhDPqMQNGiEt1Q/imytgAqy49eS6vspc+XiWyTGU=
+	t=1760942026; cv=none; b=LQ2u2F5GSc+kT3yk+C85oPnSBd6NtRuP1hy1oNmpRldbaV+oursfz0KXPf1fjLhS5Qczb4zSTp7/5jjCmM2hBLdOCNprvMm8S1m/biX5+rG5z0o0AY69Jt2P5cKFl0zF8Jeba8RsxoKrj/s3P739xHDmOkNi2YXf0wLeD1WMYj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760941780; c=relaxed/simple;
-	bh=udk3k7ObJvIEyo8P+QOU+sJiaWVThCCWsFLntmII6L4=;
+	s=arc-20240116; t=1760942026; c=relaxed/simple;
+	bh=mlp97g/Ep+BsSFjfD7A7N/xv9QnAORBmJOYQUYj87ZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uAyHK4+TvLj9uj1ODvyIIJ+7c782Phs37G+KyVIEMuZRKZ9gzsIHYi633tpTW2AVt1AhrQ7R9+Gy3GWBACVzuQbif79eVJNpqQJBuSbMJYgkxPMP5vbun3mwhRDXU+qtgZdnbtCQEdTnwvP6gdjPg14aMOccDG9YTYviqmllQVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MBrteQjo; arc=none smtp.client-ip=209.85.128.52
+	 Content-Disposition; b=S1VBBPZStpupmlwKlK6Yuz4P+qLJEgl5fQRsoRY5uoEN3KYS5igVMGY7c/Tg5JsXlcXI283USRQ8V8mV+HKxGYwkj5vhiHSJfvoEh3IPNzcsmz9WyZ8meLdRzD7kw6ijof6+gwLtlMxgnmD+LqRl5kFXqGstIKgJSUNPzCKqnoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PichgMW0; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MBrteQjo"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4710665e7deso12692165e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:29:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PichgMW0"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3f2cf786abeso3033192f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Oct 2025 23:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760941776; x=1761546576; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1760942023; x=1761546823; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=AENtfqm7fCc0ByQJAMOVqtYesHku2gL+nKne67rKp4c=;
-        b=MBrteQjoTQtWg6cg/Je/VAR1ve2Ji9pimFBZV45Q7uhuk7T7t4FUeLS07Qxtf/r4Vs
-         lCIIk68ez8/rVZge9pGqyX/3j45E/Yl7yfd9Kfn/4lhZyvMd1H5cZgthImWMtsOqp2lS
-         G2buo8ij0uAyfqsB+jTnssWoMn6smOAsrNqYdtvUueTwepknXbnhFh2XfmUyA4Fu9wf1
-         cAW3IZ8xw3/kZd+VsUxumeEiCbBuCAqSiuytp1pEevTWeTVQwFFbdn9FGbFM1Oiuz8jY
-         9+fubNeVsIM9BKRdg1xkn2kj5URu2/0FpTVm0TFY1K762n+1KrQW13bGN44CTDJgy24S
-         XWng==
+        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
+        b=PichgMW0YJspYFx7jE+Lq7f3CtKnMXZTGP9gOalQvkm087p5sXd15FraMXUrgGjDUW
+         HqzSJ4DBvEm1FiRB9PnkYSU30ftib8baIkrmreMGFnrOR6bjxD22CL7oF9Vn+D5qHHug
+         E1OtmO6dc56PMBwj9jT1J8jywGjEP85Xngj1hm3RCkgS85wHT16sCJcOEPB/njq8L1Ly
+         5qZIKvzqCwb9qGP6K6DbNTD0g199D/vBUvzdmsPBWRqisjUDgjBKTd1L8BGqxQ/leOZH
+         qAYmvW+YU61Q/rfQRzQEQBIIo2F9itPDg8GC1OWuBM5JgUHXrOt94Fdl1gpLqbTo046/
+         6+1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760941776; x=1761546576;
+        d=1e100.net; s=20230601; t=1760942023; x=1761546823;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AENtfqm7fCc0ByQJAMOVqtYesHku2gL+nKne67rKp4c=;
-        b=rPq1zzRw6+P7TDfPo4OU162+rDKvci3N3lyehmzegkK2sWvSZUvOxpRnOK8edKvdjo
-         ydprYAQBcs9nX6xZBwuHJ8gleVyKQtIT+iMgXIouD6u9WLDXtuUt3iGs1KxnvmFtFTnR
-         e/zLdS5WLHzKOo3l3C0MgjUr/sJeuJFP2oUoSdJPvppf+LiS+OTxN3To4MMkb8YwksRP
-         vL9teX/qe6uNNklYQ+DCxU6ZqzGBvyTajmF1LKOYolLb3ZdOzqX6ZZS4pvXTz5pL/T+T
-         cs4p4xC2Qj98BX4cDYK88FDFcVn4t7qufyLZVaPmeBzWoUcL2+v5LbXwfYu/VZzQKAF1
-         JGNg==
-X-Forwarded-Encrypted: i=1; AJvYcCX3V+YiYqCfjsDxk8Afztor587vP28I/LhwEl5goecrZneVPfThjzhn7YmK5Q/i7YGVvzuHT6fwWKiz5l0U@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSwCvIkVoC1HULco9+j4rYeLOxY7X/QSAzPySxXr/TD/4kAxpk
-	qb4ZhgAS2B67hINSuICDY7yNwZZ6bBbSOQEagpPC0iqx+EDVtbXUzRHbBhxuWnNdVbY=
-X-Gm-Gg: ASbGnctyvd+si08OQMVD6jlF7jdBFKV5WqX4JwyvOkrKXteM0lmz9whrS1VdgV6ai2R
-	0QXhizM9KmtFGQGMIB/lRHFRuEcf9NUqfjhElOe+aR2qhvwunJMB6L3ih73RW55CFLzkEVNpvi5
-	0FsoANQkvEXQEJkatofw6JGC0U9xyU8ydoJfysIEtLIdXSZ/4ggjLbXhlhtsw+wQz0G8BPFjKN0
-	vPFR2CI7EDsnNOc/V9XV2FIelq/98a0xElOstmm2Mid86Tzu1M0EEDUeho6GdmV9VlsCDyDKVEo
-	fYX7QFKc6OvYFr2ZMnnpfU8nbyOJWoV9lAcC5P1/5dJmeLw8LNZZgIYozeAF09ja/d60BpupQKm
-	SAUnsZqZizyJ+rKnqJdW7gHaIxJDnSsNrJvq34NfJdprz7tZuKLSQMU7qHorYbzQNbxJA9B/vON
-	8/quHgQjsR5IsYKJpw
-X-Google-Smtp-Source: AGHT+IFAUlxx+9ASzEV8INhjqW/865AJBvjcIWxTSbEQB6B7cZqmRyJjapRBtUKDjh0rm6XQxmt1UA==
-X-Received: by 2002:a05:600c:8185:b0:46f:b43a:aeed with SMTP id 5b1f17b1804b1-4711792cc0cmr81785195e9.40.1760941776102;
-        Sun, 19 Oct 2025 23:29:36 -0700 (PDT)
+        bh=IjHG8CZxcYscygh+/z+/xpN6vFrGJ6ZliT2ZowMplRw=;
+        b=sabK49VUkzQmtfOWKDH2YFm3Cz2NBvTTKdfwT1WtbOtndbFpgXrGML8S6sgTK4VNQY
+         NvdCv/QnfwsZfm1PkOcvHLgShr2RZGwWocl/AKYwG0Bd8RX9kCMQhNfi+b3m8LjpmjKW
+         AxebTTSv3Uw30nCRplFihmwaCGOB29APq28DeOLpkJ7OY2a3zv5tBW26cn+n9Pt3Cj9K
+         PQqUGD9f00OeDJWIsh4KdnpELQumDNKXR8StOIO1g13183JSdGJCpCirEOtOsZ2kARyj
+         MwbQz0pfSyr/0QJTM7c1QfFQKIj78rBAw6MGZBJ9UJrSnhzFWlcKldmJxU2hp7JzSRV+
+         JRyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWG+V2SNUmzpp4/iJoix6XHjm+s/zTqzcKrZi9YvxVCTLrg60U9WutZKsocBn7g7C41Cwa3ZgtN/7yObpLK@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFSrkb7d6NK6sNlhILEmHDEi3Xy805jdxqtsk+GkSMjh0h0JKh
+	Lj40MDxqyhbA0wFiuUm6p4yE3F/BNTw3s5qYXCCGbQhT/al8+GJUaZxYeYv1SlTHTNw=
+X-Gm-Gg: ASbGncu5GaU9eTVegLQODqZkl01cZGUO4BW7Szo0dxhF21HLKkFscYxZkHnJVFshAkw
+	wElUQftgHKD1RHD9nx5aY5j4+MRgqWpNC9AKHP9HKRn2jB69KpCIxX1fCI3I6CL3JmhtJcy6bEt
+	D5y5/HhDFdKqZcOKG4n4bFD2sYl4jpmxxI7Nq+stXhySVOo7xouvA64rofsYgSm/O0BgfPY3AtR
+	ZDmA1OWiXF0ZYpJx/OaCGsf+AjjSuHIchZxgIYt2JX4BAlxzuLj31OcnTe/C0wUg5dBEdacFw/Q
+	w+S7OM6kbWMclqmcaOK71CtvXZ7gAJkVGUzg1YrntBduUQNSczISXNgJQ84GEvaa5mHQs8QBR28
+	teblG2uzfcPAm8hZ8y5BMPZutwxdlcTM5P2qc4Fu+4+ZHuPsIP57BjHG2rnObOXQ8CwMK1d/G+v
+	PhLYaI0A==
+X-Google-Smtp-Source: AGHT+IF+iwxN0Wn2Qgp9zceiF70dnTKZUmoxnsQ+EXXtbsTV8HUbRMaapCpwEul2gA5BkOaWNMWH8A==
+X-Received: by 2002:a05:6000:2507:b0:427:370:20a3 with SMTP id ffacd0b85a97d-42704d96174mr8890713f8f.38.1760942022395;
+        Sun, 19 Oct 2025 23:33:42 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144c82c9sm214449875e9.14.2025.10.19.23.29.35
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4710ed9e7d7sm110465655e9.3.2025.10.19.23.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 23:29:35 -0700 (PDT)
-Date: Mon, 20 Oct 2025 09:29:31 +0300
+        Sun, 19 Oct 2025 23:33:41 -0700 (PDT)
+Date: Mon, 20 Oct 2025 09:33:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-quota-cleanups 10/20] fs/xfs/xfs_qm.c:1307
- xfs_qm_quotacheck_dqadjust() warn: inconsistent returns '&dqp->q_qlock'.
-Message-ID: <202510191616.ecg6r6ZD-lkp@intel.com>
+Subject: [hch-xfs:xfs-quota-cleanups 14/20] fs/xfs/scrub/quotacheck.c:605
+ xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
+Message-ID: <202510191855.DAo2A5zX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,85 +75,80 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/hch/xfs xfs-quota-cleanups
 head:   65122be191ff384c885bb15ab86d84951a501c49
-commit: bac6d7a22f577467f49a0696ca995957f78b5caa [10/20] xfs: return the dquot unlocked from xfs_qm_dqget
-config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251019/202510191616.ecg6r6ZD-lkp@intel.com/config)
+commit: 2b4f89bdf5696bbc066f43533a17b891f4cd3ef9 [14/20] xfs: move q_qlock locking into xqcheck_compare_dquot
+config: i386-randconfig-141-20251015 (https://download.01.org/0day-ci/archive/20251019/202510191855.DAo2A5zX-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510191616.ecg6r6ZD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510191855.DAo2A5zX-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/xfs_qm.c:1307 xfs_qm_quotacheck_dqadjust() warn: inconsistent returns '&dqp->q_qlock'.
+fs/xfs/scrub/quotacheck.c:605 xqcheck_compare_dquot() warn: inconsistent returns '&dq->q_qlock'.
 
-vim +1307 fs/xfs/xfs_qm.c
+vim +605 fs/xfs/scrub/quotacheck.c
 
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1248  STATIC int
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1249  xfs_qm_quotacheck_dqadjust(
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1250  	struct xfs_inode	*ip,
-1a7ed271653a4f4 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-15  1251  	xfs_dqtype_t		type,
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1252  	xfs_qcnt_t		nblks,
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1253  	xfs_qcnt_t		rtblks)
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1254  {
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1255  	struct xfs_mount	*mp = ip->i_mount;
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1256  	struct xfs_dquot	*dqp;
-0fcef1270f309df fs/xfs/xfs_qm.c       Darrick J. Wong   2018-05-04  1257  	xfs_dqid_t		id;
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1258  	int			error;
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1259  
-0fcef1270f309df fs/xfs/xfs_qm.c       Darrick J. Wong   2018-05-04  1260  	id = xfs_qm_id_for_quotatype(ip, type);
-30ab2dcf2c0693e fs/xfs/xfs_qm.c       Darrick J. Wong   2018-05-04  1261  	error = xfs_qm_dqget(mp, id, type, true, &dqp);
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1262  	if (error) {
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1263  		/*
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1264  		 * Shouldn't be able to turn off quotas here.
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1265  		 */
-2451337dd043901 fs/xfs/xfs_qm.c       Dave Chinner      2014-06-25  1266  		ASSERT(error != -ESRCH);
-2451337dd043901 fs/xfs/xfs_qm.c       Dave Chinner      2014-06-25  1267  		ASSERT(error != -ENOENT);
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1268  		return error;
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06  1269  	}
-0b1b213fcf3a848 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2009-12-14  1270  
-bac6d7a22f57746 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1271  	mutex_lock(&dqp->q_qlock);
-ca378189fdfa890 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1272  	error = xfs_dquot_attach_buf(NULL, dqp);
-ca378189fdfa890 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1273  	if (error)
-ca378189fdfa890 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1274  		return error;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  551  STATIC int
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  552  xqcheck_compare_dquot(
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  553  	struct xqcheck		*xqc,
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  554  	xfs_dqtype_t		dqtype,
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  555  	struct xfs_dquot	*dq)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  556  {
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  557  	struct xqcheck_dquot	xcdq;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  558  	struct xfarray		*counts = xqcheck_counters_for(xqc, dqtype);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  559  	int			error;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  560  
+200491875ce144f Darrick J. Wong   2024-02-22  561  	if (xchk_iscan_aborted(&xqc->iscan)) {
+200491875ce144f Darrick J. Wong   2024-02-22  562  		xchk_set_incomplete(xqc->sc);
+200491875ce144f Darrick J. Wong   2024-02-22  563  		return -ECANCELED;
+200491875ce144f Darrick J. Wong   2024-02-22  564  	}
+200491875ce144f Darrick J. Wong   2024-02-22  565  
+2b4f89bdf5696bb Christoph Hellwig 2025-09-20  566  	mutex_lock(&dq->q_qlock);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  567  	mutex_lock(&xqc->lock);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  568  	error = xfarray_load_sparse(counts, dq->q_id, &xcdq);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  569  	if (error)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  570  		goto out_unlock;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  571  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  572  	if (xcdq.icount != dq->q_ino.count)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  573  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  574  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  575  	if (xcdq.bcount != dq->q_blk.count)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  576  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  577  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  578  	if (xcdq.rtbcount != dq->q_rtb.count)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  579  		xchk_qcheck_set_corrupt(xqc->sc, dqtype, dq->q_id);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  580  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  581  	xcdq.flags |= (XQCHECK_DQUOT_COMPARE_SCANNED | XQCHECK_DQUOT_WRITTEN);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  582  	error = xfarray_store(counts, dq->q_id, &xcdq);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  583  	if (error == -EFBIG) {
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  584  		/*
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  585  		 * EFBIG means we tried to store data at too high a byte offset
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  586  		 * in the sparse array.  IOWs, we cannot complete the check and
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  587  		 * must notify userspace that the check was incomplete.  This
+200491875ce144f Darrick J. Wong   2024-02-22  588  		 * should never happen outside of the collection phase.
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  589  		 */
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  590  		xchk_set_incomplete(xqc->sc);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  591  		error = -ECANCELED;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  592  	}
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  593  	mutex_unlock(&xqc->lock);
+2b4f89bdf5696bb Christoph Hellwig 2025-09-20  594  	mutex_unlock(&dq->q_qlock);
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  595  	if (error)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  596  		return error;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  597  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  598  	if (xqc->sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  599  		return -ECANCELED;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  600  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  601  	return 0;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  602  
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  603  out_unlock:
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  604  	mutex_unlock(&xqc->lock);
 
-Unlock before returning?
+Needs a mutex_unlock(&dq->q_qlock);
 
-ca378189fdfa890 fs/xfs/xfs_qm.c       Darrick J. Wong   2024-12-02  1275  
-0b1b213fcf3a848 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2009-12-14  1276  	trace_xfs_dqadjust(dqp);
-0b1b213fcf3a848 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2009-12-14  1277  
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1278  	/*
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1279  	 * Adjust the inode count and the block count to reflect this inode's
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1280  	 * resource usage.
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1281  	 */
-be37d40c1ba0b54 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1282  	dqp->q_ino.count++;
-784e80f5640db9a fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1283  	dqp->q_ino.reserved++;
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1284  	if (nblks) {
-be37d40c1ba0b54 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1285  		dqp->q_blk.count += nblks;
-784e80f5640db9a fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1286  		dqp->q_blk.reserved += nblks;
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1287  	}
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1288  	if (rtblks) {
-be37d40c1ba0b54 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1289  		dqp->q_rtb.count += rtblks;
-784e80f5640db9a fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1290  		dqp->q_rtb.reserved += rtblks;
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1291  	}
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1292  
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1293  	/*
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1294  	 * Set default limits, adjust timers (since we changed usages)
-191f8488f9f7600 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-04-20  1295  	 *
-191f8488f9f7600 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-04-20  1296  	 * There are no timers for the default values set in the root dquot.
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1297  	 */
-c51df7334167e44 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1298  	if (dqp->q_id) {
-c8c753e19a76507 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1299  		xfs_qm_adjust_dqlimits(dqp);
-c8c753e19a76507 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1300  		xfs_qm_adjust_dqtimers(dqp);
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1301  	}
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1302  
-985a78fdde15e17 fs/xfs/xfs_qm.c       Darrick J. Wong   2020-07-14  1303  	dqp->q_flags |= XFS_DQFLAG_DIRTY;
-53d33c2d3e82492 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1304  	mutex_unlock(&dqp->q_qlock);
-53d33c2d3e82492 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1305  
-53d33c2d3e82492 fs/xfs/xfs_qm.c       Christoph Hellwig 2025-09-20  1306  	xfs_qm_dqrele(dqp);
-52fda1142495783 fs/xfs/quota/xfs_qm.c Christoph Hellwig 2010-09-06 @1307  	return 0;
-^1da177e4c3f415 fs/xfs/quota/xfs_qm.c Linus Torvalds    2005-04-16  1308  }
+48dd9117a34fe9a Darrick J. Wong   2024-02-22 @605  	return error;
+48dd9117a34fe9a Darrick J. Wong   2024-02-22  606  }
 
 -- 
 0-DAY CI Kernel Test Service
