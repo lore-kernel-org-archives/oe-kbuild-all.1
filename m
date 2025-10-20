@@ -1,153 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6142E17A2F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 17:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD4F2C21F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 18:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760982532; cv=none; b=D5agFCtvazpdAqUDJkth49oKGklx+dtjPstCFTNqqm8cdvulVRoOdDr12XRNhzB9AXOEsTFDdsjly6tnX7PSaR05BPdSV+m8btn5hcI1V4jdjOhR5y1VQPPGgIBzAgZ+JKFIlH4rLhsjuk1paHTXVvd/lAsWKwpxNObQLuBRiFQ=
+	t=1760986131; cv=none; b=jGmmZmXP9LVYlB0J4643d3Hdxil77itExZ580crL+XWmw5DU9QB6hMUX6BPsAr/E6vGoKQGPTtBqSu8x/1QaAzf+yLFMbMwsc1YIq3qPcHRn9bs3L+MzdEGyJbrHV1aPcQJWQ8d82dyx2S45IDN2MHDsKCi7vPKQIZESQUkd9BI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760982532; c=relaxed/simple;
-	bh=vvj9rbshDG/mJYIvIFilBgDtfu0m0YbNFbdyps7CYhE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fHV+RCOV4OGyjqEf2FRuUddOcWgFUHplqI7VKLFF3onFLXhyvbBmqwuk7vZb03iScd0r7/OthDCFwkN3Io9c7Rr1J0zPav7ayDuWy5aizTdNv1/whKkCxF6ZisxsBjX8OKjosbYnIHWznONVlI624kKNfRAOhBtjRQphV6QqvDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qWS03usp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760986131; c=relaxed/simple;
+	bh=d1syxAptadqxWPoPugRCe4YMCcs8iXAx3GQeBGcZYj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZIRyVtwDOOFp4qRd2KY8Y3g7rLbN7iAVegejvMtwyPMlCNdXrD3qTiqI9kfr5A/TmQ/sEo0OV1VGn406QeR5Gl5CcgpieobEwlIu/TEBqhu7WsPNb9jZ6zypeRAHyIsXaVf/pAmw/CwhBmtvHjsIFbtz+5gg4xTosmvLZaBQWHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4C01fVg; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qWS03usp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECB1C2BC86
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 17:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760982532;
-	bh=vvj9rbshDG/mJYIvIFilBgDtfu0m0YbNFbdyps7CYhE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qWS03uspr/+EU7uKRG8b5qkFtWd3MFERaPNEpBVnatzdCYP+dU6tXN8yo6AIHjUPf
-	 l8WyW3lZQYqgtBhgO3sghRn+qCQ/FT+pClBP0As2h5KD2byP7wc9lbkHXpw/SYQDC+
-	 yR9nUJ16ArouLLTry3LyAqudO2fv4S71+9Vf/yzZILpy7KagzwsKNB99Cbx1NNUSG3
-	 6dUUgMsWsrn8swmOekAQh4lPtAU86WHNGDxDJTmoha/jyrE58Jl6/U7jDtk8ft37ik
-	 SxDWwM2UxJjsHkiGZSohp7HqjFCTUpt/gSM/MbuIvv08dWFA576pdSOr9Nb3x06wtv
-	 TAybgb3SnMN7A==
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-444d3df546bso1039600b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 10:48:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0wu7BJNV0TUZv/FjgrvAPuO/QL5hU6ZPbtZXMpURV3ArH0jTEe2Osv7v8OR3cxNM0b0pQkz0yUr/Zd5eJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzUxK2qY5jk+VoguMJIVghIEKvv7NjK28/Po+jIHbAAcTBoCJ5
-	/2oPfRdEBH/mBci50VXY5IT7Sz3qp0NXPsIPTO3k1kxXqQ+klEALTtDhkhR/APm3bkxfzFP6fGq
-	rVadhKBd8NWKoWMnJUpVfs/X1b+8LPe8=
-X-Google-Smtp-Source: AGHT+IEBTcqbNW4WztbsFHgjbUpb2lUwnFWN4p7InrdR0RgRIFe00LDkdSaeIzpzw4iNCju0IktvgqGnApVX0bNPXDo=
-X-Received: by 2002:a05:6808:5086:b0:441:8f74:f10 with SMTP id
- 5614622812f47-443a30e6210mr6069613b6e.58.1760982531178; Mon, 20 Oct 2025
- 10:48:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4C01fVg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760986129; x=1792522129;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d1syxAptadqxWPoPugRCe4YMCcs8iXAx3GQeBGcZYj0=;
+  b=J4C01fVgO1FHXA+R2NigakBkhGEnZX92tx4lu8ow5g+CWOqOfUrKniKN
+   mu32WxGmsRTJ0iAQErd9LMFtAYDp8AOqQFPgM6v92GZ8ZNZlS8e+/5X7m
+   WGCsVgsna9VeIcsVTsaCR0j2hcyvSVw0t8HXVxYFk+iJUzexwynPBIMqd
+   eb0G+/WARC6aBrJ1Qwfc45+EqTclNa32oQnTlkkvGp68PJuIpAc54N8vP
+   2zzs4rGgXtAyJQ7/YWo+sdOtIzfMIImkuBFdbFE7Vb0aYmckWaGHYjeHu
+   9FvKVRBb96cAaVp8sE28iovToouATlkX9+ikwFqq6fK+COpal1IVDrzQG
+   g==;
+X-CSE-ConnectionGUID: u15kgUu+SXKhEbaDiuxcZA==
+X-CSE-MsgGUID: xqnp/RTPRT2G0TlCylkUtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73778638"
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="73778638"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 11:48:49 -0700
+X-CSE-ConnectionGUID: qZIa/eOoRpqchj7lPIZ0pw==
+X-CSE-MsgGUID: O2rthT2LSk2R/Ftgi8OcWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="184171256"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Oct 2025 11:48:48 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAuw1-000A5J-2W;
+	Mon, 20 Oct 2025 18:48:45 +0000
+Date: Tue, 21 Oct 2025 02:48:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v21 25/28] riscv: create a config for shadow stack and
+ landing pad instr support
+Message-ID: <202510210232.L2yY8OFS-lkp@intel.com>
+References: <20251015-v5_user_cfi_series-v21-25-6a07856e90e7@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251014001055.772422-9-changwoo@igalia.com> <202510151223.THlBK6QR-lkp@intel.com>
-In-Reply-To: <202510151223.THlBK6QR-lkp@intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 20 Oct 2025 19:48:40 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h-gzxQQAu272z30R8+sDNHA6L=J1w+P2qfLOYF8LRdLQ@mail.gmail.com>
-X-Gm-Features: AS18NWDDJNGF4sne2vfcDVyis3SAYtdDq88ce2v-uhPN9EnOmccJ14D_6NBaZtk
-Message-ID: <CAJZ5v0h-gzxQQAu272z30R8+sDNHA6L=J1w+P2qfLOYF8LRdLQ@mail.gmail.com>
-Subject: Re: [PATCH v5 08/10] PM: EM: Implement em_notify_pd_deleted()
-To: kernel test robot <lkp@intel.com>, Changwoo Min <changwoo@igalia.com>
-Cc: lukasz.luba@arm.com, rafael@kernel.org, len.brown@intel.com, 
-	pavel@kernel.org, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	christian.loehle@arm.com, tj@kernel.org, kernel-dev@igalia.com, 
-	linux-pm@vger.kernel.org, sched-ext@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251015-v5_user_cfi_series-v21-25-6a07856e90e7@rivosinc.com>
 
-On Wed, Oct 15, 2025 at 6:17=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Changwoo,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on amd-pstate/linux-next]
-> [also build test WARNING on amd-pstate/bleeding-edge linus/master v6.18-r=
-c1 next-20251014]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Changwoo-Min/PM-EM=
--Assign-a-unique-ID-when-creating-a-performance-domain/20251014-082420
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git=
- linux-next
-> patch link:    https://lore.kernel.org/r/20251014001055.772422-9-changwoo=
-%40igalia.com
-> patch subject: [PATCH v5 08/10] PM: EM: Implement em_notify_pd_deleted()
-> config: i386-buildonly-randconfig-004-20251015 (https://download.01.org/0=
-day-ci/archive/20251015/202510151223.THlBK6QR-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251015/202510151223.THlBK6QR-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510151223.THlBK6QR-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> kernel/power/em_netlink.c:228:6: warning: variable 'ret' set but not u=
-sed [-Wunused-but-set-variable]
->      228 |         int ret =3D -EMSGSIZE;
->          |             ^
->    1 warning generated.
->
+Hi Deepak,
 
-Please update the patch to address this report and resend it, thanks!
+kernel test robot noticed the following build errors:
 
-> vim +/ret +228 kernel/power/em_netlink.c
->
->    224
->    225  void em_notify_pd_deleted(const struct em_perf_domain *pd)
->    226  {
->    227          struct sk_buff *msg;
->  > 228          int ret =3D -EMSGSIZE;
->    229          void *hdr;
->    230          int msg_sz;
->    231
->    232          if (!genl_has_listeners(&em_nl_family, &init_net, EM_NLGR=
-P_EVENT))
->    233                  return;
->    234
->    235          msg_sz =3D __em_notify_pd_deleted_size(pd);
->    236
->    237          msg =3D genlmsg_new(msg_sz, GFP_KERNEL);
->    238          if (!msg)
->    239                  return;
->    240
->    241          hdr =3D genlmsg_put(msg, 0, 0, &em_nl_family, 0, EM_CMD_P=
-D_DELETED);
->    242          if (!hdr)
->    243                  goto out_free_msg;
->    244
->    245          if (nla_put_u32(msg, EM_A_PD_TABLE_PD_ID, pd->id)) {
->    246                  ret =3D -EMSGSIZE;
->    247                  goto out_free_msg;
->    248          }
->    249
->    250          genlmsg_end(msg, hdr);
->    251
->    252          genlmsg_multicast(&em_nl_family, msg, 0, EM_NLGRP_EVENT, =
-GFP_KERNEL);
->    253
->    254          return;
->    255
->    256  out_free_msg:
->    257          nlmsg_free(msg);
->    258          return;
->    259  }
->    260
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/mm-VM_SHADOW_STACK-definition-for-riscv/20251016-021733
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251015-v5_user_cfi_series-v21-25-6a07856e90e7%40rivosinc.com
+patch subject: [PATCH v21 25/28] riscv: create a config for shadow stack and landing pad instr support
+config: riscv-randconfig-001-20251020 (https://download.01.org/0day-ci/archive/20251021/202510210232.L2yY8OFS-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210232.L2yY8OFS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510210232.L2yY8OFS-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   arch/riscv/kernel/usercfi.c: In function 'amo_user_shstk':
+>> arch/riscv/kernel/usercfi.c:136:9: error: implicit declaration of function '__enable_user_access' [-Werror=implicit-function-declaration]
+     136 |         __enable_user_access();
+         |         ^~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/usercfi.c:140:60: error: expected ':' before '_ASM_EXTABLE'
+     140 |                 "1: ssamoswap.d %[swap], %[val], %[addr]\n"
+         |                                                            ^
+         |                                                            :
+     141 |                 _ASM_EXTABLE(1b, %l[fault])
+         |                 ~~~~~~~~~~~~                                
+>> arch/riscv/kernel/usercfi.c:141:30: error: invalid suffix "b" on integer constant
+     141 |                 _ASM_EXTABLE(1b, %l[fault])
+         |                              ^~
+>> arch/riscv/kernel/usercfi.c:148:9: error: implicit declaration of function '__disable_user_access' [-Werror=implicit-function-declaration]
+     148 |         __disable_user_access();
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kernel/usercfi.c:150:1: warning: label 'fault' defined but not used [-Wunused-label]
+     150 | fault:
+         | ^~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/perf/riscv_pmu_sbi.c: In function 'pmu_sbi_setup_irqs':
+>> drivers/perf/riscv_pmu_sbi.c:1199:37: error: 'RV_IRQ_PMU' undeclared (first use in this function); did you mean 'RV_IRQ_EXT'?
+    1199 |                 riscv_pmu_irq_num = RV_IRQ_PMU;
+         |                                     ^~~~~~~~~~
+         |                                     RV_IRQ_EXT
+   drivers/perf/riscv_pmu_sbi.c:1199:37: note: each undeclared identifier is reported only once for each function it appears in
+--
+>> cc1: error: '-fcf-protection=full' is not supported for this target
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RISCV_SBI
+   Depends on [n]: !RISCV_M_MODE [=y]
+   Selected by [y]:
+   - RISCV_USER_CFI [=y] && 64BIT [=y] && RISCV_ALTERNATIVE [=y]
+   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
+   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
+   Selected by [y]:
+   - RISCV [=y]
+
+
+vim +/__enable_user_access +136 arch/riscv/kernel/usercfi.c
+
+95bae5bc77741e Deepak Gupta 2025-10-15  122  
+21515287e36beb Deepak Gupta 2025-10-15  123  /*
+21515287e36beb Deepak Gupta 2025-10-15  124   * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush` can happen
+21515287e36beb Deepak Gupta 2025-10-15  125   * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap` takes pointer to
+21515287e36beb Deepak Gupta 2025-10-15  126   * shadow stack. To keep it simple, we plan to use `ssamoswap` to perform writes on shadow
+21515287e36beb Deepak Gupta 2025-10-15  127   * stack.
+21515287e36beb Deepak Gupta 2025-10-15  128   */
+21515287e36beb Deepak Gupta 2025-10-15  129  static noinline unsigned long amo_user_shstk(unsigned long *addr, unsigned long val)
+21515287e36beb Deepak Gupta 2025-10-15  130  {
+21515287e36beb Deepak Gupta 2025-10-15  131  	/*
+21515287e36beb Deepak Gupta 2025-10-15  132  	 * Never expect -1 on shadow stack. Expect return addresses and zero
+21515287e36beb Deepak Gupta 2025-10-15  133  	 */
+21515287e36beb Deepak Gupta 2025-10-15  134  	unsigned long swap = -1;
+21515287e36beb Deepak Gupta 2025-10-15  135  
+21515287e36beb Deepak Gupta 2025-10-15 @136  	__enable_user_access();
+21515287e36beb Deepak Gupta 2025-10-15  137  	asm goto(
+21515287e36beb Deepak Gupta 2025-10-15  138  		".option push\n"
+21515287e36beb Deepak Gupta 2025-10-15  139  		".option arch, +zicfiss\n"
+21515287e36beb Deepak Gupta 2025-10-15 @140  		"1: ssamoswap.d %[swap], %[val], %[addr]\n"
+21515287e36beb Deepak Gupta 2025-10-15 @141  		_ASM_EXTABLE(1b, %l[fault])
+21515287e36beb Deepak Gupta 2025-10-15  142  		".option pop\n"
+21515287e36beb Deepak Gupta 2025-10-15  143  		: [swap] "=r" (swap), [addr] "+A" (*addr)
+21515287e36beb Deepak Gupta 2025-10-15  144  		: [val] "r" (val)
+21515287e36beb Deepak Gupta 2025-10-15  145  		: "memory"
+21515287e36beb Deepak Gupta 2025-10-15  146  		: fault
+21515287e36beb Deepak Gupta 2025-10-15  147  		);
+21515287e36beb Deepak Gupta 2025-10-15 @148  	__disable_user_access();
+21515287e36beb Deepak Gupta 2025-10-15  149  	return swap;
+21515287e36beb Deepak Gupta 2025-10-15 @150  fault:
+21515287e36beb Deepak Gupta 2025-10-15  151  	__disable_user_access();
+21515287e36beb Deepak Gupta 2025-10-15  152  	return -1;
+21515287e36beb Deepak Gupta 2025-10-15  153  }
+21515287e36beb Deepak Gupta 2025-10-15  154  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
