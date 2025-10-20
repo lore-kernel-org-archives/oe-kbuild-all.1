@@ -1,110 +1,100 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8EB21ABD7;
-	Mon, 20 Oct 2025 21:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E852E6CA3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 21:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760996147; cv=none; b=HdYeSTKR43VMdchVYuScNPr38O+vN+hmqrtv9M7hq2sGu5FCJaj2x8mYoR0rminIyD6nP+PFm+I8e6edZEMVVOk7wYRbR+LHxQ/Dezchhe0U2RJvFq+4eyweU2uZ82Gy3IgL4Rq3RXnkD9zvhC/8UwUu/Zj6e7nUIWScSYV9hmw=
+	t=1760996681; cv=none; b=ZtvhuQ7TcZjMi+Lf+oIngf/3dmc3YaYBMMly2WgpcCwhbEk/v6L8WqCbcmBfOYpnmFMcuHZCVOTZWyKauw8DtPuYEkAFYMRxdS6eCzMgJ4+iAu0c344dT5O9kfQym2wNEJs1r7Q3SEUYu4EBhHkvXS+PZuVXJtu1FQ3KLDBqi1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760996147; c=relaxed/simple;
-	bh=O3gKx5Rj2VOWiy+K0H59IGE1QBF6cjEbBSIJ2Vxbkns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bDUFVi3z1386202LP8dZCU3QNCBRte8KSj1BFtRtTmUNCXZDsaU4moXnTcaMt+LWzoy88MkgiyOwMs6INiQHuS9tEue1Te05jOSY3GSbOClUyUVjqaANcODFUYIAz1lUL7yEKYcSJMnpi+o47xaeyUccoEZc+q7Ol3DTUBfSZ9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=KJ7t5kIS; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1760996681; c=relaxed/simple;
+	bh=TdqPhK2oSqzhQWHD2plO/33DziiQxFST67/1Lm1SR90=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YROrIGNk9w7EFvVChG/p3wrH4sNSUGM6TedUsaKj7GtJqPkN96NevibFRVW2CVuG2mZ2s2dK64CXB+/rF60TVXlIFWwXULSbCG3zCrnLuhD+Qut8pknb/Sq45BWkQYgS15xWavgf9ueWjRo2QbDKt0c9ZLA8rvVd1VA8MIrOej8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Og83CSAE; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="KJ7t5kIS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Apw2ko+AxH0CsXs7vBtTeoN9MrrD1jme4QTPmBSX9yA=; b=KJ7t5kIS0nuNSItWb5IMKwFEEb
-	xd0Jah9HUvMknufapOJo3x+MpBXpdrA/1uV9QWhneBUCmjF0qW6QPohN0uHSrQRoSMsQ4zLn+dWuR
-	9c+IVTrwGFri/X62NsZJQJWpJIMrJOlUuv207ZEcr0ho0SZ60mM6A5If9P9d+31tJn0TKkK+xG+dE
-	3YmOJ0OS3T0JFcxZgGFeKk5BSGRwDQqAedT+Zjwjcx/0CyyN2ZFssp5tS6FXhxAR/3HWZ6Q9K5bzo
-	HbE/NbjfYyTf3Y5D6LjN2g+o61ZCGj30+lp6abHVR7PLDTMdXHCCqhkF4UKnNh1wIbqj+JFOy0bm9
-	AljfkgFw==;
-Received: from [58.29.143.236] (helo=[192.168.1.7])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vAxXW-00CGru-9Z; Mon, 20 Oct 2025 23:35:38 +0200
-Message-ID: <57a19531-de5f-44ee-bff0-d3a956131d29@igalia.com>
-Date: Tue, 21 Oct 2025 06:35:31 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Og83CSAE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760996680; x=1792532680;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TdqPhK2oSqzhQWHD2plO/33DziiQxFST67/1Lm1SR90=;
+  b=Og83CSAEp+aR0CxGnQs9Pl8ej5B1fBKLeEx0YMaxsrXIapMbW9O04fX3
+   FEU5vbuyFxKQkCs10ZXRpfDtGcpb9n3bYU2UorRRsY2RszaUTiJLBtUQF
+   ZfinzXA4N1sCS9BdptjEUqWzIzfLDq8tLQ8q2CjiuFIQ0AWW/h9H65WQg
+   8G76Gj0/j//e9YnrzyQdKtVWtaX9cuWZUz/FkNo9yqZGNJXQ41xEB/+LI
+   shS4pM6UEQkLHg842TZwnzxTj1wQXQ49J1kq/rV4gk1fGxNL3/TXl8s87
+   q4WSPl7FKWU3b+GYbk7PempBlpU4SUt29gnL+jSAJe+ekQjJF+rS4n0ok
+   g==;
+X-CSE-ConnectionGUID: zruoLwYbSyqI4RZJ4nkjwQ==
+X-CSE-MsgGUID: ISHhTVsGS6K7xEF9ltUqXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63039212"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63039212"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 14:44:38 -0700
+X-CSE-ConnectionGUID: FXOobT3LSSqbkd3fpgkqHQ==
+X-CSE-MsgGUID: q5Bmp6XjTdicTRvXmKBNJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="187452039"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 20 Oct 2025 14:44:37 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vAxgA-000ABR-2U;
+	Mon, 20 Oct 2025 21:44:34 +0000
+Date: Tue, 21 Oct 2025 05:44:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+	Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [jaegeuk-f2fs:dev-test 14/15] fs/f2fs/xattr.c:26:19: sparse: sparse:
+ symbol 'inline_xattr_slab' was not declared. Should it be static?
+Message-ID: <202510210534.6otvnCrN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the
- performance domain
-To: "Rafael J. Wysocki" <rafael@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: lukasz.luba@arm.com, len.brown@intel.com, pavel@kernel.org,
- oe-kbuild-all@lists.linux.dev, christian.loehle@arm.com, tj@kernel.org,
- kernel-dev@igalia.com, linux-pm@vger.kernel.org, sched-ext@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251014001055.772422-6-changwoo@igalia.com>
- <202510151232.UNZ2J7TZ-lkp@intel.com>
- <CAJZ5v0hAnKEUP7n_d3bzVEi0HGmgZXC-+U=_RmS1n0wGniv8qQ@mail.gmail.com>
-From: Changwoo Min <changwoo@igalia.com>
-Content-Language: en-US, ko-KR, en-US-large, ko
-In-Reply-To: <CAJZ5v0hAnKEUP7n_d3bzVEi0HGmgZXC-+U=_RmS1n0wGniv8qQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Rafael,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+head:   29604ca50fd305d7fb8bea7a031dbb25275c4336
+commit: 5792ac38f3d5b1ebb2399e149395d8a622302f9c [14/15] f2fs: use global inline_xattr_slab instead of per-sb slab cache
+config: x86_64-randconfig-r111-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210534.6otvnCrN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210534.6otvnCrN-lkp@intel.com/reproduce)
 
-On 10/21/25 02:44, Rafael J. Wysocki wrote:
-> On Wed, Oct 15, 2025 at 6:50 AM kernel test robot <lkp@intel.com> wrote:
->>
->> Hi Changwoo,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on amd-pstate/linux-next]
->> [also build test ERROR on amd-pstate/bleeding-edge linus/master v6.18-rc1 next-20251014]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Changwoo-Min/PM-EM-Assign-a-unique-ID-when-creating-a-performance-domain/20251014-082420
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
->> patch link:    https://lore.kernel.org/r/20251014001055.772422-6-changwoo%40igalia.com
->> patch subject: [PATCH v5 05/10] PM: EM: Add an iterator and accessor for the performance domain
->> config: i386-buildonly-randconfig-001-20251015 (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/config)
->> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251015/202510151232.UNZ2J7TZ-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202510151232.UNZ2J7TZ-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> kernel/power/energy_model.c:1003:5: error: redefinition of 'for_each_em_perf_domain'
->>      1003 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
->>           |     ^~~~~~~~~~~~~~~~~~~~~~~
->>     In file included from kernel/power/energy_model.c:20:
->>     kernel/power/em_netlink.h:18:5: note: previous definition of 'for_each_em_perf_domain' with type 'int(int (*)(struct em_perf_domain *, void *), void *)'
->>        18 | int for_each_em_perf_domain(int (*cb)(struct em_perf_domain*, void *),
->>           |     ^~~~~~~~~~~~~~~~~~~~~~~
->>>> kernel/power/energy_model.c:1022:24: error: redefinition of 'em_perf_domain_get_by_id'
->>      1022 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
->>           |                        ^~~~~~~~~~~~~~~~~~~~~~~~
->>     kernel/power/em_netlink.h:24:24: note: previous definition of 'em_perf_domain_get_by_id' with type 'struct em_perf_domain *(int)'
->>        24 | struct em_perf_domain *em_perf_domain_get_by_id(int id)
->>           |                        ^~~~~~~~~~~~~~~~~~~~~~~~
->>
-> 
-> Please update the patch to address this report and resend it, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510210534.6otvnCrN-lkp@intel.com/
 
-Sure, I will send v6 with these two fixes in.
+sparse warnings: (new ones prefixed by >>)
+   fs/f2fs/xattr.c:844:1: sparse: sparse: no newline at end of file
+>> fs/f2fs/xattr.c:26:19: sparse: sparse: symbol 'inline_xattr_slab' was not declared. Should it be static?
 
-Regards,
-Changwoo Min
+vim +/inline_xattr_slab +26 fs/f2fs/xattr.c
+
+    25	
+  > 26	struct kmem_cache *inline_xattr_slab;
+    27	static void *xattr_alloc(struct f2fs_sb_info *sbi, int size, bool *is_inline)
+    28	{
+    29		if (likely(size == DEFAULT_XATTR_SLAB_SIZE)) {
+    30			*is_inline = true;
+    31			return f2fs_kmem_cache_alloc(inline_xattr_slab,
+    32						GFP_F2FS_ZERO, false, sbi);
+    33		}
+    34		*is_inline = false;
+    35		return f2fs_kzalloc(sbi, size, GFP_NOFS);
+    36	}
+    37	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
