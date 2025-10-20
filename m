@@ -1,90 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBCF319617;
-	Mon, 20 Oct 2025 13:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE91301013
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Oct 2025 14:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760967450; cv=none; b=uq8dwMgTl6hEPTA2LaFp5IVxNRubhtXqg2t/sYkPoidYE/E3E5i8LdNyLUrHcA0K6BucS9ro+2i9SnQU7gpVzyVAHYyAMA7BAj29UBWqIfJRUJQendh37h39Gifxtxe0vIofF0Qd8xiCds4AeQcCU/83UGQQFSxq8rQFp38vvmQ=
+	t=1760970131; cv=none; b=OQ7lwc+sPUjhiYu5yEpaBZ7TQq3JdAKyi2MGJPFddKttgVohIljtaeAumuNvwi8MuOe+bPWljHo4LevhdtZNUaqXiE8QKY/Jpn4okSPOiFiYcOEowcoqIWGJLamLO4XC/r8OBwwSbdSSFHQ8xdJ6UtfCcqXRpn2NoS45vhROdos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760967450; c=relaxed/simple;
-	bh=xsAfj9llmggCRKfnH42YIDk0JLCTPPYfPL8JnF5tM/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WBBXLq9mcDwFl159UwAPCp9kyUaRGA/OeUp8zFBi5HggaJYaTS6vsXKOtYf0xHPYyESKmiwJc/GvORgGLni02MxlwfOl4GSZYKLAnwWEFGSb0ITStLvbUvqLcnNqSyd1W7JIiYhs810lqQwTIcfILq5KiMEch6W7jxro6FMh72E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FH0eMje7; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1760970131; c=relaxed/simple;
+	bh=eVXqdZWOtZ7txBWnH50nnMS7XqFYpHtuEUVHW4IWcvc=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=cuMXV67J0OJNbpvvJL/caFLoonPqT8rnn3e7FmiEeV19KbJj9hiOQWGsLUnUnFg/E9WwAE9ZDpJpYc2dnZ09LFWw9ToXhegSG1hzfqyegVecI9o5kvIY2zhdk8qmJfeQiIRGv1eIPG+znV9RxjKrkMVc6v9sJv2mJ4zyZeYwa+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=QaQdlt4X; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FH0eMje7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760967448; x=1792503448;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xsAfj9llmggCRKfnH42YIDk0JLCTPPYfPL8JnF5tM/M=;
-  b=FH0eMje7yklReDEA4ofGkCHsw6my6+U+HMQwTi2V34RoHrCJzxvSwfUb
-   BYJh3tHJJyz+uBb9iK8xlmvrD6HGGOMRAjFoZO9MIUbYjb4aRszuZ41WV
-   kiNSWIUsPlxWSEgeKau5Xxzb8pLExvYUglYnJRm8oKI8K3k/9b7BDG+cT
-   DMOlaQ6SIrujly3ivKEP5S2uSk6QYjZBZHYifZ/nMauFc3KUfjWQgQtRu
-   CNeykHnKJ6+5wegHc7OS39m+qDJagwFYag6+3JLMLz/RbMjjzYzQEiPEk
-   E4eFhidpismsmQCf9oeCOWPzvYjRBUfss5CInHZttTDmH+WpawUtoEdPF
-   g==;
-X-CSE-ConnectionGUID: RlPpVY8lQLaTQK/+Zx3CHw==
-X-CSE-MsgGUID: 5ooTUcVFRheldZmwx4fc4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73372315"
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
-   d="scan'208";a="73372315"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 06:37:27 -0700
-X-CSE-ConnectionGUID: G/xbjihIQ+mo7dpU6jtt4Q==
-X-CSE-MsgGUID: LOwZLrbQRMiPR4RA7744sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
-   d="scan'208";a="183347077"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 20 Oct 2025 06:37:25 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vAq4h-0009rl-12;
-	Mon, 20 Oct 2025 13:37:23 +0000
-Date: Mon, 20 Oct 2025 21:37:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andi Shyti <andi.shyti@kernel.org>, Yixun Lan <dlan@gentoo.org>
-Subject: [andi-shyti:i2c/i2c-host-next 5/5] ERROR: modpost:
- "devm_clk_register" [drivers/i2c/busses/i2c-k1.ko] undefined!
-Message-ID: <202510202150.2qXd8e7Y-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="QaQdlt4X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1760970120;
+	bh=eVXqdZWOtZ7txBWnH50nnMS7XqFYpHtuEUVHW4IWcvc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=QaQdlt4XnQ8bxCpMVnwjRx90bajlP0wfryt4Gbw7RtcN+WcMPM1zMP1VeLsgpwjA3
+	 zgy7qZNFc2U7x3kknp6brY8sa0gtQQ7haUGK4WV+m9q/1BSq7JZ/ucq1O6i4LRuM5Y
+	 BB9um2wxslxBhnvVPm3c1K7gp9lSJMJH0RNh/Gpg=
+Date: Mon, 20 Oct 2025 17:21:56 +0300 (GMT+03:00)
+From: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Benjamin Berg <benjamin@sipsolutions.net>
+Cc: linux-um@lists.infradead.org, Willy Tarreau <w@1wt.eu>,
+	linux-kselftest@vger.kernel.org, kernel test robot <lkp@intel.com>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Benjamin Berg <benjamin.berg@intel.com>
+Message-ID: <99359472-8b1e-4d51-adb8-5b16f1f90a9f@weissschuh.net>
+In-Reply-To: <aNaNtI+mbyc4zgFy@rli9-mobl>
+References: <aNaNtI+mbyc4zgFy@rli9-mobl>
+Subject: Re: [PATCH v3 09/12] um: use nolibc for the --showconfig
+ implementation
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Correlation-ID: <99359472-8b1e-4d51-adb8-5b16f1f90a9f@weissschuh.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host-next
-head:   743aa55942a532a848a584437d2b8b4c9ffe8934
-commit: 743aa55942a532a848a584437d2b8b4c9ffe8934 [5/5] i2c: spacemit: configure ILCR for accurate SCL frequency
-config: hexagon-randconfig-001-20251020 (https://download.01.org/0day-ci/archive/20251020/202510202150.2qXd8e7Y-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510202150.2qXd8e7Y-lkp@intel.com/reproduce)
+Hi Benjamin,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510202150.2qXd8e7Y-lkp@intel.com/
+Sep 26, 2025 15:57:43 kernel test robot <lkp@intel.com>:
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on uml/next]
+> [also build test WARNING on uml/fixes shuah-kselftest/next shuah-kselftes=
+t/fixes linus/master v6.17-rc7 next-20250925]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:=C2=A0=C2=A0=C2=A0 https://github.com/intel-lab-lkp/linux/commits/Ben=
+jamin-Berg/tools-compiler-h-fix-__used-definition/20250924-222547
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/uml/lin=
+ux next
+> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20250924142059.52=
+7768-10-benjamin%40sipsolutions.net
+> patch subject: [PATCH v3 09/12] um: use nolibc for the --showconfig imple=
+mentation
+> :::::: branch date: 2 days ago
+> :::::: commit date: 2 days ago
+> config: um-randconfig-r111-20250926 (https://download.01.org/0day-ci/arch=
+ive/20250926/202509261452.g5peaXCc-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250926/202509261452.g5peaXCc-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/r/202509261452.g5peaXCc-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> =C2=A0=C2=A0 command-line: note: in included file (through tools/include/=
+nolibc/nolibc.h, tools/include/nolibc/stddef.h, arch/um/include/shared/user=
+.h, builtin):
+>>> tools/include/nolibc/sys.h:109:29: sparse: sparse: Using plain integer =
+as NULL pointer
+> =C2=A0=C2=A0unistd.h:70:30: sparse: sparse: Using plain integer as NULL p=
+ointer
+> =C2=A0=C2=A0 tools/include/nolibc/unistd.h:70:33: sparse: sparse: Using p=
+lain integer as NULL pointer
 
->> ERROR: modpost: "devm_clk_register" [drivers/i2c/busses/i2c-k1.ko] undefined!
+Do you intend to work on your UML with nolibc patches this cycle?
+If not I would fix these sparse warnings in the nolibc tree and also apply =
+your nolibc patches.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=y] && COMMON_CLK [=n]
-   Selected by [m]:
-   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thomas
