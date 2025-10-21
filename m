@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03BA35505C;
-	Tue, 21 Oct 2025 12:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85ED285C85
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 13:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761051374; cv=none; b=U/dWEdM4F85FfknxsMM/VLBsLFmeXHco+lDU/MqjsD+vHmUDTKPIL+e2KVO5GFVo/RaIYBxJhWOEciFgPeyKwNlYctQLwPTq5ukJcdzUcHpQ4awI9N/yFcz+3oC8m3F4PxUDmhOrddwKi/+5q1Dst3Ut/wrUNGkKVoSPpprAbLk=
+	t=1761052033; cv=none; b=LREGjgHn20M+JaOzrq3ImEQsBMoyKPTEzC2kS6p3EQVkbVzoHRFh9eR78mJoP8Y4J8/04m5rlzP35a1sVqsJo9K5XyPiL1oblgEcKnzkqisqkdtZPmtofb7UbSl4Mvi0OnsYaYr2zGP6IoXVkpXYXdzumWh9TCqiGvBalG6W6x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761051374; c=relaxed/simple;
-	bh=+CO+/an1hiocjSGMGzZYAKHx4UcThwwf4NGM2r5oRxc=;
+	s=arc-20240116; t=1761052033; c=relaxed/simple;
+	bh=V+Gqbll+SY6QUsS/Wr1/Gn9/Qi0UdTEREcQYsqkVan8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cFg8EJM7MBdJqQn6CpzvHMZioBo2JthXAwS53JBpb0C8M+U/OhEhgYTu7DCZkoYruv4ffG6mTk2OT1K6JQkhPbQz0NI/iwOzHSCf9Wi9QW+FNjQrsL6Wt4I/bYLgsP0mc/9FB6HMbpRMFRgxnqAdDs8snPvvcSvvz/bPs6c7/N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxsK1kQM; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCxantSWzLdaF76M8MW6VSJEdJXuCUB19tKSYUmTfPhQBC8qEBDELlekQhV44dHB1GFr0QTirGNabo99Bm15kxJeoE2GYt40zfCOPX228IMztI5byk0JepkNHGAthodOk6bPnFFGQvFEKawBisSILQh8obJgCccYf9qYjJYidfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEDCF4aa; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxsK1kQM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEDCF4aa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761051373; x=1792587373;
+  t=1761052031; x=1792588031;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+CO+/an1hiocjSGMGzZYAKHx4UcThwwf4NGM2r5oRxc=;
-  b=RxsK1kQMpNNwkTSt8tnwbuqfdOt8sseF4XYKpkt6nUa4sh9MDbJDIDmP
-   8aK60dAnuU5jnKd1SvkcrkJLGCAZGF9fAdYu2ug1iI4CMhu/1hg8SN2Kx
-   zm1dHgZnH7HmwpXpXY/z7U1DIZt53XsiSJvh+U6tZ9UMWSe81Rs74hXsd
-   cMcII6FLEuNsdDBMARJrlfBljkWsjF2866SQkfX59AV4mxC16DCdouGQ5
-   wkpauo6zy/z8D5tsqUvLEw/i9NmFpQKgUm+gSDIY0D2i829goM1rWaclp
-   GuDCwMTZyM9EXZ79jgkhBHRcc6CxN75hBmqL4B2XkckyV5Fm/Nw12M9sG
-   g==;
-X-CSE-ConnectionGUID: OZW+pDX7R8WlTKOxo8rgNA==
-X-CSE-MsgGUID: Im8O3919TZWradUxZZt9ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80799747"
+  bh=V+Gqbll+SY6QUsS/Wr1/Gn9/Qi0UdTEREcQYsqkVan8=;
+  b=ZEDCF4aaBt9GY0lnL5oeUXj7BQmncEfIXivPxOpd5jFp7YbLY6lFVNNH
+   +yvmcLzDkOFlNXEyCbZaakznzprawIVtg3bTC3kgWRLTw8LPwIJngyton
+   FiWX0S4CFGcAMJ7OzcWHI7UsDHstbClKeiXhFutJ1DwaYrhwN+hfvwnfz
+   6njQvSo8hw7E/jLRiFGXNgY8IKdoQ9cGsaJ1eP0txiXlGY1C4eOT8e6CW
+   xPt5jDjdpxY3AIxt1OihhTh6zGV4y3BGZme1kkdkD9ywabmIzL1vDul4R
+   IHRZf3s0uGhwsgtYFK4xRuDF5HdeJ1A/ILeXBu/nS66DW562+HdUgabVy
+   w==;
+X-CSE-ConnectionGUID: f3S4I19+S86aYsXzdoojzw==
+X-CSE-MsgGUID: scBm4x+WREiKZY/GbsR1hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63273060"
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="80799747"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 05:56:12 -0700
-X-CSE-ConnectionGUID: BxovcXqjQZemzDJ3BcibFQ==
-X-CSE-MsgGUID: qYr8i8VcSOqS+siN1Hg8+g==
+   d="scan'208";a="63273060"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 06:07:10 -0700
+X-CSE-ConnectionGUID: EXJNoOkmRqSQCUftNNoTsg==
+X-CSE-MsgGUID: 1NQpMApGRuqZP3nxmsm2Fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="183443263"
+   d="scan'208";a="188695616"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Oct 2025 05:56:08 -0700
+  by orviesa005.jf.intel.com with ESMTP; 21 Oct 2025 06:07:10 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBBuI-000App-0T;
-	Tue, 21 Oct 2025 12:56:06 +0000
-Date: Tue, 21 Oct 2025 20:55:47 +0800
+	id 1vBC4w-000AqH-31;
+	Tue, 21 Oct 2025 13:07:06 +0000
+Date: Tue, 21 Oct 2025 21:06:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/11] ASoC: sun4i-spdif: Support SPDIF output on A523
- family
-Message-ID: <202510212039.XiolKgXp-lkp@intel.com>
-References: <20251020171059.2786070-5-wens@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC] arch/riscv: add proc status (proc/<pid>/status)
+Message-ID: <202510212007.IkT9RA9u-lkp@intel.com>
+References: <20251020-proc_status-v1-1-59d2c8ccd4f0@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,35 +62,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251020171059.2786070-5-wens@kernel.org>
+In-Reply-To: <20251020-proc_status-v1-1-59d2c8ccd4f0@rivosinc.com>
 
-Hi Chen-Yu,
+Hi Deepak,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on broonie-sound/for-next vkoul-dmaengine/next linus/master v6.18-rc2 next-20251021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Yu-Tsai/dt-bindings-dma-allwinner-sun50i-a64-dma-Add-compatibles-for-A523/20251021-011340
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20251020171059.2786070-5-wens%40kernel.org
-patch subject: [PATCH 04/11] ASoC: sun4i-spdif: Support SPDIF output on A523 family
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251021/202510212039.XiolKgXp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510212039.XiolKgXp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta/arch-riscv-add-proc-status-proc-pid-status/20251021-022001
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251020-proc_status-v1-1-59d2c8ccd4f0%40rivosinc.com
+patch subject: [PATCH RFC] arch/riscv: add proc status (proc/<pid>/status)
+config: riscv-randconfig-001-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212007.IkT9RA9u-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510212007.IkT9RA9u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510212039.XiolKgXp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510212007.IkT9RA9u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: sound/soc/sunxi/sun4i-spdif.c:180 struct member 'mclk_multiplier' not described in 'sun4i_spdif_quirks'
->> Warning: sound/soc/sunxi/sun4i-spdif.c:180 struct member 'tx_clk_name' not described in 'sun4i_spdif_quirks'
+>> arch/riscv/kernel/cpu/proc.c:8:10: fatal error: asm/usercfi.h: No such file or directory
+    #include <asm/usercfi.h>
+             ^~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +8 arch/riscv/kernel/cpu/proc.c
+
+   > 8	#include <asm/usercfi.h>
+     9	
 
 -- 
 0-DAY CI Kernel Test Service
