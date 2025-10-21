@@ -1,100 +1,136 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8472EA158
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 09:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A158532A3FF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 10:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761039762; cv=none; b=sotJzkxqsFwAks4batllpIYN5bPDayILF69lAltAPju0O7iJk/4Q0oQO3G7WZnFGRYRDqCVbR4tGUUUrmQoT4asFr2LcQ6db9xp6dS2u4RiukA1WE7rfA1s4Q+vxGBHBzhO3Ww7GkefF/CH1D8cdkChfuqi2g/BaiYmPdUjGSaw=
+	t=1761044031; cv=none; b=bKC8dQnTOGMbzaidIzIvEgW0Xiy7EeCSVD+o5UISC900qcBauDZ8tU9WS14J8YrtPNxmLdryNejQ+1ZvHgicdpsmZFyIn+z+jYeR6o8haJ42tnQpCqsfrcjUW3RVHE4N64qe2Vu0Yt+wqBGtVA5Sz1F0Gni7o9QDdFHdc4q/M+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761039762; c=relaxed/simple;
-	bh=JY3CF+2FP66H5ZXTKxBoAbQmuRj8bLfZ6H68G2I1PCQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QySXBkUmatNNVwWFP3m8DwC3lxTuINon9tKxc/xlA7v5irK1yZIyinO3KNwpovTTRC94zYKXDPDaUazWeeK3eJrVtuWBNrHulwgICVm4bxrjifKL6/utXFi1S4i9uOjK0dvq0/s88ks69TPyrYrUMy1885DxkF2ds6XpHeKiysQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 43caf076ae6211f0a38c85956e01ac42-20251021
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:9efcfa40-2da7-45ab-92d8-592a550acbed,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:a9d874c,CLOUDID:63a0de5be62f8f25bb7fa231967758b2,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 43caf076ae6211f0a38c85956e01ac42-20251021
-X-User: xiaopei01@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <xiaopei01@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 438995428; Tue, 21 Oct 2025 17:42:31 +0800
-From: Pei Xiao <xiaopei01@kylinos.cn>
-To: lkp@intel.com,
-	alexanderduyck@fb.com,
-	kernel-team@meta.com,
-	netdev@vger.kernel.org
-Cc: horms@kernel.org,
-	kuba@kernel.org,
-	lee@trager.us,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	pabeni@redhat.com,
-	Pei Xiao <xiaopei01@kylinos.cn>
-Subject: [PATCH] eth: fbnic: fix integer overflow warning in TLV_MAX_DATA definition
-Date: Tue, 21 Oct 2025 17:42:27 +0800
-Message-Id: <182b9d0235d044d69d7a57c1296cc6f46e395beb.1761039651.git.xiaopei01@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202510190832.3SQkTCHe-lkp@intel.com>
-References: <202510190832.3SQkTCHe-lkp@intel.com>
+	s=arc-20240116; t=1761044031; c=relaxed/simple;
+	bh=z9W08tFakR4rntFVt2C/QolkYErlrqGUGVDVL7R2suo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YQ76nF5ghThe6P0UiiLBgsnE+HknL1ciaRm58nKosvfQnv3KI1smMWpsevbflTCO2AelddHSUV+nhXyIn6H7jkHQ5idGqUXd3JJF6ajNfu0bftPuFKo2Beoju5cMi5QiXFyxvzrOrCCEH4UXQk/8q2OH+IM5Z8j5gxPnNJVhgKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USb9eZli; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USb9eZli"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761044029; x=1792580029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z9W08tFakR4rntFVt2C/QolkYErlrqGUGVDVL7R2suo=;
+  b=USb9eZlihMhrECLUe681iakpHJLp0Z6QO6a61YPvztQbIWBfMIQWCajS
+   Ydwl2aLICqotf79VWMfh2uwmE15/qatnfBBX9wp930qPJJaVVgi+X7t0B
+   fBE7K7yJz0XRF+J3IdQXaTE/0D25QiBVjUgYqqOu0uXUghD+OVov25C0r
+   LsTUid4T4WtfbQATLtfqLZ4ByQux1/D8XjyvFFCzwB9ebE0L2gFFSBY5E
+   GjBgEQW3NZcwWqsM7yRhRn4xgORlFngAHfkSAusAbIe89JvWPG2w+dixt
+   WPlh9xHRCMzNIOAQXfRUomabc4lnJ4F/eePXBTRafrkY+S5NSYH6bpZMy
+   w==;
+X-CSE-ConnectionGUID: HeZPcOwSRdyJTPPWQ5cWCw==
+X-CSE-MsgGUID: Oyo0Zg2AS7GaRJQRCZc+jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66807481"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="66807481"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 03:53:49 -0700
+X-CSE-ConnectionGUID: FuZJDGqQRaWI+/fMpYk8RA==
+X-CSE-MsgGUID: srHAXlx1TWm6LrffBOZKlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="214194137"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2025 03:53:47 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vB9zS-000AkP-09;
+	Tue, 21 Oct 2025 10:53:26 +0000
+Date: Tue, 21 Oct 2025 18:52:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: zhoumin <teczm@foxmail.com>, mingo@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	zhoumin <teczm@foxmail.com>
+Subject: Re: [PATCH] cputime:make function static
+Message-ID: <202510211821.9NudzdNn-lkp@intel.com>
+References: <tencent_C04F39CA166C38A5502D7CF206688E191307@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_C04F39CA166C38A5502D7CF206688E191307@qq.com>
 
-The TLV_MAX_DATA macro calculates (PAGE_SIZE - 512) which can exceed
-the maximum value of a 16-bit unsigned integer on architectures with
-large page sizes, causing compiler warnings:
+Hi zhoumin,
 
-drivers/net/ethernet/meta/fbnic/fbnic_tlv.h:83:24: warning: conversion
-from 'long unsigned int' to 'short unsigned int' changes value from
-'261632' to '65024' [-Woverflow]
+kernel test robot noticed the following build warnings:
 
-Fix this by explicitly masking the result to 16 bits using bitwise AND
-with 0xFFFF, ensuring the value fits within the expected data type
-while maintaining the intended behavior for normal page sizes.
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on linus/master v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This preserves the existing functionality while eliminating the
-compiler warning and potential undefined behavior from integer
-truncation.
+url:    https://github.com/intel-lab-lkp/linux/commits/zhoumin/cputime-make-function-static/20251020-235256
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/tencent_C04F39CA166C38A5502D7CF206688E191307%40qq.com
+patch subject: [PATCH] cputime:make function static
+config: s390-randconfig-002-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211821.9NudzdNn-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211821.9NudzdNn-lkp@intel.com/reproduce)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202510190832.3SQkTCHe-lkp@intel.com/
-Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
----
- drivers/net/ethernet/meta/fbnic/fbnic_tlv.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510211821.9NudzdNn-lkp@intel.com/
 
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h b/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
-index c34bf87eeec9..3508b46ebdd0 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
-@@ -80,7 +80,7 @@ struct fbnic_tlv_index {
- 	enum fbnic_tlv_type	type;
- };
- 
--#define TLV_MAX_DATA			(PAGE_SIZE - 512)
-+#define TLV_MAX_DATA			((PAGE_SIZE - 512) & 0xFFFF)
- #define FBNIC_TLV_ATTR_ID_UNKNOWN	USHRT_MAX
- #define FBNIC_TLV_ATTR_STRING(id, len)	{ id, len, FBNIC_TLV_STRING }
- #define FBNIC_TLV_ATTR_FLAG(id)		{ id, 0, FBNIC_TLV_FLAG }
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_policy.c:57:
+>> kernel/sched/cputime.c:189:13: warning: 'account_system_time' defined but not used [-Wunused-function]
+     189 | static void account_system_time(struct task_struct *p, int hardirq_offset, u64 cputime)
+         |             ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +/account_system_time +189 kernel/sched/cputime.c
+
+   182	
+   183	/*
+   184	 * Account system CPU time to a process.
+   185	 * @p: the process that the CPU time gets accounted to
+   186	 * @hardirq_offset: the offset to subtract from hardirq_count()
+   187	 * @cputime: the CPU time spent in kernel space since the last update
+   188	 */
+ > 189	static void account_system_time(struct task_struct *p, int hardirq_offset, u64 cputime)
+   190	{
+   191		int index;
+   192	
+   193		if ((p->flags & PF_VCPU) && (irq_count() - hardirq_offset == 0)) {
+   194			account_guest_time(p, cputime);
+   195			return;
+   196		}
+   197	
+   198		if (hardirq_count() - hardirq_offset)
+   199			index = CPUTIME_IRQ;
+   200		else if (in_serving_softirq())
+   201			index = CPUTIME_SOFTIRQ;
+   202		else
+   203			index = CPUTIME_SYSTEM;
+   204	
+   205		account_system_index_time(p, cputime, index);
+   206	}
+   207	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
