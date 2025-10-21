@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4CAE632
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 01:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E84221D3F4;
+	Tue, 21 Oct 2025 01:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761008868; cv=none; b=TmPLiS6Ddjzfgp8KAqmAYC82hRtTnK6ysID8+BNewEwAieC9nZIV1lKe53A1HgfbWcMZw+08wDKVTGqdYXmgMfIFpkATafTA7YRU0tWAUI4cGtgmEamWZdELz2qTF7VNMF00UTGagEjC497H0vCZVgOkU08qV+xsqTefRwuJHlk=
+	t=1761009300; cv=none; b=eRtgzAgMAAxiU4lHC2wbfvYYtL4UeT9hLfk99yXm78d37jIJJMK/khNZAE44s6O3RjMknSC4OR7zJ/fDyGfobbDDb1tduMpqtUdT0N8PLnpGcaW9cIokYDYW6242rfkeRQ/Zg/1A+k52uvHKLpVVh6mRrtMXKxu1WZNNobrUUvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761008868; c=relaxed/simple;
-	bh=wk7UpArjS2bcnlUwCpxbrm7FvwM6aX9kbRy2d0wBLAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eoSiqe6UG9uFHsE9fdoMwM5Pl3sMu3aVm+MLvFtmP0+f9hm95R/EWOcNjfAE3akDW7KdA1wMZc7BdEnTHur8sN2ZyclHW0bVOp0ZC29I7ntx2CokR/XM3NOW0+w4Cm2Wm7RLOF68702XevS6IScx6UTUgS+YeB4c8PxjPrbPKGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4W0TNwX; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1761009300; c=relaxed/simple;
+	bh=fB6TGAnC43AiA3oTJNwl3JtVWE3dqUl0GY2SfaU931o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iTMoTz807ylQZo9+MUmFjpHqAhaw+SQnlDA0k7dP6qWLbRzDOUBR9auXqIiztgIS58B69DHg1lFMdMZdnXnrWwNbAZw6tFLrUiEdOZzu+p5ZtaZWGlr/XyOQ3BSjpmS2bMzNjSo1hPDZYCsl6LYr9otVczfGOFBgMlnXyTbj0Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aITqHrKr; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4W0TNwX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aITqHrKr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761008863; x=1792544863;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wk7UpArjS2bcnlUwCpxbrm7FvwM6aX9kbRy2d0wBLAQ=;
-  b=J4W0TNwXfMutpzbkxJCbCWwJlHoGAhliWFH9CpLWQKxYFlP00RYW6atx
-   oao96Hrpdt9/s0iJqyXA0wbNMMWTgBj7an/eef/6uQwZIXUti+AuhoL34
-   KRldUOfVQvtAGAT0nTS0qDypMRX17bEdfx8ToD8EgW8wLsa9I56/nhHo5
-   UjBHGldcVK32k7aYpT0KyG1XX0x2fjU1/RxU7QrHdiWyHQRdO6AQhc7ZZ
-   qevCcQlOJ8uCK7QwhGkzCSEyZU7VXsmHqS6VvWva0Vur829pV8fu81kdY
-   4MrDXYi42vAfHpgfPnJ89YZK/OSeB4tazezDXIf2RWJCZcVlavNVqwCFi
-   w==;
-X-CSE-ConnectionGUID: /pu/5bzsQrKnEF2/D6LlhA==
-X-CSE-MsgGUID: ABkwunWdTtqAfLa279srOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63029403"
+  t=1761009300; x=1792545300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fB6TGAnC43AiA3oTJNwl3JtVWE3dqUl0GY2SfaU931o=;
+  b=aITqHrKrOVdnTrJ08pYKltHKdkdKJujPFYrdPLZq5w0806g1km3EZlOl
+   4ZT7y+e8dAR8YutAN4b02hKzu/36OenFL8hfAdpwOFuyr62aQOWbnSd0B
+   x/RMAIW9SM9dvaylKhpThC0txFWz8GGu+6Azh9LGpNa1yhp+9S6detoBy
+   IylMkdBbPgg8k8AVdzlYa3vNiJfSE7V+9LzJyqeukg4UF27bVsWc7jVWn
+   D3Xh22dqxvYPUbVVD97YtNs1Tuxw1z4HguqVqYcApQt+36oMBj8pvsnux
+   ScOplU8hXRGcE7xpC9KRbGmOkzRqAQLEF2aiY777WgYkJtBClUn2+phAf
+   A==;
+X-CSE-ConnectionGUID: sFzrjgJZSbyv+MKsL73CxQ==
+X-CSE-MsgGUID: rOiZ/78XRIaX31QP0Ui0Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85755219"
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="63029403"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 18:04:18 -0700
-X-CSE-ConnectionGUID: yUNIhft7R7+oN9dTQVBAgQ==
-X-CSE-MsgGUID: W5tlecKwR22hVWi94NxR2w==
+   d="scan'208";a="85755219"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 18:14:59 -0700
+X-CSE-ConnectionGUID: DmuESj5fQj2MA7NBtwBKWg==
+X-CSE-MsgGUID: 1FUJSFG7QqSCGvfMO7IOdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
-   d="scan'208";a="183168163"
+   d="scan'208";a="183412976"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2025 18:04:15 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 20 Oct 2025 18:14:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vB0mu-000AKH-1Z;
-	Tue, 21 Oct 2025 01:03:47 +0000
-Date: Tue, 21 Oct 2025 09:03:13 +0800
+	id 1vB0xd-000AKb-2d;
+	Tue, 21 Oct 2025 01:14:50 +0000
+Date: Tue, 21 Oct 2025 09:14:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Foster <bfoster@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [brauner-github:vfs-6.19.iomap 20/25] fs/iomap/buffered-io.c:870:51:
- warning: passing argument 2 of 'iomap_iter_advance' makes integer from
- pointer without a cast
-Message-ID: <202510210848.2ClV65p3-lkp@intel.com>
+To: Donglin Peng <dolinux.peng@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 2/5] btf: sort BTF types by kind and name to
+ enable binary search
+Message-ID: <202510210844.PWg6O19s-lkp@intel.com>
+References: <20251020093941.548058-3-dolinux.peng@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,133 +63,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251020093941.548058-3-dolinux.peng@gmail.com>
 
-tree:   https://github.com/brauner/linux.git vfs-6.19.iomap
-head:   d61f6a3dc4f623b16ed43dd6113f594403b35211
-commit: b50d39532fdab9126c794139babaec5798e79567 [20/25] iomap: optional zero range dirty folio processing
-config: x86_64-buildonly-randconfig-001-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210848.2ClV65p3-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210848.2ClV65p3-lkp@intel.com/reproduce)
+Hi Donglin,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf-next/master bpf/master linus/master v6.18-rc2 next-20251020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Donglin-Peng/btf-search-local-BTF-before-base-BTF/20251020-174656
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20251020093941.548058-3-dolinux.peng%40gmail.com
+patch subject: [RFC PATCH v2 2/5] btf: sort BTF types by kind and name to enable binary search
+config: i386-buildonly-randconfig-003-20251021 (https://download.01.org/0day-ci/archive/20251021/202510210844.PWg6O19s-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510210844.PWg6O19s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510210848.2ClV65p3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510210844.PWg6O19s-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/iomap/buffered-io.c: In function 'iomap_write_begin':
->> fs/iomap/buffered-io.c:870:51: warning: passing argument 2 of 'iomap_iter_advance' makes integer from pointer without a cast [-Wint-conversion]
-     870 |                 status = iomap_iter_advance(iter, &len);
-         |                                                   ^~~~
-         |                                                   |
-         |                                                   u64 * {aka long long unsigned int *}
-   In file included from fs/iomap/buffered-io.c:6:
-   include/linux/iomap.h:251:53: note: expected 'u64' {aka 'long long unsigned int'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     251 | int iomap_iter_advance(struct iomap_iter *iter, u64 count);
-         |                                                 ~~~~^~~~~
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:61:
+   In file included from include/linux/syscalls_api.h:1:
+   In file included from include/linux/syscalls.h:95:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+   In file included from include/linux/perf_event.h:53:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:29:
+>> include/linux/btf.h:703:1: error: expected identifier or '('
+     703 | {}
+         | ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=3611665597
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3611665597
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3611665597
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3611665597
+   make: Target 'prepare' not remade because of errors.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
+vim +703 include/linux/btf.h
 
-vim +/iomap_iter_advance +870 fs/iomap/buffered-io.c
-
-   804	
-   805	/*
-   806	 * Grab and prepare a folio for write based on iter state. Returns the folio,
-   807	 * offset, and length. Callers can optionally pass a max length *plen,
-   808	 * otherwise init to zero.
-   809	 */
-   810	static int iomap_write_begin(struct iomap_iter *iter,
-   811			const struct iomap_write_ops *write_ops, struct folio **foliop,
-   812			size_t *poffset, u64 *plen)
-   813	{
-   814		const struct iomap *srcmap = iomap_iter_srcmap(iter);
-   815		loff_t pos;
-   816		u64 len = min_t(u64, SIZE_MAX, iomap_length(iter));
-   817		struct folio *folio;
-   818		int status = 0;
-   819	
-   820		len = min_not_zero(len, *plen);
-   821		*foliop = NULL;
-   822		*plen = 0;
-   823	
-   824		if (fatal_signal_pending(current))
-   825			return -EINTR;
-   826	
-   827		folio = __iomap_get_folio(iter, write_ops, len);
-   828		if (IS_ERR(folio))
-   829			return PTR_ERR(folio);
-   830	
-   831		/*
-   832		 * No folio means we're done with a batch. We still have range to
-   833		 * process so return and let the caller iterate and refill the batch.
-   834		 */
-   835		if (!folio) {
-   836			WARN_ON_ONCE(!iter->fbatch);
-   837			return 0;
-   838		}
-   839	
-   840		/*
-   841		 * Now we have a locked folio, before we do anything with it we need to
-   842		 * check that the iomap we have cached is not stale. The inode extent
-   843		 * mapping can change due to concurrent IO in flight (e.g.
-   844		 * IOMAP_UNWRITTEN state can change and memory reclaim could have
-   845		 * reclaimed a previously partially written page at this index after IO
-   846		 * completion before this write reaches this file offset) and hence we
-   847		 * could do the wrong thing here (zero a page range incorrectly or fail
-   848		 * to zero) and corrupt data.
-   849		 */
-   850		if (write_ops && write_ops->iomap_valid) {
-   851			bool iomap_valid = write_ops->iomap_valid(iter->inode,
-   852								 &iter->iomap);
-   853			if (!iomap_valid) {
-   854				iter->iomap.flags |= IOMAP_F_STALE;
-   855				status = 0;
-   856				goto out_unlock;
-   857			}
-   858		}
-   859	
-   860		/*
-   861		 * The folios in a batch may not be contiguous. If we've skipped
-   862		 * forward, advance the iter to the pos of the current folio. If the
-   863		 * folio starts beyond the end of the mapping, it may have been trimmed
-   864		 * since the lookup for whatever reason. Return a NULL folio to
-   865		 * terminate the op.
-   866		 */
-   867		if (folio_pos(folio) > iter->pos) {
-   868			len = min_t(u64, folio_pos(folio) - iter->pos,
-   869					 iomap_length(iter));
- > 870			status = iomap_iter_advance(iter, &len);
-   871			if (status || !len)
-   872				goto out_unlock;
-   873		}
-   874	
-   875		pos = iomap_trim_folio_range(iter, folio, poffset, &len);
-   876	
-   877		if (srcmap->type == IOMAP_INLINE)
-   878			status = iomap_write_begin_inline(iter, folio);
-   879		else if (srcmap->flags & IOMAP_F_BUFFER_HEAD)
-   880			status = __block_write_begin_int(folio, pos, len, NULL, srcmap);
-   881		else
-   882			status = __iomap_write_begin(iter, write_ops, len, folio);
-   883	
-   884		if (unlikely(status))
-   885			goto out_unlock;
-   886	
-   887		*foliop = folio;
-   888		*plen = len;
-   889		return 0;
-   890	
-   891	out_unlock:
-   892		__iomap_put_folio(iter, write_ops, 0, folio);
-   893		return status;
-   894	}
-   895	
+   642	
+   643	static inline const char *btf_name_by_offset(const struct btf *btf,
+   644						     u32 offset)
+   645	{
+   646		return NULL;
+   647	}
+   648	static inline u32 *btf_kfunc_id_set_contains(const struct btf *btf,
+   649						     u32 kfunc_btf_id,
+   650						     struct bpf_prog *prog)
+   651	
+   652	{
+   653		return NULL;
+   654	}
+   655	static inline int register_btf_kfunc_id_set(enum bpf_prog_type prog_type,
+   656						    const struct btf_kfunc_id_set *s)
+   657	{
+   658		return 0;
+   659	}
+   660	static inline s32 btf_find_dtor_kfunc(struct btf *btf, u32 btf_id)
+   661	{
+   662		return -ENOENT;
+   663	}
+   664	static inline int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dtors,
+   665						      u32 add_cnt, struct module *owner)
+   666	{
+   667		return 0;
+   668	}
+   669	static inline struct btf_struct_meta *btf_find_struct_meta(const struct btf *btf, u32 btf_id)
+   670	{
+   671		return NULL;
+   672	}
+   673	static inline bool
+   674	btf_is_prog_ctx_type(struct bpf_verifier_log *log, const struct btf *btf,
+   675			     const struct btf_type *t, enum bpf_prog_type prog_type,
+   676			     int arg)
+   677	{
+   678		return false;
+   679	}
+   680	static inline int get_kern_ctx_btf_id(struct bpf_verifier_log *log,
+   681					      enum bpf_prog_type prog_type) {
+   682		return -EINVAL;
+   683	}
+   684	static inline bool btf_types_are_same(const struct btf *btf1, u32 id1,
+   685					      const struct btf *btf2, u32 id2)
+   686	{
+   687		return false;
+   688	}
+   689	static inline int btf_check_iter_arg(struct btf *btf, const struct btf_type *func, int arg_idx)
+   690	{
+   691		return -EOPNOTSUPP;
+   692	}
+   693	static inline int btf_compare_type_kinds_names(const void *a, const void *b, void *priv)
+   694	{
+   695		return -EOPNOTSUPP;
+   696	}
+   697	static inline s32 find_btf_by_name_kind(const struct btf *btf, int start_id, const char *type_name,
+   698				  u32 kind)
+   699	{
+   700		return -EOPNOTSUPP;
+   701	}
+   702	static inline void btf_check_sorted(struct btf *btf, int start_id);
+ > 703	{}
 
 -- 
 0-DAY CI Kernel Test Service
