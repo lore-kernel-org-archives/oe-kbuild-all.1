@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4BB2F872
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 05:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E03024A049;
+	Tue, 21 Oct 2025 05:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761022817; cv=none; b=SXeAJtDlZtywQ/3TJxDe/jo6nBYyysHU+OoX1J6buoRQ9Yvd89C1MsMmIitpla85CHSBWMm/umEpn0YE/UFeTyxXO5Xq8XrJk918bguungJ56VsaOhNro3pO9tvk3CvWOI53gbU8goJ3iqAlwiV0eqHLbOz05GFA6imy2OaXl+4=
+	t=1761025219; cv=none; b=tHrS9tJd5Go/eCOMAFIao3d+BVv6fXXXXf0vbMsVowV5XQBiT2gomoyhADLwfjMxIsDFND1iVey47GusAcg94d3elGIinHvMtR/LJaxh5+gMg0UVGl5/rNksfZT5QzoOTWzLk2togROiZ6zTKmDEw9euk0luIIR1pn4twwDBAGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761022817; c=relaxed/simple;
-	bh=75ixDsxha73rBKO7qk25HjJ1UxqvhZBz1FJ5tkeVi3w=;
+	s=arc-20240116; t=1761025219; c=relaxed/simple;
+	bh=oujJ85PWaD6IiI9Q4IAq1iPNCbePA6PPEN2RiT5yEZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dJEg/fsOQPPiYSftUG4ZPInrnBYkUuP12TLDYFoRm16TKcY5NENABIMMiKw10tIk38JfwOoR66g+bGNqtrGsu6l20Uk8Ly2gEzAA5IBSvhz18t8J+1fiUBUEt4IEppVsQ/sdpBGYVNCW1+h/9SkuxtiYY1y3W5vNaPdlG+3O7xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huMQ5LSh; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=nrGf9c0lfgzH3M9YhbVfaqLdXm1JqjwVTIXtLLYLfi0WY594KkXtTMqoDiNNAXv2fFy0aDVXcSzvXgK+zYo20w4PWN2q8AhJnp6yG7GBmDj+GltS26Ol7Mldd55hbT3/AwtgBdxS5Kc3Z1wk0+YWM1BAgMj/lU2PGtLwN7hqhF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ij1hAUW/; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huMQ5LSh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ij1hAUW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761022816; x=1792558816;
+  t=1761025217; x=1792561217;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=75ixDsxha73rBKO7qk25HjJ1UxqvhZBz1FJ5tkeVi3w=;
-  b=huMQ5LShS09LJuCaQ8MccFbp5QL9zhCGOng/r2yGIAN/BBj6LjKM5SD0
-   DR322OP95bEqD58VBUE0CO7Z+2xYJacJfnhL5KEfCBdCe1v9S/5DESJEr
-   1bDyoNbmf83wLo2tZLQdWgIwRihxoO7N/bKtomj7GZb/PK7cmRzCjeXzc
-   Hltq4sGiCgaqmUvM08bNVxPued0GUIeEf1uKa7f1RjaqpgHTRtFKqP5sa
-   l6Vz1A5cQMNflKwhLru6yg6UVWE/LNzztSdmkmyyVgSPCEBohZnIcmAai
-   44sFzz5a6F2BE2OFCfhJ2Q4Dzb0w5Ig7A4KYKIR44YIEMk0SlT8ToMlQF
-   A==;
-X-CSE-ConnectionGUID: UZPYB5tnRlq6kz4LvDq/Mw==
-X-CSE-MsgGUID: Zzs+9WZiTTSPxVl87GI2SQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63040297"
+  bh=oujJ85PWaD6IiI9Q4IAq1iPNCbePA6PPEN2RiT5yEZE=;
+  b=Ij1hAUW/1g9/9rf/qGQX5fU8RA3239GovHoU/xsCkADXH2R2SOG7pP7Q
+   f2OsaFysLPmBZ5K7moX/MpYjG96i8J4V1E03Aa7khZmHolbEJL2ECCTR5
+   RCKhHNIAuVJer5TTXog72grhZlKHAzZ8h8pIJQIdlN/StqYiJCVSkpbM2
+   gfPob4ZgNCyJ9njkxVmQh7orVawwAwV/0Tvf9dAvEG++VAPxJLj9EBujV
+   jxfnDPMAPS0KUvX1ITv0rsW/tzgaZ4sTQTEzRfoVrkemj/UkjFVaARAiD
+   bTwCAYsZnjFbbtONvyCuCqgtiAUdtEs4IAsAMynu4HwXEgY1idAm0vw4g
+   Q==;
+X-CSE-ConnectionGUID: tFhTrrwpRjSjvHEXqRVMpw==
+X-CSE-MsgGUID: W4dwQZavQhqHlAx8oqkb8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65760711"
 X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="63040297"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 21:59:18 -0700
-X-CSE-ConnectionGUID: cPbERosDQQygcw6q6fi4SQ==
-X-CSE-MsgGUID: 5cfFeimJRQK8fN7DNHjhEA==
+   d="scan'208";a="65760711"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 22:40:16 -0700
+X-CSE-ConnectionGUID: gvZ9rWllSbi1MTVZ3O5xLA==
+X-CSE-MsgGUID: a4XL5PLQT9WRB+sPgCp8Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="183352805"
+   d="scan'208";a="183988210"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Oct 2025 21:59:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 20 Oct 2025 22:40:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vB4So-000AV3-1Q;
-	Tue, 21 Oct 2025 04:59:14 +0000
-Date: Tue, 21 Oct 2025 12:59:12 +0800
+	id 1vB56T-000AWb-1v;
+	Tue, 21 Oct 2025 05:40:13 +0000
+Date: Tue, 21 Oct 2025 13:39:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 20/20]
- drivers/cma/mm/mem_phys_layout.c:86:25: warning: cast from pointer to
- integer of different size
-Message-ID: <202510211238.iIRXxFpb-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:balloon 6/25] ld.lld: error: call to
+ __compiletime_assert_453 marked "dontcall-error": BUILD_BUG failed
+Message-ID: <202510211311.Aj6KFHnF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,120 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   2a9a81f53ac75526c6b30e27ee151e978b0830c4
-commit: 2a9a81f53ac75526c6b30e27ee151e978b0830c4 [20/20] ANDROID: mm: Use vmemmap to get the address of the first page
-config: i386-buildonly-randconfig-004-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211238.iIRXxFpb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211238.iIRXxFpb-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux balloon
+head:   0a0c3fe6c8f5ce25ff3a6db7a788916f0ddbabfb
+commit: 5c97fbdec1af55077cb5ca8637506aa5418f907d [6/25] mm/balloon_compaction: centralize basic page migration handling
+config: loongarch-randconfig-002-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211311.Aj6KFHnF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211311.Aj6KFHnF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510211238.iIRXxFpb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510211311.Aj6KFHnF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:86,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:9,
-                    from include/linux/memblock.h:13,
-                    from drivers/cma/mm/mem_phys_layout.c:14:
-   drivers/cma/mm/mem_phys_layout.c: In function 'print_pfn_start_address':
->> drivers/cma/mm/mem_phys_layout.c:86:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      86 |                         (unsigned long long)first_page);
-         |                         ^
-   include/linux/printk.h:422:33: note: in definition of macro 'printk_index_wrap'
-     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:523:9: note: in expansion of macro 'printk'
-     523 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/cma/mm/mem_phys_layout.c:85:9: note: in expansion of macro 'pr_info'
-      85 |         pr_info("First struct page starts at: pfn_to_page(0) [mem %#010Lx]\n",
-         |         ^~~~~~~
-
-
-vim +86 drivers/cma/mm/mem_phys_layout.c
-
-    12	
-    13	#include <linux/init.h>
-  > 14	#include <linux/memblock.h>
-    15	#include <linux/module.h>
-    16	#include <linux/nodemask.h>
-    17	#include <linux/pfn.h>
-    18	#include <linux/printk.h>
-    19	#include <linux/types.h>
-    20	
-    21	/*
-    22	 * Print the start and end of the RAM as well as the size.
-    23	 *
-    24	 * This information is found in the device tree.
-    25	 *
-    26	 *   memory@40000000 {
-    27	 *       reg = <0x00 0x40000000 0x02 0x00>;
-    28	 *       device_type = "memory";
-    29	 *   };
-    30	 */
-    31	static void print_ram_info(void)
-    32	{
-    33		phys_addr_t start_addr = memblock_start_of_DRAM();
-    34		phys_addr_t end_addr = memblock_end_of_DRAM();
-    35		phys_addr_t mem_size = memblock_phys_mem_size();
-    36		// What does the reserved memory includes.
-    37		phys_addr_t reserved_size = memblock_reserved_size();
-    38	
-    39		pr_info("    start_addr:    %10llu == %#010Lx", (u64)start_addr, (u64)start_addr);
-    40		pr_info("    end_addr:      %10llu == %#010Lx", (u64)end_addr, (u64)end_addr);
-    41		pr_info("    mem_size:      %10llu == %#010Lx", (u64)mem_size, (u64)mem_size);
-    42		pr_info("    reserved_size: %10llu == %#010Lx", (u64)reserved_size, (u64)reserved_size);
-    43	}
-    44	
-    45	// Prints the node information in:
-    46	//
-    47	//     struct pglist_data *node_data;
-    48	//
-    49	// It uses NODE_DATA to access node_data.
-    50	//
-    51	//     #define NODE_DATA(nid)		(node_data[(nid)])
-    52	static void print_node_data(void)
-    53	{
-    54		// Note: NUMA nodes are configured in the device tree.
-    55		int nodeId;
-    56		unsigned long phys_pages = get_num_physpages();
-    57	
-    58		for_each_online_node(nodeId) {
-    59			// Number of Physical pages including holes in the node.
-    60			uint64_t num_spanned_pages = NODE_DATA(nodeId)->node_spanned_pages;
-    61			// Number of Physical pages in the node.
-    62			uint64_t num_present_pages = NODE_DATA(nodeId)->node_present_pages;
-    63			uint64_t start_pfn = NODE_DATA(nodeId)->node_start_pfn;
-    64			uint64_t end_pfn = NODE_DATA(nodeId)->node_start_pfn + num_spanned_pages;
-    65	
-    66			pr_info("Node %d", nodeId);
-    67			pr_info("    Page frames numbers (range): [pfn %#010Lx-%#010Lx)\n",
-    68					start_pfn, end_pfn);
-    69			pr_info("    Number of Page Spanned pages (includes holes): %#010Lx : %llu\n",
-    70					num_spanned_pages, num_spanned_pages);
-    71			pr_info("    Number of Page Present pages:                  %#010Lx : %llu",
-    72					num_present_pages, num_present_pages);
-    73			pr_info("    Number of Page frames (end_pfn - start_pfn):   %#010Lx : %llu",
-    74					end_pfn - start_pfn, end_pfn - start_pfn);
-    75		}
-    76	
-    77		pr_info("Total number of Physical Pages in all nodes (DO NOT include holes) %lu",
-    78				phys_pages);
-    79	}
-    80	
-    81	static void print_pfn_start_address(void)
-    82	{
-    83		struct page *first_page = pfn_to_page(0);
-    84	
-    85		pr_info("First struct page starts at: pfn_to_page(0) [mem %#010Lx]\n",
-  > 86				(unsigned long long)first_page);
-    87	
+>> ld.lld: error: call to __compiletime_assert_453 marked "dontcall-error": BUILD_BUG failed
 
 -- 
 0-DAY CI Kernel Test Service
