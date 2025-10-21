@@ -1,120 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE7F2580FF;
-	Tue, 21 Oct 2025 09:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8472EA158
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 09:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761039255; cv=none; b=mCgPRT6FznxcPk+F5NSspRfpOYzDEM5Abyn1nLZgO10abfZTGhrLKPHmbI6XyNmxS9ytPRsBakIl0HqVNvgOy96LpoPwbt3IJU2stFXnkx6gEFeoEpplt9Vm7Y5JNZnUrsBqf7lzQwsYWlsBxRySIQmTYzuli14GNAsLENa7j2I=
+	t=1761039762; cv=none; b=sotJzkxqsFwAks4batllpIYN5bPDayILF69lAltAPju0O7iJk/4Q0oQO3G7WZnFGRYRDqCVbR4tGUUUrmQoT4asFr2LcQ6db9xp6dS2u4RiukA1WE7rfA1s4Q+vxGBHBzhO3Ww7GkefF/CH1D8cdkChfuqi2g/BaiYmPdUjGSaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761039255; c=relaxed/simple;
-	bh=NuNaGs/aTEkE7RGJzLyuoXHuGc7MDkZXmN/08+xvIOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2lMKL6dHhPqwg6fz224CxcW8hgM84k+afB6EKAHjETeMFdsSbAkWFFbAiFUtE6Q/Jbar/mBf5H2YqsKW0PBOGxoRDodhJvaYamECA27lnb7kCDQtzTZls7vMTKGQUGXbSpnuENIcs1mwPv72Zgzx2Rlc5OWLrne/g7JxiVN48M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFX/nQQ7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFX/nQQ7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761039252; x=1792575252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NuNaGs/aTEkE7RGJzLyuoXHuGc7MDkZXmN/08+xvIOc=;
-  b=lFX/nQQ7uhNa+ONRAR1zv2WAC4W9bYMBRmlHhy8Eon2RO46cDXN4ukPM
-   paQW/SHXCBxqFRVES/Q+M3CCy70nq0EiEfLXB0YhjrVb0bKz/N3NA02LS
-   jTXjIpWTzsRVxoyRoOS/5+nn4oToXRIFdAsOLOeSMZtL4AWrj+j8twsIu
-   j7mXSDWiLI0OkUMF+5fmwytywVzcTNvF4Gwr++0PhKP5MT8KtTbhsTB9b
-   qeaDHZxDj1NF5iuwOWLqk/vo3Ueok0GkaxcnvN2L70k9tWxIn8wvgf2/g
-   VB3nF77RpkRvmPlwhQW+O4L1WLI0Jr5URf4lX7r7HSdhxg7hFgcOSWQRl
-   g==;
-X-CSE-ConnectionGUID: y3FVxyGYQ/y27rHw6M7l/Q==
-X-CSE-MsgGUID: Jxz0DOahQJWHRq0caPqZgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88628873"
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="88628873"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:34:11 -0700
-X-CSE-ConnectionGUID: vD6z0ZsJRle3uMTT2KkwVg==
-X-CSE-MsgGUID: xor/ioRCQdqRm1zZIOR81A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="183254367"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Oct 2025 02:34:09 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vB8ih-000AhN-37;
-	Tue, 21 Oct 2025 09:33:39 +0000
-Date: Tue, 21 Oct 2025 17:29:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Haotian Zhang <vulab@iscas.ac.cn>,
-	Yiting Deng <yiting.deng@amlogic.com>,
-	Xianwei Zhao <xianwei.zhao@amlogic.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-amlogic@lists.infradead.org, linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH] rtc: amlogic-a4: fix double free caused by devm
-Message-ID: <202510211756.vnQ8ZIWo-lkp@intel.com>
-References: <20251020150956.491-1-vulab@iscas.ac.cn>
+	s=arc-20240116; t=1761039762; c=relaxed/simple;
+	bh=JY3CF+2FP66H5ZXTKxBoAbQmuRj8bLfZ6H68G2I1PCQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QySXBkUmatNNVwWFP3m8DwC3lxTuINon9tKxc/xlA7v5irK1yZIyinO3KNwpovTTRC94zYKXDPDaUazWeeK3eJrVtuWBNrHulwgICVm4bxrjifKL6/utXFi1S4i9uOjK0dvq0/s88ks69TPyrYrUMy1885DxkF2ds6XpHeKiysQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 43caf076ae6211f0a38c85956e01ac42-20251021
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:9efcfa40-2da7-45ab-92d8-592a550acbed,IP:0,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:-5
+X-CID-META: VersionHash:a9d874c,CLOUDID:63a0de5be62f8f25bb7fa231967758b2,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
+	,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 43caf076ae6211f0a38c85956e01ac42-20251021
+X-User: xiaopei01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <xiaopei01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 438995428; Tue, 21 Oct 2025 17:42:31 +0800
+From: Pei Xiao <xiaopei01@kylinos.cn>
+To: lkp@intel.com,
+	alexanderduyck@fb.com,
+	kernel-team@meta.com,
+	netdev@vger.kernel.org
+Cc: horms@kernel.org,
+	kuba@kernel.org,
+	lee@trager.us,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	pabeni@redhat.com,
+	Pei Xiao <xiaopei01@kylinos.cn>
+Subject: [PATCH] eth: fbnic: fix integer overflow warning in TLV_MAX_DATA definition
+Date: Tue, 21 Oct 2025 17:42:27 +0800
+Message-Id: <182b9d0235d044d69d7a57c1296cc6f46e395beb.1761039651.git.xiaopei01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202510190832.3SQkTCHe-lkp@intel.com>
+References: <202510190832.3SQkTCHe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251020150956.491-1-vulab@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi Haotian,
+The TLV_MAX_DATA macro calculates (PAGE_SIZE - 512) which can exceed
+the maximum value of a 16-bit unsigned integer on architectures with
+large page sizes, causing compiler warnings:
 
-kernel test robot noticed the following build warnings:
+drivers/net/ethernet/meta/fbnic/fbnic_tlv.h:83:24: warning: conversion
+from 'long unsigned int' to 'short unsigned int' changes value from
+'261632' to '65024' [-Woverflow]
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on linus/master v6.18-rc2 next-20251021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fix this by explicitly masking the result to 16 bits using bitwise AND
+with 0xFFFF, ensuring the value fits within the expected data type
+while maintaining the intended behavior for normal page sizes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/rtc-amlogic-a4-fix-double-free-caused-by-devm/20251020-231345
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20251020150956.491-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] rtc: amlogic-a4: fix double free caused by devm
-config: i386-buildonly-randconfig-002-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211756.vnQ8ZIWo-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211756.vnQ8ZIWo-lkp@intel.com/reproduce)
+This preserves the existing functionality while eliminating the
+compiler warning and potential undefined behavior from integer
+truncation.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510211756.vnQ8ZIWo-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202510190832.3SQkTCHe-lkp@intel.com/
+Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+---
+ drivers/net/ethernet/meta/fbnic/fbnic_tlv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/rtc/rtc-amlogic-a4.c:425:23: warning: unused variable 'rtc' [-Wunused-variable]
-     425 |         struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
-         |                              ^~~
-   1 warning generated.
-
-
-vim +/rtc +425 drivers/rtc/rtc-amlogic-a4.c
-
-c89ac9182ee297 Yiting Deng  2024-11-12  419  
-c89ac9182ee297 Yiting Deng  2024-11-12  420  static SIMPLE_DEV_PM_OPS(aml_rtc_pm_ops,
-c89ac9182ee297 Yiting Deng  2024-11-12  421  			 aml_rtc_suspend, aml_rtc_resume);
-c89ac9182ee297 Yiting Deng  2024-11-12  422  
-c89ac9182ee297 Yiting Deng  2024-11-12  423  static void aml_rtc_remove(struct platform_device *pdev)
-c89ac9182ee297 Yiting Deng  2024-11-12  424  {
-c89ac9182ee297 Yiting Deng  2024-11-12 @425  	struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
-c89ac9182ee297 Yiting Deng  2024-11-12  426  
-8c28c4993f117e Wolfram Sang 2024-12-17  427  	device_init_wakeup(&pdev->dev, false);
-c89ac9182ee297 Yiting Deng  2024-11-12  428  }
-c89ac9182ee297 Yiting Deng  2024-11-12  429  
-
+diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h b/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
+index c34bf87eeec9..3508b46ebdd0 100644
+--- a/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
++++ b/drivers/net/ethernet/meta/fbnic/fbnic_tlv.h
+@@ -80,7 +80,7 @@ struct fbnic_tlv_index {
+ 	enum fbnic_tlv_type	type;
+ };
+ 
+-#define TLV_MAX_DATA			(PAGE_SIZE - 512)
++#define TLV_MAX_DATA			((PAGE_SIZE - 512) & 0xFFFF)
+ #define FBNIC_TLV_ATTR_ID_UNKNOWN	USHRT_MAX
+ #define FBNIC_TLV_ATTR_STRING(id, len)	{ id, len, FBNIC_TLV_STRING }
+ #define FBNIC_TLV_ATTR_FLAG(id)		{ id, 0, FBNIC_TLV_FLAG }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
