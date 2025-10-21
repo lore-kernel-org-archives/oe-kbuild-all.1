@@ -1,100 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682F8283FCF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 07:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C343C42A9D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 08:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761032823; cv=none; b=tFphKXntPxKNKvWIggprmPIATZ88d3XeCD+WO5f37k7pDpK2r4Ix/O0OgRug8qKLyviccIHzq2ZnmpyIv9pd3ubuKL2uvNpXuHcSC8Ux7UeSBzksQvNpGtzfa/ZasslX0kJBMg4O7li8m2Qsg0Vj51ElJ3+Zan7Ba2QmFkCxq+Q=
+	t=1761036615; cv=none; b=vF2HZlDcz7VLaWp8pZk6I9T5S95Oz/RWxjdj8zS9R2yH51ISNNOhJyV5oetzBa/O6R1gaSi/7pZr4F3mB5XxLNREifQKMDT7e1lr3xj8fAbgWp1ijJT1IS2q3TDZZIuGe/Cfvz3TRWlMAaozZgCzD68FlBO5IIbCgELGsnQ2k1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761032823; c=relaxed/simple;
-	bh=Z89NVfyoRrYuNsgomey+AmuitkU1HX6Y2hc802A94cA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Im9aGYnB8qeZKVmr1rR7IdJTlw7ELE9DL63vHQ8Vg6RzqKlyFnUWS1RpjI3Eik8a4oOzdi9WkV+vRrWPYYEwGPe5dkdf/CLkNpoPJ0wUhWVooau0RupCAIWU/ELgjHiGey/fjaaMiKtznT/T5FAYQQpKJmCzvmq7P4pR0QhB7T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDkq/mxL; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761036615; c=relaxed/simple;
+	bh=wndupjH5Sua+28vDjCRLmOOCVxHW++gOVaUH97vw8/s=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOTn03KoAmkg06E1WnvB83zT6vcTLHO/7QCai9N+EF4TZVzI2Pj8RMYcK5iVV/QuHFGBBpw+nL47AKX5Rt3HPQezap6cEj+2TiClJIsoxl5b9Jce1uBIDfRYskYAlRhIjCcVKgFGXfH+RvYCV0gSdqLpOur8VcNr9W9TVo7k3mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=a8lHBt0/; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDkq/mxL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761032822; x=1792568822;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z89NVfyoRrYuNsgomey+AmuitkU1HX6Y2hc802A94cA=;
-  b=fDkq/mxLQMZK+vsHQo2qcU1TUh5aCvI2CTbedICfIFHeFJLM3DCKGxm+
-   lllyCq5w5KNprhOSCLCwZISWWpZUEYXAY5xiY0tJDninPEC169AQAoFzl
-   i+AQHArNs2AZam+Kh2Q9odgQbSk00BQgmIIMjwYGfpXJoGfEs/3y7mzNV
-   /J8NC5irf2DqscFtfB33wXqayNqYWMmlrYT/+nQJ02oen0bRldGXCnQuQ
-   kSl5rnJ47iI3kzcdSPGYiJrtmrUp9g561b3nLgPDQzJIquRKSR2T6q6qw
-   ba3W/OQ6Gtd/ICA7bi0UYP7i5ZDpr+KzKljYhW/S7h+yAkBSBzulksAE3
-   g==;
-X-CSE-ConnectionGUID: lJ6zZ53cTYCSPPNZmPHuRw==
-X-CSE-MsgGUID: lGPZ3yzRR0WoNsaDzLJPdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88621310"
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="88621310"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 00:47:02 -0700
-X-CSE-ConnectionGUID: SU7Le6OhRiS0ZryXDtsJGg==
-X-CSE-MsgGUID: Ql76nVVSQv6QpUMHHvmtZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="187939444"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Oct 2025 00:47:00 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vB755-000Ad9-2i;
-	Tue, 21 Oct 2025 07:46:56 +0000
-Date: Tue, 21 Oct 2025 15:46:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andi Shyti <andi.shyti@kernel.org>,
-	Yixun Lan <dlan@gentoo.org>
-Subject: [linux-next:master 2494/3056] i2c-k1.c:undefined reference to
- `devm_clk_register'
-Message-ID: <202510211523.sSEVqPUQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="a8lHBt0/"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 0A43620839;
+	Tue, 21 Oct 2025 10:50:05 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0wuVR7HoUC-t; Tue, 21 Oct 2025 10:50:04 +0200 (CEST)
+Received: from EXCH-01.secunet.de (unknown [10.32.0.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 0410A206BC;
+	Tue, 21 Oct 2025 10:50:04 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 0410A206BC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1761036604;
+	bh=RUBh9UYVKUuQsKDTiQthbtQrX8SdUP8OP+RYt7Uq1fI=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=a8lHBt0/Swo3Jo5Eqqw2OLd7C8EroKgncC7mCh+NhNY0tFXgVspUmj9gAtRNPqasj
+	 ZOPXl5RInLfqPZ07iJAHdG4lam80d33iMpmPZQb3x68SBPBIZdHkNHrTzu7elvD7qM
+	 sY51iV3NQMXhe+b65QZFWkhj+UWOuyq8kHGYrUDsj5quTvmoXGoDbPejq7R6pDXco5
+	 pNW+N5Ju/3BWgFG8X1Gg7+BurUTA3qDnIUxeoehQ2sgETBSrgcoBXdNnZhfOg7WkCA
+	 aCmXkv2y5lXNnfc5vBp1M4Upi36lyxUc4O/aJlN5i9A1do0lpBfx2jJgy6fUpg8pZy
+	 QpKzIZmJYtJhg==
+Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Tue, 21 Oct
+ 2025 10:50:03 +0200
+Received: (nullmailer pid 2817729 invoked by uid 1000);
+	Tue, 21 Oct 2025 08:50:03 -0000
+Date: Tue, 21 Oct 2025 10:50:03 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Sabrina Dubroca <sd@queasysnail.net>
+CC: <netdev@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>, kernel test
+ robot <lkp@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>
+Subject: Re: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover
+ states during netns deletion
+Message-ID: <aPdJO3k9C-bhqHSQ@secunet.com>
+References: <2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd@queasysnail.net>
+ <202510172159.iLR9bfcc-lkp@intel.com>
+ <aPVtmloGOCQi_7ue@krikkit>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <aPVtmloGOCQi_7ue@krikkit>
+X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
+ EXCH-01.secunet.de (10.32.0.171)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
-commit: 743aa55942a532a848a584437d2b8b4c9ffe8934 [2494/3056] i2c: spacemit: configure ILCR for accurate SCL frequency
-config: um-randconfig-001-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211523.sSEVqPUQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211523.sSEVqPUQ-lkp@intel.com/reproduce)
+Hi Sabrina,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510211523.sSEVqPUQ-lkp@intel.com/
+On Mon, Oct 20, 2025 at 01:00:42AM +0200, Sabrina Dubroca wrote:
+> Hi Steffen,
+> 
+> 2025-10-17, 23:10:36 +0800, kernel test robot wrote:
+> > Hi Sabrina,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on klassert-ipsec-next/master]
+> > [also build test WARNING on klassert-ipsec/master net/main net-next/main linus/master v6.18-rc1 next-20251016]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/xfrm-drop-SA-reference-in-xfrm_state_update-if-dir-doesn-t-match/20251016-184507
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+> > patch link:    https://lore.kernel.org/r/2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd%40queasysnail.net
+> > patch subject: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover states during netns deletion
+> > config: x86_64-randconfig-r123-20251017 (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/config)
+> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202510172159.iLR9bfcc-lkp@intel.com/
+> > 
+> > sparse warnings: (new ones prefixed by >>)
+> [...]
+> >   3308	void xfrm_state_fini(struct net *net)
+> >   3309	{
+> >   3310		unsigned int sz;
+> >   3311		int i;
+> >   3312	
+> >   3313		flush_work(&net->xfrm.state_hash_work);
+> >   3314		xfrm_state_flush(net, 0, false);
+> >   3315		flush_work(&xfrm_state_gc_work);
+> >   3316	
+> >   3317		WARN_ON(!list_empty(&net->xfrm.state_all));
+> >   3318	
+> >   3319		for (i = 0; i <= net->xfrm.state_hmask; i++) {
+> > > 3320			WARN_ON(!hlist_empty(net->xfrm.state_byseq + i));
+> 
+> So, before my patch there was a sparse waraning on the
+> 
+> 	WARN_ON(!hlist_empty(net->xfrm.state_by*));
+> 
+> lines, and now there's a sparse warning on the loop.
+> (and plenty on other lines in net/xfrm/xfrm_state.c)
+> 
+> This bot message gave me the push to finally take a look at all the
+> sparse warnings in net/xfrm/xfrm_state.c, I have solutions for a big
+> chunk of them (and a few in other files).
+> 
+> If you want to drop this patch from the set, I'll re-send it later, on
+> top of the sparse stuff. The rest of the series works without it. If
+> you want to take it as is, it doesn't change the sparse situation in
+> this file (a few warnings moved around) and I'll do the sparse
+> cleanups on top of it.
 
-All errors (new ones prefixed by >>):
+I'll take the patchset as is and wait for your sparse fixes on top.
 
-   /usr/bin/ld: drivers/i2c/busses/i2c-k1.o: in function `spacemit_i2c_register_scl_clk.constprop.0':
->> i2c-k1.c:(.text.unlikely+0xe3): undefined reference to `devm_clk_register'
-   collect2: error: ld returned 1 exit status
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for GPIO_SYSCON
-   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
-   Selected by [y]:
-   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n] && COMMON_CLK [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
