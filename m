@@ -1,188 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1112AD5A;
-	Tue, 21 Oct 2025 00:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761005506; cv=none; b=AxMuP3e17o00GloKVwhJlVcPVB2ZvopjzZ/NqXCjxUEesPkIYCCxy4NVPI3+DD+fjpov1VjkiQtiqqD4ZI2iPt/tfopHp8AqiYB5ntMjJ622VGx+apCP2Aj/ySyasa9CC4+71ds8gJSy7zJsnknYIsucA8aevAQlpY+i8Hpuo9A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761005506; c=relaxed/simple;
-	bh=cRfBZ9NU2Gz4NdX20TwqfIVAApecxkoo6KNlvx4Vdfo=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Q3zRTS2jkPBq9CIe9/qhY+c2MFTqOGa3NzuR8k+Pkvu5Vy5MNzxDCE6mhxnrMXCRpsQlme8mzJcsO75NKUVbLUKJBAaObRfpWoFtu6bsvGtgtKDfjOJMvDmUxoT3ggCazUnXaSne4zvIkPozYHpBaGcAgftVnga9n1LjY8M9Bjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLAVpcgM; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C021A2392
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 00:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761006038; cv=fail; b=dUdOFjDuy9I5qQ0LVxLy4y9gICRLvWmpDepbQJ/iut1i5ETeBDsKHwjiqcZlbYwSJcUIh9ewd3kEyXUSVg47nqSMx+mnmR12a6mG1uhSdwvlx00fQpyGSuXrTRxXpYgSBfNlVfGg39oCNQIdu1ju4HEMYJsnHlwtAJy6Q3QV7es=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761006038; c=relaxed/simple;
+	bh=Ss9Hhf12o+RadTEk+IS3/XHf0ZthImRoVgINvKGtpsI=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=PAg6bA1q3y9+uUFTiz+koDwwmMJpM8apswRupTZGhOLbwM2AXTc4bh/z8DSd7TjhOEZ7bB67OXysuAV1D4w96hDr84U2w9THvMgbDuqNThCIeASk0CBtFk7EJ/vgpgxMUsfLTWBu1NcSZe82nWD75Ha3Mc1d8U1eoyNFFhhVsPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFRu75AO; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLAVpcgM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D92C4CEFB;
-	Tue, 21 Oct 2025 00:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761005506;
-	bh=cRfBZ9NU2Gz4NdX20TwqfIVAApecxkoo6KNlvx4Vdfo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TLAVpcgMDNXhp8miYvNl2dSfoPbiakjpevEBNuW2cLv9UjiEIUa0yQUpxsWTMmtj/
-	 3WBWxO3pOQstQ89wKLkABSx7Ccmj7sqTeptN4AldcKCTemr9UV0bul2PEOneC+vUp8
-	 D7C3KhEgmUAJVibR3+FHgZtNHr1ZbHkAN/nDxnY/os4N5+N8u3lnRFHrxpWOgXycs5
-	 QJsclk11jbnmEf0kL0rc5meFpFLz2/iiT8ZRS6cnvyBok9/SfccEbrhmNHv4/cGoLr
-	 CC74vZ/CSEBtPApH3ByMW6FXL54AizizGiu7rkI8sXvnnaTozt9jclJHesjT2rFqxj
-	 y8HUAbP7V6e2Q==
-Date: Tue, 21 Oct 2025 09:11:43 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, oe-kbuild-all@lists.linux.dev,
- Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] tracing: Allow tracer to add more than 32
- options
-Message-Id: <20251021091143.ab00b202289c0c4207e7933c@kernel.org>
-In-Reply-To: <202510181711.rxbGAQu7-lkp@intel.com>
-References: <176071774097.175601.10233017390618260565.stgit@devnote2>
-	<202510181711.rxbGAQu7-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFRu75AO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761006037; x=1792542037;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=Ss9Hhf12o+RadTEk+IS3/XHf0ZthImRoVgINvKGtpsI=;
+  b=OFRu75AON6Ec4tTZ1zPxr9GGbvslNZwatefwJ27z1iULqPLmQQc/jQnW
+   0XtFqqG41ig/rWZJWw64NhNeq2I45UZ6227ZvQgQzLOP901s9nsyO44L2
+   TUsUJOFCdFZNinHfnY7v9NVKrv7djauo7B3FlTMSk+0WAYrF/AexDTJFf
+   2k6dl9F0EgVxCBqstZF1ZVfx0W2T/96ut+c0vcFInP6Hdw18qr1yon7Si
+   ymym1SKDn8VjKCM1DIUTCLrDSPmMOyTwVEVB9VYY3TMeRlRJEpmjpg1jo
+   LPnC5b/tzH1cqIdEeI1ngnm4IIcjgXooZmscly7/Ti7iaYKNYj4RPoJEi
+   w==;
+X-CSE-ConnectionGUID: /AoYByi9Q+mOX1x9M+0STA==
+X-CSE-MsgGUID: edRORfB5RxGQafw/b9MHoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="66963899"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="66963899"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 17:20:36 -0700
+X-CSE-ConnectionGUID: 8CmFbZtnSeaEOR0Tm6jkyQ==
+X-CSE-MsgGUID: hbc8d48KSaSZBfSrThSRbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="183865617"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 17:20:36 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 17:20:35 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 20 Oct 2025 17:20:35 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.43) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 17:20:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oz/7BV9zVxuBxKAi/LTgRHW5Gpaq7JbDWM6V8tXSTz5k+N/MnSfoxFDYtvRzxYDOKVuBQjFRU1VMElIoXLVqWemgOhtOf8l60HjUqhOT7i33IgqTfNJGNOguRxmym8yAQ8DVcDcc3UOTujJxsY3UmeZRUmlfx5fv7US67jhOOUjauxVL25buVvcD9xPOi5OAXCLKmXOXcejZFiiS1+OalX2cbAyOQ/7zPpdwaT+3zqE1AbKX1JiX0pXZZra0opAzbkOyK93VmXkCvRIFxsrsJMwZ+EVTdbj7RTV1lr0JUYU8JBfK8iVZ1cTVGpsetsPBAMJ/aVRKqA1b6DslPQ9zFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MvQ/DP+stG20uJeiW1KVXDXDwAQr0LNiecAtnRGWTpo=;
+ b=RcbqBULtvBHUC/VSO5ynAuNfNVVBAcoD9AittHRK4eb1Mva9P6AKK2ReVUne4XzO34d2Hr+uSHVESYorIL9IkUIU0NZmV4G97SBxy3dczJR8u6CKhv3m5XIMReiudzpj+M+n7LbehzZI40TudguH/cH80E+NXNy+pHOdTsamVunjIxkNgmI56THLFpvL8HyvUqFtstKQUP5QfA98epa4Uc+2RCQxUM+lyObEZSFid6C5wWIaLj5U3ZxPvnwq2ly4cIV9E/37HbSTtfgU8DGXXsriU8H8OWIbvx2Hn9cPwI8K5gMtE++/A8QfJIil23XGsoRF6BgJYjfaoQHobwgeFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by DS0PR11MB8231.namprd11.prod.outlook.com (2603:10b6:8:15c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Tue, 21 Oct
+ 2025 00:20:32 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9228.016; Tue, 21 Oct 2025
+ 00:20:31 +0000
+Date: Tue, 21 Oct 2025 08:20:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johan Hovold <johan@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>
+CC: <oe-kbuild-all@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, <linux-kbuild@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH] modpost: drop '*_probe' from section check whitelist
+Message-ID: <aPbRxnyo1FDFBx8h@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251020091613.22562-1-johan@kernel.org>
+X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DS0PR11MB8231:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9964b7d-07cf-4896-e66b-08de1037a4e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ozcHSJwSygbalwoluxQ+tOaKc86TY9KUZHVEcE5IQjZ+kUP/7Kp7uvEYCKGI?=
+ =?us-ascii?Q?HBMIUCNHMYk6zRR8ze8buds7F1kov0uEAcJybU9yuWPXla1QbPVk/jbBr+1x?=
+ =?us-ascii?Q?70nxLRE59yr/+4xk/c3IdZd3YSRd0uPALMhCGEj7j13uS1yUrUhIPfat2wYM?=
+ =?us-ascii?Q?w34oF4oJMNTaeRLniS3+oRf+3AEAZVkAvvTQbF8jWVW0n7GFLOvJgwe+Ku2o?=
+ =?us-ascii?Q?J38Jn4ljR/HE2WucQTXGfWiCmtweFFgY3EV1bkBAnkm3E8JEYOfgOX4uGalm?=
+ =?us-ascii?Q?JB/w80u/5ci3kAqt66Ow5C3y+9DT7smDTz6NU5s1CAWqa9trPhSIFpo7HW9u?=
+ =?us-ascii?Q?is9A4D/CzQkH5cVoqxPxJHqcLhEDMOMpNXa/7qAj/xIU1+O16CsIqhlOL4WR?=
+ =?us-ascii?Q?NeBmpXrRUgvDCHjt+pdSk8dFRSNkX7Gaez22lIccz8pjBwJKbqcH0hlE52qr?=
+ =?us-ascii?Q?yWLf3HH3gP5DUIUsmyuCSIcNVBS445pQxkaHbU1nbKjBdGUurD5urYmMlK2w?=
+ =?us-ascii?Q?TaKSnKAgmgAZc0apFiOtMHld7O9oJkYW7fGrVsRA1Vn5rQ0SbNf1NBC3DR18?=
+ =?us-ascii?Q?kXNzhl1TXheZuMt5MV5sOGCQHWfvUY1Niz+SBjiXobJ83pWPIFswJV4OVmc7?=
+ =?us-ascii?Q?oigS7jJ99b8zQGA6CjR1/d+vKZu2rgIRht7mxWI3Dp0PXhksTJeMT1npWYWl?=
+ =?us-ascii?Q?KZlkCv22nYPhJVNrTXGXFoRXEiDC8TZdR1PzbCGxOpF5QWQH2DZrkFTzjD0V?=
+ =?us-ascii?Q?B/IaPKWvAWjNwYaPQSXCNO4WDAHOEOndrJFsR0JxTkBqzcCbG1MlpBO6TNm/?=
+ =?us-ascii?Q?dIpBsd3rO+cftIK5zTX+Q4/Bb+RchSMD7bKceAGcCMFr7uVtIA7fhpmob4O1?=
+ =?us-ascii?Q?U0O2PMDt46Y3J7nl/G66rjfo1plmEngJ/BWUV8t7BXgK1CVMYOR1vDQgFQsS?=
+ =?us-ascii?Q?S7XPuEtafGmfiluciTzauhPUB4iM5isr5YoRBfJ8lGfGQUKbm+4mPt24f+a5?=
+ =?us-ascii?Q?OSih+Z6Rijs5LUc+JwWM7Gl2XupARTNX3i18OGQ9gIUMkqZb24FNGJESp1KR?=
+ =?us-ascii?Q?qM2+JHLoZODkkR6pdacvSLPkPoZUuldouTcT/7UcASIMZqN+JOiScK2B/son?=
+ =?us-ascii?Q?IG5V5yFWSHl/idFdYHJpmXOkmnC0DKTyUr8B/B0XuBGwa/0ov/GEUMrzWa+9?=
+ =?us-ascii?Q?VOEASK73CbziGi+Lh8D6o4Zm5sSC99uFwcboG0y52ihuhbsUrg3W9GHG5ZYE?=
+ =?us-ascii?Q?OU9jv9dAc+SSk7SG2P/MFi92F1itXksW8us7QgTwzpFt/vU257t6lfc+cCU6?=
+ =?us-ascii?Q?z/ZDvIh3Kxuxqxlp4nWcb4F61oRdVlBDQwwX4C1htEFnBhF5BDuIvQFsuVd+?=
+ =?us-ascii?Q?4t8mwsoEPbj0GMRpHkQr600l4lSoQ63+HlXkBqQj8yS0sQuW/s1VnIEUQfKC?=
+ =?us-ascii?Q?AxxGZeJ9DmNZzBkpMTr77fWH2FNifTI0WrOZfJoOSV7QVad1wEYWgw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WI7LYyqGAcZ7+7TTErZI0n0hrYIE272p6HI4kkCRXi48rKVcJni7Z77XGDLP?=
+ =?us-ascii?Q?mB1vjT0nLi61JvRM3HeibbI4HOjNUTc1KPac8GpfhIopubXwex0bA9hw4Afm?=
+ =?us-ascii?Q?xI/gksgVXimmR7Qrnz/yDcuiPV8NiUbDs70umB2hNDthtgQ16SwQBCOOTBq8?=
+ =?us-ascii?Q?Qs4n6MDNJnSwTfq0fzUkr+bnxkaqmVCEwsvkQJpGDEU8Cy7X46IDjfcUDfOm?=
+ =?us-ascii?Q?kyNC9G4yd7FFeoMdc6m3VMIoq+44zEs0UWjprH8y4NOQE6uMiyCwiuaVEnoB?=
+ =?us-ascii?Q?IZKWB6Fyb17xcJqiniMQ26dddoZXw9irvujvkVMwl23MNFk/HiRAToyreHFz?=
+ =?us-ascii?Q?kKtVsD+IcRa2r+nLTCLMyHFd+6P+GS7aZ3Dj1/ZdS+hl4lKi2WrrqHD5TjLB?=
+ =?us-ascii?Q?aIFs50j5nvdRfTO9cturKXHr8TyU6MNRaj2brb8OD9a8tDTgyJwlrrDHCzr1?=
+ =?us-ascii?Q?Zm6ioJYzA+8cbva2gfj59wARE4vSkSdbvvPn5KHzku+NSNzsd6E0FWBawtg4?=
+ =?us-ascii?Q?Q/vr5KGEJsHWAe7Y26uawbnlIe9dC3+SHLNGM+PK1FWISs+FAIqFc7osqi3Z?=
+ =?us-ascii?Q?f2E0Gi0Yb+WLG+ibgdCa+swZhXfaDdd5wtwlxnb3ShEBSTGY0w2BY+7wOnTz?=
+ =?us-ascii?Q?2nuYK74ioOcxGq1aZDu2V2Q5NyVwi1M0UjK2HXAKqi+ZF9La5Ax7TGCSyQd4?=
+ =?us-ascii?Q?HhNrhQXxLxvpMGuBl29Cf3uFFyi8tGnvPtwS8cuPxIa0d8yOZUFq3Pz2nkpV?=
+ =?us-ascii?Q?lfpC44VKycyIeKxsgQ8HEyP3txW5fp+qLT7T55O7QuuW+DCQ7TS7Okey6kSd?=
+ =?us-ascii?Q?3QjPmQyM01n2mSkEEOqgkBh4a/Ci5KVeT3R+cOQ9Rybijfh3LMuKkc1T1NJv?=
+ =?us-ascii?Q?KozrneFaiWZoos8SRgRzeI8uEv0XThwnk3HSpws2l6Lp2w5eE4Qawz3yHCMh?=
+ =?us-ascii?Q?OJfMDkm7LTAu9F3KiVZ+rpok4+zZ4pAtKSmUhsBNPi8UGGxzH1sPFyFMan0a?=
+ =?us-ascii?Q?+OU1khydH/PMcXzA4Dz+avJgPaRz0PADMZwujC0v3C2J6MVKKIcm9ve5FRIl?=
+ =?us-ascii?Q?2Zu3aNasi1L8DYa2LX8xON8t/h2nf9Xkgq5Da+Zyqd2Jk0VIfhgV7sirG/UA?=
+ =?us-ascii?Q?uCysGDGGbNIjqW7IdLzPl6EVCxhPw2nDsVADyUd2FcqTHH/pJtVh++RlOp/I?=
+ =?us-ascii?Q?RWQqxpDLNzJPI3oJwMGPY9yvuKvEjBvxYng/FpDbbu2SSLAlhpRX0khaOvPQ?=
+ =?us-ascii?Q?I6gmMMlRI4OFhJG9OCVaOa8xqMPl6QJ/R3KQbeCZsMkZ9HddGdEIzUclEllQ?=
+ =?us-ascii?Q?pqs2ZvbX/Uasrn+UA8G+rVIvpnPLRBYqstdxe4OVIFHzwDg0U4XjSgfCutZM?=
+ =?us-ascii?Q?M7Qh6nWSvTkWaoBZskgfZbxepvHnXtJMxxn6Q/sYYtIxptjtE4iJwxfjD0jA?=
+ =?us-ascii?Q?lCWVmX6S9ySAmXXVkZmRayJkeFtjP2x6lHXTw+3fLp70Tp5zGAcbK9tDvvv1?=
+ =?us-ascii?Q?kA+R5MxEqgX44aIf/8VJ0Mxx+S4/5JI5KylAeMqha+kFLAeXeKPKHZJlCGH6?=
+ =?us-ascii?Q?rIm6KD3+Y+rh/YvMxR8gTXhVjuv2lTy1kw+JWd5+?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9964b7d-07cf-4896-e66b-08de1037a4e8
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2025 00:20:31.8934
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OZw9sf15Lqq0DM7hdxwERPjzC2NMIAG23OiyrmVu+2+QR5mcacUCOplHUnDTrJgWIdbjQAkAKi9hcl87u/M7xw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8231
+X-OriginatorOrg: intel.com
 
-Hmm, so it is clear that we can not use C++11.
-So it should use another way to do that.
+Hi Johan,
 
-Thank you,
+kernel test robot noticed the following build warnings:
 
-On Sat, 18 Oct 2025 18:10:01 +0800
-kernel test robot <lkp@intel.com> wrote:
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.18-rc2 next-20251020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Hi Masami,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on trace/for-next]
-> [also build test ERROR on linus/master v6.18-rc1 next-20251017]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Allow-tracer-to-add-more-than-32-options/20251018-004104
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-> patch link:    https://lore.kernel.org/r/176071774097.175601.10233017390618260565.stgit%40devnote2
-> patch subject: [PATCH v4 1/2] tracing: Allow tracer to add more than 32 options
-> config: parisc-randconfig-001-20251018 (https://download.01.org/0day-ci/archive/20251018/202510181711.rxbGAQu7-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251018/202510181711.rxbGAQu7-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510181711.rxbGAQu7-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/trace/trace_probe.h:31,
->                     from kernel/trace/trace_events_synth.c:20:
->    kernel/trace/trace.h:1427:27: error: expected identifier or '(' before ':' token
->     1427 | enum trace_iterator_flags : uint64_t { TRACE_FLAGS };
->          |                           ^
->    kernel/trace/trace_events_synth.c: In function 'print_synth_event':
-> >> kernel/trace/trace_events_synth.c:362:31: error: 'TRACE_ITER_VERBOSE' undeclared (first use in this function); did you mean 'TRACE_ITER_VERBOSE_BIT'?
->      362 |   if (tr && tr->trace_flags & TRACE_ITER_VERBOSE)
->          |                               ^~~~~~~~~~~~~~~~~~
->          |                               TRACE_ITER_VERBOSE_BIT
->    kernel/trace/trace_events_synth.c:362:31: note: each undeclared identifier is reported only once for each function it appears in
-> 
-> 
-> vim +362 kernel/trace/trace_events_synth.c
-> 
-> 726721a51838e3 Tom Zanussi             2020-05-28  337  
-> 726721a51838e3 Tom Zanussi             2020-05-28  338  static enum print_line_t print_synth_event(struct trace_iterator *iter,
-> 726721a51838e3 Tom Zanussi             2020-05-28  339  					   int flags,
-> 726721a51838e3 Tom Zanussi             2020-05-28  340  					   struct trace_event *event)
-> 726721a51838e3 Tom Zanussi             2020-05-28  341  {
-> 726721a51838e3 Tom Zanussi             2020-05-28  342  	struct trace_array *tr = iter->tr;
-> 726721a51838e3 Tom Zanussi             2020-05-28  343  	struct trace_seq *s = &iter->seq;
-> 726721a51838e3 Tom Zanussi             2020-05-28  344  	struct synth_trace_event *entry;
-> 726721a51838e3 Tom Zanussi             2020-05-28  345  	struct synth_event *se;
-> 887f92e09ef34a Sven Schnelle           2023-08-16  346  	unsigned int i, j, n_u64;
-> 726721a51838e3 Tom Zanussi             2020-05-28  347  	char print_fmt[32];
-> 726721a51838e3 Tom Zanussi             2020-05-28  348  	const char *fmt;
-> 726721a51838e3 Tom Zanussi             2020-05-28  349  
-> 726721a51838e3 Tom Zanussi             2020-05-28  350  	entry = (struct synth_trace_event *)iter->ent;
-> 726721a51838e3 Tom Zanussi             2020-05-28  351  	se = container_of(event, struct synth_event, call.event);
-> 726721a51838e3 Tom Zanussi             2020-05-28  352  
-> 726721a51838e3 Tom Zanussi             2020-05-28  353  	trace_seq_printf(s, "%s: ", se->name);
-> 726721a51838e3 Tom Zanussi             2020-05-28  354  
-> 726721a51838e3 Tom Zanussi             2020-05-28  355  	for (i = 0, n_u64 = 0; i < se->n_fields; i++) {
-> 726721a51838e3 Tom Zanussi             2020-05-28  356  		if (trace_seq_has_overflowed(s))
-> 726721a51838e3 Tom Zanussi             2020-05-28  357  			goto end;
-> 726721a51838e3 Tom Zanussi             2020-05-28  358  
-> 726721a51838e3 Tom Zanussi             2020-05-28  359  		fmt = synth_field_fmt(se->fields[i]->type);
-> 726721a51838e3 Tom Zanussi             2020-05-28  360  
-> 726721a51838e3 Tom Zanussi             2020-05-28  361  		/* parameter types */
-> 726721a51838e3 Tom Zanussi             2020-05-28 @362  		if (tr && tr->trace_flags & TRACE_ITER_VERBOSE)
-> 726721a51838e3 Tom Zanussi             2020-05-28  363  			trace_seq_printf(s, "%s ", fmt);
-> 726721a51838e3 Tom Zanussi             2020-05-28  364  
-> 726721a51838e3 Tom Zanussi             2020-05-28  365  		snprintf(print_fmt, sizeof(print_fmt), "%%s=%s%%s", fmt);
-> 726721a51838e3 Tom Zanussi             2020-05-28  366  
-> 726721a51838e3 Tom Zanussi             2020-05-28  367  		/* parameter values */
-> 726721a51838e3 Tom Zanussi             2020-05-28  368  		if (se->fields[i]->is_string) {
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  369  			if (se->fields[i]->is_dynamic) {
-> ddeea494a16f32 Sven Schnelle           2023-08-16  370  				union trace_synth_field *data = &entry->fields[n_u64];
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  371  
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  372  				trace_seq_printf(s, print_fmt, se->fields[i]->name,
-> ddeea494a16f32 Sven Schnelle           2023-08-16  373  						 (char *)entry + data->as_dynamic.offset,
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  374  						 i == se->n_fields - 1 ? "" : " ");
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  375  				n_u64++;
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  376  			} else {
-> 726721a51838e3 Tom Zanussi             2020-05-28  377  				trace_seq_printf(s, print_fmt, se->fields[i]->name,
-> 8db4d6bfbbf920 Steven Rostedt (VMware  2020-10-04  378) 						 STR_VAR_LEN_MAX,
-> ddeea494a16f32 Sven Schnelle           2023-08-16  379  						 (char *)&entry->fields[n_u64].as_u64,
-> 726721a51838e3 Tom Zanussi             2020-05-28  380  						 i == se->n_fields - 1 ? "" : " ");
-> 726721a51838e3 Tom Zanussi             2020-05-28  381  				n_u64 += STR_VAR_LEN_MAX / sizeof(u64);
-> bd82631d7ccdc8 Tom Zanussi             2020-10-04  382  			}
-> 00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  383) 		} else if (se->fields[i]->is_stack) {
-> ddeea494a16f32 Sven Schnelle           2023-08-16  384  			union trace_synth_field *data = &entry->fields[n_u64];
-> 887f92e09ef34a Sven Schnelle           2023-08-16  385  			unsigned long *p = (void *)entry + data->as_dynamic.offset;
-> 00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  386) 
-> 00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  387) 			trace_seq_printf(s, "%s=STACK:\n", se->fields[i]->name);
-> 887f92e09ef34a Sven Schnelle           2023-08-16  388  			for (j = 1; j < data->as_dynamic.len / sizeof(long); j++)
-> 887f92e09ef34a Sven Schnelle           2023-08-16  389  				trace_seq_printf(s, "=> %pS\n", (void *)p[j]);
-> 00cf3d672a9dd4 Steven Rostedt (Google  2023-01-17  390) 			n_u64++;
-> 726721a51838e3 Tom Zanussi             2020-05-28  391  		} else {
-> 726721a51838e3 Tom Zanussi             2020-05-28  392  			struct trace_print_flags __flags[] = {
-> 726721a51838e3 Tom Zanussi             2020-05-28  393  			    __def_gfpflag_names, {-1, NULL} };
-> 726721a51838e3 Tom Zanussi             2020-05-28  394  			char *space = (i == se->n_fields - 1 ? "" : " ");
-> 726721a51838e3 Tom Zanussi             2020-05-28  395  
-> 726721a51838e3 Tom Zanussi             2020-05-28  396  			print_synth_event_num_val(s, print_fmt,
-> 726721a51838e3 Tom Zanussi             2020-05-28  397  						  se->fields[i]->name,
-> 726721a51838e3 Tom Zanussi             2020-05-28  398  						  se->fields[i]->size,
-> ddeea494a16f32 Sven Schnelle           2023-08-16  399  						  &entry->fields[n_u64],
-> 726721a51838e3 Tom Zanussi             2020-05-28  400  						  space);
-> 726721a51838e3 Tom Zanussi             2020-05-28  401  
-> 726721a51838e3 Tom Zanussi             2020-05-28  402  			if (strcmp(se->fields[i]->type, "gfp_t") == 0) {
-> 726721a51838e3 Tom Zanussi             2020-05-28  403  				trace_seq_puts(s, " (");
-> 726721a51838e3 Tom Zanussi             2020-05-28  404  				trace_print_flags_seq(s, "|",
-> ddeea494a16f32 Sven Schnelle           2023-08-16  405  						      entry->fields[n_u64].as_u64,
-> 726721a51838e3 Tom Zanussi             2020-05-28  406  						      __flags);
-> 726721a51838e3 Tom Zanussi             2020-05-28  407  				trace_seq_putc(s, ')');
-> 726721a51838e3 Tom Zanussi             2020-05-28  408  			}
-> 726721a51838e3 Tom Zanussi             2020-05-28  409  			n_u64++;
-> 726721a51838e3 Tom Zanussi             2020-05-28  410  		}
-> 726721a51838e3 Tom Zanussi             2020-05-28  411  	}
-> 726721a51838e3 Tom Zanussi             2020-05-28  412  end:
-> 726721a51838e3 Tom Zanussi             2020-05-28  413  	trace_seq_putc(s, '\n');
-> 726721a51838e3 Tom Zanussi             2020-05-28  414  
-> 726721a51838e3 Tom Zanussi             2020-05-28  415  	return trace_handle_return(s);
-> 726721a51838e3 Tom Zanussi             2020-05-28  416  }
-> 726721a51838e3 Tom Zanussi             2020-05-28  417  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/modpost-drop-_probe-from-section-check-whitelist/20251020-171732
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251020091613.22562-1-johan%40kernel.org
+patch subject: [PATCH] modpost: drop '*_probe' from section check whitelist
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-buildonly-randconfig-001-20251020 (https://download.01.org/0day-ci/archive/20251020/202510202339.CiYSDt6j-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251020/202510202339.CiYSDt6j-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202510202339.CiYSDt6j-lkp@intel.com/
+
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> WARNING: modpost: vmlinux: section mismatch in reference: nxp_stm_probe+0x0 (section: .data) -> nxp_stm_timer_probe (section: .init.text)
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
