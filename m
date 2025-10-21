@@ -1,313 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299AC274B2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 19:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A9627587D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 20:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761076801; cv=none; b=dI2fvASM+VMWR+zS+CTBnxh3Xee7O9zq+NJuNvv7unTIJNwPJQuY/hYj4/DRD/zcmgkNK839bcYtrlvaqmHeJNLOVfHSYa6Nxb4CH/uitDbqy/yU51220Cr0OfJ8RoM/A9U0+spv/li8tzJJhWoOMHFNnEsWIi+Qn0EoRTwOzvM=
+	t=1761077625; cv=none; b=g+5T96SSEafJ7j0ihqRzYbIUtPDXNvOhNjPEG9cr5/bHu2mq2T2ZPMcAjTciVek7itWf0fYqwwI94pGtgh6QUD0LnitysBL4Ds7q44THQIRSWYp6mpd6DVzAQBDvsxOto76mQzEKCUhTLtaqVr9J8TPqdiqERybTOZpmJ9yU/Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761076801; c=relaxed/simple;
-	bh=cliFJ/Qa1dJFS3oowifvoOtDGZ1EsLF04oZzQ0lotlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RfS80zkQHuTIQl73/YxvZod3ph1D05nr4OHMPxyzk7Mjzy47Wo1AC+kiTtqEMoe2KHbceppuxjJb3a+mIpiL7XuOrxcqEUqo4DBpNK6yvteWdI2LeDNLeUnixg6Svw/dMPi/mq6g5B/Q4x3Wzl2O+TT7EgsgsSaUuimzt5vJp0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2yBqVxn; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761077625; c=relaxed/simple;
+	bh=m8dulZsmOF4wEvLc1RlTO2XmXrclzS6tJ1KKfQwhMpw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YE36RDQ9+xZeoeUUaNgux7supAbjRLwgq+rDOhf+lBoLfrjn6IcNaw6LO4DT+DnNDEwsrHwFepeHPXseVr6rzeSpH7SAli5t8xO5aon+pBjhYrWGdl/6Qs/fkzi80WIhZCEOpwyZqAKLFgEh9FNhDRK/NWJ6KsAMow2hWGXbpzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=llUNR/1h; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2yBqVxn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761076799; x=1792612799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cliFJ/Qa1dJFS3oowifvoOtDGZ1EsLF04oZzQ0lotlg=;
-  b=m2yBqVxn7rw4vnisZ093l9pHS2hshr+6s3yFUAd4N35Qqny5DDaNqsbQ
-   Nnb8rGoNZMmKErayxrWtkGXhuay3FTwQjW0cZx3nBFgMGPLGoPy7q9MP8
-   TnX6w4wJ0fpoLRka6y5i49H7iqW0NawlV1IAhptt9ipZuh+TE9Wb9Siur
-   Ufm6utN3oXEDwQISDt3DRR8xqiTx4HJzjzO9MAL5UrIk6gQ1dNi5T0pGJ
-   K25QoMfRQcU85KeKo/koytkSR+dJM9hgGo5d3p18ML3QAQSccVf/EGVNa
-   hWlVn32rU7s3e+MZNa3NNSXM6SSRgbb7JJZTDkkK6suXE68IDeokpdjqe
-   Q==;
-X-CSE-ConnectionGUID: MwUYZ26vTh2bosknr2C05w==
-X-CSE-MsgGUID: cU1WPEtfRRCFN3d+GrqCTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73884784"
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="73884784"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 12:59:58 -0700
-X-CSE-ConnectionGUID: 4xoHEzZ5SHC/cgN3p53LgQ==
-X-CSE-MsgGUID: pB69CAyPQvSRdA+DfBKqtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="182841167"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 21 Oct 2025 12:59:55 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBIWP-000BNc-1X;
-	Tue, 21 Oct 2025 19:59:53 +0000
-Date: Wed, 22 Oct 2025 03:59:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
-	maarten.lankhorst@linux.intel.com,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@redhat.com>, simona.vetter@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/mm: replace drm_print.h include with a forward
- declaration
-Message-ID: <202510220305.rfiVr2PC-lkp@intel.com>
-References: <05a996d685afb1facfdd5aef1eab1680fa5eb0a0.1761063757.git.jani.nikula@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="llUNR/1h"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37777912136so58959571fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 13:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761077622; x=1761682422; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gFunx2MZpZr8MGsSovVvmXHzBeV4exhykIDoDRfAdgo=;
+        b=llUNR/1hmUWv92ZGc9ViNoafbYYxugoQFI1TxJuI4BIBYAudx6176WhEmVgrYl+BrF
+         sjXLtzPaCBM3NuaGSGHJ9RDmNskGEbdJfXWJpp7iXJcAmgzHcC8lHxfmwQJTrPDgHhCP
+         +FxRV2PKfNtpel/SXyplmvbdi02sxIKEcG5sfXYJP7Fb+ALEGbyxqE86TPEk9avApnLD
+         W0AdAVkgirEf8yQyPQK824XQ0zNw2R2LOUHZ1RGES/CTXUZVvffE9vzlFWfYdxhvIh1O
+         zR07JMpc6jjkQk55REEVs/OC5KWmP4b1pmJFdoaRafpg5J78FHwvMRSRgRjPq27K0MbD
+         xlhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761077622; x=1761682422;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gFunx2MZpZr8MGsSovVvmXHzBeV4exhykIDoDRfAdgo=;
+        b=M9jz3wsdfAxwof0Tef7z9axLbwCiBjTTwNYWZRmaNiWVHrzOxHSHxTUV6N2G77jxCZ
+         iZiV/aMTwo8SySg0z2CZ2O15UfmM4fQbFqkcUfUvuGo3EUiF6VvRHFbMH2wXNa+VqYLd
+         /oHvDu6ti4+QDy5teRmXlH7r4241WeeTfoCFdjWtfOp/CkBAFomkLIJjcV8Z4Z/vKCCs
+         vaGgiRjYbHWOTAlE0pABbh8MAxxhKQGyTMifKwZsO+RqmDWuJxhgNKdTVs9uiy3X7w98
+         lvr2ow/EOJhPbyY1Ru1/iLloL4a4mfsSSpoHCXH5DnlOHxEIowgZF1vTkAjK/AdzNZDa
+         C84g==
+X-Forwarded-Encrypted: i=1; AJvYcCWqbm4YvIzHU4dZuTm6u0YPZBP/PpE3YVagcCIPsHo7r5DRPBbvCakHt88Le2Qi4+OYs3vqLVJPzUX49PEl@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvczAOnUsHbQjW12jOZbLy/len2I1bjQPSFrLOIGCDv4saLHFS
+	vfUooXRKctWa5zjmyZzXlHm9XTM1heNnB/DfqgzDl8IKbGfL8OHovLYsy82xhzYOI0BP+ownt0E
+	YL/tbGp+bn95Etigh1yMPxrn847aIRhPo3uCwsnMU
+X-Gm-Gg: ASbGncvEm74z5Fud8dTDDiM/jm+LJg0Ds5qDFAre4+bcwoOk11dahPlml96PBPRTtfc
+	e4H4Cs6kWtH6IsKN7rXGmL6KAdNCQltppImv4dWog2GlPsEmuOcRsBXRWMDcmi6JWQTgcl18mB8
+	js/T6Cynp4it3GEu9dtJP0WMK0RQaZ4jNd1CuPel01+eCIw5n0bcje98Hl4RqkEMkucYC5fowGb
+	7PMuPZUT2bJMTmoKd2dkrllVgy9BaDUS5uf7wFLqAAvkdYn7GCbK5qP2/428A+IIzNLx1HRsWOk
+	iHAx1oZMzpElbv+XJX27zEQ9HQ==
+X-Google-Smtp-Source: AGHT+IGAvGEVgit/SDBbJXfglgzrCcYtyoqLzzRV1N2+0Gnz2+ROcolK3EI6Rrn4aLeI5pJYAVKljQP6z6syteJTyHg=
+X-Received: by 2002:a2e:bd17:0:b0:376:3a83:428d with SMTP id
+ 38308e7fff4ca-37797ada3e4mr54852761fa.48.1761077621527; Tue, 21 Oct 2025
+ 13:13:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <05a996d685afb1facfdd5aef1eab1680fa5eb0a0.1761063757.git.jani.nikula@intel.com>
+References: <20251017233907.2305303-1-wusamuel@google.com> <202510190215.ppx4apvg-lkp@intel.com>
+In-Reply-To: <202510190215.ppx4apvg-lkp@intel.com>
+From: Samuel Wu <wusamuel@google.com>
+Date: Tue, 21 Oct 2025 13:13:29 -0700
+X-Gm-Features: AS18NWAbUHSxxc75oxQg0pd4M1nulX2qNGsXjQaXglcPLJv9sfuKAT6aV7qCa3A
+Message-ID: <CAG2Kcto1=kQ-6eR50aA_Uj4jUSQEVLaZs1Ucp0R8y6hMxNfLvQ@mail.gmail.com>
+Subject: Re: [PATCH v5] PM: Support aborting sleep during filesystem sync
+To: kernel test robot <lkp@intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, tuhaowen@uniontech.com, 
+	Saravana Kannan <saravanak@google.com>, kernel-team@android.com, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jani,
+On Sat, Oct 18, 2025 at 11:32=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> Hi Samuel,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on rafael-pm/linux-next]
+> [also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next a=
+md-pstate/bleeding-edge linus/master v6.18-rc1 next-20251017]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Wu/PM-Suppo=
+rt-aborting-sleep-during-filesystem-sync/20251018-091422
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.g=
+it linux-next
+> patch link:    https://lore.kernel.org/r/20251017233907.2305303-1-wusamue=
+l%40google.com
+> patch subject: [PATCH v5] PM: Support aborting sleep during filesystem sy=
+nc
+> config: i386-randconfig-012-20251018 (https://download.01.org/0day-ci/arc=
+hive/20251019/202510190215.ppx4apvg-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251019/202510190215.ppx4apvg-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510190215.ppx4apvg-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/x86/kernel/asm-offsets.c:14:
+> >> include/linux/suspend.h:510:15: error: type specifier missing, default=
+s to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+>      510 | static inline pm_stop_waiting_for_fs_sync(void) {}
+>          | ~~~~~~~~~~~~~ ^
+>          | int
+>    1 error generated.
+>    make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.=
+s] Error 1 shuffle=3D1011955029
+>    make[3]: Target 'prepare' not remade because of errors.
+>    make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3D1011955029
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1011955029
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:248: __sub-make] Error 2 shuffle=3D1011955029
+>    make: Target 'prepare' not remade because of errors.
+>
+>
+> vim +/int +510 include/linux/suspend.h
+>
+>    508
+>    509  static inline void ksys_sync_helper(void) {}
+>  > 510  static inline pm_stop_waiting_for_fs_sync(void) {}
+>    511  static inline int pm_sleep_fs_sync(void) {}
+>    512
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20251021]
-[also build test ERROR on v6.18-rc2]
-[cannot apply to drm-exynos/exynos-drm-next rockchip/for-next linus/master v6.18-rc2 v6.18-rc1 v6.17]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-mm-replace-drm_print-h-include-with-a-forward-declaration/20251022-003212
-base:   next-20251021
-patch link:    https://lore.kernel.org/r/05a996d685afb1facfdd5aef1eab1680fa5eb0a0.1761063757.git.jani.nikula%40intel.com
-patch subject: [PATCH 1/3] drm/mm: replace drm_print.h include with a forward declaration
-config: x86_64-buildonly-randconfig-006-20251022 (https://download.01.org/0day-ci/archive/20251022/202510220305.rfiVr2PC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220305.rfiVr2PC-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510220305.rfiVr2PC-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_queue_get_syncwait_obj':
->> drivers/gpu/drm/panthor/panthor_sched.c:877:13: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     877 |         if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(bo)))
-         |             ^~~~~~~~~~~
-         |             VM_WARN_ON
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'csg_slot_sync_state_locked':
->> drivers/gpu/drm/panthor/panthor_sched.c:1262:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-    1262 |                 drm_err(&ptdev->base, "Invalid state on CSG %d (state=%d)",
-         |                 ^~~~~~~
-         |                 pr_err
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'cs_slot_process_fatal_event_locked':
->> drivers/gpu/drm/panthor/panthor_sched.c:1372:17: error: implicit declaration of function 'drm_warn'; did you mean 'dev_warn'? [-Wimplicit-function-declaration]
-    1372 |                 drm_warn(&ptdev->base, "CS_FATAL: pid=%d, comm=%s\n",
-         |                 ^~~~~~~~
-         |                 dev_warn
---
-   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_gpu_coherency_init':
->> drivers/gpu/drm/panthor/panthor_device.c:40:9: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-      40 |         drm_err(&ptdev->base, "Coherency not supported by the device");
-         |         ^~~~~~~
-         |         pr_err
-   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_clk_init':
->> drivers/gpu/drm/panthor/panthor_device.c:64:9: error: implicit declaration of function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-declaration]
-      64 |         drm_info(&ptdev->base, "clock rate = %lu\n", clk_get_rate(ptdev->clks.core));
-         |         ^~~~~~~~
-         |         pr_info
-   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_device_unplug':
->> drivers/gpu/drm/panthor/panthor_device.c:96:9: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-      96 |         drm_WARN_ON(&ptdev->base, pm_runtime_get_sync(ptdev->base.dev) < 0);
-         |         ^~~~~~~~~~~
-         |         VM_WARN_ON
---
-   drivers/gpu/drm/panthor/panthor_drv.c: In function 'panthor_submit_ctx_update_job_sync_signal_fences':
->> drivers/gpu/drm/panthor/panthor_drv.c:515:21: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     515 |                 if (drm_WARN_ON(&ptdev->base, !sig_sync))
-         |                     ^~~~~~~~~~~
-         |                     VM_WARN_ON
-   drivers/gpu/drm/panthor/panthor_drv.c: In function 'panthor_gpu_show_fdinfo':
->> drivers/gpu/drm/panthor/panthor_drv.c:1519:17: error: implicit declaration of function 'drm_printf'; did you mean 'seq_printf'? [-Wimplicit-function-declaration]
-    1519 |                 drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles);
-         |                 ^~~~~~~~~~
-         |                 seq_printf
---
-   drivers/gpu/drm/panthor/panthor_hw.c: In function 'panthor_hw_info_init':
->> drivers/gpu/drm/panthor/panthor_hw.c:101:9: error: implicit declaration of function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-declaration]
-     101 |         drm_info(&ptdev->base,
-         |         ^~~~~~~~
-         |         pr_info
---
-   drivers/gpu/drm/panthor/panthor_devfreq.c: In function 'panthor_devfreq_get_dev_status':
->> drivers/gpu/drm/panthor/panthor_devfreq.c:110:9: error: implicit declaration of function 'drm_dbg'; did you mean 'dev_dbg'? [-Wimplicit-function-declaration]
-     110 |         drm_dbg(&ptdev->base, "busy %lu total %lu %lu %% freq %lu MHz\n",
-         |         ^~~~~~~
-         |         dev_dbg
-   drivers/gpu/drm/panthor/panthor_devfreq.c: In function 'panthor_devfreq_init':
->> drivers/gpu/drm/panthor/panthor_devfreq.c:151:25: error: implicit declaration of function 'DRM_DEV_ERROR'; did you mean 'TIME_ERROR'? [-Wimplicit-function-declaration]
-     151 |                         DRM_DEV_ERROR(dev, "Couldn't set OPP regulators\n");
-         |                         ^~~~~~~~~~~~~
-         |                         TIME_ERROR
->> drivers/gpu/drm/panthor/panthor_devfreq.c:240:17: error: implicit declaration of function 'DRM_DEV_INFO' [-Wimplicit-function-declaration]
-     240 |                 DRM_DEV_INFO(dev, "Failed to register cooling device\n");
-         |                 ^~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_devfreq.c: In function 'panthor_devfreq_resume':
->> drivers/gpu/drm/panthor/panthor_devfreq.c:254:9: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     254 |         drm_WARN_ON(&ptdev->base, devfreq_resume_device(pdevfreq->devfreq));
-         |         ^~~~~~~~~~~
-         |         VM_WARN_ON
---
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_l2_config_set':
->> drivers/gpu/drm/panthor/panthor_gpu.c:65:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-      65 |                 drm_err(&ptdev->base, "Custom ASN hash not supported by the device");
-         |                 ^~~~~~~
-         |                 pr_err
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_irq_handler':
->> drivers/gpu/drm/panthor/panthor_gpu.c:85:17: error: implicit declaration of function 'drm_warn'; did you mean 'pr_warn'? [-Wimplicit-function-declaration]
-      85 |                 drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
-         |                 ^~~~~~~~
-         |                 pr_warn
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_l2_power_on':
->> drivers/gpu/drm/panthor/panthor_gpu.c:261:17: error: implicit declaration of function 'drm_info_once'; did you mean 'dev_info_once'? [-Wimplicit-function-declaration]
-     261 |                 drm_info_once(&ptdev->base, "using only 1st core group (%lu cores from %lu)\n",
-         |                 ^~~~~~~~~~~~~
-         |                 dev_info_once
-   drivers/gpu/drm/panthor/panthor_gpu.c: In function 'panthor_gpu_flush_caches':
->> drivers/gpu/drm/panthor/panthor_gpu.c:292:14: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     292 |         if (!drm_WARN_ON(&ptdev->base,
-         |              ^~~~~~~~~~~
-         |              VM_WARN_ON
---
-   drivers/gpu/drm/panthor/panthor_gem.c: In function 'panthor_kernel_bo_destroy':
->> drivers/gpu/drm/panthor/panthor_gem.c:97:13: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-      97 |         if (drm_WARN_ON(bo->obj->dev,
-         |             ^~~~~~~~~~~
-         |             VM_WARN_ON
-   drivers/gpu/drm/panthor/panthor_gem.c: In function 'panthor_gem_kernel_bo_set_label':
->> drivers/gpu/drm/panthor/panthor_gem.c:334:17: error: implicit declaration of function 'drm_warn'; did you mean 'pr_warn'? [-Wimplicit-function-declaration]
-     334 |                 drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
-         |                 ^~~~~~~~
-         |                 pr_warn
---
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_fw_get_csg_iface':
->> drivers/gpu/drm/panthor/panthor_fw.c:296:13: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     296 |         if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS))
-         |             ^~~~~~~~~~~
-         |             VM_WARN_ON
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_fw_binary_iter_read':
->> drivers/gpu/drm/panthor/panthor_fw.c:370:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-     370 |                 drm_err(&ptdev->base, "Firmware too small\n");
-         |                 ^~~~~~~
-         |                 pr_err
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_fw_load_section_entry':
->> drivers/gpu/drm/panthor/panthor_fw.c:536:17: error: implicit declaration of function 'drm_warn'; did you mean 'pr_warn'? [-Wimplicit-function-declaration]
-     536 |                 drm_warn(&ptdev->base,
-         |                 ^~~~~~~~
-         |                 pr_warn
-   drivers/gpu/drm/panthor/panthor_fw.c: In function 'panthor_fw_read_build_info':
->> drivers/gpu/drm/panthor/panthor_fw.c:668:9: error: implicit declaration of function 'drm_info'; did you mean 'pr_info'? [-Wimplicit-function-declaration]
-     668 |         drm_info(&ptdev->base, "Firmware git sha: %s\n",
-         |         ^~~~~~~~
-         |         pr_info
---
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'alloc_pt':
->> drivers/gpu/drm/panthor/panthor_mmu.c:432:17: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     432 |                 drm_WARN_ON(&vm->ptdev->base, vm->op_ctx);
-         |                 ^~~~~~~~~~~
-         |                 VM_WARN_ON
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'wait_ready':
->> drivers/gpu/drm/panthor/panthor_mmu.c:506:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-     506 |                 drm_err(&ptdev->base, "AS_ACTIVE bit stuck\n");
-         |                 ^~~~~~~
-         |                 pr_err
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'mmu_hw_do_operation_locked':
->> drivers/gpu/drm/panthor/panthor_mmu.c:575:17: error: implicit declaration of function 'drm_WARN'; did you mean 'dev_WARN'? [-Wimplicit-function-declaration]
-     575 |                 drm_WARN(&ptdev->base, 1, "Unexpected AS_COMMAND: %d", op);
-         |                 ^~~~~~~~
-         |                 dev_WARN
-   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_vm_unmap_pages':
->> drivers/gpu/drm/panthor/panthor_mmu.c:908:9: error: implicit declaration of function 'drm_dbg'; did you mean 'dev_dbg'? [-Wimplicit-function-declaration]
-     908 |         drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
-         |         ^~~~~~~
-         |         dev_dbg
---
-   drivers/gpu/drm/panthor/panthor_heap.c: In function 'panthor_heap_pool_destroy':
->> drivers/gpu/drm/panthor/panthor_heap.c:604:17: error: implicit declaration of function 'drm_WARN_ON'; did you mean 'VM_WARN_ON'? [-Wimplicit-function-declaration]
-     604 |                 drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, i));
-         |                 ^~~~~~~~~~~
-         |                 VM_WARN_ON
---
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_get_format':
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:126:17: error: implicit declaration of function 'DRM_WARN'; did you mean 'VM_WARN'? [-Wimplicit-function-declaration]
-     126 |                 DRM_WARN("Format not supported - fallback to XRGB8888\n");
-         |                 ^~~~~~~~
-         |                 VM_WARN
-   drivers/gpu/drm/imx/lcdc/imx-lcdc.c: In function 'imx_lcdc_pipe_check':
->> drivers/gpu/drm/imx/lcdc/imx-lcdc.c:285:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-     285 |                 drm_err(pipe->crtc.dev, "unsupported display mode (%u x %u)\n",
-         |                 ^~~~~~~
-         |                 pr_err
-..
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for GPIO_SYSCON
-   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
-   Selected by [y]:
-   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n] && COMMON_CLK [=y]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
-
-
-vim +877 drivers/gpu/drm/panthor/panthor_sched.c
-
-de85488138247d Boris Brezillon 2024-02-29  862  
-de85488138247d Boris Brezillon 2024-02-29  863  static void *
-de85488138247d Boris Brezillon 2024-02-29  864  panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue *queue)
-de85488138247d Boris Brezillon 2024-02-29  865  {
-de85488138247d Boris Brezillon 2024-02-29  866  	struct panthor_device *ptdev = group->ptdev;
-de85488138247d Boris Brezillon 2024-02-29  867  	struct panthor_gem_object *bo;
-de85488138247d Boris Brezillon 2024-02-29  868  	struct iosys_map map;
-de85488138247d Boris Brezillon 2024-02-29  869  	int ret;
-de85488138247d Boris Brezillon 2024-02-29  870  
-de85488138247d Boris Brezillon 2024-02-29  871  	if (queue->syncwait.kmap)
-de85488138247d Boris Brezillon 2024-02-29  872  		return queue->syncwait.kmap + queue->syncwait.offset;
-de85488138247d Boris Brezillon 2024-02-29  873  
-de85488138247d Boris Brezillon 2024-02-29  874  	bo = panthor_vm_get_bo_for_va(group->vm,
-de85488138247d Boris Brezillon 2024-02-29  875  				      queue->syncwait.gpu_va,
-de85488138247d Boris Brezillon 2024-02-29  876  				      &queue->syncwait.offset);
-de85488138247d Boris Brezillon 2024-02-29 @877  	if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(bo)))
-de85488138247d Boris Brezillon 2024-02-29  878  		goto err_put_syncwait_obj;
-de85488138247d Boris Brezillon 2024-02-29  879  
-de85488138247d Boris Brezillon 2024-02-29  880  	queue->syncwait.obj = &bo->base.base;
-8f5c4871a014cf Dmitry Osipenko 2025-03-23  881  	ret = drm_gem_vmap(queue->syncwait.obj, &map);
-de85488138247d Boris Brezillon 2024-02-29  882  	if (drm_WARN_ON(&ptdev->base, ret))
-de85488138247d Boris Brezillon 2024-02-29  883  		goto err_put_syncwait_obj;
-de85488138247d Boris Brezillon 2024-02-29  884  
-de85488138247d Boris Brezillon 2024-02-29  885  	queue->syncwait.kmap = map.vaddr;
-de85488138247d Boris Brezillon 2024-02-29  886  	if (drm_WARN_ON(&ptdev->base, !queue->syncwait.kmap))
-de85488138247d Boris Brezillon 2024-02-29  887  		goto err_put_syncwait_obj;
-de85488138247d Boris Brezillon 2024-02-29  888  
-de85488138247d Boris Brezillon 2024-02-29  889  	return queue->syncwait.kmap + queue->syncwait.offset;
-de85488138247d Boris Brezillon 2024-02-29  890  
-de85488138247d Boris Brezillon 2024-02-29  891  err_put_syncwait_obj:
-de85488138247d Boris Brezillon 2024-02-29  892  	panthor_queue_put_syncwait_obj(queue);
-de85488138247d Boris Brezillon 2024-02-29  893  	return NULL;
-de85488138247d Boris Brezillon 2024-02-29  894  }
-de85488138247d Boris Brezillon 2024-02-29  895  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oversight on my part- I'll fix this in v6 along with other feedback
