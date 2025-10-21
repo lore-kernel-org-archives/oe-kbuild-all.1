@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDE6242D7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 15:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F818346795
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 16:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761059663; cv=none; b=AQ6+dEcwjBcWyXVb7KPZPHo22V9y0o6om0FtcHvM6jmm97glag4VNk7mLNfYrYClOz2qNtWqUxIeMwa/MydSHoPxCMqRVwAe1AbYYPsJhccnt1WrTzZEoqgQTPpVJAyWVUd85oYXe5Zga+4u0fM6mBX0M1S+HbJT0Mkul8Q6vdQ=
+	t=1761063418; cv=none; b=jy0JNaZOy7Z4ZuqcrWK2LTdHAkggVrAqSxQJ9IrVnpD0aj1vWTNap+WToKaSbMK+tZvkRYE4gzMo1TUfBOfoldYGIYKlv5ryYmyIKhbQghlPd+OHsbV0vlgZ7zuiNfwTfpaS+U47g4EcrgNQ0TgVLxAPXv9TidPPsRL1Ko/HNJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761059663; c=relaxed/simple;
-	bh=I8wvv824i7on8AWnEJeBGZnAeJJDOg+lqUtP5Q5E2T0=;
+	s=arc-20240116; t=1761063418; c=relaxed/simple;
+	bh=kkPgNX+j1NJxW2N+nYT/lLiyOhOwh3rlpUl3dLOuZcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CIq21YtYFe0bN2ssDZi33HApQxrRcuOuzxj9aaTyZS9Alhhv4PewXCnWlvbqmODLW1jxlavWCQRZ3MGQQxPpgZ3UXQ82OQMjDyy7dIYaN4XBMihTWdAj7cxzf8uyCxOAdAn0dZKUXSgXrH3luoJFe6Zg7Gjq+RHys3BIFrkDXTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hnUOzk4P; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=RYeIibcIBGvZdOG5oe13Sk5yQkKBU/TEHx0dLzcyQXDCaB3KDOueGnkhe7Y+0wFbftpbUYzXixZFjt42n8lGvJakjXBiFv3BV++Ru/rRLHJGGFLXYrwtyz9xILzLCpGgau/TMBUmfl4kkznRLavrsIvk1MYnhoDnSLOcSzXIfB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgAS3Lle; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hnUOzk4P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgAS3Lle"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761059661; x=1792595661;
+  t=1761063415; x=1792599415;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I8wvv824i7on8AWnEJeBGZnAeJJDOg+lqUtP5Q5E2T0=;
-  b=hnUOzk4PTb4eVYR0aU1+799tRiqajMkUxDgFASZTdTsNpK7hsbCLHR7T
-   kLMCQS/bbj6wZedIvwqByVtjnXrG0UNGt2J1pzh5ogeLSsmlzbpRaekCG
-   ZFL219uCyIKGNnx4FcbGDhL1aCyJfx2+/DMkz7CSgxe3ByRPafFb0u4pP
-   aNpYrw9df7BUGHy/S2PCtiYlUitEuStR6Faqtf1GimeEDwUpVCo1V3u5K
-   tyg4IvJWr79ayQgNiCN/MV9vkMHDX7oT2YELME+gQGogVujps7JznBCqj
-   cw6AMRMpjwEdHZtxWZt261x9YZN4XZL8yccUCSz4z/axG7Q0Y6yyXzpsg
-   w==;
-X-CSE-ConnectionGUID: /QDz2EOtR5qxIj0//g9Qyg==
-X-CSE-MsgGUID: tbRwTbhGRoyNx0WN82a3cA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63085752"
+  bh=kkPgNX+j1NJxW2N+nYT/lLiyOhOwh3rlpUl3dLOuZcI=;
+  b=lgAS3Lle3hX+orKriQR8bNVUKr0ZDhrulazSuQRDBqOHaB5iRjGff387
+   ptssdSxrpKhr2ZSzdF8/ytzkWd4GjGwYDmoRCwdrKxAy0ONDFH4gkrYEt
+   omtqfVrkfp/qmQVgQvVZd2VV4pAHep9wPpBRxEQC3oQMRyVAX6v6pZPpT
+   Y7P3rjsg+XpgsVk1ZPyigE64VviWC5mHkIxldfUSV6NELfR/2SHfuSHDe
+   alU9aq/HXC9H7Mv55/R0jq2RwEYZApd/UXQ3Xr4hiQ5EtA4wqrxUtiIdu
+   MqOvJXDRBfXRtY9xP8zh/E2vV2fSDBD3+ro0S2FU2O7Ol4AOO8SGMNBsn
+   Q==;
+X-CSE-ConnectionGUID: 4vbbXcDoTuuXyNft4BQjdw==
+X-CSE-MsgGUID: Ztn02rMRT92El2Ezo8N+4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62896760"
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="63085752"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:14:21 -0700
-X-CSE-ConnectionGUID: U3LD4rOEQK6oaLQpCMh2Nw==
-X-CSE-MsgGUID: AktMo/AsQciDW8kK8MwlkQ==
+   d="scan'208";a="62896760"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 09:16:54 -0700
+X-CSE-ConnectionGUID: 6aCohDdeTQePUWEuJwMxvA==
+X-CSE-MsgGUID: M9N47cTRRvaKNSlhZrlpyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="187651229"
+   d="scan'208";a="214584376"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 21 Oct 2025 08:14:20 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Oct 2025 09:16:53 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBE42-000AwD-0L;
-	Tue, 21 Oct 2025 15:14:18 +0000
-Date: Tue, 21 Oct 2025 23:13:29 +0800
+	id 1vBF2Y-000B0P-33;
+	Tue, 21 Oct 2025 16:16:50 +0000
+Date: Wed, 22 Oct 2025 00:16:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/perf 31/43] include/linux/rseq_entry.h:132:3:
- error: invalid operand for instruction
-Message-ID: <202510212355.qQpqeYr1-lkp@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: [linux-next:master 1355/3056] xe_pci.c:undefined reference to
+ `xe_configfs_primary_gt_allowed'
+Message-ID: <202510220010.Ly8icYfP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/perf
-head:   3adaf1f58eb5a8c6c7464ec637d091e6f90135ab
-commit: 4b6bff9cb7bae31d53b12c242c6e0063e1fad056 [31/43] rseq: Provide and use rseq_update_user_cs()
-config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212355.qQpqeYr1-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510212355.qQpqeYr1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fe45352cd106ae41b5ad3f0066c2e54dbb2dfd70
+commit: 7abd69278bb53ab6b43f9650daba550cc7624858 [1355/3056] drm/xe/configfs: Add attribute to disable GT types
+config: xtensa-randconfig-002-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220010.Ly8icYfP-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220010.Ly8icYfP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510212355.qQpqeYr1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510220010.Ly8icYfP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/rseq.c:75:
->> include/linux/rseq_entry.h:132:3: error: invalid operand for instruction
-                   unsafe_get_user(start_ip, &ucs->start_ip, efault);
-                   ^
-   include/linux/uaccess.h:606:2: note: expanded from macro 'unsafe_get_user'
-           arch_unsafe_get_user(x, ptr, local_label);      \
-           ^
-   arch/powerpc/include/asm/uaccess.h:458:2: note: expanded from macro 'arch_unsafe_get_user'
-           __get_user_size_goto(__gu_val, __gu_addr, sizeof(*(p)), e); \
-           ^
-   arch/powerpc/include/asm/uaccess.h:282:2: note: expanded from macro '__get_user_size_goto'
-           __get_user_size_allowed(x, ptr, size, __gus_retval);    \
-           ^
-   arch/powerpc/include/asm/uaccess.h:273:10: note: expanded from macro '__get_user_size_allowed'
-           case 8: __get_user_asm2(x, (u64 __user *)ptr, retval);  break;  \
-                   ^
-   arch/powerpc/include/asm/uaccess.h:256:4: note: expanded from macro '__get_user_asm2'
-                   "       li %1+1,0\n"                    \
-                    ^
-   <inline asm>:7:5: note: instantiated into assembly here
-           li 31+1,0
-              ^
-   1 error generated.
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init':
+   xe_guc.c:(.text+0x1140): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
+   xe_guc.c:(.text+0x138a): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engine_setup_default_lrc_state':
+   xe_hw_engine.c:(.text+0xf1c): undefined reference to `xe_configfs_get_engines_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
+   xe_hw_engine.c:(.text+0x1202): undefined reference to `xe_configfs_get_engines_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_invalidate_state_cache_wa':
+   xe_lrc.c:(.text+0x31c): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
+   xe_lrc.c:(.text+0x353): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   xtensa-linux-ld: xe_lrc.c:(.text+0x398): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_mid_ctx_restore_bb':
+   xe_lrc.c:(.text+0x3cf): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `xe_lrc_write_ring':
+   xe_lrc.c:(.text+0x4058): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `xe_lrc_init':
+   xe_lrc.c:(.text+0x41c3): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x28): undefined reference to `xe_configfs_init'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x2c): undefined reference to `xe_configfs_exit'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `read_gmdid':
+>> xe_pci.c:(.text+0x908): undefined reference to `xe_configfs_primary_gt_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_info_init':
+   xe_pci.c:(.text+0xb38): undefined reference to `xe_configfs_primary_gt_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `read_gmdid':
+>> xe_pci.c:(.text+0x91c): undefined reference to `xe_configfs_media_gt_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_info_init':
+   xe_pci.c:(.text+0xc08): undefined reference to `xe_configfs_media_gt_allowed'
+>> xtensa-linux-ld: xe_pci.c:(.text+0xdf8): undefined reference to `xe_configfs_check_device'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
+   xe_pci.c:(.text+0xe97): undefined reference to `xe_configfs_check_device'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `psmi_debugfs_capture_addr_show':
+   xe_psmi.c:(.text+0x508): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
+   xe_psmi.c:(.text+0x532): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: xe_psmi.c:(.text+0x5a0): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
+   xe_psmi.c:(.text+0x5c2): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_not_sriov_vf':
+   xe_rtp.c:(.text+0xdcc): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_boot_enabled':
+   xe_survivability_mode.c:(.text+0x3f8): undefined reference to `xe_configfs_get_survivability_mode'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+   xe_survivability_mode.c:(.text+0x436): undefined reference to `xe_configfs_get_survivability_mode'
 
-
-vim +132 include/linux/rseq_entry.h
-
-    84	
-    85	/*
-    86	 * Check whether there is a valid critical section and whether the
-    87	 * instruction pointer in @regs is inside the critical section.
-    88	 *
-    89	 *  - If the critical section is invalid, terminate the task.
-    90	 *
-    91	 *  - If valid and the instruction pointer is inside, set it to the abort IP
-    92	 *
-    93	 *  - If valid and the instruction pointer is outside, clear the critical
-    94	 *    section address.
-    95	 *
-    96	 * Returns true, if the section was valid and either fixup or clear was
-    97	 * done, false otherwise.
-    98	 *
-    99	 * In the failure case task::rseq_event::fatal is set when a invalid
-   100	 * section was found. It's clear when the failure was an unresolved page
-   101	 * fault.
-   102	 *
-   103	 * If inlined into the exit to user path with interrupts disabled, the
-   104	 * caller has to protect against page faults with pagefault_disable().
-   105	 *
-   106	 * In preemptible task context this would be counterproductive as the page
-   107	 * faults could not be fully resolved. As a consequence unresolved page
-   108	 * faults in task context are fatal too.
-   109	 */
-   110	
-   111	#ifdef RSEQ_BUILD_SLOW_PATH
-   112	/*
-   113	 * The debug version is put out of line, but kept here so the code stays
-   114	 * together.
-   115	 *
-   116	 * @csaddr has already been checked by the caller to be in user space
-   117	 */
-   118	bool rseq_debug_update_user_cs(struct task_struct *t, struct pt_regs *regs,
-   119				       unsigned long csaddr)
-   120	{
-   121		struct rseq_cs __user *ucs = (struct rseq_cs __user *)(unsigned long)csaddr;
-   122		u64 start_ip, abort_ip, offset, cs_end, head, tasksize = TASK_SIZE;
-   123		unsigned long ip = instruction_pointer(regs);
-   124		u64 __user *uc_head = (u64 __user *) ucs;
-   125		u32 usig, __user *uc_sig;
-   126	
-   127		scoped_masked_user_rw_access(ucs, efault) {
-   128			/*
-   129			 * Evaluate the user pile and exit if one of the conditions
-   130			 * is not fulfilled.
-   131			 */
- > 132			unsafe_get_user(start_ip, &ucs->start_ip, efault);
-   133			if (unlikely(start_ip >= tasksize))
-   134				goto die;
-   135			/* If outside, just clear the critical section. */
-   136			if (ip < start_ip)
-   137				goto clear;
-   138	
-   139			unsafe_get_user(offset, &ucs->post_commit_offset, efault);
-   140			cs_end = start_ip + offset;
-   141			/* Check for overflow and wraparound */
-   142			if (unlikely(cs_end >= tasksize || cs_end < start_ip))
-   143				goto die;
-   144	
-   145			/* If not inside, clear it. */
-   146			if (ip >= cs_end)
-   147				goto clear;
-   148	
-   149			unsafe_get_user(abort_ip, &ucs->abort_ip, efault);
-   150			/* Ensure it's "valid" */
-   151			if (unlikely(abort_ip >= tasksize || abort_ip < sizeof(*uc_sig)))
-   152				goto die;
-   153			/* Validate that the abort IP is not in the critical section */
-   154			if (unlikely(abort_ip - start_ip < offset))
-   155				goto die;
-   156	
-   157			/*
-   158			 * Check version and flags for 0. No point in emitting
-   159			 * deprecated warnings before dying. That could be done in
-   160			 * the slow path eventually, but *shrug*.
-   161			 */
-   162			unsafe_get_user(head, uc_head, efault);
-   163			if (unlikely(head))
-   164				goto die;
-   165	
-   166			/* abort_ip - 4 is >= 0. See abort_ip check above */
-   167			uc_sig = (u32 __user *)(unsigned long)(abort_ip - sizeof(*uc_sig));
-   168			unsafe_get_user(usig, uc_sig, efault);
-   169			if (unlikely(usig != t->rseq.sig))
-   170				goto die;
-   171	
-   172			/* rseq_event.user_irq is only valid if CONFIG_GENERIC_IRQ_ENTRY=y */
-   173			if (IS_ENABLED(CONFIG_GENERIC_IRQ_ENTRY)) {
-   174				/* If not in interrupt from user context, let it die */
-   175				if (unlikely(!t->rseq.event.user_irq))
-   176					goto die;
-   177			}
-   178			unsafe_put_user(0ULL, &t->rseq.usrptr->rseq_cs, efault);
-   179			instruction_pointer_set(regs, (unsigned long)abort_ip);
-   180			rseq_stat_inc(rseq_stats.fixup);
-   181			break;
-   182		clear:
-   183			unsafe_put_user(0ULL, &t->rseq.usrptr->rseq_cs, efault);
-   184			rseq_stat_inc(rseq_stats.clear);
-   185			abort_ip = 0ULL;
-   186		}
-   187	
-   188		if (unlikely(abort_ip))
-   189			rseq_trace_ip_fixup(ip, start_ip, offset, abort_ip);
-   190		return true;
-   191	die:
-   192		t->rseq.event.fatal = true;
-   193	efault:
-   194		return false;
-   195	}
-   196	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [m]:
+   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 -- 
 0-DAY CI Kernel Test Service
