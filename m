@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1634434D93F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 19:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6ED350A2C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 19:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761074263; cv=none; b=LJdNnunIFML+jU7Anfj3tdEA2oZphvYZHNlwR2UJIYs0Vj8s/4No+qzVRCEw63neayzO3oFCIQAkj1H/76tC6B0trlzgmjW4FIztQq3BMVA18sqC4ispzEEVWjPcynMc+MKJYwHOF/OT7zqOTcF/npOdW20F+7d5fmBlzyMSQCs=
+	t=1761075558; cv=none; b=TUaeMf2pCySJCvnIVor/yOKfFsLNOT9EWwmMq+azuEbru+lbPis0ml0lv6aaULYfRZATJ7uyhJ9/iLr87Q9yJFqdR4AOEfwL8DcXp0mVyUIb+mTzxTh3wKPPQiUC2ktMDdDG+Ju+nVeglUlfJns4yb0i2gGJWfBT+kSB8zxrQWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761074263; c=relaxed/simple;
-	bh=V2/Qto9eiCBrX5YHeP9SN7CZ6yqjQGXRUuxF21GLxLg=;
+	s=arc-20240116; t=1761075558; c=relaxed/simple;
+	bh=1Bgk+kLH0Uz53buxFurvoWz0+xMX7QMOhNifRKKFD2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kbYcR4mOKWpn2J14BCAff+g0HJaezX8l10T93bVkhXfuMEX7Dr/Q99IA+/FrDt07sVjiHpY7s7Rb05rZbdPKNBVhLrQtkRiM726hDW9h5WwPydbGPWQObi+bVELo/EiQMmY4Sevmh7yGHOyer3nVj7ADdWPPF1F1rWpB0qqqBTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSffvFKl; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ipPLlHyl28kyIThbI2G5Z267PaGs7T99PGoueVt2poxX9efr9nQJi6klaVzYGlG57+ZbGatRg7kYj95FjFvpfLLVv3ptf2dr2AqUpNTaH9djAvXC69wwFRttQPIxe5inh+sd9+ngzmj8G12F17hwOC31pTZVpWcC6tzAEE0DHqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xp14zEMF; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSffvFKl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xp14zEMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761074263; x=1792610263;
+  t=1761075557; x=1792611557;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V2/Qto9eiCBrX5YHeP9SN7CZ6yqjQGXRUuxF21GLxLg=;
-  b=mSffvFKlqtRtpqzuDdLZgyg9q1DRUzG2aKzUYl2JILrNZuwL2CZqqU3y
-   QYfIklDSsNQ5T7tNCH0ZcS5zskX/Rkj0mkwdWOof0AiJA6szL6U+6PefF
-   l8ZswQ4AH2MBlsS19GEm/i55RigQsGbDado9yVt/T+LJSxDGn4gfnfLoJ
-   q2FxZGWsfO6sdWZrvUfndx0Mecl/1AkWozqqIgnzsOActyux9d/fAW6HP
-   Pn1nNgf+afF8tdn5RJ07npKQehi3kr7E0qAZqrUul/wd8C3Nm/+FnY3Hj
-   X+qnY+kx5WP8aTOXJjlf8YV2TpNfRgHuUwK7MG1gwlSPS1TpXgYdyVknh
-   g==;
-X-CSE-ConnectionGUID: RYND9NrRSy68WoRANR3BoA==
-X-CSE-MsgGUID: KZTayQ0oSb+F9DSSV+4c4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85836506"
+  bh=1Bgk+kLH0Uz53buxFurvoWz0+xMX7QMOhNifRKKFD2k=;
+  b=Xp14zEMF5bccrtHN6JctMF3K2z9bQivqMsDDiQX3/Oh2/6C12K60Tyiv
+   52oObABKpGMiCiv4X9tARxOrcTmmQp5NJDTy+eUWnykDuuwORIS49BN7K
+   AVVmhv7+ao3QDxIDVNn2VKhMBe7bngwhhkrLCcu2KVMTBJo7xHSjSxUit
+   H7usGojsSjyQOvAljmIwlqyIXi6PQoPI8/hlVqdzHCegdzOe7ZykfBWdJ
+   F1q39S0UYSRKn49dKquT5U8ePDSz2q4l0S6MrC/H5krDCnPEk7aKeHbW4
+   SS48VzvTLjBLTBfS+TOHU4sCi/somqtiQrH5FK4Ygx01ebfM6gANXG5rW
+   A==;
+X-CSE-ConnectionGUID: YItDkrN0QaOMnyvZPDaz/w==
+X-CSE-MsgGUID: YmTswwCBRuCfrdJJQo/EvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66854688"
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="85836506"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 12:17:42 -0700
-X-CSE-ConnectionGUID: Y5Xvy62yTE6EfWym3L2WmQ==
-X-CSE-MsgGUID: 9fxQJWYfQ9uxCC52500rKA==
+   d="scan'208";a="66854688"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 12:39:16 -0700
+X-CSE-ConnectionGUID: UQVeR+0UQrqDVIjUPc3r6A==
+X-CSE-MsgGUID: v2vT6jEMRiea39DiZv8HkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="183244860"
+   d="scan'208";a="182880735"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Oct 2025 12:17:40 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Oct 2025 12:39:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBHrI-000BFf-0Z;
-	Tue, 21 Oct 2025 19:17:25 +0000
-Date: Wed, 22 Oct 2025 03:16:21 +0800
+	id 1vBICO-000BGT-0Q;
+	Tue, 21 Oct 2025 19:39:12 +0000
+Date: Wed, 22 Oct 2025 03:38:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android16-6.12 0/1]
  kernel/trace/trace_events.c:2807:6: warning: no previous prototype for
- 'remove_event_from_tracers'
-Message-ID: <202510220327.umgvCAPD-lkp@intel.com>
+ function 'remove_event_from_tracers'
+Message-ID: <202510220322.klaAqkp8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,20 +66,25 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android16-6.12
 head:   40a0822d3077aa3125c0b421d5716271cf88e85b
 commit: 43c26111cafa87d81570c63d96c497e13ec883da [0/1] ANDROID: binder: unload C Binder trace events
-config: i386-buildonly-randconfig-003-20251022 (https://download.01.org/0day-ci/archive/20251022/202510220327.umgvCAPD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220327.umgvCAPD-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20251022 (https://download.01.org/0day-ci/archive/20251022/202510220322.klaAqkp8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220322.klaAqkp8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510220327.umgvCAPD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510220322.klaAqkp8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/trace/trace_events.c:2807:6: warning: no previous prototype for 'remove_event_from_tracers' [-Wmissing-prototypes]
+>> kernel/trace/trace_events.c:2807:6: warning: no previous prototype for function 'remove_event_from_tracers' [-Wmissing-prototypes]
     2807 | void remove_event_from_tracers(struct trace_event_call *call)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |      ^
+   kernel/trace/trace_events.c:2807:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2807 | void remove_event_from_tracers(struct trace_event_call *call)
+         | ^
+         | static 
+   1 warning generated.
 
 
 vim +/remove_event_from_tracers +2807 kernel/trace/trace_events.c
