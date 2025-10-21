@@ -1,135 +1,120 @@
-Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C343C42A9D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Oct 2025 08:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE7F2580FF;
+	Tue, 21 Oct 2025 09:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761036615; cv=none; b=vF2HZlDcz7VLaWp8pZk6I9T5S95Oz/RWxjdj8zS9R2yH51ISNNOhJyV5oetzBa/O6R1gaSi/7pZr4F3mB5XxLNREifQKMDT7e1lr3xj8fAbgWp1ijJT1IS2q3TDZZIuGe/Cfvz3TRWlMAaozZgCzD68FlBO5IIbCgELGsnQ2k1E=
+	t=1761039255; cv=none; b=mCgPRT6FznxcPk+F5NSspRfpOYzDEM5Abyn1nLZgO10abfZTGhrLKPHmbI6XyNmxS9ytPRsBakIl0HqVNvgOy96LpoPwbt3IJU2stFXnkx6gEFeoEpplt9Vm7Y5JNZnUrsBqf7lzQwsYWlsBxRySIQmTYzuli14GNAsLENa7j2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761036615; c=relaxed/simple;
-	bh=wndupjH5Sua+28vDjCRLmOOCVxHW++gOVaUH97vw8/s=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tOTn03KoAmkg06E1WnvB83zT6vcTLHO/7QCai9N+EF4TZVzI2Pj8RMYcK5iVV/QuHFGBBpw+nL47AKX5Rt3HPQezap6cEj+2TiClJIsoxl5b9Jce1uBIDfRYskYAlRhIjCcVKgFGXfH+RvYCV0gSdqLpOur8VcNr9W9TVo7k3mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=a8lHBt0/; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+	s=arc-20240116; t=1761039255; c=relaxed/simple;
+	bh=NuNaGs/aTEkE7RGJzLyuoXHuGc7MDkZXmN/08+xvIOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2lMKL6dHhPqwg6fz224CxcW8hgM84k+afB6EKAHjETeMFdsSbAkWFFbAiFUtE6Q/Jbar/mBf5H2YqsKW0PBOGxoRDodhJvaYamECA27lnb7kCDQtzTZls7vMTKGQUGXbSpnuENIcs1mwPv72Zgzx2Rlc5OWLrne/g7JxiVN48M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFX/nQQ7; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="a8lHBt0/"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.secunet.com (Postfix) with ESMTP id 0A43620839;
-	Tue, 21 Oct 2025 10:50:05 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from mx1.secunet.com ([127.0.0.1])
- by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0wuVR7HoUC-t; Tue, 21 Oct 2025 10:50:04 +0200 (CEST)
-Received: from EXCH-01.secunet.de (unknown [10.32.0.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.secunet.com (Postfix) with ESMTPS id 0410A206BC;
-	Tue, 21 Oct 2025 10:50:04 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 0410A206BC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1761036604;
-	bh=RUBh9UYVKUuQsKDTiQthbtQrX8SdUP8OP+RYt7Uq1fI=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-	b=a8lHBt0/Swo3Jo5Eqqw2OLd7C8EroKgncC7mCh+NhNY0tFXgVspUmj9gAtRNPqasj
-	 ZOPXl5RInLfqPZ07iJAHdG4lam80d33iMpmPZQb3x68SBPBIZdHkNHrTzu7elvD7qM
-	 sY51iV3NQMXhe+b65QZFWkhj+UWOuyq8kHGYrUDsj5quTvmoXGoDbPejq7R6pDXco5
-	 pNW+N5Ju/3BWgFG8X1Gg7+BurUTA3qDnIUxeoehQ2sgETBSrgcoBXdNnZhfOg7WkCA
-	 aCmXkv2y5lXNnfc5vBp1M4Upi36lyxUc4O/aJlN5i9A1do0lpBfx2jJgy6fUpg8pZy
-	 QpKzIZmJYtJhg==
-Received: from secunet.com (10.182.7.193) by EXCH-01.secunet.de (10.32.0.171)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Tue, 21 Oct
- 2025 10:50:03 +0200
-Received: (nullmailer pid 2817729 invoked by uid 1000);
-	Tue, 21 Oct 2025 08:50:03 -0000
-Date: Tue, 21 Oct 2025 10:50:03 +0200
-From: Steffen Klassert <steffen.klassert@secunet.com>
-To: Sabrina Dubroca <sd@queasysnail.net>
-CC: <netdev@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>, kernel test
- robot <lkp@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>
-Subject: Re: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover
- states during netns deletion
-Message-ID: <aPdJO3k9C-bhqHSQ@secunet.com>
-References: <2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd@queasysnail.net>
- <202510172159.iLR9bfcc-lkp@intel.com>
- <aPVtmloGOCQi_7ue@krikkit>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFX/nQQ7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761039252; x=1792575252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NuNaGs/aTEkE7RGJzLyuoXHuGc7MDkZXmN/08+xvIOc=;
+  b=lFX/nQQ7uhNa+ONRAR1zv2WAC4W9bYMBRmlHhy8Eon2RO46cDXN4ukPM
+   paQW/SHXCBxqFRVES/Q+M3CCy70nq0EiEfLXB0YhjrVb0bKz/N3NA02LS
+   jTXjIpWTzsRVxoyRoOS/5+nn4oToXRIFdAsOLOeSMZtL4AWrj+j8twsIu
+   j7mXSDWiLI0OkUMF+5fmwytywVzcTNvF4Gwr++0PhKP5MT8KtTbhsTB9b
+   qeaDHZxDj1NF5iuwOWLqk/vo3Ueok0GkaxcnvN2L70k9tWxIn8wvgf2/g
+   VB3nF77RpkRvmPlwhQW+O4L1WLI0Jr5URf4lX7r7HSdhxg7hFgcOSWQRl
+   g==;
+X-CSE-ConnectionGUID: y3FVxyGYQ/y27rHw6M7l/Q==
+X-CSE-MsgGUID: Jxz0DOahQJWHRq0caPqZgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88628873"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="88628873"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:34:11 -0700
+X-CSE-ConnectionGUID: vD6z0ZsJRle3uMTT2KkwVg==
+X-CSE-MsgGUID: xor/ioRCQdqRm1zZIOR81A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="183254367"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 21 Oct 2025 02:34:09 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vB8ih-000AhN-37;
+	Tue, 21 Oct 2025 09:33:39 +0000
+Date: Tue, 21 Oct 2025 17:29:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>,
+	Yiting Deng <yiting.deng@amlogic.com>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-amlogic@lists.infradead.org, linux-rtc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] rtc: amlogic-a4: fix double free caused by devm
+Message-ID: <202510211756.vnQ8ZIWo-lkp@intel.com>
+References: <20251020150956.491-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aPVtmloGOCQi_7ue@krikkit>
-X-ClientProxiedBy: cas-essen-01.secunet.de (10.53.40.201) To
- EXCH-01.secunet.de (10.32.0.171)
+In-Reply-To: <20251020150956.491-1-vulab@iscas.ac.cn>
 
-Hi Sabrina,
+Hi Haotian,
 
-On Mon, Oct 20, 2025 at 01:00:42AM +0200, Sabrina Dubroca wrote:
-> Hi Steffen,
-> 
-> 2025-10-17, 23:10:36 +0800, kernel test robot wrote:
-> > Hi Sabrina,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on klassert-ipsec-next/master]
-> > [also build test WARNING on klassert-ipsec/master net/main net-next/main linus/master v6.18-rc1 next-20251016]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/xfrm-drop-SA-reference-in-xfrm_state_update-if-dir-doesn-t-match/20251016-184507
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-> > patch link:    https://lore.kernel.org/r/2a743a05bbad7ebdc36c2c86a5fcbb9e99071c7b.1760610268.git.sd%40queasysnail.net
-> > patch subject: [PATCH ipsec 6/6] xfrm: check all hash buckets for leftover states during netns deletion
-> > config: x86_64-randconfig-r123-20251017 (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251017/202510172159.iLR9bfcc-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202510172159.iLR9bfcc-lkp@intel.com/
-> > 
-> > sparse warnings: (new ones prefixed by >>)
-> [...]
-> >   3308	void xfrm_state_fini(struct net *net)
-> >   3309	{
-> >   3310		unsigned int sz;
-> >   3311		int i;
-> >   3312	
-> >   3313		flush_work(&net->xfrm.state_hash_work);
-> >   3314		xfrm_state_flush(net, 0, false);
-> >   3315		flush_work(&xfrm_state_gc_work);
-> >   3316	
-> >   3317		WARN_ON(!list_empty(&net->xfrm.state_all));
-> >   3318	
-> >   3319		for (i = 0; i <= net->xfrm.state_hmask; i++) {
-> > > 3320			WARN_ON(!hlist_empty(net->xfrm.state_byseq + i));
-> 
-> So, before my patch there was a sparse waraning on the
-> 
-> 	WARN_ON(!hlist_empty(net->xfrm.state_by*));
-> 
-> lines, and now there's a sparse warning on the loop.
-> (and plenty on other lines in net/xfrm/xfrm_state.c)
-> 
-> This bot message gave me the push to finally take a look at all the
-> sparse warnings in net/xfrm/xfrm_state.c, I have solutions for a big
-> chunk of them (and a few in other files).
-> 
-> If you want to drop this patch from the set, I'll re-send it later, on
-> top of the sparse stuff. The rest of the series works without it. If
-> you want to take it as is, it doesn't change the sparse situation in
-> this file (a few warnings moved around) and I'll do the sparse
-> cleanups on top of it.
+kernel test robot noticed the following build warnings:
 
-I'll take the patchset as is and wait for your sparse fixes on top.
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on linus/master v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/rtc-amlogic-a4-fix-double-free-caused-by-devm/20251020-231345
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20251020150956.491-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] rtc: amlogic-a4: fix double free caused by devm
+config: i386-buildonly-randconfig-002-20251021 (https://download.01.org/0day-ci/archive/20251021/202510211756.vnQ8ZIWo-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251021/202510211756.vnQ8ZIWo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510211756.vnQ8ZIWo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/rtc/rtc-amlogic-a4.c:425:23: warning: unused variable 'rtc' [-Wunused-variable]
+     425 |         struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
+         |                              ^~~
+   1 warning generated.
+
+
+vim +/rtc +425 drivers/rtc/rtc-amlogic-a4.c
+
+c89ac9182ee297 Yiting Deng  2024-11-12  419  
+c89ac9182ee297 Yiting Deng  2024-11-12  420  static SIMPLE_DEV_PM_OPS(aml_rtc_pm_ops,
+c89ac9182ee297 Yiting Deng  2024-11-12  421  			 aml_rtc_suspend, aml_rtc_resume);
+c89ac9182ee297 Yiting Deng  2024-11-12  422  
+c89ac9182ee297 Yiting Deng  2024-11-12  423  static void aml_rtc_remove(struct platform_device *pdev)
+c89ac9182ee297 Yiting Deng  2024-11-12  424  {
+c89ac9182ee297 Yiting Deng  2024-11-12 @425  	struct aml_rtc_data *rtc = dev_get_drvdata(&pdev->dev);
+c89ac9182ee297 Yiting Deng  2024-11-12  426  
+8c28c4993f117e Wolfram Sang 2024-12-17  427  	device_init_wakeup(&pdev->dev, false);
+c89ac9182ee297 Yiting Deng  2024-11-12  428  }
+c89ac9182ee297 Yiting Deng  2024-11-12  429  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
