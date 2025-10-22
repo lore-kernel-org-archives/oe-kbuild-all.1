@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59E73491D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 13:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA02347BC5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 13:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761138489; cv=none; b=kxJY3vEgQM2nIVxKysO1Euam+UFVq5Iz6R6tyeIEcycY675X0iz7XQpOxOghVu9wpj1/KeedofY2G8G2ISnj/mf/LfeYJdTfNX2lXsZes/nt4Pquf6tH2I+hBtnhCHLvkhiYRlAk2gZFClKXx+zSdpBR0ZE+e2MQVLwWWAdheQU=
+	t=1761140318; cv=none; b=BDY2M77sQ9cwkTSUX3ifJ341y/p5aGPmvJ4cZ69GYkAz+hCTjHffDAZuBYytWARkEmTxYUUMBXSE26n8bYYhl9v7UIYSqaC+LnTuArmugvanOuMdun8r5Mnf+SlDnzH8Zn87l8KaLvstHztkUunbyjcz2DixRE60aTtZkgdhw1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761138489; c=relaxed/simple;
-	bh=ZoTPenGJmIvPF1ZauSj9UEAqI9olcyZxwqnCJExCdYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CzL6mPSaDfjG5T4JstmXwXeP1/Ktde6TRaeopyXl+Caq4btA0TrsLYAJwX4+Y6ePJV/Scw7LCGrDQ1lDA7QfZEL7PvPmDGR1HjN5jpYA1l6PM6bkE7EftNF1Wr1cL8hiaG+7I3WEZNVDMGTOSrveOnzBdijocjvqo13ExZWagCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5GepoUd; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1761140318; c=relaxed/simple;
+	bh=Jk07LSuW7o+FzSpWG5F/znIOgaI7RMdvCBmOLObpTrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V8Uy6olmUMGv6KmS7rlbTDnlkQSV36OIjeq6OX83LrteG4fna/s+Ec295UB/8Mob0CN6/cu2HuA6hV3mC2+bB9whXMgKhOBD1j+oVMtcJXqDGlYd/ucP2qbJQmd7TxHZXX6VElYM6GnZeID5kBzajgEp0Cg1BLmb6tNofq4iIc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLQaWKGa; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5GepoUd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLQaWKGa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761138488; x=1792674488;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZoTPenGJmIvPF1ZauSj9UEAqI9olcyZxwqnCJExCdYU=;
-  b=D5GepoUdKT5pTP9n6PYlCxl0hk2KA7Ihxb+OximWQ+St+9YoKo5xwx7w
-   eAbZ0tCY6pB9a1/p4RxL8De9cCOE3X9e9H3WahHeT+rZoPUp2hMzsML5M
-   J7FcBiwxaMFn5cn1wx8MFgaQ2fhvtX0BoOH4YR3nKHo+hTIdC/3frY605
-   4LksykEx3a7jkoBvawM3MzTGZnetXME7ZLyKR1YoovhXKMeKCICinnVMD
-   3ZqQjspCtk1stE8cOPl0LAvsDQzVkyfge9wiGa5fRA5c2smZLyIrQEmkR
-   ssVXgV/h93ADqsqJD1XPF+UY2WD6Hz69grf5SfuBjg6CPU3fBI8yhYpxE
-   Q==;
-X-CSE-ConnectionGUID: vkWt4k3VQsuyTUAMMm0fEw==
-X-CSE-MsgGUID: +LPL11+tQ8SAfGj1QkmTaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63379699"
+  t=1761140316; x=1792676316;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Jk07LSuW7o+FzSpWG5F/znIOgaI7RMdvCBmOLObpTrE=;
+  b=kLQaWKGakS5bZ4CROE0NWa6b4DlfasmPgIn0r/Tu/uoUwTC86FaNcV9V
+   3WbXZy4cV1YwwCLVJAo2jHUcAehvAnoBPmZP+NOqFlNn4WHKCUYC9ErPe
+   yls1Fptkt22qRB136R3Uf9uuv9s7QmO/wLIl5rtfWpuLQdxVUU3NICk9f
+   qwkK3O/txsGtwE8OFI42k13LqKs/iEIq+efTtMbaFnFRxFg6aCWE5MKP9
+   S+iwX+mBx1AkGEECK3P0h2vzFEKdr5Zw/kFIf0SHlj07S43lUsB6J3NS/
+   n/acIKiypT3qTdlFu6y49X5Cajc6UwTv1ABUrKA5UdrljWjvC2o7exNAY
+   w==;
+X-CSE-ConnectionGUID: m6NWpEU2SRuslt3Lh77sAw==
+X-CSE-MsgGUID: uBSGkw1VS4KsleBkjW1YdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65904485"
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="63379699"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:08:07 -0700
-X-CSE-ConnectionGUID: 1LWgONJ8Q6O1LTgbgm1x0A==
-X-CSE-MsgGUID: a06OhsB4RVqT+mu6nKmIFg==
+   d="scan'208";a="65904485"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 06:38:36 -0700
+X-CSE-ConnectionGUID: ql/oeXATRQWxWC8SoZ9/Ng==
+X-CSE-MsgGUID: ip3xF8XMTfupYz0ejroGyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="188274892"
+   d="scan'208";a="183463464"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 06:08:06 -0700
+  by orviesa009.jf.intel.com with ESMTP; 22 Oct 2025 06:38:33 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBYZP-000CNi-2C;
-	Wed, 22 Oct 2025 13:08:03 +0000
-Date: Wed, 22 Oct 2025 21:07:24 +0800
+	id 1vBZ2s-000COn-2a;
+	Wed, 22 Oct 2025 13:38:30 +0000
+Date: Wed, 22 Oct 2025 21:38:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [tty:tty-testing 11/22] drivers/tty/serial/sc16is7xx.c:596:9: error:
- implicit declaration of function 'sc16is7xx_efr_lock'; did you mean
- 'sc16is7xx_regs_lock'?
-Message-ID: <202510222048.fnK8S60G-lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Denis Benato <benato.denis96@gmail.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
+ kbd led handlers
+Message-ID: <202510222013.EBLC609m-lkp@intel.com>
+References: <20251018101759.4089-6-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +72,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251018101759.4089-6-lkml@antheas.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-head:   cdca3a77b423691b0e3780653642cd5b31de8bd8
-commit: 5a91e16ba44d9850088278ebe209b5c533f87cb8 [11/22] serial: sc16is7xx: define common register access function
-config: x86_64-buildonly-randconfig-003-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/reproduce)
+Hi Antheas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-simplify-RGB-init-sequence/20251018-182410
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251018101759.4089-6-lkml%40antheas.dev
+patch subject: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple kbd led handlers
+config: i386-randconfig-141-20251020 (https://download.01.org/0day-ci/archive/20251022/202510222013.EBLC609m-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510222048.fnK8S60G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510222013.EBLC609m-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/platform/x86/asus-wmi.c:1623 kbd_led_update_all() warn: always true condition '(value >= 0) => (0-u32max >= 0)'
 
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_set_baud':
->> drivers/tty/serial/sc16is7xx.c:596:9: error: implicit declaration of function 'sc16is7xx_efr_lock'; did you mean 'sc16is7xx_regs_lock'? [-Wimplicit-function-declaration]
-     596 |         sc16is7xx_efr_lock(port);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         sc16is7xx_regs_lock
->> drivers/tty/serial/sc16is7xx.c:600:9: error: implicit declaration of function 'sc16is7xx_efr_unlock'; did you mean 'sc16is7xx_regs_unlock'? [-Wimplicit-function-declaration]
-     600 |         sc16is7xx_efr_unlock(port);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         sc16is7xx_regs_unlock
+Old smatch warnings:
+drivers/platform/x86/asus-wmi.c:2288 asus_new_rfkill() warn: '*rfkill' is an error pointer or valid
 
+vim +1623 drivers/platform/x86/asus-wmi.c
 
-vim +596 drivers/tty/serial/sc16is7xx.c
-
-dbf4ab821804df0 Hugo Villeneuve 2023-12-11  572  
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  573  /*
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  574   * Configure programmable baud rate generator (divisor) according to the
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  575   * desired baud rate.
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  576   *
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  577   * From the datasheet, the divisor is computed according to:
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  578   *
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  579   *              XTAL1 input frequency
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  580   *             -----------------------
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  581   *                    prescaler
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  582   * divisor = ---------------------------
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  583   *            baud-rate x sampling-rate
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  584   */
-dfeae619d781dee Jon Ringle      2014-04-24  585  static int sc16is7xx_set_baud(struct uart_port *port, int baud)
-dfeae619d781dee Jon Ringle      2014-04-24  586  {
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  587  	unsigned int prescaler = 1;
-dfeae619d781dee Jon Ringle      2014-04-24  588  	unsigned long clk = port->uartclk, div = clk / 16 / baud;
-dfeae619d781dee Jon Ringle      2014-04-24  589  
-2e57cefc4477659 Hugo Villeneuve 2023-12-21  590  	if (div >= BIT(16)) {
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  591  		prescaler = 4;
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  592  		div /= prescaler;
-dfeae619d781dee Jon Ringle      2014-04-24  593  	}
-dfeae619d781dee Jon Ringle      2014-04-24  594  
-dfeae619d781dee Jon Ringle      2014-04-24  595  	/* Enable enhanced features */
-0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @596  	sc16is7xx_efr_lock(port);
-c112653b89e0cea Lech Perczak    2022-02-21  597  	sc16is7xx_port_update(port, SC16IS7XX_EFR_REG,
-c112653b89e0cea Lech Perczak    2022-02-21  598  			      SC16IS7XX_EFR_ENABLE_BIT,
-dfeae619d781dee Jon Ringle      2014-04-24  599  			      SC16IS7XX_EFR_ENABLE_BIT);
-0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @600  	sc16is7xx_efr_unlock(port);
-30ec514d440cf2c Phil Elwell     2018-09-12  601  
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  602  	/* If bit MCR_CLKSEL is set, the divide by 4 prescaler is activated. */
-dfeae619d781dee Jon Ringle      2014-04-24  603  	sc16is7xx_port_update(port, SC16IS7XX_MCR_REG,
-dfeae619d781dee Jon Ringle      2014-04-24  604  			      SC16IS7XX_MCR_CLKSEL_BIT,
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  605  			      prescaler == 1 ? 0 : SC16IS7XX_MCR_CLKSEL_BIT);
-dfeae619d781dee Jon Ringle      2014-04-24  606  
-5a91e16ba44d985 Hugo Villeneuve 2025-10-02  607  	/* Access special register set (DLL/DLH) */
-5a91e16ba44d985 Hugo Villeneuve 2025-10-02  608  	sc16is7xx_regs_lock(port, SC16IS7XX_LCR_REG_SET_SPECIAL);
-dfeae619d781dee Jon Ringle      2014-04-24  609  
-dfeae619d781dee Jon Ringle      2014-04-24  610  	/* Write the new divisor */
-dfeae619d781dee Jon Ringle      2014-04-24  611  	sc16is7xx_port_write(port, SC16IS7XX_DLH_REG, div / 256);
-dfeae619d781dee Jon Ringle      2014-04-24  612  	sc16is7xx_port_write(port, SC16IS7XX_DLL_REG, div % 256);
-dfeae619d781dee Jon Ringle      2014-04-24  613  
-5a91e16ba44d985 Hugo Villeneuve 2025-10-02  614  	/* Restore access to general register set */
-5a91e16ba44d985 Hugo Villeneuve 2025-10-02  615  	sc16is7xx_regs_unlock(port);
-7d3b793faaab130 Hugo Villeneuve 2024-07-23  616  
-8492bd91aa05590 Hugo Villeneuve 2024-04-30  617  	return DIV_ROUND_CLOSEST((clk / prescaler) / 16, div);
-dfeae619d781dee Jon Ringle      2014-04-24  618  }
-dfeae619d781dee Jon Ringle      2014-04-24  619  
-
-:::::: The code at line 596 was first introduced by commit
-:::::: 0c84bea0cabc4e2b98a3de88eeb4ff798931f056 serial: sc16is7xx: refactor EFR lock
-
-:::::: TO: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1589	
+  1590	static void kbd_led_update_all(struct work_struct *work)
+  1591	{
+  1592		enum led_brightness value;
+  1593		struct asus_wmi *asus;
+  1594		bool registered, notify;
+  1595		int ret;
+  1596	
+  1597		asus = container_of(work, struct asus_wmi, kbd_led_work);
+  1598	
+  1599		scoped_guard(spinlock_irqsave, &asus_ref.lock) {
+  1600			registered = asus->kbd_led_registered;
+  1601			value = asus->kbd_led_wk;
+  1602			notify = asus->kbd_led_notify;
+  1603		}
+  1604	
+  1605		if (!registered) {
+  1606			/*
+  1607			 * This workqueue runs under asus-wmi, which means probe has
+  1608			 * completed and asus-wmi will keep running until it finishes.
+  1609			 * Therefore, we can safely register the LED without holding
+  1610			 * a spinlock.
+  1611			 */
+  1612			ret = devm_led_classdev_register(&asus->platform_device->dev,
+  1613						    &asus->kbd_led);
+  1614			if (!ret) {
+  1615				scoped_guard(spinlock_irqsave, &asus_ref.lock)
+  1616					asus->kbd_led_registered = true;
+  1617			} else {
+  1618				pr_warn("Failed to register keyboard backlight LED: %d\n", ret);
+  1619				return;
+  1620			}
+  1621		}
+  1622	
+> 1623		if (value >= 0)
+  1624			do_kbd_led_set(&asus->kbd_led, value);
+  1625		if (notify) {
+  1626			scoped_guard(spinlock_irqsave, &asus_ref.lock)
+  1627				asus->kbd_led_notify = false;
+  1628			led_classdev_notify_brightness_hw_changed(&asus->kbd_led, value);
+  1629		}
+  1630	}
+  1631	
 
 -- 
 0-DAY CI Kernel Test Service
