@@ -1,74 +1,57 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EED133F8BB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 12:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC931343D8A;
+	Wed, 22 Oct 2025 12:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761134899; cv=none; b=dQ4n5Q1hFkjqZ0Q3JJEfOT0mvxZ3Eth5r9rELCvX037Vn9DngDswpmv8Nl3IoQ6i8NGKZVow7lHIiTbWHJHXJQluaXVOVzXyWiWumu9RlFhFtV6v+v27RMmdM2Nd60dxPmay0CE1lx0gYj7lU1saQLgaduPatWAmOQEO8RgnHqM=
+	t=1761136611; cv=none; b=auQ9F2Ol/CS8z1omHLdKUjYT6gIpzkn/OJFj/Qku8Y+gjiv7yedxoiibfkGeuKOgdRTzo4zu/M5T4x+KkevTwJ2r4aubC995PGyUGFwvx/2K/Fo+qmQRsMUC1VtIBM2cKHuxxnBbPf1zrJsL29o1/zpBM7o4kPs03y+EltVnowE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761134899; c=relaxed/simple;
-	bh=tZhHNi5tiOiq5ZyFScnnqPfCNqj/bQHHe9aIYrpZW4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iO7g0fFRhJX71vgZKduVpRTBkBWelLnwdTnxLJbRGvfac3veRXLLSkMlwGM65NwARbJqtHLSgXLRywKkSvVghHdva+rGR3ol1TymWIy0vEn4NqzlHnVbPQNWhNkkMkLGXcHakXzdOgb3f4H5GBGiSXiQVc0R7Qql/UshrO9kMp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mYEZ1uBB; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761136611; c=relaxed/simple;
+	bh=lWAYWlWKVYJcd89Q3ana/T5XxnhlHl7uQSVm27Ijyvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SjoYCFVN8U6Y/5WAdM4w9EjHn7diPJK14pk5CAPjJakS5z2rNUnKllU+ruSEmC6q+TZf/sYK7ArJ4SFsRzukJiY5hQwcqrqwjpFD2QhfgoRbOFhCMcE1cA6XNPHk2UANhY2cKbmR/lrJ17cVXMGnrfkwfp8Ov84jfGc6nwNDqfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IOD+F1uw; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mYEZ1uBB"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42706c3b7cfso2332831f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 05:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761134895; x=1761739695; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvbnSMIYk5HD128ctAAfLOD94aj1lQC5qodcVPOSef8=;
-        b=mYEZ1uBB4TTssHTgAhMKw7oMhJ7NPFtTy81iSrr7I30f2b035EHgd9Kq3DQoeSONk6
-         6pE7O9kQaO/vANCSdthYvl767nNLOCSjFJM4eNuJARpIgz6VsCd2deYdUjjRt4MtQI13
-         Be8jMHy6+A1W7EYs5p9NPQ/ZUQwp+U1P69pvMedJVxBKgyVJEU8I+14JTbKo6+6VXxvL
-         vWtkp+/1EOIEY/toVZ9a3wucfL4sbW7YqgR+mp6BHpqdh8yR1XAljwOG50oSDINS2rxC
-         uP0aN43hw6VyqmtUF4Mp+8AjwuaSYegrWYMLBKXwzkVswytXfruCZWsMQYVF/ymlWJ85
-         N0NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761134895; x=1761739695;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DvbnSMIYk5HD128ctAAfLOD94aj1lQC5qodcVPOSef8=;
-        b=TGhIh2monTxK4F8gqQohuge44/XCOKIDT2NGtFp46KOUxAmG2jCbNwDXV+0v9l2dBC
-         Zzhj3UPzsiUafzNOBX7xEwjF1/KVgZ1aiH/dK2105pS69YQrn7ielYqR3NwvePK8DlNz
-         W65znV43H51mW/yxBz4gSAKMn/O9pm4lRZgxPgrQuhc62fbUERfgT/SEbFVr+5cY+YPM
-         QKfBYz7MG+rdt+uverzu3chkfViW3+R+BwO++ayptNreFCX7Per4m9Dju7byy0Q0jOMx
-         puc9g+DBvMnK2c9M5cTKD/Vd0o/OxwEEDfMUiBQA/sNOyGzndaaZZ1AEAQzffHO5S03v
-         5g+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVEAUEYSMteZhsKzXT0sMGVfejS67JeuOmls7AbhjxwrN9n81QeNYZ0Q5mDLFsHq+wiYxD5qUYX/4IVBeTt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmeVbVwrd/yp4iNOvA0wYSZbuqMOWIDRVzOYXhVMHfAARHtE0y
-	3msU4UAB4vZDcQMPml/PCdWDf3AyTmd/ndJH+l4YO6i/NqNNz4bmpboc3PmCnvzn+3o=
-X-Gm-Gg: ASbGnctVOimU0QIazfCri2FPy2sHJaQFVmDH7xyhN7ueg9en5ibUKXM1YTAcPdkLs4b
-	yfuESXb2RdpMXbjgCyb5YQlpUKHxdV/J8EaGK2aBIVi1ZE2YJg/asqeMnzc93rcWMEwHxPq9bct
-	dp+FNrbQiQPBjhz6cKi7DIFfUCVPJYKLMBz68T4Z7MJ/RGOOaI5kbH2Pmyyl2klFek0D37RiNaa
-	BRuQccNO2BjWvP4FEhthz9NXBrrPCdcIKhmGe2EsjLv5PjxPwQ+NeM09tAK3HezFZQboAroxeXn
-	8IyA6z/dSj8VjRPXtLPvZ/M8sJ8OWdqk6jK1AQny+PMDBhzLYPp5AOvz/u1uzCVg2xDyhwK8Y2a
-	8g8PnXxkFJ5vmLutx+JxAe10yKmIOtN+mt0/5Bcu07GkGITpvVC8yadxatODt9x+KDb+SaEZjhF
-	TbiHTyyf8t5Pboyxxv
-X-Google-Smtp-Source: AGHT+IFtLElvxR81Tckw5mAAABXqwaPNv/lBu1tgkcuWlvZJfGpip3RMbzFOLoUXkftAvfjFkop/kg==
-X-Received: by 2002:a5d:5f82:0:b0:3fa:5925:4b07 with SMTP id ffacd0b85a97d-42704d74f9fmr12489147f8f.18.1761134895206;
-        Wed, 22 Oct 2025 05:08:15 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47496cf3b51sm35168225e9.9.2025.10.22.05.08.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 05:08:14 -0700 (PDT)
-Date: Wed, 22 Oct 2025 15:08:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Artem Shimko <a.shimko.dev@gmail.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Artem Shimko <a.shimko.dev@gmail.com>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] dmaengine: dw-axi-dmac: add reset control support
-Message-ID: <202510221508.PY6fB9CB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IOD+F1uw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761136609; x=1792672609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lWAYWlWKVYJcd89Q3ana/T5XxnhlHl7uQSVm27Ijyvk=;
+  b=IOD+F1uwZ1W5YLVBZRNerhHlFGuD/lq0bAUSXNSA8E2FQO5cfFEGoLqQ
+   ghO9xzgaV/Qkp8w+fYa3YJbWQHNG12e0yasSgIgVSn6+GzZBxZYomSiTc
+   OhmOJesK7toewZtWz7DZlrQz1/t/agId9f/TxEfxSDI/c78Cj2dqKaGAP
+   HikS8wgEf0AnkYwy2e/5qVBKVhWBxuu8zbliPE2glidxbygLV3bvQWMYk
+   GC5zJPLydzaXsLc4YyoUbwrwaPRSqGW4oSazLL+uAVcy1gPUkuI+gKIfu
+   ENgdWa1/qbLgBNbXs8tco0O4iByI+/M/BVhk1++ScpzZS9AOLM3VrctHp
+   g==;
+X-CSE-ConnectionGUID: Rxu2NyE/RU6q0x1d8KWqvw==
+X-CSE-MsgGUID: aacrc9X7Tzug3kKGeIxdHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67118834"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="67118834"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 05:36:49 -0700
+X-CSE-ConnectionGUID: ITRkvqKVQpmu49FkVzCmhQ==
+X-CSE-MsgGUID: OM+FeeoJRAOpRhMrbC0PMA==
+X-ExtLoop1: 1
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 22 Oct 2025 05:36:48 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBY4v-000CML-1T;
+	Wed, 22 Oct 2025 12:36:42 +0000
+Date: Wed, 22 Oct 2025 20:35:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bernd Schubert <bschubert@ddn.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC] fuse: check if system-wide io_uring is enabled
+Message-ID: <202510222000.BcMVuDeq-lkp@intel.com>
+References: <20251021-io-uring-fix-check-systemwide-io-uring-enable-v1-1-01d4b4a8ef4f@ddn.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,67 +60,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251017102950.206443-3-a.shimko.dev@gmail.com>
+In-Reply-To: <20251021-io-uring-fix-check-systemwide-io-uring-enable-v1-1-01d4b4a8ef4f@ddn.com>
 
-Hi Artem,
+Hi Bernd,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 6548d364a3e850326831799d7e3ea2d7bb97ba08]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Shimko/dmaengine-dw-axi-dmac-simplify-PM-functions-and-use-modern-macros/20251017-183103
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20251017102950.206443-3-a.shimko.dev%40gmail.com
-patch subject: [PATCH v4 2/2] dmaengine: dw-axi-dmac: add reset control support
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251022/202510221508.PY6fB9CB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-check-if-system-wide-io_uring-is-enabled/20251022-043238
+base:   6548d364a3e850326831799d7e3ea2d7bb97ba08
+patch link:    https://lore.kernel.org/r/20251021-io-uring-fix-check-systemwide-io-uring-enable-v1-1-01d4b4a8ef4f%40ddn.com
+patch subject: [PATCH RFC] fuse: check if system-wide io_uring is enabled
+config: i386-buildonly-randconfig-001-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222000.BcMVuDeq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222000.BcMVuDeq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510221508.PY6fB9CB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510222000.BcMVuDeq-lkp@intel.com/
 
-New smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1355 axi_dma_resume() warn: 'chip->core_clk' from clk_prepare_enable() not released on lines: 1350.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1237 dma_chan_pause() warn: inconsistent indenting
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1284 axi_chan_resume() warn: inconsistent indenting
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1355 axi_dma_resume() warn: 'chip->cfgr_clk' from clk_prepare_enable() not released on lines: 1346,1350.
-
-vim +1355 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-
-45fdf99125b2bf7 Artem Shimko    2025-10-17  1335  static int axi_dma_resume(struct device *dev)
-
-I guess kbuild bot thinks these are new warnings because the function
-was renamed.  In the past we've just ignored clk_prepare_enable() warnings.
-Perhaps that's the correct thing to do in a resume function.
-The indenting in dma_chan_pause() and axi_chan_resume() could be cleaned up.
-
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1336  {
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1337  	int ret;
-45fdf99125b2bf7 Artem Shimko    2025-10-17  1338  	struct axi_dma_chip *chip = dev_get_drvdata(dev);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1339  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1340  	ret = clk_prepare_enable(chip->cfgr_clk);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1341  	if (ret < 0)
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1342  		return ret;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1343  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1344  	ret = clk_prepare_enable(chip->core_clk);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1345  	if (ret < 0)
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1346  		return ret;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1347  
-9c360f02c387f93 Artem Shimko    2025-10-17  1348  	ret = reset_control_deassert(chip->resets);
-9c360f02c387f93 Artem Shimko    2025-10-17  1349  	if (ret)
-9c360f02c387f93 Artem Shimko    2025-10-17  1350  		return ret;
-9c360f02c387f93 Artem Shimko    2025-10-17  1351  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1352  	axi_dma_enable(chip);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1353  	axi_dma_irq_enable(chip);
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1354  
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06 @1355  	return 0;
-1fe20f1b84548bb Eugeniy Paltsev 2018-03-06  1356  }
+>> ld.lld: error: undefined symbol: io_uring_allowed
+   >>> referenced by inode.c:1970 (fs/fuse/inode.c:1970)
+   >>>               fs/fuse/inode.o:(check_system_io_uring) in archive vmlinux.a
+   >>> referenced by inode.c:1971 (fs/fuse/inode.c:1971)
+   >>>               fs/fuse/inode.o:(check_system_io_uring) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
