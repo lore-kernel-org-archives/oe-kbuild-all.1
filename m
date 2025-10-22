@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459112EA146
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 21:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807DC274B30;
+	Wed, 22 Oct 2025 21:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761169101; cv=none; b=Wc7ldOwccTkUSEE0HH30W6aHiHCcQopcMPrtY51jHKhUn5iuCi3TiFAKEktmdC//TNSAXHfduwFliUROLo3Ow7i+m5OwygIy0YUpD9dtmurx6zixS2hwnexN89aA29+AsNYmI5JyyRSY3woFK2591zRbSvuIDxNnkIRbt8oGMf8=
+	t=1761170366; cv=none; b=swZCeO1rABIYgJKfa+lfsWlYcKzN/lYRV4jpX4RmETfF3uKkILc90xXKXSkOl92wQZJTLbEwnq2uewnZXrWAdFp1kY1FyeTclTUCtOG9tisEZJJ0YKa7WdFjqju/28UgG3WZ0WV9IXMN5Ij6LhnysXInNWTwbqzpHdCd31BgWzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761169101; c=relaxed/simple;
-	bh=4wN/NSPrJSn5giEmXsuWdrelnAOZPjiC4VPhOzm+6zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uw71qZ18d/xJZJEbJu62QbD2hYUn4TACItGpnWeedxHojSuZvSwlklPb/raHpVX1WeoQ22ST+1JPE1hFoUYeu0+yiVkRDbmBtQ9z0PF3ESaO9KYxfAzXoI6/fqHXFLxW/OdS2N/R9CzibkIXsQjdoFLvRzvVQKk27M4mwSRvn3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVZwDNYP; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1761170366; c=relaxed/simple;
+	bh=YFd27wXix1IAPhDgICO/LKl4LrK5zPB9xb0D7M0YWlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFT2eJaxhFcWFMjFM6MDeOlVmTJY1tqY8aAlyz6U+JA/EPiKeupfX5GohhLPKihSBafdRxjqR4dsbu+Yu7nohNE/1L4tKtWG+ZwoS2Z3IpM3fdRcy6wWoRRUYStaPCXSG3G7IGIYAisn0ZbfCT9m5HxMX/7NcHVH9c3Rxq5D008=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hUyaCTij; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVZwDNYP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUyaCTij"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761169099; x=1792705099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4wN/NSPrJSn5giEmXsuWdrelnAOZPjiC4VPhOzm+6zo=;
-  b=NVZwDNYPvRFjkvmp0x2aFknoWon3hlt1J8FoosQQZh2jdiIOIuJTMUac
-   4cB8xF8okZI1RqzPbnDQaK/zy/TPf3WynTRLzWpWd48hCQxQe7ecoZrtI
-   mC+hKnEUTOnMQ5E2qlPMULMGa7MUCC953ZCtJ+NwAPuXSdDwAo10NM2y3
-   /V6xJEpdOR+Zxs18OefELwxqW8vdk/wWicG/VMwMgKpNsqbDZy4nNfLOC
-   6/Kk3rxAbL4dYr1a1rhufEUmMk6BIIvsdWD3k7IIS0K31m2OtSHfYYLWu
-   qgIusn7XdWI3SSbqVOMEY4tTy6Ovp/uP7ws+Y9P5SUUjDWkeGlLnTGruz
-   Q==;
-X-CSE-ConnectionGUID: MOg9qUDFSyqEedeW3/6fqA==
-X-CSE-MsgGUID: E9ePRa+HQTC5ipqfwsxBDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65946021"
+  t=1761170364; x=1792706364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YFd27wXix1IAPhDgICO/LKl4LrK5zPB9xb0D7M0YWlA=;
+  b=hUyaCTijbPKfrbgIs3130SKh6cWQ+DAcRSSKWCbZfIuiW/fdPn2lZ751
+   vmE/bD7L8iDFluMYyfJqnzk4c2kyE5rGSq0xVzJtkAnPU4jopiwtTOFqm
+   yLeKbHVa7BdsxeXS/G7O86TSnVHA8vFQnhWH0W2yuwmAMQNCO8Iqd9dxs
+   CpMniLAEpXdOtzOkFp0c0i/iROXLmZcP0k+zUAn+tTFEgy2t08mKtjGN3
+   bU7XNkaYLy4cqTnVjMICC9Z12vsKmc6x/2C5oL1VT9hvt610TYlYaXYkL
+   U2X1Ma6x/UzhgmkVGyoGdPf3eJCruDY5nXY61hGfRuCaeWTCqxmr+Xpv2
+   g==;
+X-CSE-ConnectionGUID: 0oYMNFZrTmOuJpohctT6KA==
+X-CSE-MsgGUID: NEzf/ul9RQ2loG22QNtCHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63239724"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="65946021"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 14:38:18 -0700
-X-CSE-ConnectionGUID: 7LvstlY3SlWiH0U4ejBUDg==
-X-CSE-MsgGUID: /SBdI0mxRbGUrbLx8+UovQ==
+   d="scan'208";a="63239724"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 14:59:24 -0700
+X-CSE-ConnectionGUID: AllZI4W6S6Cnl2uyz4ZxwQ==
+X-CSE-MsgGUID: QEx1E6IIRSOFqgSfZybAJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="188383015"
+   d="scan'208";a="189258251"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 14:38:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Oct 2025 14:59:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBgWe-000CkL-0N;
-	Wed, 22 Oct 2025 21:37:57 +0000
-Date: Thu, 23 Oct 2025 05:37:16 +0800
+	id 1vBgrV-000Ckj-2p;
+	Wed, 22 Oct 2025 21:59:17 +0000
+Date: Thu, 23 Oct 2025 05:59:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/1] net/bridge/br_input.c:232:2:
- error: implicit declaration of function 'nf_hook_state_init'
-Message-ID: <202510230519.WzhkfI8Y-lkp@intel.com>
+To: Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, quic_yingdeng@quicinc.com,
+	Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
+	Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>,
+	Jinlong Mao <jinlong.mao@oss.qualcomm.com>
+Subject: Re: [PATCH v3] stm: class: Add MIPI OST protocol support
+Message-ID: <202510230738.OD0OO0n6-lkp@intel.com>
+References: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,95 +76,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251022071834.1658684-1-yingchao.deng@oss.qualcomm.com>
 
-Hi Norihiko,
+Hi Yingchao,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   ab09c22ea60b40436056b0e1f692e08de52d6a19
-commit: b37eb4523002250e2382e8c5e0d8380ad349c6b6 [0/1] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
-config: i386-buildonly-randconfig-005-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230519.WzhkfI8Y-lkp@intel.com/config)
+[auto build test WARNING on atorgue-stm32/stm32-next]
+[also build test WARNING on linus/master v6.18-rc2 next-20251022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yingchao-Deng/stm-class-Add-MIPI-OST-protocol-support/20251022-152642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
+patch link:    https://lore.kernel.org/r/20251022071834.1658684-1-yingchao.deng%40oss.qualcomm.com
+patch subject: [PATCH v3] stm: class: Add MIPI OST protocol support
+config: x86_64-randconfig-071-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230738.OD0OO0n6-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230519.WzhkfI8Y-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230738.OD0OO0n6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230519.WzhkfI8Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230738.OD0OO0n6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/bridge/br_input.c:232:2: error: implicit declaration of function 'nf_hook_state_init' [-Werror,-Wimplicit-function-declaration]
-     232 |         nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-         |         ^
-   net/bridge/br_input.c:232:2: note: did you mean 'ethtool_stats_init'?
-   include/linux/ethtool.h:254:20: note: 'ethtool_stats_init' declared here
-     254 | static inline void ethtool_stats_init(u64 *stats, unsigned int n)
-         |                    ^
->> net/bridge/br_input.c:237:13: error: implicit declaration of function 'nf_hook_entry_hookfn' [-Werror,-Wimplicit-function-declaration]
-     237 |                 verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-         |                           ^
-   2 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
-   Depends on [n]: NET [=y] && INET [=n] && NETFILTER [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
+>> drivers/hwtracing/stm/p_ost.c:172:6: warning: unused variable 'i' [-Wunused-variable]
+     172 |         int i;
+         |             ^
+   1 warning generated.
 
 
-vim +/nf_hook_state_init +232 net/bridge/br_input.c
+vim +/i +172 drivers/hwtracing/stm/p_ost.c
 
-971502d77faa50 Florian Westphal 2019-04-11  227  
-b37eb452300225 Norihiko Hama    2023-12-15  228  	e = rcu_dereference(get_nf_hooks_bridge(net)[NF_BR_PRE_ROUTING]);
-971502d77faa50 Florian Westphal 2019-04-11  229  	if (!e)
-971502d77faa50 Florian Westphal 2019-04-11  230  		goto frame_finish;
-971502d77faa50 Florian Westphal 2019-04-11  231  
-971502d77faa50 Florian Westphal 2019-04-11 @232  	nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-971502d77faa50 Florian Westphal 2019-04-11  233  			   NFPROTO_BRIDGE, skb->dev, NULL, NULL,
-971502d77faa50 Florian Westphal 2019-04-11  234  			   net, br_handle_frame_finish);
-971502d77faa50 Florian Westphal 2019-04-11  235  
-971502d77faa50 Florian Westphal 2019-04-11  236  	for (i = 0; i < e->num_hook_entries; i++) {
-971502d77faa50 Florian Westphal 2019-04-11 @237  		verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-971502d77faa50 Florian Westphal 2019-04-11  238  		switch (verdict & NF_VERDICT_MASK) {
-971502d77faa50 Florian Westphal 2019-04-11  239  		case NF_ACCEPT:
-223fd0adfa8af3 Florian Westphal 2019-04-11  240  			if (BR_INPUT_SKB_CB(skb)->br_netfilter_broute) {
-223fd0adfa8af3 Florian Westphal 2019-04-11  241  				*pskb = skb;
-223fd0adfa8af3 Florian Westphal 2019-04-11  242  				return RX_HANDLER_PASS;
-223fd0adfa8af3 Florian Westphal 2019-04-11  243  			}
-971502d77faa50 Florian Westphal 2019-04-11  244  			break;
-971502d77faa50 Florian Westphal 2019-04-11  245  		case NF_DROP:
-971502d77faa50 Florian Westphal 2019-04-11  246  			kfree_skb(skb);
-971502d77faa50 Florian Westphal 2019-04-11  247  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  248  		case NF_QUEUE:
-0d9cb300acad29 Florian Westphal 2019-07-02  249  			ret = nf_queue(skb, &state, i, verdict);
-971502d77faa50 Florian Westphal 2019-04-11  250  			if (ret == 1)
-971502d77faa50 Florian Westphal 2019-04-11  251  				continue;
-971502d77faa50 Florian Westphal 2019-04-11  252  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  253  		default: /* STOLEN */
-971502d77faa50 Florian Westphal 2019-04-11  254  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  255  		}
-971502d77faa50 Florian Westphal 2019-04-11  256  	}
-971502d77faa50 Florian Westphal 2019-04-11  257  frame_finish:
-971502d77faa50 Florian Westphal 2019-04-11  258  	net = dev_net(skb->dev);
-971502d77faa50 Florian Westphal 2019-04-11  259  	br_handle_frame_finish(net, NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  260  #else
-971502d77faa50 Florian Westphal 2019-04-11  261  	br_handle_frame_finish(dev_net(skb->dev), NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  262  #endif
-971502d77faa50 Florian Westphal 2019-04-11  263  	return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  264  }
-971502d77faa50 Florian Westphal 2019-04-11  265  
-
-:::::: The code at line 232 was first introduced by commit
-:::::: 971502d77faa50a37c89bc6d172450294ad9a5fd bridge: netfilter: unroll NF_HOOK helper in bridge input path
-
-:::::: TO: Florian Westphal <fw@strlen.de>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+   154	
+   155	static ssize_t
+   156	notrace ost_write(struct stm_data *data, struct stm_output *output,
+   157			  unsigned int chan, const char *buf, size_t count,
+   158			  struct stm_source_data *source)
+   159	{
+   160		unsigned int c = output->channel + chan;
+   161		unsigned int m = output->master;
+   162		const unsigned char nil = 0;
+   163		u32 header = DATA_HEADER;
+   164		struct trc_hdr {
+   165			u16 version;
+   166			u16 magic;
+   167			u32 cpu;
+   168			u64 timestamp;
+   169			u64 tgid;
+   170		} hdr;
+   171		ssize_t sz;
+ > 172		int i;
+   173		struct ost_output *op = output->pdrv_private;
+   174	
+   175		/*
+   176		 * Identify the source by entity type.
+   177		 * If entity type is not set, return error value.
+   178		 */
+   179		if (op->node.entity_type)
+   180			header |= ost_entity_value[op->node.entity_type];
+   181		else
+   182			return -EINVAL;
+   183	
+   184		/*
+   185		 * STP framing rules for OST frames:
+   186		 *   * the first packet of the OST frame is marked;
+   187		 *   * the last packet is a FLAG with timestamped tag.
+   188		 */
+   189		/* Message layout: HEADER / DATA / TAIL */
+   190		/* HEADER */
+   191		sz = data->packet(data, m, c, STP_PACKET_DATA, STP_PACKET_MARKED,
+   192				  4, (u8 *)&header);
+   193		if (sz <= 0)
+   194			return sz;
+   195	
+   196		/* DATA */
+   197		hdr.version	= STM_MAKE_VERSION(0, 3);
+   198		hdr.magic	= STM_HEADER_MAGIC;
+   199		hdr.cpu		= raw_smp_processor_id();
+   200		hdr.timestamp = sched_clock();
+   201		hdr.tgid	= task_tgid_nr(current);
+   202		sz = stm_data_write(data, m, c, false, &hdr, sizeof(hdr));
+   203		if (sz <= 0)
+   204			return sz;
+   205	
+   206		sz = stm_data_write(data, m, c, false, buf, count);
+   207	
+   208		/* TAIL */
+   209		if (sz > 0)
+   210			data->packet(data, m, c, STP_PACKET_FLAG,
+   211				STP_PACKET_TIMESTAMPED, 0, &nil);
+   212	
+   213		return sz;
+   214	}
+   215	
 
 -- 
 0-DAY CI Kernel Test Service
