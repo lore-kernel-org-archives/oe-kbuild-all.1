@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B2A2F6181
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 07:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517C12FB968;
+	Wed, 22 Oct 2025 07:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761118390; cv=none; b=M+4sVTK54b1RtGi/ESBBdBuGtqez6R865l9s/TqOIwVX6ek26hp77vdxOkPpAGvtGTPY9Pzm9lBK043wvyxydJ6SoIYhcWminUZG+h7+k3L1XFjq5pGp4cTYEGqexspZAylDjk27jHs9RxaajSbnzmzoH59bkHz7NCCfLdajxZY=
+	t=1761118929; cv=none; b=GraTQibbtDZQ0dHfgXht0egVYxvTi0KUEcIqNClDNbHtAj4ioMfi+mKt+iBQYfXrcIF3Xq963wPH1Rzxry+GddBhNjuMRwiPftbLb9mhfxaiF7+HXPLJiVw6ZN8eUjAlz3ScaJbtrdx2WRZrp/WnqE3vFldLsVy+7rmVoQwZTnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761118390; c=relaxed/simple;
-	bh=5jGyijFXBd+kWlPS7szMVtwgQqfkd/aGB/wsypPrASk=;
+	s=arc-20240116; t=1761118929; c=relaxed/simple;
+	bh=4yTC+36exgdGZ8D10H669LXRniU7gmAH/RHHNfluhAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WjabEC4DEXU1osCU0oNbG2ORH1keqtmCaYYSbsFuccL8w5eDxnDmlnYD7qjs3LSdNXJ0k3hQ3HhoAUwSPLEUuyQtmKjtqNAP8yjsMdpeliHOd2FFhuuES+ls5agSU66bPfmJwFKnbZywLmnp1Ngr2FMfDiuQrqOM1+oANStJZSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LM5LkExG; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=H07w7iaXwnKmVqw/2sjgFDMfF+R35ZsaRX4RBS1NxyJr2AQIOFBeAZMcylyR57TicJMRrQAm5IDBMjBtFllObN5isiNwOXFQFlwnSZkXjfhl9vevp8Ia5jhrNrZQ4P7WqTrK+Pd/MkZrKwWPdaxMhA0ZQNqEj6/yGLRy88aho6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gLke6GCr; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LM5LkExG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLke6GCr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761118386; x=1792654386;
+  t=1761118927; x=1792654927;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5jGyijFXBd+kWlPS7szMVtwgQqfkd/aGB/wsypPrASk=;
-  b=LM5LkExGjrjsrhbpKLTa4eHTCA/ymlaB4V05q9I7MZ/5kF9eVl0ADhTH
-   5zQnxWtKFIoPgEXbG21liBh8oQURzZOMsHuNRxONb1RKlN0hNsLQoeAPB
-   u+q3lVlDPjtM8BaeuuJwWp+ou2LZ4ZiUyZuUjom7Rm0qjP5z10bhNqXRW
-   JxpZHBUhMLf+JNihKPdjaj1zEtCJkBzIRezAybhjtNqLz3q8zp0tx1UYc
-   rpdSgnfHjHqFL5se51R1+BtgLnjCU+rFjyayVPlRiRR6IZpeluj8kXq/a
-   6PMRDe2x1coqnmpNjBJHONqeMakr5sCouIm2zB6JMSJqTRonfTXniYehm
-   w==;
-X-CSE-ConnectionGUID: V+q+x5l2TQ2+me03WeCaLw==
-X-CSE-MsgGUID: 7cwE7sn3QGSccNnstcGoYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50831355"
+  bh=4yTC+36exgdGZ8D10H669LXRniU7gmAH/RHHNfluhAE=;
+  b=gLke6GCrcGGIdgWg1UPvpoMLJADX3hNhjXOGoQGqJCJzFNLo5xRGP/zD
+   na+XW3qc6fnHcWQvukU+MCrLYc4kOlDK1F/DeEuX5BWZxeM9rPuhFy6cb
+   jRqdckh9oEHcY3VHdTJniwMfh7ftRcwZKDsXaYu+NNzZbjOoIO+VBRS7x
+   hJq+49zI4lcXqYvqAuLUHCYNtjDGbDP+aCfwW3k6OtCPAJtz4lDdLYbPw
+   meOuXgYRaIshs3Yhc9D5QkMePqUIFcDoHsv+hNOiq6M2VsNuDzJa5Jged
+   ToNBwSdYVh4NxbnEK3xlpPFUaW367vCYthC4vR/dQjqFNz+yhBOfof/06
+   A==;
+X-CSE-ConnectionGUID: eB5vnxMeQpSL0hhpwSK5/Q==
+X-CSE-MsgGUID: G7eoKbXfR4qCE2AYbORRkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67123222"
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="50831355"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 00:33:05 -0700
-X-CSE-ConnectionGUID: fov/Oc3RRLiiWkuh5b5zYg==
-X-CSE-MsgGUID: RHrFOH6rSy2zXBLfuY46JA==
+   d="scan'208";a="67123222"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 00:42:07 -0700
+X-CSE-ConnectionGUID: t5l9xfT1RYuO2cn/qNwqFg==
+X-CSE-MsgGUID: UwCivyQtSte3Yzbfbg/fxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="187840887"
+   d="scan'208";a="183690997"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2025 00:33:04 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2025 00:42:05 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBTJr-000C6D-0U;
-	Wed, 22 Oct 2025 07:32:03 +0000
-Date: Wed, 22 Oct 2025 15:31:07 +0800
+	id 1vBTTu-000C6v-2m;
+	Wed, 22 Oct 2025 07:42:02 +0000
+Date: Wed, 22 Oct 2025 15:41:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
 Subject: Re: [PATCH] Kconfig:Uses glibc so strscpy has to be manually- added
-Message-ID: <202510221519.nzy5mUJ3-lkp@intel.com>
+Message-ID: <202510221515.tlpfL3lX-lkp@intel.com>
 References: <20251021171446.46942-1-biancaa2210329@ssn.edu.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,82 +80,84 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/Kconfig-Us
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20251021171446.46942-1-biancaa2210329%40ssn.edu.in
 patch subject: [PATCH] Kconfig:Uses glibc so strscpy has to be manually- added
-config: arm-randconfig-r071-20251022 (attached as .config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221519.nzy5mUJ3-lkp@intel.com/reproduce)
+config: x86_64-randconfig-002-20251022 (attached as .config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221515.tlpfL3lX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510221519.nzy5mUJ3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510221515.tlpfL3lX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/kconfig/util.c: In function 'str_new':
->> scripts/kconfig/util.c:70:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
-      70 |         strscpy(gs.s, "\0");
-         |         ^~~~~~~
-         |         strlcpy
-   scripts/kconfig/symbol.c: In function 'sym_set_string_value':
->> scripts/kconfig/symbol.c:812:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
-     812 |         strscpy(val, newval);
-         |         ^~~~~~~
-         |         strlcpy
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1
-   scripts/kconfig/confdata.c: In function 'conf_touch_dep':
->> scripts/kconfig/confdata.c:157:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
+>> scripts/kconfig/confdata.c:157:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      157 |         strscpy(depfile_path + depfile_prefix_len, name);
-         |         ^~~~~~~
-         |         strlcpy
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1
+         |         ^
+>> scripts/kconfig/util.c:70:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      70 |         strscpy(gs.s, "\0");
+         |         ^
+   scripts/kconfig/symbol.c1 error generated.
+   :812:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     812 |         strscpy(val, newval);
+         |         ^
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1 shuffle=3058352405
+   1 error generated.
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1 shuffle=3058352405
+   1 error generated.
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1 shuffle=3058352405
    make[3]: Target 'oldconfig' not remade because of errors.
-   make[2]: *** [Makefile:742: oldconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[2]: *** [Makefile:742: oldconfig] Error 2 shuffle=3058352405
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
    make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
    make: Target 'oldconfig' not remade because of errors.
 --
-   scripts/kconfig/util.c: In function 'str_new':
->> scripts/kconfig/util.c:70:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
-      70 |         strscpy(gs.s, "\0");
-         |         ^~~~~~~
-         |         strlcpy
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1
-   scripts/kconfig/confdata.c: In function 'conf_touch_dep':
->> scripts/kconfig/confdata.c:157:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
-     157 |         strscpy(depfile_path + depfile_prefix_len, name);
-         |         ^~~~~~~
-         |         strlcpy
-   scripts/kconfig/symbol.c: In function 'sym_set_string_value':
->> scripts/kconfig/symbol.c:812:9: error: implicit declaration of function 'strscpy'; did you mean 'strlcpy'? [-Wimplicit-function-declaration]
+>> scripts/kconfig/symbol.c:812:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      812 |         strscpy(val, newval);
-         |         ^~~~~~~
-         |         strlcpy
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1
+         |         ^
+>> scripts/kconfig/confdata.c:157:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     157 |         strscpy(depfile_path + depfile_prefix_len, name);
+         |         ^
+>> scripts/kconfig/util.c:70:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      70 |         strscpy(gs.s, "\0");
+         |         ^
+   1 error generated.
+   1 error generated.
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1 shuffle=3058352405
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1 shuffle=3058352405
+   1 error generated.
+   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1 shuffle=3058352405
    make[3]: Target 'olddefconfig' not remade because of errors.
-   make[2]: *** [Makefile:742: olddefconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[2]: *** [Makefile:742: olddefconfig] Error 2 shuffle=3058352405
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
    make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
    make: Target 'olddefconfig' not remade because of errors.
 
 
-vim +70 scripts/kconfig/util.c
+vim +/strscpy +157 scripts/kconfig/confdata.c
 
-    62	
-    63	/* Allocate initial growable string */
-    64	struct gstr str_new(void)
-    65	{
-    66		struct gstr gs;
-    67		gs.s = xmalloc(sizeof(char) * 64);
-    68		gs.len = 64;
-    69		gs.max_width = 0;
-  > 70		strscpy(gs.s, "\0");
-    71		return gs;
-    72	}
-    73	
+   147	
+   148	/* touch depfile for symbol 'name' */
+   149	static int conf_touch_dep(const char *name)
+   150	{
+   151		int fd;
+   152	
+   153		/* check overflow: prefix + name + '\0' must fit in buffer. */
+   154		if (depfile_prefix_len + strlen(name) + 1 > sizeof(depfile_path))
+   155			return -1;
+   156	
+ > 157		strscpy(depfile_path + depfile_prefix_len, name);
+   158	
+   159		fd = open(depfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+   160		if (fd == -1)
+   161			return -1;
+   162		close(fd);
+   163	
+   164		return 0;
+   165	}
+   166	
 
 -- 
 0-DAY CI Kernel Test Service
