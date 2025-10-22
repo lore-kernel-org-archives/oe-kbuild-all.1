@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5657F2F49EA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 20:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1A2FABFA;
+	Wed, 22 Oct 2025 20:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761163453; cv=none; b=ocPBVtI5mKbkdQ8YwhhRXV7rl7MpnprHJ+HWn2KWiwMvblpSCIlUu6aEnCeqWQft6jGBCUQVGBaFPJur7nDiJeuj0rJetlRWvOrKnOhoEjeSejub9nPvCeFgxMRCXlnetXq0/4wWe551/+VqIC3HXx8v0CHDLT55E2Rc+sNBSTI=
+	t=1761164662; cv=none; b=U0ooS0hjDnuXn6EsFNW9TfArIkGkulPDaZ2GEKg5OLrOT6fjR3R2oxUb9YZDHa04X02z/IRQVRyKtgrRT80rR9GsRt0dTP+WRUnD7Fc0jvGp1HHa4pZQJX2/V3JcEqhmLZxZPuMyQkFuSBxtvUYzOz9qSVCZtuQOR0AeS3YRa3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761163453; c=relaxed/simple;
-	bh=NxaVzd+zTuhhAv56BVXaBNDYaZdCAlAlzOS5Aqm3qNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z+wg2GIDepi9Oe1IOLCvAtQSt0pOBe2iZ+oEcfUVLDZDT9VZKUJtZVkCoT3KSUfKorPoB3I+LLL/9cfytEDAVLDyzYG/SC6l/ffQZHS7ixFhiznDejVh5ZhcAfFc81z8+5Jq7y6LfBgKX9TZiY1yd8PmJqUxyq128eegtYu8rQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6Cv866Z; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1761164662; c=relaxed/simple;
+	bh=/29y36gsV1TiadjcFWyffNJHdhWqvc81cPPVdLkzjVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TBWCQTe2f6dnPxkBxEFPbZ/8OQIRq3HPeVCvHoMAa6YUs0Emes/YuXXGoYvaLkiCMGXdJXmZkH63OL8GHqGOYEt2cKdQVbDRGlDQhyAcMyiRg++OPBSbwwmzjgqrxk5VyGqOcKDCnhBSPqZl1CPmMC6tcttAjZl1wpLGVpmaMu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKIby6yU; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6Cv866Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKIby6yU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761163453; x=1792699453;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NxaVzd+zTuhhAv56BVXaBNDYaZdCAlAlzOS5Aqm3qNM=;
-  b=l6Cv866ZBCgxn0taa71E6yd7cWC+NfaohUXl3L+mjGrtYQ0slXUSN1WK
-   fuYx92febxcbJS6KBUuyKhlBuQS26mA/QVOCDuZwy6gAfVJ9c/bZKw8zm
-   2uyOscGpNclizXsAwsqaeDdX9Ul0K/pKQnhmFicg3GmdlkRG89hhX00eB
-   YrGUGASqiaME4bQGmR5RoCmVLcQZr7W/eiT+95CJ6ig+/Dl2MUNg1KLIZ
-   LW3r+XdpaNTcEajoZSxIuM9SW+NEynuxUPdkHne+I9MWGpI/El0vtdMn9
-   5ZaM9Pc/USPGhd1SLitP0oPkbiqrrs5xW1D3qS/LUt32TIImIZxnjL+3e
-   w==;
-X-CSE-ConnectionGUID: A2dOh8W2TwOl9RCNDQNP2Q==
-X-CSE-MsgGUID: uTWlb44GTMKS/LjQmjnc7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67189358"
+  t=1761164660; x=1792700660;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/29y36gsV1TiadjcFWyffNJHdhWqvc81cPPVdLkzjVw=;
+  b=SKIby6yU2TsqFLWsFTMTJ9MXEUNxpm+eK4psX8gq6F1vQxI+yZrltoTi
+   mAx+MHjlVmG9g8vc1G9PACf3fmNZbzJ2NIgi+VxQ4pe0bsm3QW7dF4Jai
+   nLduNUexNnzcJxPTiOfII5ZN24p8+kJuihorAPDTRm0RMrJ09RBnrWfCo
+   Zi9nogvTaNG+cBQDDiEHw4F7mq7PeErSlG4keR4KgdEtgGPxbb9j0NYNY
+   Nz/q6t4MCZUxjpffEO0m5YIIZeC8vFu2XeFd1UvXrTcOOdWtfTo4Ztahz
+   qqfGNE/RjAlBI2nzgqyT1vAEI+c3sj/hFLwtNndN6AACZThBu7Mv69FFA
+   g==;
+X-CSE-ConnectionGUID: VP8XMbY6TZGpoEyooOTPCQ==
+X-CSE-MsgGUID: t+4nGkupR1aSj1lP7tkAXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74443446"
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="67189358"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:04:12 -0700
-X-CSE-ConnectionGUID: Lkflr8w2R2y4VttkBrTL9Q==
-X-CSE-MsgGUID: Ac/gzeUPShGpplg7cXsGlQ==
+   d="scan'208";a="74443446"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:24:19 -0700
+X-CSE-ConnectionGUID: 0lC9f6hTQqe217GyqchCwg==
+X-CSE-MsgGUID: GcqEz40bSKmDS/AQ36mebA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="188006132"
+   d="scan'208";a="184742672"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2025 13:04:11 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Oct 2025 13:24:14 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBf44-000Cgr-1a;
-	Wed, 22 Oct 2025 20:04:08 +0000
-Date: Thu, 23 Oct 2025 04:03:10 +0800
+	id 1vBfNU-000ChR-00;
+	Wed, 22 Oct 2025 20:24:12 +0000
+Date: Thu, 23 Oct 2025 04:24:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/1] undefined reference to
- `event_mutex'
-Message-ID: <202510230345.jb2fSPjz-lkp@intel.com>
+To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	awalls@md.metrocast.net, mchehab@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Subject: Re: [PATCH] pcmcia/parport_cs: Refactor probe function and improve
+ error logging
+Message-ID: <202510230450.v2a33A8Z-lkp@intel.com>
+References: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,33 +66,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   1a762c612e9131598e090516097090611ed67dde
-commit: 43c26111cafa87d81570c63d96c497e13ec883da [0/1] ANDROID: binder: unload C Binder trace events
-config: x86_64-buildonly-randconfig-006-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230345.jb2fSPjz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230345.jb2fSPjz-lkp@intel.com/reproduce)
+Hi Biancaa,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sailus-media-tree/master]
+[also build test ERROR on linus/master sailus-media-tree/streams v6.18-rc2 next-20251022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/pcmcia-parport_cs-Refactor-probe-function-and-improve-error-logging/20251022-030324
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251021190021.173748-1-biancaa2210329%40ssn.edu.in
+patch subject: [PATCH] pcmcia/parport_cs: Refactor probe function and improve error logging
+config: x86_64-buildonly-randconfig-001-20251022 (https://download.01.org/0day-ci/archive/20251023/202510230450.v2a33A8Z-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230450.v2a33A8Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230345.jb2fSPjz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230450.v2a33A8Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `binder_remove_trace_events':
->> (.text+0x184bc7e): undefined reference to `event_mutex'
->> ld: (.text+0x184bc8a): undefined reference to `trace_types_lock'
->> ld: (.text+0x184bc96): undefined reference to `trace_event_sem'
->> ld: (.text+0x184bca2): undefined reference to `ftrace_events'
-   ld: (.text+0x184bcae): undefined reference to `ftrace_events'
-   ld: (.text+0x184bcc0): undefined reference to `ftrace_events'
-   ld: (.text+0x184bce9): undefined reference to `ftrace_events'
->> ld: (.text+0x184bdbe): undefined reference to `remove_event_from_tracers'
-   ld: (.text+0x184be0f): undefined reference to `trace_event_sem'
-   ld: (.text+0x184be1b): undefined reference to `trace_types_lock'
->> ld: (.text+0x184be27): undefined reference to `event_mutex'
+   drivers/parport/parport_cs.c:137:21: warning: unused variable 'info' [-Wunused-variable]
+     137 |     parport_info_t *info = link->priv;
+         |                     ^~~~
+>> drivers/parport/parport_cs.c:148:11: error: use of undeclared label 'failed'
+     148 |             goto failed;
+         |                  ^
+>> drivers/parport/parport_cs.c:169:5: error: unknown type name 'p'
+     169 |     p->modes |= PARPORT_MODE_PCSPP;
+         |     ^
+>> drivers/parport/parport_cs.c:169:6: error: expected identifier or '('
+     169 |     p->modes |= PARPORT_MODE_PCSPP;
+         |      ^
+   drivers/parport/parport_cs.c:170:5: error: expected identifier or '('
+     170 |     if (epp_mode)
+         |     ^
+>> drivers/parport/parport_cs.c:172:5: error: unknown type name 'info'
+     172 |     info->ndev = 1;
+         |     ^
+   drivers/parport/parport_cs.c:172:9: error: expected identifier or '('
+     172 |     info->ndev = 1;
+         |         ^
+   drivers/parport/parport_cs.c:173:5: error: unknown type name 'info'
+     173 |     info->port = p;
+         |     ^
+   drivers/parport/parport_cs.c:173:9: error: expected identifier or '('
+     173 |     info->port = p;
+         |         ^
+   drivers/parport/parport_cs.c:175:5: error: expected identifier or '('
+     175 |     return 0;
+         |     ^
+>> drivers/parport/parport_cs.c:177:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     177 | failed:
+         | ^
+         | int
+>> drivers/parport/parport_cs.c:177:7: error: expected ';' after top level declarator
+     177 | failed:
+         |       ^
+         |       ;
+   drivers/parport/parport_cs.c:178:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     178 |         parport_cs_release(link);
+         |         ^
+         |         int
+>> drivers/parport/parport_cs.c:178:21: error: a parameter list without types is only allowed in a function definition
+     178 |         parport_cs_release(link);
+         |                            ^
+>> drivers/parport/parport_cs.c:179:8: error: unknown type name 'link'
+     179 |         kfree(link->priv);
+         |               ^
+>> drivers/parport/parport_cs.c:179:12: error: expected ')'
+     179 |         kfree(link->priv);
+         |                   ^
+   drivers/parport/parport_cs.c:179:7: note: to match this '('
+     179 |         kfree(link->priv);
+         |              ^
+   drivers/parport/parport_cs.c:179:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     179 |         kfree(link->priv);
+         |         ^
+         |         int
+   drivers/parport/parport_cs.c:180:5: error: unknown type name 'link'
+     180 |     link->priv = NULL;
+         |     ^
+   drivers/parport/parport_cs.c:180:9: error: expected identifier or '('
+     180 |     link->priv = NULL;
+         |         ^
+   drivers/parport/parport_cs.c:181:2: error: expected identifier or '('
+     181 |         return -ENODEV;
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
+
+
+vim +/failed +148 drivers/parport/parport_cs.c
+
+84e2d34004dcd0 Dominik Brodowski 2008-07-29  134  
+15b99ac1729503 Dominik Brodowski 2006-03-31  135  static int parport_config(struct pcmcia_device *link)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  136  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  137      parport_info_t *info = link->priv;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  138      struct parport *p;
+9b44de2015ff4a Dominik Brodowski 2009-10-24  139      int ret;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  140  
+9b44de2015ff4a Dominik Brodowski 2009-10-24  141      dev_dbg(&link->dev, "parport_config\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  142  
+00990e7ce0b0e5 Dominik Brodowski 2010-07-30  143      if (epp_mode)
+00990e7ce0b0e5 Dominik Brodowski 2010-07-30  144  	    link->config_index |= FORCE_EPP_MODE;
+00990e7ce0b0e5 Dominik Brodowski 2010-07-30  145  
+9b44de2015ff4a Dominik Brodowski 2009-10-24  146      ret = pcmcia_loop_config(link, parport_config_check, NULL);
+9b44de2015ff4a Dominik Brodowski 2009-10-24  147      if (ret)
+84e2d34004dcd0 Dominik Brodowski 2008-07-29 @148  	    goto failed;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  149  
+eb14120f743d29 Dominik Brodowski 2010-03-07  150      if (!link->irq)
+9b44de2015ff4a Dominik Brodowski 2009-10-24  151  	    goto failed;
+1ac71e5a35eebe Dominik Brodowski 2010-07-29  152      ret = pcmcia_enable_device(link);
+9b44de2015ff4a Dominik Brodowski 2009-10-24  153      if (ret)
+9b44de2015ff4a Dominik Brodowski 2009-10-24  154  	    goto failed;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  155  
+9a017a910346af Dominik Brodowski 2010-07-24  156      p = parport_pc_probe_port(link->resource[0]->start,
+9a017a910346af Dominik Brodowski 2010-07-24  157  			      link->resource[1]->start,
+eb14120f743d29 Dominik Brodowski 2010-03-07  158  			      link->irq, PARPORT_DMA_NONE,
+51dcdfec6a274a Alan Cox          2009-04-07  159  			      &link->dev, IRQF_SHARED);
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  160      if (!p) {
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  161          dev_err(&link->dev,
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  162              "parport_pc_probe_port() failed at 0x%03x, irq %u\n",
+decf26f6ec25da Joe Perches       2020-04-03  163              (unsigned int)link->resource[0]->start, link->irq);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  164          goto failed;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  165      }   
+^1da177e4c3f41 Linus Torvalds    2005-04-16  166  
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  167      }
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  168  
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @169      p->modes |= PARPORT_MODE_PCSPP;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  170      if (epp_mode)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  171  	p->modes |= PARPORT_MODE_TRISTATE | PARPORT_MODE_EPP;
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @172      info->ndev = 1;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  173      info->port = p;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  174  
+15b99ac1729503 Dominik Brodowski 2006-03-31  175      return 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  176  
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @177  failed:
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @178  	parport_cs_release(link);
+21c75ad65f8e52 YueHaibing        2019-03-21 @179  	kfree(link->priv);
+fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  180      link->priv = NULL;
+15b99ac1729503 Dominik Brodowski 2006-03-31  181  	return -ENODEV;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  182  } /* parport_config */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  183  
 
 -- 
 0-DAY CI Kernel Test Service
