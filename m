@@ -1,164 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517C12FB968;
-	Wed, 22 Oct 2025 07:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27C2FE573
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 08:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761118929; cv=none; b=GraTQibbtDZQ0dHfgXht0egVYxvTi0KUEcIqNClDNbHtAj4ioMfi+mKt+iBQYfXrcIF3Xq963wPH1Rzxry+GddBhNjuMRwiPftbLb9mhfxaiF7+HXPLJiVw6ZN8eUjAlz3ScaJbtrdx2WRZrp/WnqE3vFldLsVy+7rmVoQwZTnQ=
+	t=1761120371; cv=none; b=lMrbPtm6yOW2Sll3l0iz8TdEjPArNB584klMgnd/79utqyj5NBLIj5mBwS5mJKrh4dVYu/c51zeTmJZKTRjXshILVlDn94pE7gA3d++EhgIQyNjJDd8gfgzmdG/VjzsfYl81WwaKFw4PhEeC47WLYnTFH7eSBjgfRj/2nea8g2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761118929; c=relaxed/simple;
-	bh=4yTC+36exgdGZ8D10H669LXRniU7gmAH/RHHNfluhAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H07w7iaXwnKmVqw/2sjgFDMfF+R35ZsaRX4RBS1NxyJr2AQIOFBeAZMcylyR57TicJMRrQAm5IDBMjBtFllObN5isiNwOXFQFlwnSZkXjfhl9vevp8Ia5jhrNrZQ4P7WqTrK+Pd/MkZrKwWPdaxMhA0ZQNqEj6/yGLRy88aho6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gLke6GCr; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761120371; c=relaxed/simple;
+	bh=Vv5HW4hMaQ9k6PZF5xQoMjollRe8szXt8vgnUejMW7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c3+2ouFstgB56/LCUsr/lW/Dm/ZYDUjdSEYsD2nBFkm96w7FuzWI5/rKAcAvWjptx2ZEYtWuflcopyS7UEYKWINKT+G4Nu31Jjm1tgKrpe33FIQSc0KGpd9L7lHLRVu1heBYQaGZHFfbyL2A+RVeqYQKrAgDgBl8DLtHxi2pDfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OqTfjc8C; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLke6GCr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761118927; x=1792654927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4yTC+36exgdGZ8D10H669LXRniU7gmAH/RHHNfluhAE=;
-  b=gLke6GCrcGGIdgWg1UPvpoMLJADX3hNhjXOGoQGqJCJzFNLo5xRGP/zD
-   na+XW3qc6fnHcWQvukU+MCrLYc4kOlDK1F/DeEuX5BWZxeM9rPuhFy6cb
-   jRqdckh9oEHcY3VHdTJniwMfh7ftRcwZKDsXaYu+NNzZbjOoIO+VBRS7x
-   hJq+49zI4lcXqYvqAuLUHCYNtjDGbDP+aCfwW3k6OtCPAJtz4lDdLYbPw
-   meOuXgYRaIshs3Yhc9D5QkMePqUIFcDoHsv+hNOiq6M2VsNuDzJa5Jged
-   ToNBwSdYVh4NxbnEK3xlpPFUaW367vCYthC4vR/dQjqFNz+yhBOfof/06
-   A==;
-X-CSE-ConnectionGUID: eB5vnxMeQpSL0hhpwSK5/Q==
-X-CSE-MsgGUID: G7eoKbXfR4qCE2AYbORRkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67123222"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="67123222"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 00:42:07 -0700
-X-CSE-ConnectionGUID: t5l9xfT1RYuO2cn/qNwqFg==
-X-CSE-MsgGUID: UwCivyQtSte3Yzbfbg/fxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="183690997"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2025 00:42:05 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBTTu-000C6v-2m;
-	Wed, 22 Oct 2025 07:42:02 +0000
-Date: Wed, 22 Oct 2025 15:41:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
-Subject: Re: [PATCH] Kconfig:Uses glibc so strscpy has to be manually- added
-Message-ID: <202510221515.tlpfL3lX-lkp@intel.com>
-References: <20251021171446.46942-1-biancaa2210329@ssn.edu.in>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OqTfjc8C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1761120364;
+	bh=Vv5HW4hMaQ9k6PZF5xQoMjollRe8szXt8vgnUejMW7Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OqTfjc8CeEZodXvloy6yGK0vCCVA3ZUOYsnD0vEOc6mxtUqJblDcDaqLtizrvul49
+	 PqaCN2GxY14WvR3VNgeQ6zH+ZkRWkBdHFATc+T0ISJSIMQstxywXwEhe0f3sau3hIG
+	 2s1hgKhwTABfdbTdBWu4g5VySi3p1xg2O3YFMA2bTO4hbIaZP4x1JTuHz0o5J7avAv
+	 19F3fOgQTfNDUMFdBhHG99F8iDFH0tjUYUu71nrlziw30LL85XwkNuoNo/cpdUHuFp
+	 4h97W1yuKztO1Kr1rsUpThg7hLXqk0irWVaBaETOxDtvitMsoLJE9UkotUICc839pE
+	 OXfWXcVlNP8NA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CE6317E12C4;
+	Wed, 22 Oct 2025 10:06:03 +0200 (CEST)
+Date: Wed, 22 Oct 2025 10:05:48 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: kernel test robot <lkp@intel.com>
+Cc: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Boris Brezillon
+ <bbrezillon@kernel.org>, Rob Herring <robh@kernel.org>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen
+ <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Hugh
+ Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Nitin
+ Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 06/12] drm/i915: Use huge tmpfs mountpoint helpers
+Message-ID: <20251022100548.4dee241e@fedora>
+In-Reply-To: <202510221301.wU3TSqMg-lkp@intel.com>
+References: <20251021113049.17242-7-loic.molinari@collabora.com>
+	<202510221301.wU3TSqMg-lkp@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021171446.46942-1-biancaa2210329@ssn.edu.in>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biancaa,
+On Wed, 22 Oct 2025 11:25:10 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi Lo=C3=AFc,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on next-20251021]
+> [also build test ERROR on v6.18-rc2]
+> [cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next linus/maste=
+r v6.18-rc2 v6.18-rc1 v6.17]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Lo-c-Molinari/drm-=
+shmem-helper-Simplify-page-offset-calculation-in-fault-handler/20251021-193=
+355
+> base:   next-20251021
+> patch link:    https://lore.kernel.org/r/20251021113049.17242-7-loic.moli=
+nari%40collabora.com
+> patch subject: [PATCH v5 06/12] drm/i915: Use huge tmpfs mountpoint helpe=
+rs
+> config: x86_64-randconfig-003-20251022 (https://download.01.org/0day-ci/a=
+rchive/20251022/202510221301.wU3TSqMg-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251022/202510221301.wU3TSqMg-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510221301.wU3TSqMg-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/gpu/drm/i915/gem/i915_gem_shmem.c: In function '__create_shmem=
+':
+> >> drivers/gpu/drm/i915/gem/i915_gem_shmem.c:511:59: error: 'struct drm_d=
+evice' has no member named 'huge_mnt' =20
+>      511 |                 filp =3D shmem_file_setup_with_mnt(i915->drm.h=
+uge_mnt, "i915",
+>          |                                                           ^
+>=20
+>=20
+> vim +511 drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+>=20
+>    486=09
+>    487	static int __create_shmem(struct drm_i915_private *i915,
+>    488				  struct drm_gem_object *obj,
+>    489				  resource_size_t size)
+>    490	{
+>    491		unsigned long flags =3D VM_NORESERVE;
+>    492		struct file *filp;
+>    493=09
+>    494		drm_gem_private_object_init(&i915->drm, obj, size);
+>    495=09
+>    496		/* XXX: The __shmem_file_setup() function returns -EINVAL if size=
+ is
+>    497		 * greater than MAX_LFS_FILESIZE.
+>    498		 * To handle the same error as other code that returns -E2BIG when
+>    499		 * the size is too large, we add a code that returns -E2BIG when =
+the
+>    500		 * size is larger than the size that can be handled.
+>    501		 * If BITS_PER_LONG is 32, size > MAX_LFS_FILESIZE is always fals=
+e,
+>    502		 * so we only needs to check when BITS_PER_LONG is 64.
+>    503		 * If BITS_PER_LONG is 32, E2BIG checks are processed when
+>    504		 * i915_gem_object_size_2big() is called before init_object() cal=
+lback
+>    505		 * is called.
+>    506		 */
+>    507		if (BITS_PER_LONG =3D=3D 64 && size > MAX_LFS_FILESIZE)
+>    508			return -E2BIG;
+>    509=09
+>    510		if (drm_gem_has_huge_mnt(&i915->drm))
+>  > 511			filp =3D shmem_file_setup_with_mnt(i915->drm.huge_mnt, "i915", =
+=20
+>    512							 size, flags);
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc2 next-20251022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Maybe instead of this drm_gem_has_huge_mnt() (or in addition to), we
+should have a drm_gem_get_huge_mnt() helper, so we don't have drivers
+dereferencing drm_device::huge_mnt directly and we can get rid of it on
+non THP configs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/Kconfig-Uses-glibc-so-strscpy-has-to-be-manually-added/20251022-011608
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251021171446.46942-1-biancaa2210329%40ssn.edu.in
-patch subject: [PATCH] Kconfig:Uses glibc so strscpy has to be manually- added
-config: x86_64-randconfig-002-20251022 (attached as .config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221515.tlpfL3lX-lkp@intel.com/reproduce)
+>    513		else
+>    514			filp =3D shmem_file_setup("i915", size, flags);
+>    515		if (IS_ERR(filp))
+>    516			return PTR_ERR(filp);
+>    517=09
+>    518		/*
+>    519		 * Prevent -EFBIG by allowing large writes beyond MAX_NON_LFS on =
+shmem
+>    520		 * objects by setting O_LARGEFILE.
+>    521		 */
+>    522		if (force_o_largefile())
+>    523			filp->f_flags |=3D O_LARGEFILE;
+>    524=09
+>    525		obj->filp =3D filp;
+>    526		return 0;
+>    527	}
+>    528=09
+>=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510221515.tlpfL3lX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> scripts/kconfig/confdata.c:157:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     157 |         strscpy(depfile_path + depfile_prefix_len, name);
-         |         ^
->> scripts/kconfig/util.c:70:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      70 |         strscpy(gs.s, "\0");
-         |         ^
-   scripts/kconfig/symbol.c1 error generated.
-   :812:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     812 |         strscpy(val, newval);
-         |         ^
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1 shuffle=3058352405
-   1 error generated.
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1 shuffle=3058352405
-   1 error generated.
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1 shuffle=3058352405
-   make[3]: Target 'oldconfig' not remade because of errors.
-   make[2]: *** [Makefile:742: oldconfig] Error 2 shuffle=3058352405
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
-   make: Target 'oldconfig' not remade because of errors.
---
->> scripts/kconfig/symbol.c:812:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     812 |         strscpy(val, newval);
-         |         ^
->> scripts/kconfig/confdata.c:157:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     157 |         strscpy(depfile_path + depfile_prefix_len, name);
-         |         ^
->> scripts/kconfig/util.c:70:2: error: call to undeclared function 'strscpy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      70 |         strscpy(gs.s, "\0");
-         |         ^
-   1 error generated.
-   1 error generated.
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/confdata.o] Error 1 shuffle=3058352405
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/util.o] Error 1 shuffle=3058352405
-   1 error generated.
-   make[3]: *** [scripts/Makefile.host:131: scripts/kconfig/symbol.o] Error 1 shuffle=3058352405
-   make[3]: Target 'olddefconfig' not remade because of errors.
-   make[2]: *** [Makefile:742: olddefconfig] Error 2 shuffle=3058352405
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3058352405
-   make: Target 'olddefconfig' not remade because of errors.
-
-
-vim +/strscpy +157 scripts/kconfig/confdata.c
-
-   147	
-   148	/* touch depfile for symbol 'name' */
-   149	static int conf_touch_dep(const char *name)
-   150	{
-   151		int fd;
-   152	
-   153		/* check overflow: prefix + name + '\0' must fit in buffer. */
-   154		if (depfile_prefix_len + strlen(name) + 1 > sizeof(depfile_path))
-   155			return -1;
-   156	
- > 157		strscpy(depfile_path + depfile_prefix_len, name);
-   158	
-   159		fd = open(depfile_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-   160		if (fd == -1)
-   161			return -1;
-   162		close(fd);
-   163	
-   164		return 0;
-   165	}
-   166	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
