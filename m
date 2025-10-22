@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A39817993
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 04:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AC31F099C;
+	Wed, 22 Oct 2025 04:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761107459; cv=none; b=n2nrYiORv5Dt03vONVQqp8ypGYHFSnRrp96vTuwPZUO3xh1k5TpKDgo3q15+QBBh8Jj7xN1h7DvaEFbfioQM+RMA/8D7+h/yJFK2/QZ7cNT4rTikfEllpcXyYkFLhfN3987dy1OjBPbA1diCjjWuTWP2PSMDztZkZNGaTuvZgEU=
+	t=1761108677; cv=none; b=kGtV20QOJPQl9+r/0ej3zKUCoZ/uLrD1BNvdfDfQyS9VuvBXknvgZ3SZ1W84OuGifgF6FD0196x16von7dcLPK4tDAcIeZAdd8qnO7//UUl80TRtprevjn3oI2l3Ch8G9syO+Xk6Ju6aFHhzPPJJAWjZp27WbJ8ByXezeQJasHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761107459; c=relaxed/simple;
-	bh=7OkbNVSnmAOLO/oIby7zWg0TcTS/aYOatNS56pu2V60=;
+	s=arc-20240116; t=1761108677; c=relaxed/simple;
+	bh=oNcnI1xOKbehjw6oqRs3btyp6ZarBY5/CW8o6MKFEMs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkzCQRdUgqIvtEhXdfyeUQMAlE37aIMynX4BMIpHKthA9TsIuxgRzWjlYevCZ+tc5QZZM16BK8dN91BXPI6/ggcuCDgDtaY5f8MW+/YZ3l4gxBa7Fm9d+Ehcr5EWjwcDlfpW63lcAT4jLq7WbkuN65Gru0LObvvHFzWxFXsN7oE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=clHxhKY6; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=TfMqCsx+FDBxhugNnaF4exZRjQ7zc2aHd84VduB9bcEQCtB7ATJIRe0sk1XZEkZdMskzjcWM+LiPThzbttHzo39k40WE4VFS3yISCY5CIWZLRf9oOQ8MXz9TK5UhkJZWkhy3cpUjBHxGdkvVnLU5FwPB5ropAaoYv/utA8htDkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqTtxRD3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="clHxhKY6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqTtxRD3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761107457; x=1792643457;
+  t=1761108675; x=1792644675;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7OkbNVSnmAOLO/oIby7zWg0TcTS/aYOatNS56pu2V60=;
-  b=clHxhKY6AAxVE9BZZqrPTBxqcJMUX5+zifbTKourbimrf6F0yCbYL7Rc
-   zN9gV64/D9EEts+8dd5rd+oZVaonvxLxSvCMh+Kb6foo4I4lHSaEXY7cW
-   c5wXsf4tu2Ky/Off2e3TNJoZtNvwRw/KzotOyLB74LYm/It5hiE0Qusma
-   7te84Z09FqW34EMNQWvaTsAKHji+iNAnq7n8uHUIgQ/5phAl+rIR9uyfY
-   NPBHTyBpX/W9M3qnD5rQRKO/baAdLv1VFbhsu4rEXlOQjVytutEBS22wa
-   Kzz7LgksN6F8dwJ4CarGJGCbhOcgwJS2epNvDlrp8LJPipo19yIQlavoK
-   Q==;
-X-CSE-ConnectionGUID: 6idpGWFQRsuWW+ufCqzeYw==
-X-CSE-MsgGUID: 2dA4GKsTS/usGjldbfCuqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63148927"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63148927"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 21:30:57 -0700
-X-CSE-ConnectionGUID: q6z+CgJeSMqRQSoNOF5OjQ==
-X-CSE-MsgGUID: cAajaNOBQbyHWqwG5uW/Tw==
+  bh=oNcnI1xOKbehjw6oqRs3btyp6ZarBY5/CW8o6MKFEMs=;
+  b=AqTtxRD3uGK7c4QjITBgBobCm5YHZiqVovGIe2hi1CPG3fzS34Rtec/u
+   taiYIhIF/SKIPoPWwDjGgPalFqnavZUchiooewfY9UUxLdW2MEg4Kx4Uy
+   ayxHUmjqWjEMu7fHuF94mCVdmTOG2DDoOobRyQ4iH8kfFg05Uda/Uey2C
+   0dTsWspbzyAYUdBy5qtjhjpQz5DZON9UldkLzX5o+WZH+LQ4Fcw/6gyZl
+   GzDxaM5kcLNf/DQkfhd84k2xtzedG9GfDvTHFH+UeuFlGxD9AL/SN0E+W
+   KtlLQBrAAYnA6fDCRMBJC5g5M6KjoDGrm07KE7b9DxOl9iRLOk203OC2u
+   g==;
+X-CSE-ConnectionGUID: xsgSzeDSSh60PScku2hmRQ==
+X-CSE-MsgGUID: SddxJFEfRgCu4eHxmk2U1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73536305"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
+   d="scan'208";a="73536305"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 21:51:15 -0700
+X-CSE-ConnectionGUID: eiVSz0V9RPu47NYvzxP4zQ==
+X-CSE-MsgGUID: CukPv+sWS+a4GhT9StNlwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="214406186"
+   d="scan'208";a="182938867"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2025 21:30:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Oct 2025 21:51:14 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBQTm-000C09-14;
-	Wed, 22 Oct 2025 04:30:14 +0000
-Date: Wed, 22 Oct 2025 12:29:10 +0800
+	id 1vBQoZ-000C0T-2q;
+	Wed, 22 Oct 2025 04:51:11 +0000
+Date: Wed, 22 Oct 2025 12:50:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC DRAFT 15/50] nstree: add listns()
-Message-ID: <202510221135.xClI1Bc8-lkp@intel.com>
+Message-ID: <202510221241.1ROUwVQu-lkp@intel.com>
 References: <20251021-work-namespace-nstree-listns-v1-15-ad44261a8a5b@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,57 +67,43 @@ In-Reply-To: <20251021-work-namespace-nstree-listns-v1-15-ad44261a8a5b@kernel.or
 Hi Christian,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Brauner/libfs-allow-to-specify-s_d_flags/20251021-200829
 base:   3a8660878839faadb4f1a6dd72c3179c1df56787
 patch link:    https://lore.kernel.org/r/20251021-work-namespace-nstree-listns-v1-15-ad44261a8a5b%40kernel.org
 patch subject: [PATCH RFC DRAFT 15/50] nstree: add listns()
-config: x86_64-buildonly-randconfig-002-20251022 (https://download.01.org/0day-ci/archive/20251022/202510221135.xClI1Bc8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221135.xClI1Bc8-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-004-20251022 (https://download.01.org/0day-ci/archive/20251022/202510221241.1ROUwVQu-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221241.1ROUwVQu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510221135.xClI1Bc8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510221241.1ROUwVQu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/nstree.c: In function 'do_listns_userns':
->> kernel/nstree.c:503:24: error: implicit declaration of function 'to_user_ns'; did you mean 'i_user_ns'? [-Wimplicit-function-declaration]
-     503 |         kls->user_ns = to_user_ns(ns);
-         |                        ^~~~~~~~~~
-         |                        i_user_ns
->> kernel/nstree.c:503:22: error: assignment to 'struct user_namespace *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     503 |         kls->user_ns = to_user_ns(ns);
-         |                      ^
->> kernel/nstree.c:530:42: error: passing argument 1 of 'ns_capable_noaudit' makes pointer from integer without a cast [-Wint-conversion]
-     530 |                      !ns_capable_noaudit(to_user_ns(ns), CAP_SYS_ADMIN)))
-         |                                          ^~~~~~~~~~~~~~
-         |                                          |
-         |                                          int
-   In file included from include/linux/cred.h:11,
-                    from include/linux/nsfs.h:8,
-                    from include/linux/proc_ns.h:8,
-                    from kernel/nstree.c:4:
-   include/linux/capability.h:149:55: note: expected 'struct user_namespace *' but argument is of type 'int'
-     149 | extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~
-   kernel/nstree.c: In function 'do_listns':
-   kernel/nstree.c:664:42: error: passing argument 1 of 'ns_capable_noaudit' makes pointer from integer without a cast [-Wint-conversion]
-     664 |                      !ns_capable_noaudit(to_user_ns(ns), CAP_SYS_ADMIN)))
-         |                                          ^~~~~~~~~~~~~~
-         |                                          |
-         |                                          int
-   include/linux/capability.h:149:55: note: expected 'struct user_namespace *' but argument is of type 'int'
-     149 | extern bool ns_capable_noaudit(struct user_namespace *ns, int cap);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~
+>> kernel/nstree.c:499:11: warning: variable 'ns' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     499 |         else if (kls->user_ns_id)
+         |                  ^~~~~~~~~~~~~~~
+   kernel/nstree.c:501:7: note: uninitialized use occurs here
+     501 |         if (!ns)
+         |              ^~
+   kernel/nstree.c:499:7: note: remove the 'if' if its condition is always true
+     499 |         else if (kls->user_ns_id)
+         |              ^~~~~~~~~~~~~~~~~~~~
+     500 |                 ns = lookup_ns_id(kls->user_ns_id, CLONE_NEWUSER);
+   kernel/nstree.c:490:22: note: initialize the variable 'ns' to silence this warning
+     490 |         struct ns_common *ns, *first_ns = NULL;
+         |                             ^
+         |                              = NULL
+   1 warning generated.
 
 
-vim +503 kernel/nstree.c
+vim +499 kernel/nstree.c
 
    485	
    486	static ssize_t do_listns_userns(struct klistns *kls)
@@ -133,11 +119,11 @@ vim +503 kernel/nstree.c
    496	
    497		if (kls->user_ns_id == LISTNS_CURRENT_USER)
    498			ns = to_ns_common(current_user_ns());
-   499		else if (kls->user_ns_id)
+ > 499		else if (kls->user_ns_id)
    500			ns = lookup_ns_id(kls->user_ns_id, CLONE_NEWUSER);
    501		if (!ns)
    502			return -EINVAL;
- > 503		kls->user_ns = to_user_ns(ns);
+   503		kls->user_ns = to_user_ns(ns);
    504	
    505		/*
    506		 * Use the rbtree to find the first namespace we care about and
@@ -164,7 +150,7 @@ vim +503 kernel/nstree.c
    527				continue;
    528			if (!userns_capable && !is_current_namespace(ns) &&
    529			    ((ns->ns_type != CLONE_NEWUSER) ||
- > 530			     !ns_capable_noaudit(to_user_ns(ns), CAP_SYS_ADMIN)))
+   530			     !ns_capable_noaudit(to_user_ns(ns), CAP_SYS_ADMIN)))
    531				continue;
    532			*ns_ids = ns->ns_id;
    533			ns_ids++;
