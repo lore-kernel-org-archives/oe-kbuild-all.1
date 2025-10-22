@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72AA2D2481;
-	Wed, 22 Oct 2025 20:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610BC2F49ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 20:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761165321; cv=none; b=Z3/tHWg8qKXnRNqWjs1Os8/fk4u7/8zDEOjQixzQ5WPkqOwxz3yq8hx1/SP0SBRe5upmRva/xEXWNRALFfLnpNZQkHYvkcpAGW2mrL5LBQvodgQzGkdfgsu5qe0KPmomiB1lu5bys85NPTBkveLoP/cAwzIfNdBXRVpAPWyNnEY=
+	t=1761165323; cv=none; b=Qc266sKJVH7hkLEwA3hn+VQnbhYpQUTHkqLYyIfKCXGHzGcRTdnUJVczgj45ONTXxrYiYqJBHdglbYF2xL3aY20xA658U/GxWIgi98WXf+5N90tPOkUrIZsa43n2oQiRmdOCLKBxMvL5+cNyeKQ8hy5IGnOoeiqrCwkOJOz4VNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761165321; c=relaxed/simple;
-	bh=PdvJqEIiH2wzUnpafgqRpAg6CaZ53CD2w/KF/eZGP4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A7yiUeBWTJ2whYDxgpR+UbzYOpdcrPNQgv9Ydi6fJfX0vkZYj7t3LiThzlO02fSET/joZ4NBdXBlMZGOOvfvTa7UGIgZr/1XTOJ217RPsR7UXiYsa+Xo0leSpAslgujOitcc3kveIPOdngs9D/lo2XAIwRkkqC6LkiOjKR7Vyx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2HxDOOG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1761165323; c=relaxed/simple;
+	bh=UVYE2m+dfTC8L+h8OkbpueMO00XTqC0cIJ5IUlC3jFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=clobE1c3QVOdJermIvhHbtPgnOtipe3EHRUtJubVO3Yq3iBzHbBHQ28peb+IGrEG/z1ZO7UHSJ6HIS4BlyQbcT8W5E+iySUhyERais4aFJGJ9lEAVCXZH3ZF1vR9oDjB816oXIEhy6vPzQbJPl+LphYL1+Psk3JoRgJeko034ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bMNd2+9P; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2HxDOOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bMNd2+9P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761165320; x=1792701320;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PdvJqEIiH2wzUnpafgqRpAg6CaZ53CD2w/KF/eZGP4I=;
-  b=M2HxDOOG0CT/tmF7oQPX5h0rflQOk1lUAkmqUVD84mk9A2Q/oeKsBwJj
-   moGwvg1v3rmNDRfvvUwgEtNLA2IqyUxbS9hlgOnBWB0p6hGCkJmfoNoZ+
-   PBh79ExB8/7q558jYK60CX7DYnfBBdAWep3WEFsnUXjk6Lv/ogO4qh3lc
-   lsWYuEzv5XipCCk1gIdq9KWzRFShNl5S599ZRccadbPmhOHWwBl5yCy+6
-   XDpdJ6/NyXcll9NDAijKRGkE/jlvIj/xlGp2/+pJRmddy2uhvci8ob1Du
-   XkRFNwm4vksoGumW8qf9dzoNsBWuyFTNbmD1lLjEizU98QbH9ATNeOUSw
-   w==;
-X-CSE-ConnectionGUID: tAbIIhy5RsOBzqrXFJWpsQ==
-X-CSE-MsgGUID: nkXB1rHlStO1kBK/8U4LZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63420801"
+  t=1761165321; x=1792701321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UVYE2m+dfTC8L+h8OkbpueMO00XTqC0cIJ5IUlC3jFI=;
+  b=bMNd2+9PjXWCl1gCSE8ydNU/bdOgcd/BnMIzy8E28Sx4ZcH+QOdPdfEf
+   2qUjRwVS2fbzDFcUVglXvatC2Ol2tfo8MFaDiVvkNtITx5pn1GzvnBXk9
+   NXcgkx3vKTLHowOWKZ4A3ConbD34Oh7iYAwzY8QfoZATkxSZjp4xOvGq9
+   49MKLsF5VZlfg6SIRGagDnyr3rEmqpEQt0te1GnDsvnnzW3PVNVMhxoXo
+   vIMPFhm3qY1etMWBDKHFygfop0hJsMuSjEDL1wYC3Kzz7AGaNwcmgdI9p
+   SoKFv8jG++exP48XBvx2nqoA4zzEVw7KqRv8msnZumVDUlnYLGAHAVJpi
+   g==;
+X-CSE-ConnectionGUID: +KrxkzoxQnyFrQGH2PV7Hg==
+X-CSE-MsgGUID: OZwvlia0Q7qVNb8hX94xjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62536146"
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="63420801"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:35:19 -0700
-X-CSE-ConnectionGUID: LfOpIiFFQ+2PnM7cwYYU9Q==
-X-CSE-MsgGUID: /A2fYzvtTXyeFmJdYGZPXQ==
+   d="scan'208";a="62536146"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:35:21 -0700
+X-CSE-ConnectionGUID: kwvg8BHhTeq3LPk10Ou7sg==
+X-CSE-MsgGUID: hXOMDYU6RfmVGxNjnZQgDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="183558992"
+   d="scan'208";a="214906268"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Oct 2025 13:35:18 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Oct 2025 13:35:17 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBfYB-000CiO-2M;
+	id 1vBfYB-000CiH-1x;
 	Wed, 22 Oct 2025 20:35:15 +0000
-Date: Thu, 23 Oct 2025 04:34:41 +0800
+Date: Thu, 23 Oct 2025 04:34:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vireshk-pm:opp/linux-next 2/2] drivers/opp/of.c:1545:3: error:
- cannot jump from this goto statement to its label
-Message-ID: <202510230410.vPtSOkAh-lkp@intel.com>
+To: Hui Min Mina Chou <minachou@andestech.com>, anup@brainfault.org,
+	atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, tim609@andestech.com,
+	minachou@andestech.com, ben717@andestech.com, az70021@gmail.com
+Subject: Re: [PATCH v2] RISC-V: KVM: flush VS-stage TLB after VCPU migration
+ to prevent stale entries
+Message-ID: <202510230412.vKIvCmwU-lkp@intel.com>
+References: <20251021083105.4029305-1-minachou@andestech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,83 +68,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251021083105.4029305-1-minachou@andestech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
-head:   45a64ff434a027c296d1d5c35f442e51378c9425
-commit: 45a64ff434a027c296d1d5c35f442e51378c9425 [2/2] OPP: Initialize scope-based pointers inline
-config: arm-randconfig-004-20251022 (https://download.01.org/0day-ci/archive/20251023/202510230410.vPtSOkAh-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230410.vPtSOkAh-lkp@intel.com/reproduce)
+Hi Hui,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvm/next mst-vhost/linux-next linus/master v6.18-rc2 next-20251022]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hui-Min-Mina-Chou/RISC-V-KVM-flush-VS-stage-TLB-after-VCPU-migration-to-prevent-stale-entries/20251021-163357
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20251021083105.4029305-1-minachou%40andestech.com
+patch subject: [PATCH v2] RISC-V: KVM: flush VS-stage TLB after VCPU migration to prevent stale entries
+config: riscv-randconfig-r072-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230412.vKIvCmwU-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230412.vKIvCmwU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230410.vPtSOkAh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230412.vKIvCmwU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/opp/of.c:1545:3: error: cannot jump from this goto statement to its label
-    1545 |                 goto register_em;
-         |                 ^
-   drivers/opp/of.c:1548:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1548 |         struct device_node *np __free(device_node) = of_node_get(dev->of_node);
-         |                             ^
-   drivers/opp/of.c:1539:3: error: cannot jump from this goto statement to its label
-    1539 |                 goto failed;
-         |                 ^
-   drivers/opp/of.c:1548:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1548 |         struct device_node *np __free(device_node) = of_node_get(dev->of_node);
-         |                             ^
-   drivers/opp/of.c:1533:3: error: cannot jump from this goto statement to its label
-    1533 |                 goto failed;
-         |                 ^
-   drivers/opp/of.c:1548:22: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1548 |         struct device_node *np __free(device_node) = of_node_get(dev->of_node);
-         |                             ^
-   3 errors generated.
+>> arch/riscv/kvm/vmid.c:126:6: warning: no previous prototype for 'kvm_riscv_local_tlb_sanitize' [-Wmissing-prototypes]
+     126 | void kvm_riscv_local_tlb_sanitize(struct kvm_vcpu *vcpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1545 drivers/opp/of.c
+vim +/kvm_riscv_local_tlb_sanitize +126 arch/riscv/kvm/vmid.c
 
-32bf8bc9a077680 Lukasz Luba    2022-03-02  1513  
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1514  /**
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1515   * dev_pm_opp_of_register_em() - Attempt to register an Energy Model
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1516   * @dev		: Device for which an Energy Model has to be registered
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1517   * @cpus	: CPUs for which an Energy Model has to be registered. For
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1518   *		other type of devices it should be set to NULL.
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1519   *
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1520   * This checks whether the "dynamic-power-coefficient" devicetree property has
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1521   * been specified, and tries to register an Energy Model with it if it has.
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1522   * Having this property means the voltages are known for OPPs and the EM
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1523   * might be calculated.
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1524   */
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1525  int dev_pm_opp_of_register_em(struct device *dev, struct cpumask *cpus)
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1526  {
-32bf8bc9a077680 Lukasz Luba    2022-03-02  1527  	struct em_data_callback em_cb;
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1528  	int ret, nr_opp;
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1529  	u32 cap;
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1530  
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1531  	if (IS_ERR_OR_NULL(dev)) {
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1532  		ret = -EINVAL;
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1533  		goto failed;
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1534  	}
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1535  
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1536  	nr_opp = dev_pm_opp_get_opp_count(dev);
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1537  	if (nr_opp <= 0) {
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1538  		ret = -EINVAL;
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1539  		goto failed;
-0e0ffa855d1590e Lukasz Luba    2020-05-27  1540  	}
-a4f342b9607d8c2 Quentin Perret 2019-02-04  1541  
-32bf8bc9a077680 Lukasz Luba    2022-03-02  1542  	/* First, try to find more precised Energy Model in DT */
-32bf8bc9a077680 Lukasz Luba    2022-03-02  1543  	if (_of_has_opp_microwatt_property(dev)) {
-32bf8bc9a077680 Lukasz Luba    2022-03-02  1544  		EM_SET_ACTIVE_POWER_CB(em_cb, _get_dt_power);
-32bf8bc9a077680 Lukasz Luba    2022-03-02 @1545  		goto register_em;
-
-:::::: The code at line 1545 was first introduced by commit
-:::::: 32bf8bc9a077680566b2b4f88b9b46e6cc740179 OPP: Add support of "opp-microwatt" for EM registration
-
-:::::: TO: Lukasz Luba <lukasz.luba@arm.com>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+   125	
+ > 126	void kvm_riscv_local_tlb_sanitize(struct kvm_vcpu *vcpu)
 
 -- 
 0-DAY CI Kernel Test Service
