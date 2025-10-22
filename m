@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1137081F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 01:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44AE1A0712;
+	Wed, 22 Oct 2025 01:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761097660; cv=none; b=jXcde66BeRqkV7b/VyiXt5mpvF1Ahe12f7ya4lka/XAqW+VjDIgPMl/2Jv6148HqQxk9B06o5y2susAnp5Ge8lKJL37RHHKu+KwnF3HGzY7OyUr+hnX+G/QFsi16efJlFyNu/F3m+Juggy+Q1x4J7y2/aAJswSJFPK34zSklMHc=
+	t=1761097660; cv=none; b=HIQEDfOyYHGbzMGWRZMDmM3sCoBCZyWWsw5kHNKkSY1hrWWmR+gURIG/EMSACmHFglB4Pm8BrpP+VA5VZDpj8Pc6WB7mE/MyHpSxj4zILjEIee+PiUSjAemIiTPEqvcwEqnZUJt/HCqLLvyFIgs6GukHJ0rdYpAwNPjbng9tTvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761097660; c=relaxed/simple;
-	bh=D82XOoM3RrXGENqMVxFkAyD5HzRnWMaSF5pL/ZxF3gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RUrQeXF0fWHVMFY+21QeVTj27VZbYFgyBM1NaD3LL2RBuTX+ujlftEZCr/7fXp4k60KOhynuHq0ccowidQvQ7I8MIIuiqv2JaU9g1u3ij0BrRGX3ijbDexF1lrB5MQSjDaw8c+iPSyi+4JHEoaaPfzEN1YGk8zlCFDalfXLOKiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uik0qV7S; arc=none smtp.client-ip=192.198.163.15
+	bh=sKGJ26nwcdWxIdtYVShog8SgA1AwD3KpqLda6XcoQ2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VTLSbif0Uve9v6n4wx9yHB7tfEq91emFGgERQJGlmGa35/96KSj+SIdeVQa4cNJTm6Kc9aKtN+srRegJx8phOYS60s8F55wfURw3ACWD3whe10F+0KX79RxhGOjSVMEzb0xtd4tCL34VQvoh2e5T0hTO7oBBC4A5NJHFCkvC5T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6jhyx/N; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uik0qV7S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6jhyx/N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761097658; x=1792633658;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D82XOoM3RrXGENqMVxFkAyD5HzRnWMaSF5pL/ZxF3gk=;
-  b=Uik0qV7SSeC4409v1S5gaOx9r9kCXx9HZRXiRVclqnTUJ/BpnC0EbB9w
-   bKZ31lDkGQt4NaQnpYfJw/KMqesJD+izfPHelxpGDrzBSPWkRdB00Jr5Q
-   m5dB+FehvydCeKPVAjOpLEb68IZip35dMJDJGoilu+JW3VyeZNU9s09ES
-   wAHMCDewU4WTJgpl6yHFDbKg0bntERQhESwzOe5ElGszAt7G+qUZCeXRV
-   9j1/Fm3x9EynOHFY9hJynv4sqIOdAvoDlZ7nFxmGza3xynv/VrOnUw207
-   6oYUxa+7SJFgOPzg7OXk4zFt1yUlTD0p6ArDNijYev7xoGF2IV7axrnMx
-   A==;
-X-CSE-ConnectionGUID: J69Kk8yLQ9Ku8CbxesdaTQ==
-X-CSE-MsgGUID: V8wNgOpQR924ccI2K+j1vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63332403"
+  t=1761097659; x=1792633659;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sKGJ26nwcdWxIdtYVShog8SgA1AwD3KpqLda6XcoQ2c=;
+  b=R6jhyx/NJ7+6WGULxw9fhkBS1KZVZFgMJ3l2pk2b8N2dq5qVr8xcN2B7
+   E0gOFz008DTBIH/Aook2son+NKIZkY2WWGIrdrZl+Y7gE3KX3X8yiE8wU
+   7rbFY5nPHpvMrRl9oDbcZCc6pq4ugJ+YMA5VYdDXBcZ1AHUJCX5bO8Y64
+   0h7L98W6mGSovhfMw6g5dYLexwvWyOX88ZkoHBNjswteNv28JbV3axlls
+   BYrsigTVJ1p8w5//OgmzL3wFEMERNYSZrR48oirsbyljPoorb8mD67n/j
+   ChtN+6/O+CXAoLRAscXFGJONedyG6B1IKAV6V6uSHlEjPJ/QZK2tf2etL
+   w==;
+X-CSE-ConnectionGUID: 2paoVjOYRiyaOjoLkBh+aw==
+X-CSE-MsgGUID: ZrkWG1HNRcGFiIFQ7K4jkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63274612"
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="63332403"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 18:47:38 -0700
-X-CSE-ConnectionGUID: S0Rl0XNBS4mpB+vLX6S+6Q==
-X-CSE-MsgGUID: kCQ46rG3TBq3az56QjDuDg==
+   d="scan'208";a="63274612"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 18:47:38 -0700
+X-CSE-ConnectionGUID: F06MRBqFRl+MbppalCGidA==
+X-CSE-MsgGUID: DnM8K+CpRHGLilbqjD0Siw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="188863194"
+   d="scan'208";a="207417379"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 21 Oct 2025 18:47:36 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Oct 2025 18:47:36 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBNws-000BuW-2F;
+	id 1vBNws-000BuP-24;
 	Wed, 22 Oct 2025 01:47:34 +0000
-Date: Wed, 22 Oct 2025 09:47:32 +0800
+Date: Wed, 22 Oct 2025 09:47:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 16/16]
- drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: Function
- parameter or member 'adapter' not described in 'txgbe_linkdown_subtask'
-Message-ID: <202510220915.MUCCr8jZ-lkp@intel.com>
+To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Subject: Re: [PATCH] dma-buf: improve dma_buf_show_fdinfo output
+Message-ID: <202510220948.fae9xJYg-lkp@intel.com>
+References: <20251021133132.29751-1-biancaa2210329@ssn.edu.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +64,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251021133132.29751-1-biancaa2210329@ssn.edu.in>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   07d2947100f726bec0c31169ea3a2406115aff6f
-commit: a899781823a6a54ad6e6182191e05f441b56d436 [16/16] anolis: net: txgbe: fix bond port rate is unknown when linkup
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251022/202510220915.MUCCr8jZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220915.MUCCr8jZ-lkp@intel.com/reproduce)
+Hi Biancaa,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.18-rc2 next-20251021]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/dma-buf-improve-dma_buf_show_fdinfo-output/20251021-213541
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251021133132.29751-1-biancaa2210329%40ssn.edu.in
+patch subject: [PATCH] dma-buf: improve dma_buf_show_fdinfo output
+config: x86_64-randconfig-002-20251022 (https://download.01.org/0day-ci/archive/20251022/202510220948.fae9xJYg-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510220948.fae9xJYg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510220915.MUCCr8jZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510220948.fae9xJYg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:329: warning: Function parameter or member 'quiet' not described in 'txgbe_read_reg'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:578: warning: Function parameter or member 'txqueue' not described in 'txgbe_tx_timeout'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:659: warning: Function parameter or member 'napi_budget' not described in 'txgbe_clean_tx_irq'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:659: warning: expecting prototype for txgbe_(). Prototype was for txgbe_clean_tx_irq() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:1561: warning: Function parameter or member 'size' not described in 'txgbe_add_rx_frag'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:1561: warning: Excess function parameter 'rx_desc' description in 'txgbe_add_rx_frag'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2184: warning: expecting prototype for ixgbe_update_itr(). Prototype was for txgbe_update_itr() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2570: warning: Function parameter or member 'queues' not described in 'txgbe_irq_enable'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2570: warning: Function parameter or member 'flush' not described in 'txgbe_irq_enable'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3077: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_msi_and_legacy'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3327: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Return a number of entries in the RSS indirection table
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3341: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Write the RETA table to HW
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3693: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_bridge_mode'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4748: warning: Function parameter or member 'pb' not described in 'txgbe_lpbthresh'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:5694: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6545: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * __txgbe_shutdown is not used when power management
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6899: warning: Function parameter or member 'adapter' not described in 'txgbe_fdir_reinit_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6953: warning: Function parameter or member 'adapter' not described in 'txgbe_check_hang_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7001: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_update_link'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7134: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_up'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7242: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_down'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7332: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_flush_tx'
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: Function parameter or member 'adapter' not described in 'txgbe_linkdown_subtask'
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: expecting prototype for txgbe_watchdog_subtask(). Prototype was for txgbe_linkdown_subtask() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7432: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7508: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_detection_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7589: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_link_config_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7690: warning: Function parameter or member 't' not described in 'txgbe_service_timer'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7690: warning: Excess function parameter 'data' description in 'txgbe_service_timer'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9190: warning: expecting prototype for skb_pad(). Prototype was for txgbe_skb_pad_nonzero() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9804: warning: Function parameter or member 'dev' not described in 'txgbe_setup_tc'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9804: warning: Excess function parameter 'netdev' description in 'txgbe_setup_tc'
+>> drivers/dma-buf/dma-buf.c:581:36: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+     581 |     seq_printf(s, "flags:\t%lu\n", f->f_flags);
+         |                            ~~~     ^~~~~~~~~~
+         |                            %u
+>> drivers/dma-buf/dma-buf.c:582:36: warning: format specifies type 'unsigned long long' but the argument has type 'size_t' (aka 'unsigned long') [-Wformat]
+     582 |     seq_printf(s, "size:\t%llu\n", dmabuf->size);
+         |                           ~~~~     ^~~~~~~~~~~~
+         |                           %zu
+   drivers/dma-buf/dma-buf.c:584:62: error: no member named 'num_attachments' in 'struct dma_buf'; did you mean 'attachments'?
+     584 |     seq_printf(s, "attachments:\t%d\n", atomic_read(&dmabuf->num_attachments));
+         |                                                              ^~~~~~~~~~~~~~~
+         |                                                              attachments
+   include/linux/dma-buf.h:315:19: note: 'attachments' declared here
+     315 |         struct list_head attachments;
+         |                          ^
+   drivers/dma-buf/dma-buf.c:585:59: error: no member named 'num_mappings' in 'struct dma_buf'
+     585 |     seq_printf(s, "mappings:\t%d\n", atomic_read(&dmabuf->num_mappings));
+         |                                                   ~~~~~~  ^
+   2 warnings and 2 errors generated.
 
 
-vim +7402 drivers/net/ethernet/wangxun/txgbe/txgbe_main.c
+vim +581 drivers/dma-buf/dma-buf.c
 
-  7396	
-  7397	/**
-  7398	 * txgbe_watchdog_subtask - check and bring link up
-  7399	 * @adapter - pointer to the device adapter structure
-  7400	 **/
-  7401	static void txgbe_linkdown_subtask(struct txgbe_adapter *adapter)
-> 7402	{
-  7403		u32 __maybe_unused value = 0;
-  7404		struct txgbe_hw *hw = &adapter->hw;
-  7405	
-  7406		/* if interface is down do nothing */
-  7407		if (test_bit(__TXGBE_DOWN, &adapter->state) ||
-  7408		    test_bit(__TXGBE_REMOVING, &adapter->state) ||
-  7409		    test_bit(__TXGBE_RESETTING, &adapter->state))
-  7410			return;
-  7411	
-  7412		if (!(adapter->flags2 & TXGBE_FLAG2_LINK_DOWN))
-  7413			txgbe_watchdog_update_link(adapter);
-  7414	
-  7415		if (!adapter->link_up)
-  7416			txgbe_watchdog_link_is_down(adapter);
-  7417	
+   573	
+   574	static void dma_buf_show_fdinfo(struct seq_file *s, struct file *f)
+   575	{
+   576	    struct dma_buf *dmabuf = f->private_data;
+   577	
+   578	    if (!dmabuf)
+   579	        return;
+   580	
+ > 581	    seq_printf(s, "flags:\t%lu\n", f->f_flags);
+ > 582	    seq_printf(s, "size:\t%llu\n", dmabuf->size);
+   583	    seq_printf(s, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+   584	    seq_printf(s, "attachments:\t%d\n", atomic_read(&dmabuf->num_attachments));
+   585	    seq_printf(s, "mappings:\t%d\n", atomic_read(&dmabuf->num_mappings));
+   586	    seq_printf(s, "exp_name:\t%s\n", dmabuf->exp_name ? dmabuf->exp_name : "N/A");
+   587	
+   588	    spin_lock(&dmabuf->name_lock);
+   589	    if (dmabuf->name)
+   590	        seq_printf(s, "name:\t%s\n", dmabuf->name);
+   591	    spin_unlock(&dmabuf->name_lock);
+   592	}
+   593	
 
 -- 
 0-DAY CI Kernel Test Service
