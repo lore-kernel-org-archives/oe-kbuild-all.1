@@ -1,115 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1BCCA5A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 06:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC292F49FC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 07:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761113809; cv=none; b=TooPWMJIZV9sLoFFMvN2M2cJIA4FBOidIQ0ub3L+kq5PYOkr0T/MG6qkG+5pl9ZA29tNyYtmKZw2sFn/qdlkKMyu3XGH4v0P3PBjCWSEoL594Yf4zVZiBsdBXpXXhiiU3OrgO14NpWhTAr5OkirK4Owk1Lpui+Oe1WFVf/AIm0c=
+	t=1761116428; cv=none; b=Da4sY24WBGLwh9iNb9tj8LqFl6Ye4yAbAA6qnOHO7DcFWQrgaukFokzzBrOoBen6yiEbjlNQefZ4peDXIC8cLRm7h7HMNGs2gfQMdYp0qXNThrubCrOwk0Jq1jqMUmHEN6Z74yx0DJoc6cYuyTRU8GiCSar0hgfB+bRUwY1ijSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761113809; c=relaxed/simple;
-	bh=dGh10ZJQ63JnDE7v8zmb22f1lp7p6+iUbDKmPSwfEWE=;
+	s=arc-20240116; t=1761116428; c=relaxed/simple;
+	bh=+lkw0gmwYWxNDRxLgRFeHVaT42rdFPC5CN5TNEfZLWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XSMwYlrDR9PdOunAJHirc1RmE7tT45zino0/NwcGLkTOHyf8ihL9Zx0jzGisYMxenLQyPBhDMDtAn+Z7moa6YCgrMhBsTDtYnWGs3gleH+rMM5LRQtOLPhSnHzHBibKhScAwmmTM5HT1FqoOmyOM0MUmMiylhFRPQx0tIHITDyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECOnurol; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=HuF3JvskaorFXjC9y/lcN0Hbzbh+MB2oQnQnfP0ykWYbg41ASsHFdUbOrJVsaV2dMkUv7GGtMR367j4zCkoLyjt1CDqZao+rHqzx4OMilqZkA6+CaGIURkMlIW+CmQWINcog8Gcr7vN2lQ9sBtvocRFzOqu18lFqSTpR9zDapB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LTdMPOT/; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECOnurol"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761113807; x=1792649807;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dGh10ZJQ63JnDE7v8zmb22f1lp7p6+iUbDKmPSwfEWE=;
-  b=ECOnurol1tYqcgfgSVDG27Qjt+B8YBDakFDZOljD0fMda58Uku7cbYYd
-   BDmknhv0PoPm7Gqy4iBDcnY6jxWgVb/WV/5BRAAeRYKi2thWFijVPCJkP
-   4de3yAYre+zZqS7Wdnw8ddFVdlnuki8wn+S+4zChMkoCjxGHfv4LRJdOV
-   cwHv83fRw32SaAnAufUZj2/ck0ykyoKr/iBKTgZ/zF22dr+TZIbNlTj76
-   sCCwmt6nFQha0+UXqnxLSnwbwuD6rQGgzuGQDigLDt0W24EW5ShqyECMy
-   jaUYoqbYOaGi4+OWHk9OzC4+JMrzW6Yt79OkSqzCzJ7F0Qab24Y3YjyNV
-   A==;
-X-CSE-ConnectionGUID: YFcNCXqYQamuBcImWVwpbw==
-X-CSE-MsgGUID: fun0OUznQyCz2ZnY7yP+lg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63348048"
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="63348048"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 23:16:47 -0700
-X-CSE-ConnectionGUID: P1kCdZ2VQ+W1TUCxcg+Y0w==
-X-CSE-MsgGUID: 1BrTorw6R+2Tnv2HkEk+vA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="184188637"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2025 23:16:46 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBS9M-000C3P-17;
-	Wed, 22 Oct 2025 06:16:44 +0000
-Date: Wed, 22 Oct 2025 14:15:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [tglx-devel:rseq/slice-v2 16/75]
- include/linux/resume_user_mode.h:62:35: error: passing argument 1 of
- 'rseq_handle_notify_resume' from incompatible pointer type
-Message-ID: <202510221457.zuEqOoF1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LTdMPOT/"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-427007b1fe5so4273851f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 00:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761116416; x=1761721216; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qv5bMEGvN9X32946bfYvNIl8D9oMhZpgA7zbomHxa9Y=;
+        b=LTdMPOT/mHdYow7m4AAYgZarBsZQlKZuSYHNyrYP67zgDb+0e10R5tLDswDS/1rToQ
+         eb+voTPtmySwwC8fj1p+LBdakxneYiUcoQx3lDlFS/ybFSVJiTOjiuPPMOwBFIo3s7BO
+         7rm4M0HJ6b6BH9j1TyqZRG6jor1+/6ZbYEQX2BG1tO69vtJgizAJ4KSIbmRp1t691DyZ
+         Y1o3wr510LtfvtAbGTYGBOgfl0+6AAj6CZB8TV0LDPygLmYsxIzrc08wJoZVW6OiK00L
+         txSFmgEaOfQVrDHDcjejTVS/xfkrVK19HkHxwSo/GNk1g7FlK4xSaM91vi5UKoVZtS4j
+         pjDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761116416; x=1761721216;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qv5bMEGvN9X32946bfYvNIl8D9oMhZpgA7zbomHxa9Y=;
+        b=o2JzSqlfeAImGgaQute+8l5R6sVglbGlHMKd3xpJRE32yI8o4KtrQbOoK14Ykdx63Q
+         CJjJdizF4ZT9nvn2oRgvV6sMsCZ8+qzIaE3qydR++MLpJ13r2smXdOri78GHEbXcp8He
+         jkB/kgRntaflZSLcQB3N8H0RsaZ+FxkZn4Opfk7NhQM1WZRFcrPomX+KARDYmdVg3Fpm
+         sKX/tfOuPNZWpeJG4J6jo5UOc8LdpNA4ounK35i9BJ1FzC894CeUUH+85E5LDaelFP2J
+         fQmS5DTp49Z095i7fryiG6DJy6D4H+BX1+2zkG6l84+wTZUM2yCzKk743fGDdA2rboJ4
+         qdwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJE4hTa4engau4e0E6YwRHA/e7ihzHDnAqKAeRM0uTZstyXeLBfL15XuIjZ5QFIPoy0lhayVBwBpE6XBo5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaH7pSj+e3nJTt8BjOHf4M6RnDsYy0xVfkHVZ5nm1G1ovCH143
+	NwCb0vAeneI8rx/FgeKNKqHTBtKTve+FaU7rj3t1jy1oyo73LvSLarCmPtQl2G/1+bk=
+X-Gm-Gg: ASbGncsOV7h1cqVBfIXnASufjKTKyfceimZWqkMGYZqvK2hPAPzvte7uFblBD/xJ+O1
+	hu4+CJGfKj9bWjFFnbZJVk37go6uOIC1YVPEQDIArih2rZpLS7Ia6d030u9xN4IPZzKPR0AMPIp
+	fo+aFcT3ojvDQkWUBPn+hCKrsTyk4GteQ/hiB3u37vG/DTc81+qV0QwGIVYxNtcHjnmp3dUV5yj
+	QVKcRXv8kKV5XtznXJUOpUVJcC+s5PZZgDJUAxXdEH7GGx6O+Q+/ZnQQJyvM2VeD/y77zZgfXXo
+	Ptw5UlVjYoe9BrlzwBEhRhfZMztDI1ruVrA9PdfShOk3/5vUPlLpbeN3I3MOyrg5KQtxpiysQa+
+	hjbTRcyFn+w02f/wedWdRvND+Wa88OVUfRWuVsr6d4MPgvykscSXp8kSpyfrchSz4dMD/FfMFaV
+	IwwQJQMg==
+X-Google-Smtp-Source: AGHT+IF9i76yH8MCk+Tr5Mn1WkODA3/xR31W7KLUDUU/ophtp3akzS53FBIQN5I5N9gZZPPgOgtIdQ==
+X-Received: by 2002:a05:6000:2c0e:b0:405:3028:1bce with SMTP id ffacd0b85a97d-42704daed0fmr12707364f8f.32.1761116416304;
+        Wed, 22 Oct 2025 00:00:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427f00ce3e2sm23652718f8f.47.2025.10.22.00.00.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 00:00:15 -0700 (PDT)
+Date: Wed, 22 Oct 2025 10:00:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+	jfalempe@redhat.com, javierm@redhat.com, rrameshbabu@nvidia.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	airlied@gmail.com, simona@ffwll.ch
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
+Message-ID: <202510220056.J4uIVWxn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251020151402.53013-6-tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice-v2
-head:   eb5ca0a40f94f3ab3c37ec0253eb85692057d3e0
-commit: ec9e3f02b82eb65dc2374128c003a4e425ce15fb [16/75] rseq: Remove the ksig argument from rseq_handle_notify_resume()
-config: i386-randconfig-141-20251022 (https://download.01.org/0day-ci/archive/20251022/202510221457.zuEqOoF1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510221457.zuEqOoF1-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Remove-pitch-from-struct-drm_client_buffer/20251020-231709
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20251020151402.53013-6-tzimmermann%40suse.de
+patch subject: [PATCH 5/7] drm/client: Remove drm_client_framebuffer_delete()
+config: openrisc-randconfig-r072-20251021 (https://download.01.org/0day-ci/archive/20251022/202510220056.J4uIVWxn-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510221457.zuEqOoF1-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510220056.J4uIVWxn-lkp@intel.com/
 
-Note: the tglx-devel/rseq/slice-v2 HEAD eb5ca0a40f94f3ab3c37ec0253eb85692057d3e0 builds fine.
-      It only hurts bisectability.
+smatch warnings:
+drivers/gpu/drm/drm_client.c:185 drm_client_buffer_delete() warn: variable dereferenced before check 'buffer' (see line 182)
 
-All errors (new ones prefixed by >>):
+vim +/buffer +185 drivers/gpu/drm/drm_client.c
 
-   In file included from kernel/task_work.c:5:
-   include/linux/resume_user_mode.h: In function 'resume_user_mode_work':
->> include/linux/resume_user_mode.h:62:35: error: passing argument 1 of 'rseq_handle_notify_resume' from incompatible pointer type [-Wincompatible-pointer-types]
-      62 |         rseq_handle_notify_resume(regs);
-         |                                   ^~~~
-         |                                   |
-         |                                   struct pt_regs *
-   In file included from include/linux/resume_user_mode.h:9:
-   include/linux/rseq.h:107:62: note: expected 'struct ksignal *' but argument is of type 'struct pt_regs *'
-     107 | static inline void rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs) { }
-         |                                              ~~~~~~~~~~~~~~~~^~~~
->> include/linux/resume_user_mode.h:62:9: error: too few arguments to function 'rseq_handle_notify_resume'
-      62 |         rseq_handle_notify_resume(regs);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rseq.h:107:20: note: declared here
-     107 | static inline void rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+449148a7300b8b Thomas Zimmermann 2025-10-20  180  void drm_client_buffer_delete(struct drm_client_buffer *buffer)
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  181  {
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20 @182  	struct drm_gem_object *gem = drm_gem_fb_get_obj(buffer->fb, 0);
+                                                                                                        ^^^^^^^^^^
+buffer is dereferenced here
 
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  183  	int ret;
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  184  
+449148a7300b8b Thomas Zimmermann 2025-10-20 @185  	if (!buffer)
+                                                            ^^^^^^^
+checked too late
 
-vim +/rseq_handle_notify_resume +62 include/linux/resume_user_mode.h
-
-    58	
-    59		mem_cgroup_handle_over_high(GFP_KERNEL);
-    60		blkcg_maybe_throttle_current();
-    61	
-  > 62		rseq_handle_notify_resume(regs);
-    63	}
-    64	
+449148a7300b8b Thomas Zimmermann 2025-10-20  186  		return;
+449148a7300b8b Thomas Zimmermann 2025-10-20  187  
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  188  	drm_gem_vunmap(gem, &buffer->map);
+95d6cf3a3cf1a1 Thomas Zimmermann 2025-10-20  189  
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  190  	ret = drm_mode_rmfb(buffer->client->dev, buffer->fb->base.id, buffer->client->file);
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  191  	if (ret)
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  192  		drm_err(buffer->client->dev,
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  193  			"Error removing FB:%u (%d)\n", buffer->fb->base.id, ret);
+82e2a75e5a640c Thomas Zimmermann 2025-10-20  194  
+be6ee102341bc4 Emil Velikov      2020-05-15  195  	drm_gem_object_put(buffer->gem);
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  196  
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  197  	kfree(buffer);
+c76f0f7cb546b6 Noralf Trønnes    2018-07-03  198  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
