@@ -1,73 +1,61 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68AC19E82A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 16:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878E0253356
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 18:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761150296; cv=none; b=EW2eNnyKegew6JFqFbztws1UwiereLDQ8HBvuOA4Jo/Od93APcv25pDhIrBSIv55HHeUFyUbE84vzB3YtAojxJpX03tgqfR4l1rtixvjXTrk4pOgbtHfrROCDFATiH/anJ5DfXr6ie0WyYMZtfU/nliJvG8CnzVTpPIi1uM+vjA=
+	t=1761157861; cv=none; b=EK5aZycpRITQk6gR/U0WvccVuX9jo2T6SoqcbkqzM0MUUOQnQrhZxoUGTDOUqjcG2Wk6grp6ZnQZ7T0Dt6N7Enkeyo806w2aA82FKZlonAxwl3+GUMqdYL6zJNBiJBk8LBDlz1dmf7OZacyF2lzKrGT4Z5M9zf70JGC++Fn+8wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761150296; c=relaxed/simple;
-	bh=EDdZFI/35s+UAqN9EyBmUGTWev1l7J3BZf9LQvbi2Uc=;
+	s=arc-20240116; t=1761157861; c=relaxed/simple;
+	bh=1vIITsNGj3Kxplei/PvL0TkKOzpU6uWwJU3ODqVcDUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q19i56JKQOsHE4qEJb/cRdqkGTiuqDupNO+p9R9QGf2HLmfNMOTPowpBd2l5WtDrq/Lc5RN2HUyJWVksz1BJp+ZXi15CvZAcPC08G5hE0RfBULYAFsaJ8WkeQ6z5l49S2eyqi8BRG/hfbnKztChhSDXhbrm52hT+pq5kpdGj33w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FcMOWg+C; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=QkwzyeuFdneSB10XCC1O1OS8M6zOTPFCNM5PP5oIA3Qb8uNPmnUaMxDQ2AFxmg4JWnEBsCyfJkU7hDt2rUKMK4kSCG+8VdTxJVimp+1dSEmOBMR72pfk5PZl39eXzwTfRYJRk3UMuDvtJJsSjQUBcqXiwxKtPNE1VljHDMiiM5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCV27Kbl; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FcMOWg+C"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4711f156326so56289055e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 09:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761150293; x=1761755093; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r2Fdjr7hxlZxG70XERQeTfbA/EUhHrvfUgPY/9BUlZk=;
-        b=FcMOWg+CpGe4OBbCogGK1xDOC9YoRiBZHOLZcZWna23scvGqZDBV/8qGTUWGWbMDou
-         n0YCIoHoKSHs6mkhetgareiUc7qpSGnUAn8JawYdEVtfgQ/0tQ1MbmapicaBNrhQV/Eq
-         1EJUTs585ABKndTIesMpPZ6wmRD0kfS3TJGrAfxrJBOQI5wl8K1tM+KGqZghLK4q/QQt
-         wJSEBCiZZPVk0SDt+eyB27mqSIHNoH+wAj3SSgxDdNKA2ZxOgXqDoHerryJEKht9KfUK
-         t4mqDBI4+hpCJGscXhNUkcqcOepnKjyXORlUJLkAmLw92AVDBLHKKWve4KXmmFQgDYFg
-         2fnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761150293; x=1761755093;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r2Fdjr7hxlZxG70XERQeTfbA/EUhHrvfUgPY/9BUlZk=;
-        b=epTYuXPp4W8KGPvjdCxV4f4q8u8UR13cPJXXcsqWpXxV4tdrCrrldNsWQlojmXhsnw
-         oqHjdji/xViVsQ9Wz4dFX8UzsA2QQAe3lRN1+pxM/PPQDHn8UQKg7BfjEntjkq5augMN
-         y5rGR3VUMCtsT1BMdklWCzIcq8Mp0EgwDHz4xJh88u0bLUUoflBWe+LY41lqZo1oZZtb
-         tGWObDL078EOhhaGsqU+E/J0Zn8jn1cSXINVxcBcrQ2y/Gcw7okwunziMn2AAHkxE9A/
-         CxI9c3gtXp/7CFaWIPW8WsGx7ad1Vqsx/SGhZhyVoCozY2Y9q1Q1/3UdNXroqbh75Q7t
-         zLBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNUz6KjH3iVkj0th3F2NtfhwNtXvip9jT2dVzUDn/qIOLNU6APpK7ydMiA4QObK3r+HQ6UzyCCOAKI448U@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVnsQWg4O/6EhsHKJjkq9R/WtFUSxQWaQ6uWmQaYFSzshcT6vh
-	yqMzrqyi7VzEVBfzXAD+GPiDVt5v2kz457Phgf8on9kjm6b2hBAFySv5FpdUX9FqCH0=
-X-Gm-Gg: ASbGncvlHIdul8nTCpmQWNCqNcYtFwcU83dAGGPsxYzG7pqWPDPR6fCe3xT3jmdytXs
-	DBphCFs7EGTaAdl2tjvnGwqw44gb0zN3FSTTA+bhyMLCzn5tUL0yyilXisbnlvgMhDYb6mrBEAU
-	chhyN/DwzAis6F3kHai6ypmQ/+D/mFRLZL6+Gec6ShzreylZcGo3zxjsPm5tmUZTT0x3rXyyaxg
-	v0Ilu9mnd7LK8NYBen1PztEqIdJ7wAvbzqHRflrHJfW+hTF6Lc+431EitQhjvO8Lr1EDvN5NEFT
-	qvYsB1m05jVJGOYJHaUECMORHPnKkrTPSFWcCn4hJHpzCxsMG/2dAbxrLQCoDL5GgXJevbQHm4E
-	G5I2NcTBJm6SrnoioTz5oS7JdTh/H3jPNR2d5Gf+VR+Ao3I3m4lLIJTnh6GelCOzokLW5egxV30
-	A5ad6ytw==
-X-Google-Smtp-Source: AGHT+IFEuIkx5E0TBMkcE9SsKVifCPtetGiK2sYrfe10FV0nlHPydwtYDJmhl+LszP9Cff9KsaTeuQ==
-X-Received: by 2002:a05:6000:2f83:b0:3c7:df1d:3d9 with SMTP id ffacd0b85a97d-42704d99325mr15578287f8f.39.1761150292829;
-        Wed, 22 Oct 2025 09:24:52 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427ea5a0ec2sm25747381f8f.3.2025.10.22.09.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 09:24:52 -0700 (PDT)
-Date: Wed, 22 Oct 2025 19:24:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, YiPeng Chai <YiPeng.Chai@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: [linux-next:master 1181/3483]
- drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:511
- ras_core_get_utc_second_timestamp() error: we previously assumed 'ras_core'
- could be null (see line 507)
-Message-ID: <202510222308.6LSfjKDk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCV27Kbl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761157859; x=1792693859;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1vIITsNGj3Kxplei/PvL0TkKOzpU6uWwJU3ODqVcDUU=;
+  b=nCV27KblEbSbiKESdXoFxACGbziQR/JyD5A1sr/rlI0q9woTxtIXAiEQ
+   L0KXONUliLcYMgnY2TehJP2l/JlriUadgJl2v71lbaUKFHYmP+QjIpT5d
+   tmeIbzjHRcqw3RrIHduIY6fPIBbf8AQZcO79TlzRLh95HyW/a6OXwciS5
+   aAbKeDUkajShQA3Y4a0N3epXfBajzLtj2x4PcI8rY70K6MDez5MqumW6F
+   fkAedxBTcx7Xcu2II4bwPAgHj41t8ofAAKbz4VnzOKK7OGt/2q3Y/6XOj
+   Cm7aVOKrAyRUUO4dY0phWt+lWogCarXfC4twEj9wlTIVkJJ8i2MpRJwaY
+   A==;
+X-CSE-ConnectionGUID: TOOddYkRQmOz1C4EzQiMpw==
+X-CSE-MsgGUID: sPPCuZ8uRwChlqCa71w6KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63464586"
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="63464586"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 11:30:58 -0700
+X-CSE-ConnectionGUID: 8GTfgR6BSzuFUGN+X2n7bw==
+X-CSE-MsgGUID: PXrazzpaTdSEvHNXXbepPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="214884546"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Oct 2025 11:30:56 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBdbm-000Ce5-1z;
+	Wed, 22 Oct 2025 18:30:51 +0000
+Date: Thu, 23 Oct 2025 02:30:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ellen Pan <yunru.pan@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>
+Subject: [linux-next:master 3047/3483]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:884
+ amdgpu_virt_init_critical_region() warn: unsigned 'init_hdr_offset' is never
+ less than zero.
+Message-ID: <202510230222.gjGA0A40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,62 +67,171 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   aaa9c3550b60d6259d6ea8b1175ade8d1242444e
-commit: ace232eff50e8c898103c56b3b5303e776616274 [1181/3483] drm/amdgpu: Add ras module files into amdgpu
-config: x86_64-randconfig-161-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222308.6LSfjKDk-lkp@intel.com/config)
+commit: 07009df6494dc9272b233eeddc10d26f545ff09a [3047/3483] drm/amdgpu: Introduce SRIOV critical regions v2 during VF init
+config: x86_64-randconfig-161-20251022 (https://download.01.org/0day-ci/archive/20251023/202510230222.gjGA0A40-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510222308.6LSfjKDk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230222.gjGA0A40-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:511 ras_core_get_utc_second_timestamp() error: we previously assumed 'ras_core' could be null (see line 507)
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c:530 ras_core_ras_interrupt_detected() error: we previously assumed 'ras_core' could be null (see line 526)
-drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_umc.c:210 ras_umc_log_pending_bad_bank() warn: variable dereferenced before check 'ecc_node' (see line 208)
+drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:884 amdgpu_virt_init_critical_region() warn: unsigned 'init_hdr_offset' is never less than zero.
 
-vim +/ras_core +511 drivers/gpu/drm/amd/amdgpu/../ras/rascore/ras_core.c
+vim +/init_hdr_offset +884 drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c
 
-13c91b5b4378b5d YiPeng Chai 2025-03-17  505  uint64_t ras_core_get_utc_second_timestamp(struct ras_core_context *ras_core)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  506  {
-13c91b5b4378b5d YiPeng Chai 2025-03-17 @507  	if (ras_core && ras_core->sys_fn &&
-                                                    ^^^^^^^^
-Check for NULL
-
-13c91b5b4378b5d YiPeng Chai 2025-03-17  508  		ras_core->sys_fn->get_utc_second_timestamp)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  509  		return ras_core->sys_fn->get_utc_second_timestamp(ras_core);
-13c91b5b4378b5d YiPeng Chai 2025-03-17  510  
-13c91b5b4378b5d YiPeng Chai 2025-03-17 @511  	RAS_DEV_ERR(ras_core->dev, "Failed to get system timestamp!\n");
-                                                            ^^^^^^^^^^^^^
-Unchecked dereference
-
-13c91b5b4378b5d YiPeng Chai 2025-03-17  512  	return 0;
-13c91b5b4378b5d YiPeng Chai 2025-03-17  513  }
-13c91b5b4378b5d YiPeng Chai 2025-03-17  514  
-13c91b5b4378b5d YiPeng Chai 2025-03-17  515  int ras_core_translate_soc_pa_and_bank(struct ras_core_context *ras_core,
-13c91b5b4378b5d YiPeng Chai 2025-03-17  516  	uint64_t *soc_pa, struct umc_bank_addr *bank_addr, bool bank_to_pa)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  517  {
-13c91b5b4378b5d YiPeng Chai 2025-03-17  518  	if (!ras_core || !soc_pa || !bank_addr)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  519  		return -EINVAL;
-13c91b5b4378b5d YiPeng Chai 2025-03-17  520  
-13c91b5b4378b5d YiPeng Chai 2025-03-17  521  	return ras_umc_translate_soc_pa_and_bank(ras_core, soc_pa, bank_addr, bank_to_pa);
-13c91b5b4378b5d YiPeng Chai 2025-03-17  522  }
-13c91b5b4378b5d YiPeng Chai 2025-03-17  523  
-13c91b5b4378b5d YiPeng Chai 2025-03-17  524  bool ras_core_ras_interrupt_detected(struct ras_core_context *ras_core)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  525  {
-13c91b5b4378b5d YiPeng Chai 2025-03-17 @526  	if (ras_core && ras_core->sys_fn &&
-13c91b5b4378b5d YiPeng Chai 2025-03-17  527  		ras_core->sys_fn->detect_ras_interrupt)
-13c91b5b4378b5d YiPeng Chai 2025-03-17  528  		return ras_core->sys_fn->detect_ras_interrupt(ras_core);
-13c91b5b4378b5d YiPeng Chai 2025-03-17  529  
-13c91b5b4378b5d YiPeng Chai 2025-03-17 @530  	RAS_DEV_ERR(ras_core->dev, "Failed to detect ras interrupt!\n");
-
-Same.
-
-13c91b5b4378b5d YiPeng Chai 2025-03-17  531  	return false;
-13c91b5b4378b5d YiPeng Chai 2025-03-17  532  }
+   870	
+   871	int amdgpu_virt_init_critical_region(struct amdgpu_device *adev)
+   872	{
+   873		struct amd_sriov_msg_init_data_header *init_data_hdr = NULL;
+   874		uint32_t init_hdr_offset = adev->virt.init_data_header.offset;
+   875		uint32_t init_hdr_size = adev->virt.init_data_header.size_kb << 10;
+   876		uint64_t vram_size;
+   877		int r = 0;
+   878		uint8_t checksum = 0;
+   879	
+   880		/* Skip below init if critical region version != v2 */
+   881		if (adev->virt.req_init_data_ver != GPU_CRIT_REGION_V2)
+   882			return 0;
+   883	
+ > 884		if (init_hdr_offset < 0) {
+   885			dev_err(adev->dev, "Invalid init header offset\n");
+   886			return -EINVAL;
+   887		}
+   888	
+   889		vram_size = RREG32(mmRCC_CONFIG_MEMSIZE);
+   890		if (!vram_size || vram_size == U32_MAX)
+   891			return -EINVAL;
+   892		vram_size <<= 20;
+   893	
+   894		if ((init_hdr_offset + init_hdr_size) > vram_size) {
+   895			dev_err(adev->dev, "init_data_header exceeds VRAM size, exiting\n");
+   896			return -EINVAL;
+   897		}
+   898	
+   899		/* Allocate for init_data_hdr */
+   900		init_data_hdr = kzalloc(sizeof(struct amd_sriov_msg_init_data_header), GFP_KERNEL);
+   901		if (!init_data_hdr)
+   902			return -ENOMEM;
+   903	
+   904		amdgpu_device_vram_access(adev, (uint64_t)init_hdr_offset, (uint32_t *)init_data_hdr,
+   905						sizeof(struct amd_sriov_msg_init_data_header), false);
+   906	
+   907		/* Table validation */
+   908		if (strncmp(init_data_hdr->signature,
+   909					AMDGPU_SRIOV_CRIT_DATA_SIGNATURE,
+   910					AMDGPU_SRIOV_CRIT_DATA_SIG_LEN) != 0) {
+   911			dev_err(adev->dev, "Invalid init data signature: %.4s\n",
+   912				init_data_hdr->signature);
+   913			r = -EINVAL;
+   914			goto out;
+   915		}
+   916	
+   917		checksum = amdgpu_virt_crit_region_calc_checksum(
+   918				(uint8_t *)&init_data_hdr->initdata_offset,
+   919				(uint8_t *)init_data_hdr +
+   920				sizeof(struct amd_sriov_msg_init_data_header));
+   921		if (checksum != init_data_hdr->checksum) {
+   922			dev_err(adev->dev, "Found unmatching checksum from calculation 0x%x and init_data 0x%x\n",
+   923					checksum, init_data_hdr->checksum);
+   924			r = -EINVAL;
+   925			goto out;
+   926		}
+   927	
+   928		memset(&adev->virt.crit_regn, 0, sizeof(adev->virt.crit_regn));
+   929		memset(adev->virt.crit_regn_tbl, 0, sizeof(adev->virt.crit_regn_tbl));
+   930	
+   931		adev->virt.crit_regn.offset = init_data_hdr->initdata_offset;
+   932		adev->virt.crit_regn.size_kb = init_data_hdr->initdata_size_in_kb;
+   933	
+   934		/* Validation and initialization for each table entry */
+   935		if (IS_SRIOV_CRIT_REGN_ENTRY_VALID(init_data_hdr, AMD_SRIOV_MSG_IPD_TABLE_ID)) {
+   936			if (!init_data_hdr->ip_discovery_size_in_kb ||
+   937					init_data_hdr->ip_discovery_size_in_kb > DISCOVERY_TMR_SIZE) {
+   938				dev_err(adev->dev, "Invalid %s size: 0x%x\n",
+   939					amdgpu_virt_dynamic_crit_table_name[AMD_SRIOV_MSG_IPD_TABLE_ID],
+   940					init_data_hdr->ip_discovery_size_in_kb);
+   941				r = -EINVAL;
+   942				goto out;
+   943			}
+   944	
+   945			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_IPD_TABLE_ID].offset =
+   946				init_data_hdr->ip_discovery_offset;
+   947			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_IPD_TABLE_ID].size_kb =
+   948				init_data_hdr->ip_discovery_size_in_kb;
+   949		}
+   950	
+   951		if (IS_SRIOV_CRIT_REGN_ENTRY_VALID(init_data_hdr, AMD_SRIOV_MSG_VBIOS_IMG_TABLE_ID)) {
+   952			if (!init_data_hdr->vbios_img_size_in_kb) {
+   953				dev_err(adev->dev, "Invalid %s size: 0x%x\n",
+   954					amdgpu_virt_dynamic_crit_table_name[AMD_SRIOV_MSG_VBIOS_IMG_TABLE_ID],
+   955					init_data_hdr->vbios_img_size_in_kb);
+   956				r = -EINVAL;
+   957				goto out;
+   958			}
+   959	
+   960			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_VBIOS_IMG_TABLE_ID].offset =
+   961				init_data_hdr->vbios_img_offset;
+   962			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_VBIOS_IMG_TABLE_ID].size_kb =
+   963				init_data_hdr->vbios_img_size_in_kb;
+   964		}
+   965	
+   966		if (IS_SRIOV_CRIT_REGN_ENTRY_VALID(init_data_hdr, AMD_SRIOV_MSG_RAS_TELEMETRY_TABLE_ID)) {
+   967			if (!init_data_hdr->ras_tele_info_size_in_kb) {
+   968				dev_err(adev->dev, "Invalid %s size: 0x%x\n",
+   969					amdgpu_virt_dynamic_crit_table_name[AMD_SRIOV_MSG_RAS_TELEMETRY_TABLE_ID],
+   970					init_data_hdr->ras_tele_info_size_in_kb);
+   971				r = -EINVAL;
+   972				goto out;
+   973			}
+   974	
+   975			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_RAS_TELEMETRY_TABLE_ID].offset =
+   976				init_data_hdr->ras_tele_info_offset;
+   977			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_RAS_TELEMETRY_TABLE_ID].size_kb =
+   978				init_data_hdr->ras_tele_info_size_in_kb;
+   979		}
+   980	
+   981		if (IS_SRIOV_CRIT_REGN_ENTRY_VALID(init_data_hdr, AMD_SRIOV_MSG_DATAEXCHANGE_TABLE_ID)) {
+   982			if (!init_data_hdr->dataexchange_size_in_kb) {
+   983				dev_err(adev->dev, "Invalid %s size: 0x%x\n",
+   984					amdgpu_virt_dynamic_crit_table_name[AMD_SRIOV_MSG_DATAEXCHANGE_TABLE_ID],
+   985					init_data_hdr->dataexchange_size_in_kb);
+   986				r = -EINVAL;
+   987				goto out;
+   988			}
+   989	
+   990			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_DATAEXCHANGE_TABLE_ID].offset =
+   991				init_data_hdr->dataexchange_offset;
+   992			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_DATAEXCHANGE_TABLE_ID].size_kb =
+   993				init_data_hdr->dataexchange_size_in_kb;
+   994		}
+   995	
+   996		if (IS_SRIOV_CRIT_REGN_ENTRY_VALID(init_data_hdr, AMD_SRIOV_MSG_BAD_PAGE_INFO_TABLE_ID)) {
+   997			if (!init_data_hdr->bad_page_size_in_kb) {
+   998				dev_err(adev->dev, "Invalid %s size: 0x%x\n",
+   999					amdgpu_virt_dynamic_crit_table_name[AMD_SRIOV_MSG_BAD_PAGE_INFO_TABLE_ID],
+  1000					init_data_hdr->bad_page_size_in_kb);
+  1001				r = -EINVAL;
+  1002				goto out;
+  1003			}
+  1004	
+  1005			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_BAD_PAGE_INFO_TABLE_ID].offset =
+  1006				init_data_hdr->bad_page_info_offset;
+  1007			adev->virt.crit_regn_tbl[AMD_SRIOV_MSG_BAD_PAGE_INFO_TABLE_ID].size_kb =
+  1008				init_data_hdr->bad_page_size_in_kb;
+  1009		}
+  1010	
+  1011		adev->virt.is_dynamic_crit_regn_enabled = true;
+  1012	
+  1013	out:
+  1014		kfree(init_data_hdr);
+  1015		init_data_hdr = NULL;
+  1016	
+  1017		return r;
+  1018	}
+  1019	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
