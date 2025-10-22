@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405C24AEE2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 14:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A45E3563E5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 16:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761145050; cv=none; b=MNBrlHK+8h4UpzWGwB3UiVs0WZ9OvJLbDLBBHb56mdA0Kx1fmD4pfmTuf4qzMlbK1iGHPeCbwfjG9bhLf80AmYcBrGMNoaFafscApscaqyBASTBydan0ALzpeutGkCeECvq9ZiQPvJ578xiFnCJuKboG7trM2i8wqXhi35fy5cA=
+	t=1761149309; cv=none; b=UckPj3D5d3l+5llE0BS/tZueut+SRr8gqQ7ExOrWzL9tjIyHRo48vK5FdID9bxUVlDuUXcwyfmw8CbIV9hgqj4z6cemzCPl+nKmh7W7TFuXJy9t8AXTHqCIG3UNobkhkt4D7WdqZI4k3OqtVHfDFDSPc7e9/119DUSES6bSqDOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761145050; c=relaxed/simple;
-	bh=n87zvMOsc286lg161TVq0yPHuXq/y9ttdaxF3Plkanc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dvsG7EaWUA+TbrEfBgeqYVq5T8xPwJkhcz5FQro1dI0GeCC9oVosCrtBOTOw1GDNDD3layx2TF+pWJc0GZK0Tr34fucwXacdQU8k1O7cE3/6a2ERex5Ayz7Evrk7hHvcbSJjxIqE5EfN64FmPdSOoVBaPCqzx33b+69BpI+Pb2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgJZni8B; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1761149309; c=relaxed/simple;
+	bh=Nk9eI4aVcYUWS51KZcgqoA9HnBRh6SumVUmABqejdc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eZTdT0KUdDSxb03mHL1+8Usa0gBOt1M9A3G6pPQk9WFuscpLzRW3fi1XUoyl71IRen5mU9xmc4u1w9j/PBtBj1q+1bwU5hEQcuzizF20MZrSEah8lb0eS8MzyOVtqoa9kqouLAt2XERfiXWVakH15x8FQf/X/wzmWczbq4189cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPfuZev3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgJZni8B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPfuZev3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761145049; x=1792681049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n87zvMOsc286lg161TVq0yPHuXq/y9ttdaxF3Plkanc=;
-  b=YgJZni8Bg0YK/JRhPW2zPR5Te6xPlPmc7nz6rhoeVYyPGSKPDwEc3+iA
-   n/0e9YsZ/njJMDroszakbnDoWbepFJxiVxLpCyhSTjHVg0qQhQPzpysyq
-   izAsVsZYi0sutb5blVvWoG/zkVI08jShbSveuy33k6IP7EIKewDEs0ysW
-   RXWYorCHi1g8/87I2quGN2F2EVj5rvfkiVwRlCYdjTKYZ1oOi+1AUmVpB
-   AFWViI9oCjDr1WkhvzJJPO57fPsjOzkuChQFlAkstjegCBGy51Y4hSdDt
-   g7nW04RjovErBxkllDIW6SOnXuIVYD9bihNVbe2smkFsE5fwqbZEDHhCx
-   Q==;
-X-CSE-ConnectionGUID: H4fgCZSlQ++wu5kYl415Ag==
-X-CSE-MsgGUID: P94sbHE0TWyugcglITdnKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73586071"
+  t=1761149307; x=1792685307;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Nk9eI4aVcYUWS51KZcgqoA9HnBRh6SumVUmABqejdc8=;
+  b=FPfuZev3rIziptZ7N5AnYIRxRYDK+TwuTi2sTm2PnDfpPYxQFMG5Qiq4
+   BZk4QVR8KTeeZMEwjLK2jguBD6VsGgBJXczi//w3FXZDqPdc+J32j3Yd7
+   us4URfw0jWV4aH0c0aABvBi8+hz+d1lpf9F9yA0PcMmOODeAwS7QLsCdy
+   BGQJe0YHrkvoFr3TiJNdOfptS7cxoch+GETIBdBTCOdTyAtBmxgao1ofn
+   RyT/24XzLZI6zAKF0Ut8LeJXqYIiMYTB43/DI7SilzdjPmXzvJaSIzDl/
+   lVtlImVq8bN4RXf77vBs6db4HnO7RQtqa7Yn0UpEpbWwWuTyQNxib/JU2
+   w==;
+X-CSE-ConnectionGUID: zBBRJK5hSX2UjH+z1bx8vA==
+X-CSE-MsgGUID: KG9TK3N2QW+HNpjRO3F+Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63341535"
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="73586071"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 07:57:28 -0700
-X-CSE-ConnectionGUID: D8R2wurISHWLVAtftmAYfw==
-X-CSE-MsgGUID: 4wQEVxTbTPS6ZylEkMfTzQ==
+   d="scan'208";a="63341535"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 09:08:26 -0700
+X-CSE-ConnectionGUID: BUguCTW0ThmPDcRDfxy3MA==
+X-CSE-MsgGUID: jg9G04avQX2Y+CCBtVHR2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="183482514"
+   d="scan'208";a="188316132"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Oct 2025 07:57:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 09:08:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBaGT-000CRb-0z;
-	Wed, 22 Oct 2025 14:56:55 +0000
-Date: Wed, 22 Oct 2025 22:54:01 +0800
+	id 1vBbNv-000CUf-0D;
+	Wed, 22 Oct 2025 16:08:23 +0000
+Date: Thu, 23 Oct 2025 00:07:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	magnus.karlsson@intel.com, aleksander.lobakin@intel.com,
-	ilias.apalodimas@linaro.org, toke@redhat.com, lorenzo@kernel.org,
-	kuba@kernel.org, Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	syzbot+ff145014d6b0ce64a173@syzkaller.appspotmail.com,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Octavian Purdila <tavip@google.com>
-Subject: Re: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
-Message-ID: <202510222206.mGdKZo2R-lkp@intel.com>
-References: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
+To: Petre Rodan <petre.rodan@subdimension.ro>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [linux-next:master 2373/3483]
+ drivers/iio/accel/bma220_core.c:394:undefined reference to
+ `i2c_verify_client'
+Message-ID: <202510222324.SxYlIaLW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,67 +63,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
 
-Hi Maciej,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xdp-introduce-xdp_convert_skb_to_buff/20251022-210958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20251022125209.2649287-2-maciej.fijalkowski%40intel.com
-patch subject: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
-config: arm-randconfig-002-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222206.mGdKZo2R-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222206.mGdKZo2R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aaa9c3550b60d6259d6ea8b1175ade8d1242444e
+commit: 3499375209ca839a741e775d579f8bb9b85529d5 [2373/3483] iio: accel: bma220: add i2c watchdog feature
+config: i386-randconfig-054-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222324.SxYlIaLW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222324.SxYlIaLW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510222206.mGdKZo2R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510222324.SxYlIaLW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/net/busy_poll.h:19,
-                    from fs/select.c:33:
-   include/net/xdp.h: In function 'xdp_convert_skb_to_buff':
->> include/net/xdp.h:398:10: warning: assignment to 'u32' {aka 'unsigned int'} from 'sk_buff_data_t' {aka 'unsigned char *'} makes integer from pointer without a cast [-Wint-conversion]
-     398 |  pkt_len =  skb->tail - skb->mac_header;
-         |          ^
+   ld: drivers/iio/accel/bma220_core.o: in function `bma220_init':
+>> drivers/iio/accel/bma220_core.c:394:(.text+0x375): undefined reference to `i2c_verify_client'
 
 
-vim +398 include/net/xdp.h
+vim +394 drivers/iio/accel/bma220_core.c
 
-   386	
-   387	static inline
-   388	void xdp_convert_skb_to_buff(struct sk_buff *skb, struct xdp_buff *xdp,
-   389				     struct xdp_rxq_info *xdp_rxq)
-   390	{
-   391		u32 frame_sz, pkt_len;
-   392	
-   393		/* SKB "head" area always have tailroom for skb_shared_info */
-   394		frame_sz = skb_end_pointer(skb) - skb->head;
-   395		frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-   396	
-   397		DEBUG_NET_WARN_ON_ONCE(!skb_mac_header_was_set(skb));
- > 398		pkt_len =  skb->tail - skb->mac_header;
-   399	
-   400		xdp_init_buff(xdp, frame_sz, xdp_rxq);
-   401		xdp_prepare_buff(xdp, skb->head, skb->mac_header, pkt_len, true);
-   402	
-   403		if (skb_is_nonlinear(skb)) {
-   404			skb_shinfo(skb)->xdp_frags_size = skb->data_len;
-   405			xdp_buff_set_frags_flag(xdp);
-   406		} else {
-   407			xdp_buff_clear_frags_flag(xdp);
-   408		}
-   409	
-   410		xdp->rxq->mem.type = page_pool_page_is_pp(virt_to_head_page(xdp->data)) ?
-   411					MEM_TYPE_PAGE_POOL : MEM_TYPE_PAGE_SHARED;
-   412	}
-   413	
+   365	
+   366	static int bma220_init(struct device *dev, struct bma220_data *data)
+   367	{
+   368		int ret;
+   369		unsigned int val;
+   370		static const char * const regulator_names[] = { "vddd", "vddio", "vdda" };
+   371	
+   372		ret = devm_regulator_bulk_get_enable(dev,
+   373						     ARRAY_SIZE(regulator_names),
+   374						     regulator_names);
+   375		if (ret)
+   376			return dev_err_probe(dev, ret, "Failed to get regulators\n");
+   377	
+   378		ret = regmap_read(data->regmap, BMA220_REG_ID, &val);
+   379		if (ret)
+   380			return dev_err_probe(dev, ret,
+   381					     "Failed to read chip id register\n");
+   382	
+   383		if (val != BMA220_CHIP_ID)
+   384			dev_info(dev, "Unknown chip found: 0x%02x\n", val);
+   385	
+   386		ret = bma220_power(data, true);
+   387		if (ret)
+   388			return dev_err_probe(dev, ret, "Failed to power-on chip\n");
+   389	
+   390		ret = bma220_reset(data, true);
+   391		if (ret)
+   392			return dev_err_probe(dev, ret, "Failed to soft reset chip\n");
+   393	
+ > 394		if (i2c_verify_client(dev)) {
+   395			ret = bma220_set_wdt(data, BMA220_WDT_1MS);
+   396			if (ret)
+   397				return dev_err_probe(dev, ret,
+   398						     "Failed to set i2c watchdog\n");
+   399		}
+   400	
+   401		return 0;
+   402	}
+   403	
 
 -- 
 0-DAY CI Kernel Test Service
