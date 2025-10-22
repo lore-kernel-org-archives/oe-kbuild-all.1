@@ -1,40 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE1134B664;
-	Wed, 22 Oct 2025 14:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAE4322C7D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 14:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761142105; cv=none; b=re7c0J7YJiTQ5IkjlPD/NuqjKUVKQmFQWqinJ4eLsJeRLofVfSIOu1AEFqQ9IfrQjSjDrgX7TxWeYCF8Q5KuwTTkS5SIljahEpC7FJQ2s3RWnfrqJiHg6FXn55Ge21Dya+cK8vgippYkZ+rEjitOTUkFD0VhNay2IRh+1mgm+aw=
+	t=1761142584; cv=none; b=d1j97695TGxJvI0MqMwb/mH/JahxoiAIKngxVtM9gD4qzOZKMsnzORKEe++nFduo/B/fDu4+v/PIPimettbMxGxtS/OqDyR4iCs604PJVyPZ+LgdxEcmsFH+1sF9+PDc1tKVPbvbTmduOorFjed805DLzTJoBz2CA9dKSQQLaSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761142105; c=relaxed/simple;
-	bh=0cntgMCkpELX2mMus6h4KC/81rRj41w66TUYtJFxMb8=;
+	s=arc-20240116; t=1761142584; c=relaxed/simple;
+	bh=WLIq3te9nq7A6J2hfe3bvnRM8WiFX1/q3SS62dWu5ZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tfGTneoRiYDQ5JMCiCwMZ1adNLiIoLdFit1GfeJEGKYwRrzqRagTHxkNq+Sxu58Inioq2T+7zQ39cVldeeGRkiuBS8hqsvlMcmUc0PTlIPxtisHTkLV6+bWLqaZxE1yCf1mkDdQ1XmA3JjRCKcQhjOPx8elSDTLBfechvQ081a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kIDhETLY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BmK557s1P7W+/toG3A3Ipu1G54+dOImQ/YWG5ITZL9SEsEus/tXfvgNpT+lqQoR4Dx6W2yHMxrnpJFlxmM3dN4KY/RjQVzFPLwwXELiUfIIv0xsmgB6GN6FVqhO2MahjSBRr6j0Z4YDyTGF5/vAkecnYasEf3C3ujQSvjryyVXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7Mwo3k7; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kIDhETLY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BABBC4CEFF;
-	Wed, 22 Oct 2025 14:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761142104;
-	bh=0cntgMCkpELX2mMus6h4KC/81rRj41w66TUYtJFxMb8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kIDhETLYYAF4HvxrNI0FiscUxcSx03WFX1jz1dYQ/QMYO7UXFNE0LPoKemAQaDm9P
-	 TW/vN3VwWSjxd42cAe/Whnox9FNHwqiYLzuUAgw0F/W818dmODW9JOd6AjxXZTx7hI
-	 ucwGhxrjzKAbQZxcE2JeS+EOUZDNl7QYI9FJucvg=
-Date: Wed, 22 Oct 2025 16:08:21 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hugo Villeneuve <hugo@hugovil.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org
-Subject: Re: [tty:tty-testing 11/22] drivers/tty/serial/sc16is7xx.c:596:9:
- error: implicit declaration of function 'sc16is7xx_efr_lock'; did you mean
- 'sc16is7xx_regs_lock'?
-Message-ID: <2025102247-siesta-straw-5006@gregkh>
-References: <202510222048.fnK8S60G-lkp@intel.com>
- <20251022095524.76e0377f7efcbce531ba52be@hugovil.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7Mwo3k7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761142583; x=1792678583;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WLIq3te9nq7A6J2hfe3bvnRM8WiFX1/q3SS62dWu5ZE=;
+  b=X7Mwo3k715cAhLE5LBURaGn6xhOvnHAxjyJ5EFi2zKnr+y50m41coQc7
+   VKvFXn3g6mDdiKvEbMD1fTrrTw+aIHALXLT2QfhPeC5kRlbH2GK/hFC7X
+   2tcePJQayc6eAlDxjlHPcAuMwDyWHJTcNDEAK1vXjgQZfZjNslzYetYcS
+   U70zkR57mLAJOdMTlsU4hdcqJjcsgiLloDz8BPP3PuYGZnueJiy9IplGC
+   ZCNH+np5hwuMnFGmcNy1GuLGklzUmZfDfQgkNsduwOmflXSjBTkfoau3H
+   LyoXZO4iu+79WBwp1bn2fhBRxGsgzZuVvGaO8KBEH4/QN/565JTsMtpz1
+   Q==;
+X-CSE-ConnectionGUID: BoC/biE/QF2LWkk+AsG4Bg==
+X-CSE-MsgGUID: WhMR6MYfSCeVBOshrBgXiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74411358"
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="74411358"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 07:16:23 -0700
+X-CSE-ConnectionGUID: qaZ/8OfDSS6N/9RBj6haAg==
+X-CSE-MsgGUID: axV8P9zZRx+GIM1oecSuHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="184368005"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2025 07:16:20 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBZbI-000CQ5-14;
+	Wed, 22 Oct 2025 14:15:13 +0000
+Date: Wed, 22 Oct 2025 22:09:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, awalls@md.metrocast.net,
+	mchehab@kernel.org, linux-kernel@vger.kernel.org,
+	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Subject: Re: [PATCH] pcmcia/parport_cs: Refactor probe function and improve
+ error logging
+Message-ID: <202510222115.WBPLEBsN-lkp@intel.com>
+References: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,111 +65,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022095524.76e0377f7efcbce531ba52be@hugovil.com>
+In-Reply-To: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
 
-On Wed, Oct 22, 2025 at 09:55:24AM -0400, Hugo Villeneuve wrote:
-> On Wed, 22 Oct 2025 21:07:24 +0800
-> kernel test robot <lkp@intel.com> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-> > head:   cdca3a77b423691b0e3780653642cd5b31de8bd8
-> > commit: 5a91e16ba44d9850088278ebe209b5c533f87cb8 [11/22] serial: sc16is7xx: define common register access function
-> > config: x86_64-buildonly-randconfig-003-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202510222048.fnK8S60G-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_set_baud':
-> > >> drivers/tty/serial/sc16is7xx.c:596:9: error: implicit declaration of function 'sc16is7xx_efr_lock'; did you mean 'sc16is7xx_regs_lock'? [-Wimplicit-function-declaration]
-> >      596 |         sc16is7xx_efr_lock(port);
-> >          |         ^~~~~~~~~~~~~~~~~~
-> >          |         sc16is7xx_regs_lock
-> > >> drivers/tty/serial/sc16is7xx.c:600:9: error: implicit declaration of function 'sc16is7xx_efr_unlock'; did you mean 'sc16is7xx_regs_unlock'? [-Wimplicit-function-declaration]
-> >      600 |         sc16is7xx_efr_unlock(port);
-> >          |         ^~~~~~~~~~~~~~~~~~~~
-> >          |         sc16is7xx_regs_unlock
-> > 
-> > 
-> > vim +596 drivers/tty/serial/sc16is7xx.c
-> > 
-> > dbf4ab821804df0 Hugo Villeneuve 2023-12-11  572  
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  573  /*
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  574   * Configure programmable baud rate generator (divisor) according to the
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  575   * desired baud rate.
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  576   *
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  577   * From the datasheet, the divisor is computed according to:
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  578   *
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  579   *              XTAL1 input frequency
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  580   *             -----------------------
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  581   *                    prescaler
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  582   * divisor = ---------------------------
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  583   *            baud-rate x sampling-rate
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  584   */
-> > dfeae619d781dee Jon Ringle      2014-04-24  585  static int sc16is7xx_set_baud(struct uart_port *port, int baud)
-> > dfeae619d781dee Jon Ringle      2014-04-24  586  {
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  587  	unsigned int prescaler = 1;
-> > dfeae619d781dee Jon Ringle      2014-04-24  588  	unsigned long clk = port->uartclk, div = clk / 16 / baud;
-> > dfeae619d781dee Jon Ringle      2014-04-24  589  
-> > 2e57cefc4477659 Hugo Villeneuve 2023-12-21  590  	if (div >= BIT(16)) {
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  591  		prescaler = 4;
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  592  		div /= prescaler;
-> > dfeae619d781dee Jon Ringle      2014-04-24  593  	}
-> > dfeae619d781dee Jon Ringle      2014-04-24  594  
-> > dfeae619d781dee Jon Ringle      2014-04-24  595  	/* Enable enhanced features */
-> > 0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @596  	sc16is7xx_efr_lock(port);
-> > c112653b89e0cea Lech Perczak    2022-02-21  597  	sc16is7xx_port_update(port, SC16IS7XX_EFR_REG,
-> > c112653b89e0cea Lech Perczak    2022-02-21  598  			      SC16IS7XX_EFR_ENABLE_BIT,
-> > dfeae619d781dee Jon Ringle      2014-04-24  599  			      SC16IS7XX_EFR_ENABLE_BIT);
-> > 0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @600  	sc16is7xx_efr_unlock(port);
-> > 30ec514d440cf2c Phil Elwell     2018-09-12  601  
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  602  	/* If bit MCR_CLKSEL is set, the divide by 4 prescaler is activated. */
-> > dfeae619d781dee Jon Ringle      2014-04-24  603  	sc16is7xx_port_update(port, SC16IS7XX_MCR_REG,
-> > dfeae619d781dee Jon Ringle      2014-04-24  604  			      SC16IS7XX_MCR_CLKSEL_BIT,
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  605  			      prescaler == 1 ? 0 : SC16IS7XX_MCR_CLKSEL_BIT);
-> > dfeae619d781dee Jon Ringle      2014-04-24  606  
-> > 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  607  	/* Access special register set (DLL/DLH) */
-> > 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  608  	sc16is7xx_regs_lock(port, SC16IS7XX_LCR_REG_SET_SPECIAL);
-> > dfeae619d781dee Jon Ringle      2014-04-24  609  
-> > dfeae619d781dee Jon Ringle      2014-04-24  610  	/* Write the new divisor */
-> > dfeae619d781dee Jon Ringle      2014-04-24  611  	sc16is7xx_port_write(port, SC16IS7XX_DLH_REG, div / 256);
-> > dfeae619d781dee Jon Ringle      2014-04-24  612  	sc16is7xx_port_write(port, SC16IS7XX_DLL_REG, div % 256);
-> > dfeae619d781dee Jon Ringle      2014-04-24  613  
-> > 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  614  	/* Restore access to general register set */
-> > 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  615  	sc16is7xx_regs_unlock(port);
-> > 7d3b793faaab130 Hugo Villeneuve 2024-07-23  616  
-> > 8492bd91aa05590 Hugo Villeneuve 2024-04-30  617  	return DIV_ROUND_CLOSEST((clk / prescaler) / 16, div);
-> > dfeae619d781dee Jon Ringle      2014-04-24  618  }
-> > dfeae619d781dee Jon Ringle      2014-04-24  619  
-> > 
-> > :::::: The code at line 596 was first introduced by commit
-> > :::::: 0c84bea0cabc4e2b98a3de88eeb4ff798931f056 serial: sc16is7xx: refactor EFR lock
-> > 
-> > :::::: TO: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> > :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> Hi Greg,
-> this patch, and other patches in this series, depends on the patch
-> "serial: sc16is7xx: remove useless enable of enhanced features"
-> that you just added to your tty-linus tree.
-> 
-> If you first add this patch to tty-testing, then the error
-> disappear.
+Hi Biancaa,
 
-Ugh, that was not obvious at all :(
+kernel test robot noticed the following build errors:
 
-I'll go drop all of these from my tty-next branch, can you resend them
-when I merge -rc3 into that branch so that things do not break?
+[auto build test ERROR on sailus-media-tree/master]
+[also build test ERROR on linus/master v6.18-rc2 next-20251022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/pcmcia-parport_cs-Refactor-probe-function-and-improve-error-logging/20251022-030324
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251021190021.173748-1-biancaa2210329%40ssn.edu.in
+patch subject: [PATCH] pcmcia/parport_cs: Refactor probe function and improve error logging
+config: x86_64-buildonly-randconfig-006-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222115.WBPLEBsN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222115.WBPLEBsN-lkp@intel.com/reproduce)
 
-greg k-h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510222115.WBPLEBsN-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/parport/parport_cs.c: In function 'parport_config':
+>> drivers/parport/parport_cs.c:164:9: error: label 'failed' used but not defined
+     164 |         goto failed;
+         |         ^~~~
+>> drivers/parport/parport_cs.c:137:21: warning: unused variable 'info' [-Wunused-variable]
+     137 |     parport_info_t *info = link->priv;
+         |                     ^~~~
+>> drivers/parport/parport_cs.c:167:5: warning: no return statement in function returning non-void [-Wreturn-type]
+     167 |     }
+         |     ^
+   drivers/parport/parport_cs.c: At top level:
+>> drivers/parport/parport_cs.c:169:6: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     169 |     p->modes |= PARPORT_MODE_PCSPP;
+         |      ^~
+>> drivers/parport/parport_cs.c:170:5: error: expected identifier or '(' before 'if'
+     170 |     if (epp_mode)
+         |     ^~
+   drivers/parport/parport_cs.c:172:9: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     172 |     info->ndev = 1;
+         |         ^~
+   drivers/parport/parport_cs.c:173:9: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     173 |     info->port = p;
+         |         ^~
+>> drivers/parport/parport_cs.c:175:5: error: expected identifier or '(' before 'return'
+     175 |     return 0;
+         |     ^~~~~~
+>> drivers/parport/parport_cs.c:177:7: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+     177 | failed:
+         |       ^
+>> drivers/parport/parport_cs.c:179:19: error: expected ')' before '->' token
+     179 |         kfree(link->priv);
+         |                   ^~
+         |                   )
+   drivers/parport/parport_cs.c:180:9: error: expected '=', ',', ';', 'asm' or '__attribute__' before '->' token
+     180 |     link->priv = NULL;
+         |         ^~
+   drivers/parport/parport_cs.c:181:9: error: expected identifier or '(' before 'return'
+     181 |         return -ENODEV;
+         |         ^~~~~~
+>> drivers/parport/parport_cs.c:182:1: error: expected identifier or '(' before '}' token
+     182 | } /* parport_config */
+         | ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +/failed +164 drivers/parport/parport_cs.c
+
+84e2d34004dcd0c Dominik Brodowski 2008-07-29  134  
+15b99ac1729503d Dominik Brodowski 2006-03-31  135  static int parport_config(struct pcmcia_device *link)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  136  {
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @137      parport_info_t *info = link->priv;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  138      struct parport *p;
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  139      int ret;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  140  
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  141      dev_dbg(&link->dev, "parport_config\n");
+^1da177e4c3f415 Linus Torvalds    2005-04-16  142  
+00990e7ce0b0e59 Dominik Brodowski 2010-07-30  143      if (epp_mode)
+00990e7ce0b0e59 Dominik Brodowski 2010-07-30  144  	    link->config_index |= FORCE_EPP_MODE;
+00990e7ce0b0e59 Dominik Brodowski 2010-07-30  145  
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  146      ret = pcmcia_loop_config(link, parport_config_check, NULL);
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  147      if (ret)
+84e2d34004dcd0c Dominik Brodowski 2008-07-29  148  	    goto failed;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  149  
+eb14120f743d297 Dominik Brodowski 2010-03-07  150      if (!link->irq)
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  151  	    goto failed;
+1ac71e5a35eebee Dominik Brodowski 2010-07-29  152      ret = pcmcia_enable_device(link);
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  153      if (ret)
+9b44de2015ff4a2 Dominik Brodowski 2009-10-24  154  	    goto failed;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  155  
+9a017a910346afd Dominik Brodowski 2010-07-24  156      p = parport_pc_probe_port(link->resource[0]->start,
+9a017a910346afd Dominik Brodowski 2010-07-24  157  			      link->resource[1]->start,
+eb14120f743d297 Dominik Brodowski 2010-03-07  158  			      link->irq, PARPORT_DMA_NONE,
+51dcdfec6a274af Alan Cox          2009-04-07  159  			      &link->dev, IRQF_SHARED);
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22  160      if (!p) {
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22  161          dev_err(&link->dev,
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22  162              "parport_pc_probe_port() failed at 0x%03x, irq %u\n",
+decf26f6ec25dac Joe Perches       2020-04-03  163              (unsigned int)link->resource[0]->start, link->irq);
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @164          goto failed;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  165      }   
+^1da177e4c3f415 Linus Torvalds    2005-04-16  166  
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22 @167      }
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22  168  
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @169      p->modes |= PARPORT_MODE_PCSPP;
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @170      if (epp_mode)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  171  	p->modes |= PARPORT_MODE_TRISTATE | PARPORT_MODE_EPP;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  172      info->ndev = 1;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  173      info->port = p;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  174  
+15b99ac1729503d Dominik Brodowski 2006-03-31 @175      return 0;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  176  
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @177  failed:
+^1da177e4c3f415 Linus Torvalds    2005-04-16  178  	parport_cs_release(link);
+21c75ad65f8e521 YueHaibing        2019-03-21 @179  	kfree(link->priv);
+fac3d7d7b11c825 Biancaa Ramesh    2025-10-22  180      link->priv = NULL;
+15b99ac1729503d Dominik Brodowski 2006-03-31  181  	return -ENODEV;
+^1da177e4c3f415 Linus Torvalds    2005-04-16 @182  } /* parport_config */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  183  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
