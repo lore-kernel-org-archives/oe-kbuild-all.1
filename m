@@ -1,157 +1,137 @@
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5262336EC2;
-	Wed, 22 Oct 2025 14:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.120.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D082B33EB09;
+	Wed, 22 Oct 2025 14:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761143764; cv=none; b=NaBVD6ReRujzMHA2MtbIaOshPAte5X8ph8pRZ2clZblgQp5pq8xByFpOcUUdBEiGN6OTMfHn41U1mXK1JHrIxap66ZA/LtZZnwZkfPWvIZGvgPDyCa/XRkMfSRlTuTGooTpl+yHH8nw14Y4uiQKyo9wu+zLLbUvW9gO+M+6CQdo=
+	t=1761144964; cv=none; b=C4Ynl25o0agc5zJPfIxnh7iTd3Z6hQjunTGUGE/PAjspg/F4ac3s8eUJrQLY3Y1ZRB/8s6gVSEZbQstKiKSEqQYaSI/SGhXvn9qS2xTAM7sZoJ5l74fzEFX5nVa4t8uoxU3I4Zegmfc4VHMTK+qAFjIJ07klNKFdvMcyoCOsXL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761143764; c=relaxed/simple;
-	bh=BHfoeaq+XMMS/gXSbO7Dvm4J3Y9wOPvM7WQbjelvDUc=;
-	h=Date:From:To:Cc:Message-Id:In-Reply-To:References:Mime-Version:
-	 Content-Type:Subject; b=nF0xfbA2TKzCZK4Lg0IgUvbrgeyME5whTQYVrIU0kgEYxmaV15MRa/utFpWHW9qAelj+usmRO14TtcBp8wJa6ZMWi8zB2aTXHRGRm228h+GhDH/yALmPgDXHJGU4Jnz1ylfz0QxYiBCYVmQSVk2+q96yVGtWgm6RQ1hU1TMLy/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com; spf=pass smtp.mailfrom=hugovil.com; dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b=finZ/SVo; arc=none smtp.client-ip=162.243.120.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+	s=arc-20240116; t=1761144964; c=relaxed/simple;
+	bh=1k0h9ke+imuVkcbrlEJhbQrnGGwnjcDdE+eGUs82J5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KeCgytLzMqRxHLLDFezx9hIGsClpRkO0eNRcBQHjtxz7O/Z5yoTpijCX6M0ahVBPzW+eFAdO/LZG1ZVIWBqzhUfK/AGN16OP9LJTogFZPvSBHqpQGiL3fa5qJVh48Nomjh4k5jXsfj+LCuBTebr4FfhuPJ214Bg4dq4s8jg+jUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0SQedCi; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="finZ/SVo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=HALaN7F51ocNNdDRDsgooGPOH8TjVEwFZj9tTRP+AVc=; b=finZ/SVoxiqSAKngn9NyQOdsbP
-	L1j+C44GbAPm1kbM09yH0ekJIN8puBlrONOUuiyOfr+GCNIHaUIhPz1Y2evi/vOFWA+BK1oy+vLy0
-	GLkvFOpoA10ulhgRl0/chof+q+6EYGeHNqz+r37qqIOCvP6KHr4NKz5JQFzQxtpP0V1E=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:50982 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1vBZJE-00089y-Fw; Wed, 22 Oct 2025 09:55:25 -0400
-Date: Wed, 22 Oct 2025 09:55:24 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Hugo Villeneuve <hvilleneuve@dimonoff.com>,
- oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20251022095524.76e0377f7efcbce531ba52be@hugovil.com>
-In-Reply-To: <202510222048.fnK8S60G-lkp@intel.com>
-References: <202510222048.fnK8S60G-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0SQedCi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761144963; x=1792680963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1k0h9ke+imuVkcbrlEJhbQrnGGwnjcDdE+eGUs82J5Y=;
+  b=k0SQedCi1w9pnBSNGrjLUZyi/bb925rHL9VbEEGWaikhuskfU35jLMKy
+   g1g3n2c9TH8g3Gv6sEUiBWu2tBJ/h4DxQdYkjCIFgh/mwP+AGAx4Gyp9A
+   S3Kr7vIODdwgFy3+NFmccdZqC2sXZ6OGSOH8SAVDcd2RVFmgB1SF7qLwL
+   RyMYWrIOnvpQN8RCbMLW7o3C6HhgQEagRiZwyI8o1krRJz49Wu5gnMx+i
+   duNwfdRBS1/AtI95e/KC/Kuq0Xs90F2GA3IlUbiaP5VuKceBqQTmgvnUk
+   s0Oj+D/5iQua3yM0Ax+BUqFcFR2IBs1cKZ4rIB2NZyXUI4TeOde/gouys
+   w==;
+X-CSE-ConnectionGUID: Z0OgfnPKSn2THM+690QTLg==
+X-CSE-MsgGUID: 90+qIP7QRzGsLDoNZrbHwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="80923769"
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="80923769"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 07:56:02 -0700
+X-CSE-ConnectionGUID: KnTCe76uSE2LBBnJ07TObg==
+X-CSE-MsgGUID: uekKQdbfTbCUGBULnMqAFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
+   d="scan'208";a="214836268"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Oct 2025 07:55:58 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBaEu-000CRU-3C;
+	Wed, 22 Oct 2025 14:55:26 +0000
+Date: Wed, 22 Oct 2025 22:53:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, magnus.karlsson@intel.com,
+	aleksander.lobakin@intel.com, ilias.apalodimas@linaro.org,
+	toke@redhat.com, lorenzo@kernel.org, kuba@kernel.org,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	syzbot+ff145014d6b0ce64a173@syzkaller.appspotmail.com,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Octavian Purdila <tavip@google.com>
+Subject: Re: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
+Message-ID: <202510222209.D4RDn4DI-lkp@intel.com>
+References: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -1.9 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [tty:tty-testing 11/22] drivers/tty/serial/sc16is7xx.c:596:9:
- error: implicit declaration of function 'sc16is7xx_efr_lock'; did you mean
- 'sc16is7xx_regs_lock'?
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
 
-On Wed, 22 Oct 2025 21:07:24 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Maciej,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-> head:   cdca3a77b423691b0e3780653642cd5b31de8bd8
-> commit: 5a91e16ba44d9850088278ebe209b5c533f87cb8 [11/22] serial: sc16is7xx: define common register access function
-> config: x86_64-buildonly-randconfig-003-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222048.fnK8S60G-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510222048.fnK8S60G-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_set_baud':
-> >> drivers/tty/serial/sc16is7xx.c:596:9: error: implicit declaration of function 'sc16is7xx_efr_lock'; did you mean 'sc16is7xx_regs_lock'? [-Wimplicit-function-declaration]
->      596 |         sc16is7xx_efr_lock(port);
->          |         ^~~~~~~~~~~~~~~~~~
->          |         sc16is7xx_regs_lock
-> >> drivers/tty/serial/sc16is7xx.c:600:9: error: implicit declaration of function 'sc16is7xx_efr_unlock'; did you mean 'sc16is7xx_regs_unlock'? [-Wimplicit-function-declaration]
->      600 |         sc16is7xx_efr_unlock(port);
->          |         ^~~~~~~~~~~~~~~~~~~~
->          |         sc16is7xx_regs_unlock
-> 
-> 
-> vim +596 drivers/tty/serial/sc16is7xx.c
-> 
-> dbf4ab821804df0 Hugo Villeneuve 2023-12-11  572  
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  573  /*
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  574   * Configure programmable baud rate generator (divisor) according to the
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  575   * desired baud rate.
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  576   *
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  577   * From the datasheet, the divisor is computed according to:
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  578   *
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  579   *              XTAL1 input frequency
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  580   *             -----------------------
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  581   *                    prescaler
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  582   * divisor = ---------------------------
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  583   *            baud-rate x sampling-rate
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  584   */
-> dfeae619d781dee Jon Ringle      2014-04-24  585  static int sc16is7xx_set_baud(struct uart_port *port, int baud)
-> dfeae619d781dee Jon Ringle      2014-04-24  586  {
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  587  	unsigned int prescaler = 1;
-> dfeae619d781dee Jon Ringle      2014-04-24  588  	unsigned long clk = port->uartclk, div = clk / 16 / baud;
-> dfeae619d781dee Jon Ringle      2014-04-24  589  
-> 2e57cefc4477659 Hugo Villeneuve 2023-12-21  590  	if (div >= BIT(16)) {
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  591  		prescaler = 4;
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  592  		div /= prescaler;
-> dfeae619d781dee Jon Ringle      2014-04-24  593  	}
-> dfeae619d781dee Jon Ringle      2014-04-24  594  
-> dfeae619d781dee Jon Ringle      2014-04-24  595  	/* Enable enhanced features */
-> 0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @596  	sc16is7xx_efr_lock(port);
-> c112653b89e0cea Lech Perczak    2022-02-21  597  	sc16is7xx_port_update(port, SC16IS7XX_EFR_REG,
-> c112653b89e0cea Lech Perczak    2022-02-21  598  			      SC16IS7XX_EFR_ENABLE_BIT,
-> dfeae619d781dee Jon Ringle      2014-04-24  599  			      SC16IS7XX_EFR_ENABLE_BIT);
-> 0c84bea0cabc4e2 Hugo Villeneuve 2023-12-21 @600  	sc16is7xx_efr_unlock(port);
-> 30ec514d440cf2c Phil Elwell     2018-09-12  601  
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  602  	/* If bit MCR_CLKSEL is set, the divide by 4 prescaler is activated. */
-> dfeae619d781dee Jon Ringle      2014-04-24  603  	sc16is7xx_port_update(port, SC16IS7XX_MCR_REG,
-> dfeae619d781dee Jon Ringle      2014-04-24  604  			      SC16IS7XX_MCR_CLKSEL_BIT,
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  605  			      prescaler == 1 ? 0 : SC16IS7XX_MCR_CLKSEL_BIT);
-> dfeae619d781dee Jon Ringle      2014-04-24  606  
-> 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  607  	/* Access special register set (DLL/DLH) */
-> 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  608  	sc16is7xx_regs_lock(port, SC16IS7XX_LCR_REG_SET_SPECIAL);
-> dfeae619d781dee Jon Ringle      2014-04-24  609  
-> dfeae619d781dee Jon Ringle      2014-04-24  610  	/* Write the new divisor */
-> dfeae619d781dee Jon Ringle      2014-04-24  611  	sc16is7xx_port_write(port, SC16IS7XX_DLH_REG, div / 256);
-> dfeae619d781dee Jon Ringle      2014-04-24  612  	sc16is7xx_port_write(port, SC16IS7XX_DLL_REG, div % 256);
-> dfeae619d781dee Jon Ringle      2014-04-24  613  
-> 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  614  	/* Restore access to general register set */
-> 5a91e16ba44d985 Hugo Villeneuve 2025-10-02  615  	sc16is7xx_regs_unlock(port);
-> 7d3b793faaab130 Hugo Villeneuve 2024-07-23  616  
-> 8492bd91aa05590 Hugo Villeneuve 2024-04-30  617  	return DIV_ROUND_CLOSEST((clk / prescaler) / 16, div);
-> dfeae619d781dee Jon Ringle      2014-04-24  618  }
-> dfeae619d781dee Jon Ringle      2014-04-24  619  
-> 
-> :::::: The code at line 596 was first introduced by commit
-> :::::: 0c84bea0cabc4e2b98a3de88eeb4ff798931f056 serial: sc16is7xx: refactor EFR lock
-> 
-> :::::: TO: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+kernel test robot noticed the following build errors:
 
-Hi Greg,
-this patch, and other patches in this series, depends on the patch
-"serial: sc16is7xx: remove useless enable of enhanced features"
-that you just added to your tty-linus tree.
+[auto build test ERROR on bpf/master]
 
-If you first add this patch to tty-testing, then the error
-disappear.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xdp-introduce-xdp_convert_skb_to_buff/20251022-210958
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20251022125209.2649287-2-maciej.fijalkowski%40intel.com
+patch subject: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
+config: i386-buildonly-randconfig-002-20251022 (https://download.01.org/0day-ci/archive/20251022/202510222209.D4RDn4DI-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251022/202510222209.D4RDn4DI-lkp@intel.com/reproduce)
 
-Thank you,
-Hugo.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510222209.D4RDn4DI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/select.c:33:
+   In file included from include/net/busy_poll.h:19:
+>> include/net/xdp.h:398:10: error: incompatible pointer to integer conversion assigning to 'u32' (aka 'unsigned int') from 'sk_buff_data_t' (aka 'unsigned char *') [-Wint-conversion]
+     398 |         pkt_len =  skb->tail - skb->mac_header;
+         |                 ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +398 include/net/xdp.h
+
+   386	
+   387	static inline
+   388	void xdp_convert_skb_to_buff(struct sk_buff *skb, struct xdp_buff *xdp,
+   389				     struct xdp_rxq_info *xdp_rxq)
+   390	{
+   391		u32 frame_sz, pkt_len;
+   392	
+   393		/* SKB "head" area always have tailroom for skb_shared_info */
+   394		frame_sz = skb_end_pointer(skb) - skb->head;
+   395		frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+   396	
+   397		DEBUG_NET_WARN_ON_ONCE(!skb_mac_header_was_set(skb));
+ > 398		pkt_len =  skb->tail - skb->mac_header;
+   399	
+   400		xdp_init_buff(xdp, frame_sz, xdp_rxq);
+   401		xdp_prepare_buff(xdp, skb->head, skb->mac_header, pkt_len, true);
+   402	
+   403		if (skb_is_nonlinear(skb)) {
+   404			skb_shinfo(skb)->xdp_frags_size = skb->data_len;
+   405			xdp_buff_set_frags_flag(xdp);
+   406		} else {
+   407			xdp_buff_clear_frags_flag(xdp);
+   408		}
+   409	
+   410		xdp->rxq->mem.type = page_pool_page_is_pp(virt_to_head_page(xdp->data)) ?
+   411					MEM_TYPE_PAGE_POOL : MEM_TYPE_PAGE_SHARED;
+   412	}
+   413	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
