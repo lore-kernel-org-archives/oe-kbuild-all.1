@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB022257427;
-	Thu, 23 Oct 2025 04:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134F425F78F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 04:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761195463; cv=none; b=C1tN+qXHtErHKTzE+ysXA4X247kHNFUjCZybq6zHUnEhspkYKxWcUegQEZwsD1Lgo41hcKK8MyYHQA1pZ839mCylGNOCBW++kRWgMyGOd9NpR9IQ43hz9ZRLAeZjMWDAuJ0ucsLjD3EjZ7C38mld0m4QxyaexR4C+DgZOtNzRGo=
+	t=1761195467; cv=none; b=Q5JewdEZTEP8r5pjQz0EfGJ4hbSI6itowdyjx94YLbgMwmkWaTX+S85oSOugdBkahtgNk+RxQmeUyJIrbPcwy0S+QbyFnFK/Opa4DZjGtzD+Af/DwQQU4cPgNXLrxHq8rP84E7e5svb7mcuM48fc9eWi4ufJSjQKM475WMV9Aac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761195463; c=relaxed/simple;
-	bh=b8s+XvStkCZYMixU470yG8F21dWjKOXoL+3lX+DKyec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=apc2pgbeCkcGUYT/hva+XcDoj2yZTyoFtwbgRdlmdWPmQBoxT0G2vjLIyAVyArAJs5QkgoL62eR6o5CjMtRWSD85ZYGUyi85Y1yfu4oO0DDqLQbQ3n3bIWnP8zR3WAee+qmK0XfsIA818+oM3dCL4hBzA5f1Nutfylwm66lMMOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mYrzinEh; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1761195467; c=relaxed/simple;
+	bh=n97WdUykelIAC72XZ+1WYj/7cVNQYl1XofEJEHVCaOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cuxZUsytvJhuoZ2gThb5irRVg0Go7HoQfCQv4b6TNP42+jgl3GzNNXRQuEL4RTD8zbJisChUFRSSpzoysGJX0Hm/0+VZo6//vV3vIpLQsIGuKKcJ1RyP7C637XImTLmvBptmdYKHmlHJ+TTkBINW2QMJTEi8/s8qYgsGIbLNNrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEtVBo1+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mYrzinEh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEtVBo1+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761195462; x=1792731462;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b8s+XvStkCZYMixU470yG8F21dWjKOXoL+3lX+DKyec=;
-  b=mYrzinEhaUg1NYxVQeOlr1/8CEYq7iO8iOlqHmI0rG+ZbLeBxsrzsER4
-   1sijG+wHOW18MUHpyOrx5f33YJJ7t5TKt1dJqazvkJBvti9YQNsmXQfHw
-   ERasNEYwrDM/1z64RsOYYtWEGS5NLrSlmzoHAGZLzf3e9ARMRJOPFLhfN
-   e9wrCxN09Y3UqkGHZWzJjL72mfmCmYy+QtFz/PPvTaoMBswSWyqe1hjWp
-   3ZLoBQNwdj28SZsT98qVSMWEgXTHtKkmpw/NF8028A+UnNbavRSe6GFN1
-   AUCsM2A05Z32dyZaV2RW8A2ryeD+8sg8X7hyVSqG7JA3hN4BDOgA2TA7H
+  t=1761195466; x=1792731466;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n97WdUykelIAC72XZ+1WYj/7cVNQYl1XofEJEHVCaOU=;
+  b=kEtVBo1+8mNuhkckeP0WYqUV26r8wR/mhpRmxnFjGXpXHUXu16pKfDGU
+   4UJ1o//QBfT171sEmO27usUYV7HnD7y4e4RHVj/xZPG308XoWrIPbbJcE
+   GWAIvas8cna5Y+P031iH34B31JoFrW+enamaR1+bpDixN5P2MnfqWSslS
+   ofDSKfCFsn6C2GqUoN+xa/0mfL1qy9FlfABl3Hv7tVsPTsS0XHAc9j2+N
+   D1H2L3s10poF3rZ1S4PUDcL4JypKaslokzjHOS2+YpZoS7Z0vyhdthVjH
+   QcchT0n7AcTplnwVh6Ctwfo7Rd9wkmt85U72DHb60Vh5haEKGdF8jnnjW
    Q==;
-X-CSE-ConnectionGUID: 6pU6q79CTVeFZjeBQ/rlQQ==
-X-CSE-MsgGUID: 3PEl+w+iSmiwB1BdFK2KUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74793096"
+X-CSE-ConnectionGUID: I25wNuLCTqOhKF9eiu8TTw==
+X-CSE-MsgGUID: JjgPeQ99TAmJxG5L9Zch4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62563865"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="74793096"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 21:57:42 -0700
-X-CSE-ConnectionGUID: tmOPapp5QUCBD0gRuJmzeQ==
-X-CSE-MsgGUID: W+WPOnYOSc+szDZ7kmgV+g==
+   d="scan'208";a="62563865"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 21:57:45 -0700
+X-CSE-ConnectionGUID: l1/iJlR+RkqtDH9bhVFBbA==
+X-CSE-MsgGUID: 3Sfrys2BQI6/fQ2p+Afbyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183229950"
+   d="scan'208";a="188346482"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Oct 2025 21:57:39 -0700
+  by orviesa004.jf.intel.com with ESMTP; 22 Oct 2025 21:57:45 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBnOD-000D2r-00;
-	Thu, 23 Oct 2025 04:57:32 +0000
-Date: Thu, 23 Oct 2025 12:57:03 +0800
+	id 1vBnOK-000D2t-0E;
+	Thu, 23 Oct 2025 04:57:38 +0000
+Date: Thu, 23 Oct 2025 12:56:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ayush Singh <ayush@beagleboard.org>,
-	Jason Kridner <jkridner@beagleboard.org>,
-	Deepak Khatri <lorforlinux@beagleboard.org>,
-	Robert Nelson <robertcnelson@beagleboard.org>,
-	Dhruva Gole <d-gole@ti.com>, Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ayush Singh <ayush@beagleboard.org>
-Subject: Re: [PATCH] staging: greybus: fw-download: Fix find firmware req
-Message-ID: <202510231209.JEFfW9s0-lkp@intel.com>
-References: <20251022-gb-fw-v1-1-183b18500cd5@beagleboard.org>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 2/9] include/linux/ftrace.h:557:5:
+ warning: no previous declaration for 'update_ftrace_direct_add'
+Message-ID: <202510231214.b8IxHY1f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,56 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022-gb-fw-v1-1-183b18500cd5@beagleboard.org>
 
-Hi Ayush,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on aaa9c3550b60d6259d6ea8b1175ade8d1242444e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/staging-greybus-fw-download-Fix-find-firmware-req/20251022-153520
-base:   aaa9c3550b60d6259d6ea8b1175ade8d1242444e
-patch link:    https://lore.kernel.org/r/20251022-gb-fw-v1-1-183b18500cd5%40beagleboard.org
-patch subject: [PATCH] staging: greybus: fw-download: Fix find firmware req
-config: arm64-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231209.JEFfW9s0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231209.JEFfW9s0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   3d31a310468694e4395d61e15c65edaa618fbb5c
+commit: c40f09f4f868f69ec494cbe90165980d549c4a6e [2/9] ftrace: Add update_ftrace_direct_add function
+config: i386-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231214.b8IxHY1f-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231214.b8IxHY1f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231209.JEFfW9s0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231214.b8IxHY1f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/staging/greybus/fw-download.c:14:
-   drivers/staging/greybus/fw-download.c: In function 'gb_fw_download_request_handler':
->> drivers/staging/greybus/firmware.h:14:24: warning: '%s' directive output may be truncated writing up to 9 bytes into a region of size between 6 and 15 [-Wformat-truncation=]
-    #define FW_NAME_PREFIX "gmp_"
-                           ^~~~~~
-   drivers/staging/greybus/fw-download.c:188:5: note: in expansion of macro 'FW_NAME_PREFIX'
-        FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.%s",
-        ^~~~~~~~~~~~~~
-   drivers/staging/greybus/fw-download.c:188:44: note: format string is defined here
-        FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.%s",
-                                               ^~
-   drivers/staging/greybus/fw-download.c:187:3: note: 'snprintf' output between 42 and 60 bytes into a destination of size 56
-      snprintf(fw_req->name, sizeof(fw_req->name),
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.%s",
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        intf->vendor_id, intf->product_id, tag, format);
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kprobes.h:28,
+                    from lib/tests/longest_symbol_kunit.c:13:
+>> include/linux/ftrace.h:557:5: warning: no previous declaration for 'update_ftrace_direct_add' [-Wmissing-declarations]
+     557 | int update_ftrace_direct_add(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +14 drivers/staging/greybus/firmware.h
+vim +/update_ftrace_direct_add +557 include/linux/ftrace.h
 
-cca222076738962 Viresh Kumar       2016-04-28  13  
-350e3ac2ceb6964 Joel Porquet       2016-07-21 @14  #define FW_NAME_PREFIX	"gmp_"
-8a704565ebda960 Greg Kroah-Hartman 2016-07-20  15  
+   556	
+ > 557	int update_ftrace_direct_add(struct ftrace_ops *ops, struct ftrace_hash *hash)
+   558	{
+   559		return -ENODEV;
+   560	}
+   561	
 
 -- 
 0-DAY CI Kernel Test Service
