@@ -1,64 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECFF34A3DA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 17:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEAC34A3DA;
+	Thu, 23 Oct 2025 17:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761241440; cv=none; b=rNLefCi5sn1JQSkDRjfbym6m/I4dhGIpPsVDqBsyrHAEVFSotxDzWtj/wunZQPc91TEekifjM+uvSv3OTV2vj9/5eeCXrtXOQQsinxJ1NgU1UiBRQwmUjPqAmIrenqvkoUtF2BjkleXFB/C8VMSTHKkc5F3paGRGM3WGwkuijMQ=
+	t=1761241499; cv=none; b=hVYFyJ4SUIXG0GaJqZV+OGGgyQWZjArGDqMYRtuJfhDcqIc85hAF/ZknV/neu90S6+vrZ97EfVfFeJCuI2k/Bwn9Et4nGIVL7d1XJQypbvZKgVRSegAWPwxQFtqLzajWKaYt07e0Zzu7mlUAm1ZwEyVPIQQsQ/7ekMqWDBweaeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761241440; c=relaxed/simple;
-	bh=OPmFaWma6y4YW8vwhdFuBehBTVgNJVOFP3M1cphhH8g=;
+	s=arc-20240116; t=1761241499; c=relaxed/simple;
+	bh=ibZdP/tYK9tLt0c+JyUCR9jnwCzMbR/JfkEbi9WqQjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tp1NnnQutZluU5RY23xLS0JDkJt3tlyy+Jij2QJ9hHiDtpx1NmKWohyymxiYn0vT0t+FjgnApSC6Ek6UXozrnoZVNs001NrPcmD32RIF05Napa5Fa8Mxxz+93Y5gVtYWOHM0EeKrClmLehw0FG+ZpKfAM/C7cov0+8YL4v/u+xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJmPMkjd; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=LTPX6mQrejHxXtNho0Gii5ZnQ94Nse7c6615uLMpfYlwusiZXIYk9FUe9pLYS/cC1qb23kJmR7gIACvsfHymjonXPj5IP5S1UzZTMQeZ0HTje5yUj7Dr/RMH3V8ToVDK0CL5R2E2nwNEDfFAXyT2QYV8CbygL0utojDeBrkzbMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A88bSslO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJmPMkjd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A88bSslO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761241439; x=1792777439;
+  t=1761241497; x=1792777497;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OPmFaWma6y4YW8vwhdFuBehBTVgNJVOFP3M1cphhH8g=;
-  b=PJmPMkjdcO15/BdfueZCJ7leukYo7dCt/GCngtRty18U4yHjm6QJGJtI
-   BOx1iDe4Qg0RcUYtY+1r+XlgWoqnb4IX34xGC6CSmsdEk05r3g60+5WVo
-   tCiLK3bK19A9aFvKxw5iXGbKOmyTVQhcOnzthYQuoDloywRg7PTvNXxm0
-   ACiVu6dGT3wBOKl41C8KiPaIy9FH4fGWt1o+GZX94XAJtUmI2U00vARoB
-   +jwHo0aa9Ex0H6RNYbWUKz9bggMUc7qzM60b/GzXuHEyf/jnn8ganNMWn
-   z/oPOtbeXpdxULAWx0RUHPUD3JCFHEEbgnb/UYVtjzhVNYL3y66ybN0VZ
-   g==;
-X-CSE-ConnectionGUID: 3KZkRuKpRnWZ0uoBSRjSow==
-X-CSE-MsgGUID: YLIZvRxuT1ycEEAL07Uing==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74765395"
+  bh=ibZdP/tYK9tLt0c+JyUCR9jnwCzMbR/JfkEbi9WqQjQ=;
+  b=A88bSslOSQBP2kKdHsJ0zbKUQUZ1I5qB2t9NMzx6hwz+YH65twwFgMXZ
+   n/h+Jq7U/yumN7x8YnDvq3QZLkAvedVQamcbavcQgW49RJ1b0UZD4ifpd
+   G4Z03rhvRbH6Vno+jM5HK47/au1X8ekcDutLf/ExLtHP97z1PA7k8o/mN
+   GsPrCissLM7X6N36PU1Whmbo9052tafwW9oFUrDKPRBBYqXogGb3XxIug
+   CtlSeOYf/9qC1yV7RUsMWY9sXHnwyIvJYI89+4VGX+e2mG5IuniFjtUPq
+   LBxeGLXr6fmn6uOC2rjMLKa725l1hejraP4jvwDam9dx6mXc+PEmq1b2P
+   Q==;
+X-CSE-ConnectionGUID: ap+XLkeQQ8q/wklzwLnLIw==
+X-CSE-MsgGUID: b2wUEJp/S+SAmWgH0T9a5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86049038"
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="74765395"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 10:43:55 -0700
-X-CSE-ConnectionGUID: gCMptSLHQvGzxmqyUN3+eA==
-X-CSE-MsgGUID: jjGlo5O6SB6ztosuZedC5A==
+   d="scan'208";a="86049038"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 10:44:57 -0700
+X-CSE-ConnectionGUID: fAhfSvYOSUS1G2javmI1yA==
+X-CSE-MsgGUID: tRnT6RATRYaYQwaZtS60iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="184116064"
+   d="scan'208";a="184605067"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 Oct 2025 10:43:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Oct 2025 10:44:52 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBzL6-000DkT-1T;
-	Thu, 23 Oct 2025 17:43:50 +0000
-Date: Fri, 24 Oct 2025 01:41:37 +0800
+	id 1vBzMo-000DkX-1N;
+	Thu, 23 Oct 2025 17:44:50 +0000
+Date: Fri, 24 Oct 2025 01:43:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
-	jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
-	troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org, lizhi.hou@amd.com,
-	karol.wachowski@linux.intel.com, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] accel/qaic: Add DMA Bridge Channel(DBC) sysfs and
- uevents
-Message-ID: <202510240118.dkdhMpfy-lkp@intel.com>
-References: <20251022202527.3873558-2-youssef.abdulrahman@oss.qualcomm.com>
+To: Usama Arif <usamaarif642@gmail.com>, dwmw@amazon.co.uk,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, ardb@kernel.org, hpa@zytor.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+	apopple@nvidia.com, thuth@redhat.com, nik.borisov@suse.com,
+	kas@kernel.org, linux-kernel@vger.kernel.org,
+	linux-efi@vger.kernel.org, kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>,
+	Michael van der Westhuizen <rmikey@meta.com>,
+	Tobias Fleig <tfleig@meta.com>
+Subject: Re: [PATCH 1/3] x86/boot: Fix page table access in 5-level to
+ 4-level paging transition
+Message-ID: <202510240106.1aff6SIM-lkp@intel.com>
+References: <20251022220755.1026144-2-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,84 +71,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022202527.3873558-2-youssef.abdulrahman@oss.qualcomm.com>
+In-Reply-To: <20251022220755.1026144-2-usamaarif642@gmail.com>
 
-Hi Youssef,
+Hi Usama,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18-rc2 next-20251023]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on tip/master efi/next linus/master v6.18-rc2 next-20251023]
+[cannot apply to tip/auto-latest]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Add-DMA-Bridge-Channel-DBC-sysfs-and-uevents/20251023-042723
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251022202527.3873558-2-youssef.abdulrahman%40oss.qualcomm.com
-patch subject: [PATCH 1/3] accel/qaic: Add DMA Bridge Channel(DBC) sysfs and uevents
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251024/202510240118.dkdhMpfy-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240118.dkdhMpfy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/x86-boot-Fix-page-table-access-in-5-level-to-4-level-paging-transition/20251023-061048
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20251022220755.1026144-2-usamaarif642%40gmail.com
+patch subject: [PATCH 1/3] x86/boot: Fix page table access in 5-level to 4-level paging transition
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251024/202510240106.1aff6SIM-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240106.1aff6SIM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240118.dkdhMpfy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240106.1aff6SIM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/accel/qaic/qaic_sysfs.c: In function 'qaic_sysfs_init':
->> drivers/accel/qaic/qaic_sysfs.c:74:58: warning: '_state' directive output may be truncated writing 6 bytes into a region of size between 3 and 10 [-Wformat-truncation=]
-      74 |                 snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
-         |                                                          ^~~~~~
-   drivers/accel/qaic/qaic_sysfs.c:74:17: note: 'snprintf' output between 11 and 18 bytes into a destination of size 14
-      74 |                 snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/boot/compressed/pgtable_64.c:185:21: error: call to undeclared function 'pgd_val'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     185 |                 new_cr3 = (u64 *)(pgd_val(pgdp[0]) & PTE_PFN_MASK);
+         |                                   ^
+   1 error generated.
 
 
-vim +/_state +74 drivers/accel/qaic/qaic_sysfs.c
+vim +/pgd_val +185 arch/x86/boot/compressed/pgtable_64.c
 
-    56	
-    57	int qaic_sysfs_init(struct qaic_drm_device *qddev)
-    58	{
-    59		struct device *kdev = to_accel_kdev(qddev);
-    60		struct drm_device *drm = to_drm(qddev);
-    61		u32 num_dbc = qddev->qdev->num_dbc;
-    62		struct dbc_attribute *dbc_attrs;
-    63		int i, ret;
-    64	
-    65		dbc_attrs = drmm_kcalloc(drm, num_dbc, sizeof(*dbc_attrs), GFP_KERNEL);
-    66		if (!dbc_attrs)
-    67			return -ENOMEM;
-    68	
-    69		for (i = 0; i < num_dbc; ++i) {
-    70			struct dbc_attribute *dbc_attr = &dbc_attrs[i];
-    71	
-    72			sysfs_attr_init(&dbc_attr->dev_attr.attr);
-    73			dbc_attr->dbc_id = i;
-  > 74			snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
-    75			dbc_attr->dev_attr.attr.name = dbc_attr->name;
-    76			dbc_attr->dev_attr.attr.mode = 0444;
-    77			dbc_attr->dev_attr.show = dbc_state_show;
-    78			ret = sysfs_create_file(&kdev->kobj, &dbc_attr->dev_attr.attr);
-    79			if (ret) {
-    80				int j;
-    81	
-    82				for (j = 0; j < i; ++j) {
-    83					dbc_attr = &dbc_attrs[j];
-    84					sysfs_remove_file(&kdev->kobj, &dbc_attr->dev_attr.attr);
-    85				}
-    86				drmm_kfree(drm, dbc_attrs);
-    87				return ret;
-    88			}
-    89		}
-    90	
-    91		qddev->sysfs_attrs = dbc_attrs;
-    92		return 0;
-    93	}
-    94	
+   101	
+   102	asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
+   103	{
+   104		void (*toggle_la57)(void *cr3);
+   105		bool l5_required = false;
+   106	
+   107		/* Initialize boot_params. Required for cmdline_find_option_bool(). */
+   108		sanitize_boot_params(bp);
+   109		boot_params_ptr = bp;
+   110	
+   111		/*
+   112		 * Check if LA57 is desired and supported.
+   113		 *
+   114		 * There are several parts to the check:
+   115		 *   - if user asked to disable 5-level paging: no5lvl in cmdline
+   116		 *   - if the machine supports 5-level paging:
+   117		 *     + CPUID leaf 7 is supported
+   118		 *     + the leaf has the feature bit set
+   119		 */
+   120		if (!cmdline_find_option_bool("no5lvl") &&
+   121		    native_cpuid_eax(0) >= 7 && (native_cpuid_ecx(7) & BIT(16))) {
+   122			l5_required = true;
+   123	
+   124			/* Initialize variables for 5-level paging */
+   125			__pgtable_l5_enabled = 1;
+   126			pgdir_shift = 48;
+   127			ptrs_per_p4d = 512;
+   128		}
+   129	
+   130		/*
+   131		 * The trampoline will not be used if the paging mode is already set to
+   132		 * the desired one.
+   133		 */
+   134		if (l5_required == !!(native_read_cr4() & X86_CR4_LA57))
+   135			return;
+   136	
+   137		trampoline_32bit = (unsigned long *)find_trampoline_placement();
+   138	
+   139		/* Preserve trampoline memory */
+   140		memcpy(trampoline_save, trampoline_32bit, TRAMPOLINE_32BIT_SIZE);
+   141	
+   142		/* Clear trampoline memory first */
+   143		memset(trampoline_32bit, 0, TRAMPOLINE_32BIT_SIZE);
+   144	
+   145		/* Copy trampoline code in place */
+   146		toggle_la57 = memcpy(trampoline_32bit +
+   147				TRAMPOLINE_32BIT_CODE_OFFSET / sizeof(unsigned long),
+   148				&trampoline_32bit_src, TRAMPOLINE_32BIT_CODE_SIZE);
+   149	
+   150		/*
+   151		 * Avoid the need for a stack in the 32-bit trampoline code, by using
+   152		 * LJMP rather than LRET to return back to long mode. LJMP takes an
+   153		 * immediate absolute address, which needs to be adjusted based on the
+   154		 * placement of the trampoline.
+   155		 */
+   156		*(u32 *)((u8 *)toggle_la57 + trampoline_ljmp_imm_offset) +=
+   157							(unsigned long)toggle_la57;
+   158	
+   159		/*
+   160		 * The code below prepares page table in trampoline memory.
+   161		 *
+   162		 * The new page table will be used by trampoline code for switching
+   163		 * from 4- to 5-level paging or vice versa.
+   164		 */
+   165	
+   166		if (l5_required) {
+   167			/*
+   168			 * For 4- to 5-level paging transition, set up current CR3 as
+   169			 * the first and the only entry in a new top-level page table.
+   170			 */
+   171			*trampoline_32bit = __native_read_cr3() | _PAGE_TABLE_NOENC;
+   172		} else {
+   173			u64 *new_cr3;
+   174			pgd_t *pgdp;
+   175	
+   176			/*
+   177			 * For 5- to 4-level paging transition, copy page table pointed
+   178			 * by first entry in the current top-level page table as our
+   179			 * new top-level page table.
+   180			 *
+   181			 * We cannot just point to the page table from trampoline as it
+   182			 * may be above 4G.
+   183			 */
+   184			pgdp = (pgd_t *)read_cr3_pa();
+ > 185			new_cr3 = (u64 *)(pgd_val(pgdp[0]) & PTE_PFN_MASK);
 
 -- 
 0-DAY CI Kernel Test Service
