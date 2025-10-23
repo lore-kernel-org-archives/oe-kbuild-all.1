@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4F4299929
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 07:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A7B2DC339
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 07:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761203283; cv=none; b=QJzfqPC6GoOvmeu0EO15qU3+MMLKo8VHAgIlcksiW5K4i776rnTdqUqaXJtZk+uXxPQI2luvU0qMx92YJ585kCVE4oMsT28KQmfbzKEJl4LM7pfz708EfKMWXRWGUQO+jLKczW4WsmY53cvKQU6SDWgrH9aLmt8bYGvQrnplLYg=
+	t=1761203943; cv=none; b=rtuxdEhfz1L8GJ+UdikW6E01LtsXKSps4VXH9dMamhKBVqv5urktrvOaQ7wbiehOpaxLBEKNhmIEAvvvhL7wZ4ghIQBPepivzaUVNaqv+S7UaaxIaN4TROALnkZbrLqvAUPq2aR1e6wV+VG0opN98zDmjBmvyCMiKxWHH41iSFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761203283; c=relaxed/simple;
-	bh=kK6M8TfDO2RaHHgHYKn+EG0Hn+158IIE614bhzsZoSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ShkFuTNF5x+nMtaUZsKIj3/lhWqmk7awcZpSjH3rBxxDudY4r1AfrwGcbTfMR77ecvc2LqrHmAXq95N73fcgOafqSMLaX7UR2Nv3wTjabLaRVDUPvDAj6lc3EFff2/LJbWA98aGmSSzynip+js9ZeYuuQpUt947qak8MUblTjYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkcPiltY; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1761203943; c=relaxed/simple;
+	bh=Wdv4KhYwTEUc/LA/L05ZFeU6Lf3l77gTzl2aS1om74o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HT4B/irwrGjVTzndn9HSs0pl1zJFooX5o/ZKGmvufRZ0r0OkS0pyFD1ELyU4CGL6uFqTckw37Brt39vaaQvDmYyl9nrEw09JIJE1g2K5x9llubCbVeM42RbNq5heKCV61TShaj/reEkVijqIN3JpQVyXXQgSdwpsosgYPa1Jbd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STY/skS7; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkcPiltY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STY/skS7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761203279; x=1792739279;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kK6M8TfDO2RaHHgHYKn+EG0Hn+158IIE614bhzsZoSs=;
-  b=EkcPiltY1X2RASW4+1Kd1mGZof8YU+YlU3XmFpSoBJPHPkupkv7jymCt
-   znBmFE+3mdO7xET082Jewl5LJ6NptjjIIpuBvAABfgtnuRPCsMbwAn1Zn
-   AkL5Y72XPVLqZ5mlWuqltMpnk/YbF0SraNpG0zNEpLXz7Z6BLNSyUppK1
-   hZvG4BkuQKnWbMLzrGBhfSHE1RIhae5h9INnho9C500emkNjvdWYjAZ0m
-   vWqyJPTHJxe3n/iOzWzcS8pYdtLOf41vO5u5iyicSO0EpJ+tUdpxJ+DBW
-   od2qSjzSAD3wQYdbaNaChZJp/WyCp0iXxTYRQFxX7xsY+ACXnpMQdixMx
-   w==;
-X-CSE-ConnectionGUID: 5/ftdrm2RJy3fTTswJ5jzA==
-X-CSE-MsgGUID: ykaWmrPqSqWUJgW2CZaJtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65978221"
+  t=1761203941; x=1792739941;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Wdv4KhYwTEUc/LA/L05ZFeU6Lf3l77gTzl2aS1om74o=;
+  b=STY/skS7kHcbbLN1g+l7GsLJ5GaqQahWdVI6g0O9o7F+Hy+nx5cSyAV0
+   A+bkoMhpDdobEj/MeH84azZM6d170smCJorwTahZOnQRF2UYnKYFM/cQ1
+   RJ2hURw4itV0vocmmZaqHKwA7uQGFHQFkYaKQrLMQvjHjm+kc09W0C67r
+   3iDfUBvmCMOp6TQr7SlTRjxGwb82U7UiTdy9EOLwc1lv5iFJnfhffXsGC
+   eXkEyQ9oPPE9VMcN/XB49xqhl8j6lsDY8hXiMgoTKFItgjcoHA6LzTfSx
+   0xThyZzlVMdqdR20VRGSCo2Q/M9KZU31Yu+fb/B0cpVYBwxW555hfqaxy
+   Q==;
+X-CSE-ConnectionGUID: 37MCLsCiRoC6Q+uXqyrGdg==
+X-CSE-MsgGUID: IIhw+q0WTWuxhOQ6yc/QrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74034002"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="65978221"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 00:07:58 -0700
-X-CSE-ConnectionGUID: r/VYHjBUSKO6QsDFv0NZzQ==
-X-CSE-MsgGUID: YnzmPAk4QdWDd/HlEA9J3A==
+   d="scan'208";a="74034002"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 00:19:00 -0700
+X-CSE-ConnectionGUID: CJfyOGOqQ6Sa/dhY/2ZvGw==
+X-CSE-MsgGUID: I8JKyANbTqWWDWeiP+PORg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="207738011"
+   d="scan'208";a="184563304"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Oct 2025 00:07:57 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2025 00:18:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBpQQ-000D8N-17;
-	Thu, 23 Oct 2025 07:07:54 +0000
-Date: Thu, 23 Oct 2025 15:07:18 +0800
+	id 1vBpb5-000D8v-0M;
+	Thu, 23 Oct 2025 07:18:55 +0000
+Date: Thu, 23 Oct 2025 15:18:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:b4/sheaves-for-all 21/21] mm/slub.c:8749:10: error:
- 'free_frozen_attr' undeclared here (not in a function); did you mean
- 'free_frozen_pages'?
-Message-ID: <202510231434.feQhR7gy-lkp@intel.com>
+To: Dan Carpenter <error27@gmail.com>, YiPeng Chai <YiPeng.Chai@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Tao Zhou <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH next] drm/amd/ras: Fix memory corruption in
+ ras_core_convert_timestamp_to_time()
+Message-ID: <202510231558.5UzBX0ox-lkp@intel.com>
+References: <aPi6I5z5oenppEuu@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,130 +68,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aPi6I5z5oenppEuu@stanley.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/sheaves-for-all
-head:   09faaa86a5c54214300bed64355a84c9b278cdab
-commit: 09faaa86a5c54214300bed64355a84c9b278cdab [21/21] slab: remove frozen slab checks from __slab_free()
-config: x86_64-buildonly-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231434.feQhR7gy-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231434.feQhR7gy-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20251022]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Carpenter/drm-amd-ras-Fix-memory-corruption-in-ras_core_convert_timestamp_to_time/20251022-190512
+base:   next-20251022
+patch link:    https://lore.kernel.org/r/aPi6I5z5oenppEuu%40stanley.mountain
+patch subject: [PATCH next] drm/amd/ras: Fix memory corruption in ras_core_convert_timestamp_to_time()
+config: arm-randconfig-003-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231558.5UzBX0ox-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231558.5UzBX0ox-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231434.feQhR7gy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231558.5UzBX0ox-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> mm/slub.c:8749:10: error: 'free_frozen_attr' undeclared here (not in a function); did you mean 'free_frozen_pages'?
-    8749 |         &free_frozen_attr.attr,
-         |          ^~~~~~~~~~~~~~~~
-         |          free_frozen_pages
-
-
-vim +8749 mm/slub.c
-
-b84e04f1baeebe6 Imran Khan        2022-08-15  8703  
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8704  static struct attribute *slab_attrs[] = {
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8705  	&slab_size_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8706  	&object_size_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8707  	&objs_per_slab_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8708  	&order_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8709  	&sheaf_capacity_attr.attr,
-73d342b169db700 David Rientjes    2009-02-22  8710  	&min_partial_attr.attr,
-49e2258586b4236 Christoph Lameter 2011-08-09  8711  	&cpu_partial_attr.attr,
-205ab99dd103e3d Christoph Lameter 2008-04-14  8712  	&objects_partial_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8713  	&partial_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8714  	&cpu_slabs_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8715  	&ctor_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8716  	&aliases_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8717  	&align_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8718  	&hwcache_align_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8719  	&reclaim_account_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8720  	&destroy_by_rcu_attr.attr,
-a5a84755c590041 Christoph Lameter 2010-10-05  8721  	&shrink_attr.attr,
-49e2258586b4236 Christoph Lameter 2011-08-09  8722  	&slabs_cpu_partial_attr.attr,
-ab4d5ed5eeda4f5 Christoph Lameter 2010-10-05  8723  #ifdef CONFIG_SLUB_DEBUG
-a5a84755c590041 Christoph Lameter 2010-10-05  8724  	&total_objects_attr.attr,
-81bd31793fd3be4 Xiongwei Song     2023-04-13  8725  	&objects_attr.attr,
-a5a84755c590041 Christoph Lameter 2010-10-05  8726  	&slabs_attr.attr,
-a5a84755c590041 Christoph Lameter 2010-10-05  8727  	&sanity_checks_attr.attr,
-a5a84755c590041 Christoph Lameter 2010-10-05  8728  	&trace_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8729  	&red_zone_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8730  	&poison_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8731  	&store_user_attr.attr,
-53e15af03be4fda Christoph Lameter 2007-05-06  8732  	&validate_attr.attr,
-ab4d5ed5eeda4f5 Christoph Lameter 2010-10-05  8733  #endif
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8734  #ifdef CONFIG_ZONE_DMA
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8735  	&cache_dma_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8736  #endif
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8737  #ifdef CONFIG_NUMA
-9824601ead957a2 Christoph Lameter 2008-01-07  8738  	&remote_node_defrag_ratio_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8739  #endif
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8740  #ifdef CONFIG_SLUB_STATS
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8741  	&alloc_cpu_sheaf_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8742  	&alloc_fastpath_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8743  	&alloc_slowpath_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8744  	&free_cpu_sheaf_attr.attr,
-ec66e0d599520ab Vlastimil Babka   2025-09-03  8745  	&free_rcu_sheaf_attr.attr,
-ec66e0d599520ab Vlastimil Babka   2025-09-03  8746  	&free_rcu_sheaf_fail_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8747  	&free_fastpath_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8748  	&free_slowpath_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07 @8749  	&free_frozen_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8750  	&free_add_partial_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8751  	&free_remove_partial_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8752  	&alloc_from_partial_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8753  	&alloc_slab_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8754  	&alloc_refill_attr.attr,
-e36a2652d7d1ad9 Christoph Lameter 2011-06-01  8755  	&alloc_node_mismatch_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8756  	&free_slab_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8757  	&cpuslab_flush_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8758  	&deactivate_full_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8759  	&deactivate_empty_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8760  	&deactivate_to_head_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8761  	&deactivate_to_tail_attr.attr,
-8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8762  	&deactivate_remote_frees_attr.attr,
-03e404af26dc2ea Christoph Lameter 2011-06-01  8763  	&deactivate_bypass_attr.attr,
-65c3376aaca96c6 Christoph Lameter 2008-04-14  8764  	&order_fallback_attr.attr,
-b789ef518b2a723 Christoph Lameter 2011-06-01  8765  	&cmpxchg_double_fail_attr.attr,
-b789ef518b2a723 Christoph Lameter 2011-06-01  8766  	&cmpxchg_double_cpu_fail_attr.attr,
-49e2258586b4236 Christoph Lameter 2011-08-09  8767  	&cpu_partial_alloc_attr.attr,
-49e2258586b4236 Christoph Lameter 2011-08-09  8768  	&cpu_partial_free_attr.attr,
-8028dcea8abbbd5 Alex Shi          2012-02-03  8769  	&cpu_partial_node_attr.attr,
-8028dcea8abbbd5 Alex Shi          2012-02-03  8770  	&cpu_partial_drain_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8771  	&sheaf_flush_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8772  	&sheaf_refill_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8773  	&sheaf_alloc_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8774  	&sheaf_free_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8775  	&barn_get_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8776  	&barn_get_fail_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8777  	&barn_put_attr.attr,
-2d517aa09bbc420 Vlastimil Babka   2025-09-03  8778  	&barn_put_fail_attr.attr,
-3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8779  	&sheaf_prefill_fast_attr.attr,
-3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8780  	&sheaf_prefill_slow_attr.attr,
-3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8781  	&sheaf_prefill_oversize_attr.attr,
-3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8782  	&sheaf_return_fast_attr.attr,
-3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8783  	&sheaf_return_slow_attr.attr,
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8784  #endif
-4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8785  #ifdef CONFIG_FAILSLAB
-4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8786  	&failslab_attr.attr,
-4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8787  #endif
-346907ceb9d11b9 Vlastimil Babka   2022-11-16  8788  #ifdef CONFIG_HARDENED_USERCOPY
-8eb8284b4129061 David Windsor     2017-06-10  8789  	&usersize_attr.attr,
-346907ceb9d11b9 Vlastimil Babka   2022-11-16  8790  #endif
-b84e04f1baeebe6 Imran Khan        2022-08-15  8791  #ifdef CONFIG_KFENCE
-b84e04f1baeebe6 Imran Khan        2022-08-15  8792  	&skip_kfence_attr.attr,
-b84e04f1baeebe6 Imran Khan        2022-08-15  8793  #endif
-4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8794  
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8795  	NULL
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8796  };
-81819f0fc8285a2 Christoph Lameter 2007-05-06  8797  
-
-:::::: The code at line 8749 was first introduced by commit
-:::::: 8ff12cfc009a2a38d87fa7058226fe197bb2696f SLUB: Support for performance statistics
-
-:::::: TO: Christoph Lameter <clameter@sgi.com>
-:::::: CC: Christoph Lameter <christoph@stapp.engr.sgi.com>
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
