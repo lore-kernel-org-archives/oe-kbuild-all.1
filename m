@@ -1,134 +1,105 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4042202F70
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 05:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BDF35B129;
+	Thu, 23 Oct 2025 05:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761195840; cv=none; b=nlYEiVz7IvkEtwXrcAOotlCFzy3kyfXatIGwRfK/xgsufZOfmWrg8Z+D4mYkt8eIHb8e2AY+gDvgg9KMz4Ffw0tIBLKtwnBuIejPcGnacKY/Ye2+k5/G61qcEpV3DGAKOO/ZJSwngNXAI0kgumPUdUjljU3GiFomUN7DNg7ZZo0=
+	t=1761196725; cv=none; b=qiL7tdgEkyq3TZ4vU9MvmwJ50wzuvT54Z83Obis0KzqZJdMf3iR4fQz9NHVxUJiYtp+kxsZpkI0w7e7o6wIRJ4jDgODdnUc9HfGO/2Hf8IROqQQ6WTN8d6S0fdLazXfsZ7pxZVNbAmk+60Gpmb8efT5yZ0lumUHdjTLMNDLLX+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761195840; c=relaxed/simple;
-	bh=oNlKIBS24VqVSjl5MOV4qcUC67XjWxB93AyLU5N3D3E=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=kBfsTtHceBusOo1SuNY1gIf++PMTe+xsG/86fTQ7LeYO6axivo2cGgO00c22eY6laEJPh0oRRzkyiGK8QNmf0hivFfqRs+OAsc8YiKVZIp5A/pvs1KYYxb63Ms4iw1/uehTsKScSogJNZHQ46C4cp0nRQtDc0P2itR5IHsucYac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=dCdhxMLK; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1761196725; c=relaxed/simple;
+	bh=ycLcfc53Od8c6OIZRWHYoMyLlRW0gtUyvGQKFBH3scY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VU2MboUxJPh7wCQasK9e6Ancc1fXFz/b5Y1FH4C5fzAlOtvNbk7mnGITmUWfhc4n0kwTc7DXkukqIHcxQfP6z5TXT29pHymoeGE7P0rVI4QauPfQn+0EnJeHqlviVa/xc/y2zshCVLBgtr8xml5zdijmAJXbn4h9X9vjjbuNJ1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OK8P9NQ4; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="dCdhxMLK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OK8P9NQ4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761196724; x=1792732724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R+VWjAe6xaqPWQpev4m4QDyG6R7acsvDc/fzb6ubZYA=;
-  b=dCdhxMLKhyum0kKcpPyI2z3XCbQ6iPINtbqbQGCB3mvu0NmgHQ64QLEs
-   p4HBajLFWNgEyBto1dzCcqan8U+zBzeean9ty0USaXuCdH6L6HT8Z3vGK
-   zA9K2t5L36b6I4uzY3AvHsLgnRc09TxF+19keA3xUFdkF5d7kZreV0suS
-   8=;
-X-CSE-ConnectionGUID: klvy0VtVTsOeptM6O4RINg==
-X-CSE-MsgGUID: ZHC8UKZ7QQK2kT1RYdD0dw==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.19,248,1754949600"; 
-   d="scan'208";a="128920397"
-Received: from unknown (HELO hadrien) ([202.51.247.22])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 07:03:46 +0200
-Date: Thu, 23 Oct 2025 13:03:38 +0800 (+08)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Harsh Jain <h.jain@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-    Mounika Botcha <mounika.botcha@amd.com>
-cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/crypto/xilinx/xilinx-trng.c:336:54-61: WARNING: Consider
- using %pe to print PTR_ERR() (fwd)
-Message-ID: <c78d7370-85c-2651-c4be-9b9880ec2b15@inria.fr>
+  bh=ycLcfc53Od8c6OIZRWHYoMyLlRW0gtUyvGQKFBH3scY=;
+  b=OK8P9NQ4d34hDN8gr+fObcbqsRKQXokxrN0b6pjg+m3BRrDwTACAUuuR
+   tdQHTRJOhoE49+onbWNVadmgGh1twUHoACEbdb14MOrlMzNYWk2Z5skG6
+   uGMNRkyfrZus84eWE8MkGfSxgVGndAoCs2U1O6HXxvMj5nq5R7C2upfMW
+   o7UvOAf/MBO9wIosGDpEw2p2di9G0/J6TO03JGT3HTPxxApdDf34W4SyD
+   1MY4ByG4l+gD8XN4qRufghoRJsGXiWCguriK1535WYNJuOFYNHB5mNO6Z
+   RiKFjLRlEWb49FtrKKML4evMruWcEv9k/5d2LnlQjirb8bYOvF0KiNANg
+   g==;
+X-CSE-ConnectionGUID: s3Apnyl+TAGcl/UqOHiHXg==
+X-CSE-MsgGUID: CFPVgPK+Q0KIRfw7XKUqzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63278485"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63278485"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 22:18:43 -0700
+X-CSE-ConnectionGUID: nEK6u7IfSnmDpMw6pxpaYA==
+X-CSE-MsgGUID: N35ASIjOQsC0HCy3ujZu7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
+   d="scan'208";a="188350438"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 22 Oct 2025 22:18:42 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBnih-000D3b-3A;
+	Thu, 23 Oct 2025 05:18:39 +0000
+Date: Thu, 23 Oct 2025 13:18:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [tglx-devel:rseq/slice 16/75]
+ include/linux/resume_user_mode.h:62:32: error: too few arguments to function
+ call, expected 2, have 1
+Message-ID: <202510231335.9NOepLpY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
----------- Forwarded message ----------
-Date: Thu, 23 Oct 2025 12:35:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/crypto/xilinx/xilinx-trng.c:336:54-61: WARNING: Consider using
-    %pe to print PTR_ERR()
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Harsh Jain <h.jain@amd.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Mounika Botcha <mounika.botcha@amd.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   43e9ad0c55a369ecc84a4788d06a8a6bfa634f1c
-commit: 8979744aca8096ee5072798dfc1181606919b35d crypto: xilinx - Add TRNG driver for Versal
-date:   7 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 weeks ago
-config: powerpc64-randconfig-r064-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231229.Z6TduqZy-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   f801ad51668e156d2b2ffd81ef990c62f1121998
+commit: 7f7115f3f559a41efd58f34150fd6652e39fd4a8 [16/75] rseq: Remove the ksig argument from rseq_handle_notify_resume()
+config: i386-randconfig-141-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231335.9NOepLpY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231335.9NOepLpY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510231229.Z6TduqZy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231335.9NOepLpY-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/crypto/xilinx/xilinx-trng.c:336:54-61: WARNING: Consider using %pe to print PTR_ERR()
+Note: the tglx-devel/rseq/slice HEAD f801ad51668e156d2b2ffd81ef990c62f1121998 builds fine.
+      It only hurts bisectability.
 
-vim +336 drivers/crypto/xilinx/xilinx-trng.c
+All errors (new ones prefixed by >>):
 
-8979744aca8096 Harsh Jain 2025-08-25  323
-8979744aca8096 Harsh Jain 2025-08-25  324  static int xtrng_probe(struct platform_device *pdev)
-8979744aca8096 Harsh Jain 2025-08-25  325  {
-8979744aca8096 Harsh Jain 2025-08-25  326  	struct xilinx_rng *rng;
-8979744aca8096 Harsh Jain 2025-08-25  327  	int ret;
-8979744aca8096 Harsh Jain 2025-08-25  328
-8979744aca8096 Harsh Jain 2025-08-25  329  	rng = devm_kzalloc(&pdev->dev, sizeof(*rng), GFP_KERNEL);
-8979744aca8096 Harsh Jain 2025-08-25  330  	if (!rng)
-8979744aca8096 Harsh Jain 2025-08-25  331  		return -ENOMEM;
-8979744aca8096 Harsh Jain 2025-08-25  332
-8979744aca8096 Harsh Jain 2025-08-25  333  	rng->dev = &pdev->dev;
-8979744aca8096 Harsh Jain 2025-08-25  334  	rng->rng_base = devm_platform_ioremap_resource(pdev, 0);
-8979744aca8096 Harsh Jain 2025-08-25  335  	if (IS_ERR(rng->rng_base)) {
-8979744aca8096 Harsh Jain 2025-08-25 @336  		dev_err(&pdev->dev, "Failed to map resource %ld\n", PTR_ERR(rng->rng_base));
-8979744aca8096 Harsh Jain 2025-08-25  337  		return PTR_ERR(rng->rng_base);
-8979744aca8096 Harsh Jain 2025-08-25  338  	}
-8979744aca8096 Harsh Jain 2025-08-25  339
-8979744aca8096 Harsh Jain 2025-08-25  340  	xtrng_trng_reset(rng->rng_base);
-8979744aca8096 Harsh Jain 2025-08-25  341  	ret = xtrng_reseed_internal(rng);
-8979744aca8096 Harsh Jain 2025-08-25  342  	if (ret) {
-8979744aca8096 Harsh Jain 2025-08-25  343  		dev_err(&pdev->dev, "TRNG Seed fail\n");
-8979744aca8096 Harsh Jain 2025-08-25  344  		return ret;
-8979744aca8096 Harsh Jain 2025-08-25  345  	}
-8979744aca8096 Harsh Jain 2025-08-25  346
-8979744aca8096 Harsh Jain 2025-08-25  347  	xilinx_rng_dev = rng;
-8979744aca8096 Harsh Jain 2025-08-25  348  	mutex_init(&rng->lock);
-8979744aca8096 Harsh Jain 2025-08-25  349  	ret = crypto_register_rng(&xtrng_trng_alg);
-8979744aca8096 Harsh Jain 2025-08-25  350  	if (ret) {
-8979744aca8096 Harsh Jain 2025-08-25  351  		dev_err(&pdev->dev, "Crypto Random device registration failed: %d\n", ret);
-8979744aca8096 Harsh Jain 2025-08-25  352  		return ret;
-8979744aca8096 Harsh Jain 2025-08-25  353  	}
-8979744aca8096 Harsh Jain 2025-08-25  354  	ret = xtrng_hwrng_register(&rng->trng);
-8979744aca8096 Harsh Jain 2025-08-25  355  	if (ret) {
-8979744aca8096 Harsh Jain 2025-08-25  356  		dev_err(&pdev->dev, "HWRNG device registration failed: %d\n", ret);
-8979744aca8096 Harsh Jain 2025-08-25  357  		goto crypto_rng_free;
-8979744aca8096 Harsh Jain 2025-08-25  358  	}
-8979744aca8096 Harsh Jain 2025-08-25  359  	platform_set_drvdata(pdev, rng);
-8979744aca8096 Harsh Jain 2025-08-25  360
-8979744aca8096 Harsh Jain 2025-08-25  361  	return 0;
-8979744aca8096 Harsh Jain 2025-08-25  362
-8979744aca8096 Harsh Jain 2025-08-25  363  crypto_rng_free:
-8979744aca8096 Harsh Jain 2025-08-25  364  	crypto_unregister_rng(&xtrng_trng_alg);
-8979744aca8096 Harsh Jain 2025-08-25  365
-8979744aca8096 Harsh Jain 2025-08-25  366  	return ret;
-8979744aca8096 Harsh Jain 2025-08-25  367  }
-8979744aca8096 Harsh Jain 2025-08-25  368
+   In file included from kernel/task_work.c:5:
+>> include/linux/resume_user_mode.h:62:32: error: too few arguments to function call, expected 2, have 1
+      62 |         rseq_handle_notify_resume(regs);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~     ^
+   include/linux/rseq.h:107:20: note: 'rseq_handle_notify_resume' declared here
+     107 | static inline void rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs) { }
+         |                    ^                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +62 include/linux/resume_user_mode.h
+
+    58	
+    59		mem_cgroup_handle_over_high(GFP_KERNEL);
+    60		blkcg_maybe_throttle_current();
+    61	
+  > 62		rseq_handle_notify_resume(regs);
+    63	}
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
