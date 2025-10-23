@@ -1,205 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A10B2BE634
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 22:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A10A27E05A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 22:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761260025; cv=none; b=Eo3xyADI6my6oFfspPdnbexLiRs+TgxU3oXBQL8M+Jyvbw822Vd4Vsrk1ipK8E+d3vcykMIswCND1QO3emT1pwL5HgKKJ6VL2EjAD8Y+Tp1VUaFwJ+McZAOMD/G4ScauRafEyfvrASTBvkLRSF/uqOrTCfP1uvaHfquxiwrzDLc=
+	t=1761260383; cv=none; b=eIGij1t34ek5exDCC6ELUa8ovq6NcJcRvsAFaKfbDEUPR1uoFhxddC/I1suyJe4YaczdGaolJ1pwMniwJwOvG2jnZ5mnzrgwdH3/gJrlCHnVqaQchjE/hMal2dO+Q9827I2FhmudISNDO7x8YNKUTzWxxOZjk9+8H9rcoJqU4B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761260025; c=relaxed/simple;
-	bh=0QE8HvEHK4lycLqYEDfV2CS/pvTBWa9mkZGA2KfSSHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Llj8x88P4ZLeiQtyEL6IfJlyGW7h9nmSPlKU+Ln2+wQqFtmi30Yuvlg3GsPXnRBQsoE4zOzhtCa+0bzo6BWp17l7Wz2TYA1ZgwjYXGIOaRS5cg3TTqWwd1D7vbG8Fx6CxxdXxgIgda7VSmdzswq+AiPCxEzJbKtfubxUe3eWqf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V6TlFm0d; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761260383; c=relaxed/simple;
+	bh=bFeH/C4FMR4iuNXtRq7pzw267IeFmnHLM0bg3L8ikOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HSOb5oxATArPUcaYGhHqkKfU/0UZtpuyWYFjTxd1B8Ombt6XsSkHU7VL/qM0g0YId8lAfpGwN9Js43GXw6+HGx+COfpRTTJ7Ojc/PduyJqC8X5QZ2YDzIYUeRvd7CDFtZAK2h8s4n0HFPcU5mXSLh/6gl+p6EMU1fMovhIX904E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SW34gp/f; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6TlFm0d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761260024; x=1792796024;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0QE8HvEHK4lycLqYEDfV2CS/pvTBWa9mkZGA2KfSSHQ=;
-  b=V6TlFm0dkgDsZtJ84kQFxs4ZIcZAqOQUYcf15NrlPe67wGuEb5XKE/o7
-   N4AfS76ZNN+JLXBV8yHwVLiahHhfp8Pq8CKvajfiuihCAdA7JyIbDMbEy
-   9ObfvqKlyvZMN0U3zv6obVzPE+nm3C9WaTtWoPkzxNNokEcd/MQ0sP6FW
-   vmiYH093Q6JOMSeA4dPbse/muFZR2DFBOTBHES+mcNon8KQJ9RAmRRysC
-   TqzOX+DlmGZz7AnXzVPc6awpjVGjA5+Ff4AiX4jTCInvfMRxOsgB0iDOw
-   MRHES9SDMbwt1YAmVghLOqsc2XEQekgwaFauzHVU6Gjri7GpfwF04HPG+
-   g==;
-X-CSE-ConnectionGUID: S5+csXHVQcSef5OouEoCzQ==
-X-CSE-MsgGUID: d01c0M2eQIqt1HgwrNTHWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62472964"
-X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="62472964"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 15:53:44 -0700
-X-CSE-ConnectionGUID: PvghajoCTBme/3cRVLlAdA==
-X-CSE-MsgGUID: a9FEE0ZmSkSLJubWCsYzsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="185055696"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Oct 2025 15:53:42 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vC4Bf-000DxJ-22;
-	Thu, 23 Oct 2025 22:53:39 +0000
-Date: Fri, 24 Oct 2025 06:52:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: arch/um/include/asm/kasan.h:29:2: error: UML does not work in
- KASAN_INLINE mode with STATIC_LINK enabled!
-Message-ID: <202510240649.RjPY0lml-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SW34gp/f"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59NEpXlM022437
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 22:59:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	469MVkdM4tlBeR1KDgd7vEW2/LS3FomPXkmwr2wH4Xs=; b=SW34gp/f2bfuWLb5
+	btmLFbgoz/D4jEB1LvPR1PGuzlEe8Xa50DJiHXqMN1PXWwoEp570EAjzL/pvqf32
+	zRZSEtMzi/vMj+RA2lYepTaMGaHe0SuiBoUEELypApunGplBpHrMW5yvtlb4luH/
+	nUDEu7S2kEOmtBrIAzVzn4dnekeE6Mfd5BuJL9lgI611KYB1pzNqJwjG0elo4FDV
+	AQ3dp8YqG6PINCxfWcNICvSqtVquUxbaNBxTjZui6DRl5eiubzdj67H5T2nXH9GL
+	T3j7zWi0F49Urmr/5KognNXsMePFCV1Rd31Wke3Kx/jhJw5pAQTWVzb0EWAseFZr
+	06d2dQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v1w8a4t3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 22:59:41 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-28bd8b3fa67so14182675ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 15:59:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761260380; x=1761865180;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=469MVkdM4tlBeR1KDgd7vEW2/LS3FomPXkmwr2wH4Xs=;
+        b=ZaicH/S/9L7oBIyZIsqqNC8x+9Pfc0uFNZrPXVzD3OxBLT2CIHWH/OIZp8MojL6oUn
+         sPS2OD7R8ArsoThQ8tnLxnh8zEgDzmRcU/68eS8ksM2aqzsrIb94SpSnCeWKYh6xlKhV
+         mqpU3xvZhFue/HTvM9Rt+bpX8gd8DMN5p2RVwvIRvywmXz5eTn0Gil9gidclLVuzeB6h
+         xPV07ZFMuAsOonXQh7aMrum4VB4/24R0XXso3dLXMv9Ds0GxLC98Qc0zm3NN0IjEDt/f
+         kTM31rgFvGCVMtqPnHYhxke077bnkjbsQF93OegnKWCCRj9Ho5I4CY/E48L3yf6vfF9K
+         Lvjg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0Dl7k5Tw7+TfjWk6ITR8xg22BzYbnE6387yHhM2YKg2Ap/8ByDBDHSKj/Spo5M2o/5WT8enAF+GqHGF9k@lists.linux.dev
+X-Gm-Message-State: AOJu0YwENz1moc19MZfrjn0Oe+in3m82p3hwdd0DWYdNFqws+s5cY2yP
+	5zRzhQrKihv+XzDCJwJXDgT8StNEG7CjNGcUKHA58lONgzt3/4+o2gUqvgOCVfwD1UJkrKViF8H
+	5R0HzU+bHSaQznWrV0gvVXS2dfEgFqbAiyIv1UjXvjFoJMkTclsV1CB+Qbq6PRIxTJuVz
+X-Gm-Gg: ASbGncv/1pUcACw055U3DFbgO9UUZuKEm60S8D4FsuTMsUOH9yMyK3EY9e3hErzEgaC
+	vuYqq8C9O57pJ36OKkYJUsQojbZUpHHN+f272fiRwiRQ0LvajH7DuusKlN2mNndfmpVqEgIrcND
+	X94g6IclVggNbM2OPyT0Oh6EBVw/M1/w5mE67u/UevL94QV7p/8jMPUY5pXj5AxWq4VolYS4QHm
+	Z3yr3IS8dPxytpOGx40SVsaypeBa7Kq9Q8kJY6Wl+IJ7HIosCGTcxThELneZby4ey9dxKN3rVGz
+	jP6Lp8ktisT1fjLrD85a1Xz+9IdbkDAS7Yl9u5uWAH6jsumNxsltuGqsdU+mV/cq0N69pJUdI7J
+	ijJr6LUMXc+Nwx9F/gHGGx44=
+X-Received: by 2002:a17:903:2345:b0:28d:1815:6382 with SMTP id d9443c01a7336-290cb65b674mr335551725ad.46.1761260379737;
+        Thu, 23 Oct 2025 15:59:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJbBbKKW0DFk7iDHJKQ3h/G/P4s0gD6I2OLQk44UpbQebnNfbRHLEqoXFR2CkmDt6YK8syMA==
+X-Received: by 2002:a17:903:2345:b0:28d:1815:6382 with SMTP id d9443c01a7336-290cb65b674mr335551455ad.46.1761260379120;
+        Thu, 23 Oct 2025 15:59:39 -0700 (PDT)
+Received: from [192.168.1.5] ([106.222.232.102])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6cf4bb9259sm3169412a12.2.2025.10.23.15.59.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 15:59:38 -0700 (PDT)
+Message-ID: <b7b1648f-91b5-4259-8d7d-6d4645f065c0@oss.qualcomm.com>
+Date: Fri, 24 Oct 2025 04:29:30 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+        Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <202510212140.4YWihsB7-lkp@intel.com>
+Content-Language: en-US
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <202510212140.4YWihsB7-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxNSBTYWx0ZWRfXzG9eTgyxMRja
+ 01nEtrbmm1PVKCEQ4vSCK7IFj6nIfljCW85+2Rg4xE5ycFz6UMiMGkSD+jhZKNOz3g3Jz7BPumd
+ 1f3TInHe2O53gdRRGzeQJbqKt4Qdpoh5JCz47PBWkxEUstYje/hE7MQoL1eY/ZPBsOdrCTjHvs9
+ 4pF2RPEvr/d6/FGqcovP0U8EInWuc24TE7g6G5nDafGtqVfpsTmHzm2WIdefclNYKcd3W9hPHyE
+ 0Sg2eX9LV3ZghIagDRoxH7TtKhuzmo4osuD1PAIzoccPp3AQSCdTi+tJst4XayT29TUgWpSag19
+ ycNyiTnDZGXLgd9q83GWJcHiEaA/vOk3MluIOjP3WoQgXiMbU8dk0T4hS5FNcy7GJgKfwo1t5d7
+ yZ1SjzX/URQ0N9YcgWZIcmG1bkh8wg==
+X-Authority-Analysis: v=2.4 cv=bNUb4f+Z c=1 sm=1 tr=0 ts=68fab35d cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=OORdEvYNKPdDRPFHMUl15A==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=KKAkSRfTAAAA:8 a=IvkCWOmhgfTTPoLh6GMA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: lHhfkCJKve7pBMIUk903btN07JEFu2Gy
+X-Proofpoint-ORIG-GUID: lHhfkCJKve7pBMIUk903btN07JEFu2Gy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1011
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180015
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   266ee584e55eed108583ab4f45b5de734522502d
-commit: 1e338f4d99e6814ede16bad1db1cc463aad8032c kasan: introduce ARCH_DEFER_KASAN and unify static key across modes
-date:   5 weeks ago
-config: um-randconfig-r064-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240649.RjPY0lml-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240649.RjPY0lml-lkp@intel.com/reproduce)
+On 10/21/2025 7:45 PM, Dan Carpenter wrote:
+> Hi Akhil,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-P-Oommen/drm-msm-a6xx-Add-support-for-Adreno-612/20251018-011020
+> base:   cb6649f6217c0331b885cf787f1d175963e2a1d2
+> patch link:    https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-1-0baa44f80905%40oss.qualcomm.com
+> patch subject: [PATCH 1/6] drm/msm/a6xx: Add support for Adreno 612
+> config: powerpc-randconfig-r073-20251021 (https://download.01.org/0day-ci/archive/20251021/202510212140.4YWihsB7-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202510212140.4YWihsB7-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:641 a6xx_set_hwcg() error: uninitialized symbol 'cgc_hyst'.
+> 
+> vim +/cgc_hyst +641 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> 
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  600  static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  601  {
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  602  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  603  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  604  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  605  	const struct adreno_reglist *reg;
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  606  	unsigned int i;
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  607  	u32 cgc_delay, cgc_hyst;
+> 51682bc4abf4b55 Konrad Dybcio  2024-08-28  608  	u32 val, clock_cntl_on;
+> 4b565ca5a2cbbbb Jordan Crouse  2018-08-06  609  
+> dff2f69f3e8a6ea Rob Clark      2024-06-18  610  	if (!(adreno_gpu->info->a6xx->hwcg || adreno_is_a7xx(adreno_gpu)))
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  611  		return;
+> b1c53a2a2d395d4 Jonathan Marek 2020-07-10  612  
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  613  	if (adreno_is_a630(adreno_gpu))
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  614  		clock_cntl_on = 0x8aa8aa02;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  615  	else if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu))
+> e7fc9398e608a7b Konrad Dybcio  2023-06-16  616  		clock_cntl_on = 0xaaa8aa82;
+> 18397519cb62248 Konrad Dybcio  2024-02-23  617  	else if (adreno_is_a702(adreno_gpu))
+> 18397519cb62248 Konrad Dybcio  2024-02-23  618  		clock_cntl_on = 0xaaaaaa82;
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  619  	else
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  620  		clock_cntl_on = 0x8aa8aa82;
+> 66ffb9150b00f3f Jonathan Marek 2020-07-10  621  
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  622  	if (adreno_is_a612(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  623  		cgc_delay = 0x11;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  624  	else if (adreno_is_a615_family(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  625  		cgc_delay = 0x111;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  626  	else
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  627  		cgc_delay = 0x10111;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  628  
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  629  	if (adreno_is_a612(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  630  		cgc_hyst = 0x55;
+> 
+> Only initialized here and not on other paths.
+> 
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  631  	else if (adreno_is_a615_family(adreno_gpu))
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  632  		cgc_delay = 0x555;
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  633  	else
+> 5cb9695ccef2305 Jie Zhang      2025-10-17  634  		cgc_delay = 0x5555;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240649.RjPY0lml-lkp@intel.com/
+Aah! Looks like there is a copy-paste bug that missed my eyes. Thanks.
 
-All errors (new ones prefixed by >>):
+-Akhil
 
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:260:
-   In file included from include/linux/kasan.h:21:
->> arch/um/include/asm/kasan.h:29:2: error: UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
-      29 | #error UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
-         |  ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:7:
-   In file included from include/linux/audit.h:13:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     116 |                         (set1->sig[1] == set2->sig[1]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  635  
+> af66706accdf5af Konrad Dybcio  2023-09-25  636  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
+> 51682bc4abf4b55 Konrad Dybcio  2024-08-28  637  			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
+> af66706accdf5af Konrad Dybcio  2023-09-25  638  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_DELAY_CNTL,
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28  639  			state ? cgc_delay : 0);
+> af66706accdf5af Konrad Dybcio  2023-09-25  640  	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_HYST_CNTL,
+> 40c297eb245b1c9 Konrad Dybcio  2024-08-28 @641  			state ? cgc_hyst : 0);
+>                                                                                 ^^^^^^^^
+> Uninitialized
+> 
+> af66706accdf5af Konrad Dybcio  2023-09-25  642  
+> dff2f69f3e8a6ea Rob Clark      2024-06-18  643  	if (!adreno_gpu->info->a6xx->hwcg) {
+> d2bcca0ccccfa5e Neil Armstrong 2024-02-16  644  		gpu_write(gpu, REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL, 1);
+> 
 
-
-vim +29 arch/um/include/asm/kasan.h
-
-    27	
-    28	#if defined(CONFIG_STATIC_LINK) && defined(CONFIG_KASAN_INLINE)
-  > 29	#error UML does not work in KASAN_INLINE mode with STATIC_LINK enabled!
-    30	#endif
-    31	#else
-    32	static inline void kasan_init(void) { }
-    33	#endif /* CONFIG_KASAN */
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
