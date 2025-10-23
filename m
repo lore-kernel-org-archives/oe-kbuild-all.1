@@ -1,77 +1,85 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7193314C0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 14:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43113148B9;
+	Thu, 23 Oct 2025 14:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761230893; cv=none; b=brLUqvdvN6wGFl4jFI1QhcNJJ/XttiAmbEGh5VfHbyxWW9bQh6IovdtDpkD+eGBsoNg228q5fti+J/fqnsf8wk58vWzTB71cMQkNurcnz2uvzqbBXcpSeWpH6QZsKWj+esgdG80VT10AY6CjPv8vF1e1oteGvonhTeBGkcw/ePk=
+	t=1761231414; cv=none; b=bwnuA2iJsVK+eRoE00vxHjdqHu1c7wRAgmFQtiMuyRuJS5//sPwcd09r8s7eZ7hBgCqi2hUlQxSoJfhL7xINUbijQ38C4HK04bodmB87oQP+4hEONDv1bE/uoFUTDzydcv6WkPncggMY6is7lbQOCqkMHsC6RQFf/csYEkGz+V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761230893; c=relaxed/simple;
-	bh=MgOdUmhxFApDz4sRw7UlK/dEuErVOukFGzY2IjjkGxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=uWhSQ3A2v6ePLkkRfR/mEDR33cG74eZoqq108m3s7WnIKqIT3nNnC7KaXrNQX9Pg2L4wQI2Ka8kli73AirEczvdiGlmaMWLajmwtev6fCq0Kf0j5OGGmU8KEoaPjPyBLOVdCKhLfjhpelJFxaI1oDS1EAqLF3/yvxxyZ6dysDFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DjeUviSo; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761231414; c=relaxed/simple;
+	bh=zl4EQVxMwdi+82iMAbep7c4uBdcXNrgCGiikKHak4aw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvPLZamWfxR7J+FagHhQVZKsxvsT3til5LMnRzY1Qiz1mEbJIkiQ2kO4JTFf080NZEtyP4uKnQRsoHUl61ZRxXcZhJ1wPpH3EyPweDJezYrcqNgDpXeIpz/4MVIIynePRl4Vn5Ku4dS653jDJ8OGdW4Hq47ki2KBfsgWCLhbeAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jpc0f1Vc; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DjeUviSo"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-471066cfc2aso8836255e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 07:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761230889; x=1761835689; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gOu4NGMCUBSkrR2LXCmniFlUsFFrudDXlxk8VUy4Cb0=;
-        b=DjeUviSo1qgrNGKzflQ0ZwvntIVnFmNYX9/ERUWTRK5I3aM1dKNDABBvh626yVEeFO
-         51ggQy2/IM2QuHSQiJYz5F1jVSm5I7ubsFt3ioLatgAkLuEQNzT6nBE7VpLcvDsaUwIL
-         ql9HeJ4Dh+EHqCO6Pau2cx2K+f7kbT6HeR/8wQboHHKD1RmisxhAhDCSWW1c27KTIA9i
-         LTPSWUZyCqfUTqKmjHqYUEQVWPirS9twvhaWo+ttLxqE8lY7kIr228F8HqVfUsOwS8/i
-         h3ZlVRtg1fgwLItGfOqZmfHfx8TboXGr/z/GET/5R46BUdLjgXu4a+WMKSvCK29zGxJS
-         l8ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761230889; x=1761835689;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gOu4NGMCUBSkrR2LXCmniFlUsFFrudDXlxk8VUy4Cb0=;
-        b=hONx9XlBDMuxpmdrBouDvgIG2EHBM4K6i6TMYV65RmMH2IDFaSACQSaTLxmVg0YRgL
-         6OoWk0IM2ma6SMgyth1lr+35T3Q/UAjH/s3rGgoSLOdSz6hbZbmsHSHY1ucLfj56Ywe9
-         lApfwwKzD3pxoS6j+gwAIVKEOJASoRs1S8zttKxJZkY8f/S635tCqXdcaM5dHAx3fqv9
-         tO6XHqpId837piAXjVKTz3PsEGu8oU2i8J2rbpdctqtMrfyMUKEMOvFTckV7pva/g6/0
-         YjJv+l/umw0IvOxujCtrAOCVAynIn4rGcQcrCZLwLIbBfhE3sZbBvg9MibdRbi9Fje47
-         RLNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXiFIrRLqZK7FLaE0QDfpKDcVs6j8g+sc26ZYXKMqYu6aIiIe39xU67pbwWh4UL9AdCb/PctA/cjXTmgIfT@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIhzjriyQcNZAMO548lpPJ0Va85z31bwjckrhkb9EfNg+NH/Hq
-	3ooTYYZkQ+J5bPZ9xBttIyJPVKQxXswcv+aUOn1SvWDlJfwhsUoFHQOgaMd5g9/qfyA=
-X-Gm-Gg: ASbGnctPldX1mIF0Kz7YRKWLCU/MNNjD8mm2kVqzMUwdx3JfmYuUw1zChnFfCDYOm5M
-	9diqbM3HHHn3GvFStSRc8C1r55fsvQY5VpcuU8QxYlrIAw/o+lHZigkCD0oC+BC4jvkuHE21T9R
-	OsaG5+FCmz8KRSYkuxIdY62cSfLjV802uNfexhLnkBjpcvFkPbhMbURpj1wY0E6726FGbz4yP1I
-	oPZh8/MLuYz4DS5TJnyVC0DEI0XjdgUp/n2GiCGcj4hL2w1TSVDUGXMhsrWH/IMhYhCAuYo3geQ
-	8QzUPSHlHLjvSr3Iz620T09X99Ro/qhebCzH2lXj9HG5vFGwADMaldGj20r5iBFDkgDtCYbX0P5
-	Z2IzxGB17m3MJ5w/od8l5Tjn2rE1v++als30cddmGbZJw5V2Rt7//RjTEeVygn/5AURtVbxG/EN
-	tiSA8QIJBKuziOrE/C
-X-Google-Smtp-Source: AGHT+IHPh2MT5lwbkEnF6WyBRT0yvdgZZWzMZDal2Q67sdKk48DCYJobcUZUTlENYCgL3UDZOXyWQA==
-X-Received: by 2002:a05:600c:37c7:b0:46e:477a:16cc with SMTP id 5b1f17b1804b1-47117902f6cmr144699475e9.24.1761230889325;
-        Thu, 23 Oct 2025 07:48:09 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-474949df22csm64839095e9.0.2025.10.23.07.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Oct 2025 07:48:09 -0700 (PDT)
-Date: Thu, 23 Oct 2025 17:48:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jonathan Brophy <professorjonny98@gmail.com>,
-	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Jonathan Brophy <professor_jonny@hotmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] leds: Add Virtual Color LED Group driver
-Message-ID: <202510231653.3V9E5oxE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jpc0f1Vc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761231413; x=1792767413;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zl4EQVxMwdi+82iMAbep7c4uBdcXNrgCGiikKHak4aw=;
+  b=Jpc0f1VcEkb2sKsC2eaDFVa7PaujfYpMIX7qRJnLaIfJGyLeWouZOCI0
+   8japSk2kbrEGp2JD6jrB6e2UoyZSArVhDGZNR+l6ijgWoSphEhLrQYaEk
+   e9Lr1pNzhrGus7STPbKq10udWRJEBBc/ArlAcQZsXL1v36aS9aDU9AbRa
+   SCrNkyA0rjhpTnTv1r47auPz5hYbF60D9AKvDT61ChO5s/yUdERCGymIY
+   ofHv9Yn9/VTPaqRMUYBvvIxigrdeEKSew4VKhbkVNz7yK9tJEGpG281LC
+   t3vdwSpRYoWIHGgYEBf9Cf922NE//kdFy3rW9N+eOVIyu5I4M+D5Gdax9
+   w==;
+X-CSE-ConnectionGUID: 3g0AmY6cTTOuAcpT2TFpAA==
+X-CSE-MsgGUID: LC9BL6V8Tke8KlR47LbDow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63440940"
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="63440940"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 07:56:53 -0700
+X-CSE-ConnectionGUID: 2E8E/w0eTHehMuPPPocNfw==
+X-CSE-MsgGUID: 3DMf3RxjSzeaj3/3U3f73A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="188571864"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Oct 2025 07:56:45 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBwk7-000DbB-1r;
+	Thu, 23 Oct 2025 14:56:43 +0000
+Date: Thu, 23 Oct 2025 22:56:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Shuai Xue <xueshuai@linux.alibaba.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Sunil V L <sunilvl@ventanamicro.com>,
+	Xiaofei Tan <tanxiaofei@huawei.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Guo Weikang <guoweikang.kernel@gmail.com>, Xin Li <xin@zytor.com>
+Subject: Re: [PATCH 3/6 v6] acpi/ghes: Make GHES select ACPI_APEI_PCIEAER
+Message-ID: <202510232204.7aYBpl7h-lkp@intel.com>
+References: <20251023122612.1326748-4-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,69 +88,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013120955.227572-5-professorjonny98@gmail.com>
+In-Reply-To: <20251023122612.1326748-4-fabio.m.de.francesco@linux.intel.com>
 
-Hi Jonathan,
+Hi Fabio,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 552c50713f273b494ac6c77052032a49bc9255e2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/dt-bindings-leds-Add-YAML-bindings-for-Virtual-Color-LED-Group-driver/20251013-201353
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20251013120955.227572-5-professorjonny98%40gmail.com
-patch subject: [PATCH v2 4/4] leds: Add Virtual Color LED Group driver
-config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510231653.3V9E5oxE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/ACPI-extlog-Trace-CPER-Non-standard-Section-Body/20251023-202846
+base:   552c50713f273b494ac6c77052032a49bc9255e2
+patch link:    https://lore.kernel.org/r/20251023122612.1326748-4-fabio.m.de.francesco%40linux.intel.com
+patch subject: [PATCH 3/6 v6] acpi/ghes: Make GHES select ACPI_APEI_PCIEAER
+config: x86_64-buildonly-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232204.7aYBpl7h-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232204.7aYBpl7h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510231653.3V9E5oxE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510232204.7aYBpl7h-lkp@intel.com/
 
-smatch warnings:
-drivers/leds/rgb/leds-group-virtualcolor.c:239 leds_virtualcolor_init_vled() warn: 'phandle_count' unsigned <= 0
+All errors (new ones prefixed by >>):
 
-vim +/phandle_count +239 drivers/leds/rgb/leds-group-virtualcolor.c
+>> ld.lld: error: undefined symbol: cper_severity_to_aer
+   >>> referenced by ghes.c:626 (drivers/acpi/apei/ghes.c:626)
+   >>>               drivers/acpi/apei/ghes.o:(ghes_do_proc) in archive vmlinux.a
+   >>> referenced by ghes.c:753 (drivers/acpi/apei/ghes.c:753)
+   >>>               drivers/acpi/apei/ghes.o:(ghes_do_proc) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: aer_recover_queue
+   >>> referenced by ghes.c:642 (drivers/acpi/apei/ghes.c:642)
+   >>>               drivers/acpi/apei/ghes.o:(ghes_do_proc) in archive vmlinux.a
 
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  218  static int leds_virtualcolor_init_vled(struct device *dev, struct device_node *child,
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  219  				       struct virtual_led *vled, struct leds_virtualcolor *vc_data)
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  220  {
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  221  	struct led_init_data init_data = {};
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  222  	u32 blink_interval;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  223  	u32 phandle_count;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  224  	u32 max_brightness;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  225  	int ret;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  226  	int i;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  227  
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  228  	ret = of_property_read_u32(child, "priority", &vled->priority);
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  229  	if (ret)
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  230  		vled->priority = 0;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  231  
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  232  	ret = of_property_read_u32(child, "blink", &blink_interval);
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  233  	if (!ret) {
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  234  		vled->blink_delay_on = blink_interval;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  235  		vled->blink_delay_off = blink_interval;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  236  	}
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  237  
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  238  	phandle_count = of_property_count_elems_of_size(child, "leds", sizeof(u32));
-793ec9b4ba92eea Jonathan Brophy 2025-10-14 @239  	if (phandle_count <= 0) {
-                                                            ^^^^^^^^^^^^^^^^^^
-u32 can't be < 0.
-
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  240  		dev_err(dev, "No monochromatic LEDs specified for virtual LED %s\n",
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  241  			vled->cdev.name);
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  242  		return -EINVAL;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  243  	}
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  244  
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  245  	vled->num_monochromatics = phandle_count;
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  246  	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  247  					    sizeof(*vled->monochromatics), GFP_KERNEL);
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  248  	if (!vled->monochromatics)
-793ec9b4ba92eea Jonathan Brophy 2025-10-14  249  		return -ENOMEM;
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ACPI_APEI_PCIEAER
+   Depends on [n]: ACPI [=y] && ACPI_APEI [=y] && PCIEAER [=n]
+   Selected by [y]:
+   - ACPI_APEI_GHES [=y] && ACPI [=y] && ACPI_APEI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
