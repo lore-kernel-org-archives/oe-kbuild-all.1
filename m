@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1345E1D435F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 01:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3CE1684B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 02:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761184325; cv=none; b=DEyWrnNq6g+Cd4nWYupaa8UDLh144X4OQgLlkeZ2mZsWIc7oKGnYnD9R9PWY3dQBev4XEvXSTPazxkN/dIoN4gR9FhYfiDrWGEVOLIa/PvwqQNUUzKvcIQPK2R4V6i8OuQmiqrtsBVNrthjcZwam4pCfEGUN31SGjvFvcPkmmpA=
+	t=1761185008; cv=none; b=Q192064xKpslpQWcVUmMb6N59k/qQ0fUsPY5LlqktymCu0N1RmSMLnP73s33A41pOHkUQjnYBfWJUKiJQSuRdLwAneWjiLXG0vcRh0j/T9RJpwIyI5cwuAq5nTxEyg/+CGBNZtrGXIs318S54QbB9guJj2/lEK8x9b6KD8CDv1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761184325; c=relaxed/simple;
-	bh=4njMwdzTkvdbhUJLwwFwLq6fjC7rbLkG1HPGx1CUYjE=;
+	s=arc-20240116; t=1761185008; c=relaxed/simple;
+	bh=UDBkeGS/oOH6qLp90L68mPlLvmPAzTQFO2JN+rYwNwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RRlL17NzVbCmU0qiufiYI4op2P8SB8GmEOIBJjuwuIjjEOQfQ8YWmyyXuNstIoB9jDz6xKs/z10PkKi6VA1EQWhYPZRa2A2l7uEXJAi0ZbspSAvgJeiEYFP/spG94YZY8bMJJtlkRGVnBFWvhhOd9YX1K4uf8VKutv+inxeYnGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZaIKg/v; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=ay9lPZYGXKYHNm5Gp8u71NM8TKoGfIBadwZcB1mrVxyV3spMOj8mXWdJTi5xZvl8+sWjSCzrd1JpaY9CqBW9jd86/oAJpvJT9A/ohSxzAWdM1ef5vKWC4hcPiriFJV3XsNILmQMWCM9+N0SOxsk8FKbBrpy/yggcDUwjAnCU8wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mglZOnZp; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZaIKg/v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mglZOnZp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761184325; x=1792720325;
+  t=1761185007; x=1792721007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4njMwdzTkvdbhUJLwwFwLq6fjC7rbLkG1HPGx1CUYjE=;
-  b=CZaIKg/vi+X1i17MvzYLzuc9zmT2reiiBuSAUoTV/FUKI+/nFooAWfXa
-   ScG6HdgUkqMlyBTWsZI3hTnJhoWqar+N1jq0DJLqVzodv8e29VjP3q2a8
-   0S3swAnI1g/VqxjQIBgk6e0yjqaQLSxNx8aa4vPoHV7zUJ0bzYhLAv3f6
-   AmV/cPxM8NGSu43F7A3uy5j6VLunEmqOvBDhTHDIrmYKk4uWAqNq8F5jp
-   VtCpMKckW/iFdC3GNEq3hFF9TDVo9m1etURz9Wyb4qPFnREvJHBsqIv/K
-   64daVy/s/UOiuTpRqX2udlMvsRUIStAFI4ZaWq8eQA1Mz07eURxUTbf5f
-   Q==;
-X-CSE-ConnectionGUID: LpgtZWfgTkeH5X+jLjrQww==
-X-CSE-MsgGUID: 5SSLTALwQgu/bipOLMrGwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63238325"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63238325"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 18:52:04 -0700
-X-CSE-ConnectionGUID: SpZbgr7gS3WA+JPfqKSCyQ==
-X-CSE-MsgGUID: HapnDRkpSaCFQvg1UIao5w==
+  bh=UDBkeGS/oOH6qLp90L68mPlLvmPAzTQFO2JN+rYwNwY=;
+  b=mglZOnZpgNM8LIHyBIBL27mJZwEE45ILgkUQiwCYQLNgkWg0PanlybQr
+   3tsStzH95rhTPzPiVLkIunWXsii8VaMi8k10qIla699nBx4XIO57VegeU
+   ug4+Io1SD22UFk73EqtV2HBzoZXc65kES4KWwvfKRqRGXVgvnIen/YGRY
+   5M/jokbC05F7EDw+ekhmHPrbIiaC4OcacYNKVOTP6CqaU9xiODsIaxLKA
+   GL9G16VDaMtEKlYwgLa+marwxyx0gworKqYE0uIY9rJBI6j0BzMzvPI9r
+   vzrfVVz1HEdBCkQuVdgDlEsUxfRvrPlUK3NUmgXqyFKDwFVfgNOBXRBHH
+   g==;
+X-CSE-ConnectionGUID: JAazw6qOQ9uM05yscrYwXA==
+X-CSE-MsgGUID: U67Avy7oTCuGJ/Lf4q4rPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63267050"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63267050"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:03:26 -0700
+X-CSE-ConnectionGUID: 0a2k5RyETFyB4Dddk+GgmQ==
+X-CSE-MsgGUID: Hth7pneURyOJS4UHaIY8/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="184508165"
+   d="scan'208";a="189300061"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2025 18:51:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Oct 2025 19:03:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBkUe-000CuJ-1D;
-	Thu, 23 Oct 2025 01:51:56 +0000
-Date: Thu, 23 Oct 2025 09:51:44 +0800
+	id 1vBkfj-000Cv9-0i;
+	Thu, 23 Oct 2025 02:03:23 +0000
+Date: Thu, 23 Oct 2025 10:03:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-Message-ID: <202510230913.RgbAGc3c-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 5/9]
+ kernel/trace/rv/../trace.h:907:24: error: dereferencing pointer to
+ incomplete type 'struct ftrace_hash'
+Message-ID: <202510230939.lbLOFaf3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Darrick,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd72c8fcf6d35de5d6d976f20dc1ae84ce7af08b
-commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
-date:   12 months ago
-config: arm-randconfig-004-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230913.RgbAGc3c-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230913.RgbAGc3c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   3d31a310468694e4395d61e15c65edaa618fbb5c
+commit: f8ebea380de850914a1a05fd98c4e7c683626424 [5/9] ftrace: Export some of hash related functions
+config: riscv-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510230939.lbLOFaf3-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230939.lbLOFaf3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230913.RgbAGc3c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230939.lbLOFaf3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_linux.h:24,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
-     static_assert(sizeof(structname) == (size), \
-     ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:133:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,  3);
-     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
-     static_assert(sizeof(structname) == (size), \
-     ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:136:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused, 6);
-     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/trace/rv/../trace.h:13,
+                    from kernel/trace/rv/rv.h:9,
+                    from kernel/trace/rv/rv.c:151:
+   include/linux/ftrace.h:575:5: warning: no previous prototype for 'update_ftrace_direct_add' [-Wmissing-prototypes]
+    int update_ftrace_direct_add(struct ftrace_ops *ops, struct ftrace_hash *hash)
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ftrace.h:580:5: warning: no previous prototype for 'update_ftrace_direct_del' [-Wmissing-prototypes]
+    int update_ftrace_direct_del(struct ftrace_ops *ops, struct ftrace_hash *hash)
+        ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ftrace.h:585:5: warning: no previous prototype for 'modify_ftrace_direct_hash' [-Wmissing-prototypes]
+    int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
+        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/trace/rv/rv.h:9,
+                    from kernel/trace/rv/rv.c:151:
+   kernel/trace/rv/../trace.h: In function 'ftrace_hash_empty':
+>> kernel/trace/rv/../trace.h:907:24: error: dereferencing pointer to incomplete type 'struct ftrace_hash'
+     return !hash || !(hash->count || (hash->flags & FTRACE_HASH_FL_MOD));
+                           ^~
 
 
-vim +78 include/linux/build_bug.h
+vim +907 kernel/trace/rv/../trace.h
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+4046bf023b0647 Namhyung Kim            2017-01-20  904  
+eb583cd484f9a7 Arnd Bergmann           2017-01-23  905  static __always_inline bool ftrace_hash_empty(struct ftrace_hash *hash)
+4046bf023b0647 Namhyung Kim            2017-01-20  906  {
+8c08f0d5c6fb10 Steven Rostedt (VMware  2017-06-26 @907) 	return !hash || !(hash->count || (hash->flags & FTRACE_HASH_FL_MOD));
+4046bf023b0647 Namhyung Kim            2017-01-20  908  }
+4046bf023b0647 Namhyung Kim            2017-01-20  909  
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+:::::: The code at line 907 was first introduced by commit
+:::::: 8c08f0d5c6fb10ff93ffb1cbf416f4f1c3a52a80 ftrace: Have cached module filters be an active filter
 
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
