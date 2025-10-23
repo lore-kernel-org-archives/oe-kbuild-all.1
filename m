@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A684C2AEF5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 02:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82426175BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 02:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761186390; cv=none; b=fBnn/sMD2D/Bv/HeL0TEWi87ayEOoVl2CRVawVa/og+NOQgEymBByl64/is+rWQfBmTuZmacTvpXeNVzhMXcBZh4jai6EPMSvLCkbdFK/n7HFPB9+lsnWH6jfUeopv4fT4r2x4kOi1r91WJwX8fyEf/VbdQW78bbO2kNbfLlEEU=
+	t=1761187057; cv=none; b=jzM5LIzDjPa8dptRTybQAKmw3kPUvzuqXKGKmTUChIvYvVcalIvjFq76pEERZYME1nqcpyhLjTKGgG6jY+xET5vlDkHTK1zB3MyFX4EOOnCcSul85AW/txmM4z4RGphJrP2NOFH4EYDm46cq2HWvLi4kTOBhR6USS5LDw7+nTtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761186390; c=relaxed/simple;
-	bh=1mvjcdErKl2lBHrGs4AZftlJc7x4JpE6cGzG+ahmRiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EtEuFW6/cUy6DNqJxltP1+yvXe68PXWr3yJ3IrIEn5tbZRZ2seOPuZckVp8gYAI6ylz7uB09PcjKiYHOK0k21FQmiOMEi3K1tnPni2pTIXkjKBSH5LUMAbfnxs8UrdRnP3DJXd126MZqoCSyqAQu/pFQFcX/1TMLpFOWKPxWGG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgeUQAlP; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1761187057; c=relaxed/simple;
+	bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP2fRtZi1wd2RkRL8MZVrRsix22b2+958iaVQ8lrx+xaFOjmdmDBtxLeYwt63FNgbzI/uf3YTrrN6qdePoKJ1BxTbdXOmzWAhGV1/6SNwIaDZ+gRCRx6jW5clg6ZvhpL5C3KrWdSHYvUYbrG2F+SBuDekPj+0l5XxzgMeNsqZkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0LIXIUf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgeUQAlP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0LIXIUf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761186388; x=1792722388;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1mvjcdErKl2lBHrGs4AZftlJc7x4JpE6cGzG+ahmRiw=;
-  b=KgeUQAlPcFLpzzNfwjkhZrLGmTxB9v1ixib1AnF6Sfnygudp4yeyD9tq
-   fZZrir7URZ97FJDjB067Ys7qwNZvNGrM5i9R9Vi0L1GrDEhKkA9qQX997
-   lKwaz9ep8BtE+Gs90ATJGdvqZU+zxWu1smN7OSB7/LJ4EYJ5q7gJI7CSE
-   sbMHUhMeXgPBn9vdqyDzBGUhrK0C7iQb3FSem4w8ocv4TuQ8stqJmiTVd
-   vr1JEodMDcIl/FD0KkpxFG0MdCl9X7i/PlWF1Vhc27X5njdbDXjvh9MVu
-   +kQU/Sh8hExbTvNiq0ssNcHYH0SwyHG3yO6Vwu80ZXXchb0rSeFoiVV8z
-   A==;
-X-CSE-ConnectionGUID: Zyu/kQqCQpausR3RshAWyQ==
-X-CSE-MsgGUID: J7ZLfOp2Tf+kNtT4/PwsZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63385211"
+  t=1761187055; x=1792723055;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
+  b=R0LIXIUfZQpV5V0v+3/Sis7YPZUWuW1N9Z9g4Qkd/kO7SGQQ1FlllAF0
+   UyyTseAzzjhLVRanUic1NUFZYwdCUilbagpGCsqcCzMquMpHRvb+Vc8qA
+   xgLa/vIhntb42TBo03pgg0fyRFnxdzrErfuf/yfUZ1L1rREDm8zun3t+5
+   h/3xgd4JHCR024kdjlFw7rXQNIyv2/R1tG8uT36FyD/sHsvfyOlF4m6Sp
+   LT3b9HtO2y6DRoGxs2ObUuqpHI27Cr4tB//8rLdd8jBOkNBIhoaGLBbqH
+   u7g/IPV7drH7f5t7ARc7xOG3yfe5OxLMSnAN6aQKW684t09C31KyEvq/X
+   g==;
+X-CSE-ConnectionGUID: KTGckpq0QiuUwHDOLdEOtQ==
+X-CSE-MsgGUID: zj5BuwM9TdSBF301L3tq7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67212425"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63385211"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:26:28 -0700
-X-CSE-ConnectionGUID: 2nw1JX/BTve1hBT6TFMhAA==
-X-CSE-MsgGUID: SOZLCXBpRJ+J0vjW542Xqw==
+   d="scan'208";a="67212425"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:37:35 -0700
+X-CSE-ConnectionGUID: w8GzWDQITKWBdVZbpWT5Dg==
+X-CSE-MsgGUID: bZ+I8jKrSOyESyQvDRZh5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="188433603"
+   d="scan'208";a="183966486"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 19:26:27 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2025 19:37:32 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBl21-000Cw1-0C;
-	Thu, 23 Oct 2025 02:26:25 +0000
-Date: Thu, 23 Oct 2025 10:26:01 +0800
+	id 1vBlCg-000Cwb-0H;
+	Thu, 23 Oct 2025 02:37:27 +0000
+Date: Thu, 23 Oct 2025 10:36:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2025-05 9/9]
- include/linux/userfaultfd_k.h:82:1: warning: control reaches end of non-void
- function
-Message-ID: <202510231010.X304a3YQ-lkp@intel.com>
+To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
+	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
+	gprocida@google.com
+Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
+Message-ID: <202510231021.yaURwkIz-lkp@intel.com>
+References: <20251013153918.2206045-11-sidnayyar@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +67,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
 
-Hi Lokesh,
+Hi Siddharth,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2025-05
-head:   e41b7a3e22fae065033adacf0f93a164ff468a28
-commit: 9b613572d6246da9b616f34e4a0e0b5ac74b2dd0 [9/9] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: arm64-randconfig-001-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231010.X304a3YQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231010.X304a3YQ-lkp@intel.com/reproduce)
+[auto build test ERROR on arnd-asm-generic/master]
+[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251022]
+[cannot apply to mcgrof/modules-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
+patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
+config: x86_64-randconfig-122-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231010.X304a3YQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231021.yaURwkIz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/mm_types.h:6,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from mm/mmap.c:13:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
-   include/linux/rcupdate.h:391:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     391 |  typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-         |         ^
-   include/linux/rcupdate.h:501:31: note: in expansion of macro '__rcu_access_pointer'
-     501 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-      81 |  return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-         |         ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/hugetlb.h:15,
-                    from mm/mmap.c:29:
->> include/linux/userfaultfd_k.h:82:1: warning: control reaches end of non-void function [-Wreturn-type]
-      82 | }
-         | ^
+   kernel/module/main.c: In function 'resolve_symbol':
+>> kernel/module/main.c:1271:37: error: 'struct module' has no member named 'sig_ok'
+    1271 |         if (fsa.is_protected && !mod->sig_ok) {
+         |                                     ^~
 
 
-vim +82 include/linux/userfaultfd_k.h
+vim +1271 kernel/module/main.c
 
-f619147104c8ea7 Axel Rasmussen   2021-05-04  58  
-7d64ae3ab648a96 Axel Rasmussen   2021-06-30  59  extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-7d64ae3ab648a96 Axel Rasmussen   2021-06-30  60  				    struct vm_area_struct *dst_vma,
-7d64ae3ab648a96 Axel Rasmussen   2021-06-30  61  				    unsigned long dst_addr, struct page *page,
-7d64ae3ab648a96 Axel Rasmussen   2021-06-30  62  				    bool newly_allocated, bool wp_copy);
-7d64ae3ab648a96 Axel Rasmussen   2021-06-30  63  
-c1a4de99fada21e Andrea Arcangeli 2015-09-04  64  extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-df2cc96e77011cf Mike Rapoport    2018-06-07  65  			    unsigned long src_start, unsigned long len,
-a759a909d42d727 Nadav Amit       2021-09-02  66  			    atomic_t *mmap_changing, __u64 mode);
-c1a4de99fada21e Andrea Arcangeli 2015-09-04  67  extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
-c1a4de99fada21e Andrea Arcangeli 2015-09-04  68  			      unsigned long dst_start,
-df2cc96e77011cf Mike Rapoport    2018-06-07  69  			      unsigned long len,
-a759a909d42d727 Nadav Amit       2021-09-02  70  			      atomic_t *mmap_changing);
-f619147104c8ea7 Axel Rasmussen   2021-05-04  71  extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
-a759a909d42d727 Nadav Amit       2021-09-02  72  			      unsigned long len, atomic_t *mmap_changing);
-ffd05793963a44b Shaohua Li       2020-04-06  73  extern int mwriteprotect_range(struct mm_struct *dst_mm,
-ffd05793963a44b Shaohua Li       2020-04-06  74  			       unsigned long start, unsigned long len,
-a759a909d42d727 Nadav Amit       2021-09-02  75  			       bool enable_wp, atomic_t *mmap_changing);
-c1a4de99fada21e Andrea Arcangeli 2015-09-04  76  
-932b18e0aec65ac Andrea Arcangeli 2015-09-04  77  /* mm helpers */
-932b18e0aec65ac Andrea Arcangeli 2015-09-04  78  static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
-932b18e0aec65ac Andrea Arcangeli 2015-09-04  79  					struct vm_userfaultfd_ctx vm_ctx)
-932b18e0aec65ac Andrea Arcangeli 2015-09-04  80  {
-9b613572d6246da Lokesh Gidra     2024-01-16 @81  	return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-932b18e0aec65ac Andrea Arcangeli 2015-09-04 @82  }
-932b18e0aec65ac Andrea Arcangeli 2015-09-04  83  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 932b18e0aec65acb089f4bd8761ee85e70f8eb6a userfaultfd: linux/userfaultfd_k.h
-
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  1228	
+  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
+  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
+  1231							  const struct load_info *info,
+  1232							  const char *name,
+  1233							  char ownername[])
+  1234	{
+  1235		struct find_symbol_arg fsa = {
+  1236			.name	= name,
+  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
+  1238			.warn	= true,
+  1239		};
+  1240		int err;
+  1241	
+  1242		/*
+  1243		 * The module_mutex should not be a heavily contended lock;
+  1244		 * if we get the occasional sleep here, we'll go an extra iteration
+  1245		 * in the wait_event_interruptible(), which is harmless.
+  1246		 */
+  1247		sched_annotate_sleep();
+  1248		mutex_lock(&module_mutex);
+  1249		if (!find_symbol(&fsa))
+  1250			goto unlock;
+  1251	
+  1252		if (fsa.license == GPL_ONLY)
+  1253			mod->using_gplonly_symbols = true;
+  1254	
+  1255		if (!inherit_taint(mod, fsa.owner, name)) {
+  1256			fsa.sym = NULL;
+  1257			goto getname;
+  1258		}
+  1259	
+  1260		if (!check_version(info, name, mod, fsa.crc)) {
+  1261			fsa.sym = ERR_PTR(-EINVAL);
+  1262			goto getname;
+  1263		}
+  1264	
+  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
+  1266		if (err) {
+  1267			fsa.sym = ERR_PTR(err);
+  1268			goto getname;
+  1269		}
+  1270	
+> 1271		if (fsa.is_protected && !mod->sig_ok) {
+  1272			pr_warn("%s: Cannot use protected symbol %s\n",
+  1273				mod->name, name);
+  1274			fsa.sym = ERR_PTR(-EACCES);
+  1275			goto getname;
+  1276		}
+  1277	
+  1278		err = ref_module(mod, fsa.owner);
+  1279		if (err) {
+  1280			fsa.sym = ERR_PTR(err);
+  1281			goto getname;
+  1282		}
+  1283	
+  1284	getname:
+  1285		/* We must make copy under the lock if we failed to get ref. */
+  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
+  1287	unlock:
+  1288		mutex_unlock(&module_mutex);
+  1289		return fsa.sym;
+  1290	}
+  1291	
 
 -- 
 0-DAY CI Kernel Test Service
