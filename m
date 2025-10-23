@@ -1,63 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429BB30C345;
-	Thu, 23 Oct 2025 13:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D2330649B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 13:45:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761225826; cv=none; b=LBGJcZy9hg6/EEquvUVIRNhSIKJ2kajcqqcanznHLZcs/CfsnhaDw0a5HR1Gwj4Ga4QFP9bhS9pp0LuHHgI8w/G9umpImPpDz9ArmQgnOb/dF5b5IEGkfJ35Gmq5DH24SZe1EDwSUcTHHrnvv3pA5vei5UeOVMLYQ/CfmZlDm8E=
+	t=1761227127; cv=none; b=PK7tIPHvYw0+rL1PqQ5xfbReQ7ZAj1pQ3pIOFJCQO6QOmrzOiO38B5Q4g1ObaXeQtuh9D8Ko6hsNtgNLO1suareqDlvD4ITWcO1JX3wUj4aPtRVWojuHjv+jDvFw30pFqI2k0QWCRkMQ0w7L8vtRK+H9wfELgy+EqyJLNdgyVsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761225826; c=relaxed/simple;
-	bh=UZJ7rtuDhf2dV+t2MpDDxignV1q/vjHFdxInnFmgxbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=buzh0Lx7gn+FMz/HFzk7vPdmP1cpEi8mCd41a+Ub0X9pRWYxakfgnjKsSIlpV6yezyuAM1uNghPH7XbIuzuddW4DYWTh/40PekewCjfPJbUqRbHmXbiDrJRnpyUMWOE5D1JorIWB9d+IcKZV+JxfML50B2LF6jJ5J10n+aI8nWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B01qGBel; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1761227127; c=relaxed/simple;
+	bh=YA7Kt8pC5KOUrSoBA+48+jFN6n0v2qJqLQXzjCFRm8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iPK3KnGPUUY53V9myZK/fuUvsgxwoRp28kZZlQ1gbXlfOMW/YR2ySy6T3PZIP8H4KwVOznvycrQAaaX2hnOctYIvWuxgWFJpg0X8AI6w67R9JyLIGnsqXW0CU1JORAkU0r5Mgu6UohNEuU4cHFNZXtWFAPlJE+IOfrxQ7I2arkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzGN5zkt; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B01qGBel"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzGN5zkt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761225824; x=1792761824;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UZJ7rtuDhf2dV+t2MpDDxignV1q/vjHFdxInnFmgxbg=;
-  b=B01qGBeld2r0c6+dxn7X3SwOLEPTqpc5izMC8ZMpLtBRZCRZSuvzE6hl
-   l3iVwSAuLKKkeZrsUcGdrzhTYMO+UM+K+qolPibyMl1UzWpmuh5NKqqNG
-   SL6GL5qRQOtTuVUEmllKFCcJyzPoJpcpbjhrGURmOW9E0KjIwbTA4ymPm
-   issWIT8Ex9F5SW5vp8LeWSwchhUCk+R17zzED4aV6Dq6P+JfAqgxxuvVY
-   GYk4mrMrY7omdVydycXIc+JCf7cLolHJqKXAS5qgd2Pgi/D6YDTbKNbsA
-   nR9UCcFrNk19f2E3BCqEUvQk88oH50luYYtEKf3sLgUQSyVO9Kjo9bjZv
-   w==;
-X-CSE-ConnectionGUID: w0iweLd6RSKuhgUEXxkanw==
-X-CSE-MsgGUID: T4jgmpPISciSSvue9utAHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62423276"
+  t=1761227126; x=1792763126;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YA7Kt8pC5KOUrSoBA+48+jFN6n0v2qJqLQXzjCFRm8U=;
+  b=lzGN5zktL/BmJAoXVrSnXekLHO594QeL7IAcDxwtNw3O5rH+q5ZLm3YL
+   N9LXZMqD5XJ0i6O6wbCv6eQJbStF5ZTzzAZMkm73oORKw+15GGTLMW3O1
+   R2m6SF1/VGwhbEPbLULpy118L9UTq1a6RM+gH+gHAttQu6ZOxnDIi3ZxZ
+   TKUxySUkSCSp4elQ2NYfir5/Vclfq4m9EY0vx79Yb4PDLFvRlV1zspvVP
+   3UrtQbCKhpnKj/LvIpQOtiTrTbJKF4glfhuuIu1mVXMBL96QaYJHXZjMm
+   +fyppOGs3z5Nr5/+cTYD3/HBReJG8SKqshBE0zTC4prOzx76epsQb5GGG
+   Q==;
+X-CSE-ConnectionGUID: Tr5L91rtQZqNIYoO7QC/5g==
+X-CSE-MsgGUID: XI264Bm8S7ewVzvULZogfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62425279"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="62423276"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 06:23:43 -0700
-X-CSE-ConnectionGUID: bL2DiRSvQQSnFiykPx9JpQ==
-X-CSE-MsgGUID: Zps6QcEdQ+iOkzg3PGwFSg==
+   d="scan'208";a="62425279"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 06:45:07 -0700
+X-CSE-ConnectionGUID: /7Ka4OjqQWqju0M3M2qCKw==
+X-CSE-MsgGUID: czAKOD8WQRChP2mR75BpbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="184546770"
+   d="scan'208";a="189422051"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Oct 2025 06:23:41 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Oct 2025 06:45:06 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBvHn-000DWX-0w;
-	Thu, 23 Oct 2025 13:23:29 +0000
-Date: Thu, 23 Oct 2025 21:22:27 +0800
+	id 1vBvcf-000DXd-0H;
+	Thu, 23 Oct 2025 13:44:58 +0000
+Date: Thu, 23 Oct 2025 21:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu,
-	axboe@kernel.dk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, bschubert@ddn.com,
-	asml.silence@gmail.com, io-uring@vger.kernel.org,
-	xiaobing.li@samsung.com
-Subject: Re: [PATCH v1 2/2] fuse: support io-uring registered buffers
-Message-ID: <202510232038.LOpSOOQa-lkp@intel.com>
-References: <20251022202021.3649586-3-joannelkoong@gmail.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 6/9]
+ samples/ftrace/ftrace-direct-multi.c:228:16: error: too few arguments to
+ function 'register_ftrace_direct'
+Message-ID: <202510232105.FcQpUN0T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,151 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022202021.3649586-3-joannelkoong@gmail.com>
 
-Hi Joanne,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mszeredi-fuse/for-next]
-[also build test ERROR on linus/master v6.18-rc2 next-20251023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/io-uring-add-io_uring_cmd_get_buffer_info/20251023-042601
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20251022202021.3649586-3-joannelkoong%40gmail.com
-patch subject: [PATCH v1 2/2] fuse: support io-uring registered buffers
-config: i386-buildonly-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232038.LOpSOOQa-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232038.LOpSOOQa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   3d31a310468694e4395d61e15c65edaa618fbb5c
+commit: 1e0ad55e88bddb17e85b4b7c4ba933f3b98ecca0 [6/9] ftrace: Use direct hash interface in direct functions
+config: x86_64-randconfig-121-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232105.FcQpUN0T-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232105.FcQpUN0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510232038.LOpSOOQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510232105.FcQpUN0T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from fs/fuse/dev.c:9:
->> fs/fuse/dev_uring_i.h:51:20: error: field has incomplete type 'struct iov_iter'
-      51 |                         struct iov_iter payload_iter;
-         |                                         ^
-   include/linux/fs.h:74:8: note: forward declaration of 'struct iov_iter'
-      74 | struct iov_iter;
-         |        ^
-   In file included from fs/fuse/dev.c:9:
-   fs/fuse/dev_uring_i.h:52:20: error: field has incomplete type 'struct iov_iter'
-      52 |                         struct iov_iter headers_iter;
-         |                                         ^
-   include/linux/fs.h:74:8: note: forward declaration of 'struct iov_iter'
-      74 | struct iov_iter;
-         |        ^
-   2 errors generated.
+   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_init':
+>> samples/ftrace/ftrace-direct-multi.c:228:16: error: too few arguments to function 'register_ftrace_direct'
+     228 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from samples/ftrace/ftrace-direct-multi.c:5:
+   include/linux/ftrace.h:539:5: note: declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_exit':
+>> samples/ftrace/ftrace-direct-multi.c:233:9: error: too few arguments to function 'unregister_ftrace_direct'
+     233 |         unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ftrace.h:540:5: note: declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_init':
+>> samples/ftrace/ftrace-direct-multi.c:229:1: warning: control reaches end of non-void function [-Wreturn-type]
+     229 | }
+         | ^
 --
-   In file included from fs/fuse/dev_uring.c:8:
->> fs/fuse/dev_uring_i.h:51:20: error: field has incomplete type 'struct iov_iter'
-      51 |                         struct iov_iter payload_iter;
-         |                                         ^
-   include/linux/fs.h:74:8: note: forward declaration of 'struct iov_iter'
-      74 | struct iov_iter;
-         |        ^
-   In file included from fs/fuse/dev_uring.c:8:
-   fs/fuse/dev_uring_i.h:52:20: error: field has incomplete type 'struct iov_iter'
-      52 |                         struct iov_iter headers_iter;
-         |                                         ^
-   include/linux/fs.h:74:8: note: forward declaration of 'struct iov_iter'
-      74 | struct iov_iter;
-         |        ^
->> fs/fuse/dev_uring.c:588:22: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     588 |         payload_iter = ent->fixed_buffer.payload_iter;
-         |                        ~~~  ^
-   fs/fuse/dev_uring.c:590:22: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     590 |         headers_iter = ent->fixed_buffer.headers_iter;
-         |                        ~~~  ^
->> fs/fuse/dev_uring.c:618:43: error: no member named 'user' in 'struct fuse_ring_ent'
-     618 |         err = copy_from_user(&ring_in_out, &ent->user.headers->ring_ent_in_out,
-         |                                             ~~~  ^
-   fs/fuse/dev_uring.c:623:38: error: no member named 'user' in 'struct fuse_ring_ent'
-     623 |         err = import_ubuf(ITER_SOURCE, ent->user.payload, ring->max_payload_sz,
-         |                                        ~~~  ^
-   fs/fuse/dev_uring.c:653:22: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     653 |         payload_iter = ent->fixed_buffer.payload_iter;
-         |                        ~~~  ^
-   fs/fuse/dev_uring.c:656:22: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     656 |         headers_iter = ent->fixed_buffer.headers_iter;
-         |                        ~~~  ^
-   fs/fuse/dev_uring.c:725:36: error: no member named 'user' in 'struct fuse_ring_ent'
-     725 |         err = import_ubuf(ITER_DEST, ent->user.payload, ring->max_payload_sz, &iter);
-         |                                      ~~~  ^
-   fs/fuse/dev_uring.c:741:29: error: no member named 'user' in 'struct fuse_ring_ent'
-     741 |                         err = copy_to_user(&ent->user.headers->op_in, in_args->value,
-         |                                             ~~~  ^
-   fs/fuse/dev_uring.c:762:27: error: no member named 'user' in 'struct fuse_ring_ent'
-     762 |         err = copy_to_user(&ent->user.headers->ring_ent_in_out, &ent_in_out,
-         |                             ~~~  ^
-   fs/fuse/dev_uring.c:797:39: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     797 |                 struct iov_iter headers_iter = ent->fixed_buffer.headers_iter;
-         |                                                ~~~  ^
-   fs/fuse/dev_uring.c:807:28: error: no member named 'user' in 'struct fuse_ring_ent'
-     807 |                 err = copy_to_user(&ent->user.headers->in_out, &req->in.h,
-         |                                     ~~~  ^
-   fs/fuse/dev_uring.c:936:39: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-     936 |                 struct iov_iter headers_iter = ent->fixed_buffer.headers_iter;
-         |                                                ~~~  ^
-   fs/fuse/dev_uring.c:944:43: error: no member named 'user' in 'struct fuse_ring_ent'
-     944 |                 err = copy_from_user(&req->out.h, &ent->user.headers->in_out,
-         |                                                    ~~~  ^
-   fs/fuse/dev_uring.c:1187:12: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-    1187 |                                         &ent->fixed_buffer.payload_iter, cmd, 0);
-         |                                          ~~~  ^
-   fs/fuse/dev_uring.c:1194:12: error: no member named 'fixed_buffer' in 'struct fuse_ring_ent'
-    1194 |                                         &ent->fixed_buffer.headers_iter, cmd, 0);
-         |                                          ~~~  ^
-   fs/fuse/dev_uring.c:1245:7: error: no member named 'user' in 'struct fuse_ring_ent'
-    1245 |         ent->user.headers = iov[0].iov_base;
-         |         ~~~  ^
-   fs/fuse/dev_uring.c:1246:7: error: no member named 'user' in 'struct fuse_ring_ent'
-    1246 |         ent->user.payload = iov[1].iov_base;
-         |         ~~~  ^
-   19 errors generated.
+   samples/ftrace/ftrace-direct-multi-modify.c: In function 'simple_thread':
+>> samples/ftrace/ftrace-direct-multi-modify.c:347:23: error: too few arguments to function 'modify_ftrace_direct'
+     347 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   In file included from samples/ftrace/ftrace-direct-multi-modify.c:4:
+   include/linux/ftrace.h:542:5: note: declared here
+     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
+         |     ^~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi-modify.c: In function 'ftrace_direct_multi_init':
+>> samples/ftrace/ftrace-direct-multi-modify.c:365:15: error: too few arguments to function 'register_ftrace_direct'
+     365 |         ret = register_ftrace_direct(&direct, my_tramp);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ftrace.h:539:5: note: declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi-modify.c: In function 'ftrace_direct_multi_exit':
+>> samples/ftrace/ftrace-direct-multi-modify.c:375:9: error: too few arguments to function 'unregister_ftrace_direct'
+     375 |         unregister_ftrace_direct(&direct, my_tramp, true);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ftrace.h:540:5: note: declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +51 fs/fuse/dev_uring_i.h
+vim +/register_ftrace_direct +228 samples/ftrace/ftrace-direct-multi.c
 
-    38	
-    39	/** A fuse ring entry, part of the ring queue */
-    40	struct fuse_ring_ent {
-    41		/* True if daemon has registered its buffers ahead of time */
-    42		bool is_fixed_buffer;
-    43		union {
-    44			/* userspace buffer */
-    45			struct {
-    46				struct fuse_uring_req_header __user *headers;
-    47				void __user *payload;
-    48			} user;
-    49	
-    50			struct {
-  > 51				struct iov_iter payload_iter;
-    52				struct iov_iter headers_iter;
-    53			} fixed_buffer;
-    54		};
-    55	
-    56		/* the ring queue that owns the request */
-    57		struct fuse_ring_queue *queue;
-    58	
-    59		/* fields below are protected by queue->lock */
-    60	
-    61		struct io_uring_cmd *cmd;
-    62	
-    63		struct list_head list;
-    64	
-    65		enum fuse_ring_req_state state;
-    66	
-    67		struct fuse_req *fuse_req;
-    68	};
-    69	
+5fae941b9a6f95 Jiri Olsa      2021-10-08  222  
+5fae941b9a6f95 Jiri Olsa      2021-10-08  223  static int __init ftrace_direct_multi_init(void)
+5fae941b9a6f95 Jiri Olsa      2021-10-08  224  {
+5fae941b9a6f95 Jiri Olsa      2021-10-08  225  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
+5fae941b9a6f95 Jiri Olsa      2021-10-08  226  	ftrace_set_filter_ip(&direct, (unsigned long) schedule, 0, 0);
+5fae941b9a6f95 Jiri Olsa      2021-10-08  227  
+da8bdfbd422333 Florent Revest 2023-03-21 @228  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+5fae941b9a6f95 Jiri Olsa      2021-10-08 @229  }
+5fae941b9a6f95 Jiri Olsa      2021-10-08  230  
+5fae941b9a6f95 Jiri Olsa      2021-10-08  231  static void __exit ftrace_direct_multi_exit(void)
+5fae941b9a6f95 Jiri Olsa      2021-10-08  232  {
+da8bdfbd422333 Florent Revest 2023-03-21 @233  	unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
+5fae941b9a6f95 Jiri Olsa      2021-10-08  234  }
+5fae941b9a6f95 Jiri Olsa      2021-10-08  235  
+
+:::::: The code at line 228 was first introduced by commit
+:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
+
+:::::: TO: Florent Revest <revest@chromium.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
