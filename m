@@ -1,136 +1,151 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9B34A3DA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 17:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECFF34A3DA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 17:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761241333; cv=none; b=BhxqZAWYQy5LaRt6ZCWIMWUHVdxX+L1ctBasjwef66yEmruqzxQjL9dYsY6na0sicfmgpjGY7XrGUfP1vnOhr4i0vRQvjnmogGaMEpjh4FmR6qY6X1RvPQniUtRW52xlZ++tZXgd8SCK4h/m/2vJ47j2r6F2u3WJ/1MSeSDk0Cc=
+	t=1761241440; cv=none; b=rNLefCi5sn1JQSkDRjfbym6m/I4dhGIpPsVDqBsyrHAEVFSotxDzWtj/wunZQPc91TEekifjM+uvSv3OTV2vj9/5eeCXrtXOQQsinxJ1NgU1UiBRQwmUjPqAmIrenqvkoUtF2BjkleXFB/C8VMSTHKkc5F3paGRGM3WGwkuijMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761241333; c=relaxed/simple;
-	bh=PYcQKEYaNNgr4v4S9nNndeYvxlEoxFnd8ONcOz503ao=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vg50O02W8T3H9QBE0G7AEzvitqAc4KdVeZP4tXlrOV21VmPiaKqCOT7d7Oxi+BESo0kiSO02YQy6vZLVvr7nCs1elq8mhq6OafMPtq/dpazslZ00vRxsK8GcUPQPL02a7ls4s3eSfOl+U98oxGyZ70yTJ5Z5IiAesNv6zZBe8mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bv+j79bh; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761241440; c=relaxed/simple;
+	bh=OPmFaWma6y4YW8vwhdFuBehBTVgNJVOFP3M1cphhH8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tp1NnnQutZluU5RY23xLS0JDkJt3tlyy+Jij2QJ9hHiDtpx1NmKWohyymxiYn0vT0t+FjgnApSC6Ek6UXozrnoZVNs001NrPcmD32RIF05Napa5Fa8Mxxz+93Y5gVtYWOHM0EeKrClmLehw0FG+ZpKfAM/C7cov0+8YL4v/u+xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJmPMkjd; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bv+j79bh"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4e887152679so9777761cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 10:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761241331; x=1761846131; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4seA+HI4M9DYT+ZaTto7qe0lK31pOsptA4eC1KcJc3Y=;
-        b=bv+j79bhaiZEjfbLJpkUxXXkKBJKnVGf8bb3wXJYqEDgOV3weW0vdDyG0fCRbBoVf2
-         Ith8l5h8Po1NeVQNq8fGzj1ILiUiSJcLxxwQk0sxZu7Me6+gMLo9b8NJOrTYMoGKQHyL
-         sC1QMKQe/HR3TScqynSdGdjEEfsyIiEOtwHedS2WX/aHMvV34q3/VxNHBQJyTZwPD8p4
-         xX/TYDKnofS+aNC+Vb/tgGfPku5h1GgIH7gvSp7bYpx4ZQKzkMjdaTDZnjMUBR7UaZ2V
-         oE20NKLMZit4SIiUvqgEnbWjSvXT5okHTDq1zVBXSdWa3K59ngK2089CZ+G7Dg5tH8p0
-         2CnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761241331; x=1761846131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4seA+HI4M9DYT+ZaTto7qe0lK31pOsptA4eC1KcJc3Y=;
-        b=aHl+CrSXVHU5BGANNrqC4yI9Z+PYycdaC0la+zwvCKGZO/XbdTlQiJWbgsR7Y2wgQX
-         Uo5RNC1fYQ7uxGNnyPYj3q2Ug4BHKY20kSyoCNcoCKBILDeUWn5pt1JRDWK3uGefgDvt
-         VpdyoKKLCoIwGBfUWFjnggY5vpfL+IflcoWkNUZh4/86LotuJGNObxgVbsx/MfzqJN3A
-         XoDAPINND2WFOB8B33Dluvns7GF0aBE302JmkWFxeNzhywF6MZ5wezW8ww+W27Nqb+9I
-         nvX3vatw+hv+YNBOdV52Cejc78jXXqqaWQ26ogYCcKCZllAuJoOhvKcyjF1uqF8967Yj
-         3/Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCXfafXZxEuW2cQoOSfSgme00K1HKjKi+ZdGqZdWeM6j7zweprAmfqSRBBNRm4wR+ljRfpewGx/Do/YLKLsz@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKC/P+8z7ZQgyPN5oicVRmcru8eKhu1pN+AQMeVHyXRrjlgxDp
-	GMxPrrxVcaycV8QykommPuXyB2WPx8bezOeYC443vMoG789ODiP7kQe3wLKppUfyiSHYcZlaoVx
-	60HdOpX0UubPCpli3Knk5di0SPZ8NcDg=
-X-Gm-Gg: ASbGncuvEb5QR5FsshLHGoFNHSbwDNMWoZcN2C8LSd2gympx/TkyBd7uKDBsFzSh5+R
-	2dzk7S7/Ss8TTPfMUpLhKiXA8mR9YfRz+pkGyjKW/cSzd7n8jsbFhnaLQVgLQLrDiwy4e7H1TlU
-	pm1n6KOOd0NDn5gtCSMmBUPhlc8eJFk1o2HxfAkPCID0cG5PKuXwE+3K4KDZshKhTc5u8I+ITUB
-	Ybu1mJohaiEemRhUI7VErHQSgQ2fcsaOi0B1sk8anMBxsUZnCV5c5L+1sSijvj4NMUyzCYHkODL
-	B8R+FIGPYHXRgv4=
-X-Google-Smtp-Source: AGHT+IGYUuso1wFbBlLzlxrBDhKNZB5fvUBjAyfkvZne5zRw/oAvLVqArsWiIODnGqRp88IRvA204zsjZ+T3SghE1I4=
-X-Received: by 2002:a05:622a:1392:b0:4d6:c73f:de88 with SMTP id
- d75a77b69052e-4eb732d317emr110436861cf.3.1761241331136; Thu, 23 Oct 2025
- 10:42:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJmPMkjd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761241439; x=1792777439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OPmFaWma6y4YW8vwhdFuBehBTVgNJVOFP3M1cphhH8g=;
+  b=PJmPMkjdcO15/BdfueZCJ7leukYo7dCt/GCngtRty18U4yHjm6QJGJtI
+   BOx1iDe4Qg0RcUYtY+1r+XlgWoqnb4IX34xGC6CSmsdEk05r3g60+5WVo
+   tCiLK3bK19A9aFvKxw5iXGbKOmyTVQhcOnzthYQuoDloywRg7PTvNXxm0
+   ACiVu6dGT3wBOKl41C8KiPaIy9FH4fGWt1o+GZX94XAJtUmI2U00vARoB
+   +jwHo0aa9Ex0H6RNYbWUKz9bggMUc7qzM60b/GzXuHEyf/jnn8ganNMWn
+   z/oPOtbeXpdxULAWx0RUHPUD3JCFHEEbgnb/UYVtjzhVNYL3y66ybN0VZ
+   g==;
+X-CSE-ConnectionGUID: 3KZkRuKpRnWZ0uoBSRjSow==
+X-CSE-MsgGUID: YLIZvRxuT1ycEEAL07Uing==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74765395"
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="74765395"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 10:43:55 -0700
+X-CSE-ConnectionGUID: gCMptSLHQvGzxmqyUN3+eA==
+X-CSE-MsgGUID: jjGlo5O6SB6ztosuZedC5A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
+   d="scan'208";a="184116064"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 23 Oct 2025 10:43:52 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBzL6-000DkT-1T;
+	Thu, 23 Oct 2025 17:43:50 +0000
+Date: Fri, 24 Oct 2025 01:41:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+	jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+	troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org, lizhi.hou@amd.com,
+	karol.wachowski@linux.intel.com, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] accel/qaic: Add DMA Bridge Channel(DBC) sysfs and
+ uevents
+Message-ID: <202510240118.dkdhMpfy-lkp@intel.com>
+References: <20251022202527.3873558-2-youssef.abdulrahman@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251022202021.3649586-3-joannelkoong@gmail.com> <202510232038.LOpSOOQa-lkp@intel.com>
-In-Reply-To: <202510232038.LOpSOOQa-lkp@intel.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 23 Oct 2025 10:42:00 -0700
-X-Gm-Features: AS18NWA9peuK7QugY6JLjKXBNkxaqO8WfrQsHaG3gveX1ZXIjyuXAfTMF8nltv0
-Message-ID: <CAJnrk1Z-FzeXhse762dV7NpSexCcP-xcUSQ+2uviG81HWFdjZQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] fuse: support io-uring registered buffers
-To: kernel test robot <lkp@intel.com>
-Cc: miklos@szeredi.hu, axboe@kernel.dk, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	bschubert@ddn.com, asml.silence@gmail.com, io-uring@vger.kernel.org, 
-	xiaobing.li@samsung.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022202527.3873558-2-youssef.abdulrahman@oss.qualcomm.com>
 
-On Thu, Oct 23, 2025 at 6:23=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Joanne,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on mszeredi-fuse/for-next]
-> [also build test ERROR on linus/master v6.18-rc2 next-20251023]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/io-ur=
-ing-add-io_uring_cmd_get_buffer_info/20251023-042601
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git=
- for-next
-> patch link:    https://lore.kernel.org/r/20251022202021.3649586-3-joannel=
-koong%40gmail.com
-> patch subject: [PATCH v1 2/2] fuse: support io-uring registered buffers
-> config: i386-buildonly-randconfig-002-20251023 (https://download.01.org/0=
-day-ci/archive/20251023/202510232038.LOpSOOQa-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251023/202510232038.LOpSOOQa-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510232038.LOpSOOQa-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from fs/fuse/dev.c:9:
-> >> fs/fuse/dev_uring_i.h:51:20: error: field has incomplete type 'struct =
-iov_iter'
->       51 |                         struct iov_iter payload_iter;
->          |                                         ^
->    include/linux/fs.h:74:8: note: forward declaration of 'struct iov_iter=
-'
->       74 | struct iov_iter;
->          |        ^
->    In file included from fs/fuse/dev.c:9:
->    fs/fuse/dev_uring_i.h:52:20: error: field has incomplete type 'struct =
-iov_iter'
->       52 |                         struct iov_iter headers_iter;
+Hi Youssef,
 
-Ahh okay, I tried building with the linked config
-(i386-buildonly-randconfig-002-20251023) and it indeed fails :(
+kernel test robot noticed the following build warnings:
 
-It needs a "#include <linux/uio.h>" added to the dev_uring_i.h file.
-I'll add that in for v2.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.18-rc2 next-20251023]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks,
-Joanne
+url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Add-DMA-Bridge-Channel-DBC-sysfs-and-uevents/20251023-042723
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251022202527.3873558-2-youssef.abdulrahman%40oss.qualcomm.com
+patch subject: [PATCH 1/3] accel/qaic: Add DMA Bridge Channel(DBC) sysfs and uevents
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251024/202510240118.dkdhMpfy-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240118.dkdhMpfy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240118.dkdhMpfy-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/accel/qaic/qaic_sysfs.c: In function 'qaic_sysfs_init':
+>> drivers/accel/qaic/qaic_sysfs.c:74:58: warning: '_state' directive output may be truncated writing 6 bytes into a region of size between 3 and 10 [-Wformat-truncation=]
+      74 |                 snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
+         |                                                          ^~~~~~
+   drivers/accel/qaic/qaic_sysfs.c:74:17: note: 'snprintf' output between 11 and 18 bytes into a destination of size 14
+      74 |                 snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/_state +74 drivers/accel/qaic/qaic_sysfs.c
+
+    56	
+    57	int qaic_sysfs_init(struct qaic_drm_device *qddev)
+    58	{
+    59		struct device *kdev = to_accel_kdev(qddev);
+    60		struct drm_device *drm = to_drm(qddev);
+    61		u32 num_dbc = qddev->qdev->num_dbc;
+    62		struct dbc_attribute *dbc_attrs;
+    63		int i, ret;
+    64	
+    65		dbc_attrs = drmm_kcalloc(drm, num_dbc, sizeof(*dbc_attrs), GFP_KERNEL);
+    66		if (!dbc_attrs)
+    67			return -ENOMEM;
+    68	
+    69		for (i = 0; i < num_dbc; ++i) {
+    70			struct dbc_attribute *dbc_attr = &dbc_attrs[i];
+    71	
+    72			sysfs_attr_init(&dbc_attr->dev_attr.attr);
+    73			dbc_attr->dbc_id = i;
+  > 74			snprintf(dbc_attr->name, NAME_LEN, "dbc%d_state", i);
+    75			dbc_attr->dev_attr.attr.name = dbc_attr->name;
+    76			dbc_attr->dev_attr.attr.mode = 0444;
+    77			dbc_attr->dev_attr.show = dbc_state_show;
+    78			ret = sysfs_create_file(&kdev->kobj, &dbc_attr->dev_attr.attr);
+    79			if (ret) {
+    80				int j;
+    81	
+    82				for (j = 0; j < i; ++j) {
+    83					dbc_attr = &dbc_attrs[j];
+    84					sysfs_remove_file(&kdev->kobj, &dbc_attr->dev_attr.attr);
+    85				}
+    86				drmm_kfree(drm, dbc_attrs);
+    87				return ret;
+    88			}
+    89		}
+    90	
+    91		qddev->sysfs_attrs = dbc_attrs;
+    92		return 0;
+    93	}
+    94	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
