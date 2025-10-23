@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD05F2E7BB5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 08:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9621A2F6196
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 08:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761206472; cv=none; b=oW0Dj27nbE62ot/+KS7nQdEQBr6EKR70KwSGd/zvOFpTbX2hR/s0ftoU4hKwkU6IuiZ0OD7saGNP+8LQWAaoZy8tpnP2rPPmUbC4kVcnJCbJJRJtsVbqWHc0t7Py2CL/2g+2E5sVpmLlp+2bHHwzZPbkdipz+VGPmCzKsvGDRpY=
+	t=1761207714; cv=none; b=BrhUi39z8CqckQzXBB615Ej6AD1vgAjyVCgEXU39oZizI11twcZWYuru/sSz2GSWgwcuDsw8HlNOGI7ZP23ig2ALe4uOEoT0EXMjkQbM0iR/irhZ61mTcKuwMFAYyMAIo/vq7xB+xb5IZUFWjnYFmgC54CQo1g99e+cNF80dGBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761206472; c=relaxed/simple;
-	bh=ZydozbmgPLq8AVxYg8aDZrqtuVJ7n0hdK5WmuyxFvrg=;
+	s=arc-20240116; t=1761207714; c=relaxed/simple;
+	bh=/E1sQuNPaPZp7hBq/8fuhzRLo17fCO+C4j5DYCQQ19k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lli4mIMdmiB1hP0jRQnCPLNPVzOXaXFa2/H0miUZz3uq+mUTQXhMtFPEEV2qWEmUKKck3Fq1WFl5NTsqCV04gYD+fotes8QeRPrXptTOv2ji16QgK29pvLE0oxIclMReTnrUBzUUEyZuYbPs72XM8Yf8uRiiI7K7Txvz+SGlUkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXIz4FRh; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=W8Uv/fMk2IzVJ+KQRDkxpUFhq0wvobqo64YjNyAREPZ87U0Bkmf7mO6TawOo8m9c5EYjIdcFCOPtpIa3HvD1seZJ1jnoWpAdH4SLfjH8Dn8BKNaaxDSZCO7+8a9UlcQVsm1FLw3sQaVprLxvKYWlZy79u1CfDFsdlVTo0jNOFvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LkpULVvd; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXIz4FRh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LkpULVvd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761206469; x=1792742469;
+  t=1761207710; x=1792743710;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZydozbmgPLq8AVxYg8aDZrqtuVJ7n0hdK5WmuyxFvrg=;
-  b=nXIz4FRh5tgQxlBpvOdzXEo+YJHWlyISrvbjn03AZn7woO7bJmbIxOrJ
-   ioAZCqdXs92XfOw6UORV5mD7Kf9XdBviPeEzZj0SO6clupZrliLLoFE5/
-   RUF/SnMT82AOO1m59Bu0INtFn74Kv5MjDmkofTF4Ga8A2fr1cBK4l3O16
-   yvHhwdp7yXzY1MPQ5dNgqq3Avndg8eMROozWwpe7RB+iVfljSRnI2YspD
-   sSr4m6cuGjA7LS+gKJYLZhNvLxDpUZvjxueTZQgLwBa9hQAJl17GA06uD
-   Zukl99C5YvyWQYeVDAoCQxgwbAFhNpSo/NPczVHr8hzacu1Kya/KsKOqG
-   A==;
-X-CSE-ConnectionGUID: lH2rA7ZhSjixZ/OMNNcr3Q==
-X-CSE-MsgGUID: /VGZ/c6mQQ6SLSB4K9Vpwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73659154"
+  bh=/E1sQuNPaPZp7hBq/8fuhzRLo17fCO+C4j5DYCQQ19k=;
+  b=LkpULVvd5+hFXXpp0bGUhIwGP86Oz1Gky6e2byGKr9/CV9UU3D2/AGQh
+   Nioe1Az5K3y45w3djFQiZT1IXzKdKinmLIXD5JyQue33hNcytx0ndcEys
+   6IYsklWxL7x6yT0F4XZdOoULYp03RLqUwumSSYV7M9VEWBxJuhCfLrt95
+   v8ttAHScQ6Ai46erW0m35DR4MVwxfaN0Ucf9knQMe7MmWLnwLJ2grkw+s
+   nVcklbB9KJzP7JmFc0w/CVjWEcRIy5KHdpDL3Bei8ExOwfsq4cKOtXqwW
+   njiWLeOWm87RCKhPtUrdmFbAqzvZ+03JGDrRPSg6TMtpK8lHg4pE1Q/6U
+   Q==;
+X-CSE-ConnectionGUID: mpVj591dTTGR7ytDLChzjQ==
+X-CSE-MsgGUID: ZgSBmXpaTJuypSPf/KGdNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74808582"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="73659154"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 01:01:07 -0700
-X-CSE-ConnectionGUID: wkJwsX+6RWewVCE79AmOQA==
-X-CSE-MsgGUID: Z5g+asX/RFixgjRoMgAqtQ==
+   d="scan'208";a="74808582"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 01:21:48 -0700
+X-CSE-ConnectionGUID: xFd1dy89TxmdDpLa2cm4fw==
+X-CSE-MsgGUID: y5GFyevTS/yt/zyeQqwfkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="183312848"
+   d="scan'208";a="207753247"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2025 01:01:04 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Oct 2025 01:21:46 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBqFF-000DCH-37;
-	Thu, 23 Oct 2025 08:00:47 +0000
-Date: Thu, 23 Oct 2025 15:59:49 +0800
+	id 1vBqZr-000DDl-2m;
+	Thu, 23 Oct 2025 08:21:43 +0000
+Date: Thu, 23 Oct 2025 16:21:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 05/14] dma-buf: inline spinlock for fence protection
-Message-ID: <202510231511.5ygfBC91-lkp@intel.com>
-References: <20251023040800.970283-6-matthew.brost@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	amd-gfx@lists.freedesktop.org, corbet@lwn.net, rafael@kernel.org,
+	gregkh@linuxfoundation.org, dakr@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/2] PM: Allow device drivers to manage the frozen state
+ of a device
+Message-ID: <202510231647.os6nFPgQ-lkp@intel.com>
+References: <20251022155114.48418-2-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,130 +68,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251023040800.970283-6-matthew.brost@intel.com>
+In-Reply-To: <20251022155114.48418-2-mario.limonciello@amd.com>
 
-Hi Matthew,
+Hi Mario,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc2 next-20251023]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.18-rc2 next-20251023]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/dma-buf-cleanup-dma_fence_describe/20251023-121819
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20251023040800.970283-6-matthew.brost%40intel.com
-patch subject: [RFC PATCH 05/14] dma-buf: inline spinlock for fence protection
-config: x86_64-buildonly-randconfig-004-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231511.5ygfBC91-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231511.5ygfBC91-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PM-Allow-device-drivers-to-manage-the-frozen-state-of-a-device/20251022-235319
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20251022155114.48418-2-mario.limonciello%40amd.com
+patch subject: [PATCH 1/2] PM: Allow device drivers to manage the frozen state of a device
+config: riscv-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231647.os6nFPgQ-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231647.os6nFPgQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231511.5ygfBC91-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231647.os6nFPgQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:108,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from include/linux/kthread.h:6,
-                    from drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:6:
-   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c: In function '__dma_fence_signal__notify':
->> drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:149:34: error: 'struct dma_fence' has no member named 'lock'
-     149 |         lockdep_assert_held(fence->lock);
-         |                                  ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |         ^~~~~~~~~~~~~~
-   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |                        ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:149:9: note: in expansion of macro 'lockdep_assert_held'
-     149 |         lockdep_assert_held(fence->lock);
-         |         ^~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/debugobjects.h:6,
-                    from drivers/gpu/drm/i915/i915_active.c:7:
-   drivers/gpu/drm/i915/i915_active.c: In function '__i915_active_fence_set':
->> drivers/gpu/drm/i915/i915_active.c:1048:32: error: 'struct dma_fence' has no member named 'lock'
-    1048 |         spin_lock_irqsave(fence->lock, flags);
-         |                                ^~
-   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1048:9: note: in expansion of macro 'spin_lock_irqsave'
-    1048 |         spin_lock_irqsave(fence->lock, flags);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1050:38: error: 'struct dma_fence' has no member named 'lock'
-    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                                      ^~
-   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
-     221 |         _raw_spin_lock_nested(lock, subclass)
-         |                               ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1050:17: note: in expansion of macro 'spin_lock_nested'
-    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1064:41: error: 'struct dma_fence' has no member named 'lock'
-    1064 |                         spin_unlock(prev->lock);
-         |                                         ^~
-   drivers/gpu/drm/i915/i915_active.c:1067:45: error: 'struct dma_fence' has no member named 'lock'
-    1067 |                 spin_unlock_irqrestore(fence->lock, flags);
-         |                                             ^~
-   drivers/gpu/drm/i915/i915_active.c:1072:40: error: 'struct dma_fence' has no member named 'lock'
-    1072 |                 spin_lock_irqsave(fence->lock, flags);
-         |                                        ^~
-   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1072:17: note: in expansion of macro 'spin_lock_irqsave'
-    1072 |                 spin_lock_irqsave(fence->lock, flags);
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1074:46: error: 'struct dma_fence' has no member named 'lock'
-    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                                              ^~
-   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
-     221 |         _raw_spin_lock_nested(lock, subclass)
-         |                               ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1074:25: note: in expansion of macro 'spin_lock_nested'
-    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                         ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1091:33: error: 'struct dma_fence' has no member named 'lock'
-    1091 |                 spin_unlock(prev->lock); /* serialise with prev->cb_list */
-         |                                 ^~
-   drivers/gpu/drm/i915/i915_active.c:1094:37: error: 'struct dma_fence' has no member named 'lock'
-    1094 |         spin_unlock_irqrestore(fence->lock, flags);
-         |                                     ^~
+   drivers/base/power/main.c: In function 'device_resume':
+>> drivers/base/power/main.c:1114:25: error: 'struct dev_pm_info' has no member named 'is_frozen'
+     if (error && dev->power.is_frozen) {
+                            ^
 
 
-vim +149 drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+vim +1114 drivers/base/power/main.c
 
-0152b3b3f49b36 Chris Wilson 2019-05-08  142  
-0152b3b3f49b36 Chris Wilson 2019-05-08  143  static void
-f2cb60e9a3881e Chris Wilson 2019-08-17  144  __dma_fence_signal__notify(struct dma_fence *fence,
-f2cb60e9a3881e Chris Wilson 2019-08-17  145  			   const struct list_head *list)
-0152b3b3f49b36 Chris Wilson 2019-05-08  146  {
-0152b3b3f49b36 Chris Wilson 2019-05-08  147  	struct dma_fence_cb *cur, *tmp;
-0152b3b3f49b36 Chris Wilson 2019-05-08  148  
-0152b3b3f49b36 Chris Wilson 2019-05-08 @149  	lockdep_assert_held(fence->lock);
-0152b3b3f49b36 Chris Wilson 2019-05-08  150  
-f2cb60e9a3881e Chris Wilson 2019-08-17  151  	list_for_each_entry_safe(cur, tmp, list, node) {
-0152b3b3f49b36 Chris Wilson 2019-05-08  152  		INIT_LIST_HEAD(&cur->node);
-0152b3b3f49b36 Chris Wilson 2019-05-08  153  		cur->func(fence, cur);
-0152b3b3f49b36 Chris Wilson 2019-05-08  154  	}
-0152b3b3f49b36 Chris Wilson 2019-05-08  155  }
-0152b3b3f49b36 Chris Wilson 2019-05-08  156  
+  1026	
+  1027	/**
+  1028	 * device_resume - Execute "resume" callbacks for given device.
+  1029	 * @dev: Device to handle.
+  1030	 * @state: PM transition of the system being carried out.
+  1031	 * @async: If true, the device is being resumed asynchronously.
+  1032	 */
+  1033	static void device_resume(struct device *dev, pm_message_t state, bool async)
+  1034	{
+  1035		pm_callback_t callback = NULL;
+  1036		const char *info = NULL;
+  1037		int error = 0;
+  1038		DECLARE_DPM_WATCHDOG_ON_STACK(wd);
+  1039	
+  1040		TRACE_DEVICE(dev);
+  1041		TRACE_RESUME(0);
+  1042	
+  1043		if (dev->power.syscore)
+  1044			goto Complete;
+  1045	
+  1046		if (!dev->power.is_suspended)
+  1047			goto Complete;
+  1048	
+  1049		dev->power.is_suspended = false;
+  1050	
+  1051		if (dev->power.direct_complete) {
+  1052			/*
+  1053			 * Allow new children to be added under the device after this
+  1054			 * point if it has no PM callbacks.
+  1055			 */
+  1056			if (dev->power.no_pm_callbacks)
+  1057				dev->power.is_prepared = false;
+  1058	
+  1059			/* Match the pm_runtime_disable() in device_suspend(). */
+  1060			pm_runtime_enable(dev);
+  1061			goto Complete;
+  1062		}
+  1063	
+  1064		if (!dpm_wait_for_superior(dev, async))
+  1065			goto Complete;
+  1066	
+  1067		dpm_watchdog_set(&wd, dev);
+  1068		device_lock(dev);
+  1069	
+  1070		/*
+  1071		 * This is a fib.  But we'll allow new children to be added below
+  1072		 * a resumed device, even if the device hasn't been completed yet.
+  1073		 */
+  1074		dev->power.is_prepared = false;
+  1075	
+  1076		if (dev->pm_domain) {
+  1077			info = "power domain ";
+  1078			callback = pm_op(&dev->pm_domain->ops, state);
+  1079			goto Driver;
+  1080		}
+  1081	
+  1082		if (dev->type && dev->type->pm) {
+  1083			info = "type ";
+  1084			callback = pm_op(dev->type->pm, state);
+  1085			goto Driver;
+  1086		}
+  1087	
+  1088		if (dev->class && dev->class->pm) {
+  1089			info = "class ";
+  1090			callback = pm_op(dev->class->pm, state);
+  1091			goto Driver;
+  1092		}
+  1093	
+  1094		if (dev->bus) {
+  1095			if (dev->bus->pm) {
+  1096				info = "bus ";
+  1097				callback = pm_op(dev->bus->pm, state);
+  1098			} else if (dev->bus->resume) {
+  1099				info = "legacy bus ";
+  1100				callback = dev->bus->resume;
+  1101				goto End;
+  1102			}
+  1103		}
+  1104	
+  1105	 Driver:
+  1106		if (!callback && dev->driver && dev->driver->pm) {
+  1107			info = "driver ";
+  1108			callback = pm_op(dev->driver->pm, state);
+  1109		}
+  1110	
+  1111	 End:
+  1112		error = dpm_run_callback(callback, dev, state, info);
+  1113		/* device manages frozen state */
+> 1114		if (error && dev->power.is_frozen) {
+  1115			dev->power.is_suspended = true;
+  1116			error = 0;
+  1117		}
+  1118	
+  1119		device_unlock(dev);
+  1120		dpm_watchdog_clear(&wd);
+  1121	
+  1122	 Complete:
+  1123		complete_all(&dev->power.completion);
+  1124	
+  1125		TRACE_RESUME(error);
+  1126	
+  1127		if (error) {
+  1128			WRITE_ONCE(async_error, error);
+  1129			dpm_save_failed_dev(dev_name(dev));
+  1130			pm_dev_err(dev, state, async ? " async" : "", error);
+  1131		}
+  1132	
+  1133		dpm_async_resume_subordinate(dev, async_resume);
+  1134	}
+  1135	
 
 -- 
 0-DAY CI Kernel Test Service
