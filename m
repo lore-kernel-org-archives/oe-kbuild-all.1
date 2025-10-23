@@ -1,183 +1,192 @@
-Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9541285CB8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 06:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.156.171.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4F4299929
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 07:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761202623; cv=none; b=nNSc+pe0SAJwWGLtzw0fg3e08l3vjvL3FHNsjmfLil3MCslsVGcHBh25ZHMAwSxQ547N/USXTlvacXPFEjkG+g5lnHx+pRRo6ewGMTnumeEWKfRUwGETOrPYvi99rjiUd8PEucAN5yuwD3ZblxvIncyNfCPMiBQYu0O0XgzUTpM=
+	t=1761203283; cv=none; b=QJzfqPC6GoOvmeu0EO15qU3+MMLKo8VHAgIlcksiW5K4i776rnTdqUqaXJtZk+uXxPQI2luvU0qMx92YJ585kCVE4oMsT28KQmfbzKEJl4LM7pfz708EfKMWXRWGUQO+jLKczW4WsmY53cvKQU6SDWgrH9aLmt8bYGvQrnplLYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761202623; c=relaxed/simple;
-	bh=gSjnScR02V4S8DYfAOXlQG7AHQ0VZOuy0vgD6CF7/Wc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PIgLb0xKEaVCvGnmRVNlgY/A1M/arxE7U0/vAt4GNJc1V7es0trwzUxZwGhdsRSlgbZYZra0KgYOg8+nO/v0qYpcX3HLszcHoFewSb/5lL8ldlFZt1Y55xXgkxIUf78DzWnFORhWaxDlYP5CzUHLy6L6wFSVwm3Pqko8Cwa53zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Xk+YbRYq; arc=none smtp.client-ip=178.156.171.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1761203283; c=relaxed/simple;
+	bh=kK6M8TfDO2RaHHgHYKn+EG0Hn+158IIE614bhzsZoSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ShkFuTNF5x+nMtaUZsKIj3/lhWqmk7awcZpSjH3rBxxDudY4r1AfrwGcbTfMR77ecvc2LqrHmAXq95N73fcgOafqSMLaX7UR2Nv3wTjabLaRVDUPvDAj6lc3EFff2/LJbWA98aGmSSzynip+js9ZeYuuQpUt947qak8MUblTjYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkcPiltY; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Xk+YbRYq"
-Received: from relay13 (localhost [127.0.0.1])
-	by relay13.grserver.gr (Proxmox) with ESMTP id BD9495E623
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 09:56:53 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay13.grserver.gr (Proxmox) with ESMTPS id DFF4B5E586
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 09:56:51 +0300 (EEST)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id BF368201B7C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 09:56:50 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1761202611;
-	bh=778AAfPAeLmP3Ine3jLlCZ7+L5aBSPJLRaC3Bdozzpg=;
-	h=Received:From:Subject:To;
-	b=Xk+YbRYqGLB+86PNIs9Zq03TnhsBeQgGTU3yslCC8lhKXNV51wr2Os2aWPClfR7kv
-	 fCAPto/A7EzqhJfARjmhacs2oQfsIMISbh0wjAGXlIu79EThOhUjwG3fLcC724I6UH
-	 u3CfF21McRhRtahmzygSFpviy/uNKSoQe+b+FqWSANbMt5+U5NxB1q9TrnRG268QaU
-	 Osk0+d90RMlkkRMbPU8H11B49GN+uUflawXQBqz96oZVirby3+iDwHHox2Wd2vv7/n
-	 MP69GJUvItFFtYrNXoJDn6lGDWq6ALkLPbcsNkt1PKsEjSZ0u6bOKjZeI8Ew0FMu6O
-	 xgxnxwsXS67Rw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.167.48) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lf1-f48.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-592f600acb3so475678e87.2
-        for <oe-kbuild-all@lists.linux.dev>;
- Wed, 22 Oct 2025 23:56:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiMkWFVNjgcVVoNHrqUtVZV0LsfDUZVm/E3tNLeejz1d4dQyBx3cSze04K8uSf5o8Rk0YI5/yEVS89oQ/M@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUEOIrd92XgZdxEWYnNHV2gs8+PX+My1P0Pe9ZtB7BjlDr6o5s
-	6Lrjw+R7+Db7Gbky3mzGoqs2GkuteQriR8YQ0mnmLRVxHMc8vATz4ZFKXo3KZZ62Wf7epel0VX3
-	TvnmWzILJ80bY679WhvSh9YEQEjdY3BE=
-X-Google-Smtp-Source: 
- AGHT+IFO/7PZLoDhDWs+FcqHXfC/yTXf9/+SGznP7sA2dRey8Da8zaXRQEhBHak9pTbVneTzKO0CtYnoUah1FtRNe3U=
-X-Received: by 2002:a05:651c:507:b0:372:9d94:8697 with SMTP id
- 38308e7fff4ca-378d6f8729bmr3510971fa.44.1761202610101; Wed, 22 Oct 2025
- 23:56:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkcPiltY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761203279; x=1792739279;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kK6M8TfDO2RaHHgHYKn+EG0Hn+158IIE614bhzsZoSs=;
+  b=EkcPiltY1X2RASW4+1Kd1mGZof8YU+YlU3XmFpSoBJPHPkupkv7jymCt
+   znBmFE+3mdO7xET082Jewl5LJ6NptjjIIpuBvAABfgtnuRPCsMbwAn1Zn
+   AkL5Y72XPVLqZ5mlWuqltMpnk/YbF0SraNpG0zNEpLXz7Z6BLNSyUppK1
+   hZvG4BkuQKnWbMLzrGBhfSHE1RIhae5h9INnho9C500emkNjvdWYjAZ0m
+   vWqyJPTHJxe3n/iOzWzcS8pYdtLOf41vO5u5iyicSO0EpJ+tUdpxJ+DBW
+   od2qSjzSAD3wQYdbaNaChZJp/WyCp0iXxTYRQFxX7xsY+ACXnpMQdixMx
+   w==;
+X-CSE-ConnectionGUID: 5/ftdrm2RJy3fTTswJ5jzA==
+X-CSE-MsgGUID: ykaWmrPqSqWUJgW2CZaJtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="65978221"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="65978221"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 00:07:58 -0700
+X-CSE-ConnectionGUID: r/VYHjBUSKO6QsDFv0NZzQ==
+X-CSE-MsgGUID: YnzmPAk4QdWDd/HlEA9J3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="207738011"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Oct 2025 00:07:57 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vBpQQ-000D8N-17;
+	Thu, 23 Oct 2025 07:07:54 +0000
+Date: Thu, 23 Oct 2025 15:07:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:b4/sheaves-for-all 21/21] mm/slub.c:8749:10: error:
+ 'free_frozen_attr' undeclared here (not in a function); did you mean
+ 'free_frozen_pages'?
+Message-ID: <202510231434.feQhR7gy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251018101759.4089-6-lkml@antheas.dev>
- <202510222013.EBLC609m-lkp@intel.com>
-In-Reply-To: <202510222013.EBLC609m-lkp@intel.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 23 Oct 2025 08:56:37 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
-X-Gm-Features: AS18NWDd23NLIOTVOY058aR91_4SrQH2cNUKcz3swTq1pi3O6MGGrLrEkyO9gzg
-Message-ID: 
- <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
-Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
- kbd led handlers
-To: kernel test robot <lkp@intel.com>
-Cc: platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
-	Corentin Chary <corentin.chary@gmail.com>,
- "Luke D . Jones" <luke@ljones.dev>,
-	Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Denis Benato <benato.denis96@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <176120261104.2780995.4716852911804388689@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 22 Oct 2025 at 15:38, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Antheas,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-simplify-RGB-init-sequence/20251018-182410
-> base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-> patch link:    https://lore.kernel.org/r/20251018101759.4089-6-lkml%40antheas.dev
-> patch subject: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple kbd led handlers
-> config: i386-randconfig-141-20251020 (https://download.01.org/0day-ci/archive/20251022/202510222013.EBLC609m-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510222013.EBLC609m-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/platform/x86/asus-wmi.c:1623 kbd_led_update_all() warn: always true condition '(value >= 0) => (0-u32max >= 0)'
->
-> Old smatch warnings:
-> drivers/platform/x86/asus-wmi.c:2288 asus_new_rfkill() warn: '*rfkill' is an error pointer or valid
->
-> vim +1623 drivers/platform/x86/asus-wmi.c
->
->   1589
->   1590  static void kbd_led_update_all(struct work_struct *work)
->   1591  {
->   1592          enum led_brightness value;
->   1593          struct asus_wmi *asus;
->   1594          bool registered, notify;
->   1595          int ret;
-                              /\ value should have been an int and
-placed here. It can take the value -1 hence the check
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/sheaves-for-all
+head:   09faaa86a5c54214300bed64355a84c9b278cdab
+commit: 09faaa86a5c54214300bed64355a84c9b278cdab [21/21] slab: remove frozen slab checks from __slab_free()
+config: x86_64-buildonly-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231434.feQhR7gy-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231434.feQhR7gy-lkp@intel.com/reproduce)
 
-Are there any other comments on the series?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231434.feQhR7gy-lkp@intel.com/
 
-The only issue I am aware of is that Denis identified a bug in asusd
-(asusctl userspace program daemon) in certain Asus G14/G16 laptops
-that cause laptop keys to become sticky, I have had users also report
-that bug in previous versions of the series. WIthout asusd running,
-keyboards work fine incl. with brightness control (did not work
-before). Given it will take two months for this to reach mainline, I
-think it is a fair amount of time to address the bug.
+All errors (new ones prefixed by >>):
 
-Antheas
+>> mm/slub.c:8749:10: error: 'free_frozen_attr' undeclared here (not in a function); did you mean 'free_frozen_pages'?
+    8749 |         &free_frozen_attr.attr,
+         |          ^~~~~~~~~~~~~~~~
+         |          free_frozen_pages
 
->   1596
->   1597          asus = container_of(work, struct asus_wmi, kbd_led_work);
->   1598
->   1599          scoped_guard(spinlock_irqsave, &asus_ref.lock) {
->   1600                  registered = asus->kbd_led_registered;
->   1601                  value = asus->kbd_led_wk;
->   1602                  notify = asus->kbd_led_notify;
->   1603          }
->   1604
->   1605          if (!registered) {
->   1606                  /*
->   1607                   * This workqueue runs under asus-wmi, which means probe has
->   1608                   * completed and asus-wmi will keep running until it finishes.
->   1609                   * Therefore, we can safely register the LED without holding
->   1610                   * a spinlock.
->   1611                   */
->   1612                  ret = devm_led_classdev_register(&asus->platform_device->dev,
->   1613                                              &asus->kbd_led);
->   1614                  if (!ret) {
->   1615                          scoped_guard(spinlock_irqsave, &asus_ref.lock)
->   1616                                  asus->kbd_led_registered = true;
->   1617                  } else {
->   1618                          pr_warn("Failed to register keyboard backlight LED: %d\n", ret);
->   1619                          return;
->   1620                  }
->   1621          }
->   1622
-> > 1623          if (value >= 0)
->   1624                  do_kbd_led_set(&asus->kbd_led, value);
->   1625          if (notify) {
->   1626                  scoped_guard(spinlock_irqsave, &asus_ref.lock)
->   1627                          asus->kbd_led_notify = false;
->   1628                  led_classdev_notify_brightness_hw_changed(&asus->kbd_led, value);
->   1629          }
->   1630  }
->   1631
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
 
+vim +8749 mm/slub.c
+
+b84e04f1baeebe6 Imran Khan        2022-08-15  8703  
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8704  static struct attribute *slab_attrs[] = {
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8705  	&slab_size_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8706  	&object_size_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8707  	&objs_per_slab_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8708  	&order_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8709  	&sheaf_capacity_attr.attr,
+73d342b169db700 David Rientjes    2009-02-22  8710  	&min_partial_attr.attr,
+49e2258586b4236 Christoph Lameter 2011-08-09  8711  	&cpu_partial_attr.attr,
+205ab99dd103e3d Christoph Lameter 2008-04-14  8712  	&objects_partial_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8713  	&partial_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8714  	&cpu_slabs_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8715  	&ctor_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8716  	&aliases_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8717  	&align_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8718  	&hwcache_align_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8719  	&reclaim_account_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8720  	&destroy_by_rcu_attr.attr,
+a5a84755c590041 Christoph Lameter 2010-10-05  8721  	&shrink_attr.attr,
+49e2258586b4236 Christoph Lameter 2011-08-09  8722  	&slabs_cpu_partial_attr.attr,
+ab4d5ed5eeda4f5 Christoph Lameter 2010-10-05  8723  #ifdef CONFIG_SLUB_DEBUG
+a5a84755c590041 Christoph Lameter 2010-10-05  8724  	&total_objects_attr.attr,
+81bd31793fd3be4 Xiongwei Song     2023-04-13  8725  	&objects_attr.attr,
+a5a84755c590041 Christoph Lameter 2010-10-05  8726  	&slabs_attr.attr,
+a5a84755c590041 Christoph Lameter 2010-10-05  8727  	&sanity_checks_attr.attr,
+a5a84755c590041 Christoph Lameter 2010-10-05  8728  	&trace_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8729  	&red_zone_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8730  	&poison_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8731  	&store_user_attr.attr,
+53e15af03be4fda Christoph Lameter 2007-05-06  8732  	&validate_attr.attr,
+ab4d5ed5eeda4f5 Christoph Lameter 2010-10-05  8733  #endif
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8734  #ifdef CONFIG_ZONE_DMA
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8735  	&cache_dma_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8736  #endif
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8737  #ifdef CONFIG_NUMA
+9824601ead957a2 Christoph Lameter 2008-01-07  8738  	&remote_node_defrag_ratio_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8739  #endif
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8740  #ifdef CONFIG_SLUB_STATS
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8741  	&alloc_cpu_sheaf_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8742  	&alloc_fastpath_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8743  	&alloc_slowpath_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8744  	&free_cpu_sheaf_attr.attr,
+ec66e0d599520ab Vlastimil Babka   2025-09-03  8745  	&free_rcu_sheaf_attr.attr,
+ec66e0d599520ab Vlastimil Babka   2025-09-03  8746  	&free_rcu_sheaf_fail_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8747  	&free_fastpath_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8748  	&free_slowpath_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07 @8749  	&free_frozen_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8750  	&free_add_partial_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8751  	&free_remove_partial_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8752  	&alloc_from_partial_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8753  	&alloc_slab_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8754  	&alloc_refill_attr.attr,
+e36a2652d7d1ad9 Christoph Lameter 2011-06-01  8755  	&alloc_node_mismatch_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8756  	&free_slab_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8757  	&cpuslab_flush_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8758  	&deactivate_full_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8759  	&deactivate_empty_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8760  	&deactivate_to_head_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8761  	&deactivate_to_tail_attr.attr,
+8ff12cfc009a2a3 Christoph Lameter 2008-02-07  8762  	&deactivate_remote_frees_attr.attr,
+03e404af26dc2ea Christoph Lameter 2011-06-01  8763  	&deactivate_bypass_attr.attr,
+65c3376aaca96c6 Christoph Lameter 2008-04-14  8764  	&order_fallback_attr.attr,
+b789ef518b2a723 Christoph Lameter 2011-06-01  8765  	&cmpxchg_double_fail_attr.attr,
+b789ef518b2a723 Christoph Lameter 2011-06-01  8766  	&cmpxchg_double_cpu_fail_attr.attr,
+49e2258586b4236 Christoph Lameter 2011-08-09  8767  	&cpu_partial_alloc_attr.attr,
+49e2258586b4236 Christoph Lameter 2011-08-09  8768  	&cpu_partial_free_attr.attr,
+8028dcea8abbbd5 Alex Shi          2012-02-03  8769  	&cpu_partial_node_attr.attr,
+8028dcea8abbbd5 Alex Shi          2012-02-03  8770  	&cpu_partial_drain_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8771  	&sheaf_flush_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8772  	&sheaf_refill_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8773  	&sheaf_alloc_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8774  	&sheaf_free_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8775  	&barn_get_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8776  	&barn_get_fail_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8777  	&barn_put_attr.attr,
+2d517aa09bbc420 Vlastimil Babka   2025-09-03  8778  	&barn_put_fail_attr.attr,
+3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8779  	&sheaf_prefill_fast_attr.attr,
+3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8780  	&sheaf_prefill_slow_attr.attr,
+3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8781  	&sheaf_prefill_oversize_attr.attr,
+3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8782  	&sheaf_return_fast_attr.attr,
+3c1ea5c5019ff19 Vlastimil Babka   2025-09-03  8783  	&sheaf_return_slow_attr.attr,
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8784  #endif
+4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8785  #ifdef CONFIG_FAILSLAB
+4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8786  	&failslab_attr.attr,
+4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8787  #endif
+346907ceb9d11b9 Vlastimil Babka   2022-11-16  8788  #ifdef CONFIG_HARDENED_USERCOPY
+8eb8284b4129061 David Windsor     2017-06-10  8789  	&usersize_attr.attr,
+346907ceb9d11b9 Vlastimil Babka   2022-11-16  8790  #endif
+b84e04f1baeebe6 Imran Khan        2022-08-15  8791  #ifdef CONFIG_KFENCE
+b84e04f1baeebe6 Imran Khan        2022-08-15  8792  	&skip_kfence_attr.attr,
+b84e04f1baeebe6 Imran Khan        2022-08-15  8793  #endif
+4c13dd3b48fcb6f Dmitry Monakhov   2010-02-26  8794  
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8795  	NULL
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8796  };
+81819f0fc8285a2 Christoph Lameter 2007-05-06  8797  
+
+:::::: The code at line 8749 was first introduced by commit
+:::::: 8ff12cfc009a2a38d87fa7058226fe197bb2696f SLUB: Support for performance statistics
+
+:::::: TO: Christoph Lameter <clameter@sgi.com>
+:::::: CC: Christoph Lameter <christoph@stapp.engr.sgi.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
