@@ -1,75 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD811FC3;
-	Thu, 23 Oct 2025 00:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1196175BF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 01:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761179801; cv=none; b=bVtejIqEuZNalSFE1S+bNNLm26NTjoX8k32/3aTxDCwl0sh8KHPBDXIMSjidw9olL4Wcho6234Uqi8vEDDd6jM8HdNy4G4PmRyX5TSVLxi8PWw6e331U/LLYjj7eLf8r7zGTcMDqVdr9KDRrtkavIH4N5xZWwJMF2DYEKo068Vo=
+	t=1761181692; cv=none; b=fSOxHDE0YeSCasIEGdreDyrcqA2wEE0x0ATFzPX53iJ3FrJsdkXw9mYw6GceVT2Ox7mhNCIC89eFu82jjlXkisxfKF5fgvHZS80m3YsVUo4v/mZ5NyWr613oxgn6hE13DRKymVn8T967lJigRghzs9M/RmVef71kiVcUWSHuQ1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761179801; c=relaxed/simple;
-	bh=Tbyz0EOwOY6fjz8bsCF+rgeu3HZ1GWxhkU2Mfg5zCrY=;
+	s=arc-20240116; t=1761181692; c=relaxed/simple;
+	bh=/QnnjvDVo/hmpCy4nNwckEif4CdVWMcA1D02KxvDAj8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F+pea5CMVcXHatftUFRyq0u38fOqk9HtmMlSghJ4TlJHbSAsjijYeiufIkXRY9VrmkemuDK2kvEyWAmeDbgA7Gq98PHmrsvdnD9ojoet8AqtnxSazzMVuwDbpJ0uIDSJlMgemaQqjEty/J1pLk6AZKQxRgChCzHBPNrR901l1MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U8TGDGpn; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=G73wKuMxQPLnGzyPEQa6DtwtFBVDyW9zv2e1mPwuvosO5Jt/P2cnpessESHMSY7y70kGTogEb05AitpEZONGK9Bn7PA3EKvP4mrEuZ7n6LZr5Ig7PK81FOHAyfk8OyDYbni0iq1Y23bK7PIqIc5OrBqyhevBny2+wB+5832z9jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2X6AVQR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U8TGDGpn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2X6AVQR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761179800; x=1792715800;
+  t=1761181690; x=1792717690;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Tbyz0EOwOY6fjz8bsCF+rgeu3HZ1GWxhkU2Mfg5zCrY=;
-  b=U8TGDGpnvB0EieqemQ0AmMNr2OR8Wav2T6lalbXme0uB+G7MUPu0hpv9
-   xa3asEdoFJpguoGRzKGos3RFzuNvksssCg21ezZ/2RyGvCeI5exkGdbAX
-   IxxltgzZGNx+vkdjy+v8KeXA1cROOnB4ildI65uDeAExZ1QAKivC5F7ri
-   pNlXPDmSSXHdHQPwSSFwsVOGKu5YWrJ2fXVqeFQqv7npTYOwK/7t18WeI
-   1E3G420Em71Z5MBygDcljMTITXFbNLPjyL3gU3TxDu4rL4OKA/epbrLEp
-   YtsTv80XtqPQgf6pzOIEudreVoaJDj8jySfDcosjLkCQRf8sl2P0/1P/q
-   Q==;
-X-CSE-ConnectionGUID: ZMMDpg+TR1We6iI/t407Jw==
-X-CSE-MsgGUID: XmojRzCyRwi9FpVKgcrVGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63043801"
+  bh=/QnnjvDVo/hmpCy4nNwckEif4CdVWMcA1D02KxvDAj8=;
+  b=A2X6AVQRWBX27MGiZEQm46kcfEDqZL96jfB1KIZzuxzOfS3ViJxuAIZ2
+   XZv62FHC27Fc5l6b5Mqk73iwtFDFC7iQ4tMScugr/hvYBfH7Nb1b29mLp
+   CzqKLHXme8w65OpTDRyaLfCLbQUH7bR/EUXwis/B2qNhLnQLyhNbxR1TW
+   TWT8IKYQRJxD19JKLPnSkxss6zHpyfDFbD48R4h4JkP4qhakqw1rxDZZV
+   yXgXUWGWe99MUwqBnE047tdcJzSlD1VHgN8hGwR3iTdW1rykgorAn9sza
+   mudOB81F76MqXS/1SQt5yQhdc6Q5ZWOhWyVhN/TVNuyWWuStxg90yG8IN
+   g==;
+X-CSE-ConnectionGUID: TY48s8ikTHO+ufbcwO6y/A==
+X-CSE-MsgGUID: IPTPA7YcTVWpJ5W9UfWtSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62551841"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="63043801"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 17:36:40 -0700
-X-CSE-ConnectionGUID: QoGETW7NQ8izRDTJnc1Jzw==
-X-CSE-MsgGUID: wb7s2b+8TJSpn0NZLbsWfw==
+   d="scan'208";a="62551841"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 18:08:10 -0700
+X-CSE-ConnectionGUID: uciMWNa9TOCDkQAimdnqlg==
+X-CSE-MsgGUID: a9G8W0lzSwGYp8EYHuJGdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="221206028"
+   d="scan'208";a="189290630"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Oct 2025 17:36:34 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Oct 2025 18:08:09 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBjJg-000Crd-1b;
-	Thu, 23 Oct 2025 00:36:32 +0000
-Date: Thu, 23 Oct 2025 08:36:10 +0800
+	id 1vBjoF-000CsL-16;
+	Thu, 23 Oct 2025 01:08:07 +0000
+Date: Thu, 23 Oct 2025 09:07:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yury Norov <yury.norov@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Carlos Llamas <cmllamas@google.com>,
-	Suren Baghdasaryan <surenb@google.com>, Burak Emir <bqe@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v2 4/5] rust: id_pool: do not immediately acquire new ids
-Message-ID: <202510230839.DJZaY5US-lkp@intel.com>
-References: <20251021-binder-bitmap-v2-4-e652d172c62b@google.com>
+To: I Viswanath <viswanathiyyappan@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC net-next PATCH 2/2] net: ethernet: Implement
+ ndo_write_rx_config callback for the 8139cp driver
+Message-ID: <202510230836.XzRA9Tg0-lkp@intel.com>
+References: <20251020134857.5820-3-viswanathiyyappan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,35 +63,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021-binder-bitmap-v2-4-e652d172c62b@google.com>
+In-Reply-To: <20251020134857.5820-3-viswanathiyyappan@gmail.com>
 
-Hi Alice,
+Hi Viswanath,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 211ddde0823f1442e4ad052a2f30f050145ccada]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-bitmap-add-MAX_LEN-and-NO_ALLOC_MAX_LEN-constants/20251021-213620
-base:   211ddde0823f1442e4ad052a2f30f050145ccada
-patch link:    https://lore.kernel.org/r/20251021-binder-bitmap-v2-4-e652d172c62b%40google.com
-patch subject: [PATCH v2 4/5] rust: id_pool: do not immediately acquire new ids
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251023/202510230839.DJZaY5US-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230839.DJZaY5US-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/I-Viswanath/net-Add-ndo_write_rx_config-and-helper-structs-and-functions/20251020-215339
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251020134857.5820-3-viswanathiyyappan%40gmail.com
+patch subject: [RFC net-next PATCH 2/2] net: ethernet: Implement ndo_write_rx_config callback for the 8139cp driver
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20251023/202510230836.XzRA9Tg0-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230836.XzRA9Tg0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230839.DJZaY5US-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510230836.XzRA9Tg0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0599]: no method named `acquire_next_id` found for struct `Guard<'_, IdPool, SpinLockBackend>` in the current scope
-   --> rust/doctests_kernel_generated.rs:6515:20
-   |
-   6515 |         match pool.acquire_next_id(0) {
-   |                    ^^^^^^^^^^^^^^^ method not found in `Guard<'_, IdPool, SpinLockBackend>`
+>> drivers/net/ethernet/realtek/8139cp.c:939:13: warning: 'cp_set_rx_mode' defined but not used [-Wunused-function]
+     939 | static void cp_set_rx_mode (struct net_device *dev)
+         |             ^~~~~~~~~~~~~~
+
+
+vim +/cp_set_rx_mode +939 drivers/net/ethernet/realtek/8139cp.c
+
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  938  
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16 @939  static void cp_set_rx_mode (struct net_device *dev)
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  940  {
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  941  	unsigned long flags;
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  942  	struct cp_private *cp = netdev_priv(dev);
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  943  
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  944  	spin_lock_irqsave (&cp->lock, flags);
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  945  	__cp_set_rx_mode(dev);
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  946  	spin_unlock_irqrestore (&cp->lock, flags);
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  947  }
+^1da177e4c3f415 drivers/net/8139cp.c Linus Torvalds 2005-04-16  948  
 
 -- 
 0-DAY CI Kernel Test Service
