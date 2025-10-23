@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652563019C4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 10:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D1C2DEA9D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 10:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761214852; cv=none; b=E7hrmfkP6GdjMEREVPNUCDRcKpl/3/rSOKWzj73KxW6IcepNL4OXJR/OI/zZDik2kaYPpaqkkHy2YPkoKoMT+Q40UoIjAQxOVF79k53ZB6M7xjWR0umLD+FYxbJm3pq6lHCqtsn6OcAnoEyu02xAx/acIZDijII7CYtILxTiuBk=
+	t=1761216172; cv=none; b=Jug2kPqjeDLA2M5aU99JJ7JE29zdqeO2QoN7AGgt8c35VyY3jvPZm9m2dhNWgY029c70vUxfc9psA93hu1bBgJdPaQGK1TfZoK5uk9OImFnS0E61l3ldwBWsiJqfnhtzZ+Tf7QSIF2KfHyWZaqFKf65m4mYuJ3lPSaDnubGgTuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761214852; c=relaxed/simple;
-	bh=scCpTlzLx7rJ8mnOnrRPfnAEvOTBIkLhLrus4KijGvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbaK1YxeHiO+/Ze0ACUIU4VtXzgQ4BZagHI52U6RZ5i00eAILUMz8GcA54XYd8+qeMNSaVB3u2pBWJeppMhkxORfQqCNvfgAFNZtLDqm16CkbNhUTWeB3SRRUSq0SbG94qM07ZPZvOiTfY2k8ZUH6UiSwRfp9l8E9jwv8hJorOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bv5MAQ9P; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1761216172; c=relaxed/simple;
+	bh=/uoqD6D7Qxbf7DCHw7KenarLMND7mk+Kx+PiGuy2lVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZeFPmnD/WC2adkvcry944Hb83wauojz5s+vlHY2WUYRykKsZP/ouWbuAhclgHs6M8r1C8NWCUGGBkO8+nyUDZgIDpIpwr2tVPeR7IyxImNmTgVl+T6jf+HsCTCf+CeXNju8YiQOtFlSootLFeDw7ISpb44Dv7IRH/hCeTk9qwKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcHHP22m; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bv5MAQ9P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcHHP22m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761214850; x=1792750850;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=scCpTlzLx7rJ8mnOnrRPfnAEvOTBIkLhLrus4KijGvY=;
-  b=Bv5MAQ9P5Lzj/mX+lnW1mWZZUL/rYdq8znJhoqPb8UDXLsVgZoKYIbLK
-   Vj0dtKmoF4+5oyUMjM1yMDkVqKs/ZS4deitWt3oeWUliCdSt9G8bpsUOg
-   80HTP21CU9Zbe7RCXL0GBHDVP/DCZy35SrBbpyTNQzCHaw0SQrNVk6IxU
-   0jy3ALkCQO/II4y5ce7sSDI7Q84fX+aFgy6/Yn7s1bj9FvLJ5zVOviT9M
-   xhhOARAzYnSYF93m7ZVzO/tAslDj4FDvofvyTnWbHoK5mAhjDSSd/vjZI
-   5oWYlZHAQumw4F5L+PPOagIPbV7Akmkf0xxymPUEBPYI3z8BR9Accw8Rq
+  t=1761216171; x=1792752171;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/uoqD6D7Qxbf7DCHw7KenarLMND7mk+Kx+PiGuy2lVo=;
+  b=lcHHP22mOSEd2mWORG19uvTvOK93iGuc3uanUfzQ6oEt+v/9NAJbdxk3
+   aeBngyOQhBaWq36fhJp20sC14TvZl3w061zZyAqh6xAAQbxvUgdEb+/KP
+   cveo+fLGQ+FF0+PFiQKUtI0D18nkPKVOOkPEUBBBkUBnO4wnOrD1khUfI
+   c/19yRCsrohLYM+Uej4/sxtBwgg4F2VFWtfCTjdA4VhXX1Veu4wgbef/x
+   emLdgJywD9w3hgjGyU4GNKfBATeKcBh8U+WMfGSj6sJfEvp3DF7hfg8je
+   P/ZqQ55Si54iZfGcXM/l9O6v0xfjOmvY/A4U6qgrboe9JlKb4SWWjPhEr
    w==;
-X-CSE-ConnectionGUID: 85WrwK4HTVelcOdlEsqJRg==
-X-CSE-MsgGUID: Wb8XX1t7RxGulk8ONYovpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73671040"
+X-CSE-ConnectionGUID: 0ULaknNtRjKv3UXTFtehGg==
+X-CSE-MsgGUID: Et7TUMWCSFCs5Xhn0gOIhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62411818"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="73671040"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 03:20:50 -0700
-X-CSE-ConnectionGUID: AW8BzHGdT/SxkTvNGqye/Q==
-X-CSE-MsgGUID: kLN0X7pFRYqb7BCzQ9YXiw==
+   d="scan'208";a="62411818"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 03:42:50 -0700
+X-CSE-ConnectionGUID: oDJR2/7EQaejL7aPjvYPog==
+X-CSE-MsgGUID: oN4W3GF3R4+QyCM1/IMKcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="188175344"
+   d="scan'208";a="183728379"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 23 Oct 2025 03:20:47 -0700
+  by orviesa009.jf.intel.com with ESMTP; 23 Oct 2025 03:42:49 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBsR0-000DLV-2m;
-	Thu, 23 Oct 2025 10:20:43 +0000
-Date: Thu, 23 Oct 2025 18:20:02 +0800
+	id 1vBsmI-000DMr-2v;
+	Thu, 23 Oct 2025 10:42:44 +0000
+Date: Thu, 23 Oct 2025 18:41:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
-	jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
-	troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org, lizhi.hou@amd.com,
-	karol.wachowski@linux.intel.com, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] accel/qaic: Add support for PM callbacks
-Message-ID: <202510231820.AMln6kY3-lkp@intel.com>
-References: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 3/9] include/linux/ftrace.h:563:5:
+ warning: no previous declaration for 'update_ftrace_direct_del'
+Message-ID: <202510231858.0ZYfilK5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,83 +61,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
 
-Hi Youssef,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-tip/drm-tip linus/master v6.18-rc2 next-20251023]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Add-support-for-PM-callbacks/20251023-044052
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251022204005.3888195-1-youssef.abdulrahman%40oss.qualcomm.com
-patch subject: [PATCH] accel/qaic: Add support for PM callbacks
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   3d31a310468694e4395d61e15c65edaa618fbb5c
+commit: 6fc33ce4c35edf7fb4fd8c760ad1bb2e472d82cb [3/9] ftrace: Add update_ftrace_direct_del function
+config: i386-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231858.0ZYfilK5-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231858.0ZYfilK5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231820.AMln6kY3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231858.0ZYfilK5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/accel/qaic/qaic_drv.c:724:12: warning: 'qaic_pm_resume' defined but not used [-Wunused-function]
-     724 | static int qaic_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
->> drivers/accel/qaic/qaic_drv.c:703:12: warning: 'qaic_pm_suspend' defined but not used [-Wunused-function]
-     703 | static int qaic_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
+   In file included from include/linux/kprobes.h:28,
+                    from lib/tests/longest_symbol_kunit.c:13:
+   include/linux/ftrace.h:558:5: warning: no previous declaration for 'update_ftrace_direct_add' [-Wmissing-declarations]
+     558 | int update_ftrace_direct_add(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/ftrace.h:563:5: warning: no previous declaration for 'update_ftrace_direct_del' [-Wmissing-declarations]
+     563 | int update_ftrace_direct_del(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/qaic_pm_resume +724 drivers/accel/qaic/qaic_drv.c
+vim +/update_ftrace_direct_del +563 include/linux/ftrace.h
 
-   702	
- > 703	static int qaic_pm_suspend(struct device *dev)
-   704	{
-   705		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
-   706	
-   707		dev_dbg(dev, "Suspending..\n");
-   708		if (qaic_data_path_busy(qdev)) {
-   709			dev_dbg(dev, "Device's datapath is busy. Aborting suspend..\n");
-   710			return -EBUSY;
-   711		}
-   712		if (qaic_is_under_reset(qdev)) {
-   713			dev_dbg(dev, "Device is under reset. Aborting suspend..\n");
-   714			return -EBUSY;
-   715		}
-   716		qaic_mqts_ch_stop_timer(qdev->mqts_ch);
-   717		qaic_pci_reset_prepare(qdev->pdev);
-   718		pci_save_state(qdev->pdev);
-   719		pci_disable_device(qdev->pdev);
-   720		pci_set_power_state(qdev->pdev, PCI_D3hot);
-   721		return 0;
-   722	}
-   723	
- > 724	static int qaic_pm_resume(struct device *dev)
-   725	{
-   726		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
-   727		int ret;
-   728	
-   729		dev_dbg(dev, "Resuming..\n");
-   730		pci_set_power_state(qdev->pdev, PCI_D0);
-   731		pci_restore_state(qdev->pdev);
-   732		ret = pci_enable_device(qdev->pdev);
-   733		if (ret) {
-   734			dev_err(dev, "pci_enable_device failed on resume %d\n", ret);
-   735			return ret;
-   736		}
-   737		pci_set_master(qdev->pdev);
-   738		qaic_pci_reset_done(qdev->pdev);
-   739		return 0;
-   740	}
-   741	
+   562	
+ > 563	int update_ftrace_direct_del(struct ftrace_ops *ops, struct ftrace_hash *hash)
+   564	{
+   565		return -ENODEV;
+   566	}
+   567	
 
 -- 
 0-DAY CI Kernel Test Service
