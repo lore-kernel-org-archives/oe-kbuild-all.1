@@ -1,82 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C6B23F40D;
-	Thu, 23 Oct 2025 19:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B3C204C36
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 22:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761249018; cv=none; b=Quk8cGEQ7SKXp6Jrc8TN/oXreBRudVKClvYWi8O5rJz594KaGi3TkdIbXGFdxodY5DoQoDSiwYboUbp9qWRDJ22ulxCva7z9/+rmFP+i55ByHWfjZyvMA+OIOKrTfJlYvdZt9DpvP0QjNWRV6Tct69sDRm0j7VxfH66+1v7kcgI=
+	t=1761258755; cv=none; b=rLwVgpuomOYr+kSXYntW+Rwpe48JEXWF9JJuu9s4hLVmB6JKhCvdATWRnslxhQMqF+L5h43qRNTlKQzb96zHD7EkqaYakR6CmRta/O9nrSIx7PuSEGnteTHMSM0WOAzaA93z+YCQQVS0bpauAKrGyS1cTb9EQH+zhrOaYdvZRjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761249018; c=relaxed/simple;
-	bh=4GgD8rXzGcd0V4eTBPz9wgSl28VHshWZ5xyM0DTjwes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Agj28hBn8ZFu7KxSAxtrIFyddWe9ITutUCv+f5Nuy+Fyv1vPxe4y7uqxeI8W1DaRP8s1T2SDf3fVgtmuijebcZgD39yUZiyoAEv23pA3ylRvL65CqtXxgmTkq6V6JVmphM40v9fklRcgI9n8u+YZ1qXXb2YM0a8InxMoK0bvlMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dqvf1TOZ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1761258755; c=relaxed/simple;
+	bh=lodO9arEN/02fO4SFbBPIxOUh36ZCMum/GLK8cVrHLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PsvKs0gAhH0R+QfUu+eRlYN2u5OkuUkmWv94csnPucPJ6X8vsS7MFhcUakLbkAyxL/L/8Jz8bXo8MWKZizH6DgfX5OrmN8kHkgjXQb9khwGMha0VEvN4JByDplP5QftNfLf//1hmAjTrcj6ppzm6ALj4enKGPdaQ/OZIrnExWdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izlRtijK; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dqvf1TOZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izlRtijK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761249017; x=1792785017;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4GgD8rXzGcd0V4eTBPz9wgSl28VHshWZ5xyM0DTjwes=;
-  b=Dqvf1TOZXuvhywp3vMBeW/fX729maANcLxsgPz0E31Z6/m8lXaOpvMYK
-   rgMCLC/3tG8pAYG3C7MO2ndgKIbMT+lVhVQC9NIzUEVO6C4c1fT03zpPF
-   FwL9nCzMUYae0pQ4c0IUQopizQgAu+Tup/zGflTuCc5rMPlE352J/rpia
-   w0nCDg2olVzKwrVACr8XzDcQsaQuNbPOE1Yi+OmJ7E+6YPLuf7eh0+OtJ
-   M4MWf76BPcvATuvbH1i7YYh5LHe7/yh9geBAsg/Rc04r9PIj9UgjC+UIS
-   xS5jTJYjYxsr+I/iMTf0cbU+ckvql7B4WE5c7KH0G5JCKx0k1KHE7IPEE
-   g==;
-X-CSE-ConnectionGUID: I+GZQ+kfTLOGhutlhf1yiA==
-X-CSE-MsgGUID: sC7vUYMrT++LfZMxUBX5sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63470570"
-X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="63470570"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 12:50:17 -0700
-X-CSE-ConnectionGUID: QqnZZascSZOxoU53Pwz9pA==
-X-CSE-MsgGUID: utWaX7cHQSidqSJVHTZSqw==
+  t=1761258754; x=1792794754;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lodO9arEN/02fO4SFbBPIxOUh36ZCMum/GLK8cVrHLQ=;
+  b=izlRtijKRGMqrRg3yjbKw5H+/Ajk7cyCOcjMRuMuGMcV9p/JIdoupcl8
+   unlFGYJAYVUMUxqs7quabtsdZAG13/9OFWFq5oYkXVKwGtmK4eTCZeX0G
+   y7dA5E/qETQEtW5NZnp8VHyw+6mPcHCiUYgjT+Yf26ESpHmh31xForDDT
+   E99NV6laoeffaEgPx3+OxcZEoH7tGBBKBhyff2Cyh06NCrh9qRixmaJQ8
+   P3Y6lvBQi+p0knPGL7K7mIorSVEP/13564RBGKkSCTaRFCqJKRvn6rHsl
+   7D2O/xafgTgveL8n2wpKBGlFtTUFoHDt8odcAthKDO3Sw2hybVgMiOeml
+   A==;
+X-CSE-ConnectionGUID: AZ/HRe/DQ62lW2olLL3ddw==
+X-CSE-MsgGUID: GOvUN7IsR4Gej9nICgb3qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63344967"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63344967"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 15:32:34 -0700
+X-CSE-ConnectionGUID: h+6bql3pRcuDkPU3M8GETw==
+X-CSE-MsgGUID: GxqkVma2Tz+n3/rCNkbfuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="183950468"
+   d="scan'208";a="184346289"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Oct 2025 12:50:10 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Oct 2025 15:32:33 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vC1Jt-000Dp9-2V;
-	Thu, 23 Oct 2025 19:50:00 +0000
-Date: Fri, 24 Oct 2025 03:49:18 +0800
+	id 1vC3rC-000Dwn-2j;
+	Thu, 23 Oct 2025 22:32:30 +0000
+Date: Fri, 24 Oct 2025 06:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jian Shen <shenjian15@huawei.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Brett Creeley <brett.creeley@amd.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Paul Barker <paul@pbarker.dev>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Richard Cochran <richardcochran@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: [PATCH net-next v4 3/6] ionic: convert to ndo_hwtstamp API
-Message-ID: <202510240344.2MuPn70o-lkp@intel.com>
-References: <20251022104900.901973-4-vadim.fedorenko@linux.dev>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.2.8 11/23] Warning: mm/bpf_memcontrol.c:109
+ function parameter 'idx' not described in 'bpf_mem_cgroup_page_state'
+Message-ID: <202510240625.ZMbbr1qc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,82 +61,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022104900.901973-4-vadim.fedorenko@linux.dev>
 
-Hi Vadim,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/octeontx2-convert-to-ndo_hwtstamp-API/20251022-185103
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251022104900.901973-4-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net-next v4 3/6] ionic: convert to ndo_hwtstamp API
-config: x86_64-randconfig-001-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240344.2MuPn70o-lkp@intel.com/config)
+tree:   https://github.com/rgushchin/linux.git bpfoom.2.8
+head:   e5c404471ca9d0bd6c628804602002c6478a610f
+commit: 7edb84e2490a0e71b5e668d2da3e7897c098aba3 [11/23] mm: introduce BPF kfuncs to access memcg statistics and events
+config: x86_64-buildonly-randconfig-002-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240625.ZMbbr1qc-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240344.2MuPn70o-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240625.ZMbbr1qc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240344.2MuPn70o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240625.ZMbbr1qc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2821:22: error: use of undeclared identifier 'ionic_hwstamp_get'; did you mean 'ionic_lif_hwstamp_get'?
-    2821 |         .ndo_hwtstamp_get       = ionic_hwstamp_get,
-         |                                   ^~~~~~~~~~~~~~~~~
-         |                                   ionic_lif_hwstamp_get
-   drivers/net/ethernet/pensando/ionic/ionic_lif.h:384:19: note: 'ionic_lif_hwstamp_get' declared here
-     384 | static inline int ionic_lif_hwstamp_get(struct ionic_lif *lif, struct ifreq *ifr)
-         |                   ^
->> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2822:22: error: use of undeclared identifier 'ionic_hwstamp_set'; did you mean 'ionic_lif_hwstamp_set'?
-    2822 |         .ndo_hwtstamp_set       = ionic_hwstamp_set,
-         |                                   ^~~~~~~~~~~~~~~~~
-         |                                   ionic_lif_hwstamp_set
-   drivers/net/ethernet/pensando/ionic/ionic_lif.h:379:19: note: 'ionic_lif_hwstamp_set' declared here
-     379 | static inline int ionic_lif_hwstamp_set(struct ionic_lif *lif, struct ifreq *ifr)
-         |                   ^
->> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2821:22: error: incompatible function pointer types initializing 'int (*)(struct net_device *, struct kernel_hwtstamp_config *)' with an expression of type 'int (struct ionic_lif *, struct ifreq *)' [-Wincompatible-function-pointer-types]
-    2821 |         .ndo_hwtstamp_get       = ionic_hwstamp_get,
-         |                                   ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/pensando/ionic/ionic_lif.c:2822:22: error: incompatible function pointer types initializing 'int (*)(struct net_device *, struct kernel_hwtstamp_config *, struct netlink_ext_ack *)' with an expression of type 'int (struct ionic_lif *, struct ifreq *)' [-Wincompatible-function-pointer-types]
-    2822 |         .ndo_hwtstamp_set       = ionic_hwstamp_set,
-         |                                   ^~~~~~~~~~~~~~~~~
-   4 errors generated.
-
-
-vim +2821 drivers/net/ethernet/pensando/ionic/ionic_lif.c
-
-  2797	
-  2798	static const struct net_device_ops ionic_netdev_ops = {
-  2799		.ndo_open               = ionic_open,
-  2800		.ndo_stop               = ionic_stop,
-  2801		.ndo_start_xmit		= ionic_start_xmit,
-  2802		.ndo_bpf		= ionic_xdp,
-  2803		.ndo_xdp_xmit		= ionic_xdp_xmit,
-  2804		.ndo_get_stats64	= ionic_get_stats64,
-  2805		.ndo_set_rx_mode	= ionic_ndo_set_rx_mode,
-  2806		.ndo_set_features	= ionic_set_features,
-  2807		.ndo_set_mac_address	= ionic_set_mac_address,
-  2808		.ndo_validate_addr	= eth_validate_addr,
-  2809		.ndo_tx_timeout         = ionic_tx_timeout,
-  2810		.ndo_change_mtu         = ionic_change_mtu,
-  2811		.ndo_vlan_rx_add_vid    = ionic_vlan_rx_add_vid,
-  2812		.ndo_vlan_rx_kill_vid   = ionic_vlan_rx_kill_vid,
-  2813		.ndo_set_vf_vlan	= ionic_set_vf_vlan,
-  2814		.ndo_set_vf_trust	= ionic_set_vf_trust,
-  2815		.ndo_set_vf_mac		= ionic_set_vf_mac,
-  2816		.ndo_set_vf_rate	= ionic_set_vf_rate,
-  2817		.ndo_set_vf_spoofchk	= ionic_set_vf_spoofchk,
-  2818		.ndo_get_vf_config	= ionic_get_vf_config,
-  2819		.ndo_set_vf_link_state	= ionic_set_vf_link_state,
-  2820		.ndo_get_vf_stats       = ionic_get_vf_stats,
-> 2821		.ndo_hwtstamp_get	= ionic_hwstamp_get,
-> 2822		.ndo_hwtstamp_set	= ionic_hwstamp_set,
-  2823	};
-  2824	
+>> Warning: mm/bpf_memcontrol.c:109 function parameter 'idx' not described in 'bpf_mem_cgroup_page_state'
 
 -- 
 0-DAY CI Kernel Test Service
