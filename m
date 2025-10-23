@@ -1,218 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2033D202C46;
-	Thu, 23 Oct 2025 11:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD130DEDC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 11:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761218618; cv=none; b=TStn70IcQUO1lgxtfyM91qM3GSNItQM8VT8YZ7BplDHpvBY7ax+IEJJmHp+jSiQJo0Us7Iw9Flr+WgoivEc5n63ylOqsgigGZQSbAuNB7rHaAKaOIq1NHZ/oVenwPYzS2X773/mUbloiMuNdkY8tAcA6g2p0ZGPCvpAo1FKa0Tg=
+	t=1761219865; cv=none; b=X+xGccfInJJ+REfQEjP1qck5g7ZIxi96isyV5rNk218FfJd4C3rNu3hxW6OHjMmA9AtMvXjKIeJXgId7oVP7lU0SMk9pYr7XdMP/lUDsOjgsWjJG9l9Af5jL07DgOtddGYr+rIu0B1PO3+vfCoFg1RC9mYAuysgq3wLj/8fOa6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761218618; c=relaxed/simple;
-	bh=AZgER26oUshoP3CdEH8UIX863Xw4lI/oUz06gXKgFQE=;
+	s=arc-20240116; t=1761219865; c=relaxed/simple;
+	bh=cy4V6zbnUJKpfzlYqkl2+ynvSjzII+zM16L4REe+EG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OlkPCTRHKytcZRteHht2mt91ikKK6S7jJsjAsTGvf4jPYvShrIAhKdnO9eatFVQEB4sjGS7gNXtk12YMEy38N3Af22Zb0KGFePtQiHNZnBv6IeXfR3ODhH2J4F+lABPbJ+ItYGC58xdy2be1mG/EKSLolaWhjoS1G8d+E5tBcto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJcxCUrR; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfB8PPMZl7/06BRxAOrEmS/Tb00XjjLKHcibmTlDkz0mCbTIHekLpAfd8DuuGCWtFPcxt4DfwtETuKjMlWdP3G8reuSpaLjFVNsIczTz0AfkQbMcIxVtCNVVQL0yTuaMILLavXVMm5QfFWUkizdJPcXIyIT3fVfTDgFeeGcDswE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldLFkSh8; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJcxCUrR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldLFkSh8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761218617; x=1792754617;
+  t=1761219863; x=1792755863;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AZgER26oUshoP3CdEH8UIX863Xw4lI/oUz06gXKgFQE=;
-  b=IJcxCUrRwrmzwFl1VmqzTcHO9zA4XFwHm+CnDXsdJPlch30DaAJ/Oszt
-   yyFWHEk+W1g7AdpFY3d6YSfOG/YM2UZU/AxnCDN7ENm7iycVtuGg8anaC
-   +/67H0EnpAouV1o131kWYaq8y2Im4n0fRdhKsZrKv2ZoV4wB4Sm8orPwj
-   Fei2rOIZj+errhg2f+Y9Q4wglZMEeHvBaUHB8y6padvpBnvPHC8lTR7HX
-   4wd2dWKRYcqhgM9b1I3c8K5M6TDVJdi9BmUHf2LNugQRQ76i4QU03o/Tn
-   UUTrfUx7K2qumFG7ltdsSFVGXXg25JFiT3jW6ZAosxARbsVGTMBalQ2oI
-   A==;
-X-CSE-ConnectionGUID: vgeJcYO2QXG9BfHTNDCp8w==
-X-CSE-MsgGUID: OzYM9NWSQeqjSzze77YMlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81010478"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=cy4V6zbnUJKpfzlYqkl2+ynvSjzII+zM16L4REe+EG0=;
+  b=ldLFkSh8BYmH0fcUUwt8NhCgIh34/fp7apcAEHDhVKR7mt5oU38E8P61
+   A9ZTfvPZ6kpyy1JOXsxULoq7Fr47F0QfN+T8FAfg2f4ijeFTnS273IQup
+   fCSHwy2/19c608t6EeGaYlWKcaGMGdiWVqnLmqs7FYBliLNRiy/114t1/
+   oHWOGvQR57vlIzA9Ek9hXY8FaNS2Px/mrHbByS2XWUpWCY+8q6upf0Oa4
+   SGSxB5RAOlz/R8SWpKEzs4gxjk7JDHuXSGkTIfrc1ZRI7y5e+80BPMWHz
+   V78zRd8q+FOIjo05M/kQJhpbzP1IDuDky43vBzVQ3A2ob0XIQ0yoeYRpE
+   w==;
+X-CSE-ConnectionGUID: pNvG8mfQT+CNBPnCHlczmQ==
+X-CSE-MsgGUID: ZHEi+7hjRZu74iPHijo3Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74731705"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="81010478"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 04:23:36 -0700
-X-CSE-ConnectionGUID: FLLq2LjhTZWOTFEnitNZpg==
-X-CSE-MsgGUID: 9flyC3fpTn6Kuf/1p4nXbQ==
+   d="scan'208";a="74731705"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 04:44:22 -0700
+X-CSE-ConnectionGUID: lAhY9L45Q3OBESWWbhMiZA==
+X-CSE-MsgGUID: B9VvGqLOQLWhP4B5gy4dSg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="184614924"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2025 04:23:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Oct 2025 04:44:18 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBtPn-000DOf-0V;
-	Thu, 23 Oct 2025 11:23:31 +0000
-Date: Thu, 23 Oct 2025 19:23:30 +0800
+	id 1vBtjr-000DPt-2T;
+	Thu, 23 Oct 2025 11:44:15 +0000
+Date: Thu, 23 Oct 2025 19:44:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	amd-gfx@lists.freedesktop.org, corbet@lwn.net, rafael@kernel.org,
-	gregkh@linuxfoundation.org, dakr@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 1/2] PM: Allow device drivers to manage the frozen state
- of a device
-Message-ID: <202510231933.86hrXJ9i-lkp@intel.com>
-References: <20251022155114.48418-2-mario.limonciello@amd.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>, intel-xe@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukasz Laguna <lukasz.laguna@intel.com>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Subject: Re: [PATCH v2 22/26] drm/xe/pf: Handle VRAM migration data as part
+ of PF control
+Message-ID: <202510231918.XlOqymLC-lkp@intel.com>
+References: <20251021224133.577765-23-michal.winiarski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251022155114.48418-2-mario.limonciello@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251021224133.577765-23-michal.winiarski@intel.com>
 
-Hi Mario,
+Hi Michał,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.18-rc2 next-20251023]
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20251023]
+[cannot apply to awilliam-vfio/next awilliam-vfio/for-linus drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PM-Allow-device-drivers-to-manage-the-frozen-state-of-a-device/20251022-235319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251022155114.48418-2-mario.limonciello%40amd.com
-patch subject: [PATCH 1/2] PM: Allow device drivers to manage the frozen state of a device
-config: x86_64-randconfig-003-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231933.86hrXJ9i-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231933.86hrXJ9i-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Winiarski/drm-xe-pf-Remove-GuC-version-check-for-migration-support/20251022-064617
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251021224133.577765-23-michal.winiarski%40intel.com
+patch subject: [PATCH v2 22/26] drm/xe/pf: Handle VRAM migration data as part of PF control
+config: arm-randconfig-r072-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231918.XlOqymLC-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231918.XlOqymLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231933.86hrXJ9i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231918.XlOqymLC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/base/power/main.c:1114:26: error: no member named 'is_frozen' in 'struct dev_pm_info'
-    1114 |         if (error && dev->power.is_frozen) {
-         |                      ~~~~~~~~~~ ^
+>> drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c:212:2: error: duplicate case value: 'XE_GT_SRIOV_STATE_RESTORE_DATA_DONE' and 'XE_GT_SRIOV_STATE_MISMATCH' both equal '31'
+           CASE2STR(MISMATCH);
+           ^
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c:170:7: note: expanded from macro 'CASE2STR'
+           case XE_GT_SRIOV_STATE_##_X: return #_X
+                ^
+   <scratch space>:58:1: note: expanded from here
+   XE_GT_SRIOV_STATE_MISMATCH
+   ^
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c:201:2: note: previous case defined here
+           CASE2STR(RESTORE_DATA_DONE);
+           ^
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c:170:7: note: expanded from macro 'CASE2STR'
+           case XE_GT_SRIOV_STATE_##_X: return #_X
+                ^
+   <scratch space>:36:1: note: expanded from here
+   XE_GT_SRIOV_STATE_RESTORE_DATA_DONE
+   ^
    1 error generated.
 
 
-vim +1114 drivers/base/power/main.c
+vim +212 drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c
 
-  1026	
-  1027	/**
-  1028	 * device_resume - Execute "resume" callbacks for given device.
-  1029	 * @dev: Device to handle.
-  1030	 * @state: PM transition of the system being carried out.
-  1031	 * @async: If true, the device is being resumed asynchronously.
-  1032	 */
-  1033	static void device_resume(struct device *dev, pm_message_t state, bool async)
-  1034	{
-  1035		pm_callback_t callback = NULL;
-  1036		const char *info = NULL;
-  1037		int error = 0;
-  1038		DECLARE_DPM_WATCHDOG_ON_STACK(wd);
-  1039	
-  1040		TRACE_DEVICE(dev);
-  1041		TRACE_RESUME(0);
-  1042	
-  1043		if (dev->power.syscore)
-  1044			goto Complete;
-  1045	
-  1046		if (!dev->power.is_suspended)
-  1047			goto Complete;
-  1048	
-  1049		dev->power.is_suspended = false;
-  1050	
-  1051		if (dev->power.direct_complete) {
-  1052			/*
-  1053			 * Allow new children to be added under the device after this
-  1054			 * point if it has no PM callbacks.
-  1055			 */
-  1056			if (dev->power.no_pm_callbacks)
-  1057				dev->power.is_prepared = false;
-  1058	
-  1059			/* Match the pm_runtime_disable() in device_suspend(). */
-  1060			pm_runtime_enable(dev);
-  1061			goto Complete;
-  1062		}
-  1063	
-  1064		if (!dpm_wait_for_superior(dev, async))
-  1065			goto Complete;
-  1066	
-  1067		dpm_watchdog_set(&wd, dev);
-  1068		device_lock(dev);
-  1069	
-  1070		/*
-  1071		 * This is a fib.  But we'll allow new children to be added below
-  1072		 * a resumed device, even if the device hasn't been completed yet.
-  1073		 */
-  1074		dev->power.is_prepared = false;
-  1075	
-  1076		if (dev->pm_domain) {
-  1077			info = "power domain ";
-  1078			callback = pm_op(&dev->pm_domain->ops, state);
-  1079			goto Driver;
-  1080		}
-  1081	
-  1082		if (dev->type && dev->type->pm) {
-  1083			info = "type ";
-  1084			callback = pm_op(dev->type->pm, state);
-  1085			goto Driver;
-  1086		}
-  1087	
-  1088		if (dev->class && dev->class->pm) {
-  1089			info = "class ";
-  1090			callback = pm_op(dev->class->pm, state);
-  1091			goto Driver;
-  1092		}
-  1093	
-  1094		if (dev->bus) {
-  1095			if (dev->bus->pm) {
-  1096				info = "bus ";
-  1097				callback = pm_op(dev->bus->pm, state);
-  1098			} else if (dev->bus->resume) {
-  1099				info = "legacy bus ";
-  1100				callback = dev->bus->resume;
-  1101				goto End;
-  1102			}
-  1103		}
-  1104	
-  1105	 Driver:
-  1106		if (!callback && dev->driver && dev->driver->pm) {
-  1107			info = "driver ";
-  1108			callback = pm_op(dev->driver->pm, state);
-  1109		}
-  1110	
-  1111	 End:
-  1112		error = dpm_run_callback(callback, dev, state, info);
-  1113		/* device manages frozen state */
-> 1114		if (error && dev->power.is_frozen) {
-  1115			dev->power.is_suspended = true;
-  1116			error = 0;
-  1117		}
-  1118	
-  1119		device_unlock(dev);
-  1120		dpm_watchdog_clear(&wd);
-  1121	
-  1122	 Complete:
-  1123		complete_all(&dev->power.completion);
-  1124	
-  1125		TRACE_RESUME(error);
-  1126	
-  1127		if (error) {
-  1128			WRITE_ONCE(async_error, error);
-  1129			dpm_save_failed_dev(dev_name(dev));
-  1130			pm_dev_err(dev, state, async ? " async" : "", error);
-  1131		}
-  1132	
-  1133		dpm_async_resume_subordinate(dev, async_resume);
-  1134	}
-  1135	
+aed2c1d70aa008 Michal Wajdeczko 2024-03-26   99  
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  100  /**
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  101   * DOC: The VF state machine
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  102   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  103   * The simplified VF state machine could be presented as::
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  104   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  105   *	               pause--------------------------o
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  106   *	              /                               |
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  107   *	             /                                v
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  108   *	      (READY)<------------------resume-----(PAUSED)
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  109   *	         ^   \                             /    /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  110   *	         |    \                           /    /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  111   *	         |     stop---->(STOPPED)<----stop    /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  112   *	         |                  /                /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  113   *	         |                 /                /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  114   *	         o--------<-----flr                /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  115   *	          \                               /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  116   *	           o------<--------------------flr
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  117   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  118   * Where:
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  119   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  120   * * READY - represents a state in which VF is fully operable
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  121   * * PAUSED - represents a state in which VF activity is temporarily suspended
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  122   * * STOPPED - represents a state in which VF activity is definitely halted
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  123   * * pause - represents a request to temporarily suspend VF activity
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  124   * * resume - represents a request to resume VF activity
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  125   * * stop - represents a request to definitely halt VF activity
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  126   * * flr - represents a request to perform VF FLR to restore VF activity
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  127   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  128   * However, each state transition requires additional steps that involves
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  129   * communication with GuC that might fail or be interrupted by other requests::
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  130   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  131   *	                   .................................WIP....
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  132   *	                   :                                      :
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  133   *	          pause--------------------->PAUSE_WIP----------------------------o
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  134   *	         /         :                /         \           :               |
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  135   *	        /          :    o----<---stop          flr--o     :               |
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  136   *	       /           :    |           \         /     |     :               V
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  137   *	(READY,RESUMED)<--------+------------RESUME_WIP<----+--<-----resume--(PAUSED)
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  138   *	  ^ \  \           :    |                           |     :          /   /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  139   *	  |  \  \          :    |                           |     :         /   /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  140   *	  |   \  \         :    |                           |     :        /   /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  141   *	  |    \  \        :    o----<----------------------+--<-------stop   /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  142   *	  |     \  \       :    |                           |     :          /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  143   *	  |      \  \      :    V                           |     :         /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  144   *	  |       \  stop----->STOP_WIP---------flr--->-----o     :        /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  145   *	  |        \       :    |                           |     :       /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  146   *	  |         \      :    |                           V     :      /
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  147   *	  |          flr--------+----->----------------->FLR_WIP<-----flr
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  148   *	  |                :    |                        /  ^     :
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  149   *	  |                :    |                       /   |     :
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  150   *	  o--------<-------:----+-----<----------------o    |     :
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  151   *	                   :    |                           |     :
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  152   *	                   :....|...........................|.....:
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  153   *	                        |                           |
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  154   *	                        V                           |
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  155   *	                     (STOPPED)--------------------flr
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  156   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  157   * For details about each internal WIP state machine see:
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  158   *
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  159   * * `The VF PAUSE state machine`_
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  160   * * `The VF RESUME state machine`_
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  161   * * `The VF STOP state machine`_
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  162   * * `The VF FLR state machine`_
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  163   */
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  164  
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  165  #ifdef CONFIG_DRM_XE_DEBUG_SRIOV
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  166  static const char *control_bit_to_string(enum xe_gt_sriov_control_bits bit)
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  167  {
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  168  	switch (bit) {
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  169  #define CASE2STR(_X) \
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  170  	case XE_GT_SRIOV_STATE_##_X: return #_X
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  171  	CASE2STR(WIP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  172  	CASE2STR(FLR_WIP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  173  	CASE2STR(FLR_SEND_START);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  174  	CASE2STR(FLR_WAIT_GUC);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  175  	CASE2STR(FLR_GUC_DONE);
+2a8fcf7cc950e6 Michal Wajdeczko 2025-10-01  176  	CASE2STR(FLR_SYNC);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  177  	CASE2STR(FLR_RESET_CONFIG);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  178  	CASE2STR(FLR_RESET_DATA);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  179  	CASE2STR(FLR_RESET_MMIO);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  180  	CASE2STR(FLR_SEND_FINISH);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  181  	CASE2STR(FLR_FAILED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  182  	CASE2STR(PAUSE_WIP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  183  	CASE2STR(PAUSE_SEND_PAUSE);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  184  	CASE2STR(PAUSE_WAIT_GUC);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  185  	CASE2STR(PAUSE_GUC_DONE);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  186  	CASE2STR(PAUSE_FAILED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  187  	CASE2STR(PAUSED);
+ed3b410584ff58 Michał Winiarski 2025-10-22  188  	CASE2STR(SAVE_WIP);
+008ba8d0525f68 Michał Winiarski 2025-10-22  189  	CASE2STR(SAVE_PROCESS_DATA);
+008ba8d0525f68 Michał Winiarski 2025-10-22  190  	CASE2STR(SAVE_WAIT_DATA);
+33cfbd2b4f240a Michał Winiarski 2025-10-22  191  	CASE2STR(SAVE_DATA_GUC);
+994e46306a1791 Michał Winiarski 2025-10-22  192  	CASE2STR(SAVE_DATA_GGTT);
+bdbad7e79b97c4 Michał Winiarski 2025-10-22  193  	CASE2STR(SAVE_DATA_MMIO);
+afa80586c0896a Michał Winiarski 2025-10-22  194  	CASE2STR(SAVE_DATA_VRAM);
+008ba8d0525f68 Michał Winiarski 2025-10-22  195  	CASE2STR(SAVE_DATA_DONE);
+ed3b410584ff58 Michał Winiarski 2025-10-22  196  	CASE2STR(SAVE_FAILED);
+ed3b410584ff58 Michał Winiarski 2025-10-22  197  	CASE2STR(SAVED);
+ed3b410584ff58 Michał Winiarski 2025-10-22  198  	CASE2STR(RESTORE_WIP);
+008ba8d0525f68 Michał Winiarski 2025-10-22  199  	CASE2STR(RESTORE_PROCESS_DATA);
+008ba8d0525f68 Michał Winiarski 2025-10-22  200  	CASE2STR(RESTORE_WAIT_DATA);
+008ba8d0525f68 Michał Winiarski 2025-10-22  201  	CASE2STR(RESTORE_DATA_DONE);
+ed3b410584ff58 Michał Winiarski 2025-10-22  202  	CASE2STR(RESTORE_FAILED);
+ed3b410584ff58 Michał Winiarski 2025-10-22  203  	CASE2STR(RESTORED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  204  	CASE2STR(RESUME_WIP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  205  	CASE2STR(RESUME_SEND_RESUME);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  206  	CASE2STR(RESUME_FAILED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  207  	CASE2STR(RESUMED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  208  	CASE2STR(STOP_WIP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  209  	CASE2STR(STOP_SEND_STOP);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  210  	CASE2STR(STOP_FAILED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  211  	CASE2STR(STOPPED);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28 @212  	CASE2STR(MISMATCH);
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  213  #undef  CASE2STR
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  214  	default: return "?";
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  215  	}
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  216  }
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  217  #endif
+2bd87f0fc24ae2 Michal Wajdeczko 2024-08-28  218  
 
 -- 
 0-DAY CI Kernel Test Service
