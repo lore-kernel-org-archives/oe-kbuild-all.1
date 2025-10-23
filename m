@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455E430AD1E;
-	Thu, 23 Oct 2025 09:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652563019C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 10:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761213553; cv=none; b=YyM9cKO6Yjv7tzj7YTCk0dwOwCyzr4CUmZwWpD96RMaP+S0tjywpZx4NzOCg3qHQY3zDXO3CgY0UNrC0jHm1vL2EPh8DhKIxsCpIcxXIvehhPslO63OfUKNiGalxke6Yq/YPVozMlTNRW9PFh0Jkgah3FbdU2ZbGrKQ75t/Nj8w=
+	t=1761214852; cv=none; b=E7hrmfkP6GdjMEREVPNUCDRcKpl/3/rSOKWzj73KxW6IcepNL4OXJR/OI/zZDik2kaYPpaqkkHy2YPkoKoMT+Q40UoIjAQxOVF79k53ZB6M7xjWR0umLD+FYxbJm3pq6lHCqtsn6OcAnoEyu02xAx/acIZDijII7CYtILxTiuBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761213553; c=relaxed/simple;
-	bh=hLHspmGDv35B6GcYo8xeUzrN+VASjexvom1/JYJa8H4=;
+	s=arc-20240116; t=1761214852; c=relaxed/simple;
+	bh=scCpTlzLx7rJ8mnOnrRPfnAEvOTBIkLhLrus4KijGvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXsxgJ5RQjBIrH3h7/jbr6j99sb9KAIY7/Mnb1MqcTnh7I860hBRYUcZaUYxrpmpGnB8sAk86kk2xnHp3QkvsYR1JtwVKc8hgKEyKyFRlgEi+b/lNHm9s9nAVUSk7ISp9BOo9EScJM8v320qvlYOCmsDxT2aHWuNRdzbmVzfJoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDnLLImu; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=mbaK1YxeHiO+/Ze0ACUIU4VtXzgQ4BZagHI52U6RZ5i00eAILUMz8GcA54XYd8+qeMNSaVB3u2pBWJeppMhkxORfQqCNvfgAFNZtLDqm16CkbNhUTWeB3SRRUSq0SbG94qM07ZPZvOiTfY2k8ZUH6UiSwRfp9l8E9jwv8hJorOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bv5MAQ9P; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDnLLImu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bv5MAQ9P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761213551; x=1792749551;
+  t=1761214850; x=1792750850;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hLHspmGDv35B6GcYo8xeUzrN+VASjexvom1/JYJa8H4=;
-  b=TDnLLImuq380BKZs+8R9Vq5a6K2clUimBUA44jvg4ZM09uoZRAiXMOSW
-   bQtd57y/mw/N7Gk8nk6XFLGg+ZKm+UrvDUZSEJtwBfxNQhkQ5oNdyWcmS
-   NiCUuXqIZH0QAnbp3sv4S6aZ/KDC7phcmjjg/BitQbnZ033nGmCBR3pWH
-   lLdb+aZFjCJv8Lk2k6qTJg5+m7Cx0EV4J4dLIK0JOkZ/SrcAx7nKotsrJ
-   dpgJagrINe2RDGakpBV4NU8IYAeQRp01dPHm9IA/8ylKJPo9nhDToM7Du
-   4+vuDpNBVM6O2cbTXi+vLzsaP26bdqUSGEhGuQ2xomdju+dRHrlmlAzzn
-   Q==;
-X-CSE-ConnectionGUID: peku+M3URayC++PvzKn+JA==
-X-CSE-MsgGUID: Y1MiIdH3S2WW5nHBTlknHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62588051"
+  bh=scCpTlzLx7rJ8mnOnrRPfnAEvOTBIkLhLrus4KijGvY=;
+  b=Bv5MAQ9P5Lzj/mX+lnW1mWZZUL/rYdq8znJhoqPb8UDXLsVgZoKYIbLK
+   Vj0dtKmoF4+5oyUMjM1yMDkVqKs/ZS4deitWt3oeWUliCdSt9G8bpsUOg
+   80HTP21CU9Zbe7RCXL0GBHDVP/DCZy35SrBbpyTNQzCHaw0SQrNVk6IxU
+   0jy3ALkCQO/II4y5ce7sSDI7Q84fX+aFgy6/Yn7s1bj9FvLJ5zVOviT9M
+   xhhOARAzYnSYF93m7ZVzO/tAslDj4FDvofvyTnWbHoK5mAhjDSSd/vjZI
+   5oWYlZHAQumw4F5L+PPOagIPbV7Akmkf0xxymPUEBPYI3z8BR9Accw8Rq
+   w==;
+X-CSE-ConnectionGUID: 85WrwK4HTVelcOdlEsqJRg==
+X-CSE-MsgGUID: Wb8XX1t7RxGulk8ONYovpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73671040"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="62588051"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 02:59:09 -0700
-X-CSE-ConnectionGUID: A+LTjFrbTlOcjq+81WMNtw==
-X-CSE-MsgGUID: wc3Epmm/TVugzuppfp0p6A==
+   d="scan'208";a="73671040"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 03:20:50 -0700
+X-CSE-ConnectionGUID: AW8BzHGdT/SxkTvNGqye/Q==
+X-CSE-MsgGUID: kLN0X7pFRYqb7BCzQ9YXiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="184510118"
+   d="scan'208";a="188175344"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Oct 2025 02:59:06 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Oct 2025 03:20:47 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBs5z-000DKl-1q;
-	Thu, 23 Oct 2025 09:59:01 +0000
-Date: Thu, 23 Oct 2025 17:58:34 +0800
+	id 1vBsR0-000DLV-2m;
+	Thu, 23 Oct 2025 10:20:43 +0000
+Date: Thu, 23 Oct 2025 18:20:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
-	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
-	gprocida@google.com
-Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
-Message-ID: <202510231707.zbQhQZmN-lkp@intel.com>
-References: <20251013153918.2206045-11-sidnayyar@google.com>
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+	jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
+	troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org, lizhi.hou@amd.com,
+	karol.wachowski@linux.intel.com, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] accel/qaic: Add support for PM callbacks
+Message-ID: <202510231820.AMln6kY3-lkp@intel.com>
+References: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,106 +66,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
+In-Reply-To: <20251022204005.3888195-1-youssef.abdulrahman@oss.qualcomm.com>
 
-Hi Siddharth,
+Hi Youssef,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251023]
-[cannot apply to mcgrof/modules-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.18-rc2 next-20251023]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
-patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251023/202510231707.zbQhQZmN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231707.zbQhQZmN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Add-support-for-PM-callbacks/20251023-044052
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251022204005.3888195-1-youssef.abdulrahman%40oss.qualcomm.com
+patch subject: [PATCH] accel/qaic: Add support for PM callbacks
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231820.AMln6kY3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231707.zbQhQZmN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231820.AMln6kY3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/module/main.c:1271:32: error: no member named 'sig_ok' in 'struct module'
-    1271 |         if (fsa.is_protected && !mod->sig_ok) {
-         |                                  ~~~  ^
-   1 error generated.
+>> drivers/accel/qaic/qaic_drv.c:724:12: warning: 'qaic_pm_resume' defined but not used [-Wunused-function]
+     724 | static int qaic_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+>> drivers/accel/qaic/qaic_drv.c:703:12: warning: 'qaic_pm_suspend' defined but not used [-Wunused-function]
+     703 | static int qaic_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~
 
 
-vim +1271 kernel/module/main.c
+vim +/qaic_pm_resume +724 drivers/accel/qaic/qaic_drv.c
 
-  1228	
-  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
-  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
-  1231							  const struct load_info *info,
-  1232							  const char *name,
-  1233							  char ownername[])
-  1234	{
-  1235		struct find_symbol_arg fsa = {
-  1236			.name	= name,
-  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
-  1238			.warn	= true,
-  1239		};
-  1240		int err;
-  1241	
-  1242		/*
-  1243		 * The module_mutex should not be a heavily contended lock;
-  1244		 * if we get the occasional sleep here, we'll go an extra iteration
-  1245		 * in the wait_event_interruptible(), which is harmless.
-  1246		 */
-  1247		sched_annotate_sleep();
-  1248		mutex_lock(&module_mutex);
-  1249		if (!find_symbol(&fsa))
-  1250			goto unlock;
-  1251	
-  1252		if (fsa.license == GPL_ONLY)
-  1253			mod->using_gplonly_symbols = true;
-  1254	
-  1255		if (!inherit_taint(mod, fsa.owner, name)) {
-  1256			fsa.sym = NULL;
-  1257			goto getname;
-  1258		}
-  1259	
-  1260		if (!check_version(info, name, mod, fsa.crc)) {
-  1261			fsa.sym = ERR_PTR(-EINVAL);
-  1262			goto getname;
-  1263		}
-  1264	
-  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
-  1266		if (err) {
-  1267			fsa.sym = ERR_PTR(err);
-  1268			goto getname;
-  1269		}
-  1270	
-> 1271		if (fsa.is_protected && !mod->sig_ok) {
-  1272			pr_warn("%s: Cannot use protected symbol %s\n",
-  1273				mod->name, name);
-  1274			fsa.sym = ERR_PTR(-EACCES);
-  1275			goto getname;
-  1276		}
-  1277	
-  1278		err = ref_module(mod, fsa.owner);
-  1279		if (err) {
-  1280			fsa.sym = ERR_PTR(err);
-  1281			goto getname;
-  1282		}
-  1283	
-  1284	getname:
-  1285		/* We must make copy under the lock if we failed to get ref. */
-  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-  1287	unlock:
-  1288		mutex_unlock(&module_mutex);
-  1289		return fsa.sym;
-  1290	}
-  1291	
+   702	
+ > 703	static int qaic_pm_suspend(struct device *dev)
+   704	{
+   705		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
+   706	
+   707		dev_dbg(dev, "Suspending..\n");
+   708		if (qaic_data_path_busy(qdev)) {
+   709			dev_dbg(dev, "Device's datapath is busy. Aborting suspend..\n");
+   710			return -EBUSY;
+   711		}
+   712		if (qaic_is_under_reset(qdev)) {
+   713			dev_dbg(dev, "Device is under reset. Aborting suspend..\n");
+   714			return -EBUSY;
+   715		}
+   716		qaic_mqts_ch_stop_timer(qdev->mqts_ch);
+   717		qaic_pci_reset_prepare(qdev->pdev);
+   718		pci_save_state(qdev->pdev);
+   719		pci_disable_device(qdev->pdev);
+   720		pci_set_power_state(qdev->pdev, PCI_D3hot);
+   721		return 0;
+   722	}
+   723	
+ > 724	static int qaic_pm_resume(struct device *dev)
+   725	{
+   726		struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
+   727		int ret;
+   728	
+   729		dev_dbg(dev, "Resuming..\n");
+   730		pci_set_power_state(qdev->pdev, PCI_D0);
+   731		pci_restore_state(qdev->pdev);
+   732		ret = pci_enable_device(qdev->pdev);
+   733		if (ret) {
+   734			dev_err(dev, "pci_enable_device failed on resume %d\n", ret);
+   735			return ret;
+   736		}
+   737		pci_set_master(qdev->pdev);
+   738		qaic_pci_reset_done(qdev->pdev);
+   739		return 0;
+   740	}
+   741	
 
 -- 
 0-DAY CI Kernel Test Service
