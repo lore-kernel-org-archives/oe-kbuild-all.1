@@ -1,60 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E927D35B152
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 06:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE220285041
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 06:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761201158; cv=none; b=iqI5ddvcx/WGW3R8p4u7N5//UyTmG8lYoubVfyae1WWKG++B7C7eB4UQC9fuisdeWZwJRhV+Q8/JV8zoc77JyZBuS+SofCPXCTlVIjyYyd8CXQ8mVkGVPzo2yux02HcRPMUZ6IKXapvISZ2t1nCv3qDIavYm+Sflma9UVBR0cOk=
+	t=1761201406; cv=none; b=UPnsR1z52f0C1WLbeZuJmAFn0jtgxmFv1q2jg+q/wAo4yYXq5I8PMoktkFzMNuM+4EnY7FqaolowNMnu6DSp+RKy9i0kqm59SFJiIpesPZAb/6kOLNZ4wN+prWAQYGg2ssQljfekxW/wgANpTmzXGqhPKk5Akp1W8TUjXLrzXyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761201158; c=relaxed/simple;
-	bh=EzFRJp3goS9/inrxd9TAJCReVk9hkZNZdA6RISHPzjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rYsYhSphpaMOsQWgoLl4hIMIgBZUDE6e546IYv3+NAyIEGCYBRiYh1qpQcqPEHor9bh57fwNXI8KCxzi5OxDXZaO/QhCu9HmNmM/ocnoDHCDa7jT0Erp0VMvXTL9E1VwTr1uO771xt0etxSZYYdpIgr2wD8LcRLkZjTWhNdUvrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cc1mrQDr; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761201406; c=relaxed/simple;
+	bh=jHktJRpimehEbEWEHzUs0oQlFXrvPr4/EwzgpKc+WTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpbXm8f6nmcMvuiLdBSEhu+U1uLE6b9m+9pHxvqtFQatouOAb9owAogvWPbzqLPK0wS9IjipHyuF0hyR4uYhoSW3NsZRwNRow3Us59EkN1VdLuQEQa4VKyrBS2ljl2jJ0zAdi07XCd4LlhNNO6sDT/f7tjbt7rLK+5YqcJqm8YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/R8pJ1i; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cc1mrQDr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761201156; x=1792737156;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EzFRJp3goS9/inrxd9TAJCReVk9hkZNZdA6RISHPzjc=;
-  b=cc1mrQDr+xvHrHjyoaONK4m6eQq1/W8AVIatFdQnSsTYEj6ZoQsnfGdJ
-   XOAAJ2awjR3F/nJwpGCqisaERj4OxWguj/1d8BrdPNMMRp4YN470Fp/m2
-   Dr6vT+uD/b9deokWJiH163digV5UjKIOy58qsjuqS95OPtGNbBFEZ9rOW
-   MFA747Rh8p53ID9p4JD4uUiKlKExf0VQgvLjAKi2udIdXdsc55U+eTVy2
-   ZeXBh8pyzr+MCXg0K7V8yuArbrBXFtll0Fcz1UT/feKT9fhu1BkN2zvLE
-   Y5t29iHs8tgDRVIRAsknXHy+Prhl0x0B3JEPtmZcM7AiL/RsztkZVqXHY
-   Q==;
-X-CSE-ConnectionGUID: aEYRm/KJS2KcpCCeIf2HDQ==
-X-CSE-MsgGUID: mfAAjbVyTQif6Bkto102Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50939442"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="50939442"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 23:32:35 -0700
-X-CSE-ConnectionGUID: 5JhHMk2AT66dzQ7pATN0GQ==
-X-CSE-MsgGUID: iS5eWyDAQYK9TN6MIqduUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="184554337"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2025 23:32:34 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBosB-000D6n-2a;
-	Thu, 23 Oct 2025 06:32:31 +0000
-Date: Thu, 23 Oct 2025 14:32:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 198/198]
- arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb:
- /soc/syscon@14000000: failed to match any schema with compatible:
- ['mediatek,mt8189-padme-mmsys', 'syscon']
-Message-ID: <202510231422.igw7pShs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/R8pJ1i"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-78125ed4052so598169b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Oct 2025 23:36:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761201404; x=1761806204; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vxh5IXXN/oTEexZMfsEWqTqOVeT3OfvGPgG6VwjolG4=;
+        b=A/R8pJ1iGd4+M1AiqsPE6DBTLYeF1eGMuQwiTbL91KmDSFBfXZLb0QOZDCzpRJEiCX
+         t99GTxKN2fCXFvpNfcxLmGjfROxXIayLHjNjFrTom/F7U6edzOMnTLV2p/7k4HSkqtU/
+         I4FlZJtA4jZBY/NZuhMxr/vOvLuVBhBkDz+3IlwDdeWQINn3P3gnrf6GInxg25utavxo
+         aqm28WE9yqQiGd7a+t2Ftp5k63oLCxvaHpdkKWwjBX/hqQtSAGJvt2600pXeNTqqgcbA
+         zbwVLY/6vt5x+eMZGL3IU5iNXTm0iRcet8NdeQi1P3aPbD2m8RH5KTcvAcXfBR+vcUJb
+         QdrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761201404; x=1761806204;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vxh5IXXN/oTEexZMfsEWqTqOVeT3OfvGPgG6VwjolG4=;
+        b=tt6+7rtzq0QJ+1DJ4e/JHfVNzfL5FcEErg90RuKMMU5/ADCaeJdlTJilW26Bcc6laV
+         c6OXXDYiA/mVpf8S8MLur4CqN1uOkav/SNH8YZOoItslgYnSLMUWngLtEnsR23XAw9Kw
+         MGoHOd2yetWbckQF/ZtW9W+Ql+O3OS2jV3iQ2mNGixxhcaVCafMHPd/qkWLXlwmF7gRj
+         eN/COS361geT8hU+Z4QG7qv5XWPL7NMUB5oqXYBoDA/O6fsKT5yaODroQ5m9Wsi6dKZj
+         I13SPcoPZyRuxeu7TN1wonRLlKK5FNbpaafqjdwk9NIODR0Ug7RpqZRGVEMfTC7QlSFy
+         TclQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWC1Aver4wxt93j4fb16iOxRhHLv4JzUaGJxRIIh8r7+OZOs3iTOqKAHdmkm2Hi7B4XscdZsBweD7rcXbq6@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuVgrCGr8aD7eXUfUDIS2jIsrrBTgEKFbVlf/D9819sX3cpKm7
+	x9py4XgcfkvU6f9Suu4sBzC7CbGJGBqXsQsjHLh/HhPwbAzvX9H38ljyUD/TZivm0bQUdHp6bH/
+	5ww+0
+X-Gm-Gg: ASbGncuufmwWLllzIepgSMNgc0kRdKnb6Grl3jlNVy3YaNHpPedFf7pgtb7ib26jhCR
+	FMRIwV2gZaisejEWJjgcu1C0hWLKBTqvMMy32L2lQ4xeR8uZTzy/H8zZfc+9SkOP8GoibaA2zIG
+	a3zEJ8J2ug+/WZjEIKhr3xtyRYKnTmP8WNhH+aI1KxAQfuC1izKq/62O6OGyMVNB9ImQV6E028v
+	HN9fE+dejY4v/3SGfuMqnwZ2evIIjmyiyzcouVy3t8fgoW9rGRZW8CTMuSx+ck1EFCsjzyw3y8S
+	dmqYtFdZlbYcHRU8bHtZPYUTl22nvrqFOqdRVeCXgNEkFJvfBZ7BlzUZxhXFk2a6OF8kpsmoXt3
+	J6Hl6YUmJiIQN5fJaJ4lUfsLu8O8FqJD8UatKejg5MnCHJFfRs0nnvM+f4M6Nw7ujE7gNC0Liyy
+	Y4Hw==
+X-Google-Smtp-Source: AGHT+IFJgbOUm4zaDdsgXZjpxpGCcpFXaWdFjqgKNOX33nOXyIbf12R2eSDruOtha6dRePJInBpPcA==
+X-Received: by 2002:a05:6a00:9514:b0:781:2271:50df with SMTP id d2e1a72fcca58-7a220ad9c9cmr28464862b3a.19.1761201401027;
+        Wed, 22 Oct 2025 23:36:41 -0700 (PDT)
+Received: from localhost ([122.172.87.183])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a274b8a0edsm1356826b3a.35.2025.10.22.23.36.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 23:36:40 -0700 (PDT)
+Date: Thu, 23 Oct 2025 12:06:38 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [vireshk-pm:opp/linux-next 2/2] drivers/opp/of.c:1545:3: error:
+ cannot jump from this goto statement to its label
+Message-ID: <ocd5xl3svsyqivfl76yoxzbwakgx6zpdujxvr37xcr63lhaqgg@3yyspadowr3j>
+References: <202510230410.vPtSOkAh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,175 +75,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202510230410.vPtSOkAh-lkp@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   f9ec4bf2329fdcc8739152f2a8de0daff6f53e18
-commit: 94cb4c57ac63f01d729b56bdea1978c392eb036a [198/198] CHROMIUM: arm64: dts: mediatek: mt8189: modify the dts for display on padme
-config: arm64-randconfig-053-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231422.igw7pShs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema version: 2025.9.dev7+g3b6fdac89
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231422.igw7pShs-lkp@intel.com/reproduce)
+On 23-10-25, 04:34, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
+> head:   45a64ff434a027c296d1d5c35f442e51378c9425
+> commit: 45a64ff434a027c296d1d5c35f442e51378c9425 [2/2] OPP: Initialize scope-based pointers inline
+> config: arm-randconfig-004-20251022 (https://download.01.org/0day-ci/archive/20251023/202510230410.vPtSOkAh-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 754ebc6ebb9fb9fbee7aef33478c74ea74949853)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230410.vPtSOkAh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510230410.vPtSOkAh-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231422.igw7pShs-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku290.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku546.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-rev1-sku802.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku290.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku546.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku802.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
---
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names:0: 'speed-bin' was expected
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cell-names: ['avs-bin-0', 'avs-bin-1', 'avs-bin-2'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: gpu@13000000 (mediatek,mt8189-mali): nvmem-cells: [[129], [130], [131]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/gpu@13000000: failed to match any schema with compatible: ['mediatek,mt8189-mali', 'arm,mali-valhall-jm']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/gpu@13000000/power-model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/gpu@13000000/power-model@1: failed to match any schema with compatible: ['arm,mali-tnax-power-model']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/syscon@13fbf000: failed to match any schema with compatible: ['mediatek,mt8189-mfgcfg', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/syscon@14000000: failed to match any schema with compatible: ['mediatek,mt8189-padme-mmsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/syscon@14000100: failed to match any schema with compatible: ['mediatek,mt8189-dispsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/mutex@14001000: failed to match any schema with compatible: ['mediatek,mt8189-disp-mutex']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/ovl@14002000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/ovl@14003000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ovl']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/rdma@14006000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/rdma@14007000: failed to match any schema with compatible: ['mediatek,mt8189-disp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/color@14008000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/color@14009000: failed to match any schema with compatible: ['mediatek,mt8189-disp-color']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/ccorr@1400a000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
-   arch/arm64/boot/dts/mediatek/mt8189-skywalker-padme-sku1314.dtb: /soc/ccorr@1400b000: failed to match any schema with compatible: ['mediatek,mt8189-disp-ccorr']
+Fixed and pushed.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
