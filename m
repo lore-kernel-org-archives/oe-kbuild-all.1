@@ -1,61 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E312D4B6C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 08:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D75927B347;
+	Thu, 23 Oct 2025 09:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761209176; cv=none; b=afhbAR+6C0fyk04nntU7V41O1Bz2l6fb6+Lh/K/BchmMnJoRiGu8wCBNMGp5EWPlRU9ug1FqbjY24g7fXm2GSUpcJ+7Zi6scOTX4pnlBaMFyOSLba193s8neJcaDsvxnmrR0C8bTQ48zooiZLHVPwg74jEemQbJ1PRbEnYid+CQ=
+	t=1761211072; cv=none; b=qVjGlDjwR4wU2U9kZ23TAgdfwbUb/t3C+7W/HfNcAWKk9Cf4TGXDvV83VNXgk6HyiiG7qqKnCIXSl5xEFK+dcTCHrKb9ObfcSgfPUV4swhFcS3F+YPITMZoOGHnXoPVfUqkU2nJj1V0FjlJ7B1AywMi4e7k/73UgFRBpJXlJkdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761209176; c=relaxed/simple;
-	bh=EY8Ek3ERW2TQRECCj0dq41/kthOLPtP+4ftfpu8G2bM=;
+	s=arc-20240116; t=1761211072; c=relaxed/simple;
+	bh=8fDxK7IJbLk6W/nj6/k7CRd/vX5OM1gDwrZaCNY2L9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ahILY4yV/3E3UYBhBc/BQESkvBru7pucX7K6O92jJV3RLJs7SyTMu/okY2rl12v+KNosTwPhBTEKRt0sg1V0DJoKRt2YrP3cplgDoFYblbnp6RSDvWXMlYiXh8HWp2vIhF76rYGEVypKpcLb3qpzfBFFfdrIC2v+Se1TNT701QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I29QC6bZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=E0MN87+4FXceyU5PyZy1TkMPPA71dtmwY+S48eoi+x0CYuhxffUPahfBdwRQ9DKtWvkL8GK12NPy7/PWBHweVbXbXw4kWdCHqtciszd3OF+JhotH7MEFl8oL6Q8wDkHLoc3gb4afHpv8p4jAfrY3CxfJl013/pjVK83/hEcc3Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxzrV9RK; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I29QC6bZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxzrV9RK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761209175; x=1792745175;
+  t=1761211071; x=1792747071;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EY8Ek3ERW2TQRECCj0dq41/kthOLPtP+4ftfpu8G2bM=;
-  b=I29QC6bZidLEaZ1JXpf78rL+lvR6/AYLgzOy82JGbeZqW2/hJILv7zLg
-   17C44PT69FN91z3gpKnEcv3SWxrTz9E1a4N6/Yb1mxEZI8Klbv+Nh24lk
-   YczeTh+i/W/ZvILnSrPaW2qzPJ4R/1CIGPoXAtDxZVcOmuPhzNxEXnasN
-   oRQaOOzHhNIyih9C96caz53NkNTIAoxcswKmBUGWIa7hH6R78R9mb9oEh
-   CM6CJd5Oglq+XfZOwnhAVooImnTrGnNwjYufN6XKZ6Z+suQT3FFGAGN8n
-   at8UVkifXCwhU8knbx62kIKTjup1W62J7EbZ+fISXMpNizq/3v3Cz9/7z
+  bh=8fDxK7IJbLk6W/nj6/k7CRd/vX5OM1gDwrZaCNY2L9E=;
+  b=jxzrV9RKBClxhguGzrV8JgfpbYAI1giN9VHXkwSq+6+7oX484OVQQPR0
+   jFGRffFFRZm237k9euXzK6xIzRZDJU6FZzXmKZzxRacF8BNLPwiWxEadC
+   RD8LgAoB94xx7TrQu8kP65Xx4V/JQKW5T4xdPRJ4YqaaQbmCtwETgtluL
+   90RoghfxfwB7LwE7ko6TEXqDZypGwAeRhZluaAPoejC1ihYQ8sKncYTVb
+   /61vyLNKdK+2uuIFe6jYHPQoSbjS+DZo6DPzkxpZvtR2dTs8hb2UDD2c6
+   UdsbopE6mTYm/MPR4pZV//1M0dIXQfYOt8czHqsMDT7BGS18mDV7mIKxi
    A==;
-X-CSE-ConnectionGUID: 5BUs7poSRb6tlGhg2l3aXA==
-X-CSE-MsgGUID: MkfgQPICRWG4+U7NAvFzrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85998561"
+X-CSE-ConnectionGUID: MqWyUQwvRJG2aR0hbDVSgA==
+X-CSE-MsgGUID: lp9JceEgQYCyyiHw3EUvfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86001575"
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="85998561"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 01:46:13 -0700
-X-CSE-ConnectionGUID: bGgkeOezTTiuyssMEh5qeA==
-X-CSE-MsgGUID: DB3K6z+4QDGs6pG04sfUyA==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="86001575"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 02:17:49 -0700
+X-CSE-ConnectionGUID: 3P+AzLb2TlGVOk9nbpdJjw==
+X-CSE-MsgGUID: 7nSvZPT9Rm2kG4t26XBajA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="183995380"
+   d="scan'208";a="188400887"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 Oct 2025 01:46:12 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Oct 2025 02:17:46 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBqvp-000DF3-16;
-	Thu, 23 Oct 2025 08:45:00 +0000
-Date: Thu, 23 Oct 2025 16:44:13 +0800
+	id 1vBrS2-000DHB-2M;
+	Thu, 23 Oct 2025 09:17:43 +0000
+Date: Thu, 23 Oct 2025 17:16:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Kent Overstreet <kent.overstreet@linux.dev>
 Subject: [bcachefs:bcachefs-testing 616/639]
- fs/bcachefs/btree/commit.c:717:4: error: implicit declaration of function
- '__WARN'; did you mean 'WARN'?
-Message-ID: <202510231620.dCm1auwk-lkp@intel.com>
+ fs/bcachefs/btree/commit.c:717:4: error: call to undeclared function
+ '__WARN'; ISO C99 and later do not support implicit function declarations
+Message-ID: <202510231728.B7tME22w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,26 +67,27 @@ Content-Disposition: inline
 tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
 head:   9cf2b75e5d1fb8dae9b931b6fd89c90f7c2d3afe
 commit: aed4fab12bad84894df626b9255385ac6e7545e1 [616/639] bcachefs: BCH_FSCK_ERR_validate_error_in_commit
-config: arc-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231620.dCm1auwk-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231620.dCm1auwk-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-005-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231728.B7tME22w-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231728.B7tME22w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231620.dCm1auwk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231728.B7tME22w-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/bcachefs/btree/commit.c: In function 'bch2_trans_commit_write_locked':
->> fs/bcachefs/btree/commit.c:717:4: error: implicit declaration of function '__WARN'; did you mean 'WARN'? [-Werror=implicit-function-declaration]
-       __WARN();
-       ^~~~~~
-       WARN
-   cc1: some warnings being treated as errors
+>> fs/bcachefs/btree/commit.c:717:4: error: call to undeclared function '__WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     717 |                         __WARN();
+         |                         ^
+   fs/bcachefs/btree/commit.c:731:4: error: call to undeclared function '__WARN'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     731 |                         __WARN();
+         |                         ^
+   2 errors generated.
 
 
-vim +717 fs/bcachefs/btree/commit.c
+vim +/__WARN +717 fs/bcachefs/btree/commit.c
 
    590	
    591	static inline int
