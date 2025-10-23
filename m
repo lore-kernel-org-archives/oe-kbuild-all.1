@@ -1,67 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E9F277035
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 18:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D674C3233EE;
+	Thu, 23 Oct 2025 18:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761243962; cv=none; b=OZXytiI+Ojtim9QvaUx1xFiiGCzNzFjmRjm/ET6bVfJ0lo7Ry5EUUtOEbyMG6/OUbPzoGTr42PyXj+3EEJbXO0m0MXyVbN43z9Ph39LmwE4wPkdwiiM9nnNpyk185Ou2uQ84nWXRvRIWJtLWt74SLUXWHLMso5Xr/NvODZk3oNE=
+	t=1761243963; cv=none; b=YmBaTm74aCFl3YuoqakstQIV21ESGcYxUMfRF3r5FbroHy0BKya38xKg9IIAzvped5gV/0UnbkPSTkalkq/d0p2bIaBU4ZQnsTsVfLr+g1gs8Rt398UHJwiV7g24LXHfavsi6TG2H7fbEsixDEgwNFR0L0GUaclQDzoZ8zN21l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761243962; c=relaxed/simple;
-	bh=yLXucJAwwy2i8pDUiFSKkY+/Z+V1pLNyaA//VAVy+zU=;
+	s=arc-20240116; t=1761243963; c=relaxed/simple;
+	bh=VmWSQaHeoONfdSbxzhTJmjZWqW+ju0/7hixcjpMUMJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akzVaOYX763SbG2l8cQmbdA6j+ybYUkh5BkJF/3xqeY31bSnXfPKpaRrznXrPqqMzI9siJ7SoeNtDSxMXCYkRoKN+OXUtbf8ny6jucEa0Wb6e+SiSjdMEO1HmjVDaqzlztDMEz0N0TSrvG266l7s9E8a0M5CEHULvCCMCV9H3Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzAI1KbJ; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJY5FP3nL4aIdUTxUnwRVleAsFzK3jJ9FrQ/Nkj6JnLEZwV0dGUQwZYaAHWhD41V9Fh5YjKT006xg1hzPOL3Aum2dokzPpypVXuPUBla8sABJK4oSIxiDD3nDa7OnakF8OuI+nI+druNzcVVH6BXJ98hbyuVuzGmSVHAmQjZ4BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mxb4jn0I; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzAI1KbJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mxb4jn0I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761243961; x=1792779961;
+  t=1761243962; x=1792779962;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yLXucJAwwy2i8pDUiFSKkY+/Z+V1pLNyaA//VAVy+zU=;
-  b=JzAI1KbJhNXWR7vn5ZRoTZ4/ROmJ6vuaQUcYS4wnzH83HjCI1YN6aDs4
-   RtqQgX8TKzFw3VVQ3R2zZaBNOIS80yQXspXDs1AIA/afn5NHcmJ+lryhe
-   2uHwxh+y1UdmgmYSyVCWyqWE2d6J9fjpD8TcJUsMvJKAUpVdEvK7WWJtz
-   L/SKvGhnd7t0yRNj31QpiKuTXPyRbK1i5nrWl9459YAMWC6vlo6IqTnDV
-   5sZ+B1L5I5ewnZ0L46Rql/Gg1VtzUAq2OQhn9HKdVvZjjmM1egXqydhO8
-   K8X8FkOc6rlDpRhXJMo69rRvq76fIkSxKsYID7ZeS0iFihwGcL+ofwz3n
-   g==;
-X-CSE-ConnectionGUID: UY4YpPR9SbKmkQTPx5F0IQ==
-X-CSE-MsgGUID: w0F5vYbcT2q9m8rDTigu4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63316223"
+  bh=VmWSQaHeoONfdSbxzhTJmjZWqW+ju0/7hixcjpMUMJc=;
+  b=mxb4jn0IC2+h1928JaPSM+ihkGPAM1F4LdJI5lyVdD02hCF/pddSHAOi
+   Y0x1C2stOewFyS6TYgq148n8nI9gZy54D4/JcMMHmFrR1L7RRAs/5zbjx
+   zs4bWt4opcCK0YoEq4R0x6qglOo6WRQW9ThVIzStWuECohu4TDPyfTRPC
+   QgyK4Kd6oICHG3SrCECjngvVfDYIwyV86xVmhUSpqAvXj0e/ZQYGPuFyC
+   k+A9imO4z9zVqlARPgMnon/+5wkMfuK3vdnQo9Q7DNWN3h89r484Hxfga
+   adfkGdAN4R5iiC8W5rnK2Or8ZUiqoXf7ll5fiKeHDbOTHK+tSjqSLUpCG
+   w==;
+X-CSE-ConnectionGUID: dA26p+DER+i6k8P3wOJhfA==
+X-CSE-MsgGUID: ssTVo4S4T5CjjoZbW76lJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62455598"
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="63316223"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 11:26:01 -0700
-X-CSE-ConnectionGUID: FVn3ZHjOTbSSFNKFfX/VlQ==
-X-CSE-MsgGUID: OTWfFuFmTKWq0PKGSKnmkA==
+   d="scan'208";a="62455598"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 11:26:01 -0700
+X-CSE-ConnectionGUID: aMiW3RXHQJ2Q/epAZE27hw==
+X-CSE-MsgGUID: wlE5mxWtRCeKDcArnBgc7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="183833720"
+   d="scan'208";a="221422018"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 Oct 2025 11:25:56 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2025 11:25:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vC00Y-000DmX-1J;
+	id 1vC00Y-000Dmb-1R;
 	Thu, 23 Oct 2025 18:25:54 +0000
-Date: Fri, 24 Oct 2025 02:25:05 +0800
+Date: Fri, 24 Oct 2025 02:25:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	bjorn@kernel.org, magnus.karlsson@intel.com,
-	maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com,
-	sdf@fomichev.me, ast@kernel.org, daniel@iogearbox.net,
-	hawk@kernel.org, john.fastabend@gmail.com, joe@dama.to,
-	willemdebruijn.kernel@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
-Subject: Re: [PATCH net-next v3 3/9] xsk: add xsk_alloc_batch_skb() to build
- skbs in batch
-Message-ID: <202510240231.gdaPdxP4-lkp@intel.com>
-References: <20251021131209.41491-4-kerneljasonxing@gmail.com>
+To: Chris Brandt <chris.brandt@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Hien Huynh <hien.huynh.px@renesas.com>,
+	Nghia Vo <nghia.vo.zn@renesas.com>,
+	Hugo Villeneuve <hugo@hugovil.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Chris Brandt <chris.brandt@renesas.com>
+Subject: Re: [PATCH v3 2/2] drm: renesas: rz-du: Set DSI divider based on
+ target MIPI device
+Message-ID: <202510240111.DvVTqUEp-lkp@intel.com>
+References: <20251022235903.1091453-3-chris.brandt@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,34 +77,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021131209.41491-4-kerneljasonxing@gmail.com>
+In-Reply-To: <20251022235903.1091453-3-chris.brandt@renesas.com>
 
-Hi Jason,
+Hi Chris,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on geert-renesas-drivers/renesas-clk sunxi/sunxi/for-next linus/master v6.18-rc2 next-20251023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/xsk-introduce-XDP_GENERIC_XMIT_BATCH-setsockopt/20251021-211646
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251021131209.41491-4-kerneljasonxing%40gmail.com
-patch subject: [PATCH net-next v3 3/9] xsk: add xsk_alloc_batch_skb() to build skbs in batch
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20251024/202510240231.gdaPdxP4-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240231.gdaPdxP4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Brandt/clk-renesas-rzg2l-Remove-DSI-clock-rate-restrictions/20251023-080220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20251022235903.1091453-3-chris.brandt%40renesas.com
+patch subject: [PATCH v3 2/2] drm: renesas: rz-du: Set DSI divider based on target MIPI device
+config: powerpc-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251024/202510240111.DvVTqUEp-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240111.DvVTqUEp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240231.gdaPdxP4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240111.DvVTqUEp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   or1k-linux-ld: net/core/skbuff.o: in function `xsk_alloc_batch_skb':
-   skbuff.c:(.text+0x77d0): undefined reference to `xsk_build_skb'
->> skbuff.c:(.text+0x77d0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `xsk_build_skb'
->> or1k-linux-ld: skbuff.c:(.text+0x78f0): undefined reference to `xsk_build_skb'
-   skbuff.c:(.text+0x78f0): relocation truncated to fit: R_OR1K_INSN_REL_26 against undefined symbol `xsk_build_skb'
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:751:31: error: called object type 'void *' is not a function or function pointer
+     751 |         rzg2l_cpg_dsi_div_set_divider(mipi_dsi_pixel_format_to_bpp(dsi->format) / dsi->lanes,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+
+
+vim +751 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+
+   687	
+   688	/* -----------------------------------------------------------------------------
+   689	 * Host setting
+   690	 */
+   691	
+   692	static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+   693					      struct mipi_dsi_device *device)
+   694	{
+   695		struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+   696		int ret;
+   697	
+   698		if (device->lanes > dsi->num_data_lanes) {
+   699			dev_err(dsi->dev,
+   700				"Number of lines of device (%u) exceeds host (%u)\n",
+   701				device->lanes, dsi->num_data_lanes);
+   702			return -EINVAL;
+   703		}
+   704	
+   705		switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
+   706		case 24:
+   707			break;
+   708		case 18:
+   709			break;
+   710		case 16:
+   711			if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
+   712				dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+   713					device->format);
+   714				return -EINVAL;
+   715			}
+   716			break;
+   717		default:
+   718			dev_err(dsi->dev, "Unsupported format 0x%04x\n", device->format);
+   719			return -EINVAL;
+   720		}
+   721	
+   722		dsi->lanes = device->lanes;
+   723		dsi->format = device->format;
+   724		dsi->mode_flags = device->mode_flags;
+   725	
+   726		dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+   727							  1, 0);
+   728		if (IS_ERR(dsi->next_bridge)) {
+   729			ret = PTR_ERR(dsi->next_bridge);
+   730			dev_err(dsi->dev, "failed to get next bridge: %d\n", ret);
+   731			return ret;
+   732		}
+   733	
+   734		drm_bridge_add(&dsi->bridge);
+   735	
+   736		/*
+   737		 * Report required division ratio setting for the MIPI clock dividers.
+   738		 * Assume the default clock source is FOUTPOSTDIV (PLL/2) being fed to the DSI-PHY, but also
+   739		 * the DSI-PHY must be 16x the MIPI-DSI HS clock.
+   740		 *
+   741		 * pllclk / 2 = vclk * DSI divider
+   742		 * pllclk = vclk * DSI divider * 2
+   743		 *
+   744		 * hsclk = (vclk * DSI divider * 2) / 16
+   745		 *
+   746		 * vclk * bpp = hsclk * 8 * num_lanes
+   747		 * vclk * bpp = ((vclk * DSI divider * 2) / 16) * 8 * num_lanes
+   748		 *   which simplifies to...
+   749		 * DSI divider = bpp / num_lanes
+   750		 */
+ > 751		rzg2l_cpg_dsi_div_set_divider(mipi_dsi_pixel_format_to_bpp(dsi->format) / dsi->lanes,
+   752					      PLL5_TARGET_DSI);
+   753	
+   754		return 0;
+   755	}
+   756	
 
 -- 
 0-DAY CI Kernel Test Service
