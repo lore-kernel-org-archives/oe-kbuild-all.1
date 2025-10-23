@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82426175BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 02:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAE617A30A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 02:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761187057; cv=none; b=jzM5LIzDjPa8dptRTybQAKmw3kPUvzuqXKGKmTUChIvYvVcalIvjFq76pEERZYME1nqcpyhLjTKGgG6jY+xET5vlDkHTK1zB3MyFX4EOOnCcSul85AW/txmM4z4RGphJrP2NOFH4EYDm46cq2HWvLi4kTOBhR6USS5LDw7+nTtk=
+	t=1761187664; cv=none; b=ShfTCELo0SJQli3BJp0L1omUGojX4RWrmKBFQGSLQJ1rKfhmnm8dZ/cpcOsJ/kOG77RLv2QON/bcCJSST+cX6dW2An38F2BQKEUGGfX9hcrgtHjZ4HNQry+7kdxr8vVOvxkII5prCqlF2g6rGqovM8xuw+JrWvIC4expObUOfWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761187057; c=relaxed/simple;
-	bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JP2fRtZi1wd2RkRL8MZVrRsix22b2+958iaVQ8lrx+xaFOjmdmDBtxLeYwt63FNgbzI/uf3YTrrN6qdePoKJ1BxTbdXOmzWAhGV1/6SNwIaDZ+gRCRx6jW5clg6ZvhpL5C3KrWdSHYvUYbrG2F+SBuDekPj+0l5XxzgMeNsqZkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0LIXIUf; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1761187664; c=relaxed/simple;
+	bh=gE2UclCIUBnnVL6NRgco9WwjOp03pGQCm6kSXY89IP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XDBLoegEdpKCHaWI33s5BOYtfuuapfL565iuG+HBzEazyXsKZ2dHU56Esw3ASax3ZDX9m7J78YvjGC4HpHsm+gFn3JFNjh2xsPAcKPPG/zHZJNWc0Qms9I6TvGmXrziAedQeb8uNVQyY1Siuxpqzp8N1RbWWOCOJzxH0vuwjOtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WS6f4o6V; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0LIXIUf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WS6f4o6V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761187055; x=1792723055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a04xsGAxcdRE8nZTquzK8pJgFqX3dH8uKYpzLxfIqJ0=;
-  b=R0LIXIUfZQpV5V0v+3/Sis7YPZUWuW1N9Z9g4Qkd/kO7SGQQ1FlllAF0
-   UyyTseAzzjhLVRanUic1NUFZYwdCUilbagpGCsqcCzMquMpHRvb+Vc8qA
-   xgLa/vIhntb42TBo03pgg0fyRFnxdzrErfuf/yfUZ1L1rREDm8zun3t+5
-   h/3xgd4JHCR024kdjlFw7rXQNIyv2/R1tG8uT36FyD/sHsvfyOlF4m6Sp
-   LT3b9HtO2y6DRoGxs2ObUuqpHI27Cr4tB//8rLdd8jBOkNBIhoaGLBbqH
-   u7g/IPV7drH7f5t7ARc7xOG3yfe5OxLMSnAN6aQKW684t09C31KyEvq/X
+  t=1761187662; x=1792723662;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gE2UclCIUBnnVL6NRgco9WwjOp03pGQCm6kSXY89IP0=;
+  b=WS6f4o6Vf79Ly8BtZOnJ2XZonOb24rshHpYnK6Kbx5CD/iOfYmYcSq9s
+   m9m0Pw31lVEzYrKY4qomvrkaq1eUqjgfmu0a4gLTa+V/Kufuxh1iKH0Sn
+   mEA2KmLy7gdRcxvMSVA0JfxkYO4+OjhL5wK93AHPYppohb13T3gu8Bm1T
+   LmGOCAfvTYHG+MOKreSfCn5v354O5gOjV6bMXF7VPc3fnfCV7wl82Yl+A
+   ngsZXfoKAA6cAl4BYeNYT2n08H+TuMVXgmS0zLkmjrwAzzGh2C8LWwQF7
+   8rcY2Ce7VsLWkXm8tUnaBR2CmFCdxf5rpVPb1X2XZOdwIT/vWnOj2I0xb
    g==;
-X-CSE-ConnectionGUID: KTGckpq0QiuUwHDOLdEOtQ==
-X-CSE-MsgGUID: zj5BuwM9TdSBF301L3tq7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67212425"
+X-CSE-ConnectionGUID: rHzDuiggTDexxKmcmiYXnQ==
+X-CSE-MsgGUID: lQnhi4BXRMWIXDFBSqAtTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62556946"
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="67212425"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:37:35 -0700
-X-CSE-ConnectionGUID: w8GzWDQITKWBdVZbpWT5Dg==
-X-CSE-MsgGUID: bZ+I8jKrSOyESyQvDRZh5Q==
+   d="scan'208";a="62556946"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 19:47:42 -0700
+X-CSE-ConnectionGUID: axcoH6aNRZ6AvFwGPHPBKQ==
+X-CSE-MsgGUID: L9zJLO46SEWWcXLHBGbD3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="183966486"
+   d="scan'208";a="188436965"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2025 19:37:32 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Oct 2025 19:47:40 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBlCg-000Cwb-0H;
-	Thu, 23 Oct 2025 02:37:27 +0000
-Date: Thu, 23 Oct 2025 10:36:39 +0800
+	id 1vBlMY-000Cx7-2K;
+	Thu, 23 Oct 2025 02:47:38 +0000
+Date: Thu, 23 Oct 2025 10:46:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Siddharth Nayyar <sidnayyar@google.com>, petr.pavlu@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	mcgrof@kernel.org, nathan@kernel.org, nicolas.schier@linux.dev,
-	samitolvanen@google.com, sidnayyar@google.com, maennich@google.com,
-	gprocida@google.com
-Subject: Re: [PATCH v2 10/10] module loader: enforce symbol import protection
-Message-ID: <202510231021.yaURwkIz-lkp@intel.com>
-References: <20251013153918.2206045-11-sidnayyar@google.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/single_direct_ops 3/9] (.text+0x130e): multiple
+ definition of `update_ftrace_direct_del'; fs/netfs/main.o:(.text+0x26e6):
+ first defined here
+Message-ID: <202510231035.T1MUCplL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,106 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251013153918.2206045-11-sidnayyar@google.com>
 
-Hi Siddharth,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on soc/for-next linus/master v6.18-rc2 next-20251022]
-[cannot apply to mcgrof/modules-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Nayyar/define-kernel-symbol-flags/20251021-104658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20251013153918.2206045-11-sidnayyar%40google.com
-patch subject: [PATCH v2 10/10] module loader: enforce symbol import protection
-config: x86_64-randconfig-122-20251022 (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231021.yaURwkIz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
+head:   3d31a310468694e4395d61e15c65edaa618fbb5c
+commit: 6fc33ce4c35edf7fb4fd8c760ad1bb2e472d82cb [3/9] ftrace: Add update_ftrace_direct_del function
+config: sh-randconfig-002-20251023 (https://download.01.org/0day-ci/archive/20251023/202510231035.T1MUCplL-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510231035.T1MUCplL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510231021.yaURwkIz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510231035.T1MUCplL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/module/main.c: In function 'resolve_symbol':
->> kernel/module/main.c:1271:37: error: 'struct module' has no member named 'sig_ok'
-    1271 |         if (fsa.is_protected && !mod->sig_ok) {
-         |                                     ^~
-
-
-vim +1271 kernel/module/main.c
-
-  1228	
-  1229	/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
-  1230	static const struct kernel_symbol *resolve_symbol(struct module *mod,
-  1231							  const struct load_info *info,
-  1232							  const char *name,
-  1233							  char ownername[])
-  1234	{
-  1235		struct find_symbol_arg fsa = {
-  1236			.name	= name,
-  1237			.gplok	= !(mod->taints & (1 << TAINT_PROPRIETARY_MODULE)),
-  1238			.warn	= true,
-  1239		};
-  1240		int err;
-  1241	
-  1242		/*
-  1243		 * The module_mutex should not be a heavily contended lock;
-  1244		 * if we get the occasional sleep here, we'll go an extra iteration
-  1245		 * in the wait_event_interruptible(), which is harmless.
-  1246		 */
-  1247		sched_annotate_sleep();
-  1248		mutex_lock(&module_mutex);
-  1249		if (!find_symbol(&fsa))
-  1250			goto unlock;
-  1251	
-  1252		if (fsa.license == GPL_ONLY)
-  1253			mod->using_gplonly_symbols = true;
-  1254	
-  1255		if (!inherit_taint(mod, fsa.owner, name)) {
-  1256			fsa.sym = NULL;
-  1257			goto getname;
-  1258		}
-  1259	
-  1260		if (!check_version(info, name, mod, fsa.crc)) {
-  1261			fsa.sym = ERR_PTR(-EINVAL);
-  1262			goto getname;
-  1263		}
-  1264	
-  1265		err = verify_namespace_is_imported(info, fsa.sym, mod);
-  1266		if (err) {
-  1267			fsa.sym = ERR_PTR(err);
-  1268			goto getname;
-  1269		}
-  1270	
-> 1271		if (fsa.is_protected && !mod->sig_ok) {
-  1272			pr_warn("%s: Cannot use protected symbol %s\n",
-  1273				mod->name, name);
-  1274			fsa.sym = ERR_PTR(-EACCES);
-  1275			goto getname;
-  1276		}
-  1277	
-  1278		err = ref_module(mod, fsa.owner);
-  1279		if (err) {
-  1280			fsa.sym = ERR_PTR(err);
-  1281			goto getname;
-  1282		}
-  1283	
-  1284	getname:
-  1285		/* We must make copy under the lock if we failed to get ref. */
-  1286		strscpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-  1287	unlock:
-  1288		mutex_unlock(&module_mutex);
-  1289		return fsa.sym;
-  1290	}
-  1291	
+   sh4-linux-ld: fs/netfs/fscache_main.o: in function `update_ftrace_direct_add':
+   (.text+0x12f0): multiple definition of `update_ftrace_direct_add'; fs/netfs/main.o:(.text+0x26c8): first defined here
+   sh4-linux-ld: fs/netfs/fscache_main.o: in function `update_ftrace_direct_del':
+>> (.text+0x130e): multiple definition of `update_ftrace_direct_del'; fs/netfs/main.o:(.text+0x26e6): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
