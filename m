@@ -1,84 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF6B314D1E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 14:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A547724BCF5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 15:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761231414; cv=none; b=tzUOxO8QAzTI9HDuarThTAXnoYn9c1FQRI6iILamuQFQR2eQEJxDdZPNvoE6Dr+5esC+uOy3D/N5HFEe3WuRJKSTu1NuPSWr9wvTOObcUzWH7hMBA3CP/39zlfICEXJgbFXCG73mAjoQr+XWJmVKc9v25OvFSXHLJkCP4sRcSqc=
+	t=1761235038; cv=none; b=TbnMoXdjSUKrn8UmGIFr2KAmqg2ksxhqI+FGszsbZJo77ITyrgDyDXz2PS6/cgJradthWiJ6nZ+tAtROOO8nIxqQL/QPbV0EjtYBBOvL8AhE0e4EBgr5azPoNylLJrEXKvQt/Eaz9HvT0p+fN7sTnEh/ffeReITVmmsIUybi/24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761231414; c=relaxed/simple;
-	bh=7olidiH8q0/8G7O6FXsstzlHmmlLC9Q9UzleO0D6wfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XF+IaCcDy9AYB5VTzRGAHEMnAya6OqK8mc+bbkJyvhQGetXzU4Klc9d0E20TLtlDQ/+M1Kk4GSbsvHm6h0vvAqWL251fo+iJx1w95pweGKNVUP6izC5l8LWvXYJxQg9k59lJqf7/W7Y5cusjZLbtewFY1zJY+5g3hiqJ1BRT5Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObhUtIIR; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1761235038; c=relaxed/simple;
+	bh=+Mt7OJ4qZpR07LYjiW2BmTSsfeguf+q5nmn9Zy67hZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YYilyWO+7M4PA+JSnSQTey65a5ucqe0LutUTB2eXxQ09ImuUnaIHXcAoxclFNSfoS10UCEsvGfTwD2XJh4PtDQKGe8hW4l38t/h24sBwGnf30Hz5VscGJTL55NUlX1r3+O7vOSApHNLRg3U85KqXXHGxxDP1sv80bbzE0C7eOCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fn3dDyzi; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObhUtIIR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fn3dDyzi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761231413; x=1792767413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7olidiH8q0/8G7O6FXsstzlHmmlLC9Q9UzleO0D6wfc=;
-  b=ObhUtIIRKoGfI7oUyNLkXOb+va5eBjBCLnjhycczA+HtiIl/UNDjYU6n
-   2pTaxoDxStFRG8TLmoftc+tASSdPsMQeveuZz9HIhOjA/Vs0JbRofxsvg
-   FJMu4r8oHF/8dCpogDsIHtWfCRYmnje0wYwdax/NHPUwJczI/9VLLpymY
-   p51lvH32ljaJaMWkj3oulOnT0mKg1zS3vDFVrarey3BwfURD5/5K/l94q
-   WJRL++ZwU79VAFvJnk8udHAG2oCX63Vpuxr/KaxzHwc6NXMMts0ff99ix
-   eIziZhcO1bObOTOZfGnhmrDdOuRVJMf8SCb6g6uNTgGV/SP16wyOfykSZ
-   w==;
-X-CSE-ConnectionGUID: HbegbJIwT/Gp61+V8m8zdQ==
-X-CSE-MsgGUID: iq6a/dFsSl6H5TBkF428Ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74006073"
+  t=1761235037; x=1792771037;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+Mt7OJ4qZpR07LYjiW2BmTSsfeguf+q5nmn9Zy67hZ0=;
+  b=Fn3dDyzi7urJZVE+GymQwWk7IYy7yuOE7D4L/o61hAkQ9z8b0DWWyTbK
+   h+POlBqqKbaEVoMtj6cZ6CjV5TiZX7mex9qO8hi1peLJmVlIPqyT509U2
+   XnumYy9ACH3dJ/6++S3fPVXmtN17XY/6yun7X0lCeK6SauIPsLwQHwJex
+   IkykW5G6kLeF3iu1caO8HZVuwtGE8nVT+GJ2tB9Du8JvsqmfKQv4c3BEs
+   AkCP6PxOlhU3LKrCHzSg7qoVaAwD1eP/Pv2vcVnZEE7bsUbGfPRT52E2g
+   mP/0buF1jB3VUyofiXaaiNBiy/B320m/vVciKr6SBEGk8i5ZwinzRTLFv
+   g==;
+X-CSE-ConnectionGUID: to12yRCWTNynr28XRGFxrg==
+X-CSE-MsgGUID: mZkJXkkWQIuft7d5tGLduw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62440332"
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="74006073"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 07:56:52 -0700
-X-CSE-ConnectionGUID: KodoHCDJRZKJSKq8ykhktw==
-X-CSE-MsgGUID: /JHLAy2LT7SuHvAPpPcTew==
+   d="scan'208";a="62440332"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 08:57:15 -0700
+X-CSE-ConnectionGUID: RmGaR0PwRMedOq7W6uUt1Q==
+X-CSE-MsgGUID: n+Z/1kQZSvaumHYENl/+bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,250,1754982000"; 
-   d="scan'208";a="214832508"
+   d="scan'208";a="184118693"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 23 Oct 2025 07:56:46 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 23 Oct 2025 08:57:14 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vBwk7-000DbD-1w;
-	Thu, 23 Oct 2025 14:56:43 +0000
-Date: Thu, 23 Oct 2025 22:56:03 +0800
+	id 1vBxge-000Ddp-1K;
+	Thu, 23 Oct 2025 15:57:12 +0000
+Date: Thu, 23 Oct 2025 23:56:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Shuai Xue <xueshuai@linux.alibaba.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Sunil V L <sunilvl@ventanamicro.com>,
-	Xiaofei Tan <tanxiaofei@huawei.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Guo Weikang <guoweikang.kernel@gmail.com>, Xin Li <xin@zytor.com>
-Subject: Re: [PATCH 3/6 v6] acpi/ghes: Make GHES select ACPI_APEI_PCIEAER
-Message-ID: <202510232204.XIXgPWD7-lkp@intel.com>
-References: <20251023122612.1326748-4-fabio.m.de.francesco@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 202/202]
+ drivers/gpu/drm/mediatek/mtk_dsi.c:341:6: warning: variable 'ui' set but not
+ used
+Message-ID: <202510232353.X8IGV26i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,95 +62,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251023122612.1326748-4-fabio.m.de.francesco@linux.intel.com>
 
-Hi Fabio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 552c50713f273b494ac6c77052032a49bc9255e2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/ACPI-extlog-Trace-CPER-Non-standard-Section-Body/20251023-202846
-base:   552c50713f273b494ac6c77052032a49bc9255e2
-patch link:    https://lore.kernel.org/r/20251023122612.1326748-4-fabio.m.de.francesco%40linux.intel.com
-patch subject: [PATCH 3/6 v6] acpi/ghes: Make GHES select ACPI_APEI_PCIEAER
-config: x86_64-buildonly-randconfig-004-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232204.XIXgPWD7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232204.XIXgPWD7-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   d6e365e8de4e085c0601fabcc823ecf8a6e223ad
+commit: 7db4e2a06b322fdbe143eee233178c4f2e7d6f87 [202/202] CHROMIUM: drm/mediatek: Add cphy driver for mt8189
+config: arm-randconfig-001-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232353.X8IGV26i-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232353.X8IGV26i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510232204.XIXgPWD7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510232353.X8IGV26i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `ghes_handle_aer':
->> drivers/acpi/apei/ghes.c:626:(.text+0xf13e77): undefined reference to `cper_severity_to_aer'
->> ld: drivers/acpi/apei/ghes.c:642:(.text+0xf13f76): undefined reference to `aer_recover_queue'
-   ld: vmlinux.o: in function `cxl_cper_post_prot_err':
-   drivers/acpi/apei/ghes.c:753:(.text+0xf14cef): undefined reference to `cper_severity_to_aer'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ACPI_APEI_PCIEAER
-   Depends on [n]: ACPI [=y] && ACPI_APEI [=y] && PCIEAER [=n]
-   Selected by [y]:
-   - ACPI_APEI_GHES [=y] && ACPI [=y] && ACPI_APEI [=y]
+>> drivers/gpu/drm/mediatek/mtk_dsi.c:341:6: warning: variable 'ui' set but not used [-Wunused-but-set-variable]
+     341 |         u32 ui = 0, cycle_time = 0;
+         |             ^
+>> drivers/gpu/drm/mediatek/mtk_dsi.c:341:14: warning: variable 'cycle_time' set but not used [-Wunused-but-set-variable]
+     341 |         u32 ui = 0, cycle_time = 0;
+         |                     ^
+   2 warnings generated.
 
 
-vim +626 drivers/acpi/apei/ghes.c
+vim +/ui +341 drivers/gpu/drm/mediatek/mtk_dsi.c
 
-cf870c70a19444 Naveen N Rao 2013-07-10  599  
-9852ce9ae213d3 Tyler Baicar 2017-11-28  600  /*
-9852ce9ae213d3 Tyler Baicar 2017-11-28  601   * PCIe AER errors need to be sent to the AER driver for reporting and
-9852ce9ae213d3 Tyler Baicar 2017-11-28  602   * recovery. The GHES severities map to the following AER severities and
-9852ce9ae213d3 Tyler Baicar 2017-11-28  603   * require the following handling:
-9852ce9ae213d3 Tyler Baicar 2017-11-28  604   *
-9852ce9ae213d3 Tyler Baicar 2017-11-28  605   * GHES_SEV_CORRECTABLE -> AER_CORRECTABLE
-9852ce9ae213d3 Tyler Baicar 2017-11-28  606   *     These need to be reported by the AER driver but no recovery is
-9852ce9ae213d3 Tyler Baicar 2017-11-28  607   *     necessary.
-9852ce9ae213d3 Tyler Baicar 2017-11-28  608   * GHES_SEV_RECOVERABLE -> AER_NONFATAL
-9852ce9ae213d3 Tyler Baicar 2017-11-28  609   * GHES_SEV_RECOVERABLE && CPER_SEC_RESET -> AER_FATAL
-9852ce9ae213d3 Tyler Baicar 2017-11-28  610   *     These both need to be reported and recovered from by the AER driver.
-9852ce9ae213d3 Tyler Baicar 2017-11-28  611   * GHES_SEV_PANIC does not make it to this handling since the kernel must
-9852ce9ae213d3 Tyler Baicar 2017-11-28  612   *     panic.
-9852ce9ae213d3 Tyler Baicar 2017-11-28  613   */
-9852ce9ae213d3 Tyler Baicar 2017-11-28  614  static void ghes_handle_aer(struct acpi_hest_generic_data *gdata)
-d334a49113a4a3 Ying Huang   2010-05-18  615  {
-bbcc2e7b642ed2 Tyler Baicar 2017-06-21  616  	struct cper_sec_pcie *pcie_err = acpi_hest_get_payload(gdata);
-bbcc2e7b642ed2 Tyler Baicar 2017-06-21  617  
-9852ce9ae213d3 Tyler Baicar 2017-11-28  618  	if (pcie_err->validation_bits & CPER_PCIE_VALID_DEVICE_ID &&
-a654e5ee4f2213 Ying Huang   2011-12-08  619  	    pcie_err->validation_bits & CPER_PCIE_VALID_AER_INFO) {
-a654e5ee4f2213 Ying Huang   2011-12-08  620  		unsigned int devfn;
-a654e5ee4f2213 Ying Huang   2011-12-08  621  		int aer_severity;
-e2abc47a5a1a9f Shiju Jose   2023-09-21  622  		u8 *aer_info;
-0ba98ec9196746 Betty Dall   2013-06-06  623  
-a654e5ee4f2213 Ying Huang   2011-12-08  624  		devfn = PCI_DEVFN(pcie_err->device_id.device,
-a654e5ee4f2213 Ying Huang   2011-12-08  625  				  pcie_err->device_id.function);
-2458d66b245e39 Tyler Baicar 2016-09-14 @626  		aer_severity = cper_severity_to_aer(gdata->error_severity);
-0ba98ec9196746 Betty Dall   2013-06-06  627  
-0ba98ec9196746 Betty Dall   2013-06-06  628  		/*
-0ba98ec9196746 Betty Dall   2013-06-06  629  		 * If firmware reset the component to contain
-0ba98ec9196746 Betty Dall   2013-06-06  630  		 * the error, we must reinitialize it before
-0ba98ec9196746 Betty Dall   2013-06-06  631  		 * use, so treat it as a fatal AER error.
-0ba98ec9196746 Betty Dall   2013-06-06  632  		 */
-0ba98ec9196746 Betty Dall   2013-06-06  633  		if (gdata->flags & CPER_SEC_RESET)
-0ba98ec9196746 Betty Dall   2013-06-06  634  			aer_severity = AER_FATAL;
-0ba98ec9196746 Betty Dall   2013-06-06  635  
-e2abc47a5a1a9f Shiju Jose   2023-09-21  636  		aer_info = (void *)gen_pool_alloc(ghes_estatus_pool,
-e2abc47a5a1a9f Shiju Jose   2023-09-21  637  						  sizeof(struct aer_capability_regs));
-e2abc47a5a1a9f Shiju Jose   2023-09-21  638  		if (!aer_info)
-e2abc47a5a1a9f Shiju Jose   2023-09-21  639  			return;
-e2abc47a5a1a9f Shiju Jose   2023-09-21  640  		memcpy(aer_info, pcie_err->aer_info, sizeof(struct aer_capability_regs));
-e2abc47a5a1a9f Shiju Jose   2023-09-21  641  
-a654e5ee4f2213 Ying Huang   2011-12-08 @642  		aer_recover_queue(pcie_err->device_id.segment,
-a654e5ee4f2213 Ying Huang   2011-12-08  643  				  pcie_err->device_id.bus,
-37448adfc7ce0d Lance Ortiz  2013-05-30  644  				  devfn, aer_severity,
-37448adfc7ce0d Lance Ortiz  2013-05-30  645  				  (struct aer_capability_regs *)
-e2abc47a5a1a9f Shiju Jose   2023-09-21  646  				  aer_info);
-a654e5ee4f2213 Ying Huang   2011-12-08  647  	}
-3c5b977f06b754 Tyler Baicar 2017-11-28  648  }
-a654e5ee4f2213 Ying Huang   2011-12-08  649  
+   338	
+   339	static void mtk_dsi_cphy_timconfig(struct mtk_dsi *dsi)
+   340	{
+ > 341		u32 ui = 0, cycle_time = 0;
+   342		u32 value = 0;
+   343		u32 data_rate = dsi->data_rate / 1000000;
+   344		struct mtk_phy_timing *timing = &dsi->phy_timing;
+   345	
+   346		ui = (1000 / data_rate > 0) ? 1000 / data_rate : 1;
+   347		cycle_time = 7000 / data_rate;
+   348		/* spec. lpx > 50ns */
+   349		timing->lpx = (data_rate * 80) / 7000 + 1;
+   350		round_up(timing->lpx, 2);
+   351		/* spec.  38ns < hs_prpr < 95ns */
+   352		timing->da_hs_prepare = (data_rate * 50) / 7000 + 1;
+   353		round_up(timing->da_hs_prepare, 2);
+   354		/* spec.  7ui < hs_zero(prebegin) < 448ui
+   355		 * The PreBegin part of the Preamble may
+   356		 * range from 1 to 64 Words, or 7 to 448 symbols.
+   357		 */
+   358		timing->da_hs_zero = 48;
+   359	
+   360		/* spec.  7ui < hs_trail(post) < 224ui
+   361		 * The Post field may range from 1 to 32 Words,
+   362		 * or 7 to 224 symbols.
+   363		 */
+   364		timing->da_hs_trail = 32;
+   365	
+   366		/* spec. ta_get = 5*lpx */
+   367		timing->ta_get = 5 * timing->lpx;
+   368		/* spec. ta_sure = 1.5*lpx */
+   369		timing->ta_sure = 3 * timing->lpx / 2;
+   370		/* spec. ta_go = 4*lpx */
+   371		timing->ta_go = 4 * timing->lpx;
+   372		/* spec. da_hs_exit > 100ns */
+   373		timing->da_hs_exit = round_up((data_rate * 118) / 7000 + 1, 2) + 1;
+   374		dsi->data_phy_cycle = timing->da_hs_prepare + timing->da_hs_zero + timing->da_hs_exit + timing->lpx + 5;
+   375		value = REG_FLD_VAL(FLD_LPX, timing->lpx)
+   376			| REG_FLD_VAL(FLD_HS_PREP, timing->da_hs_prepare)
+   377			| REG_FLD_VAL(FLD_HS_ZERO, timing->da_hs_zero)
+   378			| REG_FLD_VAL(FLD_HS_TRAIL, timing->da_hs_trail);
+   379	
+   380		writel(value, dsi->regs + DSI_PHY_TIMECON0(dsi->driver_data));
+   381	
+   382		value = REG_FLD_VAL(FLD_TA_GO, timing->ta_go)
+   383			| REG_FLD_VAL(FLD_TA_SURE, timing->ta_sure)
+   384			| REG_FLD_VAL(FLD_TA_GET, timing->ta_get)
+   385			| REG_FLD_VAL(FLD_DA_HS_EXIT, timing->da_hs_exit);
+   386	
+   387		writel(value, dsi->regs + DSI_PHY_TIMECON1(dsi->driver_data));
+   388		writel(CPHY_CON0_VAL, dsi->regs + DSI_CPHY_CON0);
+   389		writel(16 * dsi->lanes, dsi->regs + DSI_BLLP_WC);
+   390	}
+   391	
 
 -- 
 0-DAY CI Kernel Test Service
