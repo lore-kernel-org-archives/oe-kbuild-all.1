@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D2330649B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 13:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7193314C0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 14:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761227127; cv=none; b=PK7tIPHvYw0+rL1PqQ5xfbReQ7ZAj1pQ3pIOFJCQO6QOmrzOiO38B5Q4g1ObaXeQtuh9D8Ko6hsNtgNLO1suareqDlvD4ITWcO1JX3wUj4aPtRVWojuHjv+jDvFw30pFqI2k0QWCRkMQ0w7L8vtRK+H9wfELgy+EqyJLNdgyVsY=
+	t=1761230893; cv=none; b=brLUqvdvN6wGFl4jFI1QhcNJJ/XttiAmbEGh5VfHbyxWW9bQh6IovdtDpkD+eGBsoNg228q5fti+J/fqnsf8wk58vWzTB71cMQkNurcnz2uvzqbBXcpSeWpH6QZsKWj+esgdG80VT10AY6CjPv8vF1e1oteGvonhTeBGkcw/ePk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761227127; c=relaxed/simple;
-	bh=YA7Kt8pC5KOUrSoBA+48+jFN6n0v2qJqLQXzjCFRm8U=;
+	s=arc-20240116; t=1761230893; c=relaxed/simple;
+	bh=MgOdUmhxFApDz4sRw7UlK/dEuErVOukFGzY2IjjkGxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iPK3KnGPUUY53V9myZK/fuUvsgxwoRp28kZZlQ1gbXlfOMW/YR2ySy6T3PZIP8H4KwVOznvycrQAaaX2hnOctYIvWuxgWFJpg0X8AI6w67R9JyLIGnsqXW0CU1JORAkU0r5Mgu6UohNEuU4cHFNZXtWFAPlJE+IOfrxQ7I2arkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzGN5zkt; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=uWhSQ3A2v6ePLkkRfR/mEDR33cG74eZoqq108m3s7WnIKqIT3nNnC7KaXrNQX9Pg2L4wQI2Ka8kli73AirEczvdiGlmaMWLajmwtev6fCq0Kf0j5OGGmU8KEoaPjPyBLOVdCKhLfjhpelJFxaI1oDS1EAqLF3/yvxxyZ6dysDFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DjeUviSo; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzGN5zkt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761227126; x=1792763126;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YA7Kt8pC5KOUrSoBA+48+jFN6n0v2qJqLQXzjCFRm8U=;
-  b=lzGN5zktL/BmJAoXVrSnXekLHO594QeL7IAcDxwtNw3O5rH+q5ZLm3YL
-   N9LXZMqD5XJ0i6O6wbCv6eQJbStF5ZTzzAZMkm73oORKw+15GGTLMW3O1
-   R2m6SF1/VGwhbEPbLULpy118L9UTq1a6RM+gH+gHAttQu6ZOxnDIi3ZxZ
-   TKUxySUkSCSp4elQ2NYfir5/Vclfq4m9EY0vx79Yb4PDLFvRlV1zspvVP
-   3UrtQbCKhpnKj/LvIpQOtiTrTbJKF4glfhuuIu1mVXMBL96QaYJHXZjMm
-   +fyppOGs3z5Nr5/+cTYD3/HBReJG8SKqshBE0zTC4prOzx76epsQb5GGG
-   Q==;
-X-CSE-ConnectionGUID: Tr5L91rtQZqNIYoO7QC/5g==
-X-CSE-MsgGUID: XI264Bm8S7ewVzvULZogfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62425279"
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="62425279"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 06:45:07 -0700
-X-CSE-ConnectionGUID: /7Ka4OjqQWqju0M3M2qCKw==
-X-CSE-MsgGUID: czAKOD8WQRChP2mR75BpbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
-   d="scan'208";a="189422051"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Oct 2025 06:45:06 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBvcf-000DXd-0H;
-	Thu, 23 Oct 2025 13:44:58 +0000
-Date: Thu, 23 Oct 2025 21:44:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/single_direct_ops 6/9]
- samples/ftrace/ftrace-direct-multi.c:228:16: error: too few arguments to
- function 'register_ftrace_direct'
-Message-ID: <202510232105.FcQpUN0T-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DjeUviSo"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-471066cfc2aso8836255e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Oct 2025 07:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761230889; x=1761835689; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gOu4NGMCUBSkrR2LXCmniFlUsFFrudDXlxk8VUy4Cb0=;
+        b=DjeUviSo1qgrNGKzflQ0ZwvntIVnFmNYX9/ERUWTRK5I3aM1dKNDABBvh626yVEeFO
+         51ggQy2/IM2QuHSQiJYz5F1jVSm5I7ubsFt3ioLatgAkLuEQNzT6nBE7VpLcvDsaUwIL
+         ql9HeJ4Dh+EHqCO6Pau2cx2K+f7kbT6HeR/8wQboHHKD1RmisxhAhDCSWW1c27KTIA9i
+         LTPSWUZyCqfUTqKmjHqYUEQVWPirS9twvhaWo+ttLxqE8lY7kIr228F8HqVfUsOwS8/i
+         h3ZlVRtg1fgwLItGfOqZmfHfx8TboXGr/z/GET/5R46BUdLjgXu4a+WMKSvCK29zGxJS
+         l8ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761230889; x=1761835689;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gOu4NGMCUBSkrR2LXCmniFlUsFFrudDXlxk8VUy4Cb0=;
+        b=hONx9XlBDMuxpmdrBouDvgIG2EHBM4K6i6TMYV65RmMH2IDFaSACQSaTLxmVg0YRgL
+         6OoWk0IM2ma6SMgyth1lr+35T3Q/UAjH/s3rGgoSLOdSz6hbZbmsHSHY1ucLfj56Ywe9
+         lApfwwKzD3pxoS6j+gwAIVKEOJASoRs1S8zttKxJZkY8f/S635tCqXdcaM5dHAx3fqv9
+         tO6XHqpId837piAXjVKTz3PsEGu8oU2i8J2rbpdctqtMrfyMUKEMOvFTckV7pva/g6/0
+         YjJv+l/umw0IvOxujCtrAOCVAynIn4rGcQcrCZLwLIbBfhE3sZbBvg9MibdRbi9Fje47
+         RLNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXiFIrRLqZK7FLaE0QDfpKDcVs6j8g+sc26ZYXKMqYu6aIiIe39xU67pbwWh4UL9AdCb/PctA/cjXTmgIfT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIhzjriyQcNZAMO548lpPJ0Va85z31bwjckrhkb9EfNg+NH/Hq
+	3ooTYYZkQ+J5bPZ9xBttIyJPVKQxXswcv+aUOn1SvWDlJfwhsUoFHQOgaMd5g9/qfyA=
+X-Gm-Gg: ASbGnctPldX1mIF0Kz7YRKWLCU/MNNjD8mm2kVqzMUwdx3JfmYuUw1zChnFfCDYOm5M
+	9diqbM3HHHn3GvFStSRc8C1r55fsvQY5VpcuU8QxYlrIAw/o+lHZigkCD0oC+BC4jvkuHE21T9R
+	OsaG5+FCmz8KRSYkuxIdY62cSfLjV802uNfexhLnkBjpcvFkPbhMbURpj1wY0E6726FGbz4yP1I
+	oPZh8/MLuYz4DS5TJnyVC0DEI0XjdgUp/n2GiCGcj4hL2w1TSVDUGXMhsrWH/IMhYhCAuYo3geQ
+	8QzUPSHlHLjvSr3Iz620T09X99Ro/qhebCzH2lXj9HG5vFGwADMaldGj20r5iBFDkgDtCYbX0P5
+	Z2IzxGB17m3MJ5w/od8l5Tjn2rE1v++als30cddmGbZJw5V2Rt7//RjTEeVygn/5AURtVbxG/EN
+	tiSA8QIJBKuziOrE/C
+X-Google-Smtp-Source: AGHT+IHPh2MT5lwbkEnF6WyBRT0yvdgZZWzMZDal2Q67sdKk48DCYJobcUZUTlENYCgL3UDZOXyWQA==
+X-Received: by 2002:a05:600c:37c7:b0:46e:477a:16cc with SMTP id 5b1f17b1804b1-47117902f6cmr144699475e9.24.1761230889325;
+        Thu, 23 Oct 2025 07:48:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-474949df22csm64839095e9.0.2025.10.23.07.48.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Oct 2025 07:48:09 -0700 (PDT)
+Date: Thu, 23 Oct 2025 17:48:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jonathan Brophy <professorjonny98@gmail.com>,
+	lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Jonathan Brophy <professor_jonny@hotmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radoslav Tsvetkov <rtsvetkov@gradotech.eu>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] leds: Add Virtual Color LED Group driver
+Message-ID: <202510231653.3V9E5oxE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,88 +80,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251013120955.227572-5-professorjonny98@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/single_direct_ops
-head:   3d31a310468694e4395d61e15c65edaa618fbb5c
-commit: 1e0ad55e88bddb17e85b4b7c4ba933f3b98ecca0 [6/9] ftrace: Use direct hash interface in direct functions
-config: x86_64-randconfig-121-20251023 (https://download.01.org/0day-ci/archive/20251023/202510232105.FcQpUN0T-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510232105.FcQpUN0T-lkp@intel.com/reproduce)
+Hi Jonathan,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Brophy/dt-bindings-leds-Add-YAML-bindings-for-Virtual-Color-LED-Group-driver/20251013-201353
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20251013120955.227572-5-professorjonny98%40gmail.com
+patch subject: [PATCH v2 4/4] leds: Add Virtual Color LED Group driver
+config: loongarch-randconfig-r072-20251019 (https://download.01.org/0day-ci/archive/20251023/202510231653.3V9E5oxE-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510232105.FcQpUN0T-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510231653.3V9E5oxE-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/leds/rgb/leds-group-virtualcolor.c:239 leds_virtualcolor_init_vled() warn: 'phandle_count' unsigned <= 0
 
-   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_init':
->> samples/ftrace/ftrace-direct-multi.c:228:16: error: too few arguments to function 'register_ftrace_direct'
-     228 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from samples/ftrace/ftrace-direct-multi.c:5:
-   include/linux/ftrace.h:539:5: note: declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_exit':
->> samples/ftrace/ftrace-direct-multi.c:233:9: error: too few arguments to function 'unregister_ftrace_direct'
-     233 |         unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:540:5: note: declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi.c: In function 'ftrace_direct_multi_init':
->> samples/ftrace/ftrace-direct-multi.c:229:1: warning: control reaches end of non-void function [-Wreturn-type]
-     229 | }
-         | ^
---
-   samples/ftrace/ftrace-direct-multi-modify.c: In function 'simple_thread':
->> samples/ftrace/ftrace-direct-multi-modify.c:347:23: error: too few arguments to function 'modify_ftrace_direct'
-     347 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   In file included from samples/ftrace/ftrace-direct-multi-modify.c:4:
-   include/linux/ftrace.h:542:5: note: declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c: In function 'ftrace_direct_multi_init':
->> samples/ftrace/ftrace-direct-multi-modify.c:365:15: error: too few arguments to function 'register_ftrace_direct'
-     365 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:539:5: note: declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c: In function 'ftrace_direct_multi_exit':
->> samples/ftrace/ftrace-direct-multi-modify.c:375:9: error: too few arguments to function 'unregister_ftrace_direct'
-     375 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:540:5: note: declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+vim +/phandle_count +239 drivers/leds/rgb/leds-group-virtualcolor.c
 
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  218  static int leds_virtualcolor_init_vled(struct device *dev, struct device_node *child,
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  219  				       struct virtual_led *vled, struct leds_virtualcolor *vc_data)
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  220  {
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  221  	struct led_init_data init_data = {};
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  222  	u32 blink_interval;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  223  	u32 phandle_count;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  224  	u32 max_brightness;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  225  	int ret;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  226  	int i;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  227  
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  228  	ret = of_property_read_u32(child, "priority", &vled->priority);
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  229  	if (ret)
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  230  		vled->priority = 0;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  231  
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  232  	ret = of_property_read_u32(child, "blink", &blink_interval);
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  233  	if (!ret) {
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  234  		vled->blink_delay_on = blink_interval;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  235  		vled->blink_delay_off = blink_interval;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  236  	}
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  237  
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  238  	phandle_count = of_property_count_elems_of_size(child, "leds", sizeof(u32));
+793ec9b4ba92eea Jonathan Brophy 2025-10-14 @239  	if (phandle_count <= 0) {
+                                                            ^^^^^^^^^^^^^^^^^^
+u32 can't be < 0.
 
-vim +/register_ftrace_direct +228 samples/ftrace/ftrace-direct-multi.c
-
-5fae941b9a6f95 Jiri Olsa      2021-10-08  222  
-5fae941b9a6f95 Jiri Olsa      2021-10-08  223  static int __init ftrace_direct_multi_init(void)
-5fae941b9a6f95 Jiri Olsa      2021-10-08  224  {
-5fae941b9a6f95 Jiri Olsa      2021-10-08  225  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  226  	ftrace_set_filter_ip(&direct, (unsigned long) schedule, 0, 0);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  227  
-da8bdfbd422333 Florent Revest 2023-03-21 @228  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-5fae941b9a6f95 Jiri Olsa      2021-10-08 @229  }
-5fae941b9a6f95 Jiri Olsa      2021-10-08  230  
-5fae941b9a6f95 Jiri Olsa      2021-10-08  231  static void __exit ftrace_direct_multi_exit(void)
-5fae941b9a6f95 Jiri Olsa      2021-10-08  232  {
-da8bdfbd422333 Florent Revest 2023-03-21 @233  	unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
-5fae941b9a6f95 Jiri Olsa      2021-10-08  234  }
-5fae941b9a6f95 Jiri Olsa      2021-10-08  235  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
-
-:::::: TO: Florent Revest <revest@chromium.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  240  		dev_err(dev, "No monochromatic LEDs specified for virtual LED %s\n",
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  241  			vled->cdev.name);
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  242  		return -EINVAL;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  243  	}
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  244  
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  245  	vled->num_monochromatics = phandle_count;
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  246  	vled->monochromatics = devm_kcalloc(dev, vled->num_monochromatics,
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  247  					    sizeof(*vled->monochromatics), GFP_KERNEL);
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  248  	if (!vled->monochromatics)
+793ec9b4ba92eea Jonathan Brophy 2025-10-14  249  		return -ENOMEM;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
