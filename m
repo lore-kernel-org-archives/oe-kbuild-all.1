@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3225817C21C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 00:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A1DE552
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 01:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761267502; cv=none; b=bK4KkQjWkhZ7/iHhfcPRrReHkiEW8+0M5A6P00qcIm7PU34+zR3CKJDgQ4v9GGapnGObB1ANZkbhAd2ClA39bkO0RmI6XnK6WWEpbWUxevd+B4kFpKuFoxcjKeJKbqcGcg9eEeZgKI5fU41BVDVICFdiQuNzBRcI2Kfi1MkeK6k=
+	t=1761268704; cv=none; b=quuwoH336Nxb6RHC794SxqKjeqEGJUXNhkVeq6Yo70/fdirFjQNP/k49J17ik9UCEh/YGFAprC7BT/pIikxPxMa5oy6DPjKSDM9E2vz/HTZ8NfkP6OxrhJfMYmhHYuciQyS8XTnCRr21m1mrSNCEl2WZR5Ih6ZxW0mRAZObPrtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761267502; c=relaxed/simple;
-	bh=HNB9YU4g0tsB5ZkpUKb0k8Kume4MVfIFGvuhqIDQyFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YmXkKDBY+q7i59MLQZWisflmZhsFTsRxWuRK2DR5lNzc0hMCzu7mmyk9thx1Sl3w8ZjbhpGZF0Oygf/YJswDfm5spxzDjYONef6txdjPAeJCgDp2fC63AmhqAf9dk9rrkCFHtQwkOumZ+YrzL4XjbJNPmSdfZ8tAT3bt7gRF+68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQKngkpc; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1761268704; c=relaxed/simple;
+	bh=59FO9Amj4ysi/kc47tN83xqFTK/m8OqAO7T7dJZqYb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tllCBIUH3MJcKp+UT5a9JgXlWZOWHUdk7X8AhTi0OVwEIIJZq7xPvMwbu+ciUoNsBkxtTvT7eB5dskzido2FwQB8tvmBQ6VOkkLCPw1lER8G4Pnwq/8gVDY+tOmJKUu8AZ5/o6peRSHpsmqea/7sDaUurWAEi01vxzZax/lbxZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d6EyMwV6; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQKngkpc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d6EyMwV6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761267500; x=1792803500;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HNB9YU4g0tsB5ZkpUKb0k8Kume4MVfIFGvuhqIDQyFw=;
-  b=QQKngkpci71JUgCG+wtWSX/krSUs3jO/0vs3hDBW9gEPwmwWx0O39vYO
-   sqBpLiJp4iuUIbV2fw38K4hJfecIYiQbEG3JoREVV5/SFeRpnr3cWf81V
-   SY6HjaEsSzAgX8u7+SIHvXgtMionxuC5fYF1f458cNkCUFvNmLE53dgxG
-   lDd+wE9dms66ikt5zJ8tS5vV0z0VGaX3/4Lq3tkatJf8sE1Df4PQVTDYZ
-   +3XZjRyqjZe9H8fuRGNLS0hTnmk+R8bAU+5j5i3/pHBwyt9kQQL4syokX
-   0sOcJJ3EITNlsGlKK7Eb5woVl6XBvGFmlx2O61gcipRcibIOLG3iliA6+
-   w==;
-X-CSE-ConnectionGUID: PPV59g6KTXi/CO/sXQkalQ==
-X-CSE-MsgGUID: 3R1uCU6FS721i5+1dr+skQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63153058"
+  t=1761268703; x=1792804703;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=59FO9Amj4ysi/kc47tN83xqFTK/m8OqAO7T7dJZqYb4=;
+  b=d6EyMwV6TPJ9HGh4ZARm4Wz+IGI7NGcgvN/aInGABcf1Lwfpq33wlToB
+   3q16ddeK77U4rKlgHGOOYoXDfNnpfZDeZ7I4n5KbWLjCXp7bCCKyvS3SV
+   1oJSp7hUTnH9g9BHMtoQ+VSuYyNrS1LduVXQLwXgk6QjBdIBjviwtT072
+   ELyuMzF9gaYY6ze8zh8mOgJJUe9vq/FM0MTMFUwSTPzfCdcvImHuj4T5y
+   8auH2uNH0gY+Qpwn2IV/A9kZiSPAOSKfI1w+Gro6Qzzgsbd4ww6WQjKo2
+   luWCWw0iGD++aJCUtfvCp3fdDopRgr+XEOGN1HORzfDMoIQeGwhncVirQ
+   g==;
+X-CSE-ConnectionGUID: P7JuSofRS+S149SAl8Zcmg==
+X-CSE-MsgGUID: dF3XA1DhRUKsf58lvJztXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67317060"
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="63153058"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 17:58:19 -0700
-X-CSE-ConnectionGUID: LCRbWy63Q/CqaYdc7CFPKA==
-X-CSE-MsgGUID: O1768s8HSaizwLavi03RTg==
+   d="scan'208";a="67317060"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 18:18:22 -0700
+X-CSE-ConnectionGUID: CKIP91qTTQeI7w7Tlnz6Fg==
+X-CSE-MsgGUID: UgEJhx29S0+C9FhOxviPPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="184783644"
+   d="scan'208";a="221502573"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2025 17:58:19 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2025 18:18:22 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vC68G-000E21-2k;
-	Fri, 24 Oct 2025 00:58:16 +0000
-Date: Fri, 24 Oct 2025 08:57:30 +0800
+	id 1vC6Rf-000E3N-0j;
+	Fri, 24 Oct 2025 01:18:19 +0000
+Date: Fri, 24 Oct 2025 09:18:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Koichiro Den <den@valinux.co.jp>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-ucode-staging-ANBZ26616 6/6]
- include/linux/find.h:586:69: warning: left-hand operand of comma expression
- has no effect
-Message-ID: <202510240805.llrYtVLK-lkp@intel.com>
+Subject: Re: [RFC PATCH 17/25] dmaengine: dw-edma: Add
+ dw_edma_find_by_child() helper
+Message-ID: <202510240850.wHR4rcrk-lkp@intel.com>
+References: <20251023071916.901355-18-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +63,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251023071916.901355-18-den@valinux.co.jp>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-ucode-staging-ANBZ26616
-head:   100ed01fa824506a22d399f00670e0e0fab77243
-commit: d636b67fff5ff4d0ef14ea9da9426ab76f6d57b6 [6/6] x86/microcode/intel: Establish staging control logic
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251024/202510240805.llrYtVLK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240805.llrYtVLK-lkp@intel.com/reproduce)
+Hi Koichiro,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jonmason-ntb/ntb-next]
+[also build test ERROR on vkoul-dmaengine/next pci/next pci/for-linus linus/master v6.18-rc2 next-20251023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/PCI-endpoint-pci-epf-vntb-Use-array_index_nospec-on-mws_size-access/20251023-153325
+base:   https://github.com/jonmason/ntb ntb-next
+patch link:    https://lore.kernel.org/r/20251023071916.901355-18-den%40valinux.co.jp
+patch subject: [RFC PATCH 17/25] dmaengine: dw-edma: Add dw_edma_find_by_child() helper
+config: x86_64-buildonly-randconfig-005-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240850.wHR4rcrk-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240850.wHR4rcrk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240805.llrYtVLK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240850.wHR4rcrk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bitmap.h:9,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/processor.h:23,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/firmware.h:7,
-                    from arch/x86/kernel/cpu/microcode/intel.c:15:
-   arch/x86/kernel/cpu/microcode/intel.c: In function 'stage_microcode':
-   arch/x86/kernel/cpu/microcode/intel.c:331:27: error: 'cpu_primary_thread_mask' undeclared (first use in this function)
-     331 |         for_each_cpu(cpu, cpu_primary_thread_mask) {
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/find.h:586:48: note: in definition of macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                ^~~~
-   include/linux/cpumask.h:299:31: note: in expansion of macro 'cpumask_bits'
-     299 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |                               ^~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:331:9: note: in expansion of macro 'for_each_cpu'
-     331 |         for_each_cpu(cpu, cpu_primary_thread_mask) {
-         |         ^~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:331:27: note: each undeclared identifier is reported only once for each function it appears in
-     331 |         for_each_cpu(cpu, cpu_primary_thread_mask) {
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/find.h:586:48: note: in definition of macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                ^~~~
-   include/linux/cpumask.h:299:31: note: in expansion of macro 'cpumask_bits'
-     299 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |                               ^~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:331:9: note: in expansion of macro 'for_each_cpu'
-     331 |         for_each_cpu(cpu, cpu_primary_thread_mask) {
-         |         ^~~~~~~~~~~~
->> include/linux/find.h:586:69: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                                     ^
-   include/linux/cpumask.h:299:9: note: in expansion of macro 'for_each_set_bit'
-     299 |         for_each_set_bit(cpu, cpumask_bits(mask), small_cpumask_bits)
-         |         ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/microcode/intel.c:331:9: note: in expansion of macro 'for_each_cpu'
-     331 |         for_each_cpu(cpu, cpu_primary_thread_mask) {
-         |         ^~~~~~~~~~~~
+   ld: drivers/pci/controller/dwc/pcie-designware-ep.o: in function `dw_edma_find_by_child':
+>> include/linux/dma/edma.h:148: multiple definition of `dw_edma_find_by_child'; drivers/pci/controller/dwc/pcie-designware.o:pcie-designware.c:(.text+0x820): first defined here
+   ld: drivers/pci/controller/dwc/pci-keystone.o: in function `dw_edma_find_by_child':
+   pci-keystone.c:(.text+0x1050): multiple definition of `dw_edma_find_by_child'; drivers/pci/controller/dwc/pcie-designware.o:pcie-designware.c:(.text+0x820): first defined here
+   ld: drivers/pci/controller/dwc/pci-layerscape-ep.o: in function `dw_edma_find_by_child':
+   pci-layerscape-ep.c:(.text+0x360): multiple definition of `dw_edma_find_by_child'; drivers/pci/controller/dwc/pcie-designware.o:pcie-designware.c:(.text+0x820): first defined here
+   ld: drivers/pci/controller/dwc/pcie-qcom-common.o: in function `dw_edma_find_by_child':
+>> include/linux/dma/edma.h:148: multiple definition of `dw_edma_find_by_child'; drivers/pci/controller/dwc/pcie-designware.o:pcie-designware.c:(.text+0x820): first defined here
+   ld: drivers/pci/controller/dwc/pcie-qcom-ep.o: in function `dw_edma_find_by_child':
+   pcie-qcom-ep.c:(.text+0xec0): multiple definition of `dw_edma_find_by_child'; drivers/pci/controller/dwc/pcie-designware.o:pcie-designware.c:(.text+0x820): first defined here
+--
+   In file included from drivers/pci/controller/dwc/pcie-designware.h:18,
+                    from drivers/pci/controller/dwc/pci-layerscape-ep.c:19:
+>> include/linux/dma/edma.h:145:17: warning: no previous prototype for 'dw_edma_find_by_child' [-Wmissing-prototypes]
+     145 | struct dw_edma *dw_edma_find_by_child(struct device *child)
+         |                 ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +586 include/linux/find.h
+vim +148 include/linux/dma/edma.h
 
-6b8ecb84f8f640 include/asm-generic/bitops/find.h Yury Norov 2021-08-14  584  
-bc9d6635c293a2 include/linux/find.h              Yury Norov 2021-08-14  585  #define for_each_set_bit(bit, addr, size) \
-fdae96a3fc7f70 include/linux/find.h              Yury Norov 2022-09-19 @586  	for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-bc9d6635c293a2 include/linux/find.h              Yury Norov 2021-08-14  587  
-
-:::::: The code at line 586 was first introduced by commit
-:::::: fdae96a3fc7f70eb8ff9619550d7fa604719626a lib/find: optimize for_each() macros
-
-:::::: TO: Yury Norov <yury.norov@gmail.com>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+   140	
+   141	static inline void dw_edma_unregister_selfirq(struct dw_edma *dw,
+   142						      dw_edma_selfirq_fn fn, void *data)
+   143	{
+   144	}
+ > 145	struct dw_edma *dw_edma_find_by_child(struct device *child)
+   146	{
+   147		return NULL;
+ > 148	}
+   149	#endif /* CONFIG_DW_EDMA */
+   150	
 
 -- 
 0-DAY CI Kernel Test Service
