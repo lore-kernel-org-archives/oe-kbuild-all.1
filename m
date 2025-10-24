@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34250309F12
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 14:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68536315777
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 14:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761316825; cv=none; b=dZK2tfiFQfWs4iYJRpdsGSqWoDgkCvGYBYLRitZtDoY2dNNgE9+jMt2SbrXkbI7M0mbWJ+MIuMT2P5Lk4VgW4NKOzbpdRD5D32zd7Iv8+huc/eEOGgwpUT9fW/2/QeNDpKViXkwpQcRkQD9FNNNJUwum4CCtvodWgw6wj5aaWA4=
+	t=1761316826; cv=none; b=n7z/LfY3K/KXInIlkTVs6tXiFRt1jCabAXvyEuLnXzv2pNQUUcNLu2Yw3uSEPn7wDIBpQ5+IfLHjPV0hKt2dL977BdqSyXkO5Ges1RRD4unLj47kmffrDuWoyM8haW+CCC3IPj8RbsTl1BYn1PWUSJijGxtD8QM6Ajgg4gey4ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761316825; c=relaxed/simple;
-	bh=pV5pcCB9vNpyv824WOHMj2E+HmfWIKutqHfUumuUzO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XUppR04jRHIyjKL+aBxsYsNzcgnxI8jQtad99gSsm0iK9OhAComNRUrYashvQzdsdCwFdxEspsuv+RN8T5UkmNPnBlc//Vw0Vl/44v+6/4N4OckRLWn/rUQJIxZmNKReMcIfOaCXEL1hTxAfJEeJXmchzDmhAW1qVE2xaUq1fQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZS9v6yyX; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1761316826; c=relaxed/simple;
+	bh=kFmBSVAPamgrEmh6lxH3C4/FTOznXEWauAt5DdqlJE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIVBB5wzO2uYcc305BTvAdAQxriwFneYGOuiwy+ZJtwY/EWoj/X++qAPGSmwxhbdxJacquTfyp/cszcHkS+VWHsng9L8IJ/5pr2KQt8ZQpy8V/IjvOqThuXDEPQW4zxjTnQjOTQSEoMIh708eDZDQA/9EVKSJ2UhWJvOMONel6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZc1DU1C; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZS9v6yyX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZc1DU1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761316823; x=1792852823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pV5pcCB9vNpyv824WOHMj2E+HmfWIKutqHfUumuUzO0=;
-  b=ZS9v6yyXLxToq33nhzsjOYz9tS9yl65JZjaHqg4jozvkWO02KVaud0P/
-   fW/LIUlXNm+2dUYmibmXgdrHsvMjayIyMWnhRWA/c5Np8bBIRmcuwFjbA
-   C+SsJoI6L2Oft9x5R3SrBC4iX3dd0VyngLTKa9hCtsyPnDU1S1snPAUUs
-   E49su0KwkckcyCDE+AynBYaqqG7Ckmlh799uGuyK15jdLtj3cT+tFFfqk
-   fiq4wb2vMDsbRS8spYr1tuVUeZcsramMmbXoSHfFbGIhdFPqKfpi+DACc
-   bohfTO80KT/f+ytPwibKWqBQo/uqIUdzWVPFZljxi5YhXJIK75ntUH7uT
-   Q==;
-X-CSE-ConnectionGUID: 48RtwsL5QXyxPdCZdejNTA==
-X-CSE-MsgGUID: 1uEACPJ2Tfiyg+eFALd31w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88967965"
+  t=1761316824; x=1792852824;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kFmBSVAPamgrEmh6lxH3C4/FTOznXEWauAt5DdqlJE4=;
+  b=nZc1DU1Cl3TO5kkrIsDxLsDPJy3VgzRVfK+IMROg7uMO5XwSaXQ593m8
+   dlWRfOZMhTRL/MHcJj8ky5R+D2rbHUNcaWWe+ht7TZjXmYukoFXsqbxFk
+   qwfzk5aBYzI8fljs9AEmiB4DWRCxBq6++IBXl0I0fKwr6V45wGPspWIyJ
+   Ym9nm1kN/x2ZvNaPK9OkUb7BhoTEcejAIj9fexNrX8miMStsKjULsgINa
+   1lM8Qv7XqFRF94ivbr4NYw3LlkdcNu11AyM3/wGUc2InriYAzWdXZrdU1
+   4XjrzlJjPHbFn7EKEKp/NJr4QlaIe82QpRtg+G0ZRL/W/ZFdlmSUADLDe
+   w==;
+X-CSE-ConnectionGUID: K2hg2T+0RyeltKFXL8QkqA==
+X-CSE-MsgGUID: sP90xgx/SuCjDEuZ7NT/ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74101395"
 X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; 
-   d="scan'208";a="88967965"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 07:40:22 -0700
-X-CSE-ConnectionGUID: jzl1ZfFPSFStDMmJdsFrBg==
-X-CSE-MsgGUID: /KORfN9JQPW/lKZIDo3sPg==
+   d="scan'208";a="74101395"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 07:40:23 -0700
+X-CSE-ConnectionGUID: 9ZP+G8szQ8OnXA13aoXHfA==
+X-CSE-MsgGUID: LGJpFOR1RAah9yEEE9k0Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,252,1754982000"; 
-   d="scan'208";a="221648148"
+   d="scan'208";a="184343395"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 24 Oct 2025 07:40:21 -0700
+  by orviesa007.jf.intel.com with ESMTP; 24 Oct 2025 07:40:21 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCIxm-000EYu-31;
+	id 1vCIxm-000EYj-2Q;
 	Fri, 24 Oct 2025 14:40:18 +0000
-Date: Fri, 24 Oct 2025 22:40:11 +0800
+Date: Fri, 24 Oct 2025 22:40:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dominique Martinet <asmadeus@codewreck.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/9p/vfs_dentry.c:112 __v9fs_lookup_revalidate() warn: inconsistent
- indenting
-Message-ID: <202510242207.kbIt1Wet-lkp@intel.com>
+To: Siddh Raman Pant <siddh.raman.pant@oracle.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] udp: Move back definition of udpv6_encap_needed_key to
+ ipv6 file.
+Message-ID: <202510242214.RjDUfVB7-lkp@intel.com>
+References: <20251023090736.99644-1-siddh.raman.pant@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,82 +67,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251023090736.99644-1-siddh.raman.pant@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6fab32bb6508abbb8b7b1c5498e44f0c32320ed5
-commit: 43c36a56ccf6d9b07b4b3f4f614756e687dcdc01 Revert "fs/9p: Refresh metadata in d_revalidate for uncached mode too"
-date:   2 days ago
-config: x86_64-randconfig-161-20251024 (https://download.01.org/0day-ci/archive/20251024/202510242207.kbIt1Wet-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Siddh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.18-rc2 next-20251024]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddh-Raman-Pant/udp-Move-back-definition-of-udpv6_encap_needed_key-to-ipv6-file/20251023-171157
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251023090736.99644-1-siddh.raman.pant%40oracle.com
+patch subject: [PATCH] udp: Move back definition of udpv6_encap_needed_key to ipv6 file.
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251024/202510242214.RjDUfVB7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510242214.RjDUfVB7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510242207.kbIt1Wet-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510242214.RjDUfVB7-lkp@intel.com/
 
-smatch warnings:
-fs/9p/vfs_dentry.c:112 __v9fs_lookup_revalidate() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +112 fs/9p/vfs_dentry.c
-
-    63	
-    64	static int __v9fs_lookup_revalidate(struct dentry *dentry, unsigned int flags)
-    65	{
-    66		struct p9_fid *fid;
-    67		struct inode *inode;
-    68		struct v9fs_inode *v9inode;
-    69	
-    70		if (flags & LOOKUP_RCU)
-    71			return -ECHILD;
-    72	
-    73		inode = d_inode(dentry);
-    74		if (!inode)
-    75			goto out_valid;
-    76	
-    77		v9inode = V9FS_I(inode);
-    78		if (v9inode->cache_validity & V9FS_INO_INVALID_ATTR) {
-    79			int retval;
-    80			struct v9fs_session_info *v9ses;
-    81	
-    82			fid = v9fs_fid_lookup(dentry);
-    83			if (IS_ERR(fid)) {
-    84				p9_debug(
-    85					P9_DEBUG_VFS,
-    86					"v9fs_fid_lookup: dentry = %pd (%p), got error %pe\n",
-    87					dentry, dentry, fid);
-    88				return PTR_ERR(fid);
-    89			}
-    90	
-    91			v9ses = v9fs_inode2v9ses(inode);
-    92			if (v9fs_proto_dotl(v9ses))
-    93				retval = v9fs_refresh_inode_dotl(fid, inode);
-    94			else
-    95				retval = v9fs_refresh_inode(fid, inode);
-    96			p9_fid_put(fid);
-    97	
-    98			if (retval == -ENOENT) {
-    99				p9_debug(P9_DEBUG_VFS, "dentry: %pd (%p) invalidated due to ENOENT\n",
-   100					 dentry, dentry);
-   101				return 0;
-   102			}
-   103			if (v9inode->cache_validity & V9FS_INO_INVALID_ATTR) {
-   104				p9_debug(P9_DEBUG_VFS, "dentry: %pd (%p) invalidated due to type change\n",
-   105					 dentry, dentry);
-   106				return 0;
-   107			}
-   108			if (retval < 0) {
-   109				p9_debug(P9_DEBUG_VFS,
-   110					"refresh inode: dentry = %pd (%p), got error %pe\n",
-   111					dentry, dentry, ERR_PTR(retval));
- > 112			if (retval < 0)
-   113				return retval;
-   114			}
-   115		}
-   116	out_valid:
-   117		p9_debug(P9_DEBUG_VFS, "dentry: %pd (%p) is valid\n", dentry, dentry);
-   118		return 1;
-   119	}
-   120	
+>> aarch64-linux-ld: net/ipv4/udp.o:(__jump_table+0xe8): undefined reference to `udpv6_encap_needed_key'
 
 -- 
 0-DAY CI Kernel Test Service
