@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2557A2C3266;
-	Fri, 24 Oct 2025 19:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27771DF99C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 20:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761335566; cv=none; b=K+5DwbYWwOqQoS0TW6TT0C6XRONxtJWsolWX0WDmnIyU5+kn50XCmhzuk/7XW/S/Xy2uSI+4ACkvJHzCx8XDZTQeimq7/l4SnL+LI3QbNgWXT09vRRgMEEOZtRUNirAdkD5wBy3rV08/0rbh4GCnD9gZJl9L2YqJfwpuBB13TDQ=
+	t=1761336227; cv=none; b=A1nPATc/f+DJ9xr9EnItCywyby0zlzrc++cDg6RJGIHFTglDv65kJjqWuFBIsCi74SXaRYH4ifKNnTGDJPQOH6JDg+QIYsQ0nSHIGRzTtPoxLxJYb9JFLP7qV7YG17ly3jqaZuhqcM3U4CuAAa1b5KdnHjJntnDESaPurV0NN3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761335566; c=relaxed/simple;
-	bh=3x7xy6qxucdfQdt2qzoQKMOdvyKn3y8ClOvaimJTnOk=;
+	s=arc-20240116; t=1761336227; c=relaxed/simple;
+	bh=w/I/vzGLKsqMTfSK+T+h+CCJHBTnoRvvTaijEH8JyXw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ThmoJwM9DyZ4MH5g3eJGp+OZqa9vMgVLTqrs2+M7an4AUdNCSJZ43O9kiwlaR4v4RfYkJ8aDlj1fFvr7rsMxDxpcZzqmCj8o0lVPlsnidND/dF1ox2fdmOIe9kG2hucNO3zInUksDnvxagVpo+gOLG6VJKZ3QX0gvRr5rm9zMxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iq4mzIIp; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=pdOuuYcKWlwlFxwckAQGGc0lo3QFokCaPWqfAlLveU42Rmt6xgocc+xVcWas6MliTzKx9hx9pXaFYLum/1g4ahEistdKKJSltdXfm9+S+kKFvGXtXuK5kBCgt9hjgPDJGDtND6gt+r+FVaVbby1hqOvmDTWWkwKdnyDWm/18gAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQYjkE0k; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iq4mzIIp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQYjkE0k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761335564; x=1792871564;
+  t=1761336226; x=1792872226;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3x7xy6qxucdfQdt2qzoQKMOdvyKn3y8ClOvaimJTnOk=;
-  b=Iq4mzIIpspQGC6KcnHGCpGBoT16cby37RRhDJnfjUo11tEAzxqwUijgK
-   XvHChDXvDcpkbR3GlsKvkFnd8dIbz/hjHtro9k94KH36MkuBuU2vZGOii
-   i01fd51Ear23C0wHnKEdXM59qe9WPJTvwpUjcfWDBRkPWSS7aU9HaRQsA
-   Y8Zvq0BDEEXbZ6mlOQJWoTMT8W+YY6mO8fUZwXTKK3UqShimEZiBpyxze
-   10BNrrcKMYBfoNxN1vSvhfQe6iwVvBR2uUtcO3T/I6DjZU1EXB8eeaf67
-   lMSswbes/U9utU9J9qG5JuUj4AnXE0ACopoo7hPbQYm6K+i2KIi8FNsEx
+  bh=w/I/vzGLKsqMTfSK+T+h+CCJHBTnoRvvTaijEH8JyXw=;
+  b=YQYjkE0krSTX92mhfusl/QHKO/xdXgoUZokxFCxjnaluvXGYVJ1IPd2E
+   R23hG6zwg0YkXWm3mWPCefUHgME5L/FyxKhU8Tv7GJN8iHxKZE3awjXY5
+   msWYtBLeQHfdafV8tBYA3Vvoe2EoVQIDUdJN1q0SsQpq52ARjofaYu4BO
+   JSgQVaVBagTJH+1OFtjuyprnrSkMNKBW0gSuzPwfNzIhnOjb32j/WuOf7
+   Hsqz1XZRqw+x2ryP+hkEyLhVbq3+pKZvpYUSeIYR3PVA9dUa+JJivJjxV
+   fCvhN8M/Sxc+9kdHjn0LHEtEPmyJMMOEJEmq2IVMeRze7weND3uzEEABG
    g==;
-X-CSE-ConnectionGUID: b6DtaKDnQCOw553jlVrQ9w==
-X-CSE-MsgGUID: qGFTuqpUSRGuPalE5OPYIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63556228"
+X-CSE-ConnectionGUID: D5R/v7vhRuCP5kra9yPSbA==
+X-CSE-MsgGUID: tJ5Bo+zNTVuC5knLI4goXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63616129"
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="63556228"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 12:52:43 -0700
-X-CSE-ConnectionGUID: dxf09my1Sh224KWYYl040g==
-X-CSE-MsgGUID: 0slHqqNdRqiEpFD0cmBqFw==
+   d="scan'208";a="63616129"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 13:03:45 -0700
+X-CSE-ConnectionGUID: Mt1JBB9PSfKlUyCP6PVGTA==
+X-CSE-MsgGUID: QASgRoHISgipIesUGp5bhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="184420561"
+   d="scan'208";a="184120232"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Oct 2025 12:52:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Oct 2025 13:03:44 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCNq3-000EqB-2I;
-	Fri, 24 Oct 2025 19:52:39 +0000
-Date: Sat, 25 Oct 2025 03:52:28 +0800
+	id 1vCO0j-000Eqh-1U;
+	Fri, 24 Oct 2025 20:03:41 +0000
+Date: Sat, 25 Oct 2025 04:02:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:gemini-pata-phyreset 1/1]
- drivers/ata/pata_ftide010.c:281:9: error: call to undeclared function
- 'gemini_sata_reset_bridge'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202510250354.CU6OH7Zt-lkp@intel.com>
+ drivers/ata/pata_ftide010.c:281:23: error: implicit declaration of function
+ 'gemini_sata_reset_bridge'; did you mean 'gemini_sata_start_bridge'?
+Message-ID: <202510250406.04KadpK4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,40 +66,29 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git gemini-pata-phyreset
 head:   e38c5ad2b2c58db7b5f83d50abe3f7479d8888e4
 commit: e38c5ad2b2c58db7b5f83d50abe3f7479d8888e4 [1/1] ata: pata_ftide010: introduce phys reset
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251025/202510250354.CU6OH7Zt-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250354.CU6OH7Zt-lkp@intel.com/reproduce)
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251025/202510250406.04KadpK4-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250406.04KadpK4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510250354.CU6OH7Zt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510250406.04KadpK4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/ata/pata_ftide010.c:281:9: error: call to undeclared function 'gemini_sata_reset_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/ata/pata_ftide010.c: In function 'pata_ftide010_gemini_phy_hardreset':
+>> drivers/ata/pata_ftide010.c:281:23: error: implicit declaration of function 'gemini_sata_reset_bridge'; did you mean 'gemini_sata_start_bridge'? [-Wimplicit-function-declaration]
      281 |                 ret = gemini_sata_reset_bridge(sg, 0);
-         |                       ^
-   drivers/ata/pata_ftide010.c:281:9: note: did you mean 'gemini_sata_start_bridge'?
-   drivers/ata/sata_gemini.h:18:5: note: 'gemini_sata_start_bridge' declared here
-      18 | int gemini_sata_start_bridge(struct sata_gemini *sg, unsigned int bridge);
-         |     ^
-   drivers/ata/pata_ftide010.c:287:9: error: call to undeclared function 'gemini_sata_reset_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     287 |                 ret = gemini_sata_reset_bridge(sg, 1);
-         |                       ^
-   drivers/ata/pata_ftide010.c:294:9: error: call to undeclared function 'gemini_sata_reset_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     294 |                 ret = gemini_sata_reset_bridge(sg, 0);
-         |                       ^
-   drivers/ata/pata_ftide010.c:301:9: error: call to undeclared function 'gemini_sata_reset_bridge'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     301 |                 ret = gemini_sata_reset_bridge(sg, 1);
-         |                       ^
->> drivers/ata/pata_ftide010.c:420:26: error: no member named 'hardreset' in 'struct ata_port_operations'
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                       gemini_sata_start_bridge
+   drivers/ata/pata_ftide010.c: In function 'pata_ftide010_gemini_init':
+>> drivers/ata/pata_ftide010.c:420:39: error: 'struct ata_port_operations' has no member named 'hardreset'
      420 |                 pata_ftide010_port_ops.hardreset =
-         |                 ~~~~~~~~~~~~~~~~~~~~~~ ^
-   5 errors generated.
+         |                                       ^
 
 
-vim +/gemini_sata_reset_bridge +281 drivers/ata/pata_ftide010.c
+vim +281 drivers/ata/pata_ftide010.c
 
    268	
    269	static int pata_ftide010_gemini_phy_hardreset(struct ata_link *link,
