@@ -1,66 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1663B2FDC52
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 08:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C4330146D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 08:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761293285; cv=none; b=YZcBz0TNqqrdC7Gpre1G+3e3cbtOT14XsxEtHDexXvq5AwwDAdI2CBLnjQGC5uDbvHwxI6nDwu2f8mty8BnnTaftKSxyaBAZYMcEGtnPEOEukEl+pTyRGZ/YA+6uFy6ej4F7sjVBLVBP36MBH1ZFLSt/sktsgAR4nmk9puATZYQ=
+	t=1761293287; cv=none; b=a3n4BD2pVxeoHuIAVm2UJ5AYfJwcbgL347igvt+XP49Wv2Pht1nsqmkKOw2rvMvMOGusy473jGYUkgWsrdbrrCTUToMudmFYQn77/wBEBCm/GKd6sPJhy9Ciw3b2ljbWC9doCEpgOZRex2tGqihhl3ahRKERrNHGiKYynkkOrR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761293285; c=relaxed/simple;
-	bh=UTt/Q0XaE240mGhbyc0GBR+vGT+S8mXRNkiX+CKXR2g=;
+	s=arc-20240116; t=1761293287; c=relaxed/simple;
+	bh=oEStOdqPKkYmMdtBrnXaFxilbVoDVz48fbZzqOt555s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgbpYaI6SAX+kuj05Gs0Ebme0HQqTlbBbX4wwH6jeEapECY9sbNpx3MGuFVY3nzslm61YN3qUxjybLDdQDo91qxObUuXsTozL3XWP55AjckbMhHNGtsq33KN6kVkuEjmzTkerhpx2URoBPPhNyDn6yrTk/qlNgMIb6zdeT4st7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivwmwOoU; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=pElfLT70zwBPiCESt9KedHdmpEAfa9qVH7DUfhTapur+j6n6J/ERZujdWkV3i6eBM/I+RScTrcHJUgITY5IIgEdMYnZO/3DAauLAKK0zP44HHFqFJDw7YsW1+53tGst00szN7kPbQZZxhiA2ix/HlYWBUd7Tbadi7l3lcywV/2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UnxwsfAL; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivwmwOoU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UnxwsfAL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761293284; x=1792829284;
+  t=1761293286; x=1792829286;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UTt/Q0XaE240mGhbyc0GBR+vGT+S8mXRNkiX+CKXR2g=;
-  b=ivwmwOoU9Bd/cH4Wf+HuCtuJGRkesBmqZwiIy2UQgfGPPy8+6r+YtrlX
-   iNlXfqntenWLEPbywW5OxklGbeZwntSbWf3WocDLF+FbzIPU8qokMsdAO
-   8acOSeG37kdJFpoCP7c6hQaUUvGhctXia9RuXk/q0V+vOUYWwxsq7QjfB
-   CsDaI8FkUvfqxinxlnOQpI7DPVjg3jy1yH2iJp20blbwCgzzGN6NsiTDP
-   LTPg5hT3JLiGLxQm+g+1YEK9kyyZQ0kzlTji7b8zZX6KtCrgGbhDwGLgh
-   eVYnH9gzkwS1Cg5alp9txDqbW3QJqnvC8ETnPlfTpD0Tmr+nxz2J/fJkb
-   Q==;
-X-CSE-ConnectionGUID: rdG2G/ilS0ikew/RvsIXHw==
-X-CSE-MsgGUID: f4aIew4sRLaAq4yx9JMXLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73761248"
-X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="73761248"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 01:08:04 -0700
-X-CSE-ConnectionGUID: cCFN/iBWRGahFx9FoHfx9Q==
-X-CSE-MsgGUID: zqkBOcvTQa22Dhk4feXAcA==
+  bh=oEStOdqPKkYmMdtBrnXaFxilbVoDVz48fbZzqOt555s=;
+  b=UnxwsfALA9Mb3Grm3xdv9egH7fCd36kwoFCACxTznJJpbrcWmwr+jfZ3
+   JpVcs+nXIue7YMM0/9lXeoI+OCH0Jf4AKRgSs8/TV5/b59zV+tYzq5FOG
+   PeO7dQVB8CdmgZ3kKSJKaVE8j4YvNih2mG+JkbdI80FuzJN0inXuPrmXw
+   egktt4iiSndHu+9t7ljNBbz9JWVwxSDdsHc1BnU8zRyZOZLJNvCcqa5BN
+   Dy+KhcbFCvvP4Xzk8JQq5JNowXH8kTZRncuGWSDQ5rXOIpwkv9mhw93y1
+   u60oGwhM7OugcfPhnaFJEaOEymQTW4ehdz0FHRp8yncaHm3wrdAnt/1Pe
+   g==;
+X-CSE-ConnectionGUID: 2pdNoks+ROqBX81cTr7SUA==
+X-CSE-MsgGUID: zisEGmXESuaQDXrBmjuyVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63374904"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63374904"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 01:08:04 -0700
+X-CSE-ConnectionGUID: 4juy8i/pQa6vC/c6R6Heng==
+X-CSE-MsgGUID: kpUR26MhQeOxRV6p20pF0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="184441717"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 24 Oct 2025 01:08:00 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2025 01:07:59 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCCq5-000EJv-16;
+	id 1vCCq5-000EJt-12;
 	Fri, 24 Oct 2025 08:07:57 +0000
-Date: Fri, 24 Oct 2025 16:07:43 +0800
+Date: Fri, 24 Oct 2025 16:07:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, hawk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	magnus.karlsson@intel.com, aleksander.lobakin@intel.com,
-	ilias.apalodimas@linaro.org, toke@redhat.com, lorenzo@kernel.org,
-	kuba@kernel.org, Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	syzbot+ff145014d6b0ce64a173@syzkaller.appspotmail.com,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Octavian Purdila <tavip@google.com>
-Subject: Re: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
-Message-ID: <202510241549.mWZqm0BR-lkp@intel.com>
-References: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
+To: Usama Arif <usamaarif642@gmail.com>, dwmw@amazon.co.uk,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, ardb@kernel.org, hpa@zytor.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, apopple@nvidia.com,
+	thuth@redhat.com, nik.borisov@suse.com, kas@kernel.org,
+	linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+	kernel-team@meta.com, Usama Arif <usamaarif642@gmail.com>,
+	Michael van der Westhuizen <rmikey@meta.com>,
+	Tobias Fleig <tfleig@meta.com>
+Subject: Re: [PATCH 1/3] x86/boot: Fix page table access in 5-level to
+ 4-level paging transition
+Message-ID: <202510241522.uU9W0Xbv-lkp@intel.com>
+References: <20251022220755.1026144-2-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,69 +68,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251022125209.2649287-2-maciej.fijalkowski@intel.com>
+In-Reply-To: <20251022220755.1026144-2-usamaarif642@gmail.com>
 
-Hi Maciej,
+Hi Usama,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf/master]
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on tip/master efi/next linus/master v6.18-rc2 next-20251024]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xdp-introduce-xdp_convert_skb_to_buff/20251022-210958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20251022125209.2649287-2-maciej.fijalkowski%40intel.com
-patch subject: [PATCH v3 bpf 1/2] xdp: introduce xdp_convert_skb_to_buff()
-config: sh-randconfig-r111-20251024 (https://download.01.org/0day-ci/archive/20251024/202510241549.mWZqm0BR-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510241549.mWZqm0BR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/x86-boot-Fix-page-table-access-in-5-level-to-4-level-paging-transition/20251023-061048
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20251022220755.1026144-2-usamaarif642%40gmail.com
+patch subject: [PATCH 1/3] x86/boot: Fix page table access in 5-level to 4-level paging transition
+config: x86_64-buildonly-randconfig-004-20251024 (https://download.01.org/0day-ci/archive/20251024/202510241522.uU9W0Xbv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510241522.uU9W0Xbv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510241549.mWZqm0BR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510241522.uU9W0Xbv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:4164:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   net/core/dev.c:5188:9: sparse: sparse: context imbalance in 'kick_defer_list_purge' - different lock contexts for basic block
-   net/core/dev.c:5290:22: sparse: sparse: context imbalance in 'enqueue_to_backlog' - different lock contexts for basic block
-   net/core/dev.c: note: in included file (through include/trace/events/xdp.h, include/linux/bpf_trace.h):
->> include/net/xdp.h:398:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] pkt_len @@     got unsigned char * @@
-   include/net/xdp.h:398:17: sparse:     expected unsigned int [usertype] pkt_len
-   include/net/xdp.h:398:17: sparse:     got unsigned char *
-   net/core/dev.c:5678:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
-   net/core/dev.c:6373:9: sparse: sparse: context imbalance in 'flush_backlog' - different lock contexts for basic block
-   net/core/dev.c:6520:9: sparse: sparse: context imbalance in 'process_backlog' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +398 include/net/xdp.h
+   arch/x86/boot/compressed/pgtable_64.c: In function 'configure_5level_paging':
+>> arch/x86/boot/compressed/pgtable_64.c:185:35: error: implicit declaration of function 'pgd_val' [-Wimplicit-function-declaration]
+     185 |                 new_cr3 = (u64 *)(pgd_val(pgdp[0]) & PTE_PFN_MASK);
+         |                                   ^~~~~~~
 
-   386	
-   387	static inline
-   388	void xdp_convert_skb_to_buff(struct sk_buff *skb, struct xdp_buff *xdp,
-   389				     struct xdp_rxq_info *xdp_rxq)
-   390	{
-   391		u32 frame_sz, pkt_len;
-   392	
-   393		/* SKB "head" area always have tailroom for skb_shared_info */
-   394		frame_sz = skb_end_pointer(skb) - skb->head;
-   395		frame_sz += SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-   396	
-   397		DEBUG_NET_WARN_ON_ONCE(!skb_mac_header_was_set(skb));
- > 398		pkt_len =  skb->tail - skb->mac_header;
-   399	
-   400		xdp_init_buff(xdp, frame_sz, xdp_rxq);
-   401		xdp_prepare_buff(xdp, skb->head, skb->mac_header, pkt_len, true);
-   402	
-   403		if (skb_is_nonlinear(skb)) {
-   404			skb_shinfo(skb)->xdp_frags_size = skb->data_len;
-   405			xdp_buff_set_frags_flag(xdp);
-   406		} else {
-   407			xdp_buff_clear_frags_flag(xdp);
-   408		}
-   409	
-   410		xdp->rxq->mem.type = page_pool_page_is_pp(virt_to_head_page(xdp->data)) ?
-   411					MEM_TYPE_PAGE_POOL : MEM_TYPE_PAGE_SHARED;
-   412	}
-   413	
+
+vim +/pgd_val +185 arch/x86/boot/compressed/pgtable_64.c
+
+   101	
+   102	asmlinkage void configure_5level_paging(struct boot_params *bp, void *pgtable)
+   103	{
+   104		void (*toggle_la57)(void *cr3);
+   105		bool l5_required = false;
+   106	
+   107		/* Initialize boot_params. Required for cmdline_find_option_bool(). */
+   108		sanitize_boot_params(bp);
+   109		boot_params_ptr = bp;
+   110	
+   111		/*
+   112		 * Check if LA57 is desired and supported.
+   113		 *
+   114		 * There are several parts to the check:
+   115		 *   - if user asked to disable 5-level paging: no5lvl in cmdline
+   116		 *   - if the machine supports 5-level paging:
+   117		 *     + CPUID leaf 7 is supported
+   118		 *     + the leaf has the feature bit set
+   119		 */
+   120		if (!cmdline_find_option_bool("no5lvl") &&
+   121		    native_cpuid_eax(0) >= 7 && (native_cpuid_ecx(7) & BIT(16))) {
+   122			l5_required = true;
+   123	
+   124			/* Initialize variables for 5-level paging */
+   125			__pgtable_l5_enabled = 1;
+   126			pgdir_shift = 48;
+   127			ptrs_per_p4d = 512;
+   128		}
+   129	
+   130		/*
+   131		 * The trampoline will not be used if the paging mode is already set to
+   132		 * the desired one.
+   133		 */
+   134		if (l5_required == !!(native_read_cr4() & X86_CR4_LA57))
+   135			return;
+   136	
+   137		trampoline_32bit = (unsigned long *)find_trampoline_placement();
+   138	
+   139		/* Preserve trampoline memory */
+   140		memcpy(trampoline_save, trampoline_32bit, TRAMPOLINE_32BIT_SIZE);
+   141	
+   142		/* Clear trampoline memory first */
+   143		memset(trampoline_32bit, 0, TRAMPOLINE_32BIT_SIZE);
+   144	
+   145		/* Copy trampoline code in place */
+   146		toggle_la57 = memcpy(trampoline_32bit +
+   147				TRAMPOLINE_32BIT_CODE_OFFSET / sizeof(unsigned long),
+   148				&trampoline_32bit_src, TRAMPOLINE_32BIT_CODE_SIZE);
+   149	
+   150		/*
+   151		 * Avoid the need for a stack in the 32-bit trampoline code, by using
+   152		 * LJMP rather than LRET to return back to long mode. LJMP takes an
+   153		 * immediate absolute address, which needs to be adjusted based on the
+   154		 * placement of the trampoline.
+   155		 */
+   156		*(u32 *)((u8 *)toggle_la57 + trampoline_ljmp_imm_offset) +=
+   157							(unsigned long)toggle_la57;
+   158	
+   159		/*
+   160		 * The code below prepares page table in trampoline memory.
+   161		 *
+   162		 * The new page table will be used by trampoline code for switching
+   163		 * from 4- to 5-level paging or vice versa.
+   164		 */
+   165	
+   166		if (l5_required) {
+   167			/*
+   168			 * For 4- to 5-level paging transition, set up current CR3 as
+   169			 * the first and the only entry in a new top-level page table.
+   170			 */
+   171			*trampoline_32bit = __native_read_cr3() | _PAGE_TABLE_NOENC;
+   172		} else {
+   173			u64 *new_cr3;
+   174			pgd_t *pgdp;
+   175	
+   176			/*
+   177			 * For 5- to 4-level paging transition, copy page table pointed
+   178			 * by first entry in the current top-level page table as our
+   179			 * new top-level page table.
+   180			 *
+   181			 * We cannot just point to the page table from trampoline as it
+   182			 * may be above 4G.
+   183			 */
+   184			pgdp = (pgd_t *)read_cr3_pa();
+ > 185			new_cr3 = (u64 *)(pgd_val(pgdp[0]) & PTE_PFN_MASK);
 
 -- 
 0-DAY CI Kernel Test Service
