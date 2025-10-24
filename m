@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A23312B143
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 02:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39AD35B130
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 03:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761272567; cv=none; b=jR1kqrn7tIi7NFaJnj6NxxUyWLCVoUcL+szMPAWLPYOQc6c0b5rCV3gS+i2KXM55hWOZLnDpV6ajj/cr08kP86gAdBk+gRdmF616B5NKH+pafebSLZ0+0Ie2eaN2Ia8nicsZwXvAGsvCMBdHgRRuzCIDzOxStciGTzXoHqFWJLY=
+	t=1761277482; cv=none; b=YA1Bt5a321o3eU9BaTxqwbVNIVuo6UmEkfqji5t6MKpcoV1neoHLibMelu2wRIneBwJ4swvZdty3qMwkMgD35mUX3NCk1D671ancysarb5hY4pqKu0BaEGRxBm9AgUH7AO4vfb+a+LUGNZjAuIMdr/LtzfRL0gSCjGROpIj+/Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761272567; c=relaxed/simple;
-	bh=UBq6wLEILW3Sn87s9h1Xkl1RidnJdWAVJ7kWvH15Cd4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oHIEsFJT2mSD/eOZrMMsM/UlYa2P2c34pXYPOx+cVxTvnbeHA3oeiBr40K+mG846gsQiN2/KRYzCa3CsfG7Zd0GUX2voZh9DK1H4W421uGXzD+3ilKbMj6ojNr+ctRbbPTcawXvxoQ+58Cx7U8QkBe7T6+s/Ppz1HZPBM+btm50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iUhtkhwZ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1761277482; c=relaxed/simple;
+	bh=tZJ7uiaiBScstPSkZXZcxRLE+crO/MJ+s9QGeZq/QrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DXohdFjh3M/T42xUm5kPGOEl4FRewGmHO5+vCBUbqO8d958GwQ+oH3+7UbswjZ5E7cTHOhhOUMUtWOlGty7g+UNhYPK1tePDcMxcyqH69RjGmAW2sarXS7Hp6+VMxNDBuSQ7cNjR/RBWdwnJOHCThHnec6Bt83qI7TVWRJ8H/cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0k7XDyA; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iUhtkhwZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0k7XDyA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761272565; x=1792808565;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UBq6wLEILW3Sn87s9h1Xkl1RidnJdWAVJ7kWvH15Cd4=;
-  b=iUhtkhwZAI2XE9klzl1g/DFsBZWu8I0oKVsq+DiOy1q0/RP0gHZDsJMj
-   PDc3+IZmzCmIoLMx7a646TF6rsiAbvP9jqgqsdFtPX//FqvUzXNPpJZNP
-   cih/rOvcdLWAxI0/3DBKT+/RcS32QIeG9jpOMPSDex06Ma1XRk3gNq73j
-   4HNs6NT/Xgk1ZXMxdshgRq3QWpmkYX/Z6dzdEw6gwIOd/WCw7a+oyoKYy
-   sXTx4Y0zilSNjDVKRVyRIISKNODc4xNZMCXmcDT1ewJWNoDS5Q/+yjrmV
-   AXnDOhsvcCGm32CcbE9iBPnn0yz2LOls0g9ABcG7HtLsLX6XJhh2NNA/b
+  t=1761277481; x=1792813481;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tZJ7uiaiBScstPSkZXZcxRLE+crO/MJ+s9QGeZq/QrA=;
+  b=P0k7XDyAxdg6ynbDzlDbsMliXeMA9hYJ5gG9F5qgi2UcAPaQZ5FUIZCw
+   GNQO9cl1SzJmpQkJBEbvSF+EC/pATmhb7E6Pf7OLkBa+ehemlJbaLoA6d
+   yzucQgWS2L4fxxgDJFMuOl3PKdovLChCyjqJIGyiHsh8pHGubKdltVbAz
+   GpahvWZcYM2yg0gfsUIq1G436kHVTgynR0+N4Wb5ppjxXvD+Dg1IM/mgs
+   nxqyfjd6Di4SdzOeMiJM4xtohIpE3uW5vPwpB/YaTgyeN1nuRoQc/4JV2
+   uz/5modyNiIVzuxXsVLyURBkpsgzQsycZAA/3vJSdhfdTLgxBfvIYFZeH
    w==;
-X-CSE-ConnectionGUID: a5rPT33zSNq6p6++QX5FeA==
-X-CSE-MsgGUID: GjFsheKdScm+rneiz8YItw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73742498"
+X-CSE-ConnectionGUID: FKD5KCz/SWu9dIIG+q+MbA==
+X-CSE-MsgGUID: ScQEhhcwTvCcDJt6yexnLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74802986"
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="73742498"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 19:22:45 -0700
-X-CSE-ConnectionGUID: 8YLCj+iIRMGviZoMR1gySw==
-X-CSE-MsgGUID: LljsV714RzOKNxTQmsFHeg==
+   d="scan'208";a="74802986"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 20:44:40 -0700
+X-CSE-ConnectionGUID: xg2XidZ3TaqRFittXFOWSQ==
+X-CSE-MsgGUID: e+jGhDwgS0eGYRjJwOltsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="188703703"
+   d="scan'208";a="183553491"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Oct 2025 19:22:42 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2025 20:44:39 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vC7Rw-000E6L-0Q;
-	Fri, 24 Oct 2025 02:22:40 +0000
-Date: Fri, 24 Oct 2025 10:21:41 +0800
+	id 1vC8jD-000E9p-1d;
+	Fri, 24 Oct 2025 03:44:36 +0000
+Date: Fri, 24 Oct 2025 11:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrey.bokhanko@huawei.com,
-	Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next 7/8] ipvlan: Support IPv6 for learnable l2-bridge
-Message-ID: <202510241011.2cTY5v7o-lkp@intel.com>
-References: <20251021144410.257905-8-skorodumov.dmitry@huawei.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:ethos-v6 3/3] ld.lld: error: undefined symbol:
+ gen_pool_free_owner
+Message-ID: <202510241138.xhnEfWZO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,136 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021144410.257905-8-skorodumov.dmitry@huawei.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Skorodumov/ipvlan-Implement-learnable-L2-bridge/20251021-224923
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251021144410.257905-8-skorodumov.dmitry%40huawei.com
-patch subject: [PATCH net-next 7/8] ipvlan: Support IPv6 for learnable l2-bridge
-config: sparc-randconfig-r132-20251023 (https://download.01.org/0day-ci/archive/20251024/202510241011.2cTY5v7o-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510241011.2cTY5v7o-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v6
+head:   d6ee4b64651fba947d99c7567e7f008d323f61f3
+commit: d6ee4b64651fba947d99c7567e7f008d323f61f3 [3/3] accel: Add Arm Ethos-U NPU driver
+config: mips-randconfig-r062-20251024 (https://download.01.org/0day-ci/archive/20251024/202510241138.xhnEfWZO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510241138.xhnEfWZO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510241011.2cTY5v7o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510241138.xhnEfWZO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ipvlan/ipvlan_core.c:55:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __be32 const [usertype] s_addr @@
-   drivers/net/ipvlan/ipvlan_core.c:55:36: sparse:     expected unsigned int [usertype] a
-   drivers/net/ipvlan/ipvlan_core.c:55:36: sparse:     got restricted __be32 const [usertype] s_addr
->> drivers/net/ipvlan/ipvlan_core.c:760:22: sparse: sparse: cast from restricted __be16
->> drivers/net/ipvlan/ipvlan_core.c:760:22: sparse: sparse: incorrect type in initializer (different base types) @@     expected int ndsize @@     got restricted __be16 [usertype] @@
-   drivers/net/ipvlan/ipvlan_core.c:760:22: sparse:     expected int ndsize
-   drivers/net/ipvlan/ipvlan_core.c:760:22: sparse:     got restricted __be16 [usertype]
-   drivers/net/ipvlan/ipvlan_core.c:819:18: sparse: sparse: cast from restricted __be16
->> drivers/net/ipvlan/ipvlan_core.c:819:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] ndsize @@     got restricted __be16 [usertype] @@
-   drivers/net/ipvlan/ipvlan_core.c:819:16: sparse:     expected unsigned short [usertype] ndsize
-   drivers/net/ipvlan/ipvlan_core.c:819:16: sparse:     got restricted __be16 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +760 drivers/net/ipvlan/ipvlan_core.c
-
-   753	
-   754	static u8 *ipvlan_search_icmp6_ll_addr(struct sk_buff *skb, u8 icmp_option)
-   755	{
-   756		/* skb is ensured to pullable for all ipv6 payload_len by caller */
-   757		struct ipv6hdr *ip6h = ipv6_hdr(skb);
-   758		struct icmp6hdr *icmph = (struct icmp6hdr *)(ip6h + 1);
-   759		int curr_off = sizeof(*icmph);
- > 760		int ndsize = htons(ip6h->payload_len);
-   761	
-   762		if (icmph->icmp6_type != NDISC_ROUTER_SOLICITATION)
-   763			curr_off += sizeof(struct in6_addr);
-   764	
-   765		while ((curr_off + 2) < ndsize) {
-   766			u8  *data = (u8 *)icmph + curr_off;
-   767			u32 opt_len = data[1] << 3;
-   768	
-   769			if (unlikely(opt_len == 0))
-   770				return NULL;
-   771	
-   772			if (data[0] != icmp_option) {
-   773				curr_off += opt_len;
-   774				continue;
-   775			}
-   776	
-   777			if (unlikely(opt_len < ETH_ALEN + 2))
-   778				return NULL;
-   779	
-   780			if (unlikely(curr_off + opt_len > ndsize))
-   781				return NULL;
-   782	
-   783			return data + 2;
-   784		}
-   785	
-   786		return NULL;
-   787	}
-   788	
-   789	static void ipvlan_snat_patch_tx_ipv6(struct ipvl_dev *ipvlan,
-   790					      struct sk_buff *skb)
-   791	{
-   792		struct ipv6hdr *ip6h;
-   793		struct icmp6hdr *icmph;
-   794		u8 icmp_option;
-   795		u8 *lladdr;
-   796		u16 ndsize;
-   797	
-   798		if (unlikely(!pskb_may_pull(skb, sizeof(*ip6h))))
-   799			return;
-   800	
-   801		if (ipv6_hdr(skb)->nexthdr != NEXTHDR_ICMP)
-   802			return;
-   803	
-   804		if (unlikely(!pskb_may_pull(skb, sizeof(*ip6h) + sizeof(*icmph))))
-   805			return;
-   806	
-   807		ip6h = ipv6_hdr(skb);
-   808		icmph = (struct icmp6hdr *)(ip6h + 1);
-   809	
-   810		/* Patch Source-LL for solicitation, Target-LL for advertisement */
-   811		if (icmph->icmp6_type == NDISC_NEIGHBOUR_SOLICITATION ||
-   812		    icmph->icmp6_type == NDISC_ROUTER_SOLICITATION)
-   813			icmp_option = ND_OPT_SOURCE_LL_ADDR;
-   814		else if (icmph->icmp6_type == NDISC_NEIGHBOUR_ADVERTISEMENT)
-   815			icmp_option = ND_OPT_TARGET_LL_ADDR;
-   816		else
-   817			return;
-   818	
- > 819		ndsize = htons(ip6h->payload_len);
-   820		if (unlikely(!pskb_may_pull(skb, sizeof(*ip6h) + ndsize)))
-   821			return;
-   822	
-   823		lladdr = ipvlan_search_icmp6_ll_addr(skb, icmp_option);
-   824		if (!lladdr)
-   825			return;
-   826	
-   827		ether_addr_copy(lladdr, ipvlan->phy_dev->dev_addr);
-   828	
-   829		ip6h = ipv6_hdr(skb);
-   830		icmph = (struct icmp6hdr *)(ip6h + 1);
-   831		icmph->icmp6_cksum = 0;
-   832		icmph->icmp6_cksum = csum_ipv6_magic(&ip6h->saddr, &ip6h->daddr,
-   833						     ndsize,
-   834						     IPPROTO_ICMPV6,
-   835						     csum_partial(icmph,
-   836								  ndsize,
-   837								  0));
-   838		skb->ip_summed = CHECKSUM_COMPLETE;
-   839	}
-   840	#else
-   841	static void ipvlan_snat_patch_tx_ipv6(struct ipvl_dev *ipvlan,
-   842					      struct sk_buff *skb)
-   843	{
-   844	}
-   845	#endif
-   846	
+>> ld.lld: error: undefined symbol: gen_pool_free_owner
+   >>> referenced by ethosu_drv.c
+   >>>               drivers/accel/ethosu/ethosu_drv.o:(ethosu_remove) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
