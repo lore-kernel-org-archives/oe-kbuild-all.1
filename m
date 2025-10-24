@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84D01C1F02
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 01:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E664B19E7D1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Oct 2025 02:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761270135; cv=none; b=p+j+UvMbVYOWRulGWH7bnKRdDlwzIppEGRYsYQc/Wm/61/834ogkbNVYqInWjT1YmeH6hurIcwCuzMUtfuPcLbH0NPySfNxLfXZ6AX6RmdPBI0tV/Rb7fowkdzjNF+XCm9KflHZ9/wtrIalmCFBOjq6MTkkVRr0ZT+AgoX1EG0Q=
+	t=1761271293; cv=none; b=THJtXuCWN5tGRR2Sxpn3GZ2+8yUQietWWREqaowAMW23VidOkoE2tm1IK0SYy6SMWLxgsT7orKdV+8cr334NPHOAP2UpBVeuqU7cUjkULs2mc3X+6vC0Xse6uv/itpF4RtvRO/whbbq5mHVoILrNhl7gIczXZRHoyWvgiWVc1KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761270135; c=relaxed/simple;
-	bh=+No2rJhOY0f5HqB1kZ9d1AeEEUQj5X3rtKR3BXER+q0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ILj8XlczmELFAS4mPtWxnqVsvTu2b4n3jXk6Lst3WA7sUWRGckZlirpdl+D0k9yP8Wtf/idZmunDPru7oLnKZlx4n2fseyvkRidb1UaR6GrCMI2iT8TfBj9GzqAJX9ZJtUZXX8YoPoev4XGdXGd3g3NjKXmYoVAuYLrRPCwV+DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksyhKrHk; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1761271293; c=relaxed/simple;
+	bh=5pwkoiBgdK2A6PK3Fa1FU55/2aVLhOmwvVBgWWXu0Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ln/RG3bFs+SHkX7dtTdIrHFJqPQ7luK5xbVE2HlFXsOF7m0SfTmGoanE118PZhKhYxcYku9nTXksBiz/3VlvrLRLLv2T4eP831AYRjDirVpLw0blQnlBiDQrYbQRKm8gmvtlRNSu5ytAh8rj0TCzkJ/kKXaFcdlypzUP/mPRRbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WI0/Hv9L; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksyhKrHk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WI0/Hv9L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761270133; x=1792806133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+No2rJhOY0f5HqB1kZ9d1AeEEUQj5X3rtKR3BXER+q0=;
-  b=ksyhKrHkQznK30a6FpAIf6P+qDh/rkUFLkIX8Y7y8ifxsQ20viNos15S
-   WYkcmuH4q1vSbhjGzVX6VkuCaE8avnIuzG/vJC5VbEIzTyAa/6lthWlSw
-   Ar/EJ8d+qP7OtQlqgI2T/L05W1LFA4AjlULKaqvyEcQr35Vg51B/37HYN
-   BuNmF63lPgivAB/2bXBTU2qnFO2RctFIKyafMXh31MphYbwvcd7A2APCu
-   PNXS/8hXGNU6NywRnhBPKz6+EXwoDvxdclI8CARRK5zkY9s3u0sbg1zmM
-   t0zXIdGPAorzLbu9oZg4bD+DUdajWbdcuXBqYPO2Q6w7qJUPNH6Ui2hYO
-   Q==;
-X-CSE-ConnectionGUID: yjM85Qa8RoOBzU/bqyZoaA==
-X-CSE-MsgGUID: /VFT83iYSE6LjDRXioO2FQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63487889"
+  t=1761271292; x=1792807292;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5pwkoiBgdK2A6PK3Fa1FU55/2aVLhOmwvVBgWWXu0Ec=;
+  b=WI0/Hv9LJqhNmnU6Rmp5FigC4LA8dvBeGj3vLlvnmjqyBkdQtG1vxAGr
+   9jUJG95kxbPdszmmEs1peKCh0ZqHo5sf7bHqR4uf1TsyA8XU7c3vWmJ1H
+   g2SzX6tFknX09HMeFqGUNwyhoIzFzVcMpc/CpGeFqMw732ka5les8/4WL
+   gdSHsA04dRR4dDqPvr2+PBOEmsgDaPETLHCICP7ggIABRq1rvo/M+vcyY
+   +04tvrMkDAVqxwdk3jBzQXwKYtzxz/19fd4w3HdHdc9lPATtGJXo0dH8I
+   j5QIFSfJ7J8yWtmADkC4KM/E9X6UbOuhu9eUb0aJxTWhSJGIP88NTlkfM
+   g==;
+X-CSE-ConnectionGUID: RCkzp3j+RD2rLhlUnKAnIQ==
+X-CSE-MsgGUID: TkqBX/KyRTCIdo/aRKhDnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86081638"
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="63487889"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 18:42:12 -0700
-X-CSE-ConnectionGUID: PUFi3N5nTDqgDIK6SlR2Rw==
-X-CSE-MsgGUID: UUx7x87jS+ua1xtN0609TA==
+   d="scan'208";a="86081638"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 19:01:31 -0700
+X-CSE-ConnectionGUID: zmw9kKYaQUyvy5/SdWeQwA==
+X-CSE-MsgGUID: IZTmjtlYQNu3Pkpb2yJCJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,251,1754982000"; 
-   d="scan'208";a="221505182"
+   d="scan'208";a="189439272"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2025 18:42:11 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Oct 2025 19:01:29 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vC6o9-000E4j-2B;
-	Fri, 24 Oct 2025 01:41:40 +0000
-Date: Fri, 24 Oct 2025 09:38:53 +0800
+	id 1vC77O-000E5J-2l;
+	Fri, 24 Oct 2025 02:01:26 +0000
+Date: Fri, 24 Oct 2025 10:00:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 202/202] include/linux/math.h:25:55:
- warning: statement with no effect
-Message-ID: <202510240912.GPmYplY9-lkp@intel.com>
+To: Qiang Ma <maqianga@uniontech.com>, ardb@kernel.org,
+	linux@armlinux.org.uk
+Cc: oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Qiang Ma <maqianga@uniontech.com>
+Subject: Re: [PATCH 2/2] efi/arm*: Remove the useless failure return message
+ print
+Message-ID: <202510240949.NKb4ca96-lkp@intel.com>
+References: <20251023082129.75612-2-maqianga@uniontech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,64 +66,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251023082129.75612-2-maqianga@uniontech.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   d6e365e8de4e085c0601fabcc823ecf8a6e223ad
-commit: 7db4e2a06b322fdbe143eee233178c4f2e7d6f87 [202/202] CHROMIUM: drm/mediatek: Add cphy driver for mt8189
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251024/202510240912.GPmYplY9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240912.GPmYplY9-lkp@intel.com/reproduce)
+Hi Qiang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on efi/next]
+[also build test WARNING on linus/master v6.18-rc2 next-20251023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiang-Ma/efi-arm-Remove-the-useless-failure-return-message-print/20251023-162558
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20251023082129.75612-2-maqianga%40uniontech.com
+patch subject: [PATCH 2/2] efi/arm*: Remove the useless failure return message print
+config: arm64-randconfig-001-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240949.NKb4ca96-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240949.NKb4ca96-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510240912.GPmYplY9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510240949.NKb4ca96-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:27,
-                    from include/linux/clk.h:13,
-                    from drivers/gpu/drm/mediatek/mtk_dsi.c:7:
-   drivers/gpu/drm/mediatek/mtk_dsi.c: In function 'mtk_dsi_cphy_timconfig':
->> include/linux/math.h:25:55: warning: statement with no effect [-Wunused-value]
-      25 | #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/mediatek/mtk_dsi.c:350:9: note: in expansion of macro 'round_up'
-     350 |         round_up(timing->lpx, 2);
-         |         ^~~~~~~~
->> include/linux/math.h:25:55: warning: statement with no effect [-Wunused-value]
-      25 | #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpu/drm/mediatek/mtk_dsi.c:353:9: note: in expansion of macro 'round_up'
-     353 |         round_up(timing->da_hs_prepare, 2);
-         |         ^~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dsi.c:341:21: warning: variable 'cycle_time' set but not used [-Wunused-but-set-variable]
-     341 |         u32 ui = 0, cycle_time = 0;
-         |                     ^~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dsi.c:341:13: warning: variable 'ui' set but not used [-Wunused-but-set-variable]
-     341 |         u32 ui = 0, cycle_time = 0;
-         |             ^~
+   drivers/firmware/efi/arm-runtime.c: In function 'efi_virtmap_init':
+>> drivers/firmware/efi/arm-runtime.c:62:7: warning: unused variable 'ret' [-Wunused-variable]
+      int ret;
+          ^~~
+>> drivers/firmware/efi/arm-runtime.c:61:15: warning: unused variable 'phys' [-Wunused-variable]
+      phys_addr_t phys = md->phys_addr;
+                  ^~~~
 
 
-vim +25 include/linux/math.h
+vim +/ret +62 drivers/firmware/efi/arm-runtime.c
 
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  16  
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  17  /**
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  18   * round_up - round up to next specified power of 2
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  19   * @x: the value to round
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  20   * @y: multiple to round up to (must be a power of 2)
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  21   *
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  22   * Rounds @x up to next multiple of @y (which must be a power of 2).
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  23   * To perform arbitrary rounding up, use roundup() below.
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  24   */
-aa6159ab99a9ab Andy Shevchenko 2020-12-15 @25  #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
-aa6159ab99a9ab Andy Shevchenko 2020-12-15  26  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: aa6159ab99a9ab5df835b4750b66cf132a5aa292 kernel.h: split out mathematical helpers
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+9d80448ac92b720 Ard Biesheuvel 2016-08-16  51  
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  52  static bool __init efi_virtmap_init(void)
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  53  {
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  54  	efi_memory_desc_t *md;
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  55  
+f7d924894265794 Ard Biesheuvel 2015-11-30  56  	efi_mm.pgd = pgd_alloc(&efi_mm);
+d1eb98143c56f24 Ard Biesheuvel 2017-03-01  57  	mm_init_cpumask(&efi_mm);
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  58  	init_new_context(NULL, &efi_mm);
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  59  
+78ce248faa3c46e Matt Fleming   2016-04-25  60  	for_each_efi_memory_desc(md) {
+f7d924894265794 Ard Biesheuvel 2015-11-30 @61  		phys_addr_t phys = md->phys_addr;
+f7d924894265794 Ard Biesheuvel 2015-11-30 @62  		int ret;
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  63  
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  64  		if (!(md->attribute & EFI_MEMORY_RUNTIME))
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  65  			continue;
+37926f96302d8b6 Ard Biesheuvel 2022-10-20  66  		if (md->virt_addr == U64_MAX)
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  67  			return false;
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  68  
+73fefd7f81521c6 Qiang Ma       2025-10-23  69  		efi_create_mapping(&efi_mm, md);
+789957ef72f976c Ard Biesheuvel 2016-04-25  70  	}
+789957ef72f976c Ard Biesheuvel 2016-04-25  71  
+789957ef72f976c Ard Biesheuvel 2016-04-25  72  	if (efi_memattr_apply_permissions(&efi_mm, efi_set_mapping_permissions))
+789957ef72f976c Ard Biesheuvel 2016-04-25  73  		return false;
+789957ef72f976c Ard Biesheuvel 2016-04-25  74  
+789957ef72f976c Ard Biesheuvel 2016-04-25  75  	return true;
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  76  }
+e5bc22a42e4d46c Ard Biesheuvel 2015-11-30  77  
 
 -- 
 0-DAY CI Kernel Test Service
