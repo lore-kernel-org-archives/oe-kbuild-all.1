@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156562E8DF3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 15:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09932E8B86
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 16:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761406587; cv=none; b=SQyFOe1XxWvFy6Pleaco6BkpYMc4ELihVWiicVhOQ99/70jVZ5m1rYffBgItCmM8cPj1Ou7aVTrXlla9YGwzdXryX+/GVRNIpjP62jCnzSYK5ik0/tZ8CRK4GVOhqCvxLkTiiYFKxlkj0yaaOecNJsqdv0+vC6gR4jZLGDBkeHo=
+	t=1761410262; cv=none; b=PGe/NEQwKRAVk5nmJbj1j24HiCF7ItDszpjfCIkVr2SW6ziNbVDwiGYf1/0F+OyS0SZhAPqnx+4z3GpoBhWwZMxB8xdHn8OsxW75iImuTO3jtDholEH8TGpGYkeOdZoF7e7GilRweHgCX4+FlCUD5PtJtQWJ0QzxAVo8CkGFH4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761406587; c=relaxed/simple;
-	bh=rGBs43zBsZFd5qUflcLMcjd4nkRjPY7APmpQFK37sm4=;
+	s=arc-20240116; t=1761410262; c=relaxed/simple;
+	bh=vTefjoBVLUgxDcvgbWE1W8dtDBv4i1+gG7jBqTtre9A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OXGf6Iv1fa8wmlYIhaixiKrmbkeQuhEXNzFYS2n7ZOURaMUOaaVEZyDLCA0wL/xm67WvahawOZSIJHbBhBmSNkPOQ6jwzL3BaRdN+DuJf5zy4h5Ngag2WI8N8kdL5+kA6UYyUhzFKP3YFz1HVsuMExAvQIxZ/3Lg8+1m/e/XUyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VVsaPUDi; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=udyQcZxl2YBCY3kqOTneFy4/EZBGmcCHUABufWf+vtnBqYUwGEQMMKqALq/mvRs6/p5UeOBAd4iGGd45dr5hiSI39+TluLZcx/EHZr9laq5rXVQmagmmqTyGrYruVifRNrOMWZ6SEThEKNJ8huH4pjiMkWhkY4rdnU49VUE9VL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dl+7shBT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VVsaPUDi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl+7shBT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761406585; x=1792942585;
+  t=1761410261; x=1792946261;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rGBs43zBsZFd5qUflcLMcjd4nkRjPY7APmpQFK37sm4=;
-  b=VVsaPUDiPP/n1gKrdTHScGAi4dwbEp8ox9ot35Sof2nEH2Dk5vFVtfIS
-   W92z+d1uxBJVH8waMNnLaT7JYgm2ca90dFwJ+JFbawmCxTjgNMDEZq53z
-   hS5M0il3oICyuItxQzU6c6FxzHkG1KmaMVPGcPYzDjMek6ntNV9QK25Xf
-   KB2quDqrB+T+lj/XOyElqEMOcaLCr86pZJtou3u4KazR58lkHTCqTOx0E
-   djKhipH23NIg6zzpyxr26/ZHbzLHVblBt+zhwgaO+l+wYe+2yXT3oVq9w
-   Etj+UsAFv8gxEnMEbLSRbSJzzrh420pXlysHOcNhy06xJvVoVkFFUfqCE
+  bh=vTefjoBVLUgxDcvgbWE1W8dtDBv4i1+gG7jBqTtre9A=;
+  b=dl+7shBTXFXXfKiUZsWMFGoMSD1pwQ4WUR9/UZxSSf7fv2b6b9yhN6is
+   9jhKhe7qpkbtF2SWdlIKibDcqQlNsewazbRHaDyJeZ8rxukkTbvnZMS9s
+   AU5wQn1xuakvU/xJ4155+XNkaRLlglaaKiE3LAVG14Zlr6+3tuR00wdz5
+   dw0C4tW57IFJ9P2zuhkYh4m/yIjAud/m5EgX6a7QHFKd47eXkjJ3EKHQH
+   RhScEanUHY2vbQ2Wb11JenCeoEGgkWdT3VZlfyi5rwqbrtb4kQV2VnJcl
+   9BGVqAMg0HZIdBRBxUoFFc17Xjvep1EvfuxrDjurSJ1iYkFh4yIFVhjvO
    g==;
-X-CSE-ConnectionGUID: oYBB81TuRWCBb5OyNOYabQ==
-X-CSE-MsgGUID: BOo64n0QQRyIqiAOuaPu/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63257972"
+X-CSE-ConnectionGUID: G8EE1NRjSBa94v12tToJAg==
+X-CSE-MsgGUID: gm4BoN98QA+D3oq/0d5DcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81183748"
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="63257972"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 08:36:25 -0700
-X-CSE-ConnectionGUID: WbtgJ6AES2eEx4N4iDSF7g==
-X-CSE-MsgGUID: wz09ipqkRKKeQdhHCaHXAQ==
+   d="scan'208";a="81183748"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 09:37:40 -0700
+X-CSE-ConnectionGUID: cCObrSvwQEiCDu5sLehhkg==
+X-CSE-MsgGUID: /pehufNbRT6Nh6cY1ZJNrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="184569041"
+   d="scan'208";a="189797170"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Oct 2025 08:36:23 -0700
+  by orviesa005.jf.intel.com with ESMTP; 25 Oct 2025 09:37:39 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCgJZ-000FOX-0h;
-	Sat, 25 Oct 2025 15:36:21 +0000
-Date: Sat, 25 Oct 2025 23:35:27 +0800
+	id 1vChGr-000FQp-02;
+	Sat, 25 Oct 2025 16:37:37 +0000
+Date: Sun, 26 Oct 2025 00:37:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21:
- warning: invalid suffix on literal; C++11 requires a space between literal
- and string macro
-Message-ID: <202510252350.GbojS8BE-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.18-rc 115/137]
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:5027:25: warning: unused
+ variable 'phylink'
+Message-ID: <202510260043.bqHDrOTz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Valdis,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   ca1036e548e57768ca272bbd5f5cbde3b153f803
-commit: 0908fe0570df658beb3866ddcb7bc55b0fb834b0 [2818/2818] gcc-plugins: fix gcc 11 indigestion with plugins...
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20251025/202510252350.GbojS8BE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510252350.GbojS8BE-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc
+head:   7c2cb874579bbeec58dd89bfed9612882e0c6611
+commit: 015b57783c6705404457c8e35f4e7c5b78055da1 [115/137] net: mtk: eth-mux: fix rcu_lock in mux
+config: sparc-randconfig-002-20251025 (https://download.01.org/0day-ci/archive/20251026/202510260043.bqHDrOTz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260043.bqHDrOTz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510252350.GbojS8BE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510260043.bqHDrOTz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1 shuffle=1096673560
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
+   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_add_mux_channel':
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5027:25: warning: unused variable 'phylink' [-Wunused-variable]
+    5027 |         struct phylink *phylink;
+         |                         ^~~~~~~
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
+   include/linux/pcs/pcs.h: At top level:
+   include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
+      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/phylink +5027 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+
+be353b0907fcec Bo-Cun Chen      2024-11-28  5020  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5021  static int mtk_add_mux_channel(struct mtk_mux *mux, struct device_node *np)
+be353b0907fcec Bo-Cun Chen      2024-11-28  5022  {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5023  	const __be32 *_id = of_get_property(np, "reg", NULL);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5024  	struct mtk_mac *mac = mux->mac;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5025  	struct mtk_eth *eth = mac->hw;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5026  	struct mtk_mux_data *data;
+be353b0907fcec Bo-Cun Chen      2024-11-28 @5027  	struct phylink *phylink;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5028  	phy_interface_t phy_mode;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5029  	int id, err;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5030  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5031  	if (!_id) {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5032  		dev_err(eth->dev, "missing mux channel id\n");
+be353b0907fcec Bo-Cun Chen      2024-11-28  5033  		return -EINVAL;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5034  	}
+be353b0907fcec Bo-Cun Chen      2024-11-28  5035  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5036  	id = be32_to_cpup(_id);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5037  	if (id < 0 || id > 1) {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5038  		dev_err(eth->dev, "%d is not a valid mux channel id\n", id);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5039  		return -EINVAL;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5040  	}
+be353b0907fcec Bo-Cun Chen      2024-11-28  5041  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5042  	data = kmalloc(sizeof(*data), GFP_KERNEL);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5043  	if (unlikely(!data)) {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5044  		dev_err(eth->dev, "failed to create mux data structure\n");
+be353b0907fcec Bo-Cun Chen      2024-11-28  5045  		return -ENOMEM;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5046  	}
+be353b0907fcec Bo-Cun Chen      2024-11-28  5047  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5048  	err = of_get_phy_mode(np, &phy_mode);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5049  	if (err) {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5050  		dev_err(eth->dev, "incorrect phy-mode\n");
+be353b0907fcec Bo-Cun Chen      2024-11-28  5051  		goto err_free_data;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5052  	}
+be353b0907fcec Bo-Cun Chen      2024-11-28  5053  
+015b57783c6705 Frank Wunderlich 2025-10-23  5054  	/*phylink = phylink_create(&mux->mac->phylink_config,
+be353b0907fcec Bo-Cun Chen      2024-11-28  5055  				 of_fwnode_handle(np),
+be353b0907fcec Bo-Cun Chen      2024-11-28  5056  				 phy_mode, &mtk_phylink_ops);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5057  	if (IS_ERR(phylink)) {
+be353b0907fcec Bo-Cun Chen      2024-11-28  5058  		dev_err(eth->dev, "failed to create phylink structure\n");
+be353b0907fcec Bo-Cun Chen      2024-11-28  5059  		err = PTR_ERR(phylink);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5060  		goto err_free_data;
+015b57783c6705 Frank Wunderlich 2025-10-23  5061  	}*/
+be353b0907fcec Bo-Cun Chen      2024-11-28  5062  
+015b57783c6705 Frank Wunderlich 2025-10-23  5063  	dev_info(eth->dev, "ethernet mux: line:%d added new channel:%d\n",__LINE__,id);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5064  	data->of_node = np;
+015b57783c6705 Frank Wunderlich 2025-10-23  5065  	data->phylink = NULL;//phylink;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5066  	mux->data[id] = data;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5067  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5068  	return 0;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5069  
+be353b0907fcec Bo-Cun Chen      2024-11-28  5070  err_free_data:
+be353b0907fcec Bo-Cun Chen      2024-11-28  5071  	kfree(data);
+be353b0907fcec Bo-Cun Chen      2024-11-28  5072  	return err;
+be353b0907fcec Bo-Cun Chen      2024-11-28  5073  }
+be353b0907fcec Bo-Cun Chen      2024-11-28  5074  
+
+:::::: The code at line 5027 was first introduced by commit
+:::::: be353b0907fcecb2510a227fcbf697a24a7cc063 net: ethernet: mtk_eth_soc: support ethernet passive mux
+
+:::::: TO: Bo-Cun Chen <bc-bocun.chen@mediatek.com>
+:::::: CC: Frank Wunderlich <frank-w@public-files.de>
 
 -- 
 0-DAY CI Kernel Test Service
