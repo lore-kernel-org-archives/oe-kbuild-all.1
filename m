@@ -1,299 +1,476 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3999E212566
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 18:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E428A72B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 18:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761415321; cv=none; b=EMr7dETzf0pncrjcqP0a2eO4laPBJdr7WNa5PbJESmt5v3xJZtAQ0+bOWJwCp4rwW8E0dQnBQDr9NOo05qox7ptQF5zc3X2/Wih1rEWizDp3FYQbATB2kdHWqmYwQZA8KQEuW8tvsCbGDBsoArDeJXG8umgZhegrtCGHanFdSDk=
+	t=1761415992; cv=none; b=ql+2Tnnve/yeLfYwPQJJKujt5M31udc0CD4aRizka5AabayfdZV9nYbX+n11d54jroD/fvn7vWSFDRzA9L7pqfQ0Lw3VDF8qn3t03MRA+9S/JpmXN5EAulSovfD26JklDsUd8PBulhXkuCdnU/YcWLCr02NdTVVtswhN9ecCC7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761415321; c=relaxed/simple;
-	bh=FSWomb26vlFU45JQ9BEWhUYqq4ykJwezyPd8DHUa6Vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hffeu+vmcBvhX3zInAO5XWgULWKqzh99iN3UsCQ1svaKYaJ/z4vYS+dYa7ZtvjEq5t3MdE5y9gfGuB52XgqpyW+EkyF1/cZNWYzhF6v9LHEszBcF/jtebRtdxmpThLutSPT//ZMwQJmWBwkBaTbJZUk2QsfPSpCUMm8pYCI6wN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9pa2Uum; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1761415992; c=relaxed/simple;
+	bh=K025bvEg2WSd8XnOBoalPC0i0WJzgPa4VA/l5CBaftU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NO7TX5EFmp63UOFgwDThaX9zIiwqwy1sWEYLpDK2wHydHXbC8OBiOC+bKgKt2kV7nFuplTVno9er8fsu6IxYon3QvLGBbdYHFkKFA0gmttSGhKFiayqZEhhPZRK9tLCjjg6HdzylaZQRvsb269itUrukV0uaDoIgnNurod6uP1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhQqIDNU; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9pa2Uum"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhQqIDNU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761415319; x=1792951319;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FSWomb26vlFU45JQ9BEWhUYqq4ykJwezyPd8DHUa6Vw=;
-  b=P9pa2Uumzp2/NXX2+UwQzkDwDp7Rwc+vz9aIvc4Lb2YS5u0ZiSGvDy9f
-   bus06j+YYN8Y5vOuAXpaChOIv/bTy/vNX3lQ1j/W05JdOXCQoCCrQeR2m
-   wotUP95Id90yg7cx4vCPEDvP6M1Fzgx7/b7jj2PuplnwPjoiQeL+t93/R
-   umd6BPZsm395sAs6ZlELMUMc04lFiBX7I9aDuO+tyYu9ArnR6Gn4ieRn/
-   r5+7g5vHMi5Vzownnk8308cMwgEFDms0WAoeb19+oBxdYLLJvda37CvSO
-   VpXgqEN/A6aRyEuNBhRgnqhD+eWze0RWoWT5aNGBx3pnzGP1nj5LYpfV6
-   A==;
-X-CSE-ConnectionGUID: PmHTlIOAR1OdA6djOe9I/g==
-X-CSE-MsgGUID: O3+QNAlAQVq1nETXQ+dysg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63461874"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63461874"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 11:01:59 -0700
-X-CSE-ConnectionGUID: YCm8FJgRSayUMsKgJ+ySQQ==
-X-CSE-MsgGUID: pKlYJOqiTziLKxJiA1CvxA==
+  t=1761415990; x=1792951990;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K025bvEg2WSd8XnOBoalPC0i0WJzgPa4VA/l5CBaftU=;
+  b=fhQqIDNUcXfY8jmKzk5ioxzx/58tT7XdmYn0OWhPMf52acgt/qGFjs8o
+   X5NSdUfie1NmI2/RY1OQfu7VkJ1dEFUFo4zmQrS1SFThIxIpG91Jwq9/H
+   itQWJW4a5LEmGUGKQitm1OsDclC2Cr2hV25oulwXQ84yQqQ2+qhEYshMw
+   KKAEclHebAF77+ea2YZ2V9olPYHaTIUKeDjAOOORd8Yc+CocRdwaKKO6p
+   uqDxszCKN+Qey7hz5R3qqv65500MO5vp3n43qepBq5ZA2ZMd25KZeR6Tl
+   BveINpl68GNfbIUFaU0c9xxLpN8VyFr205JfFtw1fAg4pc4KCf53O4M9i
+   Q==;
+X-CSE-ConnectionGUID: Xuj+pYvBSsqW4z/zfPtByA==
+X-CSE-MsgGUID: C+GjYZRRQVmoE/+WIRDCDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89032990"
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="89032990"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 11:13:09 -0700
+X-CSE-ConnectionGUID: 5q26dboUTAWSw/PBbdkntQ==
+X-CSE-MsgGUID: CiEM11oOQ+KrkpnZ13bkew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="188986273"
+   d="scan'208";a="185164506"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2025 11:01:55 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 Oct 2025 11:13:08 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCiaO-000FUX-1e;
-	Sat, 25 Oct 2025 18:01:52 +0000
-Date: Sun, 26 Oct 2025 02:01:36 +0800
+	id 1vCilG-000FUr-01;
+	Sat, 25 Oct 2025 18:13:06 +0000
+Date: Sun, 26 Oct 2025 02:12:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
-	apopple@nvidia.com, airlied@gmail.com,
-	Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
-	Matthew Brost <matthew.brost@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH 10/15] drm/xe: Use the vma attibute drm_pagemap to select
- where to migrate
-Message-ID: <202510260048.zLL2A4Mi-lkp@intel.com>
-References: <20251025120412.12262-11-thomas.hellstrom@linux.intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3040/3040]
+ drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
+ prototype for function 'ps3_pci_init'
+Message-ID: <202510260208.HwUwnupv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251025120412.12262-11-thomas.hellstrom@linux.intel.com>
 
-Hi Thomas,
+Hi liujie_answer,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on next-20251024]
-[cannot apply to linus/master v6.18-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-pagemap-drm-xe-Add-refcounting-to-struct-drm_pagemap/20251025-200645
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20251025120412.12262-11-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH 10/15] drm/xe: Use the vma attibute drm_pagemap to select where to migrate
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251026/202510260048.zLL2A4Mi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260048.zLL2A4Mi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4c00b18c122c4cdb2747e44b469af328b8cecb28
+commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [3040/3040] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251026/202510260208.HwUwnupv-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260208.HwUwnupv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510260048.zLL2A4Mi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510260208.HwUwnupv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_vm.c:2358:15: warning: variable 'dpagemap' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    2358 |                         } else if (prefetch_region) {
-         |                                    ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_vm.c:2364:34: note: uninitialized use occurs here
-    2364 |                         op->prefetch_range.dpagemap = dpagemap;
-         |                                                       ^~~~~~~~
-   drivers/gpu/drm/xe/xe_vm.c:2358:11: note: remove the 'if' if its condition is always true
-    2358 |                         } else if (prefetch_region) {
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_vm.c:2335:32: note: initialize the variable 'dpagemap' to silence this warning
-    2335 |                         struct drm_pagemap *dpagemap;
-         |                                                     ^
-         |                                                      = NULL
-   1 warning generated.
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:5:
+   In file included from include/linux/pci.h:1669:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:6: error: no previous prototype for function 'ps3_set_task_manager_busy' [-Werror,-Wmissing-prototypes]
+     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:5: error: no previous prototype for function 'ps3_wait_for_outstanding_complete' [-Werror,-Wmissing-prototypes]
+    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
+         | ^
+         | static 
+   7 errors generated.
+--
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:14:
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.h:6:
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_irq.h:8:
+   In file included from include/scsi/scsi_host.h:11:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for function 'ps3_trigger_irq_poll' [-Werror,-Wmissing-prototypes]
+     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for function 'ps3_resp_status_convert' [-Werror,-Wmissing-prototypes]
+     243 | int ps3_resp_status_convert(unsigned int resp_status)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     243 | int ps3_resp_status_convert(unsigned int resp_status)
+         | ^
+         | static 
+   7 errors generated.
+--
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_qos.c:7:
+   In file included from include/scsi/scsi_host.h:11:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
+     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
+         | ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:210:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     210 | struct qos_wait_queue *
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
+     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
+     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
+     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
+     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
+     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
+     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
+    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
+    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
+    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
+    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
+    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
+    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
+    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
+         | ^
+         | static 
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:6:
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.h:7:
+   In file included from include/scsi/scsi_cmnd.h:5:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:6: error: no previous prototype for function 'ps3_cmd_stat_content_clear' [-Werror,-Wmissing-prototypes]
+      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
+         | ^
+         | static 
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:6: error: no previous prototype for function 'ps3_io_recv_ok_stat_inc' [-Werror,-Wmissing-prototypes]
+     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
+         | ^
+         | static 
+   7 errors generated.
+--
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:2:
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_ioctl.h:8:
+   In file included from drivers/scsi/linkdata/ps3stor/ps3_instance_manager.h:6:
+   In file included from include/linux/pci.h:1669:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:6: error: no previous prototype for function 'ps3_clean_mgr_cmd' [-Werror,-Wmissing-prototypes]
+     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
+         | ^
+         | static 
+   6 errors generated.
+..
 
 
-vim +2358 drivers/gpu/drm/xe/xe_vm.c
+vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
 
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2242  
-b06d47be7c8316 Matthew Brost         2023-07-07  2243  /*
-b06d47be7c8316 Matthew Brost         2023-07-07  2244   * Create operations list from IOCTL arguments, setup operations fields so parse
-b06d47be7c8316 Matthew Brost         2023-07-07  2245   * and commit steps are decoupled from IOCTL arguments. This step can fail.
-b06d47be7c8316 Matthew Brost         2023-07-07  2246   */
-b06d47be7c8316 Matthew Brost         2023-07-07  2247  static struct drm_gpuva_ops *
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2248  vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2249  			 struct xe_bo *bo, u64 bo_offset_or_userptr,
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2250  			 u64 addr, u64 range,
-cad4a0d6af146e Rodrigo Vivi          2023-11-22  2251  			 u32 operation, u32 flags,
-e1fbc4f18d5b44 Matthew Auld          2023-09-25  2252  			 u32 prefetch_region, u16 pat_index)
-dd08ebf6c3525a Matthew Brost         2023-03-30  2253  {
-b06d47be7c8316 Matthew Brost         2023-07-07  2254  	struct drm_gem_object *obj = bo ? &bo->ttm.base : NULL;
-b06d47be7c8316 Matthew Brost         2023-07-07  2255  	struct drm_gpuva_ops *ops;
-b06d47be7c8316 Matthew Brost         2023-07-07  2256  	struct drm_gpuva_op *__op;
-b06d47be7c8316 Matthew Brost         2023-07-07  2257  	struct drm_gpuvm_bo *vm_bo;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2258  	u64 range_end = addr + range;
-dd08ebf6c3525a Matthew Brost         2023-03-30  2259  	int err;
-dd08ebf6c3525a Matthew Brost         2023-03-30  2260  
-b06d47be7c8316 Matthew Brost         2023-07-07  2261  	lockdep_assert_held_write(&vm->lock);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2262  
-b06d47be7c8316 Matthew Brost         2023-07-07  2263  	vm_dbg(&vm->xe->drm,
-b06d47be7c8316 Matthew Brost         2023-07-07  2264  	       "op=%d, addr=0x%016llx, range=0x%016llx, bo_offset_or_userptr=0x%016llx",
-78ddc872c6a91d Francois Dugast       2023-09-20  2265  	       operation, (ULL)addr, (ULL)range,
-b06d47be7c8316 Matthew Brost         2023-07-07  2266  	       (ULL)bo_offset_or_userptr);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2267  
-78ddc872c6a91d Francois Dugast       2023-09-20  2268  	switch (operation) {
-d5dc73dbd148ef Francois Dugast       2023-11-14  2269  	case DRM_XE_VM_BIND_OP_MAP:
-000a45dce7adc1 Boris Brezillon       2025-08-19  2270  	case DRM_XE_VM_BIND_OP_MAP_USERPTR: {
-000a45dce7adc1 Boris Brezillon       2025-08-19  2271  		struct drm_gpuvm_map_req map_req = {
-000a45dce7adc1 Boris Brezillon       2025-08-19  2272  			.map.va.addr = addr,
-000a45dce7adc1 Boris Brezillon       2025-08-19  2273  			.map.va.range = range,
-000a45dce7adc1 Boris Brezillon       2025-08-19  2274  			.map.gem.obj = obj,
-000a45dce7adc1 Boris Brezillon       2025-08-19  2275  			.map.gem.offset = bo_offset_or_userptr,
-000a45dce7adc1 Boris Brezillon       2025-08-19  2276  		};
-000a45dce7adc1 Boris Brezillon       2025-08-19  2277  
-000a45dce7adc1 Boris Brezillon       2025-08-19  2278  		ops = drm_gpuvm_sm_map_ops_create(&vm->gpuvm, &map_req);
-b06d47be7c8316 Matthew Brost         2023-07-07  2279  		break;
-000a45dce7adc1 Boris Brezillon       2025-08-19  2280  	}
-d5dc73dbd148ef Francois Dugast       2023-11-14  2281  	case DRM_XE_VM_BIND_OP_UNMAP:
-b06d47be7c8316 Matthew Brost         2023-07-07  2282  		ops = drm_gpuvm_sm_unmap_ops_create(&vm->gpuvm, addr, range);
-b06d47be7c8316 Matthew Brost         2023-07-07  2283  		break;
-d5dc73dbd148ef Francois Dugast       2023-11-14  2284  	case DRM_XE_VM_BIND_OP_PREFETCH:
-b06d47be7c8316 Matthew Brost         2023-07-07  2285  		ops = drm_gpuvm_prefetch_ops_create(&vm->gpuvm, addr, range);
-b06d47be7c8316 Matthew Brost         2023-07-07  2286  		break;
-d5dc73dbd148ef Francois Dugast       2023-11-14  2287  	case DRM_XE_VM_BIND_OP_UNMAP_ALL:
-c73acc1eeba5e3 Francois Dugast       2023-09-12  2288  		xe_assert(vm->xe, bo);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2289  
-08a4f00e62bc96 Thomas Hellström      2023-09-08  2290  		err = xe_bo_lock(bo, true);
-b06d47be7c8316 Matthew Brost         2023-07-07  2291  		if (err)
-b06d47be7c8316 Matthew Brost         2023-07-07  2292  			return ERR_PTR(err);
-b06d47be7c8316 Matthew Brost         2023-07-07  2293  
-9d0c1c5618be02 Thomas Hellström      2023-12-22  2294  		vm_bo = drm_gpuvm_bo_obtain(&vm->gpuvm, obj);
-9d0c1c5618be02 Thomas Hellström      2023-12-22  2295  		if (IS_ERR(vm_bo)) {
-9d0c1c5618be02 Thomas Hellström      2023-12-22  2296  			xe_bo_unlock(bo);
-9d0c1c5618be02 Thomas Hellström      2023-12-22  2297  			return ERR_CAST(vm_bo);
-9d0c1c5618be02 Thomas Hellström      2023-12-22  2298  		}
-dd08ebf6c3525a Matthew Brost         2023-03-30  2299  
-b06d47be7c8316 Matthew Brost         2023-07-07  2300  		ops = drm_gpuvm_bo_unmap_ops_create(vm_bo);
-b06d47be7c8316 Matthew Brost         2023-07-07  2301  		drm_gpuvm_bo_put(vm_bo);
-08a4f00e62bc96 Thomas Hellström      2023-09-08  2302  		xe_bo_unlock(bo);
-b06d47be7c8316 Matthew Brost         2023-07-07  2303  		break;
-b06d47be7c8316 Matthew Brost         2023-07-07  2304  	default:
-5c0553cdc811bb Francois Dugast       2023-09-12  2305  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
-b06d47be7c8316 Matthew Brost         2023-07-07  2306  		ops = ERR_PTR(-EINVAL);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2307  	}
-40709aa761acbc Matthew Brost         2023-11-20  2308  	if (IS_ERR(ops))
-40709aa761acbc Matthew Brost         2023-11-20  2309  		return ops;
-dd08ebf6c3525a Matthew Brost         2023-03-30  2310  
-40709aa761acbc Matthew Brost         2023-11-20  2311  	drm_gpuva_for_each_op(__op, ops) {
-40709aa761acbc Matthew Brost         2023-11-20  2312  		struct xe_vma_op *op = gpuva_op_to_vma_op(__op);
-40709aa761acbc Matthew Brost         2023-11-20  2313  
-40709aa761acbc Matthew Brost         2023-11-20  2314  		if (__op->op == DRM_GPUVA_OP_MAP) {
-06e7139a034f26 Thomas Hellström      2024-04-23  2315  			op->map.immediate =
-06e7139a034f26 Thomas Hellström      2024-04-23  2316  				flags & DRM_XE_VM_BIND_FLAG_IMMEDIATE;
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2317  			if (flags & DRM_XE_VM_BIND_FLAG_READONLY)
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2318  				op->map.vma_flags |= XE_VMA_READ_ONLY;
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2319  			if (flags & DRM_XE_VM_BIND_FLAG_NULL)
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2320  				op->map.vma_flags |= DRM_GPUVA_SPARSE;
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2321  			if (flags & DRM_XE_VM_BIND_FLAG_CPU_ADDR_MIRROR)
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2322  				op->map.vma_flags |= XE_VMA_SYSTEM_ALLOCATOR;
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2323  			if (flags & DRM_XE_VM_BIND_FLAG_DUMPABLE)
-b3af8658ec70f2 Thomas Hellström      2025-10-15  2324  				op->map.vma_flags |= XE_VMA_DUMPABLE;
-59a2d3f38ab23c Thomas Hellström      2025-10-15  2325  			if (flags & DRM_XE_VM_BIND_FLAG_MADVISE_AUTORESET)
-59a2d3f38ab23c Thomas Hellström      2025-10-15  2326  				op->map.vma_flags |= XE_VMA_MADV_AUTORESET;
-e1fbc4f18d5b44 Matthew Auld          2023-09-25  2327  			op->map.pat_index = pat_index;
-5b658b7e89c312 Oak Zeng              2025-04-03  2328  			op->map.invalidate_on_bind =
-5b658b7e89c312 Oak Zeng              2025-04-03  2329  				__xe_vm_needs_clear_scratch_pages(vm, flags);
-40709aa761acbc Matthew Brost         2023-11-20  2330  		} else if (__op->op == DRM_GPUVA_OP_PREFETCH) {
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2331  			struct xe_vma *vma = gpuva_to_vma(op->base.prefetch.va);
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2332  			struct xe_tile *tile;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2333  			struct xe_svm_range *svm_range;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2334  			struct drm_gpusvm_ctx ctx = {};
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2335  			struct drm_pagemap *dpagemap;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2336  			u8 id, tile_mask = 0;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2337  			u32 i;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2338  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2339  			if (!xe_vma_is_cpu_addr_mirror(vma)) {
-40709aa761acbc Matthew Brost         2023-11-20  2340  				op->prefetch.region = prefetch_region;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2341  				break;
-40709aa761acbc Matthew Brost         2023-11-20  2342  			}
-40709aa761acbc Matthew Brost         2023-11-20  2343  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2344  			ctx.read_only = xe_vma_read_only(vma);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2345  			ctx.devmem_possible = IS_DGFX(vm->xe) &&
-4a1eaf7d110aa5 Matthew Brost         2025-07-10  2346  					      IS_ENABLED(CONFIG_DRM_XE_PAGEMAP);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2347  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2348  			for_each_tile(tile, vm->xe, id)
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2349  				tile_mask |= 0x1 << id;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2350  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2351  			xa_init_flags(&op->prefetch_range.range, XA_FLAGS_ALLOC);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2352  			op->prefetch_range.ranges_count = 0;
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2353  			tile = NULL;
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2354  
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2355  			if (prefetch_region == DRM_XE_CONSULT_MEM_ADVISE_PREF_LOC) {
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2356  				dpagemap = xe_vma_resolve_pagemap(vma,
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2357  								  xe_device_get_root_tile(vm->xe));
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21 @2358  			} else if (prefetch_region) {
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2359  				tile = &vm->xe->tiles[region_to_mem_type[prefetch_region] -
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2360  						      XE_PL_VRAM0];
-1b7e4275a5db37 Thomas Hellström      2025-10-25  2361  				dpagemap = xe_tile_local_pagemap(tile);
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2362  			}
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2363  
-1b7e4275a5db37 Thomas Hellström      2025-10-25  2364  			op->prefetch_range.dpagemap = dpagemap;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2365  alloc_next_range:
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2366  			svm_range = xe_svm_range_find_or_insert(vm, addr, vma, &ctx);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2367  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2368  			if (PTR_ERR(svm_range) == -ENOENT) {
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2369  				u64 ret = xe_svm_find_vma_start(vm, addr, range_end, vma);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2370  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2371  				addr = ret == ULONG_MAX ? 0 : ret;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2372  				if (addr)
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2373  					goto alloc_next_range;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2374  				else
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2375  					goto print_op_label;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2376  			}
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2377  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2378  			if (IS_ERR(svm_range)) {
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2379  				err = PTR_ERR(svm_range);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2380  				goto unwind_prefetch_ops;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2381  			}
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2382  
-c1bb69a2e8e2d5 Himal Prasad Ghimiray 2025-08-21  2383  			if (xe_svm_range_validate(vm, svm_range, tile_mask, !!tile)) {
-5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2384  				xe_svm_range_debug(svm_range, "PREFETCH - RANGE IS VALID");
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2385  				goto check_next_range;
-5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2386  			}
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2387  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2388  			err = xa_alloc(&op->prefetch_range.range,
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2389  				       &i, svm_range, xa_limit_32b,
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2390  				       GFP_KERNEL);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2391  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2392  			if (err)
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2393  				goto unwind_prefetch_ops;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2394  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2395  			op->prefetch_range.ranges_count++;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2396  			vops->flags |= XE_VMA_OPS_FLAG_HAS_SVM_PREFETCH;
-5aee6e33e19593 Himal Prasad Ghimiray 2025-05-13  2397  			xe_svm_range_debug(svm_range, "PREFETCH - RANGE CREATED");
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2398  check_next_range:
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2399  			if (range_end > xe_svm_range_end(svm_range) &&
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2400  			    xe_svm_range_end(svm_range) < xe_vma_end(vma)) {
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2401  				addr = xe_svm_range_end(svm_range);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2402  				goto alloc_next_range;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2403  			}
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2404  		}
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2405  print_op_label:
-b06d47be7c8316 Matthew Brost         2023-07-07  2406  		print_op(vm->xe, __op);
-40709aa761acbc Matthew Brost         2023-11-20  2407  	}
-b06d47be7c8316 Matthew Brost         2023-07-07  2408  
-b06d47be7c8316 Matthew Brost         2023-07-07  2409  	return ops;
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2410  
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2411  unwind_prefetch_ops:
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2412  	xe_svm_prefetch_gpuva_ops_fini(ops);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2413  	drm_gpuva_ops_free(&vm->gpuvm, ops);
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2414  	return ERR_PTR(err);
-dd08ebf6c3525a Matthew Brost         2023-03-30  2415  }
-09ba0a8f06cd69 Himal Prasad Ghimiray 2025-05-13  2416  
+   544	
+ > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
+   546	{
+   547		resource_size_t base_addr = 0;
+   548		int ret = PS3_SUCCESS;
+   549	
+   550		ret = pci_enable_device_mem(pdev);
+   551		if (ret != PS3_SUCCESS) {
+   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
+   553				  PS3_HOST(instance), pdev->dev.id);
+   554			goto l_pci_enable_device_mem_failed;
+   555		}
+   556	
+   557		pci_set_master(pdev);
+   558	
+   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
+   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
+   561		if (!ret) {
+   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
+   563				  PS3_HOST(instance), instance->reg_bar);
+   564			goto l_bar_check_failed;
+   565		}
+   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
+   567						   "PS3 pci regions");
+   568		if (ret != PS3_SUCCESS) {
+   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
+   570			goto l_pci_request_selected_regions_failed;
+   571		}
+   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   573		pci_enable_pcie_error_reporting(pdev);
+   574	#endif
+   575		if (instance->ioc_adpter->reg_set) {
+   576			instance->reg_set =
+   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
+   578					pdev, instance->reg_bar);
+   579		} else {
+   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
+   581				pci_resource_start(pdev, instance->reg_bar),
+   582				PS3_REGISTER_SET_SIZE);
+   583		}
+   584		if (instance->reg_set == NULL) {
+   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
+   586			goto l_ioremap_failed;
+   587		} else {
+   588			pci_set_drvdata(pdev, instance);
+   589		}
+   590	
+   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
+   592		LOG_INFO(
+   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
+   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
+   595	
+   596		return PS3_SUCCESS;
+   597	l_ioremap_failed:
+   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
+   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   600		pci_disable_pcie_error_reporting(pdev);
+   601	#endif
+   602	l_pci_request_selected_regions_failed:
+   603		pci_disable_device(instance->pdev);
+   604	l_bar_check_failed:
+   605	l_pci_enable_device_mem_failed:
+   606		return -PS3_FAILED;
+   607	}
+   608	
 
 -- 
 0-DAY CI Kernel Test Service
