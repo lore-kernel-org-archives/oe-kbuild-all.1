@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01810E552;
-	Sat, 25 Oct 2025 21:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C380F218592
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 22:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761426040; cv=none; b=qToQUXtrHBNAr9432sAbAkPb5PnUsNsfI4kRASWBzK9MME07Q484IwZaX3E4K0Bz1i9ESnigKZ4/hvLqq8jbw3WhyOmsp4Q4r82zK+XqUkZF7rf2wUQBtNdeBy2J5nJyasRRxRImNTeq9HZXxP1Oz6cY245MSQDxXIFv0afM2gk=
+	t=1761429818; cv=none; b=ozw6U8gXmD2wpoVLZ7qJtJCyklnaWq57zo7No9+bQ8XChLmpw042iPcG2b1U835OI2Y8Ba6GltegoXrxZSVnfgbxiekAgS609FqncKqU27Siw4SXb9VLjKGn1rHD2UXO8NQ29uLggPdeG1lFeMCkAmkzen4d7DlcAGJa18ia0Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761426040; c=relaxed/simple;
-	bh=/7uw6/+uVAyvakbvVGn43byDqcefCUuZ/GdPEYMjtts=;
+	s=arc-20240116; t=1761429818; c=relaxed/simple;
+	bh=mjtF5x8TcECNYP1H6taC/WwezHxqn0tSWONSfJWz20s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WUuOWnxXmGR3dsGqs+cTvDD48kvkp4d0HOo4+FiEjYkXaSlPIXHlyXk5QP4uIv9qou6YoNodM5pdGtqImyKuhqFADb5Mnh6Ca53X59ia9CJlzJFmOmIMBs698RcMyv2piA6RNdIZdylJe/Opr6rundz/RXO8oSesWs6LQsBOCU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHm9pFBT; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=nHzNWG+WXfYEkVvFcP9kWI9IoUcd1MW9Qxh2c1uGcW8Qs/dF0u7B0c3wuR0itycZ8YZJRFYAtgca3XBa0kIASxIoMhH3O3xHYVyoky0XealbCgpIQnSdIkKMsr/wfbnlaXikWir0A4vsDO6ieuSdXHtHPg9n/bjyFxig0/4hyI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WbDvOd6o; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHm9pFBT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WbDvOd6o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761426039; x=1792962039;
+  t=1761429815; x=1792965815;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/7uw6/+uVAyvakbvVGn43byDqcefCUuZ/GdPEYMjtts=;
-  b=BHm9pFBTD3qRAa8P2ZCY2zVTNgPYFSSNjcOGo+MQXWtA9TDlkzRZkOBm
-   raUDGUmWPRSLvNaBDHmRLlwqiD9A8gh5zubiu6N3E66u/aebPM7eDeQqt
-   8Zq9dSb2eqVS/WkoAjdTrJ4z7HhsVHOZmGcw3lzLEXzTnF6wCYpWGr9WT
-   Tt3vyusxp1QvBZ2GN88GZb5yq8lUygv2wjeMlkqyOPwFxFvSRtx54LlpP
-   cCWcrJv/UFpVKniYgiKIXqAXYtk+xnnTHaJwTxKPQXx8wkFK7mlw6ZVLQ
-   LU16H2AfHhe2Hl027280YdenmUzHduk754zKNyzjjIjN5gESLyACL3qN2
-   Q==;
-X-CSE-ConnectionGUID: oBZ9177iSdK/ik0p2XbNYQ==
-X-CSE-MsgGUID: XgIzbDPjSOapT3TsGDBU4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63488569"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63488569"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 14:00:39 -0700
-X-CSE-ConnectionGUID: tdu7SxhoTWi+wvZ8cjEHkw==
-X-CSE-MsgGUID: ++bFjUueTvmdHwKv9D/GJQ==
+  bh=mjtF5x8TcECNYP1H6taC/WwezHxqn0tSWONSfJWz20s=;
+  b=WbDvOd6oqu8TkA2mkFG/bkM9iiXdPQ2tuOsS2TnVys9enH8htayQaVac
+   EDkssPnwxaKMEFsWseQNF2Fo/WHHJPeYtjJDbU/KyLLgsSIJLqV5P1i0l
+   pMrJghUtPpddchu49hfQ/SnwANbt7b96WNbo9cDLMh+k5wf+ZASNZ3N3D
+   oZ174meAnJXupsQvIZu+Et6Cl6a3yZJtrpqwrzJGpC+5tM9AL7jYafsy3
+   1JfUPGldfNmwVyRumiyNEdeCtQy8hmpSvTxb5i3cXxHX6kiK1/W/NNyH8
+   uG4tXwd0i7Eqh20DSgDX75lbcdw0SpAuz+y+27a45CbgHOQg2aZlvhG2v
+   A==;
+X-CSE-ConnectionGUID: EoLn2NJaSqKnNj3B6/ikLQ==
+X-CSE-MsgGUID: CCRhN63SROeO4wi4R70VdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74241931"
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="74241931"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 15:03:35 -0700
+X-CSE-ConnectionGUID: feIDqceBQcCie2MnzfJrSQ==
+X-CSE-MsgGUID: LVo6NLg3SnCl+O5nLnbB0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="185463770"
+   d="scan'208";a="215616773"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Oct 2025 14:00:37 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Oct 2025 15:03:33 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vClNH-000Fav-2z;
-	Sat, 25 Oct 2025 21:00:32 +0000
-Date: Sun, 26 Oct 2025 04:59:47 +0800
+	id 1vCmLm-000FdF-2G;
+	Sat, 25 Oct 2025 22:03:10 +0000
+Date: Sun, 26 Oct 2025 06:02:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x4e3:
- cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-Message-ID: <202510260435.79ThTwFt-lkp@intel.com>
+To: kernel@openeuler.org, zhangchangzhong <zhangchangzhong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1668/1668] kernel/sched/core.c:5976:22:
+ error: use of undeclared identifier 'root_task_group'; did you mean
+ 'task_group'?
+Message-ID: <202510260511.Ac2yFRes-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +63,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   72761a7e31225971d0b29d9195e0ffa986b77867
-commit: 29c578c848402a34e8c8e115bf66cb6008b77062 objtool, regulator: rk808: Remove potential undefined behavior in rk806_set_mode_dcdc()
-date:   7 months ago
-config: x86_64-randconfig-004-20251026 (https://download.01.org/0day-ci/archive/20251026/202510260435.79ThTwFt-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260435.79ThTwFt-lkp@intel.com/reproduce)
+Hi Hui,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   ee55f6a88c1f70120d9cec8244c5cd10f0c4dce9
+commit: 713cfd2684fa5ea08b144d92b9858b932c0f1705 [1668/1668] sched: Introduce smart grid scheduling strategy for cfs
+config: x86_64-buildonly-randconfig-006-20250620 (https://download.01.org/0day-ci/archive/20251026/202510260511.Ac2yFRes-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260511.Ac2yFRes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510260435.79ThTwFt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510260511.Ac2yFRes-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: cfi_probe_chip+0x7d: cfi_qry_mode_on() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_probe_chip+0x7f: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_probe_chip+0x81: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x4e3: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x4eb: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_erase_varsize+0x4f5: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_read+0x305: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_read+0x30d: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_read+0x312: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_write_buffers+0x3b7: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_write_buffers+0x3bf: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_write_buffers+0x3c4: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_lock+0x2b2: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_lock+0x2b7: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_lock+0x2bb: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_unlock+0x1a4: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_unlock+0x1a9: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_unlock+0x1ae: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_staa_resume+0x12d: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_staa_resume+0x130: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_staa_resume+0x133: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: cfi_intelext_read+0x35e: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_read+0x361: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_read+0x364: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_intelext_write_words+0x296: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_write_words+0x299: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_write_words+0x29e: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: cfi_intelext_suspend+0x480: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_suspend+0x483: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_suspend+0x48d: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: cfi_intelext_resume+0x173: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_resume+0x176: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_resume+0x180: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: fixup_LH28F640BF+0x110: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: fixup_LH28F640BF+0x113: unreachable instruction
-   vmlinux.o: warning: objtool: fixup_LH28F640BF+0x116: skipping duplicate warning(s)
->> vmlinux.o: warning: objtool: cfi_intelext_writev+0x4aa: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_writev+0x4ad: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_writev+0x4b2: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: inval_cache_and_wait_for_operation+0x6a: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: inval_cache_and_wait_for_operation+0x6f: unreachable instruction
-   vmlinux.o: warning: objtool: inval_cache_and_wait_for_operation+0x73: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: put_chip+0x1d5: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: put_chip+0x1d8: unreachable instruction
-   vmlinux.o: warning: objtool: put_chip+0x1dc: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: chip_ready+0x8d: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: chip_ready+0x92: unreachable instruction
-   vmlinux.o: warning: objtool: chip_ready+0x97: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x168: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x16b: unreachable instruction
-   vmlinux.o: warning: objtool: fwh_xxlock_oneblock+0x16e: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: cfi_intelext_point+0x538: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_point+0x53b: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_point+0x53e: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: cfi_intelext_reset+0x141: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: cfi_intelext_reset+0x144: unreachable instruction
-   vmlinux.o: warning: objtool: cfi_intelext_reset+0x14e: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: do_erase_oneblock+0x1cd: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: do_erase_oneblock+0x1d0: unreachable instruction
-   vmlinux.o: warning: objtool: do_erase_oneblock+0x1d3: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: do_xxlock_oneblock+0x13d: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: do_xxlock_oneblock+0x140: unreachable instruction
-   vmlinux.o: warning: objtool: do_xxlock_oneblock+0x143: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: do_getlockstatus_oneblock+0xd8: cfi_build_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: do_getlockstatus_oneblock+0xdd: unreachable instruction
-   vmlinux.o: warning: objtool: do_getlockstatus_oneblock+0xdf: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: jedec_probe_chip+0x304: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: jedec_probe_chip+0x308: unreachable instruction
-   vmlinux.o: warning: objtool: jedec_probe_chip+0x310: skipping duplicate warning(s)
-   vmlinux.o: warning: objtool: jedec_reset+0x88: cfi_send_gen_cmd() missing __noreturn in .c/.h or NORETURN() in noreturns.h
-   vmlinux.o: warning: objtool: jedec_reset+0x8c: unreachable instruction
-   vmlinux.o: warning: objtool: jedec_reset+0x90: skipping duplicate warning(s)
+   kernel/sched/core.c:1587:6: warning: no previous prototype for function 'sched_set_stop_task' [-Wmissing-prototypes]
+    1587 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^
+   kernel/sched/core.c:1587:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1587 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         | ^
+         | static 
+   kernel/sched/core.c:3771:35: warning: no previous prototype for function 'preempt_schedule_irq' [-Wmissing-prototypes]
+    3771 | asmlinkage __visible void __sched preempt_schedule_irq(void)
+         |                                   ^
+   kernel/sched/core.c:3771:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3771 | asmlinkage __visible void __sched preempt_schedule_irq(void)
+         |                      ^
+         |                      static 
+   kernel/sched/core.c:5845:2: error: implicit declaration of function 'tg_update_affinity_domains' [-Werror,-Wimplicit-function-declaration]
+    5845 |         tg_update_affinity_domains(cpu, 1);
+         |         ^
+   kernel/sched/core.c:5904:2: error: implicit declaration of function 'tg_update_affinity_domains' [-Werror,-Wimplicit-function-declaration]
+    5904 |         tg_update_affinity_domains(cpu, 0);
+         |         ^
+   kernel/sched/core.c:5976:2: error: implicit declaration of function 'init_auto_affinity' [-Werror,-Wimplicit-function-declaration]
+    5976 |         init_auto_affinity(&root_task_group);
+         |         ^
+   kernel/sched/core.c:5976:2: note: did you mean 'irq_set_affinity'?
+   include/linux/interrupt.h:292:1: note: 'irq_set_affinity' declared here
+     292 | irq_set_affinity(unsigned int irq, const struct cpumask *cpumask)
+         | ^
+>> kernel/sched/core.c:5976:22: error: use of undeclared identifier 'root_task_group'; did you mean 'task_group'?
+    5976 |         init_auto_affinity(&root_task_group);
+         |                             ^~~~~~~~~~~~~~~
+         |                             task_group
+   kernel/sched/sched.h:1444:34: note: 'task_group' declared here
+    1444 | static inline struct task_group *task_group(struct task_struct *p)
+         |                                  ^
+   kernel/sched/core.c:6029:32: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
+    6029 |         unsigned long alloc_size = 0, ptr;
+         |                                       ^
+   3 warnings and 4 errors generated.
+
+
+vim +5976 kernel/sched/core.c
+
+  5949	
+  5950	void __init sched_init_smp(void)
+  5951	{
+  5952		sched_init_numa();
+  5953	
+  5954		/*
+  5955		 * There's no userspace yet to cause hotplug operations; hence all the
+  5956		 * CPU masks are stable and all blatant races in the below code cannot
+  5957		 * happen. The hotplug lock is nevertheless taken to satisfy lockdep,
+  5958		 * but there won't be any contention on it.
+  5959		 */
+  5960		cpus_read_lock();
+  5961		mutex_lock(&sched_domains_mutex);
+  5962		sched_init_domains(cpu_active_mask);
+  5963		mutex_unlock(&sched_domains_mutex);
+  5964		cpus_read_unlock();
+  5965	
+  5966		/* Move init over to a non-isolated CPU */
+  5967		if (set_cpus_allowed_ptr(current, housekeeping_cpumask(HK_FLAG_DOMAIN)) < 0)
+  5968			BUG();
+  5969		sched_init_granularity();
+  5970	
+  5971		init_sched_rt_class();
+  5972		init_sched_dl_class();
+  5973	
+  5974		sched_smp_initialized = true;
+  5975	
+> 5976		init_auto_affinity(&root_task_group);
+  5977	}
+  5978	
 
 -- 
 0-DAY CI Kernel Test Service
