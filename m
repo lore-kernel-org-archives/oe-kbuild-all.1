@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09932E8B86
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 16:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770862AD2F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 17:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761410262; cv=none; b=PGe/NEQwKRAVk5nmJbj1j24HiCF7ItDszpjfCIkVr2SW6ziNbVDwiGYf1/0F+OyS0SZhAPqnx+4z3GpoBhWwZMxB8xdHn8OsxW75iImuTO3jtDholEH8TGpGYkeOdZoF7e7GilRweHgCX4+FlCUD5PtJtQWJ0QzxAVo8CkGFH4g=
+	t=1761411610; cv=none; b=jZmFhTz1Wj+WwVT/m9X8oYexhpcjKJcGh6hIIDX3InnqXqc8NAscIdRjDirm5cflczoiA7dpDQlqo9L2/rPVRFZUWzAxDGECD2Szr5aZ3aeZXlOoSOz/M2N0nywds6aepYLz5nL4RGf7xmb8Pvd2giGtP+1R8A0KJVALg6V0EF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761410262; c=relaxed/simple;
-	bh=vTefjoBVLUgxDcvgbWE1W8dtDBv4i1+gG7jBqTtre9A=;
+	s=arc-20240116; t=1761411610; c=relaxed/simple;
+	bh=cTMtwhN+w1p7xM21t0Qrozo66CdB5eFoag7Yh6jEaWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=udyQcZxl2YBCY3kqOTneFy4/EZBGmcCHUABufWf+vtnBqYUwGEQMMKqALq/mvRs6/p5UeOBAd4iGGd45dr5hiSI39+TluLZcx/EHZr9laq5rXVQmagmmqTyGrYruVifRNrOMWZ6SEThEKNJ8huH4pjiMkWhkY4rdnU49VUE9VL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dl+7shBT; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=losSxhpYxzJ07/DIESC+hwzAcDBfvllTgBzOU9cpfGdhErRa8bpdrL0dnhwjsn9BK96mNdHHTh3V7Z8Ae29msnROxj4GpcGheM/00ZY5lfjxf/ZrdIsKTyEcJwrbKWrHS6X3yItM/1uPu9gspfShmU/6NUvcTSri0mzA4K90YJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JICGYdHR; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl+7shBT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JICGYdHR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761410261; x=1792946261;
+  t=1761411608; x=1792947608;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vTefjoBVLUgxDcvgbWE1W8dtDBv4i1+gG7jBqTtre9A=;
-  b=dl+7shBTXFXXfKiUZsWMFGoMSD1pwQ4WUR9/UZxSSf7fv2b6b9yhN6is
-   9jhKhe7qpkbtF2SWdlIKibDcqQlNsewazbRHaDyJeZ8rxukkTbvnZMS9s
-   AU5wQn1xuakvU/xJ4155+XNkaRLlglaaKiE3LAVG14Zlr6+3tuR00wdz5
-   dw0C4tW57IFJ9P2zuhkYh4m/yIjAud/m5EgX6a7QHFKd47eXkjJ3EKHQH
-   RhScEanUHY2vbQ2Wb11JenCeoEGgkWdT3VZlfyi5rwqbrtb4kQV2VnJcl
-   9BGVqAMg0HZIdBRBxUoFFc17Xjvep1EvfuxrDjurSJ1iYkFh4yIFVhjvO
-   g==;
-X-CSE-ConnectionGUID: G8EE1NRjSBa94v12tToJAg==
-X-CSE-MsgGUID: gm4BoN98QA+D3oq/0d5DcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81183748"
+  bh=cTMtwhN+w1p7xM21t0Qrozo66CdB5eFoag7Yh6jEaWs=;
+  b=JICGYdHRtsCiE9sUbjFDgEzWlPKell20peEHJbk0mhp4DBergviWNgdw
+   Qe+5mvD/u1NF/kNaxSmxKdGTs4IRk/s4GtgnkAqb5S5xx14/VW9nnm7wY
+   PCsX5r2ecPuOzyiOYf4W/kyxq8jAW0WFLWGQdKB1fAo4lZXOI3x64Kf2Q
+   cVS5xgppPTPA0Xga7bDXEEKKXgZHNXvjmO6wNYUWkmxJQFpILo3lhcnSN
+   ruloTUTxzY8XDK3ocPdwCaPxwITvZIswMP3KrIYVjgST6jZZkrSvzSm9U
+   r7yiC4ZWy18vYCpAeao5yhh3JxFNehOZdYghvBi+fgdzh0BFMpSUsaa0+
+   Q==;
+X-CSE-ConnectionGUID: xNYvYR+5Q5KP238VXmxDog==
+X-CSE-MsgGUID: Zv3c1XGfS9aa2QvQ9jGvWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63598448"
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="81183748"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 09:37:40 -0700
-X-CSE-ConnectionGUID: cCObrSvwQEiCDu5sLehhkg==
-X-CSE-MsgGUID: /pehufNbRT6Nh6cY1ZJNrQ==
+   d="scan'208";a="63598448"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 10:00:06 -0700
+X-CSE-ConnectionGUID: INoAPQIzRrKfVr+rXTGiDg==
+X-CSE-MsgGUID: gHJuIfK0SFqHFOIcAx2mAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="189797170"
+   d="scan'208";a="184745663"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 25 Oct 2025 09:37:39 -0700
+  by orviesa008.jf.intel.com with ESMTP; 25 Oct 2025 10:00:05 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vChGr-000FQp-02;
-	Sat, 25 Oct 2025 16:37:37 +0000
-Date: Sun, 26 Oct 2025 00:37:28 +0800
+	id 1vChbj-000FRr-0G;
+	Sat, 25 Oct 2025 16:59:15 +0000
+Date: Sun, 26 Oct 2025 00:58:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.18-rc 115/137]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:5027:25: warning: unused
- variable 'phylink'
-Message-ID: <202510260043.bqHDrOTz-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/1]
+ include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202510260025.2TJX4BBI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,97 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc
-head:   7c2cb874579bbeec58dd89bfed9612882e0c6611
-commit: 015b57783c6705404457c8e35f4e7c5b78055da1 [115/137] net: mtk: eth-mux: fix rcu_lock in mux
-config: sparc-randconfig-002-20251025 (https://download.01.org/0day-ci/archive/20251026/202510260043.bqHDrOTz-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260043.bqHDrOTz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   cf7e6e9ee1a5d1be5002e412a58ed3a45bb8e892
+commit: c9b85866c78e7e00085c89ee4fd3b93f54659682 [1/1] ANDROID: madvise: add vendor hook to bypass process madvise
+config: x86_64-randconfig-121-20251025 (https://download.01.org/0day-ci/archive/20251026/202510260025.2TJX4BBI-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260025.2TJX4BBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510260043.bqHDrOTz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510260025.2TJX4BBI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/madvise.c: note: in included file:
+   include/trace/hooks/madvise.h:21:31: sparse: sparse: no newline at end of file
+   mm/madvise.c:449:28: sparse: sparse: context imbalance in 'madvise_cold_or_pageout_pte_range' - unexpected unlock
+   mm/madvise.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'madvise_free_pte_range' - unexpected unlock
+   mm/madvise.c: note: in included file:
+>> include/trace/hooks/madvise.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/madvise.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/madvise.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_add_mux_channel':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5027:25: warning: unused variable 'phylink' [-Wunused-variable]
-    5027 |         struct phylink *phylink;
-         |                         ^~~~~~~
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
-   include/linux/pcs/pcs.h: At top level:
-   include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
-      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +10 include/trace/hooks/madvise.h
 
-
-vim +/phylink +5027 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-be353b0907fcec Bo-Cun Chen      2024-11-28  5020  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5021  static int mtk_add_mux_channel(struct mtk_mux *mux, struct device_node *np)
-be353b0907fcec Bo-Cun Chen      2024-11-28  5022  {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5023  	const __be32 *_id = of_get_property(np, "reg", NULL);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5024  	struct mtk_mac *mac = mux->mac;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5025  	struct mtk_eth *eth = mac->hw;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5026  	struct mtk_mux_data *data;
-be353b0907fcec Bo-Cun Chen      2024-11-28 @5027  	struct phylink *phylink;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5028  	phy_interface_t phy_mode;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5029  	int id, err;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5030  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5031  	if (!_id) {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5032  		dev_err(eth->dev, "missing mux channel id\n");
-be353b0907fcec Bo-Cun Chen      2024-11-28  5033  		return -EINVAL;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5034  	}
-be353b0907fcec Bo-Cun Chen      2024-11-28  5035  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5036  	id = be32_to_cpup(_id);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5037  	if (id < 0 || id > 1) {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5038  		dev_err(eth->dev, "%d is not a valid mux channel id\n", id);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5039  		return -EINVAL;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5040  	}
-be353b0907fcec Bo-Cun Chen      2024-11-28  5041  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5042  	data = kmalloc(sizeof(*data), GFP_KERNEL);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5043  	if (unlikely(!data)) {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5044  		dev_err(eth->dev, "failed to create mux data structure\n");
-be353b0907fcec Bo-Cun Chen      2024-11-28  5045  		return -ENOMEM;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5046  	}
-be353b0907fcec Bo-Cun Chen      2024-11-28  5047  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5048  	err = of_get_phy_mode(np, &phy_mode);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5049  	if (err) {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5050  		dev_err(eth->dev, "incorrect phy-mode\n");
-be353b0907fcec Bo-Cun Chen      2024-11-28  5051  		goto err_free_data;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5052  	}
-be353b0907fcec Bo-Cun Chen      2024-11-28  5053  
-015b57783c6705 Frank Wunderlich 2025-10-23  5054  	/*phylink = phylink_create(&mux->mac->phylink_config,
-be353b0907fcec Bo-Cun Chen      2024-11-28  5055  				 of_fwnode_handle(np),
-be353b0907fcec Bo-Cun Chen      2024-11-28  5056  				 phy_mode, &mtk_phylink_ops);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5057  	if (IS_ERR(phylink)) {
-be353b0907fcec Bo-Cun Chen      2024-11-28  5058  		dev_err(eth->dev, "failed to create phylink structure\n");
-be353b0907fcec Bo-Cun Chen      2024-11-28  5059  		err = PTR_ERR(phylink);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5060  		goto err_free_data;
-015b57783c6705 Frank Wunderlich 2025-10-23  5061  	}*/
-be353b0907fcec Bo-Cun Chen      2024-11-28  5062  
-015b57783c6705 Frank Wunderlich 2025-10-23  5063  	dev_info(eth->dev, "ethernet mux: line:%d added new channel:%d\n",__LINE__,id);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5064  	data->of_node = np;
-015b57783c6705 Frank Wunderlich 2025-10-23  5065  	data->phylink = NULL;//phylink;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5066  	mux->data[id] = data;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5067  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5068  	return 0;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5069  
-be353b0907fcec Bo-Cun Chen      2024-11-28  5070  err_free_data:
-be353b0907fcec Bo-Cun Chen      2024-11-28  5071  	kfree(data);
-be353b0907fcec Bo-Cun Chen      2024-11-28  5072  	return err;
-be353b0907fcec Bo-Cun Chen      2024-11-28  5073  }
-be353b0907fcec Bo-Cun Chen      2024-11-28  5074  
-
-:::::: The code at line 5027 was first introduced by commit
-:::::: be353b0907fcecb2510a227fcbf697a24a7cc063 net: ethernet: mtk_eth_soc: support ethernet passive mux
-
-:::::: TO: Bo-Cun Chen <bc-bocun.chen@mediatek.com>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+     9	
+  > 10	DECLARE_RESTRICTED_HOOK(android_rvh_process_madvise_bypass,
+    11		TP_PROTO(int pidfd, const struct iovec __user *vec, size_t vlen,
+    12			int behavior, unsigned int flags, ssize_t *ret, bool *bypass),
+    13		TP_ARGS(pidfd, vec, vlen, behavior, flags, ret, bypass), 1);
+    14	struct vm_area_struct;
+    15	DECLARE_HOOK(android_vh_update_vma_flags,
+    16		TP_PROTO(struct vm_area_struct *vma),
+    17		TP_ARGS(vma));
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
