@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EE22F49E4;
-	Sat, 25 Oct 2025 11:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080491DF759
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 13:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761392341; cv=none; b=TKVYiZq8bWfAx1CEofAy0phKSaUgON6D9b8bLEHm8G12bWREdDSjq2HNsZSZkx/aA3YMIctsEfrvphgXCT7jFgnEU2iUkL2xIpSuEAuo+Clt57Vqsk/D3eCfz9QLr19adlxnKpgS2qu1cW90NlDYEFnNn4C6Sd8i6C4qxQB1AlE=
+	t=1761398470; cv=none; b=i02J51OSFM1YUVEtFmfw5NBTtQdadVPXlHz0ZZHuHXZ2qu4IyE6hU9CWAXP8cUqiG5lYLsp08vc/VrP4MY2kYx0NXCceTwM1jXT7oQ+O7HB/Kp9p2wupnBecA/K5+xZ3kGOAE1qAHf4yzXtufNSxqd0tRnDxAMb/5TOzpxY+0s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761392341; c=relaxed/simple;
-	bh=51cgBOlVttvu8BBasQzxGX6S4hZd7Wp/4lDeD+RggkQ=;
+	s=arc-20240116; t=1761398470; c=relaxed/simple;
+	bh=Kfrdv3+o3NYOWFgyEvqbobGr72qc0zrcbbmKKuL1hAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n1Xoa5A36E2aaR4u2Y7QVn0Ju2SSNmfhWNlUtmtK2rJFQmeqDGm0lQ8+xULsiW6OWh5tmut3kl+KFNsxyxxJSUzL1mSmxXxt14q81kcdRw67B1hi9KRwkdsihgeqlbK+zs1+epird3esiJk36nY7vITUkPwxcq7cDI2EPk5KWPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NF/0k8VD; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=rFeiPOgfRrAj/2+Q/K4qvcbSbTXSSoaLztFNEN8O1lVFJkrYjgNoVCFFg5nSCtEk8E1YFSMFYwzyO/JI3hFCwBSQC9vp6uFSiz94bXJBqpF2PzMKzR1MylkVPaUUmJTi+nionnCWAqBQLg5RS/vaD/WmysYCADmSS11XtmXIdLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFzf1YhJ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NF/0k8VD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFzf1YhJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761392339; x=1792928339;
+  t=1761398468; x=1792934468;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=51cgBOlVttvu8BBasQzxGX6S4hZd7Wp/4lDeD+RggkQ=;
-  b=NF/0k8VDzHlEBb/Thnq775DaFVtS8G8cV8atdJS7Bu6LzN84sNMLaZTw
-   fN/vjLkLOmhGg6FN0pQd/Dq59k0P+8RcUVrJVTv6GAOlIOdJGdQKGzGuu
-   D3uzdkN72KJc5asghrdOLZ1bozEGrBcthoyb/r8yQrS9sjTWsp/lN3Wpj
-   aKYkAeEQEfpc/kWogB0pW8ictP1g7QhGXZ7KVGVXL2/LSutnyihSVnVeW
-   qKXYF9N95VUeRgxfr4v7fiDA3NQCy/Fo+usOrObQn183NNy/RPU0xTtLD
-   fnoyXZQG+rCG8HMs3e+KXVd0/B/FVJOL7C0cH9r0N29kHFS8im7F8PbYC
-   g==;
-X-CSE-ConnectionGUID: 00FLxFhJTOKcr4K6MXSabQ==
-X-CSE-MsgGUID: Ha/NekPIQ1OWoWExqeJVvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67414630"
-X-IronPort-AV: E=Sophos;i="6.19,254,1754982000"; 
-   d="scan'208";a="67414630"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 04:38:58 -0700
-X-CSE-ConnectionGUID: cDkymQBgR+6hiAQ8hU8pUA==
-X-CSE-MsgGUID: R8zJzG5QTHq+vv5D3rejkA==
+  bh=Kfrdv3+o3NYOWFgyEvqbobGr72qc0zrcbbmKKuL1hAs=;
+  b=UFzf1YhJk3xiydTFgUlFf1OSX3LFMkaFP+lQTeX+ReY7PxsUGVyV2bXa
+   uzbKKHVqiKFmF/QI7rMt1ezJOwt9P+SnR5T4llDuFSIavYNGcOzN0F4Lp
+   rLffuys3m3UiPtqb7ZYvVtRXdfm07Rskw0i/en8VsjU+/fe6E6h1ACJMW
+   2F1+tbVpoCm4bVgRC3NStpEI07qc6TDjWcvRgwijRjlzPmU5WKTcqkp0y
+   n4ODTO5LrLn+zimQeSwKGSg61bz9zcf/nlAftmLsaYk3t3W9pj1hoBa94
+   57JOhqExCztms39ka5hMIe3xr4fBYuC/8nld5H3D9lN6Su7ILGso0Q660
+   Q==;
+X-CSE-ConnectionGUID: 8fxXuM9tTX6p0j9v+aOatQ==
+X-CSE-MsgGUID: 8Q/CW2R+TEy1jUS5Bx52Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74997423"
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="74997423"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 06:21:07 -0700
+X-CSE-ConnectionGUID: aOCjTfFITeWKVeaM30YUyw==
+X-CSE-MsgGUID: VWcIIrtIR7uZ2wumINCKWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,254,1754982000"; 
-   d="scan'208";a="188944479"
+X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
+   d="scan'208";a="183828112"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2025 04:38:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 25 Oct 2025 06:21:05 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCcbm-000FHx-0X;
-	Sat, 25 Oct 2025 11:38:54 +0000
-Date: Sat, 25 Oct 2025 19:38:25 +0800
+	id 1vCeCd-000FKT-1A;
+	Sat, 25 Oct 2025 13:21:03 +0000
+Date: Sat, 25 Oct 2025 21:20:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masashi Ozaki <masashi.ozaki.te@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Vinh Nguyen <vinh.nguyen.xz@renesas.com>
-Subject: [morimoto:renesas-lts/v6.18-rc2-2025-10-24-x5h-ironhide 7/21]
- drivers/mailbox/rcar-mfis-mailbox.c:96:45: warning: variable 'i' is
- uninitialized when used here
-Message-ID: <202510251914.LDVp1dub-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] include/trace/hooks/sys.h:24:1:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202510252143.gges1vB4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,74 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc2-2025-10-24-x5h-ironhide
-head:   fe21d488fba0b6bcb0416fab7cf246e35592ce10
-commit: 2a60dfb617c1f4f3055ffca329bbb1185e95cd5b [7/21] mailbox: renesas: Support MFIS mailbox driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251025/202510251914.LDVp1dub-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510251914.LDVp1dub-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   cf7e6e9ee1a5d1be5002e412a58ed3a45bb8e892
+commit: e41b8e8e59bf118ee5eb422d531390a141117dd0 [1/1] ANDROID: vendor_hooks: add hooks in prctl_set_vma
+config: x86_64-randconfig-121-20251025 (https://download.01.org/0day-ci/archive/20251025/202510252143.gges1vB4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510252143.gges1vB4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510251914.LDVp1dub-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510252143.gges1vB4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sys.c:1104:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/sys.c:1104:32: sparse:     expected struct task_struct *p1
+   kernel/sys.c:1104:32: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/sys.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
+   include/linux/sched/signal.h:757:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:757:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:757:37: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/sys.c: note: in included file:
+>> include/trace/hooks/sys.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sys.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sys.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> drivers/mailbox/rcar-mfis-mailbox.c:96:45: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-      96 |         reg = devm_platform_ioremap_resource(pdev, i);
-         |                                                    ^
-   drivers/mailbox/rcar-mfis-mailbox.c:86:23: note: initialize the variable 'i' to silence this warning
-      86 |         int ret, count = 2, i;
-         |                              ^
-         |                               = 0
-   1 warning generated.
+vim +24 include/trace/hooks/sys.h
 
-
-vim +/i +96 drivers/mailbox/rcar-mfis-mailbox.c
-
-    80	
-    81	static int mfis_mbox_probe(struct platform_device *pdev)
-    82	{
-    83		struct device *dev = &pdev->dev;
-    84		struct mbox_controller *mbox;
-    85		void __iomem *reg;
-    86		int ret, count = 2, i;
-    87	
-    88		mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
-    89		if (!mbox)
-    90			return -ENOMEM;
-    91	
-    92		mbox->chans = devm_kcalloc(dev, count, sizeof(*mbox->chans), GFP_KERNEL);
-    93		if (!mbox->chans)
-    94			return -ENOMEM;
-    95	
-  > 96		reg = devm_platform_ioremap_resource(pdev, i);
-    97		if (IS_ERR(reg))
-    98			return PTR_ERR(reg);
-    99	
-   100		for (i = 0; i < count; i++) {
-   101			mbox->chans[i].mbox	= mbox;
-   102			mbox->chans[i].con_priv	= reg + ((1 - i) * 4);
-   103		}
-   104	
-   105		mbox->txdone_poll	= true;
-   106		mbox->txdone_irq	= false;
-   107		mbox->txpoll_period	= 1;
-   108		mbox->num_chans		= count;
-   109		mbox->ops		= &mfis_chan_ops;
-   110		mbox->dev		= dev;
-   111	
-   112		ret = mbox_controller_register(mbox);
-   113		if (ret)
-   114			return ret;
-   115	
-   116		platform_set_drvdata(pdev, mbox);
-   117		dev_info(dev, "MFIS mailbox is probed\n");
-   118	
-   119		return 0;
-   120	}
-   121	
+     9	
+    10	struct task_struct;
+    11	DECLARE_HOOK(android_vh_syscall_prctl_finished,
+    12		TP_PROTO(int option, struct task_struct *task),
+    13		TP_ARGS(option, task));
+    14	
+    15	struct mm_struct;
+    16	struct anon_vma_name;
+    17	DECLARE_HOOK(android_vh_anon_vma_name_recog,
+    18		TP_PROTO(struct mm_struct *mm, struct anon_vma_name *anon_name),
+    19		TP_ARGS(mm, anon_name));
+    20	DECLARE_HOOK(android_vh_restore_mm_flags,
+    21		TP_PROTO(struct mm_struct *mm),
+    22		TP_ARGS(mm));
+    23	
+  > 24	DECLARE_RESTRICTED_HOOK(android_rvh_pr_set_vma_name_bypass,
+    25		TP_PROTO(struct mm_struct *mm, unsigned long addr, unsigned long size,
+    26			      struct anon_vma_name *anon_name, int *error, bool *bypass),
+    27		TP_ARGS(mm, addr, size, anon_name, error, bypass), 1);
+    28	#endif
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
