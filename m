@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C98214807
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 01:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4379B218596
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Oct 2025 02:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761356699; cv=none; b=rGBY5hWM6aVEfmJ1wO0VQJo/yzkH3gpdIVNDNnsN90qn9FYp0KfcGE7E+/+bN2YjJngsdxk2YAaVnV7rycXTxOP+PRNzRIvTFWE83tiCDqFybX7iWUNThd2IVmcU5Ldhy+DqKavKHLqMyyKu4jl3CEVvKT7NhKmI+5rZ1jM4BPk=
+	t=1761357962; cv=none; b=TqOwIMXXCuuM758iy0ceKP7OmuEN1AZJ0MoZ+3sBj57mgWxvbIgaEE5andUbKrfaLy1bLgU3djcXAHjnjglQlAM8mbxSc2RomYP+keFyKME2QL/eOI7Hi6xDRG8+E65P1wZQI6y3Gm8cBRdXY6cxfUTFrbxBqj3seK08CK+fVGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761356699; c=relaxed/simple;
-	bh=+Fu5OgTDIZIRAtIoJ7xpHPgfs7GVRyqQ9fmPndTdNj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bjHC4lXwlaKoEvORKKe9ZdRqjr1RnlP3ONE2EFS66aSR7y7H41GsoKXmU8FaNampZyYPrR9emdjyukcEYlSdtCyJHLu8M6fyCtq6iFo5FnRUxHRMur2tbbL9BnxwLOS3i6LjlD9Uy6yqSNFykJmehSBSJGzSc0jvbkXyFW4QjV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvLi/4NF; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1761357962; c=relaxed/simple;
+	bh=UUyFabh3Km47IO5QxbAGDRixvtEwG3sJQ8Pmnsxtr34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NjBn206qjGtIYwTW+ZDXuRxOPwTyGF6qiZ0sD6xHZz+BdlvV1mwU7x5dY6Hb9TDMoueaquGJTS2elgzjjjIB0ELCGGksJcpI880PLOx1/DGQRC4bA6pqVb/EnOlVHMTW4dZypcLD1RSQSIvhbF/YzMKMQm2UHeMEN9Is9jiUqEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7P7Isci; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvLi/4NF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7P7Isci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761356698; x=1792892698;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Fu5OgTDIZIRAtIoJ7xpHPgfs7GVRyqQ9fmPndTdNj8=;
-  b=TvLi/4NF2XUo2QEiNJiSW04zQoQnXl3zIBgvTwTgCxVCgwlXLl6LY0Cz
-   VBVEE010GoMqtRlESCbh9dMDw5U1l0boneERSjuHVW3epKAMlKHRcj8Su
-   ZEKjhObprEauSqjIv3K7JtGz4HDEefO1IduMEmYzCgKBER4jqwW5B0z+1
-   14jiNhEbbzgak0vLf9oMFyQGcVHz2vYb/1VVFVTYnYWHB4QxQEmz9+SbX
-   YQd8rKkuzRrBeEmtv/KspYV3o7d8H+bT+wwJ6LvY/QBAmi/iAGCN8F3eq
-   7rnesGFf7L/x9g5Aqru8KNp98UZhIivwKsfdiK914IAVz0/SewkaP4vj0
-   A==;
-X-CSE-ConnectionGUID: oD+/X/F1RpiSQPrPn76BlA==
-X-CSE-MsgGUID: KnXvRjr3TEeWJ4Dfc8DxZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63428822"
-X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="63428822"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 18:44:57 -0700
-X-CSE-ConnectionGUID: 0P5/ws5BQEeC/C8es36vTw==
-X-CSE-MsgGUID: ENSWOxcpQT2WmA5yBuWBZg==
+  t=1761357961; x=1792893961;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UUyFabh3Km47IO5QxbAGDRixvtEwG3sJQ8Pmnsxtr34=;
+  b=Y7P7Iscif2O6eryFwm/BK1ed5OMuxyx2fF2acbkbPO2QvioOZs2t0TQm
+   7LCZ/SNTg+GHSX8MiQzw3j7xLpaakKSlYimK1DDut8URgz/oga55AHIAH
+   7gFdxIUIMDKiZRcWMl15RJ+jfB1duiPWeTJlPvSkF+YffaB0eBDa/EBva
+   YdlU5W5rl9UXqsszg7QzS7XVPALRdIIv7xCGB91cChRGM/gN6VUYNbEaT
+   S1ZwNdiDlKx/9qhYoA/0b4MK1gI3Hv903iIdm7yw0R2Uqp+xX/PhrkiVw
+   hFUwwWPqCfou0c9D10J/8pbUH49ghxudtYOpJ9jLJOr4N/KweyAyypRRE
+   g==;
+X-CSE-ConnectionGUID: VImjgeqATDyeoPZ4iVXOSA==
+X-CSE-MsgGUID: QjeSa/mrRieVlNq1KaWzJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67401401"
+X-IronPort-AV: E=Sophos;i="6.19,254,1754982000"; 
+   d="scan'208";a="67401401"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2025 19:06:00 -0700
+X-CSE-ConnectionGUID: nhHc/15PS/6qQVB76dd4og==
+X-CSE-MsgGUID: GcjI3a4XQVGE2FZ/gbs2bw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,253,1754982000"; 
-   d="scan'208";a="184466788"
+X-IronPort-AV: E=Sophos;i="6.19,254,1754982000"; 
+   d="scan'208";a="215222108"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 24 Oct 2025 18:44:55 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Oct 2025 19:05:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCTKv-000F37-0E;
-	Sat, 25 Oct 2025 01:44:53 +0000
-Date: Sat, 25 Oct 2025 09:44:43 +0800
+	id 1vCTfH-000F41-0i;
+	Sat, 25 Oct 2025 02:05:55 +0000
+Date: Sat, 25 Oct 2025 10:05:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>
-Subject: [tip:locking/core 8/11] build_policy.c:undefined reference to
- `__scoped_seqlock_bug'
-Message-ID: <202510250928.YLPmMRoX-lkp@intel.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/3] clk: renesas: r9a09g056: Add clocks and resets for
+ DSI and LCDC modules
+Message-ID: <202510250901.tqADmdvc-lkp@intel.com>
+References: <20251023210724.666476-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +71,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251023210724.666476-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
-head:   37d0472c8ac441af8bc10fc4959ad9d62dd5fa4c
-commit: 488f48b32654dc6be04d9cc12f75ce030c9cb21b [8/11] seqlock: Change thread_group_cputime() to use scoped_seqlock_read()
-config: x86_64-buildonly-randconfig-002-20251025 (https://download.01.org/0day-ci/archive/20251025/202510250928.YLPmMRoX-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250928.YLPmMRoX-lkp@intel.com/reproduce)
+Hi Prabhakar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on geert-renesas-drivers/renesas-clk]
+[also build test WARNING on clk/clk-next linus/master v6.18-rc2 next-20251024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Prabhakar/clk-renesas-r9a09g056-Add-clocks-and-resets-for-DSI-and-LCDC-modules/20251024-050927
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+patch link:    https://lore.kernel.org/r/20251023210724.666476-2-prabhakar.mahadev-lad.rj%40bp.renesas.com
+patch subject: [PATCH 1/3] clk: renesas: r9a09g056: Add clocks and resets for DSI and LCDC modules
+config: nios2-randconfig-001-20251025 (https://download.01.org/0day-ci/archive/20251025/202510250901.tqADmdvc-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251025/202510250901.tqADmdvc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510250928.YLPmMRoX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510250901.tqADmdvc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `__scoped_seqlock_next.constprop.0':
->> build_policy.c:(.text+0x23f6d3): undefined reference to `__scoped_seqlock_bug'
+   drivers/clk/renesas/r9a09g056-cpg.c:130:1: warning: data definition has no type or storage class
+     130 | RZV2H_CPG_PLL_DSI_LIMITS(rzv2n_cpg_pll_dsi_limits);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:130:1: error: type defaults to 'int' in declaration of 'RZV2H_CPG_PLL_DSI_LIMITS' [-Werror=implicit-int]
+>> drivers/clk/renesas/r9a09g056-cpg.c:130:1: warning: parameter names (without types) in function declaration
+   drivers/clk/renesas/r9a09g056-cpg.c:153:9: error: implicit declaration of function 'DEF_PLLDSI'; did you mean 'DEF_PLL'? [-Werror=implicit-function-declaration]
+     153 |         DEF_PLLDSI(".plldsi", CLK_PLLDSI, CLK_QEXTAL, PLLDSI),
+         |         ^~~~~~~~~~
+         |         DEF_PLL
+   drivers/clk/renesas/r9a09g056-cpg.c:131:25: error: implicit declaration of function 'PLL_PACK_LIMITS' [-Werror=implicit-function-declaration]
+     131 | #define PLLDSI          PLL_PACK_LIMITS(0xc0, 1, 0, &rzv2n_cpg_pll_dsi_limits)
+         |                         ^~~~~~~~~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:153:55: note: in expansion of macro 'PLLDSI'
+     153 |         DEF_PLLDSI(".plldsi", CLK_PLLDSI, CLK_QEXTAL, PLLDSI),
+         |                                                       ^~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:131:54: error: 'rzv2n_cpg_pll_dsi_limits' undeclared here (not in a function)
+     131 | #define PLLDSI          PLL_PACK_LIMITS(0xc0, 1, 0, &rzv2n_cpg_pll_dsi_limits)
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:153:55: note: in expansion of macro 'PLLDSI'
+     153 |         DEF_PLLDSI(".plldsi", CLK_PLLDSI, CLK_QEXTAL, PLLDSI),
+         |                                                       ^~~~~~
+   In file included from drivers/clk/renesas/r9a09g056-cpg.c:16:
+   drivers/clk/renesas/r9a09g056-cpg.c:189:19: error: 'CSDIV0_DIVCTL2' undeclared here (not in a function); did you mean 'CSDIV0_DIVCTL1'?
+     189 |                   CSDIV0_DIVCTL2, dtable_16_128),
+         |                   ^~~~~~~~~~~~~~
+   drivers/clk/renesas/rzv2h-cpg.h:196:45: note: in definition of macro 'DEF_TYPE'
+     196 |         { .name = _name, .id = _id, .type = _type }
+         |                                             ^~~~~
+   drivers/clk/renesas/rzv2h-cpg.h:215:9: note: in expansion of macro 'DEF_DDIV'
+     215 |         DEF_DDIV(_name, _id, _parent, _ddiv_packed, _dtable)
+         |         ^~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:188:9: note: in expansion of macro 'DEF_CSDIV'
+     188 |         DEF_CSDIV(".plleth_lpclk_gear", CLK_PLLETH_LPCLK_GEAR, CLK_CDIV4_PLLETH_LPCLK,
+         |         ^~~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:191:9: error: implicit declaration of function 'DEF_PLLDSI_DIV' [-Werror=implicit-function-declaration]
+     191 |         DEF_PLLDSI_DIV(".plldsi_gear", CLK_PLLDSI_GEAR, CLK_PLLDSI,
+         |         ^~~~~~~~~~~~~~
+   drivers/clk/renesas/r9a09g056-cpg.c:192:24: error: 'CSDIV1_DIVCTL2' undeclared here (not in a function); did you mean 'CDDIV1_DIVCTL2'?
+     192 |                        CSDIV1_DIVCTL2, dtable_2_32),
+         |                        ^~~~~~~~~~~~~~
+         |                        CDDIV1_DIVCTL2
+   cc1: some warnings being treated as errors
+
+
+vim +130 drivers/clk/renesas/r9a09g056-cpg.c
+
+   129	
+ > 130	RZV2H_CPG_PLL_DSI_LIMITS(rzv2n_cpg_pll_dsi_limits);
+   131	#define PLLDSI		PLL_PACK_LIMITS(0xc0, 1, 0, &rzv2n_cpg_pll_dsi_limits)
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
