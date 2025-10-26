@@ -1,197 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45FB267B89
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 05:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761455688; cv=none; b=ZR5kXSHv2yEoOcjAXAVz2hrzCBBuZmRkkJkkPuPN4gCVO8nv36AFgw/L43Yok1amvgQXQ3MtZEchiBZSck0iPPmNlx5fn6K2mtS8QTxtpp0AuogLZ11YAoKhQlaU/7MCMnSX3FSUX8r3txXEVolcJ3OhrN70k9/cR/Szl/BHquQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761455688; c=relaxed/simple;
-	bh=gKJE14w1KDbJqmE7/dHsKdynDf2xulvE3IRzaIW6bj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=epR9obPiKtRW7VbaNrgWzFT064j/mSM4PqdR7MMDGxOExvAf8GaoUlUUeTwEmlmG6WHvBECXyOUpbstQmNLcSedGpMrxw3Z7Gc4ZuDDFKwgOHHv2gaYDP1s3j3yrXHhAhyAmJLUDqEeg/DwtXcZ4rty4wTfqsGeJ02pYkY+Aanw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8qsAmp5; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE6C12B94
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 05:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761457520; cv=fail; b=ow04Zj8qunVap7XTjJW+7Tj3WdpUN2zLm9xPQsgRmlWWpbmHsw7tma0kCyjQnp3nMP7HdhQqzxkxu3kjmcHycv5W1Py10uWc5RIwN6Wcps4hYanSFMnE+67Ner5yyiN/xjH7ZCQ0WFleY9XOyd/iR6ukaL1FfqdVQs76/zL/Qzs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761457520; c=relaxed/simple;
+	bh=JlGuy0YZvYDNo9gyveOOYGf9sEGKZIjcO0u8715RvK0=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=ewqpmwPyvQoZmiQqmBdmnXmSguFh+40mE0ACiucru+B59/GOyuHujJWarV4sn7g2E809X2Mabjb2mRjtAFhEN1EbEz9ONwyKv1uYPK8O4JSRAIL2aJZPFOc4o4EFd8yep6uArXN9k8YHpXUwkrIK8azttGL6OzGzzXdSdvTcm6Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeM6yrax; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8qsAmp5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeM6yrax"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761455686; x=1792991686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gKJE14w1KDbJqmE7/dHsKdynDf2xulvE3IRzaIW6bj4=;
-  b=O8qsAmp5Xb1Vp8UtM3qikDGuIaM9tuveqLPWl80LDT/hHVF5a7mLoZXw
-   YanvayHuKbIdoYFZJ6RS9kD70PYBszj+4UkyU7mQYIgL/Fk5nt99zw0GG
-   N4pFZEuHcd04EG0zLtRjqsLpqQ6SvnbkmGjdlq+udTwwmCr5IXmzaYY8X
-   RrqizPJsP1adMNqjsSyUP51RQPGwGxUuL0b2vgqIE6P25J/Ot0SCGdF+p
-   ybQ799tCXL0qpBggm9+yE18OIrjoBSG1tCXfM3tZlJ3Rkufu3D0PYHj3C
-   iCExywP8x36IgJSp8f1uH1bCMdp5J+Tgux7/0i4I2fIjqomTh3bNA6sYA
-   A==;
-X-CSE-ConnectionGUID: vojkpvkzRkqwGzTJPSMAxQ==
-X-CSE-MsgGUID: cdUY8/0MTrSuVsTuIpoAaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51150164"
+  t=1761457518; x=1792993518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JlGuy0YZvYDNo9gyveOOYGf9sEGKZIjcO0u8715RvK0=;
+  b=QeM6yraxaQ28LgxANw6/E3IpvMgpEOuxNIWh4a4lHnovlJAahKMQBtAT
+   NhU95oNiLP99Hc94xzuzkyJvG2W0Npktjncbh/IdSQQaEd8V+IfQ+johQ
+   jlW8OykuwAu9cc24dod7d7Hh9syY+BHni2Ol7MtNXxgedkXIJiiZwFSHj
+   EsapY/PAPKmcSKy2v1jbL4+MnpKk6eiFWJo15x3dqYD/zrKThgrxeG5tr
+   UA0bGSGUsWknjImLJMm/2pnAr/ybBjKP9Rp6LsoiOM63v88Lm0ap+OKzp
+   nqT2eA4FXU067BNOGwWa7IxJn0NeM0+YoRqmRbcA3d0MOIyjMkWi2JZMx
+   g==;
+X-CSE-ConnectionGUID: VjwlGBBzRpemY4GLyN7gJQ==
+X-CSE-MsgGUID: OcUq1VGtQiOQS3QNGv8saQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89046393"
 X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="51150164"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 22:14:45 -0700
-X-CSE-ConnectionGUID: 3IfibMsMR/SdoNhlTH/RrA==
-X-CSE-MsgGUID: x7CYNeabSyG2So3RbmdNKA==
+   d="scan'208";a="89046393"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 22:45:18 -0700
+X-CSE-ConnectionGUID: fOnrbt1ATXO5C6UUG7SD3Q==
+X-CSE-MsgGUID: lFO3vQcCSZeVYZU79qOexA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="184839789"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 25 Oct 2025 22:14:42 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vCt5F-000Fty-0a;
-	Sun, 26 Oct 2025 05:14:34 +0000
-Date: Sun, 26 Oct 2025 13:13:51 +0800
+   d="scan'208";a="183976246"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 22:45:18 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 25 Oct 2025 22:45:17 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Sat, 25 Oct 2025 22:45:17 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.47) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sat, 25 Oct 2025 22:45:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ol3o8fXL01cBntb+VOfi0wiKwZHrxdpp6GolZRhB/CeDRAAD0lAsLkACWPfretbCmLZD0L2QKyQu0rtpwFtaY9ji5LOn9BchgQPWYBx5xcbXlths7bc5NmGhVULCn8uR8ZETgz52Xz3FHf6EJvKikJMZrEluidy6yV8BQMSQREydXQrVAB5/jxpn/vpnEpfgTJ/cuS4yic6owI3e9qs5L51pgvr17zhc4wWUEYr0Z859aOYo5lGPxi2aTgROjIB1VAPRXdVM3tPyswTxNRTeiPxpBqjfU55KOP0ja7zFO0VBxuut+vv/65FzNt0d9kmf3JWOt0ufxv+MLDb0CO9g7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s9f4ECtUFo7jxWYbEcea/8vvPYL8rk+Px/p19jGCPtM=;
+ b=dhQYF/HKoNb3vFkneu0X1ul8rnUZg/sBLPioaEQBTTzTIc8PBOpFhiq/Ao6x3o6chK2DMbUjScWNXkoIy/OPPgqbUfxYvwZbqe5F5r7kch27+ETg+iDmqMKzXuWbpox+yOCGgb7I4XbRQsQsmuV/sKP2AhFu1yH+59S939Qn1CJh0j6BsUkzsbIpcXE990WuDVAQKA41BqttDSaHruN2/2hf6u44Nfrko8J5gEba9ufMP9CWvmvHxa4uLnUvbts6y4UyKg6We+1v4jf+UWwziplJOwl3UwqBZjEBdI0bcm0MKEaOEaSiLnh61C4X9evWACxYDAEWcb7itKhDtzLoHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by DS7PR11MB5991.namprd11.prod.outlook.com (2603:10b6:8:72::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.16; Sun, 26 Oct
+ 2025 05:45:09 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9253.011; Sun, 26 Oct 2025
+ 05:45:09 +0000
+Date: Sun, 26 Oct 2025 13:45:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	alexandre.belloni@bootlin.com
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v1 2/2] rtc: Add support for MT6685 Clock IC's RTC over
- SPMI
-Message-ID: <202510261223.NRLximA4-lkp@intel.com>
-References: <20251024083318.25890-3-angelogioacchino.delregno@collabora.com>
+To: Christian Brauner <brauner@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Amir
+ Goldstein" <amir73il@gmail.com>
+Subject: set_layers_via_fds.c:5:10: fatal error: fcntl.h: No such file or
+ directory
+Message-ID: <aP21XV8VGLFFJOWB@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251024083318.25890-3-angelogioacchino.delregno@collabora.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DS7PR11MB5991:EE_
+X-MS-Office365-Filtering-Correlation-Id: 463a1e53-eb57-4c00-c5a5-08de1452d30a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zB2ALkIZH/pd90l0TtBLRP4Dz1SZJ2+bKs4lxW1ypXPF3btnWKxU/x7cQMTO?=
+ =?us-ascii?Q?MqV3hRkZp2Zr5ZMEzRCSb6ALdsQgDbjQD0FGblTU/wMFFBlV0TkQEb4ykBfm?=
+ =?us-ascii?Q?9MmNQLSsDoVSV0idGnrzP32PlrdeVYaOCqswlr/dHFJod2XzAgg2A7FiyN00?=
+ =?us-ascii?Q?jSqpl41LkXKRYiV9+9pNdJHi0X8d/TkjpSe8jNw1DPFaoGkBOBEGvtcoFUV/?=
+ =?us-ascii?Q?iUb922DBRofury8PE95ln7rESzKHIsGcMIHCkSIrwIWirWWkMcqNt1hnLf4G?=
+ =?us-ascii?Q?qq7KjqyFuLhY7LPP+/+SWU7NqzJVw247E0mQ1N98RqWPmXUVbWVgYX/sYWl+?=
+ =?us-ascii?Q?Wc0Zg9MChq0qnyhZPuq6gYaxbTuiADRtszcBvlrpg+6XV/Z1MYdOtsSC/vMh?=
+ =?us-ascii?Q?8YL69c4wJ1Ox4Dy0/NMUrCGjjOwXZW9K+0fpAhVjBZeWKchD8QTlhgxfV3WC?=
+ =?us-ascii?Q?sHqYk57B5Be6PChJdFCwAgOKOXSQPOJgDwUYSC4qlEDzFMordbz3j7YZpt0q?=
+ =?us-ascii?Q?5ihT1qLyA99cz3hcpOu8m1Jjj5w9JkZHEHDwphZTho4RlHsiDTeInQuOAqgB?=
+ =?us-ascii?Q?O5KORha0rx5bwEakPuMo8T3WWF5vqEwCluoX0OSRH6kKR7cnVzGUqJGK+scF?=
+ =?us-ascii?Q?cH2347n0OHE/hTL9sHs77xJMm30zCepNM9BVl4n4Xe7JSGlVBP7d1fSkOZwQ?=
+ =?us-ascii?Q?sxhIRwH3krhE0JOGZuaa7wdJxkIs+pQakNxu+cD6rA7FWkS2uH358FpgLeFO?=
+ =?us-ascii?Q?mh2sgAAUsX6agcTjLfOO9SaNuubs/V0fHX5IHyHo6TramJ4bI+qiqSKOR64Z?=
+ =?us-ascii?Q?L/dglb8NxN+wUpQmwRSJTYY1YGd1cGe8cqLoRPooP6sdAirlA1rxjr0n4QSN?=
+ =?us-ascii?Q?0pyO57rs5xqcO/Bl4C/ghhJBpuL6FVD0B2TL8670v1rzEnll7W6UIFzZw15F?=
+ =?us-ascii?Q?hDKL3o0iVPECEcCIojNwcsa9su8wHO47DNr/5AbVGtNrKJ6gpHcKOj4omu86?=
+ =?us-ascii?Q?+StR9sIXctTY4vNoO3QgwaWHNRLZtQYwH7+gUKqtnyIgCM76vcRIcrwLq4ys?=
+ =?us-ascii?Q?JkWUp9wdS2X1Ve7aaWtQCyiXNsccGedu+DKkoqmRGzmm2llH7f9mf1CcmkeT?=
+ =?us-ascii?Q?kZIqXUcjaRyQjthPV19iL0YcUgkstJ3DBjwBUe5mvIlBlUWV1SgKj/c2HyYO?=
+ =?us-ascii?Q?KBE24enm6V6MuDR9rrp4SDV1+YNogFsDxMY5YdD3/ZFlP1foqnsWCVxnn3JR?=
+ =?us-ascii?Q?cF2dgdWGYf6E7wu4YB8QeJPH/iSQ/EpPQRK7XozC3au7PewGIuaAFah079f3?=
+ =?us-ascii?Q?6O11RKicRDA+bTaKjDkUHlfi7KBzOXXNsPJPMrsVkoBkzOS/Su0mytIpg7u+?=
+ =?us-ascii?Q?pESRSMwLRWg+YPJ0bR39wtDADm6rCguiZhKGjKdzwzvNhTHtlodMN8AeQjsq?=
+ =?us-ascii?Q?a/kZ/EorDH7kI+9GA6ZTRFxy1ZEwjMXgNl7P5k9XqMuMUdNGRHKihw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9TwRAnXQQcc2AdNP4OICW9OwId/XRVbze8+8wTbJ4oG9OzlZJq9DRIMseiXX?=
+ =?us-ascii?Q?hjVZZv1jE4LXD7WQemQG1XIU+CuBBVF6wOl2ur0RCUr+JDzSRfh1AS/sYb5g?=
+ =?us-ascii?Q?NDMC+SFy+jtKKfDoB3H14Y9LyEDWGcUN8MznV3ifpaLS0GRWNWIqdKYyQjAI?=
+ =?us-ascii?Q?R19xYt6gEYDRsbR740RM9FZKFWD+BW2Tb1mPUBAy+xvvtomtcEhiGCVONLsi?=
+ =?us-ascii?Q?4sOmtCXaiPApQcA8P1iy6RLmLwab0M4+CjaAn3C6tCxXjyC0J4ioqLoni2pP?=
+ =?us-ascii?Q?epNddWFQY5gz4M6Q924AASfWD3cqquA2dF08OLr7n5+nz5aWzOCRYAi3ZHHC?=
+ =?us-ascii?Q?LGDTYYw+ZQVqso8O+sYlwMixY8NUmseS4x7UiEnDhT4KfhHiIlBS7uvUpwgQ?=
+ =?us-ascii?Q?3H3mOVoYB8GBIufCu5tZ2w9Gl2nAWyPxBx7Bg4o7AOLOKc9LwinhROCPMHLn?=
+ =?us-ascii?Q?JX00xxW//Xj+AkdeCZdyoO+5eAC8T41lLsijncVPH61r97Pelj78ZU/yDi6c?=
+ =?us-ascii?Q?+exklYhQu8Ir5e0VU4BP06qT5V6nJ9+64eklmZAbdjKDAwz34N+H/WT/Hw4g?=
+ =?us-ascii?Q?h4dNoupN3ssHO+afPxuGoTKW34tuRrdaVq9qO5vG4KlwIyEvOLvNSA96Bu5s?=
+ =?us-ascii?Q?4YxEHFoD1JPMHtmBbvYsp5cc68BJhH574Awp/IBxZX8bryT/AbWzcg6lEqHl?=
+ =?us-ascii?Q?fNAYMzpbC7s7hs/V53lg3fFzyD2dxBgC6dJUFA0IeDex91MhepZypE98on2V?=
+ =?us-ascii?Q?ui/PblxFQtJ1UG1De+rxUZ0zG86YqNLMjd1jkWEH9rYA4mtyZ73cnKReHZkf?=
+ =?us-ascii?Q?+IQQt28uivTphKqgb7/gcx89C4flKxMtA7DzieHO9FC/TCquleSryYTC+lcC?=
+ =?us-ascii?Q?DGdDyVJdSongOnyRTvfRZFXDGmqTJg3xK85c//N3bwyQfskfjSDZhK4rSKMg?=
+ =?us-ascii?Q?uOi0iCeSO26wusA+GqfZHuFYBV7LBBEu6f2BNc+sn1A39Jip+hJ+lYI08m8X?=
+ =?us-ascii?Q?Z1QrwRKO4m8ka0JEnuOsKyC+ywO5oAAGyoUeUnIWSdnKzqValVg65A7AuFzK?=
+ =?us-ascii?Q?C9OUuDfR6rS+h3wG8pi6Pk5JW53DM6LvfHS9v6btNwhzdptRwN93Mqv/iOJ6?=
+ =?us-ascii?Q?IJspobvPMDqzMhvje92BoTWzu1ySy6OsW6mJeFMjpPnyw6KwfGzrARgUlZrd?=
+ =?us-ascii?Q?INfI+PAzP1PRAHRRotEpMQE7ErV9X0LnudJVNrJth2y7kH8IJkN8sXMwguk+?=
+ =?us-ascii?Q?Ynu7Wr9Z8X50FBjSEiEwkpc6fdJC5IJhAA+cBXTFgThXWxeE3c3CwsF045Za?=
+ =?us-ascii?Q?LjvmDjWtZb/Q1yYdUh9UH3ViqmNSp5e1jNNMPnPMcPaj3FlpXlfSKO1vABPY?=
+ =?us-ascii?Q?ayWfri1CMuvzzdnWHH//MvmD94MZ13BxFTo3vCDJno667DSVK212HPgzmhVW?=
+ =?us-ascii?Q?xyohlkmV8mpqv7KkPe6wYMSMBeMu2WsZCvF0DG73C3H1WssAzXFq4jZnQCV9?=
+ =?us-ascii?Q?tOtZEEJnS1GYTyS/fF+Rw6XLovjF1E9JfgMkpsWGaEtQ9Z7+RUQjifyx6vp5?=
+ =?us-ascii?Q?QtgfYXznxNmAJe5g0t5hDtZgebMxu2xDGuucPHKL?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 463a1e53-eb57-4c00-c5a5-08de1452d30a
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2025 05:45:09.5696
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eFL/C21C2pgsq8xIcPl2WVv6NOUH2z8Fgz61iv5NJAFN99azL0fuSxTh9Ue6InMOfkTvtdJmMfOMmPSDD1i2ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5991
+X-OriginatorOrg: intel.com
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on robh/for-next linus/master v6.18-rc2 next-20251024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-rtc-Add-MediaTek-MT6685-PM-Clock-IC-Real-Time-Clock/20251024-164423
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20251024083318.25890-3-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v1 2/2] rtc: Add support for MT6685 Clock IC's RTC over SPMI
-config: sparc64-randconfig-r062-20251026 (https://download.01.org/0day-ci/archive/20251026/202510261223.NRLximA4-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261223.NRLximA4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72761a7e31225971d0b29d9195e0ffa986b77867
+commit: af9199145b1977316b3c752e2124543e320f087f selftests: add overlayfs fd mounting selftests
+date:   1 year ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 1 year ago
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251026/202510261024.iDAnOFIm-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261024.iDAnOFIm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510261223.NRLximA4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510261024.iDAnOFIm-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/rtc/rtc-mt6685.c: In function 'rtc_mt6685_probe':
-   drivers/rtc/rtc-mt6685.c:380:13: error: implicit declaration of function 'devm_spmi_subdevice_alloc_and_add' [-Werror=implicit-function-declaration]
-     380 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/rtc/rtc-mt6685.c:380:11: warning: assignment to 'struct spmi_subdevice *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     380 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
-         |           ^
-   In file included from drivers/rtc/rtc-mt6685.c:20:
->> drivers/rtc/rtc-mt6685.c:397:51: error: dereferencing pointer to incomplete type 'struct spmi_subdevice'
-     397 |  rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
-         |                                                   ^~
-   include/linux/regmap.h:775:6: note: in definition of macro '__regmap_lockdep_wrapper'
-     775 |   fn(__VA_ARGS__, &_key,     \
-         |      ^~~~~~~~~~~
-   drivers/rtc/rtc-mt6685.c:397:16: note: in expansion of macro 'devm_regmap_init_spmi_ext'
-     397 |  rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +397 drivers/rtc/rtc-mt6685.c
-
-   358	
-   359	static int rtc_mt6685_probe(struct platform_device *pdev)
-   360	{
-   361		struct regmap_config mt6685_rtc_regmap_config = {
-   362			.reg_bits = 16,
-   363			.val_bits = 8,
-   364			.max_register = 0x60,
-   365			.fast_io = true,
-   366			.use_single_read = true,
-   367			.use_single_write = true,
-   368		};
-   369		struct device *dev = &pdev->dev;
-   370		struct spmi_subdevice *sub_sdev;
-   371		struct spmi_device *sparent;
-   372		struct mt6685_rtc *rtc;
-   373		int ret;
-   374	
-   375		rtc = devm_kzalloc(dev, sizeof(struct mt6685_rtc), GFP_KERNEL);
-   376		if (!rtc)
-   377			return -ENOMEM;
-   378	
-   379		sparent = to_spmi_device(dev->parent);
- > 380		sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
-   381		if (IS_ERR(sub_sdev))
-   382			return PTR_ERR(sub_sdev);
-   383	
-   384		ret = of_property_read_u32(pdev->dev.of_node, "reg",
-   385					   &mt6685_rtc_regmap_config.reg_base);
-   386		if (ret)
-   387			return ret;
-   388	
-   389		rtc->irq = platform_get_irq(pdev, 0);
-   390		if (rtc->irq < 0)
-   391			return rtc->irq;
-   392	
-   393		rtc->mclk = devm_clk_get(dev, 0);
-   394		if (IS_ERR(rtc->mclk))
-   395			return PTR_ERR(rtc->mclk);
-   396	
- > 397		rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
-   398		if (IS_ERR(rtc->regmap))
-   399			return PTR_ERR(rtc->regmap);
-   400	
-   401		rtc->rdev = devm_rtc_allocate_device(dev);
-   402		if (IS_ERR(rtc->rdev))
-   403			return PTR_ERR(rtc->rdev);
-   404	
-   405		platform_set_drvdata(pdev, rtc);
-   406	
-   407		/* Clock is required to auto-synchronize IRQ enable to RTC */
-   408		ret = clk_prepare_enable(rtc->mclk);
-   409		if (ret)
-   410			return ret;
-   411	
-   412		ret = devm_request_threaded_irq(&pdev->dev, rtc->irq, NULL,
-   413						rtc_mt6685_irq_handler_thread,
-   414						IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-   415						"mt6685-rtc", rtc);
-   416		clk_disable_unprepare(rtc->mclk);
-   417		if (ret)
-   418			return dev_err_probe(&pdev->dev, ret, "Cannot request alarm IRQ");
-   419	
-   420		device_init_wakeup(&pdev->dev, true);
-   421	
-   422		rtc->rdev->ops = &rtc_mt6685_ops;
-   423		rtc->rdev->range_min = RTC_TIMESTAMP_BEGIN_1900;
-   424		rtc->rdev->range_max = mktime64(2027, 12, 31, 23, 59, 59);
-   425		rtc->rdev->start_secs = mktime64(1968, 1, 1, 0, 0, 0);
-   426		rtc->rdev->set_start_time = true;
-   427	
-   428		return devm_rtc_register_device(rtc->rdev);
-   429	}
-   430	
+>> set_layers_via_fds.c:5:10: fatal error: fcntl.h: No such file or directory
+       5 | #include <fcntl.h>
+         |          ^~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
