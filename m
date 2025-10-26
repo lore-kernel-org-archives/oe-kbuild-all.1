@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427CC2FFDEB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 23:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9CB2FFDF1;
+	Sun, 26 Oct 2025 23:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761519607; cv=none; b=FajJWOvP5XY4mTh/L17l+tr7QD6Oj5S29WFZqSlWfFrEWBZ0GNougtbUe0N8Lkc4RVd5L03Yxa3HASjO4qieTnMqhv8hudiajJwWiJWBCyRSSsLEFVLq7qPjlAp7GRKkIr/Mmf8xfETD1ldZ7uhFNnD5h8Pfjuhy1mmEiUF08DI=
+	t=1761519610; cv=none; b=ej8lHgQTK00P7pjCu7BVxY8Jc+Fp5TDSjhvTR17QAPub9ouPsiUOWTtIR76c1plEOqHcDM8T35yZl4lQWthddN5DKSYFvlbKGXcDcMEzyf2E6wVsd3n86MaGZzVZcQpgW3AqNVVSlq3MfQxhE3G3sZwn52KhiAXmGINism2xA/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761519607; c=relaxed/simple;
-	bh=B23eF+Zqk9KbGekZD85UaLt8Pqp9XgShSIqMmq+ScW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VJfuK7ntR5XngkTEqTgAJb8OGTHbxUh7eR2lsqpvsXH+30SK0lk+y9Wqa/yfuHKiv2G5a5KDLMfAc7EPLbi7imKolUtuuhCqY6pl9oUKm2xWZUw6vbaDgGkk5jTeHQxFChYEAEAL2T/cl6Z9Q1hQ2vHYLHdlZWdb1QBIfw0QbAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiGI8bX9; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1761519610; c=relaxed/simple;
+	bh=GG2gG2Zm5sdOiN2dn/HSEsofdKUhfYLNrH9FfHdlQSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N5qy/Iu/5vaUz5Xv2rLshUFEfJe6/iwBntDAz3gzuoAgNZh6ufGDG/dAhW9lWhMp7FEp8UbIei9M088pdpXtCnD9+ycLwV/zU0jtwVkbDvco2xUUqr/zEX7LGFpV8yzh/lNDW20VpCun2RFQLIwbHwEpDIVmfNbzLGHEegcu9jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2YWgJPW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiGI8bX9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2YWgJPW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761519606; x=1793055606;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B23eF+Zqk9KbGekZD85UaLt8Pqp9XgShSIqMmq+ScW8=;
-  b=EiGI8bX9/J8C+YrlO5WMh1T0TT7VtmmTvGZ9yGuDGpa+1zec90wS9l4l
-   qB4PcxsAdJJkJaboch1csS0ZMBJmUq+apyPPaF1HzZbdorASEWfyJI8Fi
-   70wq1hXDPTjA5zK9LkTnd/VdMoUb8+qLzSks59EKvX2/9vb+8NLQ3BysU
-   iSWTeFqNPe72T4QdLGV56ILAWy3CX75dhvAoOj+TWl8iKJjhqFC04To2k
-   +4Y0enOV0pJxfTgzEPmuchdLeSSEExLUuiO+DAcezqhmXdQy/vrajpWJa
-   /HCN6bBKO1oFMHaNN5H0HlgvjvytOEo8O/Aae/VF1TAc+L0X9S6nlid48
+  t=1761519608; x=1793055608;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GG2gG2Zm5sdOiN2dn/HSEsofdKUhfYLNrH9FfHdlQSw=;
+  b=A2YWgJPW0iruhIPhNtkECsjSSiyHcMkgF+W57X8eL3pCxwEsNK1WcJsv
+   6Eitym0WF+rd3HIp6io5QmFlXOlbMP2vCuhtJhWM6FS6MBfPB2UJR9Lzs
+   VxeZdvQvtLFyCQB7i1gfXNgJa56viIUKLhfK+9jHm3hSnUmzODE3j7gPc
+   /TzoxaM2ssYRRO5DpzupWQ4fedbZtXYDu9aJAC+k0VM+qUn1nAaNTIt02
+   igF4Jt2MRc/GQd/oXGYHlzMJ9pw0Ylf+7u5OuyjvAcb97cmEg434HCkTO
+   ciZCRcUPZnWODgbF4rjce6ca/RO/gZCuwGv2LIByMbmDfYhi+Xm5meD2o
    w==;
-X-CSE-ConnectionGUID: KtRJcZ2oTiiAhF+a+rV7SA==
-X-CSE-MsgGUID: 18o0RBo9RrSwePiJAV8YNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67433353"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67433353"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:00:05 -0700
-X-CSE-ConnectionGUID: YqDkmydtT2WT31/69/G62g==
-X-CSE-MsgGUID: SmIYPanfQkOv1IH9VUjV9w==
+X-CSE-ConnectionGUID: rTD0b2mlQcukW/b4DQzQJA==
+X-CSE-MsgGUID: AOz6Yd9UQv2nvjISZrPjWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67467277"
+X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
+   d="scan'208";a="67467277"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:00:08 -0700
+X-CSE-ConnectionGUID: XC5IWdxUT3CWsELSkY4vIw==
+X-CSE-MsgGUID: G1L2gNZJQ3ySXDIHZASnzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="185253037"
+   d="scan'208";a="184594560"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Oct 2025 16:00:03 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2025 16:00:04 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vD9iT-000GNb-1L;
+	id 1vD9iT-000GNZ-1H;
 	Sun, 26 Oct 2025 23:00:01 +0000
-Date: Mon, 27 Oct 2025 07:00:01 +0800
+Date: Mon, 27 Oct 2025 06:59:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 462/694] fs/bcachefs/sb/io.c:582:19:
- sparse: sparse: cast to restricted __le32
-Message-ID: <202510270636.D3xzIrLQ-lkp@intel.com>
+To: Anton Protopopov <a.s.protopopov@gmail.com>, bpf@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Anton Protopopov <aspsk@isovalent.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Quentin Monnet <qmo@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 bpf-next 01/12] bpf, x86: add new map type:
+ instructions array
+Message-ID: <202510270614.av6f72iy-lkp@intel.com>
+References: <20251026192709.1964787-2-a.s.protopopov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +70,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251026192709.1964787-2-a.s.protopopov@gmail.com>
 
-Hi Kent,
+Hi Anton,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   86ce62d7b3a79e326ccfa11d5aa365f62ee88d47
-commit: 30f7c327a5b2201012ff856bc95040e2ec3fad6b [462/694] bcachefs: move sb code to subdir
-config: powerpc-randconfig-r112-20251026 (https://download.01.org/0day-ci/archive/20251027/202510270636.D3xzIrLQ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270636.D3xzIrLQ-lkp@intel.com/reproduce)
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Protopopov/bpf-x86-add-new-map-type-instructions-array/20251027-032442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251026192709.1964787-2-a.s.protopopov%40gmail.com
+patch subject: [PATCH v7 bpf-next 01/12] bpf, x86: add new map type: instructions array
+config: i386-buildonly-randconfig-005-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270614.av6f72iy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270614.av6f72iy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510270636.D3xzIrLQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510270614.av6f72iy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/sb/io.c: note: in included file (through fs/bcachefs/bcachefs_format.h, fs/bcachefs/bcachefs.h):
-   fs/bcachefs/sb/downgrade_format.h:14:52: sparse: sparse: array of flexible structures
->> fs/bcachefs/sb/io.c:582:19: sparse: sparse: cast to restricted __le32
->> fs/bcachefs/sb/io.c:581:19: sparse: sparse: cast to restricted __le64
+All errors (new ones prefixed by >>):
 
-vim +582 fs/bcachefs/sb/io.c
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:61:
+   In file included from include/linux/syscalls_api.h:1:
+   In file included from include/linux/syscalls.h:95:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+   In file included from include/linux/perf_event.h:53:
+   In file included from include/linux/security.h:35:
+>> include/linux/bpf.h:3807:1: error: expected identifier or '('
+    3807 | {
+         | ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   kernel/sched/sched.h:3743:18: warning: variable 'cpumask' set but not used [-Wunused-but-set-variable]
+    3743 |         struct cpumask *cpumask;
+         |                         ^
+   1 warning and 1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=3282044347
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3282044347
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3282044347
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3282044347
+   make: Target 'prepare' not remade because of errors.
 
-1c6fdbd8f2465d fs/bcachefs/super-io.c Kent Overstreet 2017-03-16  577  
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  578  static unsigned long le_ulong_to_cpu(unsigned long v)
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  579  {
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  580  	return sizeof(unsigned long) == 8
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29 @581  		? le64_to_cpu(v)
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29 @582  		: le32_to_cpu(v);
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  583  }
-8b16413cda7c46 fs/bcachefs/super-io.c Kent Overstreet 2023-12-29  584  
 
-:::::: The code at line 582 was first introduced by commit
-:::::: 8b16413cda7c46d47f8071165b3071f8a9369199 bcachefs: bch_sb.recovery_passes_required
+vim +3807 include/linux/bpf.h
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+  3799	
+  3800	#ifdef CONFIG_BPF_SYSCALL
+  3801	void bpf_prog_update_insn_ptrs(struct bpf_prog *prog, void *jit_priv,
+  3802				       update_insn_ptr_func_t update_insn_ptr);
+  3803	#else
+  3804	static inline void
+  3805	bpf_prog_update_insn_ptrs(struct bpf_prog *prog, void *jit_priv,
+  3806				  update_insn_ptr_func_t update_insn_ptr);
+> 3807	{
+  3808	}
+  3809	#endif
+  3810	
 
 -- 
 0-DAY CI Kernel Test Service
