@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCA835B13C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 07:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1C023EAA0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 07:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761463800; cv=none; b=gaqi7K0VH95gqh9qEsJ6CEguz3jYJz43JczQb6aZ1RfUzHpPnutzGIW21yivlw61Q2mHYEPhDuG9QtQCm7yxb7387rJ3x7rDCjpP3NzSxwBnxKjSMT1UDlYFOPpJBAutUpFE+D5ZMQTwnp+vL9CnJ0Ps+E/ly9TM9Hhp0H7g1Dw=
+	t=1761463804; cv=none; b=LKoWdp2wxsWAQ4Obo5LpIEsFdxClUKQPQl8O/iW3w6FpZcgW+LeP2XHOHSNSh56RlwGG9yvXjDkTi3UBPYLoN2v/vzOvhbyTEBbyDgUqeOw3G5HtF7HFSp/ycBRIISGYyU8YW6zKqk9+WnW72mrCLAdieuTKGtB4LZkLW3dxp0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761463800; c=relaxed/simple;
-	bh=LDfYezswqsE3ljG1Blh0XYnh2C+x+bJcoOPC40on7BY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=snFaEldcerEi/Z+usltHBfPMTTh+2utms6eORiedDXZcFz171++xFvIaIbK6Iu4hTqjnlzVCw8b4D7l7jI26AVpCPXhhif8gDDEuvzgrhSEdBKT/+NWfigH84vJIcqBCNRze/2PVEQwyQmS9FnPEsDSPnfuXgEtoLeHUSzQh+N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6tqzm5Z; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1761463804; c=relaxed/simple;
+	bh=htiWAq6iMZXxfabupy1JM4kiUVfrOnJOCEMU/JiJmzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXbH4IRDzkidZdEiKQd0amVXuJxlUUXmw0ez6YxHR7DuBuGifm7/gDVYXl9lfFpihTApKAiM+E770H5V6U3XSe+Hy8O/PY106QLpYwBypWwnObI7t0CX1vXDa2jVF+T1s1qMsoJKexAYdf+Qtmrnkz4HG/WhluoKtiF47qm1n1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8hV5ILF; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6tqzm5Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8hV5ILF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761463799; x=1792999799;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LDfYezswqsE3ljG1Blh0XYnh2C+x+bJcoOPC40on7BY=;
-  b=L6tqzm5ZrMEAvoMWhmn+CbgWQ97P3K6U6uRBKUwgxxEftiHlz6vCIycB
-   P7HbAJXlDz9KRNxfJAqUryoKgfkUKKcW4FDASlM5ToC9Wfj6MB0vvB6CZ
-   HScoHNfwJOMLcwDxGroVXf1ZzOYaf4wpRbLuvNOhngZOeL/BmMF7OIwgU
-   hij1rHbvYz4MS2fhEjTvcWe3wnqP5oFwj8LS3tVXuCCeUDR9pnZO+Whmx
-   FrNBcXFcfQIGqNqKZYXnCoLrAgc73/76XTXV7jzQN2K3+TEaTuETvZJSj
-   83ZGGYCx9wXLYg/dAm7TFtyhio433EpO7AnwcsbqO+UH77GIVxuQsXY3w
-   g==;
-X-CSE-ConnectionGUID: JQWcXxhhSwSLnIR9mE6fzg==
-X-CSE-MsgGUID: g12a/rxGQsG4qJ7YRQ8I8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62784254"
+  t=1761463802; x=1792999802;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=htiWAq6iMZXxfabupy1JM4kiUVfrOnJOCEMU/JiJmzQ=;
+  b=d8hV5ILFEKU41l+q2sDT/bd+JORKXh13rzZc50+4KlUxQjXvii1MdheN
+   yaUau5YIz44bjSZzzrQN11QP33Cp2XeymSo1JWfWTBgsYPa7tYcdr1RI7
+   ab1vMTbGX3fRvAtDztZnZa8BmgVwhfHsrlXReQxF76AYipZ2QINTpZplY
+   GbPZQwaNyhd+zfMmH61wHZPKMEXCiXRZHls1XZzlF+yO/VQDfY660FtlD
+   mZMbEpZS6TmnbyhR3Zeq0dQ9im9QFZ+iZ1lbnlW1BHmiSC9R/GowhwqXl
+   EmFEkyHJ0FpGqFnBdDosXtiPpwmVlPylzKPhlaQczBOvVkgL1Rv3VPXVO
+   Q==;
+X-CSE-ConnectionGUID: +wMVSMqLTzuIB9Rp2hZQcQ==
+X-CSE-MsgGUID: RU9SzfbtQ0uATinm6XGlHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89048455"
 X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="62784254"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 00:29:58 -0700
-X-CSE-ConnectionGUID: StbKvK2RRymWAjlq29DDfA==
-X-CSE-MsgGUID: QY6pDLjZRNC6s5C5eMrxXw==
+   d="scan'208";a="89048455"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 00:30:01 -0700
+X-CSE-ConnectionGUID: IOhbygVPQmG+sECxKbCJdQ==
+X-CSE-MsgGUID: FpsA08v6Q5KZpnC9I5OBIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="184674714"
+   d="scan'208";a="189155119"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2025 00:29:57 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Oct 2025 00:29:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCvCN-000FxX-0L;
+	id 1vCvCN-000FxV-0H;
 	Sun, 26 Oct 2025 07:29:55 +0000
-Date: Sun, 26 Oct 2025 15:29:30 +0800
+Date: Sun, 26 Oct 2025 15:29:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/slice 40/75] kernel/entry/common.c:71:29: error:
- implicit declaration of function 'rseq_exit_to_user_mode_restart'; did you
- mean 'arch_exit_to_user_mode_prepare'?
-Message-ID: <202510261513.J1Ewgg2U-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	sboyd@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mturquette@baylibre.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, laura.nao@collabora.com,
+	nfraprado@collabora.com, wenst@chromium.org,
+	y.oudjana@protonmail.com, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v1 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC
+ Clock Controller
+Message-ID: <202510261450.oYPrwZwR-lkp@intel.com>
+References: <20251024083301.25845-8-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +71,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251024083301.25845-8-angelogioacchino.delregno@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
-head:   44778ec169878406f8c7822820c9dce29df889ba
-commit: 5b3fd8db8fd83f539e5ac3b6738be415f6087114 [40/75] rseq: Switch to fast path processing on exit to user
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251026/202510261513.J1Ewgg2U-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261513.J1Ewgg2U-lkp@intel.com/reproduce)
+Hi AngeloGioacchino,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master v6.18-rc2 next-20251024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/clk-mediatek-Split-out-registration-from-mtk_clk_register_gates/20251024-164213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20251024083301.25845-8-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v1 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC Clock Controller
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251026/202510261450.oYPrwZwR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261450.oYPrwZwR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510261513.J1Ewgg2U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510261450.oYPrwZwR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/current.h:5,
-                    from include/linux/sched.h:12,
-                    from include/linux/context_tracking.h:5,
-                    from include/linux/irq-entry-common.h:5,
-                    from kernel/entry/common.c:3:
-   kernel/entry/common.c: In function 'exit_to_user_mode_loop':
->> kernel/entry/common.c:71:29: error: implicit declaration of function 'rseq_exit_to_user_mode_restart'; did you mean 'arch_exit_to_user_mode_prepare'? [-Wimplicit-function-declaration]
-      71 |                 if (likely(!rseq_exit_to_user_mode_restart(regs)))
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
+   drivers/clk/mediatek/clk-mtk-spmi.c: In function 'mtk_spmi_clk_simple_probe':
+>> drivers/clk/mediatek/clk-mtk-spmi.c:48:20: error: implicit declaration of function 'devm_spmi_subdevice_alloc_and_add' [-Wimplicit-function-declaration]
+      48 |         sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/mediatek/clk-mtk-spmi.c:48:18: error: assignment to 'struct spmi_subdevice *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      48 |         sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+         |                  ^
+   In file included from drivers/clk/mediatek/clk-mtk-spmi.c:16:
+>> drivers/clk/mediatek/clk-mtk-spmi.c:52:53: error: invalid use of undefined type 'struct spmi_subdevice'
+      52 |         regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+         |                                                     ^~
+   include/linux/regmap.h:775:20: note: in definition of macro '__regmap_lockdep_wrapper'
+     775 |                 fn(__VA_ARGS__, &_key,                                  \
+         |                    ^~~~~~~~~~~
+   drivers/clk/mediatek/clk-mtk-spmi.c:52:18: note: in expansion of macro 'devm_regmap_init_spmi_ext'
+      52 |         regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +71 kernel/entry/common.c
+vim +/devm_spmi_subdevice_alloc_and_add +48 drivers/clk/mediatek/clk-mtk-spmi.c
 
-    59	
-    60	/**
-    61	 * exit_to_user_mode_loop - do any pending work before leaving to user space
-    62	 * @regs:	Pointer to pt_regs on entry stack
-    63	 * @ti_work:	TIF work flags as read by the caller
-    64	 */
-    65	__always_inline unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
-    66							     unsigned long ti_work)
-    67	{
-    68		for (;;) {
-    69			ti_work = __exit_to_user_mode_loop(regs, ti_work);
-    70	
-  > 71			if (likely(!rseq_exit_to_user_mode_restart(regs)))
-    72				return ti_work;
-    73			ti_work = read_thread_flags();
-    74		}
-    75	}
-    76	
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  21  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  22  int mtk_spmi_clk_simple_probe(struct platform_device *pdev)
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  23  {
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  24  	struct regmap_config mtk_spmi_clk_regmap_config = {
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  25  		.reg_bits = 16,
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  26  		.val_bits = 8,
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  27  		.fast_io = true
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  28  	};
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  29  	struct device_node *node = pdev->dev.of_node;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  30  	const struct mtk_spmi_clk_desc *mscd;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  31  	struct spmi_subdevice *sub_sdev;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  32  	struct spmi_device *sparent;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  33  	struct regmap *regmap;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  34  	int ret;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  35  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  36  	ret = of_property_read_u32(node, "reg", &mtk_spmi_clk_regmap_config.reg_base);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  37  	if (ret)
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  38  		return ret;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  39  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  40  	/* If the max_register was not declared the pdata is not valid */
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  41  	mscd = device_get_match_data(&pdev->dev);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  42  	if (mscd->max_register == 0)
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  43  		return -EINVAL;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  44  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  45  	mtk_spmi_clk_regmap_config.max_register = mscd->max_register;
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  46  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  47  	sparent = to_spmi_device(pdev->dev.parent);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24 @48  	sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  49  	if (IS_ERR(sub_sdev))
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  50  		return PTR_ERR(sub_sdev);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  51  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24 @52  	regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  53  	if (IS_ERR(regmap))
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  54  		return PTR_ERR(regmap);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  55  
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  56  	return mtk_clk_simple_probe_internal(pdev, node, mscd->desc, regmap);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  57  }
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  58  EXPORT_SYMBOL_GPL(mtk_spmi_clk_simple_probe);
+0986bdc04bd40e AngeloGioacchino Del Regno 2025-10-24  59  
 
 -- 
 0-DAY CI Kernel Test Service
