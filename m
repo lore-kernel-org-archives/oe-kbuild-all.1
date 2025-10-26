@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965C42550CA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 01:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754F620ED
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 01:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761442681; cv=none; b=odWRJfxrlGjHqlsikPnXXxl1LucxN5dUn5jrft7d2334iW++XIswnJ9DFp15aNOAQYGSy2V2oCrG6EWdcmhQPUWt/7OXPtjpH2k0b5qa5+cY4PfsAYYfvkBz/j/uvZ5YTSBnJM6zg/52+3mx6IHwKZRA8ruialAQjhmVdFT27sM=
+	t=1761442682; cv=none; b=MeOofvB5/xtAnIjOLNuFshCoBsWf6Re3Mgkh5rfM847IhIDzNIZWGHGfJn7csUhkglGJl3Yjnro84ZCHeL/oGB7KbTTREOastwcPgLLuh4jHXlcs5URRwBdIddWC6HMUjSYApzyLa+cHf4pH/vXdOlw6nzPUtS/eQNL55COtTbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761442681; c=relaxed/simple;
-	bh=ek6reChcCWgn27RZsrHurLmIxDCn+lvjjjabe5H4OZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pzafmB6UKK1K+nFVxrh7+cUnQMxyjZHtP/7aAVD8EB6TBv71GPVdyrJXGkaYw0n7NiVZHX+bAP9ikzWedRmj+cHB8iHlhBFQQtwljlvI9ppQ0zA2J5ibvgVHHdo5fXwHR885mpK1HP1jnQ+NIf3JuirOWBVrRCm9RaNeHm/reu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SPo8TV6+; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1761442682; c=relaxed/simple;
+	bh=Ez41wax9HYmCuWnUibnabZZuxt0TJYpcUgaTyfvwj8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RXLZT49tBOMs0E4ucocLGT7nWU0Je9zkuJIexVvOHj4KTDgL07xcRBCUjHAXk2Le/wIy2K0WY44iZ1J4lK0pn0jRM6t7At5zH9OOfepRZurLptCqYDq3df7pRr3LeyEHzetqdI2V8+a8Bwi5ZXqyE0CYMcxvpaQQsx902Px18Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEhxZDy3; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPo8TV6+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEhxZDy3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761442679; x=1792978679;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ek6reChcCWgn27RZsrHurLmIxDCn+lvjjjabe5H4OZ4=;
-  b=SPo8TV6+/u204P8hSSEb+kTFAbZ+hquR0l0vxXZpKR+arQFDLh8xIE2O
-   uAIqrU24Ut8hIxGXwoEgwHKi/nbRq5UTpgsWUZ1MLBD6FNlfS1CZsVjx0
-   S5QkEsb4+caTMYDBobbHL55ukEkgGOzVNfQM2ARA2k/yFHSui5tEOX8cI
-   AjSVPfe98+5Pt6ETRaytbboo/sXUj1v7l3F7nzu+MdAqJToMD7jnqThF8
-   q6vybQOaCr+iCgeb4bSyL3P41WD6hL4WL7/IlD25jbMpRcKuTm9rqsoSn
-   kVwlBflU1F8/tFOv/eVcT/NMefGTjKBkmtxDf5bNseN9OizJxOy/EsZYa
-   A==;
-X-CSE-ConnectionGUID: 1XmN4WJaQ5iwUYzyFf2+xg==
-X-CSE-MsgGUID: pfOj3msOSDObuaL+b9WAew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="86200218"
+  t=1761442681; x=1792978681;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ez41wax9HYmCuWnUibnabZZuxt0TJYpcUgaTyfvwj8k=;
+  b=eEhxZDy33OCfbp3sm+leZpwcym5jQZ1ejr20MRSnGFVZCIh++ewt3NXS
+   a6VFoqkV5wfwAy5B+r+VNT4AUJMGjQ7VEC5W8PTskDjxhK8CQL2BKrzcY
+   jOR7Atky4+dD/yruXBNgq+c5T40vFO+1W9rQWE71S2lNyyIE3UgcHECtv
+   7T8wnLt9xPZ5+WZlvjUTle7Wc5D+4eruuAvgb/nSgmqoBk3Em0/ToHA23
+   92GyNw7JlKMX/4PL4R8XpMyNpClLHFIUjaGcP+o5/WVpkhISQbu0t96n8
+   /Amc4lSVl2zRS2OBeZovFlklDlly+ZZVi8jDtU7MZwU0USzMDPAY8saqr
+   g==;
+X-CSE-ConnectionGUID: gwSTP73jTSqiEVGmQjE/xw==
+X-CSE-MsgGUID: cyyo8P08TLerRAUbDrBIcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63271660"
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="86200218"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 18:37:59 -0700
-X-CSE-ConnectionGUID: yP4jGFCBRYCViexeELUA1A==
-X-CSE-MsgGUID: RMkve5ZrR5qn1QVW4jbdHw==
+   d="scan'208";a="63271660"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 18:38:00 -0700
+X-CSE-ConnectionGUID: L5rahDNoSTCQ4TUtOmP3sg==
+X-CSE-MsgGUID: /ppvIZG/SfysX3rtKCTe+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="185095985"
+   d="scan'208";a="189858445"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Oct 2025 18:37:56 -0700
+  by orviesa005.jf.intel.com with ESMTP; 25 Oct 2025 18:37:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCphi-000Fml-2q;
+	id 1vCphi-000Fmj-2m;
 	Sun, 26 Oct 2025 01:37:54 +0000
-Date: Sun, 26 Oct 2025 09:37:54 +0800
+Date: Sun, 26 Oct 2025 09:37:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1712/1712] mm/memory.c:1546:10: error:
- implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa'; did
- you mean 'hugetlb_insert__hugepage_pte_by_pa'?
-Message-ID: <202510260939.sMRD2n0t-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	alexandre.belloni@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v1 2/2] rtc: Add support for MT6685 Clock IC's RTC over
+ SPMI
+Message-ID: <202510260921.IcI6vsTN-lkp@intel.com>
+References: <20251024083318.25890-3-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +69,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251024083318.25890-3-angelogioacchino.delregno@collabora.com>
 
-Hi Weilong,
+Hi AngeloGioacchino,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   ee55f6a88c1f70120d9cec8244c5cd10f0c4dce9
-commit: 18f49509eef01d1ee6ed81899298994f2f88dd2a [1712/1712] ascend: share_pool: Use remap_pfn_range to share kva to uva
-config: arm64-randconfig-001-20250705 (https://download.01.org/0day-ci/archive/20251026/202510260939.sMRD2n0t-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260939.sMRD2n0t-lkp@intel.com/reproduce)
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on robh/for-next linus/master v6.18-rc2 next-20251024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-rtc-Add-MediaTek-MT6685-PM-Clock-IC-Real-Time-Clock/20251024-164423
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20251024083318.25890-3-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v1 2/2] rtc: Add support for MT6685 Clock IC's RTC over SPMI
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251026/202510260921.IcI6vsTN-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510260921.IcI6vsTN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510260939.sMRD2n0t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510260921.IcI6vsTN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'vm_insert_page':
->> mm/memory.c:1546:10: error: implicit declaration of function 'hugetlb_insert_hugepage_pte_by_pa'; did you mean 'hugetlb_insert__hugepage_pte_by_pa'? [-Werror=implicit-function-declaration]
-    1546 |   return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |          hugetlb_insert__hugepage_pte_by_pa
-   cc1: some warnings being treated as errors
+   drivers/rtc/rtc-mt6685.c: In function 'rtc_mt6685_probe':
+>> drivers/rtc/rtc-mt6685.c:380:20: error: implicit declaration of function 'devm_spmi_subdevice_alloc_and_add' [-Wimplicit-function-declaration]
+     380 |         sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-mt6685.c:380:18: error: assignment to 'struct spmi_subdevice *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     380 |         sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
+         |                  ^
+   In file included from drivers/rtc/rtc-mt6685.c:20:
+>> drivers/rtc/rtc-mt6685.c:397:58: error: invalid use of undefined type 'struct spmi_subdevice'
+     397 |         rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
+         |                                                          ^~
+   include/linux/regmap.h:782:52: note: in definition of macro '__regmap_lockdep_wrapper'
+     782 | #define __regmap_lockdep_wrapper(fn, name, ...) fn(__VA_ARGS__, NULL, NULL)
+         |                                                    ^~~~~~~~~~~
+   drivers/rtc/rtc-mt6685.c:397:23: note: in expansion of macro 'devm_regmap_init_spmi_ext'
+     397 |         rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1546 mm/memory.c
+vim +/devm_spmi_subdevice_alloc_and_add +380 drivers/rtc/rtc-mt6685.c
 
-  1504	
-  1505	/**
-  1506	 * vm_insert_page - insert single page into user vma
-  1507	 * @vma: user vma to map to
-  1508	 * @addr: target user address of this page
-  1509	 * @page: source kernel page
-  1510	 *
-  1511	 * This allows drivers to insert individual pages they've allocated
-  1512	 * into a user vma.
-  1513	 *
-  1514	 * The page has to be a nice clean _individual_ kernel allocation.
-  1515	 * If you allocate a compound page, you need to have marked it as
-  1516	 * such (__GFP_COMP), or manually just split the page up yourself
-  1517	 * (see split_page()).
-  1518	 *
-  1519	 * NOTE! Traditionally this was done with "remap_pfn_range()" which
-  1520	 * took an arbitrary page protection parameter. This doesn't allow
-  1521	 * that. Your vma protection will have to be set up correctly, which
-  1522	 * means that if you want a shared writable mapping, you'd better
-  1523	 * ask for a shared writable mapping!
-  1524	 *
-  1525	 * The page does not need to be reserved.
-  1526	 *
-  1527	 * Usually this function is called from f_op->mmap() handler
-  1528	 * under mm->mmap_sem write-lock, so it can change vma->vm_flags.
-  1529	 * Caller must set VM_MIXEDMAP on vma if it wants to call this
-  1530	 * function from other places, for example from page-fault handler.
-  1531	 */
-  1532	int vm_insert_page(struct vm_area_struct *vma, unsigned long addr,
-  1533				struct page *page)
-  1534	{
-  1535		if (addr < vma->vm_start || addr >= vma->vm_end)
-  1536			return -EFAULT;
-  1537		if (!page_count(page))
-  1538			return -EINVAL;
-  1539		if (!(vma->vm_flags & VM_MIXEDMAP)) {
-  1540			BUG_ON(down_read_trylock(&vma->vm_mm->mmap_sem));
-  1541			BUG_ON(vma->vm_flags & VM_PFNMAP);
-  1542			vma->vm_flags |= VM_MIXEDMAP;
-  1543		}
-  1544	
-  1545		if (sp_check_hugepage(page))
-> 1546			return hugetlb_insert_hugepage_pte_by_pa(vma->vm_mm, addr,
-  1547						vma->vm_page_prot, page_to_phys(page));
-  1548		else
-  1549			return insert_page(vma, addr, page, vma->vm_page_prot);
-  1550	}
-  1551	EXPORT_SYMBOL(vm_insert_page);
-  1552	
+   358	
+   359	static int rtc_mt6685_probe(struct platform_device *pdev)
+   360	{
+   361		struct regmap_config mt6685_rtc_regmap_config = {
+   362			.reg_bits = 16,
+   363			.val_bits = 8,
+   364			.max_register = 0x60,
+   365			.fast_io = true,
+   366			.use_single_read = true,
+   367			.use_single_write = true,
+   368		};
+   369		struct device *dev = &pdev->dev;
+   370		struct spmi_subdevice *sub_sdev;
+   371		struct spmi_device *sparent;
+   372		struct mt6685_rtc *rtc;
+   373		int ret;
+   374	
+   375		rtc = devm_kzalloc(dev, sizeof(struct mt6685_rtc), GFP_KERNEL);
+   376		if (!rtc)
+   377			return -ENOMEM;
+   378	
+   379		sparent = to_spmi_device(dev->parent);
+ > 380		sub_sdev = devm_spmi_subdevice_alloc_and_add(dev, sparent);
+   381		if (IS_ERR(sub_sdev))
+   382			return PTR_ERR(sub_sdev);
+   383	
+   384		ret = of_property_read_u32(pdev->dev.of_node, "reg",
+   385					   &mt6685_rtc_regmap_config.reg_base);
+   386		if (ret)
+   387			return ret;
+   388	
+   389		rtc->irq = platform_get_irq(pdev, 0);
+   390		if (rtc->irq < 0)
+   391			return rtc->irq;
+   392	
+   393		rtc->mclk = devm_clk_get(dev, 0);
+   394		if (IS_ERR(rtc->mclk))
+   395			return PTR_ERR(rtc->mclk);
+   396	
+ > 397		rtc->regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mt6685_rtc_regmap_config);
+   398		if (IS_ERR(rtc->regmap))
+   399			return PTR_ERR(rtc->regmap);
+   400	
+   401		rtc->rdev = devm_rtc_allocate_device(dev);
+   402		if (IS_ERR(rtc->rdev))
+   403			return PTR_ERR(rtc->rdev);
+   404	
+   405		platform_set_drvdata(pdev, rtc);
+   406	
+   407		/* Clock is required to auto-synchronize IRQ enable to RTC */
+   408		ret = clk_prepare_enable(rtc->mclk);
+   409		if (ret)
+   410			return ret;
+   411	
+   412		ret = devm_request_threaded_irq(&pdev->dev, rtc->irq, NULL,
+   413						rtc_mt6685_irq_handler_thread,
+   414						IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+   415						"mt6685-rtc", rtc);
+   416		clk_disable_unprepare(rtc->mclk);
+   417		if (ret)
+   418			return dev_err_probe(&pdev->dev, ret, "Cannot request alarm IRQ");
+   419	
+   420		device_init_wakeup(&pdev->dev, true);
+   421	
+   422		rtc->rdev->ops = &rtc_mt6685_ops;
+   423		rtc->rdev->range_min = RTC_TIMESTAMP_BEGIN_1900;
+   424		rtc->rdev->range_max = mktime64(2027, 12, 31, 23, 59, 59);
+   425		rtc->rdev->start_secs = mktime64(1968, 1, 1, 0, 0, 0);
+   426		rtc->rdev->set_start_time = true;
+   427	
+   428		return devm_rtc_register_device(rtc->rdev);
+   429	}
+   430	
 
 -- 
 0-DAY CI Kernel Test Service
