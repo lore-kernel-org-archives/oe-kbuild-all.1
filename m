@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9CB2FFDF1;
-	Sun, 26 Oct 2025 23:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C934301463
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 23:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761519610; cv=none; b=ej8lHgQTK00P7pjCu7BVxY8Jc+Fp5TDSjhvTR17QAPub9ouPsiUOWTtIR76c1plEOqHcDM8T35yZl4lQWthddN5DKSYFvlbKGXcDcMEzyf2E6wVsd3n86MaGZzVZcQpgW3AqNVVSlq3MfQxhE3G3sZwn52KhiAXmGINism2xA/Y=
+	t=1761522191; cv=none; b=R0YufIfPdcuA70Fa0BM1WVXiMhxFr+OkbhThMlUilz+STfNpSpLukmugcrb/6rm8XllhnB82+HcxMgqDpAHRaHNTXitBI/VkQc/CGpZ+Urf16VohvaiBujaIHZA6DYCMh5CFYrMjGimD8wM2JGXx1v24azxkJjMn2Q1aN12KesQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761519610; c=relaxed/simple;
-	bh=GG2gG2Zm5sdOiN2dn/HSEsofdKUhfYLNrH9FfHdlQSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5qy/Iu/5vaUz5Xv2rLshUFEfJe6/iwBntDAz3gzuoAgNZh6ufGDG/dAhW9lWhMp7FEp8UbIei9M088pdpXtCnD9+ycLwV/zU0jtwVkbDvco2xUUqr/zEX7LGFpV8yzh/lNDW20VpCun2RFQLIwbHwEpDIVmfNbzLGHEegcu9jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2YWgJPW; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1761522191; c=relaxed/simple;
+	bh=qBdWQQSXBmceX5JzV7VqS0SNTwR9MLu15rbhh+Vcl6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dsRDrt/BTSipoeiZhuvmHyFgXkpz6yjexMKWT0jTW6BihcqqdWrH5J/DBe3Cs6pIJXyxu0LMOj5wkSwlAjmN24/cpT2rh3jWl3hpOal7lzB+j9j96v/VX5IIvhdQfVr2qW3KWbZ8rYDQ2XYs4cL9nMJ/2XJHNMYihbHzuF35X20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeFVuFfU; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2YWgJPW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeFVuFfU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761519608; x=1793055608;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GG2gG2Zm5sdOiN2dn/HSEsofdKUhfYLNrH9FfHdlQSw=;
-  b=A2YWgJPW0iruhIPhNtkECsjSSiyHcMkgF+W57X8eL3pCxwEsNK1WcJsv
-   6Eitym0WF+rd3HIp6io5QmFlXOlbMP2vCuhtJhWM6FS6MBfPB2UJR9Lzs
-   VxeZdvQvtLFyCQB7i1gfXNgJa56viIUKLhfK+9jHm3hSnUmzODE3j7gPc
-   /TzoxaM2ssYRRO5DpzupWQ4fedbZtXYDu9aJAC+k0VM+qUn1nAaNTIt02
-   igF4Jt2MRc/GQd/oXGYHlzMJ9pw0Ylf+7u5OuyjvAcb97cmEg434HCkTO
-   ciZCRcUPZnWODgbF4rjce6ca/RO/gZCuwGv2LIByMbmDfYhi+Xm5meD2o
-   w==;
-X-CSE-ConnectionGUID: rTD0b2mlQcukW/b4DQzQJA==
-X-CSE-MsgGUID: AOz6Yd9UQv2nvjISZrPjWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67467277"
+  t=1761522189; x=1793058189;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qBdWQQSXBmceX5JzV7VqS0SNTwR9MLu15rbhh+Vcl6E=;
+  b=PeFVuFfUBAVN4VJIVpDNPOj1pj1BS9e9KfdGwOG+EbdCH3/DVttcoliz
+   A08AvX98CtKKzxkwUlP8rnKO0NvTPDykFmA+4JtOeCPb7mT7DyO1bZ/Nl
+   a6s9f+n4s2vee2nAkhAPDQkSjIHa9dDyo3mbCpjp5XdZQc+PjeD205dt2
+   HYrSDf9FGMDwI809WgNEEvN8qnh995LUXbf7WWLfqvVvBq7mi1KPw9QIP
+   aheTED1e9sHAIc34OE+P+9AYR2HgLlDfYGNNvLVPpR0sAzQis5Rbv0M16
+   yB9jQCYAJXhbPMW9Z1KkFIa5rOyBQ5/7PP77RfxdVnGZn7tRWlfU+Z21X
+   A==;
+X-CSE-ConnectionGUID: ygNLgzb3SIKCFL1kANYk2w==
+X-CSE-MsgGUID: JAXgzP49RSyoe0gjydulKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63495029"
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="67467277"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:00:08 -0700
-X-CSE-ConnectionGUID: XC5IWdxUT3CWsELSkY4vIw==
-X-CSE-MsgGUID: G1L2gNZJQ3ySXDIHZASnzg==
+   d="scan'208";a="63495029"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:43:07 -0700
+X-CSE-ConnectionGUID: wSoW3MruTQeNx5J8C+/qXg==
+X-CSE-MsgGUID: ePBcOsUBT7i/vHb5A8aqvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="184594560"
+   d="scan'208";a="215549221"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2025 16:00:04 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2025 16:43:05 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vD9iT-000GNZ-1H;
-	Sun, 26 Oct 2025 23:00:01 +0000
-Date: Mon, 27 Oct 2025 06:59:45 +0800
+	id 1vDAO5-000GP1-2F;
+	Sun, 26 Oct 2025 23:43:02 +0000
+Date: Mon, 27 Oct 2025 07:42:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anton Protopopov <a.s.protopopov@gmail.com>, bpf@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Anton Protopopov <aspsk@isovalent.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Quentin Monnet <qmo@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 bpf-next 01/12] bpf, x86: add new map type:
- instructions array
-Message-ID: <202510270614.av6f72iy-lkp@intel.com>
-References: <20251026192709.1964787-2-a.s.protopopov@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/slice 40/75] kernel/entry/common.o: error: objtool:
+ .altinstr_replacement+0x8c: redundant UACCESS disable
+Message-ID: <202510270724.yJ0KEUW2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,69 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251026192709.1964787-2-a.s.protopopov@gmail.com>
 
-Hi Anton,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anton-Protopopov/bpf-x86-add-new-map-type-instructions-array/20251027-032442
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251026192709.1964787-2-a.s.protopopov%40gmail.com
-patch subject: [PATCH v7 bpf-next 01/12] bpf, x86: add new map type: instructions array
-config: i386-buildonly-randconfig-005-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270614.av6f72iy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   44778ec169878406f8c7822820c9dce29df889ba
+commit: 5b3fd8db8fd83f539e5ac3b6738be415f6087114 [40/75] rseq: Switch to fast path processing on exit to user
+config: x86_64-randconfig-123-20251026 (https://download.01.org/0day-ci/archive/20251027/202510270724.yJ0KEUW2-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270614.av6f72iy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270724.yJ0KEUW2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510270614.av6f72iy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510270724.yJ0KEUW2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
->> include/linux/bpf.h:3807:1: error: expected identifier or '('
-    3807 | {
-         | ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   kernel/sched/sched.h:3743:18: warning: variable 'cpumask' set but not used [-Wunused-but-set-variable]
-    3743 |         struct cpumask *cpumask;
-         |                         ^
-   1 warning and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=3282044347
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3282044347
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3282044347
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3282044347
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +3807 include/linux/bpf.h
-
-  3799	
-  3800	#ifdef CONFIG_BPF_SYSCALL
-  3801	void bpf_prog_update_insn_ptrs(struct bpf_prog *prog, void *jit_priv,
-  3802				       update_insn_ptr_func_t update_insn_ptr);
-  3803	#else
-  3804	static inline void
-  3805	bpf_prog_update_insn_ptrs(struct bpf_prog *prog, void *jit_priv,
-  3806				  update_insn_ptr_func_t update_insn_ptr);
-> 3807	{
-  3808	}
-  3809	#endif
-  3810	
+>> kernel/entry/common.o: error: objtool: .altinstr_replacement+0x8c: redundant UACCESS disable
+   kernel/entry/common.o: error: objtool: .altinstr_replacement+0x8f: redundant UACCESS disable
+>> kernel/entry/common.o: error: objtool: irqentry_exit+0x495: call to class_user_rw_access_destructor() with UACCESS enabled
 
 -- 
 0-DAY CI Kernel Test Service
