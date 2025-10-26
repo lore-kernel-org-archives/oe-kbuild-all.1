@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52811F418F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 09:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE79123EAAD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 09:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761469968; cv=none; b=HeeDEomJKNeu4WzyC1UUEMFpSL+8//XS14u3quf2xlwWHQgCLkU5sXzHzhvFE5HSyHytL3PZ6BoeWpN6Wj0mLFyh2cGvyxkJLkBpDDcyymaZ21arccjI7LfqH5sDzWlzsA2fqS7wOJQ6RHpCky7V1VO0cXFq3MB1B2Cze9uyuA0=
+	t=1761470569; cv=none; b=FSCe/UG3GkevcMvj7NPaoeUsaXpoAan2UZbkOBhZhYv8ImRBFTk5rpWnC761MO6IsJJcZe34mSC5KBSy3pYgZFn6HeISuEyyfDRrY/wckuIXJol21x4gh4y1N1wPsCRDwAnCA0GuPLpKjIf4Tg/a7Plj550pppAvkTfEInh+i4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761469968; c=relaxed/simple;
-	bh=n1TeExa8NOnhCmViVq+F9NZ2i/30IWtCb22ydotZZ1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDbxS6jFs2GuSq19TmQLyjCfqb3RcxKmoUDjMOZ3B67Cu/tQzT+mveBih+KfimnWNMzh/PHkJLNwjzCVvrPsV34NyMXiIfNVb4Dg42dvTTfCTtlxhIYB+FYG8E2uKTD8bGIS83D6Aaw6oAKHz3miUb4bRL1TEL9WoCl3a7iBAOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ge8Sxg61; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1761470569; c=relaxed/simple;
+	bh=7v2rdeKgBHkh/oNGXHTfbeU4ZrmtL1orx4KLVu60ibg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E9PhLXUqQEdiTEa6i5rpFLu74AJHRoBA1Fnrmjxpbwo7ZD6swYf3oK+fHLID1S6c2EKRy0i8hGVsAATjQcz0fSySD+gbXMozFZf0bucYX5sOsyavx/mU+9fRXXoHPZmDG4ZPi4AHB/NajFh3fmeqX52mwOiQQ5IcoQo1hl2Gc/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFuZFy8Q; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ge8Sxg61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFuZFy8Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761469967; x=1793005967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n1TeExa8NOnhCmViVq+F9NZ2i/30IWtCb22ydotZZ1I=;
-  b=ge8Sxg61zjM3Ukj8KmGAdPLDG1ERwUuC9kkHMU5jMmcvvfLjl/BJ3Amp
-   tn3+Hcd3Sl2W5tly5CT2Mcs7s9b62e3/rlFUs7NV68apzzXTofxXqcIe2
-   4rT9vhglahwm5SH0jqjpBzBltCaXgX5WofDvWGVDtqYzb2y8diSGuCDj2
-   2xqtdzzi9ffgiopLRxqP2LRuMxi5oM6yQOFLzqCI124/DVfFLC0plxbCC
-   /xdsaRNmJ1EeGtIIHtuKFS1ufz1vPy1Kog17vrdn76L03YCEgCfnkPxag
-   62JOI6F67DMG6r+WcsbelXfbd44nswbRa1yXOY+/B0A61mGfOGaFC4b4M
-   Q==;
-X-CSE-ConnectionGUID: VayHVp8wSRK/ISulVQE8tA==
-X-CSE-MsgGUID: IBrsvuX5S1qdu+7ocGlG7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63480250"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63480250"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 02:12:47 -0700
-X-CSE-ConnectionGUID: Fy8PqvZWRbCW8UQWXm4avg==
-X-CSE-MsgGUID: xzQqaG2MRAS5/08T25Oe2w==
+  t=1761470568; x=1793006568;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7v2rdeKgBHkh/oNGXHTfbeU4ZrmtL1orx4KLVu60ibg=;
+  b=MFuZFy8QEuF4azVWCEXhkNoofk3lMUbkPGXkC/6f14rDamOHQfRY/ol5
+   I0mIQR3g39tGi4q5uTKufxnIeqKpuciztIvWwN1IPhUNh0gZFYC15KzeV
+   F1LJKOxuexwOU2h3urddHPQzk+pkaNd43jDeb9T0xHNMLhT5GPWFbo2uS
+   mT6hFJTCymcrMkHwx5sCAMZs2dOZvs1lOekCErPSq3reQ221sGP7qOH+u
+   JBF1FyBGKy3P7S7xqCxN7M/2NdQbO3VylvGoO/nuM0XMZsFk04hla1ZdI
+   1sfcimLztYIErw4/QSX0AH9Qx1oIB+KJQzWMiyfW120WGFMqCJSoJikJ/
+   A==;
+X-CSE-ConnectionGUID: eNn2ZgBrRzKYGiQlcnOaTw==
+X-CSE-MsgGUID: 9ah08wLhTMiAdiMm6MkofA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51155999"
+X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
+   d="scan'208";a="51155999"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 02:22:46 -0700
+X-CSE-ConnectionGUID: nVsXNU2HT8+EQfRX9P8Isw==
+X-CSE-MsgGUID: dFu8zrxqRM6H9wl2RxCWow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,256,1754982000"; 
-   d="scan'208";a="184406233"
+   d="scan'208";a="184013582"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 26 Oct 2025 02:12:44 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Oct 2025 02:22:45 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vCwnp-000G0n-1N;
-	Sun, 26 Oct 2025 09:12:41 +0000
-Date: Sun, 26 Oct 2025 17:12:04 +0800
+	id 1vCwxW-000G1L-1G;
+	Sun, 26 Oct 2025 09:22:42 +0000
+Date: Sun, 26 Oct 2025 17:22:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
-	javierm@redhat.com, rrameshbabu@nvidia.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/7] drm/client: Deprecate struct drm_client_buffer.gem
-Message-ID: <202510261717.a4f1joxt-lkp@intel.com>
-References: <20251020151402.53013-5-tzimmermann@suse.de>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [tglx-devel:rseq/slice 41/75]
+ arch/arm64/kernel/entry-common.c:103:9: error: implicit declaration of
+ function 'exit_to_user_mode_prepare'; did you mean
+ 'arch_exit_to_user_mode_prepare'?
+Message-ID: <202510261742.djCKBOEg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,90 +64,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251020151402.53013-5-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc2 next-20251024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Remove-pitch-from-struct-drm_client_buffer/20251020-231709
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20251020151402.53013-5-tzimmermann%40suse.de
-patch subject: [PATCH 4/7] drm/client: Deprecate struct drm_client_buffer.gem
-config: arm-multi_v5_defconfig (https://download.01.org/0day-ci/archive/20251026/202510261717.a4f1joxt-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261717.a4f1joxt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   44778ec169878406f8c7822820c9dce29df889ba
+commit: 3eb85fe2798ad0f79547b94137bbeba7e2de0980 [41/75] entry: Split up exit_to_user_mode_prepare()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251026/202510261742.djCKBOEg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251026/202510261742.djCKBOEg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510261717.a4f1joxt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510261742.djCKBOEg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_buffer_vmap_local':
->> drivers/gpu/drm/drm_client.c:278:(.text+0x214): undefined reference to `drm_gem_fb_get_obj'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_buffer_vunmap_local':
-   drivers/gpu/drm/drm_client.c:307:(.text+0x280): undefined reference to `drm_gem_fb_get_obj'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_buffer_vmap':
-   drivers/gpu/drm/drm_client.c:338:(.text+0x2b4): undefined reference to `drm_gem_fb_get_obj'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_buffer_vunmap':
-   drivers/gpu/drm/drm_client.c:360:(.text+0x2ec): undefined reference to `drm_gem_fb_get_obj'
-   arm-linux-gnueabi-ld: drivers/gpu/drm/drm_client.o: in function `drm_client_buffer_delete':
-   drivers/gpu/drm/drm_client.c:178:(.text+0x6ec): undefined reference to `drm_gem_fb_get_obj'
+   arch/arm64/kernel/entry-common.c: In function 'arm64_exit_to_user_mode':
+>> arch/arm64/kernel/entry-common.c:103:9: error: implicit declaration of function 'exit_to_user_mode_prepare'; did you mean 'arch_exit_to_user_mode_prepare'? [-Wimplicit-function-declaration]
+     103 |         exit_to_user_mode_prepare(regs);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         arch_exit_to_user_mode_prepare
 
 
-vim +278 drivers/gpu/drm/drm_client.c
+vim +103 arch/arm64/kernel/entry-common.c
 
-   254	
-   255	/**
-   256	 * drm_client_buffer_vmap_local - Map DRM client buffer into address space
-   257	 * @buffer: DRM client buffer
-   258	 * @map_copy: Returns the mapped memory's address
-   259	 *
-   260	 * This function maps a client buffer into kernel address space. If the
-   261	 * buffer is already mapped, it returns the existing mapping's address.
-   262	 *
-   263	 * Client buffer mappings are not ref'counted. Each call to
-   264	 * drm_client_buffer_vmap_local() should be closely followed by a call to
-   265	 * drm_client_buffer_vunmap_local(). See drm_client_buffer_vmap() for
-   266	 * long-term mappings.
-   267	 *
-   268	 * The returned address is a copy of the internal value. In contrast to
-   269	 * other vmap interfaces, you don't need it for the client's vunmap
-   270	 * function. So you can modify it at will during blit and draw operations.
-   271	 *
-   272	 * Returns:
-   273	 *	0 on success, or a negative errno code otherwise.
-   274	 */
-   275	int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer,
-   276					 struct iosys_map *map_copy)
-   277	{
- > 278		struct drm_gem_object *gem = drm_gem_fb_get_obj(buffer->fb, 0);
-   279		struct iosys_map *map = &buffer->map;
-   280		int ret;
-   281	
-   282		drm_gem_lock(gem);
-   283	
-   284		ret = drm_gem_vmap_locked(gem, map);
-   285		if (ret)
-   286			goto err_drm_gem_vmap_unlocked;
-   287		*map_copy = *map;
-   288	
-   289		return 0;
-   290	
-   291	err_drm_gem_vmap_unlocked:
-   292		drm_gem_unlock(gem);
-   293		return ret;
-   294	}
-   295	EXPORT_SYMBOL(drm_client_buffer_vmap_local);
-   296	
+bc29b71f53b13c Mark Rutland 2021-08-02   93  
+bc29b71f53b13c Mark Rutland 2021-08-02   94  /*
+bc29b71f53b13c Mark Rutland 2021-08-02   95   * Handle IRQ/context state management when exiting to user mode.
+bc29b71f53b13c Mark Rutland 2021-08-02   96   * After this function returns it is not safe to call regular kernel code,
+59598b42eb52c7 Mukesh Ojha  2022-10-29   97   * instrumentable code, or any code which may trigger an exception.
+bc29b71f53b13c Mark Rutland 2021-08-02   98   */
+997d79eb938e98 Mark Rutland 2024-02-06   99  
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  100  static __always_inline void arm64_exit_to_user_mode(struct pt_regs *regs)
+4d1c2ee2709fd6 Mark Rutland 2021-08-02  101  {
+97d935faacde47 Mark Rutland 2024-02-06  102  	local_irq_disable();
+ab1e29acdb33c9 Eric Chan    2023-05-31 @103  	exit_to_user_mode_prepare(regs);
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  104  	local_daif_mask();
+e130338eed5de0 Mark Rutland 2021-08-02  105  	mte_check_tfsr_exit();
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  106  	exit_to_user_mode();
+e130338eed5de0 Mark Rutland 2021-08-02  107  }
+e130338eed5de0 Mark Rutland 2021-08-02  108  
+
+:::::: The code at line 103 was first introduced by commit
+:::::: ab1e29acdb33c971e1af8ed8ec427bd1deff5f32 arm64: lockdep: enable checks for held locks when returning to userspace
+
+:::::: TO: Eric Chan <ericchancf@google.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
