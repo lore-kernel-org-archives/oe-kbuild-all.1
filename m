@@ -1,84 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C934301463
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 23:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49371D5AC6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Oct 2025 23:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761522191; cv=none; b=R0YufIfPdcuA70Fa0BM1WVXiMhxFr+OkbhThMlUilz+STfNpSpLukmugcrb/6rm8XllhnB82+HcxMgqDpAHRaHNTXitBI/VkQc/CGpZ+Urf16VohvaiBujaIHZA6DYCMh5CFYrMjGimD8wM2JGXx1v24azxkJjMn2Q1aN12KesQ=
+	t=1761522194; cv=none; b=jaA77WmawwHnvsKdY2GID5xQn6MYhRaEOrc4uhuo8U695RTQQL1hkJazEYhm1T1KqiBDQy/aueIwDjqHg7Ln+Tk1I99xekMvirwISJ4kSw7hVbjHkjnISaGcVBPphF3KrSWPZvrgSwHSJoNIvqwyF7Lp9N9mmfkSKkL53DqqYZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761522191; c=relaxed/simple;
-	bh=qBdWQQSXBmceX5JzV7VqS0SNTwR9MLu15rbhh+Vcl6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dsRDrt/BTSipoeiZhuvmHyFgXkpz6yjexMKWT0jTW6BihcqqdWrH5J/DBe3Cs6pIJXyxu0LMOj5wkSwlAjmN24/cpT2rh3jWl3hpOal7lzB+j9j96v/VX5IIvhdQfVr2qW3KWbZ8rYDQ2XYs4cL9nMJ/2XJHNMYihbHzuF35X20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeFVuFfU; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1761522194; c=relaxed/simple;
+	bh=4CjfzhsTDxD9DRcK2ivVlUezVMzZMKQloqNF5Aic2pI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WQys2/ULnhzTfEd2fU2XE4MdfvFsDMC7+kZwCUlhihjsQkbBqLoO2guFNvvf+rWGShs0E/3Y0NyxLWo8gkmU0QxKLax9/m32lWeC7z2m0O4OHtQPWPIS5xDrti/CPjPYCv3Emxm9oAFvxxyok/ya+goJGu9SFWBzkwO9K8lGY4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cERNm5Ix; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeFVuFfU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cERNm5Ix"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761522189; x=1793058189;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qBdWQQSXBmceX5JzV7VqS0SNTwR9MLu15rbhh+Vcl6E=;
-  b=PeFVuFfUBAVN4VJIVpDNPOj1pj1BS9e9KfdGwOG+EbdCH3/DVttcoliz
-   A08AvX98CtKKzxkwUlP8rnKO0NvTPDykFmA+4JtOeCPb7mT7DyO1bZ/Nl
-   a6s9f+n4s2vee2nAkhAPDQkSjIHa9dDyo3mbCpjp5XdZQc+PjeD205dt2
-   HYrSDf9FGMDwI809WgNEEvN8qnh995LUXbf7WWLfqvVvBq7mi1KPw9QIP
-   aheTED1e9sHAIc34OE+P+9AYR2HgLlDfYGNNvLVPpR0sAzQis5Rbv0M16
-   yB9jQCYAJXhbPMW9Z1KkFIa5rOyBQ5/7PP77RfxdVnGZn7tRWlfU+Z21X
-   A==;
-X-CSE-ConnectionGUID: ygNLgzb3SIKCFL1kANYk2w==
-X-CSE-MsgGUID: JAXgzP49RSyoe0gjydulKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63495029"
+  t=1761522193; x=1793058193;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4CjfzhsTDxD9DRcK2ivVlUezVMzZMKQloqNF5Aic2pI=;
+  b=cERNm5Ixbu9VLi2jeFtBkMeTEq+l3s9Kdv0T3G7UW6+PE40Ui1NHTF9k
+   d2oQ+i8Dbr3hiKoBRaZrCqDEL3HetlbgK6LLQ15ytIYuBLzbG7VCWFA4Q
+   m392DvOIQ3MNcWYNJIxDjzZVF4D7JorYw+rW4lykgWaMPflnrh9fNgmZh
+   k+Y2iZ1FMJLrT8Gb1gl7wOG4qjfYgqoA85fAuyHm2jVrbhiDfaXyc230l
+   dEgoiyPGhUjfoFE0Eyz8rX7CyfSYZVdWnzqzDOtHZSEB3FWmoUHNt+lNW
+   VuPqp1r7ftkJYU568FHJ0RxABIa82ZOQpwTso7ps/O/d5h20JwwzpiaUB
+   g==;
+X-CSE-ConnectionGUID: TLxWYlEVRQ2wJ4Gd3r8ARw==
+X-CSE-MsgGUID: Ib87RmCWTMeN1FtE1eTTcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81234341"
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="63495029"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:43:07 -0700
-X-CSE-ConnectionGUID: wSoW3MruTQeNx5J8C+/qXg==
-X-CSE-MsgGUID: ePBcOsUBT7i/vHb5A8aqvg==
+   d="scan'208";a="81234341"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 16:43:11 -0700
+X-CSE-ConnectionGUID: vX1q8uVaRhS55w7q3l3fXg==
+X-CSE-MsgGUID: pS5jORfYRXCS2zR88DafoA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="215549221"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2025 16:43:05 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2025 16:43:04 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDAO5-000GP1-2F;
-	Sun, 26 Oct 2025 23:43:02 +0000
-Date: Mon, 27 Oct 2025 07:42:17 +0800
+	id 1vDANk-000GOz-05;
+	Sun, 26 Oct 2025 23:42:50 +0000
+Date: Mon, 27 Oct 2025 07:41:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:rseq/slice 40/75] kernel/entry/common.o: error: objtool:
- .altinstr_replacement+0x8c: redundant UACCESS disable
-Message-ID: <202510270724.yJ0KEUW2-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+	airlied@gmail.com, simona@ffwll.ch, linux@armlinux.org.uk,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	inki.dae@samsung.com, sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com, patrik.r.jakobsson@gmail.com,
+	jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+	robin.clark@oss.qualcomm.com, lumag@kernel.org,
+	abhinav.kumar@linux.dev, sean@poorly.run,
+	marijn.suijten@somainline.org, tomi.valkeinen@ideasonboard.com,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	thierry.reding@gmail.com, mperttunen@nvidia.com,
+	jonathanh@nvidia.com
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] drm/fb-helper: Allocate and release fb_info in single
+ place
+Message-ID: <202510270728.dixqTvyI-lkp@intel.com>
+References: <20251026173944.219373-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251026173944.219373-1-tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
-head:   44778ec169878406f8c7822820c9dce29df889ba
-commit: 5b3fd8db8fd83f539e5ac3b6738be415f6087114 [40/75] rseq: Switch to fast path processing on exit to user
-config: x86_64-randconfig-123-20251026 (https://download.01.org/0day-ci/archive/20251027/202510270724.yJ0KEUW2-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270724.yJ0KEUW2-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on drm-i915/for-linux-next drm-i915/for-linux-next-fixes tegra/for-next linus/master v6.18-rc2 next-20251024]
+[cannot apply to rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-fb-helper-Allocate-and-release-fb_info-in-single-place/20251027-014054
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20251026173944.219373-1-tzimmermann%40suse.de
+patch subject: [PATCH] drm/fb-helper: Allocate and release fb_info in single place
+config: x86_64-buildonly-randconfig-003-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270728.dixqTvyI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270728.dixqTvyI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510270724.yJ0KEUW2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510270728.dixqTvyI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/entry/common.o: error: objtool: .altinstr_replacement+0x8c: redundant UACCESS disable
-   kernel/entry/common.o: error: objtool: .altinstr_replacement+0x8f: redundant UACCESS disable
->> kernel/entry/common.o: error: objtool: irqentry_exit+0x495: call to class_user_rw_access_destructor() with UACCESS enabled
+   drivers/gpu/drm/radeon/radeon_fbdev.c: In function 'radeon_fbdev_driver_fbdev_probe':
+>> drivers/gpu/drm/radeon/radeon_fbdev.c:275:1: warning: label 'err_drm_framebuffer_unregister_private' defined but not used [-Wunused-label]
+     275 | err_drm_framebuffer_unregister_private:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/gma500/fbdev.c: In function 'psb_fbdev_driver_fbdev_probe':
+>> drivers/gpu/drm/gma500/fbdev.c:239:1: warning: label 'err_drm_framebuffer_unregister_private' defined but not used [-Wunused-label]
+     239 | err_drm_framebuffer_unregister_private:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/err_drm_framebuffer_unregister_private +275 drivers/gpu/drm/radeon/radeon_fbdev.c
+
+041f5c416217e37 drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  202  
+41d48e557e01582 drivers/gpu/drm/radeon/radeon_fbdev.c Thomas Zimmermann 2024-09-24  203  int radeon_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  204  				    struct drm_fb_helper_surface_size *sizes)
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  205  {
+041f5c416217e37 drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  206  	struct radeon_device *rdev = fb_helper->dev->dev_private;
+c0a8e4443d768e5 drivers/gpu/drm/radeon/radeon_fbdev.c Imre Deak         2025-08-05  207  	const struct drm_format_info *format_info;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  208  	struct drm_mode_fb_cmd2 mode_cmd = { };
+da786b90bcbd1c5 drivers/gpu/drm/radeon/radeon_fbdev.c Thomas Zimmermann 2025-10-26  209  	struct fb_info *info = fb_helper->info;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  210  	struct drm_gem_object *gobj;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  211  	struct radeon_bo *rbo;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  212  	struct drm_framebuffer *fb;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  213  	int ret;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  214  	unsigned long tmp;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  215  
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  216  	mode_cmd.width = sizes->surface_width;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  217  	mode_cmd.height = sizes->surface_height;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  218  
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  219  	/* avivo can't scanout real 24bpp */
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  220  	if ((sizes->surface_bpp == 24) && ASIC_IS_AVIVO(rdev))
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  221  		sizes->surface_bpp = 32;
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  222  
+308e5bcbdb10452 drivers/gpu/drm/radeon/radeon_fb.c    Jesse Barnes      2011-11-14  223  	mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
+308e5bcbdb10452 drivers/gpu/drm/radeon/radeon_fb.c    Jesse Barnes      2011-11-14  224  							  sizes->surface_depth);
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  225  
+c0a8e4443d768e5 drivers/gpu/drm/radeon/radeon_fbdev.c Imre Deak         2025-08-05  226  	format_info = drm_get_format_info(rdev_to_drm(rdev), mode_cmd.pixel_format,
+c0a8e4443d768e5 drivers/gpu/drm/radeon/radeon_fbdev.c Imre Deak         2025-08-05  227  					  mode_cmd.modifier[0]);
+c0a8e4443d768e5 drivers/gpu/drm/radeon/radeon_fbdev.c Imre Deak         2025-08-05  228  	ret = radeon_fbdev_create_pinned_object(fb_helper, format_info, &mode_cmd, &gobj);
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  229  	if (ret) {
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  230  		DRM_ERROR("failed to create fbcon object %d\n", ret);
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  231  		return ret;
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  232  	}
+7e4d15d90afe46d drivers/gpu/drm/radeon/radeon_fb.c    Simona Vetter     2011-02-18  233  	rbo = gem_to_radeon_bo(gobj);
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  234  
+c4aab3499be2abd drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  235  	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
+c4aab3499be2abd drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  236  	if (!fb) {
+c4aab3499be2abd drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  237  		ret = -ENOMEM;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  238  		goto err_radeon_fbdev_destroy_pinned_object;
+c4aab3499be2abd drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  239  	}
+c0a8e4443d768e5 drivers/gpu/drm/radeon/radeon_fbdev.c Imre Deak         2025-08-05  240  	ret = radeon_framebuffer_init(rdev_to_drm(rdev), fb, format_info, &mode_cmd, gobj);
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  241  	if (ret) {
+8b513d0cf603c0a drivers/gpu/drm/radeon/radeon_fb.c    Masanari Iida     2013-05-21  242  		DRM_ERROR("failed to initialize framebuffer %d\n", ret);
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  243  		goto err_kfree;
+aaefcd4284a5399 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2012-03-06  244  	}
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  245  
+386516744ba45d5 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  246  	/* setup helper */
+41d48e557e01582 drivers/gpu/drm/radeon/radeon_fbdev.c Thomas Zimmermann 2024-09-24  247  	fb_helper->funcs = &radeon_fbdev_fb_helper_funcs;
+041f5c416217e37 drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  248  	fb_helper->fb = fb;
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  249  
+041f5c416217e37 drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  250  	info->fbops = &radeon_fbdev_fb_ops;
+40e324e0d859d76 drivers/gpu/drm/radeon/radeon_fbdev.c Thomas Zimmermann 2023-07-15  251  
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  252  	/* radeon resume is fragile and needs a vt switch to help it along */
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  253  	info->skip_vt_switch = false;
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  254  
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  255  	drm_fb_helper_fill_info(info, fb_helper, sizes);
+785b93ef8c30973 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2009-08-28  256  
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  257  	tmp = radeon_bo_gpu_offset(rbo) - rdev->mc.vram_start;
+f92e93eb5f4d56d drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-22  258  	info->fix.smem_start = rdev->mc.aper_base + tmp;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  259  	info->fix.smem_len = radeon_bo_size(rbo);
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  260  	info->screen_base = (__force void __iomem *)rbo->kptr;
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  261  	info->screen_size = radeon_bo_size(rbo);
+785b93ef8c30973 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2009-08-28  262  
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  263  	memset_io(info->screen_base, 0, info->screen_size);
+ed8f0d9e708a1a7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2009-07-29  264  
+fb2a99e15ff0d34 drivers/gpu/drm/radeon/radeon_fb.c    Sascha Hauer      2012-02-06  265  	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
+4abe35204af82a0 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  266  
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  267  	DRM_INFO("fb mappable at 0x%lX\n",  info->fix.smem_start);
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  268  	DRM_INFO("vram apper at 0x%lX\n",  (unsigned long)rdev->mc.aper_base);
+8be48d924c307e7 drivers/gpu/drm/radeon/radeon_fb.c    Dave Airlie       2010-03-30  269  	DRM_INFO("size %lu\n", (unsigned long)radeon_bo_size(rbo));
+b00c600e91531df drivers/gpu/drm/radeon/radeon_fb.c    Ville Syrjälä     2016-12-14  270  	DRM_INFO("fb depth is %d\n", fb->format->depth);
+01f2c7730e18807 drivers/gpu/drm/radeon/radeon_fb.c    Ville Syrjälä     2011-12-20  271  	DRM_INFO("   pitch is %d\n", fb->pitches[0]);
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  272  
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  273  	return 0;
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  274  
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16 @275  err_drm_framebuffer_unregister_private:
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  276  	fb_helper->fb = NULL;
+362063619cf67c2 drivers/gpu/drm/radeon/radeon_fb.c    Simona Vetter     2012-12-10  277  	drm_framebuffer_unregister_private(fb);
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  278  	drm_framebuffer_cleanup(fb);
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  279  err_kfree:
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  280  	kfree(fb);
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  281  err_radeon_fbdev_destroy_pinned_object:
+3a745f6ac13216f drivers/gpu/drm/radeon/radeon_fb.c    Thomas Zimmermann 2023-03-16  282  	radeon_fbdev_destroy_pinned_object(gobj);
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  283  	return ret;
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  284  }
+771fe6b912fca54 drivers/gpu/drm/radeon/radeon_fb.c    Jerome Glisse     2009-06-05  285  
 
 -- 
 0-DAY CI Kernel Test Service
