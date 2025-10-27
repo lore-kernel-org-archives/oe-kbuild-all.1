@@ -1,215 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012009.outbound.protection.outlook.com [40.93.195.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D2630C62D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 16:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761581096; cv=none; b=fWMU0ZIZ6f4WixgMxw2Rxg0xzXWrf3QQG/0v5pA7M9SrSk49jEC/tROa0NYCuPwmZ+kOyoG4pSmcLuCwSziDOo+q6GVO1IhXn+nbuB6mUWeJ1yjDVn35xlXb3UA8lGEGW/keYCcGNJ/3vXw7Hb9VmC6/ppZR0kN2aGHqDAWman4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761581096; c=relaxed/simple;
-	bh=dm8A/qyQjDO//xtPEdtwtlpgXj5bAJ7D8ySG6nd2G0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dGrVOhVb71s1WhtFUrVHXjxgM/bv7fyrkbUUcVzlL+45vxjhO1YDxR59SI0McThNiAjlCZZ8mQMvRicnRGEBLkivh/esMv7oZILE7kyMI4DTKVVgo7uGh33g4ExsfnD43OeVfWiNiT335c1/sQULox6f8bo/U9kFsdzAKy9sKwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GZ0Ek2Ez; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B52C313525;
+	Mon, 27 Oct 2025 16:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761583167; cv=fail; b=uN227UuOdow8APz/hCkA559UZa8lUrG8DTj19HPUsyXel1wY+aNjyCQiiwVnCIajRpOCOGOP7vtDnHlhcKMN6VFgDRXfUyyIFUDuaRebPgWlqxyOGy6b6ZaYHPRWRx5rvj9cZB04ver6KIRlEeKtj2gFj3AdyJR8DJaxfaizp+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761583167; c=relaxed/simple;
+	bh=sIM+DO7VUbSJKIJGmkmCeUKpidiRRbNlhRqp6y3nEOU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSiVcVN0ZrBF8VdwpVTgtILDfrwNF2/qLn8n/ET4tMir9h/SRf/kKKaFVn/hgIfmN+rxkxq/y2tPPClncfQ0kgzmeLwIesFfduW9HylVrWz7m8mMPY0MEs/qCcNv/rGw7+B/glzVhcSd07Y+InvlJ98GPcdpujmHkMRXYXO8NBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Jw30kYm3; arc=fail smtp.client-ip=40.93.195.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZ0Ek2Ez"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761581093; x=1793117093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dm8A/qyQjDO//xtPEdtwtlpgXj5bAJ7D8ySG6nd2G0I=;
-  b=GZ0Ek2EzH5M65D4XipxwaC8iNNUSizkBIj0sI8eIwsEAOflRRs5bSQQk
-   eon+w98f9AAWjZ/mrPll897YCw4wX9WlFQWd5AjqscvIZ8vx5ftKv//Xy
-   xVT6VNUyGcFR73wLPhUed95Q929hCqMPe45e9D81MSpQsCM9UXlCuq60I
-   SYfIhBdiJq58TCp8Pf3bAUhn307nHmAZN6kJlJUHF5SO+fidZ7jf6ujJZ
-   nb+OD6By8TkGlbbRxRBqRhF/K3v4I5uEGuFgDDWQVTuJ4ch5PD7pnr1iy
-   zHBDNOVNhGAkk9El5oX1XqzDbiASkPQN/y5frvqWhOavZLlg1/dWl8fuy
-   A==;
-X-CSE-ConnectionGUID: MnlTGyjGTJWnmwSFZJ8miQ==
-X-CSE-MsgGUID: /R2WETuYSCOPxbdxtvw/4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74340518"
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="74340518"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 09:04:52 -0700
-X-CSE-ConnectionGUID: vdFxKknXQUKzmMAZJre6zw==
-X-CSE-MsgGUID: it2GcJ4aQxSGK6TGRKUPKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="184980229"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Oct 2025 09:04:51 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vDPiD-000GxR-1n;
-	Mon, 27 Oct 2025 16:04:49 +0000
-Date: Tue, 28 Oct 2025 00:04:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Harmstone <mark@harmstone.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mark Harmstone <mark@harmstone.com>
-Subject: Re: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block
- groups
-Message-ID: <202510272322.N1S5rdDc-lkp@intel.com>
-References: <20251024181227.32228-16-mark@harmstone.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Jw30kYm3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x9dX2g5b36NqfOeNjYKZuL/cjAsxMRsgqo6sLxl9kDxaLjl/IyraDqhFFXCJOQdvFq++NuTQ9FMhoBU6/DpaS2EMwi1nQLeO734lQzF3glbSl6LVV3VBaBP2d0E/Kl9527IyXR81Ek2K4o+61GgPMszLmj+6vwB1YaLsiJ5nHIO+WcaiUdnv5Xu3xVzpM2UwVqzuz4MUhBEYfjLcV9T6DHgBcKHdlj1THWAN9Qg4A8aZFg/tgAAjxrdGCRjS96QE0SQvoe2xn6WCA7avCpF/Ptj+uMvoh+7+3qfaxjoJFmImuijkeW5+0UlJQG0htgznvsLtSMVhMhnuYUTYS/qDjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=86wS83iRZgbmCRQF6Rt9NPhgkmcjn0GBkuyJpwn1yJQ=;
+ b=sNm4LJpy3bJce/ieJlL9KtYLyXvkJ7yvuTsJZw4ne/uTO+kJbrgtOA201QuO7zw0yLr2b6poxJZf5hSp0fRcYvKC/sHuhVmOm0aGn/dc5i10kDYaLNczXWnSYvCPXGyiOj8IQi7L/7ELtGzGVcqPLXZ1sL4aYJEoiL7JH0nPkM4JEfI6kXQm0lddTB/bj/yXLhvBY1w51N30B6diq9pxl+P8zEoVdxOqqUnMbNUt6J2piJAhZoaf+92dSyxzfY21RMXDNcLnWt7843pdmF/SJsy3FZL+u/7/zju/q0hJ3jK64ZQHKJAukf87E8bgd8hIfch/WHmiQfFyMgovbK2SNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=86wS83iRZgbmCRQF6Rt9NPhgkmcjn0GBkuyJpwn1yJQ=;
+ b=Jw30kYm3zMGQIXSuofwlBfk5Inw5a7aKvGyOiId+oZyYea9R7t+8YI9pd9gK4fL5BBwh1MWk/u+YA6Rgw2JExL4s0O2eEIQ9Fwc05h85oKipsaZyyPf3WOYl/a5Mv3wXlSgL1hoQB8fywfHaAVnQny08xM2MMJK/2U5b3J8WvYk7r4+4YdXqs+LlgTAJmjQL6djEv7PCkQq0tqRVZ+/8j2Q2XcEoJXZyNNatk3DkFO5/KT28p/dUqUUMuebAhsk1jqIDN32WYaK7vBOpu0lYxQ7fN3+jVWY6vIxHJPKzK5QAGuXLyq/H7V7r1FP6e8HNmzsVJeQYn1+bohOEBx+I5w==
+Received: from SA0PR11CA0123.namprd11.prod.outlook.com (2603:10b6:806:131::8)
+ by DM4PR12MB5964.namprd12.prod.outlook.com (2603:10b6:8:6b::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9253.19; Mon, 27 Oct 2025 16:39:17 +0000
+Received: from SA2PEPF00003AE7.namprd02.prod.outlook.com
+ (2603:10b6:806:131:cafe::6d) by SA0PR11CA0123.outlook.office365.com
+ (2603:10b6:806:131::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.19 via Frontend Transport; Mon,
+ 27 Oct 2025 16:39:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF00003AE7.mail.protection.outlook.com (10.167.248.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Mon, 27 Oct 2025 16:39:16 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 27 Oct
+ 2025 09:38:57 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Oct
+ 2025 09:38:57 -0700
+Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 27 Oct 2025 09:38:56 -0700
+Date: Mon, 27 Oct 2025 09:38:54 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: kernel test robot <lkp@intel.com>
+CC: <will@kernel.org>, <jgg@nvidia.com>, <oe-kbuild-all@lists.linux.dev>,
+	<jean-philippe@linaro.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<balbirs@nvidia.com>, <miko.lenczewski@arm.com>, <peterz@infradead.org>,
+	<kevin.tian@intel.com>, <praan@google.com>,
+	<linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 3/7] iommu/arm-smmu-v3: Introduce a per-domain
+ arm_smmu_invs array
+Message-ID: <aP+gHjiZf6jpFTHU@Asurada-Nvidia>
+References: <345bb7703ebd19992694758b47e371900267fa0e.1760555863.git.nicolinc@nvidia.com>
+ <202510271909.iEzPjNv4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20251024181227.32228-16-mark@harmstone.com>
+In-Reply-To: <202510271909.iEzPjNv4-lkp@intel.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE7:EE_|DM4PR12MB5964:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc68e198-09a5-4027-3769-08de15775ee2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KQenywuB83oS6M2MZSvZb4JB58daJ/rRMQzVNmLSNB8ki5zsv4UmTnFnOUlq?=
+ =?us-ascii?Q?J+mGwkAr4x7XlCMtS6rsbvHhe7CMdLCSCIeiIOglI8ZDmVibuGJmG9/w/eId?=
+ =?us-ascii?Q?zRcGx8Y+irj7bjLi5y9EeAnRG2IWF+KO1ZoLevm6iFUQ87AxXTbs0PTDPAXY?=
+ =?us-ascii?Q?dWuLkLoMvOWdWvlFLnv4+ICfg8MOyUkR45hSleEghJVB8FYkIhCHmMW0Mmj1?=
+ =?us-ascii?Q?MmR3/RwYnHvTLho6jbQu66chaLiUyRvW6baqgrt0BaxfKzTt01USgxg+pX/O?=
+ =?us-ascii?Q?I0Aw6Dm3JPVK3LGMmHlbUCCiB1ablvsXOrPLonolkUSQN6S2kgB8bm/GAtTf?=
+ =?us-ascii?Q?q5NZAUz1PsnzoofyNL231gAcPiGCRlotqvDWrlBgEme0Rul1xrWg1OO1oG0u?=
+ =?us-ascii?Q?E53D5myAOmouBq/CjbgYWKtGJZ+j5Xu3aopjN68u2oH1Bu+irP7bgXGJi5al?=
+ =?us-ascii?Q?/DrJP7+omY5JWnlUGWwKMfcQLZ1226xiPhIhz8MY1m4z++dYc2v3E8hX2c5B?=
+ =?us-ascii?Q?BgN2UYMpInZyM7pdQ5H3aFl86BDvAGIKjJeLz6UOXKnoRXnhOjh9w84Y77yQ?=
+ =?us-ascii?Q?bW8yjRcWiw/yDK7N1RYbi4Zu4Ntn9LXf+Fr68pTL6SeeaCf6wyStZzhokJJP?=
+ =?us-ascii?Q?Gsi6AWvWjTNy9RJ4GE+Su+o4sd72pJJW/yOF3iDSUfw+HND/b+ZbmzDhvDS3?=
+ =?us-ascii?Q?MJqSBUSW2qZzr7/odulH1wJO+koiCrUafGGjFL8bmaPd8zSPcTsyAuLf82rS?=
+ =?us-ascii?Q?J+E1lzD4cI6/Qj0DmY3skcqyMO28NaJqj3YeBD7S9Z2x5JIFzgvNWzUQKmJc?=
+ =?us-ascii?Q?7xGh8AdUys/KHo/doYdHgwLhzIQSFAcxUHS3ixxW3XXZcyurpPDipeH6uDmH?=
+ =?us-ascii?Q?pYqXEiGSg+KKOjPDOKcnhqNEfX6JjyWR2v2u194IExEnlXG28qhtXG/ROLKs?=
+ =?us-ascii?Q?pBmiEKTo9ZIvCu8W7wahUC31wtJH4NHZ2knET3YiI/VGbbHUC3ZZ8jqrdid0?=
+ =?us-ascii?Q?xy40JqIYyTkWlEV1vUzc5G8G2FeY1E8spXOtGNE1/VaEmTyrgciKaq1/YBwx?=
+ =?us-ascii?Q?ltlOzPfTzP3LnC/XRLR6L+q9viGBpZp0l5l1lfZnqbknz/dFsMy1GKE31GR8?=
+ =?us-ascii?Q?na5lyTD0suOde2o8ygx4zZ6vnQJsZUKI2SU437u1szxSTJfnNVMHDAr0ZdCw?=
+ =?us-ascii?Q?boQsGOiAm/kykiVEmCGtNxTawD9ZibN7EAOZBY7ACqCu5HHJincwr3tnv7Af?=
+ =?us-ascii?Q?/SliVtlm5BA7kDng9UCaspGaLLkB9JrcfjYDg5OhROgNO3MKhklYdldomRR+?=
+ =?us-ascii?Q?zfI0Pv2JmyDmWcXlNwvwCotM7//7QBNpjl61ALWbGWx/0jb0gmLxTG7QjV5Y?=
+ =?us-ascii?Q?tagEuCBsvPIocWFma4bUV4vriBN2mgxpNTkfNNUA0RmLfX6M5TBdmSxHAVlX?=
+ =?us-ascii?Q?pQRzs2DXUQGIQatavkxFpwkI/s/Fwg49ixYhajgqnvz6Qz9ICpEJf6o15l79?=
+ =?us-ascii?Q?fnGfjkJvcM4X4P7e3O0mdTWhQykRPqynhXSZ46eFDweqFmFEVxemQWxyD9UQ?=
+ =?us-ascii?Q?EIHC8xyq46u/ALPAdbc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 16:39:16.9005
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc68e198-09a5-4027-3769-08de15775ee2
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003AE7.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5964
 
-Hi Mark,
+On Mon, Oct 27, 2025 at 08:06:03PM +0800, kernel test robot wrote:
+> >> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1062:23: error: static declaration of 'arm_smmu_invs_merge' follows non-static declaration
+>     1062 | struct arm_smmu_invs *arm_smmu_invs_merge(struct arm_smmu_invs *invs,
+>          |                       ^~~~~~~~~~~~~~~~~~~
+>    In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:34:
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h:731:23: note: previous declaration of 'arm_smmu_invs_merge' with type 'struct arm_smmu_invs *(struct arm_smmu_invs *, struct arm_smmu_invs *)'
+>      731 | struct arm_smmu_invs *arm_smmu_invs_merge(struct arm_smmu_invs *invs,
+>          |                       ^~~~~~~~~~~~~~~~~~~
 
-kernel test robot noticed the following build warnings:
+These should be added under "#if IS_ENABLED(CONFIG_KUNIT)" in the
+header.
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on next-20251027]
-[cannot apply to linus/master v6.18-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I will fix this and send a v4 today.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251025-021910
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251024181227.32228-16-mark%40harmstone.com
-patch subject: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block groups
-config: arm-randconfig-003-20251027 (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510272322.N1S5rdDc-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
-
-All warnings (new ones prefixed by >>):
-
-   fs/btrfs/discard.c: In function 'btrfs_discard_workfn':
->> fs/btrfs/discard.c:596:6: warning: 'discard_state' may be used uninitialized in this function [-Wmaybe-uninitialized]
-      if (discard_state == BTRFS_DISCARD_BITMAPS ||
-         ^
-
-
-vim +/discard_state +596 fs/btrfs/discard.c
-
-   513	
-   514	/*
-   515	 * Discard work queue callback
-   516	 *
-   517	 * @work: work
-   518	 *
-   519	 * Find the next block_group to start discarding and then discard a single
-   520	 * region.  It does this in a two-pass fashion: first extents and second
-   521	 * bitmaps.  Completely discarded block groups are sent to the unused_bgs path.
-   522	 */
-   523	static void btrfs_discard_workfn(struct work_struct *work)
-   524	{
-   525		struct btrfs_discard_ctl *discard_ctl;
-   526		struct btrfs_block_group *block_group;
-   527		enum btrfs_discard_state discard_state;
-   528		int discard_index = 0;
-   529		u64 trimmed = 0;
-   530		u64 minlen = 0;
-   531		u64 now = ktime_get_ns();
-   532	
-   533		discard_ctl = container_of(work, struct btrfs_discard_ctl, work.work);
-   534	
-   535		block_group = peek_discard_list(discard_ctl, &discard_state,
-   536						&discard_index, now);
-   537		if (!block_group)
-   538			return;
-   539		if (!btrfs_run_discard_work(discard_ctl)) {
-   540			spin_lock(&discard_ctl->lock);
-   541			btrfs_put_block_group(block_group);
-   542			discard_ctl->block_group = NULL;
-   543			spin_unlock(&discard_ctl->lock);
-   544			return;
-   545		}
-   546		if (now < block_group->discard_eligible_time) {
-   547			spin_lock(&discard_ctl->lock);
-   548			btrfs_put_block_group(block_group);
-   549			discard_ctl->block_group = NULL;
-   550			spin_unlock(&discard_ctl->lock);
-   551			btrfs_discard_schedule_work(discard_ctl, false);
-   552			return;
-   553		}
-   554	
-   555		/* Perform discarding */
-   556		minlen = discard_minlen[discard_index];
-   557	
-   558		switch (discard_state) {
-   559		case BTRFS_DISCARD_BITMAPS: {
-   560			u64 maxlen = 0;
-   561	
-   562			/*
-   563			 * Use the previous levels minimum discard length as the max
-   564			 * length filter.  In the case something is added to make a
-   565			 * region go beyond the max filter, the entire bitmap is set
-   566			 * back to BTRFS_TRIM_STATE_UNTRIMMED.
-   567			 */
-   568			if (discard_index != BTRFS_DISCARD_INDEX_UNUSED)
-   569				maxlen = discard_minlen[discard_index - 1];
-   570	
-   571			btrfs_trim_block_group_bitmaps(block_group, &trimmed,
-   572					       block_group->discard_cursor,
-   573					       btrfs_block_group_end(block_group),
-   574					       minlen, maxlen, true);
-   575			discard_ctl->discard_bitmap_bytes += trimmed;
-   576	
-   577			break;
-   578		}
-   579	
-   580		case BTRFS_DISCARD_FULLY_REMAPPED:
-   581			btrfs_trim_fully_remapped_block_group(block_group);
-   582			break;
-   583	
-   584		default:
-   585			btrfs_trim_block_group_extents(block_group, &trimmed,
-   586					       block_group->discard_cursor,
-   587					       btrfs_block_group_end(block_group),
-   588					       minlen, true);
-   589			discard_ctl->discard_extent_bytes += trimmed;
-   590	
-   591			break;
-   592		}
-   593	
-   594		/* Determine next steps for a block_group */
-   595		if (block_group->discard_cursor >= btrfs_block_group_end(block_group)) {
- > 596			if (discard_state == BTRFS_DISCARD_BITMAPS ||
-   597			    discard_state == BTRFS_DISCARD_FULLY_REMAPPED) {
-   598				btrfs_finish_discard_pass(discard_ctl, block_group);
-   599			} else {
-   600				block_group->discard_cursor = block_group->start;
-   601				spin_lock(&discard_ctl->lock);
-   602				if (block_group->discard_state !=
-   603				    BTRFS_DISCARD_RESET_CURSOR)
-   604					block_group->discard_state =
-   605								BTRFS_DISCARD_BITMAPS;
-   606				spin_unlock(&discard_ctl->lock);
-   607			}
-   608		}
-   609	
-   610		now = ktime_get_ns();
-   611		spin_lock(&discard_ctl->lock);
-   612		discard_ctl->prev_discard = trimmed;
-   613		discard_ctl->prev_discard_time = now;
-   614		btrfs_put_block_group(block_group);
-   615		discard_ctl->block_group = NULL;
-   616		__btrfs_discard_schedule_work(discard_ctl, now, false);
-   617		spin_unlock(&discard_ctl->lock);
-   618	}
-   619	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nicolin
