@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8720022A4D5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 07:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836102D47E9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 07:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761551353; cv=none; b=YLRrMigylM1yhi5XXs8cj+d441jqrFoV8TF7/+rvv73Am8SvjlgqWjxKcjc9gm+GZLOjQtDH4iv0eTMHZOV59pI++iAsze0k1iudXkKQ3bQiIFWPE8rDAbbHsrSITfj+NLZkUfz/qozgKk6MEcP/afmhnugt/+hpb9cWT1XEQ4o=
+	t=1761551954; cv=none; b=O7Qde4leL5l0qGqk4dPGynDj9DP4TLkFHfvdrwdGz91L8Yo2vtan8H2fn8PQfOlaKXumDgcKnTcToRcCbhlOab1rp0bf5LMXSRiYBlQRW+93kXSzRj3qpBGZrU5xvpCuAF7vtPxu1uxJwKiZTL24VJNEfWco3XfQok3Ezw2mFeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761551353; c=relaxed/simple;
-	bh=Jt0S6o7JSZJ6hu9/wj7V9RW04xD7iZQDy9RpCuXa3Ic=;
+	s=arc-20240116; t=1761551954; c=relaxed/simple;
+	bh=HoL2gkxwD0MZAKQd7n56cvFSuDeJhbqmBsPziE50YgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oNQclSfQzCZUt6ivbIhplSVCydJoSeuf48FmI5fVsXnxJGW1okgj//CigSopBUB79ZzTId9gAiWLIFMPoZLMk0BN7PRWDQ4QVLFp1TOUuGebrqdq7YMiNFppYzs0c8j+Jtp5n4YXhxd+wS+x1f3YgWDbTyghpXgDBhXCIHSYb+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SfY3zSSs; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=fpbu7m1PIkYJI5HBf7/FrEB+zHf63k1ZePFjJcU2Y+qO0GRze2qKLYHyDDB9guSJsfrnFOufeDjNz3U6/CxKAmld8FiK/u3OpaSM0a43OK6zOMMvanJulOtIvjSaJxXmPuR5/Ho/VW56iRhK8XYp+JVYB2Y61uLu/zZG/chP8kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hk/Mo9h+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SfY3zSSs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hk/Mo9h+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761551352; x=1793087352;
+  t=1761551952; x=1793087952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jt0S6o7JSZJ6hu9/wj7V9RW04xD7iZQDy9RpCuXa3Ic=;
-  b=SfY3zSSsOKDmdbTSSshcqx0PjCN/01cxkKuBRH3Bc63k//r9Dsq0MAQ3
-   5Z7W1wxSRwHZcscGl8NaSKdz3RA+tfswU3kWqGem3K3J5OAFoesOO4Rka
-   WPItBNFBLF2DkWTT7crkWxu23n3KEZr7P9wCSacpJ/sam0Jra8MpmJL38
-   lcIGUFC+l0qIPNFYwLc3I3hbRob1KFqpXa8rVN0yjpJXENI/oHkNczLcZ
-   1x4fcylfkkvk5KPPSG4J79MNQIJEqRp5dS2GMgI18qns5eijX9IdqxzzI
-   oFNZsxwCuB0bcdJ8dMhbwwWyNdo0hma8wzsR643FTTtFIPHn+/saEwSik
-   A==;
-X-CSE-ConnectionGUID: vH7BTtaWQ+WJVvsaXgOu9w==
-X-CSE-MsgGUID: 8voN5Vh8TnmbxXjn+VnuDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="73914095"
+  bh=HoL2gkxwD0MZAKQd7n56cvFSuDeJhbqmBsPziE50YgU=;
+  b=hk/Mo9h+pPYzNbg5HzM3t+cesqMeFhcOB9DHASJFpFUh29UAdsl6JTps
+   gCg2q8h9W3OmZ89eBmjedAy1n8sIbweuZH9vX46OkczGXQbIXFjDY4eH0
+   MGmbhYwT0orpEP15QBAOLW2zErHQncFH4etyO4B7iYG+DMlydCpchxFMi
+   z8bdpQZ6BGFxl084L5MAKK9Y4g1NPmC/EJyjqFx5x9pOxgi0sw1fmwsBH
+   MMX/P2A5n1bSw7Tb3MGstTigfUN0+dDpqm/nS+zGmNXYQ5hF5OwtuPEgR
+   qEYu2ejV6rCvPqV7GDe7tocb/fyKxRIudxdENxdbmbH84ZHl/xjTwsdE0
+   w==;
+X-CSE-ConnectionGUID: geiEWzl8TkuIf/rBAElsaA==
+X-CSE-MsgGUID: pe7Qyhb7TdGzp/koKyg/FQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62832828"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="73914095"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 00:49:12 -0700
-X-CSE-ConnectionGUID: x9hOzmx8R5+ak+WpU4iHCw==
-X-CSE-MsgGUID: MuWqNs+cQ4iY+e7dlJ8qQA==
+   d="scan'208";a="62832828"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 00:59:12 -0700
+X-CSE-ConnectionGUID: 7LVjEtYCT4SyxA45gWLSew==
+X-CSE-MsgGUID: 60VYmLYZRuOi9vBB69xniA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="189289836"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2025 00:49:10 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 27 Oct 2025 00:59:10 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDHyV-000Gbl-2G;
-	Mon, 27 Oct 2025 07:49:07 +0000
-Date: Mon, 27 Oct 2025 15:48:23 +0800
+	id 1vDI8C-000Gbt-0p;
+	Mon, 27 Oct 2025 07:59:08 +0000
+Date: Mon, 27 Oct 2025 15:58:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3045/3045] drivers/pci/pci.c:177:17: error:
- expected ')'
-Message-ID: <202510271529.3vEp7o79-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paul Walmsley <pjw@kernel.org>
+Subject: arch/riscv/kernel/tests/kprobes/test-kprobes.c:42:undefined
+ reference to `kunit_binary_assert_format'
+Message-ID: <202510271638.Gc22TPof-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,75 +61,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jianmin,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   9094437bec1ace7378abfe84597e722209d03f85
-commit: 1f46f3a128f21c190281c72cad99267bcc177e34 [3045/3045] PCI: PM: fix pcie mrrs restoring
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251027/202510271529.3vEp7o79-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271529.3vEp7o79-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+commit: f2fab612824ffc8314d3a752724dd37a3ce27a31 riscv: Add kprobes KUnit test
+date:   6 weeks ago
+config: riscv-randconfig-r051-20251027 (https://download.01.org/0day-ci/archive/20251027/202510271638.Gc22TPof-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271638.Gc22TPof-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510271529.3vEp7o79-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510271638.Gc22TPof-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/pci.c:11:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/loongarch/include/asm/elf.h:13:
-   In file included from arch/loongarch/include/asm/vdso.h:10:
-   In file included from include/linux/mm.h:2181:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pci/pci.c:177:17: error: expected ')'
-     177 | suspend_state_t pm_suspend_target_state;
-         |                 ^
-   include/linux/suspend.h:341:34: note: expanded from macro 'pm_suspend_target_state'
-     341 | #define pm_suspend_target_state (PM_SUSPEND_ON)
-         |                                  ^
-   include/linux/suspend.h:36:51: note: expanded from macro 'PM_SUSPEND_ON'
-      36 | #define PM_SUSPEND_ON           ((__force suspend_state_t) 0)
-         |                                                            ^
-   drivers/pci/pci.c:177:17: note: to match this '('
-   include/linux/suspend.h:341:34: note: expanded from macro 'pm_suspend_target_state'
-     341 | #define pm_suspend_target_state (PM_SUSPEND_ON)
-         |                                  ^
-   include/linux/suspend.h:36:24: note: expanded from macro 'PM_SUSPEND_ON'
-      36 | #define PM_SUSPEND_ON           ((__force suspend_state_t) 0)
-         |                                 ^
-   drivers/pci/pci.c:177:17: error: redefinition of 'suspend_state_t' as different kind of symbol
-     177 | suspend_state_t pm_suspend_target_state;
-         |                 ^
-   include/linux/suspend.h:341:34: note: expanded from macro 'pm_suspend_target_state'
-     341 | #define pm_suspend_target_state (PM_SUSPEND_ON)
-         |                                  ^
-   include/linux/suspend.h:36:34: note: expanded from macro 'PM_SUSPEND_ON'
-      36 | #define PM_SUSPEND_ON           ((__force suspend_state_t) 0)
-         |                                           ^
-   include/linux/suspend.h:34:23: note: previous definition is here
-      34 | typedef int __bitwise suspend_state_t;
-         |                       ^
-   1 warning and 2 errors generated.
+   riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.o: in function `test_kprobe_riscv':
+>> arch/riscv/kernel/tests/kprobes/test-kprobes.c:42:(.text+0x198): undefined reference to `kunit_binary_assert_format'
+>> riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.c:44:(.text+0x1bc): undefined reference to `__kunit_do_failed_assertion'
+>> riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.c:38:(.text+0x1d0): undefined reference to `kunit_binary_assert_format'
+   riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.c:38:(.text+0x1f4): undefined reference to `__kunit_do_failed_assertion'
+>> riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.c:31:(.text+0x246): undefined reference to `kunit_unary_assert_format'
+   riscv64-linux-ld: arch/riscv/kernel/tests/kprobes/test-kprobes.c:24:(.text+0x262): undefined reference to `__kunit_do_failed_assertion'
 
 
-vim +177 drivers/pci/pci.c
+vim +42 arch/riscv/kernel/tests/kprobes/test-kprobes.c
 
-   175	
-   176	#ifndef CONFIG_PM_SLEEP
- > 177	suspend_state_t pm_suspend_target_state;
-   178	#define pm_suspend_target_state (PM_SUSPEND_ON)
-   179	#endif
-   180	
+    12	
+    13	static void test_kprobe_riscv(struct kunit *test)
+    14	{
+    15		unsigned int num_kprobe = 0;
+    16		long (*func)(void);
+    17		struct kprobe *kp;
+    18		int i;
+    19	
+    20		while (test_kprobes_addresses[num_kprobe])
+    21			num_kprobe++;
+    22	
+    23		kp = kcalloc(num_kprobe, sizeof(*kp), GFP_KERNEL);
+    24		KUNIT_EXPECT_TRUE(test, kp);
+    25		if (!kp)
+    26			return;
+    27	
+    28		for (i = 0; i < num_kprobe; ++i) {
+    29			kp[i].addr = test_kprobes_addresses[i];
+    30			kp[i].pre_handler = kprobe_dummy_handler;
+  > 31			KUNIT_EXPECT_EQ(test, 0, register_kprobe(&kp[i]));
+    32		}
+    33	
+    34		for (i = 0;; ++i) {
+    35			func = test_kprobes_functions[i];
+    36			if (!func)
+    37				break;
+  > 38			KUNIT_EXPECT_EQ_MSG(test, KPROBE_TEST_MAGIC, func(), "function %d broken", i);
+    39		}
+    40	
+    41		for (i = 0; i < num_kprobe; ++i)
+  > 42			unregister_kprobe(&kp[i]);
+    43		kfree(kp);
+  > 44	}
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
