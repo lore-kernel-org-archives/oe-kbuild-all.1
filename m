@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBE72D24AB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 02:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ED31E492D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 02:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761533096; cv=none; b=GDBnccbNPgwxRj1MGF/m/MDI1uO8rZD2SrEoMQRijW0o+kWTN7MNXm8TvnLt5GozCDTpVqS96QWALL1O6knKyCdtH9BYa1JtNRJTxB3C8thqWMrj6Hd98mAZl43YYEWvWufaDcG6Tsm3CFASxd3AFvUno7r/g54JZSO4TTMBAOo=
+	t=1761533800; cv=none; b=Q1uZe4rf06uCKB3cZpQa0Z3JGZ9oHmpRnatmDkMfI7dY96PMGnrQNmqnOlFKR5EjLVJ5g4Ur6+B8UAwtC9ilq1y+CvzQNFANXXACdePI03tl/HfXeMTEwxMw+bhASgs+W/O/F4VAR7Dq7LVSoXrfwmHVqVF0rKA4xP8gqeTV504=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761533096; c=relaxed/simple;
-	bh=I4/28CIASlVF1RVtFs3YmpM9lnmWITQDZRqQedU2Gwk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPAc+WOuS0IZoQOGJh3ereEcNMuzyunfg5rCh6WMxZESSAUG8nBaDDJwOUwBeiqh2EhgOyJDhCBpdNbdkKVJ1Ya/u8ZAt300femnBTJrLXHIvUKTUyYoXk9gWwI8Vh4wWH32T+EyegjZufuyK6+rYMzHDFLx2m6zE8lsCMW5+/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOqoxVOW; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1761533800; c=relaxed/simple;
+	bh=G6sSgEBZNcHd25VGORZAuv3eTfW2GZlmXa3yvdrKT5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z8Dqp4VBM1C3cvOxRYrSVwDKCV+59icbpqJN+u4MlhT4Qt9LWla7p01h+tviGZ+Lfxui2Tmdkw7IejvcQcrzwGGHefe5ACZAUlcUYUbzR7mFQVrpeZpy+9LglJn4AKpn2uJjYaSt7+h4cj0+KGhMozLYuAAcpQErh2HEN/jphoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kvr5AmhJ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LOqoxVOW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kvr5AmhJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761533095; x=1793069095;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I4/28CIASlVF1RVtFs3YmpM9lnmWITQDZRqQedU2Gwk=;
-  b=LOqoxVOW6jKk4LlZlsHNiACb7zo4MxjBgWDg5pBgKDzxSE/pfGuCV5uX
-   E4GvIBMRnDtfgJkIKegklhbXokYqb5fEj14j6cbYdstHiYucDdx+9lgUF
-   Q1R1SXFc1ZQC/4sRJqI6+JvzBMcu8iHDu+JBBblqc/BXf8H3Zbsg62dv+
-   /q/Ebidl+SC6+n1R6dvN3GjSHtvOmwNdNlB7LYPB+Il3MlLjxp9JYgyhW
-   kdVB/rE0wO/0NZ2FrwgtjOZkI7CC42eR2fRhpsFHUyKwZDnd8UVY0eex7
-   BBj+SMATnYZVurQKNwx89n+oK6s7WmmF+z4yAooSduH2SuncXXWn1y48s
-   w==;
-X-CSE-ConnectionGUID: +0pO15ZrR6abkLXJBZA9yw==
-X-CSE-MsgGUID: 3zcISS05RqCNQxfylYTphw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81241387"
+  t=1761533799; x=1793069799;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G6sSgEBZNcHd25VGORZAuv3eTfW2GZlmXa3yvdrKT5Q=;
+  b=Kvr5AmhJsTkPLi9YL7qZVzxi1wONUutok8bG8tv3LfKkn+B9soIbcDNS
+   BErBPosMSkA2VEIAs1F3/cMvpUxrA/++nkI8lMcEfqlWEe9G2S0WcQbim
+   eh99djjWVxIYSum7v9arq6j6Av5alusg91DzZCCIW0UbYsT1UFbhj/7K6
+   jpB6hb9izqMJgJEKfQwwnkA2thALc7UgEK4AAZvZuwypVAA+78HtFjdB/
+   1er8L+gv+mJfuj18n598MMHKEIHKOaKBrRVik6xQ4AAAkfQr4x4NaT6bw
+   7fQJrRSYTuoI8Uo9cf+ntZM+6nolUsXs1IivqSq4TM9i6YYUvtcgwt7du
+   A==;
+X-CSE-ConnectionGUID: uRuOBIUCR76+5zPmHeFtcg==
+X-CSE-MsgGUID: /XSx0ka/QMCV7NbDVsk7kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63645258"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="81241387"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 19:44:54 -0700
-X-CSE-ConnectionGUID: HlzfkQqbSTGFPsG03Ui8lQ==
-X-CSE-MsgGUID: dsY0bqw5SGqOnb5Ykzf3Ow==
+   d="scan'208";a="63645258"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 19:56:39 -0700
+X-CSE-ConnectionGUID: ZmHQq0JbQCu4fYlArjgYqg==
+X-CSE-MsgGUID: o5IjCMEmT62QCOfR3JOSpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="184824253"
+   d="scan'208";a="189238474"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 26 Oct 2025 19:44:48 -0700
+  by orviesa004.jf.intel.com with ESMTP; 26 Oct 2025 19:56:38 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDDDx-000GTN-2p;
-	Mon, 27 Oct 2025 02:44:45 +0000
-Date: Mon, 27 Oct 2025 10:44:19 +0800
+	id 1vDDOT-000GTt-1h;
+	Mon, 27 Oct 2025 02:55:55 +0000
+Date: Mon, 27 Oct 2025 10:54:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, ast@kernel.org,
-	jolsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net,
-	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	mattbobrowski@google.com, rostedt@goodmis.org, mhiramat@kernel.org,
-	leon.hwang@linux.dev, jiang.biao@linux.dev, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3 2/7] bpf: add two kfunc for TRACE_SESSION
-Message-ID: <202510270955.mbxODFvZ-lkp@intel.com>
-References: <20251026030143.23807-3-dongml2@chinatelecom.cn>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 468/700] fs/bcachefs/fs/inode.c:886:9:
+ sparse: sparse: cast to restricted __le64
+Message-ID: <202510271022.yJrs3xpD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +62,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251026030143.23807-3-dongml2@chinatelecom.cn>
 
-Hi Menglong,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-add-tracing-session-support/20251026-110720
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251026030143.23807-3-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next v3 2/7] bpf: add two kfunc for TRACE_SESSION
-config: i386-randconfig-061-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270955.mbxODFvZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270955.mbxODFvZ-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   c317cd269380d275b75d21210fad161750800d68
+commit: 0e349fe46a443dc2f5f3d2b67a3cc42c12d2bf35 [468/700] bcachefs: move fs code to fs/
+config: powerpc-randconfig-r112-20251026 (https://download.01.org/0day-ci/archive/20251027/202510271022.yJrs3xpD-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271022.yJrs3xpD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510270955.mbxODFvZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510271022.yJrs3xpD-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/trace/bpf_trace.c:833:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
-   kernel/trace/bpf_trace.c:833:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
-   kernel/trace/bpf_trace.c:833:41: sparse:     got void *
-   kernel/trace/bpf_trace.c:3573:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3587:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3601:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3608:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3616:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3624:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:895:9: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
->> kernel/trace/bpf_trace.c:3379:35: sparse: sparse: non size-preserving integer to pointer cast
+>> fs/bcachefs/fs/inode.c:886:9: sparse: sparse: cast to restricted __le64
+>> fs/bcachefs/fs/inode.c:886:9: sparse: sparse: cast from restricted __le32
+   fs/bcachefs/fs/inode.c:1063:35: sparse: sparse: cast to restricted __le64
+   fs/bcachefs/fs/inode.c:1063:35: sparse: sparse: cast from restricted __le32
+--
+>> fs/bcachefs/fs/check.c:385:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] fs_path_parent @@     got int @@
+   fs/bcachefs/fs/check.c:385:42: sparse:     expected restricted __le32 [usertype] fs_path_parent
+   fs/bcachefs/fs/check.c:385:42: sparse:     got int
 
-vim +3379 kernel/trace/bpf_trace.c
+vim +886 fs/bcachefs/fs/inode.c
 
-  3372	
-  3373	__bpf_kfunc u64 *bpf_fsession_cookie(void *ctx)
-  3374	{
-  3375		/* This helper call is inlined by verifier. */
-  3376		u64 nr_args = ((u64 *)ctx)[-1];
-  3377	
-  3378		/* ctx[nr_args + 2] is the session cookie address */
-> 3379		return (u64 *)((u64 *)ctx)[nr_args + 2];
-  3380	}
-  3381	
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  880  
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  881  void bch2_inode_alloc_cursor_to_text(struct printbuf *out, struct bch_fs *c,
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  882  				     struct bkey_s_c k)
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  883  {
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  884  	struct bkey_s_c_inode_alloc_cursor i = bkey_s_c_to_inode_alloc_cursor(k);
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  885  
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01 @886  	prt_printf(out, "idx %llu generation %llu",
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  887  		   le64_to_cpu(i.v->idx),
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  888  		   le64_to_cpu(i.v->gen));
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  889  }
+df448ca355ce84 fs/bcachefs/inode.c Kent Overstreet 2024-12-01  890  
+
+:::::: The code at line 886 was first introduced by commit
+:::::: df448ca355ce84d62993166294f75517e4128598 bcachefs: bcachefs_metadata_version_persistent_inode_cursors
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
