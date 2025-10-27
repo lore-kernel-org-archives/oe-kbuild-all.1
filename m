@@ -1,154 +1,306 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012009.outbound.protection.outlook.com [40.93.195.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B52C313525;
-	Mon, 27 Oct 2025 16:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761583167; cv=fail; b=uN227UuOdow8APz/hCkA559UZa8lUrG8DTj19HPUsyXel1wY+aNjyCQiiwVnCIajRpOCOGOP7vtDnHlhcKMN6VFgDRXfUyyIFUDuaRebPgWlqxyOGy6b6ZaYHPRWRx5rvj9cZB04ver6KIRlEeKtj2gFj3AdyJR8DJaxfaizp+k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761583167; c=relaxed/simple;
-	bh=sIM+DO7VUbSJKIJGmkmCeUKpidiRRbNlhRqp6y3nEOU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSiVcVN0ZrBF8VdwpVTgtILDfrwNF2/qLn8n/ET4tMir9h/SRf/kKKaFVn/hgIfmN+rxkxq/y2tPPClncfQ0kgzmeLwIesFfduW9HylVrWz7m8mMPY0MEs/qCcNv/rGw7+B/glzVhcSd07Y+InvlJ98GPcdpujmHkMRXYXO8NBo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Jw30kYm3; arc=fail smtp.client-ip=40.93.195.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90411E2614
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 17:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761587269; cv=none; b=Hzwb+n63ymhALVzkWg6hJoiiQVcDXrhyZjjkukO2EnX6XByiWr5uqYd4zLN6mAXXf6p3t409kaCkpWb51BTGyQ3a2M/5+IwhOJNRgztiRuObpzGe08tdWnKLtiI+yf7le4ymVAEpdr+CeuqxNIBSCfiCPKn8GjtHKEmCwI4ELHs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761587269; c=relaxed/simple;
+	bh=lEDwiAkaOmOaXP65JPO7UPrE8f0UT4oZYKTFFx6yKoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KdV037zSr87RAGRQ/6HkNeF9SlXoF5fUamKDPBA4de/IycwuL0Qk4aN2TEScyYUv2996O8eWFGmUwqhoAIWCBo/L+johCJtlqjCDRHe0siPHp5CyICh7Z3/Fb9xO15EcBtyrsS4wB3zt1JgVLelmBO8YzciDMOvsJeNxwCPatkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ViFGh14H; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Jw30kYm3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x9dX2g5b36NqfOeNjYKZuL/cjAsxMRsgqo6sLxl9kDxaLjl/IyraDqhFFXCJOQdvFq++NuTQ9FMhoBU6/DpaS2EMwi1nQLeO734lQzF3glbSl6LVV3VBaBP2d0E/Kl9527IyXR81Ek2K4o+61GgPMszLmj+6vwB1YaLsiJ5nHIO+WcaiUdnv5Xu3xVzpM2UwVqzuz4MUhBEYfjLcV9T6DHgBcKHdlj1THWAN9Qg4A8aZFg/tgAAjxrdGCRjS96QE0SQvoe2xn6WCA7avCpF/Ptj+uMvoh+7+3qfaxjoJFmImuijkeW5+0UlJQG0htgznvsLtSMVhMhnuYUTYS/qDjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=86wS83iRZgbmCRQF6Rt9NPhgkmcjn0GBkuyJpwn1yJQ=;
- b=sNm4LJpy3bJce/ieJlL9KtYLyXvkJ7yvuTsJZw4ne/uTO+kJbrgtOA201QuO7zw0yLr2b6poxJZf5hSp0fRcYvKC/sHuhVmOm0aGn/dc5i10kDYaLNczXWnSYvCPXGyiOj8IQi7L/7ELtGzGVcqPLXZ1sL4aYJEoiL7JH0nPkM4JEfI6kXQm0lddTB/bj/yXLhvBY1w51N30B6diq9pxl+P8zEoVdxOqqUnMbNUt6J2piJAhZoaf+92dSyxzfY21RMXDNcLnWt7843pdmF/SJsy3FZL+u/7/zju/q0hJ3jK64ZQHKJAukf87E8bgd8hIfch/WHmiQfFyMgovbK2SNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=86wS83iRZgbmCRQF6Rt9NPhgkmcjn0GBkuyJpwn1yJQ=;
- b=Jw30kYm3zMGQIXSuofwlBfk5Inw5a7aKvGyOiId+oZyYea9R7t+8YI9pd9gK4fL5BBwh1MWk/u+YA6Rgw2JExL4s0O2eEIQ9Fwc05h85oKipsaZyyPf3WOYl/a5Mv3wXlSgL1hoQB8fywfHaAVnQny08xM2MMJK/2U5b3J8WvYk7r4+4YdXqs+LlgTAJmjQL6djEv7PCkQq0tqRVZ+/8j2Q2XcEoJXZyNNatk3DkFO5/KT28p/dUqUUMuebAhsk1jqIDN32WYaK7vBOpu0lYxQ7fN3+jVWY6vIxHJPKzK5QAGuXLyq/H7V7r1FP6e8HNmzsVJeQYn1+bohOEBx+I5w==
-Received: from SA0PR11CA0123.namprd11.prod.outlook.com (2603:10b6:806:131::8)
- by DM4PR12MB5964.namprd12.prod.outlook.com (2603:10b6:8:6b::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9253.19; Mon, 27 Oct 2025 16:39:17 +0000
-Received: from SA2PEPF00003AE7.namprd02.prod.outlook.com
- (2603:10b6:806:131:cafe::6d) by SA0PR11CA0123.outlook.office365.com
- (2603:10b6:806:131::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9253.19 via Frontend Transport; Mon,
- 27 Oct 2025 16:39:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SA2PEPF00003AE7.mail.protection.outlook.com (10.167.248.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Mon, 27 Oct 2025 16:39:16 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 27 Oct
- 2025 09:38:57 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Oct
- 2025 09:38:57 -0700
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 27 Oct 2025 09:38:56 -0700
-Date: Mon, 27 Oct 2025 09:38:54 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-CC: <will@kernel.org>, <jgg@nvidia.com>, <oe-kbuild-all@lists.linux.dev>,
-	<jean-philippe@linaro.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<balbirs@nvidia.com>, <miko.lenczewski@arm.com>, <peterz@infradead.org>,
-	<kevin.tian@intel.com>, <praan@google.com>,
-	<linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 3/7] iommu/arm-smmu-v3: Introduce a per-domain
- arm_smmu_invs array
-Message-ID: <aP+gHjiZf6jpFTHU@Asurada-Nvidia>
-References: <345bb7703ebd19992694758b47e371900267fa0e.1760555863.git.nicolinc@nvidia.com>
- <202510271909.iEzPjNv4-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ViFGh14H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761587265;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ivFzYCwRxbqfHnGcadZCNnv5FrvdqFe/7nCBoNuqOws=;
+	b=ViFGh14H8gveu0DUnaiJCKIIXhMwkPZ6bROsyqJyBgDb1XNUkB4GzKZIrSMU9VZmryrsmQ
+	cteqH23XN25+Rqt44Lp3FEpfXJIwjgGi+6Rch7/pn+ZEUZyl0KE9IJb2Owl18Mdh6FZJTV
+	NSn52QQj9Qgr7/fyzCsnpttnrfmjC+o=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-215-a0fazt7AMGuuoMdgNU31UA-1; Mon,
+ 27 Oct 2025 13:47:44 -0400
+X-MC-Unique: a0fazt7AMGuuoMdgNU31UA-1
+X-Mimecast-MFC-AGG-ID: a0fazt7AMGuuoMdgNU31UA_1761587263
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B5C6A1800D86;
+	Mon, 27 Oct 2025 17:47:42 +0000 (UTC)
+Received: from cmirabil.redhat.com (unknown [10.22.64.253])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2D6981800452;
+	Mon, 27 Oct 2025 17:47:41 +0000 (UTC)
+From: Charles Mirabile <cmirabil@redhat.com>
+To: lkp@intel.com
+Cc: cmirabil@redhat.com,
+	linux-kernel@vger.kernel.org,
+	lzampier@redhat.com,
+	oe-kbuild-all@lists.linux.dev,
+	tglx@linutronix.de,
+	x86@kernel.org
+Subject: Re: [tip:irq/drivers 22/22] drivers/irqchip/irq-sifive-plic.c:590:55: sparse: sparse: incorrect type in argument 1 (different address spaces)
+Date: Mon, 27 Oct 2025 13:47:23 -0400
+Message-ID: <20251027174725.1014197-1-cmirabil@redhat.com>
+In-Reply-To: <202510271316.AQM7gCCy-lkp@intel.com>
+References: <202510271316.AQM7gCCy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202510271909.iEzPjNv4-lkp@intel.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE7:EE_|DM4PR12MB5964:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc68e198-09a5-4027-3769-08de15775ee2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KQenywuB83oS6M2MZSvZb4JB58daJ/rRMQzVNmLSNB8ki5zsv4UmTnFnOUlq?=
- =?us-ascii?Q?J+mGwkAr4x7XlCMtS6rsbvHhe7CMdLCSCIeiIOglI8ZDmVibuGJmG9/w/eId?=
- =?us-ascii?Q?zRcGx8Y+irj7bjLi5y9EeAnRG2IWF+KO1ZoLevm6iFUQ87AxXTbs0PTDPAXY?=
- =?us-ascii?Q?dWuLkLoMvOWdWvlFLnv4+ICfg8MOyUkR45hSleEghJVB8FYkIhCHmMW0Mmj1?=
- =?us-ascii?Q?MmR3/RwYnHvTLho6jbQu66chaLiUyRvW6baqgrt0BaxfKzTt01USgxg+pX/O?=
- =?us-ascii?Q?I0Aw6Dm3JPVK3LGMmHlbUCCiB1ablvsXOrPLonolkUSQN6S2kgB8bm/GAtTf?=
- =?us-ascii?Q?q5NZAUz1PsnzoofyNL231gAcPiGCRlotqvDWrlBgEme0Rul1xrWg1OO1oG0u?=
- =?us-ascii?Q?E53D5myAOmouBq/CjbgYWKtGJZ+j5Xu3aopjN68u2oH1Bu+irP7bgXGJi5al?=
- =?us-ascii?Q?/DrJP7+omY5JWnlUGWwKMfcQLZ1226xiPhIhz8MY1m4z++dYc2v3E8hX2c5B?=
- =?us-ascii?Q?BgN2UYMpInZyM7pdQ5H3aFl86BDvAGIKjJeLz6UOXKnoRXnhOjh9w84Y77yQ?=
- =?us-ascii?Q?bW8yjRcWiw/yDK7N1RYbi4Zu4Ntn9LXf+Fr68pTL6SeeaCf6wyStZzhokJJP?=
- =?us-ascii?Q?Gsi6AWvWjTNy9RJ4GE+Su+o4sd72pJJW/yOF3iDSUfw+HND/b+ZbmzDhvDS3?=
- =?us-ascii?Q?MJqSBUSW2qZzr7/odulH1wJO+koiCrUafGGjFL8bmaPd8zSPcTsyAuLf82rS?=
- =?us-ascii?Q?J+E1lzD4cI6/Qj0DmY3skcqyMO28NaJqj3YeBD7S9Z2x5JIFzgvNWzUQKmJc?=
- =?us-ascii?Q?7xGh8AdUys/KHo/doYdHgwLhzIQSFAcxUHS3ixxW3XXZcyurpPDipeH6uDmH?=
- =?us-ascii?Q?pYqXEiGSg+KKOjPDOKcnhqNEfX6JjyWR2v2u194IExEnlXG28qhtXG/ROLKs?=
- =?us-ascii?Q?pBmiEKTo9ZIvCu8W7wahUC31wtJH4NHZ2knET3YiI/VGbbHUC3ZZ8jqrdid0?=
- =?us-ascii?Q?xy40JqIYyTkWlEV1vUzc5G8G2FeY1E8spXOtGNE1/VaEmTyrgciKaq1/YBwx?=
- =?us-ascii?Q?ltlOzPfTzP3LnC/XRLR6L+q9viGBpZp0l5l1lfZnqbknz/dFsMy1GKE31GR8?=
- =?us-ascii?Q?na5lyTD0suOde2o8ygx4zZ6vnQJsZUKI2SU437u1szxSTJfnNVMHDAr0ZdCw?=
- =?us-ascii?Q?boQsGOiAm/kykiVEmCGtNxTawD9ZibN7EAOZBY7ACqCu5HHJincwr3tnv7Af?=
- =?us-ascii?Q?/SliVtlm5BA7kDng9UCaspGaLLkB9JrcfjYDg5OhROgNO3MKhklYdldomRR+?=
- =?us-ascii?Q?zfI0Pv2JmyDmWcXlNwvwCotM7//7QBNpjl61ALWbGWx/0jb0gmLxTG7QjV5Y?=
- =?us-ascii?Q?tagEuCBsvPIocWFma4bUV4vriBN2mgxpNTkfNNUA0RmLfX6M5TBdmSxHAVlX?=
- =?us-ascii?Q?pQRzs2DXUQGIQatavkxFpwkI/s/Fwg49ixYhajgqnvz6Qz9ICpEJf6o15l79?=
- =?us-ascii?Q?fnGfjkJvcM4X4P7e3O0mdTWhQykRPqynhXSZ46eFDweqFmFEVxemQWxyD9UQ?=
- =?us-ascii?Q?EIHC8xyq46u/ALPAdbc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 16:39:16.9005
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc68e198-09a5-4027-3769-08de15775ee2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE7.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5964
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Mon, Oct 27, 2025 at 08:06:03PM +0800, kernel test robot wrote:
-> >> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1062:23: error: static declaration of 'arm_smmu_invs_merge' follows non-static declaration
->     1062 | struct arm_smmu_invs *arm_smmu_invs_merge(struct arm_smmu_invs *invs,
->          |                       ^~~~~~~~~~~~~~~~~~~
->    In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:34:
->    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h:731:23: note: previous declaration of 'arm_smmu_invs_merge' with type 'struct arm_smmu_invs *(struct arm_smmu_invs *, struct arm_smmu_invs *)'
->      731 | struct arm_smmu_invs *arm_smmu_invs_merge(struct arm_smmu_invs *invs,
->          |                       ^~~~~~~~~~~~~~~~~~~
+Hi all—
 
-These should be added under "#if IS_ENABLED(CONFIG_KUNIT)" in the
-header.
+On Mon, Oct 27, 2025 at 01:16:01PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/drivers
+> head:   14ff9e54dd14339776afff78e2d29e0edb3a4402
+> commit: 14ff9e54dd14339776afff78e2d29e0edb3a4402 [22/22] irqchip/sifive-plic: Cache the interrupt enable state
+> config: riscv-randconfig-r132-20251027 (https://download.01.org/0day-ci/archive/20251027/202510271316.AQM7gCCy-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 14.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271316.AQM7gCCy-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510271316.AQM7gCCy-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/irqchip/irq-sifive-plic.c:590:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct plic_handler *handler @@     got void [noderef] __iomem *enable_base @@
+>    drivers/irqchip/irq-sifive-plic.c:590:55: sparse:     expected struct plic_handler *handler
+>    drivers/irqchip/irq-sifive-plic.c:590:55: sparse:     got void [noderef] __iomem *enable_base
 
-I will fix this and send a v4 today.
+This is related to https://git.kernel.org/tip/tip/c/14ff9e54
 
-Nicolin
+> 
+> vim +590 drivers/irqchip/irq-sifive-plic.c
+> 
+> a15587277a246c Anup Patel        2024-02-22  508  
+> 4d936f10ff8027 Anup Patel        2024-08-20  509  static int plic_probe(struct fwnode_handle *fwnode)
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  510  {
+> a15587277a246c Anup Patel        2024-02-22  511  	int error = 0, nr_contexts, nr_handlers = 0, cpu, i;
+> 8ec99b033147ef Anup Patel        2024-02-22  512  	unsigned long plic_quirks = 0;
+> 2234ae846ccb9e Anup Patel        2020-05-18  513  	struct plic_handler *handler;
+> a15587277a246c Anup Patel        2024-02-22  514  	u32 nr_irqs, parent_hwirq;
+> 8ec99b033147ef Anup Patel        2024-02-22  515  	struct plic_priv *priv;
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  516  	irq_hw_number_t hwirq;
+> 4d936f10ff8027 Anup Patel        2024-08-20  517  	void __iomem *regs;
+> 206dd13a101196 Sunil V L         2024-08-27  518  	int id, context_id;
+> 206dd13a101196 Sunil V L         2024-08-27  519  	u32 gsi_base;
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  520  
+> 4d936f10ff8027 Anup Patel        2024-08-20  521  	if (is_of_node(fwnode)) {
+> 8ec99b033147ef Anup Patel        2024-02-22  522  		const struct of_device_id *id;
+> 8ec99b033147ef Anup Patel        2024-02-22  523  
+> 4d936f10ff8027 Anup Patel        2024-08-20  524  		id = of_match_node(plic_match, to_of_node(fwnode));
+> 8ec99b033147ef Anup Patel        2024-02-22  525  		if (id)
+> 8ec99b033147ef Anup Patel        2024-02-22  526  			plic_quirks = (unsigned long)id->data;
+> 4d936f10ff8027 Anup Patel        2024-08-20  527  
+> 4d936f10ff8027 Anup Patel        2024-08-20  528  		regs = of_iomap(to_of_node(fwnode), 0);
+> 4d936f10ff8027 Anup Patel        2024-08-20  529  		if (!regs)
+> 4d936f10ff8027 Anup Patel        2024-08-20  530  			return -ENOMEM;
+> 4d936f10ff8027 Anup Patel        2024-08-20  531  	} else {
+> 206dd13a101196 Sunil V L         2024-08-27  532  		regs = devm_platform_ioremap_resource(to_platform_device(fwnode->dev), 0);
+> 206dd13a101196 Sunil V L         2024-08-27  533  		if (IS_ERR(regs))
+> 206dd13a101196 Sunil V L         2024-08-27  534  			return PTR_ERR(regs);
+> 8ec99b033147ef Anup Patel        2024-02-22  535  	}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  536  
+> 206dd13a101196 Sunil V L         2024-08-27  537  	error = plic_parse_nr_irqs_and_contexts(fwnode, &nr_irqs, &nr_contexts, &gsi_base, &id);
+> 95652106478030 Anup Patel        2024-02-22  538  	if (error)
+> 4d936f10ff8027 Anup Patel        2024-08-20  539  		goto fail_free_regs;
+> 95652106478030 Anup Patel        2024-02-22  540  
+> 4d936f10ff8027 Anup Patel        2024-08-20  541  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> 4d936f10ff8027 Anup Patel        2024-08-20  542  	if (!priv) {
+> 4d936f10ff8027 Anup Patel        2024-08-20  543  		error = -ENOMEM;
+> 4d936f10ff8027 Anup Patel        2024-08-20  544  		goto fail_free_regs;
+> 4d936f10ff8027 Anup Patel        2024-08-20  545  	}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  546  
+> 4d936f10ff8027 Anup Patel        2024-08-20  547  	priv->fwnode = fwnode;
+> dd46337ca69662 Lad Prabhakar     2022-06-30  548  	priv->plic_quirks = plic_quirks;
+> 95652106478030 Anup Patel        2024-02-22  549  	priv->nr_irqs = nr_irqs;
+> 4d936f10ff8027 Anup Patel        2024-08-20  550  	priv->regs = regs;
+> 206dd13a101196 Sunil V L         2024-08-27  551  	priv->gsi_base = gsi_base;
+> 206dd13a101196 Sunil V L         2024-08-27  552  	priv->acpi_plic_id = id;
+> dd46337ca69662 Lad Prabhakar     2022-06-30  553  
+> 4d936f10ff8027 Anup Patel        2024-08-20  554  	priv->prio_save = bitmap_zalloc(nr_irqs, GFP_KERNEL);
+> 4d936f10ff8027 Anup Patel        2024-08-20  555  	if (!priv->prio_save) {
+> 4d936f10ff8027 Anup Patel        2024-08-20  556  		error = -ENOMEM;
+> 4d936f10ff8027 Anup Patel        2024-08-20  557  		goto fail_free_priv;
+> 4d936f10ff8027 Anup Patel        2024-08-20  558  	}
+> e80f0b6a2cf302 Mason Huo         2023-04-04  559  
+> 6adfe8d2f5b353 Anup Patel        2019-02-12  560  	for (i = 0; i < nr_contexts; i++) {
+> 206dd13a101196 Sunil V L         2024-08-27  561  		error = plic_parse_context_parent(fwnode, i, &parent_hwirq, &cpu,
+> 206dd13a101196 Sunil V L         2024-08-27  562  						  priv->acpi_plic_id);
+> a15587277a246c Anup Patel        2024-02-22  563  		if (error) {
+> 4d936f10ff8027 Anup Patel        2024-08-20  564  			pr_warn("%pfwP: hwirq for context%d not found\n", fwnode, i);
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  565  			continue;
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  566  		}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  567  
+> 206dd13a101196 Sunil V L         2024-08-27  568  		if (is_of_node(fwnode)) {
+> 206dd13a101196 Sunil V L         2024-08-27  569  			context_id = i;
+> 206dd13a101196 Sunil V L         2024-08-27  570  		} else {
+> 206dd13a101196 Sunil V L         2024-08-27  571  			context_id = acpi_rintc_get_plic_context(priv->acpi_plic_id, i);
+> 206dd13a101196 Sunil V L         2024-08-27  572  			if (context_id == INVALID_CONTEXT) {
+> 206dd13a101196 Sunil V L         2024-08-27  573  				pr_warn("%pfwP: invalid context id for context%d\n", fwnode, i);
+> 206dd13a101196 Sunil V L         2024-08-27  574  				continue;
+> 206dd13a101196 Sunil V L         2024-08-27  575  			}
+> 206dd13a101196 Sunil V L         2024-08-27  576  		}
+> 206dd13a101196 Sunil V L         2024-08-27  577  
+> a4c3733d32a72f Christoph Hellwig 2019-10-28  578  		/*
+> a4c3733d32a72f Christoph Hellwig 2019-10-28  579  		 * Skip contexts other than external interrupts for our
+> a4c3733d32a72f Christoph Hellwig 2019-10-28  580  		 * privilege level.
+> a4c3733d32a72f Christoph Hellwig 2019-10-28  581  		 */
+> a15587277a246c Anup Patel        2024-02-22  582  		if (parent_hwirq != RV_IRQ_EXT) {
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  583  			/* Disable S-mode enable bits if running in M-mode. */
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  584  			if (IS_ENABLED(CONFIG_RISCV_M_MODE)) {
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  585  				void __iomem *enable_base = priv->regs +
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  586  					CONTEXT_ENABLE_BASE +
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  587  					i * CONTEXT_ENABLE_SIZE;
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  588  
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  589  				for (hwirq = 1; hwirq <= nr_irqs; hwirq++)
+> 098fdbc3531f06 Niklas Cassel     2022-03-02 @590  					__plic_toggle(enable_base, hwirq, 0);
+
+I wasn't running sparse so I missed fixing this call to the dunder version
+of the toggle function. I don't think we actually want to run the code to
+update the caches for this anyways since these are unrelated enable bits
+for other contexts. I have attached a patch to fix it that just directly
+issues the mmio writes (faster too because we can just disable in groups
+of 32 with a single write instead of the machinery to update a single bit
+from the __plic_toggle impl).
+
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  591  			}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  592  			continue;
+> 098fdbc3531f06 Niklas Cassel     2022-03-02  593  		}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  594  
+> fc03acaeab358c Atish Patra       2019-02-12  595  		if (cpu < 0) {
+> 4d936f10ff8027 Anup Patel        2024-08-20  596  			pr_warn("%pfwP: Invalid cpuid for context %d\n", fwnode, i);
+> fc03acaeab358c Atish Patra       2019-02-12  597  			continue;
+> fc03acaeab358c Atish Patra       2019-02-12  598  		}
+> fc03acaeab358c Atish Patra       2019-02-12  599  
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  600  		/*
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  601  		 * When running in M-mode we need to ignore the S-mode handler.
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  602  		 * Here we assume it always comes later, but that might be a
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  603  		 * little fragile.
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  604  		 */
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  605  		handler = per_cpu_ptr(&plic_handlers, cpu);
+> 3fecb5aac28888 Anup Patel        2019-02-12  606  		if (handler->present) {
+> 4d936f10ff8027 Anup Patel        2024-08-20  607  			pr_warn("%pfwP: handler already present for context %d.\n", fwnode, i);
+> ccbe80bad571c2 Atish Patra       2020-03-02  608  			plic_set_threshold(handler, PLIC_DISABLE_THRESHOLD);
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  609  			goto done;
+> 3fecb5aac28888 Anup Patel        2019-02-12  610  		}
+> 3fecb5aac28888 Anup Patel        2019-02-12  611  
+> f1ad1133b18f2a Atish Patra       2020-03-02  612  		cpumask_set_cpu(cpu, &priv->lmask);
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  613  		handler->present = true;
+> 0d3616bbd03cdf Niklas Cassel     2022-03-02  614  		handler->hart_base = priv->regs + CONTEXT_BASE +
+> 206dd13a101196 Sunil V L         2024-08-27  615  			context_id * CONTEXT_SIZE;
+> 86c7cbf1e8d1d4 Anup Patel        2019-02-12  616  		raw_spin_lock_init(&handler->enable_lock);
+> 0d3616bbd03cdf Niklas Cassel     2022-03-02  617  		handler->enable_base = priv->regs + CONTEXT_ENABLE_BASE +
+> 206dd13a101196 Sunil V L         2024-08-27  618  			context_id * CONTEXT_ENABLE_SIZE;
+> f1ad1133b18f2a Atish Patra       2020-03-02  619  		handler->priv = priv;
+> e80f0b6a2cf302 Mason Huo         2023-04-04  620  
+> 4d936f10ff8027 Anup Patel        2024-08-20  621  		handler->enable_save = kcalloc(DIV_ROUND_UP(nr_irqs, 32),
+> e80f0b6a2cf302 Mason Huo         2023-04-04  622  					       sizeof(*handler->enable_save), GFP_KERNEL);
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  623  		if (!handler->enable_save) {
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  624  			error = -ENOMEM;
+> a15587277a246c Anup Patel        2024-02-22  625  			goto fail_cleanup_contexts;
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  626  		}
+> 9ce06497c2722a Christoph Hellwig 2019-09-03  627  done:
+> a1706a1c5062e0 Samuel Holland    2022-07-01  628  		for (hwirq = 1; hwirq <= nr_irqs; hwirq++) {
+> 86c7cbf1e8d1d4 Anup Patel        2019-02-12  629  			plic_toggle(handler, hwirq, 0);
+> a1706a1c5062e0 Samuel Holland    2022-07-01  630  			writel(1, priv->regs + PRIORITY_BASE +
+> a1706a1c5062e0 Samuel Holland    2022-07-01  631  				  hwirq * PRIORITY_PER_ID);
+> a1706a1c5062e0 Samuel Holland    2022-07-01  632  		}
+> 6adfe8d2f5b353 Anup Patel        2019-02-12  633  		nr_handlers++;
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  634  	}
+> 8237f8bc4f6eb7 Christoph Hellwig 2018-07-26  635  
+> 206dd13a101196 Sunil V L         2024-08-27  636  	priv->irqdomain = irq_domain_create_linear(fwnode, nr_irqs + 1,
+> b68d0ff529a939 Anup Patel        2024-02-22  637  						   &plic_irqdomain_ops, priv);
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  638  	if (WARN_ON(!priv->irqdomain)) {
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  639  		error = -ENOMEM;
+> a15587277a246c Anup Patel        2024-02-22  640  		goto fail_cleanup_contexts;
+> 6eabf656048d90 Charlie Jenkins   2024-09-03  641  	}
+> b68d0ff529a939 Anup Patel        2024-02-22  642  
+> 2234ae846ccb9e Anup Patel        2020-05-18  643  	/*
+> e306a894bd5118 Samuel Holland    2024-05-29  644  	 * We can have multiple PLIC instances so setup global state
+> 8ec99b033147ef Anup Patel        2024-02-22  645  	 * and register syscore operations only once after context
+> 8ec99b033147ef Anup Patel        2024-02-22  646  	 * handlers of all online CPUs are initialized.
+> 2234ae846ccb9e Anup Patel        2020-05-18  647  	 */
+> e306a894bd5118 Samuel Holland    2024-05-29  648  	if (!plic_global_setup_done) {
+> e306a894bd5118 Samuel Holland    2024-05-29  649  		struct irq_domain *domain;
+> e306a894bd5118 Samuel Holland    2024-05-29  650  		bool global_setup = true;
+> e306a894bd5118 Samuel Holland    2024-05-29  651  
+> 8ec99b033147ef Anup Patel        2024-02-22  652  		for_each_online_cpu(cpu) {
+> 8ec99b033147ef Anup Patel        2024-02-22  653  			handler = per_cpu_ptr(&plic_handlers, cpu);
+> 8ec99b033147ef Anup Patel        2024-02-22  654  			if (!handler->present) {
+> e306a894bd5118 Samuel Holland    2024-05-29  655  				global_setup = false;
+> 8ec99b033147ef Anup Patel        2024-02-22  656  				break;
+> 8ec99b033147ef Anup Patel        2024-02-22  657  			}
+> 8ec99b033147ef Anup Patel        2024-02-22  658  		}
+> e306a894bd5118 Samuel Holland    2024-05-29  659  
+> e306a894bd5118 Samuel Holland    2024-05-29  660  		if (global_setup) {
+> e306a894bd5118 Samuel Holland    2024-05-29  661  			/* Find parent domain and register chained handler */
+> e306a894bd5118 Samuel Holland    2024-05-29  662  			domain = irq_find_matching_fwnode(riscv_get_intc_hwnode(), DOMAIN_BUS_ANY);
+> e306a894bd5118 Samuel Holland    2024-05-29  663  			if (domain)
+> e306a894bd5118 Samuel Holland    2024-05-29  664  				plic_parent_irq = irq_create_mapping(domain, RV_IRQ_EXT);
+> e306a894bd5118 Samuel Holland    2024-05-29  665  			if (plic_parent_irq)
+> e306a894bd5118 Samuel Holland    2024-05-29  666  				irq_set_chained_handler(plic_parent_irq, plic_handle_irq);
+> e306a894bd5118 Samuel Holland    2024-05-29  667  
+> ccbe80bad571c2 Atish Patra       2020-03-02  668  			cpuhp_setup_state(CPUHP_AP_IRQ_SIFIVE_PLIC_STARTING,
+> ccbe80bad571c2 Atish Patra       2020-03-02  669  					  "irqchip/sifive/plic:starting",
+> ccbe80bad571c2 Atish Patra       2020-03-02  670  					  plic_starting_cpu, plic_dying_cpu);
+> f99b926f6543fa Anup Patel        2023-10-25  671  			register_syscore_ops(&plic_irq_syscore_ops);
+> e306a894bd5118 Samuel Holland    2024-05-29  672  			plic_global_setup_done = true;
+> 2234ae846ccb9e Anup Patel        2020-05-18  673  		}
+> 8ec99b033147ef Anup Patel        2024-02-22  674  	}
+> 2234ae846ccb9e Anup Patel        2020-05-18  675  
+> 
+> :::::: The code at line 590 was first introduced by commit
+> :::::: 098fdbc3531f06aae2426b3a6f9bd730e7691258 irqchip/sifive-plic: Disable S-mode IRQs if running in M-mode
+> 
+> :::::: TO: Niklas Cassel <niklas.cassel@wdc.com>
+> :::::: CC: Marc Zyngier <maz@kernel.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+Best—Charlie
+
+---
+diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+index 9c4af7d58846..fbf7378899d3 100644
+--- a/drivers/irqchip/irq-sifive-plic.c
++++ b/drivers/irqchip/irq-sifive-plic.c
+@@ -590,12 +590,12 @@ static int plic_probe(struct fwnode_handle *fwnode)
+ 		if (parent_hwirq != RV_IRQ_EXT) {
+ 			/* Disable S-mode enable bits if running in M-mode. */
+ 			if (IS_ENABLED(CONFIG_RISCV_M_MODE)) {
+-				void __iomem *enable_base = priv->regs +
++				u32 __iomem *enable_base = priv->regs +
+ 					CONTEXT_ENABLE_BASE +
+ 					i * CONTEXT_ENABLE_SIZE;
+ 
+-				for (hwirq = 1; hwirq <= nr_irqs; hwirq++)
+-					__plic_toggle(enable_base, hwirq, 0);
++				for (int j = 0; j <= nr_irqs / 32; j++)
++					writel(0, enable_base + j);
+ 			}
+ 			continue;
+ 		}
+-- 
+2.51.0
+
