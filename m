@@ -1,204 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AA22F363F;
-	Mon, 27 Oct 2025 10:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CF82F3C3D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 10:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761560117; cv=none; b=qTe3l4n+f9lbugTdKDqWVHRl7iR32EFu+aSf57Afb8bKzwvHhHV9Scemnaas9O6oEGLcK3i6s9hWcibmTcJX1YoHZRz6iV11XEy6GCnNsgVGM459w2IET7aEyZno4uT6zmI1e6HfYoAYSruvL1gwPG1mxVcdF94vCS2uGVEoJZM=
+	t=1761560539; cv=none; b=VBsoKL23HoDEIj4nGFd9iik8m3to9p5brb11t/rSfXekKkz/hWiYitqFk0BnSqnUjoLgZgRwslNX+94oa05m5ZxxNQoywHrzSmrCoRBSdkOjXQ+nV8JN7H96eeP28sdRpx5JMo3bSfCEEf9Yhe7lIy3YSwzTyGflFhLWdgCJNg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761560117; c=relaxed/simple;
-	bh=vTE9LPxg24iHozkReY1+Mh5ofYB4jYBXOkSmeqSjVnQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XDElHIDJ210mut+a/ect81NuJoUqzyvsyzX7KVPmA/EFZNJmhgpMZdkU4WZPwVkCBnyNLWbJPe/TGtzZryhh2R+2PO+EJr9NnbvTTJrm6zrJ3TTFO2UDM6hxti1h7NSg0txWYwqWUuXRJI6tReoX6N9GdznvsPArJ7BooDpTpMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YnDrKbSu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YnDrKbSu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 752E1C4CEF1;
-	Mon, 27 Oct 2025 10:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761560117;
-	bh=vTE9LPxg24iHozkReY1+Mh5ofYB4jYBXOkSmeqSjVnQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YnDrKbSuingOWZuuo7QqceaTUEXdzwjscNGyHpBW4pAWvtqmychPnVk2SZTkChp0v
-	 0faQCyL0fdJSQ9DMxtNd8cMuYpWTR6k4ixDHluJOQH4xZi7/RFKC70hyAqCVClGV3m
-	 O2TyzB681P+B/n3SY6g+6AWRQktdCo51qDGgrqfcZXxLPR0lFE20Kqq/FVhkHGcTm1
-	 VNq22vv4vAH8At2Sjl83UyXjLs/2Vd9XqSxhGddBKH5Q1NPk6OzbFzp2FqLVk1YEQt
-	 fGCzpL+QaDItGvzdA3RoNdgfofBddS2oWdfp+47hrOkEkgHpOqEr6ItCNaGdNWbXpr
-	 UdS1ySw+kCpzQ==
-Date: Mon, 27 Oct 2025 11:14:55 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 7/7] sysctl: Wrap do_proc_douintvec with the public
- function proc_douintvec_conv
-Message-ID: <wxumqnq4u6c3m3oqycvryjghtrrfqn3nbgvrxv2goitprsttdd@i7lilfbyptye>
-References: <20251017-jag-sysctl_jiffies-v1-7-175d81dfdf82@kernel.org>
- <202510221719.3ggn070M-lkp@intel.com>
+	s=arc-20240116; t=1761560539; c=relaxed/simple;
+	bh=hA4Y5y9eyPbbNJjw3lWOGza4GJyLBBv2tFQmIILKANU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eQRYKC/hvAcrbZcM52DU4lYWovXDR8mSUbQWKCq8TbbBrvVhvBVH3sZ4U8NXDhf0U1a9fvO55X2MznSZoXx/gs4pBAo53kBS9KpWmLODNKrimP/ePXY/VF85Nkh4weiAqRHsAzGEnUp3x/Jgancvq0i4kKok95+MNcB7MdLAaXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-934c9de5cacso1683246241.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 03:22:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761560534; x=1762165334;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VpRhztl5yGUADah2U0CZ74pjALefcmDaH74Bx7Y9Njk=;
+        b=Y3AeVRM56QhJE7F26FVlX7QBT/OjtO2L3t4IfnqTN2HsS43ktFxbotCUsBqEtWL8zO
+         kcIsSFSPuBR42EPgZ4WVCuD20F2MyFZUbsmUKku5Mj+AGWKURtsvWh5rKuv52tv710zg
+         uAT9X4jWVW09003LOEi/vEPv9fHrupAv7biGCVMvzUPeqkCuGC3sQIV2W1WZYYuiNOK5
+         mPz1+EsANYfwl6QKL9Rswa66WkFpxBk15dCC1wb7oEDu3ELozdPaNXAclwCX6cGBvBKX
+         zy47n94cTeUH1nNjILtUDMyFhcaZ7jlIUpjiYGHA2KA0sCqBpNdGDmFAZT1OxbEvS7CX
+         AGNw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcuvWQAUDbJuzD1n5ySDXfxZczSdtb9QhyQNda8mZwSH9ZLlgV3RuA2f1Sl5GwZskrxWd2pf23A9Ca6SyO@lists.linux.dev
+X-Gm-Message-State: AOJu0YzL8Y8rXwwQ1KTNW4cIcx7dxf4EKbzDNnXtd/RI8EAybQGLsvhA
+	Pva+rdbMD9JCJJyNoOU1w+5Ym8qmkqzA8YRL1BSYUGMOEimq3W5eowcegNC/kcE5
+X-Gm-Gg: ASbGncsJQwwYEptay6z5KoNBAAKEJRZty7dE1odrP6I+yGH6TfkyZPqGZCrbbtiRerJ
+	RaPmH4/7sapimw2/F5lPSov937ByO2iLZAL3imVb8dmuctSPRpYNPZgUrvR12lHoDJ+QuOAPNU0
+	eSIMflkNYxlL9nWcz5z5nOCR5JGP58wELB41NX470gCf4+dS5XqPCXdUFSaKbfhcKv8nIKvh1q1
+	XuQW7VZxaUeBbXlXZMDjTDxpSOwfxDrmJoWz/+PPIcjctrp0UCtzRAL8OzUx6hih+tl6SZ7qzoZ
+	VXWrDd6Uc3fgaNhJiHJSLjUp6O7+72YYHNO1qUtoKqPavpmgBp/WeXYqYPy7UcbSs2lRkObf2np
+	sAyig0Fo8SQddiRSOvzFJB0tn+InjLU+eecpsuPTWm91tdii3fTyiPj7z3FirnC/wEC++twWIKp
+	FBtRKEOB7f35sZ5Itx2bsjYGEtLwQn5kPclGxNP2aZywZcgSCx
+X-Google-Smtp-Source: AGHT+IHPjEXJzQ2c6Jw23D4ESEnM87o48XkPHJFD9zLg/Sw3mYRvkXvw6wJS4MkTR9K9ZqilTPhHzA==
+X-Received: by 2002:a05:6102:418d:b0:5ca:a978:8a with SMTP id ada2fe7eead31-5d7dd6d63dcmr13222297137.33.1761560532729;
+        Mon, 27 Oct 2025 03:22:12 -0700 (PDT)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-557ddb9c3b8sm2697116e0c.20.2025.10.27.03.22.12
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Oct 2025 03:22:12 -0700 (PDT)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-934c9de5cacso1683224241.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 03:22:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVZk0rkb7hmWwraGCRHIiuI/gqFM2Jmqoxx4AlpRyciDHSt9fWfIOeydixFwIUgZtYY6g4sJy/Kmv+/pKA3@lists.linux.dev
+X-Received: by 2002:a05:6102:4243:b0:5db:350f:2c69 with SMTP id
+ ada2fe7eead31-5db350f2e78mr4456633137.10.1761560532379; Mon, 27 Oct 2025
+ 03:22:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gcejqfjgqta6hmek"
-Content-Disposition: inline
-In-Reply-To: <202510221719.3ggn070M-lkp@intel.com>
+References: <202510240817.vt3eQ3qL-lkp@intel.com> <265B8FE9306198E5+0131c750-3995-4158-84e7-ad73792e6934@uniontech.com>
+In-Reply-To: <265B8FE9306198E5+0131c750-3995-4158-84e7-ad73792e6934@uniontech.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 27 Oct 2025 11:22:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUeE3xQKkyLWDxoaA_E=cukZSz6UvvjJF0vsbRtt0fVgw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkGtOS6n5Tt95yA4b1F79G6tzC66mnufa9EUYGGpFJKzTdqD0y2RmwXxEM
+Message-ID: <CAMuHMdUeE3xQKkyLWDxoaA_E=cukZSz6UvvjJF0vsbRtt0fVgw@mail.gmail.com>
+Subject: Re: drivers/hwmon/gpd-fan.c:231:9: error: implicit declaration of
+ function 'outb'
+To: Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Cryolitia,
 
---gcejqfjgqta6hmek
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 25 Oct 2025 at 15:49, Cryolitia PukNgae <cryolitia@uniontech.com> wrote:
+> > FYI, the error/warning still remains.
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   266ee584e55eed108583ab4f45b5de734522502d
+> > commit: 0ab88e2394392f475b8857ac82c0c987841217f8 hwmon: add GPD devices sensor driver
+> > date:   6 weeks ago
+> > config: i386-buildonly-randconfig-002-20251024 (https://download.01.org/0day-ci/archive/20251024/202510240817.vt3eQ3qL-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251024/202510240817.vt3eQ3qL-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202510240817.vt3eQ3qL-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    drivers/hwmon/gpd-fan.c: In function 'gpd_ecram_read':
+> >>> drivers/hwmon/gpd-fan.c:231:9: error: implicit declaration of function 'outb' [-Wimplicit-function-declaration]
+> >      231 |         outb(0x2E, addr_port);
+> >          |         ^~~~
+> >>> drivers/hwmon/gpd-fan.c:244:16: error: implicit declaration of function 'inb' [-Wimplicit-function-declaration]
+> >      244 |         *val = inb(data_port);
+> >          |                ^~~
+> >
+>
+> I don't understand...... I have already added CONFIG_HAS_IOPORT to depends. If this is not enough, what else should I do?
 
-On Wed, Oct 22, 2025 at 05:18:51PM +0800, kernel test robot wrote:
-> Hi Joel,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on 130e5390ba572bffa687f32ed212dac1105b654a]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Granados/sysc=
-tl-Allow-custom-converters-from-outside-sysctl/20251017-163832
-> base:   130e5390ba572bffa687f32ed212dac1105b654a
-> patch link:    https://lore.kernel.org/r/20251017-jag-sysctl_jiffies-v1-7=
--175d81dfdf82%40kernel.org
-> patch subject: [PATCH 7/7] sysctl: Wrap do_proc_douintvec with the public=
- function proc_douintvec_conv
-> config: i386-randconfig-063-20251022 (https://download.01.org/0day-ci/arc=
-hive/20251022/202510221719.3ggn070M-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251022/202510221719.3ggn070M-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510221719.3ggn070M-lkp=
-@intel.com/
->=20
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/kstack_erase.c:34:56: sparse: sparse: incorrect type in argumen=
-t 3 (different address spaces) @@     expected void *buffer @@     got void=
- [noderef] __user *buffer @@
->    kernel/kstack_erase.c:34:56: sparse:     expected void *buffer
->    kernel/kstack_erase.c:34:56: sparse:     got void [noderef] __user *bu=
-ffer
-This is probably a false positive where the warning was already there
-but it moved up in the output (probably due to the function moving up in
-the header?)
+Missing #include <linux/io.h>?
 
-This made me look a bit more into the issue and I believe that it does
-show an issue. Not with the current series, but with commit 0df8bdd5e3b3
-("stackleak: move stack_erasing sysctl to stackleak.c"). In this commit
-the buffer argument was changed frim void* to void __user*
-but in 32927393dc1c ("sysctl: pass kernel pointers to ->proc_handler")
-the "__user" was removed. I'll post another patch to fix this up.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Best
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
->    kernel/kstack_erase.c:54:35: sparse: sparse: incorrect type in initial=
-izer (incompatible argument 3 (different address spaces)) @@     expected i=
-nt ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
->    kernel/kstack_erase.c:54:35: sparse:     expected int ( [usertype] *pr=
-oc_handler )( ... )
->    kernel/kstack_erase.c:54:35: sparse:     got int ( * )( ... )
->=20
-> vim +34 kernel/kstack_erase.c
->=20
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  23 =20
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  24  #ifdef=
- CONFIG_SYSCTL
-> 78eb4ea25cd5fd kernel/stackleak.c Joel Granados    2024-07-24  25  static=
- int stack_erasing_sysctl(const struct ctl_table *table, int write,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  26  			voi=
-d __user *buffer, size_t *lenp, loff_t *ppos)
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  27  {
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  28  	int r=
-et =3D 0;
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  29  	int s=
-tate =3D !static_branch_unlikely(&stack_erasing_bypass);
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  30  	int p=
-rev_state =3D state;
-> 0e148d3cca0dc1 kernel/stackleak.c Thomas Wei=DFschuh 2024-05-03  31  	str=
-uct ctl_table table_copy =3D *table;
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  32 =20
-> 0e148d3cca0dc1 kernel/stackleak.c Thomas Wei=DFschuh 2024-05-03  33  	tab=
-le_copy.data =3D &state;
-> 0e148d3cca0dc1 kernel/stackleak.c Thomas Wei=DFschuh 2024-05-03 @34  	ret=
- =3D proc_dointvec_minmax(&table_copy, write, buffer, lenp, ppos);
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  35  	state=
- =3D !!state;
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  36  	if (r=
-et || !write || state =3D=3D prev_state)
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  37  		retu=
-rn ret;
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  38 =20
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  39  	if (s=
-tate)
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  40  		stat=
-ic_branch_disable(&stack_erasing_bypass);
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  41  	else
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  42  		stat=
-ic_branch_enable(&stack_erasing_bypass);
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  43 =20
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  44  	pr_wa=
-rn("stackleak: kernel stack erasing is %s\n",
-> 62e9c1e8ecee87 kernel/stackleak.c Thorsten Blum    2024-12-22  45  					s=
-tr_enabled_disabled(state));
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  46  	retur=
-n ret;
-> 964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  47  }
-> 1751f872cc97f9 kernel/stackleak.c Joel Granados    2025-01-28  48  static=
- const struct ctl_table stackleak_sysctls[] =3D {
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  49  	{
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  50  		.pro=
-cname	=3D "stack_erasing",
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  51  		.dat=
-a		=3D NULL,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  52  		.max=
-len		=3D sizeof(int),
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  53  		.mod=
-e		=3D 0600,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  54  		.pro=
-c_handler	=3D stack_erasing_sysctl,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  55  		.ext=
-ra1		=3D SYSCTL_ZERO,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  56  		.ext=
-ra2		=3D SYSCTL_ONE,
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  57  	},
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  58  };
-> 0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  59 =20
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
---=20
-
-Joel Granados
-
---gcejqfjgqta6hmek
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmj/RhYACgkQupfNUreW
-QU9FlQv/YYZc+g3rOBU0xvyUK50UlyH6BF9vEFQJRIfqnFmnd9UFuO8ZiocZnOum
-ewoSNsEEBwuoyRzIHvLALhmAdImySrrXtpRgYpMxMON2sSWKXat5zzZd6FF2n2ED
-3EbezK9Gt9t5SmhHrUE9hYQSxFJNFYE7BOgO0VKD64XEeT5lIzR7ad2FGg3r0phR
-kjGeQLcvyZlP0X50rRglcNnhJAubalK61pi3ijDdO+0hSPeQ1wjIPWWqmxyKfpk0
-EJMybkXN3UTFvj3gbP8szlXa3PkVGm+SwlPN1b9PYWZ/V0Zoy3RMNZaA313lbM74
-9N7giX2vLNCP8aSkmZv1Pl94B68LKTmo6LWQTU0ivbGMcAJ52y+WoT9rNgqrvohi
-Uhnwvvq/zqDfLotme4uXPluvJY84vdsfIueEx8F2R/GpMx4+xLWVrRuoedIwOj2W
-h9HmS16QgyRoMT1bLLXqyILuBddgqLrNy4aGFLppohtBhR2N9MWMyS1LRUmT15Gp
-+o9e/fN8
-=mi27
------END PGP SIGNATURE-----
-
---gcejqfjgqta6hmek--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
