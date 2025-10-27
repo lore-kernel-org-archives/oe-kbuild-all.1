@@ -1,73 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2462D8DB9;
-	Mon, 27 Oct 2025 00:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DA31A9F97
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 00:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761526026; cv=none; b=JzBR76Su4+A8haxQM2s1mnCGlbWk4yDWfK7gWFbS25ryJ5csnjQpwdcaiBEUjFKCsgpNYGCZh+xqaCN1zj34zYXNYh8oRgPvERtiDEewxTsefsrTjGu74m69TL+RMP7YOCrGjZ3/KEUDocogvr86e3tJWpvjQuyncHkFPa3AtYk=
+	t=1761526795; cv=none; b=TGompljii9DGONV4eOSrAtXqnjj0EsHN3Kimbd9u9Q6GWorRoErmrJEf2X7B3Kol4wBd+7eUbdX7dkWJzLD8kArFWNT17+bMErB8JnWPyNuvKl4wFiCE90MuqEmSdaKXiDYlvMuHlDITyC3H4BhjM7H6vpDOY8KqQFZA7f17kG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761526026; c=relaxed/simple;
-	bh=BKuHZdiShtlLZykFF20DStnoeO6azXfPEP/FBMGF618=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGBQKqlyiABq3Q1lP2ZcWuqJwXgMDf1upMj8iKZKBbPW/ChIXV4acasFYNTA/i7QDsdceQYpVX1fERz5TESInZcYrBnVGziYa1K0S185cgksYPUq/dCwnTX/ZLxlE4gZsI4ZX1c/WBTi0CMxHwQEv0LCMADBJfpiyCX1ZT423eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvSwOKO5; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1761526795; c=relaxed/simple;
+	bh=UXNMA64/cPH7/YXW7odYbefMwXMgahaR8/0zFtU/LP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c+M1X6XfFhSegYQWfK1IehgAfNYed632jaQEnNBlW6dH4B/65XBAJVAPzS9jQggeE9lJSCd5yWVhcIg5YI7M6fcyOMDcuM59ppWxYmNGA0IJKMal91vEH9h8TRBPyGvSQiKiB+j5FbjFVmphAqTRTYlux69exWQm0KE+HLJEu3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDlLjKxC; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvSwOKO5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDlLjKxC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761526026; x=1793062026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BKuHZdiShtlLZykFF20DStnoeO6azXfPEP/FBMGF618=;
-  b=jvSwOKO5eOb71hC76sfQmn4GgvyVAQ0EDiIq3fa3QJ15gHlZ4WoZpSV0
-   Z9NNL48a95nKH2WAuV+eTCTJ5o+z58n/Og03aNZmWJrQ/6LH7NlaUDhfq
-   J8eqcRYVEus6tg2xndMs82kSfs1r6PzYuWAqlL0a2NDe8WK3MixqFreqL
-   IEvTcqNYYSIrNSbd1Be0ePHFEBOh0po362ht12pIOzYaez/B1v7Gudf/Y
-   f9BAr4KzoqPQXe9HFlQraKuFr8BxFPdW3dQV0MbhD1sA1dH8esbhhaFBS
-   /qenVxoVWr6YoT0/APdw9f2mW7oBjQbKccxIHP/o2ZMde0vVmXd+f41z8
-   g==;
-X-CSE-ConnectionGUID: uzI48RHOQgydgPhzQFQfRQ==
-X-CSE-MsgGUID: Rw3aizTvR4ascGZWp2y9aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63644561"
+  t=1761526793; x=1793062793;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UXNMA64/cPH7/YXW7odYbefMwXMgahaR8/0zFtU/LP0=;
+  b=kDlLjKxCgOKU6WAMpjEoc7Z06l+XTfFh3RMrWtO5/dtcoTAi6fkJPCwF
+   1SxCir6WPuQqz+92FAlfHphn5mCEHWRMFaCzGq12VFYyzDWt05TfDQFvG
+   3PcQY2u1fwMpcemBETis+9hZrKyj3QzrRKiPzPNig+7klJdEMRZWhNsUz
+   Ln38fd5dQPgAJS9gzGbQVR/HA8nohd3pze5qknHfAVpf+4j3VEbKIL+Gi
+   ZJInRAcOidfFrLeCBcLH4FuiQDo2Jh2OGmf66hFZrpkZ0yqOEAFTvl8/A
+   HMIDa+BHHrPcqS135k4CPyDlAOsasPyHZmxECHgHuDyLoINjzhLoX96SL
+   Q==;
+X-CSE-ConnectionGUID: C1+iTTgAS5yAt1LeS4ZQTw==
+X-CSE-MsgGUID: zsNJwdQ8QsO5CEFhf7b4BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63644922"
 X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
-   d="scan'208";a="63644561"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 17:47:05 -0700
-X-CSE-ConnectionGUID: QXGTwE9ITj+wqgMQm5xR5A==
-X-CSE-MsgGUID: 7dUtEu9cQBeKCn61xts60w==
+   d="scan'208";a="63644922"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 17:59:50 -0700
+X-CSE-ConnectionGUID: KqXXrUmpTaaRZAccvRO8BQ==
+X-CSE-MsgGUID: tD2LRidJRjGFNdGTP7xcYw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,257,1754982000"; 
+   d="scan'208";a="184609909"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2025 17:46:58 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2025 17:59:48 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDBNt-000GQL-2h;
-	Mon, 27 Oct 2025 00:46:53 +0000
-Date: Mon, 27 Oct 2025 08:46:39 +0800
+	id 1vDBaM-000GQv-0u;
+	Mon, 27 Oct 2025 00:59:46 +0000
+Date: Mon, 27 Oct 2025 08:59:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
-	airlied@gmail.com, simona@ffwll.ch, linux@armlinux.org.uk,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	inki.dae@samsung.com, sw0312.kim@samsung.com,
-	kyungmin.park@samsung.com, patrik.r.jakobsson@gmail.com,
-	jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
-	robin.clark@oss.qualcomm.com, lumag@kernel.org,
-	abhinav.kumar@linux.dev, sean@poorly.run,
-	marijn.suijten@somainline.org, tomi.valkeinen@ideasonboard.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	thierry.reding@gmail.com, mperttunen@nvidia.com,
-	jonathanh@nvidia.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] drm/fb-helper: Allocate and release fb_info in single
- place
-Message-ID: <202510270856.L1iU6js4-lkp@intel.com>
-References: <20251026173944.219373-1-tzimmermann@suse.de>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kevin Tian <kevin.tian@intel.com>
+Subject: [jgunthorpe:iommu_pt_vtd 5/34] include/linux/bitops.h:273:19:
+ sparse: sparse: cast truncates bits from constant value (ffffffffff000
+ becomes fffff000)
+Message-ID: <202510270828.EI7UdFLH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,96 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251026173944.219373-1-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-exynos/exynos-drm-next]
-[also build test WARNING on drm-i915/for-linux-next drm-i915/for-linux-next-fixes tegra/for-next linus/master v6.18-rc2 next-20251024]
-[cannot apply to rmk-arm/drm-armada-devel rmk-arm/drm-armada-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-fb-helper-Allocate-and-release-fb_info-in-single-place/20251027-014054
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20251026173944.219373-1-tzimmermann%40suse.de
-patch subject: [PATCH] drm/fb-helper: Allocate and release fb_info in single place
-config: arm-randconfig-002-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270856.L1iU6js4-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270856.L1iU6js4-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt_vtd
+head:   fc8efb6fe1bb8f3526bfca99a3928d5526604695
+commit: e20a89b735a6fcb7519fafb6944070355bb0d681 [5/34] iommupt: Add the AMD IOMMU v1 page table format
+config: i386-randconfig-063-20251027 (https://download.01.org/0day-ci/archive/20251027/202510270828.EI7UdFLH-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510270828.EI7UdFLH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510270856.L1iU6js4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510270828.EI7UdFLH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/generic_pt/fmt/iommu_amdv1.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, ...):
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
 
->> drivers/gpu/drm/drm_fbdev_ttm.c:208:26: warning: variable 'info' is uninitialized when used here [-Wuninitialized]
-     208 |         drm_fb_helper_fill_info(info, fb_helper, sizes);
-         |                                 ^~~~
-   drivers/gpu/drm/drm_fbdev_ttm.c:180:22: note: initialize the variable 'info' to silence this warning
-     180 |         struct fb_info *info;
-         |                             ^
-         |                              = NULL
-   1 warning generated.
---
->> drivers/gpu/drm/armada/armada_fbdev.c:111:2: warning: unused label 'err_fballoc' [-Wunused-label]
-     111 |  err_fballoc:
-         |  ^~~~~~~~~~~~
-   1 warning generated.
---
->> drivers/gpu/drm/radeon/radeon_fbdev.c:275:1: warning: unused label 'err_drm_framebuffer_unregister_private' [-Wunused-label]
-     275 | err_drm_framebuffer_unregister_private:
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +273 include/linux/bitops.h
 
+c320592f3f2a1e Wolfram Sang       2025-01-07  261  
+952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
+952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  265   *
+4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
+952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
+952043ac12a117 Steven Whitehouse  2009-04-23  269   */
+6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117 Steven Whitehouse  2009-04-23  271  {
+952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
+952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
+952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
+952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
+952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
+952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
+952043ac12a117 Steven Whitehouse  2009-04-23  279  }
+952043ac12a117 Steven Whitehouse  2009-04-23  280  
 
-vim +/info +208 drivers/gpu/drm/drm_fbdev_ttm.c
+:::::: The code at line 273 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
 
-8ab59da26bc0ae drivers/gpu/drm/drm_fbdev_generic.c Thomas Zimmermann 2022-11-03  169  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  170  /*
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  171   * struct drm_driver
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  172   */
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  173  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  174  int drm_fbdev_ttm_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  175  				     struct drm_fb_helper_surface_size *sizes)
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  176  {
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  177  	struct drm_client_dev *client = &fb_helper->client;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  178  	struct drm_device *dev = fb_helper->dev;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  179  	struct drm_client_buffer *buffer;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  180  	struct fb_info *info;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  181  	size_t screen_size;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  182  	void *screen_buffer;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  183  	u32 format;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  184  	int ret;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  185  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  186  	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  187  		    sizes->surface_width, sizes->surface_height,
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  188  		    sizes->surface_bpp);
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  189  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  190  	format = drm_driver_legacy_fb_format(dev, sizes->surface_bpp,
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  191  					     sizes->surface_depth);
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  192  	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  193  					       sizes->surface_height, format);
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  194  	if (IS_ERR(buffer))
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  195  		return PTR_ERR(buffer);
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  196  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  197  	fb_helper->funcs = &drm_fbdev_ttm_helper_funcs;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  198  	fb_helper->buffer = buffer;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  199  	fb_helper->fb = buffer->fb;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  200  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  201  	screen_size = buffer->gem->size;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  202  	screen_buffer = vzalloc(screen_size);
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  203  	if (!screen_buffer) {
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  204  		ret = -ENOMEM;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  205  		goto err_drm_client_framebuffer_delete;
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  206  	}
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24  207  
-c7c1b9e1d52b0a drivers/gpu/drm/drm_fbdev_ttm.c     Thomas Zimmermann 2024-09-24 @208  	drm_fb_helper_fill_info(info, fb_helper, sizes);
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
