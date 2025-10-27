@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197262C11DE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 18:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C0A313277
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 19:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761589163; cv=none; b=T/jINDrUdshoL7GhMVyCmybF38IzxernBkZrfUBS7hQeN94GEWNPTAPQi/e2KnVzfPG6dq3AQIcQc2mnoIj2khk27Hln+zlKjrD+fr3TYsJaCJ7xHADfI0pN4CSPHKJC1UFeOj68Fl8ag22wtMKxrY85PhZ570O8NCDQafc/208=
+	t=1761591813; cv=none; b=cwrRXDjZrjjCniDvAABuJst+u+CKOxfONsjRgqSEk70QwXX+jho36LACZEU6baKfu6Y44LXIvCkOrbaD3FQs9M3UceRmzYUAjkPsCHnFRGYLaRqdTp3oa68WD8t7R3iCiM+Gsfcm62Rl9c9J+5JOo/B7Fk+JdkmYtDxXBh7bK88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761589163; c=relaxed/simple;
-	bh=WHUBBuQ92AB0Pvm/bWJC4HM7jOvJMDQLeQJKDyM79nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c56lYyTMmgGjFio1XeMlBxPtMX6gDLaiMEDYFEJ64wZjNXz2eXkBN6sDY9xXj6NvJHeC2W2Ryp3RfYkUOpjesOV7D1xVYLKD8KcaJ0wIn4dDRzQyaSLZ6HT6PcF1UFwxmbHxnYXgFVTs/MA8C9D4X/xPYoXgd4grgCyBhzAAyTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSgRno/X; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1761591813; c=relaxed/simple;
+	bh=QGCu0V3w0s4HySzwBgsSxoWTxrzLr5KD4kIlTtEAspU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBana2E5ycfuRMxkEEJ9g57vFuL96bBGA1P5irkg3dE9eJorAnDZKgB8wAM1yrfq1RvhJMGdE9c+k7U+g8N3daRFFGZQb3ntI38M+gHa8/9RXoUy8bdKwT8VlEVTNFFabMrp3EdEUVMQ58Ri2M8TyMyhTu3mjVxfiWG/t4uuwKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVaBbpef; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSgRno/X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVaBbpef"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761589160; x=1793125160;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WHUBBuQ92AB0Pvm/bWJC4HM7jOvJMDQLeQJKDyM79nc=;
-  b=GSgRno/X1SxQ06y5cdJOG2kNIUhpbizbwX9CUThVlsws6qHHKslcISrC
-   ybwyLzHllwFowCNUYFDnJ7KeZWaQGOYi5mpkG/kgsQvP7NWfbSDW+mAwX
-   6rbGgGd4ha9K+BeVS4UTB+DvwT1+Bp8GRgw87h2dObxTozkUNJ2qGVgZF
-   aYXcj1P1h/R7mZUGPXQzIxOdhqxvrRTmVYdQlQgRCPjG1PUyyl2R+IouL
-   isjpzj1a2ukcxoIatTHab/ulhuo1eoW4SZYp+7q/a5ZBV2a8HB96rfPTr
-   FBoTZxWslPIsi0H/h/IYf8CFtPw5DBRM/6KmAzFseBX5e/iGg/HH2raTm
-   Q==;
-X-CSE-ConnectionGUID: TP3e7c4QTgKxtLjzz9Bmsw==
-X-CSE-MsgGUID: JhzipTxDQQyiokQ1oI6rbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89149291"
+  t=1761591812; x=1793127812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QGCu0V3w0s4HySzwBgsSxoWTxrzLr5KD4kIlTtEAspU=;
+  b=LVaBbpefO4QEPouRUOUc/aabIXmVOPzw5V+NWQyQHU79ffOR9NXlg+VX
+   5jl6etgnqPzSZt2IGkWUv5PAdxlXdZZfcdcYp9BHqxvShsTUFcnbtaL74
+   199BXBem0JdYwbrwt4E3ytFHNF/15j/BJgkgdnu4dtGPP6mbpPsrEZ6Nv
+   SxVkV7heUISDUgVouNx0/IW4M+p6iirDR+bGngSwjhFeVhKSwnes88Mn+
+   81BuG2D2bmI02p5FxidIk7GeQhDiTQGPQNuRF12jLQ8+TF8sXM7Bn05jd
+   douwzTeqrxWoCxSN3jQ8t38ethMSntuUylEE4NLT5Y3wQMgtI/i6oBaOV
+   A==;
+X-CSE-ConnectionGUID: JaMZKE0aSWaMkXaNq164WQ==
+X-CSE-MsgGUID: JRsMbIZjQ/KNg062PQdzTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63776633"
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="89149291"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 11:19:20 -0700
-X-CSE-ConnectionGUID: DE8nyPA1S6SJyuGJpeOcrw==
-X-CSE-MsgGUID: plXIBNdHQwGYJTFt3uKExQ==
+   d="scan'208";a="63776633"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 12:03:32 -0700
+X-CSE-ConnectionGUID: 4BOOzhGIRR+lgDMlxxjyQQ==
+X-CSE-MsgGUID: ig4GyY7LSYqacFU0E1Ymew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,259,1754982000"; 
-   d="scan'208";a="185465951"
+   d="scan'208";a="184751958"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Oct 2025 11:19:18 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2025 12:03:28 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDRoK-000H53-0R;
-	Mon, 27 Oct 2025 18:19:16 +0000
-Date: Tue, 28 Oct 2025 02:18:21 +0800
+	id 1vDSUk-000HRp-0C;
+	Mon, 27 Oct 2025 19:03:20 +0000
+Date: Tue, 28 Oct 2025 02:59:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: ERROR: modpost: "vmf_insert_pfn"
- [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
-Message-ID: <202510280213.0rlYA4T3-lkp@intel.com>
+To: Junjie Cao <caojunjie650@gmail.com>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	Junjie Cao <caojunjie650@gmail.com>,
+	Pengyu Luo <mitltlatltl@gmail.com>
+Subject: Re: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706
+ backlight
+Message-ID: <202510280208.NhQyE0y1-lkp@intel.com>
+References: <20251026123923.1531727-3-caojunjie650@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +72,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251026123923.1531727-3-caojunjie650@gmail.com>
 
-Hi LiangCheng,
+Hi Junjie,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
-commit: 0c4932f6ddf815618fa34f7403df682aed7862b5 drm/tiny: pixpaper: Fix missing dependency on DRM_GEM_SHMEM_HELPER
-date:   5 weeks ago
-config: riscv-randconfig-r072-20251027 (https://download.01.org/0day-ci/archive/20251028/202510280213.0rlYA4T3-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510280213.0rlYA4T3-lkp@intel.com/reproduce)
+[auto build test WARNING on lee-backlight/for-backlight-next]
+[also build test WARNING on lee-leds/for-leds-next linus/master v6.18-rc3 next-20251027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Junjie-Cao/backlight-aw99706-Add-support-for-Awinic-AW99706-backlight/20251026-214135
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20251026123923.1531727-3-caojunjie650%40gmail.com
+patch subject: [PATCH 2/2] backlight: aw99706: Add support for Awinic AW99706 backlight
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20251028/202510280208.NhQyE0y1-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510280208.NhQyE0y1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510280213.0rlYA4T3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510280208.NhQyE0y1-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "vmf_insert_pfn" [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
+   In file included from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:382,
+                    from arch/powerpc/include/asm/paca.h:16,
+                    from arch/powerpc/include/asm/current.h:13,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/backlight.h:12,
+                    from drivers/video/backlight/aw99706.c:12:
+   drivers/video/backlight/aw99706.c: In function 'aw99706_bl_enable':
+>> include/linux/bitfield.h:172:27: warning: 'val' is used uninitialized [-Wuninitialized]
+     172 |                 *(_reg_p) &= ~(_mask);                                                  \
+         |                           ^~
+   drivers/video/backlight/aw99706.c:325:9: note: in expansion of macro 'FIELD_MODIFY'
+     325 |         FIELD_MODIFY(AW99706_BACKLIGHT_EN_MASK, &val, en);
+         |         ^~~~~~~~~~~~
+   drivers/video/backlight/aw99706.c:323:12: note: 'val' was declared here
+     323 |         u8 val;
+         |            ^~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [m]:
-   - DRM_PIXPAPER [=m] && HAS_IOMEM [=y] && DRM [=y] && SPI [=y]
+
+vim +/val +172 include/linux/bitfield.h
+
+e2192de59e457a Johannes Berg   2023-01-18  120  
+e2192de59e457a Johannes Berg   2023-01-18  121  /**
+e2192de59e457a Johannes Berg   2023-01-18  122   * FIELD_PREP_CONST() - prepare a constant bitfield element
+e2192de59e457a Johannes Berg   2023-01-18  123   * @_mask: shifted mask defining the field's length and position
+e2192de59e457a Johannes Berg   2023-01-18  124   * @_val:  value to put in the field
+e2192de59e457a Johannes Berg   2023-01-18  125   *
+e2192de59e457a Johannes Berg   2023-01-18  126   * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+e2192de59e457a Johannes Berg   2023-01-18  127   * be combined with other fields of the bitfield using logical OR.
+e2192de59e457a Johannes Berg   2023-01-18  128   *
+e2192de59e457a Johannes Berg   2023-01-18  129   * Unlike FIELD_PREP() this is a constant expression and can therefore
+e2192de59e457a Johannes Berg   2023-01-18  130   * be used in initializers. Error checking is less comfortable for this
+e2192de59e457a Johannes Berg   2023-01-18  131   * version, and non-constant masks cannot be used.
+e2192de59e457a Johannes Berg   2023-01-18  132   */
+e2192de59e457a Johannes Berg   2023-01-18  133  #define FIELD_PREP_CONST(_mask, _val)					\
+e2192de59e457a Johannes Berg   2023-01-18  134  	(								\
+e2192de59e457a Johannes Berg   2023-01-18  135  		/* mask must be non-zero */				\
+e2192de59e457a Johannes Berg   2023-01-18  136  		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
+e2192de59e457a Johannes Berg   2023-01-18  137  		/* check if value fits */				\
+e2192de59e457a Johannes Berg   2023-01-18  138  		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
+e2192de59e457a Johannes Berg   2023-01-18  139  		/* check if mask is contiguous */			\
+e2192de59e457a Johannes Berg   2023-01-18  140  		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
+e2192de59e457a Johannes Berg   2023-01-18  141  		/* and create the value */				\
+e2192de59e457a Johannes Berg   2023-01-18  142  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+e2192de59e457a Johannes Berg   2023-01-18  143  	)
+e2192de59e457a Johannes Berg   2023-01-18  144  
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  145  /**
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  146   * FIELD_GET() - extract a bitfield element
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  147   * @_mask: shifted mask defining the field's length and position
+7240767450d6d8 Masahiro Yamada 2017-10-03  148   * @_reg:  value of entire bitfield
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  149   *
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  150   * FIELD_GET() extracts the field specified by @_mask from the
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  151   * bitfield passed in as @_reg by masking and shifting it down.
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  152   */
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  153  #define FIELD_GET(_mask, _reg)						\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  154  	({								\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  155  		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  156  		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  157  	})
+3e9b3112ec74f1 Jakub Kicinski  2016-08-31  158  
+a256ae22570ee4 Luo Jie         2025-04-17  159  /**
+a256ae22570ee4 Luo Jie         2025-04-17  160   * FIELD_MODIFY() - modify a bitfield element
+a256ae22570ee4 Luo Jie         2025-04-17  161   * @_mask: shifted mask defining the field's length and position
+a256ae22570ee4 Luo Jie         2025-04-17  162   * @_reg_p: pointer to the memory that should be updated
+a256ae22570ee4 Luo Jie         2025-04-17  163   * @_val: value to store in the bitfield
+a256ae22570ee4 Luo Jie         2025-04-17  164   *
+a256ae22570ee4 Luo Jie         2025-04-17  165   * FIELD_MODIFY() modifies the set of bits in @_reg_p specified by @_mask,
+a256ae22570ee4 Luo Jie         2025-04-17  166   * by replacing them with the bitfield value passed in as @_val.
+a256ae22570ee4 Luo Jie         2025-04-17  167   */
+a256ae22570ee4 Luo Jie         2025-04-17  168  #define FIELD_MODIFY(_mask, _reg_p, _val)						\
+a256ae22570ee4 Luo Jie         2025-04-17  169  	({										\
+a256ae22570ee4 Luo Jie         2025-04-17  170  		typecheck_pointer(_reg_p);						\
+a256ae22570ee4 Luo Jie         2025-04-17  171  		__BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");		\
+a256ae22570ee4 Luo Jie         2025-04-17 @172  		*(_reg_p) &= ~(_mask);							\
+a256ae22570ee4 Luo Jie         2025-04-17  173  		*(_reg_p) |= (((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask));	\
+a256ae22570ee4 Luo Jie         2025-04-17  174  	})
+a256ae22570ee4 Luo Jie         2025-04-17  175  
 
 -- 
 0-DAY CI Kernel Test Service
