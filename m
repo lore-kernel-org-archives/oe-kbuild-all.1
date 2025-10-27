@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A9329C321
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 03:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864682D540D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 03:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761535079; cv=none; b=TxOb6DkIlUgcpbFsNFVzgXRhtA79RjHBPKsUPexslYWPmZTO3KgKBSFa5nSoiuG364EA9GQ/afjhfGPym0YZrOjATOk2DywVp+F4MHM9g1rBcwDVQjCWdB1I5TmLY76Pvel/LJSdaA7wm31BlX1TRrKD++Jkm2QK0yOKDyVT7xI=
+	t=1761535722; cv=none; b=E89cFa0uWLWbnMmdKubyMY5YZDwHH0s9Ul6I9VCE27uQZyCW/FtedPxsybbWl8XaIs/TcVae9qWFIybsM43WLvlvl0tACLMeTWY11OJv3NuuM4c2hG7HmSe5RX8DdeRJscZlKTUe7EQ58xABmBQgpCefap85CtjrbWnzc2xmQWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761535079; c=relaxed/simple;
-	bh=MdiL29RbM9K8LEu5RDJVmGcAQoQItYkeahQnAMsbek4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WXstZH61oRccsq+PLN/1kKB3pi0zgsF0ZGT53Msp9Obr5OPq6y//EyLcKciOb9W0j02OqMyIUK8rFhQ6zLEQjKbjNf983teVFsIFQjPQO2Wp/9jmH/VDZCp1qb5R5fT8ln//njnvj4XRICNoTVPtw3DpUfB3lUr2BIxpbpT0KkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqSxvQR3; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1761535722; c=relaxed/simple;
+	bh=wtr4gepnuJldZ/3JOAsCDSPjx742id8Kyk8x7uv+BzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BP3ZUDAM8Flfbyv+Csmpy8GuX7Ixpllihz+ryJT2xv7EHJVgZANe7NLX+np6WVRV7yIvjk6mh1YNf3eOkg8eh8II4s9RNSQ4dxUJQ8UDst49FiGpc/167CTNytDltM+Ym4P20ArnDDzk06ErfBvGallyYJ+eYqk1NpjeOaJQjyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxIFOg3m; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqSxvQR3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxIFOg3m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761535077; x=1793071077;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MdiL29RbM9K8LEu5RDJVmGcAQoQItYkeahQnAMsbek4=;
-  b=OqSxvQR3KJoy0HJI4fdvD4ZNGM9pLD2ymHQJe1cmc9vvWxMz4hWDGJnX
-   dovpfA7hUNIj2B8iBuhj/2e1fN5HLlip7p0jtvYvCNHAItUfD0W1cEZ4D
-   eNDeh5HJxAfdDyYmS2BjuO9xsJUAnx5uz5mfsyjRmV63tDTAQPZg0q8Tv
-   wb2g7Qb4Pd6ApvUy3opyJdjT434FoBPagnw7ihCNt9w1HmM87BnxSNPCO
-   B2HF+B/S2yDpDthe1z2HIWq164Ao1kBimvhZPdo5ZFyFw3FzNUwJw+kle
-   DadoGuG+832yBo6HXQhz3egacMH+4+1K8klsXFNhjxyx76Jn++YVX8Cl8
-   A==;
-X-CSE-ConnectionGUID: F9ObhvZkQJayArdvEF1g+Q==
-X-CSE-MsgGUID: aHaABjqRQiW+wkaI8LyXtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62818124"
+  t=1761535719; x=1793071719;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wtr4gepnuJldZ/3JOAsCDSPjx742id8Kyk8x7uv+BzU=;
+  b=GxIFOg3mKjO9m4kIxceLsOCtlmHLNcak4Yq6kYqRyMw4fxXCZW3jzbKU
+   e6SH3AhN1eCGHe/I5cy2bCtp2g/zkbHV1mGHUt9+Ylg30hjDsxgEA+H5P
+   G5qt/NxD+7PCP6ECLAsLDlq8Zf8AYD5xIn0I67c/y85mD3FNeNo+itZwM
+   oJyVh9YC/0345ciZp7zSBnm/cJQdBQ3Jyee8W8QEpIecUtjoj+IqHCJ9j
+   8Oek5rtimzzMxUFL+58J7J8KEV+wrNZ0N/w+BuGb3pNooPnlM+oYiCA/E
+   nhquKNwwWCcnZ6j5+hgT3HViCb4HMwoaPvg+waEoVzmUh+gAmsnwMHqEn
+   g==;
+X-CSE-ConnectionGUID: GuO/MPVBScenblxscQzCMQ==
+X-CSE-MsgGUID: 9PSzenJRQBy6ukcJqspcGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51187825"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="62818124"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 20:17:56 -0700
-X-CSE-ConnectionGUID: wa7/eBRwQfqzXlqhzIufiQ==
-X-CSE-MsgGUID: X4Fsah2mSo2Flp1HesWdUA==
+   d="scan'208";a="51187825"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 20:28:39 -0700
+X-CSE-ConnectionGUID: +ntuL4LQSiyTHFBcTyHXiQ==
+X-CSE-MsgGUID: MXLeokXjR1646sfcu3u/Zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="185014567"
+   d="scan'208";a="184825500"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2025 20:17:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2025 20:28:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDDjt-000GUL-0h;
-	Mon, 27 Oct 2025 03:17:46 +0000
-Date: Mon, 27 Oct 2025 11:16:59 +0800
+	id 1vDDuL-000GUn-08;
+	Mon, 27 Oct 2025 03:28:33 +0000
+Date: Mon, 27 Oct 2025 11:27:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [ulfh-pm:next 20/20]
- drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse:
- incorrect type in initializer (different base types)
-Message-ID: <202510271119.lxpHxCoY-lkp@intel.com>
+To: Bean Huo <beanhuo@iokpp.de>, avri.altman@wdc.com,
+	avri.altman@sandisk.com, bvanassche@acm.org,
+	alim.akhtar@samsung.com, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, can.guo@oss.qualcomm.com,
+	ulf.hansson@linaro.org, beanhuo@micron.com,
+	jens.wiklander@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/3] scsi: ufs: core: Add OP-TEE based RPMB driver for
+ UFS devices
+Message-ID: <202510271043.ptLcyAfD-lkp@intel.com>
+References: <20251026212506.4136610-4-beanhuo@iokpp.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,247 +69,285 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251026212506.4136610-4-beanhuo@iokpp.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git next
-head:   1ff1f0db6aec80eae1639eff31b5875632d539c0
-commit: 1ff1f0db6aec80eae1639eff31b5875632d539c0 [20/20] pmdomain: mediatek: Add support for MFlexGraphics
-config: arc-randconfig-r112-20251027 (https://download.01.org/0day-ci/archive/20251027/202510271119.lxpHxCoY-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271119.lxpHxCoY-lkp@intel.com/reproduce)
+Hi Bean,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18-rc3]
+[cannot apply to mkp-scsi/for-next next-20251024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bean-Huo/scsi-ufs-core-Convert-string-descriptor-format-macros-to-enum/20251027-053339
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20251026212506.4136610-4-beanhuo%40iokpp.de
+patch subject: [PATCH v6 3/3] scsi: ufs: core: Add OP-TEE based RPMB driver for UFS devices
+config: x86_64-buildonly-randconfig-001-20251027 (https://download.01.org/0day-ci/archive/20251027/202510271043.ptLcyAfD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271043.ptLcyAfD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510271119.lxpHxCoY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510271043.ptLcyAfD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned int [usertype] shared_mem_phys @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned int [usertype] shared_mem_phys
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +418 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+                    from include/asm-generic/qrwlock_types.h:6,
+                    from arch/x86/include/asm/spinlock_types.h:7,
+                    from include/linux/spinlock_types_raw.h:7,
+                    from include/linux/ratelimit_types.h:7,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from drivers/ufs/core/ufs-rpmb.c:13:
+   drivers/ufs/core/ufs-rpmb.c: In function 'ufs_rpmb_route_frames':
+   drivers/ufs/core/ufs-rpmb.c:72:39: error: invalid use of undefined type 'struct rpmb_frame'
+      72 |         req_type = be16_to_cpu(frm_out->req_resp);
+         |                                       ^~
+   include/uapi/linux/swab.h:102:54: note: in definition of macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   include/linux/byteorder/generic.h:97:21: note: in expansion of macro '__be16_to_cpu'
+      97 | #define be16_to_cpu __be16_to_cpu
+         |                     ^~~~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:72:20: note: in expansion of macro 'be16_to_cpu'
+      72 |         req_type = be16_to_cpu(frm_out->req_resp);
+         |                    ^~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:75:14: error: 'RPMB_PROGRAM_KEY' undeclared (first use in this function)
+      75 |         case RPMB_PROGRAM_KEY:
+         |              ^~~~~~~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:75:14: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/ufs/core/ufs-rpmb.c:76:39: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      76 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                       ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:76:80: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      76 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                                                                ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:79:14: error: 'RPMB_GET_WRITE_COUNTER' undeclared (first use in this function)
+      79 |         case RPMB_GET_WRITE_COUNTER:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:80:39: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      80 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                       ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:80:80: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      80 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                                                                ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:84:14: error: 'RPMB_WRITE_DATA' undeclared (first use in this function)
+      84 |         case RPMB_WRITE_DATA:
+         |              ^~~~~~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:85:38: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      85 |                 if (req_len % sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                      ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:85:79: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      85 |                 if (req_len % sizeof(struct rpmb_frame) || resp_len != sizeof(struct rpmb_frame))
+         |                                                                               ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:88:14: error: 'RPMB_READ_DATA' undeclared (first use in this function); did you mean 'D_REAL_DATA'?
+      88 |         case RPMB_READ_DATA:
+         |              ^~~~~~~~~~~~~~
+         |              D_REAL_DATA
+   drivers/ufs/core/ufs-rpmb.c:89:39: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      89 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len % sizeof(struct rpmb_frame))
+         |                                       ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:89:79: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+      89 |                 if (req_len != sizeof(struct rpmb_frame) || resp_len % sizeof(struct rpmb_frame))
+         |                                                                               ^~~~~~
+   In file included from include/linux/string.h:382,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/tsc.h:11,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13:
+   drivers/ufs/core/ufs-rpmb.c:109:43: error: invalid application of 'sizeof' to incomplete type 'struct rpmb_frame'
+     109 |                 memset(frm_resp, 0, sizeof(*frm_resp));
+         |                                           ^
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   drivers/ufs/core/ufs-rpmb.c:109:17: note: in expansion of macro 'memset'
+     109 |                 memset(frm_resp, 0, sizeof(*frm_resp));
+         |                 ^~~~~~
+   drivers/ufs/core/ufs-rpmb.c:110:25: error: invalid use of undefined type 'struct rpmb_frame'
+     110 |                 frm_resp->req_resp = cpu_to_be16(RPMB_RESULT_READ);
+         |                         ^~
+   drivers/ufs/core/ufs-rpmb.c:110:50: error: 'RPMB_RESULT_READ' undeclared (first use in this function)
+     110 |                 frm_resp->req_resp = cpu_to_be16(RPMB_RESULT_READ);
+         |                                                  ^~~~~~~~~~~~~~~~
+   include/uapi/linux/swab.h:102:54: note: in definition of macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   include/linux/byteorder/generic.h:96:21: note: in expansion of macro '__cpu_to_be16'
+      96 | #define cpu_to_be16 __cpu_to_be16
+         |                     ^~~~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c:110:38: note: in expansion of macro 'cpu_to_be16'
+     110 |                 frm_resp->req_resp = cpu_to_be16(RPMB_RESULT_READ);
+         |                                      ^~~~~~~~~~~
+   drivers/ufs/core/ufs-rpmb.c: At top level:
+>> drivers/ufs/core/ufs-rpmb.c:135:5: error: redefinition of 'ufs_rpmb_probe'
+     135 | int ufs_rpmb_probe(struct ufs_hba *hba)
+         |     ^~~~~~~~~~~~~~
+   In file included from drivers/ufs/core/ufs-rpmb.c:22:
+   drivers/ufs/core/ufshcd-priv.h:424:19: note: previous definition of 'ufs_rpmb_probe' with type 'int(struct ufs_hba *)'
+     424 | static inline int ufs_rpmb_probe(struct ufs_hba *hba)
+         |                   ^~~~~~~~~~~~~~
+>> drivers/ufs/core/ufs-rpmb.c:234:6: error: redefinition of 'ufs_rpmb_remove'
+     234 | void ufs_rpmb_remove(struct ufs_hba *hba)
+         |      ^~~~~~~~~~~~~~~
+   drivers/ufs/core/ufshcd-priv.h:428:20: note: previous definition of 'ufs_rpmb_remove' with type 'void(struct ufs_hba *)'
+     428 | static inline void ufs_rpmb_remove(struct ufs_hba *hba)
+         |                    ^~~~~~~~~~~~~~~
 
-   411	
-   412	static int mtk_mfg_eb_off(struct mtk_mfg *mfg)
-   413	{
-   414		struct device *dev = &mfg->pdev->dev;
-   415		struct mtk_mfg_ipi_sleep_msg msg = {
-   416			.event = 0,
-   417			.state = 0,
- > 418			.magic = GPUEB_SLEEP_MAGIC
-   419		};
-   420		u32 val;
-   421		int ret;
-   422	
-   423		ret = mbox_send_message(mfg->slp_mbox->ch, &msg);
-   424		if (ret < 0) {
-   425			dev_err(dev, "Cannot send sleep command: %pe\n", ERR_PTR(ret));
-   426			return ret;
-   427		}
-   428	
-   429		ret = readl_poll_timeout(mfg->rpc + RPC_PWR_CON, val,
-   430					 !(val & PWR_ACK_M), GPUEB_POLL_US,
-   431					 GPUEB_TIMEOUT_US);
-   432	
-   433		if (ret) {
-   434			dev_err(dev, "Timed out waiting for EB to power off, val=0x%08X\n", val);
-   435			return ret;
-   436		}
-   437	
-   438		return 0;
-   439	}
-   440	
-   441	/**
-   442	 * mtk_mfg_send_ipi - synchronously send an IPI message on the gpufreq channel
-   443	 * @mfg: pointer to this driver instance's private &struct mtk_mfg
-   444	 * @msg: pointer to a message to send; will have magic filled and response assigned
-   445	 *
-   446	 * Send an IPI message on the gpufreq channel, and wait for a response. Once a
-   447	 * response is received, assign a pointer to the response buffer (valid until
-   448	 * next response is received) to @msg.
-   449	 *
-   450	 * Returns 0 on success, negative errno on failure.
-   451	 */
-   452	static int mtk_mfg_send_ipi(struct mtk_mfg *mfg, struct mtk_mfg_ipi_msg *msg)
-   453	{
-   454		struct device *dev = &mfg->pdev->dev;
-   455		unsigned long wait;
-   456		int ret;
-   457	
- > 458		msg->magic = mfg->ipi_magic;
-   459	
-   460		ret = mbox_send_message(mfg->gf_mbox->ch, msg);
-   461		if (ret < 0) {
-   462			dev_err(dev, "Cannot send GPUFreq IPI command: %pe\n", ERR_PTR(ret));
-   463			return ret;
-   464		}
-   465	
-   466		wait = wait_for_completion_timeout(&mfg->gf_mbox->rx_done, msecs_to_jiffies(500));
-   467		if (!wait)
-   468			return -ETIMEDOUT;
-   469	
-   470		msg = mfg->gf_mbox->rx_data;
-   471	
- > 472		if (msg->u.return_value < 0) {
-   473			dev_err(dev, "IPI return: %d\n", msg->u.return_value);
-   474			return -EPROTO;
-   475		}
-   476	
-   477		return 0;
-   478	}
-   479	
-   480	static int mtk_mfg_init_shared_mem(struct mtk_mfg *mfg)
-   481	{
-   482		struct device *dev = &mfg->pdev->dev;
-   483		struct mtk_mfg_ipi_msg msg = {};
-   484		int ret;
-   485	
-   486		dev_dbg(dev, "clearing GPUEB shared memory, 0x%X bytes\n", mfg->shared_mem_size);
-   487		memset_io(mfg->shared_mem, 0, mfg->shared_mem_size);
-   488	
-   489		msg.cmd = CMD_INIT_SHARED_MEM;
- > 490		msg.u.shared_mem.base = mfg->shared_mem_phys;
- > 491		msg.u.shared_mem.size = mfg->shared_mem_size;
-   492	
-   493		ret = mtk_mfg_send_ipi(mfg, &msg);
-   494		if (ret)
-   495			return ret;
-   496	
-   497		if (readl(mfg->shared_mem + GF_REG_MAGIC) != GPUEB_MEM_MAGIC) {
-   498			dev_err(dev, "EB did not initialise shared memory correctly\n");
-   499			return -EIO;
-   500		}
-   501	
-   502		return 0;
-   503	}
-   504	
-   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
-   506	{
-   507		struct mtk_mfg_ipi_msg msg = {};
-   508	
- > 509		msg.cmd = CMD_POWER_CONTROL;
- > 510		msg.u.power_state = enabled ? 1 : 0;
-   511	
-   512		return mtk_mfg_send_ipi(mfg, &msg);
-   513	}
-   514	
-   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
-   516	{
-   517		struct mtk_mfg_ipi_msg msg = {};
-   518		int ret;
-   519	
-   520		if (opp_idx >= mfg->num_gpu_opps)
-   521			return -EINVAL;
-   522	
- > 523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
- > 524		msg.u.dual_commit.gpu_oppidx = opp_idx;
- > 525		msg.u.dual_commit.stack_oppidx = opp_idx;
-   526	
-   527		ret = mtk_mfg_send_ipi(mfg, &msg);
-   528		if (ret) {
-   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
-   530				opp_idx, ERR_PTR(ret));
-   531			return ret;
-   532		}
-   533	
-   534		return 0;
-   535	}
-   536	
-   537	static int mtk_mfg_read_opp_tables(struct mtk_mfg *mfg)
-   538	{
-   539		struct device *dev = &mfg->pdev->dev;
-   540		struct mtk_mfg_opp_entry e = {};
-   541		unsigned int i;
-   542	
-   543		mfg->num_gpu_opps = readl(mfg->shared_mem + GF_REG_GPU_OPP_NUM);
-   544		mfg->num_stack_opps = readl(mfg->shared_mem + GF_REG_STK_OPP_NUM);
-   545	
-   546		if (mfg->num_gpu_opps > MAX_OPP_NUM || mfg->num_gpu_opps == 0) {
-   547			dev_err(dev, "GPU OPP count (%u) out of range %u >= count > 0\n",
-   548				mfg->num_gpu_opps, MAX_OPP_NUM);
-   549			return -EINVAL;
-   550		}
-   551	
-   552		if (mfg->num_stack_opps && mfg->num_stack_opps > MAX_OPP_NUM) {
-   553			dev_err(dev, "Stack OPP count (%u) out of range %u >= count >= 0\n",
-   554				mfg->num_stack_opps, MAX_OPP_NUM);
-   555			return -EINVAL;
-   556		}
-   557	
-   558		mfg->gpu_opps = devm_kcalloc(dev, mfg->num_gpu_opps,
-   559					     sizeof(struct dev_pm_opp_data), GFP_KERNEL);
-   560		if (!mfg->gpu_opps)
-   561			return -ENOMEM;
-   562	
-   563		if (mfg->num_stack_opps) {
-   564			mfg->stack_opps = devm_kcalloc(dev, mfg->num_stack_opps,
-   565						       sizeof(struct dev_pm_opp_data), GFP_KERNEL);
-   566			if (!mfg->stack_opps)
-   567				return -ENOMEM;
-   568		}
-   569	
-   570		for (i = 0; i < mfg->num_gpu_opps; i++) {
-   571			memcpy_fromio(&e, mfg->shared_mem + GF_REG_OPP_TABLE_GPU + i * sizeof(e),
-   572				      sizeof(e));
-   573			if (mem_is_zero(&e, sizeof(e))) {
-   574				dev_err(dev, "ran into an empty GPU OPP at index %u\n",
-   575					i);
-   576				return -EINVAL;
-   577			}
- > 578			mfg->gpu_opps[i].freq = e.freq_khz * HZ_PER_KHZ;
-   579			mfg->gpu_opps[i].u_volt = e.voltage_core * 10;
-   580			mfg->gpu_opps[i].level = i;
-   581			if (i < mfg->variant->turbo_below)
-   582				mfg->gpu_opps[i].turbo = true;
-   583		}
-   584	
-   585		for (i = 0; i < mfg->num_stack_opps; i++) {
-   586			memcpy_fromio(&e, mfg->shared_mem + GF_REG_OPP_TABLE_STK + i * sizeof(e),
-   587				      sizeof(e));
-   588			if (mem_is_zero(&e, sizeof(e))) {
-   589				dev_err(dev, "ran into an empty Stack OPP at index %u\n",
-   590					i);
-   591				return -EINVAL;
-   592			}
-   593			mfg->stack_opps[i].freq = e.freq_khz * HZ_PER_KHZ;
-   594			mfg->stack_opps[i].u_volt = e.voltage_core * 10;
-   595			mfg->stack_opps[i].level = i;
-   596			if (i < mfg->variant->turbo_below)
-   597				mfg->stack_opps[i].turbo = true;
-   598		}
-   599	
-   600		return 0;
-   601	}
-   602	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [y]:
+   - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [m]:
+   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +/ufs_rpmb_probe +135 drivers/ufs/core/ufs-rpmb.c
+
+   133	
+   134	/* UFS RPMB device registration */
+ > 135	int ufs_rpmb_probe(struct ufs_hba *hba)
+   136	{
+   137		struct ufs_rpmb_dev *ufs_rpmb, *it, *tmp;
+   138		struct rpmb_dev *rdev;
+   139		char *cid = NULL;
+   140		int region;
+   141		u32 cap;
+   142		int ret;
+   143	
+   144		if (!hba->ufs_rpmb_wlun || hba->dev_info.b_advanced_rpmb_en) {
+   145			dev_info(hba->dev, "Skip OP-TEE RPMB registration\n");
+   146			return -ENODEV;
+   147		}
+   148	
+   149		/* Check if device_id is available */
+   150		if (!hba->dev_info.device_id) {
+   151			dev_err(hba->dev, "UFS Device ID not available\n");
+   152			return -EINVAL;
+   153		}
+   154	
+   155		INIT_LIST_HEAD(&hba->rpmbs);
+   156	
+   157		struct rpmb_descr descr = {
+   158			.type = RPMB_TYPE_UFS,
+   159			.route_frames = ufs_rpmb_route_frames,
+   160			.reliable_wr_count = hba->dev_info.rpmb_io_size,
+   161		};
+   162	
+   163		for (region = 0; region < ARRAY_SIZE(hba->dev_info.rpmb_region_size); region++) {
+   164			cap = hba->dev_info.rpmb_region_size[region];
+   165			if (!cap)
+   166				continue;
+   167	
+   168			ufs_rpmb = devm_kzalloc(hba->dev, sizeof(*ufs_rpmb), GFP_KERNEL);
+   169			if (!ufs_rpmb) {
+   170				ret = -ENOMEM;
+   171				goto err_out;
+   172			}
+   173	
+   174			ufs_rpmb->hba = hba;
+   175			ufs_rpmb->dev.parent = &hba->ufs_rpmb_wlun->sdev_gendev;
+   176			ufs_rpmb->dev.bus = &ufs_rpmb_bus_type;
+   177			ufs_rpmb->dev.release = ufs_rpmb_device_release;
+   178			dev_set_name(&ufs_rpmb->dev, "ufs_rpmb%d", region);
+   179	
+   180			/* Set driver data BEFORE device_register */
+   181			dev_set_drvdata(&ufs_rpmb->dev, ufs_rpmb);
+   182	
+   183			ret = device_register(&ufs_rpmb->dev);
+   184			if (ret) {
+   185				dev_err(hba->dev, "Failed to register UFS RPMB device %d\n", region);
+   186				put_device(&ufs_rpmb->dev);
+   187				goto err_out;
+   188			}
+   189	
+   190			/* Create unique ID by appending region number to device_id */
+   191			cid = kasprintf(GFP_KERNEL, "%s-R%d", hba->dev_info.device_id, region);
+   192			if (!cid) {
+   193				device_unregister(&ufs_rpmb->dev);
+   194				ret = -ENOMEM;
+   195				goto err_out;
+   196			}
+   197	
+   198			descr.dev_id = cid;
+   199			descr.dev_id_len = strlen(cid);
+   200			descr.capacity = cap;
+   201	
+   202			/* Register RPMB device */
+   203			rdev = rpmb_dev_register(&ufs_rpmb->dev, &descr);
+   204			if (IS_ERR(rdev)) {
+   205				dev_err(hba->dev, "Failed to register UFS RPMB device.\n");
+   206				device_unregister(&ufs_rpmb->dev);
+   207				ret = PTR_ERR(rdev);
+   208				goto err_out;
+   209			}
+   210	
+   211			kfree(cid);
+   212			cid = NULL;
+   213	
+   214			ufs_rpmb->rdev = rdev;
+   215			ufs_rpmb->region_id = region;
+   216	
+   217			list_add_tail(&ufs_rpmb->node, &hba->rpmbs);
+   218	
+   219			dev_info(hba->dev, "UFS RPMB region %d registered (capacity=%u)\n", region, cap);
+   220		}
+   221	
+   222		return 0;
+   223	err_out:
+   224		kfree(cid);
+   225		list_for_each_entry_safe(it, tmp, &hba->rpmbs, node) {
+   226			list_del(&it->node);
+   227			device_unregister(&it->dev);
+   228		}
+   229	
+   230		return ret;
+   231	}
+   232	
+   233	/* UFS RPMB remove handler */
+ > 234	void ufs_rpmb_remove(struct ufs_hba *hba)
+   235	{
+   236		struct ufs_rpmb_dev *ufs_rpmb, *tmp;
+   237	
+   238		if (list_empty(&hba->rpmbs))
+   239			return;
+   240	
+   241		/* Remove all registered RPMB devices */
+   242		list_for_each_entry_safe(ufs_rpmb, tmp, &hba->rpmbs, node) {
+   243			dev_info(hba->dev, "Removing UFS RPMB region %d\n", ufs_rpmb->region_id);
+   244			/* Remove from list first */
+   245			list_del(&ufs_rpmb->node);
+   246			/* Unregister device */
+   247			device_unregister(&ufs_rpmb->dev);
+   248		}
+   249	
+   250		dev_info(hba->dev, "All UFS RPMB devices unregistered\n");
+   251	}
+   252	
 
 -- 
 0-DAY CI Kernel Test Service
