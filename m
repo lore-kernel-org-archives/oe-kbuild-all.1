@@ -1,73 +1,57 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B7729898B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 10:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022051411DE;
+	Mon, 27 Oct 2025 12:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761562056; cv=none; b=SmoDIu11LtHNr1JLoYhAZA3Oyt2zTqWmWDXjESVu1q2R+cLF4Fx7K2bJ8wcO8PYy1gE85XoTWpX7i6DIdVij3wqQ+DPbLUpt9zc31zocvsgEOj6+BDDIEp7bHRqmvMRbd9vzgSzmrPbDH0novOrYVnUsRRTI5xzmR1PQ0HRnJWU=
+	t=1761566815; cv=none; b=l+jOYCZw3PtDam1C36QeTl2iKE/SsSSjtnimMpCzJZ7JhvtCMBw0seAR2lCwlhQx6KISBpEu/tVAyDVG4QnJG2eLCODTNfdoKcIRgP7BgPp1p88qGCFP27J57Nlp0vnNFo82OwVOvQ84jaMLvgJXmzJZQ2KruY22GljPM/apm98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761562056; c=relaxed/simple;
-	bh=Q8eXXfl++E12QQqWP0Dsoj/t/8RF8OsS7SyWNGh3UqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dl0+aYWMoAtPKAk0aNnJwlgMFi8XYUpWh3rZ3hgo0FFfKHXEyrYfjIYRUp3qPQwPjwTLDWLVc6lRO2ZIG6SRHbyyg2lXaTmZTwQUBA1GbzczSjLq4Ql3+rDFrbAhic2e5SuSTxLFiy/sJqKvrX1j4dlT2qaLsF1/uFWYtmWaW2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pQ5HFtsL; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761566815; c=relaxed/simple;
+	bh=1fa6avo2+XBI24M0Vdp/RCCUKGreJVGTEvFgyQX1dtI=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DXRz3imMa7eTg9G5F2VjT5lkDlYsxA2BBPZw94Mo5sDXMsDzJ1gyccO/wtd5tYgUQiqgOIggdMKNmz02u+4oA2ppXW9a8fZphOxEmzl94ZPnosoxf7FCGEnYwcVlZV2reydm31UNowg0ResxQoGSdk25fjtIAeFfNc1MCF29Ifg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5pcQB+R; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pQ5HFtsL"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so32551275e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Oct 2025 03:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761562053; x=1762166853; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cPTl9Ajy77CASesPXjv989dBjD2/ZNmvxRO79ZyFBS8=;
-        b=pQ5HFtsLx2vqjzn1kUVgVtWoUusi6HR7u9vNi+wQPdyMaAKR3IOMfVUHaGYlLOCmvu
-         aVFnyQfN1WKjz+HDdyb41tQQZCfz+JEHddxPFj1Y01UaG9wSYYNcNA0h7haemt4VArib
-         DzH1unD5RGGysMLP73JJd2qRMLSwD0Lf7rRol/DvxrClnev2ul/h31+6zMy6LfiAJmXn
-         k7uDbGmxDYM84IxtC+CNUkFM1iXto92c37PiZc3Ud8TCwwV4A6a7oZvfAlqHuJnYb3Ix
-         SZYTs29MUvEDkmyndEfST7VfZO3xFYceDJE4osN16h4jibs81ISQd+rkpvWpPlPH3Fxb
-         Bqrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761562053; x=1762166853;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cPTl9Ajy77CASesPXjv989dBjD2/ZNmvxRO79ZyFBS8=;
-        b=lbDnu8Usl/dO8p9vFXxPra5nsnApujnasWlpKhTkap3gyrEPfTfjM016ngk1i7Pmik
-         7EVmhQwl/N4cc9EIUxRC4Zzypk91PXew2Vy6YN/ejd+017H8UK55VkT6TgVjmptAyrXf
-         1kUlIGzWh1z5Yv0qJNGqOnQrnfLHMJGIetrct9HhbQNSe6awZzzDkuQUIVjejVdAAuOG
-         FF+hTJTkTMJ4w8tIR/kRUUXlg3W1E8rOrss8Vnk3i6cShJ8giaqLjiUBMGwF8o9SCLnL
-         XmEvEd/Zk7uM2JbR3iF42+zunC5vi6M7pTJRps7iEocbaTbmLuE9a/T7Z3A72CFU2zAL
-         HMRg==
-X-Forwarded-Encrypted: i=1; AJvYcCW5rIdmaNb4v5su2A9vxXWwfjWMchtBg8No630BjCeyLXPZnOYEpKJO2+wMc6Yo33x4kK906K8DfK1i6fzo@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXFImlTDG+evp77Q1WBAOdwz+atSC+pVL8r+G3ksF4QRtU6efc
-	sNqndQ6iL28e8v2eAA4Ebwoa0j/0L/qgAaFNiq2MyVKbOjcmoPEOfGJIaFprC/UwelE=
-X-Gm-Gg: ASbGncvXR/Krq8DXM24vcDH36zG4KMVevEXOyEX1JRljbtRbkDXQOWDKz+i1Ku1IApv
-	8w1slPk+dOK8FtCUvG9S+IMAuXMmcrhBmavZjyYJdOT/pxgYnUyjO5WLQsdFYSG671HFKzt+KF6
-	LcNaMwFKzqtdnyvcU+Rm17e5Zj7NY5/vWBqcRyVAmWwzK0bpjY8wy/pea/f7ltXExN3cNAIAG5W
-	Sp35C70Unv8YQ7KjavFSHGl0/qUASbREkEGJIkUSnq99kXUtTqvljtm03xbPU09roPPkaM5xTqQ
-	E4etUbKE9g05PRVPXi2hFq/0F4l72ta/fDbiU3orj88OdLmofTMms4sHGJPXoMFVGC5he/ix3pn
-	YQkN84Ls8AcYldMmD6SUoGV7Cg5Ms/TcMQ5NcOFsuXBDHyFVZvqF/gXMdnidii5zXWvlbmJfIQs
-	MnZ6GzGg==
-X-Google-Smtp-Source: AGHT+IHEVbGc5HitCGNNFoRKiTyqfzQerYhZHZJMMpqyEWWVdz9DdsTtcZZacNdRzwXrOTXGwX+9vQ==
-X-Received: by 2002:a05:600c:4694:b0:46e:37d5:dbed with SMTP id 5b1f17b1804b1-475d2427d73mr96288195e9.12.1761562052751;
-        Mon, 27 Oct 2025 03:47:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-475dd4cba64sm128611865e9.14.2025.10.27.03.47.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 03:47:32 -0700 (PDT)
-Date: Mon, 27 Oct 2025 13:47:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Carolina Jubran <cjubran@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Jianbo Liu <jianbol@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:808
- mlx5e_xfrm_add_state() warn: missing error code 'err'
-Message-ID: <202510271649.uwsIxD6O-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5pcQB+R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761566814; x=1793102814;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=1fa6avo2+XBI24M0Vdp/RCCUKGreJVGTEvFgyQX1dtI=;
+  b=g5pcQB+R4ZYDgOtjiR58qPAVGgoM9Utz9f3zDxGMRIetapc52Gtl0HTb
+   kQDkHB7ODNlsPGb0Xff76IMr0Zkl9TMZp6Rq31LPuhY3eYGrdO/PN707f
+   6HkzehQcEBVW9oP8nAblCNckaNozMvYKdR84DMPc8DHMKqcaYKD25yMwK
+   xfm7jSyCUFCxkV5TESc4SKfqryrT7Cka5RW0dpBYx3uqRPXQC16vCBaUN
+   jiM6A8iE6KgP99R/yCKqYzpI1L3vpfb0wr6GpPplpOSh/NY30QQVCFKOT
+   cVF3hd9Tn/o0aHqnDanD19tH1OjEycNfB/uSf9jcgCQOGmw9PNHHfQ/d0
+   g==;
+X-CSE-ConnectionGUID: kBfanF1cQ/a8DO5lXSLyfQ==
+X-CSE-MsgGUID: qLcn9YxHSYaGRsF48XGFFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81067544"
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="81067544"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 05:06:53 -0700
+X-CSE-ConnectionGUID: 4XPxqLh1SjaRytWpwMjC7Q==
+X-CSE-MsgGUID: ujqoCD4YSquiRR7nFlMv8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="185373776"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Oct 2025 05:06:52 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vDLzu-000Gl3-0V;
+	Mon, 27 Oct 2025 12:06:50 +0000
+Date: Mon, 27 Oct 2025 20:06:02 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [linux-next:master 3716/4376] clang: error: linker command failed
+ with exit code 1 (use -v to see invocation)
+Message-ID: <202510271906.1346pSIO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,163 +61,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
-commit: 22239eb258bc1e6ccdb2d3502fce1cc2b2a88386 net/mlx5e: Prevent tunnel reformat when tunnel mode not allowed
-config: loongarch-randconfig-r072-20251026 (https://download.01.org/0day-ci/archive/20251027/202510271649.uwsIxD6O-lkp@intel.com/config)
+TO: Conor Dooley <conor.dooley@microchip.com>
+CC: Linus Walleij <linus.walleij@linaro.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
+commit: 38cf9d6413142290316776c80f19eb92a4e19a9f [3716/4376] pinctrl: add pic64gx "gpio2" pinmux driver
+config: um-randconfig-001-20251027 (https://download.01.org/0day-ci/archive/20251027/202510271906.1346pSIO-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510271906.1346pSIO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510271649.uwsIxD6O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510271906.1346pSIO-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c:808 mlx5e_xfrm_add_state() warn: missing error code 'err'
+All errors (new ones prefixed by >>):
 
-vim +/err +808 drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
-
-43eca05b6a3b91 Cosmin Ratiu    2025-04-11  770  static int mlx5e_xfrm_add_state(struct net_device *dev,
-43eca05b6a3b91 Cosmin Ratiu    2025-04-11  771  				struct xfrm_state *x,
-7681a4f58fb9c3 Leon Romanovsky 2023-01-24  772  				struct netlink_ext_ack *extack)
-547eede070eb98 Ilan Tayari     2017-04-18  773  {
-547eede070eb98 Ilan Tayari     2017-04-18  774  	struct mlx5e_ipsec_sa_entry *sa_entry = NULL;
-22239eb258bc1e Carolina Jubran 2025-10-05  775  	bool allow_tunnel_mode = false;
-403b383a3ce3eb Leon Romanovsky 2022-12-02  776  	struct mlx5e_ipsec *ipsec;
-547eede070eb98 Ilan Tayari     2017-04-18  777  	struct mlx5e_priv *priv;
-aa8bd0c9518cc5 Raed Salem      2023-03-14  778  	gfp_t gfp;
-547eede070eb98 Ilan Tayari     2017-04-18  779  	int err;
-547eede070eb98 Ilan Tayari     2017-04-18  780  
-43eca05b6a3b91 Cosmin Ratiu    2025-04-11  781  	priv = netdev_priv(dev);
-021a429bdbde93 Leon Romanovsky 2022-03-01  782  	if (!priv->ipsec)
-021a429bdbde93 Leon Romanovsky 2022-03-01  783  		return -EOPNOTSUPP;
-547eede070eb98 Ilan Tayari     2017-04-18  784  
-403b383a3ce3eb Leon Romanovsky 2022-12-02  785  	ipsec = priv->ipsec;
-aa8bd0c9518cc5 Raed Salem      2023-03-14  786  	gfp = (x->xso.flags & XFRM_DEV_OFFLOAD_FLAG_ACQ) ? GFP_ATOMIC : GFP_KERNEL;
-aa8bd0c9518cc5 Raed Salem      2023-03-14  787  	sa_entry = kzalloc(sizeof(*sa_entry), gfp);
-902812b81604dd Leon Romanovsky 2023-01-24  788  	if (!sa_entry)
-902812b81604dd Leon Romanovsky 2023-01-24  789  		return -ENOMEM;
-547eede070eb98 Ilan Tayari     2017-04-18  790  
-547eede070eb98 Ilan Tayari     2017-04-18  791  	sa_entry->x = x;
-43eca05b6a3b91 Cosmin Ratiu    2025-04-11  792  	sa_entry->dev = dev;
-403b383a3ce3eb Leon Romanovsky 2022-12-02  793  	sa_entry->ipsec = ipsec;
-aa8bd0c9518cc5 Raed Salem      2023-03-14  794  	/* Check if this SA is originated from acquire flow temporary SA */
-aa8bd0c9518cc5 Raed Salem      2023-03-14  795  	if (x->xso.flags & XFRM_DEV_OFFLOAD_FLAG_ACQ)
-aa8bd0c9518cc5 Raed Salem      2023-03-14  796  		goto out;
-aa8bd0c9518cc5 Raed Salem      2023-03-14  797  
-aa8bd0c9518cc5 Raed Salem      2023-03-14  798  	err = mlx5e_xfrm_validate_state(priv->mdev, x, extack);
-aa8bd0c9518cc5 Raed Salem      2023-03-14  799  	if (err)
-aa8bd0c9518cc5 Raed Salem      2023-03-14  800  		goto err_xfrm;
-547eede070eb98 Ilan Tayari     2017-04-18  801  
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  802  	if (!mlx5_eswitch_block_ipsec(priv->mdev)) {
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  803  		err = -EBUSY;
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  804  		goto err_xfrm;
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  805  	}
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  806  
-22239eb258bc1e Carolina Jubran 2025-10-05  807  	if (mlx5_eswitch_block_mode(priv->mdev))
-22239eb258bc1e Carolina Jubran 2025-10-05 @808  		goto unblock_ipsec;
-
-	err = mlx5_eswitch_block_mode(priv->mdev);
-	if (err)
-		goto unblock_ipsec;
-
-22239eb258bc1e Carolina Jubran 2025-10-05  809  
-22239eb258bc1e Carolina Jubran 2025-10-05  810  	if (x->props.mode == XFRM_MODE_TUNNEL &&
-22239eb258bc1e Carolina Jubran 2025-10-05  811  	    x->xso.type == XFRM_DEV_OFFLOAD_PACKET) {
-22239eb258bc1e Carolina Jubran 2025-10-05  812  		allow_tunnel_mode = mlx5e_ipsec_fs_tunnel_allowed(sa_entry);
-22239eb258bc1e Carolina Jubran 2025-10-05  813  		if (!allow_tunnel_mode) {
-22239eb258bc1e Carolina Jubran 2025-10-05  814  			NL_SET_ERR_MSG_MOD(extack,
-22239eb258bc1e Carolina Jubran 2025-10-05  815  					   "Packet offload tunnel mode is disabled due to encap settings");
-22239eb258bc1e Carolina Jubran 2025-10-05  816  			err = -EINVAL;
-22239eb258bc1e Carolina Jubran 2025-10-05  817  			goto unblock_mode;
-22239eb258bc1e Carolina Jubran 2025-10-05  818  		}
-22239eb258bc1e Carolina Jubran 2025-10-05  819  	}
-22239eb258bc1e Carolina Jubran 2025-10-05  820  
-cb01008390bb06 Aviad Yehezkel  2018-01-18  821  	/* check esn */
-f4979e2667c56f Leon Romanovsky 2023-03-30  822  	if (x->props.flags & XFRM_STATE_ESN)
-cb01008390bb06 Aviad Yehezkel  2018-01-18  823  		mlx5e_ipsec_update_esn_state(sa_entry);
-7f95b0247764ac Leon Romanovsky 2025-01-15  824  	else
-7f95b0247764ac Leon Romanovsky 2025-01-15  825  		/* According to RFC4303, section "3.3.3. Sequence Number Generation",
-7f95b0247764ac Leon Romanovsky 2025-01-15  826  		 * the first packet sent using a given SA will contain a sequence
-7f95b0247764ac Leon Romanovsky 2025-01-15  827  		 * number of 1.
-7f95b0247764ac Leon Romanovsky 2025-01-15  828  		 */
-7f95b0247764ac Leon Romanovsky 2025-01-15  829  		sa_entry->esn_state.esn = 1;
-cb01008390bb06 Aviad Yehezkel  2018-01-18  830  
-b73e67287b8051 Leon Romanovsky 2022-03-09  831  	mlx5e_ipsec_build_accel_xfrm_attrs(sa_entry, &sa_entry->attrs);
-4562116f8a565f Leon Romanovsky 2023-03-30  832  
-4562116f8a565f Leon Romanovsky 2023-03-30  833  	err = mlx5_ipsec_create_work(sa_entry);
-4562116f8a565f Leon Romanovsky 2023-03-30  834  	if (err)
-22239eb258bc1e Carolina Jubran 2025-10-05  835  		goto unblock_encap;
-4562116f8a565f Leon Romanovsky 2023-03-30  836  
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  837  	err = mlx5e_ipsec_create_dwork(sa_entry);
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  838  	if (err)
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  839  		goto release_work;
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  840  
-d6c4f0298cec8c Aviad Yehezkel  2018-01-18  841  	/* create hw context */
-b73e67287b8051 Leon Romanovsky 2022-03-09  842  	err = mlx5_ipsec_create_sa_ctx(sa_entry);
-b73e67287b8051 Leon Romanovsky 2022-03-09  843  	if (err)
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  844  		goto release_dwork;
-547eede070eb98 Ilan Tayari     2017-04-18  845  
-c7049ca6213732 Leon Romanovsky 2022-12-02  846  	err = mlx5e_accel_ipsec_fs_add_rule(sa_entry);
-5e466345291a91 Huy Nguyen      2020-06-05  847  	if (err)
-5e466345291a91 Huy Nguyen      2020-06-05  848  		goto err_hw_ctx;
-5e466345291a91 Huy Nguyen      2020-06-05  849  
-403b383a3ce3eb Leon Romanovsky 2022-12-02  850  	/* We use *_bh() variant because xfrm_timer_handler(), which runs
-403b383a3ce3eb Leon Romanovsky 2022-12-02  851  	 * in softirq context, can reach our state delete logic and we need
-403b383a3ce3eb Leon Romanovsky 2022-12-02  852  	 * xa_erase_bh() there.
-403b383a3ce3eb Leon Romanovsky 2022-12-02  853  	 */
-403b383a3ce3eb Leon Romanovsky 2022-12-02  854  	err = xa_insert_bh(&ipsec->sadb, sa_entry->ipsec_obj_id, sa_entry,
-403b383a3ce3eb Leon Romanovsky 2022-12-02  855  			   GFP_KERNEL);
-7dfee4b1d79e18 Raed Salem      2019-10-23  856  	if (err)
-5e466345291a91 Huy Nguyen      2020-06-05  857  		goto err_add_rule;
-403b383a3ce3eb Leon Romanovsky 2022-12-02  858  
-f4979e2667c56f Leon Romanovsky 2023-03-30  859  	mlx5e_ipsec_set_esn_ops(sa_entry);
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  860  
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  861  	if (sa_entry->dwork)
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  862  		queue_delayed_work(ipsec->wq, &sa_entry->dwork->dwork,
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  863  				   MLX5_IPSEC_RESCHED);
-4c24272b4e2bef Leon Romanovsky 2023-04-13  864  
-22239eb258bc1e Carolina Jubran 2025-10-05  865  	if (allow_tunnel_mode) {
-2c3688090f8a1f Leon Romanovsky 2025-01-15  866  		xa_lock_bh(&ipsec->sadb);
-2c3688090f8a1f Leon Romanovsky 2025-01-15  867  		__xa_set_mark(&ipsec->sadb, sa_entry->ipsec_obj_id,
-4c24272b4e2bef Leon Romanovsky 2023-04-13  868  			      MLX5E_IPSEC_TUNNEL_SA);
-2c3688090f8a1f Leon Romanovsky 2025-01-15  869  		xa_unlock_bh(&ipsec->sadb);
-2c3688090f8a1f Leon Romanovsky 2025-01-15  870  	}
-4c24272b4e2bef Leon Romanovsky 2023-04-13  871  
-aa8bd0c9518cc5 Raed Salem      2023-03-14  872  out:
-547eede070eb98 Ilan Tayari     2017-04-18  873  	x->xso.offload_handle = (unsigned long)sa_entry;
-22239eb258bc1e Carolina Jubran 2025-10-05  874  	if (allow_tunnel_mode)
-22239eb258bc1e Carolina Jubran 2025-10-05  875  		mlx5_eswitch_unblock_encap(priv->mdev);
-22239eb258bc1e Carolina Jubran 2025-10-05  876  
-22239eb258bc1e Carolina Jubran 2025-10-05  877  	mlx5_eswitch_unblock_mode(priv->mdev);
-22239eb258bc1e Carolina Jubran 2025-10-05  878  
-403b383a3ce3eb Leon Romanovsky 2022-12-02  879  	return 0;
-547eede070eb98 Ilan Tayari     2017-04-18  880  
-5e466345291a91 Huy Nguyen      2020-06-05  881  err_add_rule:
-c7049ca6213732 Leon Romanovsky 2022-12-02  882  	mlx5e_accel_ipsec_fs_del_rule(sa_entry);
-7dfee4b1d79e18 Raed Salem      2019-10-23  883  err_hw_ctx:
-b73e67287b8051 Leon Romanovsky 2022-03-09  884  	mlx5_ipsec_free_sa_ctx(sa_entry);
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  885  release_dwork:
-b2f7b01d36a9b9 Leon Romanovsky 2023-03-30  886  	kfree(sa_entry->dwork);
-4562116f8a565f Leon Romanovsky 2023-03-30  887  release_work:
-94edec448479e3 Leon Romanovsky 2023-04-20  888  	if (sa_entry->work)
-4562116f8a565f Leon Romanovsky 2023-03-30  889  		kfree(sa_entry->work->data);
-4562116f8a565f Leon Romanovsky 2023-03-30  890  	kfree(sa_entry->work);
-22239eb258bc1e Carolina Jubran 2025-10-05  891  unblock_encap:
-22239eb258bc1e Carolina Jubran 2025-10-05  892  	if (allow_tunnel_mode)
-22239eb258bc1e Carolina Jubran 2025-10-05  893  		mlx5_eswitch_unblock_encap(priv->mdev);
-22239eb258bc1e Carolina Jubran 2025-10-05  894  unblock_mode:
-22239eb258bc1e Carolina Jubran 2025-10-05  895  	mlx5_eswitch_unblock_mode(priv->mdev);
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  896  unblock_ipsec:
-8efd7b17a3b032 Leon Romanovsky 2023-08-24  897  	mlx5_eswitch_unblock_ipsec(priv->mdev);
-d6c4f0298cec8c Aviad Yehezkel  2018-01-18  898  err_xfrm:
-547eede070eb98 Ilan Tayari     2017-04-18  899  	kfree(sa_entry);
-697b3518ebfd1d Leon Romanovsky 2023-04-20  900  	NL_SET_ERR_MSG_WEAK_MOD(extack, "Device failed to offload this state");
-547eede070eb98 Ilan Tayari     2017-04-18  901  	return err;
-547eede070eb98 Ilan Tayari     2017-04-18  902  }
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: drivers/pinctrl/pinctrl-pic64gx-gpio2.o: in function `pinconf_generic_dt_node_to_map_all':
+   include/linux/pinctrl/pinconf-generic.h:235:(.text+0x196): undefined reference to `pinconf_generic_dt_node_to_map'
+>> clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
