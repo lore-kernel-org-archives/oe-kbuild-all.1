@@ -1,234 +1,118 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A37344047
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 17:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC182147C9B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 17:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761671470; cv=none; b=A2nZa7ZZSW7W5oRCMbCSQSpiISUlRoNgG5ln2xvKhsSXQ9Y81/wBCnToYkqWqR0bX5Ff+oe4peoRcTp2xaBEDRH4F9BGRXmXP5Z7x1o94CAmt1ZOLnaGjAx33QKkZvNN7+F7zutYQsmcz5zKB7etNEzQe8K5xv6y73w4vH88YWc=
+	t=1761674079; cv=none; b=OKwhLfuQB9RtDZmo8l1OF65Nnsqt8rGL4l/cn5vUcnhvzEvuFN5PrPrMiOqzB5SI21PrdcWXT1yOyu9BgnKB/gtsPuJCM6JA7OWUBLyXXasyhTS7ol5yPGL9vM/8zzfO60dKJH9u5aaleDJyy+XvdNfqXE0ewFv72149wE5LoDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761671470; c=relaxed/simple;
-	bh=1vhKrd3/RWLiHndXUNiqDow/k7vX5nk1FxHFYTfDRmc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=geUdUjACp75M9+cOvfwDI1upF+nky7uxLmrZXOdQb3IG0cmggzf/pXPDcp1otgEIEn6aqFangxrXOOf9ta4jcHPQhRIlM5XWPW5EYK78jJW6iBieHD7uT1UD8Usiu93XIZVWAUVJ4PuTCueMbG81NDi7oDztnDMyfZ8/cYD0tn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0ZVieBQc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uifjez09; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0ZVieBQc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uifjez09; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761674079; c=relaxed/simple;
+	bh=+XfPjxAiyUR+g9YPk2mdpcDipEBOHQEvOAQhXqwQBec=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G7KlpEGyCpE7P2NuPyER8/nuaAwVqJJfLuk6TaeAgGEo6J7/HjzBm4noNlXu4dPcvibsyyB7b5KfXg4MbPUoO7+mg5KVVGOfaEYhSgrg1e+DRv6zQW5VoO74ZD3LW7snPMthTZMbfhzfgd4hGQTtKH+F99pwHy+Po5a5/KLMef0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kU8cZ8Uz; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0ZVieBQc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uifjez09";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0ZVieBQc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uifjez09"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 120A11F460;
-	Tue, 28 Oct 2025 17:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761671466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=bFzcLHgriqOOOUuyd7JqgEEIywVC2+E29H9J7ANeYfM=;
-	b=0ZVieBQc675uk1/PIPfkSn859BStoZEf/rkOYQFd8Giby5fM3FDUgyS/lesvQKwtRYZJcE
-	njQE9CFTlgjy0tkVO4704hJWuRqzk6IliTwypWrnzq5wIOn7tB4kLVYPfoW6NDrkMx8cmw
-	Bi4SwD/qCL4qUiEvCGNoB7qqRCS4Yc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761671466;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=bFzcLHgriqOOOUuyd7JqgEEIywVC2+E29H9J7ANeYfM=;
-	b=Uifjez093W1hsCrXgI7bZPL75k+zQiysjN+9goeilzeOsIhfgsUhtr4FUsUtCIfyY1uOUQ
-	JDo9zViaJm8+IIBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0ZVieBQc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Uifjez09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761671466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=bFzcLHgriqOOOUuyd7JqgEEIywVC2+E29H9J7ANeYfM=;
-	b=0ZVieBQc675uk1/PIPfkSn859BStoZEf/rkOYQFd8Giby5fM3FDUgyS/lesvQKwtRYZJcE
-	njQE9CFTlgjy0tkVO4704hJWuRqzk6IliTwypWrnzq5wIOn7tB4kLVYPfoW6NDrkMx8cmw
-	Bi4SwD/qCL4qUiEvCGNoB7qqRCS4Yc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761671466;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=bFzcLHgriqOOOUuyd7JqgEEIywVC2+E29H9J7ANeYfM=;
-	b=Uifjez093W1hsCrXgI7bZPL75k+zQiysjN+9goeilzeOsIhfgsUhtr4FUsUtCIfyY1uOUQ
-	JDo9zViaJm8+IIBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1FF013693;
-	Tue, 28 Oct 2025 17:11:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fWWVMSn5AGljZwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 28 Oct 2025 17:11:05 +0000
-Message-ID: <655f56d2-480e-4304-b54d-f6963bbb4fce@suse.de>
-Date: Tue, 28 Oct 2025 18:11:01 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kU8cZ8Uz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761674078; x=1793210078;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+XfPjxAiyUR+g9YPk2mdpcDipEBOHQEvOAQhXqwQBec=;
+  b=kU8cZ8Uz7FiF4CphE5uW1srbnpxD2OLKr0jP0ZTK8w/H7P1kooTyw3yo
+   Mo3yxCKMEdTelLJq7PeqV066sWQwHQsAuMN3A13On+pJ5lR81wHz9AjdP
+   XkIbDBBE5DKzOuzmVOTYi28Ng9SGqasBw1nm1EJKO/uwuIBec67unycEE
+   Cc+yrmf3Tx+wM0Vtq4VKxsYh79cX4Nu6+lZelJRoGhnDgoz/6vtjMWFeC
+   yJHTIX1nOr3W6oEYlfOu4i8dj6YD6S1Dbz7u9Pan1COMvhEwQM8ueiIxs
+   nDMT3KfQvSW6yiA5CYvUS4vnqExJKsSF7iI8DwGGK9gFANljKNpbaUbRj
+   Q==;
+X-CSE-ConnectionGUID: hAMxP4AITDKUTocG3Kgu2Q==
+X-CSE-MsgGUID: FbojMGewTBS5co7AuwCu/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63670064"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="63670064"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 10:54:37 -0700
+X-CSE-ConnectionGUID: b0TTWRHeRs6Vk+zd+lxYXQ==
+X-CSE-MsgGUID: K4bh8J2QSc6W+KtoK4vhgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="216296424"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2025 10:54:35 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vDntE-000JYd-34;
+	Tue, 28 Oct 2025 17:54:00 +0000
+Date: Wed, 29 Oct 2025 01:51:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register
+ 'atomctl' for 'wsr' instruction
+Message-ID: <202510290153.vj0S6aHa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 3294/4391]
- arch/sh/include/cpu-sh3/cpu/dac.h:21:13: error: implicit declaration of
- function '__raw_readb'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Daniel Thompson (RISCstar)" <danielt@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <202510282206.wI0HrqcK-lkp@intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <202510282206.wI0HrqcK-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 120A11F460
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Lucas,
 
-a possible fix is at 
-https://lore.kernel.org/dri-devel/20251028170913.16711-1-tzimmermann@suse.de/
+First bad commit (maybe != root cause):
 
-Best regards
-Thomas
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd57572253bc356330dbe5b233c2e1d8426c66fd
+commit: b67e7422d229dead0dddaad7e7c05558f24d552f drm/xe: Fix build with CONFIG_MODULES=n
+date:   5 weeks ago
+config: xtensa-randconfig-r054-20251028 (https://download.01.org/0day-ci/archive/20251029/202510290153.vj0S6aHa-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290153.vj0S6aHa-lkp@intel.com/reproduce)
 
-Am 28.10.25 um 15:22 schrieb kernel test robot:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   f7d2388eeec24966fc4d5cf32d706f0514f29ac5
-> commit: 243ce64b2b371cdf2cbc39c9422cb3047cab6de7 [3294/4391] backlight: Do not include <linux/fb.h> in header file
-> config: sh-randconfig-r072-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282206.wI0HrqcK-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282206.wI0HrqcK-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510282206.wI0HrqcK-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->     In file included from drivers/video/backlight/hp680_bl.c:20:
->     arch/sh/include/cpu-sh3/cpu/dac.h: In function 'sh_dac_enable':
->>> arch/sh/include/cpu-sh3/cpu/dac.h:21:13: error: implicit declaration of function '__raw_readb' [-Wimplicit-function-declaration]
->        21 |         v = __raw_readb(DACR);
->           |             ^~~~~~~~~~~
->>> arch/sh/include/cpu-sh3/cpu/dac.h:24:9: error: implicit declaration of function '__raw_writeb'; did you mean '__raw_write_lock'? [-Wimplicit-function-declaration]
->        24 |         __raw_writeb(v,DACR);
->           |         ^~~~~~~~~~~~
->           |         __raw_write_lock
->
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for OF_GPIO
->     Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
->     Selected by [y]:
->     - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
->     WARNING: unmet direct dependencies detected for GPIO_SYSCON
->     Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
->     Selected by [m]:
->     - GPIO_SAMA5D2_PIOBU [=m] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
->     WARNING: unmet direct dependencies detected for I2C_K1
->     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
->     Selected by [y]:
->     - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
->
->
-> vim +/__raw_readb +21 arch/sh/include/cpu-sh3/cpu/dac.h
->
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  16
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  17
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  18  static __inline__ void sh_dac_enable(int channel)
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  19  {
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  20  	unsigned char v;
-> 9d56dd3b083a3b arch/sh/include/cpu-sh3/cpu/dac.h Paul Mundt     2010-01-26 @21  	v = __raw_readb(DACR);
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  22  	if(channel) v |= DACR_DAOE1;
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  23  	else v |= DACR_DAOE0;
-> 9d56dd3b083a3b arch/sh/include/cpu-sh3/cpu/dac.h Paul Mundt     2010-01-26 @24  	__raw_writeb(v,DACR);
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  25  }
-> ^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  26
->
-> :::::: The code at line 21 was first introduced by commit
-> :::::: 9d56dd3b083a3bec56e9da35ce07baca81030b03 sh: Mass ctrl_in/outX to __raw_read/writeX conversion.
->
-> :::::: TO: Paul Mundt <lethal@linux-sh.org>
-> :::::: CC: Paul Mundt <lethal@linux-sh.org>
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510290153.vj0S6aHa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
+>> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
+
+
+vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
+
+e85e335f8ff615 Max Filippov 2012-12-03  42  
+e85e335f8ff615 Max Filippov 2012-12-03  43  	.align  4
+e85e335f8ff615 Max Filippov 2012-12-03  44  _SetupMMU:
+09af39f649dac6 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
+e85e335f8ff615 Max Filippov 2012-12-03  46  	movi	a0, 0
+e85e335f8ff615 Max Filippov 2012-12-03  47  	wsr	a0, windowbase
+e85e335f8ff615 Max Filippov 2012-12-03  48  	rsync
+e85e335f8ff615 Max Filippov 2012-12-03  49  	movi	a0, 1
+e85e335f8ff615 Max Filippov 2012-12-03  50  	wsr	a0, windowstart
+e85e335f8ff615 Max Filippov 2012-12-03  51  	rsync
+09af39f649dac6 Max Filippov 2021-07-26  52  #endif
+e85e335f8ff615 Max Filippov 2012-12-03  53  	movi	a0, 0x1F
+e85e335f8ff615 Max Filippov 2012-12-03  54  	wsr	a0, ps
+e85e335f8ff615 Max Filippov 2012-12-03  55  	rsync
+e85e335f8ff615 Max Filippov 2012-12-03  56  
+e85e335f8ff615 Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
+e85e335f8ff615 Max Filippov 2012-12-03 @58  	initialize_mmu
+
+:::::: The code at line 58 was first introduced by commit
+:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Chris Zankel <chris@zankel.net>
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
