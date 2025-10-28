@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E872D480E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 20:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0DA34F24D;
+	Tue, 28 Oct 2025 20:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761683407; cv=none; b=UcfBeYrZbywgMB/fJvf8A8Zwgvz8VPEtj4JyNqpemjnSe2m998stAVzdvLsMd1Pn9S0zWyOyx+n7iA6s4dI+y0iRjPtl3/A+MXhCrzhEi89Ooz0L9LRwpV6fSHL9lSBCa2La5wvCpgVCmKAvcGxik3dgl9jUJaAd7jl7rUJed0g=
+	t=1761684790; cv=none; b=lc2gEBZXaQ5lfsMZ3mn4OCdzSkV0DiqW5NEqFydH3AR9N+2X9V3IiCXgQ2aqyFgmxQkf+PEv4nlS7jr1bNEUPK6yzVvSpQ5HF/Kkk3pbFmVJGO1VUsRsLo7wD0lEp3zjDPcp04Scn++Ca6tOWuRz9vKk6MsyqkLTuZ4h3alXeOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761683407; c=relaxed/simple;
-	bh=htPWLU9ruxkFQc5kWOd8u1qo6wpGp5XI89LIpSchg7s=;
+	s=arc-20240116; t=1761684790; c=relaxed/simple;
+	bh=NVc5BMqDDWKOkY5s1DGT9FjutTHoBcAbi4MXvIUa2cw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pNXbZgCzwfFya61H89eP+O+zYuRDG8ERbwqAs+5V2mXpwFEWV6/seNpB53cV2kABq1ODjUTtvc3SFTfaQg7sQLACnGfFP6agXuJjMTq66lZhCwYM187ExoQFd91F6bXMyJepaBXicFzARkg7IYekJfLh19S1z70obKCePIEGG1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kj6WjXgI; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=axD/SFTkEMNDFjV4f0DoqJkF7kbq7w76gj5K7H/EjayaPNcDweA1UpfrE0/TFSSgNlTRP64rQ1e5n25bVbvXKk/yJNkCNpLPRWlpf0NSpu3RDdB/dOukVJnWjzJnA8U4rzGA33RIKvkF+hEW/O4t5YaxleqpOVMx9jT8LDLQCmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCwTXwK8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kj6WjXgI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCwTXwK8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761683407; x=1793219407;
+  t=1761684789; x=1793220789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=htPWLU9ruxkFQc5kWOd8u1qo6wpGp5XI89LIpSchg7s=;
-  b=kj6WjXgIF0t1+uJEu2DPVfp0P6GejeEz4MowRs9Gmc60E0JZOj0sH5s4
-   8UtQk9RlKW05YdaNAhpZ2TpTTVrq+SG4gJ8qq7brT4wyGs6wUeB7mF/ck
-   VTxpTmqylh82OdTSJKKOpWKJmCkpdXx3Kc4jfyp4WJPbL/jYisvuVCdJp
-   65Y8zpiu+3BTgDG6aLcIMVzncln9I/xJy9mAGqABL5T+XzCqd3mALV4GI
-   bKHW0EiDd6R5JW/6Yon8IZ/2RN0VbxxEIbCAGbeIo1FUvuMTcrSTvDPs7
-   CW0Ig/EO3ZduyKBXSzA5tCzdeQxYtQZw4Hz3FskwWESXlHCnXH+uXS+2E
+  bh=NVc5BMqDDWKOkY5s1DGT9FjutTHoBcAbi4MXvIUa2cw=;
+  b=GCwTXwK8Hsw06aQ4+rrwt3h5pLwDCR5Uy4scGfeLlUA1SKeuEK3Fy+iK
+   QzOM1+WXMdjLz8n66b3voi6fEzQj/e6RVVnh8b+6HRuxrhE+9yKAFjaaP
+   mJZm578Y194MGIpyXtpnWY6nbKLwf2cMTKQypa0veAYkLrGrYrlb92PmK
+   GUof6a7z/jPSjH5F14Hqj/F5ZmNPuQLUv4J9CFr74JuUjWiywhzL3uFbV
+   ELAWJxw2AI9yQRu5xMq9sMPi7rwjuyBFCQWM222mKOv+o8PCyJrxgj/ez
+   G1umOBedfgV3EGL46jw/Yw9U9isNcR2QjH1oU+5V/9N6Z2P9XC8Hb3ujs
    g==;
-X-CSE-ConnectionGUID: m63l+soiSimQi5lksz50fw==
-X-CSE-MsgGUID: OAarxv7kRFOqQtkcpJr8UA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67634399"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67634399"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 13:30:06 -0700
-X-CSE-ConnectionGUID: a+Ou98cPR1asPzSaqz58OQ==
-X-CSE-MsgGUID: AWYM1XgYTwquVB7uB2S+vA==
+X-CSE-ConnectionGUID: KLtZPksmSQ6z7FRpleYc8w==
+X-CSE-MsgGUID: QI3Sj74wTnqWoph9sGSNgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66412598"
+X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
+   d="scan'208";a="66412598"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 13:53:08 -0700
+X-CSE-ConnectionGUID: n4+TiOfcQxOxOY0/rT93wg==
+X-CSE-MsgGUID: lxHJFaaiSzSLnOdy5ZQT0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="185792325"
+   d="scan'208";a="184646258"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Oct 2025 13:30:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Oct 2025 13:53:07 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDqKQ-000Jj7-0B;
-	Tue, 28 Oct 2025 20:30:02 +0000
-Date: Wed, 29 Oct 2025 04:29:22 +0800
+	id 1vDqgi-000JkJ-0F;
+	Tue, 28 Oct 2025 20:53:04 +0000
+Date: Wed, 29 Oct 2025 04:52:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 6/16]
- drivers/virtio/virtio_msg_user.c:67:8-15: WARNING opportunity for
- memdup_user
-Message-ID: <202510290452.fvmNDn3t-lkp@intel.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thierryreding:pmc 26/27]
+ drivers/soc/tegra/regulators-tegra20.c:62:6: error: call to undeclared
+ function 'tegra_pmc_core_domain_state_synced'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202510290440.hnsoZTpK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +64,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Viresh,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   27143c677cd93a347826a8702540f4b7cdb0d14e
-commit: a4d343e030bf285d7a9a48c801fa5424d5ca6eaa [6/16] virtio-msg: Add support for loopback bus
-config: mips-randconfig-r062-20251029 (https://download.01.org/0day-ci/archive/20251029/202510290452.fvmNDn3t-lkp@intel.com/config)
+tree:   https://github.com/thierryreding/linux pmc
+head:   595a9703442efc488422dd3bf1209e3f1e5d49d2
+commit: 008b60332d566cb1d00d22347a64eda10f2a8593 [26/27] soc/tegra: pmc: Move legacy code behind CONFIG_ARM guard
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251029/202510290440.hnsoZTpK-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290440.hnsoZTpK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510290452.fvmNDn3t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510290440.hnsoZTpK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_msg_user.c:67:8-15: WARNING opportunity for memdup_user
+All errors (new ones prefixed by >>):
 
-vim +67 drivers/virtio/virtio_msg_user.c
+>> drivers/soc/tegra/regulators-tegra20.c:62:6: error: call to undeclared function 'tegra_pmc_core_domain_state_synced'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      62 |         if (tegra_pmc_core_domain_state_synced() && !tegra->sys_reboot_mode) {
+         |             ^
+   1 error generated.
+--
+>> drivers/soc/tegra/regulators-tegra30.c:61:6: error: call to undeclared function 'tegra_pmc_core_domain_state_synced'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      61 |         if (tegra_pmc_core_domain_state_synced() && !tegra->sys_reboot_mode) {
+         |             ^
+   1 error generated.
 
-9574f8bb21551e Viresh Kumar 2024-11-26  53  
-9574f8bb21551e Viresh Kumar 2024-11-26  54  static ssize_t vmsg_miscdev_write(struct file *file, const char __user *buf,
-9574f8bb21551e Viresh Kumar 2024-11-26  55  				  size_t count, loff_t *pos)
-9574f8bb21551e Viresh Kumar 2024-11-26  56  {
-9574f8bb21551e Viresh Kumar 2024-11-26  57  	struct miscdevice *misc = file->private_data;
-9574f8bb21551e Viresh Kumar 2024-11-26  58  	struct virtio_msg_user_device *vmudev = to_virtio_msg_user_device(misc);
-9574f8bb21551e Viresh Kumar 2024-11-26  59  	struct virtio_msg *vmsg __free(kfree) = NULL;
-9574f8bb21551e Viresh Kumar 2024-11-26  60  
-9574f8bb21551e Viresh Kumar 2024-11-26  61  	if (count < VIRTIO_MSG_MIN_SIZE) {
-9574f8bb21551e Viresh Kumar 2024-11-26  62  		dev_err(vmudev->parent, "Trying to write message of incorrect size: %zu\n",
-9574f8bb21551e Viresh Kumar 2024-11-26  63  			count);
-9574f8bb21551e Viresh Kumar 2024-11-26  64  		return 0;
-9574f8bb21551e Viresh Kumar 2024-11-26  65  	}
-9574f8bb21551e Viresh Kumar 2024-11-26  66  
-9574f8bb21551e Viresh Kumar 2024-11-26 @67  	vmsg = kzalloc(count, GFP_KERNEL);
-9574f8bb21551e Viresh Kumar 2024-11-26  68  	if (!vmsg)
-9574f8bb21551e Viresh Kumar 2024-11-26  69  		return 0;
-9574f8bb21551e Viresh Kumar 2024-11-26  70  
-9574f8bb21551e Viresh Kumar 2024-11-26  71  	if (copy_from_user(vmsg, buf, count) != 0)
-9574f8bb21551e Viresh Kumar 2024-11-26  72  		return 0;
-9574f8bb21551e Viresh Kumar 2024-11-26  73  
-9574f8bb21551e Viresh Kumar 2024-11-26  74  	vmudev->ops->handle(vmudev, vmsg);
-9574f8bb21551e Viresh Kumar 2024-11-26  75  
-9574f8bb21551e Viresh Kumar 2024-11-26  76  	/* Wake up the handler only for responses */
-9574f8bb21551e Viresh Kumar 2024-11-26  77  	if (vmsg->type & VIRTIO_MSG_TYPE_RESPONSE)
-9574f8bb21551e Viresh Kumar 2024-11-26  78  		complete(&vmudev->w_completion);
-9574f8bb21551e Viresh Kumar 2024-11-26  79  
-9574f8bb21551e Viresh Kumar 2024-11-26  80  	return count;
-9574f8bb21551e Viresh Kumar 2024-11-26  81  }
-9574f8bb21551e Viresh Kumar 2024-11-26  82  
 
-:::::: The code at line 67 was first introduced by commit
-:::::: 9574f8bb21551e50de5c2a1dc4023a3e0cae09b5 virtio-msg: Add optional userspace interface for message I/O
+vim +/tegra_pmc_core_domain_state_synced +62 drivers/soc/tegra/regulators-tegra20.c
 
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+496747e7d907b0 Dmitry Osipenko 2019-07-25  43  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  44  static int tegra20_core_limit(struct tegra_regulator_coupler *tegra,
+496747e7d907b0 Dmitry Osipenko 2019-07-25  45  			      struct regulator_dev *core_rdev)
+496747e7d907b0 Dmitry Osipenko 2019-07-25  46  {
+496747e7d907b0 Dmitry Osipenko 2019-07-25  47  	int core_min_uV = 0;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  48  	int core_max_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  49  	int core_cur_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  50  	int err;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  51  
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  52  	/*
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  53  	 * Tegra20 SoC has critical DVFS-capable devices that are
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  54  	 * permanently-active or active at a boot time, like EMC
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  55  	 * (DRAM controller) or Display controller for example.
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  56  	 *
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  57  	 * The voltage of a CORE SoC power domain shall not be dropped below
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  58  	 * a minimum level, which is determined by device's clock rate.
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  59  	 * This means that we can't fully allow CORE voltage scaling until
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  60  	 * the state of all DVFS-critical CORE devices is synced.
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  61  	 */
+029f7e24a65df6 Dmitry Osipenko 2021-06-01 @62  	if (tegra_pmc_core_domain_state_synced() && !tegra->sys_reboot_mode) {
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  63  		pr_info_once("voltage state synced\n");
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  64  		return 0;
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  65  	}
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  66  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  67  	if (tegra->core_min_uV > 0)
+496747e7d907b0 Dmitry Osipenko 2019-07-25  68  		return tegra->core_min_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  69  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  70  	core_cur_uV = regulator_get_voltage_rdev(core_rdev);
+496747e7d907b0 Dmitry Osipenko 2019-07-25  71  	if (core_cur_uV < 0)
+496747e7d907b0 Dmitry Osipenko 2019-07-25  72  		return core_cur_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  73  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  74  	core_max_uV = max(core_cur_uV, 1200000);
+496747e7d907b0 Dmitry Osipenko 2019-07-25  75  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  76  	err = regulator_check_voltage(core_rdev, &core_min_uV, &core_max_uV);
+496747e7d907b0 Dmitry Osipenko 2019-07-25  77  	if (err)
+496747e7d907b0 Dmitry Osipenko 2019-07-25  78  		return err;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  79  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  80  	/*
+496747e7d907b0 Dmitry Osipenko 2019-07-25  81  	 * Limit minimum CORE voltage to a value left from bootloader or,
+496747e7d907b0 Dmitry Osipenko 2019-07-25  82  	 * if it's unreasonably low value, to the most common 1.2v or to
+496747e7d907b0 Dmitry Osipenko 2019-07-25  83  	 * whatever maximum value defined via board's device-tree.
+496747e7d907b0 Dmitry Osipenko 2019-07-25  84  	 */
+496747e7d907b0 Dmitry Osipenko 2019-07-25  85  	tegra->core_min_uV = core_max_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  86  
+029f7e24a65df6 Dmitry Osipenko 2021-06-01  87  	pr_info("core voltage initialized to %duV\n", tegra->core_min_uV);
+496747e7d907b0 Dmitry Osipenko 2019-07-25  88  
+496747e7d907b0 Dmitry Osipenko 2019-07-25  89  	return tegra->core_min_uV;
+496747e7d907b0 Dmitry Osipenko 2019-07-25  90  }
+496747e7d907b0 Dmitry Osipenko 2019-07-25  91  
+
+:::::: The code at line 62 was first introduced by commit
+:::::: 029f7e24a65df641ac843cda8dabe359ff0826eb soc/tegra: regulators: Support core domain state syncing
+
+:::::: TO: Dmitry Osipenko <digetx@gmail.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
