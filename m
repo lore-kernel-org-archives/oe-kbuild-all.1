@@ -1,366 +1,237 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B8D275B0F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 15:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBF02C21F2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 16:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761663911; cv=none; b=DxNEjSzq0Fz+inwRcGbN/LioUlieujYQ2W2YDE9S0HACfDwGw8S6V+9N+8W87gAVzgpmENXbwZfXSeUNVmsQf7u07IXwlVdNecc1QfT3RaQJwK56+YLCbCRekcvsRDiZu36X3OmkNh1u6/3odypmP7JSlu0hzJ2WHXQ1m9F+8GE=
+	t=1761667373; cv=none; b=IOT5gOETQuzyEfcfVM6CLz4H8ePnudWehl8I9JrzTKlqyGvOvIkMSRBb3SlPJWFP8p0Z8H4COc00Aipe7ETHNLQjAv1Z6gCfyvignhAmFaKMKP2D6QGm7yxcAGk5Lsg+C0O1vKNrha02FVW2oMct2Wzn6xdB5+5u5lC9yapQ6VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761663911; c=relaxed/simple;
-	bh=h206awTnUrWLV2XeP2yKAXIDIuodp4XBbJy8kyByzrg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fSZQf64yjTSwjVlnohEDw7Thx0yzAiitqdBxSlUUFQrRYNLEUVrX3cF8luEYgvtNBF7zo0w7v+a4vDuO+83lkUbzW8PXPkCUNjDH+r21SLWicXv9dy+Xurrv/dXKZ8tPDFhitLSvn7EpI2P4Q9pmXq8HfMyrfrnqVSvfrdgvhOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IB65MUFc; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761667373; c=relaxed/simple;
+	bh=J5RUNexDPZCq42sCBBDVFiFC2JerAad5FdfFrnqItA8=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=H1PaBkaC/6pR1o07fhZIxBrlJ5EmcNFBCc4yNiUpFcB4nft9esg6KlNAC/nob7fr9PDequkMpditSp4s8lUSrP/Sm2r3MpBnEscVKpvNyxb/QZ66gCpJpkKgj+bHvVFh+nzY0nahhpcAig0DMTLsNb+OFRAa56wHWwwuPEvgaK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=TEko+peQ; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IB65MUFc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761663909; x=1793199909;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="TEko+peQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h206awTnUrWLV2XeP2yKAXIDIuodp4XBbJy8kyByzrg=;
-  b=IB65MUFcB59ZLu+zL6y9J5vfdXdBak68ZOQJCS69u8C5MeEOcAAH9ByQ
-   //D4Y/2ruJQcW1sJq011pwemrePQ+RA1Nnuza/9Q+6LrYA8EOCUNP8umB
-   ziWo02HUXpv1APhmlCGyQpoz0ASErj8y2wzlsTDTmkCs9jbJNasUyurtB
-   TOku1052g0hCXCCEqIH58YAm9mo9+RvaYjNdnnbgRYbUkrEDekhI+nNJ5
-   T2ntvMcrl4eEVo5XVXJay8mmFQT9Wn1FZGsBnudDraPpCuN9EVM4Ka87S
-   Ttd4sspWfWtIcK/Y108IZ9jyRpglFJee4yzVqSthcjMTX5C8JEdtuwYX6
-   g==;
-X-CSE-ConnectionGUID: nAN9GNKDQdKCHCmTqZDz6Q==
-X-CSE-MsgGUID: LCjRWtPUQbmNJf62iZNtgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74365830"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="74365830"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 08:05:07 -0700
-X-CSE-ConnectionGUID: 6TRWl7ZWTf6Ewr39BrBONw==
-X-CSE-MsgGUID: OEa2CPCcQdWvb9fcBnBoPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="189722461"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Oct 2025 08:05:06 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vDlFv-000JHF-1K;
-	Tue, 28 Oct 2025 15:05:03 +0000
-Date: Tue, 28 Oct 2025 23:04:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3050/3050]
- drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21:
- sparse: sparse: incorrect type in assignment (different base types)
-Message-ID: <202510282211.DtAqTWgc-lkp@intel.com>
+  bh=TG/Q2CAKIy9l1Tyc93k2IYAWPO79ssopXnA8eEZgTCY=;
+  b=TEko+peQhXmGizVlO28xyU8Npk4hw7sj+8+2loqWa6w4ZDzav3luafK3
+   HYmWX4ii3xm713KUrANmFvvf7bXhZVC3J+ZVltxIKIp0Yu2Q9UHTv+B2W
+   PIBZEUo9B9R6PgkX8ttMYIcsFcMG0WRZDJQmyGRVuq7aGj1NU5MDLZZHw
+   s=;
+X-CSE-ConnectionGUID: mAvFePiwRxa7krnE923p3Q==
+X-CSE-MsgGUID: 6zI8eq5SRnC5jx/yOjtiSQ==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.19,261,1754949600"; 
+   d="scan'208";a="246552161"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 17:02:40 +0100
+Date: Tue, 28 Oct 2025 17:02:40 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Johan Hovold <johan@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+    Neil Armstrong <neil.armstrong@linaro.org>
+cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using
+ %pe to print PTR_ERR() (fwd)
+Message-ID: <5f43ff47-70d4-8c53-efd3-6effb2e9afcb@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ab8573e771fc00691b546bfb1b7432ed6b19f9bc
-commit: 468b0cd7b1e1c131b3ee7d2ea8b96521d3faad8b [3050/3050] net:nebula-matrix:Add S1000 SNIC driver support
-config: x86_64-randconfig-123-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282211.DtAqTWgc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282211.DtAqTWgc-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Tue, 28 Oct 2025 22:32:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe to
+     print PTR_ERR()
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Johan Hovold <johan@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+
+Hi Johan,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd57572253bc356330dbe5b233c2e1d8426c66fd
+commit: 8209b3f79703b8ff09f84a79c46ead0df7260d9f phy: ti: omap-usb2: enable compile testing
+date:   3 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 months ago
+config: sparc64-randconfig-r064-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282255.6lFijMzE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282211.DtAqTWgc-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202510282255.6lFijMzE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] block:5 @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse:     expected unsigned int [usertype] block:5
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse:     got restricted __le16 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] module:5 @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse:     expected unsigned int [usertype] module:5
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse:     got restricted __le16 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] table:4 @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse:     expected unsigned int [usertype] table:4
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse:     got restricted __le16 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] opcode:8 @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse:     expected unsigned int [usertype] opcode:8
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse:     got restricted __le16 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] param_high @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse:     expected unsigned int [usertype] param_high
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] param_low @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse:     expected unsigned int [usertype] param_low
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse:    left side has type unsigned int [usertype] :16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse:    right side has type restricted __le16
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] send_high @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse:     expected unsigned int [usertype] send_high
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] send_low @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse:     expected unsigned int [usertype] send_low
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse:     got restricted __le32 [usertype]
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse: sparse: invalid assignment: |=
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse:    left side has type unsigned int [usertype] :16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse:    right side has type restricted __le16
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] recv_high @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse:     expected unsigned int [usertype] recv_high
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] recv_low @@     got restricted __le32 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse:     expected unsigned int [usertype] recv_low
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse:     got restricted __le32 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:479:35: sparse: sparse: cast to restricted __le16
---
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c:23:12: sparse: sparse: symbol 'nbl_sysfs_qos_name' was not declared. Should it be static?
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c:47:12: sparse: sparse: symbol 'nbl_sysfs_mirror_name' was not declared. Should it be static?
---
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:320:45: sparse: sparse: cast to restricted __be16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:321:45: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:324:41: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:325:41: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:328:41: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:329:41: sparse: sparse: cast to restricted __be32
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:336:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:337:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:338:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:339:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:342:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:343:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:344:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:345:41: sparse: sparse: cast to restricted __be64
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:349:44: sparse: sparse: cast to restricted __be16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:350:44: sparse: sparse: cast to restricted __be16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:353:44: sparse: sparse: cast to restricted __be16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:354:44: sparse: sparse: cast to restricted __be16
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:832:6: sparse: sparse: symbol 'flow_type_name' was not declared. Should it be static?
---
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] *ip @@     got restricted __be32 * @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse:     expected unsigned int [usertype] *ip
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse:     got restricted __be32 *
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:594:29: sparse: sparse: cast to restricted __be32
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] *ip @@     got restricted __be32 * @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse:     expected unsigned int [usertype] *ip
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse:     got restricted __be32 *
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:644:29: sparse: sparse: cast to restricted __be32
---
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *notify_addr @@     got unsigned char [usertype] * @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse:     expected unsigned char [noderef] [usertype] __iomem *notify_addr
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse:     got unsigned char [usertype] *
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned short [usertype] len @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse:     expected restricted __le32 [usertype] len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse:     got unsigned short [usertype] len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1402:23: sparse: sparse: cast to restricted __le16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1658:39: sparse: sparse: cast to restricted __le16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *irq_enable_base @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse:     got unsigned char [usertype] *irq_enable_base
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] size @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse:     expected restricted __le32 [usertype] len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse:     got unsigned int [assigned] size
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] size @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse:     expected restricted __le32 [usertype] len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse:     got unsigned int [assigned] size
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] [usertype] pkthdr_len @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse:     expected restricted __le32 [usertype] len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse:     got unsigned int [assigned] [usertype] pkthdr_len
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2709:25: sparse: sparse: bad assignment (+=) to restricted __le32
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] vlan_proto @@     got restricted __be16 [usertype] @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse:     expected unsigned short [usertype] vlan_proto
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse:     got restricted __be16 [usertype]
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] vlan_proto @@     got restricted __be16 [usertype] vlan_proto @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse:     expected unsigned short [usertype] vlan_proto
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse:     got restricted __be16 [usertype] vlan_proto
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] vlan_proto @@     got unsigned short [usertype] vlan_proto @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse:     expected restricted __be16 [usertype] vlan_proto
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse:     got unsigned short [usertype] vlan_proto
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3030:40: sparse: sparse: restricted __le32 degrades to integer
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3031:32: sparse: sparse: restricted __le32 degrades to integer
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3400:24: sparse: sparse: cast to restricted __le16
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *irq_enable_base @@
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse:     got unsigned char [usertype] *irq_enable_base
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1382:9: sparse: sparse: context imbalance in 'nbl_res_txrx_xmit_xdp_buff' - different lock contexts for basic block
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1520:9: sparse: sparse: context imbalance in 'nbl_res_txrx_xdp_xmit' - different lock contexts for basic block
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1535:9: sparse: sparse: context imbalance in 'nbl_res_txrx_update_xdp_tail_locked' - different lock contexts for basic block
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1581:23: sparse: sparse: restricted __le32 degrades to integer
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/ti/phy-omap-usb2.c:442:4-11: WARNING: Consider using %pe to print PTR_ERR()
 
-vim +345 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c
+vim +442 drivers/phy/ti/phy-omap-usb2.c
 
-   327	
-   328	static enum nbl_cmd_status
-   329	nbl_cmdq_execution_nolock(struct nbl_cmd_queue *queue,
-   330				  struct nbl_cmd_ring *ring,
-   331				  const struct nbl_cmd_hdr *hdr,
-   332				  struct nbl_cmd_desc *desc,
-   333				  const struct nbl_cmd_content *cmd)
-   334	{
-   335		struct nbl_phy_ops *phy_ops = NBL_CHAN_MGT_TO_PHY_OPS(queue->chan_mgt);
-   336		struct nbl_common_info *common = queue->chan_mgt->common;
-   337	
-   338		/* clean the cmd send queue to reclaim descriptors */
-   339		if (nbl_cmdq_clean_sq_ring(queue) == 0) {
-   340			nbl_err(common, NBL_DEBUG_FLOW, "tc flow cmd send queue full!");
-   341			return NBL_CMDQ_CQ_FULL;
-   342		}
-   343	
-   344		/* fill descriptor */
- > 345		desc->block = cpu_to_le16(hdr->block);
- > 346		desc->module = cpu_to_le16(hdr->module);
- > 347		desc->table = cpu_to_le16(hdr->table);
- > 348		desc->opcode = cpu_to_le16(hdr->opcode);
- > 349		desc->param_high = cpu_to_le32(NBL_CMDQ_HI_DWORD(cmd->in_params));
- > 350		desc->param_low = cpu_to_le32(NBL_CMDQ_LO_DWORD(cmd->in_params));
-   351		desc->flags = 0;
-   352		desc->seq = g_seq_index++;
-   353		if (g_seq_index == 16)
-   354			g_seq_index = 0;
-   355	
-   356		/* data to send */
-   357		if (cmd->in_va && cmd->in) {
-   358			desc->datalen = cmd->in_length + NBL_CMDQ_HALF_DESC_LENGTH;
- > 359			desc->flags |= cpu_to_le16(NBL_CMDQ_DESC_FLAG_BUF_IN);
- > 360			desc->send_high = cpu_to_le32(NBL_CMDQ_HI_DWORD(cmd->in));
- > 361			desc->send_low = cpu_to_le32(NBL_CMDQ_LO_DWORD(cmd->in));
-   362		}
-   363	
-   364		/* data to receive */
-   365		if (cmd->out_va && cmd->out) {
- > 366			desc->flags |= cpu_to_le16(NBL_CMDQ_DESC_FLAG_BUF_OUT);
- > 367			desc->recv_high = cpu_to_le32(NBL_CMDQ_HI_DWORD(cmd->out));
- > 368			desc->recv_low = cpu_to_le32(NBL_CMDQ_LO_DWORD(cmd->out));
-   369		}
-   370	
-   371		/* update next_to_use */
-   372		(ring->next_to_use)++;
-   373		(ring->doorbell)++;
-   374		if (ring->next_to_use == ring->count)
-   375			ring->next_to_use = 0;
-   376	
-   377		/* wmb for cmdq notify */
-   378		wmb();
-   379		phy_ops->update_cmdq_tail(NBL_CHAN_MGT_TO_PHY_PRIV(queue->chan_mgt),
-   380					  (ring->doorbell) & NBL_CMDQ_DOORBELL_MASK);
-   381		return NBL_CMDQ_SUCCESS;
-   382	}
-   383	
-   384	static inline enum nbl_cmd_status
-   385	nbl_cmdq_check_content(const struct nbl_cmd_queue *queue,
-   386			       const struct nbl_cmd_hdr *hdr,
-   387			       const struct nbl_cmd_content *cmd)
-   388	{
-   389		enum nbl_cmd_status status = NBL_CMDQ_SUCCESS;
-   390	
-   391		if ((cmd->in_va && !cmd->in_length) ||
-   392		    (!cmd->in_va && cmd->in_length) ||
-   393		    (cmd->in_va && cmd->in_length > queue->sq_buf_size)) {
-   394			status = NBL_CMDQ_CQ_ERR_PARAMS;
-   395		}
-   396	
-   397		/* check parameters: the receiving part */
-   398		if ((hdr->opcode == NBL_CMD_OP_READ ||
-   399		     hdr->opcode == NBL_CMD_OP_SEARCH) && !cmd->out_va)
-   400			status = NBL_CMDQ_CQ_ERR_PARAMS;
-   401	
-   402		return status;
-   403	}
-   404	
-   405	static inline enum nbl_cmd_status
-   406	nbl_cmdq_check_interface_error(struct nbl_cmd_desc *desc,
-   407				       struct nbl_common_info *common)
-   408	{
-   409		u8 interface_err = 0;
-   410		enum nbl_cmd_status status = NBL_CMDQ_SUCCESS;
-   411	
-   412		/* flag error bit: error in firmware cmdq interface */
-   413		if (nbl_cmdq_flag_check_interface_error(desc)) {
-   414			/* mark current desc as done by driver */
-   415			nbl_cmdq_flag_mark_cmd_done(desc);
-   416	
-   417			status = NBL_CMDQ_FAILED;
-   418			interface_err = (desc->flags >> NBL_CMDQ_DESC_FLAG_IF_ERR_OFT) &
-   419					NBL_CMDQ_DESC_FLAG_IF_ERR_MASK;
-   420			switch (interface_err) {
-   421			case 0b00:
-   422				/* dma error, re-send command */
-   423				/* abort if failed sending command 3 times in a row */
-   424				status = NBL_CMDQ_NEED_RESEND;
-   425				break;
-   426			case 0b01:
-   427				/* driver data error, dont re-send */
-   428				status = NBL_CMDQ_NOBUF_ERR;
-   429				break;
-   430			case 0b10:
-   431			case 0b11:
-   432				/* firmware sequence error, reset cmdq */
-   433				status = NBL_CMDQ_NEED_RESET;
-   434				break;
-   435			default:
-   436				/* unknown error */
-   437				nbl_err(common, NBL_DEBUG_FLOW,
-   438					"tc flow cmdq unknown error from firmware interface");
-   439				break;
-   440			}
-   441		}
-   442	
-   443		return status;
-   444	}
-   445	
-   446	static enum nbl_cmd_status
-   447	nbl_cmdq_fetch_response(struct nbl_cmd_queue *queue, struct nbl_cmd_desc *desc,
-   448				struct nbl_cmd_content *cmd, struct nbl_cmdq_dma_mem *buffer)
-   449	{
-   450		u8 error_code;
-   451		const char *buf_start;
-   452		enum nbl_cmd_status status = NBL_CMDQ_SUCCESS;
-   453		struct nbl_common_info *common = queue->chan_mgt->common;
-   454	
-   455		/* check descriptor flag error bit for firmware business */
-   456		if (nbl_cmdq_flag_check_error(desc)) {
-   457			status = NBL_CMDQ_FAILED;
-   458			error_code = desc->errorcode;
-   459			if (error_code) {
-   460				nbl_err(common, NBL_DEBUG_FLOW, "tc flow cmdq error code: %d",
-   461					error_code);
-   462			} else {
-   463				nbl_err(common, NBL_DEBUG_FLOW,
-   464					"tc flow cmdq desc error in flag but no errorcode");
-   465			}
-   466	
-   467			goto fetch_response_end;
-   468		}
-   469	
-   470		/* check return buffer flag bit */
-   471		if (cmd->out_va && cmd->out && !nbl_cmdq_flag_check_out_buffer(desc)) {
-   472			nbl_err(common, NBL_DEBUG_FLOW, "tc flow cmdq response buffer bit not matched");
-   473			status = NBL_CMDQ_NOBUF_ERR;
-   474			goto fetch_response_end;
-   475		}
-   476	
-   477		/* process out buffer */
-   478		if (cmd->out_va && cmd->out && buffer) {
- > 479			cmd->out_length = le16_to_cpu(desc->datalen) - NBL_CMDQ_HALF_DESC_LENGTH;
-   480			if (cmd->out_length > queue->sq_buf_size) {
-   481				nbl_err(common, NBL_DEBUG_FLOW,
-   482					"tc flow cmdq buffer larger than allowed.\n");
-   483				status = NBL_CMDQ_CQ_ERR_BUFFER;
-   484				goto fetch_response_end;
-   485			}
-   486	
-   487			if ((desc->opcode == NBL_CMD_OP_READ ||
-   488			     desc->opcode == NBL_CMD_OP_SEARCH) && cmd->out_va) {
-   489				buf_start = (char *)buffer->va + NBL_CMDQ_HALF_DESC_LENGTH;
-   490				memcpy(cmd->out_va, buf_start, cmd->out_length);
-   491			}
-   492		}
-   493	
-   494	fetch_response_end:
-   495		queue->sq_last_status = status;
-   496		return status;
-   497	}
-   498	
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  365
+41ac7b3ab7fe1d drivers/usb/phy/omap-usb2.c    Bill Pemberton         2012-11-19  366  static int omap_usb2_probe(struct platform_device *pdev)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  367  {
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  368  	struct omap_usb	*phy;
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  369  	struct phy *generic_phy;
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  370  	struct phy_provider *phy_provider;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  371  	struct usb_otg *otg;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  372  	struct device_node *node = pdev->dev.of_node;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  373  	struct device_node *control_node;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  374  	struct platform_device *control_pdev;
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  375  	const struct usb_phy_data *phy_data;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  376
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  377  	phy_data = device_get_match_data(&pdev->dev);
+21bf6fc47a1e45 drivers/phy/ti/phy-omap-usb2.c Rob Herring            2023-10-09  378  	if (!phy_data)
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  379  		return -EINVAL;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  380
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  381  	phy = devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
+0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  382  	if (!phy)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  383  		return -ENOMEM;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  384
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  385  	otg = devm_kzalloc(&pdev->dev, sizeof(*otg), GFP_KERNEL);
+0b68253d9f8d25 drivers/phy/phy-omap-usb2.c    Peter Griffin          2014-08-15  386  	if (!otg)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  387  		return -ENOMEM;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  388
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  389  	phy->dev		= &pdev->dev;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  390
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  391  	phy->phy.dev		= phy->dev;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  392  	phy->phy.label		= phy_data->label;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  393  	phy->phy.otg		= otg;
+c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  394  	phy->phy.type		= USB_PHY_TYPE_USB2;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  395  	phy->mask		= phy_data->mask;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  396  	phy->power_on		= phy_data->power_on;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  397  	phy->power_off		= phy_data->power_off;
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  398  	phy->flags		= phy_data->flags;
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  399
+ad7a7acaedcf45 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  400  	omap_usb2_init_errata(phy);
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  401
+79caf207d66994 drivers/phy/ti/phy-omap-usb2.c Chunfeng Yun           2020-11-06  402  	phy->phy_base = devm_platform_ioremap_resource(pdev, 0);
+3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  403  	if (IS_ERR(phy->phy_base))
+3df9fcd59fd829 drivers/phy/phy-omap-usb2.c    Himangi Saraogi        2014-07-10  404  		return PTR_ERR(phy->phy_base);
+7e472402ca3082 drivers/phy/phy-omap-usb2.c    Austin Beam            2014-03-06  405
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  406  	phy->syscon_phy_power = syscon_regmap_lookup_by_phandle(node,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  407  								"syscon-phy-power");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  408  	if (IS_ERR(phy->syscon_phy_power)) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  409  		dev_dbg(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  410  			"can't get syscon-phy-power, using control device\n");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  411  		phy->syscon_phy_power = NULL;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  412
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  413  		control_node = of_parse_phandle(node, "ctrl-module", 0);
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  414  		if (!control_node) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  415  			dev_err(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  416  				"Failed to get control device phandle\n");
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  417  			return -EINVAL;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  418  		}
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  419
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  420  		control_pdev = of_find_device_by_node(control_node);
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  421  		if (!control_pdev) {
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  422  			dev_err(&pdev->dev, "Failed to get control device\n");
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  423  			return -EINVAL;
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  424  		}
+478b6c7436c233 drivers/phy/phy-omap-usb2.c    Roger Quadros          2013-10-03  425  		phy->control_dev = &control_pdev->dev;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  426  	} else {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  427  		if (of_property_read_u32_index(node,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  428  					       "syscon-phy-power", 1,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  429  					       &phy->power_reg)) {
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  430  			dev_err(&pdev->dev,
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  431  				"couldn't get power reg. offset\n");
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  432  			return -EINVAL;
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  433  		}
+9955a7835bf376 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  434  	}
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  435
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  436  	phy->wkupclk = devm_clk_get(phy->dev, "wkupclk");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  437  	if (IS_ERR(phy->wkupclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  438  		if (PTR_ERR(phy->wkupclk) == -EPROBE_DEFER)
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  439  			return -EPROBE_DEFER;
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  440
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  441  		dev_warn(&pdev->dev, "unable to get wkupclk %ld, trying old name\n",
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05 @442  			 PTR_ERR(phy->wkupclk));
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  443  		phy->wkupclk = devm_clk_get(phy->dev, "usb_phy_cm_clk32k");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  444
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  445  		if (IS_ERR(phy->wkupclk))
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  446  			return dev_err_probe(&pdev->dev, PTR_ERR(phy->wkupclk),
+623cb3e22c9d7e drivers/phy/ti/phy-omap-usb2.c Ye Xingchen            2023-03-23  447  					     "unable to get usb_phy_cm_clk32k\n");
+8836e29bad3498 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2020-08-24  448
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  449  		dev_warn(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  450  			 "found usb_phy_cm_clk32k, please fix DTS\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  451  	}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  452
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  453  	phy->optclk = devm_clk_get(phy->dev, "refclk");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  454  	if (IS_ERR(phy->optclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  455  		if (PTR_ERR(phy->optclk) == -EPROBE_DEFER)
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  456  			return -EPROBE_DEFER;
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  457
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  458  		dev_dbg(&pdev->dev, "unable to get refclk, trying old name\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  459  		phy->optclk = devm_clk_get(phy->dev, "usb_otg_ss_refclk960m");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  460
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  461  		if (IS_ERR(phy->optclk)) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  462  			if (PTR_ERR(phy->optclk) != -EPROBE_DEFER) {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  463  				dev_dbg(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  464  					"unable to get usb_otg_ss_refclk960m\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  465  			}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  466  		} else {
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  467  			dev_warn(&pdev->dev,
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  468  				 "found usb_otg_ss_refclk960m, please fix DTS\n");
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  469  		}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  470  	}
+ed31ee7cf1fea2 drivers/phy/ti/phy-omap-usb2.c Roger Quadros          2018-12-05  471
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  472  	otg->set_host = omap_usb_set_host;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  473  	otg->set_peripheral = omap_usb_set_peripheral;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  474  	if (phy_data->flags & OMAP_USB2_HAS_SET_VBUS)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  475  		otg->set_vbus = omap_usb_set_vbus;
+09a0168de11a4a drivers/phy/phy-omap-usb2.c    George Cherian         2014-03-06  476  	if (phy_data->flags & OMAP_USB2_HAS_START_SRP)
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  477  		otg->start_srp = omap_usb_start_srp;
+19c1eac2685b62 drivers/phy/phy-omap-usb2.c    Antoine Tenart         2014-10-30  478  	otg->usb_phy = &phy->phy;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  479
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  480  	platform_set_drvdata(pdev, phy);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  481  	pm_runtime_enable(phy->dev);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  482
+dbc98635e0d42f drivers/phy/phy-omap-usb2.c    Heikki Krogerus        2014-11-19  483  	generic_phy = devm_phy_create(phy->dev, NULL, &ops);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  484  	if (IS_ERR(generic_phy)) {
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  485  		pm_runtime_disable(phy->dev);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  486  		return PTR_ERR(generic_phy);
+f20531a9aae0c7 drivers/phy/phy-omap-usb2.c    Oussama Ghorbel        2014-11-04  487  	}
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  488
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  489  	phy_set_drvdata(generic_phy, phy);
+86c574e4bc9d84 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2015-12-21  490  	omap_usb_power_off(generic_phy);
+5d93d1e76afbe6 drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2013-09-27  491
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  492  	phy_provider = devm_of_phy_provider_register(phy->dev,
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  493  						     of_phy_simple_xlate);
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  494  	if (IS_ERR(phy_provider)) {
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  495  		pm_runtime_disable(phy->dev);
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  496  		return PTR_ERR(phy_provider);
+eb82a3d846fab0 drivers/phy/phy-omap-usb2.c    Roger Quadros          2014-07-10  497  	}
+64fe1891696cde drivers/phy/phy-omap-usb2.c    Kishon Vijay Abraham I 2014-02-17  498
+c11747f6ce7025 drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2013-01-25  499  	usb_add_phy_dev(&phy->phy);
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  500
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  501  	return 0;
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  502  }
+657b306a7bdfca drivers/usb/phy/omap-usb2.c    Kishon Vijay Abraham I 2012-09-06  503
+
+:::::: The code at line 442 was first introduced by commit
+:::::: ed31ee7cf1fea2463d9600ac91ed74691b88131f phy: ti: usb2: Fix logic on -EPROBE_DEFER
+
+:::::: TO: Roger Quadros <rogerq@ti.com>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
