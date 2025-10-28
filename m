@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD41029C35A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0B431770F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761660082; cv=none; b=M4uc22/1tU5KpBB776oYNKL/eMuDtaqrTV6XRq0PviULCCeKMovsoCS/gD8cdA6ePc3s8jplNpdk72iLM8YK1/ZnvV01tXS/l2fSCaslmMzJqPdCekD9Xkj//4IE3dX7wlAjA15ye7ARJw22xL42f6cP0dB4BvmsAUy2P0fKRG8=
+	t=1761661213; cv=none; b=hMxgcEPTbOw76RjbHASZfmz9TwKAVuyuanUvtVQl0jzRXvg0Ludf6+lNOwhf1EHk6EK3dN3MjmJZzmXIqKGGGJmq11rX68TY0gPa8yCNd2maX2Ap6RYyI3+wSABXkDF1F0Ze/EDXvRG+idw2rCOZ5xRgUB4qYIu9l1eDQJf+B+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761660082; c=relaxed/simple;
-	bh=Q+JKkHpI7G2bnBrn++zkM52PKJ8LvFbwXnn+LgOzPvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1CT7cFxQ9+wN3OB80yh/FMZdhwjdzEW+yHAtX2xLdnn7K4cYsLJk5bG4I8KI2FIljJ5traeAe6Gj+KwW1QbkbJCklRDDI/+6eR80yUhXm5xJvNRIYYMtMi1CvrJfxqksQnYiDoM7cIk2+lcWqlWhvwhTeex914HSj0mma+UZ7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZzFMTol; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1761661213; c=relaxed/simple;
+	bh=uzAi3ikuDvDJ6zAM1uQH0PW7cK35v1U0AxmZxlBSHQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dOCbzpXDDsxA2Wa7UQGXYGaZJD6eiswwDjr939tcbv3TvdSipGzwLcujRfRS5vFkSbL5vzqHdXWhBsuuerAoj7bWhQCsNmEIoomnIjvstra6wg/oAjtujdzP2BqPdx8k4iJLawjkdgcY6VwB6zELtdWQ7FbEUgwLCjiU2qr8Dpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DveCNw1b; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZzFMTol"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DveCNw1b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761660079; x=1793196079;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q+JKkHpI7G2bnBrn++zkM52PKJ8LvFbwXnn+LgOzPvI=;
-  b=nZzFMTolApOFVvhgKjn/dOdxyXlANIJL+OILDq05KFMqxnZkzBw9Aojh
-   /Zo8JhtcOTxEd3YzgNH5D9eylUYvc2lggIuxTB7A+oFZyPE/C+hb/+yYW
-   zyRVSVv8HyLDkQ9zmLzf8Ed4yKfdJUBBNrsuZ5iKIuksMN1Pqky0S4roV
-   5LhvtEkMNsakaf6DcHOROjoQa1a+CYjK+JpVHfCxmNRwDaRloYtV5GyCc
-   T9KKEosGKkmzybltOvX/ss3NrO9YFSJIVFiRDMKNLss3hfQ3BeBeNvKLL
-   EZghlEh9IjNqrAYx/6Y5/MiawPitUoE4OUX7xGpusBHRc58Wx+seIvi1i
-   g==;
-X-CSE-ConnectionGUID: pyDZt7HbSquyEFC6EyY5RA==
-X-CSE-MsgGUID: xNxntcCNTqGC3sBEAdnxvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67597782"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67597782"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:01:19 -0700
-X-CSE-ConnectionGUID: u16gAOxzRcO5A15rT/ulKQ==
-X-CSE-MsgGUID: dCJ8mXX6S42gCVfap5q90Q==
+  t=1761661209; x=1793197209;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uzAi3ikuDvDJ6zAM1uQH0PW7cK35v1U0AxmZxlBSHQQ=;
+  b=DveCNw1bbeo0A2tvM28hyqDB+QBL2Lcz3F1z4Z3LhXMXtUEmfZWCy4V0
+   YpwjdB4tgSCmdnBypZkP7MlXcKZBK2Ohzngwxscn/vdMMZ6bXz3qGqVoF
+   BLQXIJOPs4BD9S3QlaQWtyJ1XilSbcUM4Bwb5P9rdgTbr6tmC+FWVpuZU
+   LCFS4mRVtrQGD9Ii5wgLSEofjF7TGafGftPPG+GJ5KGUtZPWvgUrMQEcM
+   AReG42qUPSEX6El1ZsGlDRtL+1bh/sT5ljrv6RrXTeggEnP2JLcQ6AkZ6
+   NMQQIC9YtcXRB2IvkAEhEmIzNcfXPFSGTuINLAcs67jb4GLU/AhnLU10+
+   A==;
+X-CSE-ConnectionGUID: SKhS2n+yT5WkodXGJyECoQ==
+X-CSE-MsgGUID: 2BKwkxwPQiKXSgoISN+P/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89232838"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="89232838"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:20:08 -0700
+X-CSE-ConnectionGUID: 2/qRBdZ2SnK+ac4Z62R9CQ==
+X-CSE-MsgGUID: E8o2rvSOQReM+4hm1+XwvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="208948271"
+   d="scan'208";a="189712523"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Oct 2025 07:01:12 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Oct 2025 07:20:05 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDkG6-000JBZ-0W;
-	Tue, 28 Oct 2025 14:01:10 +0000
-Date: Tue, 28 Oct 2025 22:00:31 +0800
+	id 1vDkYI-000JD1-0J;
+	Tue, 28 Oct 2025 14:19:59 +0000
+Date: Tue, 28 Oct 2025 22:11:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miaoqian Lin <linmq006@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
-	Philippe Cornu <philippe.cornu@st.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] drm/of: Fix device node reference leak in
- drm_of_panel_bridge_remove
-Message-ID: <202510282123.AjUbRs11-lkp@intel.com>
-References: <20251028060918.65688-1-linmq006@gmail.com>
+To: David Ahern <dsahern@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dsahern:netdevsim-speed 1/1]
+ include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few
+ arguments to function 'generic___set_bit'
+Message-ID: <202510282255.2U05lqNh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,90 +62,1958 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251028060918.65688-1-linmq006@gmail.com>
 
-Hi Miaoqian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.18-rc3 next-20251028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/drm-of-Fix-device-node-reference-leak-in-drm_of_panel_bridge_remove/20251028-141134
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251028060918.65688-1-linmq006%40gmail.com
-patch subject: [PATCH] drm/of: Fix device node reference leak in drm_of_panel_bridge_remove
-config: mips-randconfig-r072-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282123.AjUbRs11-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282123.AjUbRs11-lkp@intel.com/reproduce)
+tree:   https://github.com/dsahern/linux netdevsim-speed
+head:   ae20d62bc3e42f44ed7113d792ceb545036ca61d
+commit: ae20d62bc3e42f44ed7113d792ceb545036ca61d [1/1] netdevsim: Add ability to change speed via ethtool APIs
+config: csky-randconfig-r071-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282255.2U05lqNh-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282255.2U05lqNh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282123.AjUbRs11-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510282255.2U05lqNh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/drm_bridge.c:37:
->> include/drm/drm_of.h:174:2: error: call to undeclared function 'of_node_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     174 |         of_node_put(remote);
-         |         ^
-   1 error generated.
---
-   In file included from drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c:10:
->> include/drm/drm_of.h:174:2: error: call to undeclared function 'of_node_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     174 |         of_node_put(remote);
-         |         ^
-   In file included from drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c:13:
-   In file included from include/linux/backlight.h:13:
-   In file included from include/linux/fb.h:5:
-   In file included from include/uapi/linux/fb.h:6:
-   In file included from include/linux/i2c.h:21:
-   In file included from include/linux/irqdomain.h:14:
->> include/linux/of.h:129:13: error: conflicting types for 'of_node_put'
-     129 | extern void of_node_put(struct device_node *node);
-         |             ^
-   include/drm/drm_of.h:174:2: note: previous implicit declaration is here
-     174 |         of_node_put(remote);
-         |         ^
-   2 errors generated.
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:32: error: 'Autoneg' undeclared (first use in this function)
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |                                ^~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:32: note: each undeclared identifier is reported only once for each function it appears in
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |                                ^~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/bitops.h:28:
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:68: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |                                                                    ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:239:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     239 |         NETDEVSIM_ETHTOOL_MODE(Autoneg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:66: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |                                                                  ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:68: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |                                                                    ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:32: error: invalid suffix "baseT_Full" on integer constant
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |                                ^~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:240:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     240 |         NETDEVSIM_ETHTOOL_MODE(10baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:66: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |                                                                  ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:68: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |                                                                    ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:32: error: invalid suffix "baseT_Full" on integer constant
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |                                ^~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:241:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     241 |         NETDEVSIM_ETHTOOL_MODE(100baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:66: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |                                                                  ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:68: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |                                                                    ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:32: error: invalid suffix "baseT_Full" on integer constant
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |                                ^~~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:242:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     242 |         NETDEVSIM_ETHTOOL_MODE(1000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:66: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |                                                                  ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:236:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     236 |         ethtool_link_ksettings_add_link_mode(ks, supported, (mode)); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:19: error: pasting "ETHTOOL_LINK_MODE_" and "(" does not give a valid preprocessing token
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                   ^~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:68: error: pasting ")" and "_BIT" does not give a valid preprocessing token
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |                                                                    ^
+   include/linux/ethtool.h:260:41: note: in definition of macro 'ethtool_link_ksettings_add_link_mode'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                         ^~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:43:32: note: in definition of macro 'bitop'
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                                ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:43:31: note: to match this '('
+      43 |         ((__builtin_constant_p(nr) &&                                   \
+         |                               ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:20: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                    ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:19: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                   ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/generic-non-atomic.h:147:41: error: too few arguments to function 'generic___set_bit'
+     147 | #define const___set_bit                 generic___set_bit
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:10: note: in expansion of macro 'const___set_bit'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |          ^~~~~
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:32: error: invalid suffix "baseT_Full" on integer constant
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |                                ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ethtool.h:260:49: error: expected ')' before '_BIT'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |                                                 ^~~~
+   include/linux/bitops.h:47:35: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                   ^~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:34: note: to match this '('
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                  ^
+   include/linux/bitops.h:53:41: note: in expansion of macro 'bitop'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                         ^~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> include/asm-generic/bitops/non-atomic.h:7:24: error: too few arguments to function 'generic___set_bit'
+       7 | #define arch___set_bit generic___set_bit
+         |                        ^~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:47:32: note: in definition of macro 'bitop'
+      47 |          const##op(nr, addr) : op(nr, addr))
+         |                                ^~
+   include/asm-generic/bitops/non-instrumented-non-atomic.h:6:33: note: in expansion of macro 'arch___set_bit'
+       6 | #define ___set_bit              arch___set_bit
+         |                                 ^~~~~~~~~~~~~~
+   include/linux/bitops.h:53:47: note: in expansion of macro '___set_bit'
+      53 | #define __set_bit(nr, addr)             bitop(___set_bit, nr, addr)
+         |                                               ^~~~~~~~~~
+   include/linux/ethtool.h:260:9: note: in expansion of macro '__set_bit'
+     260 |         __set_bit(ETHTOOL_LINK_MODE_ ## mode ## _BIT, (ptr)->link_modes.name)
+         |         ^~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:237:9: note: in expansion of macro 'ethtool_link_ksettings_add_link_mode'
+     237 |         ethtool_link_ksettings_add_link_mode(ks, advertising, (mode));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/netdevsim/ethtool.c:243:9: note: in expansion of macro 'NETDEVSIM_ETHTOOL_MODE'
+     243 |         NETDEVSIM_ETHTOOL_MODE(10000baseT_Full);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:28:1: note: declared here
+      28 | generic___set_bit(unsigned long nr, volatile unsigned long *addr)
+         | ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
 
-vim +/of_node_put +174 include/drm/drm_of.h
+vim +/generic___set_bit +147 include/asm-generic/bitops/generic-non-atomic.h
 
-   153	
-   154	/*
-   155	 * drm_of_panel_bridge_remove - remove panel bridge
-   156	 * @np: device tree node containing panel bridge output ports
-   157	 *
-   158	 * Remove the panel bridge of a given DT node's port and endpoint number
-   159	 *
-   160	 * Returns zero if successful, or one of the standard error codes if it fails.
-   161	 */
-   162	static inline int drm_of_panel_bridge_remove(const struct device_node *np,
-   163						     int port, int endpoint)
-   164	{
-   165	#if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
-   166		struct drm_bridge *bridge;
-   167		struct device_node *remote;
-   168	
-   169		remote = of_graph_get_remote_node(np, port, endpoint);
-   170		if (!remote)
-   171			return -ENODEV;
-   172	
-   173		bridge = of_drm_find_bridge(remote);
- > 174		of_node_put(remote);
-   175		drm_panel_bridge_remove(bridge);
-   176	
-   177		return 0;
-   178	#else
-   179		return -EINVAL;
-   180	#endif
-   181	}
-   182	
+8238b4579866b7 Mikulas Patocka   2022-08-26  142  
+bb7379bfa680bd Alexander Lobakin 2022-06-24  143  /*
+bb7379bfa680bd Alexander Lobakin 2022-06-24  144   * const_*() definitions provide good compile-time optimizations when
+bb7379bfa680bd Alexander Lobakin 2022-06-24  145   * the passed arguments can be resolved at compile time.
+bb7379bfa680bd Alexander Lobakin 2022-06-24  146   */
+bb7379bfa680bd Alexander Lobakin 2022-06-24 @147  #define const___set_bit			generic___set_bit
+bb7379bfa680bd Alexander Lobakin 2022-06-24  148  #define const___clear_bit		generic___clear_bit
+bb7379bfa680bd Alexander Lobakin 2022-06-24  149  #define const___change_bit		generic___change_bit
+bb7379bfa680bd Alexander Lobakin 2022-06-24  150  #define const___test_and_set_bit	generic___test_and_set_bit
+bb7379bfa680bd Alexander Lobakin 2022-06-24  151  #define const___test_and_clear_bit	generic___test_and_clear_bit
+bb7379bfa680bd Alexander Lobakin 2022-06-24  152  #define const___test_and_change_bit	generic___test_and_change_bit
+8238b4579866b7 Mikulas Patocka   2022-08-26  153  #define const_test_bit_acquire		generic_test_bit_acquire
+bb7379bfa680bd Alexander Lobakin 2022-06-24  154  
+
+:::::: The code at line 147 was first introduced by commit
+:::::: bb7379bfa680bd48b468e856475778db2ad866c1 bitops: define const_*() versions of the non-atomics
+
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
