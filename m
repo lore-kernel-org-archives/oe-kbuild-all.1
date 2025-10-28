@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E3240855
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 00:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFFB1A9FBD;
+	Tue, 28 Oct 2025 00:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761611471; cv=none; b=COqu1ZOwkXu5yfLPZ5Pd8SpgyCqk35HIgo0nC1NuCbILNRbkuRZVoqFm95uOoJZtja8sdZXGoFcZvH3JFw6pCLfNUmcfF8SzQ7E2qTcfTHQoBsUXqyFIrY33Po27UBu6Xs+ynqej5hDxnt99tmadDsNIuIjRs1pYwfBpqO2W7ns=
+	t=1761612747; cv=none; b=PnXRzsGTjZdeh0PeOhv36xUCI2xJF+dY5IVjo3ELMjiSrPv8xRukattCIMw8kFJE4eItTgTRvdVzqtQdfaEsre0zYz/sntIUEEcSyeR/VyBdBJ/zzYmQdpREns2pSxD1gRtSDHpDhzP+IETy0m2pvUPfZXu4s8+iyS85b3prN+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761611471; c=relaxed/simple;
-	bh=o/uluCbWhvZ7o0jJ2HFyGBlTePjWqH4H9lLvIXDdNac=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dAmao8iQSnPz0LORJ9zHQF5eMWcO9n/un0x0CT177Jk0WTQfdM277AjIFClmc72NrTWoW0UJ9n+Zoes/gFDNZ6STV1d214WjjjXk1fa9Cb0X2BqVNhiq7LNPfWSvQkzzT4gg1kYleDl8TOXeDIyf5zNE0H1aF9We8R+BoApT9q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0lnbX3Q; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1761612747; c=relaxed/simple;
+	bh=w7zS/Rxbd2Ot04z+qhtf2Kt5+S/gx85Bie+qXzvTKLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WzpW0dzRc2MrgnzFMw75qYKdx/MOxzJDeFA9n1Mwey49UneSo/U/hV0reE+wULFrbtush/hipQunJTQi5dfVQO2EgTBdy6tb7OL5pRiRG068MYEc31vF7RDfRWVCJx/iNzR9Trb85F6E3h6spmnbibWtg81cQnIA9ZgO9sBR89w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8+ZOEII; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0lnbX3Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8+ZOEII"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761611469; x=1793147469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o/uluCbWhvZ7o0jJ2HFyGBlTePjWqH4H9lLvIXDdNac=;
-  b=b0lnbX3QxemogAZfvcWdFhmCgcAOhKv5UWO8gacJTU3LQ7Do7MQQ90D1
-   5k+lBs633c7FN8R96Q1+Dmscl/VIhYo8hidCyTZPxxG9uQMi2PhOGWon1
-   p6Xc5hTFvCcHWrDwav/g5IAhNB17TdG6l89VqL+GOwYj/ERbLEIinZtwk
-   DEb3BNClCbKevMRmu88Baen+U+1oBmSaW5Cj3ZCjeIxkZv3j0XICciEI/
-   p5MX6zLdsxnx+RZkjdJ3KmleSlBba5TaIAKbMsa3GIZS7dZtXITsEiSoJ
-   7Mkb/F6v7X+toE+DGVbS3WKA0Q+OpRRJy1vR4xaVJtHrEnX2DuDrt70Vd
-   Q==;
-X-CSE-ConnectionGUID: Iiz1hGCMRSiySVf4mAcDtw==
-X-CSE-MsgGUID: S5owq/jRT3KUwTUiYZCvkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63630706"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63630706"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 17:31:06 -0700
-X-CSE-ConnectionGUID: wODAfOOuR5++gBxlnUkmlw==
-X-CSE-MsgGUID: 4H/LGh3RQA6dMr05idx/Bw==
+  t=1761612745; x=1793148745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w7zS/Rxbd2Ot04z+qhtf2Kt5+S/gx85Bie+qXzvTKLc=;
+  b=Y8+ZOEIIjoFQALkHEkQ/PCOFV2vOsVCITk2X5CKpcrTuZlTerOYuiPew
+   taT4zXv9QdKbCP0d0wq2MypTxqZnP+9wINKZwO3Dt+ksVT75zTqW1FixL
+   9N8j7fdE6g12H2ENCp4P+rRYf4BLCF4WzNw+LElnQXRsuNHcNf6X640Tq
+   eWI6QKI55CDIHlMnVyCzWCh6ET7iwbl2PMVgjKapJ0BNgoUaMq+A3sjJD
+   X2HC51a5FXsaR+TZ6/b4SxV5E5gQQhTwP8l79KLJLO+qSBIdRREo+409j
+   DgTVTvyxiNWu3mzcwphrS2VDqj9Fd7xo7lCXMKLZiHlRWRmrC4tYrph35
+   g==;
+X-CSE-ConnectionGUID: A3D7P6Y0T5e3g2Yyvu3+1g==
+X-CSE-MsgGUID: j6Wsf0zyQjazwGkRM6n7rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67569074"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="67569074"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 17:52:24 -0700
+X-CSE-ConnectionGUID: iliyoV3HSiWz4WHQBxJ1yQ==
+X-CSE-MsgGUID: hTZAPswWTDKoA9uQQVALaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="208799200"
+   d="scan'208";a="185103061"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2025 17:31:05 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Oct 2025 17:52:20 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDXc6-000Ib7-33;
-	Tue, 28 Oct 2025 00:31:02 +0000
-Date: Tue, 28 Oct 2025 08:30:40 +0800
+	id 1vDXwb-000Ibx-1L;
+	Tue, 28 Oct 2025 00:52:16 +0000
+Date: Tue, 28 Oct 2025 08:51:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 213/218]
- drivers/gpu/drm/panel/panel-ilitek-il79900a.c:302:10: sparse: sparse:
- Initializer entry defined twice
-Message-ID: <202510280848.knkR4lpS-lkp@intel.com>
+To: "Nysal Jan K.A." <nysal@linux.ibm.com>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Nysal Jan K.A." <nysal@linux.ibm.com>,
+	Sachin P Bappalige <sachinpb@linux.ibm.com>, stable@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Laurent Dufour <ldufour@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] powerpc/kexec: Enable SMT before waking offline CPUs
+Message-ID: <202510280824.Fe2D1Sbw-lkp@intel.com>
+References: <20251025080512.85690-1-nysal@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,87 +72,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251025080512.85690-1-nysal@linux.ibm.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   7cb5794f39b1ac6289464c0ce92682cffda5e02b
-commit: 3913901e2d6501da932464d5167e7deff9e4b6b0 [213/218] CHROMIUM: drm/panel: Add driver for Tianma TL121BVMS07-00 panel
-config: arm-randconfig-r131-20251028 (https://download.01.org/0day-ci/archive/20251028/202510280848.knkR4lpS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510280848.knkR4lpS-lkp@intel.com/reproduce)
+Hi Nysal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.18-rc3 next-20251027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nysal-Jan-K-A/powerpc-kexec-Enable-SMT-before-waking-offline-CPUs/20251025-160821
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251025080512.85690-1-nysal%40linux.ibm.com
+patch subject: [PATCH] powerpc/kexec: Enable SMT before waking offline CPUs
+config: powerpc64-randconfig-001-20251028 (https://download.01.org/0day-ci/archive/20251028/202510280824.Fe2D1Sbw-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510280824.Fe2D1Sbw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510280848.knkR4lpS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510280824.Fe2D1Sbw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/panel/panel-ilitek-il79900a.c:302:10: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/panel/panel-ilitek-il79900a.c:308:10: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +302 drivers/gpu/drm/panel/panel-ilitek-il79900a.c
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:37:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
+      37 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_THREAD__ 1
+         |         ^
+>> arch/powerpc/kexec/core_64.c:220:22: error: expression is not assignable
+     220 |         cpu_smt_num_threads = threads_per_core;
+         |         ~~~~~~~~~~~~~~~~~~~ ^
+   arch/powerpc/kexec/core_64.c:221:18: error: expression is not assignable
+     221 |         cpu_smt_control = CPU_SMT_ENABLED;
+         |         ~~~~~~~~~~~~~~~ ^
+   1 warning and 2 errors generated.
 
-   288	
-   289	static const struct drm_dsc_config tianma_il79900a_dsc = {
-   290		.dsc_version_major = 1,
-   291		.dsc_version_minor = 2,
-   292		.slice_height = 8,
-   293		.slice_width = 800,
-   294		.slice_count = 2,
-   295		.bits_per_component = 8,
-   296		.bits_per_pixel = 8 << 4,
-   297		.block_pred_enable = true,
-   298		.native_420 = false,
-   299		.native_422 = false,
-   300		.simple_422 = false,
-   301		.vbr_enable = false,
- > 302		.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-   303		.pic_width = 1600,
-   304		.pic_height = 2560,
-   305		.convert_rgb = 0,
-   306		.vbr_enable = 0,
-   307		.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
-   308		.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-   309		.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
-   310		.rc_tgt_offset_high = DSC_RC_TGT_OFFSET_HI_CONST,
-   311		.rc_tgt_offset_low = DSC_RC_TGT_OFFSET_LO_CONST,
-   312		.mux_word_size = DSC_MUX_WORD_SIZE_8_10_BPC,
-   313		.line_buf_depth = 9,
-   314		.first_line_bpg_offset = 12,
-   315		.initial_xmit_delay = 512,
-   316		.initial_offset = 6144,
-   317		.rc_quant_incr_limit0 = 11,
-   318		.rc_quant_incr_limit1 = 11,
-   319		.nfl_bpg_offset = 1402,
-   320		.rc_range_params = {
-   321			{ 0,  4, DSC_BPG_OFFSET(2)},
-   322			{ 0,  4, DSC_BPG_OFFSET(0)},
-   323			{ 1,  5, DSC_BPG_OFFSET(0)},
-   324			{ 1,  6, DSC_BPG_OFFSET(-2)},
-   325			{ 3,  7, DSC_BPG_OFFSET(-4)},
-   326			{ 3,  7, DSC_BPG_OFFSET(-6)},
-   327			{ 3,  7, DSC_BPG_OFFSET(-8)},
-   328			{ 3,  8, DSC_BPG_OFFSET(-8)},
-   329			{ 3,  9, DSC_BPG_OFFSET(-8)},
-   330			{ 3, 10, DSC_BPG_OFFSET(-10)},
-   331			{ 5, 10, DSC_BPG_OFFSET(-10)},
-   332			{ 5, 11, DSC_BPG_OFFSET(-12)},
-   333			{ 5, 11, DSC_BPG_OFFSET(-12)},
-   334			{ 9, 12, DSC_BPG_OFFSET(-12)},
-   335			{12, 13, DSC_BPG_OFFSET(-12)},
-   336		},
-   337		.initial_scale_value = 32,
-   338		.slice_chunk_size = 800,
-   339		.initial_dec_delay = 657,
-   340		.final_offset = 4320,
-   341		.scale_increment_interval = 222,
-   342		.scale_decrement_interval = 11,
-   343		.initial_scale_value = 32,
-   344		.nfl_bpg_offset = 3511,
-   345		.slice_bpg_offset = 2179,
-   346		.flatness_max_qp = 12,
-   347		.flatness_min_qp = 3,
-   348	};
-   349	
+
+vim +220 arch/powerpc/kexec/core_64.c
+
+   204	
+   205	/*
+   206	 * We need to make sure each present CPU is online.  The next kernel will scan
+   207	 * the device tree and assume primary threads are online and query secondary
+   208	 * threads via RTAS to online them if required.  If we don't online primary
+   209	 * threads, they will be stuck.  However, we also online secondary threads as we
+   210	 * may be using 'cede offline'.  In this case RTAS doesn't see the secondary
+   211	 * threads as offline -- and again, these CPUs will be stuck.
+   212	 *
+   213	 * So, we online all CPUs that should be running, including secondary threads.
+   214	 */
+   215	static void wake_offline_cpus(void)
+   216	{
+   217		int cpu = 0;
+   218	
+   219		lock_device_hotplug();
+ > 220		cpu_smt_num_threads = threads_per_core;
+   221		cpu_smt_control = CPU_SMT_ENABLED;
+   222		unlock_device_hotplug();
+   223	
+   224		for_each_present_cpu(cpu) {
+   225			if (!cpu_online(cpu)) {
+   226				printk(KERN_INFO "kexec: Waking offline cpu %d.\n",
+   227				       cpu);
+   228				WARN_ON(add_cpu(cpu));
+   229			}
+   230		}
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
