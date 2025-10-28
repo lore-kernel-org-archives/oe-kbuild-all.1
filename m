@@ -1,62 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0843925A633
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6524676A
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761662002; cv=none; b=RVkTSiafWwrooXLY+QIZB7yOej+Ad3G8jeDGpBQNaozdZsIJAOwr59yAey+gPB+qzzgGMzGJqiHyJe+7Igb9c5FcGE8Q7wf/P1XpUHkizfRruN7rR9eZrKisyEQ6tLwhQyj1u8D82zU2UCSAeWxL3YlCDxcuDFXfyr+OhIMTIeg=
+	t=1761662004; cv=none; b=AWumyPRXSIuElCUX8KcjvQXGjer50WOHTwdniOyus9OL1AeTQgaN30S1eqfZwT6uvJ9X+hhguxpBOr+89phGHlOzjpWIgJYxppVVur7RZWcoTuN98GxIo/U0jEkiePoYfleQoN+6OLPnpuA6UyPWZcu4uC367lfZie++/mEUFog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761662002; c=relaxed/simple;
-	bh=64Jcim7KMhHX83R0qyuR9GbplQ9gwYLBb2nrTwHK/Ss=;
+	s=arc-20240116; t=1761662004; c=relaxed/simple;
+	bh=cvbBAFvEUYF4/uygFqDXN5huAqBRxJ5CYiUtMJr8o68=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QyqiC5QiUm1v1F8lMeD+E9R6yxWJQLgUc8zV7aUoxvwIauUxPi/gMIufQDzLHt5XBi/5jvz0ADt1E22YqAWTdi8KyKzP0EntiKmpQAyPdXT9hr/xtMRqlx1s9+JQqQQr/UtcllKrvYtiLqwnN3QkErR9lERLmlYo65qLitMbClk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDLMDaeD; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6JQVMwrbqIm1BKdkwGKEb1Ze8AvbLLmIp0zHDj4XguUQmRRW1NvY/jlawXu98T1vkt0FVBOZtXVYULyX1UKc7ZgoATakECTpDOAbUdygZlZMAyNhKisVEGTmlhddPWunn2FVHdY9MQWgxwm1AUKkxr2IaEDbjHctyYvpGgUVR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=joNkYM5V; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDLMDaeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joNkYM5V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761662001; x=1793198001;
+  t=1761662002; x=1793198002;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=64Jcim7KMhHX83R0qyuR9GbplQ9gwYLBb2nrTwHK/Ss=;
-  b=bDLMDaeDHMXGyPeW7a+jpWQYc9sMvfxjDR4c7Cf1H2AUbS7s68p7CZXw
-   qeL98JTOQFBNLs+m7uRMVr0761UHJiX5Y4mO+qFuAZDUEKJfO5v3+azgW
-   AaMloCM9FEdEW3kORfMKij6TjJyG3JR8zgiU5+wrUTOxb78I+EpEPBA+H
-   6M2wR7A7k9fJeTEDcvn5C1piW1pAmBwyfOKSQg8338qiJKLtonsIqJAbz
-   hdON+G3VUGVltPFuRnumTEPvEWbweruSkvBfapePRBI5yl62I0rEOLIBw
-   wfG8A6/oZK20MgDeRt5Lj/ok9VTbZGATHxzbhSix713aQVzFY0A/4MEmD
+  bh=cvbBAFvEUYF4/uygFqDXN5huAqBRxJ5CYiUtMJr8o68=;
+  b=joNkYM5VC/VUfGY6ZNQfVYfox0rwYOJfkTRa5EOSjCGzvWlZVGFeG1ng
+   w5INIZj9zaxNIsFe52SlvnkezJmAAWmG1AF7t5yiW6hXemgljs0HolvRg
+   yudQGbJoZ8ArO6tvB8Hu1ycvqutrYzcfbyQtcLjclOBF+W/HaOY9Ygs5Y
+   9zJYa58tV2AVN1skbK5I+xi7ryGR8JVTj0NDqWKBwIe7ygSlsVAwuIpK9
+   I47KTB2XR5m+rJ8UHAWgRSvfYQ4WcUUSdftAWhfe419/DoEAn5DP4Sbnk
+   GH+yZm/lV6Zpup0XSDqSS7Iv4El8IOzaxpdcs9c811dwSrOQXbRE7clEk
    Q==;
-X-CSE-ConnectionGUID: wLSv7fkVR56IWFP7p6O/qw==
-X-CSE-MsgGUID: xQBUiX3RQ/CIOO/ZtGUFnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63912443"
+X-CSE-ConnectionGUID: kAOCr5e2QV2gfhhPL3X5Nw==
+X-CSE-MsgGUID: xVrIvR/pRW25Z3VwWVaqPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81393706"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63912443"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:33:20 -0700
-X-CSE-ConnectionGUID: X+djC2PqTW+G8TFGqIIyOA==
-X-CSE-MsgGUID: IQ3IPyQYRWme89TbhkbvkA==
+   d="scan'208";a="81393706"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:33:20 -0700
+X-CSE-ConnectionGUID: 0YNrc5QzTg2W8j79oeRWRg==
+X-CSE-MsgGUID: 8KNuQCivSDS0+oH1G/N0xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185279688"
+   d="scan'208";a="185447887"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 28 Oct 2025 07:33:17 -0700
+  by orviesa008.jf.intel.com with ESMTP; 28 Oct 2025 07:33:17 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDkl9-000JEd-0Y;
+	id 1vDkl9-000JEb-0S;
 	Tue, 28 Oct 2025 14:33:15 +0000
-Date: Tue, 28 Oct 2025 22:32:57 +0800
+Date: Tue, 28 Oct 2025 22:32:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, fw@strlen.de, ffmancera@suse.de,
-	brady.1345@gmail.com
-Subject: Re: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of
- jumps/gotos per netns
-Message-ID: <202510282205.FvXf2zL5-lkp@intel.com>
-References: <20251027221722.183398-2-pablo@netfilter.org>
+To: Miaoqian Lin <linmq006@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	"benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
+	Philippe Cornu <philippe.cornu@st.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] drm/of: Fix device node reference leak in
+ drm_of_panel_bridge_remove
+Message-ID: <202510282250.QkCSotB2-lkp@intel.com>
+References: <20251028060918.65688-1-linmq006@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,132 +71,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027221722.183398-2-pablo@netfilter.org>
+In-Reply-To: <20251028060918.65688-1-linmq006@gmail.com>
 
-Hi Pablo,
+Hi Miaoqian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on linus/master v6.18-rc3 next-20251028]
-[cannot apply to nf-next/master]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.18-rc3 next-20251028]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_tables-limit-maximum-number-of-jumps-gotos-per-netns/20251028-062221
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20251027221722.183398-2-pablo%40netfilter.org
-patch subject: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of jumps/gotos per netns
-config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20251028/202510282205.FvXf2zL5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282205.FvXf2zL5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/drm-of-Fix-device-node-reference-leak-in-drm_of_panel_bridge_remove/20251028-141134
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251028060918.65688-1-linmq006%40gmail.com
+patch subject: [PATCH] drm/of: Fix device node reference leak in drm_of_panel_bridge_remove
+config: parisc-randconfig-002-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282250.QkCSotB2-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282250.QkCSotB2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282205.FvXf2zL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510282250.QkCSotB2-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/netfilter/core.c: In function 'netfilter_init':
->> net/netfilter/core.c:832:1: warning: label 'err_nft_pernet' defined but not used [-Wunused-label]
-     832 | err_nft_pernet:
-         | ^~~~~~~~~~~~~~
---
->> net/netfilter/nf_tables_sysctl.c:15:47: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      15 |                 .data           = &init_net.nf.nf_tables_jumps_max_netns,
-         |                                               ^
-   net/netfilter/nf_tables_sysctl.c:16:53: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      16 |                 .maxlen         = sizeof(init_net.nf.nf_tables_jumps_max_netns),
-         |                                                     ^
-   net/netfilter/nf_tables_sysctl.c: In function 'nf_tables_sysctl_init':
-   net/netfilter/nf_tables_sysctl.c:33:24: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      33 |                 net->nf.nf_tables_jumps_max_netns = NFT_TABLE_DEFAULT_JUMPS_MAX;
-         |                        ^
-   net/netfilter/nf_tables_sysctl.c:40:24: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      40 |                 net->nf.nf_tables_jumps_max_netns =
-         |                        ^
-   net/netfilter/nf_tables_sysctl.c:41:36: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      41 |                         init_net.nf.nf_tables_jumps_max_netns;
-         |                                    ^
-   net/netfilter/nf_tables_sysctl.c:43:33: error: 'struct netns_nf' has no member named 'nf_tables_jumps_max_netns'
-      43 |                         &net->nf.nf_tables_jumps_max_netns;
-         |                                 ^
->> net/netfilter/nf_tables_sysctl.c:49:17: error: 'struct netns_nf' has no member named 'nf_tables_dir_header'; did you mean 'nf_log_dir_header'?
-      49 |         net->nf.nf_tables_dir_header =
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 nf_log_dir_header
-   net/netfilter/nf_tables_sysctl.c:52:22: error: 'struct netns_nf' has no member named 'nf_tables_dir_header'; did you mean 'nf_log_dir_header'?
-      52 |         if (!net->nf.nf_tables_dir_header)
-         |                      ^~~~~~~~~~~~~~~~~~~~
-         |                      nf_log_dir_header
-   net/netfilter/nf_tables_sysctl.c: In function 'nf_tables_sysctl_exit':
-   net/netfilter/nf_tables_sysctl.c:68:45: error: 'struct netns_nf' has no member named 'nf_tables_dir_header'; did you mean 'nf_log_dir_header'?
-      68 |         unregister_net_sysctl_table(net->nf.nf_tables_dir_header);
-         |                                             ^~~~~~~~~~~~~~~~~~~~
-         |                                             nf_log_dir_header
-   net/netfilter/nf_tables_sysctl.c:69:25: error: 'struct netns_nf' has no member named 'nf_tables_dir_header'; did you mean 'nf_log_dir_header'?
-      69 |         table = net->nf.nf_tables_dir_header->ctl_table_arg;
-         |                         ^~~~~~~~~~~~~~~~~~~~
-         |                         nf_log_dir_header
+   In file included from drivers/gpu/drm/bridge/ti-dlpc3433.c:12:
+   include/drm/drm_of.h: In function 'drm_of_panel_bridge_remove':
+   include/drm/drm_of.h:174:2: error: implicit declaration of function 'of_node_put'; did you mean 'fwnode_init'? [-Werror=implicit-function-declaration]
+     of_node_put(remote);
+     ^~~~~~~~~~~
+     fwnode_init
+   In file included from include/linux/irqdomain.h:14,
+                    from include/linux/i2c.h:21,
+                    from drivers/gpu/drm/bridge/ti-dlpc3433.c:18:
+   include/linux/of.h: At top level:
+>> include/linux/of.h:129:13: warning: conflicting types for 'of_node_put'
+    extern void of_node_put(struct device_node *node);
+                ^~~~~~~~~~~
+   In file included from drivers/gpu/drm/bridge/ti-dlpc3433.c:12:
+   include/drm/drm_of.h:174:2: note: previous implicit declaration of 'of_node_put' was here
+     of_node_put(remote);
+     ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +15 net/netfilter/nf_tables_sysctl.c
+vim +/of_node_put +129 include/linux/of.h
 
-    11	
-    12	static struct ctl_table nf_tables_sysctl_table[] = {
-    13		[NF_SYSCTL_NFT_JUMPS_MAX] = {
-    14			.procname       = "nf_tables_jumps_max_netns",
-  > 15			.data           = &init_net.nf.nf_tables_jumps_max_netns,
-    16			.maxlen         = sizeof(init_net.nf.nf_tables_jumps_max_netns),
-    17			.mode           = 0644,
-    18			.proc_handler   = proc_dointvec,
-    19			.extra1		= SYSCTL_ONE,
-    20			.extra2		= SYSCTL_INT_MAX,
-    21		},
-    22	};
-    23	
-    24	#define NFT_TABLE_DEFAULT_JUMPS_MAX 65535
-    25	
-    26	static int __net_init nf_tables_sysctl_init(struct net *net)
-    27	{
-    28		struct ctl_table *table = nf_tables_sysctl_table;
-    29	
-    30		BUILD_BUG_ON(ARRAY_SIZE(nf_tables_sysctl_table) != NF_SYSCTL_NFT_LAST_SYSCTL);
-    31	
-    32		if (net_eq(net, &init_net)) {
-    33			net->nf.nf_tables_jumps_max_netns = NFT_TABLE_DEFAULT_JUMPS_MAX;
-    34		} else {
-    35			table = kmemdup(nf_tables_sysctl_table,
-    36					sizeof(nf_tables_sysctl_table), GFP_KERNEL);
-    37			if (!table)
-    38				return -ENOMEM;
-    39	
-    40			net->nf.nf_tables_jumps_max_netns =
-    41				init_net.nf.nf_tables_jumps_max_netns;
-    42			table[NF_SYSCTL_NFT_JUMPS_MAX].data =
-    43				&net->nf.nf_tables_jumps_max_netns;
-    44	
-    45			if (net->user_ns != &init_user_ns)
-    46				table[NF_SYSCTL_NFT_JUMPS_MAX].mode &= ~0222;
-    47		}
-    48	
-  > 49		net->nf.nf_tables_dir_header =
-    50			register_net_sysctl_sz(net, "net/netfilter", table,
-    51					       ARRAY_SIZE(nf_tables_sysctl_table));
-    52		if (!net->nf.nf_tables_dir_header)
-    53			goto err_tbl_free;
-    54	
-    55		return 0;
-    56	
-    57	err_tbl_free:
-    58		if (table != nf_tables_sysctl_table)
-    59			kfree(table);
-    60	
-    61		return -ENOMEM;
-    62	}
-    63	
+0829f6d1f69e4f Pantelis Antoniou 2013-12-13  126  
+0f22dd395fc473 Grant Likely      2012-02-15  127  #ifdef CONFIG_OF_DYNAMIC
+0f22dd395fc473 Grant Likely      2012-02-15  128  extern struct device_node *of_node_get(struct device_node *node);
+0f22dd395fc473 Grant Likely      2012-02-15 @129  extern void of_node_put(struct device_node *node);
+0f22dd395fc473 Grant Likely      2012-02-15  130  #else /* CONFIG_OF_DYNAMIC */
+3ecdd0515287af Rob Herring       2011-12-13  131  /* Dummy ref counting routines - to be implemented later */
+3ecdd0515287af Rob Herring       2011-12-13  132  static inline struct device_node *of_node_get(struct device_node *node)
+3ecdd0515287af Rob Herring       2011-12-13  133  {
+3ecdd0515287af Rob Herring       2011-12-13  134  	return node;
+3ecdd0515287af Rob Herring       2011-12-13  135  }
+0f22dd395fc473 Grant Likely      2012-02-15  136  static inline void of_node_put(struct device_node *node) { }
+0f22dd395fc473 Grant Likely      2012-02-15  137  #endif /* !CONFIG_OF_DYNAMIC */
+9448e55d032d99 Jonathan Cameron  2024-02-25  138  DEFINE_FREE(device_node, struct device_node *, if (_T) of_node_put(_T))
+3ecdd0515287af Rob Herring       2011-12-13  139  
 
 -- 
 0-DAY CI Kernel Test Service
