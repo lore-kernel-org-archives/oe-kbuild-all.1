@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDF43370E3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD8F2264A3;
+	Tue, 28 Oct 2025 14:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761663309; cv=none; b=Rtp8y5SzGJYGpb0+H9aj/BSKgIOXL5doTtJk///n1IeA5LWZXZ69SYR+cSeJGmR95LYHbI4zUl93dNwDfvchvosMhtgq/hrpeUm7MHPkrj4ySq5dKQayWoHriTa7HqVWIH2Gbk/VSE4f1w7a/WFFJ7Q//PgNvSFwPwZEOaCA5is=
+	t=1761663309; cv=none; b=cT6U2lVPKCE8k1YG9SpnbOR7cCFbZJmMZ6im/JEgkQ2E8goe4Cy5In8Tuozdz4o1MYHICvRsLMOFMWdZt+ZFKRxYGRJg73Rh0PL82MMeDaVWP2oRkOKROY8v1kMGBkVc73vaal50e++isJEfvuSQ2PViH7Y6fB4Cyttxkylx8J0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761663309; c=relaxed/simple;
-	bh=aSCx7oMqOTIBOjPni02cNqOFaYgt6H/Iu0ndjjB2AXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NagSeDFXRYfpxAHy6gMEUdbVY2yNQ4jQOQQaIqu1rhTFBHf4QYu1cXuHXY6UZxGpkboDxgOhTGKHE2ihFNapZQWwf/zvOs+7KOQ8LiFbBehpSMktd7zymLWUwyD5SAPx4rCNSsogVE7YU6nIKopltY//BriormaccofD4z6RtXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1yLPska; arc=none smtp.client-ip=198.175.65.19
+	bh=5MILIsSeWx1iW4Q4sO8gat7oSovZjYkBv0ZRjF7N+3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxWjax2naVcR0YdsZ0CUCtoqeDoSN+YgTrA0u9gteUpRJFDLaK0Ffe8LCHJUq7Ai8Pfy9VltLKUJMdHBMN3lsmoNQhjMCnb0lt3yhhkxi6sB32qdX/Qj6XRFDxIkG/0DPTPgT9Sx/cKzyGce30jJwNqcX86YkZ8KuSx3QxqdJeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkYf46eY; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1yLPska"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkYf46eY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1761663308; x=1793199308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aSCx7oMqOTIBOjPni02cNqOFaYgt6H/Iu0ndjjB2AXA=;
-  b=F1yLPskaaH65bSo7QQzLnShLIoF4uhnKSFptrmSGJ4RknAlcefIvVrhb
-   4URYvgOaKN1bQNccFnKx9r2lwPlTl789jilUtTgZvOQnY2d9f3WrO0Mdm
-   BuQNm094m/QVVe3xF5czRBJh9DmjHz8sJZvyKgUEm4c6FZ662J3EMkXz9
-   ptnwqrIx0Ks5HNOzm48ZyekgzL6uG3DLB7rGUTEBcuwVy0IIETUgGAvWn
-   j65Me0zETBBfNuzRNMvjeG3PUM/SVdGrKYiVlnWlxLoQE+WUCM0jgg2ca
-   joqzd5hylLwszoQ5M+VwJC6Gx6bD09clsCwgEa26yBw0jNgZndh3GvrUd
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5MILIsSeWx1iW4Q4sO8gat7oSovZjYkBv0ZRjF7N+3o=;
+  b=kkYf46eYU0ViF6HaQ1as4vS/09K8Qtm/CmUQpIa8rH21qmgqafAVNjqH
+   3qf8nJr6AsB8v8a8yusnMtzSbMTzMtcAUiyx8nP6JEl97VH+d0NNJbVyX
+   Mut0t1DIHK1oXudDI/MlUYtA08cmYCmyDuyh5e6POU3GSucDAjlsRfbMe
+   JKWF3jzl/DnU4ag5vuNGJhLIFar21Tr8aB5BdkoiktB7+y1Mx0BvJ2KZb
+   8KYDzQctsRZ1L5dU/KDbfutPmogjZa/1CE0bxWNwrcNxzX58AFea+UlgX
+   tRD3HEU+PeLWgwWZhRizvh2c+6F9DuaAQjvvQJp4xzYPjyEKHUfQky4ro
    g==;
-X-CSE-ConnectionGUID: jUm1U4xPSJGVuQtaM1xdaA==
-X-CSE-MsgGUID: SRLQdxugTYGy81oTODVm9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63652617"
+X-CSE-ConnectionGUID: Ho8sWeplRbaGpRcVA8NPrg==
+X-CSE-MsgGUID: Ub++ca15SrWvUORx0lmElQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74364615"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63652617"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:55:06 -0700
-X-CSE-ConnectionGUID: Zur1L68PSy+AuIkbuce1Eg==
-X-CSE-MsgGUID: 1estg4wZTs6vTlKS+gwy7Q==
+   d="scan'208";a="74364615"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:55:07 -0700
+X-CSE-ConnectionGUID: /YM3SU32QrunU3hNVMZL3Q==
+X-CSE-MsgGUID: SBalOQaqRumEUttp9XVX3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="189421109"
+   d="scan'208";a="190487827"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 28 Oct 2025 07:55:06 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Oct 2025 07:55:04 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDl6E-000JGd-27;
+	id 1vDl6E-000JGb-22;
 	Tue, 28 Oct 2025 14:55:02 +0000
-Date: Tue, 28 Oct 2025 22:54:04 +0800
+Date: Tue, 28 Oct 2025 22:54:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thierryreding:pmc 11/27] Warning: drivers/soc/tegra/pmc.c:474
- struct member 'reboot_notifier' not described in 'tegra_pmc'
-Message-ID: <202510282202.ilWV9dyF-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+	netfilter-devel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fw@strlen.de,
+	ffmancera@suse.de, brady.1345@gmail.com
+Subject: Re: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of
+ jumps/gotos per netns
+Message-ID: <202510282243.y0oDegX0-lkp@intel.com>
+References: <20251027221722.183398-2-pablo@netfilter.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +65,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251027221722.183398-2-pablo@netfilter.org>
 
-tree:   https://github.com/thierryreding/linux pmc
-head:   595a9703442efc488422dd3bf1209e3f1e5d49d2
-commit: 2660903452dd755346e7a074b939e0be22b3f0c1 [11/27] soc/tegra: pmc: Embed reboot notifier in PMC context
-config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20251028/202510282202.ilWV9dyF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282202.ilWV9dyF-lkp@intel.com/reproduce)
+Hi Pablo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on linus/master v6.18-rc3 next-20251028]
+[cannot apply to nf-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_tables-limit-maximum-number-of-jumps-gotos-per-netns/20251028-062221
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20251027221722.183398-2-pablo%40netfilter.org
+patch subject: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of jumps/gotos per netns
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20251028/202510282243.y0oDegX0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282243.y0oDegX0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282202.ilWV9dyF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510282243.y0oDegX0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/soc/tegra/pmc.c:474 struct member 'reboot_notifier' not described in 'tegra_pmc'
+>> net/netfilter/nf_tables_sysctl.c:15:34: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      15 |                 .data           = &init_net.nf.nf_tables_jumps_max_netns,
+         |                                    ~~~~~~~~~~~ ^
+   net/netfilter/nf_tables_sysctl.c:16:40: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      16 |                 .maxlen         = sizeof(init_net.nf.nf_tables_jumps_max_netns),
+         |                                          ~~~~~~~~~~~ ^
+   net/netfilter/nf_tables_sysctl.c:33:11: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      33 |                 net->nf.nf_tables_jumps_max_netns = NFT_TABLE_DEFAULT_JUMPS_MAX;
+         |                 ~~~~~~~ ^
+   net/netfilter/nf_tables_sysctl.c:40:11: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      40 |                 net->nf.nf_tables_jumps_max_netns =
+         |                 ~~~~~~~ ^
+   net/netfilter/nf_tables_sysctl.c:41:16: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      41 |                         init_net.nf.nf_tables_jumps_max_netns;
+         |                         ~~~~~~~~~~~ ^
+   net/netfilter/nf_tables_sysctl.c:43:13: error: no member named 'nf_tables_jumps_max_netns' in 'struct netns_nf'
+      43 |                         &net->nf.nf_tables_jumps_max_netns;
+         |                          ~~~~~~~ ^
+>> net/netfilter/nf_tables_sysctl.c:49:10: error: no member named 'nf_tables_dir_header' in 'struct netns_nf'; did you mean 'nf_log_dir_header'?
+      49 |         net->nf.nf_tables_dir_header =
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 nf_log_dir_header
+   include/net/netns/netfilter.h:17:27: note: 'nf_log_dir_header' declared here
+      17 |         struct ctl_table_header *nf_log_dir_header;
+         |                                  ^
+   net/netfilter/nf_tables_sysctl.c:52:15: error: no member named 'nf_tables_dir_header' in 'struct netns_nf'; did you mean 'nf_log_dir_header'?
+      52 |         if (!net->nf.nf_tables_dir_header)
+         |                      ^~~~~~~~~~~~~~~~~~~~
+         |                      nf_log_dir_header
+   include/net/netns/netfilter.h:17:27: note: 'nf_log_dir_header' declared here
+      17 |         struct ctl_table_header *nf_log_dir_header;
+         |                                  ^
+   net/netfilter/nf_tables_sysctl.c:68:38: error: no member named 'nf_tables_dir_header' in 'struct netns_nf'; did you mean 'nf_log_dir_header'?
+      68 |         unregister_net_sysctl_table(net->nf.nf_tables_dir_header);
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+         |                                             nf_log_dir_header
+   include/net/netns/netfilter.h:17:27: note: 'nf_log_dir_header' declared here
+      17 |         struct ctl_table_header *nf_log_dir_header;
+         |                                  ^
+   net/netfilter/nf_tables_sysctl.c:69:18: error: no member named 'nf_tables_dir_header' in 'struct netns_nf'; did you mean 'nf_log_dir_header'?
+      69 |         table = net->nf.nf_tables_dir_header->ctl_table_arg;
+         |                         ^~~~~~~~~~~~~~~~~~~~
+         |                         nf_log_dir_header
+   include/net/netns/netfilter.h:17:27: note: 'nf_log_dir_header' declared here
+      17 |         struct ctl_table_header *nf_log_dir_header;
+         |                                  ^
+   10 errors generated.
+
+
+vim +15 net/netfilter/nf_tables_sysctl.c
+
+    11	
+    12	static struct ctl_table nf_tables_sysctl_table[] = {
+    13		[NF_SYSCTL_NFT_JUMPS_MAX] = {
+    14			.procname       = "nf_tables_jumps_max_netns",
+  > 15			.data           = &init_net.nf.nf_tables_jumps_max_netns,
+    16			.maxlen         = sizeof(init_net.nf.nf_tables_jumps_max_netns),
+    17			.mode           = 0644,
+    18			.proc_handler   = proc_dointvec,
+    19			.extra1		= SYSCTL_ONE,
+    20			.extra2		= SYSCTL_INT_MAX,
+    21		},
+    22	};
+    23	
+    24	#define NFT_TABLE_DEFAULT_JUMPS_MAX 65535
+    25	
+    26	static int __net_init nf_tables_sysctl_init(struct net *net)
+    27	{
+    28		struct ctl_table *table = nf_tables_sysctl_table;
+    29	
+    30		BUILD_BUG_ON(ARRAY_SIZE(nf_tables_sysctl_table) != NF_SYSCTL_NFT_LAST_SYSCTL);
+    31	
+    32		if (net_eq(net, &init_net)) {
+    33			net->nf.nf_tables_jumps_max_netns = NFT_TABLE_DEFAULT_JUMPS_MAX;
+    34		} else {
+    35			table = kmemdup(nf_tables_sysctl_table,
+    36					sizeof(nf_tables_sysctl_table), GFP_KERNEL);
+    37			if (!table)
+    38				return -ENOMEM;
+    39	
+    40			net->nf.nf_tables_jumps_max_netns =
+    41				init_net.nf.nf_tables_jumps_max_netns;
+    42			table[NF_SYSCTL_NFT_JUMPS_MAX].data =
+    43				&net->nf.nf_tables_jumps_max_netns;
+    44	
+    45			if (net->user_ns != &init_user_ns)
+    46				table[NF_SYSCTL_NFT_JUMPS_MAX].mode &= ~0222;
+    47		}
+    48	
+  > 49		net->nf.nf_tables_dir_header =
+    50			register_net_sysctl_sz(net, "net/netfilter", table,
+    51					       ARRAY_SIZE(nf_tables_sysctl_table));
+    52		if (!net->nf.nf_tables_dir_header)
+    53			goto err_tbl_free;
+    54	
+    55		return 0;
+    56	
+    57	err_tbl_free:
+    58		if (table != nf_tables_sysctl_table)
+    59			kfree(table);
+    60	
+    61		return -ENOMEM;
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
