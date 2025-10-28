@@ -1,85 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DD62BE024;
-	Tue, 28 Oct 2025 06:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD8D238D54
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 06:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761633642; cv=none; b=q4QSw7CLK7pHcsdv3MKyEnPEUef2HAXhCIerahUM9XSP/m9UQAGaWZyA6UhwdOQbbTf7TD/g9M+MY2oujfBWmulOxijctL5yc9Eycca6F1KsrbJ7GPZCOF3xGwLAanhO5kNmvQX2yfVIENh6aRR/6u6Bdk1ilyAwrC/TrCYEJpA=
+	t=1761633750; cv=none; b=lavWlFg0ObF2lh0JDEkO3rReGhN6GdyOVpOYOVSskuEmiko+7mf7QZlhF0eT8ANUQT0dO+ppwXtMXORXWz34S2NIIKUIRsLtPD+9qFupHawjCl8Ocr1ubGPUUM3c3KKCYkIjYnDiaHI9j6jtB7gCHWUbWM8d//4riyX5d9rxZYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761633642; c=relaxed/simple;
-	bh=Sgqs0YMyTEOcNyaZDyzD2vJw5rl5OjZcujPtI3AnvtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psRBIunBNYndT9HXqoYxfkxk+QqwwMEtDwpuWM+Uh512bP4SHE2miJKvZ66ReisEZOr1snzAVPQBfzpWD14fqVAWcK+EybVZJH5NsEN0hfK8nZM8px6sL8bBWydY4z2+pbuVxREYMMsFNUgiDqbls7cBogsnOEHKbGq6rGrxSIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqH9cCS1; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1761633750; c=relaxed/simple;
+	bh=lqPdvGUei5pwi9s93hlZiicx253KcDem47GChRgmAv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GV9LZtJNqN+/VpNTOqOBiX2Shei1b5FTTSt5K8mEgzbs72Z/QOXRWtdjG9irOPuMzRFwawT2Bhw8/im3GssaNOW1fpWM9F2C4JzbL8sen2B5fJA2fVK60KPmSVwJMpoGyBoWX16rQYvt1DvG+Y3Hbn+3AwCjkMeyXi0R/yu2slY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuX6ime1; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqH9cCS1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuX6ime1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761633641; x=1793169641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sgqs0YMyTEOcNyaZDyzD2vJw5rl5OjZcujPtI3AnvtM=;
-  b=ZqH9cCS123iaz5mdSdks2IWYLY0aPq4XZfRr9e4G7HqvguUbYXwrKwuz
-   nd94KcRWbXIraTLTGWHWIavSoIGqMNAzWt+x3I7VnIVC0/mro3OJpZgBm
-   PelYjPmdmERpYUiKuZF8/uSNpFExU65sRv3sDno2C/3AtKu1ZA10btwfb
-   t61331hKj6cvSJBTBMTrx4qKUlzmhACAjdlPUfZwFUj1QZq8TDdO6SgVG
-   FRTvX9t4CIkfSX3gSOYEb5dzE/O7BqyuJ5kktVRMIPHzYkg4x5vKR7MwD
-   dt3thXeBMMm2iAAD/lz3uUyptkwVPwzA1HZ4SiNCXHFfBj3Woc4JEAVYR
-   A==;
-X-CSE-ConnectionGUID: xU7Qch7VT+m6K6NezkGuPw==
-X-CSE-MsgGUID: HDygYc4PTYynnSnjADevAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67368482"
+  t=1761633748; x=1793169748;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lqPdvGUei5pwi9s93hlZiicx253KcDem47GChRgmAv0=;
+  b=SuX6ime1zf2Ig2b4/uHZzOo0WlGSkrQtrYOAzWcBGSMXJdL2wVux30r3
+   3YtOfF+gKcpNCBU93BLIsk08A3WNusSuSb9rOO8e3cWJKcpw7HR/eNThU
+   vCFUeufkB4te1gaw80aM+ftQ497bGOCcLYMbzyFlu5RafrTGUau4WHkcM
+   ODXP47DVvxBomrPRYmlR3PiRhob0Puh5/ntv26W2IQLSWBE2QQfZjX11Q
+   ysQrBNRxNYoyD9FRLvBDmXVOy9Al7FzgzbMwtfWN71aQlhJZAYIADL4KZ
+   1pyqoFBoyOS0erefVT16mAF+0fQkltOuM+ODM3CsJa8NfWiBeKd12B/FD
+   g==;
+X-CSE-ConnectionGUID: qi61IFkrRE2ML6kVSckR6g==
+X-CSE-MsgGUID: UBYjbvpfSAWSqW9xw03JIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63875956"
 X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="67368482"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 23:40:41 -0700
-X-CSE-ConnectionGUID: /NT+Aj9oQ8urbmzFV07u4Q==
-X-CSE-MsgGUID: GQKqL3eOR1KNT1jBKY1etg==
+   d="scan'208";a="63875956"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 23:42:27 -0700
+X-CSE-ConnectionGUID: UINJQ+evQ/y99g6LRP/UVA==
+X-CSE-MsgGUID: OrZ1W6ZVQ2649Tq6ecf94g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="185347797"
+   d="scan'208";a="184890497"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 27 Oct 2025 23:40:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2025 23:42:26 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDdML-000Iqx-0d;
-	Tue, 28 Oct 2025 06:39:28 +0000
-Date: Tue, 28 Oct 2025 14:37:09 +0800
+	id 1vDdOe-000Ir5-2Z;
+	Tue, 28 Oct 2025 06:41:44 +0000
+Date: Tue, 28 Oct 2025 14:36:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v5 15/23] gpio: aspeed: Convert to common
- field_{get,prep}() helpers
-Message-ID: <202510281414.DnejZh4n-lkp@intel.com>
-References: <fbefa056d1e2cd13c52a0489b955c2b9442f0c9a.1761588465.git.geert+renesas@glider.be>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3050/3050]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c:23:12: sparse:
+ sparse: symbol 'nbl_sysfs_qos_name' was not declared. Should it be static?
+Message-ID: <202510281430.S9EMJbna-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,79 +62,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fbefa056d1e2cd13c52a0489b955c2b9442f0c9a.1761588465.git.geert+renesas@glider.be>
 
-Hi Geert,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on next-20251027]
-[cannot apply to clk/clk-next geert-renesas-devel/next geert-renesas-drivers/renesas-clk linus/master v6.18-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geert-Uytterhoeven/clk-at91-pmc-undef-field_-get-prep-before-definition/20251028-025423
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/fbefa056d1e2cd13c52a0489b955c2b9442f0c9a.1761588465.git.geert%2Brenesas%40glider.be
-patch subject: [PATCH v5 15/23] gpio: aspeed: Convert to common field_{get,prep}() helpers
-config: x86_64-buildonly-randconfig-003-20251028 (https://download.01.org/0day-ci/archive/20251028/202510281414.DnejZh4n-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510281414.DnejZh4n-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cb364ed0578ca246dd52b84bed98cfaa40affb38
+commit: 468b0cd7b1e1c131b3ee7d2ea8b96521d3faad8b [3050/3050] net:nebula-matrix:Add S1000 SNIC driver support
+config: x86_64-randconfig-123-20251028 (https://download.01.org/0day-ci/archive/20251028/202510281430.S9EMJbna-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510281430.S9EMJbna-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510281414.DnejZh4n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510281430.S9EMJbna-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c:23:12: sparse: sparse: symbol 'nbl_sysfs_qos_name' was not declared. Should it be static?
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c:47:12: sparse: sparse: symbol 'nbl_sysfs_mirror_name' was not declared. Should it be static?
+--
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] block:5 @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse:     expected unsigned int [usertype] block:5
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:345:21: sparse:     got restricted __le16 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] module:5 @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse:     expected unsigned int [usertype] module:5
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:346:22: sparse:     got restricted __le16 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] table:4 @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse:     expected unsigned int [usertype] table:4
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:347:21: sparse:     got restricted __le16 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] opcode:8 @@     got restricted __le16 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse:     expected unsigned int [usertype] opcode:8
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:348:22: sparse:     got restricted __le16 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] param_high @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse:     expected unsigned int [usertype] param_high
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:349:26: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] param_low @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse:     expected unsigned int [usertype] param_low
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:350:25: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse: sparse: invalid assignment: |=
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse:    left side has type unsigned int [usertype] :16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:359:29: sparse:    right side has type restricted __le16
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] send_high @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse:     expected unsigned int [usertype] send_high
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:360:33: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] send_low @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse:     expected unsigned int [usertype] send_low
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:361:32: sparse:     got restricted __le32 [usertype]
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse: sparse: invalid assignment: |=
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse:    left side has type unsigned int [usertype] :16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:366:29: sparse:    right side has type restricted __le16
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] recv_high @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse:     expected unsigned int [usertype] recv_high
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:367:33: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] recv_low @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse:     expected unsigned int [usertype] recv_low
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:368:32: sparse:     got restricted __le32 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_cmdq.c:479:35: sparse: sparse: cast to restricted __le16
+--
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:320:45: sparse: sparse: cast to restricted __be16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:321:45: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:324:41: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:325:41: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:328:41: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:329:41: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:336:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:337:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:338:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:339:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:342:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:343:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:344:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:345:41: sparse: sparse: cast to restricted __be64
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:349:44: sparse: sparse: cast to restricted __be16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:350:44: sparse: sparse: cast to restricted __be16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:353:44: sparse: sparse: cast to restricted __be16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:354:44: sparse: sparse: cast to restricted __be16
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_fd.c:832:6: sparse: sparse: symbol 'flow_type_name' was not declared. Should it be static?
+--
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] *ip @@     got restricted __be32 * @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse:     expected unsigned int [usertype] *ip
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:590:71: sparse:     got restricted __be32 *
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:594:29: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] *ip @@     got restricted __be32 * @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse:     expected unsigned int [usertype] *ip
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:640:71: sparse:     got restricted __be32 *
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_flow_filter_leonis.c:644:29: sparse: sparse: cast to restricted __be32
+--
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *notify_addr @@     got unsigned char [usertype] * @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse:     expected unsigned char [noderef] [usertype] __iomem *notify_addr
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:49:27: sparse:     got unsigned char [usertype] *
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned short [usertype] len @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse:     expected restricted __le32 [usertype] len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1340:22: sparse:     got unsigned short [usertype] len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1402:23: sparse: sparse: cast to restricted __le16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1658:39: sparse: sparse: cast to restricted __le16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *irq_enable_base @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1760:48: sparse:     got unsigned char [usertype] *irq_enable_base
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] size @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse:     expected restricted __le32 [usertype] len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1977:22: sparse:     got unsigned int [assigned] size
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] size @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse:     expected restricted __le32 [usertype] len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2012:30: sparse:     got unsigned int [assigned] size
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] len @@     got unsigned int [assigned] [usertype] pkthdr_len @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse:     expected restricted __le32 [usertype] len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2680:33: sparse:     got unsigned int [assigned] [usertype] pkthdr_len
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2709:25: sparse: sparse: bad assignment (+=) to restricted __le32
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] vlan_proto @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse:     expected unsigned short [usertype] vlan_proto
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2862:36: sparse:     got restricted __be16 [usertype]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] vlan_proto @@     got restricted __be16 [usertype] vlan_proto @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse:     expected unsigned short [usertype] vlan_proto
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2867:36: sparse:     got restricted __be16 [usertype] vlan_proto
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] vlan_proto @@     got unsigned short [usertype] vlan_proto @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse:     expected restricted __be16 [usertype] vlan_proto
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:2871:54: sparse:     got unsigned short [usertype] vlan_proto
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3030:40: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3031:32: sparse: sparse: restricted __le32 degrades to integer
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3400:24: sparse: sparse: cast to restricted __le16
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *irq_enable_base @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:3562:56: sparse:     got unsigned char [usertype] *irq_enable_base
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1382:9: sparse: sparse: context imbalance in 'nbl_res_txrx_xmit_xdp_buff' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1520:9: sparse: sparse: context imbalance in 'nbl_res_txrx_xdp_xmit' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1535:9: sparse: sparse: context imbalance in 'nbl_res_txrx_update_xdp_tail_locked' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:1581:23: sparse: sparse: restricted __le32 degrades to integer
 
->> drivers/gpio/gpio-aspeed.c:1161:44: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-    1161 |                 write_val = (ioread32(addr) & ~(mask)) | field_prep(mask, val);
-         |                                                          ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:256:32: note: expanded from macro 'field_prep'
-     256 |         (__builtin_constant_p(mask) ? FIELD_PREP(mask, val)             \
-         |                                       ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
-      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      74 |                                  _pfx "type of reg too small for mask"); \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:597:22: note: expanded from macro 'compiletime_assert'
-     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:585:23: note: expanded from macro '_compiletime_assert'
-     585 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:577:9: note: expanded from macro '__compiletime_assert'
-     577 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning generated.
+vim +/nbl_sysfs_qos_name +23 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_sysfs.c
 
-
-vim +1161 drivers/gpio/gpio-aspeed.c
-
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1152  
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1153  static void aspeed_g7_reg_bit_set(struct aspeed_gpio *gpio, unsigned int offset,
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1154  				  const enum aspeed_gpio_reg reg, bool val)
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1155  {
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1156  	u32 mask = aspeed_gpio_g7_reg_mask(reg);
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1157  	void __iomem *addr = gpio->base + GPIO_G7_CTRL_REG_OFFSET(offset);
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1158  	u32 write_val;
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1159  
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1160  	if (mask) {
-b2e861bd1eaf4c Billy Tsai 2024-10-08 @1161  		write_val = (ioread32(addr) & ~(mask)) | field_prep(mask, val);
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1162  		iowrite32(write_val, addr);
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1163  	}
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1164  }
-b2e861bd1eaf4c Billy Tsai 2024-10-08  1165  
+    22	
+  > 23	const char *const nbl_sysfs_qos_name[] = {
+    24		/* rdma */
+    25		"save",
+    26		"tc2pri",
+    27		"sq_pri_map",
+    28		"raq_pri_map",
+    29		"pri_imap",
+    30		"pfc_imap",
+    31		"db_to_csch_en",
+    32		"sw_db_csch_th",
+    33		"csch_qlen_th",
+    34		"poll_wgt",
+    35		"sp_wrr",
+    36		"tc_wgt",
+    37	
+    38		"pfc",
+    39		"pfc_buffer",
+    40		"trust",
+    41		"dscp2prio",
+    42		"rdma_bw",
+    43		"rdma_rate",
+    44		"net_rate",
+    45	};
+    46	
+  > 47	const char *const nbl_sysfs_mirror_name[] = {
+    48		"configure_down_mirror",
+    49		"configure_up_mirror",
+    50	};
+    51	
 
 -- 
 0-DAY CI Kernel Test Service
