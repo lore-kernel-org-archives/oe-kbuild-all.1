@@ -1,150 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541B2433B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 22:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A9219DF62;
+	Tue, 28 Oct 2025 23:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761692333; cv=none; b=oPjHENQ6BXHqChjWzEO++BLbtey7Lztff8YFEST5YM2jIpMkOowK5WJV73xkuI7XQOH8EZGv/dXKZiN755UbTgkFnLnjCTd6bnZhZHYmr0Vd1BUEaJg4QJq+gXysvUU+CswAV/Ay40xcxSVTei0ZbGSqJt/E5UBoG4E4wpsmZG8=
+	t=1761692925; cv=none; b=fiz9qZwO+5Z6rTyLNIN/RkcUzkfJMh2IYrBcyEZS6HbGpkL53NMl+9cVU+Bz99h+DjNbAx5pb2RWr1mhk0V9TUmdYmr2WsqOBe6x46c9Oql8BLyNc0jB1ZOprJVJi2qprxGd1JmoLZInhokFpHrI4h85xEWGApBEq+ff+vlHR7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761692333; c=relaxed/simple;
-	bh=hxiq53g843jW8vywhThUlpcuCrEn3RUq8GUgHmHcUuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tw9tSptaPB2ZKR7H3N6os1/q53JLew070HpSQXcwr+0nl3G6GUBqj0SwfJpj58+rH/3JGU3L6WtH+GphA5BeZWrNygcNn9XjVOU95Gi4sBTzPewBPM68oCdbw8BdTsQ6ehBvz1BUnfWFSv4pluwH8rfKCBFhenVXfd8AESrP1o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2apc9/z; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1761692925; c=relaxed/simple;
+	bh=evMq5rDzC51KQXrcy3CfPKW63LeNpech/td6v+Hhg5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uBahSryDfCJDt0e0aazro87bedzAOMCOSs65+dUOe1EPHoGAlQUxf67/H4h/m+uP9tdtYs5+ER/++oO1FIpmVMRnzIZUOEgaRPoSI7qPdYKDD60ks9sT3J+Y2AAdLHWXBU8qzAJTFZxYg03n6c79ycmmv51LtCXA9C91hp9Tmik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/saXsgB; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2apc9/z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/saXsgB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761692331; x=1793228331;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hxiq53g843jW8vywhThUlpcuCrEn3RUq8GUgHmHcUuM=;
-  b=i2apc9/z/QUxqSqnX7fR1VFB81Q85zupyESBlJm3wROxecDWQxNKlW4R
-   Tn08JTw1CgSDdthvPzbFXQSwbC6/fZneNqhUJIgcAhW8wdOgYT18C/4Qz
-   ApHEu5Kc15UPXX1R2FYKjCse68Ug0qkN3s0Z6E0ruIKeR0Xb3kIrT2L6K
-   PJpdURn1Iw2JFLv5KZkTYDvc4bytPhtlRmzZ+MnO8dTVhCpi/i2IMbdxV
-   eZvDHj7GJUKWL6m93gSAxKly3V70HCd5VW2ucqTiItP/BmffkGvuTgUpA
-   OYmA5rKgLn8rLZYFjXI2mB0R2+oybmeynqO9JTtBHzm+zdh80fKcM+gDP
-   w==;
-X-CSE-ConnectionGUID: dho02vX9QHalAv7dUwQwGg==
-X-CSE-MsgGUID: 3nB6Ve6DRcyx9n9mtUFrKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63691106"
+  t=1761692924; x=1793228924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=evMq5rDzC51KQXrcy3CfPKW63LeNpech/td6v+Hhg5Y=;
+  b=m/saXsgBJ+Bx4V1xjI07WJBt/7pk6j03nvKFcYEPsj/FyRIVDxQKGyDr
+   ufVxApfZtrkT4X5Qw+Py1X8B0jiK+PyNC74Hp7Jzq37I8s8ASZj+pyokL
+   K0QVR8MUXUEBKdoZ1O27ijUs6E5EHcfcF8yGvwBJKO/d1IjFPkF7Luvie
+   5FdPml60UzTLU10/HyBaL5hkkvPVNfaKXZgnbGIhIOV3SUSwrVUHPsULK
+   lj9RR51Qt9KMsN1Vi11k5oISgpW/wEsgUE9OqncI6lmfeCb6Ajf7vFwTW
+   fLLOMRxPmRSK8kr4RVc8ABQU5+NGPMaIKTUkwbaGLOtSyccPrGlvo709d
+   A==;
+X-CSE-ConnectionGUID: L0tL4jUfSjy+DvKp103Rng==
+X-CSE-MsgGUID: OucHcGZDRz+jKgeuNeli8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74096744"
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="63691106"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 15:58:51 -0700
-X-CSE-ConnectionGUID: xQhfMh4GRDeA6gTSjQ/c9w==
-X-CSE-MsgGUID: y66lPoArTXOc5Cyg/w8jOg==
+   d="scan'208";a="74096744"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 16:08:44 -0700
+X-CSE-ConnectionGUID: 0SpLiVV9QryXPnwo4JNZKQ==
+X-CSE-MsgGUID: YzpAcEb1SK6loevFv1yVBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="185371457"
+   d="scan'208";a="190624753"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2025 15:58:49 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Oct 2025 16:08:37 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDsdh-000JqX-2K;
-	Tue, 28 Oct 2025 22:58:27 +0000
-Date: Wed, 29 Oct 2025 06:57:00 +0800
+	id 1vDsnp-000Jrd-2u;
+	Tue, 28 Oct 2025 23:08:33 +0000
+Date: Wed, 29 Oct 2025 07:08:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <hchauhan@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_support_v1 41/57]
- include/linux/riscv_sbi_sse.h:44:16: error: implicit declaration of function
- 'ERR_PTR'
-Message-ID: <202510290600.Iqaad5xV-lkp@intel.com>
+To: Kalesh Singh <kaleshsingh@google.com>, akpm@linux-foundation.org,
+	minchan@kernel.org, lorenzo.stoakes@oracle.com, david@redhat.com,
+	Liam.Howlett@oracle.com, rppt@kernel.org, pfalcato@suse.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rostedt@goodmis.org, hughd@google.com, kernel-team@android.com,
+	android-mm@google.com, Kalesh Singh <kaleshsingh@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Kees Cook <kees@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: Re: [PATCH v4 3/5] mm: Introduce max_vma_count() to abstract the max
+ map count sysctl
+Message-ID: <202510290650.ZOY96pTc-lkp@intel.com>
+References: <20251028212528.681081-4-kaleshsingh@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251028212528.681081-4-kaleshsingh@google.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v1
-head:   3f71314c58520f6fada72d7f0364429fc3e8bf50
-commit: 9b88b132cc8aab2bb34e7e8dad4187c526e60d1e [41/57] riscv: Introduce HEST SSE notification handlers
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251029/202510290600.Iqaad5xV-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290600.Iqaad5xV-lkp@intel.com/reproduce)
+Hi Kalesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on b227c04932039bccc21a0a89cd6df50fa57e4716]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kalesh-Singh/mm-Document-lenient-map_count-checks/20251029-052713
+base:   b227c04932039bccc21a0a89cd6df50fa57e4716
+patch link:    https://lore.kernel.org/r/20251028212528.681081-4-kaleshsingh%40google.com
+patch subject: [PATCH v4 3/5] mm: Introduce max_vma_count() to abstract the max map count sysctl
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251029/202510290650.ZOY96pTc-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290650.ZOY96pTc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510290600.Iqaad5xV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510290650.ZOY96pTc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/acpi/apei/ghes.c:20:
-   include/linux/riscv_sbi_sse.h: In function 'sse_event_register':
->> include/linux/riscv_sbi_sse.h:44:16: error: implicit declaration of function 'ERR_PTR' [-Wimplicit-function-declaration]
-      44 |         return ERR_PTR(-EOPNOTSUPP);
-         |                ^~~~~~~
->> include/linux/riscv_sbi_sse.h:44:25: error: 'EOPNOTSUPP' undeclared (first use in this function)
-      44 |         return ERR_PTR(-EOPNOTSUPP);
-         |                         ^~~~~~~~~~
-   include/linux/riscv_sbi_sse.h:44:25: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/riscv_sbi_sse.h: In function 'sse_event_set_target_cpu':
-   include/linux/riscv_sbi_sse.h:52:17: error: 'EOPNOTSUPP' undeclared (first use in this function)
-      52 |         return -EOPNOTSUPP;
-         |                 ^~~~~~~~~~
-   include/linux/riscv_sbi_sse.h: In function 'sse_register_ghes':
-   include/linux/riscv_sbi_sse.h:58:17: error: 'EOPNOTSUPP' undeclared (first use in this function)
-      58 |         return -EOPNOTSUPP;
-         |                 ^~~~~~~~~~
-   include/linux/riscv_sbi_sse.h: In function 'sse_unregister_ghes':
-   include/linux/riscv_sbi_sse.h:63:17: error: 'EOPNOTSUPP' undeclared (first use in this function)
-      63 |         return -EOPNOTSUPP;
-         |                 ^~~~~~~~~~
-   include/linux/riscv_sbi_sse.h: In function 'sse_event_enable':
-   include/linux/riscv_sbi_sse.h:68:17: error: 'EOPNOTSUPP' undeclared (first use in this function)
-      68 |         return -EOPNOTSUPP;
-         |                 ^~~~~~~~~~
-   In file included from include/linux/cleanup.h:6,
-                    from include/linux/jump_label.h:78,
-                    from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:621,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:108,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/resource_ext.h:9,
-                    from include/linux/acpi.h:13,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from drivers/acpi/apei/ghes.c:21:
-   include/linux/err.h: At top level:
->> include/linux/err.h:39:35: error: conflicting types for 'ERR_PTR'; have 'void *(long int)'
-      39 | static inline void * __must_check ERR_PTR(long error)
-         |                                   ^~~~~~~
-   include/linux/riscv_sbi_sse.h:44:16: note: previous implicit declaration of 'ERR_PTR' with type 'int()'
-      44 |         return ERR_PTR(-EOPNOTSUPP);
-         |                ^~~~~~~
-
-
-vim +/ERR_PTR +44 include/linux/riscv_sbi_sse.h
-
-3e89594245fa2c Clément Léger 2025-09-08  38  
-3e89594245fa2c Clément Léger 2025-09-08  39  #else
-3e89594245fa2c Clément Léger 2025-09-08  40  static inline struct sse_event *sse_event_register(u32 event_num, u32 priority,
-3e89594245fa2c Clément Léger 2025-09-08  41  						   sse_event_handler_fn *handler,
-3e89594245fa2c Clément Léger 2025-09-08  42  						   void *arg)
-3e89594245fa2c Clément Léger 2025-09-08  43  {
-3e89594245fa2c Clément Léger 2025-09-08 @44  	return ERR_PTR(-EOPNOTSUPP);
-3e89594245fa2c Clément Léger 2025-09-08  45  }
-3e89594245fa2c Clément Léger 2025-09-08  46  
-
-:::::: The code at line 44 was first introduced by commit
-:::::: 3e89594245fa2cf4bd298955d807fcd625294f22 drivers: firmware: add riscv SSE support
-
-:::::: TO: Clément Léger <cleger@rivosinc.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+>> ld.lld: error: undefined symbol: max_vma_count
+   >>> referenced by nommu.c
+   >>>               mm/nommu.o:(split_vma) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
