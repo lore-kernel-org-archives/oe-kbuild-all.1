@@ -1,68 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5594D225A39
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE4A329C6A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761661340; cv=none; b=DHc46xKEOOQOnMttDSnFCgEVtKIYyIL0tgJVqYFw8z5ueLEl5GKPUJgOfvltvOsE32c/spoecZ6bgOC4lLqHydzlnTOzadRbru4rrpAUTG3iMFtolP9A8Z4K9lkGfyPCWxDtwyli+C1KR4I6OmdLWvQBYqGQiY3RSVfwZLveC84=
+	t=1761661399; cv=none; b=T3xKaNlf2G+cQIkeNNFR6MV2WJ8RMKXY93a5mcYfS0NqUrdleqycjPP8MF81U83mS8uxLp9dWEyOAjrKZNu2M6/ysampaNtVjW5w7rHrrZ7KjN5O2+yOginIuW+9RshbU92PXTHJ53wX2alQd+/MqCaNsLL5GxCfcZlKpdK/M8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761661340; c=relaxed/simple;
-	bh=px0MgSDxvp/2jAYLc+fSsb66AHIsm1T+dXEXQF/9FzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lx7dAc/OFiOVlcvleE+3xZdGFXGEtJxyAG2nKcQK60nhx9D2p4fI5Rgp33OoHxmUIw+n+isVoGEtwIVRUgMZcIH/UnuK2z9o351fQphJqH1EPu/uKvJP+lVJBjdsLY4IUTQ//vJdthO/dIQr6ZhQnarxb0CZwyjDGWKQ+kYs9hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zys/3ufd; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1761661399; c=relaxed/simple;
+	bh=vF3nEi2/GZ5TgmmavFlprbYJu+OTDJ79Ki522pI5NSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=S4EGDl5PofwxU0sIWkj+N2XYXBFwSWkf7UvX6o0TrnPe/4hAb1XBJQqoNGMP3R87Oz+KJjNvQyMLELrwZ/uA7+u/GF8wNeJH7eZFbvvXJV3dte7P0Utelq/OLXVKXE3dMxH7hGJC4RT4h+lzLk34/loIO/fhZJ5Mozyohq6Qv3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6qLwHVi; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zys/3ufd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6qLwHVi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761661339; x=1793197339;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=px0MgSDxvp/2jAYLc+fSsb66AHIsm1T+dXEXQF/9FzY=;
-  b=Zys/3ufdxutKf6zwwExWwPJ7eoc3Binv6T37y71EAnDQmBBHpWVmz4eK
-   WArT5MA6Y6oYWeuveZzZoolXRBdv2G1iqKWoUvWdTIXwXm9i0gwvH6Tny
-   wtBz7IvAj7ycnlBCnHrJlmPgXBJijwW0mDubW/RHaeGPCflNACSRdSv8Q
-   sAblvY85gSRxlbIseS4rE7J9M4eB1S9EZte36jkLLlyBNnSb6GKbU/g/P
-   aG+fXRFAi9Y0ng6BmBqMkzjrePelJIno+9TiGNwk9L52Ux9SmbCpWA2H1
-   om0LbfsyYvaXi+TxLeKaV3/442wXGJzvoPwAIz/gEP3kpH4OGasjBCIvb
-   Q==;
-X-CSE-ConnectionGUID: JneJbRQjQmuMHphH+NA+ZQ==
-X-CSE-MsgGUID: EGhKLOHOT+20SEY603KXGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63669581"
+  t=1761661398; x=1793197398;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vF3nEi2/GZ5TgmmavFlprbYJu+OTDJ79Ki522pI5NSM=;
+  b=X6qLwHViNmPySta+JYmimGGpIxM74QU9wDOoKB4CF8FSIyY53tGYB390
+   yqCj/9haMQ6iLxN2AFs6Yk5ZT5wSDR9EcSq2a6Q8MromKB5bUzrtX02Ik
+   dfR3OljM+8QTbyqmnl6hyhW7SriNBWBfcS5XnSgd/+soth/BpI/aMAPFb
+   Ft8y8VrwDxJk0YZlC/gBrDghZdfCQHXfzCM1yh+kUJm1dp9MTnR00/poR
+   xbqOCv2FMSq6VFYkqM87r8OGkJttcwe05YnPP0ujfY3zC8EzuwxQeNRfj
+   7ZJqNsExfUCpmIcFQkaQuSFWMaG2X+6Phl/iU4kwM0lKErEeuFnWdI54A
+   w==;
+X-CSE-ConnectionGUID: /CL4/T9sRQCzp0LsPxW/rg==
+X-CSE-MsgGUID: g/qR+BHGTYW+jBxMOSGDDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63798725"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63669581"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:22:19 -0700
-X-CSE-ConnectionGUID: cTls5HCJRuGpZlmY+dGByg==
-X-CSE-MsgGUID: ug5gR5tiSbiJl0V4QntL/w==
+   d="scan'208";a="63798725"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:23:17 -0700
+X-CSE-ConnectionGUID: IT/QVh3cSb62lXEmfmgqWA==
+X-CSE-MsgGUID: IQIge+RZQNedR4S+OA2lug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185055954"
+   d="scan'208";a="185249959"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Oct 2025 07:22:16 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2025 07:23:16 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDkaR-000JDt-0Q;
-	Tue, 28 Oct 2025 14:22:13 +0000
-Date: Tue, 28 Oct 2025 22:22:08 +0800
+	id 1vDkbR-000JE3-2m;
+	Tue, 28 Oct 2025 14:23:13 +0000
+Date: Tue, 28 Oct 2025 22:22:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miaoqian Lin <linmq006@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"benjamin.gaignard@linaro.org" <benjamin.gaignard@linaro.org>,
-	Philippe Cornu <philippe.cornu@st.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] drm/of: Fix device node reference leak in
- drm_of_panel_bridge_remove
-Message-ID: <202510282155.MdnvC7YI-lkp@intel.com>
-References: <20251028060918.65688-1-linmq006@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	"Daniel Thompson (RISCstar)" <danielt@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [linux-next:master 3294/4391]
+ arch/sh/include/cpu-sh3/cpu/dac.h:21:13: error: implicit declaration of
+ function '__raw_readb'
+Message-ID: <202510282206.wI0HrqcK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,65 +64,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251028060918.65688-1-linmq006@gmail.com>
 
-Hi Miaoqian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.18-rc3 next-20251028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Miaoqian-Lin/drm-of-Fix-device-node-reference-leak-in-drm_of_panel_bridge_remove/20251028-141134
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251028060918.65688-1-linmq006%40gmail.com
-patch subject: [PATCH] drm/of: Fix device node reference leak in drm_of_panel_bridge_remove
-config: x86_64-randconfig-161-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282155.MdnvC7YI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282155.MdnvC7YI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f7d2388eeec24966fc4d5cf32d706f0514f29ac5
+commit: 243ce64b2b371cdf2cbc39c9422cb3047cab6de7 [3294/4391] backlight: Do not include <linux/fb.h> in header file
+config: sh-randconfig-r072-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282206.wI0HrqcK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282206.wI0HrqcK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282155.MdnvC7YI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510282206.wI0HrqcK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/tiny/arcpgu.c:23:
-   include/drm/drm_of.h: In function 'drm_of_panel_bridge_remove':
-   include/drm/drm_of.h:174:9: error: implicit declaration of function 'of_node_put' [-Wimplicit-function-declaration]
-     174 |         of_node_put(remote);
-         |         ^~~~~~~~~~~
-   In file included from include/linux/of_reserved_mem.h:6,
-                    from drivers/gpu/drm/tiny/arcpgu.c:28:
-   include/linux/of.h: At top level:
->> include/linux/of.h:129:13: warning: conflicting types for 'of_node_put'; have 'void(struct device_node *)'
-     129 | extern void of_node_put(struct device_node *node);
+   In file included from drivers/video/backlight/hp680_bl.c:20:
+   arch/sh/include/cpu-sh3/cpu/dac.h: In function 'sh_dac_enable':
+>> arch/sh/include/cpu-sh3/cpu/dac.h:21:13: error: implicit declaration of function '__raw_readb' [-Wimplicit-function-declaration]
+      21 |         v = __raw_readb(DACR);
          |             ^~~~~~~~~~~
-   include/drm/drm_of.h:174:9: note: previous implicit declaration of 'of_node_put' with type 'void(struct device_node *)'
-     174 |         of_node_put(remote);
-         |         ^~~~~~~~~~~
+>> arch/sh/include/cpu-sh3/cpu/dac.h:24:9: error: implicit declaration of function '__raw_writeb'; did you mean '__raw_write_lock'? [-Wimplicit-function-declaration]
+      24 |         __raw_writeb(v,DACR);
+         |         ^~~~~~~~~~~~
+         |         __raw_write_lock
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [m]:
+   - GPIO_SAMA5D2_PIOBU [=m] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 
-vim +129 include/linux/of.h
+vim +/__raw_readb +21 arch/sh/include/cpu-sh3/cpu/dac.h
 
-0829f6d1f69e4f Pantelis Antoniou 2013-12-13  126  
-0f22dd395fc473 Grant Likely      2012-02-15  127  #ifdef CONFIG_OF_DYNAMIC
-0f22dd395fc473 Grant Likely      2012-02-15  128  extern struct device_node *of_node_get(struct device_node *node);
-0f22dd395fc473 Grant Likely      2012-02-15 @129  extern void of_node_put(struct device_node *node);
-0f22dd395fc473 Grant Likely      2012-02-15  130  #else /* CONFIG_OF_DYNAMIC */
-3ecdd0515287af Rob Herring       2011-12-13  131  /* Dummy ref counting routines - to be implemented later */
-3ecdd0515287af Rob Herring       2011-12-13  132  static inline struct device_node *of_node_get(struct device_node *node)
-3ecdd0515287af Rob Herring       2011-12-13  133  {
-3ecdd0515287af Rob Herring       2011-12-13  134  	return node;
-3ecdd0515287af Rob Herring       2011-12-13  135  }
-0f22dd395fc473 Grant Likely      2012-02-15  136  static inline void of_node_put(struct device_node *node) { }
-0f22dd395fc473 Grant Likely      2012-02-15  137  #endif /* !CONFIG_OF_DYNAMIC */
-9448e55d032d99 Jonathan Cameron  2024-02-25  138  DEFINE_FREE(device_node, struct device_node *, if (_T) of_node_put(_T))
-3ecdd0515287af Rob Herring       2011-12-13  139  
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  16  
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  17  
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  18  static __inline__ void sh_dac_enable(int channel)
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  19  {
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  20  	unsigned char v;
+9d56dd3b083a3b arch/sh/include/cpu-sh3/cpu/dac.h Paul Mundt     2010-01-26 @21  	v = __raw_readb(DACR);
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  22  	if(channel) v |= DACR_DAOE1;
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  23  	else v |= DACR_DAOE0;
+9d56dd3b083a3b arch/sh/include/cpu-sh3/cpu/dac.h Paul Mundt     2010-01-26 @24  	__raw_writeb(v,DACR);
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  25  }
+^1da177e4c3f41 include/asm-sh/cpu-sh3/dac.h      Linus Torvalds 2005-04-16  26  
+
+:::::: The code at line 21 was first introduced by commit
+:::::: 9d56dd3b083a3bec56e9da35ce07baca81030b03 sh: Mass ctrl_in/outX to __raw_read/writeX conversion.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
