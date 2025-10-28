@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA7934FF4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 20:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A7727145F;
+	Tue, 28 Oct 2025 21:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761684792; cv=none; b=a5eEz5t+bWjGIYVWdr3EVkwVD1o5zs3lGCWquiZGqWludh60LhONRK3alOGgaLSCx0G0Uz0fWKpiVBNAaDesv/IIeLUF52kpuvcMLdmFvhn5k5c5i9iVzCaW2np8EJ4kHSxFHMh7lqB6GswSPNsHBalMOiht0Kz3apps8qSI1jw=
+	t=1761685500; cv=none; b=ik+58MbkGksy2YEhe2MCw0NSEGE7fzJQp+nioaOazFZ1y/vAf+tG8GIL6HeYoWGd/FHHDdMv6Vjb45gH39F+dHgaIiQ5KMR3eUA+AXeY9+kvwtJGsxdBNokPqVd5tEdagi6rB/PhA1XQYL0YAXH/xKWzW9NPHD2W1wNeVJP+eEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761684792; c=relaxed/simple;
-	bh=0sqtP4wSyu3F5zPhdplUYW0XpGW23/JaI+gPQLCaGhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SNyw6Ps6ajO6KEP7TvwuqFenRyjpN2lbqlf8i0Rg+RiQ24Sn9Ffb34mcgKKfubi+iuw/QzkfkgNFOhCfn3DiWyQP6t5McYmrSI8Ri2uJfc+u1Tw5Apw2zgaPytd1hWLZfR3UIc7zNGG8tmJ/GQVfmwMNaZ34JuDYvcibjlXVMQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSi9RkCn; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1761685500; c=relaxed/simple;
+	bh=rmqLftlsBNdXnnkAR7lZ+tywGGLzWBpRNcfVK/0meg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BmeoxZ9E0a/NMi7YCXZyYKFTXbyMtc6wx6HREDFAyUxu3KGl8BW6iyMq5d4vsafHkmCNHFTkHiAycQ9Z7Esz6Y7LeLQR2gobi/hbSB9yhBlardd4h1bA41KAs4iUpPCBD6Kp22EOQ9GnN3usG3qmd8DDZbwHUfW9bs9riqsoZU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZxxXPekw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSi9RkCn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZxxXPekw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761684791; x=1793220791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0sqtP4wSyu3F5zPhdplUYW0XpGW23/JaI+gPQLCaGhk=;
-  b=HSi9RkCnOhRDhOffL14j2Q2uLoxNgq0wCfGg3Bl9Bzn4zxPoAThbCHqk
-   2hS8+MwG7tKtw+Gn+M1cj1wfvvTH6+Au2Ee5OuAbgONcxZEq7SRKfHLpS
-   juWuT2jIqaMbM9Ld6f7O4WHa9jxjHNBrEgxQIEL4rWVuHdzfy7pwbSzzA
-   fbap/ESVJ9oz4FEEKXLJ9tYQ9OyAl7bsp0+kQgpzqXv7h3zRCU5Dgd7zg
-   RV+F+vEo99mEpsvDNpqb5hBRTaDK7C08AoGkfsbxebUIXFjSp2uRYmV80
-   U+sv1QKeOtEIfnlA3tTnFzKa2an/rgVBp+VF5oUDbJ4meRbWWWlWhHN6A
-   g==;
-X-CSE-ConnectionGUID: Gb/IcHaUR+WqwojKbeSTwA==
-X-CSE-MsgGUID: E4Txdf6yR/Ks9olmHcV6JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63946714"
+  t=1761685499; x=1793221499;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rmqLftlsBNdXnnkAR7lZ+tywGGLzWBpRNcfVK/0meg8=;
+  b=ZxxXPekwn67vUdjdQYJR3I4qXITdaXp4puC7xajwD+k6m0OZU+j9Y91f
+   b1L/j9QBj1E7MWn8J9p9PHN256KOs6KeUkwerTcwg1vyqB29+BI0rvN/Y
+   xWD8E9F74mjSky4mQbHE2oAVliXmk6DRyoTlLXUxeeuJR1XIKpzcp1ch/
+   RKv25ZwwqkSw0rMBp5P2CTTTgV6fYXcoTJ5klDBzplFmS6X3E/RPPX1YN
+   aRj3mMvA35Gc9ieiEN7UjgqlI9ScNucqmvevPhTjaMVTXzR0n0rHC+ZP0
+   rjXEQsIdHuIh6KTrULa3hJKIkxPPyAf+bRKXAXEVPNWBdvSGy2Z2g4Ula
+   w==;
+X-CSE-ConnectionGUID: 85p3LmERReCcxGorQzCMUg==
+X-CSE-MsgGUID: MD9eGCJ6SPidLm7a1SG1xA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63893711"
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="63946714"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 13:53:09 -0700
-X-CSE-ConnectionGUID: ca6V4JHqRR2JODUfFRNkPw==
-X-CSE-MsgGUID: lIwuCtDwRh2J06TExPNa5g==
+   d="scan'208";a="63893711"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 14:04:58 -0700
+X-CSE-ConnectionGUID: 4/x5vsZZQgisOVj1fEzR/w==
+X-CSE-MsgGUID: DXiEzOBYR028r8ZOuP6XhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,262,1754982000"; 
-   d="scan'208";a="216330354"
+   d="scan'208";a="186213386"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2025 13:53:06 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2025 14:04:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDqgi-000JkH-0B;
-	Tue, 28 Oct 2025 20:53:04 +0000
-Date: Wed, 29 Oct 2025 04:52:59 +0800
+	id 1vDqrz-000Jkh-2m;
+	Tue, 28 Oct 2025 21:04:47 +0000
+Date: Wed, 29 Oct 2025 05:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Duyck <alexander.duyck@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, kernel-team@meta.com,
-	andrew+netdev@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-	pabeni@redhat.com, davem@davemloft.net
-Subject: Re: [net-next PATCH 7/8] fbnic: Add SW shim for MII interface to
- PMA/PMD
-Message-ID: <202510290438.wwPPh1zV-lkp@intel.com>
-References: <176133848134.2245037.8819965842869649833.stgit@ahduyck-xeon-server.home.arpa>
+To: Thierry Reding <treding@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thierryreding:pmc 24/27] WARNING: modpost: vmlinux: section
+ mismatch in reference: tegra_pmc_init_common+0x18 (section: .text.unlikely.)
+ -> tegra_pmc_detect_tz_only (section: .init.text)
+Message-ID: <202510290554.zg2t46AN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,126 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <176133848134.2245037.8819965842869649833.stgit@ahduyck-xeon-server.home.arpa>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Duyck/net-phy-Add-support-for-25-50-and-100Gbps-PMA-to-genphy_c45_read_pma/20251025-044506
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/176133848134.2245037.8819965842869649833.stgit%40ahduyck-xeon-server.home.arpa
-patch subject: [net-next PATCH 7/8] fbnic: Add SW shim for MII interface to PMA/PMD
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251029/202510290438.wwPPh1zV-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290438.wwPPh1zV-lkp@intel.com/reproduce)
+tree:   https://github.com/thierryreding/linux pmc
+head:   595a9703442efc488422dd3bf1209e3f1e5d49d2
+commit: f8c811e8798b33a01acd81ce26d1b99e36747e10 [24/27] soc/tegra: pmc: Create PMC context dynamically
+config: arm-randconfig-003-20251028 (https://download.01.org/0day-ci/archive/20251029/202510290554.zg2t46AN-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290554.zg2t46AN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510290438.wwPPh1zV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510290554.zg2t46AN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/ethernet/meta/fbnic/fbnic_swmii.c:17:6: warning: variable 'aui' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      17 |         if (fbd->netdev) {
-         |             ^~~~~~~~~~~
-   drivers/net/ethernet/meta/fbnic/fbnic_swmii.c:22:10: note: uninitialized use occurs here
-      22 |         switch (aui) {
-         |                 ^~~
-   drivers/net/ethernet/meta/fbnic/fbnic_swmii.c:17:2: note: remove the 'if' if its condition is always true
-      17 |         if (fbd->netdev) {
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/meta/fbnic/fbnic_swmii.c:15:8: note: initialize the variable 'aui' to silence this warning
-      15 |         u8 aui;
-         |               ^
-         |                = '\0'
-   1 warning generated.
-
-
-vim +17 drivers/net/ethernet/meta/fbnic/fbnic_swmii.c
-
-     8	
-     9	static int
-    10	fbnic_swmii_read_pmapmd(struct fbnic_dev *fbd, int regnum)
-    11	{
-    12		u16 ctrl1 = 0, ctrl2 = 0;
-    13		struct fbnic_net *fbn;
-    14		int ret = 0;
-    15		u8 aui;
-    16	
-  > 17		if (fbd->netdev) {
-    18			fbn = netdev_priv(fbd->netdev);
-    19			aui = fbn->aui;
-    20		}
-    21	
-    22		switch (aui) {
-    23		case FBNIC_AUI_25GAUI:
-    24			ctrl1 = MDIO_CTRL1_SPEED25G;
-    25			ctrl2 = MDIO_PMA_CTRL2_25GBCR;
-    26			break;
-    27		case FBNIC_AUI_LAUI2:
-    28			ctrl1 = MDIO_CTRL1_SPEED50G;
-    29			ctrl2 = MDIO_PMA_CTRL2_50GBCR2;
-    30			break;
-    31		case FBNIC_AUI_50GAUI1:
-    32			ctrl1 = MDIO_CTRL1_SPEED50G;
-    33			ctrl2 = MDIO_PMA_CTRL2_50GBCR;
-    34			break;
-    35		case FBNIC_AUI_100GAUI2:
-    36			ctrl1 = MDIO_CTRL1_SPEED100G;
-    37			ctrl2 = MDIO_PMA_CTRL2_100GBCR2;
-    38			break;
-    39		default:
-    40			break;
-    41		}
-    42	
-    43		switch (regnum) {
-    44		case MDIO_CTRL1:
-    45			ret = ctrl1;
-    46			break;
-    47		case MDIO_STAT1:
-    48			ret = fbd->pmd_state == FBNIC_PMD_SEND_DATA ?
-    49			      MDIO_STAT1_LSTATUS : 0;
-    50			break;
-    51		case MDIO_DEVS1:
-    52			ret = MDIO_DEVS_PMAPMD;
-    53			break;
-    54		case MDIO_CTRL2:
-    55			ret = ctrl2;
-    56			break;
-    57		case MDIO_STAT2:
-    58			ret = MDIO_STAT2_DEVPRST_VAL |
-    59			      MDIO_PMA_STAT2_EXTABLE;
-    60			break;
-    61		case MDIO_PMA_EXTABLE:
-    62			ret = MDIO_PMA_EXTABLE_40_100G |
-    63			      MDIO_PMA_EXTABLE_25G;
-    64			break;
-    65		case MDIO_PMA_40G_EXTABLE:
-    66			ret = MDIO_PMA_40G_EXTABLE_50GBCR2;
-    67			break;
-    68		case MDIO_PMA_25G_EXTABLE:
-    69			ret = MDIO_PMA_25G_EXTABLE_25GBCR;
-    70			break;
-    71		case MDIO_PMA_50G_EXTABLE:
-    72			ret = MDIO_PMA_50G_EXTABLE_50GBCR;
-    73			break;
-    74		case MDIO_PMA_EXTABLE2:
-    75			ret = MDIO_PMA_EXTABLE2_50G;
-    76			break;
-    77		case MDIO_PMA_100G_EXTABLE:
-    78			ret = MDIO_PMA_100G_EXTABLE_100GBCR2;
-    79			break;
-    80		default:
-    81			break;
-    82		}
-    83	
-    84		return ret;
-    85	}
-    86	
+>> WARNING: modpost: vmlinux: section mismatch in reference: tegra_pmc_init_common+0x18 (section: .text.unlikely.) -> tegra_pmc_detect_tz_only (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
