@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC182147C9B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 17:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C26A34C83D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 18:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761674079; cv=none; b=OKwhLfuQB9RtDZmo8l1OF65Nnsqt8rGL4l/cn5vUcnhvzEvuFN5PrPrMiOqzB5SI21PrdcWXT1yOyu9BgnKB/gtsPuJCM6JA7OWUBLyXXasyhTS7ol5yPGL9vM/8zzfO60dKJH9u5aaleDJyy+XvdNfqXE0ewFv72149wE5LoDg=
+	t=1761677613; cv=none; b=re1EeCkS22GQJ1g7s155Rggky5VzsPcba8o4BFFayZtoOJUHn4GnWz7CHfIve4IQ81+RW6xveBRRbTeKMbRQG1V/kybhIh0nYcMgHIzPI44/jqs1Onn/kr2qBx9ejsJydRpmkaRTSbXV+uYMComjck+crIYYMOn3AIdRNhCXFFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761674079; c=relaxed/simple;
-	bh=+XfPjxAiyUR+g9YPk2mdpcDipEBOHQEvOAQhXqwQBec=;
+	s=arc-20240116; t=1761677613; c=relaxed/simple;
+	bh=Zv3thFUsBmLcShLvhXZXk0e34qooOkbCIl7giJAZ2T8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G7KlpEGyCpE7P2NuPyER8/nuaAwVqJJfLuk6TaeAgGEo6J7/HjzBm4noNlXu4dPcvibsyyB7b5KfXg4MbPUoO7+mg5KVVGOfaEYhSgrg1e+DRv6zQW5VoO74ZD3LW7snPMthTZMbfhzfgd4hGQTtKH+F99pwHy+Po5a5/KLMef0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kU8cZ8Uz; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=lvNw30bXoxF9M/+55LLe7yM9EE3F8QDeeLWWN7zQ75vyd5AxSph4AMGDx8yPLOq6XZO53f2B1yHuJ3y0hyUZVH2OgMH21taKk0A/Q4uTP7oB5hAVYvyI8d/n1PRYtZ6JCkTMWn+nmqz5HOp1/JrapgVTeO7SWC4cyPd8E4IEgP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cEg8cWi9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kU8cZ8Uz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEg8cWi9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761674078; x=1793210078;
+  t=1761677611; x=1793213611;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+XfPjxAiyUR+g9YPk2mdpcDipEBOHQEvOAQhXqwQBec=;
-  b=kU8cZ8Uz7FiF4CphE5uW1srbnpxD2OLKr0jP0ZTK8w/H7P1kooTyw3yo
-   Mo3yxCKMEdTelLJq7PeqV066sWQwHQsAuMN3A13On+pJ5lR81wHz9AjdP
-   XkIbDBBE5DKzOuzmVOTYi28Ng9SGqasBw1nm1EJKO/uwuIBec67unycEE
-   Cc+yrmf3Tx+wM0Vtq4VKxsYh79cX4Nu6+lZelJRoGhnDgoz/6vtjMWFeC
-   yJHTIX1nOr3W6oEYlfOu4i8dj6YD6S1Dbz7u9Pan1COMvhEwQM8ueiIxs
-   nDMT3KfQvSW6yiA5CYvUS4vnqExJKsSF7iI8DwGGK9gFANljKNpbaUbRj
+  bh=Zv3thFUsBmLcShLvhXZXk0e34qooOkbCIl7giJAZ2T8=;
+  b=cEg8cWi92xp9rHJxKn6ZJ+6ZVF8X0i1jti46iXJUSbjN3kdEjtjq1dAk
+   VU7uFhVp0YVvtpHzF9f1zm/042ZNK5uqfwX6D50Myn1ftwSJqKzg6IoLG
+   EjrHvS7uEmpHc54284AtnmreG2l7jDH8qsVSQn1I/VkcjNyzwRSgINkrZ
+   Y822wTqV0x1z2hmH5iH15Ehwt/32A0X7GlzDf3FYdyMJS9K+Gef1J6Wu1
+   +rjV/L4gssNj3Qkg4sQNnWw/yCev8cpvf1am08W2HYe3qIhqzk4HvSjOC
+   Lf2A3Ws1bnRRK3kP2Qv1/d+sb/nXBuSH6B3JgHeq54YBAb99NlUuXwpuZ
    Q==;
-X-CSE-ConnectionGUID: hAMxP4AITDKUTocG3Kgu2Q==
-X-CSE-MsgGUID: FbojMGewTBS5co7AuwCu/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63670064"
+X-CSE-ConnectionGUID: zAKc9rnFS6m7XQl0a29iqQ==
+X-CSE-MsgGUID: fwTDuelWT0yehsDJ5nKs0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74079149"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63670064"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 10:54:37 -0700
-X-CSE-ConnectionGUID: b0TTWRHeRs6Vk+zd+lxYXQ==
-X-CSE-MsgGUID: K4bh8J2QSc6W+KtoK4vhgA==
+   d="scan'208";a="74079149"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 11:53:31 -0700
+X-CSE-ConnectionGUID: etx50GHOSSe2H/nzBjwL6w==
+X-CSE-MsgGUID: ETsdx6nCTiur6MlrPReHwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="216296424"
+   d="scan'208";a="189747685"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2025 10:54:35 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2025 11:53:28 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDntE-000JYd-34;
-	Tue, 28 Oct 2025 17:54:00 +0000
-Date: Wed, 29 Oct 2025 01:51:47 +0800
+	id 1vDoov-000JcW-0k;
+	Tue, 28 Oct 2025 18:53:25 +0000
+Date: Wed, 29 Oct 2025 02:33:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register
- 'atomctl' for 'wsr' instruction
-Message-ID: <202510290153.vj0S6aHa-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1890/1890] mm/hugetlb.o: warning:
+ objtool: copy_hugetlb_page_range()+0x299: undefined stack state
+Message-ID: <202510290252.pFTAw24p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,54 +62,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lucas,
+Hi Sean,
 
 First bad commit (maybe != root cause):
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fd57572253bc356330dbe5b233c2e1d8426c66fd
-commit: b67e7422d229dead0dddaad7e7c05558f24d552f drm/xe: Fix build with CONFIG_MODULES=n
-date:   5 weeks ago
-config: xtensa-randconfig-r054-20251028 (https://download.01.org/0day-ci/archive/20251029/202510290153.vj0S6aHa-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290153.vj0S6aHa-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   3749a0fa9e1453451f807b1ca86250ed77c17f05
+commit: f19f5c49bbc3ffcc9126cc245fc1b24cc29f4a37 [1890/1890] x86/speculation/l1tf: Exempt zeroed PTEs from inversion
+config: x86_64-buildonly-randconfig-006-20251028 (https://download.01.org/0day-ci/archive/20251029/202510290252.pFTAw24p-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290252.pFTAw24p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510290153.vj0S6aHa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510290252.pFTAw24p-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
->> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
-
-
-vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
-
-e85e335f8ff615 Max Filippov 2012-12-03  42  
-e85e335f8ff615 Max Filippov 2012-12-03  43  	.align  4
-e85e335f8ff615 Max Filippov 2012-12-03  44  _SetupMMU:
-09af39f649dac6 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
-e85e335f8ff615 Max Filippov 2012-12-03  46  	movi	a0, 0
-e85e335f8ff615 Max Filippov 2012-12-03  47  	wsr	a0, windowbase
-e85e335f8ff615 Max Filippov 2012-12-03  48  	rsync
-e85e335f8ff615 Max Filippov 2012-12-03  49  	movi	a0, 1
-e85e335f8ff615 Max Filippov 2012-12-03  50  	wsr	a0, windowstart
-e85e335f8ff615 Max Filippov 2012-12-03  51  	rsync
-09af39f649dac6 Max Filippov 2021-07-26  52  #endif
-e85e335f8ff615 Max Filippov 2012-12-03  53  	movi	a0, 0x1F
-e85e335f8ff615 Max Filippov 2012-12-03  54  	wsr	a0, ps
-e85e335f8ff615 Max Filippov 2012-12-03  55  	rsync
-e85e335f8ff615 Max Filippov 2012-12-03  56  
-e85e335f8ff615 Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
-e85e335f8ff615 Max Filippov 2012-12-03 @58  	initialize_mmu
-
-:::::: The code at line 58 was first introduced by commit
-:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
-
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Chris Zankel <chris@zankel.net>
+   mm/hugetlb.c:3865:40: warning: expression does not compute the number of elements in this array; element type is 'unsigned long', not 'u32' (aka 'unsigned int') [-Wsizeof-array-div]
+    3865 |         hash = jhash2((u32 *)&key, sizeof(key)/sizeof(u32), 0);
+         |                                           ~~~ ^
+   mm/hugetlb.c:3854:16: note: array 'key' declared here
+    3854 |         unsigned long key[2];
+         |                       ^
+   mm/hugetlb.c:3865:40: note: place parentheses around the 'sizeof(u32)' expression to silence this warning
+    3865 |         hash = jhash2((u32 *)&key, sizeof(key)/sizeof(u32), 0);
+         |                                               ^
+   1 warning generated.
+>> mm/hugetlb.o: warning: objtool: copy_hugetlb_page_range()+0x299: undefined stack state
 
 -- 
 0-DAY CI Kernel Test Service
