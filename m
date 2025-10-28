@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5123B329C43
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF63246BD8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 14:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761661403; cv=none; b=q6OywSaf9zwI8jYFfNcw6s8qkdoM2TBDmYAQkvvOrvOFo6gF2m1xLwi101oQ4t/Fs6loZElX53Qq24sB8eKhKX0B/gmrqbcf85yjqOrSFJbzojzZTJcFYf2K2w44Xr0WwyyR3Rx1ph/SoyDSLg0VwGQdsY/PwZeM+sa7ZhcVhRo=
+	t=1761662000; cv=none; b=YFwGKedaSwCoOj0rCCfMB/K06CD/7rJjnVnee4+YaeEhdjlUH3ijgxYwUXzen5riBNOibiXWabt2ix1KvF6TOLznVanDfpZhrMV3uaxqijZvJR5mU65XEe9Ht/NFXBCMcFiCnWdIvTGfC6j/ZBWTVL3AwneUgUkbL/T278WEAtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761661403; c=relaxed/simple;
-	bh=ZjKITrPWlUyYajJm3Ljrd+gMFKVlc9juJxipai/H3sg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DMXfNT8uEZFMGEPINVhIsOAD1RdujzWQW8wuyU3FTR2CUEEoaeEp+GT3vAhJW2fPrQ176OkA5hUv0phCR8Ewv/jg7psoo3JcOFxdw7iTbbKSkHZjfsBtk56Lgxzpj0DnEhM2k4R/vt5AVvSGGUAnLSOo23Mu2ubOdzfTzBNF1SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVglnw6/; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1761662000; c=relaxed/simple;
+	bh=iGc/Butm+OibFBPHuVrJ8YVUjOOiO2vC79cQv2LCIFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uAeAhycNyQBhKtuYy4hdcXroB6JPynakw/px1+QpaX7DKyRs4WYaYkkHkEYChLBMFyeF5AJsP4t9H8sQU8/Nof7iU9XojN3qYjtyUdlCxalWgqduMQtsxzk7qFCh1ZOMLHrOrGBTS6gkWGwlX8UB30nu+Q9w0UtBffkbglCgbvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lb3rwDXS; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVglnw6/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lb3rwDXS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761661402; x=1793197402;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZjKITrPWlUyYajJm3Ljrd+gMFKVlc9juJxipai/H3sg=;
-  b=WVglnw6/cW0pRjNcuUvjndQ4ys6FtrEqXOP3JLm5SliZ6zCcqaUK7Ipi
-   lZbIB0i8UFm+z3FJK7123kIZS95aQk7Ys94VXr2IlzLyJMa3ufA+q/Z7x
-   000WU58EGY28zd4YfyLZsO7y0FM9LUZ1+hCpYMs7UJw9RViKn+HjOSe1+
-   YjT+nJ73tPYzzewn9vllGDncxSKD/UKw/F8qs9NimMDeOSpoX98SCWX4U
-   ana4xMBTLCDIbWW6T806TuxiJKZgs0N67l8hsQqQ9AFybMh8HZ4utyKey
-   pc0vHZBlGMBumjSWeEEFwTdI9DAX1BGJwSSvs5SxGAhgx34oi4xZ8JFbS
-   Q==;
-X-CSE-ConnectionGUID: 9VHtWBuES0aKfJQUXM36Yw==
-X-CSE-MsgGUID: o0xas88YRxGKVxIKEoUxuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74436804"
+  t=1761662000; x=1793198000;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iGc/Butm+OibFBPHuVrJ8YVUjOOiO2vC79cQv2LCIFk=;
+  b=Lb3rwDXSk1Oq+JpLQ9kpBev6yfUqJQM4SYznglkAL+J7VhhH2dQv3mAJ
+   K/HW9hMSCMu9X/IDdJMEFHGn/4AHzKMvPRom7FDO19ulujCEVkyZrBTPE
+   yYsoZEMyMiF1sU3V+r2JkxFZ+e1g6efLVUlNafHyh3mjwHw7B3zLvT65E
+   r9jcZ1x6l9ZEe2sI1J880Xiz5shefH9oWlblG+Noz4iD3sCibJ5cYJUCv
+   KyJjwZLn4/Y/s+WDyYH2MNTh2Lf3oStHdqH4zvysllJsigvSGPnzmOo3E
+   onAB+JgtfkeiZWv3Hrmls7aUbASkeSihrJZffwPznWxOWHF6Nj0+vwlZw
+   A==;
+X-CSE-ConnectionGUID: s9iG0Q2VSlWjY0v7ovV9Vw==
+X-CSE-MsgGUID: JTMbHaO4QV+g3P/e4VUaxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63912442"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="74436804"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:23:21 -0700
-X-CSE-ConnectionGUID: rJqVb9lsQW6rF8W3nrYn0g==
-X-CSE-MsgGUID: 5bWYwMMeSPSqrq/PhxgLNw==
+   d="scan'208";a="63912442"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 07:33:19 -0700
+X-CSE-ConnectionGUID: Ze9rx6HtSDuqtUp7jS5HNg==
+X-CSE-MsgGUID: ZYDdIuXRQeKwF+Vwtq56uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="184987007"
+   d="scan'208";a="185279691"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 28 Oct 2025 07:23:16 -0700
+  by orviesa007.jf.intel.com with ESMTP; 28 Oct 2025 07:33:17 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDkbR-000JE1-2i;
-	Tue, 28 Oct 2025 14:23:13 +0000
-Date: Tue, 28 Oct 2025 22:22:14 +0800
+	id 1vDkl9-000JEp-16;
+	Tue, 28 Oct 2025 14:33:15 +0000
+Date: Tue, 28 Oct 2025 22:32:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacky Chou <jacky_chou@aspeedtech.com>, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org,
-	bhelgaas@google.com, krzk+dt@kernel.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au, vkoul@kernel.org,
-	kishon@kernel.org, linus.walleij@linaro.org, p.zabel@pengutronix.de,
-	linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jacky_chou@aspeedtech.com
-Subject: Re: [PATCH v4 8/9] PCI: aspeed: Add ASPEED PCIe RC driver
-Message-ID: <202510282225.yqfv0wel-lkp@intel.com>
-References: <20251027095825.181161-9-jacky_chou@aspeedtech.com>
+To: Tiwei Bie <tiwei.btw@antgroup.com>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
+Subject: [uml:next 11/20] arch/um/include/shared/as-layout.h:9:10: fatal
+ error: generated/asm-offsets.h: No such file or directory
+Message-ID: <202510282211.2XMpghjt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,56 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027095825.181161-9-jacky_chou@aspeedtech.com>
 
-Hi Jacky,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus robh/for-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.18-rc3 next-20251028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Chou/dt-bindings-phy-aspeed-Add-ASPEED-PCIe-PHY/20251027-180856
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251027095825.181161-9-jacky_chou%40aspeedtech.com
-patch subject: [PATCH v4 8/9] PCI: aspeed: Add ASPEED PCIe RC driver
-config: loongarch-randconfig-r113-20251028 (https://download.01.org/0day-ci/archive/20251028/202510282225.yqfv0wel-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282225.yqfv0wel-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+head:   8e03c195cc4d82100291500f772f85c686653748
+commit: a7f7dbae94a5ae5cfbf2375e0d952c54b069fd7f [11/20] um: Remove file-based iomem emulation support
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20251028/202510282211.2XMpghjt-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510282211.2XMpghjt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510282225.yqfv0wel-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510282211.2XMpghjt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/pcie-aspeed.c:1084:38: sparse: sparse: symbol 'pcie_rc_ast2600' was not declared. Should it be static?
->> drivers/pci/controller/pcie-aspeed.c:1093:38: sparse: sparse: symbol 'pcie_rc_ast2700' was not declared. Should it be static?
+Note: the uml/next HEAD 8e03c195cc4d82100291500f772f85c686653748 builds fine.
+      It only hurts bisectability.
 
-vim +/pcie_rc_ast2600 +1084 drivers/pci/controller/pcie-aspeed.c
+All errors (new ones prefixed by >>):
 
-  1083	
-> 1084	const struct aspeed_pcie_rc_platform pcie_rc_ast2600 = {
-  1085		.setup = aspeed_ast2600_setup,
-  1086		.reg_intx_en = 0xc4,
-  1087		.reg_intx_sts = 0xc8,
-  1088		.reg_msi_en = 0xe0,
-  1089		.reg_msi_sts = 0xe8,
-  1090		.msi_address = 0x1e77005c,
-  1091	};
-  1092	
-> 1093	const struct aspeed_pcie_rc_platform pcie_rc_ast2700 = {
-  1094		.setup = aspeed_ast2700_setup,
-  1095		.reg_intx_en = 0x40,
-  1096		.reg_intx_sts = 0x48,
-  1097		.reg_msi_en = 0x50,
-  1098		.reg_msi_sts = 0x58,
-  1099		.msi_address = 0x000000f0,
-  1100	};
-  1101	
+   In file included from arch/um/include/asm/pgtable.h:48,
+                    from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:31,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from include/linux/audit.h:13,
+                    from arch/um/kernel/asm-offsets.c:8:
+>> arch/um/include/shared/as-layout.h:9:10: fatal error: generated/asm-offsets.h: No such file or directory
+       9 | #include <generated/asm-offsets.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:182: arch/um/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +9 arch/um/include/shared/as-layout.h
+
+4ff83ce1114827 arch/um/include/as-layout.h        Jeff Dike 2007-05-06   8  
+9e636452d0714b arch/um/include/shared/as-layout.h Al Viro   2011-08-18  @9  #include <generated/asm-offsets.h>
+54ae36f24b103e arch/um/include/as-layout.h        Jeff Dike 2007-10-16  10  
+
+:::::: The code at line 9 was first introduced by commit
+:::::: 9e636452d0714b08e4f8f4c58b76c4b7d15ffffa um: get rid of kern_constants.h
+
+:::::: TO: Al Viro <viro@ftp.linux.org.uk>
+:::::: CC: Richard Weinberger <richard@nod.at>
 
 -- 
 0-DAY CI Kernel Test Service
