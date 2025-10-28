@@ -1,65 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD3226CE3F;
-	Tue, 28 Oct 2025 04:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4F41EDA02
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Oct 2025 05:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761627442; cv=none; b=LXVN0BBSSjpYMm5tCbFK+U33mDnOs6m/PuU6YCGPBUu47ZvvLbpjbD27GIcJTddOCfRdQhVahCBcG0HFrMf/lxiVySSQaZogc7be8O25W8Vhzzp+E/9DwGsfFQuhS1nghWglJT/OiUi2zEyQlvvTx5INfoc0vlrteYIDLpzOb54=
+	t=1761628664; cv=none; b=BC/EqaOgGWaLpScalMx17NbM2ZjTj4RNSpBMklGbhzeZ8axisrmz6rx2G8kPjJ8w3YoaVWvZsqXq0U9jyp37Gb+JiVHD7Jd0Hn3Rz2ITu8Cr/OpW4mnrmP5lXMl5q0korWDCgivPdYna6K8UD1PvX+2Z8tMDXpnpEIPgoX4DbQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761627442; c=relaxed/simple;
-	bh=uBAahjZdhdahvA1/zYVD0LO8QR+Y8RWVUwmXJwwAv9Q=;
+	s=arc-20240116; t=1761628664; c=relaxed/simple;
+	bh=BquHcMPOdeFpO3XLosSHxBMMorL2wfhIw9Q3zbeqwMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6c4QGoZU+fjxxCoJNpH5R4CDXge3ymaQnahjqyMGgvKI6D44Arqupb8hAdEiSeOMAdmi1buori82k8rrNQqRck0AXXVAvopXP5Gs70Vxns23oZD38BJFp+4nEfIag/EPl8Tg6/TMhCohKAGEpgnPYQM3xRIMiTmxf+dOtVRFYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUh8w3li; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=OsQrSsliZagUvu31uVEDvwjXWIZvtMfpxATFLuGH5iSE4h029uqjfLJPhMpt/DAK1DPDIkFSgjzC+qzZ5JKxrANLrQECwkgrtSJe7zuAMlzDmkuUqpTMUGY0GNpVyrhszEmcymmgG5VQujPmRBA3f/En/LtQPhESh69GQojgjGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLT8nCsF; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUh8w3li"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLT8nCsF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761627440; x=1793163440;
+  t=1761628662; x=1793164662;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uBAahjZdhdahvA1/zYVD0LO8QR+Y8RWVUwmXJwwAv9Q=;
-  b=lUh8w3liGqHunxne/aY2qPBbfgcVp7wuFtIT1yD2EUnmHmJXK7Io4As1
-   LW02mHrdUXgtISmMJ3RwTbPtaF3sTeHIb2cVGqKGzNbALplnKI/oYFRpG
-   k+OS9bloWlquAY/zUABc2toeBK2sTQo16jLLP1DXqdsYzQ243VuyGGrr6
-   6hzLJ4VzjN8LzIimXXx2arVgRfe2Wm3Osc0RxkZw+KjZcjZS6bi3gck/f
-   5B8/tQr1ZkeyLz1COOAyXqAYp+qrLt4qk35m0ORQKuzESiAdPQclVvwrI
-   dggQMZj3ZKp6zak6u7Y9X2pLguk79t9xLhT/Eiv3TcjuMLGH+5uEc5t/X
+  bh=BquHcMPOdeFpO3XLosSHxBMMorL2wfhIw9Q3zbeqwMw=;
+  b=YLT8nCsFND7f/C7Qf0oYdqwWewop9sUmmjXsjinVmeEit9q+VrTM5wYS
+   179yXZ3c+/4CbCVJK2ogqtwlikT6v30ZCjHzgSJLbv1uNlNJyqCbsgKob
+   HYRQMS6V3vwWN8jQSewCTYYunOxKM4SfLeFq3VTg0QjuQsdNNLo+jMHdm
+   fJbgC4uTfmdB+cOAG1WUI0YSxDaMQ+I4Kc12xSVOJGDDge81w1Syk6NhD
+   kjjp/+mNco+6q6iwZlVGlwlfg/Vy0Vm4hJiS7qoBMdJdeWps4ROQWH2vu
+   fI6ya05nSMBL3l9gdHLz30YoJJi0qT/Jxh16lCOw1TGF/ALJTfcrH5hvO
    w==;
-X-CSE-ConnectionGUID: KU/FS8GIRUyy0Yhmpnm6Qg==
-X-CSE-MsgGUID: 1Pc69ho/TOiAQPqkteStHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81140872"
+X-CSE-ConnectionGUID: zAyMwLCHRNaEm7qiijp7fA==
+X-CSE-MsgGUID: GtTIv/8bRnOTFTfHi+cqsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62750576"
 X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="81140872"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 21:57:20 -0700
-X-CSE-ConnectionGUID: U+S+xsEeTNO7YALn4jqalQ==
-X-CSE-MsgGUID: yPu8p8PFRt63clUK6Tr7Ow==
+   d="scan'208";a="62750576"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 22:17:41 -0700
+X-CSE-ConnectionGUID: nvswi4nZTmuvGPTMP+MbVw==
+X-CSE-MsgGUID: LGL47t2sQGeZSdnHfQULrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
-   d="scan'208";a="189553465"
+   d="scan'208";a="190370440"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2025 21:57:18 -0700
+  by orviesa005.jf.intel.com with ESMTP; 27 Oct 2025 22:17:38 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDblj-000IlX-0n;
-	Tue, 28 Oct 2025 04:57:15 +0000
-Date: Tue, 28 Oct 2025 12:56:20 +0800
+	id 1vDc5P-000ImH-2T;
+	Tue, 28 Oct 2025 05:17:35 +0000
+Date: Tue, 28 Oct 2025 13:16:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ogness <john.ogness@linutronix.de>, Petr Mladek <pmladek@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Breno Leitao <leitao@debian.org>, Mike Galbraith <efault@gmx.de>,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH printk v2 1/1] printk: nbcon: Allow unsafe write_atomic()
- for panic
-Message-ID: <202510281239.CrKvR38C-lkp@intel.com>
-References: <20251027161212.334219-2-john.ogness@linutronix.de>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, mani@kernel.org, robh@kernel.org,
+	bhelgaas@google.com, unicorn_wang@outlook.com, kishon@kernel.org,
+	18255117159@163.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	srk@ti.com, s-vadapalli@ti.com
+Subject: Re: [PATCH] PCI: cadence: Enable support for applying lane
+ equalization presets
+Message-ID: <202510281329.racaZPSI-lkp@intel.com>
+References: <20251027133013.2589119-1-s-vadapalli@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,63 +68,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027161212.334219-2-john.ogness@linutronix.de>
+In-Reply-To: <20251027133013.2589119-1-s-vadapalli@ti.com>
 
-Hi John,
+Hi Siddharth,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 62627bf0cadf6eae87d92fecf604c42160fe16ef]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.18-rc3 next-20251027]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ogness/printk-nbcon-Allow-unsafe-write_atomic-for-panic/20251028-001756
-base:   62627bf0cadf6eae87d92fecf604c42160fe16ef
-patch link:    https://lore.kernel.org/r/20251027161212.334219-2-john.ogness%40linutronix.de
-patch subject: [PATCH printk v2 1/1] printk: nbcon: Allow unsafe write_atomic() for panic
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251028/202510281239.CrKvR38C-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510281239.CrKvR38C-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Vadapalli/PCI-cadence-Enable-support-for-applying-lane-equalization-presets/20251027-213657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20251027133013.2589119-1-s-vadapalli%40ti.com
+patch subject: [PATCH] PCI: cadence: Enable support for applying lane equalization presets
+config: x86_64-buildonly-randconfig-002-20251028 (https://download.01.org/0day-ci/archive/20251028/202510281329.racaZPSI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251028/202510281329.racaZPSI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510281239.CrKvR38C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510281329.racaZPSI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/printk/nbcon.c:1938:77: error: too many arguments to function call, expected 2, have 3
-    1938 |         __nbcon_atomic_flush_pending_con(ctxt->console, prb_next_reserve_seq(prb), false);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                           ^~~~~
-   kernel/printk/nbcon.c:1519:12: note: '__nbcon_atomic_flush_pending_con' declared here
-    1519 | static int __nbcon_atomic_flush_pending_con(struct console *con, u64 stop_seq)
-         |            ^                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/pci/controller/cadence/pcie-cadence-host.c: In function 'cdns_pcie_setup_lane_equalization_presets':
+>> drivers/pci/controller/cadence/pcie-cadence-host.c:205:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     205 |                 if (presets_ngts[0] != PCI_EQ_RESV) {
+         |                    ^
+   drivers/pci/controller/cadence/pcie-cadence-host.c:225:9: note: here
+     225 |         case PCIE_SPEED_8_0GT:
+         |         ^~~~
 
 
-vim +1938 kernel/printk/nbcon.c
+vim +205 drivers/pci/controller/cadence/pcie-cadence-host.c
 
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1916  
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1917  /**
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1918   * nbcon_kdb_release - Exit unsafe section and release the nbcon console
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1919   *
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1920   * @wctxt:	The nbcon write context initialized by a successful
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1921   *		nbcon_kdb_try_acquire()
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1922   */
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1923  void nbcon_kdb_release(struct nbcon_write_context *wctxt)
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1924  {
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1925  	struct nbcon_context *ctxt = &ACCESS_PRIVATE(wctxt, ctxt);
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1926  
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1927  	if (!nbcon_context_exit_unsafe(ctxt))
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1928  		return;
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1929  
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1930  	nbcon_context_release(ctxt);
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1931  
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1932  	/*
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1933  	 * Flush any new printk() messages added when the console was blocked.
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1934  	 * Only the console used by the given write context was	blocked.
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1935  	 * The console was locked only when the write_atomic() callback
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1936  	 * was usable.
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16  1937  	 */
-49f7d3054e8461 Marcos Paulo de Souza 2025-10-16 @1938  	__nbcon_atomic_flush_pending_con(ctxt->console, prb_next_reserve_seq(prb), false);
+   170	
+   171	static void cdns_pcie_setup_lane_equalization_presets(struct cdns_pcie_rc *rc)
+   172	{
+   173		struct cdns_pcie *pcie = &rc->pcie;
+   174		struct device *dev = pcie->dev;
+   175		struct device_node *np = dev->of_node;
+   176		int max_link_speed, max_lanes, ret;
+   177		u32 lane_eq_ctrl_reg;
+   178		u16 cap;
+   179		u16 *presets_8gts;
+   180		u8 *presets_ngts;
+   181		u8 i, j;
+   182	
+   183		ret = of_property_read_u32(np, "num-lanes", &max_lanes);
+   184		if (ret)
+   185			return;
+   186	
+   187		/* Lane Equalization presets are optional, so error message is not necessary */
+   188		ret = of_pci_get_equalization_presets(dev, &rc->eq_presets, max_lanes);
+   189		if (ret)
+   190			return;
+   191	
+   192		max_link_speed = of_pci_get_max_link_speed(np);
+   193		if (max_link_speed < 0) {
+   194			dev_err(dev, "%s: link-speed unknown, skipping preset setup\n", __func__);
+   195			return;
+   196		}
+   197	
+   198		/*
+   199		 * Setup presets for data rates including and upward of 8.0 GT/s until the
+   200		 * maximum supported data rate.
+   201		 */
+   202		switch (pcie_link_speed[max_link_speed]) {
+   203		case PCIE_SPEED_16_0GT:
+   204			presets_ngts = (u8 *)rc->eq_presets.eq_presets_Ngts[EQ_PRESET_TYPE_16GTS - 1];
+ > 205			if (presets_ngts[0] != PCI_EQ_RESV) {
+   206				cap = cdns_pcie_find_ext_capability(pcie, PCI_EXT_CAP_ID_PL_16GT);
+   207				if (!cap)
+   208					break;
+   209				lane_eq_ctrl_reg = cap + PCI_PL_16GT_LE_CTRL;
+   210				/*
+   211				 * For Link Speeds including and upward of 16.0 GT/s, the Lane Equalization
+   212				 * Control register has the following layout per Lane:
+   213				 * Bits 0-3: Downstream Port Transmitter Preset
+   214				 * Bits 4-7: Upstream Port Transmitter Preset
+   215				 *
+   216				 * 'eq_presets_Ngts' is an array of u8 (byte).
+   217				 * Therefore, we need to write to the Lane Equalization Control
+   218				 * register in units of bytes per-Lane.
+   219				 */
+   220				for (i = 0; i < max_lanes; i++)
+   221					cdns_pcie_rp_writeb(pcie, lane_eq_ctrl_reg + i, presets_ngts[i]);
+   222	
+   223				dev_info(dev, "Link Equalization presets applied for 16.0 GT/s\n");
+   224			}
+   225		case PCIE_SPEED_8_0GT:
+   226			presets_8gts = (u16 *)rc->eq_presets.eq_presets_8gts;
+   227			if ((presets_8gts[0] & PCI_EQ_RESV) != PCI_EQ_RESV) {
+   228				cap = cdns_pcie_find_ext_capability(pcie, PCI_EXT_CAP_ID_SECPCI);
+   229				if (!cap)
+   230					break;
+   231				lane_eq_ctrl_reg = cap + PCI_SECPCI_LE_CTRL;
+   232				/*
+   233				 * For a Link Speed of 8.0 GT/s, the Lane Equalization Control register has
+   234				 * the following layout per Lane:
+   235				 * Bits   0-3:  Downstream Port Transmitter Preset
+   236				 * Bits   4-6:  Downstream Port Receiver Preset Hint
+   237				 * Bit      7:  Reserved
+   238				 * Bits  8-11:  Upstream Port Transmitter Preset
+   239				 * Bits 12-14:  Upstream Port Receiver Preset Hint
+   240				 * Bit     15:  Reserved
+   241				 *
+   242				 * 'eq_presets_8gts' is an array of u16 (word).
+   243				 * Therefore, we need to write to the Lane Equalization Control
+   244				 * register in units of words per-Lane.
+   245				 */
+   246				for (i = 0, j = 0; i < max_lanes; i++, j += 2)
+   247					cdns_pcie_rp_writew(pcie, lane_eq_ctrl_reg + j, presets_8gts[i]);
+   248	
+   249				dev_info(dev, "Link Equalization presets applied for 8.0 GT/s\n");
+   250			}
+   251		}
+   252	}
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
