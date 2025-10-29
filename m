@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E7C3596F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 19:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C19130F927
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 21:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761766686; cv=none; b=YGfg+GS5KzcdxK81rMZzH+4Y/34HUpPpUj9tzu8i7FVu/JhGL1mc/03b+QalxLMYG4AntqMJKO/Ftlm0zMxFdlmGQllDu+yxN8Bvxxf4RZ4j8I28HxDpyalSoQYKLyDPUpeZuI2O/Fhi3quuMMIkmLDdxKgoaYMdmoCoy2HHV8A=
+	t=1761771704; cv=none; b=AGigQqLKuaUWyuCVw6ueECPY+7WmxiZPf1IsmXrq2w6pWmgZXp6foEr35ONIEwzC9i7n0ZRCD6HZKj6e6dPn/OS0Gl3C8vG0hCHa8kmVKKzpl6tutptsYBPe6CiRcYuxJFGim2NQxdFn4Cw1hfHUKgPTLVnHb5faE3lHaLY7V6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761766686; c=relaxed/simple;
-	bh=SqahcglLALPan8PdkMc9Lemdz/22PGGZjbxapNnYWKY=;
+	s=arc-20240116; t=1761771704; c=relaxed/simple;
+	bh=FqULR9ZGk0Gm0D1qdTD9T3DfJddl9IskIartgNvZdq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O6ay9vnp+f93wpTW6IJW2FSZxKzqkZwwDYRu+kYdl87NSYLxbBNTF4Znfdp/yw3X6+hltzZVTOfyjR9tsj8GJ3y2YQB83tf3VFF1m1/qGhzFzzYCSh92Y6PeVaKv2QhQ+vWSWhDsaWjRfxRmxl9czq0oSOpCgk4qBV2Rv3axkIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YaMFSdm5; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=V2SN4h+P26RZg2YHrNq2c1QdwFjRhD6AsuHZpbOyL/v1ewEs1EPkXKmQ5bv1N69siRpV3nLvy2rH8TP9RaQ0awfZMdZPWDiVRJDFPFxTu10tKvyK2j8bm/dR4wSO6AsX373d0gbtqqhpOda//XDdajc/qUdFmCluOahwaKcG5j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdk8UVRf; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YaMFSdm5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdk8UVRf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761766686; x=1793302686;
+  t=1761771702; x=1793307702;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SqahcglLALPan8PdkMc9Lemdz/22PGGZjbxapNnYWKY=;
-  b=YaMFSdm5L60og6cUggkaf5b0/ka3clE17mGciSVKR9pBU/LrYTVv2ZXW
-   hDtVqxhzMbEg5Mrr9tVldA94JMk6LC1VZ90/OWw/EmbgVVfRvTI56OROz
-   LCxKVDxWPpMrtH8eaMDN7kL+z7ht/nBC4J1Fp9Bd3LxSuGDAGz3AQkHR0
-   YaHlvCSQhWSvzuQG0GUAKcNaZ+f7zue+nAGV87CAB5fNrA14/z+mbjdh2
-   T+Q85x61HPZf7INNgk6+wqmPyzqRYxWkDEoPgFA5zc9wQCILIPA0ga9Ll
-   3HZyFYKG/XtVlEAE+PVIWLOiWxfetHPMU13+o9aQR65tkcMolwSAXhbIk
-   A==;
-X-CSE-ConnectionGUID: j0eA3bAJS+SIMgGwG9QH2A==
-X-CSE-MsgGUID: WpIzfmneSZS7u0JhzHcX/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63831021"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63831021"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 12:38:05 -0700
-X-CSE-ConnectionGUID: wILrJLHAQUeO47gn/besxw==
-X-CSE-MsgGUID: M6VD2OOhQqyDJEkC9OhDzQ==
+  bh=FqULR9ZGk0Gm0D1qdTD9T3DfJddl9IskIartgNvZdq0=;
+  b=cdk8UVRfG3yN/Kp+QNXua6oMESGzvFBT5em+SsVJKkg0M2t2Z8SkMNHy
+   oGMcK4INVf5LqCMG8njmPAB5rKV/yq//xys+uOnQdKlF0kAamlgiPfr4s
+   tp42QBlliwCSdEsmgbcIgvs1HvhqJlKuA+ts5Gahd3Do/uAOSUkfCIrp1
+   Rtl147LebZsgruoFLc2/cFMCWmr1MLYeKmKRC92hku1SABKd1Z49ff5Ux
+   E7hwJ/1hvIYuwteZDtrtlC92PKv0fsn9v41UYmCLMCgTf4bNi8xs99gQw
+   w3FuWhsxziWGMLzeYk6seVGtVRe0wzV1HUO1xTKSvgGbnPMnDe0DZutxq
+   w==;
+X-CSE-ConnectionGUID: 8gizbXnjQIGNEljyTK8O0g==
+X-CSE-MsgGUID: ssrJhQCoRv2HAgc3kWOH9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="66521634"
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
+   d="scan'208";a="66521634"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 14:01:39 -0700
+X-CSE-ConnectionGUID: jsFV+b0XTlqtHRoexWDRgA==
+X-CSE-MsgGUID: PN9GzqviRGK6w5TmhAXVGw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="185019756"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Oct 2025 12:38:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2025 14:01:37 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEBzO-000L6d-2Q;
-	Wed, 29 Oct 2025 19:37:53 +0000
-Date: Thu, 30 Oct 2025 03:36:33 +0800
+	id 1vEDIU-000L9y-2E;
+	Wed, 29 Oct 2025 21:01:34 +0000
+Date: Thu, 30 Oct 2025 05:01:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
+To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1739/1739] mm/page_alloc.c:4648:27:
- sparse: sparse: invalid assignment: &=
-Message-ID: <202510300315.AULNBBrr-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3257/3257] kernel/sched/fair.c:9944:50: error:
+ invalid use of undefined type 'struct task_group'
+Message-ID: <202510300412.XOY1Sf5f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,110 +62,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   1afc352b4572c02bd3b5c9195481f393af060e44
-commit: 875ffd41499ee5a3512da409cbd4c2ffd32b3cfa [1739/1739] mm: Do limit checking after memory allocation for memory reliable
-config: arm64-randconfig-r121-20250728 (https://download.01.org/0day-ci/archive/20251030/202510300315.AULNBBrr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300315.AULNBBrr-lkp@intel.com/reproduce)
+Hi Cheng,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5860abf4ca1c1e5ced0d4787886db4195a9c54ea
+commit: 433c0b72564239cf3086f563d5ca32a10e4ffd3f [3257/3257] sched/fair: Count the number of tasks marked as steal_task on cfs_rq
+config: x86_64-randconfig-015-20251029 (https://download.01.org/0day-ci/archive/20251030/202510300412.XOY1Sf5f-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300412.XOY1Sf5f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510300315.AULNBBrr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510300412.XOY1Sf5f-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:140:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
-   mm/page_alloc.c:141:1: sparse: sparse: symbol '__pcpu_scope_pcpu_drain' was not declared. Should it be static?
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:4648:27: sparse: sparse: invalid assignment: &=
-   mm/page_alloc.c:4648:27: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4648:27: sparse:    right side has type int
-   In file included from mm/page_alloc.c:70:
-   mm/page_alloc.c: In function 'deferred_init_memmap':
-   include/linux/ktask.h:123:21: warning: cast between incompatible function types from 'int (*)(long unsigned int,  long unsigned int,  struct deferred_args *)' to 'int (*)(void *, void *, void *)' [-Wcast-function-type]
-      .kc_thread_func = (ktask_thread_func)(thread_func),      15-                     ^
-   include/linux/ktask.h:139:3: note: in expansion of macro 'KTASK_CTL_INITIALIZER'
-      KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) 18-   ^~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:1730:3: note: in expansion of macro 'DEFINE_KTASK_CTL'
-      DEFINE_KTASK_CTL(ctl, deferred_init_chunk, &args,
-      ^~~~~~~~~~~~~~~~
-   include/linux/ktask.h:123:21: warning: cast between incompatible function types from 'int (*)(long unsigned int,  long unsigned int,  struct deferred_args *)' to 'int (*)(void *, void *, void *)' [-Wcast-function-type]
-      .kc_thread_func = (ktask_thread_func)(thread_func),      24-                     ^
-   include/linux/ktask.h:139:3: note: in expansion of macro 'KTASK_CTL_INITIALIZER'
-      KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) 27-   ^~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:1746:3: note: in expansion of macro 'DEFINE_KTASK_CTL'
-      DEFINE_KTASK_CTL(ctl, deferred_free_chunk, &args,
-      ^~~~~~~~~~~~~~~~
-   mm/page_alloc.c:3083: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
+All errors (new ones prefixed by >>):
 
-vim +4648 mm/page_alloc.c
+   kernel/sched/fair.c: In function 'group_steal_enabled':
+   kernel/sched/fair.c:4483:38: error: implicit declaration of function 'is_tg_steal' [-Werror=implicit-function-declaration]
+    4483 |         return group_steal_used() && is_tg_steal(steal_task);
+         |                                      ^~~~~~~~~~~
+   kernel/sched/fair.c: In function 'overload_clear':
+   kernel/sched/fair.c:4489:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    4489 |         unsigned long time;
+         |                       ^~~~
+   kernel/sched/fair.c: In function 'overload_set':
+   kernel/sched/fair.c:4517:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    4517 |         unsigned long time;
+         |                       ^~~~
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:6013:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
+    6013 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |      ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'select_task_rq_fair':
+   kernel/sched/fair.c:8191:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    8191 |         unsigned long time;
+         |                       ^~~~
+   kernel/sched/fair.c: In function 'pick_next_task_fair':
+   kernel/sched/fair.c:9185:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
+    9185 |         unsigned long time;
+         |                       ^~~~
+   kernel/sched/fair.c: In function 'can_migrate_task_llc':
+>> kernel/sched/fair.c:9944:50: error: invalid use of undefined type 'struct task_group'
+    9944 |         if (group_steal_used() && !is_tg_steal(tg->steal_task))
+         |                                                  ^~
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:13961:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
+   13961 | void free_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13963:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
+   13963 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13968:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
+   13968 | void online_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13970:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
+   13970 | void unregister_fair_sched_group(struct task_group *tg) { }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-  4606	
-  4607	/*
-  4608	 * return true means memory allocation need retry and flag ___GFP_RELIABILITY
-  4609	 * must be cleared.
-  4610	 */
-  4611	static inline bool check_after_alloc(gfp_t *gfp_mask, unsigned int order,
-  4612					     int preferred_nid, nodemask_t *nodemask,
-  4613					     struct page **_page)
-  4614	{
-  4615		if (!mem_reliable_is_enabled())
-  4616			return false;
-  4617	
-  4618		if (!(*gfp_mask & ___GFP_RELIABILITY))
-  4619			return false;
-  4620	
-  4621		if (!*_page)
-  4622			goto out_retry;
-  4623	
-  4624		if (*gfp_mask & __GFP_NOFAIL)
-  4625			goto out;
-  4626	
-  4627		/* check water mark, reserver mirrored mem for kernel */
-  4628		if (!mem_reliable_watermark_ok(1 << order))
-  4629			goto out_free_page;
-  4630	
-  4631		/* percpu counter is not initialized, ignore limit check */
-  4632		if (!mem_reliable_counter_initialized())
-  4633			goto out;
-  4634	
-  4635		/* spcial user task, systemd is limited by task_reliable_limit */
-  4636		if (((current->flags & PF_RELIABLE) || is_global_init(current)) &&
-  4637		    !reliable_mem_limit_check(1 << order))
-  4638			goto out_free_page;
-  4639	
-  4640		goto out;
-  4641	
-  4642	out_free_page:
-  4643		__free_pages(*_page, order);
-  4644		*_page = NULL;
-  4645	
-  4646	out_retry:
-  4647		if (reliable_allow_fb_enabled() || is_global_init(current)) {
-> 4648			*gfp_mask &= ~___GFP_RELIABILITY;
-  4649			return true;
-  4650		}
-  4651	
-  4652		if (*gfp_mask & (__GFP_NORETRY | __GFP_RETRY_MAYFAIL | __GFP_THISNODE))
-  4653			goto out;
-  4654	
-  4655		/* Coredumps can quickly deplete all memory reserves */
-  4656		if (current->flags & PF_DUMPCORE)
-  4657			goto out;
-  4658		/* The OOM killer will not help higher order allocs */
-  4659		if (order > PAGE_ALLOC_COSTLY_ORDER)
-  4660			goto out;
-  4661	
-  4662		/* oom here */
-  4663		mem_reliable_out_of_memory(*gfp_mask, order, preferred_nid,
-  4664					nodemask);
-  4665	out:
-  4666		return false;
-  4667	}
-  4668	
+
+vim +9944 kernel/sched/fair.c
+
+  9929	
+  9930	#ifdef CONFIG_SCHED_STEAL
+  9931	/*
+  9932	 * Return true if task @p can migrate from @rq to @dst_rq in the same LLC.
+  9933	 * No need to test for co-locality, and no need to test task_hot(), as sharing
+  9934	 * LLC provides cache warmth at that level.
+  9935	 */
+  9936	static bool
+  9937	can_migrate_task_llc(struct task_struct *p, struct rq *rq, struct rq *dst_rq)
+  9938	{
+  9939		int dst_cpu = dst_rq->cpu;
+  9940		struct task_group *tg = task_group(p);
+  9941	
+  9942		lockdep_assert_rq_held(rq);
+  9943	
+> 9944		if (group_steal_used() && !is_tg_steal(tg->steal_task))
+  9945			return false;
+  9946	
+  9947		if (throttled_lb_pair(tg, cpu_of(rq), dst_cpu))
+  9948			return false;
+  9949	
+  9950		if (!cpumask_test_cpu(dst_cpu, p->cpus_ptr)) {
+  9951			schedstat_inc(p->se.statistics.nr_failed_migrations_affine);
+  9952			return false;
+  9953		}
+  9954	
+  9955		if (task_running(rq, p)) {
+  9956			schedstat_inc(p->se.statistics.nr_failed_migrations_running);
+  9957			return false;
+  9958		}
+  9959	
+  9960		return true;
+  9961	}
+  9962	#endif
+  9963	
 
 -- 
 0-DAY CI Kernel Test Service
