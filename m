@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77522F546C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 04:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8401D2F42;
+	Wed, 29 Oct 2025 04:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761711673; cv=none; b=Ye56qhtxATGkBvO/3aNBy3uq2JkiEAEjZwkknoZFvt4SfQTNm6mUAWo2pUZ++jS/HLzlI9IUZgUsJcYEzhGArue0oQhE4yT/TQQ2+y/p2mydQGxVV/fIzW8CvOTrBGlpQ2zrvu11dCPx+9jyiDdYn9vZS1zeinYiI6UV3gPZTzw=
+	t=1761713449; cv=none; b=r5elyCCBR4MVXhwiTVUSVdcwpkRNexfqAH3tSkLqOlMOCYT6hquni787NtdIUP3OGvKBwTaCCRA9c0uEB7uZ9XBdhXHUS94eRHS3gb9AL4nxwGoXS6I8dZf7F0B9XTcsjBppYy1AHa+SJ6jb9C/Aktl27UXZO+t7Ng5bhkWsjXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761711673; c=relaxed/simple;
-	bh=k92QA5za9+f78U5qrvozAswYIELUsEv9BnnrIg10L/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nQj+BM+Vsq+Nfqb/C6EU2l32SARNPKTRQjxN+2/mUDTsE9JG+LsoGXtJ79tAJqdvchwuiX4yCx3Y43pHVRVQoM9NFRnBtz/Z3AC6GgXElz0LRkcdRbcP85+/CTUpqARsPucWTXszJYNbLLvuMgqvpw4Wxm7xYit6PGlMx4hbEtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QH+iAVFZ; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1761713449; c=relaxed/simple;
+	bh=m+xtCQlsQ2W/RTc69IEMvaWvvLYl73pqZWkjRlTO/jY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oWj0eGEANy2445KHU0iMYa2w1u70M2BVoqESibVI34MOyfMLHjDrbsfUcIu9XNkNKqNznYvAJO8rJuQos+sGYL6bzI7OqM15i3hV7bdDMb+n5UfL8nCBtGDw1DytNlocnxpvASI7PjF7Jlluh73nbRK0W6dzx/x8EK3vctqMcLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkBs+fCh; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QH+iAVFZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkBs+fCh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761711672; x=1793247672;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k92QA5za9+f78U5qrvozAswYIELUsEv9BnnrIg10L/I=;
-  b=QH+iAVFZnxAsHd6BRk/Igzl5em1tAelUC+v9SF6v37KzrbysANFxxBYc
-   Z4Yocp9O+HMvQPHx2+46+u/6eM/eEzrEU5Xe3yV4Q84Wccl23iknsK+KZ
-   SpntTuFLqASP2rC00bWuZugPZzKJ3picLx6LnWSy1f6Itl+RlyaeMPYh9
-   c5mCB1JxgIAhsHtUgs5yebRWiwMkYsA4ucwRpjF6nurl/JPQvQA2S+oU/
-   vS0PACKJ3AFH0i52hvYXTrXYUtcPfVBupFDzN0lglyLMN+ycVd8lX+41t
-   Orvpk0ArbtP751GdTuyAmKGObp9XMZwUGxsYk+SttA8IbVB80QQnYnbfc
+  t=1761713447; x=1793249447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m+xtCQlsQ2W/RTc69IEMvaWvvLYl73pqZWkjRlTO/jY=;
+  b=DkBs+fChhr1Qr0A62jxyxR/+V1s16qNWvzVmweEGHFza3T67Yf4eM3sV
+   SxobzLehCaJtoAdLW1RR7uKg3aoREocNuqf2HngAxRMPdx5MSEmoLICUb
+   LqOoKuj4hEh7RIkg7KqNl4qUxyv4YuutpKsHE55GLVVSyL70ROagXCuoU
+   x1gWll+gJ6R54/XLFUujwNu0/I6pG8Dxkh31AMaJcz54H3uF6Xyf5jAo6
+   /IlYjaL9bpnSg+PDnuN6zCt9Z/fliYVRt0UbiOB/bZkwHMgrDKzDOeBOU
+   mSx4rqtadJyoVXuFcnGXaD2Olo94+DJozBu/tjul0/fhuHMtY71qOZXpA
    w==;
-X-CSE-ConnectionGUID: nkRTy5Y8QIGX9J0pGnj1wQ==
-X-CSE-MsgGUID: pwvTCEp/ROGe6Bj/Ustjmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74941811"
-X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="74941811"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 21:21:11 -0700
-X-CSE-ConnectionGUID: zkABTT1EQqWwOKetxsdjCA==
-X-CSE-MsgGUID: lHSFdfJrSdCTiq++m50U8A==
+X-CSE-ConnectionGUID: uCcLlUOxSY+7ipPs6lE1Yg==
+X-CSE-MsgGUID: ztOFTWfJTfSPOQp73ctyHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63727260"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63727260"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 21:50:46 -0700
+X-CSE-ConnectionGUID: 7z1IadphTougDt3CqOkDFw==
+X-CSE-MsgGUID: pKbUsDDKTZ63BTHknyyYSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
-   d="scan'208";a="185177781"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 28 Oct 2025 21:21:09 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="216199959"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 28 Oct 2025 21:50:44 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vDxgJ-000000000s8-1a82;
-	Wed, 29 Oct 2025 04:21:07 +0000
-Date: Wed, 29 Oct 2025 05:20:58 +0100
+	id 1vDy8p-000K9B-11;
+	Wed, 29 Oct 2025 04:50:36 +0000
+Date: Wed, 29 Oct 2025 12:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014d0
- (altr,pio-1.0): 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202510290539.UPoG7YbJ-lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+	netfilter-devel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, fw@strlen.de,
+	ffmancera@suse.de, brady.1345@gmail.com
+Subject: Re: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of
+ jumps/gotos per netns
+Message-ID: <202510291201.P7nkKt1R-lkp@intel.com>
+References: <20251027221722.183398-2-pablo@netfilter.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +65,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251027221722.183398-2-pablo@netfilter.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-commit: 695f375b2a881544d112edbb60a35a884c7604ae dt-bindings: gpio: Convert altr,pio-1.0 to DT schema
-date:   3 months ago
-config: nios2-randconfig-2052-20251024 (https://download.01.org/0day-ci/archive/20251029/202510290539.UPoG7YbJ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-dtschema version: 2025.9.dev12+gd6be03029
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510290539.UPoG7YbJ-lkp@intel.com/reproduce)
+Hi Pablo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on netfilter-nf/main]
+[also build test WARNING on linus/master v6.18-rc3 next-20251029]
+[cannot apply to nf-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_tables-limit-maximum-number-of-jumps-gotos-per-netns/20251028-062221
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20251027221722.183398-2-pablo%40netfilter.org
+patch subject: [PATCH nf 1/2] netfilter: nf_tables: limit maximum number of jumps/gotos per netns
+config: arm-randconfig-003-20251028 (https://download.01.org/0day-ci/archive/20251029/202510291201.P7nkKt1R-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510291201.P7nkKt1R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510290539.UPoG7YbJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510291201.P7nkKt1R-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): reg-names:3: 's1' was expected
-   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml
-   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): reg-names: ['control_port', 'rx_csr', 'rx_desc', 'rx_resp', 'tx_csr', 'tx_desc'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml
-   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): compatible: ['altr,tse-msgdma-1.0', 'altr,tse-1.0'] is too long
-   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml
-   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): Unevaluated properties are not allowed ('altr,enable-hash', 'altr,enable-sup-addr' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml
-   arch/nios2/boot/dts/10m50_devboard.dtb: /sopc@0/clock@0: failed to match any schema with compatible: ['altr,pll-1.0']
-   arch/nios2/boot/dts/10m50_devboard.dtb: /sopc@0/clock@1: failed to match any schema with compatible: ['altr,pll-1.0']
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014d0 (altr,pio-1.0): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014d0 (altr,pio-1.0): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014d0 (altr,pio-1.0): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014c0 (altr,pio-1.0): 'edge_type', 'level_trigger' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014c0 (altr,pio-1.0): 'interrupt-controller' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
->> arch/nios2/boot/dts/10m50_devboard.dtb: gpio@180014c0 (altr,pio-1.0): '#interrupt-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/altr-pio-1.0.yaml
-   arch/nios2/boot/dts/10m50_devboard.dtb: leds (gpio-leds): 'fpga0', 'fpga1', 'fpga2', 'fpga3' do not match any of the regexes: '(^led-[0-9a-f]$|led)', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml
+All warnings (new ones prefixed by >>):
+
+   In file included from net/netfilter/core.c:27:
+   In file included from include/net/netfilter/nf_tables.h:13:
+   In file included from include/net/netfilter/nf_flow_table.h:13:
+   In file included from include/linux/if_pppox.h:17:
+   include/uapi/linux/if_pppox.h:71:4: warning: field sa_addr within 'struct sockaddr_pppox' is less aligned than 'union (unnamed union at include/uapi/linux/if_pppox.h:68:2)' and is usually due to 'struct sockaddr_pppox' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      71 |         } sa_addr;
+         |           ^
+>> net/netfilter/core.c:832:1: warning: unused label 'err_nft_pernet' [-Wunused-label]
+     832 | err_nft_pernet:
+         | ^~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/err_nft_pernet +832 net/netfilter/core.c
+
+   805	
+   806	int __init netfilter_init(void)
+   807	{
+   808		int ret;
+   809	
+   810		ret = register_pernet_subsys(&netfilter_net_ops);
+   811		if (ret < 0)
+   812			goto err;
+   813	
+   814	#ifdef CONFIG_LWTUNNEL
+   815		ret = netfilter_lwtunnel_init();
+   816		if (ret < 0)
+   817			goto err_lwtunnel_pernet;
+   818	#endif
+   819	#if IS_ENABLED(CONFIG_NF_TABLES)
+   820		ret = netfilter_nf_tables_sysctl_init();
+   821		if (ret < 0)
+   822			goto err_nft_pernet;
+   823	#endif
+   824		ret = netfilter_log_init();
+   825		if (ret < 0)
+   826			goto err_log_pernet;
+   827	
+   828		return 0;
+   829	
+   830	err_log_pernet:
+   831		netfilter_nf_tables_sysctl_fini();
+ > 832	err_nft_pernet:
 
 -- 
 0-DAY CI Kernel Test Service
