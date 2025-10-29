@@ -1,72 +1,59 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62FD37A3A9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 13:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189922BD5AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 13:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761743101; cv=none; b=D9xcB1lpjzLgnXGz7dQD8ZIJGzVAkuQN4GjBl7T6QwXI8/ypiTsQpuKIuJ8nVZ/i61nnd+3iid8mRGMn4+wRCBN7fisn/rr5gYPG7MzSBafCIbVpK8iO0bkJIwYfGUq55zc7KIEcmO2UCcm4lo+18A6xGJ8H/EWHo7gsqhc6VPY=
+	t=1761744070; cv=none; b=kyPe5qaRBH3W6+vnj3kEmZ/ZVVw/YOHPIWFJFkiOnHONWvo1WZ91s1ouro5hHD9Ez5FpcbM95gxjfKCJokpA8rkL18VX4jy2SWu7fBi2YOOLiCu8D8IErKNsqHiAKO5u7hhzqlJmjBIMdLjS0lorJEO93TMYXjYnSqwQeYGRi8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761743101; c=relaxed/simple;
-	bh=+4qz3t4yf4eEmZo93DiOrVVwOxTfUvszSK5N7LjvsvU=;
+	s=arc-20240116; t=1761744070; c=relaxed/simple;
+	bh=wNfcms5naLIdBk0EAQhlNnteCdBB63OQRJD5hT4cT7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZOYR5sT53Kbn5lvregGogL7gVojvFZt53npmjGvN5vjcTtcQPPfYfYZ2/OZs45SMnsD6Pka4iOFkOxysZTFWV58KrSJZhF2h9B8+1CmR4jEs5KtP4S1ZFiWE+EJu8YxvQx1xA7pTo5wozyk3W9WG5wJYh400nD/5s83AL6krQzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MxprdOPv; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=AVirk977MkjYkc7dyIsxvpOasPCeyzsRiS16M4UGE83thV+bRMX6AXAcjdxqFwogaG/65ZRk1eqUYROKzbszOUsd1/0EeV7qTrAzFXLi44HpcEcvM95UnSbSOEpBiwDptgKMaCQ4r1ySZLuLBXXHPF6k2H8Z1VQUSjpD8L3fiys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqKv/lVh; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MxprdOPv"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4710683a644so9763495e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 06:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761743097; x=1762347897; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PiHv0xIwo5URyh1WiOT46CGWSFLf6eNjb7offUnDh3U=;
-        b=MxprdOPvDUENdE06IW2aj8azXRTR5s4YLJZoTFTs68x5MvrO3LpA04uFsHmY4RviFC
-         Lx8xgzX8TR6DacbN2B3Uaiv2HgiKVd3kn3qhTcWOhlmR/bR74vFDCi18k2+JikvFKFPh
-         X0GVg4E47KDUrenYmc9Wj6qwuQcSxAU4P13vVrngHNk1oScXT26VWVWTXfADhSN1UHdT
-         v3tYF7HVe0ADRYEvcSBdXuwYB8VRTc2drWR2nJqagphs+wejh8IoI9rdFYdCALrUp1Sp
-         wOJfPBhaaF07pXBQcrRpZrM4MXxoy5Z/drVXcdaU2OXymhmWIztGy0VSEQbK+b6PD5kq
-         SlBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761743097; x=1762347897;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PiHv0xIwo5URyh1WiOT46CGWSFLf6eNjb7offUnDh3U=;
-        b=RtTwz0H0HcyQpO/O1E2v0v9Oci7YVLJEc7aGTbUkkDkSSNjVaxQr1+/u2RQRp+035k
-         vznnLvqyyidNQBcyVUJZS8kNwa8ZVNNDWI8mPKePQ8oj5wYj2KsYZQeHWH44P0a12U3w
-         HiX2q2LGcCMA71rS30KeWrNvPESYEOO5Nm/voW9W6Z5Ye6F1iaDrXbbO7DDA5ozGhTFt
-         UY9K90lJyd7TFi4tv6MiQgR/d5ggTBlSUnL/840xDDr6OFGMBZcFr6ghMbSOtd4oXTyY
-         MGYEw/AeQDYlfEzIEVl01gbl7flZpKBtZ214YIyXCPsWyv3JpYgyk4K95U8uJO4q4XXv
-         ixQg==
-X-Forwarded-Encrypted: i=1; AJvYcCU33UkUxKlukWoOBVPlf/WGUPDaskdireXAaE26rG87ntRqJC5GfS/wjmQoB18AIBs3pBFwYTQQKGg0shzN@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTvn6bQCbUOyAwkzP6Z8pz/F8JGJuuDvL0PjYhYAsUUJF8OnWM
-	RWlqm5JpR23sVcKHywHAjaZASxHOfGIholQEmAmeEXRAE8eJo8CnUrXdvugG6HcdYno=
-X-Gm-Gg: ASbGncsRebpXIiSomIHSSIEoZn7h6ZIHldzBYqNmmsZ9+RGmVpBrwx6cjutd4Qwi7OT
-	vnM0mNyfH5NXj3JnpjU8hqJsgnOE3nU9BFcn8LhnKOguAy+OL1DIO1KAe38ww+hB/wWllB9GTFd
-	gFnNTgMfHyOQjVtaqxKUKC7fK9I/YwOlaRrX72MD6LFwCSPMvq7Su+1QllW5IB/b+yQTPa5EX0x
-	+gEiTODvmFAUmKvDvA/5KWSi6X5DQOLew96COaMGxGX2QVb0xcATKKXVmuCyvpfVY7qKIlHh0eJ
-	PBo2f+t4PslceBPwMK6bXjprnq8lMP347KPWL1jXvXm+opRIc3BZjsyajJxBsJrQlhM+5kIKmk8
-	oyRL5mvdU0JPhCyIDLZdU43JzMFgE2mQNy7qonsE04BKIOv+2Y/K93N3sK/gU4qvgBR/5gpKqYQ
-	K1MqjsYhkYMv3QmjyHof07WHp0/dQ=
-X-Google-Smtp-Source: AGHT+IELUprTvXFy5TutsIHdtpTIaqE+eatCiHRjgq9hWYlqzQauO1k/gh5sk9oXLM4VV73mvackOg==
-X-Received: by 2002:a05:600c:608a:b0:477:ede:d2b4 with SMTP id 5b1f17b1804b1-4771813e891mr60955315e9.9.1761743096560;
-        Wed, 29 Oct 2025 06:04:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952ca569sm25713025f8f.12.2025.10.29.06.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Oct 2025 06:04:55 -0700 (PDT)
-Date: Wed, 29 Oct 2025 16:04:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Austin Zheng <Austin.Zheng@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Dillon Varone <dillon.varone@amd.com>, waynelin <Wayne.Lin@amd.com>
-Subject: [linux-next:master 4371/4731]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c:118
- dml_floor() warn: if statement not indented
-Message-ID: <202510292021.XfUW1Zro-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqKv/lVh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761744069; x=1793280069;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wNfcms5naLIdBk0EAQhlNnteCdBB63OQRJD5hT4cT7k=;
+  b=hqKv/lVheMpBl0acfLeOliAXoQkXsPVlTEBluNiaaWTv4NoT1jfpSFss
+   yJf1fjWQz8x2wjWxPcDGrOv+1yauPfoBoeFjK+a4zpeGHg69MWXXBR+nz
+   N7E6kWttbtAPKkj3umCE0n7WWEplLglY6Gc2b/UqhGSbo0S3KlLAZMzi8
+   3uMMdpgZhUkq9zvQz9aGTXzzZnjAzW8769XagZ4UeGUwjYd3crEc1ID4T
+   Sgk9RzRjEW6xUsK7oy6F0MCAAGRiiCdGYyNFUOUTxnGFN6AtTqMsLDaQ9
+   YlhWt1/gAiH9dZa/p6W4KRbd+pp4ZrWNBSzaXM4IJ6ruVFHHScwgTGRJM
+   w==;
+X-CSE-ConnectionGUID: oLEmFiAuTpef7TCSpHAmkA==
+X-CSE-MsgGUID: lUZB51M6RiW0OkN4LIZ2MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63768306"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63768306"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 06:21:09 -0700
+X-CSE-ConnectionGUID: V2dAy87ESHmUx43bMAZHKA==
+X-CSE-MsgGUID: OVMQh6aJSb26ECEPVUxhMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="216325845"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 29 Oct 2025 06:21:08 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vE66q-000KcT-2u;
+	Wed, 29 Oct 2025 13:21:04 +0000
+Date: Wed, 29 Oct 2025 21:20:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 3400/4731] mtk-mfg-pmdomain.c:undefined reference
+ to `mbox_send_message'
+Message-ID: <202510292115.MtowRumM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,111 +65,34 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
-commit: e6a8a000cfe6a1106c17ab4a47eb6dd21596968c [4371/4731] drm/amd/display: Rename dml2 to dml2_0 folder
-config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292021.XfUW1Zro-lkp@intel.com/config)
+commit: 1ff1f0db6aec80eae1639eff31b5875632d539c0 [3400/4731] pmdomain: mediatek: Add support for MFlexGraphics
+config: arm64-randconfig-r131-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292115.MtowRumM-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292115.MtowRumM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510292021.XfUW1Zro-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292115.MtowRumM-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c:118 dml_floor() warn: if statement not indented
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c:152 dml_max() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c:733 dml_get_num_active_planes() warn: if statement not indented
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/dml2_wrapper.c:527 dml2_validate_only() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/dml2_policy.c:208 dml2_policy_build_synthetic_soc_states() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/dml2_mall_phantom.c:468 dml2_svp_drr_schedulable() error: we previously assumed 'pipe->stream' could be null (see line 454)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/dml2_mall_phantom.c:557 subvp_vblank_schedulable() error: we previously assumed 'subvp_pipe' could be null (see line 549)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:1213 CalculatePrefetchSchedule() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:2755 TruncToValidBPP() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:3176 CalculateDCFCLKDeepSleep() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:3754 CalculateVMGroupAndRequestTimes() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:4056 CalculateStutterEfficiency() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:4206 CalculateSwathAndDETConfiguration() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:4789 CalculateSurfaceSizeInMall() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:5201 CalculateVMRowAndSwath() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:6019 CalculatePrefetchBandwithSupport() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:6201 CalculateMaxVStartup() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:6923 dml_core_mode_support() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:8380 dml_core_mode_programming() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:9362 dml_core_mode_programming() warn: for statement not indented
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:1295 CalculatePrefetchSchedule() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:1462 CalculatePrefetchSchedule() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:1565 CalculatePrefetchSchedule() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:2757 TruncToValidBPP() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:4252 CalculateSwathAndDETConfiguration() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:4794 CalculateSurfaceSizeInMall() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:7220 dml_core_mode_support() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:7469 dml_core_mode_support() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:7883 dml_core_mode_support() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_core.c:7954 dml_core_mode_support() warn: inconsistent indenting
-
-vim +118 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2_0/display_mode_util.c
-
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  116  dml_float_t dml_floor(dml_float_t x, dml_float_t granularity)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  117  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28 @118  	if (granularity == 0)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  119  	return 0;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  120  	//return (dml_float_t) (floor(x / granularity) * granularity);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  121  	return (dml_float_t)dcn_bw_floor2(x, granularity);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  122  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  123  
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  124  dml_float_t dml_min(dml_float_t x, dml_float_t y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  125  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  126  	if (x != x)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  127  		return y;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  128  	if (y != y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  129  		return x;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  130  	if (x < y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  131  		return x;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  132  	else
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  133  		return y;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  134  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  135  
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  136  dml_float_t dml_min3(dml_float_t x, dml_float_t y, dml_float_t z)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  137  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  138  	return dml_min(dml_min(x, y), z);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  139  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  140  
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  141  dml_float_t dml_min4(dml_float_t x, dml_float_t y, dml_float_t z, dml_float_t w)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  142  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  143  	return dml_min(dml_min(dml_min(x, y), z), w);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  144  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  145  
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  146  dml_float_t dml_max(dml_float_t x, dml_float_t y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  147  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  148  	if (x != x)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  149  		return y;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  150  	if (y != y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  151  		return x;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28 @152  if (x > y)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  153  		return x;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  154  	else
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  155  		return y;
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  156  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  157  dml_float_t dml_max3(dml_float_t x, dml_float_t y, dml_float_t z)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  158  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  159  	return dml_max(dml_max(x, y), z);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  160  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  161  dml_float_t dml_max4(dml_float_t a, dml_float_t b, dml_float_t c, dml_float_t d)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  162  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  163  	return dml_max(dml_max(a, b), dml_max(c, d));
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  164  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  165  dml_float_t dml_max5(dml_float_t a, dml_float_t b, dml_float_t c, dml_float_t d, dml_float_t e)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  166  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  167  	return dml_max(dml_max4(a, b, c, d), e);
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  168  }
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  169  dml_float_t dml_log(dml_float_t x, dml_float_t base)
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  170  {
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  171  	return (dml_float_t) (_log(x) / _log(base));
-7966f319c66d94 drivers/gpu/drm/amd/display/dc/dml2/display_mode_util.c Qingqing Zhuo 2023-07-28  172  }
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.o: in function `mtk_mfg_send_ipi':
+>> mtk-mfg-pmdomain.c:(.text+0x20c): undefined reference to `mbox_send_message'
+   aarch64-linux-ld: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.o: in function `mtk_mfg_eb_off':
+   mtk-mfg-pmdomain.c:(.text+0xa5c): undefined reference to `mbox_send_message'
+   aarch64-linux-ld: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.o: in function `mtk_mfg_remove':
+>> mtk-mfg-pmdomain.c:(.text+0x1880): undefined reference to `mbox_free_channel'
+>> aarch64-linux-ld: mtk-mfg-pmdomain.c:(.text+0x18b8): undefined reference to `mbox_free_channel'
+   aarch64-linux-ld: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.o: in function `mtk_mfg_probe':
+>> mtk-mfg-pmdomain.c:(.text+0x1f6c): undefined reference to `mbox_request_channel_byname'
+>> aarch64-linux-ld: mtk-mfg-pmdomain.c:(.text+0x2050): undefined reference to `mbox_request_channel_byname'
+   aarch64-linux-ld: mtk-mfg-pmdomain.c:(.text+0x2088): undefined reference to `mbox_free_channel'
+   aarch64-linux-ld: mtk-mfg-pmdomain.c:(.text+0x2104): undefined reference to `mbox_free_channel'
+   aarch64-linux-ld: mtk-mfg-pmdomain.c:(.text+0x2138): undefined reference to `mbox_free_channel'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
