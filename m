@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC4C329366
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 15:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2452750E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 15:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761752173; cv=none; b=CFUDhYk8IWJqxY0m6QqmgYyjvwgvxsR2Q0MxeZYUmVlbZITxrkgAcMIZl7y+0daeIcDZQBG4NWEkcdG136NUabGy6vZIHDKO44fX4h/GO/Bp/skOkohAm/cSFbAWRr+ivWzs+ybQA6Q00mHqBTXC9MJ/Gs4H6wkmrXBcq3IDZHc=
+	t=1761752207; cv=none; b=NUi927wUFocO5UKTgdNK+2waO1SQIaodWjsCzcSMrqpOlLLD81FtFiQcDmLXuirCm3oGM5rUqw/oWfjFYdPyrSmUm/PCwkTrEaNPU2Njc6HpMiTewzKB8tDDQJq6YHG3RDBQDtqpvCUxhkS19GXfceDP1UPbNUJo9F40NhhXtQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761752173; c=relaxed/simple;
-	bh=NOtaDD0yEl9+6Z0oltjyvQBKR0NopvU+ncmTXk/MU/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hZS4Kwq30+8uFI+Sf4hwM4SpYgeUkF0yppUMcsEGAYlU7p+i1duQ8Hcl9MKmCUmd6TM8X24RHIGoyl/KgyRIdtE1yLRvLzrc0TcoAqXofYXSALuMRzdrkkh2Snl/YGKvUQxwH0k15nUrhd9YSwb3tANcv3PahtOurA8a2rD21yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GP7DUozK; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1761752207; c=relaxed/simple;
+	bh=uTVXoOCRFPUMsxk4qt71HyVWVsokl7MLDvG9SuiWEvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MRM2WEvTUaIeWM1jafvNfGUrp+gX1hk9edT4uY1NZKTLNztMMo6ziF5l+a6VYhYJBUYNfGbGT2PRMibqu9+IccwyTLPf1/Q2y0rv+kBm6KVNn0ZxOBa0ov7XsCNzeTpuhm4pZmYAXGyjfLnXHXWo3O7LTScXyjVZkNHDHO+axaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8MvEuKk; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GP7DUozK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8MvEuKk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761752172; x=1793288172;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NOtaDD0yEl9+6Z0oltjyvQBKR0NopvU+ncmTXk/MU/U=;
-  b=GP7DUozKjAcZEYIl7te6iiSwV1qXysZCv+DYkJpJjyRtLTzV8tXxN2vi
-   gzZ+7NASIXLmxR4gvQpJGyvd5H/s1rJcXq5ikVDUl4ZtSuE/QhTTM4S0h
-   cJeBKOVdAz04fn9tGrh7uWqVsKNpNT2X112ov9r0sNtgxaGhoUrHkuXEl
-   uyZY0K0VmD77sMaVncescRMRfDIvj1napjBr0hPKaoVOrc8eFQ/N7kaID
-   cY5+OZdhiPjRXBy0un+z7vjfUkUiT7z9flWqCw52EMvb9lnNe5GbC6rlN
-   oKyWP7HTj9FgU8DnMOIiBr1osStN4Y/sL06u/GNGmdqbBgxxYRGjxfB+q
-   w==;
-X-CSE-ConnectionGUID: n7/H9gjsSUeSDzMOf5V+8g==
-X-CSE-MsgGUID: 5s9L07WCQFOvgP7fkYc9fQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="81506742"
+  t=1761752206; x=1793288206;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uTVXoOCRFPUMsxk4qt71HyVWVsokl7MLDvG9SuiWEvs=;
+  b=i8MvEuKkAn7/RQPRy2f6DjK0O6tKHIdqpsW0CNlvAUHjdGTpT3RwBN50
+   1ArMPwXFCIMn8EralwRF+JOrGBb53mSo+zJNDxtOaWR1nxBimP+BOYrax
+   YeyNzE0nq3Me+SUfQV7ZmjCKkr6fbeAG0DSxdcPI9Gw3/t3TlAZpkt8bX
+   la6Hk+xTcfn/d2w0A1s/3zPMfFaXoApmpicIElGADzuYRssxTPd1c5sqz
+   pTWk/h7uQoL88FI8tSKonqNunsK4rSADtyhdJFZ9+o0pKb3OUubgdJL7m
+   wL4M390vSMi/Fihg5fdm8/IpwLo83qdC8u+NObTBRqk9a3TdWhYxtxPmc
+   g==;
+X-CSE-ConnectionGUID: zomfvx/NS0ivoO/qV1zdPw==
+X-CSE-MsgGUID: d2usWXtQQQayQnXaFJBvXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63761507"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="81506742"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:36:11 -0700
-X-CSE-ConnectionGUID: uSKz2MDCRv6d3icnoqm3VA==
-X-CSE-MsgGUID: xejXBqrgTQyFdIeFEEo+vQ==
+   d="scan'208";a="63761507"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:36:46 -0700
+X-CSE-ConnectionGUID: SHFmCnRORAeDj818vrlhrQ==
+X-CSE-MsgGUID: asAsXrclTQyd2yDYo++UEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="222912225"
+   d="scan'208";a="186152959"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 29 Oct 2025 08:36:07 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2025 08:36:43 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE8CW-000KjZ-2u;
-	Wed, 29 Oct 2025 15:35:21 +0000
-Date: Wed, 29 Oct 2025 23:34:46 +0800
+	id 1vE8DV-000Kjb-0L;
+	Wed, 29 Oct 2025 15:36:13 +0000
+Date: Wed, 29 Oct 2025 23:34:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	muislam@microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	longli@microsoft.com, mhklinux@outlook.com,
-	skinsburskii@linux.microsoft.com, romank@linux.microsoft.com,
-	Jinank Jain <jinankjain@microsoft.com>,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: Re: [PATCH] mshv: Extend create partition ioctl to support cpu
- features
-Message-ID: <202510292330.LCHvPCLt-lkp@intel.com>
-References: <1761685562-6272-1-git-send-email-nunodasneves@linux.microsoft.com>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [brauner-github:vfs-6.19.inode 6/6] Warning: fs/inode.c:1609
+ function parameter 'isnew' not described in 'ilookup5_nowait'
+Message-ID: <202510292317.UP4H55Pm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,42 +63,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1761685562-6272-1-git-send-email-nunodasneves@linux.microsoft.com>
 
-Hi Nuno,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc3 next-20251029]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Das-Neves/mshv-Extend-create-partition-ioctl-to-support-cpu-features/20251029-050748
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1761685562-6272-1-git-send-email-nunodasneves%40linux.microsoft.com
-patch subject: [PATCH] mshv: Extend create partition ioctl to support cpu features
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251029/202510292330.LCHvPCLt-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292330.LCHvPCLt-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-6.19.inode
+head:   f5608fff035ae2310a647984998060546c3ec6dd
+commit: f5608fff035ae2310a647984998060546c3ec6dd [6/6] fs: rework I_NEW handling to operate without fences
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251029/202510292317.UP4H55Pm-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292317.UP4H55Pm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510292330.LCHvPCLt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292317.UP4H55Pm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error: include/uapi/linux/mshv.h: leak CONFIG_X86_64 to user-space
-   make[3]: *** [scripts/Makefile.headersinst:63: usr/include/linux/mshv.h] Error 1
-   make[3]: Target '__headers' not remade because of errors.
-   make[2]: *** [Makefile:1378: headers] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> Warning: fs/inode.c:1609 function parameter 'isnew' not described in 'ilookup5_nowait'
 
 -- 
 0-DAY CI Kernel Test Service
