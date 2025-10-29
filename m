@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C19130F927
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 21:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A247313E0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 21:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761771704; cv=none; b=AGigQqLKuaUWyuCVw6ueECPY+7WmxiZPf1IsmXrq2w6pWmgZXp6foEr35ONIEwzC9i7n0ZRCD6HZKj6e6dPn/OS0Gl3C8vG0hCHa8kmVKKzpl6tutptsYBPe6CiRcYuxJFGim2NQxdFn4Cw1hfHUKgPTLVnHb5faE3lHaLY7V6w=
+	t=1761771714; cv=none; b=sQxZ8OATq3aGXbTHI/43mJWX0p/BtKSLyQbB6grZfuH7Mr2nqPOuwvS1oc5489WCyf804p2xml/LJYYG7H8hJw615qjVwvlFPLgyjBxaOV9PElKyl0eEWpcx7Kjd0ZYVdTUBELDD0BMUwqR4Xf/TQL+zI3AH+cTktiT7b+Bu2Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761771704; c=relaxed/simple;
-	bh=FqULR9ZGk0Gm0D1qdTD9T3DfJddl9IskIartgNvZdq0=;
+	s=arc-20240116; t=1761771714; c=relaxed/simple;
+	bh=6E8/e9Q7+PpIiWuYpAdcUau2makbeVfY3ASL6q6nqgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V2SN4h+P26RZg2YHrNq2c1QdwFjRhD6AsuHZpbOyL/v1ewEs1EPkXKmQ5bv1N69siRpV3nLvy2rH8TP9RaQ0awfZMdZPWDiVRJDFPFxTu10tKvyK2j8bm/dR4wSO6AsX373d0gbtqqhpOda//XDdajc/qUdFmCluOahwaKcG5j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdk8UVRf; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=jBcYjEYyfsfVZvIIOWRWIfC+8mW4x4szu4USdauJ6p0VelVPrvREJGUJ7059ZVQWspFOLsv8HEZejtPGhunkOdHAhdpqk+5Dp6++LaQ8QMnzA3NJd1wLuP0jGr5iM6ntJAtJ5CDy1Dz8d/wn7xRGmhD2wDuYFVDG+qUBi/LBAfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jNulZcg3; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdk8UVRf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jNulZcg3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761771702; x=1793307702;
+  t=1761771712; x=1793307712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FqULR9ZGk0Gm0D1qdTD9T3DfJddl9IskIartgNvZdq0=;
-  b=cdk8UVRfG3yN/Kp+QNXua6oMESGzvFBT5em+SsVJKkg0M2t2Z8SkMNHy
-   oGMcK4INVf5LqCMG8njmPAB5rKV/yq//xys+uOnQdKlF0kAamlgiPfr4s
-   tp42QBlliwCSdEsmgbcIgvs1HvhqJlKuA+ts5Gahd3Do/uAOSUkfCIrp1
-   Rtl147LebZsgruoFLc2/cFMCWmr1MLYeKmKRC92hku1SABKd1Z49ff5Ux
-   E7hwJ/1hvIYuwteZDtrtlC92PKv0fsn9v41UYmCLMCgTf4bNi8xs99gQw
-   w3FuWhsxziWGMLzeYk6seVGtVRe0wzV1HUO1xTKSvgGbnPMnDe0DZutxq
-   w==;
-X-CSE-ConnectionGUID: 8gizbXnjQIGNEljyTK8O0g==
-X-CSE-MsgGUID: ssrJhQCoRv2HAgc3kWOH9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="66521634"
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="66521634"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 14:01:39 -0700
-X-CSE-ConnectionGUID: jsFV+b0XTlqtHRoexWDRgA==
-X-CSE-MsgGUID: PN9GzqviRGK6w5TmhAXVGw==
-X-ExtLoop1: 1
+  bh=6E8/e9Q7+PpIiWuYpAdcUau2makbeVfY3ASL6q6nqgU=;
+  b=jNulZcg3WjCIhu8pl0O46cBNQFpHGrZI3MOLFg0pSop50TdYyGRuECwE
+   ezd9C7oP437h3a90ZPcWyjrLzLYagTUaotJ6eLUPTi0f+tiznQq9etT38
+   iDOoF8u1c95N9I/hGIbu9NeDaI7IKgz1h3qbfYcXaAvtNNvvEilAsubBa
+   iQcEvJeKKB/2SvSrjDi5n3/qpCf3QEsoEGdupd7OYTRvPory5VKKFCSMa
+   qgUM6TDBl8jbAA5E94NccebAse1rnODsU15n05+vttVRQbMWkyBLr2FXW
+   1wBNYsCqtF2wCVOMAu9T7YUXch7eeYW582hylULi5fXgFqA/0yiWTd3HA
+   g==;
+X-CSE-ConnectionGUID: F+TrU71DRt6VR2WDrKjfNA==
+X-CSE-MsgGUID: 8DM3cW3+QO2k+Tw0W8lCKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63815769"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="185019756"
+   d="scan'208";a="63815769"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 14:01:51 -0700
+X-CSE-ConnectionGUID: 4uMyERBiT3ehKe6Uwuzgog==
+X-CSE-MsgGUID: 27hlGQrsRrKr18Sl13LWnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
+   d="scan'208";a="209357472"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2025 14:01:37 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Oct 2025 14:01:36 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEDIU-000L9y-2E;
+	id 1vEDIU-000L9w-2A;
 	Wed, 29 Oct 2025 21:01:34 +0000
-Date: Thu, 30 Oct 2025 05:01:30 +0800
+Date: Thu, 30 Oct 2025 05:01:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3257/3257] kernel/sched/fair.c:9944:50: error:
- invalid use of undefined type 'struct task_group'
-Message-ID: <202510300412.XOY1Sf5f-lkp@intel.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [brauner-github:vfs-6.19.misc 5/5] include/linux/pipe_fs_i.h:214:1:
+ warning: control reaches end of non-void function
+Message-ID: <202510300423.1PcGtHK0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +64,255 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Cheng,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5860abf4ca1c1e5ced0d4787886db4195a9c54ea
-commit: 433c0b72564239cf3086f563d5ca32a10e4ffd3f [3257/3257] sched/fair: Count the number of tasks marked as steal_task on cfs_rq
-config: x86_64-randconfig-015-20251029 (https://download.01.org/0day-ci/archive/20251030/202510300412.XOY1Sf5f-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300412.XOY1Sf5f-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git vfs-6.19.misc
+head:   ade24f8214fe3fdfe20233584bca932ab00b752d
+commit: ade24f8214fe3fdfe20233584bca932ab00b752d [5/5] fs/pipe: stop duplicating union pipe_index declaration
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251030/202510300423.1PcGtHK0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300423.1PcGtHK0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510300412.XOY1Sf5f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510300423.1PcGtHK0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'group_steal_enabled':
-   kernel/sched/fair.c:4483:38: error: implicit declaration of function 'is_tg_steal' [-Werror=implicit-function-declaration]
-    4483 |         return group_steal_used() && is_tg_steal(steal_task);
-         |                                      ^~~~~~~~~~~
-   kernel/sched/fair.c: In function 'overload_clear':
-   kernel/sched/fair.c:4489:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
-    4489 |         unsigned long time;
-         |                       ^~~~
-   kernel/sched/fair.c: In function 'overload_set':
-   kernel/sched/fair.c:4517:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
-    4517 |         unsigned long time;
-         |                       ^~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:6013:6: warning: no previous prototype for 'init_cfs_bandwidth' [-Wmissing-prototypes]
-    6013 | void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'select_task_rq_fair':
-   kernel/sched/fair.c:8191:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
-    8191 |         unsigned long time;
-         |                       ^~~~
-   kernel/sched/fair.c: In function 'pick_next_task_fair':
-   kernel/sched/fair.c:9185:23: warning: variable 'time' set but not used [-Wunused-but-set-variable]
-    9185 |         unsigned long time;
-         |                       ^~~~
-   kernel/sched/fair.c: In function 'can_migrate_task_llc':
->> kernel/sched/fair.c:9944:50: error: invalid use of undefined type 'struct task_group'
-    9944 |         if (group_steal_used() && !is_tg_steal(tg->steal_task))
-         |                                                  ^~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:13961:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   13961 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13963:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   13963 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13968:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   13968 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:13970:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   13970 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c:685:39: error: 'struct pipe_inode_info' has no member named 'head_tail'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                                       ^~
+   include/linux/compiler_types.h:577:23: note: in definition of macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:597:9: note: in expansion of macro '_compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c:685:39: error: 'struct pipe_inode_info' has no member named 'head_tail'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                                       ^~
+   include/linux/compiler_types.h:577:23: note: in definition of macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:597:9: note: in expansion of macro '_compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c:685:39: error: 'struct pipe_inode_info' has no member named 'head_tail'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                                       ^~
+   include/linux/compiler_types.h:577:23: note: in definition of macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:597:9: note: in expansion of macro '_compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c:685:39: error: 'struct pipe_inode_info' has no member named 'head_tail'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                                       ^~
+   include/linux/compiler_types.h:547:27: note: in definition of macro '__unqual_scalar_typeof'
+     547 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c:685:39: error: 'struct pipe_inode_info' has no member named 'head_tail'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                                       ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   fs/pipe.c:685:25: note: in expansion of macro 'READ_ONCE'
+     685 |         idx.head_tail = READ_ONCE(pipe->head_tail);
+         |                         ^~~~~~~~~
+   fs/pipe.c: In function 'pipe_resize_ring':
+   fs/pipe.c:1307:20: error: 'struct pipe_inode_info' has no member named 'head'
+    1307 |         head = pipe->head;
+         |                    ^~
+   fs/pipe.c:1308:20: error: 'struct pipe_inode_info' has no member named 'tail'
+    1308 |         tail = pipe->tail;
+         |                    ^~
+   fs/pipe.c:1345:13: error: 'struct pipe_inode_info' has no member named 'tail'
+    1345 |         pipe->tail = tail;
+         |             ^~
+   fs/pipe.c:1346:13: error: 'struct pipe_inode_info' has no member named 'head'
+    1346 |         pipe->head = head;
+         |             ^~
+   include/linux/pipe_fs_i.h: In function 'pipe_is_empty':
+>> include/linux/pipe_fs_i.h:214:1: warning: control reaches end of non-void function [-Wreturn-type]
+     214 | }
+         | ^
+   include/linux/pipe_fs_i.h: In function 'pipe_is_full':
+   include/linux/pipe_fs_i.h:205:1: warning: control reaches end of non-void function [-Wreturn-type]
+     205 | }
+         | ^
+--
+     226 |                 pipe->head = head;
+         |                     ^~
+   fs/splice.c: In function 'add_to_pipe':
+   fs/splice.c:247:33: error: 'struct pipe_inode_info' has no member named 'head'
+     247 |         unsigned int head = pipe->head;
+         |                                 ^~
+   fs/splice.c:248:33: error: 'struct pipe_inode_info' has no member named 'tail'
+     248 |         unsigned int tail = pipe->tail;
+         |                                 ^~
+   fs/splice.c:258:21: error: 'struct pipe_inode_info' has no member named 'head'
+     258 |                 pipe->head = head + 1;
+         |                     ^~
+   fs/splice.c: In function 'copy_splice_read':
+   fs/splice.c:393:21: error: 'struct pipe_inode_info' has no member named 'head'
+     393 |                 pipe->head++;
+         |                     ^~
+   fs/splice.c: In function 'splice_from_pipe_feed':
+   fs/splice.c:446:33: error: 'struct pipe_inode_info' has no member named 'head'
+     446 |         unsigned int head = pipe->head;
+         |                                 ^~
+   fs/splice.c:447:33: error: 'struct pipe_inode_info' has no member named 'tail'
+     447 |         unsigned int tail = pipe->tail;
+         |                                 ^~
+   fs/splice.c:479:29: error: 'struct pipe_inode_info' has no member named 'tail'
+     479 |                         pipe->tail = tail;
+         |                             ^~
+   fs/splice.c: In function 'eat_empty_buffer':
+   fs/splice.c:494:33: error: 'struct pipe_inode_info' has no member named 'tail'
+     494 |         unsigned int tail = pipe->tail;
+         |                                 ^~
+   fs/splice.c:499:21: error: 'struct pipe_inode_info' has no member named 'tail'
+     499 |                 pipe->tail = tail+1;
+         |                     ^~
+   fs/splice.c: In function 'iter_file_splice_write':
+   fs/splice.c:708:28: error: 'struct pipe_inode_info' has no member named 'head'
+     708 |                 head = pipe->head;
+         |                            ^~
+   fs/splice.c:709:28: error: 'struct pipe_inode_info' has no member named 'tail'
+     709 |                 tail = pipe->tail;
+         |                            ^~
+   fs/splice.c:751:28: error: 'struct pipe_inode_info' has no member named 'tail'
+     751 |                 tail = pipe->tail;
+         |                            ^~
+   fs/splice.c:759:37: error: 'struct pipe_inode_info' has no member named 'tail'
+     759 |                                 pipe->tail = tail;
+         |                                     ^~
+   fs/splice.c: In function 'splice_direct_to_actor':
+   fs/splice.c:1122:13: error: 'struct pipe_inode_info' has no member named 'tail'
+    1122 |         pipe->tail = pipe->head = 0;
+         |             ^~
+   fs/splice.c:1122:26: error: 'struct pipe_inode_info' has no member named 'head'
+    1122 |         pipe->tail = pipe->head = 0;
+         |                          ^~
+   fs/splice.c: In function 'splice_pipe_to_pipe':
+   fs/splice.c:1745:23: error: 'struct pipe_inode_info' has no member named 'tail'
+    1745 |         i_tail = ipipe->tail;
+         |                       ^~
+   fs/splice.c:1746:23: error: 'struct pipe_inode_info' has no member named 'head'
+    1746 |         o_head = opipe->head;
+         |                       ^~
+   fs/splice.c:1758:31: error: 'struct pipe_inode_info' has no member named 'head'
+    1758 |                 i_head = ipipe->head;
+         |                               ^~
+   fs/splice.c:1759:31: error: 'struct pipe_inode_info' has no member named 'tail'
+    1759 |                 o_tail = opipe->tail;
+         |                               ^~
+   fs/splice.c:1799:30: error: 'struct pipe_inode_info' has no member named 'tail'
+    1799 |                         ipipe->tail = i_tail;
+         |                              ^~
+   fs/splice.c:1803:30: error: 'struct pipe_inode_info' has no member named 'head'
+    1803 |                         opipe->head = o_head;
+         |                              ^~
+   fs/splice.c:1828:30: error: 'struct pipe_inode_info' has no member named 'head'
+    1828 |                         opipe->head = o_head;
+         |                              ^~
+   fs/splice.c: In function 'link_pipe':
+   fs/splice.c:1868:23: error: 'struct pipe_inode_info' has no member named 'tail'
+    1868 |         i_tail = ipipe->tail;
+         |                       ^~
+   fs/splice.c:1869:23: error: 'struct pipe_inode_info' has no member named 'head'
+    1869 |         o_head = opipe->head;
+         |                       ^~
+   fs/splice.c:1879:31: error: 'struct pipe_inode_info' has no member named 'head'
+    1879 |                 i_head = ipipe->head;
+         |                               ^~
+   fs/splice.c:1880:31: error: 'struct pipe_inode_info' has no member named 'tail'
+    1880 |                 o_tail = opipe->tail;
+         |                               ^~
+   fs/splice.c:1918:22: error: 'struct pipe_inode_info' has no member named 'head'
+    1918 |                 opipe->head = o_head;
+         |                      ^~
+   include/linux/pipe_fs_i.h: In function 'pipe_buf_usage':
+   include/linux/pipe_fs_i.h:223:1: warning: control reaches end of non-void function [-Wreturn-type]
+     223 | }
+         | ^
+   include/linux/pipe_fs_i.h: In function 'pipe_head_buf':
+   include/linux/pipe_fs_i.h:243:1: warning: control reaches end of non-void function [-Wreturn-type]
+     243 | }
+         | ^
+   include/linux/pipe_fs_i.h: In function 'pipe_is_empty':
+>> include/linux/pipe_fs_i.h:214:1: warning: control reaches end of non-void function [-Wreturn-type]
+     214 | }
+         | ^
+   include/linux/pipe_fs_i.h: In function 'pipe_is_full':
+   include/linux/pipe_fs_i.h:205:1: warning: control reaches end of non-void function [-Wreturn-type]
+     205 | }
+         | ^
 
 
-vim +9944 kernel/sched/fair.c
+vim +214 include/linux/pipe_fs_i.h
 
-  9929	
-  9930	#ifdef CONFIG_SCHED_STEAL
-  9931	/*
-  9932	 * Return true if task @p can migrate from @rq to @dst_rq in the same LLC.
-  9933	 * No need to test for co-locality, and no need to test task_hot(), as sharing
-  9934	 * LLC provides cache warmth at that level.
-  9935	 */
-  9936	static bool
-  9937	can_migrate_task_llc(struct task_struct *p, struct rq *rq, struct rq *dst_rq)
-  9938	{
-  9939		int dst_cpu = dst_rq->cpu;
-  9940		struct task_group *tg = task_group(p);
-  9941	
-  9942		lockdep_assert_rq_held(rq);
-  9943	
-> 9944		if (group_steal_used() && !is_tg_steal(tg->steal_task))
-  9945			return false;
-  9946	
-  9947		if (throttled_lb_pair(tg, cpu_of(rq), dst_cpu))
-  9948			return false;
-  9949	
-  9950		if (!cpumask_test_cpu(dst_cpu, p->cpus_ptr)) {
-  9951			schedstat_inc(p->se.statistics.nr_failed_migrations_affine);
-  9952			return false;
-  9953		}
-  9954	
-  9955		if (task_running(rq, p)) {
-  9956			schedstat_inc(p->se.statistics.nr_failed_migrations_running);
-  9957			return false;
-  9958		}
-  9959	
-  9960		return true;
-  9961	}
-  9962	#endif
-  9963	
+00a7d39898c8010 Linus Torvalds 2025-03-06  206  
+00a7d39898c8010 Linus Torvalds 2025-03-06  207  /**
+00a7d39898c8010 Linus Torvalds 2025-03-06  208   * pipe_is_empty - Return true if the pipe is empty
+00a7d39898c8010 Linus Torvalds 2025-03-06  209   * @pipe: the pipe
+00a7d39898c8010 Linus Torvalds 2025-03-06  210   */
+00a7d39898c8010 Linus Torvalds 2025-03-06  211  static inline bool pipe_is_empty(const struct pipe_inode_info *pipe)
+00a7d39898c8010 Linus Torvalds 2025-03-06  212  {
+00a7d39898c8010 Linus Torvalds 2025-03-06  213  	return pipe_empty(pipe->head, pipe->tail);
+00a7d39898c8010 Linus Torvalds 2025-03-06 @214  }
+00a7d39898c8010 Linus Torvalds 2025-03-06  215  
+
+:::::: The code at line 214 was first introduced by commit
+:::::: 00a7d39898c8010bfd5ff62af31ca5db34421b38 fs/pipe: add simpler helpers for common cases
+
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
