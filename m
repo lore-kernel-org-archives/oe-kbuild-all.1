@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834C73161AA;
-	Wed, 29 Oct 2025 21:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F19637A3B1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 21:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761772462; cv=none; b=mVn1jqWpA2y4caU4gvVDR/RWWetz0OfGuJOWBXToJ7que6kbL9TU1fEU65HDilzUqKJt+hdX7x+DmY+rjeTazupE7NEIInlWt+jWwpCfK6yWjlxR4c4QMyQ7wsyrQSaWY9IoyugLxRqAOZPdq4jd+GtEy+/QQ5oRh5U3At7UOK0=
+	t=1761772937; cv=none; b=NqPN1PIQiq5vT1qxaONJE3fzGJe4P+r92EHTrlb7zzuD6Aep1YuuHPAgmLN9X0k3YSCbZgGbdvjZUJSV6jisxWYsMPn7+C70GhGjzf2OTjHXV304zh+AmLPxR9qY1ga/aXeZ+L8x+sHsZu5ISJW4eZXzMoR2AHCSfr/7+A+buPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761772462; c=relaxed/simple;
-	bh=yvg1e31Wd77OLurvqeDoHZZbeHUOM/E1aRxjrY+VyKE=;
+	s=arc-20240116; t=1761772937; c=relaxed/simple;
+	bh=yJOt35DAFGlL9XQGNIoSCnVmg8tZ+/CXspaQPxbhe2I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tbB+t5jnSZg3ly53Gc/UMAk0bybr0iU7NasiJeYb/HGuH2Da7rNadOGyN1LBjcuu8lz+ccGE7+YhaRvDx4DZxJo2jyWxAFD2gImO38I+hNbcQ7mSf1X1DwCZWDhy76FHG9/tCUUbF0UixI8bccGT152Tg6gaA6hxZ6qKRSofROI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqEUdFjt; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=ECOj6nREL9SJJNtCrwwQ4S0cNRdzndwe/+6wUqYu4ZCkWpvWXw63LREuyhZ/bTUq6DAFIsNicU6zyL+5aZ5wowZWOj3/cTWXHVynSK3Y9nxa6hyad+O8jSE8fZIDdkUSlOFC/rNzdjLQkeDALB3NIgPcKpgmPhr8EkIZ6W+1xR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cBIA+FKC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqEUdFjt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cBIA+FKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761772460; x=1793308460;
+  t=1761772936; x=1793308936;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yvg1e31Wd77OLurvqeDoHZZbeHUOM/E1aRxjrY+VyKE=;
-  b=PqEUdFjtfvuDD3Do97egBNCo1VMW10v36FmO1Cmw0GanOduZdk0qj1QM
-   pp5caBUrH8c8EaSNPNHjmGDS5xJZD0bVLwqv0+1i9kg2if5WzfbIMQTOg
-   lbRMjCZmRWj94uxniCJsMu8IVH3sF7fvjI5PJP5kJa1hWZxDxf2ZE+vT1
-   gPvWf2nHb5xAHCvuxKAan8BUO0aD7kvBCbVSM9JXjjbBcie3MY2iE07Py
-   7nOmbXcJ97iifeYRoWQsKYOw8blJ6FOzyeajpRVscE1jhDSaeKl0n1zCR
-   Z2pJy0guB7uiccd+xAu/ji0mjaZZCCzD1ZyElX9n0fSITVlu/Y3/FBR2x
-   Q==;
-X-CSE-ConnectionGUID: AhzO9rWvS7+h5jHkJRmKIw==
-X-CSE-MsgGUID: NRWvT/8WSICchKChykHCgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64003290"
+  bh=yJOt35DAFGlL9XQGNIoSCnVmg8tZ+/CXspaQPxbhe2I=;
+  b=cBIA+FKCuXn0ge9JUM6ZVmEX/uqmb9TawmgniZH2wYfYSuPXf6qjDmfX
+   6rP1EpD0+n3pZf7lseLP9QWHEUCpykKEdeImDqfD/DWYar2fqURudrwSi
+   5v74tNwNo1dUV8AU8ftJBz5KhYFVmxwlW3KreffMoOsjeGfPnx5mFyCLe
+   KYwo8LW5K25OJ+3Ox6+5eFO7kItTmTduTscNkHwJZ15tIhyklWIGEYA2m
+   YxTcZyuhSsxoER12vKCf3CvSMGvlN7Uo2YcoN2uw5e4yTBIdRmP5CYHpu
+   hcjaCFIz4xFEZ3R7Qpy8SklRG5pTFL4c1LTixOl4wWsUnqL3UH7KxjNDc
+   g==;
+X-CSE-ConnectionGUID: eB5a7RwmSrC6BcmOsx1vsA==
+X-CSE-MsgGUID: 7aZqi5nwQuqCapdHlg2lDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="51479943"
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="64003290"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 14:14:20 -0700
-X-CSE-ConnectionGUID: +cL+zbJfSXKRBfRTv5YGAQ==
-X-CSE-MsgGUID: b+McfbZsT9etzHWuFdZ5Tg==
+   d="scan'208";a="51479943"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 14:22:16 -0700
+X-CSE-ConnectionGUID: 3+popM9HTFmCCL66nDfIEQ==
+X-CSE-MsgGUID: Qm7+5aNJRZyGzOfLUFe+Qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="190942138"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Oct 2025 14:14:18 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+   d="scan'208";a="185429726"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 29 Oct 2025 14:22:14 -0700
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vEDUV-000LAQ-2r;
-	Wed, 29 Oct 2025 21:14:08 +0000
-Date: Thu, 30 Oct 2025 05:12:12 +0800
+	id 1vEDcS-000000000x6-1r5X;
+	Wed, 29 Oct 2025 21:22:12 +0000
+Date: Wed, 29 Oct 2025 22:21:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [brauner-github:vfs-6.19.misc 5/5] include/linux/pipe_fs_i.h:204:25:
- error: no member named 'head' in 'struct pipe_inode_info'
-Message-ID: <202510300538.PdxovfOd-lkp@intel.com>
+To: Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Wayne Lin <wayne.lin@amd.com>,
+	Harry Wentland <harry.wentland@amd.com>
+Subject: [agd5f:drm-next-6.19 224/235] Warning:
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function
+ parameter 'aconnector' not described in 'amdgpu_dm_connector_poll'
+Message-ID: <202510292257.F4frk3Q9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,226 +65,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/brauner/linux.git vfs-6.19.misc
-head:   ade24f8214fe3fdfe20233584bca932ab00b752d
-commit: ade24f8214fe3fdfe20233584bca932ab00b752d [5/5] fs/pipe: stop duplicating union pipe_index declaration
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251030/202510300538.PdxovfOd-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300538.PdxovfOd-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-6.19
+head:   1bc9d39275e08853ff15410b4d530b46b546affb
+commit: c4f3f114e73c331f02c7188af650901ee3bad2c1 [224/235] drm/amd/display: Poll analog connectors (v3)
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251029/202510292257.F4frk3Q9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292257.F4frk3Q9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510300538.PdxovfOd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292257.F4frk3Q9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/read_write.c:19:
-   In file included from include/linux/splice.h:12:
-   include/linux/pipe_fs_i.h:84:2: warning: declaration does not declare anything [-Wmissing-declarations]
-      84 |         union pipe_index;
-         |         ^~~~~~~~~~~~~~~~
->> include/linux/pipe_fs_i.h:204:25: error: no member named 'head' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                          ~~~~  ^
->> include/linux/pipe_fs_i.h:204:37: error: no member named 'tail' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                                      ~~~~  ^
-   include/linux/pipe_fs_i.h:213:26: error: no member named 'head' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                           ~~~~  ^
-   include/linux/pipe_fs_i.h:213:38: error: no member named 'tail' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                                       ~~~~  ^
-   include/linux/pipe_fs_i.h:222:30: error: no member named 'head' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                               ~~~~  ^
-   include/linux/pipe_fs_i.h:222:42: error: no member named 'tail' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                                           ~~~~  ^
-   include/linux/pipe_fs_i.h:242:30: error: no member named 'head' in 'struct pipe_inode_info'
-     242 |         return pipe_buf(pipe, pipe->head);
-         |                               ~~~~  ^
-   1 warning and 7 errors generated.
---
-   In file included from fs/pipe.c:19:
-   include/linux/pipe_fs_i.h:84:2: warning: declaration does not declare anything [-Wmissing-declarations]
-      84 |         union pipe_index;
-         |         ^~~~~~~~~~~~~~~~
->> include/linux/pipe_fs_i.h:204:25: error: no member named 'head' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                          ~~~~  ^
->> include/linux/pipe_fs_i.h:204:37: error: no member named 'tail' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                                      ~~~~  ^
-   include/linux/pipe_fs_i.h:213:26: error: no member named 'head' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                           ~~~~  ^
-   include/linux/pipe_fs_i.h:213:38: error: no member named 'tail' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                                       ~~~~  ^
-   include/linux/pipe_fs_i.h:222:30: error: no member named 'head' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                               ~~~~  ^
-   include/linux/pipe_fs_i.h:222:42: error: no member named 'tail' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                                           ~~~~  ^
-   include/linux/pipe_fs_i.h:242:30: error: no member named 'head' in 'struct pipe_inode_info'
-     242 |         return pipe_buf(pipe, pipe->head);
-         |                               ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:232:56: error: no member named 'head_tail' in 'struct pipe_inode_info'
-     232 |         union pipe_index idx = { .head_tail = READ_ONCE(pipe->head_tail) };
-         |                                                         ~~~~  ^
->> fs/pipe.c:255:9: error: no member named 'tail' in 'struct pipe_inode_info'
-     255 |                 pipe->tail = ++tail;
-         |                 ~~~~  ^
-   fs/pipe.c:264:8: error: no member named 'tail' in 'struct pipe_inode_info'
-     264 |         pipe->tail = ++tail;
-         |         ~~~~  ^
->> fs/pipe.c:294:47: error: no member named 'head' in 'struct pipe_inode_info'
-     294 |                 unsigned int head = smp_load_acquire(&pipe->head);
-         |                                                       ~~~~  ^
->> fs/pipe.c:294:47: error: no member named 'head' in 'struct pipe_inode_info'
-     294 |                 unsigned int head = smp_load_acquire(&pipe->head);
-         |                                                       ~~~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
---
-   In file included from fs/splice.c:25:
-   In file included from include/linux/splice.h:12:
-   include/linux/pipe_fs_i.h:84:2: warning: declaration does not declare anything [-Wmissing-declarations]
-      84 |         union pipe_index;
-         |         ^~~~~~~~~~~~~~~~
->> include/linux/pipe_fs_i.h:204:25: error: no member named 'head' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                          ~~~~  ^
->> include/linux/pipe_fs_i.h:204:37: error: no member named 'tail' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                                      ~~~~  ^
-   include/linux/pipe_fs_i.h:213:26: error: no member named 'head' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                           ~~~~  ^
-   include/linux/pipe_fs_i.h:213:38: error: no member named 'tail' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                                       ~~~~  ^
-   include/linux/pipe_fs_i.h:222:30: error: no member named 'head' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                               ~~~~  ^
-   include/linux/pipe_fs_i.h:222:42: error: no member named 'tail' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                                           ~~~~  ^
-   include/linux/pipe_fs_i.h:242:30: error: no member named 'head' in 'struct pipe_inode_info'
-     242 |         return pipe_buf(pipe, pipe->head);
-         |                               ~~~~  ^
->> fs/splice.c:201:28: error: no member named 'tail' in 'struct pipe_inode_info'
-     201 |         unsigned int tail = pipe->tail;
-         |                             ~~~~  ^
->> fs/splice.c:202:28: error: no member named 'head' in 'struct pipe_inode_info'
-     202 |         unsigned int head = pipe->head;
-         |                             ~~~~  ^
-   fs/splice.c:226:9: error: no member named 'head' in 'struct pipe_inode_info'
-     226 |                 pipe->head = head;
-         |                 ~~~~  ^
-   fs/splice.c:247:28: error: no member named 'head' in 'struct pipe_inode_info'
-     247 |         unsigned int head = pipe->head;
-         |                             ~~~~  ^
-   fs/splice.c:248:28: error: no member named 'tail' in 'struct pipe_inode_info'
-     248 |         unsigned int tail = pipe->tail;
-         |                             ~~~~  ^
-   fs/splice.c:258:9: error: no member named 'head' in 'struct pipe_inode_info'
-     258 |                 pipe->head = head + 1;
-         |                 ~~~~  ^
-   fs/splice.c:393:9: error: no member named 'head' in 'struct pipe_inode_info'
-     393 |                 pipe->head++;
-         |                 ~~~~  ^
-   fs/splice.c:446:28: error: no member named 'head' in 'struct pipe_inode_info'
-     446 |         unsigned int head = pipe->head;
-         |                             ~~~~  ^
-   fs/splice.c:447:28: error: no member named 'tail' in 'struct pipe_inode_info'
-     447 |         unsigned int tail = pipe->tail;
-         |                             ~~~~  ^
-   fs/splice.c:479:10: error: no member named 'tail' in 'struct pipe_inode_info'
-     479 |                         pipe->tail = tail;
-         |                         ~~~~  ^
-   fs/splice.c:494:28: error: no member named 'tail' in 'struct pipe_inode_info'
-     494 |         unsigned int tail = pipe->tail;
-         |                             ~~~~  ^
-   fs/splice.c:499:9: error: no member named 'tail' in 'struct pipe_inode_info'
-     499 |                 pipe->tail = tail+1;
-         |                 ~~~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
---
-   In file included from mm/filemap.c:46:
-   include/linux/pipe_fs_i.h:84:2: warning: declaration does not declare anything [-Wmissing-declarations]
-      84 |         union pipe_index;
-         |         ^~~~~~~~~~~~~~~~
->> include/linux/pipe_fs_i.h:204:25: error: no member named 'head' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                          ~~~~  ^
->> include/linux/pipe_fs_i.h:204:37: error: no member named 'tail' in 'struct pipe_inode_info'
-     204 |         return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-         |                                      ~~~~  ^
-   include/linux/pipe_fs_i.h:213:26: error: no member named 'head' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                           ~~~~  ^
-   include/linux/pipe_fs_i.h:213:38: error: no member named 'tail' in 'struct pipe_inode_info'
-     213 |         return pipe_empty(pipe->head, pipe->tail);
-         |                                       ~~~~  ^
-   include/linux/pipe_fs_i.h:222:30: error: no member named 'head' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                               ~~~~  ^
-   include/linux/pipe_fs_i.h:222:42: error: no member named 'tail' in 'struct pipe_inode_info'
-     222 |         return pipe_occupancy(pipe->head, pipe->tail);
-         |                                           ~~~~  ^
-   include/linux/pipe_fs_i.h:242:30: error: no member named 'head' in 'struct pipe_inode_info'
-     242 |         return pipe_buf(pipe, pipe->head);
-         |                               ~~~~  ^
->> mm/filemap.c:2968:9: error: no member named 'head' in 'struct pipe_inode_info'
-    2968 |                 pipe->head++;
-         |                 ~~~~  ^
-   1 warning and 8 errors generated.
-
-
-vim +204 include/linux/pipe_fs_i.h
-
-8cefc107ca54c8 David Howells  2019-11-15  197  
-00a7d39898c801 Linus Torvalds 2025-03-06  198  /**
-00a7d39898c801 Linus Torvalds 2025-03-06  199   * pipe_is_full - Return true if the pipe is full
-00a7d39898c801 Linus Torvalds 2025-03-06  200   * @pipe: the pipe
-00a7d39898c801 Linus Torvalds 2025-03-06  201   */
-00a7d39898c801 Linus Torvalds 2025-03-06  202  static inline bool pipe_is_full(const struct pipe_inode_info *pipe)
-00a7d39898c801 Linus Torvalds 2025-03-06  203  {
-00a7d39898c801 Linus Torvalds 2025-03-06 @204  	return pipe_full(pipe->head, pipe->tail, pipe->max_usage);
-00a7d39898c801 Linus Torvalds 2025-03-06  205  }
-00a7d39898c801 Linus Torvalds 2025-03-06  206  
-
-:::::: The code at line 204 was first introduced by commit
-:::::: 00a7d39898c8010bfd5ff62af31ca5db34421b38 fs/pipe: add simpler helpers for common cases
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function parameter 'aconnector' not described in 'amdgpu_dm_connector_poll'
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function parameter 'force' not described in 'amdgpu_dm_connector_poll'
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7299 function parameter 'connector' not described in 'amdgpu_dm_connector_detect'
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7299 function parameter 'force' not described in 'amdgpu_dm_connector_detect'
 
 -- 
 0-DAY CI Kernel Test Service
