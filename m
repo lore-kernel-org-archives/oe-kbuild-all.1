@@ -1,122 +1,164 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B0D345CBF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 15:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2223F33F38E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 15:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761752477; cv=none; b=j5681eriU5dEvDBWaYAXS48GO5FxHBTkiz2v8+jlV8UVJsGjpSi7IOHUrMH33wl3mBHZQN5bWa+n0e24W5DoDIgsRShs+gW4oSRNFR4BNtkR/MaqWNhhpjlbfVHlKfY+2tXePX4VCb2jLxtERCfYiad6Fwe8y6Qvl9hUHM5ZoyM=
+	t=1761752856; cv=none; b=VJTdIR3LC4PzC4V+Hi1jgbG6MQOkGCkfSM2IAYBrZxAD3o0n1Ifi5LBvbOq5IJ3UlpTk5Co3BEXp7wd+Lm12i0dviGYeWzTsvlDHOAVrq3chw/9gaKHnMKzXrnEjZPSKwMf3Bb62BBvyOefFSB+CI1lavX9yDrS6iXHcy96Rk+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761752477; c=relaxed/simple;
-	bh=dFUcIX9zb3KURiW199Q0GpJb9BjadlmISefjY6TgESI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EJ40MtoO8pCA4OsuCjg5kl3qDF9wAKI0VEM6xYWYyiiAYEdPhOZ3KTSdNxQwSiCIZHO/mCU36ZGI8f3RJA4qYoKlD/zjKyBz2U1K7nq22mo6R2PmkcUhArnHOTEBAYRyYVMxUURaZjIRVySfs4rx807w3SiUFFBLsC9x7ocISyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuQ8mnLO; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761752856; c=relaxed/simple;
+	bh=4XZu2+qPr55oW9l5tygGVvnwA2kohVOzQzGuKRDgRtc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AlY1qH3ONwRs8w+bQFEVhEt9717BojV0edtvYAGfDFitSWiyyUEG9toHUD/Hq4DpFHkoVjF1qaPY7drv9A05iKS4uUMOc9RUsSmthAlnWRBEY4sZE+e2M/rjgQf1uehBit1gPK61hD+92hqzgjIbLIb/gScQrgMBHz605Kvll/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmZr2mT8; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuQ8mnLO"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-63c3c7d3d53so11674001a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 08:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761752470; x=1762357270; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pVwPOX8Ubn5zI65J95QNH43znna4TlfYkWjHfNZ4ivc=;
-        b=LuQ8mnLOnLSyFbCUlrfKfPzk9U2R09TlL837hnbaY51KFZ2gg7TbXSIviqfjM5sHJX
-         9uN1PDKfqomwGLRyAKXmgxLjbMeLxjR5diHCAECq64HKOIaQC/6ESTjxdT4bxBIkzzF4
-         aG0Kd0OrmWHtLIfc7kt6xiWivdP7LEx2jO0UyPiFn40oQzL8+qcG7Z1e00Gw3YDqMFIj
-         OnPIIwZ8JtCrefAS5yG+ZnfvIpWoOYB2lQPXJW6qPfAuhnhoHAquMUd5Q/YZT9FJii5T
-         cTh/4uDVPEZuUC4UY0xBX/2mLGhnjf8Znpg/jcIrJbMV1FXCGTd3DmF4L6rcXCILJXpb
-         bc7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761752470; x=1762357270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pVwPOX8Ubn5zI65J95QNH43znna4TlfYkWjHfNZ4ivc=;
-        b=P0Fp2iS0Csqb+xvVOsFNAphGHCGg5rWZ1UJp2G/X5dCsqCR+zAzimG8UeBnZv3qZaV
-         nc6oj9ZTJ9tEC/49YmH6E4T4zTHlUN8yyb5rFlhR0kGMDAH0Iqts+QgfkBu+7EhVNjZb
-         OMit4s9sziLFld73JoSgn4tCJUh7LuxefCy1mjTRw3jcbWbt7NrqBxSpQtVFcbdc684b
-         V9fBx3wq73U/8vJWXx+hJCDUoT01HZ4sQZw5nkHsw9hLWQSp4BIbJ0E1fSh2S/5g5kFl
-         GrIDrDw6su3s0ryZeutrvtMnOve2HIXEhAI9LCo/XvrJ1NZlutp32K29SqZsSwTBJosu
-         WBYQ==
-X-Gm-Message-State: AOJu0YyxlDfBmh95W0Ow/haWXJQEFVnBSdti2TMmIHt7ibduTCA6VO51
-	7xyd08O+hi15pzrDyXeQnjewHBDO1Ukdas5c6jSfIb7cVwDBC0SpaCYJLwvtoj7AzAIigtcKvjS
-	y0l2rgRtavMFY8VF6Egvk1WfCvbjFxpk=
-X-Gm-Gg: ASbGnct9CbpjDLXF2jaYyIDWvhh9jaxoXC3czdrBMvOp6KabQBtsX9OzMnr4wkVWdbW
-	EBuv/VJcumR3ScmYEx+BTNsKL1zxGAXn7e4HMW6p7soGK/gBM0AVwwlPpySBwOOC7/Z7Ge6yzgN
-	yTuyAREMn9PE1guV6Jv6pEjS+qsczLeNqUML9VxjCICHASmmTpZynk/L0TOSGphoqTQp6Pb8ckJ
-	eCM8uHm5OMJaQJObXVmhoMI0Vuv0CPUfzBwP3Xbc9i/9Fcio8bRukW50fu5+Z7OMzLGqTYg1jfL
-	P4pp5uytrac21GMXtZNO63XazA==
-X-Google-Smtp-Source: AGHT+IGHoIOqgZYYe5RrOhv0kuMUh9WA6d+SZ8rB3oDa6MtRb3hvmBMshOTkiSUg88eTpeDbQA7sDMMCGaqBOg+C0us=
-X-Received: by 2002:a05:6402:a0ce:b0:63e:155c:3ae with SMTP id
- 4fb4d7f45d1cf-64044188b93mr2830728a12.6.1761752469439; Wed, 29 Oct 2025
- 08:41:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmZr2mT8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761752855; x=1793288855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4XZu2+qPr55oW9l5tygGVvnwA2kohVOzQzGuKRDgRtc=;
+  b=UmZr2mT8svpN1t0iPwR8QymWd+xztGKmsHDwvwzXAGs9+giiQd5TCSdd
+   AEa6vFg+RyF73oVM8o50y/gOmS8BabEL0Z5moffHCVjz4rwUabhjVNnSU
+   z+yY3fwwvqvcGyoBZV6RSQx42FPBl0uyThLGVLJ6auKyxae3mQFp+52mL
+   Ls9cBtasQO6tYfDmbPY9bG37Qp/e+huReR9qgZ05SOVvP9uQyKtKb0u4L
+   eJSO8VHwblS97rR8oSdilQyArKTEhz+5sB3puPBHjoRD1FI6YLe4s/O7G
+   xyPoefKiD1hA0V753M5PWsuZZxqHG3pdGCRoQM6kN+TTYbJAIRKr6TeFb
+   g==;
+X-CSE-ConnectionGUID: Vpdt/6JaTXu88VZEo7eItA==
+X-CSE-MsgGUID: KicDlzCOTtmyCG0yS5W5fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="62903841"
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="62903841"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:47:35 -0700
+X-CSE-ConnectionGUID: t6R9+A5PRlKasCr37+dCTQ==
+X-CSE-MsgGUID: D9BMPDQ0Tg2Z0agfXErFFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="185585013"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 29 Oct 2025 08:47:33 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vE8OY-000Kk7-0e;
+	Wed, 29 Oct 2025 15:47:30 +0000
+Date: Wed, 29 Oct 2025 23:46:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 892/4731] drivers/spi/spi-aspeed-smc.c:399:3-10:
+ WARNING: invalid free of devm_ allocated data
+Message-ID: <202510292356.JnTUBxCl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202510292317.UP4H55Pm-lkp@intel.com>
-In-Reply-To: <202510292317.UP4H55Pm-lkp@intel.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Wed, 29 Oct 2025 16:40:57 +0100
-X-Gm-Features: AWmQ_bkSUwhbFWYO87QQcGvoP64lsPpFYYi_XfQBlFOcWB9_ASoqLSBfaGoTYC8
-Message-ID: <CAGudoHGbLT-i6UEsduX3rvobo4SYAZx2vH4CQ4JFRzz+B6zNBw@mail.gmail.com>
-Subject: Re: [brauner-github:vfs-6.19.inode 6/6] Warning: fs/inode.c:1609
- function parameter 'isnew' not described in 'ilookup5_nowait'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <christianvanbrauner@gmail.com>, Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Oct 29, 2025 at 4:37=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://github.com/brauner/linux.git vfs-6.19.inode
-> head:   f5608fff035ae2310a647984998060546c3ec6dd
-> commit: f5608fff035ae2310a647984998060546c3ec6dd [6/6] fs: rework I_NEW h=
-andling to operate without fences
-> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/202=
-51029/202510292317.UP4H55Pm-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251029/202510292317.UP4H55Pm-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510292317.UP4H55Pm-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> Warning: fs/inode.c:1609 function parameter 'isnew' not described in '=
-ilookup5_nowait'
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
+commit: 64d87ccfae3326a9561fe41dc6073064a083e0df [892/4731] spi: aspeed: Only map necessary address window region
+config: sparc64-randconfig-r054-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292356.JnTUBxCl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
 
-How about this
-diff --git a/fs/inode.c b/fs/inode.c
-index faf99d916afc..c80ba58e9c10 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -1596,6 +1596,7 @@ EXPORT_SYMBOL(igrab);
-  * @hashval:   hash value (usually inode number) to search for
-  * @test:      callback used for comparisons between inodes
-  * @data:      opaque data pointer to pass to @test
-+ * @isnew:     pointer to a bool which will indicate whether I_NEW is set
-  *
-  * Search for the inode specified by @hashval and @data in the inode cache=
-.
-  * If the inode is in the cache, the inode is returned with an incremented
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292356.JnTUBxCl-lkp@intel.com/
 
-I'm looking to whack this routine btw, it has only one user.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-aspeed-smc.c:399:3-10: WARNING: invalid free of devm_ allocated data
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +399 drivers/spi/spi-aspeed-smc.c
+
+   383	
+   384	static int aspeed_spi_set_window(struct aspeed_spi *aspi)
+   385	{
+   386		struct device *dev = aspi->dev;
+   387		off_t offset = 0;
+   388		phys_addr_t start;
+   389		phys_addr_t end;
+   390		void __iomem *seg_reg_base = aspi->regs + CE0_SEGMENT_ADDR_REG;
+   391		void __iomem *seg_reg;
+   392		u32 seg_val_backup;
+   393		u32 seg_val;
+   394		u32 cs;
+   395		size_t window_size;
+   396	
+   397		for (cs = 0; cs < aspi->data->max_cs; cs++) {
+   398			if (aspi->chips[cs].ahb_base) {
+ > 399				iounmap(aspi->chips[cs].ahb_base);
+   400				aspi->chips[cs].ahb_base = NULL;
+   401			}
+   402		}
+   403	
+   404		for (cs = 0; cs < aspi->data->max_cs; cs++) {
+   405			seg_reg = seg_reg_base + cs * 4;
+   406			seg_val_backup = readl(seg_reg);
+   407	
+   408			start = aspi->ahb_base_phy + offset;
+   409			window_size = aspi->chips[cs].ahb_window_size;
+   410			end = start + window_size;
+   411	
+   412			seg_val = aspi->data->segment_reg(aspi, start, end);
+   413			writel(seg_val, seg_reg);
+   414	
+   415			/*
+   416			 * Restore initial value if something goes wrong or the segment
+   417			 * register is written protected.
+   418			 */
+   419			if (seg_val != readl(seg_reg)) {
+   420				dev_warn(dev, "CE%d expected window [ 0x%.9llx - 0x%.9llx ] %zdMB\n",
+   421					 cs, (u64)start, (u64)end - 1, window_size >> 20);
+   422				writel(seg_val_backup, seg_reg);
+   423				window_size = aspi->data->segment_end(aspi, seg_val_backup) -
+   424					      aspi->data->segment_start(aspi, seg_val_backup);
+   425				aspi->chips[cs].ahb_window_size = window_size;
+   426				end = start + window_size;
+   427			}
+   428	
+   429			if (window_size != 0)
+   430				dev_dbg(dev, "CE%d window [ 0x%.9llx - 0x%.9llx ] %zdMB\n",
+   431					cs, (u64)start, (u64)end - 1,  window_size >> 20);
+   432			else
+   433				dev_dbg(dev, "CE%d window closed\n", cs);
+   434	
+   435			offset += window_size;
+   436			if (offset > aspi->ahb_window_size) {
+   437				dev_err(dev, "CE%d offset value 0x%llx is too large.\n",
+   438					cs, (u64)offset);
+   439				return -ENOSPC;
+   440			}
+   441	
+   442			/*
+   443			 * No need to map the address deocding range when
+   444			 * - window size is 0.
+   445			 * - the CS is unused.
+   446			 */
+   447			if (window_size == 0 || cs >= aspi->num_cs)
+   448				continue;
+   449	
+   450			aspi->chips[cs].ahb_base =
+   451				devm_ioremap(aspi->dev, start, window_size);
+   452			if (!aspi->chips[cs].ahb_base) {
+   453				dev_err(aspi->dev,
+   454					"Fail to remap window [0x%.9llx - 0x%.9llx]\n",
+   455					(u64)start, (u64)end - 1);
+   456				return -ENOMEM;
+   457			}
+   458		}
+   459	
+   460		return 0;
+   461	}
+   462	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
