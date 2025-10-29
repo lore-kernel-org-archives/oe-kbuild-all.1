@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F7532F75E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 15:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E195337699;
+	Wed, 29 Oct 2025 15:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761752296; cv=none; b=kg9j1gP/iv14cdnVdbjuUHnIUV/xyd7huAvCbaHz4cCPU4KhpIScT5BR8rFS1ywd2QE1dR7M/7j/LFri3YaivWjZUYy5+VnEj+O3SkGWeYW0xSINWH5+WUMSTCtiqMlDm0kOZlZPS83xTBb7H6na3FAOywarLvAI3Gm5YIZnLY8=
+	t=1761752308; cv=none; b=Bu0YZEhDSK4io6tFTS892LB1I8pv+BGSbTIqlpYhvf5uh45CKJZZA4fBElSvp7wUwgT/YJxaUbkbMU/Pka6wQ88J8rHq5lvCcv/tpf5D5qCAqU6qyed6fzStssM+/0JBZAV6JiaFK5s/JQLCuNZ/M+jot9rsSGJWvXOlgNHLK9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761752296; c=relaxed/simple;
-	bh=D+SFh1KWJzBttUNNZZmBsQewJ0taqcAv/hc8NvxkTgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bQE+V1ZCsXXYCcuT3sOxm6JYAGvTtt+sZzDCUWbWTLWHOIHqUJxsuxtzz3F5hbME4UIUj6xE7XxnZKEb+hLXWmhVdMxP8AyCkMifW4z9TcrVv19OQ/VO2jTcsuoR+MINGfjM9LdHm5RuCPxnZP0DxArBr5woigaMuPT7t9jJpOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NiEkkKZF; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1761752308; c=relaxed/simple;
+	bh=h0yjNbZ9rEgJMPE1DAuciMAwui8RU187z1uWv/LoOek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HjNaBtDMX1ylT11nkdJwF4wiJYxoTu1oX8QTD409EILucImkMOGWLtLka3p09/E27EbxaQp3PFMv9WEoI+lX2EkDlh4sGKtu44sArqPkoRxx0E6XDixvkEEXBW9G7wprxw7uY1K4iH8MGGZXHB/2gfLppHxkNP/hgTfcCuPmoAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ax2hQ8rx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NiEkkKZF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ax2hQ8rx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761752295; x=1793288295;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+SFh1KWJzBttUNNZZmBsQewJ0taqcAv/hc8NvxkTgE=;
-  b=NiEkkKZFjg0seD2l7cE4cDDma4YwRVv6nAVTU7KYyRdyVA/7xVSQz4dt
-   Nin+5KBzguAb2LlzCTf8J4pFiWEIw/PF6qqZVtQ7Kr2GESzpX8HSHjhld
-   jz1JAvAJngg3mc2IGcOS2WYkaiFjSqP33HIh7L+k4wFPRvLMpZ3zInJaB
-   I8dC2ep5PiVhZpBvr7WatAM2eb+eqYBqRsBOdksgjK2q0YGSVokLuzbZV
-   Y85TuIlUcAPyqmD9+YR+UqJ86QZe0ISmZpWfkR9fbvgPXDR+p3gv7h6V9
-   w/7jMX2SDhyKvCoDxIMrt8vixuq7tfwctlLcHH+nJG8jc/7yozhVBNTY1
-   g==;
-X-CSE-ConnectionGUID: 5NNSYaYuRMC3q1c2o7u86Q==
-X-CSE-MsgGUID: SCuIl2vFS3C6Nqv3DI4dqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="62902976"
+  t=1761752307; x=1793288307;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h0yjNbZ9rEgJMPE1DAuciMAwui8RU187z1uWv/LoOek=;
+  b=Ax2hQ8rxhU70mdFpiCCFfOTfwCaMX5IJy9Laq4vFLXZsLr835cszUCSX
+   LJD5si3JIlKthsu3F14cKiWdWQleYjYdXTpdiqsBAaVR0zgEJtIPuL7vr
+   pD88j0bzMHBT1GzoheC81oV4hQcg7t2xEZ+aIWqPhI8xlojG/Eixt8dE9
+   EQn5zmLuy5YwAK/Tsse21/UpMAWXF8Ae2YehyVMAY8fqvqjaqTXJDFVPR
+   ZaKTQviI/mBn51/raYo15lvUFdYYiFV+N9x1Pectmd8c0v7x3LtZEuzuA
+   hJyPITKNoU9mmyx06haQFI8B6IMSvHBLgROSDhMLvYc9H53E3gxfPl6VX
+   A==;
+X-CSE-ConnectionGUID: jK9YjYBWTUWz9gG18ucz0g==
+X-CSE-MsgGUID: x8t9as2OQu+Bxoc3RukQew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74166880"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="62902976"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:38:15 -0700
-X-CSE-ConnectionGUID: n+3YVUL5SQ2sOpW3MeS9PQ==
-X-CSE-MsgGUID: Rni/4by9R6+T75/5IKhotQ==
+   d="scan'208";a="74166880"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:38:27 -0700
+X-CSE-ConnectionGUID: zv4HsIMeSQa/JSeFH5jq/w==
+X-CSE-MsgGUID: 9Re0tlPTTPuR8lcp49lyRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="189763448"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2025 08:38:13 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="184942610"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2025 08:38:23 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vE8FX-000000000w8-1gnv;
-	Wed, 29 Oct 2025 15:38:11 +0000
-Date: Wed, 29 Oct 2025 16:37:59 +0100
+	id 1vE8Fg-000Kjl-0b;
+	Wed, 29 Oct 2025 15:38:20 +0000
+Date: Wed, 29 Oct 2025 23:35:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 4411/4731] Warning:
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function
- parameter 'connector' not described in 'amdgpu_dm_connector_detect'
-Message-ID: <202510291641.KccVBLJf-lkp@intel.com>
+To: Jason Wang <jasowang@redhat.com>, mst@redhat.com,
+	xuanzhuo@linux.alibaba.com, eperezma@redhat.com,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net] virtio_net: fix alignment for virtio_net_hdr_v1_hash
+Message-ID: <202510292352.dvaYVyZt-lkp@intel.com>
+References: <20251029012434.75576-1-jasowang@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +67,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251029012434.75576-1-jasowang@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9ba12abc5282bf992f9a9ae87ad814fd03a0270
-commit: 8223a605744bb471f31018eac9075a539415b16f [4411/4731] drm/amd/display: Refactor amdgpu_dm_connector_detect (v2)
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251029/202510291641.KccVBLJf-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510291641.KccVBLJf-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Wang/virtio_net-fix-alignment-for-virtio_net_hdr_v1_hash/20251029-092814
+base:   net/main
+patch link:    https://lore.kernel.org/r/20251029012434.75576-1-jasowang%40redhat.com
+patch subject: [PATCH net] virtio_net: fix alignment for virtio_net_hdr_v1_hash
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251029/202510292352.dvaYVyZt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292352.dvaYVyZt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510291641.KccVBLJf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292352.dvaYVyZt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function parameter 'connector' not described in 'amdgpu_dm_connector_detect'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7242 function parameter 'force' not described in 'amdgpu_dm_connector_detect'
+   In file included from net/packet/af_packet.c:86:
+>> include/linux/virtio_net.h:404:24: error: no member named 'hash_value' in 'struct virtio_net_hdr_v1_hash'
+     404 |         vhdr->hash_hdr.hash_value = 0;
+         |         ~~~~~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +404 include/linux/virtio_net.h
+
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  376  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  377  /*
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  378   * vlan_hlen always refers to the outermost MAC header. That also
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  379   * means it refers to the only MAC header, if the packet does not carry
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  380   * any encapsulation.
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  381   */
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  382  static inline int
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  383  virtio_net_hdr_tnl_from_skb(const struct sk_buff *skb,
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  384  			    struct virtio_net_hdr_v1_hash_tunnel *vhdr,
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  385  			    bool tnl_hdr_negotiated,
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  386  			    bool little_endian,
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  387  			    int vlan_hlen)
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  388  {
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  389  	struct virtio_net_hdr *hdr = (struct virtio_net_hdr *)vhdr;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  390  	unsigned int inner_nh, outer_th;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  391  	int tnl_gso_type;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  392  	int ret;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  393  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  394  	tnl_gso_type = skb_shinfo(skb)->gso_type & (SKB_GSO_UDP_TUNNEL |
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  395  						    SKB_GSO_UDP_TUNNEL_CSUM);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  396  	if (!tnl_gso_type)
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  397  		return virtio_net_hdr_from_skb(skb, hdr, little_endian, false,
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  398  					       vlan_hlen);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  399  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  400  	/* Tunnel support not negotiated but skb ask for it. */
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  401  	if (!tnl_hdr_negotiated)
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  402  		return -EINVAL;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  403  
+b2284768c6b32a Jason Wang  2025-10-22 @404          vhdr->hash_hdr.hash_value = 0;
+b2284768c6b32a Jason Wang  2025-10-22  405          vhdr->hash_hdr.hash_report = 0;
+b2284768c6b32a Jason Wang  2025-10-22  406          vhdr->hash_hdr.padding = 0;
+b2284768c6b32a Jason Wang  2025-10-22  407  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  408  	/* Let the basic parsing deal with plain GSO features. */
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  409  	skb_shinfo(skb)->gso_type &= ~tnl_gso_type;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  410  	ret = virtio_net_hdr_from_skb(skb, hdr, true, false, vlan_hlen);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  411  	skb_shinfo(skb)->gso_type |= tnl_gso_type;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  412  	if (ret)
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  413  		return ret;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  414  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  415  	if (skb->protocol == htons(ETH_P_IPV6))
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  416  		hdr->gso_type |= VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV6;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  417  	else
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  418  		hdr->gso_type |= VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV4;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  419  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  420  	if (skb_shinfo(skb)->gso_type & SKB_GSO_UDP_TUNNEL_CSUM)
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  421  		hdr->flags |= VIRTIO_NET_HDR_F_UDP_TUNNEL_CSUM;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  422  
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  423  	inner_nh = skb->inner_network_header - skb_headroom(skb);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  424  	outer_th = skb->transport_header - skb_headroom(skb);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  425  	vhdr->inner_nh_offset = cpu_to_le16(inner_nh);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  426  	vhdr->outer_th_offset = cpu_to_le16(outer_th);
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  427  	return 0;
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  428  }
+a2fb4bc4e2a6a0 Paolo Abeni 2025-07-08  429  
 
 -- 
 0-DAY CI Kernel Test Service
