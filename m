@@ -1,175 +1,132 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6C2126BF1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 14:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0C5266EFC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 14:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761833260; cv=none; b=qmHewbWms/G1o+EvlfJxbkG2+lsernC6Wa4BngcXEi5ja4PPwY/h+ymbbJrSZIdikkpifatBVDZu5FdCuCLzFq/52MMTK3cBI8sVddqaHP+90aVdUKbQZkPA2vKgWNSlSNiQnfukNmgSCG6WzHPZcsEGC2j61wZSOcYGRawX8u0=
+	t=1761836269; cv=none; b=NXY8dXpn7L7HoNZEyZaUqXFCOQHox/Q+PtkaJFAifuoviJDoLiQTqSfiAPq1DvzwZh77hhpW8hzYMp8aR4/fNgbNwQpRFn6f5yABiRthMwLX63mBkaMKYN90msUshLbzyvKtoecYt7/cwujKStKzm+89ULCGmvjUkoJEQUTkOKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761833260; c=relaxed/simple;
-	bh=P1vXdtD0/zDTrhzDe4WtqYiJG27vKd72yMnPE4sZbxQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V6VXTMUun1Nn3BjjtgojBsYDbi+vnOFkBvUaSYSnBimEGsPozqXzxPnX7wIH0VjS9U0/TXIutLeSQDX4TVDfm7wsTmKBvK9GdQsINVaclYJPmVW3E2Luct7T2ejS8xH+R9aRC6lv7aHmHGBGQQCaNg8Ykl61kYXP4G1kcgKhxvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=K2kZztB/; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1761836269; c=relaxed/simple;
+	bh=BpG8t4r9qHHh5K8QfOvvDSFvZyylKpB/g+Cwob9uIKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vE6PI5fjlqVGZ0gxsS2kmrrve0+yGLYrgB1Gi+iNp3Tkvy5+LGs7xtUWmqwKbUOLBIeceo2uv1Jrq0g4W10lR/uIZEkZQM6mmfaRs2AknsJp4aYw7RQlK7f4K97vHzwO5WzJs6FXKyt6esRR4x4GGvh6qNrANpqN95sYDbcwKa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvbTMO22; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="K2kZztB/"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-290aaff26c1so3131335ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 07:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1761833257; x=1762438057; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dAxgp4DobvE+uLPgcEm11YRUjuXuChtKAGj6UrKONnQ=;
-        b=K2kZztB/3bT9QB0zq4ei8pXpI6DqGUj7sZR9P2NT+8mMoeOPNHtpADcizAlxOx+JkN
-         2ie80ZbsQCmLy1X/qIgK/xnrRm0lm5ILwmfua0dKXUKKP8kl7nGX6dn4VNHDro8tzSXR
-         GkWQI/kSAex+JPrzyvEHNt8pP9oh7wF1Apf8S6MrcG8C7jXlP/yCFYitL0pAGvxGIZZi
-         0xsf8dXIP6eolA+na/jht1MdNrHT0ZDsW9j65AyCz8asmuHbH6p206Es6+IBJ0e1d0Gd
-         YjTL7k82n+6vbY0S1RGCL/CNz2kVLQ0fxU2k4djl4NqpwxSVvEADZSRJKYaTekx5kHPM
-         9Imw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761833257; x=1762438057;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dAxgp4DobvE+uLPgcEm11YRUjuXuChtKAGj6UrKONnQ=;
-        b=FvCHG015YecIpNnZR/KezLqkKBoLlAFHg2DXY3Cy2RPJLTcu9zl5qdbSvUWkp40I+d
-         nPgiCgCa0KCra0FLHO73LCBx8FfT9oekRPpZS0nMgXTWaBm6l+Ex69C7HWuOYjhQW96K
-         6TApi2lDdH3/fv+/0NKdQoioLaPHVI/qwLUn2imSs6bD858TGkndKQ7PmGnqNeQIsBDd
-         wHRsFqBXpEEy+mhgo201aZgGrBMEZf9OJx86t6kuyaFQCVJuyT6nplsCL4sLxzlWgO50
-         TZSTnlY2XN04T+lOO4DIQ+qidft5XDMV0qPbtQxejx4efaFocFvh5VIFjJaiB1ngrqhb
-         oZSA==
-X-Forwarded-Encrypted: i=1; AJvYcCWgqggdCeH93kjgElbGlGYGr/EERWbh3BubP94HY4JOHhtmoy7IHTp984ZX1v++lIvBvAxlyVW+Jmu2XzsC@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJo2SiZdOca2JUTrzerf1MauhUtKs8P4nfVizQbp7iMdz4eT/Q
-	mLHEeDr3N83LNYEBIJMSQTjFAztCeO1vgH7yDKSEq6Ro6LMvB2L0GF/M+CpjuJEBaSvq+6to/yi
-	hQMvXNux06bjtBTYoKXwoSbItiIytdDzyhRRObgYbFQ==
-X-Gm-Gg: ASbGncsfKtZ5iNrTX910y8Tw05+vEvDPMPwey2bm6XTuvSPZHTjTDWWjoL6YG6OAHLn
-	3szE5xGJ45rRnqhvGbyzdwWrOV529mWyBiYy30ScL8UUE4hL+1xXYG4anyICPLC2dfOQWJZ3ZpN
-	NgTF5XLR4wrC0lZjsEasf+NdCXiXdd/H0PKgRv77YY91IbHskhiAVfe3rcqSeXYp8GClk3E4O7Z
-	Jump3oUghKHV7aZixKKhHNFSOjQM5aKx0lYmBQ7h24a7Mhk9hrrc3GYE8R9PEBnoknYUPQSx5z1
-	iTQrzZKK4yOriV7w
-X-Google-Smtp-Source: AGHT+IGLk7sq7NhL8k8uqBKtrEmQ7vzjjb/AL2MdPgF05B2+INPNj0iaAaA6tgH/ao+zYq6pmzSG5GrrrFudXOsQ/80=
-X-Received: by 2002:a17:903:41ca:b0:295:535:1bbd with SMTP id
- d9443c01a7336-295053520f7mr11380015ad.0.1761833256539; Thu, 30 Oct 2025
- 07:07:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvbTMO22"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761836267; x=1793372267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BpG8t4r9qHHh5K8QfOvvDSFvZyylKpB/g+Cwob9uIKc=;
+  b=IvbTMO22fg3BK8lHVvx3v84n9Pum8h4aVfAxhGj6Yf3uQPR+T7qAgz6w
+   fF9/16cU50XSeZvNC9Nzi4nafO16Re5NYgQmqiXw5r8v+Dwg+6mO8IALy
+   Mj8hA4RZ798lpZY7u7Q/4z7RsYws0TZmJFT4/5c2izzVSlwIElndmmaeo
+   en6X3IUvfbhA7fjcE68hlq+OtlUk77RGfjbONjs9DggXSsLqLZ7lCkNk6
+   WkR/5TvuEqm7Sy4cGY9MtYALEcDTCvK9fj7XSMpbRbUt3W8dqZXaPqJpf
+   OaEUY1PGRT6zxSx2MxQef9r6Vl6uTnaF8f70N4GcT2MOn8pnqTyPL4rji
+   g==;
+X-CSE-ConnectionGUID: 4e6tpbltSO6Kgb/GIqXnjg==
+X-CSE-MsgGUID: ARB9SyNoTamX514xA8bXyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="74657370"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="74657370"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 07:57:47 -0700
+X-CSE-ConnectionGUID: 6OmobruJSFC5IDHe3o7hJg==
+X-CSE-MsgGUID: y31iRuXNRA213BmJ3/JWSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="190313011"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2025 07:57:46 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vEU5v-000M7m-20;
+	Thu, 30 Oct 2025 14:57:43 +0000
+Date: Thu, 30 Oct 2025 22:57:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:must-be-lval 38/57] lib/test_lvalue.c:13:2: error: expression
+ is not assignable
+Message-ID: <202510302210.9xULoAgF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251029031035.258766-3-ming.lei@redhat.com> <202510301522.i47z9R95-lkp@intel.com>
-In-Reply-To: <202510301522.i47z9R95-lkp@intel.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Thu, 30 Oct 2025 07:07:25 -0700
-X-Gm-Features: AWmQ_bmndyNTmYbHLvKzf_pj338cBa-tg0F7ZytjDWHgVSGpxBT7VI2JIZc-Vg8
-Message-ID: <CADUfDZonryeHe1MGTfnUa16VbvEt5C+yu11yh3ZRDbwFqJ_L9w@mail.gmail.com>
-Subject: Re: [PATCH V3 2/5] ublk: implement NUMA-aware memory allocation
-To: kernel test robot <lkp@intel.com>
-Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Uday Shankar <ushankar@purestorage.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 30, 2025 at 1:01=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Ming,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on axboe-block/for-next]
-> [also build test ERROR on shuah-kselftest/next shuah-kselftest/fixes linu=
-s/master v6.18-rc3 next-20251029]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/ublk-reor=
-der-tag_set-initialization-before-queue-allocation/20251029-111323
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
-.git for-next
-> patch link:    https://lore.kernel.org/r/20251029031035.258766-3-ming.lei=
-%40redhat.com
-> patch subject: [PATCH V3 2/5] ublk: implement NUMA-aware memory allocatio=
-n
-> config: x86_64-randconfig-074-20251030 (https://download.01.org/0day-ci/a=
-rchive/20251030/202510301522.i47z9R95-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251030/202510301522.i47z9R95-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510301522.i47z9R95-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> drivers/block/ublk_drv.c:240:49: error: 'counted_by' argument must be =
-a simple declaration reference
->      240 |         struct ublk_queue       *queues[] __counted_by(dev_inf=
-o.nr_hw_queues);
->          |                                                        ^~~~~~~=
-~~~~~~~~~~~~~~
+tree:   https://github.com/jimc/linux.git must-be-lval
+head:   ddd6ff4d1945e2040067848741c3e94855fd43c7
+commit: 6d0e01538bf8aa880118f706ea96e92d3df34fab [38/57] lib/test_lvalues.c: test __lvalue() atal
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251030/202510302210.9xULoAgF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510302210.9xULoAgF-lkp@intel.com/reproduce)
 
-Hmm, guess it doesn't support nested fields?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510302210.9xULoAgF-lkp@intel.com/
 
->    include/linux/compiler_types.h:346:62: note: expanded from macro '__co=
-unted_by'
->      346 | # define __counted_by(member)           __attribute__((__count=
-ed_by__(member)))
->          |                                                               =
-        ^~~~~~
->    1 error generated.
->
->
-> vim +/counted_by +240 drivers/block/ublk_drv.c
->
->    208
->    209  struct ublk_device {
->    210          struct gendisk          *ub_disk;
->    211
->    212          struct ublksrv_ctrl_dev_info    dev_info;
->    213
->    214          struct blk_mq_tag_set   tag_set;
->    215
->    216          struct cdev             cdev;
->    217          struct device           cdev_dev;
->    218
->    219  #define UB_STATE_OPEN           0
->    220  #define UB_STATE_USED           1
->    221  #define UB_STATE_DELETED        2
->    222          unsigned long           state;
->    223          int                     ub_number;
->    224
->    225          struct mutex            mutex;
->    226
->    227          spinlock_t              lock;
->    228          struct mm_struct        *mm;
->    229
->    230          struct ublk_params      params;
->    231
->    232          struct completion       completion;
->    233          u32                     nr_io_ready;
->    234          bool                    unprivileged_daemons;
->    235          struct mutex cancel_mutex;
->    236          bool canceling;
->    237          pid_t   ublksrv_tgid;
->    238          struct delayed_work     exit_work;
->    239
->  > 240          struct ublk_queue       *queues[] __counted_by(dev_info.n=
-r_hw_queues);
->    241  };
->    242
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All errors (new ones prefixed by >>):
+
+>> lib/test_lvalue.c:13:2: error: expression is not assignable
+      13 |         swap(1, 2);
+         |         ^~~~~~~~~~
+   include/linux/minmax.h:308:34: note: expanded from macro 'swap'
+     308 |         do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+         |                                     ~~~ ^
+>> lib/test_lvalue.c:13:2: error: expression is not assignable
+      13 |         swap(1, 2);
+         |         ^~~~~~~~~~
+   include/linux/minmax.h:308:45: note: expanded from macro 'swap'
+     308 |         do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+         |                                                ~~~ ^
+   lib/test_lvalue.c:14:2: error: expression is not assignable
+      14 |         SET_UID(1, 1);
+         |         ^~~~~~~~~~~~~
+   include/linux/highuid.h:70:38: note: expanded from macro 'SET_UID'
+      70 | #define SET_UID(var, uid) do { (var) = __convert_uid(sizeof(var), (uid)); } while (0)
+         |                                ~~~~~ ^
+   lib/test_lvalue.c:15:2: error: expression is not assignable
+      15 |         ACPI_ACQUIRE_GLOBAL_LOCK(NULL, 1);
+         |         ^                              ~
+   include/acpi/platform/acenv.h:248:60: note: expanded from macro 'ACPI_ACQUIRE_GLOBAL_LOCK'
+     248 | #define ACPI_ACQUIRE_GLOBAL_LOCK(Glptr, acquired) acquired = 1
+         |                                                   ~~~~~~~~ ^
+>> lib/test_lvalue.c:16:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct pci_dev *' [-Wint-conversion]
+      16 |         for_each_pci_dev(1);
+         |                          ^
+   include/linux/pci.h:2041:27: note: passing argument to parameter 'from' here
+    2041 |                                              struct pci_dev *from)
+         |                                                              ^
+   lib/test_lvalue.c:16:2: error: expression is not assignable
+      16 |         for_each_pci_dev(1);
+         |         ^                ~
+   include/linux/pci.h:576:39: note: expanded from macro 'for_each_pci_dev'
+     576 | #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+         |                                     ~ ^
+   6 errors generated.
+
+
+vim +13 lib/test_lvalue.c
+
+     9	
+    10	static void __used __init test_lvalue_macros(void)
+    11	{
+    12		/* These should all fail to compile */
+  > 13		swap(1, 2);
+    14		SET_UID(1, 1);
+  > 15		ACPI_ACQUIRE_GLOBAL_LOCK(NULL, 1);
+  > 16		for_each_pci_dev(1);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
