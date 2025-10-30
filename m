@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1459F25A65B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 11:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F70C33C50C;
+	Thu, 30 Oct 2025 11:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761823521; cv=none; b=qet0YePyBpLC+skot+09PCKfCfqstFofGFTDm068gpwZPdbGdvRl7ytDJvzS/JJWh3wgcGI7JPdVDmg59mBJVTGTSE0OgU8dp5E+XVbxe71CeKYcPAV+RPe0ptGABdsxe442p2lqIY1FAWyG9Ht1xT06ge+d3b9lmczxYgigv08=
+	t=1761824319; cv=none; b=CCPPyuTwQEoxX+5YLcvG0opSmeVcSHbw41J0Sa2tf2/FEHfud3+jWTe4cEYsiGo3vtptHT89zSZ7BNsrGz46I1xG4ULxtw+NHcyFpyweF8KERC1hQHj3XPyJVT5Q0mHtRGiTI7GOe8yFltVWJ6ZqjBYKC2mjVofvhroi8Xow/2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761823521; c=relaxed/simple;
-	bh=4b8WKOcycG6S+VCjHKQr1nwKz2Oov5X7BKFthcaikTQ=;
+	s=arc-20240116; t=1761824319; c=relaxed/simple;
+	bh=1BFjASO6lWeplG7fU2l90+LJhwTZ4xkyoNGVfZ0WcFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MQeQbSZo6OgIO8AcurQPIQ6CM2uiQlctCx2zGCgY98IeWbJz5EQBRrKWNyPfekDjmzO07m9wFMk/bo+2f2peQ1wjcXS+Za7j2pqc1Xen378o+rFC76MuxK6o0KGvrrlBr3x0z54CbRRchm4t0TTRMXGXs9MFg/knzK59x3Kk1zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nu65p8ys; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=DBWcGf0NKFvOumn859+/PLX/ZgFEsHS3hP+cuW2bYAg79Ot4bIH42fdkt/4iZcPH19PlUndXc1KJlNWTzy6+2LcvW6YTQxiLs/GueAVPjx0HKkBMFjDbkaxKg0oq/ODN0KaZyOt5L6dMmJwJG36jmMgQLvW8+Lcr38nXV5y+cr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gle82EjA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nu65p8ys"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gle82EjA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761823520; x=1793359520;
+  t=1761824318; x=1793360318;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4b8WKOcycG6S+VCjHKQr1nwKz2Oov5X7BKFthcaikTQ=;
-  b=nu65p8ysHvfx+h7jza+/d9BtCygDuuZEHYy3GB1zjZOpsfVY6CjT3Hq1
-   WSzKuP0s2B6bSB3fLP2DeEnNhuuff13mZtf5Y8nmHRbD4LuJKVtBjL/mT
-   Rifm/tQdLe0f4fXFoIlCAS9m+gUnqc9qs6+wg1O7BRKLhg757lMls1roY
-   Ave42ZMl23ruRoQK2u0izv9ASBu7jGQC2q1qiwKd2ndnlGry4U/TGt2QI
-   zNPBuOEN6GKIS/ij4eb29xWLfN3AwbCuFHD88HV8EZFC+ewIznbJNbBV9
-   ltf7C9IOpvxJAyHgbEmDnFvYYc6bfMaCsHLUqKK/KpfJeV5mnxAbOllbq
-   w==;
-X-CSE-ConnectionGUID: 1P7H+M6CS/qjY6r5oaDGAA==
-X-CSE-MsgGUID: KUdc6pLRRS6OcQpczCp1Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="66577140"
+  bh=1BFjASO6lWeplG7fU2l90+LJhwTZ4xkyoNGVfZ0WcFc=;
+  b=gle82EjAnRxvJni5LMrKCAmocyBH/g9xn5n+JdDfaa+BqRX/mhO9mqEN
+   JbjmFSvf2rZQwjThNeXuzqYhrFcrdqXvT4ChJGLtlXLcZDoFe+hm8pDuc
+   As+RuaGOtUhgnnzCt5G5viACeiIzT7qgyaXXp31ywoPr0MmgBxVIWtZqc
+   cr7dmR4Bmm+5w4cn6pWzs0+635Rxs7wcNbQQWVULK8CAFeIaQ3gXSvvQf
+   uapzg+rtfTr1cH9O2U+9bHNChI+ogDzbx/H8m7aFtllVPxfZXwSVXwoHs
+   zek8nUPU8lQasDA0JHT9EMQyOQfJZVnh93ReMPKDu71r7E5T4Urhxo9i9
+   Q==;
+X-CSE-ConnectionGUID: AAD8y+UQS22zS3FssJKGPg==
+X-CSE-MsgGUID: XJ8h2XdXQkCaS+EjjK1vNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64002286"
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="66577140"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 04:25:19 -0700
-X-CSE-ConnectionGUID: Sfj5DS3WT8CaBG9zwjfySw==
-X-CSE-MsgGUID: v/W+LEe3RKaHQI63K31Zzw==
+   d="scan'208";a="64002286"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 04:38:05 -0700
+X-CSE-ConnectionGUID: xk10YTX3TOKkvwSdM+ygSg==
+X-CSE-MsgGUID: SvcyHLxkQQOsdDdZX9HV4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="185864118"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2025 04:25:19 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="191070099"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2025 04:38:03 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEQmK-0000000010c-0yQq;
-	Thu, 30 Oct 2025 11:25:16 +0000
-Date: Thu, 30 Oct 2025 12:25:07 +0100
+	id 1vEQyB-000LtE-1h;
+	Thu, 30 Oct 2025 11:37:42 +0000
+Date: Thu, 30 Oct 2025 19:37:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 2755/5042] Warning: fs/inode.c:1609 function
- parameter 'isnew' not described in 'ilookup5_nowait'
-Message-ID: <202510301249.XnNhwb73-lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>,
+	Himanshu Chauhan <hchauhan@ventanamicro.com>
+Subject: [avpatel:riscv_sbi_sse_v5 30/33]
+ ./include/generated/asm-offsets.h:334:9: warning: 'NR_CPUS' macro redefined
+Message-ID: <202510301931.p8D3cQIf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,21 +64,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   131f3d9446a6075192cdd91f197989d98302faa6
-commit: f5608fff035ae2310a647984998060546c3ec6dd [2755/5042] fs: rework I_NEW handling to operate without fences
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251030/202510301249.XnNhwb73-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301249.XnNhwb73-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_sse_v5
+head:   4645b24f1a147b84c4eedf9179d20d1ddd00de2d
+commit: ec9c229227152cd8c512ea718df1506b19d660cf [30/33] drivers: firmware: add riscv SSE support
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251030/202510301931.p8D3cQIf-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301931.p8D3cQIf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301249.XnNhwb73-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301931.p8D3cQIf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: fs/inode.c:1609 function parameter 'isnew' not described in 'ilookup5_nowait'
+   In file included from samples/ftrace/ftrace-direct.c:7:
+   In file included from arch/riscv/include/asm/asm-offsets.h:1:
+>> ./include/generated/asm-offsets.h:334:9: warning: 'NR_CPUS' macro redefined [-Wmacro-redefined]
+   #define NR_CPUS 64 /* NR_CPUS */
+           ^
+   include/linux/threads.h:21:9: note: previous definition is here
+   #define NR_CPUS         CONFIG_NR_CPUS
+           ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
