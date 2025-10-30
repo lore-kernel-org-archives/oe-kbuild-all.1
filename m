@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E701632C33D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 20:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF9F2E175F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 21:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761857791; cv=none; b=ZJzpjJbi7QQoKwdsrpofvrd/Jau+C1MWV3C4C5Yx4cZJUmVTsl5OMRVDWKVw6GiiwXJ79dj63rDvCtvephBVBbolaFFpKo/E+XC0feD5JDlcM1pYEzWS00oPn6EyRFuN/8/q/DXzSnKyHUch9PAHOJyfMwLnhjUjg+Qjh6u/Ksk=
+	t=1761859093; cv=none; b=K0MW2cdmIbjSdKTETF5GX3fvrOFOfBsszFqsC3lZIi6PRgAWV3JGw7EqSR5uatAUUUJ0D0SOhHswA67xsKWjdJFpiJyRRP53moGH4ND3KZ/InkPgqBF/ryqp8hh/soHKO2ifWmaBeYPZeH5eQ7FPJkC0nUMpOXLsvD+y/MbiIb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761857791; c=relaxed/simple;
-	bh=vThwM6bg5dh8w6h8yGfI/6gd9+bsmsZISHcjUp0Wi7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kpdwqVynQX1HgbDckGZtNHfaxGApA54EGVb5KGCkkb7+nZ+oWaDk5kXBuCeRctye9fUEtRseVj3mSlTnJUPD7Yw08UJc50wrpLA6Kyxkl2+eBffulG86WlQ7x8QTi+NRQdZlYj07E27EVzAjub30v6cujZXOdQTlm7qtzt0/H3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQ5yju53; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1761859093; c=relaxed/simple;
+	bh=th69SGxuKAUu7VuSA9PnfJHMq2y/8r+odd1v7q4Zfes=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R/0gXlzfmz0mv5nM3sjJgQ052JW0e64We1FniA1kQ5mB/Uo4RJhSK/SskOSeaRjUZytvmj1BaxdAEhmCQX2rUdFOfCuYurxwkHD4ayVsrFHx+6fBFMytUSOS6OArB5ay9H4XxfNRtNBEN5C8Vx4LMaX1yhchM2H/ARSLXldApF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuRWODLp; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQ5yju53"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuRWODLp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761857790; x=1793393790;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vThwM6bg5dh8w6h8yGfI/6gd9+bsmsZISHcjUp0Wi7E=;
-  b=bQ5yju53h1jiSVl7lYAynbp9SpIUpIx0uQGB9b6GAJCOUIPC7hI9/HBm
-   KuGGKVqeqGY99BNKj9IBmy0vYKXCS/UDwRqNQl5iHjLJZ331o65EBCP/M
-   XkxT45k8M54o0S4kKXuFGb5d3qnsqGb8ItrBvPcbGQUamgoootXXIfMtz
-   5Vjyvl5uMLRwix/BdFk/SyKdBIcUCwy5FJl90rMa+rIUULyqxMZRDR3R8
-   3VKOwKmJRpSaZsJvYWsmV366UNfVW1LZ8GrDXOCtD1EURwE16SORRssyl
-   CYOZmMKhaAtVAjEmyedVr6jifOgC4NLumKl9bWsiijHKmloH4uN6QWrsh
-   w==;
-X-CSE-ConnectionGUID: Hkj6JjsOR3y2W8R+vZxfng==
-X-CSE-MsgGUID: aufYK4aeQyud7Pp1uPLckQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="81641676"
+  t=1761859092; x=1793395092;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=th69SGxuKAUu7VuSA9PnfJHMq2y/8r+odd1v7q4Zfes=;
+  b=CuRWODLpUafKiDPO3OhQfZqMrix/kY4WSmhTJQqE4glUb14zhSq7Ntki
+   6ujYmlqqy7dhqRl2MDt8g1nVYiHJveuA+Usg1aRzHXBnVvRkdmxB9FzA5
+   4lxwT+snDjuPPK+OX5j9pstvJH6MjmbvZcCpvqb5P+PyJuktn7nmisFkD
+   XFVs1CBXr7KflgyGgxKoL8Fmkgt0/b2v4WwC2uCb+9kr6sp7NmD2i2gDK
+   vqwYqMErso4Qul4IDc1yqXdaaRMXQsnb6uTlpLKD7y8cKzYxMCu3A9WG2
+   dag5nj7XxPRfkgKEa/nmntIyFCmwrbEXeCrFBM4J0buA3dVWj7tweAkHR
+   g==;
+X-CSE-ConnectionGUID: RdUmvHPqQ8mTYJ+MrUfIMw==
+X-CSE-MsgGUID: nz60TWLJS8uSVNC/mbUosw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="86640697"
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="81641676"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 13:56:29 -0700
-X-CSE-ConnectionGUID: wuDqC9JaQY2quEW6MtBc5g==
-X-CSE-MsgGUID: iESQHGsTTD6bVq08VVjuJA==
+   d="scan'208";a="86640697"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 14:18:11 -0700
+X-CSE-ConnectionGUID: Eiguqm2WQj+qm3ilJioyYw==
+X-CSE-MsgGUID: YJQiK5JETvG7RssdYaUI5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="185933452"
+   d="scan'208";a="185749906"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Oct 2025 13:56:25 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2025 14:18:10 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEZh1-000MWi-13;
-	Thu, 30 Oct 2025 20:56:23 +0000
-Date: Fri, 31 Oct 2025 04:56:07 +0800
+	id 1vEa23-000MXo-2e;
+	Thu, 30 Oct 2025 21:18:07 +0000
+Date: Fri, 31 Oct 2025 05:17:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	sboyd@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mturquette@baylibre.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, laura.nao@collabora.com,
-	nfraprado@collabora.com, wenst@chromium.org,
-	y.oudjana@protonmail.com, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC
- Clock Controller
-Message-ID: <202510310450.vQV7FK3n-lkp@intel.com>
-References: <20251027111343.21723-8-angelogioacchino.delregno@collabora.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1900/1900]
+ drivers/gpu/drm/phytium/phytium_fbdev.c:96:26: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202510310559.tj36zOcl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,94 +62,211 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027111343.21723-8-angelogioacchino.delregno@collabora.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v6.18-rc3 next-20251030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/clk-mediatek-Split-out-registration-from-mtk_clk_register_gates/20251027-191633
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20251027111343.21723-8-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v2 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC Clock Controller
-config: arm64-randconfig-003-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310450.vQV7FK3n-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310450.vQV7FK3n-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c91cc1d257ea2f599d7cb6d2ec1fb76bacf12c2b
+commit: cad0702e5286d3cc80afe545de027858b855dd5a [1900/1900] DRM: Phytium display DRM driver
+config: arm64-randconfig-r132-20251030 (https://download.01.org/0day-ci/archive/20251031/202510310559.tj36zOcl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310559.tj36zOcl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310450.vQV7FK3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310559.tj36zOcl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/phytium/phytium_fbdev.c:96:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] <asn:2> *screen_base @@     got void * @@
+   drivers/gpu/drm/phytium/phytium_fbdev.c:96:26: sparse:     expected char [noderef] <asn:2> *screen_base
+   drivers/gpu/drm/phytium/phytium_fbdev.c:96:26: sparse:     got void *
+   drivers/gpu/drm/phytium/phytium_fbdev.c:113:5: warning: no previous prototype for 'phytium_drm_fbdev_init' [-Wmissing-prototypes]
+     113 | int phytium_drm_fbdev_init(struct drm_device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_fbdev.c:144:6: warning: no previous prototype for 'phytium_drm_fbdev_fini' [-Wmissing-prototypes]
+     144 | void phytium_drm_fbdev_fini(struct drm_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/x100_dp.c:852:6: sparse: sparse: symbol 'x100_dp_hw_spread_is_enable' was not declared. Should it be static?
+>> drivers/gpu/drm/phytium/x100_dp.c:864:5: sparse: sparse: symbol 'x100_dp_hw_reset' was not declared. Should it be static?
+>> drivers/gpu/drm/phytium/x100_dp.c:897:9: sparse: sparse: symbol 'x100_dp_hw_get_source_lane_count' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/x100_dp.c:852:6: warning: no previous prototype for 'x100_dp_hw_spread_is_enable' [-Wmissing-prototypes]
+     852 | bool x100_dp_hw_spread_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/x100_dp.c:864:5: warning: no previous prototype for 'x100_dp_hw_reset' [-Wmissing-prototypes]
+     864 | int x100_dp_hw_reset(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/x100_dp.c:897:9: warning: no previous prototype for 'x100_dp_hw_get_source_lane_count' [-Wmissing-prototypes]
+     897 | uint8_t x100_dp_hw_get_source_lane_count(struct phytium_dp_device *phytium_dp)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/phytium/phytium_pci.c:19:5: sparse: sparse: symbol 'dc_msi_enable' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_pci.c:23:6: sparse: sparse: symbol 'phytium_pci_vram_hw_init' was not declared. Should it be static?
+>> drivers/gpu/drm/phytium/phytium_pci.c:37:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *pool_virt_addr @@     got void [noderef] <asn:2> * @@
+   drivers/gpu/drm/phytium/phytium_pci.c:37:38: sparse:     expected void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_pci.c:37:38: sparse:     got void [noderef] <asn:2> *
+>> drivers/gpu/drm/phytium/phytium_pci.c:63:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *pool_virt_addr @@
+   drivers/gpu/drm/phytium/phytium_pci.c:63:38: sparse:     expected void [noderef] <asn:2> *addr
+   drivers/gpu/drm/phytium/phytium_pci.c:63:38: sparse:     got void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_pci.c:30:5: sparse: sparse: symbol 'phytium_pci_vram_init' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_pci.c:72:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void *pool_virt_addr @@
+   drivers/gpu/drm/phytium/phytium_pci.c:72:46: sparse:     expected void [noderef] <asn:2> *addr
+   drivers/gpu/drm/phytium/phytium_pci.c:72:46: sparse:     got void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_pci.c:68:6: sparse: sparse: symbol 'phytium_pci_vram_fini' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_pci.c:99:34: sparse: sparse: undefined identifier 'PCI_VENDOR_ID_PHYTIUM'
+   drivers/gpu/drm/phytium/phytium_pci.c:113:34: sparse: sparse: undefined identifier 'PCI_VENDOR_ID_PHYTIUM'
+   drivers/gpu/drm/phytium/phytium_pci.c:137:6: sparse: sparse: symbol 'phytium_pci_dma_fini' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_pci.c:375:11: sparse: sparse: undefined identifier 'PCI_VENDOR_ID_PHYTIUM'
+   drivers/gpu/drm/phytium/phytium_pci.c:376:11: sparse: sparse: undefined identifier 'PCI_VENDOR_ID_PHYTIUM'
+   drivers/gpu/drm/phytium/phytium_pci.c:23:6: warning: no previous prototype for 'phytium_pci_vram_hw_init' [-Wmissing-prototypes]
+      23 | void phytium_pci_vram_hw_init(struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:30:5: warning: no previous prototype for 'phytium_pci_vram_init' [-Wmissing-prototypes]
+      30 | int phytium_pci_vram_init(struct pci_dev *pdev, struct phytium_display_private *priv)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:68:6: warning: no previous prototype for 'phytium_pci_vram_fini' [-Wmissing-prototypes]
+      68 | void phytium_pci_vram_fini(struct pci_dev *pdev, struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:89:5: warning: no previous prototype for 'phytium_pci_dma_init' [-Wmissing-prototypes]
+      89 | int phytium_pci_dma_init(struct phytium_display_private *priv)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c: In function 'phytium_pci_dma_init':
+   drivers/gpu/drm/phytium/phytium_pci.c:99:34: error: 'PCI_VENDOR_ID_PHYTIUM' undeclared (first use in this function); did you mean 'PCI_VENDOR_ID_PHILIPS'?
+      99 |         gpu_dev = pci_get_device(PCI_VENDOR_ID_PHYTIUM, 0xdc20, NULL);
+         |                                  ^~~~~~~~~~~~~~~~~~~~~
+         |                                  PCI_VENDOR_ID_PHILIPS
+   drivers/gpu/drm/phytium/phytium_pci.c:99:34: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/phytium/phytium_pci.c: At top level:
+   drivers/gpu/drm/phytium/phytium_pci.c:137:6: warning: no previous prototype for 'phytium_pci_dma_fini' [-Wmissing-prototypes]
+     137 | void phytium_pci_dma_fini(struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/phytium/phytium_pci.c:7:
+   include/linux/pci.h:888:19: error: 'PCI_VENDOR_ID_PHYTIUM' undeclared here (not in a function); did you mean 'PCI_VENDOR_ID_PHILIPS'?
+     888 |         .vendor = PCI_VENDOR_ID_##vend, .device = (dev), 44-      |                   ^~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:375:11: note: in expansion of macro 'PCI_VDEVICE'
+     375 |         { PCI_VDEVICE(PHYTIUM, 0xdc22), (kernel_ulong_t)&x100_info },
+         |           ^~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:329:12: warning: 'phytium_pci_pm_resume' defined but not used [-Wunused-function]
+     329 | static int phytium_pci_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_pci.c:306:12: warning: 'phytium_pci_pm_suspend' defined but not used [-Wunused-function]
+     306 | static int phytium_pci_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/e2000_dp.c:471:6: sparse: sparse: symbol 'e2000_dp_hw_spread_is_enable' was not declared. Should it be static?
+>> drivers/gpu/drm/phytium/e2000_dp.c:476:5: sparse: sparse: symbol 'e2000_dp_hw_reset' was not declared. Should it be static?
+>> drivers/gpu/drm/phytium/e2000_dp.c:491:9: sparse: sparse: symbol 'e2000_dp_hw_get_source_lane_count' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/e2000_dp.c:471:6: warning: no previous prototype for 'e2000_dp_hw_spread_is_enable' [-Wmissing-prototypes]
+     471 | bool e2000_dp_hw_spread_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/e2000_dp.c:476:5: warning: no previous prototype for 'e2000_dp_hw_reset' [-Wmissing-prototypes]
+     476 | int e2000_dp_hw_reset(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/e2000_dp.c:491:9: warning: no previous prototype for 'e2000_dp_hw_get_source_lane_count' [-Wmissing-prototypes]
+     491 | uint8_t e2000_dp_hw_get_source_lane_count(struct phytium_dp_device *phytium_dp)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/phytium/phytium_platform.c:32:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *pool_virt_addr @@     got void [noderef] <asn:2> * @@
+   drivers/gpu/drm/phytium/phytium_platform.c:32:38: sparse:     expected void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_platform.c:32:38: sparse:     got void [noderef] <asn:2> *
+>> drivers/gpu/drm/phytium/phytium_platform.c:55:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *pool_virt_addr @@
+   drivers/gpu/drm/phytium/phytium_platform.c:55:21: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/phytium/phytium_platform.c:55:21: sparse:     got void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_platform.c:19:5: sparse: sparse: symbol 'phytium_platform_carveout_mem_init' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_platform.c:65:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *pool_virt_addr @@
+   drivers/gpu/drm/phytium/phytium_platform.c:65:29: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/phytium/phytium_platform.c:65:29: sparse:     got void *pool_virt_addr
+   drivers/gpu/drm/phytium/phytium_platform.c:60:6: sparse: sparse: symbol 'phytium_platform_carveout_mem_fini' was not declared. Should it be static?
+   drivers/gpu/drm/phytium/phytium_platform.c:298:10: sparse: sparse: Initializer entry defined twice
+   drivers/gpu/drm/phytium/phytium_platform.c:306:10: sparse:   also defined here
+   drivers/gpu/drm/phytium/phytium_platform.c:19:5: warning: no previous prototype for 'phytium_platform_carveout_mem_init' [-Wmissing-prototypes]
+      19 | int phytium_platform_carveout_mem_init(struct platform_device *pdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_platform.c:60:6: warning: no previous prototype for 'phytium_platform_carveout_mem_fini' [-Wmissing-prototypes]
+      60 | void phytium_platform_carveout_mem_fini(struct platform_device *pdev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_platform.c:253:12: warning: 'phytium_platform_pm_resume' defined but not used [-Wunused-function]
+     253 | static int phytium_platform_pm_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_platform.c:245:12: warning: 'phytium_platform_pm_suspend' defined but not used [-Wunused-function]
+     245 | static int phytium_platform_pm_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   drivers/clk/mediatek/clk-mtk-spmi.c: In function 'mtk_spmi_clk_simple_probe':
-   drivers/clk/mediatek/clk-mtk-spmi.c:48:13: error: implicit declaration of function 'devm_spmi_subdevice_alloc_and_add' [-Werror=implicit-function-declaration]
-      48 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/mediatek/clk-mtk-spmi.c:48:11: warning: assignment to 'struct spmi_subdevice *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      48 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
-         |           ^
-   In file included from drivers/clk/mediatek/clk-mtk-spmi.c:16:
-   drivers/clk/mediatek/clk-mtk-spmi.c:52:46: error: invalid use of undefined type 'struct spmi_subdevice'
-      52 |  regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
-         |                                              ^~
-   include/linux/regmap.h:775:6: note: in definition of macro '__regmap_lockdep_wrapper'
-     775 |   fn(__VA_ARGS__, &_key,     \
-         |      ^~~~~~~~~~~
-   drivers/clk/mediatek/clk-mtk-spmi.c:52:11: note: in expansion of macro 'devm_regmap_init_spmi_ext'
-      52 |  regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +96 drivers/gpu/drm/phytium/phytium_fbdev.c
 
-
-vim +48 drivers/clk/mediatek/clk-mtk-spmi.c
-
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  21  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  22  int mtk_spmi_clk_simple_probe(struct platform_device *pdev)
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  23  {
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  24  	struct regmap_config mtk_spmi_clk_regmap_config = {
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  25  		.reg_bits = 16,
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  26  		.val_bits = 8,
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  27  		.fast_io = true
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  28  	};
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  29  	struct device_node *node = pdev->dev.of_node;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  30  	const struct mtk_spmi_clk_desc *mscd;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  31  	struct spmi_subdevice *sub_sdev;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  32  	struct spmi_device *sparent;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  33  	struct regmap *regmap;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  34  	int ret;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  35  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  36  	ret = of_property_read_u32(node, "reg", &mtk_spmi_clk_regmap_config.reg_base);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  37  	if (ret)
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  38  		return ret;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  39  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  40  	/* If the max_register was not declared the pdata is not valid */
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  41  	mscd = device_get_match_data(&pdev->dev);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  42  	if (mscd->max_register == 0)
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  43  		return -EINVAL;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  44  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  45  	mtk_spmi_clk_regmap_config.max_register = mscd->max_register;
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  46  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  47  	sparent = to_spmi_device(pdev->dev.parent);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27 @48  	sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  49  	if (IS_ERR(sub_sdev))
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  50  		return PTR_ERR(sub_sdev);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  51  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  52  	regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  53  	if (IS_ERR(regmap))
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  54  		return PTR_ERR(regmap);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  55  
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  56  	return mtk_clk_simple_probe_internal(pdev, node, mscd->desc, regmap);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  57  }
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  58  EXPORT_SYMBOL_GPL(mtk_spmi_clk_simple_probe);
-80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  59  
+    35	
+    36	static int
+    37	phytium_drm_fbdev_create(struct drm_fb_helper *helper, struct drm_fb_helper_surface_size *sizes)
+    38	{
+    39		struct phytium_display_private *priv = helper_to_drm_private(helper);
+    40		struct drm_device *dev = helper->dev;
+    41		unsigned int bytes_per_pixel;
+    42		struct drm_mode_fb_cmd2	mode_cmd = {0};
+    43		struct phytium_framebuffer *phytium_fb =  NULL;
+    44		struct fb_info *fbi =  NULL;
+    45		struct drm_framebuffer *fb = NULL;
+    46		size_t size = 0;
+    47		int ret = 0;
+    48		unsigned long offset;
+    49	
+    50		bytes_per_pixel = DIV_ROUND_UP(sizes->surface_bpp, 8);
+    51		mode_cmd.width = sizes->surface_width;
+    52		mode_cmd.height = sizes->surface_height;
+    53		mode_cmd.pitches[0] =  ALIGN(sizes->surface_width * bytes_per_pixel, 128);
+    54		mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
+    55		size = PAGE_ALIGN(mode_cmd.pitches[0] * mode_cmd.height);
+    56	
+    57		ret = mutex_lock_interruptible(&dev->struct_mutex);
+    58		if (ret < 0) {
+    59			DRM_ERROR("failed to get mutex lock\n");
+    60			return ret;
+    61		}
+    62	
+    63		priv->fbdev_phytium_gem = phytium_gem_create_object(dev, size);
+    64		if (!priv->fbdev_phytium_gem) {
+    65			DRM_ERROR("failed to create gem object\n");
+    66			return -ENOMEM;
+    67		}
+    68		mutex_unlock(&dev->struct_mutex);
+    69	
+    70		fbi = drm_fb_helper_alloc_fbi(helper);
+    71		if (IS_ERR(fbi)) {
+    72			DRM_DEV_ERROR(dev->dev, "Failed to create framebuffer info.");
+    73			ret = PTR_ERR(fbi);
+    74			goto out;
+    75		}
+    76	
+    77		phytium_fb = phytium_fb_alloc(dev, &mode_cmd, &priv->fbdev_phytium_gem, 1);
+    78		if (IS_ERR(phytium_fb)) {
+    79			DRM_DEV_ERROR(dev->dev, "Failed to alloc DRM framebuffer.\n");
+    80			ret = PTR_ERR(phytium_fb);
+    81			goto out;
+    82		}
+    83	
+    84		helper->fb = &(phytium_fb->base);
+    85		fbi->par = helper;
+    86		fbi->flags = FBINFO_FLAG_DEFAULT;
+    87		fbi->fbops = &phytium_fbdev_ops;
+    88	
+    89		fb = helper->fb;
+    90		drm_fb_helper_fill_fix(fbi, fb->pitches[0], fb->format->depth);
+    91		drm_fb_helper_fill_var(fbi, helper, sizes->fb_width, sizes->fb_height);
+    92	
+    93		offset = fbi->var.xoffset * bytes_per_pixel;
+    94		offset += fbi->var.yoffset * fb->pitches[0];
+    95		dev->mode_config.fb_base = 0;
+  > 96		fbi->screen_base = priv->fbdev_phytium_gem->vaddr + offset;
+    97		fbi->screen_size = priv->fbdev_phytium_gem->base.size;
+    98		fbi->fix.smem_len = priv->fbdev_phytium_gem->base.size;
+    99		DRM_DEBUG_KMS("FB [%dx%d]-%d kvaddr=%pa offset=%ld size=%zu\n", fb->width, fb->height,
+   100			       fb->format->depth, &priv->fbdev_phytium_gem->iova, offset, size);
+   101		fbi->skip_vt_switch = true;
+   102	
+   103		return 0;
+   104	out:
+   105		phytium_gem_free_object(&priv->fbdev_phytium_gem->base);
+   106		return ret;
+   107	}
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
