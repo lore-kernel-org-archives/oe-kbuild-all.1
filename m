@@ -1,445 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011CF307AFB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 13:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C600921CC51
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 13:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761830055; cv=none; b=IrVz0wVLDTCAQRtE7UrLDF31of8KXnuQZE2UZv/STxooHFwOR6YrrMxVKHxtpdI3lr4XB3Z92EUSJGtdnMKIkIL54qQjFNpaG47M8hQ9zW0RpCqDqpPaN4u6I7WpxHBZEJW5Z3OWJZk4Ma3sfhXWTudi1f5BBmGJdmauTqG9HyI=
+	t=1761830371; cv=none; b=XGQwHQL8LqDcwWCLIED0ZQNkYaErw/jlRyRyfTYugQccPxfjW7EAkGYsgowTeNg7+3pEg3twqct56tn+efHpIGIDP9LKJVC3maQsJAw1aJQqahV6HZ39B9sR5Q3/BtZewaVShkp5Ujsvsk9MsXhhomWa5eP7ezijGaMjeeGRVMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761830055; c=relaxed/simple;
-	bh=Z9x/p+xeBHyTGlmOa9KaC0gqf2WmOHY4BBScJFaKVKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a+8hIq0hS9jWIhoVDiBlaYN3nH7XqwXR340QdVlVCvROCwuJb+mWdX0F/uL5HOGdST16EeHBMKu506oFgXIBvotx9pg5Eaj2FKDAG7GSKZ7VYN6Qxkk2s6mGvDhRrR+otOIHw9Wfcqu2Mh2A/DGu/9cHD6RFESQweATc3gGceCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m+u48ceI; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761830371; c=relaxed/simple;
+	bh=QpAnzb0D2p1ZWhdbDdMUruh1TJSFKgBm/4FWs7HEmWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xdg4bMGOKWRLp0D2INP/yfAO/JDDPfWuK4zH6AYhsv9I4R0myt1KJnc6axJX0DgQtrLUTYTx/Qm1RgULt9hChq4kU7ZSYqfR0C9d5S8dCs81NxDEpBP/FoKKIhGgs5PVYiY09izkZ14gLRnBVUyR0o9VcyTBz0zlJW0jSQSJuQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfSctaS6; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m+u48ceI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761830053; x=1793366053;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Z9x/p+xeBHyTGlmOa9KaC0gqf2WmOHY4BBScJFaKVKw=;
-  b=m+u48ceIX5piaPc28ocudTC7QayH6cbULtrSWQ4hwKO0SPcpaUrQKxK6
-   G3ihtFXghPgEJXeRhUTUVZ2G5McPRwQpuEHwdXpnNvIBELePpE6BO9lrt
-   80f4TglrnEjx9LccQl28X6QwictruUctvjvh5LdGrgeGmcpNkbO/27tpc
-   ibvbVt03mvtlJsnbw+1caB92HkupvmxTpA5wxAIcDcPYtTWIMUbwv9ft4
-   2+X4B3MXoGJa3WecRFOR6/9c45VThIxvydoYX4rfhF0QtFjuztcC/1gYg
-   /SDd5xrkwFWSYbCaCv5cQBymoX1bFI9YFHm00VPTzzK+uNvWwucpA2QpN
-   w==;
-X-CSE-ConnectionGUID: /dRcMhU8Re2gtIytrbqZNQ==
-X-CSE-MsgGUID: dQUBaxwMSSeGk8bApuUJ9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64066742"
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="64066742"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 06:14:12 -0700
-X-CSE-ConnectionGUID: bpGJ4mC/RTiixWeuqcxuQA==
-X-CSE-MsgGUID: 2z6pFNgST52fhOCt3RtObQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="190025186"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Oct 2025 06:14:10 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vESTg-000M0d-0C;
-	Thu, 30 Oct 2025 13:14:08 +0000
-Date: Thu, 30 Oct 2025 21:13:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3058/3058] include/net/ip.h:463:14: error:
- default initialization of an object of type 'typeof (rt->dst.expires)' (aka
- 'const unsigned long') leaves the object uninitialized
-Message-ID: <202510302146.pnDXGiyc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfSctaS6"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-63c4b41b38cso2026785a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 06:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761830368; x=1762435168; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fgNs3notkwlYCfaZUY2EQYuAlm5MUcJUNJzoQ0kz3gY=;
+        b=SfSctaS6yjHIl4nfiNJXz7I0cdYaWMUYTleEKDKVuPW7ImCuqj2l+A8226OEEL7fwZ
+         P4hGNduXmWKMD6FQRdb72/SZdDJdbJrRBZTTv+c3qT5bEHnKJ41Vfkc7lRiG3MziWmJV
+         BLfFROfDZZlFPlvrlJhBahR1GesSQg6f2AWKqs4XBu7p8bCZiV6BK88+R53NkgCkpuT4
+         z9UuIqtTxBRAfcfQCBJQrXJ4uUWUIiVkQG/Wf7rjs8SmOUENNNABHWBPH2QF8oMkdkyo
+         xZDqo+QL+SAsfkVIdMQxHovotxoxyCbUYclZwbJGX78LUvbMfxAllbtLo7f75szsUIV7
+         OL0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761830368; x=1762435168;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fgNs3notkwlYCfaZUY2EQYuAlm5MUcJUNJzoQ0kz3gY=;
+        b=PPNyYobkK4FZsumz+M3wcDvNd+VNHQCNuz0mL2LBLd+C0p3rNz6H4wg9M6p9VXSgwL
+         85y8YsLj9JCHMfBb1+46C80IouyVoOK+Jbl4zNWm9ujV2yFZXZ8uZs/7QtK/sb7HZCjf
+         7V0JewUPbo71mCykWlY2VX79QHaYhWSPfikvXLKMXe5wwzX3GYITvZrIo6vJJJOl3wyx
+         Xg4eBetWkk8zTSrRGjRU8Hsdxh9U0w1D3korvLmp5UvmKusE+8A6/sodvHUTIQanqrPb
+         uYVPYn9llt6FK2sMYBZX/+9eZ2yAT1yJMgIoTqinJ2TkPyqYbNwoEI/gRVswFhDYWe7j
+         3nfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMvDjUDNmVBq4EJAs4A/IRjZf508rwy04A5ACICqHIOrrjqOLrK/oQ6C7lWdgfybO2S3i8GM2mJpCErm3b@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH1C8Oe8HOD73n13uWQ03BJdcFapcFM5QcKz/AVDAZxFis/54z
+	3faIjb0Qhj5tvnOXCYXYFWzm2WOULYQLQq0ZXaus+XspJv0hsM7S1sHzu9r7akWNSk937bzqcW+
+	a/SUcLi1S2dBEysIaGTk1rLQJ33B1imw=
+X-Gm-Gg: ASbGncvZwL/jfcQwmXcWQRhL7Vpl8amTCoSSmSaxQ8ttb4T/ht403C/aVM45MeSSQ2b
+	QzG+53tomMJlk25Iu2gLk1quSZ7E9hppqAf/lb/0OxiN19Q6fcUCRVaG02bb+xfDnjFl55+lcqq
+	Qa9iFVbGestdcbukoRm6zXkhBZCMJNDhd91DYQ0QFc/kodJGtXDs3l/NJ2uR5beHx4XXJ5X57YO
+	C9D1otW6MJxMFirn1ysIQ4Tz3xa83gElS/dIXLTA+z01W1GcQptPd7NJcNXxujv3lZfbGfVOOag
+	7WF8VSgIyJlN2Ww=
+X-Google-Smtp-Source: AGHT+IF361R/WAIc8VaDoqQKEUE4CN89kxMMfDi3qcLlX+kAOLMSEQ9qnoXacZXoN+2vKDf2CaGc73KqhA41q7SeDCo=
+X-Received: by 2002:a05:6402:5190:b0:634:b7a2:3eaf with SMTP id
+ 4fb4d7f45d1cf-640442520c3mr6055524a12.18.1761830367848; Thu, 30 Oct 2025
+ 06:19:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20251030105242.801528-1-mjguzik@gmail.com> <202510302004.OdLRz1Wy-lkp@intel.com>
+In-Reply-To: <202510302004.OdLRz1Wy-lkp@intel.com>
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Thu, 30 Oct 2025 14:19:15 +0100
+X-Gm-Features: AWmQ_bmaKWvJPGMNKaZCzAmtObzJjTdnoe9rbiYXJSLj7hTzf1ubwz2J_gkLKmg
+Message-ID: <CAGudoHGORCV7Gx5Yj+32eU7k4=yu_hjbtS3+PPJ7AtQGxCcqpQ@mail.gmail.com>
+Subject: Re: [PATCH v4] fs: hide names_cachep behind runtime access machinery
+To: kernel test robot <lkp@intel.com>
+Cc: brauner@kernel.org, oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk, 
+	jack@suse.cz, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	torvalds@linux-foundation.org, pfalcato@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
-commit: 6864d14bb90f03a1e5b7fbcc04fc2ba4d692bd3e [3058/3058] support 3SNIC 910/920/930 NIC
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251030/202510302146.pnDXGiyc-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510302146.pnDXGiyc-lkp@intel.com/reproduce)
+I'm not sending a v5. If you guys are fine with the patch I'm going to
+fix up whatever other fallout later.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510302146.pnDXGiyc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
-      42 | #define __SANITIZE_THREAD__
-         |         ^
-   <built-in>:368:9: note: previous definition is here
-     368 | #define __SANITIZE_THREAD__ 1
-         |         ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:6:
-   In file included from include/linux/pci.h:1663:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:30:
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.h:9:
-   In file included from include/net/ip6_checksum.h:27:
->> include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
-         |                            ^
-   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
-     135 | #define time_before(a,b)        time_after(b,a)
-         |                                 ^
-   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
-     125 |         (typecheck(unsigned long, a) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:883:6: error: no previous prototype for function 'sss_nic_port_module_cable_plug' [-Werror,-Wmissing-prototypes]
-     883 | void sss_nic_port_module_cable_plug(struct sss_nic_dev *nic_dev, void *event_data)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:883:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     883 | void sss_nic_port_module_cable_plug(struct sss_nic_dev *nic_dev, void *event_data)
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:889:6: error: no previous prototype for function 'sss_nic_port_module_cable_unplug' [-Werror,-Wmissing-prototypes]
-     889 | void sss_nic_port_module_cable_unplug(struct sss_nic_dev *nic_dev, void *event_data)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:889:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     889 | void sss_nic_port_module_cable_unplug(struct sss_nic_dev *nic_dev, void *event_data)
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:895:6: error: no previous prototype for function 'sss_nic_port_module_link_err' [-Werror,-Wmissing-prototypes]
-     895 | void sss_nic_port_module_link_err(struct sss_nic_dev *nic_dev, void *event_data)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:895:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     895 | void sss_nic_port_module_link_err(struct sss_nic_dev *nic_dev, void *event_data)
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:1034:22: error: no previous prototype for function 'get_nic_uld_info' [-Werror,-Wmissing-prototypes]
-    1034 | struct sss_uld_info *get_nic_uld_info(void)
-         |                      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_main.c:1034:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1034 | struct sss_uld_info *get_nic_uld_info(void)
-         | ^
-         | static 
-   11 errors generated.
---
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
-      42 | #define __SANITIZE_THREAD__
-         |         ^
-   <built-in>:368:9: note: previous definition is here
-     368 | #define __SANITIZE_THREAD__ 1
-         |         ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
-   In file included from include/net/xfrm.h:22:
->> include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
-         |                            ^
-   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
-     135 | #define time_before(a,b)        time_after(b,a)
-         |                                 ^
-   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
-     125 |         (typecheck(unsigned long, a) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
-   In file included from include/net/xfrm.h:25:
-   include/net/ip6_fib.h:279:10: error: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     279 |                 return time_after(jiffies, f6i->expires);
-         |                        ^
-   include/linux/jiffies.h:126:3: note: expanded from macro 'time_after'
-     126 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   8 errors generated.
---
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
-      42 | #define __SANITIZE_THREAD__
-         |         ^
-   <built-in>:368:9: note: previous definition is here
-     368 | #define __SANITIZE_THREAD__ 1
-         |         ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
-   In file included from include/net/xfrm.h:9:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
-   In file included from include/net/xfrm.h:22:
->> include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
-         |                            ^
-   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
-     135 | #define time_before(a,b)        time_after(b,a)
-         |                                 ^
-   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
-     125 |         (typecheck(unsigned long, a) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
-   In file included from include/net/xfrm.h:25:
-   include/net/ip6_fib.h:279:10: error: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     279 |                 return time_after(jiffies, f6i->expires);
-         |                        ^
-   include/linux/jiffies.h:126:3: note: expanded from macro 'time_after'
-     126 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:42:5: error: no previous prototype for function 'sss_nic_alloc_sq_resource' [-Werror,-Wmissing-prototypes]
-      42 | int sss_nic_alloc_sq_resource(struct sss_nic_dev *nic_dev,
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      42 | int sss_nic_alloc_sq_resource(struct sss_nic_dev *nic_dev,
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:87:6: error: no previous prototype for function 'sss_nic_free_sq_resource' [-Werror,-Wmissing-prototypes]
-      87 | void sss_nic_free_sq_resource(struct sss_nic_dev *nic_dev,
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:87:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      87 | void sss_nic_free_sq_resource(struct sss_nic_dev *nic_dev,
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:104:6: error: no previous prototype for function 'sss_nic_init_all_sq' [-Werror,-Wmissing-prototypes]
-     104 | void sss_nic_init_all_sq(struct sss_nic_dev *nic_dev,
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:104:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     104 | void sss_nic_init_all_sq(struct sss_nic_dev *nic_dev,
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:128:5: error: no previous prototype for function 'sss_nic_alloc_sq_desc_group' [-Werror,-Wmissing-prototypes]
-     128 | int sss_nic_alloc_sq_desc_group(struct sss_nic_dev *nic_dev)
-         |     ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:128:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     128 | int sss_nic_alloc_sq_desc_group(struct sss_nic_dev *nic_dev)
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:153:6: error: no previous prototype for function 'sss_nic_free_sq_desc_group' [-Werror,-Wmissing-prototypes]
-     153 | void sss_nic_free_sq_desc_group(struct sss_nic_dev *nic_dev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:153:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     153 | void sss_nic_free_sq_desc_group(struct sss_nic_dev *nic_dev)
-         | ^
-         | static 
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:200:6: error: no previous prototype for function 'sss_nic_flush_all_sq' [-Werror,-Wmissing-prototypes]
-     200 | void sss_nic_flush_all_sq(struct sss_nic_dev *nic_dev)
-         |      ^
-   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     200 | void sss_nic_flush_all_sq(struct sss_nic_dev *nic_dev)
-         | ^
-         | static 
-   14 errors generated.
---
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
-      42 | #define __SANITIZE_THREAD__
-         |         ^
-   <built-in>:368:9: note: previous definition is here
-     368 | #define __SANITIZE_THREAD__ 1
-         |         ^
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_dcb.c:7:
-   In file included from include/linux/pci.h:1663:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_dcb.c:23:
-   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.h:9:
-   In file included from include/net/ip6_checksum.h:27:
->> include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
-         |                            ^
-   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
-     135 | #define time_before(a,b)        time_after(b,a)
-         |                                 ^
-   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
-     125 |         (typecheck(unsigned long, a) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   7 errors generated.
-..
-
-
-vim +463 include/net/ip.h
-
-1b346576359c72 Hannes Frederic Sowa 2014-02-26  451  
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  452  static inline unsigned int ip_dst_mtu_maybe_forward(const struct dst_entry *dst,
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  453  						    bool forwarding)
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  454  {
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  455  	const struct rtable *rt = container_of(dst, struct rtable, dst);
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  456  	struct net *net = dev_net(dst->dev);
-02a1b175b0e92d Maciej Żenczykowski  2020-09-23  457  	unsigned int mtu;
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  458  
-60c158dc7b1f05 Kuniyuki Iwashima    2022-07-13  459  	if (READ_ONCE(net->ipv4.sysctl_ip_fwd_use_pmtu) ||
-d52e5a7e7ca494 Sabrina Dubroca      2018-03-14  460  	    ip_mtu_locked(dst) ||
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  461  	    !forwarding) {
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  462  		mtu = rt->rt_pmtu;
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20 @463  		if (mtu && time_before(jiffies, rt->dst.expires))
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  464  			goto out;
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  465  	}
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  466  
-02a1b175b0e92d Maciej Żenczykowski  2020-09-23  467  	/* 'forwarding = true' case should always honour route mtu */
-02a1b175b0e92d Maciej Żenczykowski  2020-09-23  468  	mtu = dst_metric_raw(dst, RTAX_MTU);
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  469  	if (mtu)
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  470  		goto out;
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  471  
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  472  	mtu = READ_ONCE(dst->dev->mtu);
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  473  
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  474  	if (unlikely(ip_mtu_locked(dst))) {
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  475  		if (rt->rt_uses_gateway && mtu > 576)
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  476  			mtu = 576;
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  477  	}
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  478  
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  479  out:
-ac6627a28dbfb5 Vadim Fedorenko      2021-07-20  480  	mtu = min_t(unsigned int, mtu, IP_MAX_MTU);
-02a1b175b0e92d Maciej Żenczykowski  2020-09-23  481  
-fade56410c22ca Vadim Fedorenko      2021-06-25  482  	return mtu - lwtunnel_headroom(dst->lwtstate, mtu);
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  483  }
-f87c10a8aa1e82 Hannes Frederic Sowa 2014-01-09  484  
-
-:::::: The code at line 463 was first introduced by commit
-:::::: ac6627a28dbfb5d96736544a00c3938fa7ea6dfb net: ipv4: Consolidate ipv4_mtu and ip_dst_mtu_maybe_forward
-
-:::::: TO: Vadim Fedorenko <vfedorenko@novek.ru>
-:::::: CC: David S. Miller <davem@davemloft.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, Oct 30, 2025 at 2:14=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Mateusz,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on arnd-asm-generic/master]
+> [also build test ERROR on linus/master brauner-vfs/vfs.all linux/master v=
+6.18-rc3 next-20251030]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/fs-h=
+ide-names_cachep-behind-runtime-access-machinery/20251030-185523
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.=
+git master
+> patch link:    https://lore.kernel.org/r/20251030105242.801528-1-mjguzik%=
+40gmail.com
+> patch subject: [PATCH v4] fs: hide names_cachep behind runtime access mac=
+hinery
+> config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/202510=
+30/202510302004.OdLRz1Wy-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251030/202510302004.OdLRz1Wy-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510302004.OdLRz1Wy-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/riscv/include/asm/runtime-const.h:7,
+>                     from include/linux/fs.h:53,
+>                     from include/linux/huge_mm.h:7,
+>                     from include/linux/mm.h:1016,
+>                     from arch/riscv/kernel/asm-offsets.c:8:
+>    arch/riscv/include/asm/cacheflush.h: In function 'flush_cache_vmap':
+> >> arch/riscv/include/asm/cacheflush.h:49:13: error: implicit declaration=
+ of function 'is_vmalloc_or_module_addr' [-Wimplicit-function-declaration]
+>       49 |         if (is_vmalloc_or_module_addr((void *)start)) {
+>          |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from include/linux/compat.h:18,
+>                     from arch/riscv/include/asm/elf.h:12,
+>                     from include/linux/elf.h:6,
+>                     from include/linux/module.h:20,
+>                     from include/linux/device/driver.h:21,
+>                     from include/linux/device.h:32,
+>                     from include/linux/node.h:18,
+>                     from include/linux/memory.h:19,
+>                     from arch/riscv/include/asm/runtime-const.h:9:
+>    include/uapi/linux/aio_abi.h: At top level:
+> >> include/uapi/linux/aio_abi.h:79:9: error: unknown type name '__kernel_=
+rwf_t'; did you mean '__kernel_off_t'?
+>       79 |         __kernel_rwf_t aio_rw_flags;    /* RWF_* flags */
+>          |         ^~~~~~~~~~~~~~
+>          |         __kernel_off_t
+>    make[3]: *** [scripts/Makefile.build:182: arch/riscv/kernel/asm-offset=
+s.s] Error 1
+>    make[3]: Target 'prepare' not remade because of errors.
+>    make[2]: *** [Makefile:1282: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:248: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:248: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+>
+>
+> vim +/is_vmalloc_or_module_addr +49 arch/riscv/include/asm/cacheflush.h
+>
+> 08f051eda33b51 Andrew Waterman 2017-10-25  42
+> 7e3811521dc393 Alexandre Ghiti 2023-07-25  43  #ifdef CONFIG_64BIT
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  44  extern u64 new_vmalloc[NR_=
+CPUS / sizeof(u64) + 1];
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  45  extern char _end[];
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  46  #define flush_cache_vmap f=
+lush_cache_vmap
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  47  static inline void flush_c=
+ache_vmap(unsigned long start, unsigned long end)
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  48  {
+> 503638e0babf36 Alexandre Ghiti 2024-07-17 @49   if (is_vmalloc_or_module_=
+addr((void *)start)) {
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  50           int i;
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  51
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  52           /*
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  53            * We don't care =
+if concurrently a cpu resets this value since
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  54            * the only place=
+ this can happen is in handle_exception() where
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  55            * an sfence.vma =
+is emitted.
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  56            */
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  57           for (i =3D 0; i <=
+ ARRAY_SIZE(new_vmalloc); ++i)
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  58                   new_vmall=
+oc[i] =3D -1ULL;
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  59   }
+> 503638e0babf36 Alexandre Ghiti 2024-07-17  60  }
+> 7a92fc8b4d2068 Alexandre Ghiti 2023-12-12  61  #define flush_cache_vmap_e=
+arly(start, end)       local_flush_tlb_kernel_range(start, end)
+> 7e3811521dc393 Alexandre Ghiti 2023-07-25  62  #endif
+> 7e3811521dc393 Alexandre Ghiti 2023-07-25  63
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
