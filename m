@@ -1,129 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB8C2C0293
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 03:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEA51E86E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 03:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761795628; cv=none; b=D89JBnj2HvJ3PTasBK6Yma+NL3vblXQ8f09TXlmCyV78p1kiEd6bkzwkllKZSHvu89Mf5xUB9dyMHFcPvFh7ME3AkbJVvGhoNgonoJktnzdbrQ+cCNAjEt48bGVv9EsKSq8qlXLehRUpM+vFvarRYpH4IXfrLcw6Hhd6N+zGcms=
+	t=1761795887; cv=none; b=XT8KGVZaL4SorLfaX31ngcWdwmCfVBa5M9Ja6YkmMtq8Dm7u+UDw8PsNb8fXwYQupWt9uCVvIlNXTqdynVrHw6GqNaVD08d6aTHDrCwIT5gfJllzB9kFz8CqtZoWG8do+1vtwgMc1XmU0H9dbt7FwtGMdPMfy7mFMRGnCPVCCRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761795628; c=relaxed/simple;
-	bh=eP+v44bFnQV6pzfjh1fsjAmhu/NjG8eSqtbS6lHqGyo=;
+	s=arc-20240116; t=1761795887; c=relaxed/simple;
+	bh=WGWDLBInj4AeDxMqQZfEbkb/bL4NlHKUMLTObwQcNZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MUz09jN5aq2qW5vijDnlTUu8XGhaMaHF6UlRrJAPM5b/0CbrA0z2E7l20lNWClXUTxPQbbJd68BjdZy1T7ass6/E7Kh1MwZTEAIk/JNus1nXtvuNEJDzLT33u0M7/hPeSsHoMuQtDqtzyxZbgRmnyYYYbBkU8615vLc2+y5GPrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B49vRYrc; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=TEUBAktUaoVik4lVBSzeSfUUquCiXwEYvsHDekC2/+MnhK1/lYvLG0xce0W3wJBBDmml09Qt5Ezlsa4zUfkoqwcM6TNxo473DnvkNpx4HzUfbEy4AJWubfRoVvyYI+iRVvZIvC26V1Ty35Q1f1xrWjIbWIzPDy+xjyPAxwOkTwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNZDom4l; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B49vRYrc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNZDom4l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761795627; x=1793331627;
+  t=1761795886; x=1793331886;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=eP+v44bFnQV6pzfjh1fsjAmhu/NjG8eSqtbS6lHqGyo=;
-  b=B49vRYrcJVRVSYmYHG6Plzd4moyRot7jwB36VJTCBDVHBaFEL51Akt3f
-   2xsC2/7VSdYJxgrP3Ayq4cGtEJmAyjvL/xEBlK7bHR+Ht5M3UIzkt4wkz
-   A8QBjzOBP3RkG3DuQXwkaUGzQo0o4KC3zlEXAsCSPObwG1iFawhALvEhU
-   6boiZt+HzGLaManIxwAmVQjbIbLcUTPaDyH7y3R9fjkhcFQihcugDIVhZ
-   gba7NbbeIsJMfSloNG14wZ4LwPDwachouerPRqhIF478b3+ACMw48dV6T
-   5MlchJVxdv6Jd00y7YcuMyZvW2VjBSW2UZrXgk2oGp65w9jgumaY1AGVG
-   A==;
-X-CSE-ConnectionGUID: zxVNWzfwTSOBhL089XRf8w==
-X-CSE-MsgGUID: O328/XBqSx6bNTxVtphREQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="67790094"
+   mime-version:in-reply-to;
+  bh=WGWDLBInj4AeDxMqQZfEbkb/bL4NlHKUMLTObwQcNZU=;
+  b=eNZDom4lpq0Qp3Zc11/ATBE7CmQUr2kwafMCqi5VDQs/o46GgSzZHqj5
+   vzAoZjmcv/V/9YTQlo/Z19+N+P+fXHzrH2/jXDD5MrHqrvBSLmNPqP/2/
+   sHSlJzMhiemqBwp9xLB6rJsaL+9yxail2q8qH4ZpEBGeZqVlxjYY5Y6T+
+   VsP/pTLW6HVSVJ7ShDTTcXKOLn3ufvz5H+8wZHydkcwOTwf1oWLHEKZMz
+   zkAltVd4tacpgyN09wvK30cBplGnOWqzvH402t+kqQG/OIrRakK6635WS
+   kF5WPEcFxll41Pm+ig+GfmYxQT1I5AxOuVxeWdSs/OY625orV1OZVRU1u
+   Q==;
+X-CSE-ConnectionGUID: NF/cW50sSs6KJ1xyYr5gyA==
+X-CSE-MsgGUID: 1N4rPtS8TiS4rKfvt7+bJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63134929"
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="67790094"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 20:40:26 -0700
-X-CSE-ConnectionGUID: IXqawMBZRs6YZejWKU1Vmw==
-X-CSE-MsgGUID: 4mtAaMg5T9eoMBdWxPoang==
+   d="scan'208";a="63134929"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 20:44:45 -0700
+X-CSE-ConnectionGUID: eD4jHOo8QreLa0vp562jGA==
+X-CSE-MsgGUID: fyuA3sPBT7Sg3uyTLILpzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="216694173"
+   d="scan'208";a="189912456"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Oct 2025 20:40:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2025 20:44:41 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEJUw-000LQF-12;
-	Thu, 30 Oct 2025 03:39:33 +0000
-Date: Thu, 30 Oct 2025 11:38:32 +0800
+	id 1vEJXh-000LQO-1h;
+	Thu, 30 Oct 2025 03:42:16 +0000
+Date: Thu, 30 Oct 2025 11:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch via B4 Relay <devnull+git.apitzsch.eu@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vincent Knecht <vincent.knecht@mailoo.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Subject: Re: [PATCH v7 3/4] media: qcom: camss: Add support for MSM8939
-Message-ID: <202510301103.9EJIzPFp-lkp@intel.com>
-References: <20251028-camss-8x39-vbif-v7-3-91ee8becda85@apitzsch.eu>
+To: Andrei Botila <andrei.botila@oss.nxp.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sabrina Dubroca <sd@queasysnail.net>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, s32@nxp.com,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Andrei Botila <andrei.botila@oss.nxp.com>
+Subject: Re: [PATCH net-next] net: phy: nxp-c45-tja11xx: config_init restore
+ macsec config
+Message-ID: <202510301118.CxEGtEGI-lkp@intel.com>
+References: <20251029104258.1499069-1-andrei.botila@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251028-camss-8x39-vbif-v7-3-91ee8becda85@apitzsch.eu>
+In-Reply-To: <20251029104258.1499069-1-andrei.botila@oss.nxp.com>
 
-Hi André,
+Hi Andrei,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on f7d2388eeec24966fc4d5cf32d706f0514f29ac5]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Apitzsch-via-B4-Relay/media-dt-bindings-Add-qcom-msm8939-camss/20251029-053926
-base:   f7d2388eeec24966fc4d5cf32d706f0514f29ac5
-patch link:    https://lore.kernel.org/r/20251028-camss-8x39-vbif-v7-3-91ee8becda85%40apitzsch.eu
-patch subject: [PATCH v7 3/4] media: qcom: camss: Add support for MSM8939
-config: parisc-randconfig-001-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301103.9EJIzPFp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301103.9EJIzPFp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Botila/net-phy-nxp-c45-tja11xx-config_init-restore-macsec-config/20251029-185313
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251029104258.1499069-1-andrei.botila%40oss.nxp.com
+patch subject: [PATCH net-next] net: phy: nxp-c45-tja11xx: config_init restore macsec config
+config: parisc-randconfig-r053-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301118.CxEGtEGI-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301118.CxEGtEGI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301103.9EJIzPFp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301118.CxEGtEGI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/qcom/camss/camss.c:4458:3: error: 'const struct camss_resources' has no member named 'link_entities'
-     .link_entities = camss_link_entities
-      ^~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss.c:4458:19: warning: excess elements in struct initializer
-     .link_entities = camss_link_entities
-                      ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss.c:4458:19: note: (near initialization for 'msm8939_resources')
+   In file included from drivers/net/phy/nxp-c45-tja11xx.c:20:
+>> drivers/net/phy/nxp-c45-tja11xx.h:42:6: warning: no previous prototype for 'nxp_c45_macsec_link_change_notify' [-Wmissing-prototypes]
+      42 | void nxp_c45_macsec_link_change_notify(struct phy_device *phydev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +4458 drivers/media/platform/qcom/camss/camss.c
+vim +/nxp_c45_macsec_link_change_notify +42 drivers/net/phy/nxp-c45-tja11xx.h
 
-  4448	
-  4449	static const struct camss_resources msm8939_resources = {
-  4450		.version = CAMSS_8x39,
-  4451		.csiphy_res = csiphy_res_8x39,
-  4452		.csid_res = csid_res_8x39,
-  4453		.ispif_res = &ispif_res_8x39,
-  4454		.vfe_res = vfe_res_8x39,
-  4455		.csiphy_num = ARRAY_SIZE(csiphy_res_8x39),
-  4456		.csid_num = ARRAY_SIZE(csid_res_8x39),
-  4457		.vfe_num = ARRAY_SIZE(vfe_res_8x39),
-> 4458		.link_entities = camss_link_entities
-  4459	};
-  4460	
+    33	
+    34	#if IS_ENABLED(CONFIG_MACSEC)
+    35	void nxp_c45_macsec_link_change_notify(struct phy_device *phydev);
+    36	int nxp_c45_macsec_config_init(struct phy_device *phydev);
+    37	int nxp_c45_macsec_probe(struct phy_device *phydev);
+    38	void nxp_c45_macsec_remove(struct phy_device *phydev);
+    39	void nxp_c45_handle_macsec_interrupt(struct phy_device *phydev,
+    40					     irqreturn_t *ret);
+    41	#else
+  > 42	void nxp_c45_macsec_link_change_notify(struct phy_device *phydev)
+    43	{
+    44	}
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
