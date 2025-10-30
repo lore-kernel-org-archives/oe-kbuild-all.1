@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6512E0927
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 04:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365A92E0927;
+	Thu, 30 Oct 2025 04:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761800373; cv=none; b=nzmgFtRAswuxB7fUSwZyO2eieyvn5vBCr18Rqo/5RlwUIE/fEkziE/OMOjCLXymZ4A7u+6ob7Ghe3Dr+z2b0Ok15Wkk4pBm9M0MS/DahHSXGAaXGKtlqZcxPSxM5izpaCK0gT08eJ9A15mQRtdDt7rzyfMeqd9uIkKNpgib00Bo=
+	t=1761800375; cv=none; b=TzHYJ9YZaM271BfGjw879R9ssYBJsa9J2WZpekFciiaW2RyyBWc6RxxEVE+zjME8N1bnLqqdurndhI4dRId2ZLkhyU/YvlOOIHJ/+zMH6JdXyDaLBBh0Yxi93fnkqUTYWSsy07F/i3PK3GT7t7xPw21Xhncy7AkLNsLq9udDEvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761800373; c=relaxed/simple;
-	bh=L50Z6pr6vgwKgFXUkNNCOZDLv4Y4+9RsVx/MU7O5RM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aJeC8lcPc6My/gaKWesPIHN6o++KFQZv3z1Jn00YlCMvnqqHOaZCtZh5TWKIG3p3OoWlPnwUiKhvygMOydl8lLvrvHX4X0FptO65GU/onLjyCAUH6WBgkBzySHIox7AvmCSQLfIMqO4yvNXl8utmIF24WA2Qtp6s1FkNU6xBGnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Re3Ap4gr; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1761800375; c=relaxed/simple;
+	bh=XrSWWjKUo7m9rj5cc4tuAtsaIQt7tpo1lwMllKwYVkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LT5O978cdkACBqogOJodQyIj7e2/+gLABCjG+F2U2jyUEIAjBs8zmEKUkM7UTzfzzg94ng62mRUZooqEg3+fJMNsV9PYDl4qHeYAkExRvYcXdHVTXMMnv24O+b4e3ByVTzeHQ9EeEuEKAmW1gYnhTrp/UxtUcqVFRYR48gO9AsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEnTlUeU; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Re3Ap4gr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEnTlUeU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761800371; x=1793336371;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L50Z6pr6vgwKgFXUkNNCOZDLv4Y4+9RsVx/MU7O5RM8=;
-  b=Re3Ap4gr06xI51tuhtkJq5Tushv63lzrA66OB53popiV6HlYxjc/HTEK
-   hqMS5Q5HDmC9+aneHctIp1gAL4CfND33Zukmt7lhIX5Xve9MttzHDrasA
-   t6OaGHLvmcdgInhKLqBlIp0yCESvSd1n8XCAHlMS3vA0n0LevGVz+uUjy
-   +gWLxrA0zNqgNylex5//BF5D4DQv/S7JcU31IzrsaTO6gsbjPCAPC7Lym
-   rPTyno14+RsUXmrrwv8FISbrDAC1HrE2aULEhuC/g3Y55+vmCHuNz6JoI
-   4ZZgb5Aae4R8Va2oHeB6NfGaDsCP+/1OjaQK0POeTxfuqP4s1ppGD+ucl
+  t=1761800374; x=1793336374;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XrSWWjKUo7m9rj5cc4tuAtsaIQt7tpo1lwMllKwYVkE=;
+  b=bEnTlUeUKZHKZYnm+FVSVfXazTKgR6DwV/AUAWn23vBCJf1pW0JFemlf
+   kSwkeLgImmlQdv+CB2z/USrTtKmSE/ZEko2lgZlX8AYB6CPt6hQjRgayA
+   dHVMLFbaZe8beN00LKIwcJJnAReoORa/AUNsZsAL+NYZ6JAp9wk/U0tJE
+   pb3mTWIsk4rg36gvNgaSDBgAI+vp2lLYFFdj3UMdyaqOfDW6OBHDFSmtK
+   JFAT4YaAWbefQaip+lVIvNUQOWask1+GvSgJM2hz/YWZi8syphR4x1SVK
+   C4enfmuMha55z+RbzJJacD4CUogapAlwKpO4hs+5xMf1ngIQ/ed4JwfnU
    A==;
-X-CSE-ConnectionGUID: Fqtd9FLuSPa4jIrfF7JEQg==
-X-CSE-MsgGUID: ImlE5ZCSSR6hVySoFBoqrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="51506206"
+X-CSE-ConnectionGUID: KkicMuDVRjG4qQaxSVIQcg==
+X-CSE-MsgGUID: Pya6qZFsTZy87+ljbQG9Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="75053767"
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="51506206"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 21:59:30 -0700
-X-CSE-ConnectionGUID: PLCTrSurTfiw6wmuz6BYpQ==
-X-CSE-MsgGUID: oXuPe4biQbG42Z1ATqGD8w==
+   d="scan'208";a="75053767"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 21:59:33 -0700
+X-CSE-ConnectionGUID: bQZdnZDLReSi76ExYndiCg==
+X-CSE-MsgGUID: SQ5nwnfASfK/7dgA9AJjIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="186594862"
+   d="scan'208";a="223075256"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Oct 2025 21:59:29 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Oct 2025 21:59:29 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEKkx-000LTu-13;
+	id 1vEKkx-000LTs-0r;
 	Thu, 30 Oct 2025 04:59:27 +0000
-Date: Thu, 30 Oct 2025 12:58:39 +0800
+Date: Thu, 30 Oct 2025 12:58:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3257/3257]
- drivers/gpu/drm/inspur/inspur_cursor.c:54:32: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202510301254.n0HWSdf0-lkp@intel.com>
+To: Andrei Botila <andrei.botila@oss.nxp.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sabrina Dubroca <sd@queasysnail.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, s32@nxp.com,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Andrei Botila <andrei.botila@oss.nxp.com>
+Subject: Re: [PATCH net-next] net: phy: nxp-c45-tja11xx: config_init restore
+ macsec config
+Message-ID: <202510301246.x4ua5CJ6-lkp@intel.com>
+References: <20251029104258.1499069-1-andrei.botila@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,30 +73,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251029104258.1499069-1-andrei.botila@oss.nxp.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   13f149450a6b4609c03a79beee0859dfe43ca949
-commit: b9d65551a3adfa87a7c5d33391187ee60a1b501d [3257/3257] drm: add inspur drm driver support
-config: x86_64-randconfig-121-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301254.n0HWSdf0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301254.n0HWSdf0-lkp@intel.com/reproduce)
+Hi Andrei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Botila/net-phy-nxp-c45-tja11xx-config_init-restore-macsec-config/20251029-185313
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251029104258.1499069-1-andrei.botila%40oss.nxp.com
+patch subject: [PATCH net-next] net: phy: nxp-c45-tja11xx: config_init restore macsec config
+config: x86_64-randconfig-076-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301246.x4ua5CJ6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301246.x4ua5CJ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301254.n0HWSdf0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301246.x4ua5CJ6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/inspur/inspur_cursor.c:54:32: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +54 drivers/gpu/drm/inspur/inspur_cursor.c
+   In file included from drivers/net/phy/nxp-c45-tja11xx.c:20:
+>> drivers/net/phy/nxp-c45-tja11xx.h:42:6: warning: no previous prototype for function 'nxp_c45_macsec_link_change_notify' [-Wmissing-prototypes]
+      42 | void nxp_c45_macsec_link_change_notify(struct phy_device *phydev)
+         |      ^
+   drivers/net/phy/nxp-c45-tja11xx.h:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | void nxp_c45_macsec_link_change_notify(struct phy_device *phydev)
+         | ^
+         | static 
+   1 warning generated.
 
-    49	
-    50	#define HW_FLAG_OFFSET 0x01ffff00
-    51	#define HW_FLAG_ENABLE 0x1bd40750
-    52	unsigned char getKVMHWCursorSetting(struct inspur_drm_private *priv)
-    53	{
-  > 54		unsigned int value = *(unsigned int *)(priv->fb_map + HW_FLAG_OFFSET);
+
+vim +/nxp_c45_macsec_link_change_notify +42 drivers/net/phy/nxp-c45-tja11xx.h
+
+    33	
+    34	#if IS_ENABLED(CONFIG_MACSEC)
+    35	void nxp_c45_macsec_link_change_notify(struct phy_device *phydev);
+    36	int nxp_c45_macsec_config_init(struct phy_device *phydev);
+    37	int nxp_c45_macsec_probe(struct phy_device *phydev);
+    38	void nxp_c45_macsec_remove(struct phy_device *phydev);
+    39	void nxp_c45_handle_macsec_interrupt(struct phy_device *phydev,
+    40					     irqreturn_t *ret);
+    41	#else
+  > 42	void nxp_c45_macsec_link_change_notify(struct phy_device *phydev)
+    43	{
+    44	}
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
