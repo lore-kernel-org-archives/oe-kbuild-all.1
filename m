@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FFF345736
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 10:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1459F25A65B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 11:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761821518; cv=none; b=j76a0ALTFLH4Sh7mHPmANzZuLrgrClwl+zAr55n0dLpWZZfgd2FnFYf3U00C1mDiGeDdf2djKPcTk5ZtMyZdGbOSGgml60dR6qlma7IQPOO2IX8Zm1+YIHMWl5WhoZlhk28ZJbFS5bAdUxZDAlSK7fq5L3TxLKF1BMh9VwhKA/Y=
+	t=1761823521; cv=none; b=qet0YePyBpLC+skot+09PCKfCfqstFofGFTDm068gpwZPdbGdvRl7ytDJvzS/JJWh3wgcGI7JPdVDmg59mBJVTGTSE0OgU8dp5E+XVbxe71CeKYcPAV+RPe0ptGABdsxe442p2lqIY1FAWyG9Ht1xT06ge+d3b9lmczxYgigv08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761821518; c=relaxed/simple;
-	bh=alXfXWJ6X8w0m9N/tWQ+/ZfXvVfauWcWFtq4KBnlErc=;
+	s=arc-20240116; t=1761823521; c=relaxed/simple;
+	bh=4b8WKOcycG6S+VCjHKQr1nwKz2Oov5X7BKFthcaikTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qTLiLtMWf/4LHxw94Vg2pCQf4Yj1tc5IgkAtjShPYJKbCRiSep2/2ilUIVw9VBD1QYp5I7G/NyibL8SEGkKcJ0SMG7XGCwO/Auw0s2fsx97wRYw+8SLiyOxqw++Bhlf5aMQG4QtgfYgFmdkxGjqTVYU0eKTZOVukIPu5DWUuBqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cNn6T1S1; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=MQeQbSZo6OgIO8AcurQPIQ6CM2uiQlctCx2zGCgY98IeWbJz5EQBRrKWNyPfekDjmzO07m9wFMk/bo+2f2peQ1wjcXS+Za7j2pqc1Xen378o+rFC76MuxK6o0KGvrrlBr3x0z54CbRRchm4t0TTRMXGXs9MFg/knzK59x3Kk1zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nu65p8ys; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cNn6T1S1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nu65p8ys"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761821517; x=1793357517;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=alXfXWJ6X8w0m9N/tWQ+/ZfXvVfauWcWFtq4KBnlErc=;
-  b=cNn6T1S1lih2tFOUtJO55LFcy8nBSojRWf7uo5PDiCOiNHrmvsYBeIYR
-   dNXkNuNnLU/34m/veb8PMIUKyScZnMqYpoTEcvedUUjns//IWFaK/QUpb
-   2VBp3cwbi3MLBTZ5AqQ7VdQMOWghvgPeOayBFnVb67MYtQrUDQikznEXv
-   K6CM8flemvFbPYhhdY2dezUfcBOYkKpvcuKD63mJTO5x2UU2E6+F02DQr
-   iBi23Ee5GmP0j186ILXETcOsjjeOLXMLOTfxU8ghqXfz5WYGV5pUv5WEc
-   272mJwaCX6ZtuxVBNGbYGNf54J82lS+mD2BJpOKvBgvO4FSMpQvgQfMek
+  t=1761823520; x=1793359520;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4b8WKOcycG6S+VCjHKQr1nwKz2Oov5X7BKFthcaikTQ=;
+  b=nu65p8ysHvfx+h7jza+/d9BtCygDuuZEHYy3GB1zjZOpsfVY6CjT3Hq1
+   WSzKuP0s2B6bSB3fLP2DeEnNhuuff13mZtf5Y8nmHRbD4LuJKVtBjL/mT
+   Rifm/tQdLe0f4fXFoIlCAS9m+gUnqc9qs6+wg1O7BRKLhg757lMls1roY
+   Ave42ZMl23ruRoQK2u0izv9ASBu7jGQC2q1qiwKd2ndnlGry4U/TGt2QI
+   zNPBuOEN6GKIS/ij4eb29xWLfN3AwbCuFHD88HV8EZFC+ewIznbJNbBV9
+   ltf7C9IOpvxJAyHgbEmDnFvYYc6bfMaCsHLUqKK/KpfJeV5mnxAbOllbq
    w==;
-X-CSE-ConnectionGUID: zriZfQOcRmKJQfA62wxenQ==
-X-CSE-MsgGUID: oemzrbcoT0e8DHlapdpz5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="75408814"
+X-CSE-ConnectionGUID: 1P7H+M6CS/qjY6r5oaDGAA==
+X-CSE-MsgGUID: KUdc6pLRRS6OcQpczCp1Uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="66577140"
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="75408814"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 03:51:57 -0700
-X-CSE-ConnectionGUID: Gcx246s8QzS1hlSo4QaiYQ==
-X-CSE-MsgGUID: LOQAsz+nRp+cPfHvqxY0Eg==
+   d="scan'208";a="66577140"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 04:25:19 -0700
+X-CSE-ConnectionGUID: Sfj5DS3WT8CaBG9zwjfySw==
+X-CSE-MsgGUID: v/W+LEe3RKaHQI63K31Zzw==
 X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Oct 2025 03:51:56 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="185864118"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2025 04:25:19 -0700
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vEQG1-000Lqi-2L;
-	Thu, 30 Oct 2025 10:51:53 +0000
-Date: Thu, 30 Oct 2025 18:50:54 +0800
+	id 1vEQmK-0000000010c-0yQq;
+	Thu, 30 Oct 2025 11:25:16 +0000
+Date: Thu, 30 Oct 2025 12:25:07 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jiaming Zhang <r772577952@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] net: core: prevent NULL deref in
- generic_hwtstamp_ioctl_lower()
-Message-ID: <aQNDDs9GWt73ekNu@fb33b90f3739>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
+Subject: [linux-next:master 2755/5042] Warning: fs/inode.c:1609 function
+ parameter 'isnew' not described in 'ilookup5_nowait'
+Message-ID: <202510301249.XnNhwb73-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,23 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030104942.18561-1-r772577952@gmail.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   131f3d9446a6075192cdd91f197989d98302faa6
+commit: f5608fff035ae2310a647984998060546c3ec6dd [2755/5042] fs: rework I_NEW handling to operate without fences
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251030/202510301249.XnNhwb73-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301249.XnNhwb73-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301249.XnNhwb73-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] net: core: prevent NULL deref in generic_hwtstamp_ioctl_lower()
-Link: https://lore.kernel.org/stable/20251030104942.18561-1-r772577952%40gmail.com
+>> Warning: fs/inode.c:1609 function parameter 'isnew' not described in 'ilookup5_nowait'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
