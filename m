@@ -1,360 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB0622B5AC;
-	Thu, 30 Oct 2025 13:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6C2126BF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 14:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761832588; cv=none; b=JekUwkA3nSCrk6yhxcAemu3tyH/Dg/Vu1nl+NSXxeeqdqyWQjmOi32r09MMS6K5fF4d2ukRPTWxxgqz2tPe1A7olnlBT9OiOlw/KmFuvs52QUzkP0+3ZbhwpzwoeYU00COCZEs5wB+BBfJ36eogNMfMWcdsgRMY2D0KHnNGcGSw=
+	t=1761833260; cv=none; b=qmHewbWms/G1o+EvlfJxbkG2+lsernC6Wa4BngcXEi5ja4PPwY/h+ymbbJrSZIdikkpifatBVDZu5FdCuCLzFq/52MMTK3cBI8sVddqaHP+90aVdUKbQZkPA2vKgWNSlSNiQnfukNmgSCG6WzHPZcsEGC2j61wZSOcYGRawX8u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761832588; c=relaxed/simple;
-	bh=ZWIocqUuYVbdmm1418VkNGRE+HZ1y313RcUeu0pY3pE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NNR/NciqDQ68i2HInsyCDbVHCbzzxOenftsHC8sMv12S3y1cQ81r7Jx62mzL2rHCc2EMf9+Em9aX88embGjuMiDuetqtvDi4iWWO5qn8Nzs9Q9963GifQ/vTef0cFyw/Ez4PEPsGU3XiNEfwgXCExX0DVX4DrzrE7UiQGGBboOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ffEJOktI; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761833260; c=relaxed/simple;
+	bh=P1vXdtD0/zDTrhzDe4WtqYiJG27vKd72yMnPE4sZbxQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V6VXTMUun1Nn3BjjtgojBsYDbi+vnOFkBvUaSYSnBimEGsPozqXzxPnX7wIH0VjS9U0/TXIutLeSQDX4TVDfm7wsTmKBvK9GdQsINVaclYJPmVW3E2Luct7T2ejS8xH+R9aRC6lv7aHmHGBGQQCaNg8Ykl61kYXP4G1kcgKhxvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=K2kZztB/; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ffEJOktI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761832587; x=1793368587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZWIocqUuYVbdmm1418VkNGRE+HZ1y313RcUeu0pY3pE=;
-  b=ffEJOktI8s9rhE537N83s8uH0WhyDdiI1Mj3RKOeo9i7L02C9tvZmhrk
-   /yKmPifMHB9tQaeKBe8vZsRkBRmuE0MihS1E2S8sP2iZnq5zcUkVSHz/r
-   UkVWTr67yZgI5YHz+6LMteN6Xw4CC/v/FfS52Cu5qbQwTK6fwLwsrI3On
-   fBMEspwT2/kvLENEAdjTz8IckHzh8vzqe4WSxapE5IEeid1XxhstewgZP
-   x/Ai0pK1WPuQ1o0a3EYo6vN6A2y1xc9H34JUANXCxjJh7NaXx0M7DgSWc
-   ODIJQGheOdLLy18mRFowqBQtx0FdPG+1ZWO0VvHLPVfRm1+il+2+lIzlp
-   g==;
-X-CSE-ConnectionGUID: OULyV76lTJmsqOR9oA9G2Q==
-X-CSE-MsgGUID: 08071V5ZReCgr2Q+CwBnhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="81392088"
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="81392088"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 06:56:27 -0700
-X-CSE-ConnectionGUID: OC+PlDhbQJKnTEnZeULtmw==
-X-CSE-MsgGUID: 4GdiRvbPTbiI/lGAmVPtUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="216810808"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2025 06:56:23 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vET7s-000M4E-12;
-	Thu, 30 Oct 2025 13:55:50 +0000
-Date: Thu, 30 Oct 2025 21:54:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, bpf@vger.kernel.org,
-	andrii@kernel.org, ast@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dwarves@vger.kernel.org, alan.maguire@oracle.com, acme@kernel.org,
-	eddyz87@gmail.com, tj@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next v1 3/8] bpf: Support for kfuncs with
- KF_MAGIC_ARGS
-Message-ID: <202510302139.fAmMKkDb-lkp@intel.com>
-References: <20251029190113.3323406-4-ihor.solodrai@linux.dev>
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="K2kZztB/"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-290aaff26c1so3131335ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 07:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1761833257; x=1762438057; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dAxgp4DobvE+uLPgcEm11YRUjuXuChtKAGj6UrKONnQ=;
+        b=K2kZztB/3bT9QB0zq4ei8pXpI6DqGUj7sZR9P2NT+8mMoeOPNHtpADcizAlxOx+JkN
+         2ie80ZbsQCmLy1X/qIgK/xnrRm0lm5ILwmfua0dKXUKKP8kl7nGX6dn4VNHDro8tzSXR
+         GkWQI/kSAex+JPrzyvEHNt8pP9oh7wF1Apf8S6MrcG8C7jXlP/yCFYitL0pAGvxGIZZi
+         0xsf8dXIP6eolA+na/jht1MdNrHT0ZDsW9j65AyCz8asmuHbH6p206Es6+IBJ0e1d0Gd
+         YjTL7k82n+6vbY0S1RGCL/CNz2kVLQ0fxU2k4djl4NqpwxSVvEADZSRJKYaTekx5kHPM
+         9Imw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761833257; x=1762438057;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dAxgp4DobvE+uLPgcEm11YRUjuXuChtKAGj6UrKONnQ=;
+        b=FvCHG015YecIpNnZR/KezLqkKBoLlAFHg2DXY3Cy2RPJLTcu9zl5qdbSvUWkp40I+d
+         nPgiCgCa0KCra0FLHO73LCBx8FfT9oekRPpZS0nMgXTWaBm6l+Ex69C7HWuOYjhQW96K
+         6TApi2lDdH3/fv+/0NKdQoioLaPHVI/qwLUn2imSs6bD858TGkndKQ7PmGnqNeQIsBDd
+         wHRsFqBXpEEy+mhgo201aZgGrBMEZf9OJx86t6kuyaFQCVJuyT6nplsCL4sLxzlWgO50
+         TZSTnlY2XN04T+lOO4DIQ+qidft5XDMV0qPbtQxejx4efaFocFvh5VIFjJaiB1ngrqhb
+         oZSA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgqggdCeH93kjgElbGlGYGr/EERWbh3BubP94HY4JOHhtmoy7IHTp984ZX1v++lIvBvAxlyVW+Jmu2XzsC@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJo2SiZdOca2JUTrzerf1MauhUtKs8P4nfVizQbp7iMdz4eT/Q
+	mLHEeDr3N83LNYEBIJMSQTjFAztCeO1vgH7yDKSEq6Ro6LMvB2L0GF/M+CpjuJEBaSvq+6to/yi
+	hQMvXNux06bjtBTYoKXwoSbItiIytdDzyhRRObgYbFQ==
+X-Gm-Gg: ASbGncsfKtZ5iNrTX910y8Tw05+vEvDPMPwey2bm6XTuvSPZHTjTDWWjoL6YG6OAHLn
+	3szE5xGJ45rRnqhvGbyzdwWrOV529mWyBiYy30ScL8UUE4hL+1xXYG4anyICPLC2dfOQWJZ3ZpN
+	NgTF5XLR4wrC0lZjsEasf+NdCXiXdd/H0PKgRv77YY91IbHskhiAVfe3rcqSeXYp8GClk3E4O7Z
+	Jump3oUghKHV7aZixKKhHNFSOjQM5aKx0lYmBQ7h24a7Mhk9hrrc3GYE8R9PEBnoknYUPQSx5z1
+	iTQrzZKK4yOriV7w
+X-Google-Smtp-Source: AGHT+IGLk7sq7NhL8k8uqBKtrEmQ7vzjjb/AL2MdPgF05B2+INPNj0iaAaA6tgH/ao+zYq6pmzSG5GrrrFudXOsQ/80=
+X-Received: by 2002:a17:903:41ca:b0:295:535:1bbd with SMTP id
+ d9443c01a7336-295053520f7mr11380015ad.0.1761833256539; Thu, 30 Oct 2025
+ 07:07:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029190113.3323406-4-ihor.solodrai@linux.dev>
+References: <20251029031035.258766-3-ming.lei@redhat.com> <202510301522.i47z9R95-lkp@intel.com>
+In-Reply-To: <202510301522.i47z9R95-lkp@intel.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Thu, 30 Oct 2025 07:07:25 -0700
+X-Gm-Features: AWmQ_bmndyNTmYbHLvKzf_pj338cBa-tg0F7ZytjDWHgVSGpxBT7VI2JIZc-Vg8
+Message-ID: <CADUfDZonryeHe1MGTfnUa16VbvEt5C+yu11yh3ZRDbwFqJ_L9w@mail.gmail.com>
+Subject: Re: [PATCH V3 2/5] ublk: implement NUMA-aware memory allocation
+To: kernel test robot <lkp@intel.com>
+Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Uday Shankar <ushankar@purestorage.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ihor,
+On Thu, Oct 30, 2025 at 1:01=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Ming,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on axboe-block/for-next]
+> [also build test ERROR on shuah-kselftest/next shuah-kselftest/fixes linu=
+s/master v6.18-rc3 next-20251029]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/ublk-reor=
+der-tag_set-initialization-before-queue-allocation/20251029-111323
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
+.git for-next
+> patch link:    https://lore.kernel.org/r/20251029031035.258766-3-ming.lei=
+%40redhat.com
+> patch subject: [PATCH V3 2/5] ublk: implement NUMA-aware memory allocatio=
+n
+> config: x86_64-randconfig-074-20251030 (https://download.01.org/0day-ci/a=
+rchive/20251030/202510301522.i47z9R95-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251030/202510301522.i47z9R95-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510301522.i47z9R95-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/block/ublk_drv.c:240:49: error: 'counted_by' argument must be =
+a simple declaration reference
+>      240 |         struct ublk_queue       *queues[] __counted_by(dev_inf=
+o.nr_hw_queues);
+>          |                                                        ^~~~~~~=
+~~~~~~~~~~~~~~
 
-kernel test robot noticed the following build errors:
+Hmm, guess it doesn't support nested fields?
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/bpf-Add-BTF_ID_LIST_END-and-BTF_ID_LIST_SIZE-macros/20251030-030608
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251029190113.3323406-4-ihor.solodrai%40linux.dev
-patch subject: [PATCH bpf-next v1 3/8] bpf: Support for kfuncs with KF_MAGIC_ARGS
-config: s390-randconfig-001-20251030 (https://download.01.org/0day-ci/archive/20251030/202510302139.fAmMKkDb-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510302139.fAmMKkDb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510302139.fAmMKkDb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/bpf/verifier.c:3273:1: error: invalid storage class specifier in function declarator
-    3273 | static s32 magic_kfunc_by_impl(s32 impl_func_id)
-         | ^
-   kernel/bpf/verifier.c:3273:12: error: parameter named 'magic_kfunc_by_impl' is missing
-    3273 | static s32 magic_kfunc_by_impl(s32 impl_func_id)
-         |            ^
-   kernel/bpf/verifier.c:3273:49: error: expected ';' at end of declaration
-    3273 | static s32 magic_kfunc_by_impl(s32 impl_func_id)
-         |                                                 ^
-         |                                                 ;
-   kernel/bpf/verifier.c:3271:17: error: parameter 'magic_kfuncs' was not declared, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         |                 ^
-    3272 | 
-    3273 | static s32 magic_kfunc_by_impl(s32 impl_func_id)
-    3274 | {
-   kernel/bpf/verifier.c:3271:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         | ^
-         | int
-   kernel/bpf/verifier.c:3277:18: error: call to undeclared function 'BTF_ID_LIST_SIZE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3277 |         for (i = 1; i < BTF_ID_LIST_SIZE(magic_kfuncs); i += 2) {
-         |                         ^
-   kernel/bpf/verifier.c:3277:18: note: did you mean 'BTF_ID_LIST_END'?
-   kernel/bpf/verifier.c:3271:1: note: 'BTF_ID_LIST_END' declared here
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         | ^
-    3272 | 
-    3273 | static s32 magic_kfunc_by_impl(s32 impl_func_id)
-    3274 | {
-    3275 |         int i;
-    3276 | 
-    3277 |         for (i = 1; i < BTF_ID_LIST_SIZE(magic_kfuncs); i += 2) {
-         |                         ~~~~~~~~~~~~~~~~
-         |                         BTF_ID_LIST_END
-   kernel/bpf/verifier.c:3278:19: error: subscripted value is not an array, pointer, or vector
-    3278 |                 if (magic_kfuncs[i] == impl_func_id)
-         |                     ~~~~~~~~~~~~^~
-   kernel/bpf/verifier.c:3278:26: error: use of undeclared identifier 'impl_func_id'
-    3278 |                 if (magic_kfuncs[i] == impl_func_id)
-         |                                        ^
-   kernel/bpf/verifier.c:3279:23: error: subscripted value is not an array, pointer, or vector
-    3279 |                         return magic_kfuncs[i - 1];
-         |                                ~~~~~~~~~~~~^~~~~~
-   kernel/bpf/verifier.c:3271:1: warning: no previous prototype for function 'BTF_ID_LIST_END' [-Wmissing-prototypes]
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         | ^
-   kernel/bpf/verifier.c:3271:16: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         |                ^
-         |                static 
->> kernel/bpf/verifier.c:3271:1: error: a function definition without a prototype is deprecated in all versions of C and is not supported in C2x [-Werror,-Wdeprecated-non-prototype]
-    3271 | BTF_ID_LIST_END(magic_kfuncs)
-         | ^
-   kernel/bpf/verifier.c:3288:18: error: call to undeclared function 'BTF_ID_LIST_SIZE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3288 |         for (i = 0; i < BTF_ID_LIST_SIZE(magic_kfuncs); i += 2) {
-         |                         ^
->> kernel/bpf/verifier.c:3409:17: error: call to undeclared function 'magic_kfunc_by_impl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3409 |                 tmp_func_id = magic_kfunc_by_impl(func_id);
-         |                               ^
-   kernel/bpf/verifier.c:13726:17: error: call to undeclared function 'magic_kfunc_by_impl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    13726 |                 tmp_func_id = magic_kfunc_by_impl(func_id);
-          |                               ^
-   1 warning and 13 errors generated.
-
-
-vim +3271 kernel/bpf/verifier.c
-
-  3265	
-  3266	/*
-  3267	 * magic_kfuncs is used as a list of (foo, foo_impl) pairs
-  3268	 */
-  3269	BTF_ID_LIST(magic_kfuncs)
-  3270	BTF_ID_UNUSED
-> 3271	BTF_ID_LIST_END(magic_kfuncs)
-  3272	
-  3273	static s32 magic_kfunc_by_impl(s32 impl_func_id)
-  3274	{
-  3275		int i;
-  3276	
-  3277		for (i = 1; i < BTF_ID_LIST_SIZE(magic_kfuncs); i += 2) {
-  3278			if (magic_kfuncs[i] == impl_func_id)
-  3279				return magic_kfuncs[i - 1];
-  3280		}
-  3281		return -ENOENT;
-  3282	}
-  3283	
-  3284	static s32 impl_by_magic_kfunc(s32 func_id)
-  3285	{
-  3286		int i;
-  3287	
-  3288		for (i = 0; i < BTF_ID_LIST_SIZE(magic_kfuncs); i += 2) {
-  3289			if (magic_kfuncs[i] == func_id)
-  3290				return magic_kfuncs[i + 1];
-  3291		}
-  3292		return -ENOENT;
-  3293	}
-  3294	
-  3295	static const struct btf_type *find_magic_kfunc_proto(struct btf *desc_btf, s32 func_id)
-  3296	{
-  3297		const struct btf_type *impl_func, *func_proto;
-  3298		u32 impl_func_id;
-  3299	
-  3300		impl_func_id = impl_by_magic_kfunc(func_id);
-  3301		if (impl_func_id < 0)
-  3302			return NULL;
-  3303	
-  3304		impl_func = btf_type_by_id(desc_btf, impl_func_id);
-  3305		if (!impl_func || !btf_type_is_func(impl_func))
-  3306			return NULL;
-  3307	
-  3308		func_proto = btf_type_by_id(desc_btf, impl_func->type);
-  3309		if (!func_proto || !btf_type_is_func_proto(func_proto))
-  3310			return NULL;
-  3311	
-  3312		return func_proto;
-  3313	}
-  3314	
-  3315	static int add_kfunc_call(struct bpf_verifier_env *env, u32 func_id, s16 offset)
-  3316	{
-  3317		const struct btf_type *func, *func_proto, *tmp_func;
-  3318		struct bpf_kfunc_btf_tab *btf_tab;
-  3319		const char *func_name, *tmp_name;
-  3320		struct btf_func_model func_model;
-  3321		struct bpf_kfunc_desc_tab *tab;
-  3322		struct bpf_prog_aux *prog_aux;
-  3323		struct bpf_kfunc_desc *desc;
-  3324		struct btf *desc_btf;
-  3325		unsigned long addr;
-  3326		u32 *kfunc_flags;
-  3327		s32 tmp_func_id;
-  3328		int err;
-  3329	
-  3330		prog_aux = env->prog->aux;
-  3331		tab = prog_aux->kfunc_tab;
-  3332		btf_tab = prog_aux->kfunc_btf_tab;
-  3333		if (!tab) {
-  3334			if (!btf_vmlinux) {
-  3335				verbose(env, "calling kernel function is not supported without CONFIG_DEBUG_INFO_BTF\n");
-  3336				return -ENOTSUPP;
-  3337			}
-  3338	
-  3339			if (!env->prog->jit_requested) {
-  3340				verbose(env, "JIT is required for calling kernel function\n");
-  3341				return -ENOTSUPP;
-  3342			}
-  3343	
-  3344			if (!bpf_jit_supports_kfunc_call()) {
-  3345				verbose(env, "JIT does not support calling kernel function\n");
-  3346				return -ENOTSUPP;
-  3347			}
-  3348	
-  3349			if (!env->prog->gpl_compatible) {
-  3350				verbose(env, "cannot call kernel function from non-GPL compatible program\n");
-  3351				return -EINVAL;
-  3352			}
-  3353	
-  3354			tab = kzalloc(sizeof(*tab), GFP_KERNEL_ACCOUNT);
-  3355			if (!tab)
-  3356				return -ENOMEM;
-  3357			prog_aux->kfunc_tab = tab;
-  3358		}
-  3359	
-  3360		/* func_id == 0 is always invalid, but instead of returning an error, be
-  3361		 * conservative and wait until the code elimination pass before returning
-  3362		 * error, so that invalid calls that get pruned out can be in BPF programs
-  3363		 * loaded from userspace.  It is also required that offset be untouched
-  3364		 * for such calls.
-  3365		 */
-  3366		if (!func_id && !offset)
-  3367			return 0;
-  3368	
-  3369		if (!btf_tab && offset) {
-  3370			btf_tab = kzalloc(sizeof(*btf_tab), GFP_KERNEL_ACCOUNT);
-  3371			if (!btf_tab)
-  3372				return -ENOMEM;
-  3373			prog_aux->kfunc_btf_tab = btf_tab;
-  3374		}
-  3375	
-  3376		desc_btf = find_kfunc_desc_btf(env, offset);
-  3377		if (IS_ERR(desc_btf)) {
-  3378			verbose(env, "failed to find BTF for kernel function\n");
-  3379			return PTR_ERR(desc_btf);
-  3380		}
-  3381	
-  3382		if (find_kfunc_desc(env->prog, func_id, offset))
-  3383			return 0;
-  3384	
-  3385		if (tab->nr_descs == MAX_KFUNC_DESCS) {
-  3386			verbose(env, "too many different kernel function calls\n");
-  3387			return -E2BIG;
-  3388		}
-  3389	
-  3390		func = btf_type_by_id(desc_btf, func_id);
-  3391		if (!func || !btf_type_is_func(func)) {
-  3392			verbose(env, "kernel btf_id %u is not a function\n",
-  3393				func_id);
-  3394			return -EINVAL;
-  3395		}
-  3396		func_proto = btf_type_by_id(desc_btf, func->type);
-  3397		if (!func_proto || !btf_type_is_func_proto(func_proto)) {
-  3398			verbose(env, "kernel function btf_id %u does not have a valid func_proto\n",
-  3399				func_id);
-  3400			return -EINVAL;
-  3401		}
-  3402	
-  3403		kfunc_flags = btf_kfunc_flags(desc_btf, func_id, env->prog);
-  3404		func_name = btf_name_by_offset(desc_btf, func->name_off);
-  3405		addr = kallsyms_lookup_name(func_name);
-  3406	
-  3407		/* This may be an _impl kfunc with KF_MAGIC_ARGS counterpart */
-  3408		if (unlikely(!addr && !kfunc_flags)) {
-> 3409			tmp_func_id = magic_kfunc_by_impl(func_id);
-  3410			if (tmp_func_id < 0)
-  3411				return -EACCES;
-  3412			tmp_func = btf_type_by_id(desc_btf, tmp_func_id);
-  3413			if (!tmp_func || !btf_type_is_func(tmp_func))
-  3414				return -EACCES;
-  3415			tmp_name = btf_name_by_offset(desc_btf, tmp_func->name_off);
-  3416			addr = kallsyms_lookup_name(tmp_name);
-  3417		}
-  3418	
-  3419		/*
-  3420		 * Note that kfunc_flags may be NULL at this point, which means that we couldn't find
-  3421		 * func_id in any relevant kfunc_id_set. This most likely indicates an invalid kfunc call.
-  3422		 * However we don't want to fail the verification here, because invalid calls may be
-  3423		 * eliminated as dead code later.
-  3424		 */
-  3425		if (unlikely(kfunc_flags && KF_MAGIC_ARGS & *kfunc_flags)) {
-  3426			func_proto = find_magic_kfunc_proto(desc_btf, func_id);
-  3427			if (!func_proto) {
-  3428				verbose(env, "cannot find _impl proto for kernel function %s\n",
-  3429				func_name);
-  3430				return -EINVAL;
-  3431			}
-  3432		}
-  3433	
-  3434		if (!addr) {
-  3435			verbose(env, "cannot find address for kernel function %s\n",
-  3436				func_name);
-  3437			return -EINVAL;
-  3438		}
-  3439	
-  3440		if (bpf_dev_bound_kfunc_id(func_id)) {
-  3441			err = bpf_dev_bound_kfunc_check(&env->log, prog_aux);
-  3442			if (err)
-  3443				return err;
-  3444		}
-  3445	
-  3446		err = btf_distill_func_proto(&env->log, desc_btf,
-  3447					     func_proto, func_name,
-  3448					     &func_model);
-  3449		if (err)
-  3450			return err;
-  3451	
-  3452		desc = &tab->descs[tab->nr_descs++];
-  3453		desc->func_id = func_id;
-  3454		desc->offset = offset;
-  3455		desc->addr = addr;
-  3456		desc->func_model = func_model;
-  3457		sort(tab->descs, tab->nr_descs, sizeof(tab->descs[0]),
-  3458		     kfunc_desc_cmp_by_id_off, NULL);
-  3459		return 0;
-  3460	}
-  3461	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    include/linux/compiler_types.h:346:62: note: expanded from macro '__co=
+unted_by'
+>      346 | # define __counted_by(member)           __attribute__((__count=
+ed_by__(member)))
+>          |                                                               =
+        ^~~~~~
+>    1 error generated.
+>
+>
+> vim +/counted_by +240 drivers/block/ublk_drv.c
+>
+>    208
+>    209  struct ublk_device {
+>    210          struct gendisk          *ub_disk;
+>    211
+>    212          struct ublksrv_ctrl_dev_info    dev_info;
+>    213
+>    214          struct blk_mq_tag_set   tag_set;
+>    215
+>    216          struct cdev             cdev;
+>    217          struct device           cdev_dev;
+>    218
+>    219  #define UB_STATE_OPEN           0
+>    220  #define UB_STATE_USED           1
+>    221  #define UB_STATE_DELETED        2
+>    222          unsigned long           state;
+>    223          int                     ub_number;
+>    224
+>    225          struct mutex            mutex;
+>    226
+>    227          spinlock_t              lock;
+>    228          struct mm_struct        *mm;
+>    229
+>    230          struct ublk_params      params;
+>    231
+>    232          struct completion       completion;
+>    233          u32                     nr_io_ready;
+>    234          bool                    unprivileged_daemons;
+>    235          struct mutex cancel_mutex;
+>    236          bool canceling;
+>    237          pid_t   ublksrv_tgid;
+>    238          struct delayed_work     exit_work;
+>    239
+>  > 240          struct ublk_queue       *queues[] __counted_by(dev_info.n=
+r_hw_queues);
+>    241  };
+>    242
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
