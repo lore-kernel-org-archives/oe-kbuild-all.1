@@ -1,130 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD331F4631
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 05:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4384732C944
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 05:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761801591; cv=none; b=SNPlucwmSbVLa3GBBlk+T0IdLLLdjxk7QLcgx13f0FERbB5lrmDsG0JEYTTT0rgIn6pwxZMmJ3dsxKG/Sx44vwSfliRPybCK6czoEF9dk/tFah8WCzNXYJsbVC8v6q6EiEj2b2tnEh9QAUBhzgPFiQ0ymKrrav/as8xz/N+lU3E=
+	t=1761801944; cv=none; b=IzlZVRJXKFEIs394jGRNFJU1w287DmR40RWYm6y/3nyleH9YMEbwCRvClkEph3XjDqrYaED47oGNpPhKlbjw7E9DXseY5+5w50c/2GZyXzx3/RDb9ukl/sWlcJT+gFxEfNygqf7P+cC5dEcu6Yem3+UzbLBFHCaxsq8i91s6p4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761801591; c=relaxed/simple;
-	bh=b/sO6KM1sVpQb2wwfDBHrgXXRxwSFbUlcoR6Ken/Mio=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y2Fgxh+epf6Ee/KLYGXndbKaPRxWgqVmJcMzFw4vIIhB3lemDlWcByX0+lZ/Is/T8EsSCkz5Hms7VdBqa7dtxCeGGYFRvKL/qQVJ2MJ4BJRdgS9c/v4wBy8Gr6WTReRgCxcaGkLiwlWCVo8zxjHBKCjEIDJwROijfxW9salhdVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jibAMz3s; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761801944; c=relaxed/simple;
+	bh=GpxJRWhQ3eXHwdU9ZgpR7Yuo3ekC6UL+YpfvAE70JCA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N5nizreEMSbJFwNbCPbbf8nGyPED+l2DBwAR+SGrgHRvEgf6zXcWeBKi3JNpv4iPiRw9tvyPUfhQWJpek04cJZLbzgbSWWg3Igqd2q84MQm3URn+VSi7b/xL5a0w2H6K3Zd5nLSmcWgWQvyoaM9NFD2HB5Ws7IrgyS/hFTwB8C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rdtohea0; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jibAMz3s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761801589; x=1793337589;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b/sO6KM1sVpQb2wwfDBHrgXXRxwSFbUlcoR6Ken/Mio=;
-  b=jibAMz3sdOv9QHoszsu06z7L7qhoijNHwJrfecWe8Yf9p51vwFj0eP49
-   T8bYVIZCN/XX6qw8TswAfrSUEbsWdTRZ938CMNALvgFbGEwnpJj0n6iSI
-   G1U9lzg+QnnCsXVwIQyoOBp9ey03Kaofa4rDYAmcyfAQewpot2KmY3ugL
-   uEGXv/3Gfok2tuDrgRiJJ66nIFWOAypcXuz+4zMgtcMXm9y4OY1JL8nxg
-   VYsi6ExBzxYaZudQmF6iiGpH+HqykTGgH7tOOURJqu6qncqCNchKLj7UG
-   q7IIqXtjrOs92FM6ppnO4fbs9tn6jldTfd5KaRJpDoIidLoS9iVU+JCek
-   Q==;
-X-CSE-ConnectionGUID: aQ7HqOP4S4+7qbL8kY0eyw==
-X-CSE-MsgGUID: EtfKvedhQcGz0TjNjpn4sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="81353680"
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="81353680"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 22:19:48 -0700
-X-CSE-ConnectionGUID: 9sncIRj3Rf6u9FW0kRcVGw==
-X-CSE-MsgGUID: xDDTn9FRRVK2TziJIkV1uQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="190190694"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 29 Oct 2025 22:19:47 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEL4U-000LUM-2t;
-	Thu, 30 Oct 2025 05:19:40 +0000
-Date: Thu, 30 Oct 2025 13:19:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3067/3067] drivers/ub/ubfi/irq.c:11:5: warning:
- no previous prototype for 'ubrt_register_gsi'
-Message-ID: <202510301347.pIaq0wY3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rdtohea0"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b3e9d633b78so164438566b.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 22:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761801940; x=1762406740; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TfysZUiKw0ccehvHsLCa5x6Zv8Uvqd+yTXJjIb1Wj5Q=;
+        b=Rdtohea0wIk9zQOnqorQkNBWPN9+KhKS6J0F30aB3qWvy03F+9XuMzqH2/a10+Yw2z
+         G8FjT8oFdQVj6f2ZxEywO7AaVmvIpMhla1rtKgX2qtKRPgqmtZYj14hZhmjJx4B+RuVH
+         bNhQqnzL/2m1aWZoYSibPQbKGfKHlH2iPr+PYhH9ciyTnhfQqqmIrsWJq1MU0GgFuTrn
+         +UEvjn8PAkQkzpE/Ceh2G0X7LPA1iMA8zFc4Vi9noQMtpNgPrY2+KjcbJWKfsDUqy5Sz
+         p3U6i5YQQkIiNfc5r1fG7R26lEaC+tCPk9+f+5cYLcd/uMupYq2ZfwD8/ifTGisg4RlF
+         S5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761801940; x=1762406740;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TfysZUiKw0ccehvHsLCa5x6Zv8Uvqd+yTXJjIb1Wj5Q=;
+        b=T35Yc7XfHmoohF8WwElosnh7VcD69IEZ6fqhHh+gVchax58JW0KRDNr6HN+mMqLFjH
+         7GNGQpST0sYHAzT3CJwQcPd1L4kb9pR+iQ/qvgJ0GsSF/tiIqa2JWASyf+ISBaTrdUsA
+         3qegnyuB+NwTqANyGslK6z9j5P0a/c2BZbY5cD45R2Ik7I9XBQabQZ5qtlQ0Kj6PbNhv
+         y/j9kKBE6JKbPlfjR5Tg4oCXMyq3Krq1cHdb3rJCOJm8G5IV3LtNMmue/25u2Dp45yjE
+         4QCIh3OypuQqO4CekYpNZZ4qqTCDKowPBDhiAhH1P1yuYd3YO/tj1clcTSTUxSXgqmfq
+         UZ1w==
+X-Forwarded-Encrypted: i=1; AJvYcCWb9JZEjTndQmViGnekwlfde5lX5PSxDJnjzpUG2wdqCEJ2VQ6htf/q6aZYIlqadq/TdoaCMMVLKnfWfP/d@lists.linux.dev
+X-Gm-Message-State: AOJu0YwslJBA/7U/ddwS/yZ9coE62KoK3WbUR91PHCtHRT/GNBg+tTmM
+	J0MYvJuG/62CYR4ohg32YrdXl1o7tt7p6towasnW3WTaHG5sUim9+TvoT6HuKet5aiCoJzqefdi
+	h13RN0QHe9T/c2UxHiTiXRLRbe0Jz69E=
+X-Gm-Gg: ASbGnctNN6Y6yV7OUeKR5FBnS7LOIegbQ/uK6QC9fOKeSMpVWh5YQIzneGY1SKOMDsn
+	K/EPgXpxBBUi4zFGA7/yFh4eZn3kcj92OQUqnRpUle94VfrssGmwShwebcE7v+G5yzQidEC9P03
+	nqcUg+sezLVimCtEo+iW8fIRSu+uyC14/D9cWHK9gTUAKJkoaNcamPPsZCr7PFKj4ByGmJgEjkY
+	qwyrN8fmEzktNOLuG3bBRynp2jV3lq52Un6IiJ9BhyP5nJFP3ck4OPBhRGryiwF
+X-Google-Smtp-Source: AGHT+IHNyXHD9tuJVWmX0HGoxsmgdCXdnVfsLSRiQVKCm3qLDQttk267xLovDM2ICaKjf/7vxbQtpUFH3F3g94OPSSs=
+X-Received: by 2002:a17:907:7f94:b0:b3d:e757:8c36 with SMTP id
+ a640c23a62f3a-b7051f28d17mr219852766b.3.1761801940298; Wed, 29 Oct 2025
+ 22:25:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251029-swap-table-p2-v1-14-3d43f3b6ec32@tencent.com> <202510300316.UL4gxAlC-lkp@intel.com>
+In-Reply-To: <202510300316.UL4gxAlC-lkp@intel.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Thu, 30 Oct 2025 13:25:03 +0800
+X-Gm-Features: AWmQ_bn7Lyv0bXlIQEUl3x-IuvN0KJgIKA5RqyN4TyJ6a-kvBKh6n54oDVlmgZo
+Message-ID: <CAMgjq7DcxG_8q9Kzwg-4kLBXw8eN8DvwmSR0gRUjYWPoFH8xsw@mail.gmail.com>
+Subject: Re: [PATCH 14/19] mm, swap: sanitize swap entry management workflow
+To: kernel test robot <lkp@intel.com>
+Cc: linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>, 
+	Barry Song <baohua@kernel.org>, Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
+	David Hildenbrand <david@redhat.com>, Youngjun Park <youngjun.park@lge.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8894fa6a2898641fafc4ccaaa73f0078705a223e
-commit: 6533f3af69cee90712f3481841901ab0a10f8339 [3067/3067] ub:ubfi: ubfi driver create ubc device
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251030/202510301347.pIaq0wY3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301347.pIaq0wY3-lkp@intel.com/reproduce)
+On Thu, Oct 30, 2025 at 3:30=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Kairui,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on f30d294530d939fa4b77d61bc60f25c4284841fa]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swa=
+p-rename-__read_swap_cache_async-to-swap_cache_alloc_folio/20251030-000506
+> base:   f30d294530d939fa4b77d61bc60f25c4284841fa
+> patch link:    https://lore.kernel.org/r/20251029-swap-table-p2-v1-14-3d4=
+3f3b6ec32%40tencent.com
+> patch subject: [PATCH 14/19] mm, swap: sanitize swap entry management wor=
+kflow
+> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/2025103=
+0/202510300316.UL4gxAlC-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251030/202510300316.UL4gxAlC-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510300316.UL4gxAlC-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from mm/vmscan.c:70:
+>    mm/swap.h: In function 'swap_cache_add_folio':
+>    mm/swap.h:465:1: warning: no return statement in function returning no=
+n-void [-Wreturn-type]
+>      465 | }
+>          | ^
+>    mm/vmscan.c: In function 'shrink_folio_list':
+> >> mm/vmscan.c:1298:37: error: too few arguments to function 'folio_alloc=
+_swap'
+>     1298 |                                 if (folio_alloc_swap(folio)) {
+>          |                                     ^~~~~~~~~~~~~~~~
+>    mm/swap.h:388:19: note: declared here
+>      388 | static inline int folio_alloc_swap(struct folio *folio, gfp_t =
+gfp)
+>          |                   ^~~~~~~~~~~~~~~~
+>    mm/vmscan.c:1314:45: error: too few arguments to function 'folio_alloc=
+_swap'
+>     1314 |                                         if (folio_alloc_swap(f=
+olio))
+>          |                                             ^~~~~~~~~~~~~~~~
+>    mm/swap.h:388:19: note: declared here
+>      388 | static inline int folio_alloc_swap(struct folio *folio, gfp_t =
+gfp)
+>          |                   ^~~~~~~~~~~~~~~~
+> --
+>    In file included from mm/shmem.c:44:
+>    mm/swap.h: In function 'swap_cache_add_folio':
+>    mm/swap.h:465:1: warning: no return statement in function returning no=
+n-void [-Wreturn-type]
+>      465 | }
+>          | ^
+>    mm/shmem.c: In function 'shmem_writeout':
+> >> mm/shmem.c:1649:14: error: too few arguments to function 'folio_alloc_=
+swap'
+>     1649 |         if (!folio_alloc_swap(folio)) {
+>          |              ^~~~~~~~~~~~~~~~
+>    mm/swap.h:388:19: note: declared here
+>      388 | static inline int folio_alloc_swap(struct folio *folio, gfp_t =
+gfp)
+>          |                   ^~~~~~~~~~~~~~~~
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301347.pIaq0wY3-lkp@intel.com/
+Thanks, I forgot to update the empty place holder for folio_alloc_swap
+during rebase:
 
-All warnings (new ones prefixed by >>):
+diff --git a/mm/swap.h b/mm/swap.h
+index 74c61129d7b7..9aa99061573a 100644
+--- a/mm/swap.h
++++ b/mm/swap.h
+@@ -385,7 +385,7 @@ static inline struct swap_info_struct
+*__swap_entry_to_info(swp_entry_t entry)
+        return NULL;
+ }
 
->> drivers/ub/ubfi/irq.c:11:5: warning: no previous prototype for 'ubrt_register_gsi' [-Wmissing-prototypes]
-      11 | int ubrt_register_gsi(u32 hwirq, int trigger, int polarity, const char *name,
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/ub/ubfi/irq.c:37:6: warning: no previous prototype for 'ubrt_unregister_gsi' [-Wmissing-prototypes]
-      37 | void ubrt_unregister_gsi(u32 hwirq)
-         |      ^~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
-   Depends on [n]: CGROUPS [=n]
-   Selected by [y]:
-   - ARM64 [=y]
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
-
-
-vim +/ubrt_register_gsi +11 drivers/ub/ubfi/irq.c
-
-    10	
-  > 11	int ubrt_register_gsi(u32 hwirq, int trigger, int polarity, const char *name,
-    12			      struct resource *res)
-    13	{
-    14	#ifdef CONFIG_ACPI
-    15		int irq;
-    16	
-    17		if (!res) {
-    18			pr_err("ub register gsi, res is null\n");
-    19			return -EINVAL;
-    20		}
-    21	
-    22		irq = acpi_register_gsi(NULL, hwirq, trigger, polarity);
-    23		if (irq <= 0) {
-    24			pr_err("could not register ub gsi hwirq %u\n", hwirq);
-    25			return -EINVAL;
-    26		}
-    27	
-    28		res->name = name;
-    29		res->start = irq;
-    30		res->end = irq;
-    31		res->flags = IORESOURCE_IRQ;
-    32	#endif
-    33		return 0;
-    34	}
-    35	EXPORT_SYMBOL_GPL(ubrt_register_gsi);
-    36	
-  > 37	void ubrt_unregister_gsi(u32 hwirq)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-static inline int folio_alloc_swap(struct folio *folio, gfp_t gfp)
++static inline int folio_alloc_swap(struct folio *folio)
+ {
+        return -EINVAL;
+ }
