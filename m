@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A7527B353
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 21:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BDF2EA749
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 21:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761859094; cv=none; b=W5Eb0VbXsjT/b2GsRLLFHf0uF7q8t4G/f5gjfILFlsNSP3AqmHYY+O4V0MYqv5nZkJ219I7NEvzF8Ot+Z7DjE/AnyfDpybhTcJPHz1Q5N24OGwBprFFWsBmD/U6I/jA+gV/XkH/qI/iPl/SWH5aXCQ+gVHbkBvv3pkewcUKvVBs=
+	t=1761859094; cv=none; b=qGOW+OdIgRD+iBrs7yTvge/PtR0C6u1kbGoJDbLF+9h7Kq/zq09aW2HfBkR6n6mCh/Qoh/YtNPuxRjjuY+OwpPnWFr9cuez01v/yZQRNXIfuVDZHKLhTzSPKTTdW9kZ2QYoC32wsH46sXuGhCewrTUclcou0xt7/aXL3kPbUh4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761859094; c=relaxed/simple;
-	bh=qoHW61vO9hCCiPOOXY5lLy3ZGwCspZr8RyNiJ0zRFnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kWvZMOHE2n2Ql047ptT/SX4cUZlu7Y4qrJz/qdtfG0iHOwsoIyXjOShnsFBo5SF6w4wEDSK5VVNciBQJEjXJ33if7zWD+iNWk9kQxqP6OczDbLQnCt8NrP0LjPPJnpqJXOAnfdNLdpxbPwFoo2yn4fv+xUuTjARmUgsmfv+PMYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grLI0ZKu; arc=none smtp.client-ip=192.198.163.17
+	bh=W+0SK1qT8n+0l/533/lRHWF9H99SYMZQ9sU3yINs8Rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eN0U85BKDwUb6/c8Rpz5zREXVNR1BsOH3gSowj6Vk/guHzIhlnZ2aBkpn6/HDXxs2gS9istAOjAVfwZZZhiUrCeI9jjdTkplgEi9J1O8f8DRNH7ib0bCZwd7mqMIWV+GrUQTD76djklgQqciBL9IaKlAIh2IOkgbEKTTZcL2ci8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJtl/Dax; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grLI0ZKu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJtl/Dax"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761859092; x=1793395092;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qoHW61vO9hCCiPOOXY5lLy3ZGwCspZr8RyNiJ0zRFnI=;
-  b=grLI0ZKuDTFT92uWtlYzdLGm6sxF8oKUm2Vaum5Pv2r/LhUtxh5yrlmE
-   O+6WqiDWafEOn4BVcZG1y6+6HFID+C6RbLJZZVTRhQij+mbcm0aho9Lbl
-   gX/fXRgzgA6HDViw2sTOQzTGF5aUeyB63fkTjiqqrVzblXW6zfkKbeaqP
-   9oZxyA/g530SKng8bygq0f6U+b+RS+pSOs63tkcKMqzz574TSnBfuHGUU
-   x4TSTAHh1egDCPTu4ii7iU3hVQJXsbVdvaG9hWvsSwkk5wMbQolVciNNx
-   5wct/NMoY+68UHSfs1cWmqlq17P11wvhIBKi7d2qgoNIUBsFtHtMGLDbx
-   g==;
-X-CSE-ConnectionGUID: amXjPqJESpeBnEyIbdhFbw==
-X-CSE-MsgGUID: 1nIXLIBUT1WOY/t0LisNaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63926877"
+  t=1761859093; x=1793395093;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W+0SK1qT8n+0l/533/lRHWF9H99SYMZQ9sU3yINs8Rg=;
+  b=LJtl/DaxZZ0/W0K1vdLkZTwLWTj8ZdfX/Bo2T9Fr4di8c5BYT2+/Geto
+   a1crzFp/m7e7o2XfdspwfSEux6khe/PlQiRdN7vVEa6b3a9hc/tloqi5A
+   fAsItfJ8PKr+02Hzg8eiKYpedqzeYe2YpPyjg6IdtmB8VFYMdTp8VRKcA
+   wmwi46P8ecdNsvzN0GbEdcqucRWU2DSJVoC5dKI37RwNQAI0nkBpi/C0V
+   Q6+H3+tvUlnI/tnBIUBZeb+Id1axiC/KBhinIU5s/iRsyFfQS7eFWKTkt
+   ijAOSHLzkJZlinX/92Q7WIPeHRsDDI9FvoCqdST9+gV6fj90UXjk/XGst
+   Q==;
+X-CSE-ConnectionGUID: wiGIrkElQDWN5plaHfay0g==
+X-CSE-MsgGUID: Ds8NfVS6SR+DdUYx1j4h4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63902018"
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="63926877"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 14:18:11 -0700
-X-CSE-ConnectionGUID: 8JgEam/cRAGf+HKVJTJ8dA==
-X-CSE-MsgGUID: fFol/7RiRPeOxZ0CE57OIg==
+   d="scan'208";a="63902018"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 14:18:12 -0700
+X-CSE-ConnectionGUID: VZ8phKHuQCi8K6y+EhBKow==
+X-CSE-MsgGUID: U9alOzekQ3u0J76f6RP/5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="209631623"
+   d="scan'208";a="186399100"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2025 14:18:10 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 Oct 2025 14:18:10 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEa23-000MXk-2a;
+	id 1vEa23-000MXg-2S;
 	Thu, 30 Oct 2025 21:18:07 +0000
-Date: Fri, 31 Oct 2025 05:17:29 +0800
+Date: Fri, 31 Oct 2025 05:17:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:main-16k-gs-shusky-5.15 23/23]
- drivers/cma/mm/mem_phys_layout.c:237:48: error: use of undeclared identifier
- 'MAX_PAGE_ORDER'
-Message-ID: <202510310512.Yd26zEby-lkp@intel.com>
+To: cy_huang@richtek.com, Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	ChiYuan Huang <cy_huang@richtek.com>, devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] power: supply: rt9756: Add Richtek RT9756 smart
+ cap divider charger
+Message-ID: <202510310457.iAWJdDLC-lkp@intel.com>
+References: <5eab51e111b092329519dd2c200858a522780626.1761699952.git.cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +67,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <5eab51e111b092329519dd2c200858a522780626.1761699952.git.cy_huang@richtek.com>
 
-tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
-head:   90b05bcbb174b28bb0bc20f6d7f68c092a66a64f
-commit: 90b05bcbb174b28bb0bc20f6d7f68c092a66a64f [23/23] ANDROID: mm: Get Physical memory model for the system
-config: arm-randconfig-004-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310512.Yd26zEby-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310512.Yd26zEby-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on krzk-dt/for-next robh/for-next linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cy_huang-richtek-com/dt-bindings-power-supply-Add-Richtek-RT9756-smart-cap-divider-charger/20251029-091554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/5eab51e111b092329519dd2c200858a522780626.1761699952.git.cy_huang%40richtek.com
+patch subject: [PATCH v3 2/3] power: supply: rt9756: Add Richtek RT9756 smart cap divider charger
+config: nios2-randconfig-r112-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310457.iAWJdDLC-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310457.iAWJdDLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310512.Yd26zEby-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310457.iAWJdDLC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/power/supply/rt9756.c:645:41: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] size @@     got restricted gfp_t @@
+   drivers/power/supply/rt9756.c:645:41: sparse:     expected unsigned int [usertype] size
+   drivers/power/supply/rt9756.c:645:41: sparse:     got restricted gfp_t
+>> drivers/power/supply/rt9756.c:645:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted gfp_t [usertype] gfp @@     got unsigned int @@
+   drivers/power/supply/rt9756.c:645:53: sparse:     expected restricted gfp_t [usertype] gfp
+   drivers/power/supply/rt9756.c:645:53: sparse:     got unsigned int
+   drivers/power/supply/rt9756.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
 
-   drivers/cma/mm/mem_phys_layout.c:189:16: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     189 |                 struct page *page = pfn_to_page(pfn);
-         |                              ^
->> drivers/cma/mm/mem_phys_layout.c:237:48: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     237 |         pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-         |                                                       ^~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:239:48: error: use of undeclared identifier 'PFN_SECTION_SHIFT'
-     239 |         pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:240:49: error: use of undeclared identifier 'MAX_PAGE_ORDER'
-     240 |         pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
-         |                                                        ^~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:241:48: error: use of undeclared identifier 'SECTION_SIZE_BITS'
-     241 |         pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-         |                                                       ^~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:242:54: error: use of undeclared identifier 'SECTION_SIZE_BITS'
-     242 |         pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
-         |                                                             ^~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:243:49: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     243 |         pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
-         |                                                        ^~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:244:49: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     244 |         pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:246:4: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     246 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-         |                         ^~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:246:22: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     246 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:247:4: error: use of undeclared identifier 'SUBSECTION_SIZE'
-     247 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-         |                         ^~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:247:22: error: use of undeclared identifier 'SUBSECTIONS_PER_SECTION'
-     247 |                         SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:248:43: error: use of undeclared identifier 'PAGES_PER_SUBSECTION'
-     248 |         pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-         |                                                  ^~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:252:32: error: implicit declaration of function '__pfn_to_section' [-Werror,-Wimplicit-function-declaration]
-     252 |         struct mem_section *section = __pfn_to_section(start_pfn);
-         |                                       ^
->> drivers/cma/mm/mem_phys_layout.c:252:22: error: incompatible integer to pointer conversion initializing 'struct mem_section *' with an expression of type 'int' [-Wint-conversion]
-     252 |         struct mem_section *section = __pfn_to_section(start_pfn);
-         |                             ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/cma/mm/mem_phys_layout.c:253:22: error: implicit declaration of function '__section_mem_map_addr' [-Werror,-Wimplicit-function-declaration]
-     253 |         struct page *page = __section_mem_map_addr(section);
-         |                             ^
->> drivers/cma/mm/mem_phys_layout.c:253:15: error: incompatible integer to pointer conversion initializing 'struct page *' with an expression of type 'int' [-Wint-conversion]
-     253 |         struct page *page = __section_mem_map_addr(section);
-         |                      ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cma/mm/mem_phys_layout.c:250:14: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-     250 |         phys_addr_t start_addr = memblock_start_of_DRAM();
-         |                     ^
-   2 warnings and 16 errors generated.
+vim +645 drivers/power/supply/rt9756.c
 
-
-vim +/MAX_PAGE_ORDER +237 drivers/cma/mm/mem_phys_layout.c
-
-   234	
-   235	static void print_phys_memory_model(void)
-   236	{
- > 237		pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
-   238		pr_info("pageblock_order               = %d", pageblock_order);
- > 239		pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
-   240		pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
- > 241		pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
-   242		pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
- > 243		pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
- > 244		pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
-   245		pr_info("SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION = %ld = %ldMiB",
-   246				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
-   247				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
- > 248		pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
-   249	
-   250		phys_addr_t start_addr = memblock_start_of_DRAM();
-   251		unsigned long start_pfn = PHYS_PFN(start_addr);
- > 252		struct mem_section *section = __pfn_to_section(start_pfn);
- > 253		struct page *page = __section_mem_map_addr(section);
-   254	
-   255		pr_info("Using struct mem_section");
-   256		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
-   257				(u64)start_pfn,
-   258				(u64)start_pfn,
-   259				(u64) page,
-   260				(u64)PFN_PHYS(start_pfn));
-   261	}
-   262	
+   619	
+   620	static int rt9756_register_psy(struct rt9756_data *data)
+   621	{
+   622		struct power_supply_desc *desc = &data->psy_desc;
+   623		struct power_supply_desc *bat_desc = &data->bat_psy_desc;
+   624		struct power_supply_config cfg = {}, bat_cfg = {};
+   625		struct device *dev = data->dev;
+   626		char *psy_name, *bat_psy_name, **supplied_to;
+   627	
+   628		bat_cfg.drv_data = data;
+   629		bat_cfg.fwnode = dev_fwnode(dev);
+   630	
+   631		bat_psy_name = devm_kasprintf(dev, GFP_KERNEL, "rt9756-%s-battery", dev_name(dev));
+   632		if (!bat_psy_name)
+   633			return -ENOMEM;
+   634	
+   635		bat_desc->name = bat_psy_name;
+   636		bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+   637		bat_desc->properties = rt9756_bat_psy_properties;
+   638		bat_desc->num_properties = ARRAY_SIZE(rt9756_bat_psy_properties);
+   639		bat_desc->get_property = rt9756_bat_psy_get_property;
+   640	
+   641		data->bat_psy = devm_power_supply_register(dev, bat_desc, &bat_cfg);
+   642		if (IS_ERR(data->bat_psy))
+   643			return dev_err_probe(dev, PTR_ERR(data->bat_psy), "Failed to register battery\n");
+   644	
+ > 645		supplied_to = devm_kzalloc(dev, GFP_KERNEL, sizeof(*supplied_to));
+   646		if (!supplied_to)
+   647			return -ENOMEM;
+   648	
+   649		/* Link charger psy to battery psy */
+   650		supplied_to[0] = bat_psy_name;
+   651	
+   652		cfg.drv_data = data;
+   653		cfg.fwnode = dev_fwnode(dev);
+   654		cfg.attr_grp = rt9756_sysfs_groups;
+   655		cfg.supplied_to = supplied_to;
+   656		cfg.num_supplicants = 1;
+   657	
+   658		psy_name = devm_kasprintf(dev, GFP_KERNEL, "rt9756-%s", dev_name(dev));
+   659		if (!psy_name)
+   660			return -ENOMEM;
+   661	
+   662		desc->name = psy_name;
+   663		desc->type = POWER_SUPPLY_TYPE_USB;
+   664		desc->usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) | BIT(POWER_SUPPLY_USB_TYPE_SDP) |
+   665				  BIT(POWER_SUPPLY_USB_TYPE_DCP) | BIT(POWER_SUPPLY_USB_TYPE_CDP);
+   666		desc->properties = rt9756_psy_properties;
+   667		desc->num_properties = ARRAY_SIZE(rt9756_psy_properties);
+   668		desc->property_is_writeable = rt9756_psy_property_is_writeable;
+   669		desc->get_property = rt9756_psy_get_property;
+   670		desc->set_property = rt9756_psy_set_property;
+   671	
+   672		data->psy = devm_power_supply_register(dev, desc, &cfg);
+   673	
+   674		return PTR_ERR_OR_ZERO(data->psy);
+   675	}
+   676	
 
 -- 
 0-DAY CI Kernel Test Service
