@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAC03546EC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 10:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696932F6912
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 10:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761819920; cv=none; b=SCsPg9qrx/BjUi1r9S8r8pmfTHKngf0P8nbD6kCB0bh2a4C57XI+u7kNwoQpySmDY9z6EcyPoMm0sxfDFlp1qa1A38peAe1Y9FgjHDuhcGrj8m250BoW6tediar+K0GhJ2NwZOqU0jYIWRfnxfKd4DpNUJZPX+MMg3ASd864S0g=
+	t=1761820559; cv=none; b=d/3+YgcJ7MaXgLLxJ1vVULtgl3aBDKyJIk+l2Po0SQi8B/3Dyn/MJnOEsAkHfgiiFKev9GUV42UVjJ3Kzay8KJYi1D127jI1Djka8Ra5q+dD0wiIb8fNMAxUoYgn17gMbP/Xlc4qXt+1TeuuBAdIe0jNltVDeQFVz7WHjDKvhbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761819920; c=relaxed/simple;
-	bh=f2lx/MhFQYSKhUR31WYWuqc0AYVs7PutTou05pAc9Og=;
+	s=arc-20240116; t=1761820559; c=relaxed/simple;
+	bh=by0w7O7HoK/w+fE/pIQpFafY70tU8ouLMgrp2oBT7os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gqBxw6Cvhnmqy2Ob1U565yJbGZjFjBaC0Bg72GKV5uA2zMKkXj1BBiUG18lEAQFzU5uiR+SdoC6YN4w3PnIQzgTTQCcCqiAMrSfYjuQJ2AxLEQHde9ZdhJuZsK4fpJSG2ALfzVzqjII5x/9syUeXkovv//+wL/I+eqJaaZvRqgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyHX4m0K; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=RhDD6uej7MpGDtUUmkoYFItymaYrffxLCdskOQPMhrrx2Gipdu6tUujPY3Lk5vI5frhzYzUo7AqI7af/nc+PITep8DZZ9CaH8Iyf79KRQn9RAh4IMQZvX6Eyk4tycGe8pHs4eSntwMBitfFcen5rv99N9Wa0jLU3WgBQKvBjn2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WXBcb6qC; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyHX4m0K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXBcb6qC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761819919; x=1793355919;
+  t=1761820557; x=1793356557;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f2lx/MhFQYSKhUR31WYWuqc0AYVs7PutTou05pAc9Og=;
-  b=AyHX4m0KaSWJlMzloabQFdpH1TrQdLqbctx2nzT8DN0gr+Rh+glBvL1u
-   PWaivjto1zeW5jdcqzQme/22k9y9vLqZ0Q0IRxGYTWi6YEj0TnPNJedFa
-   vNn9os+FWqyNrdT6qrby/ZCc0VPGRMVqggMDGuNbVuFs++VwqLRYu/XYj
-   06VSQBCcRfsBkuU4Uu6ojamVKXGtiZlHormi3PY+Jr1gnUWv5+8eER9VP
-   r6FShn1dOofGqaejmlcpPSja78yeCJ6/uWKW9uIZhPmA+CSWyqylTkYrl
-   FGdLMNxbd5FiCf7f5bZsNGe+5gzgXLPSI2QOG1nmMs5BDrwQHgz/sVBG7
-   w==;
-X-CSE-ConnectionGUID: bmXchShTQiulAX+yP32Iug==
-X-CSE-MsgGUID: 44mb4VvAQ7ed913Q3qrdFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63842472"
+  bh=by0w7O7HoK/w+fE/pIQpFafY70tU8ouLMgrp2oBT7os=;
+  b=WXBcb6qC41MOzJZTpRRuNzSZVHaomEEMMib5ZXpmMOFAt0uaW5IhVkMJ
+   uLwrO7PBwmg2QxEPl2JD4xizZSKhU0TfE6dgs6o+8WgHP3/UNevLWumoA
+   l+6sCN5SbqgcBzgr0Khwc0DMkTBWWRtaNmgZ9+Wz1nmRd/yIszZ41BrXS
+   nbCejR9n9lsZgbVOLwJeUWdcTL9sovNn89fxK2MSDlRX/hPLKz1lTph9Y
+   G+vgKcvAzol4FbWpUjr02WAzs6O35w//xo0bwtGgC4PgJPLEfY8sEUUMQ
+   +hMVIrkKl/7F1YfKr3ITiEU7DpvjA1kn4USa/jtXKY/b++4EOoYduibMR
+   g==;
+X-CSE-ConnectionGUID: c6xpBB1sT8ipuAkWe+ICSg==
+X-CSE-MsgGUID: 54q6d6wdTYaiBQsKL/WSBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="62980082"
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="63842472"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 03:25:18 -0700
-X-CSE-ConnectionGUID: UnfdYnT4R8ScBpZHHrl7mA==
-X-CSE-MsgGUID: p0aQ7k8iS0y4aWaETccOpQ==
+   d="scan'208";a="62980082"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 03:35:57 -0700
+X-CSE-ConnectionGUID: 6hq54BEsQV6ZdY1xUhrlJg==
+X-CSE-MsgGUID: 5MQcglm8S4Kh6/k10x0mbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="209499657"
+   d="scan'208";a="191085941"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2025 03:25:15 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 30 Oct 2025 03:35:54 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEPqD-000Lou-0J;
-	Thu, 30 Oct 2025 10:25:13 +0000
-Date: Thu, 30 Oct 2025 18:24:19 +0800
+	id 1vEQ0W-000Lpw-1X;
+	Thu, 30 Oct 2025 10:35:52 +0000
+Date: Thu, 30 Oct 2025 18:34:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>, bpf@vger.kernel.org,
-	andrii@kernel.org, ast@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dwarves@vger.kernel.org,
-	alan.maguire@oracle.com, acme@kernel.org, eddyz87@gmail.com,
-	tj@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next v1 3/8] bpf: Support for kfuncs with
- KF_MAGIC_ARGS
-Message-ID: <202510301811.fP0doUEk-lkp@intel.com>
-References: <20251029190113.3323406-4-ihor.solodrai@linux.dev>
+To: Mateusz Guzik <mjguzik@gmail.com>, brauner@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk, jack@suse.cz,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	torvalds@linux-foundation.org, pfalcato@suse.de,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH v2] fs: hide names_cachep behind runtime access machinery
+Message-ID: <202510301846.5be7UPQy-lkp@intel.com>
+References: <20251030085949.787504-1-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,249 +65,231 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251029190113.3323406-4-ihor.solodrai@linux.dev>
+In-Reply-To: <20251030085949.787504-1-mjguzik@gmail.com>
 
-Hi Ihor,
+Hi Mateusz,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on arnd-asm-generic/master]
+[also build test WARNING on linus/master brauner-vfs/vfs.all linux/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/bpf-Add-BTF_ID_LIST_END-and-BTF_ID_LIST_SIZE-macros/20251030-030608
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251029190113.3323406-4-ihor.solodrai%40linux.dev
-patch subject: [PATCH bpf-next v1 3/8] bpf: Support for kfuncs with KF_MAGIC_ARGS
-config: x86_64-buildonly-randconfig-003-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301811.fP0doUEk-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301811.fP0doUEk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/fs-hide-names_cachep-behind-runtime-access-machinery/20251030-170230
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20251030085949.787504-1-mjguzik%40gmail.com
+patch subject: [PATCH v2] fs: hide names_cachep behind runtime access machinery
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251030/202510301846.5be7UPQy-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301846.5be7UPQy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301811.fP0doUEk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301846.5be7UPQy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-         |                       ^
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/compiler.h:286:9: note: in expansion of macro '__UNIQUE_ID'
-     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-         |         ^~~~~~~~~~~
-   include/linux/compiler.h:289:9: note: in expansion of macro '___ADDRESSABLE'
-     289 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:250:9: note: in expansion of macro '__ADDRESSABLE'
-     250 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:255:9: note: in expansion of macro '__define_initcall_stub'
-     255 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
-     268 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
-     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
-     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:307:41: note: in expansion of macro '__define_initcall'
-     307 | #define late_initcall(fn)               __define_initcall(fn, 7)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:1: note: in expansion of macro 'late_initcall'
-   18983 | late_initcall(unbound_reg_init);
-         | ^~~~~~~~~~~~~
-   In file included from include/uapi/linux/filter.h:9,
-                    from include/linux/bpf.h:8:
-   kernel/bpf/verifier.c:18983:15: error: 'unbound_reg_init' undeclared (first use in this function); did you mean 'unbound_reg'?
-   18983 | late_initcall(unbound_reg_init);
-         |               ^~~~~~~~~~~~~~~~
-   include/linux/compiler.h:286:72: note: in definition of macro '___ADDRESSABLE'
-     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-         |                                                                        ^~~
-   include/linux/init.h:250:9: note: in expansion of macro '__ADDRESSABLE'
-     250 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:255:9: note: in expansion of macro '__define_initcall_stub'
-     255 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
-     268 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
-     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
-     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:307:41: note: in expansion of macro '__define_initcall'
-     307 | #define late_initcall(fn)               __define_initcall(fn, 7)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:1: note: in expansion of macro 'late_initcall'
-   18983 | late_initcall(unbound_reg_init);
-         | ^~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:15: note: each undeclared identifier is reported only once for each function it appears in
-   18983 | late_initcall(unbound_reg_init);
-         |               ^~~~~~~~~~~~~~~~
-   include/linux/compiler.h:286:72: note: in definition of macro '___ADDRESSABLE'
-     286 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-         |                                                                        ^~~
-   include/linux/init.h:250:9: note: in expansion of macro '__ADDRESSABLE'
-     250 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:255:9: note: in expansion of macro '__define_initcall_stub'
-     255 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
-     268 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
-     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
-     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:307:41: note: in expansion of macro '__define_initcall'
-     307 | #define late_initcall(fn)               __define_initcall(fn, 7)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:1: note: in expansion of macro 'late_initcall'
-   18983 | late_initcall(unbound_reg_init);
-         | ^~~~~~~~~~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:108,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:11:
->> include/linux/init.h:256:9: error: expected declaration specifiers before 'asm'
-     256 |         asm(".section   \"" __sec "\", \"a\"            \n"     \
-         |         ^~~
-   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
-     268 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
-     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
-     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:307:41: note: in expansion of macro '__define_initcall'
-     307 | #define late_initcall(fn)               __define_initcall(fn, 7)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:1: note: in expansion of macro 'late_initcall'
-   18983 | late_initcall(unbound_reg_init);
-         | ^~~~~~~~~~~~~
-   In file included from include/linux/init.h:5:
-   include/linux/build_bug.h:78:41: error: expected declaration specifiers before '_Static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/init.h:260:9: note: in expansion of macro 'static_assert'
-     260 |         static_assert(__same_type(initcall_t, &fn));
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:268:9: note: in expansion of macro '____define_initcall'
-     268 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:274:9: note: in expansion of macro '__unique_initcall'
-     274 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:276:35: note: in expansion of macro '___define_initcall'
-     276 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:307:41: note: in expansion of macro '__define_initcall'
-     307 | #define late_initcall(fn)               __define_initcall(fn, 7)
-         |                                         ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:1: note: in expansion of macro 'late_initcall'
-   18983 | late_initcall(unbound_reg_init);
-         | ^~~~~~~~~~~~~
-   kernel/bpf/verifier.c:18983:32: error: expected declaration specifiers before ';' token
-   18983 | late_initcall(unbound_reg_init);
-         |                                ^
-   kernel/bpf/verifier.c:18987:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   18987 | {
-         | ^
-   kernel/bpf/verifier.c:19002:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19002 | {
-         | ^
-   kernel/bpf/verifier.c:19015:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19015 | {
-         | ^
-   kernel/bpf/verifier.c:19139:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19139 | {
-         | ^
-   kernel/bpf/verifier.c:19212:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19212 | {
-         | ^
-   kernel/bpf/verifier.c:19232:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19232 | {
-         | ^
-   kernel/bpf/verifier.c:19241:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19241 | {
-         | ^
-   kernel/bpf/verifier.c:19282:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19282 | {
-         | ^
-   kernel/bpf/verifier.c:19343:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19343 | {
-         | ^
-   kernel/bpf/verifier.c:19373:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19373 | {
-         | ^
-   kernel/bpf/verifier.c:19390:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19390 | {
-         | ^
-   kernel/bpf/verifier.c:19453:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19453 | {
-         | ^
-   kernel/bpf/verifier.c:19477:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19477 | {
-         | ^
-   kernel/bpf/verifier.c:19833:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19833 | {
-         | ^
-   kernel/bpf/verifier.c:19861:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19861 | {
-         | ^
-   kernel/bpf/verifier.c:19867:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19867 | {
-         | ^
-   kernel/bpf/verifier.c:19878:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19878 | {
-         | ^
-   kernel/bpf/verifier.c:19884:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   19884 | {
-         | ^
-   kernel/bpf/verifier.c:19930:1: warning: empty declaration
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/radix-tree.h:16,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from drivers/base/firmware_loader/main.c:14:
+   drivers/base/firmware_loader/main.c: In function 'fw_get_filesystem_firmware':
+   include/linux/fs.h:2965:33: error: implicit declaration of function 'runtime_const_ptr' [-Werror=implicit-function-declaration]
+    2965 | #define __names_cachep          runtime_const_ptr(names_cachep)
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:739:49: note: in expansion of macro 'alloc_hooks'
+     739 | #define kmem_cache_alloc(...)                   alloc_hooks(kmem_cache_alloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   include/linux/fs.h:2968:33: note: in expansion of macro 'kmem_cache_alloc'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                 ^~~~~~~~~~~~~~~~
+   include/linux/fs.h:2968:50: note: in expansion of macro '__names_cachep'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                                  ^~~~~~~~~~~~~~
+   drivers/base/firmware_loader/main.c:509:16: note: in expansion of macro '__getname'
+     509 |         path = __getname();
+         |                ^~~~~~~~~
+>> include/linux/fs.h:2965:33: warning: passing argument 1 of 'kmem_cache_alloc_noprof' makes pointer from integer without a cast [-Wint-conversion]
+    2965 | #define __names_cachep          runtime_const_ptr(names_cachep)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
+     239 |         typeof(_do_alloc) _res;                                         \
+         |                ^~~~~~~~~
+   include/linux/slab.h:739:49: note: in expansion of macro 'alloc_hooks'
+     739 | #define kmem_cache_alloc(...)                   alloc_hooks(kmem_cache_alloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   include/linux/fs.h:2968:33: note: in expansion of macro 'kmem_cache_alloc'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                 ^~~~~~~~~~~~~~~~
+   include/linux/fs.h:2968:50: note: in expansion of macro '__names_cachep'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                                  ^~~~~~~~~~~~~~
+   drivers/base/firmware_loader/main.c:509:16: note: in expansion of macro '__getname'
+     509 |         path = __getname();
+         |                ^~~~~~~~~
+   In file included from include/linux/mm.h:34,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/include/uapi/asm/elf.h:24,
+                    from arch/nios2/include/asm/elf.h:9,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/base/firmware_loader/main.c:14:
+   include/linux/slab.h:737:50: note: expected 'struct kmem_cache *' but argument is of type 'int'
+     737 | void *kmem_cache_alloc_noprof(struct kmem_cache *cachep,
+         |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/radix-tree.h:16,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from drivers/base/firmware_loader/main.c:14:
+>> include/linux/fs.h:2965:33: warning: passing argument 1 of 'kmem_cache_alloc_noprof' makes pointer from integer without a cast [-Wint-conversion]
+    2965 | #define __names_cachep          runtime_const_ptr(names_cachep)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
+     243 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:739:49: note: in expansion of macro 'alloc_hooks'
+     739 | #define kmem_cache_alloc(...)                   alloc_hooks(kmem_cache_alloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   include/linux/fs.h:2968:33: note: in expansion of macro 'kmem_cache_alloc'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                 ^~~~~~~~~~~~~~~~
+   include/linux/fs.h:2968:50: note: in expansion of macro '__names_cachep'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                                  ^~~~~~~~~~~~~~
+   drivers/base/firmware_loader/main.c:509:16: note: in expansion of macro '__getname'
+     509 |         path = __getname();
+         |                ^~~~~~~~~
+   In file included from include/linux/mm.h:34,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/include/uapi/asm/elf.h:24,
+                    from arch/nios2/include/asm/elf.h:9,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/base/firmware_loader/main.c:14:
+   include/linux/slab.h:737:50: note: expected 'struct kmem_cache *' but argument is of type 'int'
+     737 | void *kmem_cache_alloc_noprof(struct kmem_cache *cachep,
+         |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
+   In file included from include/linux/percpu.h:5,
+                    from include/linux/radix-tree.h:16,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from drivers/base/firmware_loader/main.c:14:
+>> include/linux/fs.h:2965:33: warning: passing argument 1 of 'kmem_cache_alloc_noprof' makes pointer from integer without a cast [-Wint-conversion]
+    2965 | #define __names_cachep          runtime_const_ptr(names_cachep)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
+     246 |                 _res = _do_alloc;                                       \
+         |                        ^~~~~~~~~
+   include/linux/slab.h:739:49: note: in expansion of macro 'alloc_hooks'
+     739 | #define kmem_cache_alloc(...)                   alloc_hooks(kmem_cache_alloc_noprof(__VA_ARGS__))
+         |                                                 ^~~~~~~~~~~
+   include/linux/fs.h:2968:33: note: in expansion of macro 'kmem_cache_alloc'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                 ^~~~~~~~~~~~~~~~
+   include/linux/fs.h:2968:50: note: in expansion of macro '__names_cachep'
+    2968 | #define __getname()             kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+         |                                                  ^~~~~~~~~~~~~~
+   drivers/base/firmware_loader/main.c:509:16: note: in expansion of macro '__getname'
+     509 |         path = __getname();
+         |                ^~~~~~~~~
+   In file included from include/linux/mm.h:34,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/include/uapi/asm/elf.h:24,
+                    from arch/nios2/include/asm/elf.h:9,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/base/firmware_loader/main.c:14:
+   include/linux/slab.h:737:50: note: expected 'struct kmem_cache *' but argument is of type 'int'
+     737 | void *kmem_cache_alloc_noprof(struct kmem_cache *cachep,
+         |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
+   In file included from include/linux/huge_mm.h:7,
+                    from include/linux/mm.h:1016,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/include/uapi/asm/elf.h:24,
+                    from arch/nios2/include/asm/elf.h:9,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/base/firmware_loader/main.c:14:
+>> include/linux/fs.h:2965:33: warning: passing argument 1 of 'kmem_cache_free' makes pointer from integer without a cast [-Wint-conversion]
+    2965 | #define __names_cachep          runtime_const_ptr(names_cachep)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/fs.h:2969:49: note: in expansion of macro '__names_cachep'
+    2969 | #define __putname(name)         kmem_cache_free(__names_cachep, (void *)(name))
+         |                                                 ^~~~~~~~~~~~~~
+   drivers/base/firmware_loader/main.c:591:9: note: in expansion of macro '__putname'
+     591 |         __putname(path);
+         |         ^~~~~~~~~
+   In file included from include/linux/mm.h:34,
+                    from include/linux/pid_namespace.h:7,
+                    from include/linux/ptrace.h:10,
+                    from arch/nios2/include/uapi/asm/elf.h:24,
+                    from arch/nios2/include/asm/elf.h:9,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:20,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/base/firmware_loader/main.c:14:
+   include/linux/slab.h:774:41: note: expected 'struct kmem_cache *' but argument is of type 'int'
+     774 | void kmem_cache_free(struct kmem_cache *s, void *objp);
+         |                      ~~~~~~~~~~~~~~~~~~~^
+   cc1: some warnings being treated as errors
 
 
-vim +/asm +256 include/linux/init.h
+vim +/kmem_cache_alloc_noprof +2965 include/linux/fs.h
 
-a8cccdd954732a5 Sami Tolvanen  2020-12-11  252  
-1b1eeca7e4c19fa Ard Biesheuvel 2018-08-21  253  #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
-3578ad11f3fba07 Sami Tolvanen  2020-12-11  254  #define ____define_initcall(fn, __stub, __name, __sec)		\
-3578ad11f3fba07 Sami Tolvanen  2020-12-11  255  	__define_initcall_stub(__stub, fn)			\
-a8cccdd954732a5 Sami Tolvanen  2020-12-11 @256  	asm(".section	\"" __sec "\", \"a\"		\n"	\
-a8cccdd954732a5 Sami Tolvanen  2020-12-11  257  	    __stringify(__name) ":			\n"	\
-3578ad11f3fba07 Sami Tolvanen  2020-12-11  258  	    ".long	" __stringify(__stub) " - .	\n"	\
-1cb61759d407166 Marco Elver    2021-05-21  259  	    ".previous					\n");	\
-1cb61759d407166 Marco Elver    2021-05-21  260  	static_assert(__same_type(initcall_t, &fn));
-1b1eeca7e4c19fa Ard Biesheuvel 2018-08-21  261  #else
-3578ad11f3fba07 Sami Tolvanen  2020-12-11  262  #define ____define_initcall(fn, __unused, __name, __sec)	\
-a8cccdd954732a5 Sami Tolvanen  2020-12-11  263  	static initcall_t __name __used 			\
-a8cccdd954732a5 Sami Tolvanen  2020-12-11  264  		__attribute__((__section__(__sec))) = fn;
-1b1eeca7e4c19fa Ard Biesheuvel 2018-08-21  265  #endif
-1b1eeca7e4c19fa Ard Biesheuvel 2018-08-21  266  
+  2958	
+  2959	/*
+  2960	 * XXX The runtime_const machinery does not support modules at the moment.
+  2961	 */
+  2962	#ifdef MODULE
+  2963	#define __names_cachep		names_cachep
+  2964	#else
+> 2965	#define __names_cachep		runtime_const_ptr(names_cachep)
+  2966	#endif
+  2967	
+> 2968	#define __getname()		kmem_cache_alloc(__names_cachep, GFP_KERNEL)
+  2969	#define __putname(name)		kmem_cache_free(__names_cachep, (void *)(name))
+  2970	
 
 -- 
 0-DAY CI Kernel Test Service
