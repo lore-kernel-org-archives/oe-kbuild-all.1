@@ -1,72 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237EA36CE18;
-	Thu, 30 Oct 2025 18:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D0B36CA9E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 18:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761847678; cv=none; b=OFwmEsDohsxQOQi63GGsVERuuEEMy+2zJBXj4oTXxpvBDKWr3LD0vcCTuEXZE3UT9vAMavRmFCfuFLNKLmAyWXPfJbni/3YewtjOF4G2plVAqmf8pldVCrC3qxo6faj/eNlYHA3j0YLNcSnOnquxO5TzDXRBQzikSsYhUpIgn9k=
+	t=1761847683; cv=none; b=YXwEK7rBLNMlQHG1oj/DhvaJ1oaIdnpLQM1eU1hMghUndxZcWrubNRexSkeYGUw0PxToWuvTIMLJqBlE4ZMhe7rR0v5612q0lJBbJWvBLZftxpsubF1cgbqD6ZoB8VeI06SAADE/wZdwhZ5LJI8oBeSRVK3CIJBLJ4OES8150bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761847678; c=relaxed/simple;
-	bh=iP/s4UAA9B2nPL0oz7dCcsbvxDo5KsExttoOXbiI4jw=;
+	s=arc-20240116; t=1761847683; c=relaxed/simple;
+	bh=srnTyop+o8WgWjPePpQqFtHWyTRYfI2Cb3A5JDGJp7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPfqLVaZVpzi4Nkmxy3N0e8OntPPFg8F7GVN/7DNEzQfrxGhCU/B9XDmY2sUJD4maMrl1ajk7MUqZrjNiT3dvm9rcLWrsAyx+CDi7+WqEORAa7y/W5FU1//3VNNuDpOnmXI7bo0HK4VrKR9VJo7KqNn/X/j3DDOfjMAiKzbrFyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OzR1+CTa; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=K0n8Qb/2eDgkDU4pIb508/wud+va45b9KEA6MXkowT8o442V+5TFnwZ7ZW1UGY3PytyTtVHDhgRYUWemXohHg5drooeVdo5M9sV+T9md7UUm6cT9DGYtLaxddtA9Z4TtMt3Btqi8UTQPTjPiXZn1+yC6IDaZ0IPDlG+M0E3xjjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cM2SMFow; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OzR1+CTa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cM2SMFow"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761847677; x=1793383677;
+  t=1761847681; x=1793383681;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iP/s4UAA9B2nPL0oz7dCcsbvxDo5KsExttoOXbiI4jw=;
-  b=OzR1+CTaqF1mLQwL5NeOqUBtdVdcbuSiMYT6605CO7d83+mMLUkNTKvQ
-   +cJqPyFZ19QJxpHL7w3PjaHHQzRAmTIToUkJVT/MNEpmAptjfmIpHGZ4k
-   KWU3islokpTYpwOXFkhYnWimF6NATPzs2OnPV5XU7yTA4AahT3luYkBuj
-   JuBqXsIv9QXf77/vi2/riwXDFq0FSD+72z7Y6kf58TQQRsoTFibnWHgru
-   i33tP5Xa7SAfdrkFpoWi43mDunehjd4decOI1t2ZyfaM8A6d8VcIi9Aix
-   3qltfaArs08eRYTVQ+mKt6PZ2KhHLvTfzj9FzU2DiC4oNsOGL2doIMniq
+  bh=srnTyop+o8WgWjPePpQqFtHWyTRYfI2Cb3A5JDGJp7U=;
+  b=cM2SMFowtuSEhaXAjoFOe3T4yF+5MG5SaQ0dp/g184F+qEEYDLYa6EYk
+   1G6l8s4IBjo/EV0kfxayJnaTmpWU328QiyZ01mxp2M+uhEsvYyViGgPVv
+   TH034opMj5DqFEcPMYrWuF8GBjszzilPbU6Bpq3kWmLqSizM7XusVDkXY
+   t/22BEt5gsE3x1NmVt4WUsQ6fD9bjy1Fu1Peb2gobe+q3sx+fG348ww74
+   LS4VrO6fCyBSctQo4uihco1HwR3ckFK7zsUyJ0toHfIJLMqbUHmn8m6/h
+   Nf+hlxUv9m89x9fwXLsPDj4Jn8Sd5eMdr53gYSL0GvKTKVCltFvFL4sLe
    w==;
-X-CSE-ConnectionGUID: D8ETlMFzQlKl05Vw8wlqBw==
-X-CSE-MsgGUID: UkOv2SVTTCWCzR0lFSAwTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="67652090"
+X-CSE-ConnectionGUID: FnXDj9PsRvmVL16M8FtK3w==
+X-CSE-MsgGUID: s6qd6GDxSFm8am8uCqEwPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="66614117"
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="67652090"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 11:07:57 -0700
-X-CSE-ConnectionGUID: 9p/tDAhTRCCj2jfvrIEJuA==
-X-CSE-MsgGUID: lUJf09szRfOicaHLR05gkQ==
+   d="scan'208";a="66614117"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 11:08:00 -0700
+X-CSE-ConnectionGUID: 3PRBBtEaQ9GXRaTReU7tag==
+X-CSE-MsgGUID: UTFciI0HQLWZEXadIIwWNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="185232151"
+   d="scan'208";a="190366715"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2025 11:07:52 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2025 11:07:57 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEX3p-000MNw-1s;
-	Thu, 30 Oct 2025 18:07:46 +0000
-Date: Fri, 31 Oct 2025 02:06:32 +0800
+	id 1vEX3u-000MNz-0g;
+	Thu, 30 Oct 2025 18:07:51 +0000
+Date: Fri, 31 Oct 2025 02:06:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>
-Subject: Re: [PATCH] rust/dma: Take &mut self in
- CoherentAllocation::field_write()
-Message-ID: <202510310102.NdHj0ur8-lkp@intel.com>
-References: <20251028211801.85215-1-lyude@redhat.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Markus.Elfring@web.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Haotian Zhang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH v2] leds: netxbig: fix GPIO descriptor leak in error paths
+Message-ID: <202510310145.tlVMfaP8-lkp@intel.com>
+References: <20251030025312.1623-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,41 +64,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251028211801.85215-1-lyude@redhat.com>
+In-Reply-To: <20251030025312.1623-1-vulab@iscas.ac.cn>
 
-Hi Lyude,
+Hi Haotian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 3b83f5d5e78ac5cddd811a5e431af73959864390]
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/rust-dma-Take-mut-self-in-CoherentAllocation-field_write/20251029-052034
-base:   3b83f5d5e78ac5cddd811a5e431af73959864390
-patch link:    https://lore.kernel.org/r/20251028211801.85215-1-lyude%40redhat.com
-patch subject: [PATCH] rust/dma: Take &mut self in CoherentAllocation::field_write()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310102.NdHj0ur8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/leds-netxbig-fix-GPIO-descriptor-leak-in-error-paths/20251030-105705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20251030025312.1623-1-vulab%40iscas.ac.cn
+patch subject: [PATCH v2] leds: netxbig: fix GPIO descriptor leak in error paths
+config: nios2-randconfig-r072-20251030 (https://download.01.org/0day-ci/archive/20251031/202510310145.tlVMfaP8-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310145.tlVMfaP8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310102.NdHj0ur8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310145.tlVMfaP8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0596]: cannot borrow value as mutable, as it is not declared as mutable
-   --> samples/rust/rust_dma.rs:70:13
-   |
-   70 |             kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ cannot borrow as mutable
-   |
-   = note: this error originates in the macro `$crate::dma_write` which comes from the expansion of the macro `kernel::dma_write` (in Nightly builds, run with -Z macro-backtrace for more info)
-   help: consider changing this to be mutable
-   |
-   66 |         let mut ca: CoherentAllocation<MyStruct> =
-   |             +++
+   drivers/leds/leds-netxbig.c: In function 'netxbig_gpio_ext_get':
+>> drivers/leds/leds-netxbig.c:428:1: warning: label 'err_free_data' defined but not used [-Wunused-label]
+     428 | err_free_data:
+         | ^~~~~~~~~~~~~
+
+
+vim +/err_free_data +428 drivers/leds/leds-netxbig.c
+
+   335	
+   336	/**
+   337	 * netxbig_gpio_ext_get() - Obtain GPIO extension device data
+   338	 * @dev: main LED device
+   339	 * @gpio_ext_dev: the GPIO extension device
+   340	 * @gpio_ext: the data structure holding the GPIO extension data
+   341	 *
+   342	 * This function walks the subdevice that only contain GPIO line
+   343	 * handles in the device tree and obtains the GPIO descriptors from that
+   344	 * device.
+   345	 */
+   346	static int netxbig_gpio_ext_get(struct device *dev,
+   347					struct device *gpio_ext_dev,
+   348					struct netxbig_gpio_ext *gpio_ext)
+   349	{
+   350		struct gpio_desc **addr, **data;
+   351		int num_addr, num_data;
+   352		struct gpio_desc *gpiod;
+   353		int ret;
+   354		int i;
+   355	
+   356		ret = gpiod_count(gpio_ext_dev, "addr");
+   357		if (ret < 0) {
+   358			dev_err(dev,
+   359				"Failed to count GPIOs in DT property addr-gpios\n");
+   360			return ret;
+   361		}
+   362		num_addr = ret;
+   363		addr = devm_kcalloc(dev, num_addr, sizeof(*addr), GFP_KERNEL);
+   364		if (!addr)
+   365			return -ENOMEM;
+   366	
+   367		gpio_ext->addr = addr;
+   368		gpio_ext->num_addr = 0;
+   369	
+   370		/*
+   371		 * We cannot use devm_ managed resources with these GPIO descriptors
+   372		 * since they are associated with the "GPIO extension device" which
+   373		 * does not probe any driver. The device tree parser will however
+   374		 * populate a platform device for it so we can anyway obtain the
+   375		 * GPIO descriptors from the device.
+   376		 */
+   377		for (i = 0; i < num_addr; i++) {
+   378			gpiod = gpiod_get_index(gpio_ext_dev, "addr", i,
+   379						GPIOD_OUT_LOW);
+   380			if (IS_ERR(gpiod)) {
+   381				ret = PTR_ERR(gpiod);
+   382				goto err_free_addr;
+   383			}
+   384			gpiod_set_consumer_name(gpiod, "GPIO extension addr");
+   385			addr[i] = gpiod;
+   386			gpio_ext->num_addr++;
+   387		}
+   388	
+   389		ret = gpiod_count(gpio_ext_dev, "data");
+   390		if (ret < 0) {
+   391			dev_err(dev,
+   392				"Failed to count GPIOs in DT property data-gpios\n");
+   393			goto err_free_addr;
+   394		}
+   395		num_data = ret;
+   396		data = devm_kcalloc(dev, num_data, sizeof(*data), GFP_KERNEL);
+   397		if (!data) {
+   398			ret = -ENOMEM;
+   399			goto err_free_addr;
+   400		}
+   401	
+   402		gpio_ext->data = data;
+   403		gpio_ext->num_data = 0;
+   404	
+   405		for (i = 0; i < num_data; i++) {
+   406			gpiod = gpiod_get_index(gpio_ext_dev, "data", i,
+   407						GPIOD_OUT_LOW);
+   408			if (IS_ERR(gpiod))
+   409				goto err_gpiod_put;
+   410			gpiod_set_consumer_name(gpiod, "GPIO extension data");
+   411			data[i] = gpiod;
+   412			gpio_ext->num_data++;
+   413		}
+   414	
+   415		gpiod = gpiod_get(gpio_ext_dev, "enable", GPIOD_OUT_LOW);
+   416		if (IS_ERR(gpiod)) {
+   417			dev_err(dev,
+   418				"Failed to get GPIO from DT property enable-gpio\n");
+   419			goto err_gpiod_put;
+   420		}
+   421		gpiod_set_consumer_name(gpiod, "GPIO extension enable");
+   422		gpio_ext->enable = gpiod;
+   423	
+   424		return devm_add_action_or_reset(dev, netxbig_gpio_ext_remove, gpio_ext);
+   425	
+   426	err_gpiod_put:
+   427		ret = PTR_ERR(gpiod);
+ > 428	err_free_data:
+   429		for (i = 0; i < gpio_ext->num_data; i++)
+   430			gpiod_put(gpio_ext->data[i]);
+   431	err_free_addr:
+   432		for (i = 0; i < gpio_ext->num_addr; i++)
+   433			gpiod_put(gpio_ext->addr[i]);
+   434		return ret;
+   435	}
+   436	
 
 -- 
 0-DAY CI Kernel Test Service
