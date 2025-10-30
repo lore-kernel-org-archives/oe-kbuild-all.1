@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE77224B1E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Oct 2025 23:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFA33FFD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 00:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761781097; cv=none; b=ISbyhKglKO/eO456VzMKF8BTkJS8KpmkuwLKLMIhdFzASlNdJCcz/P6nFCFN9u9Z/4vnivW3Ersur+tTMeatroHe4N8T/D7LsaYSI8eg9UZeaLoW0apblwppgl6x1wkans6MqxDiOCJPljCNvU69HCcpekb9uW1UaOaupKNA/TY=
+	t=1761782898; cv=none; b=k3T11sUopLo88O2gPzvhsdzs3ZgXeFKpspR3m9or/CkZVIDGeKneXFN7IUo6zIPvawk87H/dYxMat5rRB9E+0yLEbRmlqXtbtZmhhsFL7u8mTZW96Q8xCrja22MbW4vr2e3xzvkNZx9L59AMGCJSsdPI0F9X+SUm5KcuZNwjQ+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761781097; c=relaxed/simple;
-	bh=9lw1ueNHFPR0lQZ65TLPjoOJkTTPGQ5FXwU6wqvRypw=;
+	s=arc-20240116; t=1761782898; c=relaxed/simple;
+	bh=n1R6wGKSswVLZXqOItW5OzPcer7oEeZDg1beMbGmIDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q9zsq7U5SvbRcfKdJze19xQCkosNmpduICWPDP5uXLkxxsnduExwZ2vikkJqp2L69Bm+1tE6NEU8oY/+HM+B/0SovXEoQuleuJrSOndvHcbEsCxvXidWJY1b5L14J/KlEn9o+zUXNwPcT6n3eegVrmkrrZVgJFGl/QUUmmVLNsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxyRet6J; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=i5Ir11TuCQ28NUhXw0jChr3wtUEYyNWJAHLYHQU5rakIqkrF+SggOw4ioobk66T7lxAcNm75Th+n4Uju4Zru+EqrgyR4ERaFUSkA740NSEEIH4j5OVqeYN2YtPNn6nM6XTvAO4Pw3Cmnw40g89J907XYEhrqjz/WdpWJp3QnIbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9d/sEUB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxyRet6J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9d/sEUB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761781096; x=1793317096;
+  t=1761782897; x=1793318897;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9lw1ueNHFPR0lQZ65TLPjoOJkTTPGQ5FXwU6wqvRypw=;
-  b=MxyRet6JfsnuskpiQnECpfgafMYTvM/950O6UJHVBLYNl//aiqSbqlve
-   Tw63EIe5jFbdS/leWnbyDbHoxUzCa4/dSsQAfMPvVHDL+TOW1sGoHhE2P
-   SP2Y0z/Ms7gTvNeaoWx5ShWuCJCmwZZWvBlNN1bp+LDgkxMdaFPPcKMoV
-   A2fj7ajmnfRFBTF3vWrAvaOg7Nm3m/lSmYybr3myZLUwPdexButuHlwao
-   oLGOdGkkDNHcCfStfyS5eYiAqgGws4jmJS67VfAxUPqQIGaup5E6UUKPq
-   OQxgAQhPJ/p8FGeu1nt4B8TdQuwSayUJSIjPPogrptPnTzh5xnnF6xPG2
-   A==;
-X-CSE-ConnectionGUID: 0tCZr0AvRZKihNo8J6WYTQ==
-X-CSE-MsgGUID: yiZM/oJBTzigCDEArHjGzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="51487841"
+  bh=n1R6wGKSswVLZXqOItW5OzPcer7oEeZDg1beMbGmIDs=;
+  b=C9d/sEUBC7JsDQvDbrVUy1/16CE7O1K75iQCak+KZUfp8lmMv0K+5E40
+   cEe6URQSWHiEnldEBxYbr2uHyrc6Y7NccJlvD3X6vp/wuqDFAgiu3aZxh
+   uycvJxt7kKAgi+IMpuOoR/FugGtudY68YXlKoWRLrZqCYzaImcstu5Deq
+   0Gb98iHNgfoD7nf2U9rVPp4duxmWJH05bAkTV7A8GzAx6kt8PmRpl+cuS
+   0hgk1d8XPaUiJ+CKl8Aseo0tYoz7UYwXXMP58Tycgtv7bPyRCEtHrm0tx
+   YxQAUl0VUL7PiAkoqhP2kDxxtXEEz5cTwfPBvxGIP55DJ7+/4pWBV2toF
+   Q==;
+X-CSE-ConnectionGUID: zEc4hi2TQnKPg3ew0x7Tsg==
+X-CSE-MsgGUID: 9+ODNyR0Qey6Sx8ITuMdag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="67778500"
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="51487841"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 16:38:13 -0700
-X-CSE-ConnectionGUID: G3oZviuzRdylUdmsz0VvXw==
-X-CSE-MsgGUID: p6+G1YqARXWx5GARi8IRKQ==
+   d="scan'208";a="67778500"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 17:08:16 -0700
+X-CSE-ConnectionGUID: Js7NfNGnSki2Z3aVQhzfdA==
+X-CSE-MsgGUID: tixjHiqtTSKP/ZLSbSYKfQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
+   d="scan'208";a="185002505"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Oct 2025 16:38:12 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2025 17:08:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEFk1-000LHE-37;
-	Wed, 29 Oct 2025 23:38:09 +0000
-Date: Thu, 30 Oct 2025 07:37:17 +0800
+	id 1vEGD6-000LIG-2X;
+	Thu, 30 Oct 2025 00:08:12 +0000
+Date: Thu, 30 Oct 2025 08:08:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [morimoto:renesas-lts/v6.18-rc2-2025-10-24-x5h-ironhide 17/21]
- drivers/firmware/arm_scmi/clock.c:372 scmi_clock_attributes_get() warn:
- inconsistent indenting
-Message-ID: <202510300713.kEzAOMob-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3257/3257]
+ drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:131:19: warning:
+ 'nbl_priv_flags' defined but not used
+Message-ID: <202510300807.ZZO1csL8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc2-2025-10-24-x5h-ironhide
-head:   fe21d488fba0b6bcb0416fab7cf246e35592ce10
-commit: a41fb521b7890741915df9db4eae9e134ba0f28a [17/21] FIXME: firmware: arm_scmi: Print shortname-to-ID mapping
-config: um-randconfig-r073-20251025 (https://download.01.org/0day-ci/archive/20251030/202510300713.kEzAOMob-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project e1ae12640102fd2b05bc567243580f90acb1135f)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5860abf4ca1c1e5ced0d4787886db4195a9c54ea
+commit: 01e6e2075c432fde7fb5a66202b41bbd469de620 [3257/3257] Net: m1600: Add m1600-driver for nebula-matrix m1600 series smart NIC.
+config: x86_64-randconfig-121-20251030 (https://download.01.org/0day-ci/archive/20251030/202510300807.ZZO1csL8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300807.ZZO1csL8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510300713.kEzAOMob-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510300807.ZZO1csL8-lkp@intel.com/
 
-smatch warnings:
-drivers/firmware/arm_scmi/clock.c:372 scmi_clock_attributes_get() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +372 drivers/firmware/arm_scmi/clock.c
+   drivers/net/ethernet/nebula-matrix/m1600/main.c:155:6: warning: no previous prototype for 'nbl_service_task2_schedule' [-Wmissing-prototypes]
+     155 | void nbl_service_task2_schedule(struct nbl_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/nebula-matrix/m1600/main.c:436:6: warning: no previous prototype for 'nbl_check_and_set_module_info' [-Wmissing-prototypes]
+     436 | void nbl_check_and_set_module_info(struct nbl_hw *hw)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/nebula-matrix/m1600/main.c:22:
+>> drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:131:19: warning: 'nbl_priv_flags' defined but not used [-Wunused-const-variable=]
+     131 | static const char nbl_priv_flags[][ETH_GSTRING_LEN] = {
+         |                   ^~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:116:19: warning: 'nbl_gstrings_test' defined but not used [-Wunused-const-variable=]
+     116 | static const char nbl_gstrings_test[][ETH_GSTRING_LEN] = {
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:57:39: warning: 'nbl_gstrings_stats' defined but not used [-Wunused-const-variable=]
+      57 | static const struct nbl_ethtool_stats nbl_gstrings_stats[] = {
+         |                                       ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:13:18: warning: 'nbl_regs_dump_list' defined but not used [-Wunused-const-variable=]
+      13 | static const u32 nbl_regs_dump_list[] = {
+         |                  ^~~~~~~~~~~~~~~~~~
+--
+>> drivers/net/ethernet/nebula-matrix/m1600/ethtool.c:507:5: warning: no previous prototype for 'nbl_get_eeprom_len' [-Wmissing-prototypes]
+     507 | int nbl_get_eeprom_len(struct net_device *netdev)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.c:643:5: warning: no previous prototype for 'nbl_query_link_speed' [-Wmissing-prototypes]
+     643 | u32 nbl_query_link_speed(struct nbl_hw *hw)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/nebula-matrix/m1600/mailbox.c:15:
+>> drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:131:19: warning: 'nbl_priv_flags' defined but not used [-Wunused-const-variable=]
+     131 | static const char nbl_priv_flags[][ETH_GSTRING_LEN] = {
+         |                   ^~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:116:19: warning: 'nbl_gstrings_test' defined but not used [-Wunused-const-variable=]
+     116 | static const char nbl_gstrings_test[][ETH_GSTRING_LEN] = {
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:57:39: warning: 'nbl_gstrings_stats' defined but not used [-Wunused-const-variable=]
+      57 | static const struct nbl_ethtool_stats nbl_gstrings_stats[] = {
+         |                                       ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nebula-matrix/m1600/ethtool.h:13:18: warning: 'nbl_regs_dump_list' defined but not used [-Wunused-const-variable=]
+      13 | static const u32 nbl_regs_dump_list[] = {
+         |                  ^~~~~~~~~~~~~~~~~~
 
-   347	
-   348	static int scmi_clock_attributes_get(const struct scmi_protocol_handle *ph,
-   349					     u32 clk_id, struct clock_info *cinfo,
-   350					     u32 version)
-   351	{
-   352		int ret;
-   353		u32 attributes;
-   354		struct scmi_xfer *t;
-   355		struct scmi_msg_resp_clock_attributes *attr;
-   356		struct scmi_clock_info *clk = cinfo->clk + clk_id;
-   357	
-   358		ret = ph->xops->xfer_get_init(ph, CLOCK_ATTRIBUTES,
-   359					      sizeof(clk_id), sizeof(*attr), &t);
-   360		if (ret)
-   361			return ret;
-   362	
-   363		put_unaligned_le32(clk_id, t->tx.buf);
-   364		attr = t->rx.buf;
-   365	
-   366		ret = ph->xops->do_xfer(ph, t);
-   367		if (!ret) {
-   368			u32 latency = 0;
-   369	
-   370			attributes = le32_to_cpu(attr->attributes);
-   371			strscpy(clk->name, attr->name, SCMI_SHORT_NAME_MAX_SIZE);
- > 372	dev_err(ph->dev, "%s[%d]<%d =name %s>\n", __func__, __LINE__, clk_id, clk->name);
-   373			/* clock_enable_latency field is present only since SCMI v3.1 */
-   374			if (PROTOCOL_REV_MAJOR(version) >= 0x2)
-   375				latency = le32_to_cpu(attr->clock_enable_latency);
-   376			clk->enable_latency = latency ? : U32_MAX;
-   377		}
-   378	
-   379		ph->xops->xfer_put(ph, t);
-   380	
-   381		/*
-   382		 * If supported overwrite short name with the extended one;
-   383		 * on error just carry on and use already provided short name.
-   384		 */
-   385		if (!ret && PROTOCOL_REV_MAJOR(version) >= 0x2) {
-   386			if (SUPPORTS_EXTENDED_NAMES(attributes))
-   387				ph->hops->extended_name_get(ph, CLOCK_NAME_GET, clk_id,
-   388							    NULL, clk->name,
-   389							    SCMI_MAX_STR_SIZE);
-   390	
-   391			if (cinfo->notify_rate_changed_cmd &&
-   392			    SUPPORTS_RATE_CHANGED_NOTIF(attributes))
-   393				clk->rate_changed_notifications = true;
-   394			if (cinfo->notify_rate_change_requested_cmd &&
-   395			    SUPPORTS_RATE_CHANGE_REQUESTED_NOTIF(attributes))
-   396				clk->rate_change_requested_notifications = true;
-   397			if (PROTOCOL_REV_MAJOR(version) >= 0x3) {
-   398				if (SUPPORTS_PARENT_CLOCK(attributes))
-   399					scmi_clock_possible_parents(ph, clk_id, clk);
-   400				if (SUPPORTS_GET_PERMISSIONS(attributes))
-   401					scmi_clock_get_permissions(ph, clk_id, clk);
-   402				if (SUPPORTS_EXTENDED_CONFIG(attributes))
-   403					clk->extended_config = true;
-   404			}
-   405		}
-   406	
-   407		return ret;
-   408	}
-   409	
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/nebula-matrix/m1600/main.c:155:6: sparse: sparse: symbol 'nbl_service_task2_schedule' was not declared. Should it be static?
+>> drivers/net/ethernet/nebula-matrix/m1600/main.c:436:6: sparse: sparse: symbol 'nbl_check_and_set_module_info' was not declared. Should it be static?
+
+vim +/nbl_priv_flags +131 drivers/net/ethernet/nebula-matrix/m1600/ethtool.h
+
+   130	
+ > 131	static const char nbl_priv_flags[][ETH_GSTRING_LEN] = {
+   132		"sriov-ena",
+   133	};
+   134	
 
 -- 
 0-DAY CI Kernel Test Service
