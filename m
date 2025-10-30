@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBF4312831
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 02:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D91C1F4C87
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 03:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761792561; cv=none; b=d6Ge3aecTlH/9+/rsxuNpHN4uJiwDPN4POyBaXCESwbTDqgpg7VZjiXPkPqXiH1dDUP5+v+3IJEEQhariBq2zJ501+Q44/WGiJQRc6L1/mGt4e4X9S1DG+NARr26+NsVmmWjWlMPCu2+reqsUtDm4m7Ir0dwX5YvP3vMjVwRAbQ=
+	t=1761794475; cv=none; b=QGO2I7thksDoxUXlUuKQfNFoY11RNXyNU5L/9vVKiozMa4hLcrEdGjuQva6M/NXpfYSnrITlhGASSEj4bwdzh1M1xg+EDqeQH54A734QLATphW7iq5I/dPzzAn8Sya8ZD9rNqHZmfhQo5Rfu1ZahTuc2CmkCYcWwSAKa13zH6co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761792561; c=relaxed/simple;
-	bh=+HBy6Drq/vWVwyj5VXBCMfaHOIJ22Zl3eG6tEu16gxY=;
+	s=arc-20240116; t=1761794475; c=relaxed/simple;
+	bh=Ljmd0Eby9tkP7JGh3MZOUtci6z/iyeAC6IDwd0BXcuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QdLpeelxYJavuHnMdJYppMsz0GRoTKMy/kU52Ict6fNuI3tds+fK1WIOcS02Uucek3zFdLPOAPnEkUQ2CHr70bWDt4PmxeG4n4pzC7qRaa5p7WdEYqVXM76lz523gDlD0cn4Pl/82Vu045TIkgBj+cqLHEFPivCEZR4LT0MrcXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhzo97N0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=du3NHUhPVGkDn1klhRy1dGnduRZg3BkvP53ovimsJsfzIZt6OYRphwSua3phG1XXDFKt+nKclTPFEyM+rpRn8fymAKQx4/tSDXBOPTr9h35JFC3WYOPZUbc35/nMzKs/TlnHcgrtN4X2btWQFcJxijab4EP39frMEGC89nDS+Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6JfxLuC; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhzo97N0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6JfxLuC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761792559; x=1793328559;
+  t=1761794472; x=1793330472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+HBy6Drq/vWVwyj5VXBCMfaHOIJ22Zl3eG6tEu16gxY=;
-  b=fhzo97N0zLJCZ7GhCLW8eHSsbUT1RDFQYKp1Le7CqRB1kShd82oh7CHX
-   HSvb0jqwnIKq62mZLLjsDFlWVwQ3zDzyoLAM/ch9ZDFcO9p2sE5xaRSyd
-   +11FkuYFD7uI2WyYSYDq8HBmzNkdwNe/5AxEJOy3p0PALIHBC+K8UcluM
-   Xr0ZXlIm5VLRIyNd42Xd9eSwQxblf+IRPoBe+qFVYYLQWSm//z6wg7QAG
-   +f9uZmYkGEs4XdLX9FM0wUIsuqq3V6imQRSXAQoD8465s86ldpVO7w0AW
-   eygyjfyzwYsCP74QSj/Y2oYUQA3FUmEES7Yd5f/I4QbgSSBg5V8sqhUNB
-   w==;
-X-CSE-ConnectionGUID: S5n7fhHfTUaYhoKIWrzjTA==
-X-CSE-MsgGUID: CrR/eVoDQJqJt4kkf44gDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="89394025"
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="89394025"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 19:49:18 -0700
-X-CSE-ConnectionGUID: 1wZ1IIdjQiSi6LNiyYiM3Q==
-X-CSE-MsgGUID: 1W8hsP+LQRuV0aQN/cvXQw==
+  bh=Ljmd0Eby9tkP7JGh3MZOUtci6z/iyeAC6IDwd0BXcuo=;
+  b=l6JfxLuCc3HjnT2YY5GC3qT8A5CrsGP+XFEbwIfWrjU3Uo9K4kluq3ZG
+   lJ86igw1eJJ810Aa4U4nRIDK2eNcW4/iLqy65ddM3320KUd0IJy+Axlxh
+   wXU9uLbaVhUIfWFeM9UfOiqEMUYx5CGyIs5+oLIjiOdAv+3TIDFVQka5I
+   F5wjVXB1p2yjdos1WEXlNPnuryMV9CrmwT0aDvd7xcG70DMdEHevYU/O1
+   n3TRJI/sUDCk/Tp991oRPVbzR0nFtf6jZeebBY+p4jSYRsVn1DAPDZVrP
+   URmXQLyW/AwpBFupu71vG6fshj3YOIi1wGOjOhzvNKYAMikLg8DqiNrOs
+   A==;
+X-CSE-ConnectionGUID: xLxXqBPQTRmq+2Ifd1e5ug==
+X-CSE-MsgGUID: 5Jyq6LKwSTGv66CcEoHVIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67762812"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="67762812"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 20:21:10 -0700
+X-CSE-ConnectionGUID: I3dx+uR4SamZQCNl9vtIfA==
+X-CSE-MsgGUID: UGeEXTyZTSmYpiUcL0B6+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="216493775"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 29 Oct 2025 19:49:17 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="185718204"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 29 Oct 2025 20:21:09 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEIiw-000000000z6-3c7I;
-	Thu, 30 Oct 2025 02:49:14 +0000
-Date: Thu, 30 Oct 2025 03:48:46 +0100
+	id 1vEJCl-000LPg-1a;
+	Thu, 30 Oct 2025 03:20:10 +0000
+Date: Thu, 30 Oct 2025 11:17:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [agd5f:drm-next-6.19 228/235] Warning:
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:914 function
- parameter 'link' not described in 'link_detect_dac_load_detect'
-Message-ID: <202510300317.X4sKP4lT-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-08 1/1]
+ crypto/fips140-module.c:691:8: error: call to undeclared function
+ 'register_trace_android_vh_sha256'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202510301156.21YQaZCD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,25 +64,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-6.19
-head:   1bc9d39275e08853ff15410b4d530b46b546affb
-commit: ac1bb49522676dfbd83c323376f8d5daa5b1ba84 [228/235] drm/amd/display: Use DAC load detection on analog connectors (v2)
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251030/202510300317.X4sKP4lT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510300317.X4sKP4lT-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-08
+head:   42652f7d325ccc2b09daef4759086a7c1cddfdff
+commit: 4084529fba5292734429ed383e66714154919b6b [1/1] ANDROID: fips140: add kernel crypto module
+config: arm64-randconfig-r121-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301156.21YQaZCD-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301156.21YQaZCD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510300317.X4sKP4lT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301156.21YQaZCD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:872 function parameter 'edid_header' not described in 'link_detect_evaluate_edid_header'
-   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:890 function parameter 'link' not described in 'link_detect_ddc_probe'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:914 function parameter 'link' not described in 'link_detect_dac_load_detect'
-   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1354 function parameter 'link' not described in 'link_detect_analog'
-   Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1354 function parameter 'type' not described in 'link_detect_analog'
+>> crypto/fips140-module.c:691:8: error: call to undeclared function 'register_trace_android_vh_sha256'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     691 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:691:8: note: did you mean 'trace_android_vh_sha256'?
+   include/trace/hooks/fips140.h:18:1: note: 'trace_android_vh_sha256' declared here
+      18 | DECLARE_HOOK(android_vh_sha256,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:605:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     605 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:111:1: note: expanded from here
+     111 | trace_android_vh_sha256
+         | ^
+>> crypto/fips140-module.c:692:8: error: call to undeclared function 'register_trace_android_vh_aes_expandkey'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     692 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:692:8: note: did you mean 'trace_android_vh_aes_expandkey'?
+   include/trace/hooks/fips140.h:25:1: note: 'trace_android_vh_aes_expandkey' declared here
+      25 | DECLARE_HOOK(android_vh_aes_expandkey,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:605:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     605 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:114:1: note: expanded from here
+     114 | trace_android_vh_aes_expandkey
+         | ^
+   crypto/fips140-module.c:693:8: error: call to undeclared function 'register_trace_android_vh_aes_encrypt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     693 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:694:8: error: call to undeclared function 'register_trace_android_vh_aes_decrypt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     694 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+         |               ^
+   4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+
+
+vim +/register_trace_android_vh_sha256 +691 crypto/fips140-module.c
+
+   686	
+   687	static bool update_fips140_library_routines(void)
+   688	{
+   689		int ret;
+   690	
+ > 691		ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+ > 692		      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+   693		      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+   694		      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+   695	
+   696		return ret == 0;
+   697	}
+   698	
 
 -- 
 0-DAY CI Kernel Test Service
