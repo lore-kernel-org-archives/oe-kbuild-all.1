@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98E6329E77;
-	Thu, 30 Oct 2025 20:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E701632C33D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 20:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761857188; cv=none; b=VHGCDyWOy/SyDJrQ0uATPS9tEfXosaTRl1P03CExm4NJrwHBbLUeBS+LLzVS3ZYAmyr4IqwUi3BEzSSmYyIdyqvh7suni2+mTh8zq7vMN7Fbk+qvszFP/BhUK6ZppQO7PxAKmNzwFyCPc9ZI9iC1oSeb5zhXe699BYeX4qy9ad8=
+	t=1761857791; cv=none; b=ZJzpjJbi7QQoKwdsrpofvrd/Jau+C1MWV3C4C5Yx4cZJUmVTsl5OMRVDWKVw6GiiwXJ79dj63rDvCtvephBVBbolaFFpKo/E+XC0feD5JDlcM1pYEzWS00oPn6EyRFuN/8/q/DXzSnKyHUch9PAHOJyfMwLnhjUjg+Qjh6u/Ksk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761857188; c=relaxed/simple;
-	bh=IzHEHcAJbzakFfy2ATpib9g8Ap3+ty+ERc7BngoXid4=;
+	s=arc-20240116; t=1761857791; c=relaxed/simple;
+	bh=vThwM6bg5dh8w6h8yGfI/6gd9+bsmsZISHcjUp0Wi7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CA0lfXrZmYGJi+mpaB1DBAaf/ohUDGwgFGMyEfyQaLdDyeutFfHu8CrNJX4rqrQeltwSi9LSIGXe4215vCeDyuV6rNh0CEFvjYMOsH4pOc52Du6i2A4O6wk/ruNoq2NvflhD6+cFe86JeaoT2wYtBs13oJYHwJaZxIYcm261+H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GylLjDwr; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=kpdwqVynQX1HgbDckGZtNHfaxGApA54EGVb5KGCkkb7+nZ+oWaDk5kXBuCeRctye9fUEtRseVj3mSlTnJUPD7Yw08UJc50wrpLA6Kyxkl2+eBffulG86WlQ7x8QTi+NRQdZlYj07E27EVzAjub30v6cujZXOdQTlm7qtzt0/H3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQ5yju53; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GylLjDwr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQ5yju53"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761857187; x=1793393187;
+  t=1761857790; x=1793393790;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IzHEHcAJbzakFfy2ATpib9g8Ap3+ty+ERc7BngoXid4=;
-  b=GylLjDwrCN59J1N5m+1QNhCsyElH8F1hTbm3VWdx6MMWaItn7EYCULsM
-   Go51+j029j//EXPsoB1GJaAb3ZMQDWgIgEtLAplqdLgLU9pSTamaH+4Pw
-   BfwwWjWK8CFQNVVt/sz4wdzgar8RqFDG2p969vMznmlCEz3H1UGDz8Fx8
-   TmmB7rXGW/wMlO5xZ6RWVedXTc3nUJBFg7NB/XTnGyVCAVQW3hPbvA1vA
-   cSBJNliVvCYJ5nPEDTK4OEdDL2EgCg1SoMQD5W1xibIz90N4Ct+WH32Xs
-   T9QK0j5zcOFRG2/FMfPdvk//8c1SWiDBaTLOv4hScQQgrdBLbOUhhVwVJ
-   A==;
-X-CSE-ConnectionGUID: QxgE/OJxQye5iLg9ibVdDg==
-X-CSE-MsgGUID: Tag2wnDCQxGc8cfYI+G9sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64109372"
+  bh=vThwM6bg5dh8w6h8yGfI/6gd9+bsmsZISHcjUp0Wi7E=;
+  b=bQ5yju53h1jiSVl7lYAynbp9SpIUpIx0uQGB9b6GAJCOUIPC7hI9/HBm
+   KuGGKVqeqGY99BNKj9IBmy0vYKXCS/UDwRqNQl5iHjLJZ331o65EBCP/M
+   XkxT45k8M54o0S4kKXuFGb5d3qnsqGb8ItrBvPcbGQUamgoootXXIfMtz
+   5Vjyvl5uMLRwix/BdFk/SyKdBIcUCwy5FJl90rMa+rIUULyqxMZRDR3R8
+   3VKOwKmJRpSaZsJvYWsmV366UNfVW1LZ8GrDXOCtD1EURwE16SORRssyl
+   CYOZmMKhaAtVAjEmyedVr6jifOgC4NLumKl9bWsiijHKmloH4uN6QWrsh
+   w==;
+X-CSE-ConnectionGUID: Hkj6JjsOR3y2W8R+vZxfng==
+X-CSE-MsgGUID: aufYK4aeQyud7Pp1uPLckQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="81641676"
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="64109372"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 13:46:26 -0700
-X-CSE-ConnectionGUID: ZOSCdisEQn6yO+A1JXJA3Q==
-X-CSE-MsgGUID: CcBCWZKSSniJ0nEvu4L6Yw==
+   d="scan'208";a="81641676"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 13:56:29 -0700
+X-CSE-ConnectionGUID: wuDqC9JaQY2quEW6MtBc5g==
+X-CSE-MsgGUID: iESQHGsTTD6bVq08VVjuJA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="185933452"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Oct 2025 13:46:24 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Oct 2025 13:56:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEZWs-000MVc-24;
-	Thu, 30 Oct 2025 20:46:03 +0000
-Date: Fri, 31 Oct 2025 04:45:22 +0800
+	id 1vEZh1-000MWi-13;
+	Thu, 30 Oct 2025 20:56:23 +0000
+Date: Fri, 31 Oct 2025 04:56:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Elder <elder@riscstar.com>, broonie@kernel.org, dlan@gentoo.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
-	linux-spi@vger.kernel.org, spacemit@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] spi: spacemit: introduce SpacemiT K1 SPI
- controller driver
-Message-ID: <202510310407.ooVqGn3P-lkp@intel.com>
-References: <20251027125504.297033-3-elder@riscstar.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	sboyd@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mturquette@baylibre.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, laura.nao@collabora.com,
+	nfraprado@collabora.com, wenst@chromium.org,
+	y.oudjana@protonmail.com, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC
+ Clock Controller
+Message-ID: <202510310450.vQV7FK3n-lkp@intel.com>
+References: <20251027111343.21723-8-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,30 +71,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027125504.297033-3-elder@riscstar.com>
+In-Reply-To: <20251027111343.21723-8-angelogioacchino.delregno@collabora.com>
 
-Hi Alex,
+Hi AngeloGioacchino,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87]
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-spi-add-SpacemiT-K1-SPI-support/20251027-211246
-base:   8fec172c82c2b5f6f8e47ab837c1dc91ee3d1b87
-patch link:    https://lore.kernel.org/r/20251027125504.297033-3-elder%40riscstar.com
-patch subject: [PATCH v6 2/3] spi: spacemit: introduce SpacemiT K1 SPI controller driver
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20251031/202510310407.ooVqGn3P-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310407.ooVqGn3P-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/clk-mediatek-Split-out-registration-from-mtk_clk_register_gates/20251027-191633
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20251027111343.21723-8-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 7/7] clk: mediatek: Add support for MT6685 PM/Clock IC Clock Controller
+config: arm64-randconfig-003-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310450.vQV7FK3n-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310450.vQV7FK3n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310407.ooVqGn3P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310450.vQV7FK3n-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__udivdi3" [drivers/spi/spi-spacemit-k1.ko] undefined!
+   drivers/clk/mediatek/clk-mtk-spmi.c: In function 'mtk_spmi_clk_simple_probe':
+   drivers/clk/mediatek/clk-mtk-spmi.c:48:13: error: implicit declaration of function 'devm_spmi_subdevice_alloc_and_add' [-Werror=implicit-function-declaration]
+      48 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/mediatek/clk-mtk-spmi.c:48:11: warning: assignment to 'struct spmi_subdevice *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      48 |  sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+         |           ^
+   In file included from drivers/clk/mediatek/clk-mtk-spmi.c:16:
+   drivers/clk/mediatek/clk-mtk-spmi.c:52:46: error: invalid use of undefined type 'struct spmi_subdevice'
+      52 |  regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+         |                                              ^~
+   include/linux/regmap.h:775:6: note: in definition of macro '__regmap_lockdep_wrapper'
+     775 |   fn(__VA_ARGS__, &_key,     \
+         |      ^~~~~~~~~~~
+   drivers/clk/mediatek/clk-mtk-spmi.c:52:11: note: in expansion of macro 'devm_regmap_init_spmi_ext'
+      52 |  regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+         |           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +48 drivers/clk/mediatek/clk-mtk-spmi.c
+
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  21  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  22  int mtk_spmi_clk_simple_probe(struct platform_device *pdev)
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  23  {
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  24  	struct regmap_config mtk_spmi_clk_regmap_config = {
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  25  		.reg_bits = 16,
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  26  		.val_bits = 8,
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  27  		.fast_io = true
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  28  	};
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  29  	struct device_node *node = pdev->dev.of_node;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  30  	const struct mtk_spmi_clk_desc *mscd;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  31  	struct spmi_subdevice *sub_sdev;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  32  	struct spmi_device *sparent;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  33  	struct regmap *regmap;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  34  	int ret;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  35  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  36  	ret = of_property_read_u32(node, "reg", &mtk_spmi_clk_regmap_config.reg_base);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  37  	if (ret)
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  38  		return ret;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  39  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  40  	/* If the max_register was not declared the pdata is not valid */
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  41  	mscd = device_get_match_data(&pdev->dev);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  42  	if (mscd->max_register == 0)
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  43  		return -EINVAL;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  44  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  45  	mtk_spmi_clk_regmap_config.max_register = mscd->max_register;
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  46  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  47  	sparent = to_spmi_device(pdev->dev.parent);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27 @48  	sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  49  	if (IS_ERR(sub_sdev))
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  50  		return PTR_ERR(sub_sdev);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  51  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  52  	regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev, &mtk_spmi_clk_regmap_config);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  53  	if (IS_ERR(regmap))
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  54  		return PTR_ERR(regmap);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  55  
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  56  	return mtk_clk_simple_probe_internal(pdev, node, mscd->desc, regmap);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  57  }
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  58  EXPORT_SYMBOL_GPL(mtk_spmi_clk_simple_probe);
+80a000281742dc0 AngeloGioacchino Del Regno 2025-10-27  59  
 
 -- 
 0-DAY CI Kernel Test Service
