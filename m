@@ -1,157 +1,157 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8B33F39D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 10:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A454D3164B5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 10:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761819225; cv=none; b=jeKJ3ZOKXq2iCp7SNJeBlbEO15d/oCHapd4qyHdoll2wDke7ExyE7cCSPuI8Cj84LSuhU2M/67jR6o/Z1ttgVIob6bnXu1IsGL+NmeKwslWcktGcvjjt+HY343ClHlj/47NKhi3x2+d7UEGPOXQSyMqytL4xBzE1MeXfqaXNktM=
+	t=1761819257; cv=none; b=Q0QynkFNjLe+GUs1iTUVON1uAa8roZppzwEgbCLK3Va3cCk0bU/QwDhq7c0km0cVK4PCOtxizqRq210Oa/wc5xURf6Y/m6kSLCj98uMMihf8w0B/zo2/WugtillvFnXhLfKIOJzZvbr3gmL8cj9m4UVbLOewMT43tgOoZ4lZPuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761819225; c=relaxed/simple;
-	bh=khFHcHM6BMW4ak4wtz5/K13ZKcuV9yLkr8J2CesSst4=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=VZgWoZKIuaiZZfF2tX0N8M2iRTEQZXegAhVbNfP0lWy8AsJ2MgwESScDyFz77eG4jGYWfqFxUTO948TIyAKX8qbbsD2nzTXZtomsVgcdGl+OcjGoywcMDv6/usSjPG5kiahm9qMlXId0a6iK+0JaXnwqY4EakDv7tFvK8ntN/5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=foAOHo5Y; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1761819257; c=relaxed/simple;
+	bh=GuvmT8mt6VaDh/h/HFk9xor7G9QrEfJarV/L3aR+Is8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FYnG0dripVm1rInzwrm3Odc2U+FgcEDQZ+cJf9cRyzWtc9MyT2N7SjAsPiAvvLd9kPgixTENzcia70fyFNQTkV434Qhzp6X1HSgTIo2/+DBu7zHsjUfBMZoSHfz1fnaWasw5+T7tIBVy186XZCN4DP87LhjotKorH46/gbDLjlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNgxxxd/; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="foAOHo5Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNgxxxd/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761819256; x=1793355256;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t01BAnea+d9hOFt+MZUOQqNA8GCr8lj+TYZ3J7/yU+w=;
-  b=foAOHo5YeEtLMVa5E3VDz9Ke77nsi4eNP0+RzfgRls7EMXq6Lh0AkHt/
-   P+goszbBd1oU+KDwQAtH1KL3YxMsPHBO+wRt7zl/YNu5Qc4j2azOyFZVY
-   CNkpjnC/vJ9YaWRc2OtcfMJTbIyzZisNSApa+WorzmOnOTd5iUYK3AddF
-   Y=;
-X-CSE-ConnectionGUID: EL4vGBzkRA+HJKbJHSsaLA==
-X-CSE-MsgGUID: f377ETMDQ+GSDizyXTaRuA==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.19,266,1754949600"; 
-   d="scan'208";a="129482316"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 11:13:34 +0100
-Date: Thu, 30 Oct 2025 11:13:33 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-    linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/pwm/pwm-mediatek.c:380:16-17: WARNING: Use struct_size
- (fwd)
-Message-ID: <1c14c197-4615-8065-b440-4a10975f8c93@inria.fr>
+  bh=GuvmT8mt6VaDh/h/HFk9xor7G9QrEfJarV/L3aR+Is8=;
+  b=BNgxxxd/T5oCasdKr2gUeTEK+SI1TflXQrOb109+ebwTQLILSGHC5Pri
+   CPY5LYFD+0lU4b5GRIT94Y1e4QgjoWshnzjfPfiuPenO9PIrtqlzr1bZw
+   0847LFt6QghhCbK533oo1h6xmP+mhAXqzjNcGcIQTaYtvqYlAtF5PbAuX
+   yKGi2l1tyFwp35ORCEbgfCGdOFrtVmxaJf/36KMcuFbPgxaFztY8wYLaN
+   7DG3kfdZZpjp+IbsURZSXfkPxH0cKGuQrgLdrXP+XjRQrOtXcJdYnOY3L
+   OCf/QTL5uSGk1jDt4skLvad0ZZIv1HmssUwQxkPVR4aa/G/VYgI0U2Nde
+   A==;
+X-CSE-ConnectionGUID: tCLzuI0kSKyIQ7K6ZTcdFw==
+X-CSE-MsgGUID: 9yUMwtpUQRChdS4DSZiyXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63841697"
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="63841697"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 03:14:15 -0700
+X-CSE-ConnectionGUID: +yCStCFdRpCf41RzB8px2A==
+X-CSE-MsgGUID: 12qpTA2MR/uNwO7FFz9a7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="185851486"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2025 03:14:15 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vEPfY-000LoS-0X;
+	Thu, 30 Oct 2025 10:14:12 +0000
+Date: Thu, 30 Oct 2025 18:13:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 22/22]
+ arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier
+ 'STRUCT_HYP_BUFFER_PAGE_SIZE'
+Message-ID: <202510301821.4aTz18tC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1426919892-1761819214=:3629"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1426919892-1761819214=:3629
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-
-
----------- Forwarded message ----------
-Date: Thu, 30 Oct 2025 17:19:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pwm/pwm-mediatek.c:380:16-17: WARNING: Use struct_size
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-commit: ed5902a2464834656f94f1c23fa61f99ea38f328 pwm: mediatek: Lock and cache clock rate
-date:   6 weeks ago
-:::::: branch date: 32 hours ago
-:::::: commit date: 6 weeks ago
-config: powerpc-randconfig-r054-20251029 (https://download.01.org/0day-ci/archive/20251030/202510301753.iqGmTwae-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   9eddaf6198dd154a6563d1ed1701c46372ad997d
+commit: 575dd1da644e642dd122a5af1e81c4171af0f842 [22/22] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
+config: arm64-randconfig-004-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301821.4aTz18tC-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301821.4aTz18tC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202510301753.iqGmTwae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510301821.4aTz18tC-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pwm/pwm-mediatek.c:380:16-17: WARNING: Use struct_size
+All errors (new ones prefixed by >>):
 
-vim +380 drivers/pwm/pwm-mediatek.c
+>> arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier 'STRUCT_HYP_BUFFER_PAGE_SIZE'
+      38 |         backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
+     488 | int hyp_trace_release(struct inode *inode, struct file *file)
+         |     ^
+   arch/arm64/kvm/hyp_trace.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     488 | int hyp_trace_release(struct inode *inode, struct file *file)
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
-a911f15745fd4a9 Uwe Kleine-König           2025-07-25  368
-2503781c97fa66f Sam Shih                   2019-09-20  369  static int pwm_mediatek_probe(struct platform_device *pdev)
-caf065f8fd583b4 John Crispin               2017-01-23  370  {
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  371  	struct pwm_chip *chip;
-2503781c97fa66f Sam Shih                   2019-09-20  372  	struct pwm_mediatek_chip *pc;
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  373  	const struct pwm_mediatek_of_data *soc;
-caf065f8fd583b4 John Crispin               2017-01-23  374  	unsigned int i;
-caf065f8fd583b4 John Crispin               2017-01-23  375  	int ret;
-caf065f8fd583b4 John Crispin               2017-01-23  376
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  377  	soc = of_device_get_match_data(&pdev->dev);
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  378
-ed5902a24648346 Uwe Kleine-König           2025-07-25  379  	chip = devm_pwmchip_alloc(&pdev->dev, soc->num_pwms,
-ed5902a24648346 Uwe Kleine-König           2025-07-25 @380  				  sizeof(*pc) + soc->num_pwms * sizeof(*pc->clk_pwms));
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  381  	if (IS_ERR(chip))
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  382  		return PTR_ERR(chip);
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  383  	pc = to_pwm_mediatek_chip(chip);
-caf065f8fd583b4 John Crispin               2017-01-23  384
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  385  	pc->soc = soc;
-424268c7494c2ae Zhi Mao                    2017-10-25  386
-7681c2bd2ab2dd1 Yangtao Li                 2019-12-29  387  	pc->regs = devm_platform_ioremap_resource(pdev, 0);
-caf065f8fd583b4 John Crispin               2017-01-23  388  	if (IS_ERR(pc->regs))
-caf065f8fd583b4 John Crispin               2017-01-23  389  		return PTR_ERR(pc->regs);
-caf065f8fd583b4 John Crispin               2017-01-23  390
-efecdeb82f21d41 Sam Shih                   2019-09-20  391  	pc->clk_top = devm_clk_get(&pdev->dev, "top");
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  392  	if (IS_ERR(pc->clk_top))
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  393  		return dev_err_probe(&pdev->dev, PTR_ERR(pc->clk_top),
-4d690e508a69f42 AngeloGioacchino Del Regno 2022-02-14  394  				     "Failed to get top clock\n");
-efecdeb82f21d41 Sam Shih                   2019-09-20  395
-efecdeb82f21d41 Sam Shih                   2019-09-20  396  	pc->clk_main = devm_clk_get(&pdev->dev, "main");
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  397  	if (IS_ERR(pc->clk_main))
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  398  		return dev_err_probe(&pdev->dev, PTR_ERR(pc->clk_main),
-4d690e508a69f42 AngeloGioacchino Del Regno 2022-02-14  399  				     "Failed to get main clock\n");
-efecdeb82f21d41 Sam Shih                   2019-09-20  400
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  401  	for (i = 0; i < soc->num_pwms; i++) {
-efecdeb82f21d41 Sam Shih                   2019-09-20  402  		char name[8];
-efecdeb82f21d41 Sam Shih                   2019-09-20  403
-efecdeb82f21d41 Sam Shih                   2019-09-20  404  		snprintf(name, sizeof(name), "pwm%d", i + 1);
-efecdeb82f21d41 Sam Shih                   2019-09-20  405
-ed5902a24648346 Uwe Kleine-König           2025-07-25  406  		pc->clk_pwms[i].clk = devm_clk_get(&pdev->dev, name);
-ed5902a24648346 Uwe Kleine-König           2025-07-25  407  		if (IS_ERR(pc->clk_pwms[i].clk))
-ed5902a24648346 Uwe Kleine-König           2025-07-25  408  			return dev_err_probe(&pdev->dev, PTR_ERR(pc->clk_pwms[i].clk),
-4d690e508a69f42 AngeloGioacchino Del Regno 2022-02-14  409  					     "Failed to get %s clock\n", name);
-ed5902a24648346 Uwe Kleine-König           2025-07-25  410
-ed5902a24648346 Uwe Kleine-König           2025-07-25  411  		ret = devm_clk_rate_exclusive_get(&pdev->dev, pc->clk_pwms[i].clk);
-ed5902a24648346 Uwe Kleine-König           2025-07-25  412  		if (ret)
-ed5902a24648346 Uwe Kleine-König           2025-07-25  413  			return dev_err_probe(&pdev->dev, ret,
-ed5902a24648346 Uwe Kleine-König           2025-07-25  414  					     "Failed to lock clock rate for %s\n", name);
-424268c7494c2ae Zhi Mao                    2017-10-25  415  	}
-caf065f8fd583b4 John Crispin               2017-01-23  416
-a911f15745fd4a9 Uwe Kleine-König           2025-07-25  417  	ret = pwm_mediatek_init_used_clks(pc);
-a911f15745fd4a9 Uwe Kleine-König           2025-07-25  418  	if (ret)
-a911f15745fd4a9 Uwe Kleine-König           2025-07-25  419  		return dev_err_probe(&pdev->dev, ret, "Failed to initialize used clocks\n");
-a911f15745fd4a9 Uwe Kleine-König           2025-07-25  420
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  421  	chip->ops = &pwm_mediatek_ops;
-caf065f8fd583b4 John Crispin               2017-01-23  422
-1c8090d7b3babd2 Uwe Kleine-König           2024-02-14  423  	ret = devm_pwmchip_add(&pdev->dev, chip);
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  424  	if (ret < 0)
-5264e8ca762bb1b AngeloGioacchino Del Regno 2022-02-14  425  		return dev_err_probe(&pdev->dev, ret, "pwmchip_add() failed\n");
-caf065f8fd583b4 John Crispin               2017-01-23  426
-caf065f8fd583b4 John Crispin               2017-01-23  427  	return 0;
-caf065f8fd583b4 John Crispin               2017-01-23  428  }
-caf065f8fd583b4 John Crispin               2017-01-23  429
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +/STRUCT_HYP_BUFFER_PAGE_SIZE +38 arch/arm64/kvm/hyp_trace.c
+
+    29	
+    30	static int bpage_backing_setup(struct hyp_trace_pack *pack)
+    31	{
+    32		size_t backing_size;
+    33		void *start;
+    34	
+    35		if (hyp_buffer_pages_backing.start)
+    36			return -EBUSY;
+    37	
+  > 38		backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
+    39			       pack->trace_buffer_pack.total_pages;
+    40		backing_size = PAGE_ALIGN(backing_size);
+    41	
+    42		start = alloc_pages_exact(backing_size, GFP_KERNEL_ACCOUNT);
+    43		if (!start)
+    44			return -ENOMEM;
+    45	
+    46		hyp_buffer_pages_backing.start = (unsigned long)start;
+    47		hyp_buffer_pages_backing.size = backing_size;
+    48		pack->backing.start = (unsigned long)start;
+    49		pack->backing.size = backing_size;
+    50	
+    51		return 0;
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
---8323329-1426919892-1761819214=:3629--
