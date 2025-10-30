@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D0B36CA9E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 18:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECC436B972
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 18:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761847683; cv=none; b=YXwEK7rBLNMlQHG1oj/DhvaJ1oaIdnpLQM1eU1hMghUndxZcWrubNRexSkeYGUw0PxToWuvTIMLJqBlE4ZMhe7rR0v5612q0lJBbJWvBLZftxpsubF1cgbqD6ZoB8VeI06SAADE/wZdwhZ5LJI8oBeSRVK3CIJBLJ4OES8150bM=
+	t=1761850152; cv=none; b=mMlRsE0yRLmyRMnFHpKeIcmVyMf0/HYzcOYEipynau4DVbnAYh5OFnb89Tn1Dl3vgTz8oZL3+Q/ygGZcqevQHAA0s6wJ2DWttlPg6EE6CdgR3ZjOQT7FHV5QCT+OFs3PmNiLktnbU6v4Z1aO0LVV9CyjckTCYo2j0EowTqzmwqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761847683; c=relaxed/simple;
-	bh=srnTyop+o8WgWjPePpQqFtHWyTRYfI2Cb3A5JDGJp7U=;
+	s=arc-20240116; t=1761850152; c=relaxed/simple;
+	bh=VCuPSyWJoXsUEfwokDYoj/SLJGyu2B621/T8dElvZlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0n8Qb/2eDgkDU4pIb508/wud+va45b9KEA6MXkowT8o442V+5TFnwZ7ZW1UGY3PytyTtVHDhgRYUWemXohHg5drooeVdo5M9sV+T9md7UUm6cT9DGYtLaxddtA9Z4TtMt3Btqi8UTQPTjPiXZn1+yC6IDaZ0IPDlG+M0E3xjjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cM2SMFow; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZ8qT4LhLoHkp9QHwzv92VsTF9poB06hQk4YVzSI5BSwrzU1dJ9fgCwv63TcSjzgBObYm41V8pSeB5Ah3Rppbp3+KHVp4hDJYGOyL/iFS+E8K+JxnL3JUxr5Q6kuQnPAIT3sM4W+g2hKDRNLwkf0+fuhoC/N1/Sq2HRGgwAropU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCXmAJHK; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cM2SMFow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCXmAJHK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761847681; x=1793383681;
+  t=1761850151; x=1793386151;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=srnTyop+o8WgWjPePpQqFtHWyTRYfI2Cb3A5JDGJp7U=;
-  b=cM2SMFowtuSEhaXAjoFOe3T4yF+5MG5SaQ0dp/g184F+qEEYDLYa6EYk
-   1G6l8s4IBjo/EV0kfxayJnaTmpWU328QiyZ01mxp2M+uhEsvYyViGgPVv
-   TH034opMj5DqFEcPMYrWuF8GBjszzilPbU6Bpq3kWmLqSizM7XusVDkXY
-   t/22BEt5gsE3x1NmVt4WUsQ6fD9bjy1Fu1Peb2gobe+q3sx+fG348ww74
-   LS4VrO6fCyBSctQo4uihco1HwR3ckFK7zsUyJ0toHfIJLMqbUHmn8m6/h
-   Nf+hlxUv9m89x9fwXLsPDj4Jn8Sd5eMdr53gYSL0GvKTKVCltFvFL4sLe
-   w==;
-X-CSE-ConnectionGUID: FnXDj9PsRvmVL16M8FtK3w==
-X-CSE-MsgGUID: s6qd6GDxSFm8am8uCqEwPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="66614117"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="66614117"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 11:08:00 -0700
-X-CSE-ConnectionGUID: 3PRBBtEaQ9GXRaTReU7tag==
-X-CSE-MsgGUID: UTFciI0HQLWZEXadIIwWNA==
+  bh=VCuPSyWJoXsUEfwokDYoj/SLJGyu2B621/T8dElvZlY=;
+  b=NCXmAJHKnyVMsI07Ya/VkDqyWeNGc7Cjtviwd8ANvzkORGjIJvJ7ABRg
+   GUIkN44HwgzXetpamUILojSeZcsANvJ8Adfrr7wKuq9rn+5fBULud8UDr
+   t9qSKfCdnmLXriGmRINeLxNThpuwns9zWzgAqh25z5RYWSbLBS2MSoT3N
+   ClBToONjSPeqv+gZLIAVkn3hLpCIwBnhIKOMPNUqbe7VAXHkJMyCsVSme
+   /fjA6y+2vYk1xYcevNBa50AVdtVHJLF7qnOUhWUyMidRrPTdrU1BAtWDh
+   SRFOXy2JWV94uIHXwhU4BUr9YSFPPs56jrqdqzoyYCWZem0eiFFPzx7Ko
+   A==;
+X-CSE-ConnectionGUID: Zq145tFiRECj9iN5h09dSg==
+X-CSE-MsgGUID: xX0tNl95SgutuLPj3FL/DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63908444"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63908444"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 11:49:11 -0700
+X-CSE-ConnectionGUID: 6ApZtlUSQLus/E7Ym+HZBQ==
+X-CSE-MsgGUID: SMUMd3n/T3ivoE6UBpL9xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="190366715"
+   d="scan'208";a="223264628"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2025 11:07:57 -0700
+  by orviesa001.jf.intel.com with ESMTP; 30 Oct 2025 11:49:08 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEX3u-000MNz-0g;
-	Thu, 30 Oct 2025 18:07:51 +0000
-Date: Fri, 31 Oct 2025 02:06:27 +0800
+	id 1vEXhl-000MQ4-1G;
+	Thu, 30 Oct 2025 18:49:02 +0000
+Date: Fri, 31 Oct 2025 02:48:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haotian Zhang <vulab@iscas.ac.cn>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Markus.Elfring@web.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Haotian Zhang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH v2] leds: netxbig: fix GPIO descriptor leak in error paths
-Message-ID: <202510310145.tlVMfaP8-lkp@intel.com>
-References: <20251030025312.1623-1-vulab@iscas.ac.cn>
+To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
+	martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
+	sumit.saxena@broadcom.com, chandrakanth.patil@broadcom.com,
+	prayas.patel@broadcom.com, Ranjan Kumar <ranjan.kumar@broadcom.com>
+Subject: Re: [PATCH v1 1/5] mpt3sas: Added no_turs flag to device unblock
+ logic
+Message-ID: <202510310216.gerpzbxP-lkp@intel.com>
+References: <20251029181058.39157-2-ranjan.kumar@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,143 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030025312.1623-1-vulab@iscas.ac.cn>
+In-Reply-To: <20251029181058.39157-2-ranjan.kumar@broadcom.com>
 
-Hi Haotian,
+Hi Ranjan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.18-rc3 next-20251030]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.18-rc3 next-20251030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/leds-netxbig-fix-GPIO-descriptor-leak-in-error-paths/20251030-105705
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20251030025312.1623-1-vulab%40iscas.ac.cn
-patch subject: [PATCH v2] leds: netxbig: fix GPIO descriptor leak in error paths
-config: nios2-randconfig-r072-20251030 (https://download.01.org/0day-ci/archive/20251031/202510310145.tlVMfaP8-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310145.tlVMfaP8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpt3sas-Added-no_turs-flag-to-device-unblock-logic/20251030-025730
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20251029181058.39157-2-ranjan.kumar%40broadcom.com
+patch subject: [PATCH v1 1/5] mpt3sas: Added no_turs flag to device unblock logic
+config: i386-randconfig-054-20251030 (https://download.01.org/0day-ci/archive/20251031/202510310216.gerpzbxP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310216.gerpzbxP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310145.tlVMfaP8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310216.gerpzbxP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/leds/leds-netxbig.c: In function 'netxbig_gpio_ext_get':
->> drivers/leds/leds-netxbig.c:428:1: warning: label 'err_free_data' defined but not used [-Wunused-label]
-     428 | err_free_data:
-         | ^~~~~~~~~~~~~
-
-
-vim +/err_free_data +428 drivers/leds/leds-netxbig.c
-
-   335	
-   336	/**
-   337	 * netxbig_gpio_ext_get() - Obtain GPIO extension device data
-   338	 * @dev: main LED device
-   339	 * @gpio_ext_dev: the GPIO extension device
-   340	 * @gpio_ext: the data structure holding the GPIO extension data
-   341	 *
-   342	 * This function walks the subdevice that only contain GPIO line
-   343	 * handles in the device tree and obtains the GPIO descriptors from that
-   344	 * device.
-   345	 */
-   346	static int netxbig_gpio_ext_get(struct device *dev,
-   347					struct device *gpio_ext_dev,
-   348					struct netxbig_gpio_ext *gpio_ext)
-   349	{
-   350		struct gpio_desc **addr, **data;
-   351		int num_addr, num_data;
-   352		struct gpio_desc *gpiod;
-   353		int ret;
-   354		int i;
-   355	
-   356		ret = gpiod_count(gpio_ext_dev, "addr");
-   357		if (ret < 0) {
-   358			dev_err(dev,
-   359				"Failed to count GPIOs in DT property addr-gpios\n");
-   360			return ret;
-   361		}
-   362		num_addr = ret;
-   363		addr = devm_kcalloc(dev, num_addr, sizeof(*addr), GFP_KERNEL);
-   364		if (!addr)
-   365			return -ENOMEM;
-   366	
-   367		gpio_ext->addr = addr;
-   368		gpio_ext->num_addr = 0;
-   369	
-   370		/*
-   371		 * We cannot use devm_ managed resources with these GPIO descriptors
-   372		 * since they are associated with the "GPIO extension device" which
-   373		 * does not probe any driver. The device tree parser will however
-   374		 * populate a platform device for it so we can anyway obtain the
-   375		 * GPIO descriptors from the device.
-   376		 */
-   377		for (i = 0; i < num_addr; i++) {
-   378			gpiod = gpiod_get_index(gpio_ext_dev, "addr", i,
-   379						GPIOD_OUT_LOW);
-   380			if (IS_ERR(gpiod)) {
-   381				ret = PTR_ERR(gpiod);
-   382				goto err_free_addr;
-   383			}
-   384			gpiod_set_consumer_name(gpiod, "GPIO extension addr");
-   385			addr[i] = gpiod;
-   386			gpio_ext->num_addr++;
-   387		}
-   388	
-   389		ret = gpiod_count(gpio_ext_dev, "data");
-   390		if (ret < 0) {
-   391			dev_err(dev,
-   392				"Failed to count GPIOs in DT property data-gpios\n");
-   393			goto err_free_addr;
-   394		}
-   395		num_data = ret;
-   396		data = devm_kcalloc(dev, num_data, sizeof(*data), GFP_KERNEL);
-   397		if (!data) {
-   398			ret = -ENOMEM;
-   399			goto err_free_addr;
-   400		}
-   401	
-   402		gpio_ext->data = data;
-   403		gpio_ext->num_data = 0;
-   404	
-   405		for (i = 0; i < num_data; i++) {
-   406			gpiod = gpiod_get_index(gpio_ext_dev, "data", i,
-   407						GPIOD_OUT_LOW);
-   408			if (IS_ERR(gpiod))
-   409				goto err_gpiod_put;
-   410			gpiod_set_consumer_name(gpiod, "GPIO extension data");
-   411			data[i] = gpiod;
-   412			gpio_ext->num_data++;
-   413		}
-   414	
-   415		gpiod = gpiod_get(gpio_ext_dev, "enable", GPIOD_OUT_LOW);
-   416		if (IS_ERR(gpiod)) {
-   417			dev_err(dev,
-   418				"Failed to get GPIO from DT property enable-gpio\n");
-   419			goto err_gpiod_put;
-   420		}
-   421		gpiod_set_consumer_name(gpiod, "GPIO extension enable");
-   422		gpio_ext->enable = gpiod;
-   423	
-   424		return devm_add_action_or_reset(dev, netxbig_gpio_ext_remove, gpio_ext);
-   425	
-   426	err_gpiod_put:
-   427		ret = PTR_ERR(gpiod);
- > 428	err_free_data:
-   429		for (i = 0; i < gpio_ext->num_data; i++)
-   430			gpiod_put(gpio_ext->data[i]);
-   431	err_free_addr:
-   432		for (i = 0; i < gpio_ext->num_addr; i++)
-   433			gpiod_put(gpio_ext->addr[i]);
-   434		return ret;
-   435	}
-   436	
+>> Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:3832 function parameter 'no_turs' not described in '_scsih_ublock_io_all_device'
 
 -- 
 0-DAY CI Kernel Test Service
