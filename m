@@ -1,70 +1,72 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D554DAD4B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 05:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5762D6E6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 05:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761888180; cv=none; b=BKVdwr407MmgE6uNL9UeN+YJbBZfLm1vGzMDONHSf3pYHlm+BR1ixOGzF4A3hSTqIY3JOPWFNK/0x2KqCuxaKYwl/AOqctbOzRMgOagw5x3l16mlMzC7FZnqM5v9DMoG1ClfX1o/BC4+EuUsx9hdeP5r+fRlEsvVVq/xv2FzhpE=
+	t=1761888366; cv=none; b=LBDC6cZj8mDM7/QFVF5BnBtOGa9rWXj/2ASkq/hYVLAEM9DuD7RUhscpSXirN740fxgNgrMfFVFfBDVXGVKpsiev8rvN0n9doWe8TnHV0hDfZIShg/kxztmSdIDviS2Y8wcczliEqD4d3M00/s9cDMxcaphaLBxcIUIpspeHfXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761888180; c=relaxed/simple;
-	bh=R34RNdHfLenmvgLgeWC/CaGqZ5s2qXVesvg26UCKFm8=;
+	s=arc-20240116; t=1761888366; c=relaxed/simple;
+	bh=sMxXPrW+6JuiJPVF7BDv9T9xRLe9e0WrVuR1A1ODGSU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Vq5NVAfF+bO0jb2CEN0Qtqn1Sq/lW8sgwpBCHuHcbhH7dh9cSxWGb9qIuIgJuYV5Pmc1rHtrrNpCbiEDJlvv4Spl8YGgY8cgCNiO6GUSLMIzufBSzWhO1TS+yTcR/hOHYo1EofadCoYYSXfKnhFI59LIrfepiSIJRnQZe1bH8ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ve4/1X7h; arc=none smtp.client-ip=209.85.128.48
+	 Content-Disposition; b=CyzFWz1md0PisrlQGfi9IdZBRZW8jpO736NLnVpCFPEzVUf/ADGhayqrod3e6Y8eMdqnAGobFyorSAhfeRPbHp1xWWwNNjPSMGlfH8isGq1Mh6TAVnrAc9qU34PXvwrcjB2XlJD4fm6EmCocsGFRWZ+cMfq2xhfrIC5jEdY76AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xLwAGQk9; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ve4/1X7h"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4710683a644so16533815e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 22:22:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xLwAGQk9"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so17070215e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 22:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761888175; x=1762492975; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1761888363; x=1762493163; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JEAcebBrLfuvI6ZqOIoqhHd8hKm6Gmtjk7upIV0IUIo=;
-        b=ve4/1X7hRfStLZw88nOMsNuy3fxoo0MSEM94Sv+gTuJjNVIFEtpCWiyjiRtCBUGyBO
-         cUkUfj4uiyID3TEsNCesrKSVzAbK/zj/q3Ro4C47+EBMP0Nhqm71P2kSjyY0Y/IwutWV
-         NUEpOXwGbxGr0qxnpf84PAVRl2NtiEBJvPx/9MdccuYySek6DQB+zT4OV4w7ZdpPxVnR
-         20ilz2C9tV0wQwncIKCg5pShdxktrZT40S3/olWT2ietQdkbLQK1St7ftZVwQuxJ8sod
-         WrFSm/oiIiNfP0MaSxLq5a2+ootWYrCIKJGKRuItB1zJYi/pfH9YGHNk48JbNU45qj7X
-         DY+A==
+        bh=dBbdaqSwc4AIhUshtjXjzk4g57EzDgumS+pQDOnoPmc=;
+        b=xLwAGQk9Q4HTPsM1YYWIMi8RTHTiagGYZqJ5jYj8mDTbW11A25wH5OiPvF8iVfJgpd
+         PXALi9wYXOsfGJegFuZEuuAr5QQHi70YLVagB5whbDyNyLEdjrFXNkL58OD8N1DEdV3Y
+         s16Rl3BLMtBV6f3zrN4Ui2VIBTNJjBDk6DX7ZwR+BGsSPfcOQj9KuXcURe7KVP9b3PpL
+         uK2WvQFpLHfbdWmxSMB3yuWD0VWlKC1XwGOzn2Xn5b8+eZVgnFuxmftLK3J9/5LHb5fm
+         4HZvo71Xka2IssswseB8WTIoCzuR9+t2Eq5L7ldxJy2INOQ/jwTu47/jSoAD3ph7sJbc
+         Th7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761888175; x=1762492975;
+        d=1e100.net; s=20230601; t=1761888363; x=1762493163;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JEAcebBrLfuvI6ZqOIoqhHd8hKm6Gmtjk7upIV0IUIo=;
-        b=LLsJD5eWMDVOlGutvA/HxTz43YqKIJp71z/A5UC+Z4BvJ2KFrJvlyTJSn2jmLGzHIN
-         Pi8jO513QCkEjnofZmh1Wm7o0sc9HD4BWaiIKft/0rJXrleGkmVTFQWefeBBe/g++N5r
-         8ug4xqsG8B0PAFWVit8doRWyNtO/cVNmBBX6rvCUMErHkMc1g5EDLWH5vH5v/KD5bcBG
-         OD5NOHmDqZfmXlM6XS22MOfk8bIsZ8F06HpiWtZTRvZwd4leNKola7n36f+6Q1ckn7Ei
-         QY+GSLx0shQQnm3lVK29JuLyoNav9lcqT0vC6WdPmTdXvrETvc5ywW8MiDvb/sM9xhMe
-         eSeg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+AZ7T47QIz4f7IiDJe7aZiJlWGWSHkEYdb+EkbvrYj2huxdtxwiPO87bIc7tX5i3RLudymBfcidRSHvax@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBao0uZFjMHzQAZt1K45M4rGYgiYURlHcgaTRtAlEmbHU5Rhae
-	syLeqrzpWH/bCK+H3NkmldoXDNR1yZOT8pUbZlYtfxD+h7DZvXFlop231aht2VZfqtE=
-X-Gm-Gg: ASbGncuZ+7XcFg+nzD8kNNJ2Czc63gR+ap8fk/bb+pK/aGOIqWqRL1BXfKvAWoT5fXp
-	tzpt1uK0jvUfNud0tGVE7sK5roVqtXgYBpR/gwWER73BuPnblx6mAorVbBica24okORj+h093cR
-	9x/U6gQnJdrHeO7dNu013qjl33oDTRw0rmZnLdlpSXISt7d3+w685C44wvZ/Ypj78uhsqnLgJBt
-	TtYjLz4jie8Wc4H++zc+yzUipX8junMhHcQRCCy8Ky8QSGAg5p9NAGbO6zcTFYkX/geDxdmc/Fm
-	tRrvkFq0AxBZpr2lgsVlHTbvp/yEKZGwbjssNnf0YGZ3Ge0C38GdR/HMWkYuUNsbkK1qCbewYi/
-	Ih6aLlfTnx0NQX84D41hhmtNCZ6dinbCmMtrOrZ6iQrxbtRgc3+cwJZ58YHNHUH0bYKOpgLsi3P
-	LCiq2CSe+oxNlUKeIJ
-X-Google-Smtp-Source: AGHT+IGGUR1ELYcBx6zfpXv3GClC0V8C/yZllEBAJBUoCfb1tYmGTgprO4ytpww++uPb731RRJjtdw==
-X-Received: by 2002:a05:600c:8189:b0:475:de75:84c6 with SMTP id 5b1f17b1804b1-477262a941emr50545115e9.12.1761888174912;
-        Thu, 30 Oct 2025 22:22:54 -0700 (PDT)
+        bh=dBbdaqSwc4AIhUshtjXjzk4g57EzDgumS+pQDOnoPmc=;
+        b=rbrfnTzCyVT1UHtCh7X29/yNbveL9Mhx9hCOml8glS3xN9ycmBH96Q3/2icCkj7VTp
+         vyceRZl7/+YAXjL5PWvC8iZBrxrd1XLXlL48CLFmyzcwEWtDxUHxGizdceiEhCbUahv7
+         d64ByLoLvNwkdBWtqCXXDIM/uWSrFDYYjkxTdUmwgmHrAX5gMqGxQJ1dV3f6sd92rx7j
+         +0DOvDddFhHhQPirM8bk16KZyAcP3JN7f/+xMer5mWHwG0S1KP5CyqdOIiQ0RGox9tNG
+         my5lOMLOKy3Ec2Z3oR2i8mbPcUld4ApFwlYR6jSRQXlC2duhsdI1nG+vLNwBswVn9aEP
+         9Cqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGVavmDTeG8lIKoWdKyRNHEUreGIW0jDkE4iaZhmeX64gUpz6oRg67A0ny4khka/tAY15VDJtvnn8isya7@lists.linux.dev
+X-Gm-Message-State: AOJu0YxL/H7henlEwmG1mcpAJePX3Sw5RD6gL2I6BsQoTF3JTx5nqrSj
+	xqzZPdnaxP4YccC8R7c18Wqr1NubOc+cETtneVDGE8lI5twIUnyudNPZmyXRkkKGFLk=
+X-Gm-Gg: ASbGncu5jsFAR/5ngTTeQT+1ipnO49kowkk5YJQcrJrjZGQej+uqaZVMG0n1haVzxst
+	0hcTfw4uHRUd0xmegV64VzY6GuUU9L6rn+FX6fCDZELADo/OJmqASlqVrSJcZ/NTZsR0JhCU7c6
+	SwjYY7O8M1m0GUT3k/4gGppugy6rWAbt+Rqe8D5y1ildvW3ZKUO9/1WiNMUnPWSYMC1SKRjvlBm
+	0jja/2PNyMj7HIcNNwiquk1QEYyjXHHFbtnijkcwYTz4a13A30l2lXgqJtWBMoVPiELYc3OJ1go
+	GSytDdGnbw6drAycG+geLmNkgLAFyDVas/428Ll1i0twI7mf/l+K+TpekDWYjEvaZTOcBk1uLyA
+	aHBWcuaflssOHA6itLxWKy//obFE34sdj0P7zhRhDZOAba0yOCl4GUftxltY2TJBQ7DVZh9WnzT
+	AgCx5rHgtWgterGu5w5/JTX3VWMEk=
+X-Google-Smtp-Source: AGHT+IGYPrIiVaisNFjIbu09Y2ei9vHAYdZPa5ge2OEhniwhNmm0v/eYM1ZitJu75RTNt35/IRGQ4A==
+X-Received: by 2002:a05:6000:2403:b0:429:8d0f:eb6 with SMTP id ffacd0b85a97d-429b4c68b8cmr4432844f8f.15.1761888363164;
+        Thu, 30 Oct 2025 22:26:03 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47732fe1121sm12871175e9.12.2025.10.30.22.22.53
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c10ff4f6sm1662636f8f.4.2025.10.30.22.26.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Oct 2025 22:22:54 -0700 (PDT)
-Date: Fri, 31 Oct 2025 08:22:50 +0300
+        Thu, 30 Oct 2025 22:26:02 -0700 (PDT)
+Date: Fri, 31 Oct 2025 08:25:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Xu Raoqing <xuraoqing@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3064/3064] arch/arm64/kvm/rme.c:789
- populate_region() error: uninitialized symbol 'tmp_page'.
-Message-ID: <202510310208.Zw9yEOKD-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Omar Sandoval <osandov@fb.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Omar Sandoval <osandov@osandov.com>,
+	Sean Christopherson <seanjc@google.com>
+Subject: [osandov:svm-int3-fix 1/1] arch/x86/kvm/svm/svm.c:321
+ svm_update_soft_interrupt_rip() warn: right shifting more than type allows 8
+ vs 16
+Message-ID: <202510310909.y5ClH2qW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,105 +76,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
-commit: a74f93b7e7c0d8a2114055ed0c652cc735a7a07b [3064/3064] [backport]rme: populate guest memory region without guest_memfd
-config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251031/202510310208.Zw9yEOKD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+tree:   https://github.com/osandov/linux.git svm-int3-fix
+head:   71cc6a9d4228c085a380dec917c65df5fcd9e8a9
+commit: 71cc6a9d4228c085a380dec917c65df5fcd9e8a9 [1/1] KVM: SVM: Don't skip unrelated instruction if INT3/INTO is replaced
+config: i386-randconfig-141-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310909.y5ClH2qW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202510310208.Zw9yEOKD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202510310909.y5ClH2qW-lkp@intel.com/
 
-New smatch warnings:
-arch/arm64/kvm/rme.c:789 populate_region() error: uninitialized symbol 'tmp_page'.
+smatch warnings:
+arch/x86/kvm/svm/svm.c:321 svm_update_soft_interrupt_rip() warn: right shifting more than type allows 8 vs 16
 
-vim +/tmp_page +789 arch/arm64/kvm/rme.c
+vim +321 arch/x86/kvm/svm/svm.c
 
-e216f77846eeb7 Steven Price 2025-06-14  716  static int populate_region(struct kvm *kvm,
-e216f77846eeb7 Steven Price 2025-06-14  717  			   phys_addr_t ipa_base,
-e216f77846eeb7 Steven Price 2025-06-14  718  			   phys_addr_t ipa_end,
-e216f77846eeb7 Steven Price 2025-06-14  719  			   unsigned long data_flags)
-e216f77846eeb7 Steven Price 2025-06-14  720  {
-e216f77846eeb7 Steven Price 2025-06-14  721  	struct realm *realm = &kvm->arch.realm;
-e216f77846eeb7 Steven Price 2025-06-14  722  	struct kvm_memory_slot *memslot;
-e216f77846eeb7 Steven Price 2025-06-14  723  	gfn_t base_gfn, end_gfn;
-e216f77846eeb7 Steven Price 2025-06-14  724  	int idx;
-e216f77846eeb7 Steven Price 2025-06-14  725  	phys_addr_t ipa = ipa_base;
-a74f93b7e7c0d8 Steven Price 2025-06-14  726  	struct page *tmp_page;
-e216f77846eeb7 Steven Price 2025-06-14  727  	int ret = 0;
-e216f77846eeb7 Steven Price 2025-06-14  728  
-e216f77846eeb7 Steven Price 2025-06-14  729  	base_gfn = gpa_to_gfn(ipa_base);
-e216f77846eeb7 Steven Price 2025-06-14  730  	end_gfn = gpa_to_gfn(ipa_end);
-e216f77846eeb7 Steven Price 2025-06-14  731  
-e216f77846eeb7 Steven Price 2025-06-14  732  	idx = srcu_read_lock(&kvm->srcu);
-e216f77846eeb7 Steven Price 2025-06-14  733  	memslot = gfn_to_memslot(kvm, base_gfn);
-e216f77846eeb7 Steven Price 2025-06-14  734  	if (!memslot) {
-e216f77846eeb7 Steven Price 2025-06-14  735  		ret = -EFAULT;
-e216f77846eeb7 Steven Price 2025-06-14  736  		goto out;
+71cc6a9d4228c0 arch/x86/kvm/svm/svm.c Omar Sandoval       2025-10-29  318  static int svm_update_soft_interrupt_rip(struct kvm_vcpu *vcpu, u8 vector)
+6ef88d6e36c2b4 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-05-02  319  {
+71cc6a9d4228c0 arch/x86/kvm/svm/svm.c Omar Sandoval       2025-10-29  320  	const int emul_type = EMULTYPE_SKIP | EMULTYPE_SKIP_SOFT_INT |
+71cc6a9d4228c0 arch/x86/kvm/svm/svm.c Omar Sandoval       2025-10-29 @321  			      EMULTYPE_GET_SOFT_INT_VECTOR(vector);
 
-tmp_page uninitialized here
+vector is a u8 but EMULTYPE_GET_SOFT_INT_VECTOR() is:
+define EMULTYPE_GET_SOFT_INT_VECTOR(e)	(((e) >> 16) & 0xff)
+so something is mixed up.
 
-e216f77846eeb7 Steven Price 2025-06-14  737  	}
-e216f77846eeb7 Steven Price 2025-06-14  738  
-e216f77846eeb7 Steven Price 2025-06-14  739  	/* We require the region to be contained within a single memslot */
-e216f77846eeb7 Steven Price 2025-06-14  740  	if (memslot->base_gfn + memslot->npages < end_gfn) {
-e216f77846eeb7 Steven Price 2025-06-14  741  		ret = -EINVAL;
-e216f77846eeb7 Steven Price 2025-06-14  742  		goto out;
-e216f77846eeb7 Steven Price 2025-06-14  743  	}
-e216f77846eeb7 Steven Price 2025-06-14  744  
-a74f93b7e7c0d8 Steven Price 2025-06-14  745  	tmp_page = alloc_page(GFP_KERNEL);
-a74f93b7e7c0d8 Steven Price 2025-06-14  746  	if (!tmp_page) {
-a74f93b7e7c0d8 Steven Price 2025-06-14  747  		ret = -ENOMEM;
-e216f77846eeb7 Steven Price 2025-06-14  748  		goto out;
-e216f77846eeb7 Steven Price 2025-06-14  749  	}
-e216f77846eeb7 Steven Price 2025-06-14  750  
-a74f93b7e7c0d8 Steven Price 2025-06-14  751  	mmap_read_lock(current->mm);
-a74f93b7e7c0d8 Steven Price 2025-06-14  752  
-e216f77846eeb7 Steven Price 2025-06-14  753  	while (ipa < ipa_end) {
-e216f77846eeb7 Steven Price 2025-06-14  754  		struct vm_area_struct *vma;
-e216f77846eeb7 Steven Price 2025-06-14  755  		unsigned long hva;
-e216f77846eeb7 Steven Price 2025-06-14  756  		struct page *page;
-e216f77846eeb7 Steven Price 2025-06-14  757  		kvm_pfn_t pfn;
-e216f77846eeb7 Steven Price 2025-06-14  758  
-e216f77846eeb7 Steven Price 2025-06-14  759  		hva = gfn_to_hva_memslot(memslot, gpa_to_gfn(ipa));
-e216f77846eeb7 Steven Price 2025-06-14  760  		vma = vma_lookup(current->mm, hva);
-e216f77846eeb7 Steven Price 2025-06-14  761  		if (!vma) {
-e216f77846eeb7 Steven Price 2025-06-14  762  			ret = -EFAULT;
-e216f77846eeb7 Steven Price 2025-06-14  763  			break;
-e216f77846eeb7 Steven Price 2025-06-14  764  		}
-e216f77846eeb7 Steven Price 2025-06-14  765  
-a74f93b7e7c0d8 Steven Price 2025-06-14  766  		pfn = gfn_to_pfn_memslot(memslot, gpa_to_gfn(ipa));
-e216f77846eeb7 Steven Price 2025-06-14  767  
-e216f77846eeb7 Steven Price 2025-06-14  768  		if (is_error_pfn(pfn)) {
-e216f77846eeb7 Steven Price 2025-06-14  769  			ret = -EFAULT;
-e216f77846eeb7 Steven Price 2025-06-14  770  			break;
-e216f77846eeb7 Steven Price 2025-06-14  771  		}
-e216f77846eeb7 Steven Price 2025-06-14  772  
-a74f93b7e7c0d8 Steven Price 2025-06-14  773  		page = pfn_to_page(pfn);
-e216f77846eeb7 Steven Price 2025-06-14  774  
-e216f77846eeb7 Steven Price 2025-06-14  775  		ret = realm_create_protected_data_page(realm, ipa,
-a74f93b7e7c0d8 Steven Price 2025-06-14  776  						       page,
-a74f93b7e7c0d8 Steven Price 2025-06-14  777  						       tmp_page,
-e216f77846eeb7 Steven Price 2025-06-14  778  						       data_flags);
-a74f93b7e7c0d8 Steven Price 2025-06-14  779  		if (ret) {
-e216f77846eeb7 Steven Price 2025-06-14  780  			kvm_release_page_clean(page);
-e216f77846eeb7 Steven Price 2025-06-14  781  			break;
-a74f93b7e7c0d8 Steven Price 2025-06-14  782  		}
-e216f77846eeb7 Steven Price 2025-06-14  783  
-e216f77846eeb7 Steven Price 2025-06-14  784  		ipa += PAGE_SIZE;
-a74f93b7e7c0d8 Steven Price 2025-06-14  785  		kvm_release_pfn_dirty(pfn);
-e216f77846eeb7 Steven Price 2025-06-14  786  	}
-e216f77846eeb7 Steven Price 2025-06-14  787  out:
-a74f93b7e7c0d8 Steven Price 2025-06-14  788  	mmap_read_unlock(current->mm);
-a74f93b7e7c0d8 Steven Price 2025-06-14 @789  	__free_page(tmp_page);
-                                                            ^^^^^^^^
-
-e216f77846eeb7 Steven Price 2025-06-14  790  	srcu_read_unlock(&kvm->srcu, idx);
-e216f77846eeb7 Steven Price 2025-06-14  791  	return ret;
-e216f77846eeb7 Steven Price 2025-06-14  792  }
+63129754178c55 arch/x86/kvm/svm/svm.c Paolo Bonzini       2021-03-02  322  	unsigned long rip, old_rip = kvm_rip_read(vcpu);
+6ef88d6e36c2b4 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-05-02  323  	struct vcpu_svm *svm = to_svm(vcpu);
+66b7138f913635 arch/x86/kvm/svm.c     Jan Kiszka          2010-02-23  324  
+66b7138f913635 arch/x86/kvm/svm.c     Jan Kiszka          2010-02-23  325  	/*
+6ef88d6e36c2b4 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-05-02  326  	 * Due to architectural shortcomings, the CPU doesn't always provide
+6ef88d6e36c2b4 arch/x86/kvm/svm/svm.c Sean Christopherson 2022-05-02  327  	 * NextRIP, e.g. if KVM intercepted an exception that occurred while
 
 -- 
 0-DAY CI Kernel Test Service
