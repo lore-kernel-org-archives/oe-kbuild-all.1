@@ -1,67 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257292FD695
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 17:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1D02F60B2;
+	Fri, 31 Oct 2025 17:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761930156; cv=none; b=UDOs8VSrWOHd2T1DwT+ymZu445wm329jnnV8fObyDl9ctFizpNjHF1h2BfxeiADv6JSqu+zs3V+UkdV8Sxg+nBFw/jfVe9GoIN9gmuhIbabUZ29McAoysnWFOw1mGH/dAZ4LiML7X6e8884zmA+UBeC43s97UTFrrCDNXeE31L0=
+	t=1761930158; cv=none; b=X5lvXF/5McrNcD9WM04dLyNC7kubU++HRmkDMmPwZ4457ClJcxAYuwDT+d500JWjgp/2b0VXnEKA9sBLmDM/hYf9JRuHXt8mk8oaUvlEfu63pxqX7VBtfrEjXmzb6q4ZWvIa1iwrD8NAtD007e+I4f8Dxg6PfZDdHw2i6xX6X7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761930156; c=relaxed/simple;
-	bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
+	s=arc-20240116; t=1761930158; c=relaxed/simple;
+	bh=yDv6EgtiAeu4cOA0bFneDjrfyEEmzUj26cMNw39epTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j9uP0Tb9ydAUhrpd5VkvJFX0pmOK8wGKd7OnyzZsAURK/7NYyhN5urA4r+uKP0dBg7JMeI4mnm7B9pahuMcZp1XH7AfIpUJzdspOlxE1baemvDEHIQg5uE7R37bYutggobQMUoQ7OStqcMZSH3yNaVMsTc+7xQ9g7RxzJEzgq0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lma9lMk6; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Knq8Vbjf/Z3JMotImY45v6aKFBx9arRfmuN+tZHrXj227T0Cmo+jOoXjrDK/vAl6BREamnBWu1mW8aRZ5TBK7h9K4jVanDFxtoi8O1ZzTXAvcXg3oJ3YEPfsN+CYP3/qICEmx/C9LyF+/XtNQmOyqlGyiRpc2iylOsOkOr10CBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IySoe5uE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lma9lMk6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IySoe5uE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761930155; x=1793466155;
+  t=1761930156; x=1793466156;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
-  b=Lma9lMk6fwafyitW9KDq8JNZ+QtBtpMG1Mudzi0OedI1BwkSulAtjqws
-   iInP4luoD+J2Z66Ix8zJibqd1kC5GDripLfQUMaNVH/7d9YFXdPjkXqca
-   Auinpcf0ndLE1kxbJ7S705xPQGkIeryJ3UdpY0u1UbrvhUzCAX7W969mh
-   /w25EAWkKhJHHoPx3TQ69pMeksXtsZVmBvgvUzoktkHt54g3iPjEBTrkA
-   /Ge5FtyEsFHtdZ9bNos7PLWusXyXubxnsSGxhDxxGWO+vKMGIKC9HcAAP
-   MawvomwlTNtSKb/p4RsK7uxkm+VEO54i+n5Os19gXl9rqT7fbo4SSYrwN
-   A==;
-X-CSE-ConnectionGUID: kQhLCQUXQwaMkGThT7xvbA==
-X-CSE-MsgGUID: GkNlhMW5QlyC1xH3Qh3JTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="74771966"
+  bh=yDv6EgtiAeu4cOA0bFneDjrfyEEmzUj26cMNw39epTU=;
+  b=IySoe5uEgAnrbsUsIM1MVIG8750jpxVPoIB3RkrT1ZPMuXQqHySGzNAM
+   ECKuPwzgrGi4qZXjYoKnsRMwPPd0JrZTdJmF+mcsuFYVG/2dpEfz+zDnt
+   a4AIWzsh0onlZMq3lsFYfDfH9/1Bw8/njTSj7v8g3+/DHMlbrkG5KFJuW
+   gROo38LXjoK2LSa1cqshjPHqeX+u7xrElY6/ZR2KzcsA4UU/ADI+Y9ZkA
+   5UoFqtW17hPsyaZC+KWHaLhcJn2SX//d2Ui6nVs9tlFDE96ivcFDmAo2v
+   OZJi4G6L5ysWTJs3AKSmaXL98NLkqyBOqyKyOUNX75GXKdQBk2N+NcLCv
+   w==;
+X-CSE-ConnectionGUID: EWwJ+pOUQripVVXnH79gpg==
+X-CSE-MsgGUID: DNjg5Ff4Sg6CHipxTkhl2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="63982507"
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="74771966"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:02:34 -0700
-X-CSE-ConnectionGUID: x68roOhWTn6lqkp9QuvNGA==
-X-CSE-MsgGUID: ZjElhhxgQQ6EulK2irEIZQ==
+   d="scan'208";a="63982507"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:02:36 -0700
+X-CSE-ConnectionGUID: D1sa5WS/TvqpPNu3Vd6RTA==
+X-CSE-MsgGUID: tBaFbmKcS9O0+gxgVl/e3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="190629319"
+   d="scan'208";a="216937489"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2025 10:02:32 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2025 10:02:31 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEsWC-000NUK-34;
+	id 1vEsWC-000NUM-38;
 	Fri, 31 Oct 2025 17:02:28 +0000
 Date: Sat, 1 Nov 2025 01:02:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: akemnade@kernel.org, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+To: Peter Griffin <peter.griffin@linaro.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-omap@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
-Message-ID: <202511010024.4O4b58oK-lkp@intel.com>
-References: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Sam Protsenko <semen.protsenko@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Will McVicker <willmcvicker@google.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, kernel-team@android.com,
+	Peter Griffin <peter.griffin@linaro.org>
+Subject: Re: [PATCH v2 3/4] clk: samsung: Implement automatic clock gating
+ mode for CMUs
+Message-ID: <202511010049.sebVqntI-lkp@intel.com>
+References: <20251029-automatic-clocks-v2-3-f8edd3a2d82b@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,44 +78,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
+In-Reply-To: <20251029-automatic-clocks-v2-3-f8edd3a2d82b@linaro.org>
 
-Hi,
+Hi Peter,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+[auto build test WARNING on 72fb0170ef1f45addf726319c52a0562b6913707]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/akemnade-kernel-org/dt-bindings-mfd-twl-enable-power-button-also-for-twl603x/20251031-031300
-base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-patch link:    https://lore.kernel.org/r/20251030-twl6030-button-v2-2-09653d05a2b1%40kernel.org
-patch subject: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
-config: x86_64-randconfig-123-20251031 (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-clock-google-gs101-clock-add-samsung-sysreg-property-as-required/20251030-053356
+base:   72fb0170ef1f45addf726319c52a0562b6913707
+patch link:    https://lore.kernel.org/r/20251029-automatic-clocks-v2-3-f8edd3a2d82b%40linaro.org
+patch subject: [PATCH v2 3/4] clk: samsung: Implement automatic clock gating mode for CMUs
+config: riscv-randconfig-002-20251031 (https://download.01.org/0day-ci/archive/20251101/202511010049.sebVqntI-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010049.sebVqntI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511010024.4O4b58oK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511010049.sebVqntI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/misc/twl4030-pwrbutton.c:44:31: sparse: sparse: symbol 'twl4030_chipdata' was not declared. Should it be static?
->> drivers/input/misc/twl4030-pwrbutton.c:49:31: sparse: sparse: symbol 'twl6030_chipdata' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/twl4030_chipdata +44 drivers/input/misc/twl4030-pwrbutton.c
-
-    43	
-  > 44	struct twl_pwrbutton_chipdata twl4030_chipdata = {
-    45		STS_HW_CONDITIONS_4030,
-    46		false,
-    47	};
-    48	
-  > 49	struct twl_pwrbutton_chipdata twl6030_chipdata = {
-    50		STS_HW_CONDITIONS_6030,
-    51		true,
-    52	};
-    53	
+>> Warning: drivers/clk/samsung/clk.c:458 function parameter 'np' not described in 'samsung_cmu_register_clocks'
 
 -- 
 0-DAY CI Kernel Test Service
