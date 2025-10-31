@@ -1,83 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from 003.mia.mailroute.net (003.mia.mailroute.net [199.89.3.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1CF230D14
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 15:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7404F2EAB61;
+	Fri, 31 Oct 2025 15:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.3.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761923970; cv=none; b=pnVVwo702495ymr4iYdITxyzFGvdXTcrQbfjGas8p+owBm11bMCCnqs/7+bB3pzaaeePHDkQL4qHQBvLUMpclxJL2Wa0Nkq/YzeSXd/mYFvgVN9eq7qoFy6tihFbMbNmCz+AcCqaR/yQ4I2eWiUdGrS8HkyqZLAtyK1L/6STiXM=
+	t=1761926255; cv=none; b=lE5GKQ6aYLXtUT7Nnf88QiFnpIbDAw9HdzGWwGPYvoQM4fzpeWQlZxdIx81y0eSnOYpv8Es5DLkqZkBz2ibrJvMoNHooCxlAQCLWRalXD3cPh236IQv+VOLmEY7c9P9lhUR8vWegtcZxst2Pndc7kZcRLLsw7q4WdljoSozR/ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761923970; c=relaxed/simple;
-	bh=KNDsaw0TrPZaDN8k/3Q8TRYJhgwGUz2gFuRvpXaJ5w8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BoTtvVdOxX4hmVnU5VPwdrCCsWjPbPz+EkXyx5Phfe8b6YokVjsuzSbTPvlKdKBUWI2Tbr8nLoHyXA6wsuOU7HxjRQMjvShMrFIm6f3YltZBBVAlV8S/Ekx5QeCRO82mYZfmGpwPwYiaGi+jyBpxfpAbNXjeg8WlAU5NAoc/CaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=idg80KwS; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761926255; c=relaxed/simple;
+	bh=LaQggS+mOgBDjauYG/KbuP9LeIDBv+j8KUivy1pNnpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rKZAKsuEHLXKszfvgc4Mv+Vz4pltyR8GFzvC4/YJYrCoHZts64LtqB4t6X634DmgctuiYziHKViJjaBT9aBI88k5oVjojUkELBqBNcnNVOlZho7zefTTzi2BTvNiQDqlLlevnUjvlNJkilqpgVyTnkvVjA2iG2+09uEQwtaPbK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=dOSo2BKt; arc=none smtp.client-ip=199.89.3.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idg80KwS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761923969; x=1793459969;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KNDsaw0TrPZaDN8k/3Q8TRYJhgwGUz2gFuRvpXaJ5w8=;
-  b=idg80KwSrFQSd+FbJn0bBy2ZBcMz8JMKgpoT5L+EQE9FQB2MoKCf0PJq
-   t/U+UrLXjZ1NA9BID7B9KEpOnbIRh4PDIkofUqkb2PAQAH1eo1xICRBN4
-   tpwDy26cTzZ3HFvDeDnm/Uy5nfIDJ7Ytf3mt07/xoar/lgbLzAqBuMdF1
-   GMKlbZ8j44Nb1iMOpxzHx6JHuiUmRUTtfIfx313vDH+8woBwZlZD9l8Fv
-   vnx8iLfW4JJmcL6W7tVkZj5CZRiCZ78nMNETHF/R0ujVYO4YVI4hkkIMK
-   ScLthYRwWywgfBNljZ9nTXqP3r9xs2uDX2Dr0yza7cf/WGKUiQhhfPQxR
-   g==;
-X-CSE-ConnectionGUID: XHZHSBJQRYCs9KbCEVP2HQ==
-X-CSE-MsgGUID: 1+A+e59uRLe84N/JLexgcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="89550151"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="89550151"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 08:19:28 -0700
-X-CSE-ConnectionGUID: /SqpbfIyRO2zEIFCxiUjpA==
-X-CSE-MsgGUID: oK2lmLooQC2G6aP9ygylIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="223496302"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 31 Oct 2025 08:19:28 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEquT-000NKu-0L;
-	Fri, 31 Oct 2025 15:19:25 +0000
-Date: Fri, 31 Oct 2025 23:18:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 9/17] ERROR: modpost: module vsock uses
- symbol dma_buf_get from namespace DMA_BUF, but does not import it.
-Message-ID: <202510312334.OWPY3xiw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="dOSo2BKt"
+Received: from localhost (localhost [127.0.0.1])
+	by 003.mia.mailroute.net (Postfix) with ESMTP id 4cylx830G6zlvkTS;
+	Fri, 31 Oct 2025 15:57:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1761926251; x=1764518252; bh=KV/HeKT+oqIG+u0c8Uk48dZO
+	7VS6Liw+wQ10rVhwuk0=; b=dOSo2BKtqSeCWfBkvuQICflq8pwWqQmyNudxj5r9
+	EQu5HHeHTWvV5U1kHFlvsq2CSqkima9fcCAuPv8inIKBEcaiK6UQEwQHNwqEpvKn
+	TMWhhMjXIYHKQzLODHxT/u954VcuHEiBqL+NVPo7Cr5iDOxD5qI71ur7uttWFjME
+	MdTp2Y56C8KBMld28SUZESb42BFFcwYa4Yd0JufEUTCtu+WvKTFm7h6OT2QYWvmD
+	UIr6wXI3yS6sRapRw37AYNCWkzvE09ZV8dwGuSjvIwSD4GKg3pmhRaRNBymIgzUj
+	Zlu8P7CSd3YltQDdqE/CeJ4VzhVOPmUgSC1H3I6Fe4DiSw==
+X-Virus-Scanned: by MailRoute
+Received: from 003.mia.mailroute.net ([127.0.0.1])
+ by localhost (003.mia [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id iLyr1z_j3S5E; Fri, 31 Oct 2025 15:57:31 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 003.mia.mailroute.net (Postfix) with ESMTPSA id 4cylx36QjmzlvkTY;
+	Fri, 31 Oct 2025 15:57:27 +0000 (UTC)
+Message-ID: <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
+Date: Fri, 31 Oct 2025 08:57:25 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [bvanassche:ufs-lrbp-as-priv-data 27/28]
+ drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
+ inconsistent returns '&hba->clk_scaling_lock'.
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Avri Altman <avri.altman@sandisk.com>
+References: <202510311328.Is1wMfkq-lkp@intel.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <202510311328.Is1wMfkq-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   94d3d88b1da7e37623fae3c98ecdfebb1fa540d7
-commit: 49768ad0eb9d67ed71368ca9295185dd000674a1 [9/17] vsock: Add memory sharing support
-config: m68k-randconfig-r051-20251031 (https://download.01.org/0day-ci/archive/20251031/202510312334.OWPY3xiw-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312334.OWPY3xiw-lkp@intel.com/reproduce)
+On 10/30/25 11:06 PM, Dan Carpenter wrote:
+> tree:   https://github.com/bvanassche/linux ufs-lrbp-as-priv-data
+> head:   f5ce986a0b77ce2944bf8314554d60eec17968e8
+> commit: 226979e4eb8a5844be9fb6047a1d042bf2cd72ab [27/28] ufs: core: Move code out of ufshcd_wait_for_dev_cmd()
+> config: x86_64-randconfig-r071-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311328.Is1wMfkq-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202510311328.Is1wMfkq-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->clk_scaling_lock'.
+> drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn: inconsistent returns '&hba->dev_cmd.lock'.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510312334.OWPY3xiw-lkp@intel.com/
+Hi Dan,
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Thanks for the report. This report applies to a patch series from July
+10 (more than three months ago). I just pushed out the latest version of
+this patch series to my github account. Can you please repeat your
+analysis for https://github.com/bvanassche/linux ufs-lrbp-as-priv-data?
 
->> ERROR: modpost: module vsock uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+Thank you,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Bart.
