@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A783446C4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 11:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EB1345CD1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 11:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761909520; cv=none; b=K3Btzy3a1SNhGg0vaGxkBohUpZObJesp4MMi2K5AluZb27ctoG4+RFqOQkCSu9PkFrgQg1rs5mun2V5aBZUF0BaP9k1cNmLRDZ9dfcOgL8IhDDMz11uenRR/Lo1UEVEfgLDCW7DKC01WZ11iTOXshx8ooinhX/GVJwUrePxeHtk=
+	t=1761910275; cv=none; b=Dg8NTWbA0fC763JKltG7WLEUNLV80Gdy+lFrz6XBPNYItoxoNkHFyOnvgTR3ZqLhUhTWMAGth3lxqOBSYpXn8UyuqawAx5Zf7kn0wJvn167IW6jRaxitpTVkkJCQrQm9a7UmgcV/NXuj8fNRpwi3UM73bjGFbkKo4Ubl1yy+Z3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761909520; c=relaxed/simple;
-	bh=EkkmVdMIQehg2jfJSVIL2rKSi+0TuTnZDj3VwcCCfdY=;
+	s=arc-20240116; t=1761910275; c=relaxed/simple;
+	bh=mAkQik61IYWr6fYhJ+VtZXB4iON7xYJVBmyB/FBHtZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WPYjdkHklDznfcYqcCjDG5GjqIgEfw54jepC1OtXLGS7wN7Z5ERi6EmB/7DetVZ5t/LO3KByQfImdsmEcwGsJffvQYU5zNRFfpzxwJXgLrfkzgepF/6n+k1OG5FxXfW4FCriYz3YK+SwYgTrpJPpiE12QW/bnfhfuJ8G4Snprxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvVUwLYI; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=LHWjsZgA0lL3hREHdH4H2l9ZGRfxf6QRM/fLRoWInc6UvOPynzrCQG94w9QBgoDFqZ2xiDLGzQEl9NGzRFoe3UKfROZv4AkEpZ1Jz5FgMeJZrw/UTVDoQDQ+weYqx1Vy5UJhFZxW4D6EaGWIFUireyLzZclsDv/xLD7ZJZuj+uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jZAqm5pk; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvVUwLYI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZAqm5pk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761909518; x=1793445518;
+  t=1761910274; x=1793446274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EkkmVdMIQehg2jfJSVIL2rKSi+0TuTnZDj3VwcCCfdY=;
-  b=kvVUwLYIWyOrydqV4b1G2cGriXFUW//PGDBsM7hZUDn7apHiKdiwdrGx
-   Rb0lJA/bjTO8O3GKnx68sqJPTUclo002tbivQnQqVlPRIf60TsxPo/LR8
-   N5S25KL4rIGjvGcw0VQf1akCN6RHPIJaIcElY2xgs8Nj+AwOJ/t1/kLqa
-   KcXY/fRudPbbpumPrFZU20+/PRpFt/6R/jAiGhf9iVwXnvOXgadSLY7ML
-   AzhErb7Z6HMwZE14J9qvOVznYzqMnbWfhO40naHLL/KJdkefpIPbIgkdQ
-   AkmmyE6uQ1K+OI4JGgtW6EBATm23TWPhZ5RmzvZnCav8Nwjxf/hUDjm7R
-   g==;
-X-CSE-ConnectionGUID: vq3ZWqf9SCCghFyjJAUBjg==
-X-CSE-MsgGUID: BQCKBRmISw2elFiBI31DXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75186200"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="75186200"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 04:18:38 -0700
-X-CSE-ConnectionGUID: mGQr+Zh5RWGpjyjaeCnA7w==
-X-CSE-MsgGUID: HqoLhXFWQSCvqti9y18Mng==
+  bh=mAkQik61IYWr6fYhJ+VtZXB4iON7xYJVBmyB/FBHtZI=;
+  b=jZAqm5pk2sZr+CJ62tOIFEdBdJTqBPwyHxeKK6n6lte8qOykHRdiuGyz
+   S99xxTqok9DBoXiGr5ZrZ2imtvKOGst8P+of7BYEUsigSJSzYynYlEpla
+   4PUMxXLnOmLhemOoCGRpkY5VVL70yDyH5dwvspo4ekz7+19aaToTMaDkr
+   azqNuFL6Gc/W0V0F061hUAUjsfV4XHz0z8ULUIdCGQqIqhIxVA6SNNh7A
+   c1snFiw6cTt543DoiF/MQrBVF0Y4aUZtT8DGw8SRlQcOdiFrPyYUb/9el
+   pWiCrvsIUa/246+vzLG03PaY3ptY3hCDNZNUtSoWAzMjP4wFB+9jG+VyR
+   A==;
+X-CSE-ConnectionGUID: sJavv6iXS4GfWhUrG2eHfA==
+X-CSE-MsgGUID: UQqaDql/RDSfwFKseiAMKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63996829"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63996829"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 04:31:13 -0700
+X-CSE-ConnectionGUID: aHc8vTLFTSy14Gc5fqpSNQ==
+X-CSE-MsgGUID: 3bzrhqmURMiwvyscED+tbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="191357410"
+   d="scan'208";a="186331561"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Oct 2025 04:18:36 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2025 04:31:12 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEn8x-000N2G-1F;
-	Fri, 31 Oct 2025 11:18:14 +0000
-Date: Fri, 31 Oct 2025 19:16:25 +0800
+	id 1vEnLR-000N2i-2t;
+	Fri, 31 Oct 2025 11:31:04 +0000
+Date: Fri, 31 Oct 2025 19:30:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:blk-crypto-fallback 2/9] mm/mempool.c:411:45: error: use
- of undeclared identifier 'FAULT_NOWARN'
-Message-ID: <202510311948.o1YLBLyh-lkp@intel.com>
+Subject: [hch-misc:blk-crypto-fallback 2/9] mm/mempool.c:411:52: error:
+ 'FAULT_NOWARN' undeclared
+Message-ID: <202510311915.uL0ikF9V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +65,22 @@ Content-Disposition: inline
 tree:   git://git.infradead.org/users/hch/misc.git blk-crypto-fallback
 head:   7046442804f2d8296aa28a8b1959b01d8ccf7a1f
 commit: 12036d734d9e70145877a992efeeea44b4447a22 [2/9] mempool: add error injection support
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251031/202510311948.o1YLBLyh-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311948.o1YLBLyh-lkp@intel.com/reproduce)
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251031/202510311915.uL0ikF9V-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311915.uL0ikF9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311948.o1YLBLyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510311915.uL0ikF9V-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/mempool.c:411:45: error: use of undeclared identifier 'FAULT_NOWARN'
+   mm/mempool.c: In function 'mempool_alloc_noprof':
+>> mm/mempool.c:411:52: error: 'FAULT_NOWARN' undeclared (first use in this function)
      411 |         if (should_fail_ex(&fail_mempool_alloc, 1, FAULT_NOWARN)) {
          |                                                    ^~~~~~~~~~~~
-   1 error generated.
+   mm/mempool.c:411:52: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/FAULT_NOWARN +411 mm/mempool.c
