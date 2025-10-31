@@ -1,71 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F582D8362
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 07:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57BD329385;
+	Fri, 31 Oct 2025 07:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761894236; cv=none; b=G2YN35sNU2kpaMUFu758tVFVg6kvV6XtQyQo5vLideC3LTswnMB7GnTkgUWXd2+0Av8SDe0hQEv8M1acCerXmwGcDcTxy/3rEduR1Q7Hsfpdb8r0PdqiLpLqXK5M0ptaXZtXMCaRZx/AK9BfluN5vElO7T9ZmA4dZHH7YTy7nvc=
+	t=1761895476; cv=none; b=UM7rXn8pr48CfuJNYu6RJjKx9hgYc/Bs7cGG0GEpw0rAR+Usbj2SzQYOszv0do9bUJjWO2xF3U9mDz2gJKs21R59qTmYOcLtxhDTSOigrDB9XO6YTshVsO8AP5dlYUprDQnTviVvFU5dXHCvOJzVKE/ClF98wb1nhJR8VKowxKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761894236; c=relaxed/simple;
-	bh=h945/dxqfx1BTBBtl+azCJKqnPUCASnWBKHAoqpp7k4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VAMwK5gcdAidBnhG4nO/XDNdrhM8PeUnhM447i9bcbOgFo41kMkTU04emAmAakZKkicba7wdkSAHWnl3JzvMT9KakVJ8JFVElJtg1QKI26UVd4IdBdD7AZIuTGkFU29ky2oGm8Xqu5A9FbADVi8mhkTs4iVfCaoqHNXO1IK4qXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmHCN0Tc; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1761895476; c=relaxed/simple;
+	bh=etsA7DMDGlHa2EKAk8aJtFmR84OwwPDSpcbJxRX3u8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jfsJbVv6M9+jrV+BIuJjSb0J7+LkYnAQP/y+utu1zJpRN7E89UWRc0Wsa1IKrfS7jTDzBx1U8h3vaENaYC4UIsGIggvA583HdwhHpfwr+95Cc/oMpgO0/wiojg/rBF8fPUmFxm1xEv39QIftghFYoAYO1Pxaqc4TeGj7FjpcXT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/fOGu6a; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmHCN0Tc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/fOGu6a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761894233; x=1793430233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h945/dxqfx1BTBBtl+azCJKqnPUCASnWBKHAoqpp7k4=;
-  b=mmHCN0Tcrp/Nq1vjGoiTxnWguZWGuwKnvKN/uxUw3n0U6ELvhBQ3cHtx
-   K6IuRuBYhjzt7STToYn2gw0Y8UEY7JamiRg85q6E3hKWK6XhyMSUDfi/y
-   anRzLAJzl/MK7w7TeF5rG1O2ytuM25p2cwPFOV5M4ojZVTke8cs1hOhDU
-   sTTZg32Apvz+Rm13cRqXGG94/QZXZBSm0jZR/daRxRxyE2/l3vjBJJDo9
-   FQfrBgrKgPN7z6hLFCgdC9H878SDUxyW92BIeTqD1WUDUs3z3OQZlAYk+
-   coTzBJJz+NiTynRBWzuuy27OBDpSVia0dRjNg5KcHZeI3sT798PJf+Tn4
-   w==;
-X-CSE-ConnectionGUID: oZMcGasFT4uubR/F7QByUQ==
-X-CSE-MsgGUID: CsODGnbWQi209P+U/XqHNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="74648520"
+  t=1761895473; x=1793431473;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=etsA7DMDGlHa2EKAk8aJtFmR84OwwPDSpcbJxRX3u8A=;
+  b=N/fOGu6ah6h6VrvXcwzpRBFCd943ZEaoFsbSpn1NV2EdojpwSrHXOWe1
+   kyFi8/Bttd64S/D18I41oWJwoTqoousib7ER9791hkD3RCnml0wuhi3rB
+   V5ZgKEs2katj+ZT7j7+Vvnxf3fuGKLw2rdSbB4dJ8PBqBlIqnBSR8iroI
+   0fSiDiX8jfk/kLp1MUHHpgrB+ey8Q2EmBYUZkmZTansuIKNKCQoVgGKUZ
+   HdGFpRKwGBpw2+CYAHqauC7bRtd0ijQ5nVz2y54j5P1/APX6TtEYhyzYc
+   dTniMGDacavmOYKgjq7fvpkvf24IMd+s6rWRldHsvfW2xg90dmwVbqv62
+   A==;
+X-CSE-ConnectionGUID: l+kwuaRpT2mwxZiDUBI+BA==
+X-CSE-MsgGUID: +6a5PkN2R3+JMq9A/X8SvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75399720"
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="74648520"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 00:03:52 -0700
-X-CSE-ConnectionGUID: INgihif2ThSVR7SAakLYkw==
-X-CSE-MsgGUID: NNg+GFeoRGSdSWEX7M7t5A==
+   d="scan'208";a="75399720"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 00:24:33 -0700
+X-CSE-ConnectionGUID: GV4fVGtOQCuFVsCBwLJ7wg==
+X-CSE-MsgGUID: 467kVVMGREmynpL71I7SAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="185850502"
+   d="scan'208";a="186281757"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2025 00:03:49 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2025 00:24:32 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEjAq-000Mqe-11;
-	Fri, 31 Oct 2025 07:03:48 +0000
-Date: Fri, 31 Oct 2025 15:03:10 +0800
+	id 1vEjUr-000MrI-05;
+	Fri, 31 Oct 2025 07:24:29 +0000
+Date: Fri, 31 Oct 2025 15:23:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Richter <rrichter@amd.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Gregory Price <gourry@gourry.net>,
-	Terry Bowman <terry.bowman@amd.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Robert Richter <rrichter@amd.com>
-Subject: Re: [PATCH] cxl/region: Support multi-level interleaving with
- smaller granularities for lower levels
-Message-ID: <202510311413.HdTizWHK-lkp@intel.com>
-References: <20251028094754.72816-1-rrichter@amd.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [tip:core/rseq 39/42] vmlinux.o: error: objtool:
+ irqentry_exit+0x323: call to class_user_rw_access_destructor() with UACCESS
+ enabled
+Message-ID: <202510311508.2nnmAG7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,35 +65,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251028094754.72816-1-rrichter@amd.com>
 
-Hi Robert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cxl/next]
-[also build test ERROR on linus/master v6.18-rc3 next-20251030]
-[cannot apply to cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Richter/cxl-region-Support-multi-level-interleaving-with-smaller-granularities-for-lower-levels/20251028-175032
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20251028094754.72816-1-rrichter%40amd.com
-patch subject: [PATCH] cxl/region: Support multi-level interleaving with smaller granularities for lower levels
-config: i386-randconfig-141-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311413.HdTizWHK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311413.HdTizWHK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/rseq
+head:   69c8e3d1610588d677faaa6035e1bd5de9431d6e
+commit: 84eeeb00203526c29135d5352833d01e53fc1e16 [39/42] rseq: Switch to fast path processing on exit to user
+config: x86_64-randconfig-016-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311508.2nnmAG7r-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311508.2nnmAG7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311413.HdTizWHK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510311508.2nnmAG7r-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__udivdi3" [drivers/cxl/core/cxl_core.ko] undefined!
+>> vmlinux.o: error: objtool: irqentry_exit+0x323: call to class_user_rw_access_destructor() with UACCESS enabled
+   vmlinux.o: error: objtool: .altinstr_replacement+0x12cc: redundant UACCESS disable
+   vmlinux.o: error: objtool: .altinstr_replacement+0x12cf: redundant UACCESS disable
 
 -- 
 0-DAY CI Kernel Test Service
