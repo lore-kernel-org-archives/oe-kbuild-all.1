@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4108E611E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 04:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB58F611E;
+	Fri, 31 Oct 2025 04:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761886045; cv=none; b=rIThaDcJ3RzsQ9qSoJv3RHUBR0eZzYZl+vvoZWq6mpv0nhpBuvrFYZJcKJs/kMArCdfEy18Wetk+aMcefmYkNO4oQ7ghmJbPy/0RT99QJrFcESSdF+qQ7ADKzHMR9jmj6epUoaGtoZrBGPH3iH414ltf0YPcWfKgld2VPpyCk7A=
+	t=1761886048; cv=none; b=RryTYZk6zJreeeAXvWFiF0yZoV7bBu3bsXdARBWk5A3qQuTTS8XTo16W0/2JwZWudzTfi/boT7OyreRabtR100etltcs1VvcWwk9DiICPmaE+yl5JLkUdDAfV3LBIDyq0ox+eWMn8ewlPyAEKSY+DRXQLOW9KBcfRjKCmvDdAyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761886045; c=relaxed/simple;
-	bh=0TnXCs+ze0CYAJi9n4UGjz13+0q/6ybN6OV62TbKyiI=;
+	s=arc-20240116; t=1761886048; c=relaxed/simple;
+	bh=PzE7KeAqgfKugyYxm/djtYvuFFyf7E5abLaQIMmVHDA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XZ1K5uqXH2s0pEENdZCWKvkcS1EM9wE6HnLglLCA7ACPwblJ8e46jgrRLmTwtCr+W+fLlf7eqH3zi/v7V6afzkkGP3v0IMMv4+jZpG8IjO5GzsXZPs3YZoan7/Zw66f3yTkliShsYZC+sSriani8YjTwU8jpEoiJtt4FlflCnkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZOl/ATQ; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=ZAxEVD+p+yitwezptHZKIwjulRHqO33EviIx9lBj1LOlKoqAP3AFGFjh0IWTxK65DnQiFfWhvjYZ4sH0WsMqvaUJ6S0X1uABqRC4lWRplO5tVtk84B4gHDYhgPt8hpG4f+jpCkA+TpqY6kbCQQ29kJakaABSYCKjRyRpS3OYM14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBWD4htJ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZOl/ATQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBWD4htJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761886044; x=1793422044;
+  t=1761886046; x=1793422046;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0TnXCs+ze0CYAJi9n4UGjz13+0q/6ybN6OV62TbKyiI=;
-  b=fZOl/ATQoP6RzbXrPzPs9op149yzLaZPSY8DEYhfOWNAf6y8ockHrfxW
-   fIHC8YufMMN1RpWIzUsa9PBRHrfEVGL3TX30JvrZ2xIYvp+7BXNm5VJtd
-   w8thlXo3ahw8rPVStGSRK7C8SbcwQ9fccKT5nybLLmHNnieYk86ecc8vC
-   wnQYvW+rFJr34TRYPefOr0Eb1gnSeanzbOs9vwAW/ovagwbbPEx08RW6p
-   0d7Z6s75yuXqh56PFF7jnc1VOBCgEcbPnnyd06jB47mlG36nJlqdy8Uov
-   bC/2mhxNKrYvHXoV8Qe7+3gk4RjPJODLL1TPzwaRIeidzpRHX2xvRU1vI
-   w==;
-X-CSE-ConnectionGUID: Fpk6NJ2vTs2yOhCnEEQKtQ==
-X-CSE-MsgGUID: hcQxf+QkSsyttkNaOFOpKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="66653994"
+  bh=PzE7KeAqgfKugyYxm/djtYvuFFyf7E5abLaQIMmVHDA=;
+  b=bBWD4htJM+mYzp549mL523dk2uQyTl/WXcAa6dfvGrSm/SRZPxNeJzRO
+   FMUcsvENrRZxRIq84X++/fxN5ZZEmvEVZ6jHDAZbnfdMMgA0l5oOPa5jc
+   deLaw0ixTQFxTH5A5lpVGDTLOURHeUglR1Ur7FHeVXhdcdzYQA5EOrLP7
+   U+YV+gWeLAOAaNOSg0DD19JgXYbZZWMTEGY+f6idr+pIzKXu5zWqAf0Lp
+   lTmFysLwloR9jew35EeZbFrr62Bb/L9Dbt2h7j+YcqqFz4zeGg1Z4qKjC
+   XFSyWD5wf3tNQfG3XzoT7BsKZdQZNVY+iKIkIEE8OBfxTqOhKkP62+MVh
+   Q==;
+X-CSE-ConnectionGUID: e+SOquMtRtGqOg02N53E6w==
+X-CSE-MsgGUID: C1KSFcz1QyehdLEdDFZIMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75389638"
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="66653994"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 21:47:23 -0700
-X-CSE-ConnectionGUID: M7J5AISgRhaEoFTxPvWOdQ==
-X-CSE-MsgGUID: mACavQ3XT5O2RXWJ57cI3A==
+   d="scan'208";a="75389638"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 21:47:26 -0700
+X-CSE-ConnectionGUID: BKM6gTJGTeGUhoi8XHJKjQ==
+X-CSE-MsgGUID: xeZjyYKmRAORTRTjKrkI0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="216793583"
+   d="scan'208";a="190214659"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 30 Oct 2025 21:47:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 Oct 2025 21:47:25 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEh2g-000MmS-2J;
-	Fri, 31 Oct 2025 04:47:18 +0000
-Date: Fri, 31 Oct 2025 12:46:47 +0800
+	id 1vEh2m-000MmU-1E;
+	Fri, 31 Oct 2025 04:47:21 +0000
+Date: Fri, 31 Oct 2025 12:46:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [paulmckrcu:next.2025.10.30c 17/43] kernel/rcu/rcutorture.c:1139:17:
- error: 'rcu_tasks_trace_expedite_current' undeclared here (not in a
- function); did you mean 'srcu_torture_expedite_current'?
-Message-ID: <202510311250.LR97MjbU-lkp@intel.com>
+ error: use of undeclared identifier 'rcu_tasks_trace_expedite_current'; did
+ you mean 'srcu_torture_expedite_current'?
+Message-ID: <202510311200.9qgdI1m8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,24 +66,28 @@ Content-Disposition: inline
 tree:   https://github.com/paulmckrcu/linux next.2025.10.30c
 head:   1eee41590d30805ec4f5b4e96c615603b0d058d9
 commit: f7cd407d56a0baf6fc9fe3e093253f6e30d61a95 [17/43] rcutorture: Test rcu_tasks_trace_expedite_current()
-config: xtensa-randconfig-r053-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311250.LR97MjbU-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311250.LR97MjbU-lkp@intel.com/reproduce)
+config: s390-randconfig-001-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311200.9qgdI1m8-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311200.9qgdI1m8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311250.LR97MjbU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510311200.9qgdI1m8-lkp@intel.com/
 
 Note: the paulmckrcu/next.2025.10.30c HEAD 1eee41590d30805ec4f5b4e96c615603b0d058d9 builds fine.
       It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> kernel/rcu/rcutorture.c:1139:17: error: 'rcu_tasks_trace_expedite_current' undeclared here (not in a function); did you mean 'srcu_torture_expedite_current'?
-     .exp_current = rcu_tasks_trace_expedite_current,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    srcu_torture_expedite_current
+>> kernel/rcu/rcutorture.c:1139:17: error: use of undeclared identifier 'rcu_tasks_trace_expedite_current'; did you mean 'srcu_torture_expedite_current'?
+           .exp_current    = rcu_tasks_trace_expedite_current,
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                             srcu_torture_expedite_current
+   kernel/rcu/rcutorture.c:861:13: note: 'srcu_torture_expedite_current' declared here
+   static void srcu_torture_expedite_current(void)
+               ^
+   1 error generated.
 
 
 vim +1139 kernel/rcu/rcutorture.c
