@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03EE2AD13
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 00:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2956A22AE5D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 01:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761871583; cv=none; b=EERtBSMwWtW+f2u9qmjImSluXKE8bsF8tPkdT/Zob6tstycdnSEDtp80I9GlrW15edW261qxrpfcEdV/oQk7DN2kQnl/rDWtlhWFKXxpzCfQFNvvygc3akUZLyPSwdkGO7NmYMlFRUPKbakaK1BDA12pAN5rkR822nSf+D0uZug=
+	t=1761873570; cv=none; b=p6SerQlIX756aiKyncICYiGtFT5GRCf/hzpGocfeFkpoOXtC5WqPwBVfpaX5IAgjWN/w0FmcZsPu4ACqxOnuu3muKRD75okKBPEQpR4s3ujDhBNHxFQ4yiydW8+NHPJCb5hsmQycJ9tMqwYYn8x/l6tToPLh4hA18YLAfGy5j5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761871583; c=relaxed/simple;
-	bh=rYvL6so9ydruyTYvF7lLZ8zsUeS/zrKX2nNkLjRiksI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=endhqpbj4xIt8Znq3OnwfpGWBvnQFf3wdR2R4Xi2EgDcP3VhkrSK1OOf8y8Lj7AJxOhZ1Q0J/XYP8gMLij0YIIF40W4Hv3g0DrJj5g9z5BV2wSg2kYKhX7+u2/xI7YjdmpE48kjiu0eXRydr6OtV99UWIdqYAYRl5X4JC5NadvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwRX/sRI; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1761873570; c=relaxed/simple;
+	bh=s3KxTLvxykwuQMgwYymSDxBhPd0V8H4sWyAgWwULAKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jMDwWEhw2OC3HnMSPClHw88kYYpvq+A5d8JcNXDIlYRTbE0PMcl6XKxjGQjGO4Xr/M9YN1eKzedArUfCedlcciXqbVOoxATslEihwRRVfm6zq4nL/NTk2h/g99m+CD1aAObZgmu6r9b5yJkkbnpYrszlQzuuJOptq2IRYLkW4Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KxWgkhib; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwRX/sRI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KxWgkhib"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761871582; x=1793407582;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rYvL6so9ydruyTYvF7lLZ8zsUeS/zrKX2nNkLjRiksI=;
-  b=kwRX/sRIzdkLBQFpKatBfuxjaPLTowcLGvj1gEsxWpz8O5oMm/TQV3ta
-   iD360OGNGTtiHp89dm/lGV/KIfkwONHwkks97M8kYW4i2wEMkWmPbM2Y4
-   DBWlJJLnE7ozklFGtyjuyzr+nQk/S1yWctBP3djHn1wGESEizd1V2wH/w
-   wrkTNVJsEufXFzRnOeMxGaE2vKcUPtOU0gGIh+zUQo9UGRgTleanjQtfw
-   HJJ2zk82Pqy4c8QS5bRvOWmpczg0MWzLWXyxAjmrPv9MRABbPD8VGSf70
-   v+IDAPCCSKTg6+Ue0bnDyO5mucPgpg7e8FltuYaY/osPn2BokW+7HxmUe
-   w==;
-X-CSE-ConnectionGUID: 8cehwQIyRoKJY681QeXSQg==
-X-CSE-MsgGUID: WuugebGzTXKq/i4bRwEzXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75145336"
+  t=1761873568; x=1793409568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s3KxTLvxykwuQMgwYymSDxBhPd0V8H4sWyAgWwULAKI=;
+  b=KxWgkhibFNk2OBR338daFTnQuyNBMUavEjdbyx5wclbp2wQh85cs99ZP
+   ay0whbO4SrVi73cMCmS/Nnj14H/2/9A8D2AdpN0PnAdM1K+DCMtfvb6PE
+   luu+UiDUzWapY3c/1t3xWTXhM+uzHJOIgJpURYsX7YF+wOBcwm4w5tvSk
+   KXtzajBxdOAtWlZZorLhi0kGWnEnkzq+YB/kncBDyOcmPOFtGOZoxkUjS
+   covSCGdo74xSzf0D9eUUyPtrVeK9u0PQsT4crAkWPYhpz21/4jt5a4YPs
+   xKnRdjXAArG46v0FD6yDiHY+cGA9LW4PqowpcynKeb0sl0AYtj/soPdqs
+   A==;
+X-CSE-ConnectionGUID: 2kkfDchqTAydx1pCoSmExA==
+X-CSE-MsgGUID: fvwZr3psSu+gvbareR4dHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64069215"
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="75145336"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 17:46:22 -0700
-X-CSE-ConnectionGUID: b78H4B+9To6bSe3pQEmE9A==
-X-CSE-MsgGUID: T6uF06zsQ4C6bE7cMPcLtg==
+   d="scan'208";a="64069215"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 18:19:28 -0700
+X-CSE-ConnectionGUID: mCjhLEe6QCKcT9fN0jidcg==
+X-CSE-MsgGUID: jQINaZDsRf6rcrtZb6y02w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="216754369"
+   d="scan'208";a="185979707"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 30 Oct 2025 17:46:20 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Oct 2025 18:19:24 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEdHV-000MdM-2Y;
-	Fri, 31 Oct 2025 00:46:17 +0000
-Date: Fri, 31 Oct 2025 08:45:39 +0800
+	id 1vEdnS-000Mem-0M;
+	Fri, 31 Oct 2025 01:19:20 +0000
+Date: Fri, 31 Oct 2025 09:18:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3064/3064] mm/page_alloc.c:699
- __del_page_from_free_list() warn: inconsistent indenting
-Message-ID: <202510310815.0k5TUFKn-lkp@intel.com>
+To: Caleb James DeLisle <cjd@cjdns.fr>, nbd@nbd.name, lorenzo@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ryder.lee@mediatek.com,
+	shayne.chen@mediatek.com, sean.wang@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	Caleb James DeLisle <cjd@cjdns.fr>
+Subject: Re: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big
+ Endian
+Message-ID: <202510310816.kyDHJNiS-lkp@intel.com>
+References: <20251027171759.1484844-1-cjd@cjdns.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +68,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251027171759.1484844-1-cjd@cjdns.fr>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
-commit: 10f78461ef205a15e190d1474673dfa9add58723 [3064/3064] mm: page_alloc: consolidate free page accounting
-config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251031/202510310815.0k5TUFKn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
+Hi Caleb,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Caleb-James-DeLisle/wifi-mt76-mmio_-read-write-_copy-byte-swap-when-on-Big-Endian/20251028-012349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20251027171759.1484844-1-cjd%40cjdns.fr
+patch subject: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big Endian
+config: i386-randconfig-061-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310816.kyDHJNiS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310816.kyDHJNiS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510310815.0k5TUFKn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510310816.kyDHJNiS-lkp@intel.com/
 
-smatch warnings:
-mm/page_alloc.c:699 __del_page_from_free_list() warn: inconsistent indenting
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: cast from restricted __le32
+>> drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int val @@     got restricted __le32 [usertype] @@
+   drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     expected unsigned int val
+   drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     got restricted __le32 [usertype]
+>> drivers/net/wireless/mediatek/mt76/mmio.c:63:23: sparse: sparse: cast to restricted __le32
 
-vim +699 mm/page_alloc.c
+vim +41 drivers/net/wireless/mediatek/mt76/mmio.c
 
-6ab0136310961e Alexander Duyck 2020-04-06  690  
-10f78461ef205a Johannes Weiner 2024-03-20  691  static inline void __del_page_from_free_list(struct page *page, struct zone *zone,
-10f78461ef205a Johannes Weiner 2024-03-20  692  					     unsigned int order, int migratetype)
-6ab0136310961e Alexander Duyck 2020-04-06  693  {
-10f78461ef205a Johannes Weiner 2024-03-20  694  		VM_WARN_ONCE(get_pageblock_migratetype(page) != migratetype,
-10f78461ef205a Johannes Weiner 2024-03-20  695  		     "page type is %lu, passed migratetype is %d (nr=%d)\n",
-10f78461ef205a Johannes Weiner 2024-03-20  696  		     get_pageblock_migratetype(page), migratetype, 1 << order);
-10f78461ef205a Johannes Weiner 2024-03-20  697  
-36e66c554b5c6a Alexander Duyck 2020-04-06  698  	/* clear reported state and update reported page count */
-36e66c554b5c6a Alexander Duyck 2020-04-06 @699  	if (page_reported(page))
-36e66c554b5c6a Alexander Duyck 2020-04-06  700  		__ClearPageReported(page);
-36e66c554b5c6a Alexander Duyck 2020-04-06  701  
-bf75f200569dd0 Mel Gorman      2022-06-24  702  	list_del(&page->buddy_list);
-6ab0136310961e Alexander Duyck 2020-04-06  703  	__ClearPageBuddy(page);
-6ab0136310961e Alexander Duyck 2020-04-06  704  	set_page_private(page, 0);
-6ab0136310961e Alexander Duyck 2020-04-06  705  	zone->free_area[order].nr_free--;
-6ab0136310961e Alexander Duyck 2020-04-06  706  }
-6ab0136310961e Alexander Duyck 2020-04-06  707  
-
-:::::: The code at line 699 was first introduced by commit
-:::::: 36e66c554b5c6a9d17a229faca7a61693527b0bd mm: introduce Reported pages
-
-:::::: TO: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    32	
+    33	static void mt76_mmio_write_copy_portable(void __iomem *dst,
+    34						  const u8 *src, int len)
+    35	{
+    36		__le32 val;
+    37		int i = 0;
+    38	
+    39		for (i = 0; i < ALIGN(len, 4); i += 4) {
+    40			memcpy(&val, src + i, sizeof(val));
+  > 41			writel(cpu_to_le32(val), dst + i);
+    42		}
+    43	}
+    44	
+    45	static void mt76_mmio_write_copy(struct mt76_dev *dev, u32 offset,
+    46					 const void *data, int len)
+    47	{
+    48		if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)) {
+    49			mt76_mmio_write_copy_portable(dev->mmio.regs + offset, data,
+    50						      len);
+    51			return;
+    52		}
+    53		__iowrite32_copy(dev->mmio.regs + offset, data, DIV_ROUND_UP(len, 4));
+    54	}
+    55	
+    56	static void mt76_mmio_read_copy_portable(u8 *dst,
+    57						 const void __iomem *src, int len)
+    58	{
+    59		u32 val;
+    60		int i;
+    61	
+    62		for (i = 0; i < ALIGN(len, 4); i += 4) {
+  > 63			val = le32_to_cpu(readl(src + i));
+    64			memcpy(dst + i, &val, sizeof(val));
+    65		}
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
