@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2BB33E37D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 12:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403B61F09A3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 12:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761914633; cv=none; b=YCTWxHzGXmzxT+JWFzG2QDy1IcLmDMqNNOgLipIgW4fPCdwKrO8KfE8kpWDAvNM2TueSf69oOnBcco7Ja7/DlhlXd69eYibCW7hOf3lXpLAFsITmVzD+N+SWzq5Qf1UeNxzYKegIA0r9JhTEPCcSHto6UofEbneLYNP0ICOliyM=
+	t=1761915139; cv=none; b=cILT2aZ2u7SceXL2LFuW08kLBVOLJqg+KnvdhKIXSESl2lu90MNu0r9h+2FJfi7esuge+fyfY9DPhKLIUA2gklhLfVzodewP1wyjyH6TVp1X8LhEJ50si9VRqE+7ompTL9L6o8w4y6SFbne2mOGM8bjJqO12hO5e5nE8eul7Z74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761914633; c=relaxed/simple;
-	bh=sF35hppqD3HWncobGIVIUzqVORCZRJuB6R7SU1cG6+U=;
+	s=arc-20240116; t=1761915139; c=relaxed/simple;
+	bh=UhgY56L2Y48rGqsa8FjhgUlMRK793nBioVqcnGX0uUc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lnFqfnxJSWvrt+ZeS03UcpLRGByBKXH3GireDGyzK17ec9TbFN2lkyv4plAwIj4x4AzU9qt7nGJCBj6s6jNLMyMii7+BDPKLxffyjl9mNzYbNeg8gq5bVggzIDYknNtBVZCopnjdqhSHmWgljkCgZctZlOszObJ9CcaUIEH+87Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=unknown smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G7ZerLHE; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=VoOsUNtUhAR6UvuiCdJJdOs+aHDuD1b213PmSO650E4pdxXjjROlAWT3z0lDZk44toRD64LAA5sQzsIeWmlWKSbnp9I6goUROjJAeR1spHY1FquHNrD9lJx9e64ABHdk6d3AW9nRjNjYnXnmpocMyHlrYm5dBDPjpo5w1LQjemA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHfCZb1E; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7ZerLHE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHfCZb1E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761914611; x=1793450611;
+  t=1761915138; x=1793451138;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sF35hppqD3HWncobGIVIUzqVORCZRJuB6R7SU1cG6+U=;
-  b=G7ZerLHExSTL338dfFQvB7+B4BS/4twlDelEy0UwtSkGtXqtwOXvSCph
-   e1cWswyHMmdBBPQrgov1afSR3hw5e/T5/uZBfCFGG0BhaZzLH2jhDs+fJ
-   LbMF17U6O33iUG9ykMjvEEVfle0eyUMy4oW/CsoNS7cTBTd9WFGdP2Z9z
-   MSCRMS2gXlbhdXYbWjQzMkql+WTdsYJ0N6ZyYcFve92vArTJEyKOpErSE
-   S4UmK4wXBqq0+rLmhbANLxVoEOufW4WgZOclud2JoY4Lu84usiU+wxJAb
-   C0uf+cLhodNOGmUxvOs3kyNuCdgJGT9YxltXuGDHrlf6TIi/cojlGrgFX
+  bh=UhgY56L2Y48rGqsa8FjhgUlMRK793nBioVqcnGX0uUc=;
+  b=BHfCZb1EZ3tBoITxYE9VKlPoD8OBGdWJtjX9dgDc8F6vnOotR0p9qiSj
+   R+gjWUG4NGU0QqNeX4GUGP+QxeqLNUoEKI8MuNF3IARKNLapFLbQ678aP
+   JGuoGEO9tTfHOaa+x7Nc+xtIJsL6SX/X7QaLh3IheBuYJR1rREt+3M5PQ
+   5RV+Js4PGNEl15BNpxOuq9YmFVJ1y7LSJgsG/urpJhM2PB9Xwf+N+fDXb
+   GjPBHNBYFcW2xFpx7UcVwsvftiYkxSiWlPKPHNaLTH194URwy1vd/ngDs
+   QJz3X8F+K40FzG9HE8+U4JpdvM+SedAkq3EO+JDiYUBlIjR9kT9bLePKx
    w==;
-X-CSE-ConnectionGUID: B+7Z/22ERb+VA3kOb6NyvA==
-X-CSE-MsgGUID: Q52HpIP0TYO1UM9wMsoHNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="66687380"
+X-CSE-ConnectionGUID: f54CVq8rS+6nMAMePIP+4A==
+X-CSE-MsgGUID: eI4r2PfARD2T1lf149jrNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="89539259"
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="66687380"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 05:43:21 -0700
-X-CSE-ConnectionGUID: AwmRUQfkS8mQ6Q97oh0umQ==
-X-CSE-MsgGUID: Ko1mJjW+QF6FrzORNVX+vA==
+   d="scan'208";a="89539259"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 05:52:17 -0700
+X-CSE-ConnectionGUID: fotXEm+rSS+AXCY654oD1A==
+X-CSE-MsgGUID: UZoZcDi8SNi3Kv7d80kCHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="185500706"
+   d="scan'208";a="209793862"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 31 Oct 2025 05:43:19 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2025 05:52:15 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEoSz-000N6m-10;
-	Fri, 31 Oct 2025 12:42:55 +0000
-Date: Fri, 31 Oct 2025 20:40:29 +0800
+	id 1vEobv-000N7U-1K;
+	Fri, 31 Oct 2025 12:52:08 +0000
+Date: Fri, 31 Oct 2025 20:51:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Wu <wusamuel@google.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, tuhaowen@uniontech.com,
-	Samuel Wu <wusamuel@google.com>,
-	Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] PM: Support aborting sleep during filesystem sync
-Message-ID: <202510312048.Ylb5GU76-lkp@intel.com>
-References: <20251030210110.298612-1-wusamuel@google.com>
+To: Markus Elfring <Markus.Elfring@web.de>, linux-alpha@vger.kernel.org,
+	Chen Gang <gang.chen@asianux.com>, Matt Turner <mattst88@gmail.com>,
+	Richard Henderson <richard.henderson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	kernel-janitors@vger.kernel.org, Miaoqian Lin <linmq006@gmail.com>
+Subject: Re: [PATCH] alpha: Use pointers from memcpy() calls for assignments
+ in two functions
+Message-ID: <202510312008.rLcaBIfL-lkp@intel.com>
+References: <1605dd43-5e95-46eb-a0c6-78ff8b4d51b3@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,64 +66,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030210110.298612-1-wusamuel@google.com>
+In-Reply-To: <1605dd43-5e95-46eb-a0c6-78ff8b4d51b3@web.de>
 
-Hi Samuel,
+Hi Markus,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.18-rc3 next-20251031]
+[auto build test WARNING on linus/master]
+[also build test WARNING on mattst88-alpha/for-linus v6.18-rc3 next-20251031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Wu/PM-Support-aborting-sleep-during-filesystem-sync/20251031-050330
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251030210110.298612-1-wusamuel%40google.com
-patch subject: [PATCH v6] PM: Support aborting sleep during filesystem sync
-config: arm64-randconfig-r061-20251031 (https://download.01.org/0day-ci/archive/20251031/202510312048.Ylb5GU76-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312048.Ylb5GU76-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/alpha-Use-pointers-from-memcpy-calls-for-assignments-in-two-functions/20251031-003938
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1605dd43-5e95-46eb-a0c6-78ff8b4d51b3%40web.de
+patch subject: [PATCH] alpha: Use pointers from memcpy() calls for assignments in two functions
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251031/202510312008.rLcaBIfL-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312008.rLcaBIfL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510312048.Ylb5GU76-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510312008.rLcaBIfL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/power/main.c: In function 'pm_init':
->> kernel/power/main.c:1159:17: error: implicit declaration of function 'pm_start_fs_sync_workqueue'; did you mean 'pm_start_workqueue'? [-Wimplicit-function-declaration]
-    1159 |         error = pm_start_fs_sync_workqueue();
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 pm_start_workqueue
+   arch/alpha/kernel/smp.c: In function 'send_secondary_console_msg':
+>> arch/alpha/kernel/smp.c:201:24: warning: variable 'cp1' set but not used [-Wunused-but-set-variable]
+     201 |         register char *cp1, *cp2;
+         |                        ^~~
+   arch/alpha/kernel/smp.c: In function 'recv_secondary_console_msg':
+   arch/alpha/kernel/smp.c:237:13: warning: variable 'mycpu' set but not used [-Wunused-but-set-variable]
+     237 |         int mycpu, i, cnt;
+         |             ^~~~~
 
 
-vim +1159 kernel/power/main.c
+vim +/cp1 +201 arch/alpha/kernel/smp.c
 
-  1153	
-  1154	static int __init pm_init(void)
-  1155	{
-  1156		int error = pm_start_workqueue();
-  1157		if (error)
-  1158			return error;
-> 1159		error = pm_start_fs_sync_workqueue();
-  1160		if (error)
-  1161			return error;
-  1162		hibernate_image_size_init();
-  1163		hibernate_reserved_size_init();
-  1164		pm_states_init();
-  1165		power_kobj = kobject_create_and_add("power", NULL);
-  1166		if (!power_kobj)
-  1167			return -ENOMEM;
-  1168		error = sysfs_create_groups(power_kobj, attr_groups);
-  1169		if (error)
-  1170			return error;
-  1171		pm_print_times_init();
-  1172		return pm_autosleep_init();
-  1173	}
-  1174	
+^1da177e4c3f415 Linus Torvalds 2005-04-16  192  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  193  /*
+^1da177e4c3f415 Linus Torvalds 2005-04-16  194   * Send a message to a secondary's console.  "START" is one such
+^1da177e4c3f415 Linus Torvalds 2005-04-16  195   * interesting message.  ;-)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  196   */
+ab39c77c3246f84 Paul Gortmaker 2013-06-17  197  static void
+^1da177e4c3f415 Linus Torvalds 2005-04-16  198  send_secondary_console_msg(char *str, int cpuid)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  199  {
+^1da177e4c3f415 Linus Torvalds 2005-04-16  200  	struct percpu_struct *cpu;
+^1da177e4c3f415 Linus Torvalds 2005-04-16 @201  	register char *cp1, *cp2;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  202  	unsigned long cpumask;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  203  	size_t len;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  204  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  205  	cpu = (struct percpu_struct *)
+^1da177e4c3f415 Linus Torvalds 2005-04-16  206  		((char*)hwrpb
+^1da177e4c3f415 Linus Torvalds 2005-04-16  207  		 + hwrpb->processor_offset
+^1da177e4c3f415 Linus Torvalds 2005-04-16  208  		 + cpuid * hwrpb->processor_size);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  209  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  210  	cpumask = (1UL << cpuid);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  211  	if (wait_for_txrdy(cpumask))
+^1da177e4c3f415 Linus Torvalds 2005-04-16  212  		goto timeout;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  213  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  214  	cp2 = str;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  215  	len = strlen(cp2);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  216  	*(unsigned int *)&cpu->ipc_buffer[0] = len;
+c37a29a96dcfc93 Markus Elfring 2025-10-30  217  	cp1 = memcpy(&cpu->ipc_buffer[1], cp2, len);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  218  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  219  	/* atomic test and set */
+^1da177e4c3f415 Linus Torvalds 2005-04-16  220  	wmb();
+^1da177e4c3f415 Linus Torvalds 2005-04-16  221  	set_bit(cpuid, &hwrpb->rxrdy);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  222  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  223  	if (wait_for_txrdy(cpumask))
+^1da177e4c3f415 Linus Torvalds 2005-04-16  224  		goto timeout;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  225  	return;
+^1da177e4c3f415 Linus Torvalds 2005-04-16  226  
+^1da177e4c3f415 Linus Torvalds 2005-04-16  227   timeout:
+^1da177e4c3f415 Linus Torvalds 2005-04-16  228  	printk("Processor %x not ready\n", cpuid);
+^1da177e4c3f415 Linus Torvalds 2005-04-16  229  }
+^1da177e4c3f415 Linus Torvalds 2005-04-16  230  
 
 -- 
 0-DAY CI Kernel Test Service
