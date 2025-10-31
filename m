@@ -1,134 +1,87 @@
-Received: from mail.cjdns.fr (mail.cjdns.fr [5.135.140.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FB82DC788
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 08:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.135.140.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9102F6594;
+	Fri, 31 Oct 2025 08:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761898955; cv=none; b=OgHnR02gUj/6lika/0QxD3DsXowtyTU5JqT+iGZuNWfJBN6DdYMv7lSPyBqod7gJlsmEBweIBilwc7awAOzWyCNCvh9xb12Jmt6Im9XYDN3BaSsQQQ9q4tqEL9ORU+pExy2f4S2w2dQRWebJw9ZwMGZQk8if682/DUN/Jdooxa8=
+	t=1761899219; cv=none; b=tIEgvFQShEo0QVpOwF3PAmV9a7TgtQAWdcU7jYoMRxx4jLl5seZnWsyow+XdIKh4JOL0Fzr3E/NrKt+VLIwWCixqi6QHl+7vO/5NaBcwpO57kF6pqwtkZN5XLQGRn+sog7fpq9m+QWPyuwfJQ8ItRpOp6nbioTcO6piH6fmhBPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761898955; c=relaxed/simple;
-	bh=62GjFdGWwbbzA3cm5sko4T/hxx35PdHGWci6ZMG3GSA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=egRWd693OmMbouaHLH6333yQtCgVfLwBrLgWpZt6JIk6IdZjDyy/lIMjDU+lnSeeL0JIJV9o9+avpJyg43aWRShe7N8tksKWewgnkDXvj/SGyif4nGfVXEs0whXdkow1ywFh++/ncIkwwXXlXBgfwfyO/wE6CHgHTAkiBukgX0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr; spf=none smtp.mailfrom=cjdns.fr; dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b=LSlR4IXh; arc=none smtp.client-ip=5.135.140.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cjdns.fr
+	s=arc-20240116; t=1761899219; c=relaxed/simple;
+	bh=BecWedi4L8EHtB6kBN5qc40HWVT3Y0Xx/1LMaYJrUJ0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=G612UoXwBWvYWZ1F/TmTcahXKWBa5koENk4lCK9plh9OOUocnB8ypcx24tIA5udkZc6S52WL8Zm0jOFeSbsP8fYOXWVt+Awczt1gZR+viMt5RBcyEVIZ2img9fjKudhNI6QKR6lnq7Sg2vQoRNq3RURSXfo46Tox1z3419mdFjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1B4rxuu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b="LSlR4IXh"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 56BF597720A;
-	Fri, 31 Oct 2025 09:22:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cjdns.fr; s=dkim;
-	t=1761898944; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Qib6qRQMu5LVMMGbQVwGmu5XzHqsEzGPUdm1+2Fg8Jw=;
-	b=LSlR4IXhs1thoBJw7RjsbQ2kPHdVT2DjByuTTOkK3UPb9+mxo6NJ4OYEkOnppZbI5rGz/W
-	btyKf3Gnc3YLdHGnMQhETaGs4ArrNP2QLS/ZhSyUuV54vKZu8uEyVw/FgOAauVbfwuXUMZ
-	kzrB7KIf3FrR95eYqazZFy2UeEjhj8UbsqJLoHE/3nPlWEeL7tcOKL8jWhAWTWTr8qi4k1
-	8v8dkeQ7iZdKietWGxL8AJeHat6lUKZrZkdY4rEngTDKP1TO6/UR4HJu5z8Vy18tLzMm7P
-	hHs2iaFsAYppKcCTwsCCDkMh4PHmdyxZshGYiwHbZ+Aoe+Aj8y96H87eiutRsg==
-Message-ID: <cf6d217f-1f1f-41f9-9ed7-9454aad080df@cjdns.fr>
-Date: Fri, 31 Oct 2025 09:22:18 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1B4rxuu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB83DC4CEE7;
+	Fri, 31 Oct 2025 08:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761899219;
+	bh=BecWedi4L8EHtB6kBN5qc40HWVT3Y0Xx/1LMaYJrUJ0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=O1B4rxuudVo33kOmChl54gnIRHNTNPAxVPuJdNyWgGMJhW6EPL+CMSkcKizIB86P/
+	 atTUQetYvc8OodgQl9CkBA8Mbp+3wis/QzdEyb7qUm6wJX3jFy9NF/sEyEaVcSB6cM
+	 QDhXUlsFbJWWDBPZmAev7Fg5cMv5wUb5uuSkoqrprGCSaqH1/fGHlmJSXXHdJT7bWV
+	 32tnAlgHioj2Zb2QNkRjaq8N6Y30ROWUt8rORJBA3yer2vkWsy99flrKGiaZw00qnn
+	 xUeKRvPruwYJVoNq95mQCUMTZp+Zxs8qk9aXD1W0qGXNPGrkcSrFJmvGz/XagOJlbe
+	 VvFVD7ENENCHQ==
+Date: Fri, 31 Oct 2025 09:26:56 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+cc: kernel test robot <lkp@intel.com>, platform-driver-x86@vger.kernel.org, 
+    linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
+    Corentin Chary <corentin.chary@gmail.com>, 
+    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
+    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+    Denis Benato <benato.denis96@gmail.com>
+Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
+ kbd led handlers
+In-Reply-To: <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
+Message-ID: <39n24387-0o0n-50p8-s2rn-9qoqs6sq8336@xreary.bet>
+References: <20251018101759.4089-6-lkml@antheas.dev> <202510222013.EBLC609m-lkp@intel.com> <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big
- Endian
-To: kernel test robot <lkp@intel.com>, nbd@nbd.name, lorenzo@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ryder.lee@mediatek.com,
- shayne.chen@mediatek.com, sean.wang@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20251027171759.1484844-1-cjd@cjdns.fr>
- <202510310816.kyDHJNiS-lkp@intel.com>
-Content-Language: en-US
-From: Caleb James DeLisle <cjd@cjdns.fr>
-In-Reply-To: <202510310816.kyDHJNiS-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=US-ASCII
 
+On Thu, 23 Oct 2025, Antheas Kapenekakis wrote:
 
-On 31/10/2025 02:18, kernel test robot wrote:
-> Hi Caleb,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on wireless-next/main]
-> [also build test WARNING on wireless/main linus/master v6.18-rc3 next-20251030]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Caleb-James-DeLisle/wifi-mt76-mmio_-read-write-_copy-byte-swap-when-on-Big-Endian/20251028-012349
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-> patch link:    https://lore.kernel.org/r/20251027171759.1484844-1-cjd%40cjdns.fr
-> patch subject: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big Endian
-> config: i386-randconfig-061-20251031 (https://download.01.org/0day-ci/archive/20251031/202510310816.kyDHJNiS-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510310816.kyDHJNiS-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510310816.kyDHJNiS-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: cast from restricted __le32
->>> drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int val @@     got restricted __le32 [usertype] @@
+> >   1589
+> >   1590  static void kbd_led_update_all(struct work_struct *work)
+> >   1591  {
+> >   1592          enum led_brightness value;
+> >   1593          struct asus_wmi *asus;
+> >   1594          bool registered, notify;
+> >   1595          int ret;
+>                               /\ value should have been an int and
+> placed here. It can take the value -1 hence the check
 
+Thanks, that needs to be fixed before the final merge.
 
-This should not be an issue in PATCH v2 because it no longer uses a 
-temporary variable.
+> Are there any other comments on the series?
+> 
+> The only issue I am aware of is that Denis identified a bug in asusd
+> (asusctl userspace program daemon) in certain Asus G14/G16 laptops
+> that cause laptop keys to become sticky, I have had users also report
+> that bug in previous versions of the series. WIthout asusd running,
+> keyboards work fine incl. with brightness control (did not work
+> before). Given it will take two months for this to reach mainline, I
+> think it is a fair amount of time to address the bug.
+
+One thing that is not clear to me about this -- is this causing a visible 
+user-space behavior regression before vs. after the patchset with asusctl?
+
+If so, I am afraid this needs to be root-caused and fixed before the set 
+can be considered for inclusion.
 
 Thanks,
 
-Caleb
+-- 
+Jiri Kosina
+SUSE Labs
 
-
->     drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     expected unsigned int val
->     drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     got restricted __le32 [usertype]
->>> drivers/net/wireless/mediatek/mt76/mmio.c:63:23: sparse: sparse: cast to restricted __le32
-> vim +41 drivers/net/wireless/mediatek/mt76/mmio.c
->
->      32	
->      33	static void mt76_mmio_write_copy_portable(void __iomem *dst,
->      34						  const u8 *src, int len)
->      35	{
->      36		__le32 val;
->      37		int i = 0;
->      38	
->      39		for (i = 0; i < ALIGN(len, 4); i += 4) {
->      40			memcpy(&val, src + i, sizeof(val));
->    > 41			writel(cpu_to_le32(val), dst + i);
->      42		}
->      43	}
->      44	
->      45	static void mt76_mmio_write_copy(struct mt76_dev *dev, u32 offset,
->      46					 const void *data, int len)
->      47	{
->      48		if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN)) {
->      49			mt76_mmio_write_copy_portable(dev->mmio.regs + offset, data,
->      50						      len);
->      51			return;
->      52		}
->      53		__iowrite32_copy(dev->mmio.regs + offset, data, DIV_ROUND_UP(len, 4));
->      54	}
->      55	
->      56	static void mt76_mmio_read_copy_portable(u8 *dst,
->      57						 const void __iomem *src, int len)
->      58	{
->      59		u32 val;
->      60		int i;
->      61	
->      62		for (i = 0; i < ALIGN(len, 4); i += 4) {
->    > 63			val = le32_to_cpu(readl(src + i));
->      64			memcpy(dst + i, &val, sizeof(val));
->      65		}
->      66	}
->      67	
->
