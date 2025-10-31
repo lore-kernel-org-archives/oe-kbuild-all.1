@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB58F611E;
-	Fri, 31 Oct 2025 04:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D554DAD4B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 05:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761886048; cv=none; b=RryTYZk6zJreeeAXvWFiF0yZoV7bBu3bsXdARBWk5A3qQuTTS8XTo16W0/2JwZWudzTfi/boT7OyreRabtR100etltcs1VvcWwk9DiICPmaE+yl5JLkUdDAfV3LBIDyq0ox+eWMn8ewlPyAEKSY+DRXQLOW9KBcfRjKCmvDdAyg=
+	t=1761888180; cv=none; b=BKVdwr407MmgE6uNL9UeN+YJbBZfLm1vGzMDONHSf3pYHlm+BR1ixOGzF4A3hSTqIY3JOPWFNK/0x2KqCuxaKYwl/AOqctbOzRMgOagw5x3l16mlMzC7FZnqM5v9DMoG1ClfX1o/BC4+EuUsx9hdeP5r+fRlEsvVVq/xv2FzhpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761886048; c=relaxed/simple;
-	bh=PzE7KeAqgfKugyYxm/djtYvuFFyf7E5abLaQIMmVHDA=;
+	s=arc-20240116; t=1761888180; c=relaxed/simple;
+	bh=R34RNdHfLenmvgLgeWC/CaGqZ5s2qXVesvg26UCKFm8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZAxEVD+p+yitwezptHZKIwjulRHqO33EviIx9lBj1LOlKoqAP3AFGFjh0IWTxK65DnQiFfWhvjYZ4sH0WsMqvaUJ6S0X1uABqRC4lWRplO5tVtk84B4gHDYhgPt8hpG4f+jpCkA+TpqY6kbCQQ29kJakaABSYCKjRyRpS3OYM14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBWD4htJ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Vq5NVAfF+bO0jb2CEN0Qtqn1Sq/lW8sgwpBCHuHcbhH7dh9cSxWGb9qIuIgJuYV5Pmc1rHtrrNpCbiEDJlvv4Spl8YGgY8cgCNiO6GUSLMIzufBSzWhO1TS+yTcR/hOHYo1EofadCoYYSXfKnhFI59LIrfepiSIJRnQZe1bH8ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ve4/1X7h; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBWD4htJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761886046; x=1793422046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PzE7KeAqgfKugyYxm/djtYvuFFyf7E5abLaQIMmVHDA=;
-  b=bBWD4htJM+mYzp549mL523dk2uQyTl/WXcAa6dfvGrSm/SRZPxNeJzRO
-   FMUcsvENrRZxRIq84X++/fxN5ZZEmvEVZ6jHDAZbnfdMMgA0l5oOPa5jc
-   deLaw0ixTQFxTH5A5lpVGDTLOURHeUglR1Ur7FHeVXhdcdzYQA5EOrLP7
-   U+YV+gWeLAOAaNOSg0DD19JgXYbZZWMTEGY+f6idr+pIzKXu5zWqAf0Lp
-   lTmFysLwloR9jew35EeZbFrr62Bb/L9Dbt2h7j+YcqqFz4zeGg1Z4qKjC
-   XFSyWD5wf3tNQfG3XzoT7BsKZdQZNVY+iKIkIEE8OBfxTqOhKkP62+MVh
-   Q==;
-X-CSE-ConnectionGUID: e+SOquMtRtGqOg02N53E6w==
-X-CSE-MsgGUID: C1KSFcz1QyehdLEdDFZIMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75389638"
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="75389638"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 21:47:26 -0700
-X-CSE-ConnectionGUID: BKM6gTJGTeGUhoi8XHJKjQ==
-X-CSE-MsgGUID: xeZjyYKmRAORTRTjKrkI0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,268,1754982000"; 
-   d="scan'208";a="190214659"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Oct 2025 21:47:25 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEh2m-000MmU-1E;
-	Fri, 31 Oct 2025 04:47:21 +0000
-Date: Fri, 31 Oct 2025 12:46:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [paulmckrcu:next.2025.10.30c 17/43] kernel/rcu/rcutorture.c:1139:17:
- error: use of undeclared identifier 'rcu_tasks_trace_expedite_current'; did
- you mean 'srcu_torture_expedite_current'?
-Message-ID: <202510311200.9qgdI1m8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ve4/1X7h"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4710683a644so16533815e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Oct 2025 22:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761888175; x=1762492975; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JEAcebBrLfuvI6ZqOIoqhHd8hKm6Gmtjk7upIV0IUIo=;
+        b=ve4/1X7hRfStLZw88nOMsNuy3fxoo0MSEM94Sv+gTuJjNVIFEtpCWiyjiRtCBUGyBO
+         cUkUfj4uiyID3TEsNCesrKSVzAbK/zj/q3Ro4C47+EBMP0Nhqm71P2kSjyY0Y/IwutWV
+         NUEpOXwGbxGr0qxnpf84PAVRl2NtiEBJvPx/9MdccuYySek6DQB+zT4OV4w7ZdpPxVnR
+         20ilz2C9tV0wQwncIKCg5pShdxktrZT40S3/olWT2ietQdkbLQK1St7ftZVwQuxJ8sod
+         WrFSm/oiIiNfP0MaSxLq5a2+ootWYrCIKJGKRuItB1zJYi/pfH9YGHNk48JbNU45qj7X
+         DY+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761888175; x=1762492975;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JEAcebBrLfuvI6ZqOIoqhHd8hKm6Gmtjk7upIV0IUIo=;
+        b=LLsJD5eWMDVOlGutvA/HxTz43YqKIJp71z/A5UC+Z4BvJ2KFrJvlyTJSn2jmLGzHIN
+         Pi8jO513QCkEjnofZmh1Wm7o0sc9HD4BWaiIKft/0rJXrleGkmVTFQWefeBBe/g++N5r
+         8ug4xqsG8B0PAFWVit8doRWyNtO/cVNmBBX6rvCUMErHkMc1g5EDLWH5vH5v/KD5bcBG
+         OD5NOHmDqZfmXlM6XS22MOfk8bIsZ8F06HpiWtZTRvZwd4leNKola7n36f+6Q1ckn7Ei
+         QY+GSLx0shQQnm3lVK29JuLyoNav9lcqT0vC6WdPmTdXvrETvc5ywW8MiDvb/sM9xhMe
+         eSeg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+AZ7T47QIz4f7IiDJe7aZiJlWGWSHkEYdb+EkbvrYj2huxdtxwiPO87bIc7tX5i3RLudymBfcidRSHvax@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBao0uZFjMHzQAZt1K45M4rGYgiYURlHcgaTRtAlEmbHU5Rhae
+	syLeqrzpWH/bCK+H3NkmldoXDNR1yZOT8pUbZlYtfxD+h7DZvXFlop231aht2VZfqtE=
+X-Gm-Gg: ASbGncuZ+7XcFg+nzD8kNNJ2Czc63gR+ap8fk/bb+pK/aGOIqWqRL1BXfKvAWoT5fXp
+	tzpt1uK0jvUfNud0tGVE7sK5roVqtXgYBpR/gwWER73BuPnblx6mAorVbBica24okORj+h093cR
+	9x/U6gQnJdrHeO7dNu013qjl33oDTRw0rmZnLdlpSXISt7d3+w685C44wvZ/Ypj78uhsqnLgJBt
+	TtYjLz4jie8Wc4H++zc+yzUipX8junMhHcQRCCy8Ky8QSGAg5p9NAGbO6zcTFYkX/geDxdmc/Fm
+	tRrvkFq0AxBZpr2lgsVlHTbvp/yEKZGwbjssNnf0YGZ3Ge0C38GdR/HMWkYuUNsbkK1qCbewYi/
+	Ih6aLlfTnx0NQX84D41hhmtNCZ6dinbCmMtrOrZ6iQrxbtRgc3+cwJZ58YHNHUH0bYKOpgLsi3P
+	LCiq2CSe+oxNlUKeIJ
+X-Google-Smtp-Source: AGHT+IGGUR1ELYcBx6zfpXv3GClC0V8C/yZllEBAJBUoCfb1tYmGTgprO4ytpww++uPb731RRJjtdw==
+X-Received: by 2002:a05:600c:8189:b0:475:de75:84c6 with SMTP id 5b1f17b1804b1-477262a941emr50545115e9.12.1761888174912;
+        Thu, 30 Oct 2025 22:22:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47732fe1121sm12871175e9.12.2025.10.30.22.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Oct 2025 22:22:54 -0700 (PDT)
+Date: Fri, 31 Oct 2025 08:22:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Xu Raoqing <xuraoqing@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3064/3064] arch/arm64/kvm/rme.c:789
+ populate_region() error: uninitialized symbol 'tmp_page'.
+Message-ID: <202510310208.Zw9yEOKD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +74,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/paulmckrcu/linux next.2025.10.30c
-head:   1eee41590d30805ec4f5b4e96c615603b0d058d9
-commit: f7cd407d56a0baf6fc9fe3e093253f6e30d61a95 [17/43] rcutorture: Test rcu_tasks_trace_expedite_current()
-config: s390-randconfig-001-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311200.9qgdI1m8-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311200.9qgdI1m8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7f38ece6b510adaa28c8e625ff574fe6357a3960
+commit: a74f93b7e7c0d8a2114055ed0c652cc735a7a07b [3064/3064] [backport]rme: populate guest memory region without guest_memfd
+config: arm64-randconfig-r073-20251029 (https://download.01.org/0day-ci/archive/20251031/202510310208.Zw9yEOKD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311200.9qgdI1m8-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202510310208.Zw9yEOKD-lkp@intel.com/
 
-Note: the paulmckrcu/next.2025.10.30c HEAD 1eee41590d30805ec4f5b4e96c615603b0d058d9 builds fine.
-      It only hurts bisectability.
+New smatch warnings:
+arch/arm64/kvm/rme.c:789 populate_region() error: uninitialized symbol 'tmp_page'.
 
-All errors (new ones prefixed by >>):
+vim +/tmp_page +789 arch/arm64/kvm/rme.c
 
->> kernel/rcu/rcutorture.c:1139:17: error: use of undeclared identifier 'rcu_tasks_trace_expedite_current'; did you mean 'srcu_torture_expedite_current'?
-           .exp_current    = rcu_tasks_trace_expedite_current,
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                             srcu_torture_expedite_current
-   kernel/rcu/rcutorture.c:861:13: note: 'srcu_torture_expedite_current' declared here
-   static void srcu_torture_expedite_current(void)
-               ^
-   1 error generated.
+e216f77846eeb7 Steven Price 2025-06-14  716  static int populate_region(struct kvm *kvm,
+e216f77846eeb7 Steven Price 2025-06-14  717  			   phys_addr_t ipa_base,
+e216f77846eeb7 Steven Price 2025-06-14  718  			   phys_addr_t ipa_end,
+e216f77846eeb7 Steven Price 2025-06-14  719  			   unsigned long data_flags)
+e216f77846eeb7 Steven Price 2025-06-14  720  {
+e216f77846eeb7 Steven Price 2025-06-14  721  	struct realm *realm = &kvm->arch.realm;
+e216f77846eeb7 Steven Price 2025-06-14  722  	struct kvm_memory_slot *memslot;
+e216f77846eeb7 Steven Price 2025-06-14  723  	gfn_t base_gfn, end_gfn;
+e216f77846eeb7 Steven Price 2025-06-14  724  	int idx;
+e216f77846eeb7 Steven Price 2025-06-14  725  	phys_addr_t ipa = ipa_base;
+a74f93b7e7c0d8 Steven Price 2025-06-14  726  	struct page *tmp_page;
+e216f77846eeb7 Steven Price 2025-06-14  727  	int ret = 0;
+e216f77846eeb7 Steven Price 2025-06-14  728  
+e216f77846eeb7 Steven Price 2025-06-14  729  	base_gfn = gpa_to_gfn(ipa_base);
+e216f77846eeb7 Steven Price 2025-06-14  730  	end_gfn = gpa_to_gfn(ipa_end);
+e216f77846eeb7 Steven Price 2025-06-14  731  
+e216f77846eeb7 Steven Price 2025-06-14  732  	idx = srcu_read_lock(&kvm->srcu);
+e216f77846eeb7 Steven Price 2025-06-14  733  	memslot = gfn_to_memslot(kvm, base_gfn);
+e216f77846eeb7 Steven Price 2025-06-14  734  	if (!memslot) {
+e216f77846eeb7 Steven Price 2025-06-14  735  		ret = -EFAULT;
+e216f77846eeb7 Steven Price 2025-06-14  736  		goto out;
 
+tmp_page uninitialized here
 
-vim +1139 kernel/rcu/rcutorture.c
+e216f77846eeb7 Steven Price 2025-06-14  737  	}
+e216f77846eeb7 Steven Price 2025-06-14  738  
+e216f77846eeb7 Steven Price 2025-06-14  739  	/* We require the region to be contained within a single memslot */
+e216f77846eeb7 Steven Price 2025-06-14  740  	if (memslot->base_gfn + memslot->npages < end_gfn) {
+e216f77846eeb7 Steven Price 2025-06-14  741  		ret = -EINVAL;
+e216f77846eeb7 Steven Price 2025-06-14  742  		goto out;
+e216f77846eeb7 Steven Price 2025-06-14  743  	}
+e216f77846eeb7 Steven Price 2025-06-14  744  
+a74f93b7e7c0d8 Steven Price 2025-06-14  745  	tmp_page = alloc_page(GFP_KERNEL);
+a74f93b7e7c0d8 Steven Price 2025-06-14  746  	if (!tmp_page) {
+a74f93b7e7c0d8 Steven Price 2025-06-14  747  		ret = -ENOMEM;
+e216f77846eeb7 Steven Price 2025-06-14  748  		goto out;
+e216f77846eeb7 Steven Price 2025-06-14  749  	}
+e216f77846eeb7 Steven Price 2025-06-14  750  
+a74f93b7e7c0d8 Steven Price 2025-06-14  751  	mmap_read_lock(current->mm);
+a74f93b7e7c0d8 Steven Price 2025-06-14  752  
+e216f77846eeb7 Steven Price 2025-06-14  753  	while (ipa < ipa_end) {
+e216f77846eeb7 Steven Price 2025-06-14  754  		struct vm_area_struct *vma;
+e216f77846eeb7 Steven Price 2025-06-14  755  		unsigned long hva;
+e216f77846eeb7 Steven Price 2025-06-14  756  		struct page *page;
+e216f77846eeb7 Steven Price 2025-06-14  757  		kvm_pfn_t pfn;
+e216f77846eeb7 Steven Price 2025-06-14  758  
+e216f77846eeb7 Steven Price 2025-06-14  759  		hva = gfn_to_hva_memslot(memslot, gpa_to_gfn(ipa));
+e216f77846eeb7 Steven Price 2025-06-14  760  		vma = vma_lookup(current->mm, hva);
+e216f77846eeb7 Steven Price 2025-06-14  761  		if (!vma) {
+e216f77846eeb7 Steven Price 2025-06-14  762  			ret = -EFAULT;
+e216f77846eeb7 Steven Price 2025-06-14  763  			break;
+e216f77846eeb7 Steven Price 2025-06-14  764  		}
+e216f77846eeb7 Steven Price 2025-06-14  765  
+a74f93b7e7c0d8 Steven Price 2025-06-14  766  		pfn = gfn_to_pfn_memslot(memslot, gpa_to_gfn(ipa));
+e216f77846eeb7 Steven Price 2025-06-14  767  
+e216f77846eeb7 Steven Price 2025-06-14  768  		if (is_error_pfn(pfn)) {
+e216f77846eeb7 Steven Price 2025-06-14  769  			ret = -EFAULT;
+e216f77846eeb7 Steven Price 2025-06-14  770  			break;
+e216f77846eeb7 Steven Price 2025-06-14  771  		}
+e216f77846eeb7 Steven Price 2025-06-14  772  
+a74f93b7e7c0d8 Steven Price 2025-06-14  773  		page = pfn_to_page(pfn);
+e216f77846eeb7 Steven Price 2025-06-14  774  
+e216f77846eeb7 Steven Price 2025-06-14  775  		ret = realm_create_protected_data_page(realm, ipa,
+a74f93b7e7c0d8 Steven Price 2025-06-14  776  						       page,
+a74f93b7e7c0d8 Steven Price 2025-06-14  777  						       tmp_page,
+e216f77846eeb7 Steven Price 2025-06-14  778  						       data_flags);
+a74f93b7e7c0d8 Steven Price 2025-06-14  779  		if (ret) {
+e216f77846eeb7 Steven Price 2025-06-14  780  			kvm_release_page_clean(page);
+e216f77846eeb7 Steven Price 2025-06-14  781  			break;
+a74f93b7e7c0d8 Steven Price 2025-06-14  782  		}
+e216f77846eeb7 Steven Price 2025-06-14  783  
+e216f77846eeb7 Steven Price 2025-06-14  784  		ipa += PAGE_SIZE;
+a74f93b7e7c0d8 Steven Price 2025-06-14  785  		kvm_release_pfn_dirty(pfn);
+e216f77846eeb7 Steven Price 2025-06-14  786  	}
+e216f77846eeb7 Steven Price 2025-06-14  787  out:
+a74f93b7e7c0d8 Steven Price 2025-06-14  788  	mmap_read_unlock(current->mm);
+a74f93b7e7c0d8 Steven Price 2025-06-14 @789  	__free_page(tmp_page);
+                                                            ^^^^^^^^
 
-  1127	
-  1128	static struct rcu_torture_ops tasks_tracing_ops = {
-  1129		.ttype		= RCU_TASKS_TRACING_FLAVOR,
-  1130		.init		= rcu_sync_torture_init,
-  1131		.readlock	= tasks_tracing_torture_read_lock,
-  1132		.read_delay	= srcu_read_delay,  /* just reuse srcu's version. */
-  1133		.readunlock	= tasks_tracing_torture_read_unlock,
-  1134		.readlock_held	= rcu_read_lock_trace_held,
-  1135		.get_gp_seq	= rcu_no_completed,
-  1136		.deferred_free	= rcu_tasks_tracing_torture_deferred_free,
-  1137		.sync		= synchronize_rcu_tasks_trace,
-  1138		.exp_sync	= synchronize_rcu_tasks_trace,
-> 1139		.exp_current	= rcu_tasks_trace_expedite_current,
-  1140		.call		= call_rcu_tasks_trace,
-  1141		.cb_barrier	= rcu_barrier_tasks_trace,
-  1142		.gp_kthread_dbg	= show_rcu_tasks_trace_gp_kthread,
-  1143		.get_gp_data    = rcu_tasks_trace_get_gp_data,
-  1144		.cbflood_max	= 50000,
-  1145		.irq_capable	= 1,
-  1146		.slow_gps	= 1,
-  1147		.name		= "tasks-tracing"
-  1148	};
-  1149	
+e216f77846eeb7 Steven Price 2025-06-14  790  	srcu_read_unlock(&kvm->srcu, idx);
+e216f77846eeb7 Steven Price 2025-06-14  791  	return ret;
+e216f77846eeb7 Steven Price 2025-06-14  792  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
