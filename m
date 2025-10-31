@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242E82F362D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 16:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257292FD695
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 17:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761926470; cv=none; b=AmV7x4NR633VCIdjMx3JI55grXwCfGafTOwU18NKcdQ1Pb+ZO/LHVk18S0xcyzZ4MED32uv1yEgcWCKrCroL98h+s4WtK08MQVm4b5o6+c20/9vP7JX+qePs6PIPHWDOcrr46TbV86I6PqRPpVnRYpgyiYa7hprYZ7zkE8wub4s=
+	t=1761930156; cv=none; b=UDOs8VSrWOHd2T1DwT+ymZu445wm329jnnV8fObyDl9ctFizpNjHF1h2BfxeiADv6JSqu+zs3V+UkdV8Sxg+nBFw/jfVe9GoIN9gmuhIbabUZ29McAoysnWFOw1mGH/dAZ4LiML7X6e8884zmA+UBeC43s97UTFrrCDNXeE31L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761926470; c=relaxed/simple;
-	bh=WCZyNG6Ni/+PcKbpp14pznuVNr24XT9O/GiP26WCMAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MAoyRtyB5Se+VXR59bcZYlTBfY3crYF/mFleXP/rcshJdt7KAOcKRyA19g57UUGDb4hGf5Kj3t5aOSDGhMll5AM9WB9d09TYsIk5WNhPFixKO7zEE6nvh5nna9oh4XAqDMZsGGqK5Ey+0dhOcoR3bljYDx9weM0HXTOQopUYHEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MI07zy7S; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1761930156; c=relaxed/simple;
+	bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j9uP0Tb9ydAUhrpd5VkvJFX0pmOK8wGKd7OnyzZsAURK/7NYyhN5urA4r+uKP0dBg7JMeI4mnm7B9pahuMcZp1XH7AfIpUJzdspOlxE1baemvDEHIQg5uE7R37bYutggobQMUoQ7OStqcMZSH3yNaVMsTc+7xQ9g7RxzJEzgq0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lma9lMk6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MI07zy7S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lma9lMk6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761926466; x=1793462466;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WCZyNG6Ni/+PcKbpp14pznuVNr24XT9O/GiP26WCMAw=;
-  b=MI07zy7S/WfwxpYxHjPk9jcQ64agIKbE0cwDpPbqc7ERstZdGQnx6V8W
-   VSsVLSZ5l9qgZmC3VOtH86GuVlTF0rEtQyZ5BwluTcn9Eqm8/Y+nfq5Rq
-   IWlCAbY/XssnGWoEKELmV7CTv+bKmI4E77/7/2Ne7Ta84OXwjFtlZyr6o
-   fvyrf9foucdp9lE4PClH4Bt5eRwy6gfTqrw73huSrLOGxYSaBjxq3q5pm
-   H3M4b/CY4GyZtogX8nRRVQvf089oOpJkDiGAxtd9KnqA0Yf5tNN5QUkof
-   C0ChgYIxQFsTTIKmKfKnNyXRO3qNKBu4+MC1ExW6vHqhOmNVgsLgTBBAR
+  t=1761930155; x=1793466155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xBrRg5gnKGkW3B8XP6rpJw1tbT54300fN3/BrYXoe+o=;
+  b=Lma9lMk6fwafyitW9KDq8JNZ+QtBtpMG1Mudzi0OedI1BwkSulAtjqws
+   iInP4luoD+J2Z66Ix8zJibqd1kC5GDripLfQUMaNVH/7d9YFXdPjkXqca
+   Auinpcf0ndLE1kxbJ7S705xPQGkIeryJ3UdpY0u1UbrvhUzCAX7W969mh
+   /w25EAWkKhJHHoPx3TQ69pMeksXtsZVmBvgvUzoktkHt54g3iPjEBTrkA
+   /Ge5FtyEsFHtdZ9bNos7PLWusXyXubxnsSGxhDxxGWO+vKMGIKC9HcAAP
+   MawvomwlTNtSKb/p4RsK7uxkm+VEO54i+n5Os19gXl9rqT7fbo4SSYrwN
    A==;
-X-CSE-ConnectionGUID: b6JSa0ymQO60/OW3w2hG7g==
-X-CSE-MsgGUID: kg1pEaYMRwSzvJqdM/fVuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="51661792"
+X-CSE-ConnectionGUID: kQhLCQUXQwaMkGThT7xvbA==
+X-CSE-MsgGUID: GkNlhMW5QlyC1xH3Qh3JTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="74771966"
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="51661792"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 09:01:04 -0700
-X-CSE-ConnectionGUID: NZOdpK9lSZSn0ezkk3prJg==
-X-CSE-MsgGUID: orjtcaSeQKWbHcvqL6vLWQ==
+   d="scan'208";a="74771966"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 10:02:34 -0700
+X-CSE-ConnectionGUID: x68roOhWTn6lqkp9QuvNGA==
+X-CSE-MsgGUID: ZjElhhxgQQ6EulK2irEIZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="216922175"
+   d="scan'208";a="190629319"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2025 09:01:02 -0700
+  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2025 10:02:32 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vErYj-000NNy-0C;
-	Fri, 31 Oct 2025 16:01:01 +0000
-Date: Sat, 1 Nov 2025 00:00:30 +0800
+	id 1vEsWC-000NUK-34;
+	Fri, 31 Oct 2025 17:02:28 +0000
+Date: Sat, 1 Nov 2025 01:02:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3075/3075] drivers/ub/ubus/ubus_driver.c:64:27:
- warning: no previous prototype for function 'ub_find_bus_controller'
-Message-ID: <202510312355.LNPDosJ5-lkp@intel.com>
+To: akemnade@kernel.org, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Tony Lindgren <tony@atomide.com>, Kevin Hilman <khilman@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-omap@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
+Message-ID: <202511010024.4O4b58oK-lkp@intel.com>
+References: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,67 +70,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251030-twl6030-button-v2-2-09653d05a2b1@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6a5b2f9a14178b13fe5efc52ba6575f5294c1270
-commit: 26a640c9d1b1f7764bd933b7bf6ffca8ddbc6efd [3075/3075] ub:ubus: add ubus controller framework
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251031/202510312355.LNPDosJ5-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312355.LNPDosJ5-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/akemnade-kernel-org/dt-bindings-mfd-twl-enable-power-button-also-for-twl603x/20251031-031300
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251030-twl6030-button-v2-2-09653d05a2b1%40kernel.org
+patch subject: [PATCH v2 2/3] Input: twl4030 - add TWL603x power button
+config: x86_64-randconfig-123-20251031 (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010024.4O4b58oK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510312355.LNPDosJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511010024.4O4b58oK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/misc/twl4030-pwrbutton.c:44:31: sparse: sparse: symbol 'twl4030_chipdata' was not declared. Should it be static?
+>> drivers/input/misc/twl4030-pwrbutton.c:49:31: sparse: sparse: symbol 'twl6030_chipdata' was not declared. Should it be static?
 
->> drivers/ub/ubus/ubus_driver.c:64:27: warning: no previous prototype for function 'ub_find_bus_controller' [-Wmissing-prototypes]
-      64 | struct ub_bus_controller *ub_find_bus_controller(u32 ctl_no)
-         |                           ^
-   drivers/ub/ubus/ubus_driver.c:64:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      64 | struct ub_bus_controller *ub_find_bus_controller(u32 ctl_no)
-         | ^
-         | static 
-   drivers/ub/ubus/ubus_driver.c:154:28: warning: no previous prototype for function 'ub_match_id' [-Wmissing-prototypes]
-     154 | const struct ub_device_id *ub_match_id(const struct ub_device_id *ids,
-         |                            ^
-   drivers/ub/ubus/ubus_driver.c:154:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     154 | const struct ub_device_id *ub_match_id(const struct ub_device_id *ids,
-         |       ^
-         | static 
-   drivers/ub/ubus/ubus_driver.c:484:6: warning: no previous prototype for function 'ub_bus_type_init' [-Wmissing-prototypes]
-     484 | void ub_bus_type_init(void)
-         |      ^
-   drivers/ub/ubus/ubus_driver.c:484:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     484 | void ub_bus_type_init(void)
-         | ^
-         | static 
-   drivers/ub/ubus/ubus_driver.c:496:6: warning: no previous prototype for function 'ub_bus_type_uninit' [-Wmissing-prototypes]
-     496 | void ub_bus_type_uninit(void)
-         |      ^
-   drivers/ub/ubus/ubus_driver.c:496:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     496 | void ub_bus_type_uninit(void)
-         | ^
-         | static 
-   4 warnings generated.
+vim +/twl4030_chipdata +44 drivers/input/misc/twl4030-pwrbutton.c
 
-
-vim +/ub_find_bus_controller +64 drivers/ub/ubus/ubus_driver.c
-
-    63	
-  > 64	struct ub_bus_controller *ub_find_bus_controller(u32 ctl_no)
-    65	{
-    66		struct ub_bus_controller *ubc;
-    67	
-    68		list_for_each_entry(ubc, &ubc_list, node)
-    69			if (ubc->ctl_no == ctl_no)
-    70				return ubc;
-    71	
-    72		return NULL;
-    73	}
-    74	EXPORT_SYMBOL_GPL(ub_find_bus_controller);
-    75	
+    43	
+  > 44	struct twl_pwrbutton_chipdata twl4030_chipdata = {
+    45		STS_HW_CONDITIONS_4030,
+    46		false,
+    47	};
+    48	
+  > 49	struct twl_pwrbutton_chipdata twl6030_chipdata = {
+    50		STS_HW_CONDITIONS_6030,
+    51		true,
+    52	};
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
