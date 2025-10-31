@@ -1,87 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9102F6594;
-	Fri, 31 Oct 2025 08:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CFD331A6C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 09:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761899219; cv=none; b=tIEgvFQShEo0QVpOwF3PAmV9a7TgtQAWdcU7jYoMRxx4jLl5seZnWsyow+XdIKh4JOL0Fzr3E/NrKt+VLIwWCixqi6QHl+7vO/5NaBcwpO57kF6pqwtkZN5XLQGRn+sog7fpq9m+QWPyuwfJQ8ItRpOp6nbioTcO6piH6fmhBPA=
+	t=1761902936; cv=none; b=ib9hFTdOZa1yWJebbzeWit5JnTEhiy1LPcuNY/y3dU8Bcosrk9r26aW0jp4eGlrJpyhDLQ3rKVmZf7OR713Age7YxJlnJeG1qXGZmIyRmsvQlnz1WUW6Y1Y/4VcEWsnyfHLwP2eq88pVrLehPQv5SOW8q4VUUPlCdrIow2SOJH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761899219; c=relaxed/simple;
-	bh=BecWedi4L8EHtB6kBN5qc40HWVT3Y0Xx/1LMaYJrUJ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=G612UoXwBWvYWZ1F/TmTcahXKWBa5koENk4lCK9plh9OOUocnB8ypcx24tIA5udkZc6S52WL8Zm0jOFeSbsP8fYOXWVt+Awczt1gZR+viMt5RBcyEVIZ2img9fjKudhNI6QKR6lnq7Sg2vQoRNq3RURSXfo46Tox1z3419mdFjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1B4rxuu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761902936; c=relaxed/simple;
+	bh=pw69mlM69E7ePqUmg/tWTDUUyqbW+9jUHvzlBiBYVVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mFQGWx7/7C8FyDMbkqStbJYK/lM3EY8YydYmbBifVKq7FBs65/42u2IO8MzUNRLJfik/9njiBV2qycOE0X8uydPv0Ie/Pf30zV00e1N6YNmSobzCO8OOGWmPHk/HoonkPFkAtr3MZzlIlbkzue5URFDDjX750DFZB77joOZT3D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fyp7Bq75; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1B4rxuu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB83DC4CEE7;
-	Fri, 31 Oct 2025 08:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761899219;
-	bh=BecWedi4L8EHtB6kBN5qc40HWVT3Y0Xx/1LMaYJrUJ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=O1B4rxuudVo33kOmChl54gnIRHNTNPAxVPuJdNyWgGMJhW6EPL+CMSkcKizIB86P/
-	 atTUQetYvc8OodgQl9CkBA8Mbp+3wis/QzdEyb7qUm6wJX3jFy9NF/sEyEaVcSB6cM
-	 QDhXUlsFbJWWDBPZmAev7Fg5cMv5wUb5uuSkoqrprGCSaqH1/fGHlmJSXXHdJT7bWV
-	 32tnAlgHioj2Zb2QNkRjaq8N6Y30ROWUt8rORJBA3yer2vkWsy99flrKGiaZw00qnn
-	 xUeKRvPruwYJVoNq95mQCUMTZp+Zxs8qk9aXD1W0qGXNPGrkcSrFJmvGz/XagOJlbe
-	 VvFVD7ENENCHQ==
-Date: Fri, 31 Oct 2025 09:26:56 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-cc: kernel test robot <lkp@intel.com>, platform-driver-x86@vger.kernel.org, 
-    linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>, 
-    Corentin Chary <corentin.chary@gmail.com>, 
-    "Luke D . Jones" <luke@ljones.dev>, Hans de Goede <hdegoede@redhat.com>, 
-    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-    Denis Benato <benato.denis96@gmail.com>
-Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
- kbd led handlers
-In-Reply-To: <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
-Message-ID: <39n24387-0o0n-50p8-s2rn-9qoqs6sq8336@xreary.bet>
-References: <20251018101759.4089-6-lkml@antheas.dev> <202510222013.EBLC609m-lkp@intel.com> <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fyp7Bq75"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761902933; x=1793438933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pw69mlM69E7ePqUmg/tWTDUUyqbW+9jUHvzlBiBYVVA=;
+  b=Fyp7Bq75QpMoVoC7h79pbdNjfEHN9znrxrNNG4Z/g2nBWQ1Yt2rkYQjv
+   1j5wGEQq6x3mK4W+hya9Uz+DymwiI/EwGWKZ+PVKDmuTS3UCEfDNxxDe3
+   +o8avtUH6dwlexzC+CCI9tVrCNmpL5IGGNgaQctBlxlKs1svCcmNC8FLo
+   UFeDAZgq4pM0+JsBcDoK9uoTlz13KrPqLDBHcu7Ox5/FGEoM+d0n4Mhi4
+   CQ46Gc7ME2LKbpaSAGvCm7dkB2LY4Yz6/WhAZ84JxYXPBgSNVsiAjlbzI
+   wadMmaj6TJehkfUQMVBLEk0G9hFkNQLW+FVOvN2/jydiaDIje7VQAuoy6
+   Q==;
+X-CSE-ConnectionGUID: 6Ik6mROqRnOUzD/Ujrv8IA==
+X-CSE-MsgGUID: fscK5sAlRGK5UD5QCRdkfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67899579"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="67899579"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 02:28:53 -0700
+X-CSE-ConnectionGUID: u27EsdWNSjaC49T0vt4HOA==
+X-CSE-MsgGUID: X3PADU+SRmSo+ELp6YGL4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
+   d="scan'208";a="186310065"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2025 02:28:51 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vElRA-000Mwm-3D;
+	Fri, 31 Oct 2025 09:28:48 +0000
+Date: Fri, 31 Oct 2025 17:28:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ranjan Kumar <ranjan.kumar@broadcom.com>, linux-scsi@vger.kernel.org,
+	martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
+	sumit.saxena@broadcom.com, chandrakanth.patil@broadcom.com,
+	prayas.patel@broadcom.com, Ranjan Kumar <ranjan.kumar@broadcom.com>
+Subject: Re: [PATCH v1 4/5] mpt3sas: Add firmware event requeue support for
+ busy devices
+Message-ID: <202510311720.NiDwRLwp-lkp@intel.com>
+References: <20251029181058.39157-5-ranjan.kumar@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029181058.39157-5-ranjan.kumar@broadcom.com>
 
-On Thu, 23 Oct 2025, Antheas Kapenekakis wrote:
+Hi Ranjan,
 
-> >   1589
-> >   1590  static void kbd_led_update_all(struct work_struct *work)
-> >   1591  {
-> >   1592          enum led_brightness value;
-> >   1593          struct asus_wmi *asus;
-> >   1594          bool registered, notify;
-> >   1595          int ret;
->                               /\ value should have been an int and
-> placed here. It can take the value -1 hence the check
+kernel test robot noticed the following build warnings:
 
-Thanks, that needs to be fixed before the final merge.
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.18-rc3 next-20251030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Are there any other comments on the series?
-> 
-> The only issue I am aware of is that Denis identified a bug in asusd
-> (asusctl userspace program daemon) in certain Asus G14/G16 laptops
-> that cause laptop keys to become sticky, I have had users also report
-> that bug in previous versions of the series. WIthout asusd running,
-> keyboards work fine incl. with brightness control (did not work
-> before). Given it will take two months for this to reach mainline, I
-> think it is a fair amount of time to address the bug.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranjan-Kumar/mpt3sas-Added-no_turs-flag-to-device-unblock-logic/20251030-025730
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20251029181058.39157-5-ranjan.kumar%40broadcom.com
+patch subject: [PATCH v1 4/5] mpt3sas: Add firmware event requeue support for busy devices
+config: i386-randconfig-054-20251030 (https://download.01.org/0day-ci/archive/20251031/202510311720.NiDwRLwp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311720.NiDwRLwp-lkp@intel.com/reproduce)
 
-One thing that is not clear to me about this -- is this causing a visible 
-user-space behavior regression before vs. after the patchset with asusctl?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510311720.NiDwRLwp-lkp@intel.com/
 
-If so, I am afraid this needs to be root-caused and fixed before the set 
-can be considered for inclusion.
+All warnings (new ones prefixed by >>):
 
-Thanks,
+   Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:276 struct member 'retries' not described in 'fw_event_work'
+   Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:276 struct member 'delayed_work_active' not described in 'fw_event_work'
+   Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:276 struct member 'delayed_work' not described in 'fw_event_work'
+>> Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:3667 function parameter 'delay' not described in '_scsih_fw_event_requeue'
+   Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:3920 function parameter 'no_turs' not described in '_scsih_ublock_io_all_device'
+   Warning: drivers/scsi/mpt3sas/mpt3sas_scsih.c:3956 function parameter 'sas_address' not described in '_scsih_ublock_io_device_wait'
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
