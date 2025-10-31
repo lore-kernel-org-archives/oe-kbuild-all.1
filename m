@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0520714A4CC;
-	Fri, 31 Oct 2025 12:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13A12E2DD4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 12:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761913185; cv=none; b=VaOKSLRJdPy1CqwEIiwy7WZnhfQyH8lbrHgCGL4ocz3hw6tGLJlKSqNWv34/vh7G26FdbGWL863kdNWNYv+//TIUd05TMS3dL/AYHbaRJ8O6yTWeI/IOyCnG/lmVRTGIQNaiTPoa6FOwZJEE5tDIMGgXqOk4pVm1hc/BWso6jy8=
+	t=1761913250; cv=none; b=V9uOci4b731rTpyOEJl7y1NGuo7sNXpoeGfrLa37najlDr5+Oig/f1Ys/HQZlaQIDM1ihXok2F3iQFxVQ3R0rojw0QnYF3KLkqcA1vuKnX2J0W4M7vT/r94XOxK+soH3KTr1UU5nR5rc0OORQMjKuQVbQBCNw71sA9+NlhgqvrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761913185; c=relaxed/simple;
-	bh=dT6kDyIp8MnyYNrNozXVkRFEY5aT2X5uIUkMcsMzINM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SeKBLoM0Q+nZrlpPy5YdxcE0ocGCyA8m1m2ZfmL8CZis4fIvx1zKzdlAiL5sboPET+KzjooNvTJtA/gpYGrJGcCLzN4Ds7KqqnoJlmReNUtihD+7DcfBm1oZccYwNsmsSZm+iDxjUMSSoa3nxD1zCyuRmOghZY2aVCRr5sOeKqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtLRiFGt; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1761913250; c=relaxed/simple;
+	bh=3zR4/5Lr7jNQWWlCropatcr/tfl6B4511xizexUrgfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mXMANTVZp4w9QAYyfTyTz4tdnAT6ZFT0dHxAW6/2Epo0yd7+APojOGL5PUoZAv4w/6rBYrdgvOEk8AZif4bZtQPqti5tkACzQTJvyYPijtIW9V0QRkl9V7NNyDZlUvVZfz926uHxP60WyuxywmT8jgTn5Q+y9KgOjUYBsQY2BVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZkiddr4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtLRiFGt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZkiddr4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761913182; x=1793449182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dT6kDyIp8MnyYNrNozXVkRFEY5aT2X5uIUkMcsMzINM=;
-  b=dtLRiFGteG16aguDFHWJTSd+5p/x62uwOt47tffhSxY4AddN3JslHu1E
-   6UkuG1FypmJe3mAPO8IIGqwIzFY6o2Wqqs37g+Tt+OCz/dw/9wrHeGJYC
-   DajW8ZkDWeuKJteAlpJ9U9FebtCcBNHN8rSYAGYwDuimA3okpCYPyo/4U
-   wJPvxWaiCAA7W23nAMZiXt65yh1yHaqd1tMjEx1wdz7Dd6F5RYP6F4txR
-   9h2nhop2XyAwuhwFwglOMnUhEv3adHPIvIOwoCd3ySUNs00sayzUT7sNJ
-   V0VMEvKXtRCzI/+6wOo2uMuQEZF0d9ppFIBr3YXbP/fDjdG6VFaBkypHb
-   Q==;
-X-CSE-ConnectionGUID: CyYt2a5XR4+t6zYFxfrbGA==
-X-CSE-MsgGUID: 0VNc6AEmSS+dNJ9CWoMvEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63278284"
+  t=1761913248; x=1793449248;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3zR4/5Lr7jNQWWlCropatcr/tfl6B4511xizexUrgfY=;
+  b=RZkiddr4F2VtTEaAxZzN80GZ0U5cBAgAR/xzKiv/ZZS1PD4m7njvNZV8
+   tH5m0ctiaRWa551KyHieWJzoB28TZZXQW88SEcfGwKotJlTy21tLBFDsx
+   Hn/qQL2TCaZ/d5GmlLiWcjXH6Nwa4lbNN16VykC93QtBbMEKPbMm/h8au
+   2ZGTYPbcdmD9gRmHGhC+o1ZB4n6wjhMEl+1rUX5ufqWRSqax5QU/u6183
+   RzwetmN8iAH1gquldMNrGMCAusq0ehtrsvJFipG7q/NO5JE8PM2fDJicO
+   I67M7DJteyNpMSxoS7T8nvcoZ/DzOcJckmVPthbTa0UkFv7duUJ4oXoXv
+   w==;
+X-CSE-ConnectionGUID: vARP4N55TZ+JQiwJZrpd6w==
+X-CSE-MsgGUID: 0V9aXuuvQFyLFBiva/dezA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="67933683"
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="63278284"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 05:19:41 -0700
-X-CSE-ConnectionGUID: fTTR/R0NRDy/611ccDKfQw==
-X-CSE-MsgGUID: 0TL+EGaZRWWRg0ayPfR35Q==
+   d="scan'208";a="67933683"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 05:20:48 -0700
+X-CSE-ConnectionGUID: LmCIBgcSQI6hHO5UADUdxQ==
+X-CSE-MsgGUID: YwHhyr5xQfOmfBVoippBNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="186965714"
+   d="scan'208";a="186102128"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Oct 2025 05:19:39 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2025 05:20:47 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vEo5z-000N5U-2z;
-	Fri, 31 Oct 2025 12:19:19 +0000
-Date: Fri, 31 Oct 2025 20:18:50 +0800
+	id 1vEo6T-000N5W-21;
+	Fri, 31 Oct 2025 12:19:53 +0000
+Date: Fri, 31 Oct 2025 20:18:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gladyshev Ilya <foxido@foxido.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chris Mason <chris.mason@fusionio.com>,
-	David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] btrfs: make ASSERT no-op in release builds
-Message-ID: <202510311956.w2iYoQcn-lkp@intel.com>
-References: <20251030182322.4085697-1-foxido@foxido.dev>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:blk-crypto-fallback 3/9] Warning: mm/mempool.c:399
+ function parameter 'caller_ip' not described in 'mempool_alloc_bulk'
+Message-ID: <202510312024.zeKHT8CX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,56 +61,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030182322.4085697-1-foxido@foxido.dev>
 
-Hi Gladyshev,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gladyshev-Ilya/btrfs-make-ASSERT-no-op-in-release-builds/20251031-024059
-base:   e53642b87a4f4b03a8d7e5f8507fc3cd0c595ea6
-patch link:    https://lore.kernel.org/r/20251030182322.4085697-1-foxido%40foxido.dev
-patch subject: [PATCH] btrfs: make ASSERT no-op in release builds
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251031/202510311956.w2iYoQcn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311956.w2iYoQcn-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git blk-crypto-fallback
+head:   7046442804f2d8296aa28a8b1959b01d8ccf7a1f
+commit: 5a8459dc6f4c91e14d61b4a8d1c3c287f7c4c6c8 [3/9] mempool: add mempool_{alloc,free}_bulk
+config: riscv-randconfig-001-20251031 (https://download.01.org/0day-ci/archive/20251031/202510312024.zeKHT8CX-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312024.zeKHT8CX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311956.w2iYoQcn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510312024.zeKHT8CX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/btrfs/raid56.c:302:13: warning: function 'full_page_sectors_uptodate' is not needed and will not be emitted [-Wunneeded-internal-declaration]
-     302 | static bool full_page_sectors_uptodate(struct btrfs_raid_bio *rbio,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/full_page_sectors_uptodate +302 fs/btrfs/raid56.c
-
-53b381b3abeb86 David Woodhouse 2013-01-29  301  
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01 @302  static bool full_page_sectors_uptodate(struct btrfs_raid_bio *rbio,
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  303  				       unsigned int page_nr)
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  304  {
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  305  	const u32 sectorsize = rbio->bioc->fs_info->sectorsize;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  306  	const u32 sectors_per_page = PAGE_SIZE / sectorsize;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  307  	int i;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  308  
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  309  	ASSERT(page_nr < rbio->nr_pages);
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  310  
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  311  	for (i = sectors_per_page * page_nr;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  312  	     i < sectors_per_page * page_nr + sectors_per_page;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  313  	     i++) {
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  314  		if (!rbio->stripe_sectors[i].uptodate)
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  315  			return false;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  316  	}
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  317  	return true;
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  318  }
-d4e28d9b5f04d8 Qu Wenruo       2022-04-01  319  
+>> Warning: mm/mempool.c:399 function parameter 'caller_ip' not described in 'mempool_alloc_bulk'
 
 -- 
 0-DAY CI Kernel Test Service
