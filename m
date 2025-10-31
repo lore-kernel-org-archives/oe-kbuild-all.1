@@ -1,61 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43AA15CD74
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 10:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57B919E7D1;
+	Fri, 31 Oct 2025 10:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761904867; cv=none; b=KbnqO2OVtmS2Scay4+ylubmFvEi4aaMc8QCJr3qKgadGkFxKSSctREreXe0cQPyS/iBTvYAqHMWQRoJDg8RTCvye/SHbHmUbZVzav5A1/guefl9GlKdBGhjK1EHNFnxCJotJDIXbsS/WH1vL8ylBMklECKHWVxvmodmHuxmtQEQ=
+	t=1761907616; cv=none; b=SdACt1I7KZOXbB33A6G40PzrGlQ9QAGJxHT/imnUKHBNqKJqljEZzGj/+o/Hf8N/gSaQ4twxV4787ZggRyowDLLav9qjzN+Mi+Sd7Q87Qzhx9I0KGmIUArzCcPArnij/KYhCqd4tgyyPBcK2H+PQIr+Q50gF+hcyolWqlRnL2as=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761904867; c=relaxed/simple;
-	bh=lpRTAu5u96Fl2qSsJAb0TRm4JUAZjs5tGp1K4FEegto=;
+	s=arc-20240116; t=1761907616; c=relaxed/simple;
+	bh=CPM+vsHQl6EFaX40FeSueptepIVspNa3p54a9w8tG6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NKTLCAB+mYuQ4sdf7mrPjWFPVyXtS2Lp2NFc2tHlFRet2WqrYbdrkGg+LiUxmg5JyPVChf7ZzenyLN7OOHd6xR541Vf2uNK8EFG/eLu0nCP05O55ge5Vg+XVTCVF3f4dJuspC2p3Nva9emEyYmud+Rc4Sjd+pH3mxdMA9ZmfHWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwRdGq+6; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jMPQFKW8IF3JKtJGr/JTzx7F1MbcJ5m/j+fqLT8KKd9uEulfVEA7Vfas592TEmOcjl57qWaDqJ/ZrSYxQlK2lOhJN9vVAq2YulCeBuPya5GcWHz4Stt6fwrW/jB5dCPAjLoNirI9Ya3hqOduq9S3cXoWtYr+iOOJv45xu3V/gpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=L3PjIlR6; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwRdGq+6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761904865; x=1793440865;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lpRTAu5u96Fl2qSsJAb0TRm4JUAZjs5tGp1K4FEegto=;
-  b=CwRdGq+6ONgBmR1hdOBy38LrIVFiJzQtCIDWEHH0z8tmj+NXKa/cwg/x
-   SjNOWl8eKOLz6sDTE/F5g1pc4UDABIpaam5ENqusUwNerb70+w2QnuUHk
-   V+dsOHrPe2B4Gsq+s3FMc7aLIGK9vKaW+hzmeE5jqMNFjzPPRXzDy8MQN
-   gM+1H48HoPm9p6Jgr2wVMAUXqWzVWMYbZ8GOPfyf/1H6PHBu8hYzLErM1
-   cQ93mbQCaExU+TLwbny99md+zFqwWMExSF+NkB+h8KqdYtaT8nkXE0w9Y
-   4ufK7paDmifxmtFfskWpsNdOxayn4vtbKrh07uIf8hdA9oZUQ8W3YOxzp
-   g==;
-X-CSE-ConnectionGUID: r1xNKwYzTJuU14bShH8R1g==
-X-CSE-MsgGUID: 8tOMtJnTSfOQBGk5zaudFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63760041"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="63760041"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 03:01:04 -0700
-X-CSE-ConnectionGUID: GFOAN0ddQXa5pkW0RShgog==
-X-CSE-MsgGUID: 2C3OJHvNR5u8/lRtrcy8tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="185887156"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2025 03:01:02 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vElwJ-000Myg-1C;
-	Fri, 31 Oct 2025 10:00:59 +0000
-Date: Fri, 31 Oct 2025 17:58:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org,
-	gustavo@embeddedor.com, linux-usb@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCHv2 1/1] uapi: cdc.h: cleanly provide for more interfaces
- and countries
-Message-ID: <202510311740.AvZo1SI1-lkp@intel.com>
-References: <20251030132149.2575138-1-oneukum@suse.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L3PjIlR6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=d7rh/2cGEG8iH61fSKApmB0WMeuzb6vBDfneW+zwIT8=; b=L3PjIlR6omQZ4dzchuhI5SfjOl
+	sAOo97HWAl1VYN4Gq0F7nDf0xh6omfuHtnloegIO0PBIiEOnvUBrJ+cstS6jwgYR0/Is4T04Y2Cbi
+	OZ626av9RW6mx4MwA5VFSngpR02TuOO+186cenDoH8pR7z6pYbxIVU2VF7qbBZMRhGJO7lVbDpwvQ
+	igJ1td4oadhk9XD+FoRPmKHL7MvAE3KRPxyTzCemtcqDmUPvhf3UY1ZyNKjJOxc7bxJpeeTAfz/Yy
+	ndqZP37yVGLkPRxG+UITB+EoV2hhMN6mAaGS2sak9i5Cky6CgEyDHiwH7S6gjqo5tNqmTOD02qRGp
+	WA6cczAQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vEmec-0000000D0UY-1c0I;
+	Fri, 31 Oct 2025 10:46:47 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id F05A530029E; Fri, 31 Oct 2025 11:46:45 +0100 (CET)
+Date: Fri, 31 Oct 2025 11:46:45 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [tip:core/rseq 39/42] vmlinux.o: error: objtool:
+ irqentry_exit+0x323: call to class_user_rw_access_destructor() with UACCESS
+ enabled
+Message-ID: <20251031104645.GL4067720@noisy.programming.kicks-ass.net>
+References: <202510311508.2nnmAG7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +51,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030132149.2575138-1-oneukum@suse.com>
+In-Reply-To: <202510311508.2nnmAG7r-lkp@intel.com>
 
-Hi Oliver,
+On Fri, Oct 31, 2025 at 03:23:43PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/rseq
+> head:   69c8e3d1610588d677faaa6035e1bd5de9431d6e
+> commit: 84eeeb00203526c29135d5352833d01e53fc1e16 [39/42] rseq: Switch to fast path processing on exit to user
+> config: x86_64-randconfig-016-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311508.2nnmAG7r-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311508.2nnmAG7r-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510311508.2nnmAG7r-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> vmlinux.o: error: objtool: irqentry_exit+0x323: call to class_user_rw_access_destructor() with UACCESS enabled
+>    vmlinux.o: error: objtool: .altinstr_replacement+0x12cc: redundant UACCESS disable
+>    vmlinux.o: error: objtool: .altinstr_replacement+0x12cf: redundant UACCESS disable
 
-kernel test robot noticed the following build errors:
+This is a KASAN build and all the instrumentation fucks with the inline
+heuristics. The below cures this build.
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus staging/staging-testing staging/staging-next staging/staging-linus westeri-thunderbolt/next linus/master v6.18-rc3 next-20251030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---
+ arch/x86/include/asm/ptrace.h | 4 ++--
+ include/linux/cleanup.h       | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/uapi-cdc-h-cleanly-provide-for-more-interfaces-and-countries/20251030-212514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20251030132149.2575138-1-oneukum%40suse.com
-patch subject: [PATCHv2 1/1] uapi: cdc.h: cleanly provide for more interfaces and countries
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251031/202510311740.AvZo1SI1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311740.AvZo1SI1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311740.AvZo1SI1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
->> ./usr/include/linux/usb/cdc.h:109:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     109 |                 DECLARE_FLEX_ARRAY(__u8, bSlaveInterfaces);
-         |                 ^~~~~~~~~~~~~~~~~~
-   ./usr/include/linux/usb/cdc.h:122:17: error: expected specifier-qualifier-list before 'DECLARE_FLEX_ARRAY'
-     122 |                 DECLARE_FLEX_ARRAY(__le16, wCountryCodes);
-         |                 ^~~~~~~~~~~~~~~~~~
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
+index 50f75467f73d..750b8f353cae 100644
+--- a/arch/x86/include/asm/ptrace.h
++++ b/arch/x86/include/asm/ptrace.h
+@@ -287,8 +287,8 @@ static inline unsigned long instruction_pointer(struct pt_regs *regs)
+ 	return regs->ip;
+ }
+ 
+-static inline void instruction_pointer_set(struct pt_regs *regs,
+-		unsigned long val)
++static __always_inline 
++void instruction_pointer_set(struct pt_regs *regs, unsigned long val)
+ {
+ 	regs->ip = val;
+ }
+diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
+index 2573585b7f06..5500f30e2e7a 100644
+--- a/include/linux/cleanup.h
++++ b/include/linux/cleanup.h
+@@ -274,16 +274,16 @@ const volatile void * __must_check_fn(const volatile void *val)
+ 
+ #define DEFINE_CLASS(_name, _type, _exit, _init, _init_args...)		\
+ typedef _type class_##_name##_t;					\
+-static inline void class_##_name##_destructor(_type *p)			\
++static __always_inline void class_##_name##_destructor(_type *p)	\
+ { _type _T = *p; _exit; }						\
+-static inline _type class_##_name##_constructor(_init_args)		\
++static __always_inline _type class_##_name##_constructor(_init_args)	\
+ { _type t = _init; return t; }
+ 
+ #define EXTEND_CLASS(_name, ext, _init, _init_args...)			\
+ typedef class_##_name##_t class_##_name##ext##_t;			\
+-static inline void class_##_name##ext##_destructor(class_##_name##_t *p)\
++static __always_inline void class_##_name##ext##_destructor(class_##_name##_t *p)\
+ { class_##_name##_destructor(p); }					\
+-static inline class_##_name##_t class_##_name##ext##_constructor(_init_args) \
++static __always_inline class_##_name##_t class_##_name##ext##_constructor(_init_args) \
+ { class_##_name##_t t = _init; return t; }
+ 
+ #define CLASS(_name, var)						\
