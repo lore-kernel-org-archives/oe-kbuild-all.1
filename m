@@ -1,128 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C845033E35F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 12:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439D6335557
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 12:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761912349; cv=none; b=jss6byFUaKHcIPF4bdMv/9phqs8BQz1nb+2reDA2M/U0Y/u3l2uNbKaO1p0LZmAekZMWKL6Lz99A+iUpxt+8uciE46z29df4kM5dgWkT7n04SHZ1EohiWVQeFBsjiHmxZrZBKpViSFSCOkODCEm0jgAvVlWQ19ucwIXxY8HAH/s=
+	t=1761912844; cv=none; b=mXy/aTWK8akarfmNCwf/sWplNqHgGblL3cTLN5A16symXO0dh67WGN1VlGeCVWR1sUi5ERlCy7KCMbaTtB/aI6SwUkJtpiRvFYWDMI0zXjhlcuW/xf0dB1cN0+GekAD5JXD0CmF7rveQGQmoHJwv+Taz4gPQMnbQ63ddMUF4b44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761912349; c=relaxed/simple;
-	bh=VkVOBBztHbf5OnMunexhusiVEZtxdXW/RGu9oNoL5xI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A2/xv+O42wRPXGnSB611qFzKSwm4XnyGziYFpLp/TBrvw8JHWXai23oGMmlXXswbPGHq3buaM4FbM5LH3s3lTPjTFHGDSXWxI1zLsQW2+RINT+0VttqFQy9RJ5ttP2EkRIxlNJFI6Cdmwt/gciGyk2QfMuoqHwfPcV0NOdClg74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDkckg07; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761912844; c=relaxed/simple;
+	bh=KAsRDWgv2NXfZ3B+X8i2YPvusK0gxuSGNIOhrjdxmG4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n83szsyE5gJyx9y8XIaXc6rWrVdjT51G+XpN9akIPJcqYcjMFWylw2bhVQ7O/cv5y2xDrf621k4WzDyyzdP+C546QnUU4dZv9YUkw4ysOmzo6EnaO5GZTaS8aPNg+6tACx4C9c+GJ6nQeQY9O70Hyeup1oDvUyIescwdRNbHMpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=aqCGH1sI; arc=none smtp.client-ip=78.46.171.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDkckg07"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761912348; x=1793448348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VkVOBBztHbf5OnMunexhusiVEZtxdXW/RGu9oNoL5xI=;
-  b=XDkckg07J8JZwBIti23rEPHBDgFtFDST6CNhrlDitvDV4+vGFVPsognm
-   g9jeRkmhBBvt/cJK5DJMlKX34JTOO6cgOPDOrsVx9R1lXeZVhcxsckhcC
-   hFAwYR6bBxkLgYXZtZVKi8Ps4BNj6oB4B8/b0h3D9lsNdPjXU1jF0ov6N
-   tBvBU3jKNMNuqG768CCUSiA9uJJWazXlTbII/ri42oLAvZOThSvMpaxxb
-   MzYwDA2k9DMdjSCY4TPMEgTAASuhjCuAgMbT1hCJQ4EUMIF0qDXSwyEYZ
-   x74grMSWIlImkotKq2EVieBVQEWrnaURgQz3AfBVQ+4iINEwJ2anFUuMX
-   g==;
-X-CSE-ConnectionGUID: 91J1EjuGSrqiXvTdapdrkw==
-X-CSE-MsgGUID: eUSZ8DOwReaHV1mJZsCgqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="63277379"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="63277379"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 05:05:47 -0700
-X-CSE-ConnectionGUID: C0gg40gQRlaq0xn+9CjnhQ==
-X-CSE-MsgGUID: aZ8dwoVUT5eHJEPOW6wF5Q==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Oct 2025 05:05:44 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEnt0-000N4s-00;
-	Fri, 31 Oct 2025 12:05:42 +0000
-Date: Fri, 31 Oct 2025 20:04:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Mary Guillemard <mary@mary.zone>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	nouveau@lists.freedesktop.org,
-	Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>
-Subject: Re: [PATCH v3 2/5] drm/nouveau/uvmm: Allow larger pages
-Message-ID: <202510311903.wAzY7iCb-lkp@intel.com>
-References: <20251030230357.45070-3-mohamedahmedegypt2001@gmail.com>
+	dkim=temperror (0-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="aqCGH1sI"
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+	by relay11.grserver.gr (Proxmox) with ESMTP id 85DBEC5AB6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 14:13:55 +0200 (EET)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay11.grserver.gr (Proxmox) with ESMTPS id 14A8FC5C08
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 14:13:55 +0200 (EET)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 21F3B1FFBDD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 14:13:54 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1761912834;
+	bh=XDLMqD7nEFshp2WG4Ildq72xmi2MAqdYc3+r4s9+n3I=;
+	h=Received:From:Subject:To;
+	b=aqCGH1sI2dcIK/wnV7Qn6/dAWLYhPSFOdzCiV7vlG77uKHLklBeNb88e4txqpESKC
+	 jcKhHH0YkYhYxMBwGaTMWdC3SmWrYW17A+TnzJP6cxAYmXO5h1V9oEMQLOfKUfhlJo
+	 HZJvgnLlVmdUNVkQqueTqgpiPfUBWdBx4rItubTqzJQxJYfENnnRNm0lRvZ8okLsGW
+	 zaoqWMXn8qhwFL9MbKqSU7HZodNKBXt+pxAlPAlDbPst/iddfoaT1SNPXyJYneoMJI
+	 Wn7vxfnCsf95YdGESJY+/vU9J2+vK8XehbqrdpUc3JZxCjkMNuRt4PFf2p8BxjeCS9
+	 iI5ZBgb0grBow==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 209.85.208.177) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f177.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-378e603f7e4so26992891fa.0
+        for <oe-kbuild-all@lists.linux.dev>;
+ Fri, 31 Oct 2025 05:13:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGeoW6BpZPbhnqEUm3OidBzPCw/lzfZnAw0lH1G9cxWpmX5H1GHJUEpQm7zp5gr9idYexKPKuH4VI2VC7t@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxq/yQBMWoysqslbWoQTNuenTvA03WbJ4R72Lr1ITpPlePLbmJz
+	OV3c+ybWsm7iTX7Esqs0/snedC/eU9PiU/xc7AeSb/BLFO+0IvqRCoC0rNgn9BujySXEGi/tCiw
+	WS4PSqlC5oWvz2R4+43ASs43yUDM543s=
+X-Google-Smtp-Source: 
+ AGHT+IHLvg+QVKJLRgPQGaJgLJOka5UXPrAEhFAvF8BSPVZ7o3I8EUXF/J/4/XYlnPpyRCbSAkYX/I4BHhW+qLfd2Gs=
+X-Received: by 2002:a05:651c:19a1:b0:360:e364:bb3d with SMTP id
+ 38308e7fff4ca-37a18cf70a1mr12519561fa.0.1761912833609; Fri, 31 Oct 2025
+ 05:13:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251030230357.45070-3-mohamedahmedegypt2001@gmail.com>
+References: <20251018101759.4089-6-lkml@antheas.dev>
+ <202510222013.EBLC609m-lkp@intel.com>
+ <CAGwozwGDBj2e83JBW71G_z6hMD5PsOXTQLqFVdPKZ6sU54tsGw@mail.gmail.com>
+ <39n24387-0o0n-50p8-s2rn-9qoqs6sq8336@xreary.bet>
+In-Reply-To: <39n24387-0o0n-50p8-s2rn-9qoqs6sq8336@xreary.bet>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Fri, 31 Oct 2025 13:13:42 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwFgd91n2HnHn0VEL3BTGkj8QCRnp2jfCsMB38JqK8znNg@mail.gmail.com>
+X-Gm-Features: AWmQ_blJS4pzpONNbJGbKFFyV7UhrXL_Gbz5apymTl2RdEt79wy1YgZX4ddGWr4
+Message-ID: 
+ <CAGwozwFgd91n2HnHn0VEL3BTGkj8QCRnp2jfCsMB38JqK8znNg@mail.gmail.com>
+Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
+ kbd led handlers
+To: Jiri Kosina <jikos@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+ "Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Denis Benato <benato.denis96@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <176191283439.2961572.8821147149014415356@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Hi Mohamed,
+On Fri, 31 Oct 2025 at 09:27, Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Thu, 23 Oct 2025, Antheas Kapenekakis wrote:
+>
+> > >   1589
+> > >   1590  static void kbd_led_update_all(struct work_struct *work)
+> > >   1591  {
+> > >   1592          enum led_brightness value;
+> > >   1593          struct asus_wmi *asus;
+> > >   1594          bool registered, notify;
+> > >   1595          int ret;
+> >                               /\ value should have been an int and
+> > placed here. It can take the value -1 hence the check
+>
+> Thanks, that needs to be fixed before the final merge.
+>
+> > Are there any other comments on the series?
+> >
+> > The only issue I am aware of is that Denis identified a bug in asusd
+> > (asusctl userspace program daemon) in certain Asus G14/G16 laptops
+> > that cause laptop keys to become sticky, I have had users also report
+> > that bug in previous versions of the series. WIthout asusd running,
+> > keyboards work fine incl. with brightness control (did not work
+> > before). Given it will take two months for this to reach mainline, I
+> > think it is a fair amount of time to address the bug.
+>
+> One thing that is not clear to me about this -- is this causing a visible
+> user-space behavior regression before vs. after the patchset with asusctl?
+>
+> If so, I am afraid this needs to be root-caused and fixed before the set
+> can be considered for inclusion.
 
-kernel test robot noticed the following build warnings:
+Commit 591ba2074337 ("HID: asus: prevent binding to all HID devices on
+ROG") adds HID_QUIRK_INPUT_PER_APP and the extra devices seem to
+confuse asusd. Since the devices are the same as with hid-asus not
+loaded, it is specific to that program.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc3 next-20251031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We can delay that patch until Denis who took over maintenance of the
+program can have a deeper look. I will still keep the last part of
+that patch that skips the input check, because that causes errors in
+devices that do not create an input device (e.g., lightbar).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohamed-Ahmed/drm-nouveau-uvmm-Prepare-for-larger-pages/20251031-070600
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251030230357.45070-3-mohamedahmedegypt2001%40gmail.com
-patch subject: [PATCH v3 2/5] drm/nouveau/uvmm: Allow larger pages
-config: alpha-randconfig-r064-20251031 (https://download.01.org/0day-ci/archive/20251031/202510311903.wAzY7iCb-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311903.wAzY7iCb-lkp@intel.com/reproduce)
+Antheas
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510311903.wAzY7iCb-lkp@intel.com/
+> Thanks,
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
+>
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c: In function 'op_map_aligned_to_page_shift':
->> drivers/gpu/drm/nouveau/nouveau_uvmm.c:462:37: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
-     462 |  return op->va.addr & non_page_bits == 0 &&
-         |                       ~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c:463:38: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
-     463 |         op->va.range & non_page_bits == 0 &&
-         |                        ~~~~~~~~~~~~~~^~~~
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c:464:40: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
-     464 |         op->gem.offset & non_page_bits == 0;
-         |                          ~~~~~~~~~~~~~~^~~~
-
-
-vim +462 drivers/gpu/drm/nouveau/nouveau_uvmm.c
-
-   456	
-   457	static bool
-   458	op_map_aligned_to_page_shift(const struct drm_gpuva_op_map *op, u8 page_shift)
-   459	{
-   460		u64 non_page_bits = (1ULL << page_shift) - 1;
-   461	
- > 462		return op->va.addr & non_page_bits == 0 &&
-   463		       op->va.range & non_page_bits == 0 &&
-   464		       op->gem.offset & non_page_bits == 0;
-   465	}
-   466	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
