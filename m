@@ -1,58 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718D52253A0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 13:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E392236EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 13:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761918129; cv=none; b=eBxdoA346EeoLcU+pYIaDWlrrUm7nAkrhfvtmW2oAPMfHA2TQgSRJxhV7aeHt6YJhErtcQFIeqUWO6wwwwwXFqiaVPruqnRpcGxDsF1ef5SOcUW0VgipXm2nmQd7+01nPVZiwCnNwMlnkVIIkX+eyuMPA+nSiFPk6FzduJeyPGE=
+	t=1761918162; cv=none; b=LhLnplPaj/keY0JK5dObOdYP4++a1T/8v6Fdkmk/LhgAp/01e/O1jfEUQkGivffso3gMqu/qjoGu1s4SonKU7XrE0XTwPltdI/TqqwLUri02h6mOx88gsswp757YKLCjx6LcZg4yNj/qzUedXOigmtXTBlW3jDAjKxG38aLmkYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761918129; c=relaxed/simple;
-	bh=5XQQxk5Quq9LfmqxbOFA1luh7EJqeo3TGebSB0ZSrrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dZMLYq0pfX0YkpczBRQnKStEUgUotIcUFOq/n3DPcedFNCWLLAbVBnzGT62ex2a91cwwoEE34sTDlF3/2O8SNClb3vAmpGkMX93eBluTZ7fDWRTVcUplqcq1WUiTQvvGhQ8Y/UTHXTcRWOBQ5HAkWBq/NxwILAHOoCm49Zp8oKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkWMcoPl; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761918162; c=relaxed/simple;
+	bh=2EuZPp6iiAor3qSHhoxp+TV6FSvUxVrS44tAjEFif+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dmWFAG1aJ5EzMyOCCM1YByud0+VafiDnve+V7lMemdDT8rhT7jNGCeXXAL2JwCgkel/Pzcdx5D08QCSIycao7qHMSKgAWYF5FGzonol9OOIsHzpwdzJypvx/xlpoPHLB3JpxnHXGtRz4ajlJLacVJkwgSmevXusBDWLSCKlRtr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=MIQLCRaH; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkWMcoPl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761918128; x=1793454128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5XQQxk5Quq9LfmqxbOFA1luh7EJqeo3TGebSB0ZSrrU=;
-  b=gkWMcoPl2ad+pv0VBPnASaklvLM6HvRseYuMaBS+fcxQld0qDKqkmy6g
-   JGeyKxY5ey6qlgwcBFUKIF6B3neGQ8DMhqUIKyxqUtsq0uE4zYOt5T6J5
-   ZZqFkxObCMmOqg1/uNkVRMjT5pKtyawVx4y9IMvpyNCp2OTagonWOx3r7
-   nB0x0YwCU7kOGvbjj0MhjcmOtVV2r1LhQOJAlgckQSSSqyrVFhMCoLBQM
-   CBQbKPF3Jd4VHtiLrtTiBt2xRwjlbsTqMaXZE3IQ5SmyBgKYo3vpXOw3z
-   Z7LRzjff5TZBBVUxkd7OlHB1eNuSPyM/x4T6sgM4v5HskTwt9SWkG9P1f
-   A==;
-X-CSE-ConnectionGUID: 64a0OAvtSYaJk1tW9eHPmQ==
-X-CSE-MsgGUID: ekqYzvJcQpefgOXiX6/BCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="64120041"
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="64120041"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 06:42:07 -0700
-X-CSE-ConnectionGUID: 19hcE78rSRKY8GFYA+msJw==
-X-CSE-MsgGUID: Fe6Amo+oQZaMedH/c1u1ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,269,1754982000"; 
-   d="scan'208";a="186115786"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2025 06:42:06 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEpNy-000N9C-22;
-	Fri, 31 Oct 2025 13:41:54 +0000
-Date: Fri, 31 Oct 2025 21:22:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [linux-next:master 524/5383] ld.lld: error: undefined symbol:
- xe_configfs_get_max_vfs
-Message-ID: <202510312106.aS6MqS7h-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="MIQLCRaH"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8a1744d9b8fso294334085a.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 06:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1761918160; x=1762522960; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=njpOP5qLjsmm+goYm8hA16YQgCyFH9JxfoHaSdz75Hs=;
+        b=MIQLCRaHTjiLIbI58nLDfbj9FtQ6Krvmy6Fe1AohFPHQzlI3q0ghMfIzj4uKy0OO3x
+         gCrzP2gvYOPg7u2Bquzu4/DzVA4VxdPyMVnxUbtvPHTk9Gxvr3FUTIc3muKP8Rt9/pFn
+         duiX1LII3FdGF7oUixKxeLOF2Om8YwkhoASsbqaGfPISnasdD8SL/ZcH3Tlydw0D0dkn
+         TaWNixuumKiIVhFlWGUaj0KkZTOJcM1CD0yHlopC0sqtLKOstjzEQMmcIObXBcN/KLbQ
+         /p4KS+7QafoEY787D9UFLr5UmhzRQ0++51VlE9674lw23QbNsrX92cdsWfOZGp36wV7t
+         GSbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761918160; x=1762522960;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=njpOP5qLjsmm+goYm8hA16YQgCyFH9JxfoHaSdz75Hs=;
+        b=ekPB8zJh5afIXp9VHiAaXxxHTLiQHvTjlc8pbiVfk/3w94oLuhuoIh3oIeJvmtmgLm
+         bNqYiOswq6ZoS3e6Cm8cQF3lUg4S4Wid1seI23vDpNi4b9CceuzSLdyvkuKTc/gcmMh8
+         RE399PRHS2oHG8m4gId5+j7T7eHyQIOGVbZRJhkPwciNqCUuhMz+BZdNFWWlCK9Bze3M
+         PADv8MEJbQvnOu91FeJgwdnxNqpOPFTgMhumITzxU7GdDKBysLMO3NJvIGHFRxtdVtXF
+         65ItI1DxQDEfcoDcnvhaZm2IWUWwggzagkAyfXehX5weoTDvDGrvYqeV9ZCetpNy4vjF
+         Jn1A==
+X-Forwarded-Encrypted: i=1; AJvYcCX0b1pCZ8hsV8wVvGZCHt1/xkVRQHBlUUoyqASKh/Ytt85dGt8inewE3oiHl0EsU/Jo/ZFsOz5bc5O8ea+P@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWqHAQuX1VNoURs9MAdMonr7gtHJbMqWzs2gVI0oOB0NaBNl+A
+	ljfk7sZzMWJLLQTqlZMDV12GoHPV0l9brRAe/tLfVLJ0Ws2EHBEpBMEAgRfLq1XHsxA=
+X-Gm-Gg: ASbGncvr6IP+biIahNSBOuTGVJQXdCwX+xuvZ6eoPzp4hDGtxkCl3Oyjup60vkd+h0R
+	w8Xf3y8Dj2ZOCITGaO4Q+RWocaHNKmPKAsHEwYQshu1Ssyg45Pm+hTXjO8MSIzuFf1Zm7p91zif
+	TvO7T9if4F73KJjdNY7/GDyFNwWCVnc2qURy810u/IyUFLyc8lZX6ILBmYV1MGZbxbcjkRPZTod
+	FUFpmUQfYtxzW0k2qsqxreXhL61WGA5dCFsZYx1hNq1VVceqnkcmTuqFkMZjwNctvok84+xLq/g
+	E7WNi5eCg3tdukgSxW1CSQOyXHYtGE9aYy3OezTyuuMq//XQzpVd94MimdDAs4p65ZUwLdTAG6a
+	RDAAXpvF7ayldph/bv/WxZjnO+uvd51xGQwn+pvaapbvd3dr+z2fka6I8w5CsHiJnjIoqahV5S2
+	Mryoimqah62ks6Z6ruCV8LE+ngoQkQT69sYlN9vqjO+fW5d1Jd40257aEZ2TA=
+X-Google-Smtp-Source: AGHT+IGI8y8YIPM3S6yMnHOJ6VxcbdkbS8NWxjTOpRsE5kmW+ZuRWtwB9gd6TlqHaKBjY4fr8ejo4g==
+X-Received: by 2002:a05:620a:28cc:b0:89f:3fa9:d2d4 with SMTP id af79cd13be357-8ab98eba4e2mr437021985a.15.1761918159702;
+        Fri, 31 Oct 2025 06:42:39 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ac00a9a851sm111552085a.20.2025.10.31.06.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Oct 2025 06:42:39 -0700 (PDT)
+Date: Fri, 31 Oct 2025 09:42:36 -0400
+From: Gregory Price <gourry@gourry.net>
+To: kernel test robot <lkp@intel.com>
+Cc: Robert Richter <rrichter@amd.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>, oe-kbuild-all@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Terry Bowman <terry.bowman@amd.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: [PATCH] cxl/region: Support multi-level interleaving with
+ smaller granularities for lower levels
+Message-ID: <aQS8zJ4p-r5iSgd1@gourry-fedora-PF4VCD3F>
+References: <20251028094754.72816-1-rrichter@amd.com>
+ <202510311413.HdTizWHK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +85,17 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202510311413.HdTizWHK-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   98bd8b16ae57e8f25c95d496fcde3dfdd8223d41
-commit: c09a9933af08cdcb295ccc65a6d9862bf8474706 [524/5383] drm/xe/pf: Add max_vfs configfs attribute to control PF mode
-config: i386-randconfig-061-20251024 (https://download.01.org/0day-ci/archive/20251031/202510312106.aS6MqS7h-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510312106.aS6MqS7h-lkp@intel.com/reproduce)
+On Fri, Oct 31, 2025 at 03:03:10PM +0800, kernel test robot wrote:
+> Hi Robert,
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> ERROR: modpost: "__udivdi3" [drivers/cxl/core/cxl_core.ko] undefined!
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510312106.aS6MqS7h-lkp@intel.com/
+IIRC this happens when you do 64-bit division because it's annoying and
+complicated. Ran into this madness in mempolicy.
 
-Note: the linux-next/master HEAD 98bd8b16ae57e8f25c95d496fcde3dfdd8223d41 builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: xe_configfs_get_max_vfs
-   >>> referenced by xe_sriov_pf.c:24 (drivers/gpu/drm/xe/xe_sriov_pf.c:24)
-   >>>               drivers/gpu/drm/xe/xe_sriov_pf.o:(xe_sriov_pf_readiness) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Gregory
