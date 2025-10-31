@@ -1,92 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAED513635E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 21:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230062D238C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 31 Oct 2025 21:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761946293; cv=none; b=p7jGsRqqbeslAF68ZEFltqSZGiaR74duHknuzM93sZ0qQXDURIsiezTePt8rF1mLhLPKT70WetdE8Nw2rFJKQtW0Q1Rn74FVC7sOXJvaYTcqn6CbvjRCku3iM39VseRosHFo0EVhtU/ycz+bj8+Mxu/airaqtN9VkCi36RRNKgE=
+	t=1761946376; cv=none; b=sAXMnkQBqh+qmYPU8iesVjaQ04lsPAQcCeL9YTtRyipCxOnuaJm00QSno9HZ6RXj/Nmji98//orzK0EeqQeonHkvB1sNltQov3TQeuOoR6z8bGZlG86gRp4QkDonKZgm94fmKyB897kb131JtdQbdkL//YUstPmknhgd9/2orSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761946293; c=relaxed/simple;
-	bh=baJwuqyD37mxY8v8yjU3D4GYST66dcXVTE82gKm+6/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xo8Qc2qOKHrTqLIcEk4G00XSajcWmQMlBGzc+H8sY4pZrxCjFqItvGD7UkBqSRGqrd1bslZxXc+OV34/XKqfIPp49R+MHmM8BGjmQbMSMNhWLkt6AC8J17/4h0qMzwVZ6YJBX4E4wj4bqm9zYdhPldBhJDgIQVCHfmtu8s6I7y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dM+YjpyU; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1761946376; c=relaxed/simple;
+	bh=3jcCB8/EkZPfz7coyBYWsShFlwvNE2phWmXKkqmYyoI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=W+5yPT9DiKh4zTMuDN9/hRDeCs0V+8BQyOwb7CnKYf494kAemF7Z+6HbAugZBEOVdUAmF/eUSc0Zuw5G3v+v2K12tPQ7+Q7R9OzwXKL0l6IU1H75av0y2sxsYfJwtaaSeO23F4bObnbIkscG1xCqC5Tgl/LCzXvqZeTguhLSi88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O7wYv5oJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pzJjMn2O; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dM+YjpyU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761946291; x=1793482291;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=baJwuqyD37mxY8v8yjU3D4GYST66dcXVTE82gKm+6/U=;
-  b=dM+YjpyUVwTg2ZiEVV9+knBE/OqtkfSsbj0esu8grYG3ZbhfFlZPh38g
-   uCi0UcwoeaXK//UaTvv/+41pvDUpYP0f74/0vJEi6PQ6zBxQkt2WiR+Ct
-   SjqQl+sRL/gEK0p4Uw/4+xEIcqrmx7f6M3oF/a1xA93DaEv9Naj1dKdDC
-   rlHnVPDkN8WY6iE0Ah322JvDGuYHayJT4HdVeAX/7Bmt4XyY4hEEq84eB
-   KGulyN3l5YGixiALHO9CW9/q0v7b5D10G7EKKbTwahDtcOuVb+21k2o+H
-   sx/gmLjdkgaI7+KK10DCzjqgQsmUiomL+MnGCjEYEdkovkttEaZp8eTpS
-   w==;
-X-CSE-ConnectionGUID: ZfJkdjvKSK6xw0N9bICOaA==
-X-CSE-MsgGUID: 1QUVNvsRR0OL0u4IKrq0DQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64264497"
-X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="64264497"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 14:31:31 -0700
-X-CSE-ConnectionGUID: jPpg+ccOQYmdhmecyJ/HVQ==
-X-CSE-MsgGUID: ZwC2zL1nQPWyDQ0Vmb9qsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="185555519"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 31 Oct 2025 14:31:30 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEwiW-000Nf2-0n;
-	Fri, 31 Oct 2025 21:31:28 +0000
-Date: Sat, 1 Nov 2025 05:30:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Gustavo Sousa <gustavo.sousa@intel.com>
-Subject: [linux-next:master 1137/5383] ld.lld: error: undefined symbol:
- xe_configfs_primary_gt_allowed
-Message-ID: <202511010521.iuMNWZiy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O7wYv5oJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pzJjMn2O"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1761946373;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=73A5YyJdt58GaQCs7MXkkXB1WngwQ/eBfsUfjTWrvnk=;
+	b=O7wYv5oJq1h7dE26GIu2j81t/YNiR0MJAjptP1kv8ZonMUfBy8eOQAclPrnVjWsx76k73L
+	/0qix1LVjtxzoSAsdI+k3xuRklgUXv6wGEcT6I3TWYSlVy0w5sLEq1HhYcqloXJ4uj0mA2
+	bXnLfVAAKCjdkqmcjpIUrTds4Ul/bOTzda7xKZbZTRYElVucwTZDOntn2MH6Dd0aKHhj7M
+	VuH7urFOZSvQrvqFjY2e2ddmwFBPNIYHiM+pB3dZlLeeCJFTapypGKH8C8UDxHNG7Addtb
+	BZwHpuPhbGuxK/YcyXU854paEJ4z4GBWZO4UATiBIgPNV2j0UI5xJRu9m5Es7w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1761946373;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=73A5YyJdt58GaQCs7MXkkXB1WngwQ/eBfsUfjTWrvnk=;
+	b=pzJjMn2OwJPgc4jUGKphIkDCS2aXhq5St61jCoWQQg0AWQuSu5zcdPJ3ALedcbBok2UzsQ
+	q1nbdR6C9ao06SCQ==
+To: Charles Mirabile <cmirabil@redhat.com>, lkp@intel.com
+Cc: cmirabil@redhat.com, linux-kernel@vger.kernel.org, lzampier@redhat.com,
+ oe-kbuild-all@lists.linux.dev, x86@kernel.org
+Subject: Re: [tip:irq/drivers 22/22]
+ drivers/irqchip/irq-sifive-plic.c:590:55: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+In-Reply-To: <20251027174725.1014197-1-cmirabil@redhat.com>
+References: <202510271316.AQM7gCCy-lkp@intel.com>
+ <20251027174725.1014197-1-cmirabil@redhat.com>
+Date: Fri, 31 Oct 2025 22:32:52 +0100
+Message-ID: <87346ysqnv.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   98bd8b16ae57e8f25c95d496fcde3dfdd8223d41
-commit: 7abd69278bb53ab6b43f9650daba550cc7624858 [1137/5383] drm/xe/configfs: Add attribute to disable GT types
-config: i386-randconfig-061-20251024 (https://download.01.org/0day-ci/archive/20251101/202511010521.iuMNWZiy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010521.iuMNWZiy-lkp@intel.com/reproduce)
+On Mon, Oct 27 2025 at 13:47, Charles Mirabile wrote:
+> diff --git a/drivers/irqchip/irq-sifive-plic.c b/drivers/irqchip/irq-sifive-plic.c
+> index 9c4af7d58846..fbf7378899d3 100644
+> --- a/drivers/irqchip/irq-sifive-plic.c
+> +++ b/drivers/irqchip/irq-sifive-plic.c
+> @@ -590,12 +590,12 @@ static int plic_probe(struct fwnode_handle *fwnode)
+>  		if (parent_hwirq != RV_IRQ_EXT) {
+>  			/* Disable S-mode enable bits if running in M-mode. */
+>  			if (IS_ENABLED(CONFIG_RISCV_M_MODE)) {
+> -				void __iomem *enable_base = priv->regs +
+> +				u32 __iomem *enable_base = priv->regs +
+>  					CONTEXT_ENABLE_BASE +
+>  					i * CONTEXT_ENABLE_SIZE;
+>  
+> -				for (hwirq = 1; hwirq <= nr_irqs; hwirq++)
+> -					__plic_toggle(enable_base, hwirq, 0);
+> +				for (int j = 0; j <= nr_irqs / 32; j++)
+> +					writel(0, enable_base + j);
+>  			}
+>  			continue;
+>  		}
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511010521.iuMNWZiy-lkp@intel.com/
-
-Note: the linux-next/master HEAD 98bd8b16ae57e8f25c95d496fcde3dfdd8223d41 builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: xe_configfs_primary_gt_allowed
-   >>> referenced by xe_pci.c:700 (drivers/gpu/drm/xe/xe_pci.c:700)
-   >>>               drivers/gpu/drm/xe/xe_pci.o:(xe_info_init) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: xe_configfs_media_gt_allowed
-   >>> referenced by xe_pci.c:730 (drivers/gpu/drm/xe/xe_pci.c:730)
-   >>>               drivers/gpu/drm/xe/xe_pci.o:(xe_info_init) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Care to send a proper patch for that?
