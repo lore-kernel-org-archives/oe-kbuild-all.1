@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742151FC0ED
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 05:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43E813C3F2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 05:17:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761973661; cv=none; b=PYTkH8iXdftaIqaK66/TQ/5xhMUJDcs66K8iPagcjIhJcqXvdCuLc8+k8ZcavlE6CVIh0W0twoaEoe+5B/SBpwkJv6XIB2pud4RmwAOuzQtKKIeHPYxwWO7FcTf9SKP11xUtUuJKMv+/IrDeikPG7fkNrVH6AEqQq9+he8Xi10Q=
+	t=1761974269; cv=none; b=RraAGWysrrBVYDyyGXgw8tcxVhKCm2ADR706g+Vw/hhpkY/Xnt11dvjCbLkDmM4ozeien8keZkCDh8KYJ0ohYTHKQSNvZuj9TJvgaH+wCbOXIMHlycJkGDHukqiGHA5ciU+URJ95R8zxZDXLki3OQyWoefZT+pZp2NzBwJsrnU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761973661; c=relaxed/simple;
-	bh=1wUMtz01qRv29YrECpfulhDWTFKF33wAda0gvtIAM/s=;
+	s=arc-20240116; t=1761974269; c=relaxed/simple;
+	bh=mxI3MgpSyFz5SL0e1+Jsds2AaC7KOeGO0W7912pWSFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bNlUKdYu4VFnsEmalOJlEuNJ0M5e/jg+KzAciUQ2uHyr6M3HoD66INBGtKYnuyrRQFW9bb3SUi3YjtFlSWHJs2NF+geRvD9G3NkFfvY5JtD03WIltuumYzRiHgASb4ZNeuPHGi2Xc7Ma66+g24Kux2PpHSxVrX0QwYjrLXT0Icw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Or4yH/LF; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=NGCMV8EA3ioAp6ujWuschES3lcveXdMibZOo3dVwbt9HBJKPD7OZFtMlaS03w0VHF2m4veIAdCrH3PvHuz1L1SiuOxLPYA/x32s1VYWFzZHQVBjG78qs63CxJj6IxBG0y2hkP27flTOSR9fjeI3QHl1QmNdtraPmdCmt5wtUbe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DdueKPBo; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Or4yH/LF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdueKPBo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761973660; x=1793509660;
+  t=1761974267; x=1793510267;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1wUMtz01qRv29YrECpfulhDWTFKF33wAda0gvtIAM/s=;
-  b=Or4yH/LFeHcVBGnu+qRz1lFr26tdd7zJEv/9WBrprgZSRkk/5GOAJLPb
-   WqfTLoL3pU3w58hOXVJirT2trpmW0pAzhwRwZ+arlN09QN44gKpg41TBA
-   yICaDbjWuHiHBanpb1o/fO+qoOJwm+vhiLJsjJvYJ/6Nb3Rs9CVOvzto0
-   8P76GQafO593ruEcgmy2BRDDVT5sd/d1+neh/3A/0Gas2ADXBEqjSEHkM
-   YhlSj7R6bYUyIoNcXw3MNvZAeCpidqDMbrqCywaW8BfK24HWqnz6uj8lp
-   gJ6LHIzN1r8bJZGaZAV1OaIJL3if/8vYonrbKL5ZxAmT0Q7sw/vezdOGG
+  bh=mxI3MgpSyFz5SL0e1+Jsds2AaC7KOeGO0W7912pWSFU=;
+  b=DdueKPBo5gUMiP9EpZZ82c3J6+a2wYK7+ynndcona+yOYFEaDQeuI6sT
+   DCSMeff+GXwcDanJIrG8OTsDz5QT27iI3ycsr55UhAfbrdeLJ3MNEv4Ex
+   /xkMnaldr773Ct69dZWKhHXJq6PfeXh0w11yhr4nyzpFwym3ORJZb1v8f
+   TXOOqOj4UjX43G0bH6/Vzzc9QjHinwaVUT66sg4dRPP0NWQ0l8vwXc+sw
+   Gz3Zsihl8qg0e0kajH2yIp5gNyjLjQKFkQYtb1Rs1SqEPmImtGZkIyi/M
+   k+C6A8BekBGT3gMHMLXNOibxI7tqbSm+lliXXbTCviiWs4YJIhjY7Ykld
    Q==;
-X-CSE-ConnectionGUID: QR01derMQHGC7J+ERlSYPQ==
-X-CSE-MsgGUID: 2hqiJpfPTOONTyHNtF5FxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75249952"
+X-CSE-ConnectionGUID: 3s2TU2SaQT+zQ/UnjsZ+pw==
+X-CSE-MsgGUID: IdyFedUHShe0FNfTk12Wag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75250203"
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="75249952"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 22:07:39 -0700
-X-CSE-ConnectionGUID: Qm8FH5i+QK2EWviCF65RjA==
-X-CSE-MsgGUID: dWa+6O1BTEW2cEEA1QOxQw==
+   d="scan'208";a="75250203"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 22:17:47 -0700
+X-CSE-ConnectionGUID: pkesUKZQSpqG3lEV0j6aGw==
+X-CSE-MsgGUID: /gZ9LDt3RcCXNBgCs+RdKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="209955475"
+   d="scan'208";a="185624340"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2025 22:07:37 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 Oct 2025 22:17:47 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF3pq-000Nvg-0G;
-	Sat, 01 Nov 2025 05:07:31 +0000
-Date: Sat, 1 Nov 2025 13:06:11 +0800
+	id 1vF3zj-000Nvy-2y;
+	Sat, 01 Nov 2025 05:17:43 +0000
+Date: Sat, 1 Nov 2025 13:16:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Peng Zhang <zhangpeng362@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-06 1/1]
- mm/pgsize_migration.c:338:24: warning: default initialization of an object
- of type 'struct vm_area_struct' with const member leaves the object
- uninitialized
-Message-ID: <202511011213.rpwoJAT1-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3081/3081] include/linux/userfaultfd_k.h:66:45:
+ sparse: sparse: restricted uffd_flags_t degrades to integer
+Message-ID: <202511011309.6fKIlijE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-06
-head:   188c695beb6df4f4f85e647aedda9e76327686ac
-commit: 188c695beb6df4f4f85e647aedda9e76327686ac [1/1] ANDROID: 16K: Allocate pad vma on the stack
-config: arm64-randconfig-002-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011213.rpwoJAT1-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011213.rpwoJAT1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   6a5b2f9a14178b13fe5efc52ba6575f5294c1270
+commit: 0214feb8f616acf62f9a6a2a131f0a1479b2b8af [3081/3081] mm/userswap: introduce UFFDIO_COPY_MODE_DIRECT_MAP
+config: x86_64-randconfig-123-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011309.6fKIlijE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011309.6fKIlijE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011213.rpwoJAT1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011309.6fKIlijE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/userfaultfd.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mfill_atomic_install_pte' - unexpected unlock
+   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mfill_atomic_pte_zeropage' - unexpected unlock
+   include/linux/rcupdate.h:780:9: sparse: sparse: context imbalance in 'mfill_atomic_pte_poison' - unexpected unlock
+   mm/userfaultfd.c: note: in included file:
+>> include/linux/userfaultfd_k.h:66:45: sparse: sparse: restricted uffd_flags_t degrades to integer
+>> include/linux/userfaultfd_k.h:67:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted uffd_flags_t [usertype] flags @@     got unsigned int enum mfill_atomic_mode mode @@
+   include/linux/userfaultfd_k.h:67:32: sparse:     expected restricted uffd_flags_t [usertype] flags
+   include/linux/userfaultfd_k.h:67:32: sparse:     got unsigned int enum mfill_atomic_mode mode
+>> include/linux/userfaultfd_k.h:66:45: sparse: sparse: restricted uffd_flags_t degrades to integer
+>> include/linux/userfaultfd_k.h:67:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted uffd_flags_t [usertype] flags @@     got unsigned int enum mfill_atomic_mode mode @@
+   include/linux/userfaultfd_k.h:67:32: sparse:     expected restricted uffd_flags_t [usertype] flags
+   include/linux/userfaultfd_k.h:67:32: sparse:     got unsigned int enum mfill_atomic_mode mode
+>> include/linux/userfaultfd_k.h:66:45: sparse: sparse: restricted uffd_flags_t degrades to integer
+>> include/linux/userfaultfd_k.h:67:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted uffd_flags_t [usertype] flags @@     got unsigned int enum mfill_atomic_mode mode @@
+   include/linux/userfaultfd_k.h:67:32: sparse:     expected restricted uffd_flags_t [usertype] flags
+   include/linux/userfaultfd_k.h:67:32: sparse:     got unsigned int enum mfill_atomic_mode mode
+>> include/linux/userfaultfd_k.h:66:45: sparse: sparse: restricted uffd_flags_t degrades to integer
+>> include/linux/userfaultfd_k.h:67:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted uffd_flags_t [usertype] flags @@     got unsigned int enum mfill_atomic_mode mode @@
+   include/linux/userfaultfd_k.h:67:32: sparse:     expected restricted uffd_flags_t [usertype] flags
+   include/linux/userfaultfd_k.h:67:32: sparse:     got unsigned int enum mfill_atomic_mode mode
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:369:9: note: previous definition is here
-     369 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> mm/pgsize_migration.c:338:24: warning: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
-     338 |         struct vm_area_struct pad;
-         |                               ^
-   include/linux/mm_types.h:731:20: note: member 'vm_flags' declared 'const' here
-     731 |                 const vm_flags_t vm_flags;
-         |                                  ^
-   2 warnings generated.
+vim +66 include/linux/userfaultfd_k.h
 
-
-vim +338 mm/pgsize_migration.c
-
-   328	
-   329	/*
-   330	 * Calls the show_pad_vma_fn on the @pad VMA.
-   331	 */
-   332	void show_map_pad_vma(struct vm_area_struct *vma, struct seq_file *m,
-   333			      void *func, bool smaps)
-   334	{
-   335		if (!is_pgsize_migration_enabled() || !(vma->vm_flags & VM_PAD_MASK))
-   336			return;
-   337	
- > 338		struct vm_area_struct pad;
-   339	
-   340		init_pad_vma(vma, &pad);
-   341	
-   342		/* The pad VMA should be anonymous. */
-   343		BUG_ON(pad.vm_file);
-   344	
-   345		/* The pad VMA should be PROT_NONE. */
-   346		BUG_ON(pad.vm_flags & (VM_READ|VM_WRITE|VM_EXEC));
-   347	
-   348		/* The pad VMA itself cannot have padding; infinite recursion */
-   349		BUG_ON(pad.vm_flags & VM_PAD_MASK);
-   350	
-   351		if (smaps)
-   352			((show_pad_smaps_fn)func)(m, &pad);
-   353		else
-   354			((show_pad_maps_fn)func)(m, &pad);
-   355	}
-   356	
+    63	
+    64	static inline uffd_flags_t uffd_flags_set_mode(uffd_flags_t flags, enum mfill_atomic_mode mode)
+    65	{
+  > 66		if (IS_ENABLED(CONFIG_USERSWAP) && (flags & MFILL_ATOMIC_DIRECT_MAP) &&
+  > 67		    uffd_flags_mode_is(mode, MFILL_ATOMIC_COPY))
+    68			mode = MFILL_ATOMIC_DIRECT_MAP;
+    69	
+    70		flags &= ~MFILL_ATOMIC_MODE_MASK;
+    71		return flags | ((__force uffd_flags_t) mode);
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
