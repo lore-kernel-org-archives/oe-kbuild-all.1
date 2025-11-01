@@ -1,62 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA187262A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 17:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D370272E5A;
+	Sat,  1 Nov 2025 17:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762019379; cv=none; b=fv5z4bbZ99U2SeeXoYIoLiuEWBB7T+v6UJKcpE5gxf/BUmqVBZ/Fl/XUnv22OGrV418kbNiTCyVvh74gKJlBbVUO8iWFyCANIB+s1AeYlTQmVE7nk6QK5S+njTy/Pa2xMVrcymxeeR/iY6OEy4Xhe6Tk65ekkaV/qtWigEaPC/Q=
+	t=1762019381; cv=none; b=JCg6e84mysB4c3Ff32B4iaLvD8+F5Z/EO9ITGxvdZwtMGyywygEVwPXkpQR1MYPfsZeRh9JGeaTWpcx4XCdG2Ht45JuDK4GKKYkwvqRf6FBj7q789ctokM16Uwyd9nxLNiMcpX2KlXbOxAPHlVDtJMZ9yk4bRrmu7udJFx+kgnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762019379; c=relaxed/simple;
-	bh=ij1XrhRwLm7shGtODy/du1WAYcGn3j6QGULbLxSBhh4=;
+	s=arc-20240116; t=1762019381; c=relaxed/simple;
+	bh=STJfZC4xcxEFfqOX9MMvUBGdnPrvSDkpD7JN9k8B7+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oADz4o0T1GwJWbABM0AYTK7UoS6OnHDXR1aVS7pRdtg3yF7JAuhS4BYSCIG9LCym4qiaXOvCstew+fnAtzaLGBmojtTlIEL316fshKPt4QCy8pIUixRGftxkNIbU9goKNUHZAuCLI7O/bU71BmC5IThT3KUYtp6DcmbF0qGRPMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGHSl59l; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=fEuV0FrrAVvzsLqGlzCHGzZmgdg/Ki7ICxNZJo/Hy+ngYmhBqIzpp4ljH5WWHx8KVx5dKpgM1FEaLnGP872mAe4M0gVHJzURJ2QKl5Y4niKGF4ummILHI6SKt7a7BlNxWg+6LJUprLd6jUlXr8l8epeigzmmzPq9n0QUitXu6f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANeYj3Wh; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGHSl59l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANeYj3Wh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762019378; x=1793555378;
+  t=1762019379; x=1793555379;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ij1XrhRwLm7shGtODy/du1WAYcGn3j6QGULbLxSBhh4=;
-  b=IGHSl59lzym8cxNWkwHd+Noll82xG1txm9NC56/f5BDbJ1poD57iAJjK
-   82gFy9x/7oY0odRI2HW41D/0Xpqlx0u1jYDK+Td6URBuGFNA+m3nZcTjc
-   EVjFESqPxQH2aC0gVXLS08VPLufn+NcqjqVo4TnS58QKAZMKe/xZK30Pb
-   FRqmn0q47Zbg3QvDW1sfZVLcifDpGp/t8ebUT3LeK/pLnUsm9Wkrj+bNS
-   yg8sm5m2rZdEa7CsN8MLdF2pO3vckk3kD6A1AgazS/a5WFAfxlEX2kPVO
-   anOXUILLfGTuxmsRJz/7LRYTrEwjxoF07s0BO/Y5WotIDuTAqsAly8cgE
-   Q==;
-X-CSE-ConnectionGUID: yXHlPk4nSG6H4Y5BAtkypw==
-X-CSE-MsgGUID: txJCRP/gROihwjVWYJlzxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="75272134"
-X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="75272134"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 10:49:37 -0700
-X-CSE-ConnectionGUID: X6ptYErhTnmJ70iMbDKTVg==
-X-CSE-MsgGUID: 2ob+0bbGSV62bpZuymtMqw==
+  bh=STJfZC4xcxEFfqOX9MMvUBGdnPrvSDkpD7JN9k8B7+4=;
+  b=ANeYj3Wh8WYn6tNcpeghd8wEdyEtkaxku5bsCz40D+1HPLaWMFJnhAWu
+   CfHEWIMiPmSKPHecqWvJuDXWxspsoHPnGZ1R+YQ9w0OW5609W+WqIYAsM
+   +H6WEnMrD/ZEzwzWLkzSIyiOZNEF5oIokTH9an+uarR4D8jrxODFLl2s7
+   NH3Fdf6tMUKfWlvdLbJcIKhvbE+ILRU+Hy6+UbYcjWL+RKDzLiGLhyHms
+   3F6738Nj4DfcSftfn5oID0DO/VdfdxN32yA3J0sNxyk4cK3EphMS7mJ11
+   OqeJrY+3QDgzgd7M3uUHZuVYl58WgW5gR/j5d0KRedV3jIsJENHbsxFRr
+   g==;
+X-CSE-ConnectionGUID: SJLxCFC+Q5m1Wy725teWCQ==
+X-CSE-MsgGUID: SwYuz86SS5yq6VJepAGfgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64061782"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64061782"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 10:49:39 -0700
+X-CSE-ConnectionGUID: kNPxTVj4RsiI+ZJ1UFFCTw==
+X-CSE-MsgGUID: bsHgchHtRf2RBC5/w+vnQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="185776408"
+   d="scan'208";a="186165479"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Nov 2025 10:49:35 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2025 10:49:35 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFFjI-000OXU-12;
+	id 1vFFjI-000OXW-17;
 	Sat, 01 Nov 2025 17:49:32 +0000
-Date: Sun, 2 Nov 2025 01:49:19 +0800
+Date: Sun, 2 Nov 2025 01:49:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>, torvalds@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, tglx@linutronix.de, pfalcato@suse.de,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [PATCH 3/3] fs: hide names_cachep behind runtime access machinery
-Message-ID: <202511020147.47PufBIR-lkp@intel.com>
-References: <20251031174220.43458-4-mjguzik@gmail.com>
+To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+	trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+	Gokul krishna Krishnakumar <Gokul.krishnakumar@oss.qualcomm>
+Subject: Re: [PATCH v2 4/7] remoteproc: qcom: pas: Add late attach support
+ for subsystems
+Message-ID: <202511020129.b8wpSSt0-lkp@intel.com>
+References: <20251029-knp-remoteproc-v2-4-6c81993b52ea@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,111 +75,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251031174220.43458-4-mjguzik@gmail.com>
+In-Reply-To: <20251029-knp-remoteproc-v2-4-6c81993b52ea@oss.qualcomm.com>
 
-Hi Mateusz,
+Hi Jingyi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on linus/master brauner-vfs/vfs.all v6.18-rc3 next-20251031]
-[cannot apply to linux/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on aaa9c3550b60d6259d6ea8b1175ade8d1242444e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/x86-fix-access_ok-and-valid_user_address-using-wrong-USER_PTR_MAX-in-modules/20251101-054539
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20251031174220.43458-4-mjguzik%40gmail.com
-patch subject: [PATCH 3/3] fs: hide names_cachep behind runtime access machinery
-config: i386-randconfig-061-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020147.47PufBIR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020147.47PufBIR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-remoteproc-qcom-sm8550-pas-Add-Kaanapali-ADSP/20251029-163330
+base:   aaa9c3550b60d6259d6ea8b1175ade8d1242444e
+patch link:    https://lore.kernel.org/r/20251029-knp-remoteproc-v2-4-6c81993b52ea%40oss.qualcomm.com
+patch subject: [PATCH v2 4/7] remoteproc: qcom: pas: Add late attach support for subsystems
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251102/202511020129.b8wpSSt0-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020129.b8wpSSt0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511020147.47PufBIR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511020129.b8wpSSt0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/smb/client/link.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/dir.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/misc.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/cifsfs.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/ioctl.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/inode.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/file.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/readdir.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/namespace.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
---
-   fs/smb/client/smb2ops.c: note: in included file:
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
->> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+All errors (new ones prefixed by >>):
 
-vim +71 fs/smb/client/cifsproto.h
+>> drivers/remoteproc/qcom_q6v5_wcss.c:1018:84: error: too few arguments to function call, expected 7, have 6
+    1018 |         ret = qcom_q6v5_init(&wcss->q6v5, pdev, rproc, desc->crash_reason_smem, NULL, NULL);
+         |               ~~~~~~~~~~~~~~                                                              ^
+   drivers/remoteproc/qcom_q6v5.h:55:5: note: 'qcom_q6v5_init' declared here
+      55 | int qcom_q6v5_init(struct qcom_q6v5 *q6v5, struct platform_device *pdev,
+         |     ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      56 |                    struct rproc *rproc, int crash_reason, const char *load_state,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      57 |                    bool early_boot, void (*handover)(struct qcom_q6v5 *q6v5));
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  48  
-6d5786a34d98bf fs/cifs/cifsproto.h Pavel Shilovsky    2012-06-20  49  #define free_xid(curr_xid)						\
-b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  50  do {									\
-6d5786a34d98bf fs/cifs/cifsproto.h Pavel Shilovsky    2012-06-20  51  	_free_xid(curr_xid);						\
-a0a3036b81f1f6 fs/cifs/cifsproto.h Joe Perches        2020-04-14  52  	cifs_dbg(FYI, "VFS: leaving %s (xid = %u) rc = %d\n",		\
-b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  53  		 __func__, curr_xid, (int)rc);				\
-d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  54  	if (rc)								\
-d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  55  		trace_smb3_exit_err(curr_xid, __func__, (int)rc);	\
-d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  56  	else								\
-d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  57  		trace_smb3_exit_done(curr_xid, __func__);		\
-b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  58  } while (0)
-4d79dba0e00749 fs/cifs/cifsproto.h Shirish Pargaonkar 2011-04-27  59  extern int init_cifs_idmap(void);
-4d79dba0e00749 fs/cifs/cifsproto.h Shirish Pargaonkar 2011-04-27  60  extern void exit_cifs_idmap(void);
-b74cb9a80268be fs/cifs/cifsproto.h Sachin Prabhu      2016-05-17  61  extern int init_cifs_spnego(void);
-b74cb9a80268be fs/cifs/cifsproto.h Sachin Prabhu      2016-05-17  62  extern void exit_cifs_spnego(void);
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  63  extern const char *build_path_from_dentry(struct dentry *, void *);
-7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  64  char *__build_path_from_dentry_optional_prefix(struct dentry *direntry, void *page,
-7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  65  					       const char *tree, int tree_len,
-7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  66  					       bool prefix);
-268a635d414df4 fs/cifs/cifsproto.h Aurelien Aptel     2017-02-13  67  extern char *build_path_from_dentry_optional_prefix(struct dentry *direntry,
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  68  						    void *page, bool prefix);
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  69  static inline void *alloc_dentry_path(void)
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  70  {
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05 @71  	return __getname();
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  72  }
-f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  73  
+
+vim +1018 drivers/remoteproc/qcom_q6v5_wcss.c
+
+0af65b9b915e52 Govind Singh          2021-01-29   971  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   972  static int q6v5_wcss_probe(struct platform_device *pdev)
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   973  {
+6549f42c3d1795 Govind Singh          2021-01-29   974  	const struct wcss_data *desc;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   975  	struct q6v5_wcss *wcss;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   976  	struct rproc *rproc;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   977  	int ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   978  
+6549f42c3d1795 Govind Singh          2021-01-29   979  	desc = device_get_match_data(&pdev->dev);
+6549f42c3d1795 Govind Singh          2021-01-29   980  	if (!desc)
+6549f42c3d1795 Govind Singh          2021-01-29   981  		return -EINVAL;
+6549f42c3d1795 Govind Singh          2021-01-29   982  
+41854ea92baad3 Andrew Davis          2024-01-23   983  	rproc = devm_rproc_alloc(&pdev->dev, pdev->name, desc->ops,
+6549f42c3d1795 Govind Singh          2021-01-29   984  				 desc->firmware_name, sizeof(*wcss));
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   985  	if (!rproc) {
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   986  		dev_err(&pdev->dev, "failed to allocate rproc\n");
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   987  		return -ENOMEM;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   988  	}
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   989  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   990  	wcss = rproc->priv;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   991  	wcss->dev = &pdev->dev;
+0af65b9b915e52 Govind Singh          2021-01-29   992  
+0af65b9b915e52 Govind Singh          2021-01-29   993  	wcss->version = desc->version;
+0af65b9b915e52 Govind Singh          2021-01-29   994  	wcss->requires_force_stop = desc->requires_force_stop;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   995  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   996  	ret = q6v5_wcss_init_mmio(wcss, pdev);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   997  	if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23   998  		return ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   999  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1000  	ret = q6v5_alloc_memory_region(wcss);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1001  	if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23  1002  		return ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1003  
+0af65b9b915e52 Govind Singh          2021-01-29  1004  	if (wcss->version == WCSS_QCS404) {
+0af65b9b915e52 Govind Singh          2021-01-29  1005  		ret = q6v5_wcss_init_clock(wcss);
+0af65b9b915e52 Govind Singh          2021-01-29  1006  		if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23  1007  			return ret;
+0af65b9b915e52 Govind Singh          2021-01-29  1008  
+0af65b9b915e52 Govind Singh          2021-01-29  1009  		ret = q6v5_wcss_init_regulator(wcss);
+0af65b9b915e52 Govind Singh          2021-01-29  1010  		if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23  1011  			return ret;
+0af65b9b915e52 Govind Singh          2021-01-29  1012  	}
+0af65b9b915e52 Govind Singh          2021-01-29  1013  
+0af65b9b915e52 Govind Singh          2021-01-29  1014  	ret = q6v5_wcss_init_reset(wcss, desc);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1015  	if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23  1016  		return ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1017  
+c1fe10d238c025 Sibi Sankar           2021-09-16 @1018  	ret = qcom_q6v5_init(&wcss->q6v5, pdev, rproc, desc->crash_reason_smem, NULL, NULL);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1019  	if (ret)
+41854ea92baad3 Andrew Davis          2024-01-23  1020  		return ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1021  
+25f9f5a2107fdc Bjorn Andersson       2020-05-14  1022  	qcom_add_glink_subdev(rproc, &wcss->glink_subdev, "q6wcss");
+5b9f51b200dcb2 Dmitry Baryshkov      2024-06-22  1023  	qcom_add_pdm_subdev(rproc, &wcss->pdm_subdev);
+8a226e2c71bb37 Sivaprakash Murugesan 2020-05-01  1024  	qcom_add_ssr_subdev(rproc, &wcss->ssr_subdev, "q6wcss");
+8a226e2c71bb37 Sivaprakash Murugesan 2020-05-01  1025  
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1026  	if (desc->ssctl_id) {
+0af65b9b915e52 Govind Singh          2021-01-29  1027  		wcss->sysmon = qcom_add_sysmon_subdev(rproc,
+0af65b9b915e52 Govind Singh          2021-01-29  1028  						      desc->sysmon_name,
+0af65b9b915e52 Govind Singh          2021-01-29  1029  						      desc->ssctl_id);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1030  		if (IS_ERR(wcss->sysmon)) {
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1031  			ret = PTR_ERR(wcss->sysmon);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1032  			goto deinit_remove_subdevs;
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1033  		}
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1034  	}
+0af65b9b915e52 Govind Singh          2021-01-29  1035  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1036  	ret = rproc_add(rproc);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1037  	if (ret)
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1038  		goto remove_sysmon_subdev;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1039  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1040  	platform_set_drvdata(pdev, rproc);
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1041  
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1042  	return 0;
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1043  
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1044  remove_sysmon_subdev:
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1045  	if (desc->ssctl_id)
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1046  		qcom_remove_sysmon_subdev(wcss->sysmon);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1047  deinit_remove_subdevs:
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1048  	qcom_q6v5_deinit(&wcss->q6v5);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1049  	qcom_remove_glink_subdev(rproc, &wcss->glink_subdev);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1050  	qcom_remove_pdm_subdev(rproc, &wcss->pdm_subdev);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1051  	qcom_remove_ssr_subdev(rproc, &wcss->ssr_subdev);
+60e7c43e61c9a6 Joe Hattori           2024-11-08  1052  	return ret;
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1053  }
+3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1054  
 
 -- 
 0-DAY CI Kernel Test Service
