@@ -1,76 +1,69 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A88244668
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 17:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3DE279784
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 17:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762017037; cv=none; b=CWIcnD699vjTtOm3y+EtyjVagrP0vfHpZwwgGbJNvcsUoUwlInagS/rEenRQoplYKD0AJO4XRWMIbiBAPIdh8pDDGPNwJV4mNtMjMD/a55E2CryplEBRufjiklisHMdfWDYWMiXV3Ir8RQAAiTAFMs/MqZ9Te6cKzeYI7+Rhq0U=
+	t=1762017163; cv=none; b=radcm0TV807vcg9500otaW5WmUsxydZ8yb9g8v5ApUqP9uXAK4qbICVbLvwMYnnCfjhsvNVGqonwas4P6+GENapGtMd061f/1au8IpDzcjcRmzOAFiUdxBsgg0Fwcg3z/n2PrzHKalCgrAF6iLpfcmB6p1fGR+pZniRg0Et7Iso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762017037; c=relaxed/simple;
-	bh=ZU+B8diip8WEbhgeqZgVBl0jAv+RKTsNJeccgokeMwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TSFuk01th7/0LpGYe37/a32XC5sgt6kJmQJEtkiS6B8A7oUOG0nIOnRIw51i16KsK5iWj3l79mDC03BensSfRyptYIKtPJ5eS2+gZ5pCGDxzGgzTB0KUHVXHhyFS3ut+9FIcaWq5aq2ku5OK6YyIMa8pCAl4UL0V0p1Qm6VDNzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r9dJqqyp; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1762017163; c=relaxed/simple;
+	bh=DyINKo0/YhKkpS7w4FALHV7Q/e/QT/TgdizweYFgq2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W38bdSbfr7X1HJjdcH9puslFOXZHOvjnZB5FTEVlmiRWU8WFAenBrH+GB9wFQBx7oZ4z2LI1HW8eI7+9BcsZPWVih51IFKUKHo2qd53FphlTWToD7SKb5ghlqylKWpHK1mhtT133C7WHqE9CgmK1bhgUTYOkm48kdjaOpumpyOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DKQgGa7a; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r9dJqqyp"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-475dd559b0bso41802475e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 01 Nov 2025 10:10:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DKQgGa7a"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42421b1514fso1890061f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 01 Nov 2025 10:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762017033; x=1762621833; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uq74eKvJ0jeposcEtzO5+GUodFFYwYCHHX7U8DBS+Cg=;
-        b=r9dJqqypbiJEYNY9xCnSr2DXJVkcFdZCLy7tQHmMsjuTYMAkDiVbMReKYdz6WOzSMr
-         tyoNw82aGR7XGfcRioSC+Er6zJnc6RceUgVCUZ+LKhmBkXJnREs0D0lpgnZWZbplJ9t8
-         qSTnpf/BZ6zt25XdHCIeyqq5zdD2Z/uSQtrerxgpQYx4UfGJ+tdRHPUdmnsDB+HQyyjj
-         AyVUOujpdSF+VIeC/wCXruX+tXDN9MsrbTv44Gmm7pVzCbqooZm9qG5/GnLOIzCs0E2i
-         +BDi/XFM2zrdJ33+EXq+fWnyC1TeblyKZv5G6VmunGGI+PBDA8YHie+T1RYFB6ij2IqH
-         CgWw==
+        d=linaro.org; s=google; t=1762017160; x=1762621960; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
+        b=DKQgGa7aHkis15i2sCq3zz0CRR7Oi9Jjh94Q+flVrQmLVmxyBIznku5NEkv6QTXewe
+         trnTxCZ3AcclYUiEbU5l1QdOYgSbHRDSUaMNj2oS9A1RlWz0oLjBQNnkxISerPg4YZtB
+         ausYKXTZsqVmkwvtG5ElqgIITkhJTtCaAQ7w65GoiDNcktllQjQaCY7SY/SeEaY31jUn
+         TIMRMEyYNVo60s9Qev0UH2XAGuVopTi0AxlPWALNZHLgctR3vABhK5fbIPRD+U8h5DSN
+         XiyBlirREW6W0y9kVxPS/n6mdaJC8K3ZjGKcQT921M7XrXIB/7T5O4lhIM001qycSLX6
+         QwRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762017033; x=1762621833;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uq74eKvJ0jeposcEtzO5+GUodFFYwYCHHX7U8DBS+Cg=;
-        b=OvZ9KAO6HNe5u4I8N2ukV3SFDmcWWmOqiNCf1uuKZNrXQEjKKwH6fPaM/KwLyCeP4Q
-         7aUakcHEk+LrhQ56OCtFB02OFQRuZKCNKEE3rN/zuRFHU8usGad58bATcOtCbSbZu7pX
-         Easp55l0xFC4E89QD5dGCPodLXDh0qdtaj1TzwALtvSg5ZPvtQTRagmP7RMBDYmBov6x
-         2G6awU/rOMoiHmUCrytGzwWPc+A0MFGgZLk3G1zw/AZ6DobOzLkW1W/R26V2/x9rbNQu
-         t8VSBogZIR/PNt93o09isWOX6VzD0Y/A/6AXa9P4BJHGnVEa/gquiYbfelaqqPuZNmSB
-         kGqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH2aDNlGvIeyl+Yw3HXesZDbHXlfmN661146yc6mhk5RlzOPx9QSSP4vRk5tHLfaFw3F9M/cxRQK+9v+Sr@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw40ULaB+5/hB0W1bjEUZqhW7KfuQc/TpI0pppNw1lFE9pJKGiH
-	6hYMmAEX2MowXERsxDO3K5i8UiW7J3Uay/IYVNy9SKL+MD41MCUsQwE/03vLzKQ6igE=
-X-Gm-Gg: ASbGnculMl7/EAmotVA58fPrvP5yR3tkJgREKCwCCPpUDCQdcfvOu25GXWWhI0Vm+Sg
-	/24ASgh5+lBGxYJkyfB4g7nvm1tdpgK/Tyi590EqYOqXBSnGjjvGhSCQ8HRtCxG/ErghjwnQ6ug
-	VAyeBq5NbaDIqk/phWmkRPHhO2JK7R9O66XXhfacp3agf96T5G5G2IwJot/pNhgC2agjHZtAHvc
-	zc0/s1dKEBV8ZMUTzqSf9/lCha/80c5CtAc0RzAlDaTiLAvQf8qZ8fz7dkXrAX1lelbJ+5QUSIU
-	MmNkz6aDRZ7m92WbCH/CTOJFE7rE5xRw72rbmUOy35Gy7kFmuJTkXrm0y6YGr9BmNEkvB1zZ9MY
-	WEJkYfwzlQik6NCGEr+jGlNgQwYpeFBTq6mBPGZ1u1k2JNlmQJmdfgrjrsJ56Z9TD0Qiy+Qcf4e
-	v7hmjExVYyGYi9jmmU
-X-Google-Smtp-Source: AGHT+IGv0uSR0v1hhSAx2GYRMsDrrYeSeRA7g62Ym9r2SphEpFPHMIVpJ6YWfLDNq7gaovk4mD9ryQ==
-X-Received: by 2002:a05:600d:4393:b0:46e:32a5:bd8d with SMTP id 5b1f17b1804b1-477331db3ccmr40988945e9.3.1762017033060;
-        Sat, 01 Nov 2025 10:10:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1762017160; x=1762621960;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
+        b=fWH4sUKf0eVZVdVXPqYcOZaLD+Y/gJNmUw2bpHNPXGMmHwUGm+VPcNQ+IB8fnsr3Bx
+         YaNJHq+/nNFrrxmVVoQfxJKNZsQnsPF6DjQh4oF1WUKSvv5U9W2m+CKhQLha6a5kzx/7
+         tOyViP/TCp1F/HHPJlaOHjRNVZ+vfXdaPI/CDU1EGyhV5XyPnhQuhguX1sS5bMgDyYV8
+         wInaTz/HHR3rhwqLryttH533iMbX8RX3FK188UsFFJO6XWUKhVPFwsbuhTKX3EyLcg/K
+         QORoWS17C6XTo6CLRoi0MzYJcZvJ56Z0mt3SBUYLr2xPDvobs72llmfJaH0JWLqAHfn5
+         t+rQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4+qGufFcxBaTRyxXxWZUDFU6aw8clcWGBrRChgNTpyjUIVCgtWGOCA7/UoGwyRyicShV0meStDlVDujSz@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLm9D9g4tdt6FftK9NBaxAYzN+dlithWcSGq4oD7PnKk6/IHWl
+	gxfR9Ni5t6/TbzZqnz2EitiUBozuaIdUYCvNOKchC0nF2I8BAMDMZ64IcWqyBGAzXy8=
+X-Gm-Gg: ASbGncsyQtlRkNoCaAsMScd+zq90aec71yZEPUMT9dOX7y4aBP1U/1idsN7Y2ZEWsYj
+	JC8Ykaq1foqMca/myOtL8J78aXtluS9+AjxEkf3P+SQyUkFHEEXcGfxBMbY5jUSOLV14c0UkM54
+	yFdUz6NMdJeYRIbcv09D0Pf0/A4wmu6Aq7EVvL7BSru+mnP5UIwkUqZXwJz6/lOcYsVFjYUGAg8
+	1e8fPhx+FzVBGd7Rqm6do2K7iDzU6x/kDDvz1q73rkTWINtniS/dhmSTYkAstfJ6yPdG4D/qdfx
+	p86lxe1fHU+Dnpt9zgDnCpZRSdLQ+DyRRbSZ6k9vEOPtEbr+w37DZpnjClfFso+ZyPvENNDvKzQ
+	fNzIJ4axGtXZcAIDen3sO5jdjnn6s74KpEdyOK5GE720JsPXEIltfQrJPJhBHwfDTK+l3aMdnGC
+	phlOVOvLpKmpnXxC0I
+X-Google-Smtp-Source: AGHT+IFszts67rjuc+tAypA5oGV+Ow5/fn6H7/oMZqJjYkvzSnkBEM/NgpDq4zQAGXmVfaip/KC1yw==
+X-Received: by 2002:a05:6000:1841:b0:425:7e38:419f with SMTP id ffacd0b85a97d-429bd68876cmr6663084f8f.16.1762017159777;
+        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4773c2e677csm58418305e9.3.2025.11.01.10.10.32
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c1125ad0sm10230829f8f.13.2025.11.01.10.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 10:10:32 -0700 (PDT)
-Date: Sat, 1 Nov 2025 20:10:28 +0300
+        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
+Date: Sat, 1 Nov 2025 20:12:35 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Avri Altman <avri.altman@sandisk.com>
-Subject: Re: [bvanassche:ufs-lrbp-as-priv-data 27/28]
- drivers/ufs/core/ufshcd.c:7594 ufshcd_advanced_rpmb_req_handler() warn:
- inconsistent returns '&hba->clk_scaling_lock'.
-Message-ID: <aQY_BE1SlUh8jxkq@stanley.mountain>
-References: <202510311328.Is1wMfkq-lkp@intel.com>
- <5dd16de9-4594-4b42-b912-d56c3ce6868e@acm.org>
- <aQT5iXgmRCzaa_xZ@stanley.mountain>
- <fd51be38-8000-48e8-a5a0-0289904d4756@acm.org>
+To: oe-kbuild@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-xen 9/17] net/vmw_vsock/af_vsock.c:2164
+ vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
+Message-ID: <202511011754.hK4vDkZ2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,60 +72,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fd51be38-8000-48e8-a5a0-0289904d4756@acm.org>
 
-On Fri, Oct 31, 2025 at 11:23:39AM -0700, Bart Van Assche wrote:
-> On 10/31/25 11:01 AM, Dan Carpenter wrote:
-> > These are from the zero day bot so how they are generated is mysterious.
-> > The zero day bot thought the patch was 3 days old.  I think someone did
-> > a merge or something.
-> > 
-> > I re-ran it on that branch and there were three warnings.  The "literal
-> > zero" is a style issue thing so I haven't published that check.
-> > 
-> > drivers/ufs/core/ufshcd.c:2955 __ufshcd_setup_cmd() warn: variable dereferenced before check 'cmd' (see line 2950)
-> > 
-> > drivers/ufs/core/ufshcd.c:6849 ufshcd_err_handler() warn: inconsistent returns '&hba->host_sem'.
-> >    Locked on  : 6696
-> >    Unlocked on: 6688,6849
-> > 
-> > drivers/ufs/core/ufshcd.c:9035 ufshcd_device_init() info: returning a literal zero is cleaner
-> 
-> Hi Dan,
-> 
-> The inconsistent returns issue for hba->host_sem has been fixed on Martin
-> Petersen's fixes branch but unfortunately that fix is not yet
-> present on his for-next branch.
-> 
-> I plan to include a fix for the "variable dereferenced before check
-> 'cmd'" complaint.
-> 
-> Is it expected that I don't see the above reports if I run smatch
-> myself? This is what I see if I run smatch (commit 2fb2b9093c5d
-> ("sleep_info: The synchronize_srcu() sleeps")):
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   cdc52122313863bdce40a9403e5ccf7ca915fc36
+commit: 49768ad0eb9d67ed71368ca9295185dd000674a1 [9/17] vsock: Add memory sharing support
+config: powerpc-randconfig-r071-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011754.hK4vDkZ2-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.5.0
 
-Yes.  The dereference happens inside a function so you need to have built
-the cross function database to see that one.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511011754.hK4vDkZ2-lkp@intel.com/
 
-It's not hard, but it takes a while.  smatch_scripts/build_kernel_data.sh
-You might need to rebuild it twice to see the warning...
+smatch warnings:
+net/vmw_vsock/af_vsock.c:2164 vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
 
-https://staticthinking.wordpress.com/2023/05/02/the-cross-function-db/
+vim +/PTR_ERR +2164 net/vmw_vsock/af_vsock.c
 
-> $ make drivers/ufs/ C=2 CHECK="smatch -p=__kernel__"
->   CHECK   scripts/mod/empty.c
->   CALL    scripts/checksyscalls.sh
->   CHECK   drivers/ufs/core/ufshcd.c
-> drivers/ufs/core/ufshcd.c:1536 ufshcd_clk_scaling_suspend_work() warn:
-> ignoring unreachable code.
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2156  					/* Token used previously ? */
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2157  					if (old)
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2158  						fput(old);
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2159  				} else {
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2160  					/* The fd must belong to a dma-buf */
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2161  					struct dma_buf *dbuf = dma_buf_get(fd);
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2162  
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2163  					if (IS_ERR(dbuf) || !dbuf->ops->shmem) {
+49768ad0eb9d67 Viresh Kumar       2025-10-15 @2164  						err = PTR_ERR(dbuf);
 
-This isn't supposed to show up.  It's seems to not be parsing scoped
-guard correctly...  I can't reproduce it.  I think I'm on the same kernel
-and Smatch release that you are on but I still can't reproduce it.  It's
-not something I have seen from the kbuild-bot either.
+Imagine dbuf->ops->shmem is NULL, then dbug would be a valid pointer
+so we can't pass it to PTR_ERR().
 
-regards,
-dan carpenter
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2165  						goto out;
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2166  					}
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2167  
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2168  					err = dbuf->ops->shmem(dbuf, &desc);
+49768ad0eb9d67 Viresh Kumar       2025-10-15  2169  					if (err)
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
