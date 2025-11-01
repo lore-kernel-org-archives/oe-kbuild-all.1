@@ -1,80 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82842F4A06
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 11:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068842045B7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 11:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761996545; cv=none; b=m16nV8r9QpSzxHS81jVqLx62AWx7Yc4ZWIgizNRJ09ha/4sA9ABii1C5FE7EoX/uW5GnnYY/spxrvhzDrczSxsQ3eYGRAMsEWu4TwKoeZho5qY66s5WFGzCBY7LqKw0vbawHUm77hSV+3hfZ8v7PqDXMzbm9tWtC/BuXQw6WSsw=
+	t=1761997166; cv=none; b=IV8p+EpKHw/+M30aOd36ExiEiNYSnPC9SAFps2+FuUnEvlDAc4Ivg5JqAPwUfQ17ytlZGRkc3/qoqCqq9YZb8qLe9wR3Qx81q82sgSbKCVVe8nC7k8XC1BAMo+zWTNZomZS+wQ5qssZX1dU5uwlk2rnENBRY3Zz8/JsA0kInfmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761996545; c=relaxed/simple;
-	bh=sF26sQtYAQFqKSwZpyXYz3QW+Hf+GiF9jFBa1Emk2c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsQGPTagtxE23/D7Y61FuK7vGW3E7nTHR0Gy0bn4xcZ2qdbrSTEvWK9H7TwImLTaY5W9gGlItot0d1NiA7HkMLgb9nugWmu+mAfAkrWPwC4XcbQdFdTk9t7gJj7z6Iv6JLhfR66j2aXWR/8fewT/K1qpV3QANwldYYONXhhL7qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEBy17/b; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1761997166; c=relaxed/simple;
+	bh=NnLAEPF/DsgRatrQnCGQ/IuW0NQD1E03jybDia8WuWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g0myoUWZ/dIoqfwCWypXYpAP6yYVz76KGcWc5/lotgZRjZRBbpVY7srC+SE5hzHyTWKglKOwJeWPXstTlLAC0vXsjTTi8UsD7CBiwDWG/3Eop847IkRprnAeY2qB6J9pfgpoRpsVUTmWQgUSaHZ5fcLjMyxEeCGEfJzBFPuVskM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCag+rzg; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEBy17/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCag+rzg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761996544; x=1793532544;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sF26sQtYAQFqKSwZpyXYz3QW+Hf+GiF9jFBa1Emk2c8=;
-  b=LEBy17/bz5Kld+I1fZIuLvXIq9/a7omM3HYxlxAyijZ+MuGxRd6z6c4T
-   Lyl5BY0NPsabZl6T7ELw0p8kl+I7Dw7tiW2jUjUOyn0WHZRHaR3m7EaSS
-   R06tYv6m9z1PG8ihDwS/M3WiGm9xLvl1dCzzJfAE6ltZqBKnxq0/GYrez
-   dmPJE+EqZXLP22IcS2hHHexzP+TeCq8+Cf+zdGeHxQ8cYcrMvo97ef/lB
-   nNOB9+gxLMflT9Ez9KJMWwnAb2JtenOMUK90a7Rj2o8PJWnB1p+ef9/bd
-   +5gqJgO7nRmAiyyP6iRT5Ib1tG8NGxA/1SJrlec/l1U4c6v8m2NQb+YLi
-   Q==;
-X-CSE-ConnectionGUID: kdWV4eOwTOq4Ty8qfvQVQw==
-X-CSE-MsgGUID: nPeqN2YCRnqY5Sqyr6Ii4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64062129"
+  t=1761997165; x=1793533165;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NnLAEPF/DsgRatrQnCGQ/IuW0NQD1E03jybDia8WuWY=;
+  b=FCag+rzgfeJStwgE86qswbQVSw2MJ2mZIZtXssLDwaj9UbEru0VHzvW3
+   RJmGHcBpMI9jz1JZHSD2YWWK/HPw4f2IcCfUnmDGBoT/LYT85AqBTzc7Q
+   dfWkTO+r84YSSDDqhMAYuWnXqbyYjoZdM8hsJ63+gq1andSqZMKNOIkSi
+   HR5KXeA8I6bHfk7aL6Azpvw294ZPo7HoNW5Fj5iXPqM8z+H3JAPqZF+vI
+   35qudKBRWS3VtTM/W7QgSNzptqoGlBnNASbPdh+0AIBPt2+BzBCcUW9Ub
+   6FOYbdUtpyGX232+gpmtwng8wkpUZyrVYa7UzCVymOGTO5FucaFEiYMJ5
+   w==;
+X-CSE-ConnectionGUID: t57KMAjeQk6V4YaIhBt0Qw==
+X-CSE-MsgGUID: edk3ojA3SUGjlSN79bhGDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="68004218"
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="64062129"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:29:03 -0700
-X-CSE-ConnectionGUID: fCbaBgp4R9Cg2C2C3uNafw==
-X-CSE-MsgGUID: fbz26zFYROKDX/eUs4VjWw==
+   d="scan'208";a="68004218"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:39:24 -0700
+X-CSE-ConnectionGUID: 4ZPYWzlXQv2K7LYpxnuPtw==
+X-CSE-MsgGUID: e0AehywxRUaAtbAWWCws+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="186400275"
+   d="scan'208";a="185669858"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 04:28:58 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2025 04:39:24 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF9mw-000OBo-38;
-	Sat, 01 Nov 2025 11:28:54 +0000
-Date: Sat, 1 Nov 2025 19:28:26 +0800
+	id 1vF9wu-000ODG-2v;
+	Sat, 01 Nov 2025 11:39:15 +0000
+Date: Sat, 1 Nov 2025 19:38:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Jason-JH Lin <jason-jh.lin@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	Paul-PL Chen <paul-pl.chen@mediatek.com>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	Xiandong Wang <xiandong.wang@mediatek.com>,
-	Sirius Wang <sirius.wang@mediatek.com>,
-	Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for
- subsys ID compatibility
-Message-ID: <202511011936.zWnbnVXF-lkp@intel.com>
-References: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg-ro 10/18] fs/overlayfs/overlayfs.h:242:45: error:
+ 'excl' undeclared
+Message-ID: <202511011950.XMLhzXHt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,72 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
 
-Hi Jason-JH,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on media-tree/master linus/master v6.18-rc3 next-20251031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/soc-mediatek-Use-pkt_write-function-pointer-for-subsys-ID-compatibility/20251101-000555
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20251031160309.1654761-2-jason-jh.lin%40mediatek.com
-patch subject: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
-config: xtensa-randconfig-r064-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg-ro
+head:   11745d0a0c6d135c474313a710719825fbe81aed
+commit: bc283d81b7ed9334c956382e7d234954aac17c03 [10/18] vfs: add struct createdata for passing arguments to vfs_create()
+config: sh-randconfig-002-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011950.XMLhzXHt-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011950.XMLhzXHt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011936.zWnbnVXF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011950.XMLhzXHt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/soc/mediatek/mtk-mmsys.c: In function 'mtk_mmsys_update_bits':
->> drivers/soc/mediatek/mtk-mmsys.c:170:25: error: 'struct cmdq_client_reg' has no member named 'pkt_write_mask'
-      ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-                            ^
->> drivers/soc/mediatek/mtk-mmsys.c:172:29: error: 'struct cmdq_client_reg' has no member named 'pa_base'
-                mmsys->cmdq_base.pa_base,
-                                ^
---
-   drivers/soc/mediatek/mtk-mutex.c: In function 'mtk_mutex_enable_by_cmdq':
->> drivers/soc/mediatek/mtk-mutex.c:1002:15: error: 'struct cmdq_client_reg' has no member named 'pkt_write'
-     mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-                  ^
+   In file included from fs/overlayfs/dir.c:18:
+   fs/overlayfs/overlayfs.h: In function 'ovl_do_create':
+>> fs/overlayfs/overlayfs.h:242:45: error: 'excl' undeclared (first use in this function)
+     242 |                                     .excl = excl };
+         |                                             ^~~~
+   fs/overlayfs/overlayfs.h:242:45: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +170 drivers/soc/mediatek/mtk-mmsys.c
+vim +/excl +242 fs/overlayfs/overlayfs.h
 
-   162	
-   163	static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val,
-   164					  struct cmdq_pkt *cmdq_pkt)
-   165	{
-   166		int ret;
-   167		u32 tmp;
-   168	
-   169		if (mmsys->cmdq_base.size && cmdq_pkt) {
- > 170			ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-   171							      mmsys->cmdq_base.subsys,
- > 172							      mmsys->cmdq_base.pa_base,
-   173							      mmsys->cmdq_base.offset + offset,
-   174							      val, mask);
-   175			if (ret)
-   176				pr_debug("CMDQ unavailable: using CPU write\n");
-   177			else
-   178				return;
-   179		}
-   180		tmp = readl_relaxed(mmsys->regs + offset);
-   181		tmp = (tmp & ~mask) | (val & mask);
-   182		writel_relaxed(tmp, mmsys->regs + offset);
-   183	}
-   184	
+   233	
+   234	static inline int ovl_do_create(struct ovl_fs *ofs,
+   235					struct inode *dir, struct dentry *dentry,
+   236					umode_t mode)
+   237	{
+   238		struct createdata cargs = { .idmap = ovl_upper_mnt_idmap(ofs),
+   239					    .dir = dir,
+   240					    .dentry = dentry,
+   241					    .mode = mode,
+ > 242					    .excl = excl };
+   243		int err = vfs_create(&cargs);
+   244	
+   245		pr_debug("create(%pd2, 0%o) = %i\n", dentry, mode, err);
+   246		return err;
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
