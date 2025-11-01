@@ -1,75 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0080E25DCE0;
-	Sat,  1 Nov 2025 21:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C7B1FDA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 22:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762030804; cv=none; b=dMtwJczfT7hdQQzfdtzK4xYv96+KfWZgggJLZzRR4el+GJUWdKIcO5w+OH+gyH7Jw4T4qF1DvVoIUX6BWYJeMy6eeanWyKvQMTg7Xpvovq/8zUinvvpi4uKNLMXr0HdoB4U5huVRk+z42dtjGAfjvzw0+dX+6wINcQS+2/HalJI=
+	t=1762035155; cv=none; b=j+8B7ZajhKv0x6PajCQplsOrVN0+wgZcIv6ix+7DQB+SewlL/AljF3MOxulislzCN/UuoJTB9OQiVKeohfse44pZL2UKT6+dLU/j6n3kLi0MHQOpnWOdJySyWTYT5U+mqS22nxAg/mY047IxM88MIXILlYaYbVNOlsk1J9qgcVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762030804; c=relaxed/simple;
-	bh=klydvr2ZO3VGv0Pbzb4nCBXbxiw1zZRUG3hwrz4CKLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G2g4OjkDtHXajcqFZdHBsxvyVlrHdHXs4YKsoM7xeMNGAqVrCeFn/Hj2G0x4bpVXLi5U5iXJncWNeTjnZD1uUUyFdKQ6I/kWJTIpZJA9rmLeD1UIsGUEbKZpG3iCsXm6u8Noq4/KS6IvJuKFnUyTLYxx8DDlFrfkD6T75fDxIZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lGA6ALvf; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762035155; c=relaxed/simple;
+	bh=c9t1olyV9HxGUasjn1kN/1IAmLjtVC6uhjPy5J4gCFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TiFD0XYDmzDRUrnnAjnbJrwlCISKGeiy1TpUK+ALEY8GDhwiS9N/FE/vyjXppjQhs9pZjrhv0BglyoZeoIbAqQMCmvMW2JqyhjcJHfMjmeIZuAYd4HCBIaXMx7QLNcrSMBsOl/cTnGs5QQ1TNob4hGQ/9WojwcXcOnZ37CJ8OWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBDJT3sQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lGA6ALvf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBDJT3sQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762030803; x=1793566803;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=klydvr2ZO3VGv0Pbzb4nCBXbxiw1zZRUG3hwrz4CKLY=;
-  b=lGA6ALvfmxOl8PIecSGH8cWxHo/2Wx4ZhJfVpOiUf/tA/ky3QMXyB01J
-   HqQmJoFm5vYeniDlSjLne48BMPYmbckTFMMeky6Cp7PR6XSKgbd5MD6gk
-   lw9og+xP+bu0yB5vcTSMzhlR1mm04aC9POA/kiKSl4WctkgIyIQSaVo/p
-   olcDhOek443QmFL2sx4OLXtXNh1W9Gxvj2oNzTGHheIJamHGENl2XVr9P
-   2LdCYdVm6mntZzVg6AT0xXjOrxe8fU+HBMGePu/+NFCZZSWbVoIEsRBnQ
-   Wh9c1mlWOtsaYwbRdQn5ONUScWkCLcBx46gplhWyNMCP9jbuE0qI01/XD
-   w==;
-X-CSE-ConnectionGUID: qK4j2Ko2T7yX7gxu405+zg==
-X-CSE-MsgGUID: 7FB6S5WpSRy6N279y+YgGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="66776509"
-X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="66776509"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 14:00:02 -0700
-X-CSE-ConnectionGUID: 3Iy0IfYfTzCEs3Rp/ozSPw==
-X-CSE-MsgGUID: LIwjV3HZST6fJryHpY/N2Q==
+  t=1762035153; x=1793571153;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c9t1olyV9HxGUasjn1kN/1IAmLjtVC6uhjPy5J4gCFE=;
+  b=MBDJT3sQeEooY4Hxdpg2/d6iGcFsLRhg1Rj8Nt/we3Y3+gk9XNE/QMyV
+   x/uFyTkt9PsmKK8wlT4K5nLR+2T0T1zUFSnM4z0JcCVu33pxwxbKlobM9
+   MpJcSEftq/Gdmex1y79YwRTJIHmEe8QQI/Nul4NW8GFFqvFxTYuYrcfk2
+   uZAPorQJwaHqn1M7HEif2EEtz+TquLVToIuVLqkJ7bjmal1nT+Y2cxvQk
+   JmU9E+qpCZgmWAvESKTjgX1Zn36HuJhYI0sWbz6W4DNeBl+pRNplaZMjh
+   lTXleriM5JXXyRo6aFWwJ/HqG7zTaIlw5+ecFtmu+yRm9jJHubB3KQ8o6
+   A==;
+X-CSE-ConnectionGUID: X/ZncEjdTcOIKe9dyiFsDA==
+X-CSE-MsgGUID: NJUx5gXhRT6xbik5AvtkhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="81574475"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="81574475"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 15:12:32 -0700
+X-CSE-ConnectionGUID: xpPt3R+gQD2NhLEa4d9k8Q==
+X-CSE-MsgGUID: BMwYvQWDSFaOOaoMRYdsqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="185799930"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="210079223"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Nov 2025 13:59:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2025 15:12:32 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFIhX-000OgW-1X;
-	Sat, 01 Nov 2025 20:59:55 +0000
-Date: Sun, 2 Nov 2025 04:59:10 +0800
+	id 1vFJpl-000Oiu-33;
+	Sat, 01 Nov 2025 22:12:29 +0000
+Date: Sun, 2 Nov 2025 06:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Laight <david.laight.linux@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	u.kleine-koenig@baylibre.com, Nicolas Pitre <npitre@baylibre.com>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Li RongQing <lirongqing@baidu.com>, Yu Kuai <yukuai3@huawei.com>,
-	Khazhismel Kumykov <khazhy@chromium.org>,
-	Jens Axboe <axboe@kernel.dk>, x86@kernel.org
-Subject: Re: [PATCH v4 next 6/9] lib: test_mul_u64_u64_div_u64: Test both
- generic and arch versions
-Message-ID: <202511020421.ZZPBAIIw-lkp@intel.com>
-References: <20251029173828.3682-7-david.laight.linux@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 16/16] mm/unevictable.c:156:6:
+ warning: no previous prototype for function 'del_unevict_task'
+Message-ID: <202511020650.vrKU2u7H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,49 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251029173828.3682-7-david.laight.linux@gmail.com>
 
-Hi David,
+Hi Xin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on next-20251029]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/lib-mul_u64_u64_div_u64-rename-parameter-c-to-d/20251030-025633
-base:   next-20251029
-patch link:    https://lore.kernel.org/r/20251029173828.3682-7-david.laight.linux%40gmail.com
-patch subject: [PATCH v4 next 6/9] lib: test_mul_u64_u64_div_u64: Test both generic and arch versions
-config: i386-buildonly-randconfig-004-20251102 (https://download.01.org/0day-ci/archive/20251102/202511020421.ZZPBAIIw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020421.ZZPBAIIw-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   7103f9d5c75b142fc88eb149bc55d2e8c8ed76f3
+commit: bba8483e73c9dae0b5c67f8143dc8f922a07580b [16/16] anolis: mm: unevictable: adjust three key functions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251102/202511020650.vrKU2u7H-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020650.vrKU2u7H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511020421.ZZPBAIIw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511020650.vrKU2u7H-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/math/test_mul_u64_u64_div_u64.c:142:9: warning: '__div64_32' macro redefined [-Wmacro-redefined]
-     142 | #define __div64_32 __div64_32
-         |         ^
-   arch/x86/include/asm/div64.h:78:9: note: previous definition is here
-      78 | #define __div64_32
-         |         ^
+>> mm/unevictable.c:156:6: warning: no previous prototype for function 'del_unevict_task' [-Wmissing-prototypes]
+     156 | void del_unevict_task(struct task_struct *tsk)
+         |      ^
+   mm/unevictable.c:156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     156 | void del_unevict_task(struct task_struct *tsk)
+         | ^
+         | static 
    1 warning generated.
 
 
-vim +/__div64_32 +142 lib/math/test_mul_u64_u64_div_u64.c
+vim +/del_unevict_task +156 mm/unevictable.c
 
-   140	
-   141	/* Compile the generic mul_u64_add_u64_div_u64() code */
- > 142	#define __div64_32 __div64_32
-   143	#define div_s64_rem div_s64_rem
-   144	#define div64_u64_rem div64_u64_rem
-   145	#define div64_u64 div64_u64
-   146	#define div64_s64 div64_s64
-   147	#define iter_div_u64_rem iter_div_u64_rem
-   148	
+   155	
+ > 156	void del_unevict_task(struct task_struct *tsk)
+   157	{
+   158		struct evict_pid_entry *result;
+   159	
+   160		if (!tsk) {
+   161			struct evict_pid_entry *pid_entry, *tmp;
+   162	
+   163			mutex_lock(&pid_mutex);
+   164			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   165				rcu_read_lock();
+   166				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   167						&init_pid_ns);
+   168				rcu_read_unlock();
+   169				if (!tsk) {
+   170					list_del(&pid_entry->list);
+   171					__remove_entry(pid_entry);
+   172					kfree(pid_entry);
+   173				}
+   174			}
+   175			mutex_unlock(&pid_mutex);
+   176			return;
+   177		}
+   178	
+   179		mutex_lock(&pid_mutex);
+   180		result = lookup_unevict_entry(tsk);
+   181		if (result) {
+   182			list_del(&result->list);
+   183			__remove_entry(result);
+   184			mutex_unlock(&pid_mutex);
+   185			__evict_pid(result);
+   186			kfree(result);
+   187		} else
+   188			mutex_unlock(&pid_mutex);
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
