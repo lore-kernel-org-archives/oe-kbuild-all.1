@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F192727FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 04:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C6A287246
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 04:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761970079; cv=none; b=WKRs1TnHEv4EiM6WFwm8B4Bq7rCXri0ZgQMGLfR+SxXNXNPxZzlCTiFWDRIyHnLNuT97V3f4r3oniqR3MPJLVkXMs70iLdeky/d+8ADaXErT7vvdpaBfHOWfEHw62Y36UMDCXzl0Nedn7+NgCIhHs8Sc0zglTxuc4T2w/wvVhwc=
+	t=1761972922; cv=none; b=TOcum8eTz4NDHtXVTCtEGlb8i2FFLtvXc21+9mP+EOTMJ1xSeOWR/xfXcvjInP4vgQZIzp9FYO73wvAMZeb5QtMg7R/csd2NtCbUcRqkfj/Po0WCtKNP6QrNYXeHO4NFLRkWjmnEmpdoClzS0NbSUWsyDNVf+8qe6LsG1U47g5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761970079; c=relaxed/simple;
-	bh=66sz8Yp0HoDksWjMIuaCasZQ6iXxRf4GpcSDRm7qb3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RsY+6RnrG4t1ynEsoAD1JGq+91WShDJvhEABkY93DJWYXGOIev/InAvBWuDiNVJB9KKhLp1hsoBgc3S4+LXNuBuliVMKNwNjadF03TqHqtatDzpwpPpAi/ADmF/l7coGOAxafG9uQcY/VgN5N+V+KDF1IaCKOEnpj72/m2bHSXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPYhK6ss; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1761972922; c=relaxed/simple;
+	bh=k2Ta0V4Zi5yChgA3g73y84ZiYczegwmoupUhOgDn8og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MgNoRJjcba2bYKp0ftgKbXvIL9sZBJtrovZN6H2+5EaxLJH88nDrva7FZeAD9griPtRhZ3Fer04DJhm7WAWcZoX9d6gVGljKfKLcrZW7FDgri6uKSO9yznYy7nMyOC2HkyluGIl5LG4WC8bsWuaLxXW2iZNywV+DUXDQ1PgWbiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbvBmMoa; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPYhK6ss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbvBmMoa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761970077; x=1793506077;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=66sz8Yp0HoDksWjMIuaCasZQ6iXxRf4GpcSDRm7qb3w=;
-  b=cPYhK6ss/9NeAClImfRZ9lVf9VLzcLvsWxwRcyO21ZdqBUjllYNnP4ia
-   cVNI5ysaA6UL/SquHxeQ1eOIm5wg0ZLESIWX2vfzecWiOr8Af9810UZUq
-   Nv7Kg711zRerlq7k2xRE9Pxn+d6intda+ZEWesLcv1RrEx/P3wLa3XkWh
-   gVw0UDfzzMFgZ8zWv+yTebFCqpJg33dwoJqPiAh+zzLHjmV7YkcWdoqa6
-   lPYpYmxHac3XoklLFqqYQGxXTosFF/d+8Z7pK0ZpBbMV6BfPHcvv8B/h/
-   r0FDigiZt8gksGqIZ0Z/ny3Y9knzwSZlX/c4RrULepimOxhAkG01wD6kE
+  t=1761972921; x=1793508921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k2Ta0V4Zi5yChgA3g73y84ZiYczegwmoupUhOgDn8og=;
+  b=UbvBmMoa6vw0S7/NMxhiJuuZ2UBPxsh0JAXUj7LhIYmGXv6gsEWQdIPQ
+   M7jTIuu/aa3kBatGvcbPrNwIAGUXsZf0X6h2Pdna0PGcMLQsER9pEDR2/
+   /RWtsPGB9NLR/dVgQkFtrzPSuPlQ6jhFUNi+h2Ol0LS1ypFnXmaxwNkoE
+   persyLKbMOJJCfOZs8vyzdSHhZ7l43Gl/6doqLxCibXHwmDgqWffGbusg
+   lSU08H/u74mXnbBRyWNY5BAnnPglZ2s/7v+S+Up/pjZX3evYpKUtjDoBM
+   UUQKLzb5dcaoou+fPhvsxlje+EC9vr9CeyTqwAbUItmQajSf5BwEUCxTv
    g==;
-X-CSE-ConnectionGUID: Y7Y14lIZRze4Mjc6cfcN0g==
-X-CSE-MsgGUID: VTfHXv0iStyH/iZtar0Usw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64163379"
+X-CSE-ConnectionGUID: i6puL2lUSq+B0BKoOHczHg==
+X-CSE-MsgGUID: kzGAXwUtTO6rQeIKA5jT/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="67789283"
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="64163379"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 21:07:32 -0700
-X-CSE-ConnectionGUID: oIFcqYw3SXyLF3VNTHSpoA==
-X-CSE-MsgGUID: pYq6dIGkS+GjGPwAShyNkA==
+   d="scan'208";a="67789283"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 21:55:20 -0700
+X-CSE-ConnectionGUID: kSs1uohTRsG4Slfx4QHWlA==
+X-CSE-MsgGUID: jN/YVgw5QWqGV0x3jrUupg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="223632009"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 31 Oct 2025 21:07:32 -0700
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="186727222"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2025 21:55:17 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF2tl-000000001Fg-3Xwl;
-	Sat, 01 Nov 2025 04:07:29 +0000
-Date: Sat, 1 Nov 2025 05:06:46 +0100
+	id 1vF3dz-000NvQ-1b;
+	Sat, 01 Nov 2025 04:55:15 +0000
+Date: Sat, 1 Nov 2025 12:55:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/3]
- arch/x86/kvm/pkvm/fpu/fpu.c: internal.h is included more than once.
-Message-ID: <202511010528.3rjzoVip-lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Uday Shankar <ushankar@purestorage.com>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH V2 12/25] ublk: add batch I/O dispatch infrastructure
+Message-ID: <202511011248.dCy9UFHa-lkp@intel.com>
+References: <20251023153234.2548062-13-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +65,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251023153234.2548062-13-ming.lei@redhat.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   43ce0f84dc2297fc37c2b9e5ccdbf24edab58576
-commit: 4b8576f328339c1fa6afa1ff56b75c6abcdecdd7 [0/3] ANDROID: pkvm: x86: Initialize the guest fpu
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Ming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes axboe-block/for-next linus/master v6.18-rc3 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/ublk-add-parameter-struct-io_uring_cmd-to-ublk_prep_auto_buf_reg/20251023-234335
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20251023153234.2548062-13-ming.lei%40redhat.com
+patch subject: [PATCH V2 12/25] ublk: add batch I/O dispatch infrastructure
+config: i386-randconfig-061-20250510 (https://download.01.org/0day-ci/archive/20251101/202511011248.dCy9UFHa-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011248.dCy9UFHa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511010528.3rjzoVip-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011248.dCy9UFHa-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/x86/kvm/pkvm/fpu/fpu.c: internal.h is included more than once.
+All warnings (new ones prefixed by >>):
 
-vim +8 arch/x86/kvm/pkvm/fpu/fpu.c
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from drivers/block/ublk_drv.c:12:
+   drivers/block/ublk_drv.c: In function '__ublk_batch_dispatch':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:565:16: note: in expansion of macro 'KERN_WARNING'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/block/ublk_drv.c:1546:17: note: in expansion of macro 'pr_warn'
+    1546 |                 pr_warn("%s: copy tags or post CQE failure, move back "
+         |                 ^~~~~~~
 
-     7	
-   > 8	#include "internal.h"
-     9	#include "fpu.h"
-  > 10	#include "internal.h"
-    11	#include "xstate.h"
-    12	
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
