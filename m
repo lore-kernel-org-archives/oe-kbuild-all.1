@@ -1,72 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D370272E5A;
-	Sat,  1 Nov 2025 17:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B442FF150
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 18:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762019381; cv=none; b=JCg6e84mysB4c3Ff32B4iaLvD8+F5Z/EO9ITGxvdZwtMGyywygEVwPXkpQR1MYPfsZeRh9JGeaTWpcx4XCdG2Ht45JuDK4GKKYkwvqRf6FBj7q789ctokM16Uwyd9nxLNiMcpX2KlXbOxAPHlVDtJMZ9yk4bRrmu7udJFx+kgnM=
+	t=1762021241; cv=none; b=Kzf5Bf6KXAAPdIaj3+doLWPvgulaJoGUv88BuwMWmfY97HXrLl5lkxusiD23bcKqusTrDeXHFwCaqsJsHSQwDDLbM2QFkWlYJShJ/T0Vr7JMxZDlGxYO4RHVX0UZEb2y5pg9AuCz4uVbBxtebfgySJhEeebpXcb034y05LKJDms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762019381; c=relaxed/simple;
-	bh=STJfZC4xcxEFfqOX9MMvUBGdnPrvSDkpD7JN9k8B7+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEuV0FrrAVvzsLqGlzCHGzZmgdg/Ki7ICxNZJo/Hy+ngYmhBqIzpp4ljH5WWHx8KVx5dKpgM1FEaLnGP872mAe4M0gVHJzURJ2QKl5Y4niKGF4ummILHI6SKt7a7BlNxWg+6LJUprLd6jUlXr8l8epeigzmmzPq9n0QUitXu6f0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANeYj3Wh; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1762021241; c=relaxed/simple;
+	bh=lCW+jBLgJNjhqEKgqrvt2q5E9vUn3bH79W91VFPz+OI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SM8yx8aQXz8Z3RoLcFznMPssPkaUhaJiKvsmhpd5ryoedwMxoZlkibuU8mlmVsJxji1DmAktEKccS0gUYJUpB8+Fh09wDkeI+SEp4v3ct59tzhPXTuEK4ca9jo+DA4ZUklF10NXWP1YU2V7ZmaC/WGI8L3V7Rtam/DelFZGu4Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDPr0ErJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANeYj3Wh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDPr0ErJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762019379; x=1793555379;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STJfZC4xcxEFfqOX9MMvUBGdnPrvSDkpD7JN9k8B7+4=;
-  b=ANeYj3Wh8WYn6tNcpeghd8wEdyEtkaxku5bsCz40D+1HPLaWMFJnhAWu
-   CfHEWIMiPmSKPHecqWvJuDXWxspsoHPnGZ1R+YQ9w0OW5609W+WqIYAsM
-   +H6WEnMrD/ZEzwzWLkzSIyiOZNEF5oIokTH9an+uarR4D8jrxODFLl2s7
-   NH3Fdf6tMUKfWlvdLbJcIKhvbE+ILRU+Hy6+UbYcjWL+RKDzLiGLhyHms
-   3F6738Nj4DfcSftfn5oID0DO/VdfdxN32yA3J0sNxyk4cK3EphMS7mJ11
-   OqeJrY+3QDgzgd7M3uUHZuVYl58WgW5gR/j5d0KRedV3jIsJENHbsxFRr
-   g==;
-X-CSE-ConnectionGUID: SJLxCFC+Q5m1Wy725teWCQ==
-X-CSE-MsgGUID: SwYuz86SS5yq6VJepAGfgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64061782"
+  t=1762021239; x=1793557239;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lCW+jBLgJNjhqEKgqrvt2q5E9vUn3bH79W91VFPz+OI=;
+  b=ZDPr0ErJqKtVXZkvsmdn+3vdeHoFlrAurcV0lPU7anR7WtFIdHYw3CFm
+   rloDkkkcrMide0Xo5rz8gQ0wdDHGAUC4hcEUce/nlNsoBuZkIG2FBi2u8
+   AARBrgCe/XDu8npRUCmb8KfGAs/q6OJdA2TP2A+audCraPUf1OjGFq1oA
+   Dq+/3y3WzVPTmLnH1c5tmjbfz8YyoyMZUcM2v8ikAzh3sYvhrOB21Ebyo
+   8v6mhP9I5nBpz+DZe8i3vKapKt60Lxbjg8Xb+OyPnLOi1jseQjvI1FMCi
+   MbRXvaeM557qXWqSedctkyx6ocDvdp7bV5vwGVHvCsf98gDlj16x5afdo
+   Q==;
+X-CSE-ConnectionGUID: P9hDv/tGRcS2Lfz5CvpR9g==
+X-CSE-MsgGUID: Qdjl8Zu0T5K8jcgtIaEGoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67994808"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64061782"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 10:49:39 -0700
-X-CSE-ConnectionGUID: kNPxTVj4RsiI+ZJ1UFFCTw==
-X-CSE-MsgGUID: bsHgchHtRf2RBC5/w+vnQg==
+   d="scan'208";a="67994808"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 11:20:39 -0700
+X-CSE-ConnectionGUID: 16kdjN5SRvOjNOFzyTGeCg==
+X-CSE-MsgGUID: mK8zJRrhRyOjVJ94CrQS6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="186165479"
+   d="scan'208";a="191650283"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2025 10:49:35 -0700
+  by orviesa005.jf.intel.com with ESMTP; 01 Nov 2025 11:20:38 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFFjI-000OXW-17;
-	Sat, 01 Nov 2025 17:49:32 +0000
-Date: Sun, 2 Nov 2025 01:49:18 +0800
+	id 1vFGDL-000OZm-2U;
+	Sat, 01 Nov 2025 18:20:35 +0000
+Date: Sun, 2 Nov 2025 02:20:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
-	trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-	Gokul krishna Krishnakumar <Gokul.krishnakumar@oss.qualcomm>
-Subject: Re: [PATCH v2 4/7] remoteproc: qcom: pas: Add late attach support
- for subsystems
-Message-ID: <202511020129.b8wpSSt0-lkp@intel.com>
-References: <20251029-knp-remoteproc-v2-4-6c81993b52ea@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/3]
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c:120:10: error: call to undeclared
+ function 'get_acp63_cpu_pin_id'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202511020257.cMcKSidK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,128 +63,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251029-knp-remoteproc-v2-4-6c81993b52ea@oss.qualcomm.com>
 
-Hi Jingyi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on aaa9c3550b60d6259d6ea8b1175ade8d1242444e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-remoteproc-qcom-sm8550-pas-Add-Kaanapali-ADSP/20251029-163330
-base:   aaa9c3550b60d6259d6ea8b1175ade8d1242444e
-patch link:    https://lore.kernel.org/r/20251029-knp-remoteproc-v2-4-6c81993b52ea%40oss.qualcomm.com
-patch subject: [PATCH v2 4/7] remoteproc: qcom: pas: Add late attach support for subsystems
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251102/202511020129.b8wpSSt0-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020129.b8wpSSt0-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   43ce0f84dc2297fc37c2b9e5ccdbf24edab58576
+commit: c3b26788593464218c7aa581133f5070a36f2378 [0/3] FROMGIT: ASoC: amd: acp: add soundwire machine driver for legacy stack
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251102/202511020257.cMcKSidK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020257.cMcKSidK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511020129.b8wpSSt0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511020257.cMcKSidK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/remoteproc/qcom_q6v5_wcss.c:1018:84: error: too few arguments to function call, expected 7, have 6
-    1018 |         ret = qcom_q6v5_init(&wcss->q6v5, pdev, rproc, desc->crash_reason_smem, NULL, NULL);
-         |               ~~~~~~~~~~~~~~                                                              ^
-   drivers/remoteproc/qcom_q6v5.h:55:5: note: 'qcom_q6v5_init' declared here
-      55 | int qcom_q6v5_init(struct qcom_q6v5 *q6v5, struct platform_device *pdev,
-         |     ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      56 |                    struct rproc *rproc, int crash_reason, const char *load_state,
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      57 |                    bool early_boot, void (*handover)(struct qcom_q6v5 *q6v5));
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/amd/acp/acp-sdw-legacy-mach.c:120:10: error: call to undeclared function 'get_acp63_cpu_pin_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     120 |                         ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask - 1),
+         |                               ^
    1 error generated.
 
 
-vim +1018 drivers/remoteproc/qcom_q6v5_wcss.c
+vim +/get_acp63_cpu_pin_id +120 sound/soc/amd/acp/acp-sdw-legacy-mach.c
 
-0af65b9b915e52 Govind Singh          2021-01-29   971  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   972  static int q6v5_wcss_probe(struct platform_device *pdev)
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   973  {
-6549f42c3d1795 Govind Singh          2021-01-29   974  	const struct wcss_data *desc;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   975  	struct q6v5_wcss *wcss;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   976  	struct rproc *rproc;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   977  	int ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   978  
-6549f42c3d1795 Govind Singh          2021-01-29   979  	desc = device_get_match_data(&pdev->dev);
-6549f42c3d1795 Govind Singh          2021-01-29   980  	if (!desc)
-6549f42c3d1795 Govind Singh          2021-01-29   981  		return -EINVAL;
-6549f42c3d1795 Govind Singh          2021-01-29   982  
-41854ea92baad3 Andrew Davis          2024-01-23   983  	rproc = devm_rproc_alloc(&pdev->dev, pdev->name, desc->ops,
-6549f42c3d1795 Govind Singh          2021-01-29   984  				 desc->firmware_name, sizeof(*wcss));
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   985  	if (!rproc) {
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   986  		dev_err(&pdev->dev, "failed to allocate rproc\n");
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   987  		return -ENOMEM;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   988  	}
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   989  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   990  	wcss = rproc->priv;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   991  	wcss->dev = &pdev->dev;
-0af65b9b915e52 Govind Singh          2021-01-29   992  
-0af65b9b915e52 Govind Singh          2021-01-29   993  	wcss->version = desc->version;
-0af65b9b915e52 Govind Singh          2021-01-29   994  	wcss->requires_force_stop = desc->requires_force_stop;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   995  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   996  	ret = q6v5_wcss_init_mmio(wcss, pdev);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   997  	if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23   998  		return ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07   999  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1000  	ret = q6v5_alloc_memory_region(wcss);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1001  	if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23  1002  		return ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1003  
-0af65b9b915e52 Govind Singh          2021-01-29  1004  	if (wcss->version == WCSS_QCS404) {
-0af65b9b915e52 Govind Singh          2021-01-29  1005  		ret = q6v5_wcss_init_clock(wcss);
-0af65b9b915e52 Govind Singh          2021-01-29  1006  		if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23  1007  			return ret;
-0af65b9b915e52 Govind Singh          2021-01-29  1008  
-0af65b9b915e52 Govind Singh          2021-01-29  1009  		ret = q6v5_wcss_init_regulator(wcss);
-0af65b9b915e52 Govind Singh          2021-01-29  1010  		if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23  1011  			return ret;
-0af65b9b915e52 Govind Singh          2021-01-29  1012  	}
-0af65b9b915e52 Govind Singh          2021-01-29  1013  
-0af65b9b915e52 Govind Singh          2021-01-29  1014  	ret = q6v5_wcss_init_reset(wcss, desc);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1015  	if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23  1016  		return ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1017  
-c1fe10d238c025 Sibi Sankar           2021-09-16 @1018  	ret = qcom_q6v5_init(&wcss->q6v5, pdev, rproc, desc->crash_reason_smem, NULL, NULL);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1019  	if (ret)
-41854ea92baad3 Andrew Davis          2024-01-23  1020  		return ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1021  
-25f9f5a2107fdc Bjorn Andersson       2020-05-14  1022  	qcom_add_glink_subdev(rproc, &wcss->glink_subdev, "q6wcss");
-5b9f51b200dcb2 Dmitry Baryshkov      2024-06-22  1023  	qcom_add_pdm_subdev(rproc, &wcss->pdm_subdev);
-8a226e2c71bb37 Sivaprakash Murugesan 2020-05-01  1024  	qcom_add_ssr_subdev(rproc, &wcss->ssr_subdev, "q6wcss");
-8a226e2c71bb37 Sivaprakash Murugesan 2020-05-01  1025  
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1026  	if (desc->ssctl_id) {
-0af65b9b915e52 Govind Singh          2021-01-29  1027  		wcss->sysmon = qcom_add_sysmon_subdev(rproc,
-0af65b9b915e52 Govind Singh          2021-01-29  1028  						      desc->sysmon_name,
-0af65b9b915e52 Govind Singh          2021-01-29  1029  						      desc->ssctl_id);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1030  		if (IS_ERR(wcss->sysmon)) {
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1031  			ret = PTR_ERR(wcss->sysmon);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1032  			goto deinit_remove_subdevs;
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1033  		}
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1034  	}
-0af65b9b915e52 Govind Singh          2021-01-29  1035  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1036  	ret = rproc_add(rproc);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1037  	if (ret)
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1038  		goto remove_sysmon_subdev;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1039  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1040  	platform_set_drvdata(pdev, rproc);
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1041  
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1042  	return 0;
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1043  
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1044  remove_sysmon_subdev:
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1045  	if (desc->ssctl_id)
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1046  		qcom_remove_sysmon_subdev(wcss->sysmon);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1047  deinit_remove_subdevs:
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1048  	qcom_q6v5_deinit(&wcss->q6v5);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1049  	qcom_remove_glink_subdev(rproc, &wcss->glink_subdev);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1050  	qcom_remove_pdm_subdev(rproc, &wcss->pdm_subdev);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1051  	qcom_remove_ssr_subdev(rproc, &wcss->ssr_subdev);
-60e7c43e61c9a6 Joe Hattori           2024-11-08  1052  	return ret;
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1053  }
-3a3d4163e0bfde Sricharan Ramabadhran 2018-06-07  1054  
+    61	
+    62	static int create_sdw_dailink(struct snd_soc_card *card,
+    63				      struct asoc_sdw_dailink *soc_dai,
+    64				      struct snd_soc_dai_link **dai_links,
+    65				      int *be_id, struct snd_soc_codec_conf **codec_conf,
+    66				      struct snd_soc_dai_link_component *sdw_platform_component)
+    67	{
+    68		struct device *dev = card->dev;
+    69		struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+    70		struct amd_mc_ctx *amd_ctx = (struct amd_mc_ctx *)ctx->private;
+    71		struct asoc_sdw_endpoint *soc_end;
+    72		int cpu_pin_id;
+    73		int stream;
+    74		int ret;
+    75	
+    76		list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+    77			if (soc_end->name_prefix) {
+    78				(*codec_conf)->dlc.name = soc_end->codec_name;
+    79				(*codec_conf)->name_prefix = soc_end->name_prefix;
+    80				(*codec_conf)++;
+    81			}
+    82	
+    83			if (soc_end->include_sidecar) {
+    84				ret = soc_end->codec_info->add_sidecar(card, dai_links, codec_conf);
+    85				if (ret)
+    86					return ret;
+    87			}
+    88		}
+    89	
+    90		for_each_pcm_streams(stream) {
+    91			static const char * const sdw_stream_name[] = {
+    92				"SDW%d-PIN%d-PLAYBACK",
+    93				"SDW%d-PIN%d-CAPTURE",
+    94				"SDW%d-PIN%d-PLAYBACK-%s",
+    95				"SDW%d-PIN%d-CAPTURE-%s",
+    96			};
+    97			struct snd_soc_dai_link_ch_map *codec_maps;
+    98			struct snd_soc_dai_link_component *codecs;
+    99			struct snd_soc_dai_link_component *cpus;
+   100			int num_cpus = hweight32(soc_dai->link_mask[stream]);
+   101			int num_codecs = soc_dai->num_devs[stream];
+   102			int playback, capture;
+   103			int j = 0;
+   104			char *name;
+   105	
+   106			if (!soc_dai->num_devs[stream])
+   107				continue;
+   108	
+   109			soc_end = list_first_entry(&soc_dai->endpoints,
+   110						   struct asoc_sdw_endpoint, list);
+   111	
+   112			*be_id = soc_end->dai_info->dailink[stream];
+   113			if (*be_id < 0) {
+   114				dev_err(dev, "Invalid dailink id %d\n", *be_id);
+   115				return -EINVAL;
+   116			}
+   117	
+   118			switch (amd_ctx->acp_rev) {
+   119			case ACP63_PCI_REV:
+ > 120				ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask - 1),
+   121							   *be_id, &cpu_pin_id, dev);
+   122				if (ret)
+   123					return ret;
+   124				break;
+   125			default:
+   126				return -EINVAL;
+   127			}
+   128			/* create stream name according to first link id */
+   129			if (ctx->append_dai_type) {
+   130				name = devm_kasprintf(dev, GFP_KERNEL,
+   131						      sdw_stream_name[stream + 2],
+   132						      ffs(soc_end->link_mask) - 1,
+   133						      cpu_pin_id,
+   134						      type_strings[soc_end->dai_info->dai_type]);
+   135			} else {
+   136				name = devm_kasprintf(dev, GFP_KERNEL,
+   137						      sdw_stream_name[stream],
+   138						      ffs(soc_end->link_mask) - 1,
+   139						      cpu_pin_id);
+   140			}
+   141			if (!name)
+   142				return -ENOMEM;
+   143	
+   144			cpus = devm_kcalloc(dev, num_cpus, sizeof(*cpus), GFP_KERNEL);
+   145			if (!cpus)
+   146				return -ENOMEM;
+   147	
+   148			codecs = devm_kcalloc(dev, num_codecs, sizeof(*codecs), GFP_KERNEL);
+   149			if (!codecs)
+   150				return -ENOMEM;
+   151	
+   152			codec_maps = devm_kcalloc(dev, num_codecs, sizeof(*codec_maps), GFP_KERNEL);
+   153			if (!codec_maps)
+   154				return -ENOMEM;
+   155	
+   156			list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+   157				if (!soc_end->dai_info->direction[stream])
+   158					continue;
+   159	
+   160				int link_num = ffs(soc_end->link_mask) - 1;
+   161	
+   162				cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+   163								"SDW%d Pin%d",
+   164								link_num, cpu_pin_id);
+   165				dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
+   166				if (!cpus->dai_name)
+   167					return -ENOMEM;
+   168	
+   169				codec_maps[j].cpu = 0;
+   170				codec_maps[j].codec = j;
+   171	
+   172				codecs[j].name = soc_end->codec_name;
+   173				codecs[j].dai_name = soc_end->dai_info->dai_name;
+   174				j++;
+   175			}
+   176	
+   177			WARN_ON(j != num_codecs);
+   178	
+   179			playback = (stream == SNDRV_PCM_STREAM_PLAYBACK);
+   180			capture = (stream == SNDRV_PCM_STREAM_CAPTURE);
+   181	
+   182			asoc_sdw_init_dai_link(dev, *dai_links, be_id, name, playback, capture,
+   183					       cpus, num_cpus, sdw_platform_component,
+   184					       1, codecs, num_codecs,
+   185					       0, asoc_sdw_rtd_init, &sdw_ops);
+   186			/*
+   187			 * SoundWire DAILINKs use 'stream' functions and Bank Switch operations
+   188			 * based on wait_for_completion(), tag them as 'nonatomic'.
+   189			 */
+   190			(*dai_links)->nonatomic = true;
+   191			(*dai_links)->ch_maps = codec_maps;
+   192	
+   193			list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+   194				if (soc_end->dai_info->init)
+   195					soc_end->dai_info->init(card, *dai_links,
+   196								soc_end->codec_info,
+   197								playback);
+   198			}
+   199	
+   200			(*dai_links)++;
+   201		}
+   202	
+   203		return 0;
+   204	}
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
