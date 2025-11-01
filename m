@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D081922F5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 01:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA60EEC0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 01:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761959183; cv=none; b=YZg02HugiVjmsIB7dRT9RBPODLCTlK/awnASWzdCPK4cznrRapdge093pLnrb8J0bhetrh8mff4SE8634SqHK0CtCMg9Q1fzuHcPZo2EGlI7Jvtc4sMcxtS+nrJhebNqapIEN1qWVdmsEQqKqeJ70LMIPfM8fHAxcvzRe+4xW0k=
+	t=1761961030; cv=none; b=iQV4lWqul/SOr0taO0XAhD+eY5TAMnmx+NUoVQYA3SpzOia0PuBrTE8XkkBoflBt+BzwJJpsJWz0FnIpiaZDvGanGXEXOsUOL+r5zT1XZxyJXaYAr1LTlnsunkqMtrggBry3jz1Ptv4JqlsyQCVvjoUPn2jmi0tU/lYbGVYLwnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761959183; c=relaxed/simple;
-	bh=qbDcVQmBw7W4/baBODucnA0isMkDnlPY0e6magXcTiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WT4nva/7+Ao6z/FQadphftX4i4SpcSq4KuilqFmT1/9PSnUNt+g0PXolzyDJCX1C1uta1cQfBO8+5ZlleD7ZxdjxgznXbYl+jpWcTwnJL//7P0DWsqbPDjd/PPjqDIXQZljV/nYJDhuWMEtFOOVuqUV3HljVIeRZZZ4TqLGU4Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdC3m3Rk; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1761961030; c=relaxed/simple;
+	bh=Rkkf8MpX+s4+F2e+OJ/ETxMiyo/ztkZEBsrghdoAYOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QLNg64EfUqlbOnRxpDSK63qzl94ufa4gordsseoFtIbiLgT5gO1fILgQ85WWR039AdoqAa6Bpv34JCIVdrEcdt801Zvbi+GeXrVEA/e2sRS/eg51AolTyWxqB7shLRaNSX96Iyvov4pA1BN1IjXXBplLJRp/drHsxogKvtvtmDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Un3MMF4/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdC3m3Rk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Un3MMF4/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761959182; x=1793495182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qbDcVQmBw7W4/baBODucnA0isMkDnlPY0e6magXcTiU=;
-  b=WdC3m3RkkeBmBQD55KygfEylAImuZvuyn2w0Rzj8VSZ4JNGUBvQ+TzeA
-   F9piOb3k13jB0tB0OzstJA7FulI9NmjEWvQpN7VAWAJg44+ROkihrFRBD
-   clH7V7xAA3LKH3rjPJLWsn7rwADJdfjlQDVctAHxd3z92u7+D9jtkW36n
-   Llm3xdSsdtsDGaUZWABwyZCmbMQkVlOdByrLiMGv4/cvBOdqPyIv0GJjn
-   Z2OvxX+w1ENjFhXBr4a/7iihC46NnBGhOPz62ldBZ0MBcyUGTy4JxmzyY
-   GpLpnUjZTZKEcE86sHQdTkhfzzloGTJioy7jGyR77AQ/3PHbyHf3P8W65
-   w==;
-X-CSE-ConnectionGUID: yq9jvhrmT6G/vTD9N9aqfw==
-X-CSE-MsgGUID: Uftyi56IRzqM8ZE5wOcaIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75575928"
+  t=1761961029; x=1793497029;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Rkkf8MpX+s4+F2e+OJ/ETxMiyo/ztkZEBsrghdoAYOk=;
+  b=Un3MMF4/0GO7SfVdR0F9ozRwlT2aM52tA6EAPzZXVWwDHX0gJz5DcfCB
+   MIveTDNmmZK9aYMBCuBMwq2iyfhU8B09ftPwXKKfGjFtGkUn3+j6Z0J6W
+   OvHicIuYAz+nd1m6oUl5kcfPnyrrEEpA3C2fSJA/k1FVvdbPIuRJKd/EO
+   ifUEUoYjYUVhiox8pBXjAGoMpHSankGmAcitG65g97b0iUH9coSEMtAPr
+   iuf/chntWaYAkgkPqFHn+x3Oafo4pqbzUnvq+04/zLTxCD/DiNYJbKD+W
+   NAbf9Yo8TCpum/gmumH98XNjXZsDa5Hxw18s9zIDCv7VQkmRTtXwZLB37
+   A==;
+X-CSE-ConnectionGUID: Z4VzU5B7Rt+S5PnBUOrB3Q==
+X-CSE-MsgGUID: zBg47HUnRxOTchp8qXn7QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64226451"
 X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="75575928"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 18:06:21 -0700
-X-CSE-ConnectionGUID: Ppo9VfFdQYusMhwJ6EdM4w==
-X-CSE-MsgGUID: gyd+mZGZSHGIFO0vShtCwA==
+   d="scan'208";a="64226451"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 18:37:08 -0700
+X-CSE-ConnectionGUID: 8xwwAkv1Tkm5VmHEkXQvMg==
+X-CSE-MsgGUID: omvXYY0mRMStdt1hDXKvPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,270,1754982000"; 
-   d="scan'208";a="190713103"
+   d="scan'208";a="186702670"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Oct 2025 18:06:19 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2025 18:37:07 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF03p-000NmG-0a;
-	Sat, 01 Nov 2025 01:05:54 +0000
-Date: Sat, 1 Nov 2025 09:04:25 +0800
+	id 1vF0Y6-000Nnc-39;
+	Sat, 01 Nov 2025 01:37:00 +0000
+Date: Sat, 1 Nov 2025 09:36:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Forbes <ian.forbes@broadcom.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com,
-	zack.rusin@broadcom.com, maaz.mombasawala@broadcom.com,
-	Ian Forbes <ian.forbes@broadcom.com>
-Subject: Re: [PATCH v2] drm/vmwgfx: Restore Guest-Backed only cursor plane
- support
-Message-ID: <202511010812.B8o5v9vq-lkp@intel.com>
-References: <20251030143910.134767-1-ian.forbes@broadcom.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Yury Norov <yury.norov@gmail.com>
+Subject: [tglx-devel:rseq/slice 52/75] WARNING: modpost: vmlinux: section
+ mismatch in reference: smp_start_cpus+0x0 (section: .text) ->
+ set_cpu_possible (section: .init.text)
+Message-ID: <202511010939.MnRSFUT7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,99 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030143910.134767-1-ian.forbes@broadcom.com>
 
-Hi Ian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc3 next-20251031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Forbes/drm-vmwgfx-Restore-Guest-Backed-only-cursor-plane-support/20251030-224831
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20251030143910.134767-1-ian.forbes%40broadcom.com
-patch subject: [PATCH v2] drm/vmwgfx: Restore Guest-Backed only cursor plane support
-config: arm64-randconfig-001-20251101 (https://download.01.org/0day-ci/archive/20251101/202511010812.B8o5v9vq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010812.B8o5v9vq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   bee383449566a64254362dc3ff6a1bfd5bcb6a57
+commit: 062451b0e7535f465e755354d2a410c841bfc2a4 [52/75] cpumask: Cache num_possible_cpus()
+config: hexagon-randconfig-r051-20251101 (https://download.01.org/0day-ci/archive/20251101/202511010939.MnRSFUT7-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511010939.MnRSFUT7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511010812.B8o5v9vq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511010939.MnRSFUT7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c: In function 'vmw_cursor_plane_atomic_update':
->> drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c:770:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct vmw_bo *bo = vmw_user_object_buffer(&vps->uo);
-      ^~~~~~
+>> WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x0 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x4 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0xc (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x10 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x18 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x1c (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x24 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x28 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x30 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x34 (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x3c (section: .text) -> set_cpu_possible (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: smp_start_cpus+0x40 (section: .text) -> set_cpu_possible (section: .init.text)
 
-
-vim +770 drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c
-
-   739	
-   740	void
-   741	vmw_cursor_plane_atomic_update(struct drm_plane *plane,
-   742				       struct drm_atomic_state *state)
-   743	{
-   744		struct drm_plane_state *new_state =
-   745			drm_atomic_get_new_plane_state(state, plane);
-   746		struct drm_plane_state *old_state =
-   747			drm_atomic_get_old_plane_state(state, plane);
-   748		struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
-   749		struct vmw_private *dev_priv = vmw_priv(plane->dev);
-   750		struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
-   751		struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
-   752		s32 hotspot_x, hotspot_y, cursor_x, cursor_y;
-   753	
-   754		/*
-   755		 * Hide the cursor if the new bo is null
-   756		 */
-   757		if (vmw_user_object_is_null(&vps->uo)) {
-   758			vmw_cursor_update_position(dev_priv, false, 0, 0);
-   759			return;
-   760		}
-   761	
-   762		switch (vps->cursor.update_type) {
-   763		case VMW_CURSOR_UPDATE_LEGACY:
-   764			vmw_cursor_plane_update_legacy(dev_priv, vps);
-   765			break;
-   766		case VMW_CURSOR_UPDATE_MOB:
-   767			vmw_cursor_update_mob(dev_priv, vps);
-   768			break;
-   769		case VMW_CURSOR_UPDATE_GB_ONLY:
- > 770			struct vmw_bo *bo = vmw_user_object_buffer(&vps->uo);
-   771	
-   772			if (bo)
-   773				vmw_send_define_cursor_cmd(dev_priv, bo->map.virtual,
-   774							   vps->base.crtc_w,
-   775							   vps->base.crtc_h,
-   776							   vps->base.hotspot_x,
-   777							   vps->base.hotspot_y);
-   778			break;
-   779		case VMW_CURSOR_UPDATE_NONE:
-   780			/* do nothing */
-   781			break;
-   782		}
-   783	
-   784		/*
-   785		 * For all update types update the cursor position
-   786		 */
-   787		cursor_x = new_state->crtc_x + du->set_gui_x;
-   788		cursor_y = new_state->crtc_y + du->set_gui_y;
-   789	
-   790		hotspot_x = vps->cursor.legacy.hotspot_x + new_state->hotspot_x;
-   791		hotspot_y = vps->cursor.legacy.hotspot_y + new_state->hotspot_y;
-   792	
-   793		vmw_cursor_update_position(dev_priv, true, cursor_x + hotspot_x,
-   794					   cursor_y + hotspot_y);
-   795	}
-   796	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 -- 
 0-DAY CI Kernel Test Service
