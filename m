@@ -1,80 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792A128689F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 11:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BE32F3614;
+	Sat,  1 Nov 2025 11:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761995267; cv=none; b=cCLqchGGNK4AWHcoso1T+YT7FagkcytBYIWy7FoRJuvMoMA2BJEMuURBGWvLXhI1v+NXcO7a/ljbhM+f5OBveoP0MN6pgDKWcBy24T1azRqhXAsSemELvQizNI/mbRbAXWfuq/vzBpDmdh3t+C1RE33QgFOaLETPVyhWZ3nVVVg=
+	t=1761995270; cv=none; b=tEMKlr32RfmSZ63bZVxc0Mrt8ZK1tHLYoSHRYOnNuywgabas1aiHVTFOhTy3iAutF+yWDWXvnzCjyXOuj6wRxKYFKUYCgEn86rwR4E5cc9RmRBXf6mNuqA+ic0+E3KnlPoaCVbDvlHTRHwxKTeo0wLyYmd5XssmNa1wDXG+Rwm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761995267; c=relaxed/simple;
-	bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
+	s=arc-20240116; t=1761995270; c=relaxed/simple;
+	bh=KiBsSbViKMDxxR1+aLrfoJnj3kQ563rOF1uBzwFrkzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0nf1u9ftAuSnAXKE6PPp/apaLMUpvXdIJXy1VuFBfjx7eUutdDkwnHyrbmU7j7bBD2ApE5DpOejPG0mkFzioVgPd7rWNLvvSsqzv6F2Por2xp6f3BKv3Es3hUY7xOU7ouiBulGJnvfQK7lzNg458iPQTetTmf9w7TcX3RO3EGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NZpk3789; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=PADyIJ9ZuYm5qyXqU/nAxKNmIeBMIJ4rKBA8Cbkk/yp/NXKIRP+7pQ+Q13uMf+Nb8ucaq1onFgRpogUIoBWeV62vz2AiRXMb9fRpX7AvqBlY2VKdWN1yRHRzC9b3G+bvOLpEwgYBa+UVfFFUl4Rbgh4qfDdeEsaTxHF2kG5XPvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKMq41h+; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZpk3789"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKMq41h+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761995266; x=1793531266;
+  t=1761995269; x=1793531269;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
-  b=NZpk3789o/wLw3dYUysQjMDqXJFhInTZ+HfUbLXtyGvliEQr5Uc6ubvS
-   AfJolY9smy25gm5HhQzoquzDwehsef3n/5wOsXLAmBoZJklw9bIyVVHdf
-   8g0BFSnFF9CgMK54JgCN9jvOj20tCz/yY3zzYPpKThKelP1iSS0X+qpqP
-   MnDxPdgSfS/PPxf426vz6S9iTweT+Vb9I6Ndi5A2eOG1/SkFoolpH1GfI
-   89DbSXR1Ju/CYjk/Q8OogHAX1n74+mUlSuR+gkuBvfEXtNoYs1fry5srF
-   MFtEGSWepCbAxRMTRlSI3FGdPMl3mP67RRbigal4Oh66N1Q5XU4p5dag5
+  bh=KiBsSbViKMDxxR1+aLrfoJnj3kQ563rOF1uBzwFrkzk=;
+  b=XKMq41h+J11j00KFGu1bEfjVFnvwvHPd006Tm76GKYtKImv5PRvYtpQL
+   UVPQ7PaK+kgngu+0hXF+OVnWOnGwNonNV3QhwMhIPLa9UIoHbynjoZ3lu
+   on6qOn0zW0z06Q4iNx01b7CgshMzWXMpHVgmYJ6U+7ezOUkamR43oItFD
+   HTLyIMuIPL/Mo4Stj4mJI+muY7pJ+OaDYJL24crbWpxg7VpgY6qtAQCSR
+   mB8pt4BSD3ulS8k5hLPqbXUVbyzveproRpd7fIg/pW3k4UVj1Bss/T0pq
+   7PXDLFHsY+FNW61dV+WOtUvdS01g6/dnzZoaO4NOe9v9dO2idoVekqBKa
    g==;
-X-CSE-ConnectionGUID: OfM8fLdsT0uwunGQenLiRA==
-X-CSE-MsgGUID: EAYNkRI4Tbaof3QPsltpAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75257121"
+X-CSE-ConnectionGUID: yrWV4+8OTruufeJxi1CMBw==
+X-CSE-MsgGUID: kJ3zAvaaSDmYaOGBm552fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="75592506"
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="75257121"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:07:46 -0700
-X-CSE-ConnectionGUID: D9pmvt2aRzub+M8lQn84cw==
-X-CSE-MsgGUID: FpfaqeAFSECmJUUrEqcDeg==
+   d="scan'208";a="75592506"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:07:48 -0700
+X-CSE-ConnectionGUID: 7NZDx6euQNyyDNaldPJczg==
+X-CSE-MsgGUID: 2+Wci7r0R0ir1K52qe1bzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="190789457"
+   d="scan'208";a="185665250"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2025 04:07:39 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2025 04:07:45 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF9SE-000OAS-0o;
-	Sat, 01 Nov 2025 11:07:33 +0000
-Date: Sat, 1 Nov 2025 19:06:56 +0800
+	id 1vF9SL-000OAU-1R;
+	Sat, 01 Nov 2025 11:07:39 +0000
+Date: Sat, 1 Nov 2025 19:06:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+To: Khairul Anuar Romli <khairul.anuar.romli@altera.com>,
+	Dinh Nguyen <dinguyen@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Jason-JH Lin <jason-jh.lin@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	Paul-PL Chen <paul-pl.chen@mediatek.com>,
-	Moudy Ho <moudy.ho@mediatek.com>,
-	Xiandong Wang <xiandong.wang@mediatek.com>,
-	Sirius Wang <sirius.wang@mediatek.com>,
-	Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for
- subsys ID compatibility
-Message-ID: <202511011822.Vn6fsvGr-lkp@intel.com>
-References: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
+	Mahesh Rao <mahesh.rao@altera.com>, devicetree@vger.kernel.org,
+	open list <linux-kernel@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] arm64: dts: intel: Add Agilex5 SVC node with memory
+ region
+Message-ID: <202511011821.wW4mmrec-lkp@intel.com>
+References: <a3182556c07839dcd9227fa6a4a9d295507f3e8e.1761643239.git.khairul.anuar.romli@altera.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,72 +68,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
+In-Reply-To: <a3182556c07839dcd9227fa6a4a9d295507f3e8e.1761643239.git.khairul.anuar.romli@altera.com>
 
-Hi Jason-JH,
+Hi Khairul,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on media-tree/master linus/master v6.18-rc3 next-20251031]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.18-rc3 next-20251031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/soc-mediatek-Use-pkt_write-function-pointer-for-subsys-ID-compatibility/20251101-000555
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20251031160309.1654761-2-jason-jh.lin%40mediatek.com
-patch subject: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
-config: powerpc64-randconfig-r063-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Khairul-Anuar-Romli/arm64-dts-intel-Add-Agilex5-SVC-node-with-memory-region/20251028-183009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/a3182556c07839dcd9227fa6a4a9d295507f3e8e.1761643239.git.khairul.anuar.romli%40altera.com
+patch subject: [PATCH 2/2] arm64: dts: intel: Add Agilex5 SVC node with memory region
+config: arm64-randconfig-002-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011821.wW4mmrec-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011821.wW4mmrec-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011822.Vn6fsvGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011821.wW4mmrec-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/mediatek/mtk-mmsys.c:170:26: error: no member named 'pkt_write_mask' in 'struct cmdq_client_reg'
-     170 |                 ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-         |                       ~~~~~~~~~~~~~~~~ ^
->> drivers/soc/mediatek/mtk-mmsys.c:172:30: error: no member named 'pa_base' in 'struct cmdq_client_reg'
-     172 |                                                       mmsys->cmdq_base.pa_base,
-         |                                                       ~~~~~~~~~~~~~~~~ ^
-   2 errors generated.
---
->> drivers/soc/mediatek/mtk-mutex.c:1002:16: error: no member named 'pkt_write' in 'struct cmdq_client_reg'
-    1002 |         mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-         |         ~~~~~~~~~~~~~ ^
-   1 error generated.
-
-
-vim +170 drivers/soc/mediatek/mtk-mmsys.c
-
-   162	
-   163	static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val,
-   164					  struct cmdq_pkt *cmdq_pkt)
-   165	{
-   166		int ret;
-   167		u32 tmp;
-   168	
-   169		if (mmsys->cmdq_base.size && cmdq_pkt) {
- > 170			ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-   171							      mmsys->cmdq_base.subsys,
- > 172							      mmsys->cmdq_base.pa_base,
-   173							      mmsys->cmdq_base.offset + offset,
-   174							      val, mask);
-   175			if (ret)
-   176				pr_debug("CMDQ unavailable: using CPU write\n");
-   177			else
-   178				return;
-   179		}
-   180		tmp = readl_relaxed(mmsys->regs + offset);
-   181		tmp = (tmp & ~mask) | (val & mask);
-   182		writel_relaxed(tmp, mmsys->regs + offset);
-   183	}
-   184	
+>> ERROR: Input tree has errors, aborting (use -f to force output)
 
 -- 
 0-DAY CI Kernel Test Service
