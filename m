@@ -1,69 +1,62 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3DE279784
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 17:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA187262A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 17:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762017163; cv=none; b=radcm0TV807vcg9500otaW5WmUsxydZ8yb9g8v5ApUqP9uXAK4qbICVbLvwMYnnCfjhsvNVGqonwas4P6+GENapGtMd061f/1au8IpDzcjcRmzOAFiUdxBsgg0Fwcg3z/n2PrzHKalCgrAF6iLpfcmB6p1fGR+pZniRg0Et7Iso=
+	t=1762019379; cv=none; b=fv5z4bbZ99U2SeeXoYIoLiuEWBB7T+v6UJKcpE5gxf/BUmqVBZ/Fl/XUnv22OGrV418kbNiTCyVvh74gKJlBbVUO8iWFyCANIB+s1AeYlTQmVE7nk6QK5S+njTy/Pa2xMVrcymxeeR/iY6OEy4Xhe6Tk65ekkaV/qtWigEaPC/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762017163; c=relaxed/simple;
-	bh=DyINKo0/YhKkpS7w4FALHV7Q/e/QT/TgdizweYFgq2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W38bdSbfr7X1HJjdcH9puslFOXZHOvjnZB5FTEVlmiRWU8WFAenBrH+GB9wFQBx7oZ4z2LI1HW8eI7+9BcsZPWVih51IFKUKHo2qd53FphlTWToD7SKb5ghlqylKWpHK1mhtT133C7WHqE9CgmK1bhgUTYOkm48kdjaOpumpyOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DKQgGa7a; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762019379; c=relaxed/simple;
+	bh=ij1XrhRwLm7shGtODy/du1WAYcGn3j6QGULbLxSBhh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oADz4o0T1GwJWbABM0AYTK7UoS6OnHDXR1aVS7pRdtg3yF7JAuhS4BYSCIG9LCym4qiaXOvCstew+fnAtzaLGBmojtTlIEL316fshKPt4QCy8pIUixRGftxkNIbU9goKNUHZAuCLI7O/bU71BmC5IThT3KUYtp6DcmbF0qGRPMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGHSl59l; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DKQgGa7a"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42421b1514fso1890061f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 01 Nov 2025 10:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762017160; x=1762621960; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
-        b=DKQgGa7aHkis15i2sCq3zz0CRR7Oi9Jjh94Q+flVrQmLVmxyBIznku5NEkv6QTXewe
-         trnTxCZ3AcclYUiEbU5l1QdOYgSbHRDSUaMNj2oS9A1RlWz0oLjBQNnkxISerPg4YZtB
-         ausYKXTZsqVmkwvtG5ElqgIITkhJTtCaAQ7w65GoiDNcktllQjQaCY7SY/SeEaY31jUn
-         TIMRMEyYNVo60s9Qev0UH2XAGuVopTi0AxlPWALNZHLgctR3vABhK5fbIPRD+U8h5DSN
-         XiyBlirREW6W0y9kVxPS/n6mdaJC8K3ZjGKcQT921M7XrXIB/7T5O4lhIM001qycSLX6
-         QwRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762017160; x=1762621960;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lvWsBmCdH58+zYk8ZHfU1SN4734pPMBJNCa1nK1eTy4=;
-        b=fWH4sUKf0eVZVdVXPqYcOZaLD+Y/gJNmUw2bpHNPXGMmHwUGm+VPcNQ+IB8fnsr3Bx
-         YaNJHq+/nNFrrxmVVoQfxJKNZsQnsPF6DjQh4oF1WUKSvv5U9W2m+CKhQLha6a5kzx/7
-         tOyViP/TCp1F/HHPJlaOHjRNVZ+vfXdaPI/CDU1EGyhV5XyPnhQuhguX1sS5bMgDyYV8
-         wInaTz/HHR3rhwqLryttH533iMbX8RX3FK188UsFFJO6XWUKhVPFwsbuhTKX3EyLcg/K
-         QORoWS17C6XTo6CLRoi0MzYJcZvJ56Z0mt3SBUYLr2xPDvobs72llmfJaH0JWLqAHfn5
-         t+rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4+qGufFcxBaTRyxXxWZUDFU6aw8clcWGBrRChgNTpyjUIVCgtWGOCA7/UoGwyRyicShV0meStDlVDujSz@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLm9D9g4tdt6FftK9NBaxAYzN+dlithWcSGq4oD7PnKk6/IHWl
-	gxfR9Ni5t6/TbzZqnz2EitiUBozuaIdUYCvNOKchC0nF2I8BAMDMZ64IcWqyBGAzXy8=
-X-Gm-Gg: ASbGncsyQtlRkNoCaAsMScd+zq90aec71yZEPUMT9dOX7y4aBP1U/1idsN7Y2ZEWsYj
-	JC8Ykaq1foqMca/myOtL8J78aXtluS9+AjxEkf3P+SQyUkFHEEXcGfxBMbY5jUSOLV14c0UkM54
-	yFdUz6NMdJeYRIbcv09D0Pf0/A4wmu6Aq7EVvL7BSru+mnP5UIwkUqZXwJz6/lOcYsVFjYUGAg8
-	1e8fPhx+FzVBGd7Rqm6do2K7iDzU6x/kDDvz1q73rkTWINtniS/dhmSTYkAstfJ6yPdG4D/qdfx
-	p86lxe1fHU+Dnpt9zgDnCpZRSdLQ+DyRRbSZ6k9vEOPtEbr+w37DZpnjClfFso+ZyPvENNDvKzQ
-	fNzIJ4axGtXZcAIDen3sO5jdjnn6s74KpEdyOK5GE720JsPXEIltfQrJPJhBHwfDTK+l3aMdnGC
-	phlOVOvLpKmpnXxC0I
-X-Google-Smtp-Source: AGHT+IFszts67rjuc+tAypA5oGV+Ow5/fn6H7/oMZqJjYkvzSnkBEM/NgpDq4zQAGXmVfaip/KC1yw==
-X-Received: by 2002:a05:6000:1841:b0:425:7e38:419f with SMTP id ffacd0b85a97d-429bd68876cmr6663084f8f.16.1762017159777;
-        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429c1125ad0sm10230829f8f.13.2025.11.01.10.12.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 10:12:39 -0700 (PDT)
-Date: Sat, 1 Nov 2025 20:12:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 9/17] net/vmw_vsock/af_vsock.c:2164
- vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202511011754.hK4vDkZ2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGHSl59l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762019378; x=1793555378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ij1XrhRwLm7shGtODy/du1WAYcGn3j6QGULbLxSBhh4=;
+  b=IGHSl59lzym8cxNWkwHd+Noll82xG1txm9NC56/f5BDbJ1poD57iAJjK
+   82gFy9x/7oY0odRI2HW41D/0Xpqlx0u1jYDK+Td6URBuGFNA+m3nZcTjc
+   EVjFESqPxQH2aC0gVXLS08VPLufn+NcqjqVo4TnS58QKAZMKe/xZK30Pb
+   FRqmn0q47Zbg3QvDW1sfZVLcifDpGp/t8ebUT3LeK/pLnUsm9Wkrj+bNS
+   yg8sm5m2rZdEa7CsN8MLdF2pO3vckk3kD6A1AgazS/a5WFAfxlEX2kPVO
+   anOXUILLfGTuxmsRJz/7LRYTrEwjxoF07s0BO/Y5WotIDuTAqsAly8cgE
+   Q==;
+X-CSE-ConnectionGUID: yXHlPk4nSG6H4Y5BAtkypw==
+X-CSE-MsgGUID: txJCRP/gROihwjVWYJlzxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="75272134"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="75272134"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 10:49:37 -0700
+X-CSE-ConnectionGUID: X6ptYErhTnmJ70iMbDKTVg==
+X-CSE-MsgGUID: 2ob+0bbGSV62bpZuymtMqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="185776408"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 01 Nov 2025 10:49:35 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFFjI-000OXU-12;
+	Sat, 01 Nov 2025 17:49:32 +0000
+Date: Sun, 2 Nov 2025 01:49:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mateusz Guzik <mjguzik@gmail.com>, torvalds@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jack@suse.cz, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, tglx@linutronix.de, pfalcato@suse.de,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH 3/3] fs: hide names_cachep behind runtime access machinery
+Message-ID: <202511020147.47PufBIR-lkp@intel.com>
+References: <20251031174220.43458-4-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,44 +65,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251031174220.43458-4-mjguzik@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   cdc52122313863bdce40a9403e5ccf7ca915fc36
-commit: 49768ad0eb9d67ed71368ca9295185dd000674a1 [9/17] vsock: Add memory sharing support
-config: powerpc-randconfig-r071-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011754.hK4vDkZ2-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
+Hi Mateusz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on arnd-asm-generic/master]
+[also build test WARNING on linus/master brauner-vfs/vfs.all v6.18-rc3 next-20251031]
+[cannot apply to linux/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/x86-fix-access_ok-and-valid_user_address-using-wrong-USER_PTR_MAX-in-modules/20251101-054539
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/20251031174220.43458-4-mjguzik%40gmail.com
+patch subject: [PATCH 3/3] fs: hide names_cachep behind runtime access machinery
+config: i386-randconfig-061-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020147.47PufBIR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020147.47PufBIR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511011754.hK4vDkZ2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511020147.47PufBIR-lkp@intel.com/
 
-smatch warnings:
-net/vmw_vsock/af_vsock.c:2164 vsock_connectible_sendmsg() warn: passing a valid pointer to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+   fs/smb/client/link.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/dir.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/misc.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/cifsfs.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/ioctl.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/inode.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/file.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/readdir.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/namespace.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+--
+   fs/smb/client/smb2ops.c: note: in included file:
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+>> fs/smb/client/cifsproto.h:71:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
+   fs/smb/client/cifsproto.h:77:17: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
 
-vim +/PTR_ERR +2164 net/vmw_vsock/af_vsock.c
+vim +71 fs/smb/client/cifsproto.h
 
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2156  					/* Token used previously ? */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2157  					if (old)
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2158  						fput(old);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2159  				} else {
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2160  					/* The fd must belong to a dma-buf */
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2161  					struct dma_buf *dbuf = dma_buf_get(fd);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2162  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2163  					if (IS_ERR(dbuf) || !dbuf->ops->shmem) {
-49768ad0eb9d67 Viresh Kumar       2025-10-15 @2164  						err = PTR_ERR(dbuf);
-
-Imagine dbuf->ops->shmem is NULL, then dbug would be a valid pointer
-so we can't pass it to PTR_ERR().
-
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2165  						goto out;
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2166  					}
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2167  
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2168  					err = dbuf->ops->shmem(dbuf, &desc);
-49768ad0eb9d67 Viresh Kumar       2025-10-15  2169  					if (err)
+b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  48  
+6d5786a34d98bf fs/cifs/cifsproto.h Pavel Shilovsky    2012-06-20  49  #define free_xid(curr_xid)						\
+b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  50  do {									\
+6d5786a34d98bf fs/cifs/cifsproto.h Pavel Shilovsky    2012-06-20  51  	_free_xid(curr_xid);						\
+a0a3036b81f1f6 fs/cifs/cifsproto.h Joe Perches        2020-04-14  52  	cifs_dbg(FYI, "VFS: leaving %s (xid = %u) rc = %d\n",		\
+b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  53  		 __func__, curr_xid, (int)rc);				\
+d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  54  	if (rc)								\
+d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  55  		trace_smb3_exit_err(curr_xid, __func__, (int)rc);	\
+d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  56  	else								\
+d683bcd3e5d157 fs/cifs/cifsproto.h Steve French       2018-05-19  57  		trace_smb3_exit_done(curr_xid, __func__);		\
+b6b38f704a8193 fs/cifs/cifsproto.h Joe Perches        2010-04-21  58  } while (0)
+4d79dba0e00749 fs/cifs/cifsproto.h Shirish Pargaonkar 2011-04-27  59  extern int init_cifs_idmap(void);
+4d79dba0e00749 fs/cifs/cifsproto.h Shirish Pargaonkar 2011-04-27  60  extern void exit_cifs_idmap(void);
+b74cb9a80268be fs/cifs/cifsproto.h Sachin Prabhu      2016-05-17  61  extern int init_cifs_spnego(void);
+b74cb9a80268be fs/cifs/cifsproto.h Sachin Prabhu      2016-05-17  62  extern void exit_cifs_spnego(void);
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  63  extern const char *build_path_from_dentry(struct dentry *, void *);
+7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  64  char *__build_path_from_dentry_optional_prefix(struct dentry *direntry, void *page,
+7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  65  					       const char *tree, int tree_len,
+7ad54b98fc1f14 fs/cifs/cifsproto.h Paulo Alcantara    2022-12-18  66  					       bool prefix);
+268a635d414df4 fs/cifs/cifsproto.h Aurelien Aptel     2017-02-13  67  extern char *build_path_from_dentry_optional_prefix(struct dentry *direntry,
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  68  						    void *page, bool prefix);
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  69  static inline void *alloc_dentry_path(void)
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  70  {
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05 @71  	return __getname();
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  72  }
+f6a9bc336b600e fs/cifs/cifsproto.h Al Viro            2021-03-05  73  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
