@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18ECC248883
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 16:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B757F272801
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 16:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762014409; cv=none; b=Qg1o61qtHLqTZHkE27OkQz9MFJ0aYmZrmk1TzA+mbkgtSuFpA3bs03fdWlAtJMoNRbq2Dy+n5nnXLBOXlqejRse11Exxx14UgKIqgRWEv3/pnsOHAGNBGJnGINLWJ16lKetvb55ibvIf7hCv42Ct2oR/pKJ04/0wchPgCo0qpi4=
+	t=1762015675; cv=none; b=rk5yAlmCCOgAB3soPtNtVocfFVCWXhJpApf20S7tpZ94dXRgAjbMmp2x9L1836VcNWZWiGVmEvbX3fxPsC9glBUu8469l7nrythhYJmE8zdk5F9k9T50OySE57tD9mQY7ctmsuURKbkubEdmxYmqJfY380ACXGykqgPn8QQOAIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762014409; c=relaxed/simple;
-	bh=LbTS5vdDEMlW/mplJsre4KeS5Vs1/FS7/QL071Ph3tQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q1pV4EBoThj+ArLlHJGJVnB3YpLOz9EDWAQ8I7izWHSl1LTieF5vU4yxI7DZVqIGncyY+SoNZ2TrHIxBNy27BqJwtgQfYV1FR47p3j/u0RJYO4dWOUcn21eUu5d8QnuaVY6KLBcxAzQRJiRNfisf0tb0OKBl9+XUlyrUY3k96u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7KidnX8; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1762015675; c=relaxed/simple;
+	bh=2JA3/pyOEJRoJKbtq2dkKOY3RxkugIr7VcA1s2DPoRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g1KmBVK+xXrWrE4ROqi8T7wL7KnCgph2XdsuXx53mIGYkSpYY0d/X5rVe0QGRCmDULCt9pNUB4B/0GGlqnrn2KWHwvNHDvbshRc2eIqkWYzzWwnlfbRcGVPHnDkARVhBLDo7rp8eQGRxiBq2p3zoN0Ezb1tCDIkTJNsKXPt+Q2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVczD+W7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7KidnX8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVczD+W7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762014408; x=1793550408;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LbTS5vdDEMlW/mplJsre4KeS5Vs1/FS7/QL071Ph3tQ=;
-  b=P7KidnX8VlYbIGf9P7CEuFLq8lE+W2Ccm5rHGVS4BWXhMvZG10YyDtKU
-   8faeqHgdMS28Hh19I3D1yyGa2ERZJuWkXDnFuursbUHeA7cdiAHupEFBU
-   GEzj+h2ckTxVKBo4HlJIXwhulRYB8tvQU36FEbhcaJ9KbRYQAbYGnEIiJ
-   ueEdpLZJ0IqQXprLyybS9ucjIFX14f3gln6plBpmo3H6zusHc37uQtjZs
-   HtC2ygwu6Y95aFL7RPuxuNdG+9HfS4Nv99X/CpaLs+PaMwFI6IaFBJQiR
-   VBIzWq9WCroEYMKFQisDqa584fztKJzj6OAf5B4tT9A/D84TC5HxUSVzk
-   w==;
-X-CSE-ConnectionGUID: Raqb1k3RQ3m7eVPk0VN3AQ==
-X-CSE-MsgGUID: YDvZIxBRTcCwqm/Ucy8REw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="74447211"
+  t=1762015671; x=1793551671;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2JA3/pyOEJRoJKbtq2dkKOY3RxkugIr7VcA1s2DPoRk=;
+  b=GVczD+W7EQAjZyaSi49lWdPFb3MHOhbg9aFW97ECaTdTSq45ZOZo5WVy
+   b6HCnEdJoUaA+AGEGOPaacGqULv0zdrVW8PkOP/cgDsYLZ0+yMOz9xQ2I
+   cwHUADlmnAtfcSRLX7UexNoOzftYPLhlASU833vTa+Xdaao2riQ7Vac92
+   JNG0nzamie4re/8jns0hiXyCnTmEZIHcluMHqQy12Foy7wPsT8Pdgc+vD
+   arRBA2P6suaTrfh4q0wEionI3VN/C3+YSn6L6W1KS3Wcdw7cTUF+7dkYl
+   fILnAiAGBcKFrDe4H2Aiol4sd720WBB2ur5ZyNMBo3L702nGKbG5OGmyb
+   g==;
+X-CSE-ConnectionGUID: AexaEujtRCiemLDv9McfPg==
+X-CSE-MsgGUID: nY+gc/OKQ+CAOMzgdRJMOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="64305232"
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="74447211"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 09:26:47 -0700
-X-CSE-ConnectionGUID: jgtXkozeSnyPeHK3bz/SEA==
-X-CSE-MsgGUID: chY1btWiTxGTiqzguQB6sA==
+   d="scan'208";a="64305232"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 09:47:51 -0700
+X-CSE-ConnectionGUID: Q5pvKuygRVqy/pZ5gSViiA==
+X-CSE-MsgGUID: +iryDN8bT4iGfRJNQzQ/TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
-   d="scan'208";a="186440363"
+   d="scan'208";a="186943220"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 09:26:45 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 01 Nov 2025 09:47:50 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFER8-000OT6-2N;
-	Sat, 01 Nov 2025 16:26:42 +0000
-Date: Sun, 2 Nov 2025 00:25:49 +0800
+	id 1vFElY-000OUa-0V;
+	Sat, 01 Nov 2025 16:47:48 +0000
+Date: Sun, 2 Nov 2025 00:46:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Caleb James DeLisle <cjd@cjdns.fr>, nbd@nbd.name, lorenzo@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ryder.lee@mediatek.com,
-	shayne.chen@mediatek.com, sean.wang@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Caleb James DeLisle <cjd@cjdns.fr>
-Subject: Re: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big
- Endian
-Message-ID: <202511020028.smeiQhNk-lkp@intel.com>
-References: <20251027171759.1484844-1-cjd@cjdns.fr>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 16/16] mm/memcg_zombie_reaper.c:47:6:
+ warning: no previous prototype for function 'memcg_reap_background_set'
+Message-ID: <202511020015.h3Kq9WCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,53 +61,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027171759.1484844-1-cjd@cjdns.fr>
 
-Hi Caleb,
+Hi Xu,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.18-rc3 next-20251031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Caleb-James-DeLisle/wifi-mt76-mmio_-read-write-_copy-byte-swap-when-on-Big-Endian/20251028-012349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20251027171759.1484844-1-cjd%40cjdns.fr
-patch subject: [PATCH] wifi: mt76: mmio_(read|write)_copy byte swap when on Big Endian
-config: loongarch-randconfig-r111-20251101 (https://download.01.org/0day-ci/archive/20251102/202511020028.smeiQhNk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020028.smeiQhNk-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   7103f9d5c75b142fc88eb149bc55d2e8c8ed76f3
+commit: 33bbe281782b11cc34512292d2957e86a0b2cc21 [16/16] ck: mm, memcg: introduce per memcg switch to reap zombie background
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251102/202511020015.h3Kq9WCG-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020015.h3Kq9WCG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511020028.smeiQhNk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511020015.h3Kq9WCG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: cast from restricted __le32
->> drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     expected unsigned int [usertype] value
-   drivers/net/wireless/mediatek/mt76/mmio.c:41:24: sparse:     got restricted __le32 [usertype]
-   drivers/net/wireless/mediatek/mt76/mmio.c:63:23: sparse: sparse: cast to restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +41 drivers/net/wireless/mediatek/mt76/mmio.c
+>> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function 'memcg_reap_background_set' [-Wmissing-prototypes]
+      47 | void memcg_reap_background_set(void)
+         |      ^
+   mm/memcg_zombie_reaper.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      47 | void memcg_reap_background_set(void)
+         | ^
+         | static 
+>> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for function 'memcg_reap_background_clear' [-Wmissing-prototypes]
+      53 | void memcg_reap_background_clear(void)
+         |      ^
+   mm/memcg_zombie_reaper.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      53 | void memcg_reap_background_clear(void)
+         | ^
+         | static 
+   2 warnings generated.
 
-    32	
-    33	static void mt76_mmio_write_copy_portable(void __iomem *dst,
-    34						  const u8 *src, int len)
-    35	{
-    36		__le32 val;
-    37		int i = 0;
-    38	
-    39		for (i = 0; i < ALIGN(len, 4); i += 4) {
-    40			memcpy(&val, src + i, sizeof(val));
-  > 41			writel(cpu_to_le32(val), dst + i);
-    42		}
-    43	}
-    44	
+
+vim +/memcg_reap_background_set +47 mm/memcg_zombie_reaper.c
+
+    46	
+  > 47	void memcg_reap_background_set(void)
+    48	{
+    49		reaper_kthread_on |= REAP_BACKGROUND_MEMCG;
+    50		wake_up_interruptible(&reaper_waitq);
+    51	}
+    52	
+  > 53	void memcg_reap_background_clear(void)
+    54	{
+    55		reaper_kthread_on &= ~REAP_BACKGROUND_MEMCG;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
