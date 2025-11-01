@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E65212FB3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 03:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B7119A288
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Nov 2025 03:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761966669; cv=none; b=ICW4q4qcjGRbiPekEM/XX+pBUcj/JgL3NrWYOMeB54IkFIBaM4EyILKOyah9+HqJZbWKW4vV65Phh1d+nj7lrE97RRM4CYcZYBBH1AjVh/QcJT/W9OprG2vFeM9fnNrVZItgbjJ+BCWs8bg8NFotONRaJzi+kHx4T60KoUgglS0=
+	t=1761967330; cv=none; b=ZjAV9FZU4mmDiSP5HqiYRaO+hFwqh5a0Owpnyq1rO8MTDTIktYJDLVqtVysDttT+cr8HFnHekie6fByZcxtPby7THBtz4X7xQlSk0RWiTpF89yaFxTwXcWhuJkkAafHBPYm3Dill5HPIyBS5FL2C/bJEWUjeMqpXaqDyMiaPWiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761966669; c=relaxed/simple;
-	bh=1YkcQ0m28KfXU8yKa17AIENigRMr9vhaGywWj4P+SUI=;
+	s=arc-20240116; t=1761967330; c=relaxed/simple;
+	bh=0OjzV+rJma39By1dt/hotizjdgpDJDA26kH6OIQLX9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mnJ3RTXvGQImL/Ne8bLmb4MUv2JVGokTnQfXHywBVxxvFdrHhS7UOnY5aYHFiF3H+JGNx+SSqjb8+z41YqfoA5G87+R/8xp1c4afpslDNuJ5+ZlYGkjwND6AhkTZEiWUJSwzKYpAFqzCHEBRM7hiuWvf9D6kRSQj6CZBoTwooQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdOU6YFh; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=EDoCG/+nwQ97DViI6cttYeHYryCyG3DxVAQNs9K/SOZpBRveHHHZfhCzzVlmShd67H3iD5xUY6niKN3YnbwTtn16/+aScnzXsw6m76X+Vde+jmjbAg1W8ugce+8jovslYi5IbMnFYyZPuxmOz4l923ovYiHNWhPEodFZPijvs4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A84JVKu1; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdOU6YFh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A84JVKu1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761966668; x=1793502668;
+  t=1761967328; x=1793503328;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1YkcQ0m28KfXU8yKa17AIENigRMr9vhaGywWj4P+SUI=;
-  b=FdOU6YFhG/TCL2bsuvY+fCIlcvor8bb81LONwmdavN23SPR0YI4XJD89
-   n+a5TYpzoK2kjsNwsaKDClLplxZkzZ8BXJJvV+3FNuhLRBHCRJ+N17sqy
-   WT/DbdH0zLp5ScB16tyWv4qKfl4nTooXxPLOVZkkAvc0xi50Ba2SY3bwT
-   ir/dE4RA5g/q2r4e/J+ziFdwH+liqATl0LrHHU6UCbopSHgirUEKXmmwD
-   W8mlEdozYMPhZzLjNYOyD8BlArEewJTecIrJxItAZnmIVx/+4DByDkTK0
-   wG/rTV9zTI+891xaEi1w98vAycGVWBCg9ka5KkJ8t6Jkbj5XHsc/hgnD1
-   g==;
-X-CSE-ConnectionGUID: 73icKv3rSx64XPWzpwdTSA==
-X-CSE-MsgGUID: Wi3e65w1Sv+fYAEw/PjmDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="64019467"
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="64019467"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 20:11:07 -0700
-X-CSE-ConnectionGUID: xAriNW3iRam92oygKaMKYA==
-X-CSE-MsgGUID: 3+fL2gq5SIKOwpJS9qEZng==
+  bh=0OjzV+rJma39By1dt/hotizjdgpDJDA26kH6OIQLX9Q=;
+  b=A84JVKu1exdcFjHEehfhQWOswsLDXFG+rShjkLUczxKDG0VFIrA/wKrE
+   uZkzrAIWcHK9QUYr1wJeq2LjWCEyP6BCix7+9+mr9dzSY3mgxAd3xwhe7
+   CwKp0auh69wFVOrRHeiG+5W3W2kmQNx1fZmQHSwP474pTpEYWln5sKXkx
+   Zz0imtz9inAkMlPciMOFI4FnP1+yffCVnIIQQSPV7AcrQCXWC+BOjU1br
+   8dpKKfwY72axJMrt998MAR/HIS/retvTBF7aYCyPNUuZBKnjnY/hwNGiT
+   ENXmPf3QVLCTGf5jbJFgpwK3ImFiqYLWf1pSWt7LzOrPJRrPBZ75yG9zy
+   w==;
+X-CSE-ConnectionGUID: aVYy6nBkSzeLxpD1TV+sxQ==
+X-CSE-MsgGUID: zkJyz6MJSCiYaKCgCvXzOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67967675"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="67967675"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2025 20:22:08 -0700
+X-CSE-ConnectionGUID: jlg+YDGFS0OmhBXvoQieAQ==
+X-CSE-MsgGUID: 2yn5GpwZTsWradccKAQ2NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="186070517"
+   d="scan'208";a="186261660"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2025 20:11:06 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2025 20:22:06 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF219-000NtA-33;
-	Sat, 01 Nov 2025 03:11:03 +0000
-Date: Sat, 1 Nov 2025 11:10:26 +0800
+	id 1vF2Bo-000NtS-1p;
+	Sat, 01 Nov 2025 03:22:04 +0000
+Date: Sat, 1 Nov 2025 11:21:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 1/1] mm/vmscan.c:2623:15:
- warning: no previous prototype for 'shrink_inactive_list'
-Message-ID: <202511011113.J3xWzLoJ-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202511011126.rb1fMBjX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,144 +63,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi xiaofeng,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   6c83110eac0d50e1fe011bfd12ad989ab612efc8
-commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251101/202511011113.J3xWzLoJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011113.J3xWzLoJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ba36dd5ee6fd4643ebbf6ee6eefcecf0b07e35c7
+commit: 506aa8b02a8d6898c64cc095d233fbae1cef8b8a dma-fence: Add safe access helpers and document the rules
+date:   5 months ago
+config: sh-randconfig-r121-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011126.rb1fMBjX-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011126.rb1fMBjX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011113.J3xWzLoJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011126.rb1fMBjX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence.c:1112:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_fence.h):
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
 
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^~~~~~~~~~~~~~~~~~~~
+vim +12 include/trace/events/dma_fence.h
 
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  11  
+f54d1867005c332 include/trace/events/dma_fence.h Chris Wilson            2016-10-25 @12  DECLARE_EVENT_CLASS(dma_fence,
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  13  
+f54d1867005c332 include/trace/events/dma_fence.h Chris Wilson            2016-10-25  14  	TP_PROTO(struct dma_fence *fence),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  15  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  16  	TP_ARGS(fence),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  17  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  18  	TP_STRUCT__entry(
+ecec875a6c33790 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  19  		__string(driver, dma_fence_driver_name(fence))
+ecec875a6c33790 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  20  		__string(timeline, dma_fence_timeline_name(fence))
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  21  		__field(unsigned int, context)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  22  		__field(unsigned int, seqno)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  23  	),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  24  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  25  	TP_fast_assign(
+2c92ca849fcc6ee include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  26) 		__assign_str(driver);
+2c92ca849fcc6ee include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  27) 		__assign_str(timeline);
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  28  		__entry->context = fence->context;
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  29  		__entry->seqno = fence->seqno;
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  30  	),
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  31  
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  32  	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  33  		  __get_str(driver), __get_str(timeline), __entry->context,
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  34  		  __entry->seqno)
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  35  );
+e941759c74a44d6 include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  36  
 
-vim +/shrink_inactive_list +2623 mm/vmscan.c
+:::::: The code at line 12 was first introduced by commit
+:::::: f54d1867005c3323f5d8ad83eed823e84226c429 dma-buf: Rename struct fence to dma_fence
 
-  2618	
-  2619	/*
-  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
-  2621	 * of reclaimed pages
-  2622	 */
-> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-  2624			struct lruvec *lruvec, struct scan_control *sc,
-  2625			enum lru_list lru)
-  2626	{
-  2627		LIST_HEAD(folio_list);
-  2628		unsigned long nr_scanned;
-  2629		unsigned int nr_reclaimed = 0;
-  2630		unsigned long nr_taken;
-  2631		struct reclaim_stat stat;
-  2632		bool file = is_file_lru(lru);
-  2633		enum vm_event_item item;
-  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2635		bool stalled = false;
-  2636	
-  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
-  2638			if (stalled)
-  2639				return 0;
-  2640	
-  2641			/* wait a bit for the reclaimer. */
-  2642			stalled = true;
-  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
-  2644	
-  2645			/* We are about to die and free our memory. Return now. */
-  2646			if (fatal_signal_pending(current))
-  2647				return SWAP_CLUSTER_MAX;
-  2648		}
-  2649	
-  2650		lru_add_drain();
-  2651	
-  2652		spin_lock_irq(&lruvec->lru_lock);
-  2653	
-  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
-  2655					     &nr_scanned, sc, lru);
-  2656	
-  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
-  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
-  2659		if (!cgroup_reclaim(sc))
-  2660			__count_vm_events(item, nr_scanned);
-  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
-  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
-  2663	
-  2664		spin_unlock_irq(&lruvec->lru_lock);
-  2665	
-  2666		if (nr_taken == 0)
-  2667			return 0;
-  2668	
-  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
-  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
-  2671	
-  2672		spin_lock_irq(&lruvec->lru_lock);
-  2673		move_folios_to_lru(lruvec, &folio_list);
-  2674	
-  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
-  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
-  2677		if (!cgroup_reclaim(sc))
-  2678			__count_vm_events(item, nr_reclaimed);
-  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
-  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
-  2681		spin_unlock_irq(&lruvec->lru_lock);
-  2682	
-  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
-  2684		mem_cgroup_uncharge_list(&folio_list);
-  2685		free_unref_page_list(&folio_list);
-  2686	
-  2687		/*
-  2688		 * If dirty folios are scanned that are not queued for IO, it
-  2689		 * implies that flushers are not doing their job. This can
-  2690		 * happen when memory pressure pushes dirty folios to the end of
-  2691		 * the LRU before the dirty limits are breached and the dirty
-  2692		 * data has expired. It can also happen when the proportion of
-  2693		 * dirty folios grows not through writes but through memory
-  2694		 * pressure reclaiming all the clean cache. And in some cases,
-  2695		 * the flushers simply cannot keep up with the allocation
-  2696		 * rate. Nudge the flusher threads in case they are asleep.
-  2697		 */
-  2698		if (stat.nr_unqueued_dirty == nr_taken) {
-  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
-  2700			/*
-  2701			 * For cgroupv1 dirty throttling is achieved by waking up
-  2702			 * the kernel flusher here and later waiting on folios
-  2703			 * which are in writeback to finish (see shrink_folio_list()).
-  2704			 *
-  2705			 * Flusher may not be able to issue writeback quickly
-  2706			 * enough for cgroupv1 writeback throttling to work
-  2707			 * on a large system.
-  2708			 */
-  2709			if (!writeback_throttling_sane(sc))
-  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
-  2711		}
-  2712	
-  2713		sc->nr.dirty += stat.nr_dirty;
-  2714		sc->nr.congested += stat.nr_congested;
-  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
-  2716		sc->nr.writeback += stat.nr_writeback;
-  2717		sc->nr.immediate += stat.nr_immediate;
-  2718		sc->nr.taken += nr_taken;
-  2719		if (file)
-  2720			sc->nr.file_taken += nr_taken;
-  2721	
-  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
-  2724		return nr_reclaimed;
-  2725	}
-  2726	EXPORT_SYMBOL(shrink_inactive_list);
-  2727	
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
