@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD6C34D3BE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 23:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2F534D3BE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 23:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762127366; cv=none; b=uieLx45t490JHFc0GfWjhwxOsfP+etueAokS+FtLJazct9CdUFhZm0kYgirYKYAHyphBkf2LmEUUBBrYy/1jd+U+NODezc76qpzZvv0KBHvsoggJpEBGTgsvMreAN5sry3uoyGDuIIqc11aic+1Xd5M3Gno8KXdwcvc/Cm8mo5Y=
+	t=1762127427; cv=none; b=mN4QoYy07PBNvVLN9NJpu010/F4l8fNeWElSZWq+9G6lrHAxcH+XfmBPAooNaAWZ9aVAF7FVRm69SxJLR5neIV9b4jZSzzjh3l4SvpqQlkuxIzC385UKwkZk5JCCl7ni1MJQc3xqhMF9jPcM46jLyqq29f3oFr32MSvJ2zho21M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762127366; c=relaxed/simple;
-	bh=IT/ndUR6wbjNO1ZCincGMuqhjNahedVZzv/nwY/ztIc=;
+	s=arc-20240116; t=1762127427; c=relaxed/simple;
+	bh=GttTkmdbCZ5J7TUOaftMWvx66MrDZMk5fddJer1mQTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=alOMh1Un2XRjpRGDLOYjtWPAF7/sZtnXT9Bm5r0xJmom1+fSFT3pBh/bPDlf4Keh61WcZL923Thkrpzfx8UPaxmRvfVeuOpzqKA4prhmsdsPesweP//c39rQEOtjPC8jjtJbfHSWWZ8EzYQfhOJe1by0llT9ucGgyRkr2fGfhRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FiWWT4G7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=qE8rEgtbmJ5Y1riGW3JUUQK3Z/4iyyxkjoxm8v9cTx1qBTRxHOsCX1Vd3idSs7TXhN4272tKqblHX8p9rzjM6x7uEPcKXhuFbDNePtB7ZIJDwC4pb+SDThG/tmfLemlPnRSol3yXJu+Qiplu37tUoXNm3NAZkLAM+dTKavzCTnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROkwGabf; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FiWWT4G7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROkwGabf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762127365; x=1793663365;
+  t=1762127425; x=1793663425;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IT/ndUR6wbjNO1ZCincGMuqhjNahedVZzv/nwY/ztIc=;
-  b=FiWWT4G7kLLbvcY9qrQemKaSOUIs1JvRnUaz8D6XOcu5YRPBkJWdGsEj
-   Ga2OdlIORfX6CSdIx1F73hq0sGeBKkw1ufltem2NSwwbwcSZ+MGPaf8Pt
-   qH6f5Wlyu1B+q/+7YqVQwtfpvkhAY9Rw1bXaen6oMh//80Vgk9EKutecf
-   MI+1LQKQXX1149m3o7gdVBBnnJsVtBeaZzgYZdhdzAOnrKv8RYp5pNBn5
-   gv/bknUqnjCE4HbzTvtZJLO0gIhRMz40zM8VJ79IQZsA705DMz/dT+Y/s
-   f2LwR4RnP4L1Edy0qPUqHt8i8NQKyivgK8iSvrHhEJRlmQIUK8KXkEDXi
-   g==;
-X-CSE-ConnectionGUID: ndeAEFVWTgKTsDeSBy4S0g==
-X-CSE-MsgGUID: F21XAm+EQg68MO4yvlEY6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68042395"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68042395"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 15:49:24 -0800
-X-CSE-ConnectionGUID: VUFmSe/yRdCJDFOk6a3/Jw==
-X-CSE-MsgGUID: lHdKGijEQ5SSrQLIee2Ftw==
+  bh=GttTkmdbCZ5J7TUOaftMWvx66MrDZMk5fddJer1mQTQ=;
+  b=ROkwGabfIFBeXapSS9ffMqmCXRHAuTTKjFcW6CbpuLJTJLmKypJNMkNm
+   wIoWxTw3u85AK1HEDsiaGFXkyY+7w0Kol42feUqlUPzxPUZijBlTHRxmd
+   QoXHSq849qWJBVzU3aMJxk6Samqy3mOVxf3PFJgb7v8K+d6wKm0Wnq6vh
+   +cDG9FQBtOMGce6ZeXGgs9iJj4v102LYhHLdKO5FDN/dQ/bfV9cr4xZAz
+   LhpKdRF0spxsLwHK3+enp2Tw+xjx90OYSA1SHhmUlRCx6LzbgqRkHTVrJ
+   wwPGE/6ofZEbHIpi1+Rn/+cxznwHc5ma1V7SIdmlbG1Ok5NaVtyAaikLT
+   Q==;
+X-CSE-ConnectionGUID: 9xIo56HdSQmkNeZ6LkG0+w==
+X-CSE-MsgGUID: hIE26ym8TM6/Dpw33sOVrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="81831096"
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
+   d="scan'208";a="81831096"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 15:50:24 -0800
+X-CSE-ConnectionGUID: hsBKMgEIQxO62rhhWJ/+yA==
+X-CSE-MsgGUID: 6NIL292aQdqBa2zEyPUMFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="187171387"
+   d="scan'208";a="186678790"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2025 15:49:23 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Nov 2025 15:50:23 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFho0-000Peq-2x;
-	Sun, 02 Nov 2025 23:48:54 +0000
-Date: Mon, 3 Nov 2025 07:47:55 +0800
+	id 1vFhq0-000Pez-3D;
+	Sun, 02 Nov 2025 23:50:20 +0000
+Date: Mon, 3 Nov 2025 07:48:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikita Kalyazin <kalyazin@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@redhat.com>
-Subject: [david:guestmemfd-preview 21/22]
- arch/x86/kvm/../../../virt/kvm/guest_memfd.c:491:10: sparse: sparse:
- Initializer entry defined twice
-Message-ID: <202511030736.k9s66rKL-lkp@intel.com>
+To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3083/3083] mm/memcontrol.c:4061:5: sparse:
+ sparse: symbol 'sysctl_memcg_oom_prio' was not declared. Should it be
+ static?
+Message-ID: <202511030753.dgyTecoe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/david/linux.git guestmemfd-preview
-head:   dc9e22d99bb7c8b1ecaf526dfa5b6452f50ee982
-commit: 67723794142d332a8dc8ed6a8b5348b97703979f [21/22] KVM: guest_memfd: add generic population via write
-config: x86_64-randconfig-122-20251102 (https://download.01.org/0day-ci/archive/20251103/202511030736.k9s66rKL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030736.k9s66rKL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5394cae209c4a4990d81be436ba17ae56fb09d16
+commit: 44391f3171b05060096ff496f3507033f2460161 [3083/3083] memcg: Add sysctl memcg_qos_enable
+config: x86_64-randconfig-123-20251103 (https://download.01.org/0day-ci/archive/20251103/202511030753.dgyTecoe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030753.dgyTecoe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030736.k9s66rKL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030753.dgyTecoe-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:192:17: sparse: sparse: context imbalance in '__kvm_gmem_invalidate_begin' - different lock contexts for basic block
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:491:10: sparse: sparse: Initializer entry defined twice
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:492:10: sparse:   also defined here
+>> mm/memcontrol.c:4061:5: sparse: sparse: symbol 'sysctl_memcg_oom_prio' was not declared. Should it be static?
+   mm/memcontrol.c:4223:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/memcontrol.c:4223:50: sparse:     expected void *
+   mm/memcontrol.c:4223:50: sparse:     got void [noderef] __user *buffer
+   mm/memcontrol.c:4245:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/memcontrol.c:4245:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/memcontrol.c:4245:35: sparse:     got int ( * )( ... )
+   mm/memcontrol.c:4504:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4504:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4504:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4506:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4506:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4506:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4662:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4662:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4662:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4756:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4756:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4756:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:6799:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:6799:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:6799:23: sparse:    struct task_struct *
+   mm/memcontrol.c:7016:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:7016:52: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:7016:52: sparse:    struct task_struct *
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
+   mm/memcontrol.c:2134:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol.c:2181:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol.c:6659:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   mm/memcontrol.c:6927:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
-vim +491 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
+vim +/sysctl_memcg_oom_prio +4061 mm/memcontrol.c
 
-   487	
-   488	static struct file_operations kvm_gmem_fops = {
-   489		.mmap		= kvm_gmem_mmap,
-   490		.write_iter     = generic_perform_write,
- > 491		.open		= generic_file_open,
-   492		.open		= generic_file_open,
-   493		.release	= kvm_gmem_release,
-   494		.fallocate	= kvm_gmem_fallocate,
-   495	};
-   496	
+  4057	
+  4058	#ifdef CONFIG_MEMCG_OOM_PRIORITY
+  4059	#define ENABLE_MEMCG_OOM_PROIRITY	1
+  4060	#define DISABLE_MEMCG_OOM_PROIRITY	0
+> 4061	int sysctl_memcg_oom_prio = DISABLE_MEMCG_OOM_PROIRITY;
+  4062	
 
 -- 
 0-DAY CI Kernel Test Service
