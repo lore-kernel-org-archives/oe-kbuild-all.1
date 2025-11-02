@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5471514DC
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 16:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653141DC198
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 16:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762101810; cv=none; b=H7TMR5F5KtijvgWUvm4xIieb3X+uonETWzrkT8YZxz0eAZ9uOTmTcgdn+mXInVXSVR2ao7ZPPjE8L7I8g+qBLUkd8AZ3GTQp7jq2YFXpZa+TzUQ4UiX/fZov1zJ+oDsYjzv8Lcgoyt/V16ris51zTbr+x03y58Xsf5ETyXkdeRs=
+	t=1762101810; cv=none; b=oHImlgoxNgcXXUltpaJ5/PQpu1ltAH9+A7hYYyg2HrdeepaAHcqnhmQb0Arco4gaIoSS0nJKs2EDbp1qTwWIoV1yK6ap10YCn42doEA/eK6kMMqZZgAAoV2yaW1Pn/jg1BV/FIAzVH8pJMjvVozu6P8NJiR/8rfwoBkYtHUTVY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762101810; c=relaxed/simple;
-	bh=3p3sP5Xc/dABlYCa30oygHjf7aTVRfhkm8yNCR7181A=;
+	bh=eRQr/VRd9ouC+ynzQsRP6GqDWYplFUllMu+6jFjshSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bkejCysF98mKQZOVD7lD/ujy9VAqCY992nQK1CNM07mjHd0yr3EtgnSEr6q0NVKh21Smp3QN7ZvXdWkuzv14qYmDADgHC9b0EOk2p2HupDNrcQk2MbzSlOmg4WlmqCKDrIGNncwhdGRzkp4uaDWXVjbZwn9EYbtFnHrZ8MQLBLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZSdigaB; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=SfsZ/h1GDI/nTe7DOcj+7dF6vVsI8WPb87P7qUtCEL4LfV3SN7JE27so/sght2Zz7nH+0tAXMRDrjWN4EAFjjyyglVtuwmjFskwGvySK6xVPyCJSs8xl2ucf1j73Ui+xLtYOA+jLOlb8Izc//Xo3cwE35uF3QE3DQi08zxV+aDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0HPAHO/; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZSdigaB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0HPAHO/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762101808; x=1793637808;
+  t=1762101810; x=1793637810;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3p3sP5Xc/dABlYCa30oygHjf7aTVRfhkm8yNCR7181A=;
-  b=CZSdigaBe0u07bQ4AE6zpbulfrCqJJma2+ty8OnbDa29txEFHPdgTG6M
-   T0gfW2VKKrcPeSVMkvCAWu7seL8w2nkLFldhzynPdOuVnWZ9RLHxvykT5
-   UOBGL66Kj1GhMQQbf0mIKHDcOqtcSO5nbTdIJrYCn9JnC4MK3AZJSpVCV
-   +mAulgZY6b2SpNYnW91OyxrErYbTwTNMiDPNa0AdRRmFpsjpeGvEGf1nH
-   KTEW6hMTt6O0eX1nW1q2RXx8Z1VWV7eoxTBP4/pG6PJeUVJNtUZBCbuo9
-   Aa/s85U75qfMwOd2sYr91eVttWG0c0zvec8hISvvwcFYB1/u/AH7xmWJs
+  bh=eRQr/VRd9ouC+ynzQsRP6GqDWYplFUllMu+6jFjshSg=;
+  b=G0HPAHO/mgUzKm3lwd4jBuSmzqQAUx/NhcZvHrtfbfZCdwcY9ApXk93E
+   hRD+vvn8Cv0dWuJnKTUXqzczPYdfU4mFRvdfSFjjsbhEmxM8M6L4qTxBb
+   +eO3YmwLm5OsxL/bj+QQb/6qYbvLnmrtPE8JIKkYPbpmlajAoODZRvpsI
+   FCG7y9pvbDMTouG26JsGvnciLyNJO0mBNaWcQNYlnS5zWoHRccsspP4Em
+   Ngdx+BU3HiBxAI+GlNXUsN0yCVMqkCpkB7XKERaKKuTNxRcc3bjGsvCe5
+   pwH8VDWUn/eEikU5aQUQg77cdv5pPDLpzZFREsHUI7CvF34ihS1DH3o4P
    A==;
-X-CSE-ConnectionGUID: JbYmJZ8wRaG/URRZ6P/Ifg==
-X-CSE-MsgGUID: h7Uodp9HSr6RfBHQLZ8Cqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="74869274"
+X-CSE-ConnectionGUID: 1q3ksendQemWx3VQ4sbgjg==
+X-CSE-MsgGUID: 0PMecferQN+ZwUu8nH+ngw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="81602595"
 X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
-   d="scan'208";a="74869274"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 08:43:27 -0800
-X-CSE-ConnectionGUID: BsuNrU29Qx+CIVXMMg24gg==
-X-CSE-MsgGUID: BnYBzTNuSAywKJVzLTvbrA==
+   d="scan'208";a="81602595"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 08:43:29 -0800
+X-CSE-ConnectionGUID: wGSyW/03RRm13wYiWHP9oA==
+X-CSE-MsgGUID: pFFpYBBUQ0yDzDBEYGrUjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
-   d="scan'208";a="191012564"
+   d="scan'208";a="191789262"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 02 Nov 2025 08:43:26 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2025 08:43:27 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFbAq-000POY-0A;
+	id 1vFbAq-000PPH-2T;
 	Sun, 02 Nov 2025 16:43:24 +0000
-Date: Mon, 3 Nov 2025 00:40:14 +0800
+Date: Mon, 3 Nov 2025 00:41:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3083/3083]
- drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:5632:59:
- warning: '%s' directive output may be truncated writing up to 63 bytes into
- a region of size 43
-Message-ID: <202511030047.dmhj97Bf-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: [tip:core/rseq 40/42] arch/arm64/kernel/entry-common.c:103:9: error:
+ implicit declaration of function 'exit_to_user_mode_prepare'; did you mean
+ 'arch_exit_to_user_mode_prepare'?
+Message-ID: <202511030013.EmYk0XGN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,92 +65,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5394cae209c4a4990d81be436ba17ae56fb09d16
-commit: 468b0cd7b1e1c131b3ee7d2ea8b96521d3faad8b [3083/3083] net:nebula-matrix:Add S1000 SNIC driver support
-config: x86_64-buildonly-randconfig-005-20251102 (https://download.01.org/0day-ci/archive/20251103/202511030047.dmhj97Bf-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030047.dmhj97Bf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/rseq
+head:   69c8e3d1610588d677faaa6035e1bd5de9431d6e
+commit: d589306403107aa3ba5f014cb7d17b3d5db3cf94 [40/42] entry: Split up exit_to_user_mode_prepare()
+config: arm64-randconfig-003-20251102 (https://download.01.org/0day-ci/archive/20251103/202511030013.EmYk0XGN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030013.EmYk0XGN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030047.dmhj97Bf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030013.EmYk0XGN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_handle_tx_timeout':
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:1378:33: warning: variable 'vector' set but not used [-Wunused-but-set-variable]
-    1378 |         struct nbl_serv_vector *vector;
-         |                                 ^~~~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_remove_txrx_queues':
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:3025:35: warning: variable 'ring_mgt' set but not used [-Wunused-but-set-variable]
-    3025 |         struct nbl_serv_ring_mgt *ring_mgt;
-         |                                   ^~~~~~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_rep_start_xmit':
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:4002:29: warning: variable 'adapter' set but not used [-Wunused-but-set-variable]
-    4002 |         struct nbl_adapter *adapter;
-         |                             ^~~~~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_set_wake':
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:4552:43: warning: variable 'net_resource_mgt' set but not used [-Wunused-but-set-variable]
-    4552 |         struct nbl_serv_net_resource_mgt *net_resource_mgt;
-         |                                           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_load_p4':
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:5726:22: warning: variable 'name' set but not used [-Wunused-but-set-variable]
-    5726 |         u8 *strtab, *name, *product_code = NULL;
-         |                      ^~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c: In function 'nbl_serv_form_p4_name.constprop':
->> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:5632:59: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 43 [-Wformat-truncation=]
-    5632 |                 snprintf(name, len, "nbl/snic_v3r1/m181xx_%s_port_p4_%s", eth_num, ver);
-         |                                                           ^~              ~~~~~~~
-   drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c:5632:17: note: 'snprintf' output between 31 and 157 bytes into a destination of size 64
-    5632 |                 snprintf(name, len, "nbl/snic_v3r1/m181xx_%s_port_p4_%s", eth_num, ver);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/entry-common.c: In function 'arm64_exit_to_user_mode':
+>> arch/arm64/kernel/entry-common.c:103:9: error: implicit declaration of function 'exit_to_user_mode_prepare'; did you mean 'arch_exit_to_user_mode_prepare'? [-Werror=implicit-function-declaration]
+     103 |         exit_to_user_mode_prepare(regs);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         arch_exit_to_user_mode_prepare
+   cc1: some warnings being treated as errors
 
 
-vim +5632 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_service.c
+vim +103 arch/arm64/kernel/entry-common.c
 
-  5598	
-  5599	static void nbl_serv_form_p4_name(struct nbl_common_info *common, int type, char *name,
-  5600					  u16 len, u32 version)
-  5601	{
-  5602		char eth_num[NBL_P4_NAME_LEN] = {0};
-  5603		char ver[NBL_P4_NAME_LEN] = {0};
-  5604	
-  5605		switch (NBL_COMMON_TO_ETH_MODE(common)) {
-  5606		case 1:
-  5607			snprintf(eth_num, sizeof(eth_num), "single");
-  5608			break;
-  5609		case 2:
-  5610			snprintf(eth_num, sizeof(eth_num), "dual");
-  5611			break;
-  5612		case 4:
-  5613			snprintf(eth_num, sizeof(eth_num), "quad");
-  5614			break;
-  5615		default:
-  5616			nbl_err(common, NBL_DEBUG_CUSTOMIZED_P4, "Unknown P4 type %d", type);
-  5617			return;
-  5618		}
-  5619	
-  5620		switch (version) {
-  5621		case 0:
-  5622			snprintf(ver, sizeof(ver), "lg");
-  5623			break;
-  5624		case 1:
-  5625			snprintf(ver, sizeof(ver), "hg");
-  5626			break;
-  5627		}
-  5628	
-  5629		switch (type) {
-  5630		case NBL_P4_DEFAULT:
-  5631			/* No need to load default p4 file */
-> 5632			snprintf(name, len, "nbl/snic_v3r1/m181xx_%s_port_p4_%s", eth_num, ver);
-  5633			break;
-  5634		default:
-  5635			nbl_err(common, NBL_DEBUG_CUSTOMIZED_P4, "Unknown P4 type %d", type);
-  5636		}
-  5637	}
-  5638	
+bc29b71f53b13c Mark Rutland 2021-08-02   93  
+bc29b71f53b13c Mark Rutland 2021-08-02   94  /*
+bc29b71f53b13c Mark Rutland 2021-08-02   95   * Handle IRQ/context state management when exiting to user mode.
+bc29b71f53b13c Mark Rutland 2021-08-02   96   * After this function returns it is not safe to call regular kernel code,
+59598b42eb52c7 Mukesh Ojha  2022-10-29   97   * instrumentable code, or any code which may trigger an exception.
+bc29b71f53b13c Mark Rutland 2021-08-02   98   */
+997d79eb938e98 Mark Rutland 2024-02-06   99  
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  100  static __always_inline void arm64_exit_to_user_mode(struct pt_regs *regs)
+4d1c2ee2709fd6 Mark Rutland 2021-08-02  101  {
+97d935faacde47 Mark Rutland 2024-02-06  102  	local_irq_disable();
+ab1e29acdb33c9 Eric Chan    2023-05-31 @103  	exit_to_user_mode_prepare(regs);
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  104  	local_daif_mask();
+e130338eed5de0 Mark Rutland 2021-08-02  105  	mte_check_tfsr_exit();
+b3cf07851b6c4a Jinjie Ruan  2025-08-15  106  	exit_to_user_mode();
+e130338eed5de0 Mark Rutland 2021-08-02  107  }
+e130338eed5de0 Mark Rutland 2021-08-02  108  
+
+:::::: The code at line 103 was first introduced by commit
+:::::: ab1e29acdb33c971e1af8ed8ec427bd1deff5f32 arm64: lockdep: enable checks for held locks when returning to userspace
+
+:::::: TO: Eric Chan <ericchancf@google.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
