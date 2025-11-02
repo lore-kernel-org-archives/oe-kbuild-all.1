@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3792DFF33;
-	Sun,  2 Nov 2025 17:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699313B2A0
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 18:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762105472; cv=none; b=geEJnAdeseDrzCNh/KG5pGzWqsnOBuUFfgl9jyHGtsLgdKqeqIMO2iCIv2M7Tf0MZVu7NRHQq/hg7aRLrjL109npgNd4rVlAWIV6ZlIr40s+fnpLvnj+H+VygvZLJqS+nnWhdVZ/9eQpj08WYtKtjXQZ780moIjBV3M6ivVSfHw=
+	t=1762107400; cv=none; b=fvmSQZOP70enypziXkDfXbEaqNNNr1jKk+ryyorYuETUUsX9IWuRVb8672KjS1p3ZyktY73Klbvq31i3VcvfvuS0EKMwyPXlwpKruw6PMU5XiSdYCqzABolzq0YJXIMUciZejq20675Sdz+8/IQqQvKWsWSb1muuVQbR+9nFAt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762105472; c=relaxed/simple;
-	bh=ekob6ZS3c0e8P7kQ1YGKc4ijXiV83ifEYMvyqKxpj+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkwwZ37LFJGMphT1Tz4H68SSYdfqotHl842Jq6IaFW85sFqLQnL7ToIPgJu55QSdI3qNTQckUS4KMNz7QwtXWei0wOcmh5DtZZ36xtZHjm6w6U9mHWPZWdTIhmM0vl2lL2tygyROeHaT5JTTIpT1csQk+vcQkyGcoo35tsTtLyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPRxinzq; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762107400; c=relaxed/simple;
+	bh=BzAw3wdy0yIYjUMfKi5H96OjXEJomjSDoseUp5jMqv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=d+AAkL+K5jaUzTiCt//nsL4mlSgS1XNv8cMHRVV4X0q0sQaAGXxI2cT9dDgdzb4/PNbRWAlZ1TYJ9AQxCl9rC4KHr/LQEEVjOAz+qxN4PGakt0qvJMcqgSTnIa+icAozVm2YKp8FkVFDV0pkhg5azo8m3P7sdZM2cREe8TuD/l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAVpM6lk; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPRxinzq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAVpM6lk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762105469; x=1793641469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ekob6ZS3c0e8P7kQ1YGKc4ijXiV83ifEYMvyqKxpj+o=;
-  b=EPRxinzq8nJq/lFlhMYpo63CRNGzW1UXdsUzeg3lQweAztyu1YjHhzzO
-   9n3jwhBo+dZD7DBAQ4Ih9MhNTa11OdP4mDxYKk+8szSKurLVfrSHTu5LI
-   BuGLAzVFeUcAsT1e58x6Z8coLgZrSmUpqoS0a9sjkZJ69G7bkcPEmOIQp
-   z5WbrLRrMD3o5cyPuGURFAI5Oo2pKahOT5Bjwqa07nd039tejpc5W2hPl
-   mxbkvLOlCOCJlRw8itSXfPRsDWLrM6oC8vR3sWgVHHhy4JkTv+qsXL3NP
-   m+UD7Pg65PL19lFE16CeTE2VrkeOMga2Du13HCwIlhqjTZi5p0U57LlgX
-   Q==;
-X-CSE-ConnectionGUID: bfdp1/gsQOeP+YN4rDVnoQ==
-X-CSE-MsgGUID: NuZOzJz6RFOoXPAqcdMXnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="66808746"
+  t=1762107397; x=1793643397;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BzAw3wdy0yIYjUMfKi5H96OjXEJomjSDoseUp5jMqv0=;
+  b=LAVpM6lkhd8zn4wkLiUAnetTboE73+IGQozgn6IKKKQ+6U7lFxSL62mI
+   ARd+yBKc7QeBIrR+Zdkub+WDOwZ9mgcViGWiMKu3WWdmMjmI40pJ6olio
+   dCpWpBJpWN9VKY7QfljyCEOaZDWvBNhGGrhVDByPfGir5a3A2MXIs40tK
+   fH3xVNSsxCAfoMa7Bm5QKjxIr2Hg5w0lFRXxVBJDSvBWUruTNQHN5lKO0
+   mfG/QrfgUeW9Brg/QZS79u7Ws/a+PIyvf1DFHigfqk6pmqy15SJb27KhW
+   XfbPNa4fIACyOGjPuuBgGVbHoZxqn94s7LQRjVraQJHuWgaRjoucWAgbE
+   w==;
+X-CSE-ConnectionGUID: rTSbVnZVQwu1M4HvjAa3Jw==
+X-CSE-MsgGUID: Wkt8cHrESSevHuTP5bazwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75643026"
 X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
-   d="scan'208";a="66808746"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 09:44:29 -0800
-X-CSE-ConnectionGUID: /BtsB9YDTt+7xQWCkAho/g==
-X-CSE-MsgGUID: FxqV+4HOT/ChUNNigG8zzA==
+   d="scan'208";a="75643026"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 10:16:36 -0800
+X-CSE-ConnectionGUID: KRzHMQISQlaCuVYUKaY6/Q==
+X-CSE-MsgGUID: 4FKkRB2tR1KBPjQCAFixog==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
+   d="scan'208";a="190774441"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2025 09:44:26 -0800
+  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2025 10:16:35 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFc7s-000PTQ-04;
-	Sun, 02 Nov 2025 17:44:24 +0000
-Date: Mon, 3 Nov 2025 01:44:16 +0800
+	id 1vFccz-000PUO-1I;
+	Sun, 02 Nov 2025 18:16:33 +0000
+Date: Mon, 3 Nov 2025 02:16:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
-Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-Message-ID: <202511030131.AADiEKfQ-lkp@intel.com>
-References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3081/3081] include/net/ip6_fib.h:279:10: error:
+ default initialization of an object of type 'typeof (f6i->expires)' (aka
+ 'const unsigned long') leaves the object uninitialized
+Message-ID: <202511030209.4oIfkvXK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,300 +62,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
 
-Hi Aaron,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/drm-tegra-Enable-cmu-for-Tegra186-and-Tegra194/20251102-071726
-base:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
-patch link:    https://lore.kernel.org/r/20251101-tegra-drm-cmu-v1-1-211799755ab8%40gmail.com
-patch subject: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030131.AADiEKfQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5394cae209c4a4990d81be436ba17ae56fb09d16
+commit: 6864d14bb90f03a1e5b7fbcc04fc2ba4d692bd3e [3081/3081] support 3SNIC 910/920/930 NIC
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251103/202511030209.4oIfkvXK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030209.4oIfkvXK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030131.AADiEKfQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030209.4oIfkvXK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/tegra/sor.c:2757:50: warning: shift count >= width of type [-Wshift-count-overflow]
-    2757 |                 tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
-         |                                                                ^  ~~
-   1 warning generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
+      42 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_THREAD__ 1
+         |         ^
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
+   In file included from include/net/xfrm.h:9:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
+   In file included from include/net/xfrm.h:22:
+   include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
+     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
+         |                            ^
+   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
+     135 | #define time_before(a,b)        time_after(b,a)
+         |                                 ^
+   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
+     125 |         (typecheck(unsigned long, a) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx.c:6:
+   In file included from include/net/xfrm.h:25:
+>> include/net/ip6_fib.h:279:10: error: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
+     279 |                 return time_after(jiffies, f6i->expires);
+         |                        ^
+   include/linux/jiffies.h:126:3: note: expanded from macro 'time_after'
+     126 |          typecheck(unsigned long, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   8 errors generated.
+--
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:42:9: error: '__SANITIZE_THREAD__' macro redefined [-Werror,-Wmacro-redefined]
+      42 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_THREAD__ 1
+         |         ^
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
+   In file included from include/net/xfrm.h:9:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
+   In file included from include/net/xfrm.h:22:
+   include/net/ip.h:463:14: error: default initialization of an object of type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
+     463 |                 if (mtu && time_before(jiffies, rt->dst.expires))
+         |                            ^
+   include/linux/jiffies.h:135:26: note: expanded from macro 'time_before'
+     135 | #define time_before(a,b)        time_after(b,a)
+         |                                 ^
+   include/linux/jiffies.h:125:3: note: expanded from macro 'time_after'
+     125 |         (typecheck(unsigned long, a) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:6:
+   In file included from include/net/xfrm.h:25:
+>> include/net/ip6_fib.h:279:10: error: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
+     279 |                 return time_after(jiffies, f6i->expires);
+         |                        ^
+   include/linux/jiffies.h:126:3: note: expanded from macro 'time_after'
+     126 |          typecheck(unsigned long, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:42:5: error: no previous prototype for function 'sss_nic_alloc_sq_resource' [-Werror,-Wmissing-prototypes]
+      42 | int sss_nic_alloc_sq_resource(struct sss_nic_dev *nic_dev,
+         |     ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | int sss_nic_alloc_sq_resource(struct sss_nic_dev *nic_dev,
+         | ^
+         | static 
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:87:6: error: no previous prototype for function 'sss_nic_free_sq_resource' [-Werror,-Wmissing-prototypes]
+      87 | void sss_nic_free_sq_resource(struct sss_nic_dev *nic_dev,
+         |      ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:87:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      87 | void sss_nic_free_sq_resource(struct sss_nic_dev *nic_dev,
+         | ^
+         | static 
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:104:6: error: no previous prototype for function 'sss_nic_init_all_sq' [-Werror,-Wmissing-prototypes]
+     104 | void sss_nic_init_all_sq(struct sss_nic_dev *nic_dev,
+         |      ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:104:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     104 | void sss_nic_init_all_sq(struct sss_nic_dev *nic_dev,
+         | ^
+         | static 
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:128:5: error: no previous prototype for function 'sss_nic_alloc_sq_desc_group' [-Werror,-Wmissing-prototypes]
+     128 | int sss_nic_alloc_sq_desc_group(struct sss_nic_dev *nic_dev)
+         |     ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:128:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     128 | int sss_nic_alloc_sq_desc_group(struct sss_nic_dev *nic_dev)
+         | ^
+         | static 
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:153:6: error: no previous prototype for function 'sss_nic_free_sq_desc_group' [-Werror,-Wmissing-prototypes]
+     153 | void sss_nic_free_sq_desc_group(struct sss_nic_dev *nic_dev)
+         |      ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:153:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     153 | void sss_nic_free_sq_desc_group(struct sss_nic_dev *nic_dev)
+         | ^
+         | static 
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:200:6: error: no previous prototype for function 'sss_nic_flush_all_sq' [-Werror,-Wmissing-prototypes]
+     200 | void sss_nic_flush_all_sq(struct sss_nic_dev *nic_dev)
+         |      ^
+   drivers/net/ethernet/3snic/sssnic/nic/sss_nic_tx_init.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     200 | void sss_nic_flush_all_sq(struct sss_nic_dev *nic_dev)
+         | ^
+         | static 
+   14 errors generated.
 
 
-vim +2757 drivers/gpu/drm/tegra/sor.c
+vim +279 include/net/ip6_fib.h
 
-  2590	
-  2591		/* switch the SOR clock to the pad clock */
-  2592		err = tegra_sor_set_parent_clock(sor, sor->clk_pad);
-  2593		if (err < 0) {
-  2594			dev_err(sor->dev, "failed to select SOR parent clock: %d\n",
-  2595				err);
-  2596			return;
-  2597		}
-  2598	
-  2599		/* switch the output clock to the parent pixel clock */
-  2600		err = clk_set_parent(sor->clk, sor->clk_parent);
-  2601		if (err < 0) {
-  2602			dev_err(sor->dev, "failed to select output parent clock: %d\n",
-  2603				err);
-  2604			return;
-  2605		}
-  2606	
-  2607		/* adjust clock rate for HDMI 2.0 modes */
-  2608		rate = clk_get_rate(sor->clk_parent);
-  2609	
-  2610		if (mode->clock >= 340000)
-  2611			rate /= 2;
-  2612	
-  2613		DRM_DEBUG_KMS("setting clock to %lu Hz, mode: %lu Hz\n", rate, pclk);
-  2614	
-  2615		clk_set_rate(sor->clk, rate);
-  2616	
-  2617		if (!sor->soc->has_nvdisplay) {
-  2618			value = SOR_INPUT_CONTROL_HDMI_SRC_SELECT(dc->pipe);
-  2619	
-  2620			/* XXX is this the proper check? */
-  2621			if (mode->clock < 75000)
-  2622				value |= SOR_INPUT_CONTROL_ARM_VIDEO_RANGE_LIMITED;
-  2623	
-  2624			tegra_sor_writel(sor, value, SOR_INPUT_CONTROL);
-  2625		}
-  2626	
-  2627		max_ac = ((mode->htotal - mode->hdisplay) - SOR_REKEY - 18) / 32;
-  2628	
-  2629		value = SOR_HDMI_CTRL_ENABLE | SOR_HDMI_CTRL_MAX_AC_PACKET(max_ac) |
-  2630			SOR_HDMI_CTRL_AUDIO_LAYOUT | SOR_HDMI_CTRL_REKEY(SOR_REKEY);
-  2631		tegra_sor_writel(sor, value, SOR_HDMI_CTRL);
-  2632	
-  2633		if (!dc->soc->has_nvdisplay) {
-  2634			/* H_PULSE2 setup */
-  2635			pulse_start = h_ref_to_sync +
-  2636				      (mode->hsync_end - mode->hsync_start) +
-  2637				      (mode->htotal - mode->hsync_end) - 10;
-  2638	
-  2639			value = PULSE_LAST_END_A | PULSE_QUAL_VACTIVE |
-  2640				PULSE_POLARITY_HIGH | PULSE_MODE_NORMAL;
-  2641			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_CONTROL);
-  2642	
-  2643			value = PULSE_END(pulse_start + 8) | PULSE_START(pulse_start);
-  2644			tegra_dc_writel(dc, value, DC_DISP_H_PULSE2_POSITION_A);
-  2645	
-  2646			value = tegra_dc_readl(dc, DC_DISP_DISP_SIGNAL_OPTIONS0);
-  2647			value |= H_PULSE2_ENABLE;
-  2648			tegra_dc_writel(dc, value, DC_DISP_DISP_SIGNAL_OPTIONS0);
-  2649		}
-  2650	
-  2651		/* infoframe setup */
-  2652		err = tegra_sor_hdmi_setup_avi_infoframe(sor, mode);
-  2653		if (err < 0)
-  2654			dev_err(sor->dev, "failed to setup AVI infoframe: %d\n", err);
-  2655	
-  2656		/* XXX HDMI audio support not implemented yet */
-  2657		tegra_sor_hdmi_disable_audio_infoframe(sor);
-  2658	
-  2659		/* use single TMDS protocol */
-  2660		value = tegra_sor_readl(sor, SOR_STATE1);
-  2661		value &= ~SOR_STATE_ASY_PROTOCOL_MASK;
-  2662		value |= SOR_STATE_ASY_PROTOCOL_SINGLE_TMDS_A;
-  2663		tegra_sor_writel(sor, value, SOR_STATE1);
-  2664	
-  2665		/* power up pad calibration */
-  2666		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2667		value &= ~SOR_DP_PADCTL_PAD_CAL_PD;
-  2668		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2669	
-  2670		/* production settings */
-  2671		settings = tegra_sor_hdmi_find_settings(sor, mode->clock * 1000);
-  2672		if (!settings) {
-  2673			dev_err(sor->dev, "no settings for pixel clock %d Hz\n",
-  2674				mode->clock * 1000);
-  2675			return;
-  2676		}
-  2677	
-  2678		value = tegra_sor_readl(sor, sor->soc->regs->pll0);
-  2679		value &= ~SOR_PLL0_ICHPMP_MASK;
-  2680		value &= ~SOR_PLL0_FILTER_MASK;
-  2681		value &= ~SOR_PLL0_VCOCAP_MASK;
-  2682		value |= SOR_PLL0_ICHPMP(settings->ichpmp);
-  2683		value |= SOR_PLL0_FILTER(settings->filter);
-  2684		value |= SOR_PLL0_VCOCAP(settings->vcocap);
-  2685		tegra_sor_writel(sor, value, sor->soc->regs->pll0);
-  2686	
-  2687		/* XXX not in TRM */
-  2688		value = tegra_sor_readl(sor, sor->soc->regs->pll1);
-  2689		value &= ~SOR_PLL1_LOADADJ_MASK;
-  2690		value &= ~SOR_PLL1_TMDS_TERMADJ_MASK;
-  2691		value |= SOR_PLL1_LOADADJ(settings->loadadj);
-  2692		value |= SOR_PLL1_TMDS_TERMADJ(settings->tmds_termadj);
-  2693		value |= SOR_PLL1_TMDS_TERM;
-  2694		tegra_sor_writel(sor, value, sor->soc->regs->pll1);
-  2695	
-  2696		value = tegra_sor_readl(sor, sor->soc->regs->pll3);
-  2697		value &= ~SOR_PLL3_BG_TEMP_COEF_MASK;
-  2698		value &= ~SOR_PLL3_BG_VREF_LEVEL_MASK;
-  2699		value &= ~SOR_PLL3_AVDD10_LEVEL_MASK;
-  2700		value &= ~SOR_PLL3_AVDD14_LEVEL_MASK;
-  2701		value |= SOR_PLL3_BG_TEMP_COEF(settings->bg_temp_coef);
-  2702		value |= SOR_PLL3_BG_VREF_LEVEL(settings->bg_vref_level);
-  2703		value |= SOR_PLL3_AVDD10_LEVEL(settings->avdd10_level);
-  2704		value |= SOR_PLL3_AVDD14_LEVEL(settings->avdd14_level);
-  2705		tegra_sor_writel(sor, value, sor->soc->regs->pll3);
-  2706	
-  2707		value = settings->drive_current[3] << 24 |
-  2708			settings->drive_current[2] << 16 |
-  2709			settings->drive_current[1] <<  8 |
-  2710			settings->drive_current[0] <<  0;
-  2711		tegra_sor_writel(sor, value, SOR_LANE_DRIVE_CURRENT0);
-  2712	
-  2713		value = settings->preemphasis[3] << 24 |
-  2714			settings->preemphasis[2] << 16 |
-  2715			settings->preemphasis[1] <<  8 |
-  2716			settings->preemphasis[0] <<  0;
-  2717		tegra_sor_writel(sor, value, SOR_LANE_PREEMPHASIS0);
-  2718	
-  2719		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2720		value &= ~SOR_DP_PADCTL_TX_PU_MASK;
-  2721		value |= SOR_DP_PADCTL_TX_PU_ENABLE;
-  2722		value |= SOR_DP_PADCTL_TX_PU(settings->tx_pu_value);
-  2723		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2724	
-  2725		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl2);
-  2726		value &= ~SOR_DP_PADCTL_SPAREPLL_MASK;
-  2727		value |= SOR_DP_PADCTL_SPAREPLL(settings->sparepll);
-  2728		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl2);
-  2729	
-  2730		/* power down pad calibration */
-  2731		value = tegra_sor_readl(sor, sor->soc->regs->dp_padctl0);
-  2732		value |= SOR_DP_PADCTL_PAD_CAL_PD;
-  2733		tegra_sor_writel(sor, value, sor->soc->regs->dp_padctl0);
-  2734	
-  2735		if (!dc->soc->has_nvdisplay) {
-  2736			/* miscellaneous display controller settings */
-  2737			value = VSYNC_H_POSITION(1);
-  2738			tegra_dc_writel(dc, value, DC_DISP_DISP_TIMING_OPTIONS);
-  2739		}
-  2740	
-  2741		value = tegra_dc_readl(dc, DC_DISP_DISP_COLOR_CONTROL);
-  2742		value &= ~DITHER_CONTROL_MASK;
-  2743		value &= ~BASE_COLOR_SIZE_MASK;
-  2744	
-  2745		if (dc->soc->has_nvdisplay) {
-  2746			sor->cmu_output_lut =
-  2747				dma_alloc_coherent(dc->dev, ARRAY_SIZE(default_srgb_lut) * sizeof(u64),
-  2748						   &sor->cmu_output_phys, GFP_KERNEL);
-  2749	
-  2750			for (i = 0; i < ARRAY_SIZE(default_srgb_lut); i++) {
-  2751				r = default_srgb_lut[i];
-  2752				sor->cmu_output_lut[i] = (r << 32) | (r << 16) | r;
-  2753			}
-  2754	
-  2755			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys & 0xffffffff),
-  2756					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE);
-> 2757			tegra_dc_writel(dc, (u32)(sor->cmu_output_phys >> 32),
-  2758					DC_DISP_COREPVT_HEAD_SET_OUTPUT_LUT_BASE_HI);
-  2759	
-  2760			tegra_dc_writel(dc, OUTPUT_LUT_MODE_INTERPOLATE | OUTPUT_LUT_SIZE_SIZE_1025,
-  2761					DC_DISP_CORE_HEAD_SET_CONTROL_OUTPUT_LUT);
-  2762	
-  2763			value |= CMU_ENABLE_ENABLE;
-  2764		}
-  2765	
-  2766		switch (state->bpc) {
-  2767		case 6:
-  2768			value |= BASE_COLOR_SIZE_666;
-  2769			break;
-  2770	
-  2771		case 8:
-  2772			value |= BASE_COLOR_SIZE_888;
-  2773			break;
-  2774	
-  2775		case 10:
-  2776			value |= BASE_COLOR_SIZE_101010;
-  2777			break;
-  2778	
-  2779		case 12:
-  2780			value |= BASE_COLOR_SIZE_121212;
-  2781			break;
-  2782	
-  2783		default:
-  2784			WARN(1, "%u bits-per-color not supported\n", state->bpc);
-  2785			value |= BASE_COLOR_SIZE_888;
-  2786			break;
-  2787		}
-  2788	
-  2789		tegra_dc_writel(dc, value, DC_DISP_DISP_COLOR_CONTROL);
-  2790	
-  2791		/* XXX set display head owner */
-  2792		value = tegra_sor_readl(sor, SOR_STATE1);
-  2793		value &= ~SOR_STATE_ASY_OWNER_MASK;
-  2794		value |= SOR_STATE_ASY_OWNER(1 + dc->pipe);
-  2795		tegra_sor_writel(sor, value, SOR_STATE1);
-  2796	
-  2797		err = tegra_sor_power_up(sor, 250);
-  2798		if (err < 0)
-  2799			dev_err(sor->dev, "failed to power up SOR: %d\n", err);
-  2800	
-  2801		/* configure dynamic range of output */
-  2802		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
-  2803		value &= ~SOR_HEAD_STATE_RANGECOMPRESS_MASK;
-  2804		value &= ~SOR_HEAD_STATE_DYNRANGE_MASK;
-  2805		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
-  2806	
-  2807		/* configure colorspace */
-  2808		value = tegra_sor_readl(sor, sor->soc->regs->head_state0 + dc->pipe);
-  2809		value &= ~SOR_HEAD_STATE_COLORSPACE_MASK;
-  2810		value |= SOR_HEAD_STATE_COLORSPACE_RGB;
-  2811		tegra_sor_writel(sor, value, sor->soc->regs->head_state0 + dc->pipe);
-  2812	
-  2813		tegra_sor_mode_set(sor, mode, state);
-  2814	
-  2815		tegra_sor_update(sor);
-  2816	
-  2817		/* program preamble timing in SOR (XXX) */
-  2818		value = tegra_sor_readl(sor, SOR_DP_SPARE0);
-  2819		value &= ~SOR_DP_SPARE_DISP_VIDEO_PREAMBLE;
-  2820		tegra_sor_writel(sor, value, SOR_DP_SPARE0);
-  2821	
-  2822		err = tegra_sor_attach(sor);
-  2823		if (err < 0)
-  2824			dev_err(sor->dev, "failed to attach SOR: %d\n", err);
-  2825	
-  2826		/* enable display to SOR clock and generate HDMI preamble */
-  2827		value = tegra_dc_readl(dc, DC_DISP_DISP_WIN_OPTIONS);
-  2828	
-  2829		if (!sor->soc->has_nvdisplay)
-  2830			value |= SOR1_TIMING_CYA;
-  2831	
-  2832		value |= SOR_ENABLE(sor->index);
-  2833	
-  2834		tegra_dc_writel(dc, value, DC_DISP_DISP_WIN_OPTIONS);
-  2835	
-  2836		if (dc->soc->has_nvdisplay) {
-  2837			value = tegra_dc_readl(dc, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
-  2838			value &= ~PROTOCOL_MASK;
-  2839			value |= PROTOCOL_SINGLE_TMDS_A;
-  2840			tegra_dc_writel(dc, value, DC_DISP_CORE_SOR_SET_CONTROL(sor->index));
-  2841		}
-  2842	
-  2843		tegra_dc_commit(dc);
-  2844	
-  2845		err = tegra_sor_wakeup(sor);
-  2846		if (err < 0)
-  2847			dev_err(sor->dev, "failed to wakeup SOR: %d\n", err);
-  2848	
-  2849		tegra_sor_hdmi_scdc_start(sor);
-  2850		tegra_sor_audio_prepare(sor);
-  2851	}
-  2852	
+bb892fef742b66 David Ahern      2024-03-20  275  
+8d1c802b2815ed David Ahern      2018-04-17  276  static inline bool fib6_check_expired(const struct fib6_info *f6i)
+1716a96101c491 Gao feng         2012-04-06  277  {
+93c2fb253d177a David Ahern      2018-04-18  278  	if (f6i->fib6_flags & RTF_EXPIRES)
+14895687d36805 David Ahern      2018-04-17 @279  		return time_after(jiffies, f6i->expires);
+14895687d36805 David Ahern      2018-04-17  280  	return false;
+1716a96101c491 Gao feng         2012-04-06  281  }
+b197df4f0f3782 Martin KaFai Lau 2015-05-22  282  
+
+:::::: The code at line 279 was first introduced by commit
+:::::: 14895687d36805f051bb54014c32e48e5937f7e1 net/ipv6: move expires into rt6_info
+
+:::::: TO: David Ahern <dsahern@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
