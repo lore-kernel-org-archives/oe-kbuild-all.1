@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A34B155CB3;
-	Sun,  2 Nov 2025 04:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4902EACD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 04:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762056800; cv=none; b=hhtt2UecKwvJAed2Azud1bMiThAu6a6IXdQGI/rWfBNBRFkSWMp1XhIxqv0IzEqNa5gDFVctLnL6aFJDybUFUh3pkTMJbLXttPgXWqJlvY6538BuiFvnmw9ZYomSVit36itKotnK/NCEsTTwJ4BO1sKeQxFq1nHVKMdXvOWqnYY=
+	t=1762058727; cv=none; b=XySkFjDH+leYc9yaWJzSQTtuNpsjN4je0CV4QWmZyqyFYMSOhnQpHIlGCsVZ5XkoxiG7Hx0uDXrmTK+CIYgrxEOMAy5wqHrv2joA4Jhq7fz0n498lVV5iKwtgF+9qZ2Jp8glgWokXhDMhMvDovnInkAr6pGZviZjMWpCGvH/VN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762056800; c=relaxed/simple;
-	bh=VzaN7kZt0tbi01FWiBiFjSyThxYGk12dcgPiZxOhBdw=;
+	s=arc-20240116; t=1762058727; c=relaxed/simple;
+	bh=x1cEzSmb6Wlu43ZuJ9FZirXyos7dKMRSesVdq2KoCFs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dX7+MtXgy2DMxnelS0thalDUaQmg6+WKkSnYNgpYGndA6BZVtQKfk7UHmH+dwt8tUri1d5Iad2VNmPYdt9nFo5CElGmtTTXCfLLhEmXxlRiJw/7xgsprEsBzYmjUyIDSGHdiix5kmU4xC8RPBfDJVHST8/Qpa9Jf0ecsDQc1d30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+WI2PcY; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=MBfnE8t55wg9SkJnTiL9vhgmhBAgQ/conbIKZONoIgZP22e5WIvvwSIckoYVqhqnA/ULKnkb9EkLGQA5O0nRXIhQ3VaG/8s48cyvI4wazE3beXGmRBW5xl/jUw2fdu3gNcuuScmmUC/hTn2kyMgXHkziseyK7KxhUEjELmZ5bIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGtaKKpZ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+WI2PcY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGtaKKpZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762056799; x=1793592799;
+  t=1762058725; x=1793594725;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VzaN7kZt0tbi01FWiBiFjSyThxYGk12dcgPiZxOhBdw=;
-  b=n+WI2PcYJI2dkCHcWehYVYJ9RSh8AJKa3IQODpeWtcfc/8fIcZ82n3MB
-   A0aSasREkJrOQAezEyVyr0K4QOdtokYi4oGB+t6AAbKu15sdMp6C0AG8k
-   ZPJPtaRT6xSkA2EE8tipY+vE+z6UB/gUJmX0OL1ecPojVry1pPsD1eDdM
-   FqfiLFKdC1NAtGgr78AnnKeUBp8OE98xF+PJIcQbtpSkbjirnDgiS0xYG
-   nXbPyDasma/BZdbGEXx80t32rPh7PKSIfhlRfKJB7iohFQ5bR7XM+To23
-   FZ1GBv0wrNx9DppHqPRWSZZ2LSYcDQ8IgD6zOChofnqYbYzuY8bzPYqlf
+  bh=x1cEzSmb6Wlu43ZuJ9FZirXyos7dKMRSesVdq2KoCFs=;
+  b=QGtaKKpZSTnnJ37cS8G66IvqNP7kJEuV4wgGi/cgYmMpQ8gDyPCasJ1j
+   GUTE5aAB0ra1D9gwt6dsC09pqY5Uw7LTsAHcLJsRCt67XS0WDKiFM4htk
+   AAlNtxWvrOfQRmrmWdarJh5naHuNnuGSe5ltGXJNlIUUloHSMx0h1grv9
+   4ce8YWm/wXNFTEjXTY6ChssGbNEdK9WIV3SijFdo+63a/W9NCLz5RW4Zl
+   WLLD0AWwJMuxl0ENiJdMzeU9zF+r1/8WGZD64J04o0P7aJk5xkkLgEoHw
+   EHqYfD7irH5Ffmhz9XJA6vYQcAWhL5TscHEqu+m2lxM+5KxNGfrVrZwDN
    g==;
-X-CSE-ConnectionGUID: fEebnl8oQjKvjDBwbnUZSg==
-X-CSE-MsgGUID: EqlVHNm0SxWt8WnQ+JF10A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="67825350"
+X-CSE-ConnectionGUID: w1drJw4QRSKycwSLU+gqnw==
+X-CSE-MsgGUID: bdrNj0NhTXmykOjbyMRvTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="63376974"
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="67825350"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 21:13:19 -0700
-X-CSE-ConnectionGUID: +M8OBi0lQs2a3wAJk6rePw==
-X-CSE-MsgGUID: rq7GXlm5SDiQgjM2Ipk28w==
+   d="scan'208";a="63376974"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 21:45:24 -0700
+X-CSE-ConnectionGUID: S2MFS0s6S3uIhdW608Um3Q==
+X-CSE-MsgGUID: Pz+efe8sRgOWROcjTc6/WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="185849675"
+   d="scan'208";a="186254723"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Nov 2025 21:13:17 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 Nov 2025 21:45:23 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFPSs-000Ozg-2p;
-	Sun, 02 Nov 2025 04:13:14 +0000
-Date: Sun, 2 Nov 2025 12:12:27 +0800
+	id 1vFPxW-000P0O-2A;
+	Sun, 02 Nov 2025 04:44:58 +0000
+Date: Sun, 2 Nov 2025 12:44:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zach Brown <zab@zabbo.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [zab-rpdfs:rpdfs-initial 1/1] fs/rpdfs/block.c:309:6: warning:
- variable 'now' is used uninitialized whenever '&&' condition is false
-Message-ID: <202511021227.xepLB50o-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1900/1900] block/blk-mq-sched.c:219:5:
+ sparse: sparse: symbol '__blk_mq_sched_dispatch_requests' was not declared.
+ Should it be static?
+Message-ID: <202511021213.bb4zk6r7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zab/linux-rpdfs.git rpdfs-initial
-head:   e8e76da7ed715ef67ccc4436f4981a5b39983d9f
-commit: e8e76da7ed715ef67ccc4436f4981a5b39983d9f [1/1] rpdfs: initial commit
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251102/202511021227.xepLB50o-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021227.xepLB50o-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   bca20ebb0eb886b6eef61fe75d9b476d02f92611
+commit: c1ea82c0ddde70d5998c2f547520afbee10bea2a [1900/1900] block: Limit number of items taken from the I/O scheduler in one go
+config: arm64-randconfig-r132-20251030 (https://download.01.org/0day-ci/archive/20251102/202511021213.bb4zk6r7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021213.bb4zk6r7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511021227.xepLB50o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511021213.bb4zk6r7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-mq-sched.c:219:5: sparse: sparse: symbol '__blk_mq_sched_dispatch_requests' was not declared. Should it be static?
+   block/blk-mq-sched.c:219:5: warning: no previous prototype for '__blk_mq_sched_dispatch_requests' [-Wmissing-prototypes]
+     219 | int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:372:9: note: previous definition is here
-     372 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> fs/rpdfs/block.c:309:6: warning: variable 'now' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-     309 |         if (!IS_ERR_OR_NULL(bk) && (now = atomic64_dec_return(&bk->refcount)) == 0)
-         |             ^~~~~~~~~~~~~~~~~~~
-   fs/rpdfs/block.c:312:15: note: uninitialized use occurs here
-     312 |         WARN_ON_ONCE(now < 0);
-         |                      ^~~
-   fs/rpdfs/block.c:309:6: note: remove the '&&' if its condition is always true
-     309 |         if (!IS_ERR_OR_NULL(bk) && (now = atomic64_dec_return(&bk->refcount)) == 0)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   fs/rpdfs/block.c:307:9: note: initialize the variable 'now' to silence this warning
-     307 |         s64 now;
-         |                ^
-         |                 = 0
-   2 warnings generated.
---
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:372:9: note: previous definition is here
-     372 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> fs/rpdfs/super.c:160:7: warning: variable 'ret' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
-     160 |         case Opt_mkfs:
-         |              ^~~~~~~~
-   fs/rpdfs/super.c:178:9: note: uninitialized use occurs here
-     178 |         return ret;
-         |                ^~~
-   fs/rpdfs/super.c:153:9: note: initialize the variable 'ret' to silence this warning
-     153 |         int ret;
-         |                ^
-         |                 = 0
-   2 warnings generated.
+vim +/__blk_mq_sched_dispatch_requests +219 block/blk-mq-sched.c
 
-
-vim +309 fs/rpdfs/block.c
-
-   304	
-   305	static void put_block(struct rpdfs_block *bk)
-   306	{
-   307		s64 now;
-   308	
- > 309		if (!IS_ERR_OR_NULL(bk) && (now = atomic64_dec_return(&bk->refcount)) == 0)
-   310			free_block(bk);
-   311	
-   312		WARN_ON_ONCE(now < 0);
-   313		WARN_ON_ONCE(now == REMOVAL_REFCOUNT - 1);
-   314	}
-   315	
+   218	
+ > 219	int __blk_mq_sched_dispatch_requests(struct blk_mq_hw_ctx *hctx)
+   220	{
+   221		struct request_queue *q = hctx->queue;
+   222		struct elevator_queue *e = q->elevator;
+   223		const bool has_sched_dispatch = e && e->type->ops.mq.dispatch_request;
+   224		int ret = 0;
+   225		LIST_HEAD(rq_list);
+   226	
+   227		/*
+   228		 * If we have previous entries on our dispatch list, grab them first for
+   229		 * more fair dispatch.
+   230		 */
+   231		if (!list_empty_careful(&hctx->dispatch)) {
+   232			spin_lock(&hctx->lock);
+   233			if (!list_empty(&hctx->dispatch))
+   234				list_splice_init(&hctx->dispatch, &rq_list);
+   235			spin_unlock(&hctx->lock);
+   236		}
+   237	
+   238		/*
+   239		 * Only ask the scheduler for requests, if we didn't have residual
+   240		 * requests from the dispatch list. This is to avoid the case where
+   241		 * we only ever dispatch a fraction of the requests available because
+   242		 * of low device queue depth. Once we pull requests out of the IO
+   243		 * scheduler, we can no longer merge or sort them. So it's best to
+   244		 * leave them there for as long as we can. Mark the hw queue as
+   245		 * needing a restart in that case.
+   246		 *
+   247		 * We want to dispatch from the scheduler if there was nothing
+   248		 * on the dispatch list or we were able to dispatch from the
+   249		 * dispatch list.
+   250		 */
+   251		if (!list_empty(&rq_list)) {
+   252			blk_mq_sched_mark_restart_hctx(hctx);
+   253			if (blk_mq_dispatch_rq_list(q, &rq_list, false)) {
+   254				if (has_sched_dispatch)
+   255					ret = blk_mq_do_dispatch_sched(hctx);
+   256				else
+   257					ret = blk_mq_do_dispatch_ctx(hctx);
+   258			}
+   259		} else if (has_sched_dispatch) {
+   260			ret = blk_mq_do_dispatch_sched(hctx);
+   261		} else if (hctx->dispatch_busy) {
+   262			/* dequeue request one by one from sw queue if queue is busy */
+   263			ret = blk_mq_do_dispatch_ctx(hctx);
+   264		} else {
+   265			blk_mq_flush_busy_ctxs(hctx, &rq_list);
+   266			blk_mq_dispatch_rq_list(q, &rq_list, false);
+   267		}
+   268	
+   269		return ret;
+   270	}
+   271	
 
 -- 
 0-DAY CI Kernel Test Service
