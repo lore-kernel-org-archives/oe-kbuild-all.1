@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA08034D39F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADE570830
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 08:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762073570; cv=none; b=Zi+dz3XSHsOXckEAI2fE2ynrt61yRREWipm2Sb8Wo2bZ837Aq+YdS4E9n6/LVhjyV4pu6QtTroyAnlXjeO6DmS398jRU2kleABSpBBG+T+DQrioEGz0XyhxRLp2CroMoISvKnWDX1CG0yh5bdz1WYdFwnoHVe4tV6e7ak2VRqSY=
+	t=1762073570; cv=none; b=dH9Y1F08HDoJQu8/Yyw/vz3vDGSsausY2HZF8n34sBOcVU2+NG22oI1JlpVRHjBu2Sug9v00en8yUVxvQwjnZmHRy7Nsla/m3lwj/eBtjmae2F5qbCAZpJmT07gHVVUYi2MzbG8g8iQ/lPjPnx5uiTMUOQnIPJkwoRUm8rf+rw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762073570; c=relaxed/simple;
-	bh=84hWQ5cfSuAepZa9iV7boY07HvtXUyvouE8IaCNKHWE=;
+	bh=fXxi4KW+BeNpP61ba3stAfSvlHp5+fiDs26Yzyfdqi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AI3GOT9p/u7xjGXVDAbGGndx+XHG91RibeK30ZcTskwtjnfX+F4P1aiq5K32JuCMHsOTx0vY9OsxIT5HP7lbR5bAgFVSUpQahd3Z22w2xRtIJV4ByJT0A/+2ip5VCBkzpQc73N94BwFqJSCD9P4GIIpg9OwuEhBhmme1K7Ep+Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqfr2KHP; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=HLxJMDR93+PMpORLhyE0uIV44MMwJgJIwueY+xMP0SS46/+YuXbrSfrJoli36sTosPzIwJoIaflIqRRWyercx0GdXlmuCft4GRI4EHyzhk+S5rfsH3QvsMLuYVEVyeKyDs+udGGzoSPW3vRVnqylYzkPjgRLNtizVQm81fuhYVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bB3fePeS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqfr2KHP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bB3fePeS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762073568; x=1793609568;
+  t=1762073569; x=1793609569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=84hWQ5cfSuAepZa9iV7boY07HvtXUyvouE8IaCNKHWE=;
-  b=nqfr2KHPHGf7BeKnqPoG5QzKK5xfustmZE5PPbGcsyJGyUVwsZNxg94Y
-   ABPyj87shSB7mQToew+FhBaTKmbwXuDypZGjPXw/tc1UpQuLi4pN+Uutr
-   P1zLBtjK+DdhnZHRGtZnSgDE9wuXtX9O5qdwKyvM48qhMsvCIfPEQmSGY
-   ZItGXp3gq1em+Gz6ZoUSL4SnneVYDv5gNHfs5XY/3lUAmHVFlkrszb9hJ
-   65DNxCqxfIVLJRGh0PZ2Z0vN/PtkXaGaHK8TV5+jy4bOP4AxuW9hRlmJH
-   qo+Qct/lF4O3WGbCJq50WyP+omGOLoCndmTZB9rKtYpBeLh+8DNem41Z0
-   A==;
-X-CSE-ConnectionGUID: fJF6XjAiQ0qenP/z12PXJA==
-X-CSE-MsgGUID: gg0N99xgSM+ry1oerWKmzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="75626708"
+  bh=fXxi4KW+BeNpP61ba3stAfSvlHp5+fiDs26Yzyfdqi0=;
+  b=bB3fePeS4+8i8sVjJEaZbliUakn2Si7h9ZIfRW4hR2y4tRnb70WdnAgU
+   pk8GGI1snICHrC3dKp5dDvO2HHco3UWlWTnTtJxVJ2WmvBL/mc9psZSoN
+   YGUzuu6gZYdmddFoXcBiR6ev2KIlw101WzidEoSLM+PSuJS2Bb0mjvjkl
+   5U+T5Wo3X9Mz2WtGRYikBuZF850BWPV/LHkNsYys5A9gAimt9JIPtgsiG
+   aRb8l2dOxyN70e/iyJbGaiFfnjm4zGTvjd4qqzhQYm5K4sZG0gx5J/QER
+   +mUXg43JRY0zHL/YQpJiTl4n1Z4BQ60Cv81G4bBLBnRgfab2/lE9rej6i
+   g==;
+X-CSE-ConnectionGUID: hn6mT85uRdWGzwKEr7KWmQ==
+X-CSE-MsgGUID: 5akGN/X9RHmYnAkPskajYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="51748275"
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="75626708"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 01:52:48 -0700
-X-CSE-ConnectionGUID: w82y1GKoTI2LhJE4xCsecw==
-X-CSE-MsgGUID: 97iHsEu+R16jPtc2hWO8pg==
+   d="scan'208";a="51748275"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 01:52:47 -0700
+X-CSE-ConnectionGUID: mJIvjZCaTxWsxUOcdbaQ+w==
+X-CSE-MsgGUID: tQydeQx1R5+/kSq9BZJZMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="190697490"
+   d="scan'208";a="191727299"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2025 01:52:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2025 01:52:46 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFTpL-000P64-3B;
-	Sun, 02 Nov 2025 08:52:43 +0000
-Date: Sun, 2 Nov 2025 16:52:34 +0800
+	id 1vFTpM-000P66-01;
+	Sun, 02 Nov 2025 08:52:44 +0000
+Date: Sun, 2 Nov 2025 16:52:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 16/16] mm/slub.c:4040:1: warning: no
- previous prototype for function 'oot___kmalloc_0'
-Message-ID: <202511021627.iGnRBluv-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3075/3075] drivers/ub/ubus/port.c:31:5: warning:
+ no previous prototype for function 'ub_port_read_byte'
+Message-ID: <202511021607.J0DIAU9X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,548 +62,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yi,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   7103f9d5c75b142fc88eb149bc55d2e8c8ed76f3
-commit: baa47e1aa754428b439764393f2d71fb6bce04bf [16/16] anolis: mm: introduce per module slab for oot memory isolation
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251102/202511021627.iGnRBluv-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project cc271437553452ede002d871d32abc02084341a8)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021627.iGnRBluv-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5394cae209c4a4990d81be436ba17ae56fb09d16
+commit: 210be966e79360fac509e7d66f9adb1712146c14 [3075/3075] ub:ubus: Support for UB port sysfs attribute files
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251102/202511021607.J0DIAU9X-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021607.J0DIAU9X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511021627.iGnRBluv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511021607.J0DIAU9X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/slub.c:4040:1: warning: no previous prototype for function 'oot___kmalloc_0' [-Wmissing-prototypes]
-    4040 | DEFINE_OOT_FUNC___kmalloc(0);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:45:1: note: expanded from here
-      45 | oot___kmalloc_0
-         | ^
-   mm/slub.c:4040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4040 | DEFINE_OOT_FUNC___kmalloc(0);
+>> drivers/ub/ubus/port.c:31:5: warning: no previous prototype for function 'ub_port_read_byte' [-Wmissing-prototypes]
+      31 | int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
+         |     ^
+   drivers/ub/ubus/port.c:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      31 | int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4041:1: warning: no previous prototype for function 'oot___kmalloc_1' [-Wmissing-prototypes]
-    4041 | DEFINE_OOT_FUNC___kmalloc(1);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:61:1: note: expanded from here
-      61 | oot___kmalloc_1
-         | ^
-   mm/slub.c:4041:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4041 | DEFINE_OOT_FUNC___kmalloc(1);
+>> drivers/ub/ubus/port.c:38:5: warning: no previous prototype for function 'ub_port_read_word' [-Wmissing-prototypes]
+      38 | int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
+         |     ^
+   drivers/ub/ubus/port.c:38:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      38 | int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4042:1: warning: no previous prototype for function 'oot___kmalloc_2' [-Wmissing-prototypes]
-    4042 | DEFINE_OOT_FUNC___kmalloc(2);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:77:1: note: expanded from here
-      77 | oot___kmalloc_2
-         | ^
-   mm/slub.c:4042:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4042 | DEFINE_OOT_FUNC___kmalloc(2);
+>> drivers/ub/ubus/port.c:45:5: warning: no previous prototype for function 'ub_port_read_dword' [-Wmissing-prototypes]
+      45 | int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
+         |     ^
+   drivers/ub/ubus/port.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      45 | int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4043:1: warning: no previous prototype for function 'oot___kmalloc_3' [-Wmissing-prototypes]
-    4043 | DEFINE_OOT_FUNC___kmalloc(3);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:93:1: note: expanded from here
-      93 | oot___kmalloc_3
-         | ^
-   mm/slub.c:4043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4043 | DEFINE_OOT_FUNC___kmalloc(3);
+>> drivers/ub/ubus/port.c:52:5: warning: no previous prototype for function 'ub_port_write_byte' [-Wmissing-prototypes]
+      52 | int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
+         |     ^
+   drivers/ub/ubus/port.c:52:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      52 | int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4044:1: warning: no previous prototype for function 'oot___kmalloc_4' [-Wmissing-prototypes]
-    4044 | DEFINE_OOT_FUNC___kmalloc(4);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:109:1: note: expanded from here
-     109 | oot___kmalloc_4
-         | ^
-   mm/slub.c:4044:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4044 | DEFINE_OOT_FUNC___kmalloc(4);
+>> drivers/ub/ubus/port.c:59:5: warning: no previous prototype for function 'ub_port_write_word' [-Wmissing-prototypes]
+      59 | int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
+         |     ^
+   drivers/ub/ubus/port.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      59 | int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4045:1: warning: no previous prototype for function 'oot___kmalloc_5' [-Wmissing-prototypes]
-    4045 | DEFINE_OOT_FUNC___kmalloc(5);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:125:1: note: expanded from here
-     125 | oot___kmalloc_5
-         | ^
-   mm/slub.c:4045:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4045 | DEFINE_OOT_FUNC___kmalloc(5);
+   drivers/ub/ubus/port.c:66:5: warning: no previous prototype for function 'ub_port_write_dword' [-Wmissing-prototypes]
+      66 | int ub_port_write_dword(struct ub_port *port, u32 pos, u32 val)
+         |     ^
+   drivers/ub/ubus/port.c:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      66 | int ub_port_write_dword(struct ub_port *port, u32 pos, u32 val)
          | ^
          | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4046:1: warning: no previous prototype for function 'oot___kmalloc_6' [-Wmissing-prototypes]
-    4046 | DEFINE_OOT_FUNC___kmalloc(6);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:141:1: note: expanded from here
-     141 | oot___kmalloc_6
-         | ^
-   mm/slub.c:4046:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4046 | DEFINE_OOT_FUNC___kmalloc(6);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4047:1: warning: no previous prototype for function 'oot___kmalloc_7' [-Wmissing-prototypes]
-    4047 | DEFINE_OOT_FUNC___kmalloc(7);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:157:1: note: expanded from here
-     157 | oot___kmalloc_7
-         | ^
-   mm/slub.c:4047:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4047 | DEFINE_OOT_FUNC___kmalloc(7);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4048:1: warning: no previous prototype for function 'oot___kmalloc_8' [-Wmissing-prototypes]
-    4048 | DEFINE_OOT_FUNC___kmalloc(8);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:173:1: note: expanded from here
-     173 | oot___kmalloc_8
-         | ^
-   mm/slub.c:4048:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4048 | DEFINE_OOT_FUNC___kmalloc(8);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4049:1: warning: no previous prototype for function 'oot___kmalloc_9' [-Wmissing-prototypes]
-    4049 | DEFINE_OOT_FUNC___kmalloc(9);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:8:1: note: expanded from here
-       8 | oot___kmalloc_9
-         | ^
-   mm/slub.c:4049:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4049 | DEFINE_OOT_FUNC___kmalloc(9);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4050:1: warning: no previous prototype for function 'oot___kmalloc_10' [-Wmissing-prototypes]
-    4050 | DEFINE_OOT_FUNC___kmalloc(10);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:24:1: note: expanded from here
-      24 | oot___kmalloc_10
-         | ^
-   mm/slub.c:4050:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4050 | DEFINE_OOT_FUNC___kmalloc(10);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4051:1: warning: no previous prototype for function 'oot___kmalloc_11' [-Wmissing-prototypes]
-    4051 | DEFINE_OOT_FUNC___kmalloc(11);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:40:1: note: expanded from here
-      40 | oot___kmalloc_11
-         | ^
-   mm/slub.c:4051:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4051 | DEFINE_OOT_FUNC___kmalloc(11);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4052:1: warning: no previous prototype for function 'oot___kmalloc_12' [-Wmissing-prototypes]
-    4052 | DEFINE_OOT_FUNC___kmalloc(12);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:56:1: note: expanded from here
-      56 | oot___kmalloc_12
-         | ^
-   mm/slub.c:4052:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4052 | DEFINE_OOT_FUNC___kmalloc(12);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4053:1: warning: no previous prototype for function 'oot___kmalloc_13' [-Wmissing-prototypes]
-    4053 | DEFINE_OOT_FUNC___kmalloc(13);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:72:1: note: expanded from here
-      72 | oot___kmalloc_13
-         | ^
-   mm/slub.c:4053:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4053 | DEFINE_OOT_FUNC___kmalloc(13);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4054:1: warning: no previous prototype for function 'oot___kmalloc_14' [-Wmissing-prototypes]
-    4054 | DEFINE_OOT_FUNC___kmalloc(14);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:88:1: note: expanded from here
-      88 | oot___kmalloc_14
-         | ^
-   mm/slub.c:4054:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4054 | DEFINE_OOT_FUNC___kmalloc(14);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4055:1: warning: no previous prototype for function 'oot___kmalloc_15' [-Wmissing-prototypes]
-    4055 | DEFINE_OOT_FUNC___kmalloc(15);
-         | ^
-   mm/slub.c:4017:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4017 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^
-   <scratch space>:104:1: note: expanded from here
-     104 | oot___kmalloc_15
-         | ^
-   mm/slub.c:4055:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4055 | DEFINE_OOT_FUNC___kmalloc(15);
-         | ^
-         | static 
-   mm/slub.c:4016:45: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc'
-    4016 | #define DEFINE_OOT_FUNC___kmalloc(index)                                \
-         |                                                                         ^
->> mm/slub.c:4136:1: warning: no previous prototype for function 'oot___kmalloc_node_0' [-Wmissing-prototypes]
-    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:136:1: note: expanded from here
-     136 | oot___kmalloc_node_0
-         | ^
-   mm/slub.c:4136:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4136 | DEFINE_OOT_FUNC___kmalloc_node(0);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
->> mm/slub.c:4137:1: warning: no previous prototype for function 'oot___kmalloc_node_1' [-Wmissing-prototypes]
-    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:153:1: note: expanded from here
-     153 | oot___kmalloc_node_1
-         | ^
-   mm/slub.c:4137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4137 | DEFINE_OOT_FUNC___kmalloc_node(1);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
->> mm/slub.c:4138:1: warning: no previous prototype for function 'oot___kmalloc_node_2' [-Wmissing-prototypes]
-    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:2:1: note: expanded from here
-       2 | oot___kmalloc_node_2
-         | ^
-   mm/slub.c:4138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4138 | DEFINE_OOT_FUNC___kmalloc_node(2);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
->> mm/slub.c:4139:1: warning: no previous prototype for function 'oot___kmalloc_node_3' [-Wmissing-prototypes]
-    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:19:1: note: expanded from here
-      19 | oot___kmalloc_node_3
-         | ^
-   mm/slub.c:4139:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4139 | DEFINE_OOT_FUNC___kmalloc_node(3);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4140:1: warning: no previous prototype for function 'oot___kmalloc_node_4' [-Wmissing-prototypes]
-    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:36:1: note: expanded from here
-      36 | oot___kmalloc_node_4
-         | ^
-   mm/slub.c:4140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4140 | DEFINE_OOT_FUNC___kmalloc_node(4);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4141:1: warning: no previous prototype for function 'oot___kmalloc_node_5' [-Wmissing-prototypes]
-    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:53:1: note: expanded from here
-      53 | oot___kmalloc_node_5
-         | ^
-   mm/slub.c:4141:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4141 | DEFINE_OOT_FUNC___kmalloc_node(5);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4142:1: warning: no previous prototype for function 'oot___kmalloc_node_6' [-Wmissing-prototypes]
-    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:70:1: note: expanded from here
-      70 | oot___kmalloc_node_6
-         | ^
-   mm/slub.c:4142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4142 | DEFINE_OOT_FUNC___kmalloc_node(6);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4143:1: warning: no previous prototype for function 'oot___kmalloc_node_7' [-Wmissing-prototypes]
-    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:87:1: note: expanded from here
-      87 | oot___kmalloc_node_7
-         | ^
-   mm/slub.c:4143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4143 | DEFINE_OOT_FUNC___kmalloc_node(7);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4144:1: warning: no previous prototype for function 'oot___kmalloc_node_8' [-Wmissing-prototypes]
-    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^
-   <scratch space>:104:1: note: expanded from here
-     104 | oot___kmalloc_node_8
-         | ^
-   mm/slub.c:4144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4144 | DEFINE_OOT_FUNC___kmalloc_node(8);
-         | ^
-         | static 
-   mm/slub.c:4105:50: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4105 | #define DEFINE_OOT_FUNC___kmalloc_node(index)                           \
-         |                                                                         ^
-   mm/slub.c:4145:1: warning: no previous prototype for function 'oot___kmalloc_node_9' [-Wmissing-prototypes]
-    4145 | DEFINE_OOT_FUNC___kmalloc_node(9);
-         | ^
-   mm/slub.c:4106:7: note: expanded from macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    4106 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+   6 warnings generated.
 
 
-vim +/oot___kmalloc_0 +4040 mm/slub.c
+vim +/ub_port_read_byte +31 drivers/ub/ubus/port.c
 
-  4039	
-> 4040	DEFINE_OOT_FUNC___kmalloc(0);
-> 4041	DEFINE_OOT_FUNC___kmalloc(1);
-> 4042	DEFINE_OOT_FUNC___kmalloc(2);
-> 4043	DEFINE_OOT_FUNC___kmalloc(3);
-> 4044	DEFINE_OOT_FUNC___kmalloc(4);
-> 4045	DEFINE_OOT_FUNC___kmalloc(5);
-> 4046	DEFINE_OOT_FUNC___kmalloc(6);
-> 4047	DEFINE_OOT_FUNC___kmalloc(7);
-> 4048	DEFINE_OOT_FUNC___kmalloc(8);
-> 4049	DEFINE_OOT_FUNC___kmalloc(9);
-> 4050	DEFINE_OOT_FUNC___kmalloc(10);
-> 4051	DEFINE_OOT_FUNC___kmalloc(11);
-> 4052	DEFINE_OOT_FUNC___kmalloc(12);
-> 4053	DEFINE_OOT_FUNC___kmalloc(13);
-> 4054	DEFINE_OOT_FUNC___kmalloc(14);
-> 4055	DEFINE_OOT_FUNC___kmalloc(15);
-  4056	
-  4057	#ifdef CONFIG_NUMA
-  4058	static void *kmalloc_large_node(size_t size, gfp_t flags, int node)
-  4059	{
-  4060		struct page *page;
-  4061		void *ptr = NULL;
-  4062		unsigned int order = get_order(size);
-  4063	
-  4064		flags |= __GFP_COMP;
-  4065		page = alloc_pages_node(node, flags, order);
-  4066		if (page) {
-  4067			ptr = page_address(page);
-  4068			mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
-  4069					      PAGE_SIZE << order);
-  4070		}
-  4071	
-  4072		return kmalloc_large_node_hook(ptr, size, flags);
-  4073	}
-  4074	
-  4075	void *__kmalloc_node(size_t size, gfp_t flags, int node)
-  4076	{
-  4077		struct kmem_cache *s;
-  4078		void *ret;
-  4079	
-  4080		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {
-  4081			ret = kmalloc_large_node(size, flags, node);
-  4082	
-  4083			trace_kmalloc_node(_RET_IP_, ret,
-  4084					   size, PAGE_SIZE << get_order(size),
-  4085					   flags, node);
-  4086	
-  4087			return ret;
-  4088		}
-  4089	
-  4090		s = kmalloc_slab(size, flags);
-  4091	
-  4092		if (unlikely(ZERO_OR_NULL_PTR(s)))
-  4093			return s;
-  4094	
-  4095		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);
-  4096	
-  4097		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);
-  4098	
-  4099		ret = kasan_kmalloc(s, ret, size, flags);
-  4100	
-  4101		return ret;
-  4102	}
-  4103	EXPORT_SYMBOL(__kmalloc_node);
-  4104	
-  4105	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
-  4106	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
-  4107	{									\
-  4108		struct kmem_cache *s;						\
-  4109		void *ret;							\
-  4110										\
-  4111		if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {			\
-  4112			ret = kmalloc_large_node(size, flags, node);		\
-  4113										\
-  4114			trace_kmalloc_node(_RET_IP_, ret,			\
-  4115					   size, PAGE_SIZE << get_order(size),	\
-  4116					   flags, node);			\
-  4117										\
-  4118			return ret;						\
-  4119		}								\
-  4120										\
-  4121		s = oot_kmalloc_slab(index, size, flags);			\
-  4122										\
-  4123		if (unlikely(ZERO_OR_NULL_PTR(s)))				\
-  4124			return s;						\
-  4125										\
-  4126		ret = slab_alloc_node(s, flags, node, _RET_IP_, size);		\
-  4127										\
-  4128		trace_kmalloc_node(_RET_IP_, ret, size, s->size, flags, node);	\
-  4129										\
-  4130		ret = kasan_kmalloc(s, ret, size, flags);			\
-  4131										\
-  4132		return ret;							\
-  4133	}									\
-  4134	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
-  4135	
-> 4136	DEFINE_OOT_FUNC___kmalloc_node(0);
-> 4137	DEFINE_OOT_FUNC___kmalloc_node(1);
-> 4138	DEFINE_OOT_FUNC___kmalloc_node(2);
-> 4139	DEFINE_OOT_FUNC___kmalloc_node(3);
-> 4140	DEFINE_OOT_FUNC___kmalloc_node(4);
-> 4141	DEFINE_OOT_FUNC___kmalloc_node(5);
-> 4142	DEFINE_OOT_FUNC___kmalloc_node(6);
-> 4143	DEFINE_OOT_FUNC___kmalloc_node(7);
-> 4144	DEFINE_OOT_FUNC___kmalloc_node(8);
-> 4145	DEFINE_OOT_FUNC___kmalloc_node(9);
-> 4146	DEFINE_OOT_FUNC___kmalloc_node(10);
-> 4147	DEFINE_OOT_FUNC___kmalloc_node(11);
-> 4148	DEFINE_OOT_FUNC___kmalloc_node(12);
-> 4149	DEFINE_OOT_FUNC___kmalloc_node(13);
-> 4150	DEFINE_OOT_FUNC___kmalloc_node(14);
-> 4151	DEFINE_OOT_FUNC___kmalloc_node(15);
-  4152	
+    21	
+    22	#define UB_PORT_ATTR_RO(field) \
+    23		static struct ub_port_attribute ub_port_attr_##field = __ATTR_RO(field)
+    24	
+    25	#define UB_PORT_ATTR_RW(field) \
+    26		static struct ub_port_attribute ub_port_attr_##field = __ATTR_RW(field)
+    27	
+    28	#define UB_PORT_ATTR_WO(field) \
+    29		static struct ub_port_attribute ub_port_attr_##field = __ATTR_WO(field)
+    30	
+  > 31	int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
+    32	{
+    33		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
+    34	
+    35		return ub_cfg_read_byte(port->uent, base + pos, val);
+    36	}
+    37	
+  > 38	int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
+    39	{
+    40		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
+    41	
+    42		return ub_cfg_read_word(port->uent, base + pos, val);
+    43	}
+    44	
+  > 45	int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
+    46	{
+    47		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
+    48	
+    49		return ub_cfg_read_dword(port->uent, base + pos, val);
+    50	}
+    51	
+  > 52	int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
+    53	{
+    54		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
+    55	
+    56		return ub_cfg_write_byte(port->uent, base + pos, val);
+    57	}
+    58	
+  > 59	int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
+    60	{
+    61		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
+    62	
+    63		return ub_cfg_write_word(port->uent, base + pos, val);
+    64	}
+    65	
 
 -- 
 0-DAY CI Kernel Test Service
