@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5CB21ADCB;
-	Sun,  2 Nov 2025 22:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDDE1C831A;
+	Sun,  2 Nov 2025 22:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762122333; cv=none; b=kQt6F2oeyws4OJMhGU3kG5mSw7VcUXIzH//CdA7uX4AihqoB+gT8HICpQQXy2WhYkgNcK2dMz0uNkcdMwOB4uO+Z02TrXVC5HyLhuP+bZuoin7fear1h3DT3cYd73xztFpNsUq6Y9GOwue4ROmJTNI/Uc/i42KwvwVnuQA49x/0=
+	t=1762122995; cv=none; b=f8fomDbWq9SaiVsNAcay4ILWkHXca0NSE9DD6zLGLIXMQAeGdwgDoxrBR2MTjzadc7SzXb5+ID9fC0TV4yajDK6GvRTJ/W+JTcF5b+yzwJxSVDcF7tCUtU9/z+Pp4FEvREG07Qw7MO7sMt7h8TnnUA1TeyT2bZP92fiXxiep3gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762122333; c=relaxed/simple;
-	bh=xAaDVXcvzXMuT6b41jvj67zRq9dUreGowV9Fgs0NF0Y=;
+	s=arc-20240116; t=1762122995; c=relaxed/simple;
+	bh=iq1XjN1uIbCOZ40g5V9sS6uD1iDH7HWDpQxEZoG8uD8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WT9kW03oQR8qWivtzNvp0WZR/7ZuTNzQKsaumHMyAWXoZmWjcB1L2UBGUD/gCmw12QG+8Xl9GHd7DkjND5rxdC1tkLCn/h/psvG97L4KA7plW3WdwRDZPeshpg40nhPJGzeKJy+DhYhLFqe3DsKdl3iqv+lrpqgU4svnNFskKug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KN4y6alO; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=SNod/lo9tJiXDTaNVcMa0PuoL5bbExvMcHkYjX4hgxAhZTKJ9ZORba58W2hTJ4suzxJLfgxlaX1v2tyqySegz/ssVUVlcoWmGIx+c6vmlYN/ELepYnAL3I8Uu3qFgOZgAVA0koJvmso1F6WuZ6RDHJGuMkRTrGcvvITvTkrbsno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaUNwA+e; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KN4y6alO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaUNwA+e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762122332; x=1793658332;
+  t=1762122993; x=1793658993;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xAaDVXcvzXMuT6b41jvj67zRq9dUreGowV9Fgs0NF0Y=;
-  b=KN4y6alOBPr+QnnkpvT0Jfnwnf+i+gtVGxOxl03hEHueO6YsAuJ92/29
-   GXL+mUVDN4+hmcBMuRO/Kz2jguqBm7f7Dz31GTpBEJtJfudKL8OATFRVJ
-   fg1dkE5kC1YVOkuK1K/JtP/t+2r6pNywtmvUCTSv2TjfjWzSPFf6kxaf9
-   /y8KQhNT4XlwXsAI+QScVYmFKgNWPfezCTT5ylYiYHYgibRgkWYDZw7uj
-   785crRJWK1fiVok+Iq81hOod6D+hmibaefdM3n3tnnAj5Q6PEBQYyvvfh
-   Sdzl28VTrKsrZfJKOYd0A/AP7MUc86nU6nEHzXTLBJi+5E2NIPqTweOet
-   A==;
-X-CSE-ConnectionGUID: BuDp7+X3Rl+qeHMKco+BSg==
-X-CSE-MsgGUID: mJ+ln8S1TSaPECZMVGYV8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="68062718"
+  bh=iq1XjN1uIbCOZ40g5V9sS6uD1iDH7HWDpQxEZoG8uD8=;
+  b=LaUNwA+ew8GikvLw/oyFA9stsjtJIItDKE2Pnn26aFX4ik1nV/VUmPxq
+   zFamNL3FaVY0PiA82eFlOEU8wwWUXw03RFz0jXWQHwLK/kE974k3OAvHW
+   0e8ifAv8zIqnPOt0VXitt7IqWHE4Awja1LKr1nfMevXiO2llqcmAelCmd
+   P958P2EEQRF74Y52GRGw/vSZrhUr4V8Zq3Z42nnduHioPKU7aGbIf6+ld
+   57sGBQi2UG1m/bb6NTdT5w1G3zcxfdLbYSPYkEqtcYUjWC4l/lDmE/poB
+   a/xxXSMtFESvgDze57xC1jxnLkX+sGAoarqCdYdrsPNNFni8rs1v9zuFl
+   g==;
+X-CSE-ConnectionGUID: Pan2drLcTnOgtCnwneroHg==
+X-CSE-MsgGUID: eU1YQjL0RNC11mf0NNWO2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="63406295"
 X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
-   d="scan'208";a="68062718"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 14:25:31 -0800
-X-CSE-ConnectionGUID: vXJAcFdIRR2J+3k8618sjw==
-X-CSE-MsgGUID: gfzfgI3ESyqPmcXpTmfFfg==
+   d="scan'208";a="63406295"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 14:36:32 -0800
+X-CSE-ConnectionGUID: /dCbar9yStSnUxO7aVokZw==
+X-CSE-MsgGUID: Tl1sQCR2Rai6Szb1MJT+qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,274,1754982000"; 
-   d="scan'208";a="186593785"
+   d="scan'208";a="191873979"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Nov 2025 14:25:28 -0800
+  by orviesa005.jf.intel.com with ESMTP; 02 Nov 2025 14:36:30 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFgVq-000PcC-1p;
-	Sun, 02 Nov 2025 22:25:26 +0000
-Date: Mon, 3 Nov 2025 06:25:00 +0800
+	id 1vFggW-000Pci-0n;
+	Sun, 02 Nov 2025 22:36:28 +0000
+Date: Mon, 3 Nov 2025 06:35:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Elder <elder@riscstar.com>, vkoul@kernel.org, kishon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de, dlan@gentoo.org,
-	aurelien@aurel32.net, guodong@riscstar.com,
-	linux-phy@lists.infradead.org, spacemit@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Junzhong Pan <panjunzhong@linux.spacemit.com>
-Subject: Re: [PATCH v4 4/7] phy: spacemit: introduce PCIe/combo PHY
-Message-ID: <202511030652.3CVPb2v3-lkp@intel.com>
-References: <20251030220259.1063792-5-elder@riscstar.com>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] gpio: fxl6408: Add optional reset gpio control
+Message-ID: <202511030655.OCHXbHnE-lkp@intel.com>
+References: <20251102100515.9506-2-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,37 +65,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251030220259.1063792-5-elder@riscstar.com>
+In-Reply-To: <20251102100515.9506-2-jszhang@kernel.org>
 
-Hi Alex,
+Hi Jisheng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 131f3d9446a6075192cdd91f197989d98302faa6]
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.18-rc4 next-20251031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-phy-spacemit-add-SpacemiT-PCIe-combo-PHY/20251031-060541
-base:   131f3d9446a6075192cdd91f197989d98302faa6
-patch link:    https://lore.kernel.org/r/20251030220259.1063792-5-elder%40riscstar.com
-patch subject: [PATCH v4 4/7] phy: spacemit: introduce PCIe/combo PHY
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251103/202511030652.3CVPb2v3-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030652.3CVPb2v3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/gpio-fxl6408-Add-optional-reset-gpio-control/20251102-182544
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20251102100515.9506-2-jszhang%40kernel.org
+patch subject: [PATCH 1/2] gpio: fxl6408: Add optional reset gpio control
+config: arm-randconfig-001-20251103 (https://download.01.org/0day-ci/archive/20251103/202511030655.OCHXbHnE-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030655.OCHXbHnE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030652.3CVPb2v3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030655.OCHXbHnE-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "devm_clk_hw_register" [drivers/phy/phy-spacemit-k1-pcie.ko] undefined!
->> ERROR: modpost: "devm_clk_hw_get_clk" [drivers/phy/phy-spacemit-k1-pcie.ko] undefined!
-ERROR: modpost: "clk_save_context" [drivers/net/phy/air_en8811h.ko] undefined!
-ERROR: modpost: "clk_restore_context" [drivers/net/phy/air_en8811h.ko] undefined!
-ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
-ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
+>> drivers/gpio/gpio-fxl6408.c:118:15: error: call to undeclared function 'devm_gpiod_get_optional'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     118 |         reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+         |                      ^
+   drivers/gpio/gpio-fxl6408.c:118:15: note: did you mean 'devm_regulator_get_optional'?
+   include/linux/regulator/consumer.h:163:32: note: 'devm_regulator_get_optional' declared here
+     163 | struct regulator *__must_check devm_regulator_get_optional(struct device *dev,
+         |                                ^
+>> drivers/gpio/gpio-fxl6408.c:118:53: error: use of undeclared identifier 'GPIOD_OUT_LOW'
+     118 |         reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+         |                                                            ^~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +/devm_gpiod_get_optional +118 drivers/gpio/gpio-fxl6408.c
+
+   103	
+   104	static int fxl6408_probe(struct i2c_client *client)
+   105	{
+   106		struct device *dev = &client->dev;
+   107		struct gpio_desc *reset_gpio;
+   108		int ret;
+   109		struct gpio_regmap_config gpio_config = {
+   110			.parent = dev,
+   111			.ngpio = FXL6408_NGPIO,
+   112			.reg_dat_base = GPIO_REGMAP_ADDR(FXL6408_REG_INPUT_STATUS),
+   113			.reg_set_base = GPIO_REGMAP_ADDR(FXL6408_REG_OUTPUT),
+   114			.reg_dir_out_base = GPIO_REGMAP_ADDR(FXL6408_REG_IO_DIR),
+   115			.ngpio_per_reg = FXL6408_NGPIO,
+   116		};
+   117	
+ > 118		reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+   119		if (IS_ERR(reset_gpio))
+   120			return dev_err_probe(dev, PTR_ERR(reset_gpio), "Failed to get reset gpio\n");
+   121	
+   122		gpio_config.regmap = devm_regmap_init_i2c(client, &regmap);
+   123		if (IS_ERR(gpio_config.regmap))
+   124			return dev_err_probe(dev, PTR_ERR(gpio_config.regmap),
+   125					     "failed to allocate register map\n");
+   126	
+   127		ret = fxl6408_identify(dev, gpio_config.regmap);
+   128		if (ret)
+   129			return ret;
+   130	
+   131		/* Disable High-Z of outputs, so that our OUTPUT updates actually take effect. */
+   132		ret = regmap_write(gpio_config.regmap, FXL6408_REG_OUTPUT_HIGH_Z, 0);
+   133		if (ret)
+   134			return dev_err_probe(dev, ret, "failed to write 'output high Z' register\n");
+   135	
+   136		return PTR_ERR_OR_ZERO(devm_gpio_regmap_register(dev, &gpio_config));
+   137	}
+   138	
 
 -- 
 0-DAY CI Kernel Test Service
