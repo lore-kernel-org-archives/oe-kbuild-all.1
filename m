@@ -1,149 +1,112 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F216D1C5F1B
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 10:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AE0EEBA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 10:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762079766; cv=none; b=Nfb72FMvGYWYmKENU8W1GuTvNR0Tc3nVuqCPraW41YsI/xHZqrCxI6xYEjHQGUR6PnwZKFm2/RclfOFlgl8455YP3y7hEpHK6VARu1YDAxIFtGRSUrWUK845EMeU5j1luioszyYjYeJMCsJrcANYWj1jMwhYJlMxxhpNzYV/LeA=
+	t=1762079840; cv=none; b=sPLFpnAHX6/OfOzSoJbydEX2hT9kVVaUlkUolJVD9fha4+LuS0CxLVOYQcP9uqOhhz00jIri7XpIvKq39QxgJrtHpgfOXNG2zneyEXST2XVjLrNiLHSt14SnSdcyGoM0gMPRM6uX53Zsq/JBP1vOFkYu10FhG+oTHNN0Gq0Do0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762079766; c=relaxed/simple;
-	bh=QDjFHAnNGxJtqq3B2eRN6crskPhgy/pT5GpK0XQSS00=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d+o8xrhcqyaHLM2DEujqZ4xOChQRO+fBAsTM+Jfwywnpc4WkSGfxFlBX4dNUSTLi7NFsl0/JzakJj0ITdGPi8LZ+/Ae2nTaagGlABiiJqTs44OsHQLawPryeqbVOgbWMrMxrI6eUEKOYC6LyM4cgf7vJSd+4ZsxYu6KFY7lSSzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/NIZ/3e; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762079840; c=relaxed/simple;
+	bh=Zm9BeSHL1qychFDqQd/khDdDlVacxTmEaFnSv6CYI2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oMyVJr7Y5nEJ9UgLYdEfFn3/z24YtLrsgwXC/XqsvaWLE7QuLxkndVl+DQIk+oe05TmjnANpUFcHyRC4nzx/QiTPjW8PKqctJHbLUbvU/4TzrTKWFijb+uioJEitwpbYg+z6A65EkjnHG9i1zYxnhsCgWX5UC3gVbXdxF6tJcwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ctgu4ySw; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/NIZ/3e"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4710022571cso34479605e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Nov 2025 02:36:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762079763; x=1762684563; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ovu4hk1QeQJCG4bKMFk7VDTxcv3q5N8PBdUxZwYYOd8=;
-        b=N/NIZ/3e/bUXvEQTmnOmdOnYOaNy4XSQUf0nFalPmevZViwX4vb9SCiG8eb3hVnIsa
-         PVIflGLteP1WzTmnPmJ/1CFxeqs/u+5WLfsJlYv968nTAszfAIxybtaBnbVWgTZlTaBj
-         5bkfSiT+TCvsqnJ0kupjE2MwFKZF4vbnP8A1sRnLhul91XFgHaKwTlUlcggvUy+d456D
-         M4GSJzs0szKdX7B17V7NJWnePy/IXrEdFIJuvVWnerivifr9Wq5bka4kKY6/sJXppb1f
-         7UsjLtKxWlUbVlCqlKWn+KNgaquuXrQdhtIWwG+ETi+amCFMpNfoEklwHVDkLklFAwrt
-         n4xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762079763; x=1762684563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ovu4hk1QeQJCG4bKMFk7VDTxcv3q5N8PBdUxZwYYOd8=;
-        b=F9UIpHl5E1GSqDFRmNROeRTY/BUNr4ti2+CxEWRTrhtMQLALGLplBQcw+XwIxVngKQ
-         x1L17onCdgdxJ38bvFsncYWJMPlZRuaMRAYsn1oV6ARhit3xC+5LmqOUjEO5GgfCg2T3
-         0Fl//asTTLBkHdk/GFA34/lcG5RFAk6B8iRWomd+Cv6nlQujyhesykkBIi51m3zZhILO
-         JKlykvPF51uAXbw11KxjGQDYOK9D+1/Y2HPG+JP84GYHowFjJmZJY0I/F1CAf1hoVbRH
-         q+qw9HhwMEyxBQrih8CEmesRXbbZYIe6iKjWAzx5a4zxoOA8vc6+myaUIr9tntgpigBE
-         b+4g==
-X-Forwarded-Encrypted: i=1; AJvYcCX9WBdjIi1WEn8QyGMWIxembWM7J+z7uuVpibpHQPAk2vjPHlxZQTlQJ6Xu0A0gFB5+SyQrI60t78sEDWt7@lists.linux.dev
-X-Gm-Message-State: AOJu0YzB0c0K4ZnsEE3QY9VKGrm6f0VyYD9JnTaUhsE8YDphd5HlY4ja
-	81nb9lx11+mmSKTUB9l4RCs/WWPjuKewAiY+a+GqHICHWRG1asOba/Na
-X-Gm-Gg: ASbGncumAvN2otfLKY+sFFzS0Ndf+I7h5Q4wh7TU8WzMGaFP5hMTV7pynpGlPgMN8vx
-	aSUDyw8r8AyEC6DDYfWf4UpX1Bh112mAQ3TQBfbtdZHsXyUyDOxa4xFvoxWDrW7JovT+Ju0NWHt
-	4uaZP8qz+xVY0AIteV7fChANOumv5kilqljDymspRbVYFqc0nv+U+j67JTsIBX/7VG060fbkb81
-	QeVfPe1oIwWQ+vJgYpyWpbXinyyWxw+2gDnfBtiLEWK4CzHEJY9GO0vvgUgaQuR4eYVOhYlK9dc
-	fvee8xlM9GiXUvEdmSqgCM5qVbeYEIrnLmY25rmzl1/YO9cQX/KXhg3dHLdqv8pnPio7MVSHXWo
-	Q44rpfW3S3WOKi4ZHLomZwQXfgRx4g4hHJmj4poS6eJMtAAkEi8hsOa2qxQJcLjeNbz2SOejQv1
-	s6ktw9Q8wAk0OHO2mDQbbTaocYF13oqgaB+QoQP7b76Mjkr8SW/6lO
-X-Google-Smtp-Source: AGHT+IHL30gVPu+1tpP35sbbUpZLKsl40U91AdkYUoDD4qFiMCXwuao1AO3rSfpQub8UcTTdTBgniA==
-X-Received: by 2002:a05:600c:1c1d:b0:46d:cfc9:1d0f with SMTP id 5b1f17b1804b1-4773086e04fmr100701075e9.19.1762079762968;
-        Sun, 02 Nov 2025 02:36:02 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4772fbeef62sm64496655e9.1.2025.11.02.02.36.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 02:36:02 -0800 (PST)
-Date: Sun, 2 Nov 2025 10:36:00 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Linux Memory
- Management List <linux-mm@kvack.org>, u.kleine-koenig@baylibre.com, Nicolas
- Pitre <npitre@baylibre.com>, Oleg Nesterov <oleg@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Thomas
- Gleixner <tglx@linutronix.de>, Li RongQing <lirongqing@baidu.com>, Yu Kuai
- <yukuai3@huawei.com>, Khazhismel Kumykov <khazhy@chromium.org>, Jens Axboe
- <axboe@kernel.dk>, x86@kernel.org
-Subject: Re: [PATCH v4 next 6/9] lib: test_mul_u64_u64_div_u64: Test both
- generic and arch versions
-Message-ID: <20251102103600.65754bf2@pumpkin>
-In-Reply-To: <202511020421.ZZPBAIIw-lkp@intel.com>
-References: <20251029173828.3682-7-david.laight.linux@gmail.com>
-	<202511020421.ZZPBAIIw-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ctgu4ySw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762079839; x=1793615839;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Zm9BeSHL1qychFDqQd/khDdDlVacxTmEaFnSv6CYI2U=;
+  b=Ctgu4ySw/3t3HA3NSmKa6k1kRYZDtG0fkbTF0/4P+Z/JmdR93tSXvZgh
+   d0ckEviqBY3/vrsiZKRQYX6UVl5wpVXSY4GF9xgpOXp4fQ7ZeuezUMnm+
+   eyQdOLR8jWCz+IEIrlHk8vZC7w9gcKBqy54p+LM52wKF89uod1QfPyS/Q
+   udjWkHaSWZFRQHp7gpjX6MEfvlnuez4xKm3pyYmjui0iveVBel4+IgeBt
+   rK56LYbZcu56yN5FCL9jdpzuv7OdbF9KTZpYMFbJKP74xzQ649KnGE8ZL
+   tFbtyPkQkq6pN8lnP7yF5U5tei9MHNY+KUzUClQd35/Pjr+fwvApyE+AY
+   Q==;
+X-CSE-ConnectionGUID: HsYGQEviQXKhAhv8tPejsQ==
+X-CSE-MsgGUID: D98UEgKnRZOWgPLvtBTA5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="89642625"
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="89642625"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 02:37:18 -0800
+X-CSE-ConnectionGUID: S3MzMhQ6Rf6Z+TjE0MJ1Hg==
+X-CSE-MsgGUID: bd4Pmx/nS52Hc1LvESc3pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
+   d="scan'208";a="187351454"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2025 02:37:17 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFVSV-000P9t-0i;
+	Sun, 02 Nov 2025 10:37:15 +0000
+Date: Sun, 2 Nov 2025 18:36:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thierry Reding <treding@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thierryreding:pmc 35/35] drivers/irqchip/irq-renesas-rzg2l.c:86:1:
+ warning: useless storage class specifier in empty declaration
+Message-ID: <202511021827.IIXE4y2S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 2 Nov 2025 04:59:10 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/thierryreding/linux pmc
+head:   1437bc669bcbba8be779d0aa04d07949d2c938c9
+commit: 1437bc669bcbba8be779d0aa04d07949d2c938c9 [35/35] irqchip/renesas-rzg2l: Use contextual data instead of global variable
+config: nios2-randconfig-r072-20251102 (https://download.01.org/0day-ci/archive/20251102/202511021827.IIXE4y2S-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021827.IIXE4y2S-lkp@intel.com/reproduce)
 
-> Hi David,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on next-20251029]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/lib-mul_u64_u64_div_u64-rename-parameter-c-to-d/20251030-025633
-> base:   next-20251029
-> patch link:    https://lore.kernel.org/r/20251029173828.3682-7-david.laight.linux%40gmail.com
-> patch subject: [PATCH v4 next 6/9] lib: test_mul_u64_u64_div_u64: Test both generic and arch versions
-> config: i386-buildonly-randconfig-004-20251102 (https://download.01.org/0day-ci/archive/20251102/202511020421.ZZPBAIIw-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511020421.ZZPBAIIw-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511020421.ZZPBAIIw-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> lib/math/test_mul_u64_u64_div_u64.c:142:9: warning: '__div64_32' macro redefined [-Wmacro-redefined]  
->      142 | #define __div64_32 __div64_32
->          |         ^
->    arch/x86/include/asm/div64.h:78:9: note: previous definition is here
->       78 | #define __div64_32
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511021827.IIXE4y2S-lkp@intel.com/
 
-That is preceded by a comment that says it can't happen for x86-64.
-I think it would be better as '#define __div64_32 @@@' so that you get a compile
-error.
-But that isn't part of this change,
->          |         ^
->    1 warning generated.
-> 
-> 
-> vim +/__div64_32 +142 lib/math/test_mul_u64_u64_div_u64.c
-> 
->    140	
->    141	/* Compile the generic mul_u64_add_u64_div_u64() code */
->  > 142	#define __div64_32 __div64_32  
+All warnings (new ones prefixed by >>):
 
-It needs a preceding #undef
-Although I'm not sure why a normal build doesn't show it.
+>> drivers/irqchip/irq-renesas-rzg2l.c:86:1: warning: useless storage class specifier in empty declaration
+      86 | };
+         | ^
+>> drivers/irqchip/irq-renesas-rzg2l.c:436:23: warning: 'rzg2l_irqc_syscore' defined but not used [-Wunused-variable]
+     436 | static struct syscore rzg2l_irqc_syscore = {
+         |                       ^~~~~~~~~~~~~~~~~~
+--
+>> Warning: drivers/irqchip/irq-renesas-rzg2l.c:85 struct member 'syscore' not described in 'rzg2l_irqc_priv'
 
-Looks like I'll need to do a v5 :-(
 
-	David
+vim +86 drivers/irqchip/irq-renesas-rzg2l.c
 
->    143	#define div_s64_rem div_s64_rem
->    144	#define div64_u64_rem div64_u64_rem
->    145	#define div64_u64 div64_u64
->    146	#define div64_s64 div64_s64
->    147	#define iter_div_u64_rem iter_div_u64_rem
->    148	
-> 
+    70	
+    71	/**
+    72	 * struct rzg2l_irqc_priv - IRQ controller private data structure
+    73	 * @base:	Controller's base address
+    74	 * @irqchip:	Pointer to struct irq_chip
+    75	 * @fwspec:	IRQ firmware specific data
+    76	 * @lock:	Lock to serialize access to hardware registers
+    77	 * @cache:	Registers cache for suspend/resume
+    78	 */
+    79	static struct rzg2l_irqc_priv {
+    80		void __iomem			*base;
+    81		const struct irq_chip		*irqchip;
+    82		struct irq_fwspec		fwspec[IRQC_NUM_IRQ];
+    83		raw_spinlock_t			lock;
+    84		struct rzg2l_irqc_reg_cache	cache;
+  > 85		struct syscore			syscore;
+  > 86	};
+    87	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
