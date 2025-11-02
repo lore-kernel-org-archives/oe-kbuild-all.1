@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADE570830
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 08:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940D923B609
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 09:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762073570; cv=none; b=dH9Y1F08HDoJQu8/Yyw/vz3vDGSsausY2HZF8n34sBOcVU2+NG22oI1JlpVRHjBu2Sug9v00en8yUVxvQwjnZmHRy7Nsla/m3lwj/eBtjmae2F5qbCAZpJmT07gHVVUYi2MzbG8g8iQ/lPjPnx5uiTMUOQnIPJkwoRUm8rf+rw0=
+	t=1762074244; cv=none; b=DUMqtpzT6340D94cHxdc9QJXIE8DjDemvvIBWncrKBL09/kKSaZHtpFlICpB/2ulbdX3xEFMQD1m5/K2pPErgVKu94IQNz4bEh6SZjdw9gzSFL8RXYNUay4zupveTEUX+eTMHCnIIUUQwnrh4RhEBCLzbeIhBflsUc1bGjjhZUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762073570; c=relaxed/simple;
-	bh=fXxi4KW+BeNpP61ba3stAfSvlHp5+fiDs26Yzyfdqi0=;
+	s=arc-20240116; t=1762074244; c=relaxed/simple;
+	bh=xFafGH9pV9xVGQS0Mk9/NOydKQelsIiSPqy/EAkETx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HLxJMDR93+PMpORLhyE0uIV44MMwJgJIwueY+xMP0SS46/+YuXbrSfrJoli36sTosPzIwJoIaflIqRRWyercx0GdXlmuCft4GRI4EHyzhk+S5rfsH3QvsMLuYVEVyeKyDs+udGGzoSPW3vRVnqylYzkPjgRLNtizVQm81fuhYVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bB3fePeS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=beHsxO/CQhPoqmOwGHx75kGQKA4kGSuORfpWIgBrjPdHExvj0vHaJBjX8qMPmH649hGNbDCCQtkYlF4UnbW/0lIdvmAUJM6QtlM1nMpmoN0WKs2Lk5aZvD0I/cHjEU9Osa9h/G4AE2hfDxXVjLkTpJ06iJlH/6UwbkcLoDS200g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XADsW10D; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bB3fePeS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XADsW10D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762073569; x=1793609569;
+  t=1762074242; x=1793610242;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fXxi4KW+BeNpP61ba3stAfSvlHp5+fiDs26Yzyfdqi0=;
-  b=bB3fePeS4+8i8sVjJEaZbliUakn2Si7h9ZIfRW4hR2y4tRnb70WdnAgU
-   pk8GGI1snICHrC3dKp5dDvO2HHco3UWlWTnTtJxVJ2WmvBL/mc9psZSoN
-   YGUzuu6gZYdmddFoXcBiR6ev2KIlw101WzidEoSLM+PSuJS2Bb0mjvjkl
-   5U+T5Wo3X9Mz2WtGRYikBuZF850BWPV/LHkNsYys5A9gAimt9JIPtgsiG
-   aRb8l2dOxyN70e/iyJbGaiFfnjm4zGTvjd4qqzhQYm5K4sZG0gx5J/QER
-   +mUXg43JRY0zHL/YQpJiTl4n1Z4BQ60Cv81G4bBLBnRgfab2/lE9rej6i
+  bh=xFafGH9pV9xVGQS0Mk9/NOydKQelsIiSPqy/EAkETx0=;
+  b=XADsW10DvFGcf7vVne5NdKpZpr79BUWIXkUstzgDRnLuCCSgr7FIPb6v
+   oiib5YXeJfjxbNPBNjBXu4IegiVqj9CMakz7xpBV25x+UmRnpDHsX8Ua3
+   B8wiTvkdeuwj1n7eLoPrNArQBODfzwCuAT+7TE6VzimK7IpxYwjB6NNxB
+   D3PpLbs2P1bqkG+PJXfQiHJjzoxrEeWRtNfgzDovODjJtlZLaS6TyOx8o
+   fXGXhrQTMDfJemyBSPmbYBzdJFWwNBaUXLDeZFJ/0E10H4EDbgC92GdiV
+   ESVSIuHxkqujLabDwgp/+7QPjCsW5KlW7/taKdVil0Nnsu9EMxuA9P6Yn
    g==;
-X-CSE-ConnectionGUID: hn6mT85uRdWGzwKEr7KWmQ==
-X-CSE-MsgGUID: 5akGN/X9RHmYnAkPskajYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="51748275"
+X-CSE-ConnectionGUID: Qo6vH9L0S3aeTHMnGpA1nQ==
+X-CSE-MsgGUID: rGYLLCakTmalEAaVxtnXsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11600"; a="68037844"
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="51748275"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 01:52:47 -0700
-X-CSE-ConnectionGUID: mJIvjZCaTxWsxUOcdbaQ+w==
-X-CSE-MsgGUID: tQydeQx1R5+/kSq9BZJZMg==
+   d="scan'208";a="68037844"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 01:04:01 -0800
+X-CSE-ConnectionGUID: Z1Vr07zCRlyS2I4vs9Vi0w==
+X-CSE-MsgGUID: nRTGxcawSRSLIZnTFJGJEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,273,1754982000"; 
-   d="scan'208";a="191727299"
+   d="scan'208";a="186759430"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2025 01:52:46 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Nov 2025 01:04:00 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFTpM-000P66-01;
-	Sun, 02 Nov 2025 08:52:44 +0000
-Date: Sun, 2 Nov 2025 16:52:41 +0800
+	id 1vFU09-000P6O-2P;
+	Sun, 02 Nov 2025 09:03:55 +0000
+Date: Sun, 2 Nov 2025 17:03:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3075/3075] drivers/ub/ubus/port.c:31:5: warning:
- no previous prototype for function 'ub_port_read_byte'
-Message-ID: <202511021607.J0DIAU9X-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3083/3083]
+ drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:1988:47: warning: '%s'
+ directive output may be truncated writing up to 95 bytes into a region of
+ size 32
+Message-ID: <202511021602.OMQuliZc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +66,55 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   5394cae209c4a4990d81be436ba17ae56fb09d16
-commit: 210be966e79360fac509e7d66f9adb1712146c14 [3075/3075] ub:ubus: Support for UB port sysfs attribute files
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251102/202511021607.J0DIAU9X-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021607.J0DIAU9X-lkp@intel.com/reproduce)
+commit: 2048b5b7f264f56a4d9e73079e790e13c8596aaf [3083/3083] net: wangxun: txgbe: add support for wangxun 10G/25G/40G
+config: loongarch-randconfig-001-20251102 (https://download.01.org/0day-ci/archive/20251102/202511021602.OMQuliZc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251102/202511021602.OMQuliZc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511021607.J0DIAU9X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511021602.OMQuliZc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/ub/ubus/port.c:31:5: warning: no previous prototype for function 'ub_port_read_byte' [-Wmissing-prototypes]
-      31 | int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
-         |     ^
-   drivers/ub/ubus/port.c:31:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      31 | int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
-         | ^
-         | static 
->> drivers/ub/ubus/port.c:38:5: warning: no previous prototype for function 'ub_port_read_word' [-Wmissing-prototypes]
-      38 | int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
-         |     ^
-   drivers/ub/ubus/port.c:38:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      38 | int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
-         | ^
-         | static 
->> drivers/ub/ubus/port.c:45:5: warning: no previous prototype for function 'ub_port_read_dword' [-Wmissing-prototypes]
-      45 | int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
-         |     ^
-   drivers/ub/ubus/port.c:45:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      45 | int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
-         | ^
-         | static 
->> drivers/ub/ubus/port.c:52:5: warning: no previous prototype for function 'ub_port_write_byte' [-Wmissing-prototypes]
-      52 | int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
-         |     ^
-   drivers/ub/ubus/port.c:52:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      52 | int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
-         | ^
-         | static 
->> drivers/ub/ubus/port.c:59:5: warning: no previous prototype for function 'ub_port_write_word' [-Wmissing-prototypes]
-      59 | int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
-         |     ^
-   drivers/ub/ubus/port.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      59 | int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
-         | ^
-         | static 
-   drivers/ub/ubus/port.c:66:5: warning: no previous prototype for function 'ub_port_write_dword' [-Wmissing-prototypes]
-      66 | int ub_port_write_dword(struct ub_port *port, u32 pos, u32 val)
-         |     ^
-   drivers/ub/ubus/port.c:66:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      66 | int ub_port_write_dword(struct ub_port *port, u32 pos, u32 val)
-         | ^
-         | static 
-   6 warnings generated.
+   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:14:
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:13: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     987 |         u32 cur_diff = 0;
+         |             ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c: In function 'txgbe_set_priv_flags':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:1861:14: warning: variable 'reset_needed' set but not used [-Wunused-but-set-variable]
+    1861 |         bool reset_needed = 0;
+         |              ^~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c: In function 'txgbe_get_strings':
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:1988:47: warning: '%s' directive output may be truncated writing up to 95 bytes into a region of size 32 [-Wformat-truncation=]
+    1988 |                 snprintf(p, ETH_GSTRING_LEN, "%s",
+         |                                               ^~
+   In function 'txgbe_get_priv_flag_strings',
+       inlined from 'txgbe_get_strings' at drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:2044:3:
+   drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:1988:17: note: 'snprintf' output between 1 and 96 bytes into a destination of size 32
+    1988 |                 snprintf(p, ETH_GSTRING_LEN, "%s",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1989 |                          txgbe_gstrings_priv_flags[i].flag_string);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ub_port_read_byte +31 drivers/ub/ubus/port.c
+vim +1988 drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c
 
-    21	
-    22	#define UB_PORT_ATTR_RO(field) \
-    23		static struct ub_port_attribute ub_port_attr_##field = __ATTR_RO(field)
-    24	
-    25	#define UB_PORT_ATTR_RW(field) \
-    26		static struct ub_port_attribute ub_port_attr_##field = __ATTR_RW(field)
-    27	
-    28	#define UB_PORT_ATTR_WO(field) \
-    29		static struct ub_port_attribute ub_port_attr_##field = __ATTR_WO(field)
-    30	
-  > 31	int ub_port_read_byte(struct ub_port *port, u32 pos, u8 *val)
-    32	{
-    33		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
-    34	
-    35		return ub_cfg_read_byte(port->uent, base + pos, val);
-    36	}
-    37	
-  > 38	int ub_port_read_word(struct ub_port *port, u32 pos, u16 *val)
-    39	{
-    40		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
-    41	
-    42		return ub_cfg_read_word(port->uent, base + pos, val);
-    43	}
-    44	
-  > 45	int ub_port_read_dword(struct ub_port *port, u32 pos, u32 *val)
-    46	{
-    47		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
-    48	
-    49		return ub_cfg_read_dword(port->uent, base + pos, val);
-    50	}
-    51	
-  > 52	int ub_port_write_byte(struct ub_port *port, u32 pos, u8 val)
-    53	{
-    54		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
-    55	
-    56		return ub_cfg_write_byte(port->uent, base + pos, val);
-    57	}
-    58	
-  > 59	int ub_port_write_word(struct ub_port *port, u32 pos, u16 val)
-    60	{
-    61		u64 base = UB_PORT_SLICE_START + port->index * UB_PORT_SLICE_SIZE;
-    62	
-    63		return ub_cfg_write_word(port->uent, base + pos, val);
-    64	}
-    65	
+  1981	
+  1982	static void txgbe_get_priv_flag_strings(struct net_device *netdev, u8 *data)
+  1983	{
+  1984		char *p = (char *)data;
+  1985		unsigned int i;
+  1986	
+  1987		for (i = 0; i < TXGBE_PRIV_FLAGS_STR_LEN; i++) {
+> 1988			snprintf(p, ETH_GSTRING_LEN, "%s",
+  1989				 txgbe_gstrings_priv_flags[i].flag_string);
+  1990			p += ETH_GSTRING_LEN;
+  1991		}
+  1992	}
+  1993	
 
 -- 
 0-DAY CI Kernel Test Service
