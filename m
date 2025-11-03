@@ -1,140 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890BD2D2499;
-	Mon,  3 Nov 2025 07:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5996229D280
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 08:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762156722; cv=none; b=FN1CFeOFJqBYWCqYnMuQzyLufbr6yPLvxjK3O9l+/k01QuEy+DiTwbWIymEI6U1suOo5o4yh5AOfyauG9Pkwx0B3bOvLfhqwUaaWB8FUOOvFwQCAANQTs0pIX5NWQkgWUtJ7wLXn2A9pJH/viV5bmzUN/3gsHXSY+/2rFoCdKXA=
+	t=1762157193; cv=none; b=A6qsZ8U6rUPVfJ5S7HSBXsLtN7FC4/a2G7b9vMOUDeBCcsmKqpA+lCRGGGTURYMY2qksTZ/CWiaUoYOHooc8atiHR9TVpxrGcNo5fvTTo5Z39z5YVumnUa/gmWO+LiUtFVp8IX8RL090zikMKiEg3MwKUfiffXRDJolXjLizpak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762156722; c=relaxed/simple;
-	bh=1FNm0IkM1sY0ABEEDPCU3w2p5wh4CFQ4+1Miq44uQxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+vrv6mfg465+OdLbL591I52yljmjw45RXX5VCS7KubAC0PWt0npY/9x8VWXm/Hey0/uvpAznEcjabu11sinI9q5U4OVzizaWKWsI4rTrc48VoP0yQ2MepfT0ncFbF+xOKEvBv8DoAu9o+pnXzaUECXrsj99RpLyw+sUqS3BNjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOtD0K+V; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762157193; c=relaxed/simple;
+	bh=TJPUJVukbfWR3gfsffRUjF/8PW9lialw9HyxVO/Phco=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GbfRUczj1kbu2q5Gx8W9DGhFWC+hgxXxonr1AXX2hBAoG2bdXmweXQvh3sd4bnxLNFdLCCL1UuoL9rvpYSW4U76ZGa7KH82qZby3rrz0zsqBxvqKrHwky5WvvsWUmo6o0fFhjQQNpTSdiGYseyRWz4NBme+mq84sZ8b/iEsWW7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DPjra6OZ; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOtD0K+V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762156721; x=1793692721;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1FNm0IkM1sY0ABEEDPCU3w2p5wh4CFQ4+1Miq44uQxU=;
-  b=WOtD0K+VhGg/4X/R5dU9hWtY+hFs1PvecjSSWB56Oux6NAFaVDhh5YBz
-   X5bbk0YY8cVGnJUnlXExTTnfKYEj8xVeq/sZ7HJUsAjFTJ6J/xUcaBfjo
-   SLURAtdS04kopIcSEabpfa8vI+WdLDeO04R7ScHs/014OLulcidFQ/nt5
-   JWFwScti3mYIqRsixnH5SN6AxoZ2buxqG/AqtgBT65zFcOutciD0VHnRr
-   2iUanPIn+AhjWeOmenoQbLvOk+OfT3Cn/tAUr+RaYu0qjJOSDQ440CxFK
-   O7hSt4J8NKKYwy/cY6CEq3DEB4xVSFdTUeWrG8RTS03+bt1prx2SMwaEg
-   A==;
-X-CSE-ConnectionGUID: TVrEPqhtQKKuq4JQCwGGKg==
-X-CSE-MsgGUID: KWcYotN0R4Gc9vCtPzf2Ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64323445"
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="64323445"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 23:58:40 -0800
-X-CSE-ConnectionGUID: /JX1QDGhT/qZ5qvkq8W++Q==
-X-CSE-MsgGUID: ElpOeLaWQEOEFXRdrwRkMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="186675874"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Nov 2025 23:58:37 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vFpSJ-000Pw4-2S;
-	Mon, 03 Nov 2025 07:58:28 +0000
-Date: Mon, 3 Nov 2025 15:58:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>,
-	Christian Brauner <brauner@kernel.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Taotao Chen <chentaotao@didiglobal.com>,
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jkoolstra@xs4all.nl, linux-kernel@vger.kernel.org,
-	syzbot+a65e824272c5f741247d@syzkaller.appspotmail.com
-Subject: Re: [PATCH] Fix a drop_nlink warning in minix_rename
-Message-ID: <202511031556.5N9lmsZB-lkp@intel.com>
-References: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DPjra6OZ"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-785d3a5f641so40135327b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Nov 2025 00:06:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1762157190; x=1762761990; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7NJXJy4cAI4/mrSwSPYVdQe2DZkHcINj3IyYJCGJBc4=;
+        b=DPjra6OZkAffK6H1jRLp6O5yiM5k46GYTVYsBNq5s3w2qucY5mMIKvUB3VAOL+bnh1
+         rPZzzz2v3CddxygM1xXPKN2wukUt90L8/X3j+cgxXkrMY8lSL2Tcv9+CARilSdJGofFv
+         w//NU/ed4TgZkubwvD17FRpVVFlkbsi6tDRtu+MQuqaYuBxNGZUQbAVOqi7cvZwd1YK4
+         YP2eKpQ/TedyjcGu4PNFFNzmefLUnZZ0qWxgNwYt+q+Nm2gSx/zIQ40yPFYC3L3bvYgA
+         b6YCzHoPwxJs8s+9xL1M9KT89fef3P3KcPnXGSwBIMnwxUPtnYu8CvgZqf3ISPRqgYed
+         bZTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762157190; x=1762761990;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7NJXJy4cAI4/mrSwSPYVdQe2DZkHcINj3IyYJCGJBc4=;
+        b=sTmokaU8Y2RIU1O5FILw9bv7lH5X9apx/jxWmh7/ET0DTHaA776uq1zuDCmCzaP+hn
+         0Wfb89YZihfqlgAhePtSoao6WkEVbio80wIjosyPPx/2nWqgQF7GrLHjonQ9/OyIKHTV
+         Z9AkfybFYhb2HJOumtDDIc06FE5EgSJMfuzXaBxt3J0gTy9bBSLMkQxqtj4g1SoGeXWm
+         b0tX2zugaKoARJG9Gt1kV8dTZPy4eCeDRaIt5qLUQGR7GZce0Mqeo1pHnah21+aKWtP3
+         RztKQYGCetHGAoYvwn4KIP9tOM0tIUWhuvMVrHXNEJ9YvzdQ3B2Kb3RturgqCWFCx1aF
+         TzAw==
+X-Gm-Message-State: AOJu0YwMVC7caQ7fTg3tXmTNEGluUITtX+4mIXqjt7CHGnLXNX8uJUD+
+	srgZMRGtZZZhnk4Zf89AyYUh+qI6dMTHxrzHnNlnZ68HBCDv9yO+Cv3DL3Ph/1yq3MpdICuD6r/
+	V84jyhTFffIGKhYMbQxQHWbY8qlyNkxSzbX7UkvKf
+X-Gm-Gg: ASbGnculRWB9qGC/KHsPqldH18jvjvnr1GaBANYrr9/rBl2fg8PN/Tz5qFd2qbf7BD0
+	sWQahFVizflNcwV3Xoi9Kv1Pg6ZHj+6zJ/0vdKJICuWUyGZvg6XGEbwxQmL7tcRE0aUpALoqMov
+	DUHRLpbDSIq3+eDSAFFc+ljoUxXy7g8s9nYruZpLSGVZE/JZYHw50EMqVrRhzYyN4oTE8oH6fCI
+	CPBFUmxp/YyzXojoUgL8vu+UQ0c3X+YISHfMz1HYvxybCxrks52s+JCtss=
+X-Google-Smtp-Source: AGHT+IEsP1MAEGN+2YqHUmUaqQaVV+TIUE+RtPGUJjC296VRFo5DRFM5ayW9vTRA+F1L+iNilpI+yRUdSzgulPYBC14=
+X-Received: by 2002:a05:690c:6d8c:b0:786:4231:5e90 with SMTP id
+ 00721157ae682-7864856fc26mr99070117b3.56.1762157190044; Mon, 03 Nov 2025
+ 00:06:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
+References: <202509291645.fcBIaXMb-lkp@intel.com> <CANn89i+Bt5Coi3YOj2JjX4KWQN4tJJpyYD3EabS274T8bQwjSw@mail.gmail.com>
+In-Reply-To: <CANn89i+Bt5Coi3YOj2JjX4KWQN4tJJpyYD3EabS274T8bQwjSw@mail.gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Mon, 3 Nov 2025 00:06:18 -0800
+X-Gm-Features: AWmQ_bll77Tupv_60G7NMZkMDfIgtallI03szpNVDD4Eb724Mc_GXOztpPtFWkc
+Message-ID: <CANn89iLrM8ZJyJHYJH8Sbuj9F9OAKZn6srtgBXwU2XmMfJ-+BQ@mail.gmail.com>
+Subject: Re: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>, 
+	Will Deacon <will@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, linux-alpha@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jori,
+On Mon, Sep 29, 2025 at 2:49=E2=80=AFAM Eric Dumazet <edumazet@google.com> =
+wrote:
+>
+> On Mon, Sep 29, 2025 at 1:58=E2=80=AFAM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
+> > commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid=
+()
+> > date:   3 months ago
+> > config: alpha-randconfig-r122-20250929 (https://download.01.org/0day-ci=
+/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/config)
+> > compiler: alpha-linux-gcc (GCC) 15.1.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250929/202509291645.fcBIaXMb-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202509291645.fcBIaXMb-l=
+kp@intel.com/
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> >    net/packet/diag.c: note: in included file (through include/linux/soc=
+k_diag.h):
+> > >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+> >    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
+> > --
+> >    net/packet/af_packet.c:1099:13: sparse: sparse: context imbalance in=
+ '__packet_lookup_frame_in_block' - different lock contexts for basic block
+> >    net/packet/af_packet.c:2541:17: sparse: sparse: context imbalance in=
+ 'tpacket_rcv' - unexpected unlock
+> >    net/packet/af_packet.c: note: in included file (through include/net/=
+inet_sock.h, include/net/ip.h):
+> > >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+> >    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
+> >
+> > vim +2098 include/net/sock.h
+> >
+> > ^1da177e4c3f415 Linus Torvalds 2005-04-16  2094
+> > e84a4927a404f36 Eric Dumazet   2025-06-20  2095  static inline kuid_t s=
+k_uid(const struct sock *sk)
+> > e84a4927a404f36 Eric Dumazet   2025-06-20  2096  {
+> > e84a4927a404f36 Eric Dumazet   2025-06-20  2097         /* Paired with =
+WRITE_ONCE() in sockfs_setattr() */
+> > e84a4927a404f36 Eric Dumazet   2025-06-20 @2098         return READ_ONC=
+E(sk->sk_uid);
+> > e84a4927a404f36 Eric Dumazet   2025-06-20  2099  }
+> > e84a4927a404f36 Eric Dumazet   2025-06-20  2100
+> >
+> > :::::: The code at line 2098 was first introduced by commit
+> > :::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races aro=
+und sk->sk_uid
+> >
+> > :::::: TO: Eric Dumazet <edumazet@google.com>
+> > :::::: CC: Jakub Kicinski <kuba@kernel.org>
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+> This seems an Alpha issue to me ?
+>
+> I can submit the following fix if there is an agreement.
+>
+> diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwo=
+nce.h
+> index 35542bcf92b3a883df353784bcb2d243475ccd91..b6801cd2ace962e11624737ed=
+334a5aeb30478b7
+> 100644
+> --- a/arch/alpha/include/asm/rwonce.h
+> +++ b/arch/alpha/include/asm/rwonce.h
+> @@ -22,10 +22,10 @@
+>   */
+>  #define __READ_ONCE(x)                                                 \
+>  ({                                                                     \
+> -       __unqual_scalar_typeof(x) __x =3D                                =
+ \
+> -               (*(volatile typeof(__x) *)(&(x)));                      \
+> +       __auto_type __x =3D                                              =
+ \
+> +               (*(const volatile __unqual_scalar_typeof(x) *)&(x));    \
+>         mb();                                                           \
+> -       (typeof(x))__x;                                                 \
+> +       __x;                                                            \
+>  })
+>
+>  #endif /* CONFIG_SMP */
 
-kernel test robot noticed the following build errors:
+Gentle ping.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.18-rc4 next-20251103]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/Fix-a-drop_nlink-warning-in-minix_rename/20251103-022646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251102182532.2442670-1-jkoolstra%40xs4all.nl
-patch subject: [PATCH] Fix a drop_nlink warning in minix_rename
-config: arm-randconfig-004-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031556.5N9lmsZB-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031556.5N9lmsZB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511031556.5N9lmsZB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/minix/namei.c:151:11: error: use of undeclared identifier 'EFSCORRUPTED'
-     151 |                 return -EFSCORRUPTED;
-         |                         ^~~~~~~~~~~~
-   fs/minix/namei.c:217:10: error: use of undeclared identifier 'EFSCORRUPTED'
-     217 |                 err = -EFSCORRUPTED;
-         |                        ^~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/EFSCORRUPTED +151 fs/minix/namei.c
-
-   140	
-   141	static int minix_unlink(struct inode * dir, struct dentry *dentry)
-   142	{
-   143		struct inode * inode = d_inode(dentry);
-   144		struct folio *folio;
-   145		struct minix_dir_entry * de;
-   146		int err;
-   147	
-   148		if (inode->i_nlink < 1) {
-   149			printk(KERN_CRIT "minix-fs error: inode (ino: %ld) "
-   150			       "has corrupted nlink", inode->i_ino);
- > 151			return -EFSCORRUPTED;
-   152		}
-   153	
-   154		de = minix_find_entry(dentry, &folio);
-   155		if (!de)
-   156			return -ENOENT;
-   157		err = minix_delete_entry(de, folio);
-   158		folio_release_kmap(folio, de);
-   159	
-   160		if (err)
-   161			return err;
-   162		inode_set_ctime_to_ts(inode, inode_get_ctime(dir));
-   163		inode_dec_link_count(inode);
-   164		return 0;
-   165	}
-   166	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Is alpha arch still alive ?
