@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439D1C8FE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 06:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A2928725C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 07:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762152776; cv=none; b=XwQNHVDlx2b+e74tbu7NJPxfy9wS5UsAfrqB95UR2axxbmhuNZGAQXq2TnCytWCv0a5FRH5SidHSFhDCFRa0yd3gAaBJMl5YtkNgZtWloUQxGYkDtGTw8uu3Huq2pxVf8edXrykPJPG3NlhK5m6SUWAdL3QJG0gaQvrb9QQj3Rk=
+	t=1762154850; cv=none; b=t6Hz6q+BO3YZggqBsf26Xyh19rUoS58Wpe1fI4JL5n1MK3plgdOaQ0cojkqlaRED/d81QA0oSClQXCzPdizlxsIK3l25XrWOCfW4e0wFo1b9p4jaQMhJ8E1L93uAL1OURfnCzuZ1V2qeCoM+k/FBNbXX0lyoZumiTguPFLNNbnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762152776; c=relaxed/simple;
-	bh=4S3DTWFqMbRNvCzJlVGT4H/B7v2n5GDWed61HmL/ofk=;
+	s=arc-20240116; t=1762154850; c=relaxed/simple;
+	bh=nzaQiu5g5btPzsTSXEz5VWTAr43hXLYuV1koD2fqJ0Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qdVWGl38J765t61RvL1VeqN8Ji217TVhc+lu4vwWtwfm1oU6NKCeuE0pv55psWvB9OUHBugeY8K4mL71NrJviP6jSZL4AkHOfGTqDT9yddXT205MK0rYeU9P2A0CQu9uoiYK+9EaV1BRDbZj0RwU36SpiAyWllIjXj88c1p5aXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq5drhEo; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=pPQ890cGuiO4aLcUsuWGGsqX1RsYEjU6z9AwHkPj9csqObltUMOANq8PxloLVIETCTJrhelgIuSyVZLd8/FPTfkrfR5vnB7M5JXqkySG2GlDx0U3stAbvpWZaM60DhE1o1/v/SuNSJ/qHT9Mx1GGr+AG3O53jq9u+sGCvYt/7KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLJGRpsV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq5drhEo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLJGRpsV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762152774; x=1793688774;
+  t=1762154849; x=1793690849;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4S3DTWFqMbRNvCzJlVGT4H/B7v2n5GDWed61HmL/ofk=;
-  b=Qq5drhEo/16w+EvEWLK8Gu3CUUF0aLxH6CMeoZLucln1NgrC/fr0N6N4
-   vYJPTDC+CmvO2AYgDKc6iEnctlWG8jAwBH7FzU+vqGEdG2tS3PJlQjC/u
-   S5+ZT6xJlRKKPhWxrduuJKyBx73AMmOT+tWUVrAB0xggLRjsV5y1qnTJG
-   Hrg1sMGU/MzdxkGj1nWjQRNBGkwGvvK3rbmedgrLccWwP3q0gdcA3CCPp
-   3sYYYwBgQ2+MiDSh2ed4DYIOotYL6r5LXZplLg5tkeefKqljQlsvACu5+
-   J2twfYbwKts+pHXXXwhA+AyrNOiEWMmY+BP3v0CMPs2r8j5mZ+HZ4O2gC
+  bh=nzaQiu5g5btPzsTSXEz5VWTAr43hXLYuV1koD2fqJ0Q=;
+  b=jLJGRpsV/0D9HYWkRD2KVQPFTKGHIPxVEtg6zHbNp++/o8RRZqAhvx8z
+   uj2HVqtUBMUlJVwM533uKg7owDxIRKrmhenU7v3hw5F/wE0QHNFW6Si8+
+   G7cQ7FLMLTvOlg92PE6+W1DTKmm65BnkkZRfxaVW+MaNhenbZPCC2l3DS
+   6ybAsfsNOdN8Nv/llxLl61ghe2B0KMFxaK/M2fBj64KVu44D3QfNl0cjz
+   722yZwHOEz66vIRp1xlw18kZIcm/+ij+qy8Rt/4C+3Ir9Jr5KE5qj3Uj+
+   ZBCSTHdpy6IOgtJ/++Xd8UUXGhDyqkRmLhmX2vgePK4NJZI84vxt1bZm2
    w==;
-X-CSE-ConnectionGUID: iJrUNNJXSNC/qKDKJXw3rg==
-X-CSE-MsgGUID: /uC5BiW/SV2HqPEFBVWZRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64139407"
+X-CSE-ConnectionGUID: myGCAEJPSXuLVHNTqmEEKg==
+X-CSE-MsgGUID: LMOxOVOfRBGu6cckQ46jCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75575928"
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="64139407"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 22:52:53 -0800
-X-CSE-ConnectionGUID: QzVydwm+RHGpf/Oj1WKPPQ==
-X-CSE-MsgGUID: FfGYRZW2S5+hvsBWBhH0zA==
+   d="scan'208";a="75575928"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 23:27:28 -0800
+X-CSE-ConnectionGUID: T/UWRU6iRqW85XXHZCFzxg==
+X-CSE-MsgGUID: kh48bj4OTBW8CFF3Q6SJrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="186028056"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 02 Nov 2025 22:52:53 -0800
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="217431536"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2025 23:27:27 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFoQr-000000001ci-3DUn;
-	Mon, 03 Nov 2025 06:52:49 +0000
-Date: Mon, 3 Nov 2025 07:52:39 +0100
+	id 1vFoyK-000Puh-1Y;
+	Mon, 03 Nov 2025 07:27:24 +0000
+Date: Mon, 3 Nov 2025 15:26:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
-Subject: [chao:locking 5/5] kernel/locking/rwsem.c:997:29: warning: unused
- variable 'waiter'
-Message-ID: <202511030718.ktr84bEJ-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
+Subject: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+Message-ID: <202511031542.oqD6ABwP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,168 +63,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git locking
-head:   cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a
-commit: cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a [5/5] rwsem: clean up code
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251103/202511030718.ktr84bEJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030718.ktr84bEJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6146a0f1dfae5d37442a9ddcba012add260bceb0
+commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
+date:   4 months ago
+config: alpha-randconfig-r131-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031542.oqD6ABwP-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031542.oqD6ABwP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030718.ktr84bEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511031542.oqD6ABwP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/bluetooth/af_bluetooth.c:248:25: sparse: sparse: context imbalance in 'bt_accept_enqueue' - different lock contexts for basic block
+   net/bluetooth/af_bluetooth.c: note: in included file (through include/net/bluetooth/bluetooth.h):
+>> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
+   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
 
-   kernel/locking/rwsem.c: In function 'rwsem_down_read_slowpath':
-   kernel/locking/rwsem.c:1007:24: error: expected ')' before 'goto'
-    1007 |             (rcnt > 1))
-         |                        ^
-         |                        )
-    1008 |                 goto queue;
-         |                 ~~~~    
-   kernel/locking/rwsem.c:1005:12: note: to match this '('
-    1005 |         if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
-         |            ^
-   kernel/locking/rwsem.c:1102:1: error: expected expression before '}' token
-    1102 | }
-         | ^
->> kernel/locking/rwsem.c:997:29: warning: unused variable 'waiter' [-Wunused-variable]
-     997 |         struct rwsem_waiter waiter;
-         |                             ^~~~~~
->> kernel/locking/rwsem.c:995:14: warning: unused variable 'adjustment' [-Wunused-variable]
-     995 |         long adjustment = -RWSEM_READER_BIAS;
-         |              ^~~~~~~~~~
->> kernel/locking/rwsem.c:1102:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1102 | }
-         | ^
+vim +2098 include/net/sock.h
 
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2094  
+e84a4927a404f3 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_uid(const struct sock *sk)
+e84a4927a404f3 Eric Dumazet   2025-06-20  2096  {
+e84a4927a404f3 Eric Dumazet   2025-06-20  2097  	/* Paired with WRITE_ONCE() in sockfs_setattr() */
+e84a4927a404f3 Eric Dumazet   2025-06-20 @2098  	return READ_ONCE(sk->sk_uid);
+e84a4927a404f3 Eric Dumazet   2025-06-20  2099  }
+e84a4927a404f3 Eric Dumazet   2025-06-20  2100  
 
-vim +/waiter +997 kernel/locking/rwsem.c
+:::::: The code at line 2098 was first introduced by commit
+:::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races around sk->sk_uid
 
-54c1ee4d614d528 Waiman Long    2022-03-22   988  
-5dec94d4923683b Waiman Long    2019-05-20   989  /*
-5dec94d4923683b Waiman Long    2019-05-20   990   * Wait for the read lock to be granted
-5dec94d4923683b Waiman Long    2019-05-20   991   */
-6cef7ff6e43cbdb Waiman Long    2019-05-20   992  static struct rw_semaphore __sched *
-2f064a59a11ff9b Peter Zijlstra 2021-06-11   993  rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int state)
-5dec94d4923683b Waiman Long    2019-05-20   994  {
-617f3ef95177840 Waiman Long    2020-11-20  @995  	long adjustment = -RWSEM_READER_BIAS;
-2f06f702925b512 Waiman Long    2020-11-20   996  	long rcnt = (count >> RWSEM_READER_SHIFT);
-5dec94d4923683b Waiman Long    2019-05-20  @997  	struct rwsem_waiter waiter;
-5dec94d4923683b Waiman Long    2019-05-20   998  	DEFINE_WAKE_Q(wake_q);
-5dec94d4923683b Waiman Long    2019-05-20   999  
-2f06f702925b512 Waiman Long    2020-11-20  1000  	/*
-2f06f702925b512 Waiman Long    2020-11-20  1001  	 * To prevent a constant stream of readers from starving a sleeping
-d566c78659eccf0 Waiman Long    2024-02-22  1002  	 * writer, don't attempt optimistic lock stealing if the lock is
-d566c78659eccf0 Waiman Long    2024-02-22  1003  	 * very likely owned by readers.
-2f06f702925b512 Waiman Long    2020-11-20  1004  	 */
-cbce0966b2c1f7c Chao Yu        2025-10-31  1005  	if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
-cbce0966b2c1f7c Chao Yu        2025-10-31  1006  	    ((atomic_long_read(&sem->owner) & RWSEM_READER_OWNED) &&
-cbce0966b2c1f7c Chao Yu        2025-10-31  1007  	    (rcnt > 1))
-2f06f702925b512 Waiman Long    2020-11-20  1008  		goto queue;
-2f06f702925b512 Waiman Long    2020-11-20  1009  
-1a728dff855a318 Waiman Long    2020-11-20  1010  	/*
-617f3ef95177840 Waiman Long    2020-11-20  1011  	 * Reader optimistic lock stealing.
-1a728dff855a318 Waiman Long    2020-11-20  1012  	 */
-1a728dff855a318 Waiman Long    2020-11-20  1013  	rwsem_set_reader_owned(sem);
-1a728dff855a318 Waiman Long    2020-11-20  1014  	lockevent_inc(rwsem_rlock_steal);
-5cfd92e12e13432 Waiman Long    2019-05-20  1015  
-cf69482d62d996d Waiman Long    2019-05-20  1016  	/*
-cbce0966b2c1f7c Chao Yu        2025-10-31  1017  	 * Wake up other readers in the wait queue if it is the first reader.
-cf69482d62d996d Waiman Long    2019-05-20  1018  	 */
-617f3ef95177840 Waiman Long    2020-11-20  1019  	if ((rcnt == 1) && (count & RWSEM_FLAG_WAITERS)) {
-cf69482d62d996d Waiman Long    2019-05-20  1020  		raw_spin_lock_irq(&sem->wait_lock);
-cf69482d62d996d Waiman Long    2019-05-20  1021  		if (!list_empty(&sem->wait_list))
-cbce0966b2c1f7c Chao Yu        2025-10-31  1022  			rwsem_mark_wake(sem, RWSEM_WAKE_READ_OWNED, &wake_q);
-cf69482d62d996d Waiman Long    2019-05-20  1023  		raw_spin_unlock_irq(&sem->wait_lock);
-cf69482d62d996d Waiman Long    2019-05-20  1024  		wake_up_q(&wake_q);
-cf69482d62d996d Waiman Long    2019-05-20  1025  	}
-cf69482d62d996d Waiman Long    2019-05-20  1026  	return sem;
-cf69482d62d996d Waiman Long    2019-05-20  1027  
-cf69482d62d996d Waiman Long    2019-05-20  1028  queue:
-5dec94d4923683b Waiman Long    2019-05-20  1029  	waiter.task = current;
-5dec94d4923683b Waiman Long    2019-05-20  1030  	waiter.type = RWSEM_WAITING_FOR_READ;
-4f23dbc1e657951 Waiman Long    2019-05-20  1031  	waiter.timeout = jiffies + RWSEM_WAIT_TIMEOUT;
-6eebd5fb20838f5 Waiman Long    2022-06-22  1032  	waiter.handoff_set = false;
-5dec94d4923683b Waiman Long    2019-05-20  1033  
-5dec94d4923683b Waiman Long    2019-05-20  1034  	raw_spin_lock_irq(&sem->wait_lock);
-5dec94d4923683b Waiman Long    2019-05-20  1035  	if (list_empty(&sem->wait_list)) {
-5dec94d4923683b Waiman Long    2019-05-20  1036  		/*
-5dec94d4923683b Waiman Long    2019-05-20  1037  		 * In case the wait queue is empty and the lock isn't owned
-f9e21aa9e6fb113 Waiman Long    2022-03-22  1038  		 * by a writer, this reader can exit the slowpath and return
-f9e21aa9e6fb113 Waiman Long    2022-03-22  1039  		 * immediately as its RWSEM_READER_BIAS has already been set
-f9e21aa9e6fb113 Waiman Long    2022-03-22  1040  		 * in the count.
-5dec94d4923683b Waiman Long    2019-05-20  1041  		 */
-f9e21aa9e6fb113 Waiman Long    2022-03-22  1042  		if (!(atomic_long_read(&sem->count) & RWSEM_WRITER_MASK)) {
-e1b98fa31664842 Jan Stancek    2019-07-18  1043  			/* Provide lock ACQUIRE */
-e1b98fa31664842 Jan Stancek    2019-07-18  1044  			smp_acquire__after_ctrl_dep();
-5dec94d4923683b Waiman Long    2019-05-20  1045  			raw_spin_unlock_irq(&sem->wait_lock);
-5dec94d4923683b Waiman Long    2019-05-20  1046  			rwsem_set_reader_owned(sem);
-5dec94d4923683b Waiman Long    2019-05-20  1047  			lockevent_inc(rwsem_rlock_fast);
-5dec94d4923683b Waiman Long    2019-05-20  1048  			return sem;
-5dec94d4923683b Waiman Long    2019-05-20  1049  		}
-5dec94d4923683b Waiman Long    2019-05-20  1050  		adjustment += RWSEM_FLAG_WAITERS;
-5dec94d4923683b Waiman Long    2019-05-20  1051  	}
-d257cc8cb8d5355 Waiman Long    2021-11-15  1052  	rwsem_add_waiter(sem, &waiter);
-5dec94d4923683b Waiman Long    2019-05-20  1053  
-5dec94d4923683b Waiman Long    2019-05-20  1054  	/* we're now waiting on the lock, but no longer actively locking */
-5dec94d4923683b Waiman Long    2019-05-20  1055  	count = atomic_long_add_return(adjustment, &sem->count);
-5dec94d4923683b Waiman Long    2019-05-20  1056  
-54c1ee4d614d528 Waiman Long    2022-03-22  1057  	rwsem_cond_wake_waiter(sem, count, &wake_q);
-5dec94d4923683b Waiman Long    2019-05-20  1058  	raw_spin_unlock_irq(&sem->wait_lock);
-54c1ee4d614d528 Waiman Long    2022-03-22  1059  
-54c1ee4d614d528 Waiman Long    2022-03-22  1060  	if (!wake_q_empty(&wake_q))
-5dec94d4923683b Waiman Long    2019-05-20  1061  		wake_up_q(&wake_q);
-5dec94d4923683b Waiman Long    2019-05-20  1062  
-ee042be16cb4551 Namhyung Kim   2022-03-22  1063  	trace_contention_begin(sem, LCB_F_READ);
-77da18de55ac641 Lance Yang     2025-06-27  1064  	set_current_state(state);
-77da18de55ac641 Lance Yang     2025-06-27  1065  
-77da18de55ac641 Lance Yang     2025-06-27  1066  	if (state == TASK_UNINTERRUPTIBLE)
-77da18de55ac641 Lance Yang     2025-06-27  1067  		hung_task_set_blocker(sem, BLOCKER_TYPE_RWSEM_READER);
-ee042be16cb4551 Namhyung Kim   2022-03-22  1068  
-5dec94d4923683b Waiman Long    2019-05-20  1069  	/* wait to be given the lock */
-6ffddfb9e1de21c Peter Zijlstra 2019-07-18  1070  	for (;;) {
-99143f82a255e7f Peter Zijlstra 2019-07-18  1071  		if (!smp_load_acquire(&waiter.task)) {
-6ffddfb9e1de21c Peter Zijlstra 2019-07-18  1072  			/* Matches rwsem_mark_wake()'s smp_store_release(). */
-5dec94d4923683b Waiman Long    2019-05-20  1073  			break;
-99143f82a255e7f Peter Zijlstra 2019-07-18  1074  		}
-5dec94d4923683b Waiman Long    2019-05-20  1075  		if (signal_pending_state(state, current)) {
-5dec94d4923683b Waiman Long    2019-05-20  1076  			raw_spin_lock_irq(&sem->wait_lock);
-5dec94d4923683b Waiman Long    2019-05-20  1077  			if (waiter.task)
-5dec94d4923683b Waiman Long    2019-05-20  1078  				goto out_nolock;
-5dec94d4923683b Waiman Long    2019-05-20  1079  			raw_spin_unlock_irq(&sem->wait_lock);
-6ffddfb9e1de21c Peter Zijlstra 2019-07-18  1080  			/* Ordered by sem->wait_lock against rwsem_mark_wake(). */
-5dec94d4923683b Waiman Long    2019-05-20  1081  			break;
-5dec94d4923683b Waiman Long    2019-05-20  1082  		}
-3f5245538a1964a Waiman Long    2023-01-25  1083  		schedule_preempt_disabled();
-5dec94d4923683b Waiman Long    2019-05-20  1084  		lockevent_inc(rwsem_sleep_reader);
-77da18de55ac641 Lance Yang     2025-06-27  1085  		set_current_state(state);
-5dec94d4923683b Waiman Long    2019-05-20  1086  	}
-5dec94d4923683b Waiman Long    2019-05-20  1087  
-77da18de55ac641 Lance Yang     2025-06-27  1088  	if (state == TASK_UNINTERRUPTIBLE)
-77da18de55ac641 Lance Yang     2025-06-27  1089  		hung_task_clear_blocker();
-77da18de55ac641 Lance Yang     2025-06-27  1090  
-5dec94d4923683b Waiman Long    2019-05-20  1091  	__set_current_state(TASK_RUNNING);
-5dec94d4923683b Waiman Long    2019-05-20  1092  	lockevent_inc(rwsem_rlock);
-ee042be16cb4551 Namhyung Kim   2022-03-22  1093  	trace_contention_end(sem, 0);
-5dec94d4923683b Waiman Long    2019-05-20  1094  	return sem;
-6ffddfb9e1de21c Peter Zijlstra 2019-07-18  1095  
-5dec94d4923683b Waiman Long    2019-05-20  1096  out_nolock:
-1ee326196c66583 Waiman Long    2022-03-22  1097  	rwsem_del_wake_waiter(sem, &waiter, &wake_q);
-5dec94d4923683b Waiman Long    2019-05-20  1098  	__set_current_state(TASK_RUNNING);
-5dec94d4923683b Waiman Long    2019-05-20  1099  	lockevent_inc(rwsem_rlock_fail);
-ee042be16cb4551 Namhyung Kim   2022-03-22  1100  	trace_contention_end(sem, -EINTR);
-5dec94d4923683b Waiman Long    2019-05-20  1101  	return ERR_PTR(-EINTR);
-5dec94d4923683b Waiman Long    2019-05-20 @1102  }
-5dec94d4923683b Waiman Long    2019-05-20  1103  
-
-:::::: The code at line 997 was first introduced by commit
-:::::: 5dec94d4923683b1dd6a09dc62427a24d79ee7b4 locking/rwsem: Merge rwsem.h and rwsem-xadd.c into rwsem.c
-
-:::::: TO: Waiman Long <longman@redhat.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
