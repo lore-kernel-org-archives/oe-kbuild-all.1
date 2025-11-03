@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C73734D3A7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE0A2F2E
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 22:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762207333; cv=none; b=L5KlRVPh9ae7I4Xatlu7/2Wwwuvoo1Au1Mn2oLIQYFp5B6uH+Ftafk1USZKLPP0DBF8KGYqO44cuS7oFL/TfZ4a+Ee1n4EIuxRGQXqCeYXqKBhvK5PMKnCGDBeYjquwJ9VlkOglbW00Qbgru4mDKRCGU8b6RZ1a5MRAsP/ACFeE=
+	t=1762207333; cv=none; b=Da4PdWMMB2MA0urcqRgm5yjVKbAExYYIXbE4xXXnri00pFv+TBgNqIL8TQ09oFP+A0qhQwLI7P8Lz1hM5fRqll5UoBjmxzZ53NlFARvNpZtTxRJA6bDV+lrxgwyxj5rSMVwVryArQ3U858ic08HKiJh4FHzObr8rwJM866wAMcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762207333; c=relaxed/simple;
-	bh=SzyupFKIeNZgZw2vIzSgrhPe/0CVy5HlaxcSy8WEdes=;
+	bh=S95hbzAip16ujDMzM+vNnCcgsIFhJ3vlcqmO+W11zeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BYwZw43Cr2SrP7svGXrrH6HcmdlLK1eXOwg6TA1Ku1vxY1jNgAf9vED5YFMMP/0GBc+wrL2BGrHH1Wvx+tO6y0HjR9W0sPC/UtKMt/7WWs0RvCvf5WsTUma57epfsyQ/c3XiSr5Rn7nZ9eHPjbIlZlUyp1UH8Iw/X9fUZxDfvnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O32VtN9q; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=B+MSLB9hkMTUPYuQPcv4bd0bBKRn5HMX/GZpYMXRHRdvTT/E3luypnAV85xKVqi1qv3OxASTGhce49qOQ73eHmmL/EKE/vCppToQ2Xk1gS3HG/krgNmgu62r+GRmExTU6xblmleGG9MGaUwtmN4ZBR5f1Cw6pEQIC6WUbTL8Dds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awEq9SMS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O32VtN9q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awEq9SMS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762207332; x=1793743332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SzyupFKIeNZgZw2vIzSgrhPe/0CVy5HlaxcSy8WEdes=;
-  b=O32VtN9qLyg8aFVItp4Q7R1f1jlI9w9y+4S9bbM2ZEhIlENxgyDuUU70
-   ml5rvfhBlX2t3U0HQ2zUQPRWu0VbiGjiPEftRv5ogRKNKBR4wBRa5X6GK
-   gjQ50gPv0UiJIXAsfWnV6ekm/qfUvHd3XVS2enPwO9pDZTuPVvzmxIogR
-   jU9CBLbdzQ8dQ1Wa3pdRcVezaDELbw28SUfz+Fk0/wb9/bGHAak4XgUHP
-   XwrEjl6QPrCNsQNRLcKB+Su+jV3KfrswB8l9amnZNqQmzeRhMz7rVnrxT
-   FX2Io6/q7LbSuUif9rJ6VJg5sSm16wNFehy9oW0Qt1CBwYqO/u1cNrt87
-   g==;
-X-CSE-ConnectionGUID: KGmNA06iQfiQkVjjL5DIHA==
-X-CSE-MsgGUID: PNrykDoDSyO0fkv/vbYGLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="68154312"
+  bh=S95hbzAip16ujDMzM+vNnCcgsIFhJ3vlcqmO+W11zeI=;
+  b=awEq9SMSiA184XNcgZjLWolP/0fTG0rubwxi6mwVY3HT8qWD/gQJGQmd
+   KCXQOPA6s1DZtlA991N5kHAUsgHv9d7YHxs9wdFRU1/wwCsKwLB6swvv6
+   m0EcbtbBS2yLXNpbje3rko1R5U0h3Lii7HwOwIIDPNEIRvA1pJUYppXt1
+   p5PGD8K8GB6XBaPM9nlKiJaxp0+M4Xy1K52EuztBySHSjcvS1OVdHQjIx
+   KWD0VCmpl+yM0Uom7WAeX8Ax6G4UFAAEBKPW39iFn7QNAifj9nQPYSE7O
+   +MLZS/5s9Cwk2Lxii1RaAnDKnWlNln7o9bYLsi+JkiP2Jpb8qDL0NsgQa
+   w==;
+X-CSE-ConnectionGUID: fmVl8lnwQ1yj6wD0d+efEw==
+X-CSE-MsgGUID: ED22v5VSSY60krNgxmpADQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="86919289"
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="68154312"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 14:02:11 -0800
-X-CSE-ConnectionGUID: 1HAufSfMT66MnxSKB/rJUQ==
-X-CSE-MsgGUID: K4TFWc+xSbOFDnLKty4+IQ==
+   d="scan'208";a="86919289"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 14:02:11 -0800
+X-CSE-ConnectionGUID: D4Aid9GaTrG1RKCZe6vCzQ==
+X-CSE-MsgGUID: 1BwHe84rQTSk3w2aN6lQ1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="186665738"
+   d="scan'208";a="186930122"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 03 Nov 2025 14:02:10 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Nov 2025 14:02:10 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG2cp-000QZg-1m;
+	id 1vG2cp-000QZi-1p;
 	Mon, 03 Nov 2025 22:02:07 +0000
-Date: Tue, 4 Nov 2025 06:01:53 +0800
+Date: Tue, 4 Nov 2025 06:01:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, xiajingze <xiajingze1@huawei.com>
+To: kernel@openeuler.org, Wang Liang <wangliang74@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] mm/vmscan.o: warning: objtool:
- shrink_lruvec+0xbca: sibling call from callable instruction with modified
- stack frame
-Message-ID: <202511040559.zWQ5UJQg-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3098/3098] net/oenetcls/oenetcls_main.c:990:13:
+ warning: 'set_netdev_xps_queue' defined but not used
+Message-ID: <202511040552.16dcWFcA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,75 +62,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Wang,
+
+First bad commit (maybe != root cause):
+
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
-commit: 241ad43fe7e9c24d5ba4cdd1ec22e731cdd22d14 [3098/3098] Compiler: Add clang's PGO support for kernel.
-config: x86_64-randconfig-004-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040559.zWQ5UJQg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040559.zWQ5UJQg-lkp@intel.com/reproduce)
+commit: 22d4075bf5ef29ba4b329f954ac28a7de1d69a65 [3098/3098] net/oenetcls: remove oenetcls trace hook
+config: x86_64-randconfig-121-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040552.16dcWFcA-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040552.16dcWFcA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040559.zWQ5UJQg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040552.16dcWFcA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2235:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:673:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     673 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:2411:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2411 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2919:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2919 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2920:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2920 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:6914:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    6914 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   12 warnings generated.
->> mm/vmscan.o: warning: objtool: shrink_lruvec+0xbca: sibling call from callable instruction with modified stack frame
+>> net/oenetcls/oenetcls_main.c:990:13: warning: 'set_netdev_xps_queue' defined but not used [-Wunused-function]
+     990 | static void set_netdev_xps_queue(bool enable)
+         |             ^~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:294,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:23,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from net/oenetcls/oenetcls_main.c:2:
+   In function 'strncpy',
+       inlined from 'oecls_filter_restore' at net/oenetcls/oenetcls_main.c:459:2:
+   include/linux/fortify-string.h:81:33: warning: '__builtin_strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+      81 | #define __underlying_strncpy    __builtin_strncpy
+         |                                 ^
+   include/linux/fortify-string.h:165:16: note: in expansion of macro '__underlying_strncpy'
+     165 |         return __underlying_strncpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~~
+   In function 'strncpy',
+       inlined from 'oecls_filter_enable.constprop' at net/oenetcls/oenetcls_main.c:413:2:
+   include/linux/fortify-string.h:81:33: warning: '__builtin_strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+      81 | #define __underlying_strncpy    __builtin_strncpy
+         |                                 ^
+   include/linux/fortify-string.h:165:16: note: in expansion of macro '__underlying_strncpy'
+     165 |         return __underlying_strncpy(p, q, size);
+         |                ^~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
+   Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
+   Selected by [m]:
+   - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+   - SXE_VF [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+
+
+vim +/set_netdev_xps_queue +990 net/oenetcls/oenetcls_main.c
+
+4bed6ba0e88f50 Wang Liang 2025-08-26   989  
+4bed6ba0e88f50 Wang Liang 2025-08-26  @990  static void set_netdev_xps_queue(bool enable)
+4bed6ba0e88f50 Wang Liang 2025-08-26   991  {
+4bed6ba0e88f50 Wang Liang 2025-08-26   992  	const struct cpumask clear_mask = { 0 };
+4bed6ba0e88f50 Wang Liang 2025-08-26   993  	struct oecls_netdev_info *oecls_dev;
+4bed6ba0e88f50 Wang Liang 2025-08-26   994  	const struct cpumask *cpu_mask;
+4bed6ba0e88f50 Wang Liang 2025-08-26   995  	int rxq_id, devid, cpu, nid;
+4bed6ba0e88f50 Wang Liang 2025-08-26   996  
+4bed6ba0e88f50 Wang Liang 2025-08-26   997  	for_each_oecls_netdev(devid, oecls_dev) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   998  		for (rxq_id = 0; rxq_id < oecls_dev->rxq_num; rxq_id++) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   999  			cpu = oecls_dev->rxq[rxq_id].affinity_cpu;
+4bed6ba0e88f50 Wang Liang 2025-08-26  1000  			nid = cpu_to_node(cpu);
+4bed6ba0e88f50 Wang Liang 2025-08-26  1001  			if (enable)
+4bed6ba0e88f50 Wang Liang 2025-08-26  1002  				cpu_mask = cpumask_of_node(nid);
+4bed6ba0e88f50 Wang Liang 2025-08-26  1003  			else
+4bed6ba0e88f50 Wang Liang 2025-08-26  1004  				cpu_mask = &clear_mask;
+4bed6ba0e88f50 Wang Liang 2025-08-26  1005  
+4bed6ba0e88f50 Wang Liang 2025-08-26  1006  			netif_set_xps_queue_wrapper(oecls_dev->netdev, rxq_id, cpu_mask);
+4bed6ba0e88f50 Wang Liang 2025-08-26  1007  		}
+4bed6ba0e88f50 Wang Liang 2025-08-26  1008  	}
+4bed6ba0e88f50 Wang Liang 2025-08-26  1009  }
+4bed6ba0e88f50 Wang Liang 2025-08-26  1010  
+
+:::::: The code at line 990 was first introduced by commit
+:::::: 4bed6ba0e88f50484fd5fb06bd993727b981b718 net/oenetcls: introduce oenetcls for network optimization
+
+:::::: TO: Wang Liang <wangliang74@huawei.com>
+:::::: CC: Wang Liang <wangliang74@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
