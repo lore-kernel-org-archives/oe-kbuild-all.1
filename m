@@ -1,61 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DAE2222BF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 13:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2C7313E04
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 15:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762177860; cv=none; b=ExTL9iqYF+oYz9gYIQxf8k0ukRAPgZcINqMz5BZYRy7uixHGoGakiZQh8TgM/5mma4s48YKFvmunnDq4IorAYdven6CxrmVGaoCyT9yWezJz3Knh1rItkqGhA4qiZd8/74EmoNypMpHkhKgobFqhtsGcxXe+TaKAHEENXFqx+D0=
+	t=1762182148; cv=none; b=IsMs5fjfuJ8I/QFcFiGbF3f6Hl+CEUIXxSh2hjmeIIWA7g1gVZAyTGcwgGlUottsIdGpYCFEhMdDDmsDbOD7/O1hTt+za3JpMDTvtnzM7OR/2eR4G/x0/PceVOFEEwW5+dJI9HUqZNdck83Z1Wk/+1TjIxk+9jRkyIB0ItoKqUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762177860; c=relaxed/simple;
-	bh=F6l5stcoXNysGsO1+GlrND65w1cBnNuDkPiI3HT4l0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D56fDiw5QFXtroVizU1fPUvo1OoGsXhfKkFlM7BC5rbyrgv72FMVyKqmZSaG0nhDOK38bFirKE7V7edo0TZxgs7wJ9gDlxrz13zKZR4LE/zUVmA8KInEFrGB6igsdBb0GNEFGkgJpmSnL9YjtVjld2buLu5v1NnRiRdL7GLvH5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVoW58kn; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1762182148; c=relaxed/simple;
+	bh=1qVfb6Tt9ZEGVb7HA+q4Rz6oZPevQ+HIETeIkX0+qao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J8x6BojsPsepQmFpOXb+a2DqEE1k1YGe0HputksSjvtP8/hSFNyVqZq4NITavHjfMJJn6rRbrShAZg8edcWIwxeLzC875uzBKhMEu9R3SSDnBzB+7auUscVbHaV/QVrcaBSsh4r9o97XDCnIgEKWpVfvSNaAeKUbFG8xflgrZEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AU4YI2cv; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVoW58kn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AU4YI2cv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762177859; x=1793713859;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F6l5stcoXNysGsO1+GlrND65w1cBnNuDkPiI3HT4l0c=;
-  b=ZVoW58knC8UP0Ym0DWnqhpKwBO5VtLYOZNmsSwLDMuNYzMEOdcTxt0Vm
-   sRFcP4BRuHzdKRUV+fsIn205dzMJI/3/HBDP8djSsonwg+zxV0PIPlNQL
-   cNKgg1UJScGdr0A0faNxrBbFndEC0nhL0VOqhl+kLmpliGJFRGlspVQXr
-   WpaZHFKOpIwvOK6HLy6dk8OfTbyHdloj7a5QbVlPAkDPP21CRhk0ArFND
-   sPAxHRCnSHnbUUntfkC25TW59KQz71oKcah3ZrirlqA9eALR0E7Pjk8j/
-   RjkhTMDUsyyPDnut64qIv3HADgeMiQHqxtk/WlMox03HpdHWIy3hKQl4t
-   w==;
-X-CSE-ConnectionGUID: cdnYpvV8QNWSFWjkbr37AA==
-X-CSE-MsgGUID: BlHT7ziKTUOYmwfSbXwDwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64176863"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64176863"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 05:50:59 -0800
-X-CSE-ConnectionGUID: 5uALy7E9QzisXs2sWBL5Cg==
-X-CSE-MsgGUID: dPUTE84hS0WiL7h8E8MC1A==
+  t=1762182146; x=1793718146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1qVfb6Tt9ZEGVb7HA+q4Rz6oZPevQ+HIETeIkX0+qao=;
+  b=AU4YI2cvEFxPm9fNyuOjqaPmv+bwGAI5v9Thqbl/8GgAgYbr9MZsRd2L
+   MgdwKQfF6wJZvmmB2mJeJQdHH5nF4qr1vR+gtnkQnhG5qvMrLNpi/iyLu
+   HbQi39g0t0KEt27TG/Hvo/0K4WFYitGO8eByOOEHal61d3RTTYSsi8kPy
+   clzi7gBnyLp6dRzm1kSUOJof/Tn5y2X5yyUVAXkrfvrxk7bJN8Pr2QdcR
+   0s4VAs5jQhblvc4CHkUU1a3ev3BZIoCzOh88GHyYYKhvgId1upF+mIuGi
+   B6bGOb4CIfDPLDxDmhKR8WL8Y9w0vldeIZuJMC3NMOTEHvdWwXWmxjBVN
+   g==;
+X-CSE-ConnectionGUID: T8zMyhw1RN+MWeYkYdji0g==
+X-CSE-MsgGUID: UBVuw0lmR1CxT3Lvy64N9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64174625"
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="64174625"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 07:02:25 -0800
+X-CSE-ConnectionGUID: jTBFCisFTR2zenyJuK5hng==
+X-CSE-MsgGUID: i1CyeBCmTo+G5dsPULoKag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="191974361"
-Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Nov 2025 05:50:58 -0800
-Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+   d="scan'208";a="217525253"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 03 Nov 2025 07:02:18 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFuxT-000000001kK-3gm0;
-	Mon, 03 Nov 2025 13:50:55 +0000
-Date: Mon, 3 Nov 2025 14:50:46 +0100
+	id 1vFw48-000QFs-1a;
+	Mon, 03 Nov 2025 15:01:58 +0000
+Date: Mon, 3 Nov 2025 23:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: sheetal <sheetal@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thierry Reding <treding@nvidia.com>
-Subject: [linux-next:master 4717/5674]
- arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb:
- dma-controller@9440000 (nvidia,tegra264-adma): interrupts: [[0, 144, 4], [0,
- 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 149, 4], [0, 150, 4],
- [0, 151, 4], [0, 152, 4], [0, 153, 4], [0...
-Message-ID: <202511031425.0hG03rm3-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Arnd Bergmann <arnd@arndb.de>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 10/16] mm: replace pmd_to_swp_entry() with
+ leafent_from_pmd()
+Message-ID: <202511032203.LAN8NcTM-lkp@intel.com>
+References: <38c26e75ed00263e9ecbebb0c045dd6d8183ec67.1762171281.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +87,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <38c26e75ed00263e9ecbebb0c045dd6d8183ec67.1762171281.git.lorenzo.stoakes@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9823120909776bbca58a3c55ef1f27d49283c1f3
-commit: 0867951a1c9230074f61a045d19d76a406e20489 [4717/5674] arm64: tegra: Add Tegra264 audio support
-config: arm64-randconfig-2052-20251101 (https://download.01.org/0day-ci/archive/20251103/202511031425.0hG03rm3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.9.dev13+gc72762e0c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031425.0hG03rm3-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-correctly-handle-UFFD-PTE-markers/20251103-204118
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/38c26e75ed00263e9ecbebb0c045dd6d8183ec67.1762171281.git.lorenzo.stoakes%40oracle.com
+patch subject: [PATCH 10/16] mm: replace pmd_to_swp_entry() with leafent_from_pmd()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251103/202511032203.LAN8NcTM-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511032203.LAN8NcTM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511031425.0hG03rm3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511032203.LAN8NcTM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: dma-controller@9440000 (nvidia,tegra264-adma): interrupts: [[0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 149, 4], [0, 150, 4], [0, 151, 4], [0, 152, 4], [0, 153, 4], [0, 154, 4], [0, 155, 4], [0, 156, 4], [0, 157, 4], [0, 158, 4], [0, 159, 4], [0, 160, 4], [0, 161, 4], [0, 162, 4], [0, 163, 4], [0, 164, 4], [0, 165, 4], [0, 166, 4], [0, 167, 4], [0, 168, 4], [0, 169, 4], [0, 170, 4], [0, 171, 4], [0, 172, 4], [0, 173, 4], [0, 174, 4], [0, 175, 4], [0, 176, 4], [0, 177, 4], [0, 178, 4], [0, 179, 4], [0, 180, 4], [0, 181, 4], [0, 182, 4], [0, 183, 4], [0, 184, 4], [0, 185, 4], [0, 186, 4], [0, 187, 4], [0, 188, 4], [0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 193, 4], [0, 194, 4], [0, 195, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4], [0, 200, 4], [0, 201, 4], [0, 202, 4], [0, 203, 4], [0, 204, 4], [0, 205, 4], [0, 206, 4], [0, 207, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra210-adma.yaml
-   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:40: 'rx21' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
-   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:41: 'tx21' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
-   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:42: 'rx22' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
-   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:43: 'tx22' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
-   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
-   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:44: 'rx23' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/mm_inline.h:11,
+                    from kernel/fork.c:46:
+   include/linux/leafops.h: In function 'leafent_from_pmd':
+>> include/linux/leafops.h:111:22: error: implicit declaration of function '__pmd_to_swp_entry'; did you mean 'pte_to_swp_entry'? [-Wimplicit-function-declaration]
+     111 |         arch_entry = __pmd_to_swp_entry(pmd);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      pte_to_swp_entry
+>> include/linux/leafops.h:111:22: error: incompatible types when assigning to type 'leaf_entry_t' {aka 'swp_entry_t'} from type 'int'
+--
+   In file included from include/linux/leafops.h:6,
+                    from include/linux/migrate.h:9,
+                    from mm/folio-compat.c:7:
+   include/linux/swapops.h: In function 'swp_entry':
+>> include/linux/swapops.h:27:46: error: 'MAX_SWAPFILES_SHIFT' undeclared (first use in this function)
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/swapops.h:90:28: note: in expansion of macro 'SWP_TYPE_SHIFT'
+      90 |         ret.val = (type << SWP_TYPE_SHIFT) | (offset & SWP_OFFSET_MASK);
+         |                            ^~~~~~~~~~~~~~
+   include/linux/swapops.h:27:46: note: each undeclared identifier is reported only once for each function it appears in
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/swapops.h:90:28: note: in expansion of macro 'SWP_TYPE_SHIFT'
+      90 |         ret.val = (type << SWP_TYPE_SHIFT) | (offset & SWP_OFFSET_MASK);
+         |                            ^~~~~~~~~~~~~~
+   include/linux/swapops.h: In function 'swp_type':
+>> include/linux/swapops.h:27:46: error: 'MAX_SWAPFILES_SHIFT' undeclared (first use in this function)
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/swapops.h:100:30: note: in expansion of macro 'SWP_TYPE_SHIFT'
+     100 |         return (entry.val >> SWP_TYPE_SHIFT);
+         |                              ^~~~~~~~~~~~~~
+   include/linux/swapops.h: In function 'swp_offset':
+>> include/linux/swapops.h:27:46: error: 'MAX_SWAPFILES_SHIFT' undeclared (first use in this function)
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/swapops.h:28:34: note: in expansion of macro 'SWP_TYPE_SHIFT'
+      28 | #define SWP_OFFSET_MASK ((1UL << SWP_TYPE_SHIFT) - 1)
+         |                                  ^~~~~~~~~~~~~~
+   include/linux/swapops.h:109:28: note: in expansion of macro 'SWP_OFFSET_MASK'
+     109 |         return entry.val & SWP_OFFSET_MASK;
+         |                            ^~~~~~~~~~~~~~~
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/migrate.h:5:
+   include/linux/swapops.h: In function 'swp_offset_pfn':
+>> include/linux/swapops.h:27:46: error: 'MAX_SWAPFILES_SHIFT' undeclared (first use in this function)
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   include/linux/minmax.h:89:9: note: in expansion of macro '__cmp_once_unique'
+      89 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:161:27: note: in expansion of macro '__cmp_once'
+     161 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ^~~~~~~~~~
+   include/linux/swapops.h:38:33: note: in expansion of macro 'min_t'
+      38 | #define SWP_PFN_BITS            min_t(int, \
+         |                                 ^~~~~
+   include/linux/swapops.h:40:39: note: in expansion of macro 'SWP_TYPE_SHIFT'
+      40 |                                       SWP_TYPE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~
+   include/linux/swapops.h:42:38: note: in expansion of macro 'SWP_PFN_BITS'
+      42 | #define SWP_PFN_MASK            (BIT(SWP_PFN_BITS) - 1)
+         |                                      ^~~~~~~~~~~~
+   include/linux/swapops.h:120:36: note: in expansion of macro 'SWP_PFN_MASK'
+     120 |         return swp_offset(entry) & SWP_PFN_MASK;
+         |                                    ^~~~~~~~~~~~
+   include/linux/swapops.h: In function 'make_pte_marker_entry':
+>> include/linux/swapops.h:395:26: error: 'SWP_PTE_MARKER' undeclared (first use in this function)
+     395 |         return swp_entry(SWP_PTE_MARKER, marker);
+         |                          ^~~~~~~~~~~~~~
+   In file included from <command-line>:
+   include/linux/swapops.h: In function 'is_pfn_swap_entry':
+>> include/linux/swapops.h:27:46: error: 'MAX_SWAPFILES_SHIFT' undeclared (first use in this function)
+      27 | #define SWP_TYPE_SHIFT  (BITS_PER_XA_VALUE - MAX_SWAPFILES_SHIFT)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:577:23: note: in definition of macro '__compiletime_assert'
+     577 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:597:9: note: in expansion of macro '_compiletime_assert'
+     597 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/swapops.h:448:9: note: in expansion of macro 'BUILD_BUG_ON'
+     448 |         BUILD_BUG_ON(SWP_TYPE_SHIFT < SWP_PFN_BITS);
+         |         ^~~~~~~~~~~~
+   include/linux/swapops.h:448:22: note: in expansion of macro 'SWP_TYPE_SHIFT'
+     448 |         BUILD_BUG_ON(SWP_TYPE_SHIFT < SWP_PFN_BITS);
+         |                      ^~~~~~~~~~~~~~
+   include/linux/swapops.h: In function 'non_swap_entry':
+   include/linux/swapops.h:491:35: error: 'MAX_SWAPFILES' undeclared (first use in this function); did you mean 'S_SWAPFILE'?
+     491 |         return swp_type(entry) >= MAX_SWAPFILES;
+         |                                   ^~~~~~~~~~~~~
+         |                                   S_SWAPFILE
+   include/linux/leafops.h: In function 'leafent_from_pmd':
+>> include/linux/leafops.h:111:22: error: implicit declaration of function '__pmd_to_swp_entry'; did you mean 'pte_to_swp_entry'? [-Wimplicit-function-declaration]
+     111 |         arch_entry = __pmd_to_swp_entry(pmd);
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      pte_to_swp_entry
+>> include/linux/leafops.h:111:22: error: incompatible types when assigning to type 'leaf_entry_t' {aka 'swp_entry_t'} from type 'int'
+
+
+vim +111 include/linux/leafops.h
+
+    90	
+    91	/**
+    92	 * leafent_from_pmd() - Obtain a leaf entry from a PMD entry.
+    93	 * @pmd: PMD entry.
+    94	 *
+    95	 * If @pmd is present (therefore not a leaf entry) the function returns an empty
+    96	 * leaf entry. Otherwise, it returns a leaf entry.
+    97	 *
+    98	 * Returns: Leaf entry.
+    99	 */
+   100	static inline leaf_entry_t leafent_from_pmd(pmd_t pmd)
+   101	{
+   102		leaf_entry_t arch_entry;
+   103	
+   104		if (pmd_present(pmd))
+   105			return leafent_mk_none();
+   106	
+   107		if (pmd_swp_soft_dirty(pmd))
+   108			pmd = pmd_swp_clear_soft_dirty(pmd);
+   109		if (pmd_swp_uffd_wp(pmd))
+   110			pmd = pmd_swp_clear_uffd_wp(pmd);
+ > 111		arch_entry = __pmd_to_swp_entry(pmd);
+   112	
+   113		/* Temporary until swp_entry_t eliminated. */
+   114		return swp_entry(__swp_type(arch_entry), __swp_offset(arch_entry));
+   115	}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
