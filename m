@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2F534D3BE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Nov 2025 23:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB092110E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 00:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762127427; cv=none; b=mN4QoYy07PBNvVLN9NJpu010/F4l8fNeWElSZWq+9G6lrHAxcH+XfmBPAooNaAWZ9aVAF7FVRm69SxJLR5neIV9b4jZSzzjh3l4SvpqQlkuxIzC385UKwkZk5JCCl7ni1MJQc3xqhMF9jPcM46jLyqq29f3oFr32MSvJ2zho21M=
+	t=1762129927; cv=none; b=hx6kec/k1DwztndjuoHZ5+j2VYicnJ8xqvaYEviTbDanB6ZMxcKIdCJA7IVyrwnOcFm6k8BDYyEvTyk0W3ZzXag5S3/gH6VgA16FQjdLnwrUITfVrTZBA0FuHkqYc2ndhKVmYntWg4TXKVoW4OPbJHHrD4ocLhopoi+XUvQHBi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762127427; c=relaxed/simple;
-	bh=GttTkmdbCZ5J7TUOaftMWvx66MrDZMk5fddJer1mQTQ=;
+	s=arc-20240116; t=1762129927; c=relaxed/simple;
+	bh=Ou4Vtp8D51XCmZ22PeJtqUR1gX1wr0PVhh8qETjRY+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qE8rEgtbmJ5Y1riGW3JUUQK3Z/4iyyxkjoxm8v9cTx1qBTRxHOsCX1Vd3idSs7TXhN4272tKqblHX8p9rzjM6x7uEPcKXhuFbDNePtB7ZIJDwC4pb+SDThG/tmfLemlPnRSol3yXJu+Qiplu37tUoXNm3NAZkLAM+dTKavzCTnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROkwGabf; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=bvzxCL4dk5C3ZTsiTc8pNUrjJibpQTEUBcc0/qPPu8hiKxR/OVjgODd/pG+gh8RThd4L7SjiDHQ5+WvqpEZZfZ1SzsyyDUEeuPbI5S2gH3H2tXxM7P6o5yA4d8go/V7b4teJ5jINr6pa/r2NbsAZ5LwK3p1xEGtUf+D9tev9/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Keg9IAqY; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROkwGabf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Keg9IAqY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762127425; x=1793663425;
+  t=1762129925; x=1793665925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GttTkmdbCZ5J7TUOaftMWvx66MrDZMk5fddJer1mQTQ=;
-  b=ROkwGabfIFBeXapSS9ffMqmCXRHAuTTKjFcW6CbpuLJTJLmKypJNMkNm
-   wIoWxTw3u85AK1HEDsiaGFXkyY+7w0Kol42feUqlUPzxPUZijBlTHRxmd
-   QoXHSq849qWJBVzU3aMJxk6Samqy3mOVxf3PFJgb7v8K+d6wKm0Wnq6vh
-   +cDG9FQBtOMGce6ZeXGgs9iJj4v102LYhHLdKO5FDN/dQ/bfV9cr4xZAz
-   LhpKdRF0spxsLwHK3+enp2Tw+xjx90OYSA1SHhmUlRCx6LzbgqRkHTVrJ
-   wwPGE/6ofZEbHIpi1+Rn/+cxznwHc5ma1V7SIdmlbG1Ok5NaVtyAaikLT
-   Q==;
-X-CSE-ConnectionGUID: 9xIo56HdSQmkNeZ6LkG0+w==
-X-CSE-MsgGUID: hIE26ym8TM6/Dpw33sOVrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="81831096"
+  bh=Ou4Vtp8D51XCmZ22PeJtqUR1gX1wr0PVhh8qETjRY+I=;
+  b=Keg9IAqYznX+lyxC557ii/PtqDYflAiBdzGaN3ImEFhEFVgi8DvWiR49
+   MVjlwKTBohv8++MHbUK3nwSpl3n5O1xtiap9Rybgnd5HyuE6OLOtDucgW
+   hiruHqzJOBd9IMsyEnMThr7jw1se/Hdol4uW6kzOG0mZu9aOVSpBP/S7C
+   IoxeHIYiXr6479ddu4x2ClhkVY3KwbxIiaPBqp79tIqE2ONj+Dh5yNooE
+   EsibgGKFkodEWgYpWor9Y2rYiB4T6NnFLRvJPyGTaaKMIBjAKByvI18Qb
+   SClli3OuHWdERQYbDXvkn3qbMxqEbdHG5mFyGE2Nv4QJ/B02vFQUdHq9D
+   w==;
+X-CSE-ConnectionGUID: i3HQbZ4MSZWlJ6F/BtKfcw==
+X-CSE-MsgGUID: lO82eQUGTci6ULkVgwYw6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64301621"
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="81831096"
+   d="scan'208";a="64301621"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 15:50:24 -0800
-X-CSE-ConnectionGUID: hsBKMgEIQxO62rhhWJ/+yA==
-X-CSE-MsgGUID: 6NIL292aQdqBa2zEyPUMFw==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 16:32:02 -0800
+X-CSE-ConnectionGUID: qly+yHAcQBy3uZLpnWHfUw==
+X-CSE-MsgGUID: 6za22p1JQjqR7CzZOtjFkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="186678790"
+   d="scan'208";a="186683412"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Nov 2025 15:50:23 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Nov 2025 16:32:02 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFhq0-000Pez-3D;
-	Sun, 02 Nov 2025 23:50:20 +0000
-Date: Mon, 3 Nov 2025 07:48:19 +0800
+	id 1vFiUI-000PgK-2T;
+	Mon, 03 Nov 2025 00:31:58 +0000
+Date: Mon, 3 Nov 2025 08:31:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3083/3083] mm/memcontrol.c:4061:5: sparse:
- sparse: symbol 'sysctl_memcg_oom_prio' was not declared. Should it be
- static?
-Message-ID: <202511030753.dgyTecoe-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 614/741]
+ fs/bcachefs/btree/commit.c:717:4: error: implicit declaration of function
+ '__WARN'; did you mean 'WARN'?
+Message-ID: <202511030833.KrCtzrOl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +64,241 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5394cae209c4a4990d81be436ba17ae56fb09d16
-commit: 44391f3171b05060096ff496f3507033f2460161 [3083/3083] memcg: Add sysctl memcg_qos_enable
-config: x86_64-randconfig-123-20251103 (https://download.01.org/0day-ci/archive/20251103/202511030753.dgyTecoe-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030753.dgyTecoe-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   8a918d454d1a7b71a9eefad3b7269d615579cf8d
+commit: d85853d9cbdc339f7f75c76ef54e568a9a3a14de [614/741] bcachefs: BCH_FSCK_ERR_validate_error_in_commit
+config: nios2-randconfig-r073-20251103 (https://download.01.org/0day-ci/archive/20251103/202511030833.KrCtzrOl-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030833.KrCtzrOl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030753.dgyTecoe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030833.KrCtzrOl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memcontrol.c:4061:5: sparse: sparse: symbol 'sysctl_memcg_oom_prio' was not declared. Should it be static?
-   mm/memcontrol.c:4223:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   mm/memcontrol.c:4223:50: sparse:     expected void *
-   mm/memcontrol.c:4223:50: sparse:     got void [noderef] __user *buffer
-   mm/memcontrol.c:4245:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   mm/memcontrol.c:4245:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   mm/memcontrol.c:4245:35: sparse:     got int ( * )( ... )
-   mm/memcontrol.c:4504:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4504:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4504:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4506:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4506:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4506:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4662:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4662:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4662:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4756:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4756:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4756:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:6799:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:6799:23: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol.c:6799:23: sparse:    struct task_struct *
-   mm/memcontrol.c:7016:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:7016:52: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol.c:7016:52: sparse:    struct task_struct *
-   mm/memcontrol.c: note: in included file:
-   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
-   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
-   include/linux/memcontrol.h:782:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
-   mm/memcontrol.c:2134:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
-   mm/memcontrol.c:2181:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
-   mm/memcontrol.c:6659:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
-   mm/memcontrol.c:6927:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/sysctl_memcg_oom_prio +4061 mm/memcontrol.c
+   fs/bcachefs/btree/commit.c: In function 'bch2_trans_commit_write_locked':
+>> fs/bcachefs/btree/commit.c:717:4: error: implicit declaration of function '__WARN'; did you mean 'WARN'? [-Werror=implicit-function-declaration]
+       __WARN();
+       ^~~~~~
+       WARN
+   cc1: some warnings being treated as errors
 
-  4057	
-  4058	#ifdef CONFIG_MEMCG_OOM_PRIORITY
-  4059	#define ENABLE_MEMCG_OOM_PROIRITY	1
-  4060	#define DISABLE_MEMCG_OOM_PROIRITY	0
-> 4061	int sysctl_memcg_oom_prio = DISABLE_MEMCG_OOM_PROIRITY;
-  4062	
+
+vim +717 fs/bcachefs/btree/commit.c
+
+   590	
+   591	static inline int
+   592	bch2_trans_commit_write_locked(struct btree_trans *trans,
+   593				       enum bch_trans_commit_flags flags,
+   594				       struct btree_insert_entry **stopped_at,
+   595				       unsigned long trace_ip)
+   596	{
+   597		struct bch_fs *c = trans->c;
+   598		struct btree_trans_commit_hook *h;
+   599		unsigned u64s = 0;
+   600		int ret = 0;
+   601	
+   602		bch2_trans_verify_not_unlocked_or_in_restart(trans);
+   603	#if 0
+   604		/* todo: bring back dynamic fault injection */
+   605		if (race_fault()) {
+   606			trace_and_count(c, trans_restart_fault_inject, trans, trace_ip);
+   607			return btree_trans_restart(trans, BCH_ERR_transaction_restart_fault_inject);
+   608		}
+   609	#endif
+   610		/*
+   611		 * Check if the insert will fit in the leaf node with the write lock
+   612		 * held, otherwise another thread could write the node changing the
+   613		 * amount of space available:
+   614		 */
+   615	
+   616		prefetch(&trans->c->journal.flags);
+   617	
+   618		trans_for_each_update(trans, i) {
+   619			/* Multiple inserts might go to same leaf: */
+   620			if (!same_leaf_as_prev(trans, i))
+   621				u64s = 0;
+   622	
+   623			u64s += i->k->k.u64s;
+   624			ret = !i->cached
+   625				? btree_key_can_insert(trans, insert_l(trans, i)->b, u64s)
+   626				: btree_key_can_insert_cached(trans, flags, trans->paths + i->path, u64s);
+   627			if (ret) {
+   628				*stopped_at = i;
+   629				return ret;
+   630			}
+   631	
+   632			i->k->k.needs_whiteout = false;
+   633		}
+   634	
+   635		/*
+   636		 * Don't get journal reservation until after we know insert will
+   637		 * succeed:
+   638		 */
+   639		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
+   640			try(bch2_trans_journal_res_get(trans,
+   641					(flags & BCH_WATERMARK_MASK)|
+   642					JOURNAL_RES_GET_NONBLOCK));
+   643	
+   644			if (unlikely(trans->journal_transaction_names))
+   645				journal_transaction_name(trans);
+   646		}
+   647	
+   648		/*
+   649		 * Not allowed to fail after we've gotten our journal reservation - we
+   650		 * have to use it:
+   651		 */
+   652	
+   653		if (IS_ENABLED(CONFIG_BCACHEFS_DEBUG) &&
+   654		    !(flags & BCH_TRANS_COMMIT_no_journal_res)) {
+   655			if (static_branch_unlikely(&bch2_journal_seq_verify))
+   656				trans_for_each_update(trans, i)
+   657					i->k->k.bversion.lo = trans->journal_res.seq;
+   658			else if (static_branch_unlikely(&bch2_inject_invalid_keys))
+   659				trans_for_each_update(trans, i)
+   660					i->k->k.bversion = MAX_VERSION;
+   661		}
+   662	
+   663		h = trans->hooks;
+   664		while (h) {
+   665			try(h->fn(trans, h));
+   666			h = h->next;
+   667		}
+   668	
+   669		struct bkey_i *accounting;
+   670	
+   671		scoped_guard(percpu_read, &c->mark_lock)
+   672			for (accounting = btree_trans_subbuf_base(trans, &trans->accounting);
+   673			     accounting != btree_trans_subbuf_top(trans, &trans->accounting);
+   674			     accounting = bkey_next(accounting)) {
+   675				ret = bch2_accounting_trans_commit_hook(trans,
+   676							bkey_i_to_accounting(accounting), flags);
+   677				if (unlikely(ret)) {
+   678					for (struct bkey_i *i = btree_trans_subbuf_base(trans, &trans->accounting);
+   679					     i != accounting;
+   680					     i = bkey_next(i))
+   681						bch2_accounting_trans_commit_revert(trans, bkey_i_to_accounting(i), flags);
+   682					return ret;
+   683				}
+   684			}
+   685	
+   686		/* XXX: we only want to run this if deltas are nonzero */
+   687		bch2_trans_account_disk_usage_change(trans);
+   688	
+   689		trans_for_each_update(trans, i)
+   690			if (btree_node_type_has_atomic_triggers(i->bkey_type)) {
+   691				ret = run_one_mem_trigger(trans, i, BTREE_TRIGGER_atomic|i->flags);
+   692				if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
+   693					return ret;
+   694			}
+   695	
+   696		if (unlikely(c->gc_pos.phase)) {
+   697			ret = bch2_trans_commit_run_gc_triggers(trans);
+   698			if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
+   699				return ret;
+   700		}
+   701	
+   702		struct bkey_validate_context validate_context = { .from	= BKEY_VALIDATE_commit };
+   703	
+   704		if (!(flags & BCH_TRANS_COMMIT_no_journal_res))
+   705			validate_context.flags = BCH_VALIDATE_write|BCH_VALIDATE_commit;
+   706	
+   707		for (struct jset_entry *i = btree_trans_journal_entries_start(trans);
+   708		     i != btree_trans_journal_entries_top(trans);
+   709		     i = vstruct_next(i)) {
+   710			ret = bch2_journal_entry_validate(c, NULL, i,
+   711							  bcachefs_metadata_version_current,
+   712							  CPU_BIG_ENDIAN, validate_context);
+   713			if (unlikely(ret)) {
+   714				bch2_trans_inconsistent(trans, "invalid journal entry on insert from %s\n",
+   715							trans->fn);
+   716				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
+ > 717				__WARN();
+   718				return ret;
+   719			}
+   720		}
+   721	
+   722		trans_for_each_update(trans, i) {
+   723			validate_context.level	= i->level;
+   724			validate_context.btree	= i->btree_id;
+   725	
+   726			ret = bch2_bkey_validate(c, bkey_i_to_s_c(i->k), validate_context);
+   727			if (unlikely(ret)){
+   728				bch2_trans_inconsistent(trans, "invalid bkey on insert from %s -> %ps\n",
+   729							trans->fn, (void *) i->ip_allocated);
+   730				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
+   731				__WARN();
+   732				return ret;
+   733			}
+   734			btree_insert_entry_checks(trans, i);
+   735		}
+   736	
+   737		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
+   738			struct journal *j = &c->journal;
+   739			struct jset_entry *entry;
+   740	
+   741			trans_for_each_update(trans, i) {
+   742				if (i->key_cache_already_flushed)
+   743					continue;
+   744	
+   745				if (i->flags & BTREE_UPDATE_nojournal)
+   746					continue;
+   747	
+   748				verify_update_old_key(trans, i);
+   749	
+   750				if (trans->journal_transaction_names) {
+   751					entry = bch2_journal_add_entry(j, &trans->journal_res,
+   752							       BCH_JSET_ENTRY_overwrite,
+   753							       i->btree_id, i->level,
+   754							       i->old_k.u64s);
+   755					bkey_reassemble((struct bkey_i *) entry->start,
+   756							(struct bkey_s_c) { &i->old_k, i->old_v });
+   757				}
+   758	
+   759				entry = bch2_journal_add_entry(j, &trans->journal_res,
+   760						       BCH_JSET_ENTRY_btree_keys,
+   761						       i->btree_id, i->level,
+   762						       i->k->k.u64s);
+   763				bkey_copy((struct bkey_i *) entry->start, i->k);
+   764			}
+   765	
+   766			memcpy_u64s_small(journal_res_entry(&c->journal, &trans->journal_res),
+   767					  btree_trans_journal_entries_start(trans),
+   768					  trans->journal_entries.u64s);
+   769	
+   770			EBUG_ON(trans->journal_res.u64s < trans->journal_entries.u64s);
+   771	
+   772			trans->journal_res.offset	+= trans->journal_entries.u64s;
+   773			trans->journal_res.u64s		-= trans->journal_entries.u64s;
+   774	
+   775			if (trans->accounting.u64s)
+   776				memcpy_u64s_small(bch2_journal_add_entry(j, &trans->journal_res,
+   777								BCH_JSET_ENTRY_write_buffer_keys,
+   778								BTREE_ID_accounting, 0,
+   779								trans->accounting.u64s)->_data,
+   780						  btree_trans_subbuf_base(trans, &trans->accounting),
+   781						  trans->accounting.u64s);
+   782	
+   783			if (trans->journal_seq)
+   784				*trans->journal_seq = trans->journal_res.seq;
+   785		}
+   786	
+   787		trans_for_each_update(trans, i) {
+   788			struct btree_path *path = trans->paths + i->path;
+   789	
+   790			if (!i->cached)
+   791				bch2_btree_insert_key_leaf(trans, path, i->k, trans->journal_res.seq);
+   792			else if (!i->key_cache_already_flushed)
+   793				bch2_btree_insert_key_cached(trans, flags, i);
+   794			else
+   795				bch2_btree_key_cache_drop(trans, path);
+   796		}
+   797	
+   798		return 0;
+   799	}
+   800	
 
 -- 
 0-DAY CI Kernel Test Service
