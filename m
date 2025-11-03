@@ -1,170 +1,227 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.mr.icloud.com (p-west2-cluster2-host1-snip4-2.eps.apple.com [57.103.68.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5996229D280
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 08:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EE42D5922
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 08:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.68.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762157193; cv=none; b=A6qsZ8U6rUPVfJ5S7HSBXsLtN7FC4/a2G7b9vMOUDeBCcsmKqpA+lCRGGGTURYMY2qksTZ/CWiaUoYOHooc8atiHR9TVpxrGcNo5fvTTo5Z39z5YVumnUa/gmWO+LiUtFVp8IX8RL090zikMKiEg3MwKUfiffXRDJolXjLizpak=
+	t=1762159081; cv=none; b=pV/46pLEEKCwILyQqavHU+ZcI0o32QGMi1Hn+Tr1BCHuRJDqKIX2xKWKPWrxpuPAkv6w2DBm7rXMAnj1Zh9v9ndJTBO7F0QlFFpvJfLgMb6shN97cDh500rTUJvFLpsHytk8QTZvmMx8VgEY839/eoJAVxjzjm6yi8AV4MEAxZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762157193; c=relaxed/simple;
-	bh=TJPUJVukbfWR3gfsffRUjF/8PW9lialw9HyxVO/Phco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GbfRUczj1kbu2q5Gx8W9DGhFWC+hgxXxonr1AXX2hBAoG2bdXmweXQvh3sd4bnxLNFdLCCL1UuoL9rvpYSW4U76ZGa7KH82qZby3rrz0zsqBxvqKrHwky5WvvsWUmo6o0fFhjQQNpTSdiGYseyRWz4NBme+mq84sZ8b/iEsWW7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DPjra6OZ; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1762159081; c=relaxed/simple;
+	bh=Sp7nSaXbOCNj+brMy3i1C+VjmzXxTE/hC3oJTrEU3E4=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ZPU1YxiGZkbHI5yn8S9QLEVSQnc7bW/DrlzkSp5nJ6wyVrEonKiidENbAkfGudPIOOterHVrX9GMcZeKLVFpIxAd/SruEUCZKqUYQs3OR5VEE9aY+aKPVI/ll9b67LWqeryS2zd7CeGzDuhvDrEjcEW12utFZf2pUo62QPCnLIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=pass smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=DWFAg4xx; arc=none smtp.client-ip=57.103.68.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ljones.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DPjra6OZ"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-785d3a5f641so40135327b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Nov 2025 00:06:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1762157190; x=1762761990; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7NJXJy4cAI4/mrSwSPYVdQe2DZkHcINj3IyYJCGJBc4=;
-        b=DPjra6OZkAffK6H1jRLp6O5yiM5k46GYTVYsBNq5s3w2qucY5mMIKvUB3VAOL+bnh1
-         rPZzzz2v3CddxygM1xXPKN2wukUt90L8/X3j+cgxXkrMY8lSL2Tcv9+CARilSdJGofFv
-         w//NU/ed4TgZkubwvD17FRpVVFlkbsi6tDRtu+MQuqaYuBxNGZUQbAVOqi7cvZwd1YK4
-         YP2eKpQ/TedyjcGu4PNFFNzmefLUnZZ0qWxgNwYt+q+Nm2gSx/zIQ40yPFYC3L3bvYgA
-         b6YCzHoPwxJs8s+9xL1M9KT89fef3P3KcPnXGSwBIMnwxUPtnYu8CvgZqf3ISPRqgYed
-         bZTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762157190; x=1762761990;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7NJXJy4cAI4/mrSwSPYVdQe2DZkHcINj3IyYJCGJBc4=;
-        b=sTmokaU8Y2RIU1O5FILw9bv7lH5X9apx/jxWmh7/ET0DTHaA776uq1zuDCmCzaP+hn
-         0Wfb89YZihfqlgAhePtSoao6WkEVbio80wIjosyPPx/2nWqgQF7GrLHjonQ9/OyIKHTV
-         Z9AkfybFYhb2HJOumtDDIc06FE5EgSJMfuzXaBxt3J0gTy9bBSLMkQxqtj4g1SoGeXWm
-         b0tX2zugaKoARJG9Gt1kV8dTZPy4eCeDRaIt5qLUQGR7GZce0Mqeo1pHnah21+aKWtP3
-         RztKQYGCetHGAoYvwn4KIP9tOM0tIUWhuvMVrHXNEJ9YvzdQ3B2Kb3RturgqCWFCx1aF
-         TzAw==
-X-Gm-Message-State: AOJu0YwMVC7caQ7fTg3tXmTNEGluUITtX+4mIXqjt7CHGnLXNX8uJUD+
-	srgZMRGtZZZhnk4Zf89AyYUh+qI6dMTHxrzHnNlnZ68HBCDv9yO+Cv3DL3Ph/1yq3MpdICuD6r/
-	V84jyhTFffIGKhYMbQxQHWbY8qlyNkxSzbX7UkvKf
-X-Gm-Gg: ASbGnculRWB9qGC/KHsPqldH18jvjvnr1GaBANYrr9/rBl2fg8PN/Tz5qFd2qbf7BD0
-	sWQahFVizflNcwV3Xoi9Kv1Pg6ZHj+6zJ/0vdKJICuWUyGZvg6XGEbwxQmL7tcRE0aUpALoqMov
-	DUHRLpbDSIq3+eDSAFFc+ljoUxXy7g8s9nYruZpLSGVZE/JZYHw50EMqVrRhzYyN4oTE8oH6fCI
-	CPBFUmxp/YyzXojoUgL8vu+UQ0c3X+YISHfMz1HYvxybCxrks52s+JCtss=
-X-Google-Smtp-Source: AGHT+IEsP1MAEGN+2YqHUmUaqQaVV+TIUE+RtPGUJjC296VRFo5DRFM5ayW9vTRA+F1L+iNilpI+yRUdSzgulPYBC14=
-X-Received: by 2002:a05:690c:6d8c:b0:786:4231:5e90 with SMTP id
- 00721157ae682-7864856fc26mr99070117b3.56.1762157190044; Mon, 03 Nov 2025
- 00:06:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="DWFAg4xx"
+Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-2a-60-percent-7 (Postfix) with ESMTPS id CDDDF1800176;
+	Mon,  3 Nov 2025 08:37:56 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; s=sig1; bh=A5gZGsxsUWbC8mj8gE4jWelFQ54ptgMLFPpk+7cReZg=; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To:x-icloud-hme; b=DWFAg4xxE+m20x9u9wD9OY/lr1Y7D5slT97bh68PmrJ+rsRr8BdfN/aVM+20Kzaq3lrPtlw9e+dvOwksUZEnp+TYOY/QWt73veAx09Y9CPDDteq9pogmBxQP3XlJA4/7UqD7huBJ+mTsPFGUK5eTovHQ5dkkswevRU3FRKjlpTKHtz0vbGmPex8xeRE6Nbs8scMfBKBPZUE48KGObQ60xUOmBf0ih1OIuC84s81q7nAzIcL6Ux/CwPUIVQ+gG+U/xfvemiJeTvcvQQcz8v2pVxaQrSmJKuZbdb5uxnvNL9jawdXafzqCbXf90UOLlRV7VnCR8wE/I6D05NCeZL9Wvg==
+mail-alias-created-date: 1566896761000
+Received: from smtpclient.apple (unknown [17.57.152.38])
+	by p00-icloudmta-asmtp-us-west-2a-60-percent-7 (Postfix) with ESMTPSA id C7E0218000A2;
+	Mon,  3 Nov 2025 08:37:53 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202509291645.fcBIaXMb-lkp@intel.com> <CANn89i+Bt5Coi3YOj2JjX4KWQN4tJJpyYD3EabS274T8bQwjSw@mail.gmail.com>
-In-Reply-To: <CANn89i+Bt5Coi3YOj2JjX4KWQN4tJJpyYD3EabS274T8bQwjSw@mail.gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 3 Nov 2025 00:06:18 -0800
-X-Gm-Features: AWmQ_bll77Tupv_60G7NMZkMDfIgtallI03szpNVDD4Eb724Mc_GXOztpPtFWkc
-Message-ID: <CANn89iLrM8ZJyJHYJH8Sbuj9F9OAKZn6srtgBXwU2XmMfJ-+BQ@mail.gmail.com>
-Subject: Re: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>, 
-	Will Deacon <will@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, linux-alpha@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
+Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
+ kbd led handlers
+From: luke@ljones.dev
+In-Reply-To: <CAGwozwHCnHwOVw08ZJ4LOFD8kDv+kevvF1-PkjBq2+VMBBx9TQ@mail.gmail.com>
+Date: Mon, 3 Nov 2025 21:37:40 +1300
+Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>,
+ Corentin Chary <corentin.chary@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Denis Benato <benato.denis96@gmail.com>,
+ kernel test robot <lkp@intel.com>,
+ platform-driver-x86@vger.kernel.org,
+ linux-input@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <52B61B78-4177-474B-9D40-471ED918C951@ljones.dev>
+References: <CAGwozwFgd91n2HnHn0VEL3BTGkj8QCRnp2jfCsMB38JqK8znNg@mail.gmail.com>
+ <20251103042848.9302-1-derekjohn.clark@gmail.com>
+ <CAGwozwHCnHwOVw08ZJ4LOFD8kDv+kevvF1-PkjBq2+VMBBx9TQ@mail.gmail.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+X-Mailer: Apple Mail (2.3864.200.81.1.6)
+X-Proofpoint-GUID: 7TEDa_DEytf2rJ2G_QvLuacr2f32o_bB
+X-Proofpoint-ORIG-GUID: 7TEDa_DEytf2rJ2G_QvLuacr2f32o_bB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDA3OSBTYWx0ZWRfX+2R3w4de1bFi
+ Uoi+7W7T669pWxfnxoMqJYU0u4FOJBd3oGi7s97P1RCKvMCUNjxPWqbeu0y/4X6XPRrskpnU16n
+ l780+p1LLHNjvNxrXKRqESJ+Fbq4pXY8BiIK7lkujs+D4+4g7TelObBUCyylRUi924126StCQ0f
+ dbfZ9cB8EEcZClu5rYKzEbIYg7jbqcZEXoNj8VQeM/51KVy2LGaLGVdqmmPH1aAXKI+zvIg0Mnv
+ MqpSyRzLEWm57JyF9eQobuUX99ETrBImuCbJE2eV1JXN7Bg2ZJ3wkj9F3Z5fIc31vo5ZlRjDQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-02_02,2025-10-29_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 malwarescore=0 mlxscore=0 clxscore=1030 mlxlogscore=999
+ spamscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.22.0-2506270000 definitions=main-2511030079
+X-JNJ: AAAAAAABbd6XqknHa+CF2M9WuZZR5OKHSDARVg9jtMkzSgwqIagSwG7+g5Ssmnkzk3xUZFHnxEwri1mPi5uS5bMEfZnetGW5CPWf9HpyK42SlQTrSZlb6W6sxOaeNRZIwJVuexGtpzmgCSkP15DREt3MeFSyOTc0sf4wT6lyF6HLRKZN7VvbYGlnEQhDkrtFfQJu9TyJeIeyNTe/wqeK8QaHw5UtiJPrj8VnIXCwBeulEIfzb2hqZpvw9w66UaBmeVA7O8to06cNqlSdiwsm4iHrYgtjZhfQkkFVFPvf0PBUEiBoZ7V27qw/bSQleHc54iwXGbw+0lz63cKiiiFBrzWmTdh/fR8o71fRr/7DOtne7Bi8U+6mCjc1CMX8PZ1cf8oHA/CsM1fJVognGYYdCjHWctrzbxL6+pN7HG/5SXAgRsZJvHSGlmrj3KfOZ0U5LGmV0obIFASig3EJU6WC592/wW6CUYioy4qtT00YrsjqB6b4dKtYJEVjIgBfaa3eIrOQxAc+lH+WJF2me4OSWR8QT2eKfz6joEH4mf1ATFMGykaXq/k6edSKW52Rx5Ubq+QQG4Bb0bSTLX2MYEsIea3jkLnmABOR0ynVVNXN69QkbI25kTBtA/Ar9D7rVB436Zrs8ECticPiUCKQBGENU8KIQ41qp3sLizZON68d0V0FUk6551zo7+55hFICbxv3FLyoJTiyhNqKF8tj249sXLwLXZNh9+0/XJpuXvPCIWOuF2vZHqEjTwnwNhWmI9arC2KuXMOWOKKK1c4u47Xo5Xsg3Z+/eGMl85bTNT9jPJzJr3Nn7g/9w6Nj/g==
 
-On Mon, Sep 29, 2025 at 2:49=E2=80=AFAM Eric Dumazet <edumazet@google.com> =
-wrote:
->
-> On Mon, Sep 29, 2025 at 1:58=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   e5f0a698b34ed76002dc5cff3804a61c80233a7a
-> > commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid=
-()
-> > date:   3 months ago
-> > config: alpha-randconfig-r122-20250929 (https://download.01.org/0day-ci=
-/archive/20250929/202509291645.fcBIaXMb-lkp@intel.com/config)
-> > compiler: alpha-linux-gcc (GCC) 15.1.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250929/202509291645.fcBIaXMb-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202509291645.fcBIaXMb-l=
-kp@intel.com/
-> >
-> > sparse warnings: (new ones prefixed by >>)
-> >    net/packet/diag.c: note: in included file (through include/linux/soc=
-k_diag.h):
-> > >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-> >    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
-> > --
-> >    net/packet/af_packet.c:1099:13: sparse: sparse: context imbalance in=
- '__packet_lookup_frame_in_block' - different lock contexts for basic block
-> >    net/packet/af_packet.c:2541:17: sparse: sparse: context imbalance in=
- 'tpacket_rcv' - unexpected unlock
-> >    net/packet/af_packet.c: note: in included file (through include/net/=
-inet_sock.h, include/net/ip.h):
-> > >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-> >    include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
-> >
-> > vim +2098 include/net/sock.h
-> >
-> > ^1da177e4c3f415 Linus Torvalds 2005-04-16  2094
-> > e84a4927a404f36 Eric Dumazet   2025-06-20  2095  static inline kuid_t s=
-k_uid(const struct sock *sk)
-> > e84a4927a404f36 Eric Dumazet   2025-06-20  2096  {
-> > e84a4927a404f36 Eric Dumazet   2025-06-20  2097         /* Paired with =
-WRITE_ONCE() in sockfs_setattr() */
-> > e84a4927a404f36 Eric Dumazet   2025-06-20 @2098         return READ_ONC=
-E(sk->sk_uid);
-> > e84a4927a404f36 Eric Dumazet   2025-06-20  2099  }
-> > e84a4927a404f36 Eric Dumazet   2025-06-20  2100
-> >
-> > :::::: The code at line 2098 was first introduced by commit
-> > :::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races aro=
-und sk->sk_uid
-> >
-> > :::::: TO: Eric Dumazet <edumazet@google.com>
-> > :::::: CC: Jakub Kicinski <kuba@kernel.org>
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
-> This seems an Alpha issue to me ?
->
-> I can submit the following fix if there is an agreement.
->
-> diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwo=
-nce.h
-> index 35542bcf92b3a883df353784bcb2d243475ccd91..b6801cd2ace962e11624737ed=
-334a5aeb30478b7
-> 100644
-> --- a/arch/alpha/include/asm/rwonce.h
-> +++ b/arch/alpha/include/asm/rwonce.h
-> @@ -22,10 +22,10 @@
->   */
->  #define __READ_ONCE(x)                                                 \
->  ({                                                                     \
-> -       __unqual_scalar_typeof(x) __x =3D                                =
- \
-> -               (*(volatile typeof(__x) *)(&(x)));                      \
-> +       __auto_type __x =3D                                              =
- \
-> +               (*(const volatile __unqual_scalar_typeof(x) *)&(x));    \
->         mb();                                                           \
-> -       (typeof(x))__x;                                                 \
-> +       __x;                                                            \
->  })
->
->  #endif /* CONFIG_SMP */
 
-Gentle ping.
+> On 3 Nov 2025, at 20:36, Antheas Kapenekakis <lkml@antheas.dev> wrote:
+>=20
+> On Mon, 3 Nov 2025 at 05:29, Derek J. Clark =
+<derekjohn.clark@gmail.com> wrote:
+>>=20
+>>> On Fri, 31 Oct 2025 at 09:27, Jiri Kosina <jikos@kernel.org> wrote:
+>>>>=20
+>>>> On Thu, 23 Oct 2025, Antheas Kapenekakis wrote:
+>>>>=20
+>>>>>>  1589
+>>>>>>  1590  static void kbd_led_update_all(struct work_struct *work)
+>>>>>>  1591  {
+>>>>>>  1592          enum led_brightness value;
+>>>>>>  1593          struct asus_wmi *asus;
+>>>>>>  1594          bool registered, notify;
+>>>>>>  1595          int ret;
+>>>>>                              /\ value should have been an int and
+>>>>> placed here. It can take the value -1 hence the check
+>>>>=20
+>>>> Thanks, that needs to be fixed before the final merge.
+>>>>=20
+>>>>> Are there any other comments on the series?
+>>>>>=20
+>>>>> The only issue I am aware of is that Denis identified a bug in =
+asusd
+>>>>> (asusctl userspace program daemon) in certain Asus G14/G16 laptops
+>>>>> that cause laptop keys to become sticky, I have had users also =
+report
+>>>>> that bug in previous versions of the series. WIthout asusd =
+running,
+>>>>> keyboards work fine incl. with brightness control (did not work
+>>>>> before). Given it will take two months for this to reach mainline, =
+I
+>>>>> think it is a fair amount of time to address the bug.
+>>>>=20
+>>>> One thing that is not clear to me about this -- is this causing a =
+visible
+>>>> user-space behavior regression before vs. after the patchset with =
+asusctl?
+>>>>=20
+>>>> If so, I am afraid this needs to be root-caused and fixed before =
+the set
+>>>> can be considered for inclusion.
+>>=20
+>>> Commit 591ba2074337 ("HID: asus: prevent binding to all HID devices =
+on
+>>> ROG") adds HID_QUIRK_INPUT_PER_APP and the extra devices seem to
+>>> confuse asusd. Since the devices are the same as with hid-asus not
+>>> loaded, it is specific to that program.
+>>>=20
+>>>=20
+>> Hi Antheas.
+>>=20
+>> While you have previously expressed to me directly that you wish =
+InputPlumber
+>> didn't exist, it still very much does, in fact, exist. I also know =
+that you are
+>> explicitly aware that InputPlumber is a consumer of this interface, =
+so your
+>> comment that asusctl is the only affected program is something you =
+know to be
+>> false. This is not even the first time you have renamed an input =
+device that
+>> you knew InputPlumber was a consumer of without notifying me[1].
+>>=20
+>> I can't abide you outright lying to the maintainers here and I'm sick =
+and tired
+>> of having to watch your every move on the LKML. Either become a good =
+citizen of
+>> kernel maintenance, or get out of it.
+>=20
+> Hi Derek,
+> I am not aware if your software is affected or not by this series as I
+> have not received reports about it.
+>=20
+> If it is, please add:
+> "ASUSTeK Computer Inc. N-KEY Device"
+>=20
+> As a name match to your software (should only take 5 minutes).
+>=20
+> I worked with Luke and Dennis on it for the better part of a year so
+> hopefully they forwarded to you if it affects you or not.
+>=20
+> Your software relies on OOT drivers for most devices incl. the Ally so
+> I am unsure if it is affected in reality. E.g., it would not be
+> affected in SteamOS and CachyOS. In the future, it would be good to
+> avoid name matches for your software as it makes it very fragile,
+> which is a discussion we have had before. I do not think device evdev
+> names constitute an ABI technically.
 
-Is alpha arch still alive ?
+Taking no sides here.
+
+An unfortunate reality is that there is stuff out there that does use =
+name matches (and yes I agree they shouldn=E2=80=99t because it is *not* =
+an ABI and many many devices have had name changes over the decades).
+
+While name strings aren't a formal ABI, when a change affects known =
+downstream users, a heads-up helps the ecosystem adapt smoothly=E2=80=94ev=
+en if the technical stance is that they shouldn't rely on names.
+
+In general it also needs to be justified such as:
+- "Matches updated product branding"
+- "Current string is misleading (says 'mouse' but it's a keyboard)"
+- "Fixing spelling error"
+- "Aligning with USB-IF device class names"
+
+I always advocated use of evdev libraries to discover devices rather =
+than the shortcut of name matching as it is much more powerful and =
+reliable (which is how asusctl does dynamic add/remove of LED dev dbus =
+interfaces). It=E2=80=99s much better to use evdev with vid/pid, device =
+sub/classes, into descriptors and so on - you can be as open or =
+restrictive as required by use case. This particular issue illustrates =
+why this approach is preferable.
+
+If the name change is a result of something I said or missed then I =
+apologise to both Derek and yourself. Likely I missed it as I=E2=80=99ve =
+never relied on name strings for userspace.
+
+Regarding the OOT ally drivers I started, these will of course get =
+upstreamed in the future (by Denis in this case when he can). They are =
+getting very heavily battled tested in the mean time. Please do =
+contribute to them if there is anything required to be addressed or chat =
+to Denis, after all they are made only to benefit all users (there is no =
+*race to be first* here.
+
+As I no longer work on Asus laptops/handhelds and don't have hardware =
+left to test with, I can't contribute further to this discussion. Best =
+of luck resolving this.
+
+I'm out.
+Luke.
+
+>=20
+> Best,
+> Antheas
+>=20
+>> Commit 591ba2074337 ("HID: asus: prevent binding to all HID devices =
+on ROG")
+>> Nacked-By: Derek J. Clark <derekjohn.clark@gmail.com>
+>>=20
+>> - Derek
+>>=20
+>> [1] https://lore.kernel.org/linux-input/Z74vZD7ZtKBTDlwy@google.com/
+>>=20
+>>> We can delay that patch until Denis who took over maintenance of the
+>>> program can have a deeper look. I will still keep the last part of
+>>> that patch that skips the input check, because that causes errors in
+>>> devices that do not create an input device (e.g., lightbar).
+>>>=20
+>>> Antheas
+
+
