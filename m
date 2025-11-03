@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0611B31987E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 16:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6943327FB0E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 16:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762188050; cv=none; b=LOm/V0D7Q9/sAWt9Xs9vVv5reQjNDqaxVlOfrV/Iq/eyJOtqKW7clGrgvJtHM+CIctkMH5hh4JkOXMtmElzDxSNDQwLw+Le607sn+GeKRXTr6z72pc1r4QEy0GMP4+Xc066A0/c6lUdbiNfoGhmli+Dwg1QBbD8PQK2nRJO5flI=
+	t=1762188426; cv=none; b=bFXByK1WWp1szkLDdyPrH8NxC3bzWC7lqHieMFQ33wcf18kwdnEPZdlI+KxlKWKvVfFkSN6vLUBiKJMnst0ZrgdezQiO2hPCtr1J/aCy/xYLt6PpY5Jv/Jgxtn+E19TNBgvAg+yuIjRcwYRq+V1hyhQA0X8i1PcFYlgToue0ClQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762188050; c=relaxed/simple;
-	bh=JKuoUwqSwLo2lwHsb5a7l4EiXMPwUHEImtLVOnr5h78=;
+	s=arc-20240116; t=1762188426; c=relaxed/simple;
+	bh=I4nRuYkou8hpPPiqmMUcZqVzseujjF7kVic3SnG5yMU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=WpkNK1Kv61aXKiXGzhhyqXgVRpuEO3PiTwIaSh5DsQC5lKYn3SHCRJS/p4ftVXgFrPQNj7ryNGi7k51oPZOVpeItusYD8i04osh2IyPFGeTZ+E5dcPQSpGzvppKNv4FXOf/UxAehKGWiKAN1Twv+L29eLgcZXmQ99fOxVMuuAek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=carfPFij; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=c96ogea0WYv3aFJPlv5xZvpdLgkA9HX8W0GnFwNmBC836GOTk9OS6fre4L94fUVPLHYjyje6i+8kj72qsq/5CrFU6DRw6PMNHuXDG9Nh0sAVoO+6sztySEinX89a6e+wRqoD2ebDdPmoyotEM0KSCUXicZzdiKRyHo4MSZqzjBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpoUOfAx; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="carfPFij"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpoUOfAx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762188049; x=1793724049;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=JKuoUwqSwLo2lwHsb5a7l4EiXMPwUHEImtLVOnr5h78=;
-  b=carfPFijA+gR2sfQb7xiA7+Qjmo9bmduhwZ9Rwh9H/jaZz8aYwXLUWxR
-   hvyDAHFt50/spvFbQq3RVU8H0YOt/r7feVb8Fpy4qkEqsnhX2G2XFabGR
-   Ri2NE09X84ECY5MUA+U6+AMxvfo/MqvLyf4IPWPDCDqyfcDgjeNu9/aey
-   ss3yGztLG71cmSWSm015GCybTrpAQnIiPELI7c9CUy/h1Gl+UWPXpJUZN
-   rEx9x8nyi7wBDC802bqAh23+n6jJerQp7a5nQFcvrD6Rq/LMBGTFM4hRr
-   3SzCTfhkptumXa5l5NFqFgn/qyAju3iSHxDaALbU7DUUCRnnzKWMlntdI
+  t=1762188426; x=1793724426;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I4nRuYkou8hpPPiqmMUcZqVzseujjF7kVic3SnG5yMU=;
+  b=kpoUOfAxefnNmMgfiH+mYmOpkB92aeiXb9cPy62Jv72H4B+v1XQZNu8b
+   weZBcbgfSsvD8klaGK+VJzqwfQrdYsUHuKR7CC05r9XdtxY+UYY8CdIHq
+   YJcm+GER6XxtlzIPtsAMs7IUkB/iGqkuwff7CpgLaCxZUz6rnWOh5lGa9
+   Yen/lLQ5OuyYo1LD2K2H1UZ/3Jn/6PWJj9YHY8rCvqsrrYXKUC/vYqDZT
+   yULL/mAfWe05Hy+5AtGXruZabHU1/m8kMUIZxFHFMF+rEF5BWwN5SinHi
+   3kaCmTfG9HaLqv9PI0JF9DtOeR33lReRj1LFyQ6CQYIxE/djFCVcHSBht
    Q==;
-X-CSE-ConnectionGUID: Jg6+tx4YRNqBUwxRlkJPAA==
-X-CSE-MsgGUID: f/6K5r4SRbWNOaM+PXVA4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63964152"
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="63964152"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:40:48 -0800
-X-CSE-ConnectionGUID: tjNzkf4TT7eRvtHTTP3m2g==
-X-CSE-MsgGUID: K3jhewOsTTC6AZnXHsYLBA==
+X-CSE-ConnectionGUID: 7t7eINg1QIWf8OhTj0m3gA==
+X-CSE-MsgGUID: NlGuUCc/TiOfHryOc7wc4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64173077"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64173077"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:47:05 -0800
+X-CSE-ConnectionGUID: 69O/rS0BSQKQFSbC/XrP/A==
+X-CSE-MsgGUID: nqpC7sywQOWWHywiMlfmkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="187226456"
+   d="scan'208";a="186589410"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 03 Nov 2025 08:40:46 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Nov 2025 08:47:03 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFxbR-000QLk-1b;
-	Mon, 03 Nov 2025 16:40:26 +0000
-Date: Tue, 4 Nov 2025 00:40:12 +0800
+	id 1vFxht-000QMM-1e;
+	Mon, 03 Nov 2025 16:47:01 +0000
+Date: Tue, 4 Nov 2025 00:46:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yongpeng Yang <yangyongpeng.storage@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 5/5] block: add __must_check attribute to
- sb_min_blocksize()
-Message-ID: <aQja7M15mAY8CPbE@8e98f3e9fd5c>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:dmabuf-rw/v2-test-unfinished 5/12] bdev.c:(.text+0x13fc):
+ relocation truncated to fit: R_NIOS2_CALL26 against `blk_mq_dma_map'
+Message-ID: <202511040008.B6xZB8jm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251103163617.151045-6-yangyongpeng.storage@gmail.com>
 
-Hi,
+tree:   https://github.com/isilence/linux dmabuf-rw/v2-test-unfinished
+head:   e693ed6721c39c7abddc6cfa222e7a443a2da12d
+commit: fc6369495a6ef8337df6a7dd322aeec059e0b377 [5/12] block: add infra to handle dmabuf tokens
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251104/202511040008.B6xZB8jm-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040008.B6xZB8jm-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040008.B6xZB8jm-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v4 5/5] block: add __must_check attribute to sb_min_blocksize()
-Link: https://lore.kernel.org/stable/20251103163617.151045-6-yangyongpeng.storage%40gmail.com
+   nios2-linux-ld: block/bdev.o: in function `blkdev_dma_map':
+   bdev.c:(.text+0x13fc): undefined reference to `blk_mq_dma_map'
+>> bdev.c:(.text+0x13fc): relocation truncated to fit: R_NIOS2_CALL26 against `blk_mq_dma_map'
+   nios2-linux-ld: block/blk-mq.o: in function `blk_mq_submit_bio':
+   blk-mq.c:(.text+0x6e70): undefined reference to `blk_rq_assign_dma_map'
+>> blk-mq.c:(.text+0x6e70): relocation truncated to fit: R_NIOS2_CALL26 against `blk_rq_assign_dma_map'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
