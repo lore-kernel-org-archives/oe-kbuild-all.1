@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF722230D14
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 04:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E91623EA96
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 05:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762145023; cv=none; b=NWn0c9ArEkMB/WdYxdGrdVE8tyu5WBBOu+KiKOEBgsRWMcpwW03PXSCSuT+1ypHSjTfXELc2JbKFAbCjE43kI1aZL4f5RkwRP2MqGRHNaQThx8NfTZ/PxgtDzofFtEyVqi2EnqrNeimhw+FA45N+7j3132Woo8jlNfwk0l3j1LI=
+	t=1762147473; cv=none; b=BYl46dUYkJpz2V+oARSFCfdhwhnrTCPgAtE+isOH6GDq8VeCxM+PM8so9o2jpz1vj+XwtbAaRg/ftTasZSA6d51QsrJ0WWk+GVJ29uAZuW1ThZbo4iUJzgQ0eBKe5CAoRADnrl+GP0y8QsyioCCVo9+81CJBeuVdn8SDE+WNPDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762145023; c=relaxed/simple;
-	bh=33d+YZiDWFuxAUM/paTRrQcWI1uv6sSqzObX9bH5epU=;
+	s=arc-20240116; t=1762147473; c=relaxed/simple;
+	bh=vtekGxNqhXtGTOf6dmBkq5nSZuUqmgZv0+huBUiriSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IUpZca9VI1oxyM5SbVQzYuRkL19kmV/NDLId6e6n2FfnoC2BkyfQr0INhfMh9IcL2n4Gh0B5mB1t0o058FKEmdrYDet4t+6OWNrKh9OpNJ3XT83uPPwSiXsZl+NxMOycjuG0JW1Bf3iqMT1UyuahqbKu4i0PbJGgJeLyNXj4le4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8hB2yu0; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFqaAvjtO0Jb7TTUPi0TnosNlToN19J4yPfG8jSvxuc8+GIMKH5rVSCGTefEgw4YmPy+pq5Agu8G1SvbmcVbzeBa09+dw+Y+y2E///QOnJ7Mog0GULc60Zu8Y+9Jd3nFjmwcmpHBQvq+yMqCCp0UZYAe3456T/lAl8QzIv/rz9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZvgHDti; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8hB2yu0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZvgHDti"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762145021; x=1793681021;
+  t=1762147470; x=1793683470;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=33d+YZiDWFuxAUM/paTRrQcWI1uv6sSqzObX9bH5epU=;
-  b=c8hB2yu023yG9HO91Dx4AufPOyzG7mIlumehwYdsloOZERUsE7MFjoAH
-   Mev95QQxp2L+aEhlLzD++Jvh0Yw8jzrWrDdjciJWMbJdoa/W/9i3sEmMz
-   N3kdQhtNf7wlWa7kCMbWdb321NEO5R+cj9lgM8PQYYB159N3XKz/KYMm3
-   tPqJy8GSeZYEqRipA4tWnp2UnXwg/kc/uftf1TV980N6LqHQVGabXrEqd
-   zas4EoQ8wUIbjb3rdGuDTggzXOu8yfdNq/y1ifzhBUBOk6gRnxgmQOpZF
-   +HbZxvQ1/DPDWvV3cWnxxAQkPStqUVqHsRipvdbruJ+/yfg839LU0KFiy
+  bh=vtekGxNqhXtGTOf6dmBkq5nSZuUqmgZv0+huBUiriSc=;
+  b=RZvgHDtipx0esA0zz5q1hYYjL8vpWk9oas2ShvKs0irvbw96h6vjStOH
+   CuwI2dmtbehFitc1bHx/8uW0B+04Cxuba9PhuIkp0WFYjhwaoy3OulPZG
+   Q7kdaNr1H1qhSULKwvomWW4+/4LrTWlPSCSgBV9TszLvTGk2FqHChweIT
+   rZxNNDyN+P/cVJ/Ydd40a0fy2Uo/a/QcoR7bjQNnwwvy+gbo95H8nLCgz
+   QiFghGgxvKCa5lyFKx1n950iYcOxm49hTECijmIYnxwvZjycDWXVdBRng
+   63S5Y/Om5POfPMCrxWg6jZeCcfRNYz9dvsTAlJYb2WZUPU/wVVRFqiFG3
    A==;
-X-CSE-ConnectionGUID: o6uTun9eR/quFUIxWKJqRQ==
-X-CSE-MsgGUID: ZPkJju8xR3Kn99xMqghO5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64103256"
+X-CSE-ConnectionGUID: UPmGvwdMROSm9AcGXZALqQ==
+X-CSE-MsgGUID: uOm21wDLRRW1SxVtxW5DUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64135226"
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="64103256"
+   d="scan'208";a="64135226"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 20:43:41 -0800
-X-CSE-ConnectionGUID: uoKtMhQ+QHiICLbXNcjvvg==
-X-CSE-MsgGUID: 5T0fYuxtTsGWN/krlxXtiQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 21:24:30 -0800
+X-CSE-ConnectionGUID: Rqt5InDDTxmiay36a8yHJQ==
+X-CSE-MsgGUID: V7DyeiptQICbTuksykd4Bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="191098982"
+   d="scan'208";a="191104512"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2025 20:43:38 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2025 21:24:28 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFmPn-000PpY-2q;
-	Mon, 03 Nov 2025 04:43:35 +0000
-Date: Mon, 3 Nov 2025 12:42:37 +0800
+	id 1vFn3J-000PqK-1p;
+	Mon, 03 Nov 2025 05:24:25 +0000
+Date: Mon, 3 Nov 2025 13:24:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jori Koolstra <jkoolstra@xs4all.nl>,
-	Christian Brauner <brauner@kernel.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Taotao Chen <chentaotao@didiglobal.com>,
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>
-Cc: oe-kbuild-all@lists.linux.dev, jkoolstra@xs4all.nl,
-	linux-kernel@vger.kernel.org,
-	syzbot+a65e824272c5f741247d@syzkaller.appspotmail.com
-Subject: Re: [PATCH] Fix a drop_nlink warning in minix_rename
-Message-ID: <202511031229.rqpKLU46-lkp@intel.com>
-References: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
+To: Pauli Virtanen <pav@iki.fi>, linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Pauli Virtanen <pav@iki.fi>,
+	marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+	jukka.rissanen@linux.intel.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] Bluetooth: 6lowpan: Don't hold spin lock over
+ sleeping functions
+Message-ID: <202511031234.Gw8GEsFK-lkp@intel.com>
+References: <8736a4ce03f143b7a63cb99ab425e5403eafa9e4.1761998763.git.pav@iki.fi>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,75 +65,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
+In-Reply-To: <8736a4ce03f143b7a63cb99ab425e5403eafa9e4.1761998763.git.pav@iki.fi>
 
-Hi Jori,
+Hi Pauli,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.18-rc4 next-20251031]
+[auto build test ERROR on bluetooth/master]
+[also build test ERROR on bluetooth-next/master linus/master v6.18-rc4 next-20251031]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/Fix-a-drop_nlink-warning-in-minix_rename/20251103-022646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251102182532.2442670-1-jkoolstra%40xs4all.nl
-patch subject: [PATCH] Fix a drop_nlink warning in minix_rename
-config: arc-randconfig-r073-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031229.rqpKLU46-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031229.rqpKLU46-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pauli-Virtanen/Bluetooth-6lowpan-fix-BDADDR_LE-vs-ADDR_LE_DEV-address-type-confusion/20251101-201123
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/8736a4ce03f143b7a63cb99ab425e5403eafa9e4.1761998763.git.pav%40iki.fi
+patch subject: [PATCH 3/4] Bluetooth: 6lowpan: Don't hold spin lock over sleeping functions
+config: x86_64-randconfig-071-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031234.Gw8GEsFK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031234.Gw8GEsFK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511031229.rqpKLU46-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511031234.Gw8GEsFK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   fs/minix/namei.c: In function 'minix_unlink':
->> fs/minix/namei.c:151:11: error: 'EFSCORRUPTED' undeclared (first use in this function); did you mean 'FS_NRSUPER'?
-      return -EFSCORRUPTED;
-              ^~~~~~~~~~~~
-              FS_NRSUPER
-   fs/minix/namei.c:151:11: note: each undeclared identifier is reported only once for each function it appears in
-   fs/minix/namei.c: In function 'minix_rename':
-   fs/minix/namei.c:217:10: error: 'EFSCORRUPTED' undeclared (first use in this function); did you mean 'FS_NRSUPER'?
-      err = -EFSCORRUPTED;
-             ^~~~~~~~~~~~
-             FS_NRSUPER
-
-
-vim +151 fs/minix/namei.c
-
-   140	
-   141	static int minix_unlink(struct inode * dir, struct dentry *dentry)
-   142	{
-   143		struct inode * inode = d_inode(dentry);
-   144		struct folio *folio;
-   145		struct minix_dir_entry * de;
-   146		int err;
-   147	
-   148		if (inode->i_nlink < 1) {
-   149			printk(KERN_CRIT "minix-fs error: inode (ino: %ld) "
-   150			       "has corrupted nlink", inode->i_ino);
- > 151			return -EFSCORRUPTED;
-   152		}
-   153	
-   154		de = minix_find_entry(dentry, &folio);
-   155		if (!de)
-   156			return -ENOENT;
-   157		err = minix_delete_entry(de, folio);
-   158		folio_release_kmap(folio, de);
-   159	
-   160		if (err)
-   161			return err;
-   162		inode_set_ctime_to_ts(inode, inode_get_ctime(dir));
-   163		inode_dec_link_count(inode);
-   164		return 0;
-   165	}
-   166	
+>> ERROR: modpost: "l2cap_chan_hold_unless_zero" [net/bluetooth/bluetooth_6lowpan.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
