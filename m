@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422C424C669
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 16:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B368E2882CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 16:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762187771; cv=none; b=gxCOZCVsi5drG5fdXgPZXdEI4ITWZp5unq4YF/RFrFPLEoeRE5WMYGaUUvm3hxVRTNqX1LR60Q6M+cGmvClfU7nOiwAGqtXFJmuMkDK4x82QF9wl228928oYQegiPzmlFZFo0msmV2XgSKa6b93QcnRGKilnTEsr5SV34J8UE2U=
+	t=1762187797; cv=none; b=gUpoN2S0k8Io6y8IQfNKkLU5pZlDvNPrnP9Js4C0x6dq91uc3+4qn8FjF2/9hAjTP0WHPexheQ1BnrleYacg98GzBuHGGuCEE55/quUctT3Lo7ylNH1HYwur4+445oKbwcSx+GbhQgx23EowAcpo6XVew1bhXJtOSY0RsA7ahG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762187771; c=relaxed/simple;
-	bh=QTsXGxAl9nAYzzEbhpI78ONZlcSg49Wi6PpQZ8nBSgc=;
+	s=arc-20240116; t=1762187797; c=relaxed/simple;
+	bh=xrcL18CkQn82elDez/nN/C3GILwFWkZzlLPsfUi6E3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gs10KBfE/rcIMarijtVRqPQ+R8B3DhEzFStDCgwzAU6bofWCxvfCuGY56LAsg3G0EAHuGiq7ptiTG6rmYBnCzg2X9iIYja8sYiwIRTR4EbGOxBnf4yxK50Qsc3s8uELXHujTC0oEgw9UX/Wyzc647jIOrA8YkDs1Q2fU577TJSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ddj3llrb; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Rzd9pc72AvgG47MBE3gfStCpSP4QTgv6O+9VlTaXKa/n/QCzwyBmYwKadFMLYOe1eTQqgLSAzYRehP8K4Y8TjpUyrJXPYMbzVyAPGTo5/fgqkeJK/PIUdhSRC/umrPrE/RMGHSAKN0vdGZZfH5tYeVMpmZDVwLEGGvO+TRCaHVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZWGvOkL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ddj3llrb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZWGvOkL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762187770; x=1793723770;
+  t=1762187795; x=1793723795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QTsXGxAl9nAYzzEbhpI78ONZlcSg49Wi6PpQZ8nBSgc=;
-  b=Ddj3llrb21vAeqJVna4S08gIfSDo7oaC1enXzWB3/nHrFJIa0OK6HXRN
-   TeYrgWRX6CsVQpGrciyG1ILDxP+hPnvnqItS01jDJBQSsgdOc420HFyqS
-   V3rJqxHbo4DY6qXVK277h90R9QkrXznfv0dVCA3rJnUSF/ZFnXJkNbP+O
-   rfg0BoJsDDDw4C4pwv3nw7HDPl034oEC8tkHqijhFMIZ7NZjXCgajZppx
-   Ln6I4YLkWLtR4obalbVLwUyF7xD2tXf9WoXDQwDlKsmyFaUkwozTQvQOk
-   S5NFUBFao0Ytd+SULw1gKWJ3Z6oXrR51Rc47+wVt+XPozE58LKeis+8hM
+  bh=xrcL18CkQn82elDez/nN/C3GILwFWkZzlLPsfUi6E3k=;
+  b=kZWGvOkLj22FxrZnpL7czw+kXY7a7ZWgn5osuCL+wTJl++8TMuHa6SZM
+   NfxY+4yo5KQErWtrNvSWtW3BsR7RCy+qmkeIcHtn5ymCq/+EO3oqXP7Sj
+   cV9mVDZ9KL0Br1NolzG3bU+D4TB60g89WlaVjuX8JbuPE1+/6Q0NWpTGB
+   5wBOYoVaHMDL9w/Hkov1Uia2gYAs2FrR7m5M2Icr1XAUBhXpKKH0NljrY
+   Lcn5vb7H6g/z8P9mqHK+F1ntjrn7vPsMRKX4tv3T5Ii3Cwpw3O44LKqcQ
+   +ukoy72wfI2qvB1htnWzkm5O3JYR5SqZFgnpX5nEn64q4xbAEdJ/ZK/M2
    w==;
-X-CSE-ConnectionGUID: gny88FF/Rj+Ba7adQ26LXQ==
-X-CSE-MsgGUID: UkC9iUfCRuqwmtNNKtuFJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="51837655"
+X-CSE-ConnectionGUID: Up0OAKV/TailjNfTnrJw5g==
+X-CSE-MsgGUID: 9SBbS/4bRt2hEKEnhmOD2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="74870936"
 X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="51837655"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:36:10 -0800
-X-CSE-ConnectionGUID: smp9IWmoSkeVy58lydbbUw==
-X-CSE-MsgGUID: x4g6OsGZTa20UQQ1FT3ykw==
+   d="scan'208";a="74870936"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 08:36:34 -0800
+X-CSE-ConnectionGUID: ELhQQ19SSROi43TS1uXlZA==
+X-CSE-MsgGUID: u5VvWvQvSa2tQXWY8NDKyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="186147868"
+   d="scan'208";a="224159232"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 03 Nov 2025 08:36:09 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2025 08:36:33 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFxXA-000QLM-0m;
-	Mon, 03 Nov 2025 16:35:58 +0000
-Date: Tue, 4 Nov 2025 00:35:22 +0800
+	id 1vFxXY-000QLT-1b;
+	Mon, 03 Nov 2025 16:36:24 +0000
+Date: Tue, 4 Nov 2025 00:35:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:aio-direct-completions 1/3] io_uring/rw.c:569:23: warning:
- unused variable 'kiocb'
-Message-ID: <202511040038.zellxIWP-lkp@intel.com>
+Subject: [isilence:dmabuf-rw/v2-test-unfinished 10/12] sh4-linux-ld:
+ rsrc.c:undefined reference to `dma_buf_put'
+Message-ID: <202511040005.5Uw99qoF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +62,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/misc.git aio-direct-completions
-head:   44b98eb00ca89d13a590dfeb28506550f5444b0d
-commit: b6c0bb3ab045ced77932190f6bf86ef904340dbe [1/3] fs: remove IOCB_DIO_CALLER_COMP
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251104/202511040038.zellxIWP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040038.zellxIWP-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux dmabuf-rw/v2-test-unfinished
+head:   e693ed6721c39c7abddc6cfa222e7a443a2da12d
+commit: 854fac37757903a2dfdaf4ef22ff4172ec2b65a0 [10/12] io_uring/rsrc: add dmabuf-backed buffer registeration
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251104/202511040005.5Uw99qoF-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040005.5Uw99qoF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040038.zellxIWP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040005.5Uw99qoF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   io_uring/rw.c: In function 'io_req_rw_complete':
->> io_uring/rw.c:569:23: warning: unused variable 'kiocb' [-Wunused-variable]
-     569 |         struct kiocb *kiocb = &rw->kiocb;
-         |                       ^~~~~
-
-
-vim +/kiocb +569 io_uring/rw.c
-
-4d9cb92ca41dd8 Pavel Begunkov      2022-09-09  565  
-bcf8a0293a019b Caleb Sander Mateos 2025-02-16  566  void io_req_rw_complete(struct io_kiocb *req, io_tw_token_t tw)
-b000145e990780 Jens Axboe          2022-09-29  567  {
-099ada2c87260e Jens Axboe          2023-07-08  568  	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
-099ada2c87260e Jens Axboe          2023-07-08 @569  	struct kiocb *kiocb = &rw->kiocb;
-099ada2c87260e Jens Axboe          2023-07-08  570  
-2ec33a6c3cca9f Jens Axboe          2022-10-11  571  	io_req_io_end(req);
-3671163beb633f Pavel Begunkov      2022-11-04  572  
-8e5b3b89ecaf6d Pavel Begunkov      2024-03-18  573  	if (req->flags & (REQ_F_BUFFER_SELECTED|REQ_F_BUFFER_RING))
-5fda51255439ad Jens Axboe          2025-08-20  574  		req->cqe.flags |= io_put_kbuf(req, req->cqe.res, NULL);
-3671163beb633f Pavel Begunkov      2022-11-04  575  
-a9165b83c1937e Jens Axboe          2024-03-18  576  	io_req_rw_cleanup(req, 0);
-bcf8a0293a019b Caleb Sander Mateos 2025-02-16  577  	io_req_task_complete(req, tw);
-b000145e990780 Jens Axboe          2022-09-29  578  }
-b000145e990780 Jens Axboe          2022-09-29  579  
-
-:::::: The code at line 569 was first introduced by commit
-:::::: 099ada2c87260e5c52fbdad4ca40c165fc194a2e io_uring/rw: add write support for IOCB_DIO_CALLER_COMP
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   sh4-linux-ld: block/blk-mq.o: in function `blk_mq_submit_bio':
+   blk-mq.c:(.text+0x5ad8): undefined reference to `blk_rq_assign_dma_map'
+   sh4-linux-ld: io_uring/rsrc.o: in function `io_release_reg_dmabuf':
+   rsrc.c:(.text+0x104): undefined reference to `dma_buf_put'
+   sh4-linux-ld: io_uring/rsrc.o: in function `io_register_dmabuf':
+   rsrc.c:(.text+0x7e8): undefined reference to `dma_buf_get'
+>> sh4-linux-ld: rsrc.c:(.text+0x800): undefined reference to `dma_buf_put'
+   sh4-linux-ld: block/bdev.o: in function `blkdev_dma_map':
+   bdev.c:(.text+0xec4): undefined reference to `blk_mq_dma_map'
 
 -- 
 0-DAY CI Kernel Test Service
