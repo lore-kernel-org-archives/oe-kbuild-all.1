@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE258488;
-	Mon,  3 Nov 2025 06:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439D1C8FE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 06:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762152535; cv=none; b=ltpLgDtm8HlWUmZiKftUoJ3jhbQnS9+ln6/ztf6Vbg0tkznk6+3nRdHDIlgg7sZW0fM2ubfxTgoGkqK+jC7gE9Ps5OaiPmTQD7w2dqb5Jr0v1B3OiGLyGCBwEqQcVjbJtQ9Zs9hgDlXBNK6zCOwhBT7qNaRui4uZAevisTiapEQ=
+	t=1762152776; cv=none; b=XwQNHVDlx2b+e74tbu7NJPxfy9wS5UsAfrqB95UR2axxbmhuNZGAQXq2TnCytWCv0a5FRH5SidHSFhDCFRa0yd3gAaBJMl5YtkNgZtWloUQxGYkDtGTw8uu3Huq2pxVf8edXrykPJPG3NlhK5m6SUWAdL3QJG0gaQvrb9QQj3Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762152535; c=relaxed/simple;
-	bh=uNdjJEk7TfP59NrZsy1PEUxF6dimab1gt9jgQ7FlmEU=;
+	s=arc-20240116; t=1762152776; c=relaxed/simple;
+	bh=4S3DTWFqMbRNvCzJlVGT4H/B7v2n5GDWed61HmL/ofk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HiDrJlMi9OWBYIjPiCWLdQchTkE5yoWAeuOEKoWmOntBfuTjR2HH+6XbVHT5UAJxTgQYUINtVxFqETDAJsdXvd8tzybRrnL2XUWS4mwS5RYmRHHT3M+fcasJOC+zNWYPqDGo78x0qv/aZstXAo3mEj8xyQWgvbMbhKw5bhuXU4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cbrI8zw8; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=qdVWGl38J765t61RvL1VeqN8Ji217TVhc+lu4vwWtwfm1oU6NKCeuE0pv55psWvB9OUHBugeY8K4mL71NrJviP6jSZL4AkHOfGTqDT9yddXT205MK0rYeU9P2A0CQu9uoiYK+9EaV1BRDbZj0RwU36SpiAyWllIjXj88c1p5aXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qq5drhEo; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbrI8zw8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qq5drhEo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762152533; x=1793688533;
+  t=1762152774; x=1793688774;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uNdjJEk7TfP59NrZsy1PEUxF6dimab1gt9jgQ7FlmEU=;
-  b=cbrI8zw86BVv/YdpG7IJccHktPThctUa4J0wWx3L9MBS57SYqQXy/kzj
-   5cxbRFOd6jYh3lxQVgugFS1pKY+5JI0F/d/FfCH3Dpb4UaDthOVLAL/EU
-   lcnf/Jr1PLj4O8gJx5yxuuoXEOr1TWVkQrgkJAdSXmBU0YVl0UPcpn/eR
-   o651Ip9Vne1Dz910xWphOoNU5t/chvOerEVzaITh0oHM3W02o/WfP/NPV
-   TWaYKOrAjw7FM6X3SoaDv2RiPsingWACbeDeIrjlMsbCsm9S77sYEZKm1
-   B0iUly6svXjnl/4sEtyI5crVtpvsGGX8DEE/4KZ4R9lADdaCibxC5ZiAX
-   Q==;
-X-CSE-ConnectionGUID: lyI4LAAsQx2HxWirc+iS4g==
-X-CSE-MsgGUID: TLrNzBD2QjaA+aT5jvNABQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64109421"
+  bh=4S3DTWFqMbRNvCzJlVGT4H/B7v2n5GDWed61HmL/ofk=;
+  b=Qq5drhEo/16w+EvEWLK8Gu3CUUF0aLxH6CMeoZLucln1NgrC/fr0N6N4
+   vYJPTDC+CmvO2AYgDKc6iEnctlWG8jAwBH7FzU+vqGEdG2tS3PJlQjC/u
+   S5+ZT6xJlRKKPhWxrduuJKyBx73AMmOT+tWUVrAB0xggLRjsV5y1qnTJG
+   Hrg1sMGU/MzdxkGj1nWjQRNBGkwGvvK3rbmedgrLccWwP3q0gdcA3CCPp
+   3sYYYwBgQ2+MiDSh2ed4DYIOotYL6r5LXZplLg5tkeefKqljQlsvACu5+
+   J2twfYbwKts+pHXXXwhA+AyrNOiEWMmY+BP3v0CMPs2r8j5mZ+HZ4O2gC
+   w==;
+X-CSE-ConnectionGUID: iJrUNNJXSNC/qKDKJXw3rg==
+X-CSE-MsgGUID: /uC5BiW/SV2HqPEFBVWZRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64139407"
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="64109421"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 22:48:53 -0800
-X-CSE-ConnectionGUID: 9cFBXXNvQfiezGWLAfElhg==
-X-CSE-MsgGUID: aXdt5RTUSLuBB9lk7X84iA==
+   d="scan'208";a="64139407"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 22:52:53 -0800
+X-CSE-ConnectionGUID: QzVydwm+RHGpf/Oj1WKPPQ==
+X-CSE-MsgGUID: FfGYRZW2S5+hvsBWBhH0zA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="186076256"
+   d="scan'208";a="186028056"
 Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 02 Nov 2025 22:48:52 -0800
+  by orviesa006.jf.intel.com with ESMTP; 02 Nov 2025 22:52:53 -0800
 Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vFoMz-000000001ce-31WB;
-	Mon, 03 Nov 2025 06:48:49 +0000
-Date: Mon, 3 Nov 2025 07:48:45 +0100
+	id 1vFoQr-000000001ci-3DUn;
+	Mon, 03 Nov 2025 06:52:49 +0000
+Date: Mon, 3 Nov 2025 07:52:39 +0100
 From: kernel test robot <lkp@intel.com>
 To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:locking 5/5] kernel/locking/rwsem.c:1008:3: error: expected ')'
-Message-ID: <202511030722.ZKzKgank-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:locking 5/5] kernel/locking/rwsem.c:997:29: warning: unused
+ variable 'waiter'
+Message-ID: <202511030718.ktr84bEJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,27 +65,42 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git locking
 head:   cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a
 commit: cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a [5/5] rwsem: clean up code
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251103/202511030722.ZKzKgank-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030722.ZKzKgank-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251103/202511030718.ktr84bEJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030718.ktr84bEJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030722.ZKzKgank-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030718.ktr84bEJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/locking/rwsem.c:1008:3: error: expected ')'
+   kernel/locking/rwsem.c: In function 'rwsem_down_read_slowpath':
+   kernel/locking/rwsem.c:1007:24: error: expected ')' before 'goto'
+    1007 |             (rcnt > 1))
+         |                        ^
+         |                        )
     1008 |                 goto queue;
-         |                 ^
-   kernel/locking/rwsem.c:1005:5: note: to match this '('
+         |                 ~~~~    
+   kernel/locking/rwsem.c:1005:12: note: to match this '('
     1005 |         if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
          |            ^
-   1 error generated.
+   kernel/locking/rwsem.c:1102:1: error: expected expression before '}' token
+    1102 | }
+         | ^
+>> kernel/locking/rwsem.c:997:29: warning: unused variable 'waiter' [-Wunused-variable]
+     997 |         struct rwsem_waiter waiter;
+         |                             ^~~~~~
+>> kernel/locking/rwsem.c:995:14: warning: unused variable 'adjustment' [-Wunused-variable]
+     995 |         long adjustment = -RWSEM_READER_BIAS;
+         |              ^~~~~~~~~~
+>> kernel/locking/rwsem.c:1102:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1102 | }
+         | ^
 
 
-vim +1008 kernel/locking/rwsem.c
+vim +/waiter +997 kernel/locking/rwsem.c
 
 54c1ee4d614d528 Waiman Long    2022-03-22   988  
 5dec94d4923683b Waiman Long    2019-05-20   989  /*
@@ -94,9 +109,9 @@ vim +1008 kernel/locking/rwsem.c
 6cef7ff6e43cbdb Waiman Long    2019-05-20   992  static struct rw_semaphore __sched *
 2f064a59a11ff9b Peter Zijlstra 2021-06-11   993  rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int state)
 5dec94d4923683b Waiman Long    2019-05-20   994  {
-617f3ef95177840 Waiman Long    2020-11-20   995  	long adjustment = -RWSEM_READER_BIAS;
+617f3ef95177840 Waiman Long    2020-11-20  @995  	long adjustment = -RWSEM_READER_BIAS;
 2f06f702925b512 Waiman Long    2020-11-20   996  	long rcnt = (count >> RWSEM_READER_SHIFT);
-5dec94d4923683b Waiman Long    2019-05-20   997  	struct rwsem_waiter waiter;
+5dec94d4923683b Waiman Long    2019-05-20  @997  	struct rwsem_waiter waiter;
 5dec94d4923683b Waiman Long    2019-05-20   998  	DEFINE_WAKE_Q(wake_q);
 5dec94d4923683b Waiman Long    2019-05-20   999  
 2f06f702925b512 Waiman Long    2020-11-20  1000  	/*
@@ -107,7 +122,7 @@ d566c78659eccf0 Waiman Long    2024-02-22  1003  	 * very likely owned by reader
 cbce0966b2c1f7c Chao Yu        2025-10-31  1005  	if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
 cbce0966b2c1f7c Chao Yu        2025-10-31  1006  	    ((atomic_long_read(&sem->owner) & RWSEM_READER_OWNED) &&
 cbce0966b2c1f7c Chao Yu        2025-10-31  1007  	    (rcnt > 1))
-2f06f702925b512 Waiman Long    2020-11-20 @1008  		goto queue;
+2f06f702925b512 Waiman Long    2020-11-20  1008  		goto queue;
 2f06f702925b512 Waiman Long    2020-11-20  1009  
 1a728dff855a318 Waiman Long    2020-11-20  1010  	/*
 617f3ef95177840 Waiman Long    2020-11-20  1011  	 * Reader optimistic lock stealing.
@@ -201,14 +216,14 @@ ee042be16cb4551 Namhyung Kim   2022-03-22  1093  	trace_contention_end(sem, 0);
 5dec94d4923683b Waiman Long    2019-05-20  1099  	lockevent_inc(rwsem_rlock_fail);
 ee042be16cb4551 Namhyung Kim   2022-03-22  1100  	trace_contention_end(sem, -EINTR);
 5dec94d4923683b Waiman Long    2019-05-20  1101  	return ERR_PTR(-EINTR);
-5dec94d4923683b Waiman Long    2019-05-20  1102  }
+5dec94d4923683b Waiman Long    2019-05-20 @1102  }
 5dec94d4923683b Waiman Long    2019-05-20  1103  
 
-:::::: The code at line 1008 was first introduced by commit
-:::::: 2f06f702925b512a95b95dca3855549c047eef58 locking/rwsem: Prevent potential lock starvation
+:::::: The code at line 997 was first introduced by commit
+:::::: 5dec94d4923683b1dd6a09dc62427a24d79ee7b4 locking/rwsem: Merge rwsem.h and rwsem-xadd.c into rwsem.c
 
 :::::: TO: Waiman Long <longman@redhat.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
