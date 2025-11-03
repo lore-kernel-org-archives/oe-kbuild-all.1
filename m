@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A2928725C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 07:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890BD2D2499;
+	Mon,  3 Nov 2025 07:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762154850; cv=none; b=t6Hz6q+BO3YZggqBsf26Xyh19rUoS58Wpe1fI4JL5n1MK3plgdOaQ0cojkqlaRED/d81QA0oSClQXCzPdizlxsIK3l25XrWOCfW4e0wFo1b9p4jaQMhJ8E1L93uAL1OURfnCzuZ1V2qeCoM+k/FBNbXX0lyoZumiTguPFLNNbnU=
+	t=1762156722; cv=none; b=FN1CFeOFJqBYWCqYnMuQzyLufbr6yPLvxjK3O9l+/k01QuEy+DiTwbWIymEI6U1suOo5o4yh5AOfyauG9Pkwx0B3bOvLfhqwUaaWB8FUOOvFwQCAANQTs0pIX5NWQkgWUtJ7wLXn2A9pJH/viV5bmzUN/3gsHXSY+/2rFoCdKXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762154850; c=relaxed/simple;
-	bh=nzaQiu5g5btPzsTSXEz5VWTAr43hXLYuV1koD2fqJ0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pPQ890cGuiO4aLcUsuWGGsqX1RsYEjU6z9AwHkPj9csqObltUMOANq8PxloLVIETCTJrhelgIuSyVZLd8/FPTfkrfR5vnB7M5JXqkySG2GlDx0U3stAbvpWZaM60DhE1o1/v/SuNSJ/qHT9Mx1GGr+AG3O53jq9u+sGCvYt/7KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLJGRpsV; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1762156722; c=relaxed/simple;
+	bh=1FNm0IkM1sY0ABEEDPCU3w2p5wh4CFQ4+1Miq44uQxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+vrv6mfg465+OdLbL591I52yljmjw45RXX5VCS7KubAC0PWt0npY/9x8VWXm/Hey0/uvpAznEcjabu11sinI9q5U4OVzizaWKWsI4rTrc48VoP0yQ2MepfT0ncFbF+xOKEvBv8DoAu9o+pnXzaUECXrsj99RpLyw+sUqS3BNjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOtD0K+V; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLJGRpsV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOtD0K+V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762154849; x=1793690849;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nzaQiu5g5btPzsTSXEz5VWTAr43hXLYuV1koD2fqJ0Q=;
-  b=jLJGRpsV/0D9HYWkRD2KVQPFTKGHIPxVEtg6zHbNp++/o8RRZqAhvx8z
-   uj2HVqtUBMUlJVwM533uKg7owDxIRKrmhenU7v3hw5F/wE0QHNFW6Si8+
-   G7cQ7FLMLTvOlg92PE6+W1DTKmm65BnkkZRfxaVW+MaNhenbZPCC2l3DS
-   6ybAsfsNOdN8Nv/llxLl61ghe2B0KMFxaK/M2fBj64KVu44D3QfNl0cjz
-   722yZwHOEz66vIRp1xlw18kZIcm/+ij+qy8Rt/4C+3Ir9Jr5KE5qj3Uj+
-   ZBCSTHdpy6IOgtJ/++Xd8UUXGhDyqkRmLhmX2vgePK4NJZI84vxt1bZm2
-   w==;
-X-CSE-ConnectionGUID: myGCAEJPSXuLVHNTqmEEKg==
-X-CSE-MsgGUID: LMOxOVOfRBGu6cckQ46jCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="75575928"
+  t=1762156721; x=1793692721;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1FNm0IkM1sY0ABEEDPCU3w2p5wh4CFQ4+1Miq44uQxU=;
+  b=WOtD0K+VhGg/4X/R5dU9hWtY+hFs1PvecjSSWB56Oux6NAFaVDhh5YBz
+   X5bbk0YY8cVGnJUnlXExTTnfKYEj8xVeq/sZ7HJUsAjFTJ6J/xUcaBfjo
+   SLURAtdS04kopIcSEabpfa8vI+WdLDeO04R7ScHs/014OLulcidFQ/nt5
+   JWFwScti3mYIqRsixnH5SN6AxoZ2buxqG/AqtgBT65zFcOutciD0VHnRr
+   2iUanPIn+AhjWeOmenoQbLvOk+OfT3Cn/tAUr+RaYu0qjJOSDQ440CxFK
+   O7hSt4J8NKKYwy/cY6CEq3DEB4xVSFdTUeWrG8RTS03+bt1prx2SMwaEg
+   A==;
+X-CSE-ConnectionGUID: TVrEPqhtQKKuq4JQCwGGKg==
+X-CSE-MsgGUID: KWcYotN0R4Gc9vCtPzf2Ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64323445"
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="75575928"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 23:27:28 -0800
-X-CSE-ConnectionGUID: T/UWRU6iRqW85XXHZCFzxg==
-X-CSE-MsgGUID: kh48bj4OTBW8CFF3Q6SJrQ==
+   d="scan'208";a="64323445"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 23:58:40 -0800
+X-CSE-ConnectionGUID: /JX1QDGhT/qZ5qvkq8W++Q==
+X-CSE-MsgGUID: ElpOeLaWQEOEFXRdrwRkMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="217431536"
+   d="scan'208";a="186675874"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2025 23:27:27 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 02 Nov 2025 23:58:37 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFoyK-000Puh-1Y;
-	Mon, 03 Nov 2025 07:27:24 +0000
-Date: Mon, 3 Nov 2025 15:26:57 +0800
+	id 1vFpSJ-000Pw4-2S;
+	Mon, 03 Nov 2025 07:58:28 +0000
+Date: Mon, 3 Nov 2025 15:58:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
-Subject: include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-Message-ID: <202511031542.oqD6ABwP-lkp@intel.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>,
+	Christian Brauner <brauner@kernel.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Taotao Chen <chentaotao@didiglobal.com>,
+	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>,
+	NeilBrown <neil@brown.name>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jkoolstra@xs4all.nl, linux-kernel@vger.kernel.org,
+	syzbot+a65e824272c5f741247d@syzkaller.appspotmail.com
+Subject: Re: [PATCH] Fix a drop_nlink warning in minix_rename
+Message-ID: <202511031556.5N9lmsZB-lkp@intel.com>
+References: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,41 +69,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251102182532.2442670-1-jkoolstra@xs4all.nl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6146a0f1dfae5d37442a9ddcba012add260bceb0
-commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
-date:   4 months ago
-config: alpha-randconfig-r131-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031542.oqD6ABwP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031542.oqD6ABwP-lkp@intel.com/reproduce)
+Hi Jori,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.18-rc4 next-20251103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jori-Koolstra/Fix-a-drop_nlink-warning-in-minix_rename/20251103-022646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251102182532.2442670-1-jkoolstra%40xs4all.nl
+patch subject: [PATCH] Fix a drop_nlink warning in minix_rename
+config: arm-randconfig-004-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031556.5N9lmsZB-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031556.5N9lmsZB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511031542.oqD6ABwP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511031556.5N9lmsZB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/bluetooth/af_bluetooth.c:248:25: sparse: sparse: context imbalance in 'bt_accept_enqueue' - different lock contexts for basic block
-   net/bluetooth/af_bluetooth.c: note: in included file (through include/net/bluetooth/bluetooth.h):
->> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-   include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
+All errors (new ones prefixed by >>):
 
-vim +2098 include/net/sock.h
+>> fs/minix/namei.c:151:11: error: use of undeclared identifier 'EFSCORRUPTED'
+     151 |                 return -EFSCORRUPTED;
+         |                         ^~~~~~~~~~~~
+   fs/minix/namei.c:217:10: error: use of undeclared identifier 'EFSCORRUPTED'
+     217 |                 err = -EFSCORRUPTED;
+         |                        ^~~~~~~~~~~~
+   2 errors generated.
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2094  
-e84a4927a404f3 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_uid(const struct sock *sk)
-e84a4927a404f3 Eric Dumazet   2025-06-20  2096  {
-e84a4927a404f3 Eric Dumazet   2025-06-20  2097  	/* Paired with WRITE_ONCE() in sockfs_setattr() */
-e84a4927a404f3 Eric Dumazet   2025-06-20 @2098  	return READ_ONCE(sk->sk_uid);
-e84a4927a404f3 Eric Dumazet   2025-06-20  2099  }
-e84a4927a404f3 Eric Dumazet   2025-06-20  2100  
 
-:::::: The code at line 2098 was first introduced by commit
-:::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races around sk->sk_uid
+vim +/EFSCORRUPTED +151 fs/minix/namei.c
 
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   140	
+   141	static int minix_unlink(struct inode * dir, struct dentry *dentry)
+   142	{
+   143		struct inode * inode = d_inode(dentry);
+   144		struct folio *folio;
+   145		struct minix_dir_entry * de;
+   146		int err;
+   147	
+   148		if (inode->i_nlink < 1) {
+   149			printk(KERN_CRIT "minix-fs error: inode (ino: %ld) "
+   150			       "has corrupted nlink", inode->i_ino);
+ > 151			return -EFSCORRUPTED;
+   152		}
+   153	
+   154		de = minix_find_entry(dentry, &folio);
+   155		if (!de)
+   156			return -ENOENT;
+   157		err = minix_delete_entry(de, folio);
+   158		folio_release_kmap(folio, de);
+   159	
+   160		if (err)
+   161			return err;
+   162		inode_set_ctime_to_ts(inode, inode_get_ctime(dir));
+   163		inode_dec_link_count(inode);
+   164		return 0;
+   165	}
+   166	
 
 -- 
 0-DAY CI Kernel Test Service
