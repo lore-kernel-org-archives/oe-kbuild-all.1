@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188DF86348
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 10:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE3A2FFFB3;
+	Mon,  3 Nov 2025 10:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762164738; cv=none; b=Xl2DvXaTQ4V25fDV8Z44w3cOrXdikt3s/Ywr9Cr3W0c4SnX4fWl/d48klPP/voJz8OWLJ65WN8GXNrl4ElgzFgH6fzSehhcL82HwK34p1IYSAi2imlJb90tdqZhNC4ldKHGlGNAOZY/ZDqO5H2Q16tTa+1HutvJJ7Z92e9Ih47Q=
+	t=1762167282; cv=none; b=W+8Gk50zCweS4DBIYL3gkoA6ZnbaevRtpjVgsL1zmwT+Idd6gm8nrHRh+00qY/kiAmBKwF1c5hrhkbVJYLgAi3z473BOfpAT0Q9Bsh62426LuKx2hwR/w8XCQlorQ+G7d9omDcOWSrySY9A5tzAEbY+FUDYXJVMaE0wKbIx2Ey8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762164738; c=relaxed/simple;
-	bh=Dhrf/ZSPHxNKGbpCK6A2WKJeqci3pmjomvuWHH69ZQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UPWNstXjXnu/M4jtV8NFN5gw5wbGl/EW/UYI9IdixZQhE5dxoCnRfJ00SPY2tR3IeA7KH2YuulLa5DeitiMf6MiYn73vEFH550jsUUIqqAJskUjJZypIT5/1OJyfW22RU3zRyc7CJaaRtlbOd4VTVb2XxbIctPD3uY21sn9uKgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U21rI8ZA; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1762167282; c=relaxed/simple;
+	bh=eAO6uuVvRpX5kBZXZELX/CH9fZ5qwDFj2NrOEEcA+3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f8/hkhAA1cfYIfpVnNwGUg4N8D/jh2xoL0AGAvqwcmcwGOhwZsjDvCZY6U78CHL78k4h2cTjCz5KFaCo4mQ/XZIWiLe/QDU7MacmnkLhPxTnFNkLzmMM4ToQs1VqyIWP2HFtJ2l8GbXBEQrtp51LUWRRl5vi1kl7BkdvGkZiEE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V66ueO/+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U21rI8ZA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V66ueO/+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762164737; x=1793700737;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Dhrf/ZSPHxNKGbpCK6A2WKJeqci3pmjomvuWHH69ZQc=;
-  b=U21rI8ZAxyQfhOxlqlt2PdNrnYrDI+txEidcdEzkpXIuL1FPzNuBInm4
-   MmZAccp+tPQzCj/3gCuncTkgvRddO1EJ3RAqHkpnHQOEDQTUbykPUsk/k
-   TaIzhY1I0HFCgI1oyrfMBtncy18Td7HLFYMq6ykME9o2XRXzU1T4KIN5a
-   tD/ZcMjO5/1EMvhMxQssQXVcBhbZcPWjUaUN6FXvSCvNm33/z8E6eDclc
-   FaAz+ubEkn3MOUwfxZuEXGgUY/vfdh3+1NzPSrHj1dqKa/EU2/pkfNAF6
-   4bciAp0SWSpEzmjqrEv0lzrJtUoIa9YxFFav6ls25QdkUgGiZkF24TUYW
-   Q==;
-X-CSE-ConnectionGUID: t3Q28LTnRdCIo3Z16BRT2g==
-X-CSE-MsgGUID: 0zrVKbhbTJON2QgxOm1bOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="64124539"
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="64124539"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 02:12:17 -0800
-X-CSE-ConnectionGUID: F2NPJ8zbTQuK9KbUZyCB1A==
-X-CSE-MsgGUID: E8fRRqosSwWoHYJH3TUcaQ==
+  t=1762167281; x=1793703281;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eAO6uuVvRpX5kBZXZELX/CH9fZ5qwDFj2NrOEEcA+3Q=;
+  b=V66ueO/+M/kt1xjAWKtItZstuJhT+0PmRAAsEnsMyaXVxub7Ip3vaKBS
+   2kiKALpEd/RZj3liPRrUqVFiu1Uug1bRxKtg1bRQ3dkmkP+t3U6kzXbZF
+   jnhJiC/c2YD36ywGqZTeslqcAxIcv7v8gJ0zPO9yqfJerw+6loUyjRynd
+   ucFsUJu6MkrBDpHqmj81CDW7ANqn2+W6o7ubq95jRDVCrxSMJSyQxIEHo
+   zbclRoDYa8jHXCFPfOXuuS9OQnrh1cUaHogNkR1tKwdAnW8HSPIjmiJcI
+   V8YO8ZBghkVK6WzQ/E4P0esUAARgdH4+SkiTORzN/BHlG7WY0sHyVPQwl
+   g==;
+X-CSE-ConnectionGUID: tpQUCE/4ROmpaRAPOchikw==
+X-CSE-MsgGUID: pxYpC6hlQDCpr/ZBuqUkJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64164739"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64164739"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 02:54:40 -0800
+X-CSE-ConnectionGUID: UQnYsNNPS/uLYv5iauyKBg==
+X-CSE-MsgGUID: Sv09t+vDRviq/kcdagPr7g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="186782300"
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="186710667"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 03 Nov 2025 02:12:16 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 03 Nov 2025 02:54:35 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vFrXp-000Q1U-1a;
-	Mon, 03 Nov 2025 10:12:13 +0000
-Date: Mon, 3 Nov 2025 18:11:26 +0800
+	id 1vFsCn-000Q30-2G;
+	Mon, 03 Nov 2025 10:54:33 +0000
+Date: Mon, 3 Nov 2025 18:54:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mykola Kvach <xakep.amatop@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] arm64: dts: rockchip: orangepi-5: fix PCIe 3.3V
- regulator voltage
-Message-ID: <aQh_znihmYjnrzpR@021eb7b9f88c>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, imx@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH v3 3/8] clk: imx: add driver for imx8ulp's sim lpav
+Message-ID: <202511031829.Ju1yYI9x-lkp@intel.com>
+References: <20251029135229.890-4-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +75,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9232ae8cc8e7eb4f986734c8820f44b7989b9dae.1762161839.git.xakep.amatop@gmail.com>
+In-Reply-To: <20251029135229.890-4-laurentiumihalcea111@gmail.com>
 
-Hi,
+Hi Laurentiu,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on abelvesa/clk/imx]
+[also build test ERROR on abelvesa/for-next linus/master pza/reset/next v6.18-rc4 next-20251103]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurentiu-Mihalcea/reset-imx8mp-audiomix-Fix-bad-mask-values/20251029-225054
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelvesa/linux.git clk/imx
+patch link:    https://lore.kernel.org/r/20251029135229.890-4-laurentiumihalcea111%40gmail.com
+patch subject: [PATCH v3 3/8] clk: imx: add driver for imx8ulp's sim lpav
+config: arm-randconfig-001-20251103 (https://download.01.org/0day-ci/archive/20251103/202511031829.Ju1yYI9x-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031829.Ju1yYI9x-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2] arm64: dts: rockchip: orangepi-5: fix PCIe 3.3V regulator voltage
-Link: https://lore.kernel.org/stable/9232ae8cc8e7eb4f986734c8820f44b7989b9dae.1762161839.git.xakep.amatop%40gmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511031829.Ju1yYI9x-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__devm_auxiliary_device_create" [drivers/clk/imx/clk-imx8ulp-sim-lpav.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
