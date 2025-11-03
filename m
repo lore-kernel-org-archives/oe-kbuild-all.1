@@ -1,156 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C55136658
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 01:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61AE34D3B9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 02:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762134331; cv=none; b=eB+RNJqrBb6Rvx3UiZMuoU5e089Cm8XUjCl/+GGkijaZO5GoEc6udQFWkf0GVX8kVxFa2hOU6icm/uodsfQKxGVrhL9wnF6rDAsMOCdUlVxjuLxw7MGqmPyT4j5JIULLK0LROtp+j0hQKrMxzoFSS1w33U1GYDGCZ3Fis9usC0o=
+	t=1762136160; cv=none; b=VKbEFiYz8LmRMzfKO9oEYxFy/AEsbFZNMJpvFpVO4qsm4pG9Dl84TiVPu5TG9/z74PGp9FQrhkKz3t6G4z5FJbnlIJJqQF0cY8lCv07bPWUODHtfGTXTXkVztOwK9eMUxbMhPpStazP0UJEeB0Dd49CDx50YkrMRAxW3/1ms3Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762134331; c=relaxed/simple;
-	bh=KvPMeHtk7J/U32y1QgHVo1Rhc9nlAP+csZP5Y85b/V0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KUyVCss0pJb42l3rua6pkC80TZR4TT8ZQsChL8IIxZ51F4LrqX5m9A2Dd/pJZ0zFkISVkj2FUYSAXOXWUM7nYxxW/7AY77dWzKyBD67nRzha3Feo1ncpqHNUnAghfmK8bS9P4bmM+GEoUgDWAb+CYl1DruhTlWWAy3DEwsLgeG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtlN5HCl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762136160; c=relaxed/simple;
+	bh=cwA4iXiVm51/SJQsvtz9wAsCZQ0/zFO1Vu0rjXiQaxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tM/upXOXQJjyJcAsGh45BDO8jFTwxlFnnsWQR4lI+r5ora1U7qZybAkYb2gs6V3PSoBBPSSJ2neWrsMGViQqvhBCMpDqILbvjC0+Oqs5htOquO/MoBS8WsaRytmYoeYNP9ddks3jrp50cGrHtdsIKqK/pWQO/gczovRrD14K9C0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=dik8aVZu; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtlN5HCl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762134330; x=1793670330;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KvPMeHtk7J/U32y1QgHVo1Rhc9nlAP+csZP5Y85b/V0=;
-  b=YtlN5HClhmNZTnhkRULFpHAmuNkiBo/F0kgzeYV4L117g8nyCKy7WUOo
-   GRpm1cx+BdwhtVFn0sOUepJNE1TRVXgU4KfwgZ2mDZfCSjLB7ZkI8Izsi
-   7sCZnkFI1+rtB8WYseXf1hU6Sa3Ru5N7ggNL1L1GZrxYXhgz9ZrtAyELc
-   gtft1t8GKDaZRyBElRGoaMsnbVN+Xv9ep1SV3CWdEeJTQP9hSnb8SwCl4
-   8mt89J4/WAc/cfxj1dOBombpDkApyBc8xTG2o/RIaN2JQotqFhv0F5+D3
-   eJHEOEpn/YBZmXan5hCrGOEbLwX4p86COinRfT3HrrAOutpk96MUAyJNx
-   A==;
-X-CSE-ConnectionGUID: 2ow61j9YTjq0FO0hFgJvIg==
-X-CSE-MsgGUID: YvV8c6v0Qi2HPYpLICr8Gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="86831963"
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="86831963"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2025 17:45:29 -0800
-X-CSE-ConnectionGUID: mDn5tdkFRNuhDiwXvrvHNA==
-X-CSE-MsgGUID: PWCNiEcXTbCrww2UwRQ/Iw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
-   d="scan'208";a="187188344"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2025 17:45:27 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vFjct-000Piu-1x;
-	Mon, 03 Nov 2025 01:45:00 +0000
-Date: Mon, 3 Nov 2025 09:44:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Pu Lehui <pulehui@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3083/3083] net/core/filter.c:12101:17: sparse:
- sparse: symbol 'bpf_xdp_change_dev' was not declared. Should it be static?
-Message-ID: <202511030954.SJ0Hsr2z-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="dik8aVZu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1762136104;
+	bh=g9p1hY2y0/W1bj5fFacHNx41Ri+n4HF9n/0XNnJLyYM=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version;
+	b=dik8aVZuRM1mwFkkIJ/zdvAsnoeYWKlnQucqBnhW1yz7MGCxWxx/bkalbPl83p5Y9
+	 hppNbGU3UDbHnCdursXIsO454JsNoZXCP5Xd/uHw28VZ424e3QfilttWeIRWIDfcP1
+	 LOX2v+xox+DGA2iEN+PcBZ8MvCkw/bpGix5RGMkQ=
+X-QQ-mid: esmtpgz11t1762136098td67e2136
+X-QQ-Originating-IP: pvwYgVsnJvzSvyW4JzhMyOIdTyB+R3rcmMnrVNPiPCQ=
+Received: from = ( [183.48.244.243])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 03 Nov 2025 10:14:57 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16500212621162204577
+EX-QQ-RecipientCnt: 5
+Date: Mon, 3 Nov 2025 10:14:57 +0800
+From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+To: kernel test robot <lkp@intel.com>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Jinmei Wei <weijinmei@linux.spacemit.com>
+Subject: Re: [linux-next:master 2080/5383] mm/page_alloc.c:6985:23: error:
+ implicit declaration of function 'find_large_buddy'; did you mean
+ 'split_large_buddy'?
+Message-ID: <995A6E8EE16DA1CA+aQgQISLd2etLuGT9@kernel.org>
+References: <202511012349.OBGxzv72-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202511012349.OBGxzv72-lkp@intel.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MCg5+ArSTX6cQewonlsZ5R44b4eV/n+HMN0JQUypc2RKo+OC1mEQV84O
+	wBzbYdbKLe7QVd08n1icdTdyI2wNuVx0sH+Kr2QItNvnPOzWMD3aDuCl9WnFOjEZu/nXa9u
+	pCznraJxRihPbnGz8H5BBKAoLmLHEg/KCQbdw3KP/ggJSv21f6DhTOt8caDq6li9FN2OvIL
+	SCCqRPE1PKJNgeK0g4ogS5UxJpnitbtpcfMoQf4ZTwe9yRAG2nzxEHwc3Fbh+TwYzMN15C6
+	OzZ4ReExt8nj37wjSMqo+BTrCDDUdW9bX2PNFsdPh4MI/8FLrGU90DUexgqyAp9XCYZ141X
+	zBOgdiLU8JB8oFMIVDV36XJEINMCITkbb48zBjPg9L141GXCFEazoJzdP3hVe9mMO0NWw7+
+	TLLhyj6CX3sNEC8yvTIeK56LTsWPSLLghCf6mcQYTBpXdmMnTOKdmllnrWTKSUkFvt5fKT5
+	WhC3bc1YaqzEDZTSYhTV6fvib4CPFi4PrLurRxatkuhyVF++ZCmeQJjmB7+/PGmkqkBirjB
+	8udWt67NYkCPCb99VEFwPwF2coIIV0f9ldZqwXtROfDNi/sFsMSeLy0B+K3sdIMh4jzSnj8
+	D/5nccm0l6/ZD2B0+W4VB1FIDa7EGmbni83KS3R83VFDQfVaG4400k+aUWvTCbi3n9vvSgi
+	l5TkljbqKM/wqTo+ag5m2ppfYTxqA1CyN49DC3m2XNATOhFNoJYd7glNjnhqchJ5rhVwB2A
+	tvptukBdnE7oOpFVLHQ6nwVUY7D8NovvzLOIhv5TkjUd3IGwlKxYR4xdLRfkkZgZgNKAyjs
+	bEG3spRlTm1zg8UCHREdU08frKyd24ReMPxuZ9XtxaElCfOoJYZsSqZesjfkNauG++kPrTg
+	yy6oAnHpGYf8XCJzvylJmRIEdDi3z+9jQZDtnQNOmTXtAIkCxi+OZjWYHWM50lqB5JqGoUZ
+	G8jrbseFrfd08m+q5AzMwrj7da5ZjX7nvhTz5Z1WzeWU6HcT/HwgOX5jiMxjBV9KpyGSBHk
+	BvF08PhNpbUqzKD/qyJaqfp3W8hAQfEj5kodwrm+oPWpDOV7bB7QQ71GS4YVI=
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5394cae209c4a4990d81be436ba17ae56fb09d16
-commit: 94ac90c1b608e26cfd82703606d5e13667983b96 [3083/3083] bpf: Add bpf_*_change_dev kfunc
-config: x86_64-randconfig-123-20251103 (https://download.01.org/0day-ci/archive/20251103/202511030954.SJ0Hsr2z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030954.SJ0Hsr2z-lkp@intel.com/reproduce)
+Hi Mark,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511030954.SJ0Hsr2z-lkp@intel.com/
+On Sat, Nov 01, 2025 at 11:08:34PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   98bd8b16ae57e8f25c95d496fcde3dfdd8223d41
+> commit: fce217449075d59b29052b8cdac567f0f3e22641 [2080/5383] ASoC: spacemit: add i2s support for K1 SoC
+> config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20251101/202511012349.OBGxzv72-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511012349.OBGxzv72-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511012349.OBGxzv72-lkp@intel.com/
+> 
+> Note: the linux-next/master HEAD 98bd8b16ae57e8f25c95d496fcde3dfdd8223d41 builds fine.
+>       It may have been fixed somewhere.
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    mm/page_alloc.c: In function 'alloc_contig_range_noprof':
+> >> mm/page_alloc.c:6985:23: error: implicit declaration of function 'find_large_buddy'; did you mean 'split_large_buddy'? [-Wimplicit-function-declaration]
+>     6985 |         outer_start = find_large_buddy(start);
+>          |                       ^~~~~~~~~~~~~~~~
+>          |                       split_large_buddy
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for CMA
+>    Depends on [n]: MMU [=n]
+>    Selected by [y]:
+>    - SND_SOC_K1_I2S [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (COMPILE_TEST [=y] || ARCH_SPACEMIT) && HAVE_CLK [=y]
+>    WARNING: unmet direct dependencies detected for DMA_CMA
+>    Depends on [n]: HAVE_DMA_CONTIGUOUS [=n] && CMA [=y]
+>    Selected by [y]:
+>    - SND_SOC_K1_I2S [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && (COMPILE_TEST [=y] || ARCH_SPACEMIT) && HAVE_CLK [=y]
+This error is based on the code before my fix [1],
+so I don’t think it’s something we need to worry about.
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/filter.c:1416:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1416:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1416:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:1494:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1494:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1494:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:2325:45: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] daddr @@     got unsigned int [usertype] ipv4_nh @@
-   net/core/filter.c:2325:45: sparse:     expected restricted __be32 [usertype] daddr
-   net/core/filter.c:2325:45: sparse:     got unsigned int [usertype] ipv4_nh
->> net/core/filter.c:12101:17: sparse: sparse: symbol 'bpf_xdp_change_dev' was not declared. Should it be static?
-   net/core/filter.c:1931:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1931:43: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1931:43: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1934:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] old @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1934:36: sparse:     expected restricted __be16 [usertype] old
-   net/core/filter.c:1934:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1934:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] new @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1934:42: sparse:     expected restricted __be16 [usertype] new
-   net/core/filter.c:1934:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1937:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1937:36: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1937:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1937:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1937:42: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1937:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1982:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1982:59: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1982:59: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1985:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1985:52: sparse:     expected restricted __be16 [usertype] from
-   net/core/filter.c:1985:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1985:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be16 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1985:58: sparse:     expected restricted __be16 [usertype] to
-   net/core/filter.c:1985:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1988:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1988:52: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1988:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1988:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1988:58: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1988:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:2034:28: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum @@
-   net/core/filter.c:2034:28: sparse:     expected unsigned long long
-   net/core/filter.c:2034:28: sparse:     got restricted __wsum
-   net/core/filter.c:2056:35: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] csum @@
-   net/core/filter.c:2056:35: sparse:     expected unsigned long long
-   net/core/filter.c:2056:35: sparse:     got restricted __wsum [usertype] csum
-   net/core/filter.c:5895:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] spi @@     got restricted __be32 const [usertype] spi @@
-   net/core/filter.c:5895:17: sparse:     expected unsigned int [usertype] spi
-   net/core/filter.c:5895:17: sparse:     got restricted __be32 const [usertype] spi
-   net/core/filter.c:5903:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] remote_ipv4 @@     got restricted __be32 const [usertype] a4 @@
-   net/core/filter.c:5903:33: sparse:     expected unsigned int [usertype] remote_ipv4
-   net/core/filter.c:5903:33: sparse:     got restricted __be32 const [usertype] a4
-
-vim +/bpf_xdp_change_dev +12101 net/core/filter.c
-
- 12100	
- 12101	__bpf_kfunc int bpf_xdp_change_dev(struct xdp_md *xdp_ctx, u32 ifindex)
- 12102	{
- 12103		struct xdp_buff *xdp = (struct xdp_buff *)xdp_ctx;
- 12104		struct hisock_xdp_buff *hxdp = (void *)xdp;
- 12105		struct net_device *dev;
- 12106	
- 12107		WARN_ON_ONCE(!rcu_read_lock_held());
- 12108	
- 12109		if (!hxdp->skb)
- 12110			return -EOPNOTSUPP;
- 12111	
- 12112		dev = dev_get_by_index_rcu(&init_net, ifindex);
- 12113		if (!dev)
- 12114			return -ENODEV;
- 12115	
- 12116		hxdp->skb->dev = dev;
- 12117		return 0;
- 12118	}
- 12119	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Link:
+https://lore.kernel.org/all/20251028-fix-k1-i2s-v2-0-a547c15ed5c3@linux.spacemit.com/ [1]
