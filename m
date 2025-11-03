@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DE92BD580
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 23:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420052FFF89
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 23:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762212205; cv=none; b=Aj3W4AZZvMloOoZuLx5MJPJmSEdVv1WVcgkYq1yt4UDAP2zkxFhcwgFEae6irn6BNU5K8eCXlQPZ+ofTLAsWbtFqDg+kxbkVFZhgWijQvjj+EIfWk/+HQiz6CnZcEJOF/09D3Jr3/x4eVzJkxI2mgcFsD2dN2CrPQAhj7uamL68=
+	t=1762214086; cv=none; b=hePmMM/baIz2zoNR0uL4P3EADzn3ZcTAfd7T02SKZwKn/DOVwCvCxvOzME+E01sAUV5XERtCKp48nvsp9vztZnbFqwMUzQOFeD5/dNgRJbOFjX3Koh5T4X9IluGOdbRhk4NhsrdMcXH2iUDQtt0N1Gef4pedn1YdZtv5tbhaM4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762212205; c=relaxed/simple;
-	bh=xNLK1wdIfZOsScfbVupV47XlEa/Umal8aUOvHphFR0g=;
+	s=arc-20240116; t=1762214086; c=relaxed/simple;
+	bh=QL1RwUzqoFhONfxYeLrEFILrHTrrd7u74ulIoTQZMWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=epGJCSfjE2zRABa5oKF2TDrQs9GAnQmtuSQfqZlLrd9GoCrs9Py42GRoPTjZuU9F31a3YjLEy+xtTTzASYjgntrGv9it4kI5dLphG/YIyeIY3x/30UlCtQwpgYn1+jIdKhcygskzapqplRzl/X8yetm4oenWDj0yidWvwJty+MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BaCj/gGA; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=dDo5R4Rv16LdlLlxK/cvuw+z5t4fvrkmdKavVkK4YzhzVxxRchH0BOnzhgY7ZF0qgI5sbyHuSIgE8q2UsINw9NphLEnm/pT0fCBn0Si9Ok9Pg0bHNCS+gnUoyhC11dYQiUbhV7LiI3RCTtwTklu8lKjyrUB2/sgjz3mWHYi2jj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/OV/DXV; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BaCj/gGA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/OV/DXV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762212203; x=1793748203;
+  t=1762214083; x=1793750083;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xNLK1wdIfZOsScfbVupV47XlEa/Umal8aUOvHphFR0g=;
-  b=BaCj/gGAHYAfbeHvwUHzqJQPrjMAa/Srne+pZ1CZQmUeyvW+EQOMHJuC
-   /oJYhV8EEyszwFMXlLQW6Q92A2CkzQCbhvL1agjqdHuYkgnPedfo4dFY4
-   3Gq66tSs1YARvUzoRC3B0QeQ2ZF3U3Ig9w44pQ359DFFp5ac6JJ8D3ynV
-   onXigqznzlQJqeHJPRMnnMoE9jnidcAC5663GTfNKDvMO0fVQlva/vFbz
-   KDjW+Qq0Xwg5xPD1a4Ii3bGpU9BTbZzZGlqnmvnrnblJwRN2wB9YKdSbP
-   0gRQgsXoTcvqSY32gbNoBFXuu5++t20hDcIqWHcdP/isHBVpm9QaWWWDZ
-   A==;
-X-CSE-ConnectionGUID: +8LO9CH1Q6GT4cqa/SlqTA==
-X-CSE-MsgGUID: ki3zLtIQRVKmrOtbTojmeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="67953309"
+  bh=QL1RwUzqoFhONfxYeLrEFILrHTrrd7u74ulIoTQZMWY=;
+  b=f/OV/DXVP6Jspi2uh1Crf909qwyFq3NdrX/cWItFNvl/FfPu8GjvoJJ8
+   MPvj8y2zjhBmKfa4MptZ4oksrk3xUNXMrrJBPWZEHl1v6pLKyyVdea+4f
+   PH2AVj1OfzHDdCwcoXh2tX/ggixfCM1v7LWa7if1VLKNW6gQcpPgIJq3x
+   9gAp7lLSsoPdQidzwRHAVBtabHZF1XPI3e6pGSZKgnMtJs+9kyCp8jLMG
+   9lynzG7feG6qTt0mJjnoj9qMhrs/vWTjKkNKifnnoeEL3TOFoEOriZZD0
+   uKCg1oKMHu2xwo31UR/bRVlZDQkOl9Qse/OnDFCCFiHqK4FNftMmeTY+D
+   g==;
+X-CSE-ConnectionGUID: FfqR38mKSXGAaWo5MHJFzg==
+X-CSE-MsgGUID: HkJmj6mGTNqapiUND0y8yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63503345"
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="67953309"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 15:23:23 -0800
-X-CSE-ConnectionGUID: IK8WnlgLSJ+gTmB3TWjKvQ==
-X-CSE-MsgGUID: Wov/dQgQS5W6BgPZEKblMA==
+   d="scan'208";a="63503345"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 15:54:42 -0800
+X-CSE-ConnectionGUID: eBSjshgdSB6BKJnPZhhTPQ==
+X-CSE-MsgGUID: oRYD5p3HR1q6jLU7lysZUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="192159002"
+   d="scan'208";a="224250339"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Nov 2025 15:23:22 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2025 15:54:42 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG3tQ-000QcG-07;
-	Mon, 03 Nov 2025 23:23:20 +0000
-Date: Tue, 4 Nov 2025 07:22:52 +0800
+	id 1vG4Nc-000Qdk-27;
+	Mon, 03 Nov 2025 23:54:38 +0000
+Date: Tue, 4 Nov 2025 07:53:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for
- 'module_map_module_page'
-Message-ID: <202511040738.WSjRnRR6-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3098/3098]
+ crypto/asymmetric_keys/pgp_preload.c:25:34: error: field 'pgp' has
+ incomplete type
+Message-ID: <202511040743.baYclJ8W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +63,299 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   26e1a088be7385576cdb9d4d3f749c0b485a5e2e
-commit: db8bad4a59d2609e1ec4c6da947554ab51901f4a [1/1] ANDROID: KVM: arm64: Expose unmap_module_page to modules
-config: arm64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040738.WSjRnRR6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040738.WSjRnRR6-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
+commit: 43d4042e06d2bf96adf67d25e8d91653507a4cf9 [3098/3098] KEYS: Provide a function to load keys from a PGP keyring blob
+config: x86_64-randconfig-003-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040743.baYclJ8W-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040743.baYclJ8W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040738.WSjRnRR6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040743.baYclJ8W-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for 'module_map_module_page' [-Wmissing-prototypes]
-     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/modules.c:282:5: warning: no previous prototype for 'module_map_module_pages' [-Wmissing-prototypes]
-     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/modules.c:288:5: warning: no previous prototype for 'module_unmap_module_pages' [-Wmissing-prototypes]
-     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_preload.c:25:34: error: field 'pgp' has incomplete type
+      25 |         struct pgp_parse_context pgp;
+         |                                  ^~~
+   crypto/asymmetric_keys/pgp_preload.c:63:38: warning: 'enum pgp_packet_tag' declared inside parameter list will not be visible outside of this definition or declaration
+      63 |                                 enum pgp_packet_tag type, u8 headerlen,
+         |                                      ^~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_preload.c:63:53: error: parameter 2 ('type') has incomplete type
+      63 |                                 enum pgp_packet_tag type, u8 headerlen,
+         |                                 ~~~~~~~~~~~~~~~~~~~~^~~~
+>> crypto/asymmetric_keys/pgp_preload.c:62:19: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+      62 | static int __init found_pgp_key(struct pgp_parse_context *context,
+         |                   ^~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from crypto/asymmetric_keys/pgp_preload.c:17:
+   crypto/asymmetric_keys/pgp_preload.c: In function 'found_pgp_key':
+   include/linux/compiler_types.h:374:27: error: expression in static assertion is not an integer
+     374 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_preload.c:67:17: note: in expansion of macro 'container_of'
+      67 |                 container_of(context, struct preload_pgp_keys_context, pgp);
+         |                 ^~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_preload.c: At top level:
+   crypto/asymmetric_keys/pgp_preload.c:101:12: warning: no previous prototype for 'preload_pgp_keys' [-Wmissing-prototypes]
+     101 | int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
+         |            ^~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_preload.c: In function 'preload_pgp_keys':
+>> crypto/asymmetric_keys/pgp_preload.c:107:43: error: 'PGP_PKT_PUBLIC_KEY' undeclared (first use in this function)
+     107 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY);
+         |                                           ^~~~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_preload.c:107:43: note: each undeclared identifier is reported only once for each function it appears in
+>> crypto/asymmetric_keys/pgp_preload.c:112:15: error: implicit declaration of function 'pgp_parse_packets' [-Werror=implicit-function-declaration]
+     112 |         ret = pgp_parse_packets(pgpdata, pgpdatalen, &ctx.pgp);
+         |               ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+>> crypto/asymmetric_keys/pgp_public_key.c:37:34: error: field 'pgp' has incomplete type
+      37 |         struct pgp_parse_context pgp;
+         |                                  ^~~
+   crypto/asymmetric_keys/pgp_public_key.c:50:39: warning: 'struct pgp_parse_pubkey' declared inside parameter list will not be visible outside of this definition or declaration
+      50 |                                struct pgp_parse_pubkey *pgp,
+         |                                       ^~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_calc_pkey_keyid':
+>> crypto/asymmetric_keys/pgp_public_key.c:63:9: error: implicit declaration of function 'kenter' [-Werror=implicit-function-declaration]
+      63 |         kenter("");
+         |         ^~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:65:17: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      65 |         n = (pgp->version < PGP_KEY_VERSION_4) ? 8 : 6;
+         |                 ^~
+>> crypto/asymmetric_keys/pgp_public_key.c:65:29: error: 'PGP_KEY_VERSION_4' undeclared (first use in this function)
+      65 |         n = (pgp->version < PGP_KEY_VERSION_4) ? 8 : 6;
+         |                             ^~~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c:65:29: note: each undeclared identifier is reported only once for each function it appears in
+>> crypto/asymmetric_keys/pgp_public_key.c:67:23: error: implicit declaration of function 'mpi_key_length' [-Werror=implicit-function-declaration]
+      67 |                 ret = mpi_key_length(key_ptr, keylen, nb + i, nn + i);
+         |                       ^~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c:87:32: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      87 |         digest_putc(digest, pgp->version);
+         |                                ^~
+   crypto/asymmetric_keys/pgp_public_key.c:89:18: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      89 |         a32 = pgp->creation_time;
+         |                  ^~
+   crypto/asymmetric_keys/pgp_public_key.c:95:16: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      95 |         if (pgp->version < PGP_KEY_VERSION_4) {
+         |                ^~
+   crypto/asymmetric_keys/pgp_public_key.c:98:24: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      98 |                 if (pgp->expires_at)
+         |                        ^~
+   crypto/asymmetric_keys/pgp_public_key.c:99:35: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      99 |                         a16 = (pgp->expires_at - pgp->creation_time) / 86400UL;
+         |                                   ^~
+   crypto/asymmetric_keys/pgp_public_key.c:99:53: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+      99 |                         a16 = (pgp->expires_at - pgp->creation_time) / 86400UL;
+         |                                                     ^~
+   crypto/asymmetric_keys/pgp_public_key.c:106:32: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+     106 |         digest_putc(digest, pgp->pubkey_algo);
+         |                                ^~
+>> crypto/asymmetric_keys/pgp_public_key.c:115:9: error: implicit declaration of function 'kleave' [-Werror=implicit-function-declaration]
+     115 |         kleave(" = %d", ret);
+         |         ^~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c: At top level:
+   crypto/asymmetric_keys/pgp_public_key.c:123:44: warning: 'struct pgp_parse_pubkey' declared inside parameter list will not be visible outside of this definition or declaration
+     123 |                                     struct pgp_parse_pubkey *pgp,
+         |                                            ^~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_generate_fingerprint':
+   crypto/asymmetric_keys/pgp_public_key.c:134:37: error: invalid use of undefined type 'struct pgp_parse_pubkey'
+     134 |         tfm = crypto_alloc_shash(pgp->version < PGP_KEY_VERSION_4 ?
+         |                                     ^~
+   crypto/asymmetric_keys/pgp_public_key.c:134:49: error: 'PGP_KEY_VERSION_4' undeclared (first use in this function)
+     134 |         tfm = crypto_alloc_shash(pgp->version < PGP_KEY_VERSION_4 ?
+         |                                                 ^~~~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:150:43: error: passing argument 2 of 'pgp_calc_pkey_keyid' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     150 |         ret = pgp_calc_pkey_keyid(digest, pgp, pub);
+         |                                           ^~~
+         |                                           |
+         |                                           struct pgp_parse_pubkey *
+   crypto/asymmetric_keys/pgp_public_key.c:50:57: note: expected 'struct pgp_parse_pubkey *' but argument is of type 'struct pgp_parse_pubkey *'
+      50 |                                struct pgp_parse_pubkey *pgp,
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   crypto/asymmetric_keys/pgp_public_key.c: At top level:
+   crypto/asymmetric_keys/pgp_public_key.c:199:40: warning: 'enum pgp_packet_tag' declared inside parameter list will not be visible outside of this definition or declaration
+     199 |                                   enum pgp_packet_tag type,
+         |                                        ^~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:199:55: error: parameter 2 ('type') has incomplete type
+     199 |                                   enum pgp_packet_tag type,
+         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:198:12: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+     198 | static int pgp_process_public_key(struct pgp_parse_context *context,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from crypto/asymmetric_keys/pgp_public_key.c:16:
+   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_process_public_key':
+   include/linux/compiler_types.h:374:27: error: expression in static assertion is not an integer
+     374 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c:206:17: note: in expansion of macro 'container_of'
+     206 |                 container_of(context, struct pgp_key_data_parse_context, pgp);
+         |                 ^~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:207:33: error: storage size of 'pgp' isn't known
+     207 |         struct pgp_parse_pubkey pgp;
+         |                                 ^~~
+>> crypto/asymmetric_keys/pgp_public_key.c:213:21: error: 'PGP_PKT_USER_ID' undeclared (first use in this function)
+     213 |         if (type == PGP_PKT_USER_ID) {
+         |                     ^~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:230:15: error: implicit declaration of function 'pgp_parse_public_key'; did you mean 'pgp_process_public_key'? [-Werror=implicit-function-declaration]
+     230 |         ret = pgp_parse_public_key(&data, &datalen, &pgp);
+         |               ^~~~~~~~~~~~~~~~~~~~
+         |               pgp_process_public_key
+>> crypto/asymmetric_keys/pgp_public_key.c:234:32: error: 'PGP_PUBKEY__LAST' undeclared (first use in this function)
+     234 |         if (pgp.pubkey_algo >= PGP_PUBKEY__LAST)
+         |                                ^~~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:236:16: error: 'pgp_to_public_key_algo' undeclared (first use in this function)
+     236 |         algo = pgp_to_public_key_algo[pgp.pubkey_algo];
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c:207:33: warning: unused variable 'pgp' [-Wunused-variable]
+     207 |         struct pgp_parse_pubkey pgp;
+         |                                 ^~~
+   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_key_parse':
+>> crypto/asymmetric_keys/pgp_public_key.c:313:43: error: 'PGP_PKT_PUBLIC_KEY' undeclared (first use in this function)
+     313 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY) |
+         |                                           ^~~~~~~~~~~~~~~~~~
+   crypto/asymmetric_keys/pgp_public_key.c:314:43: error: 'PGP_PKT_USER_ID' undeclared (first use in this function)
+     314 |                                     (1 << PGP_PKT_USER_ID);
+         |                                           ^~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/pgp_public_key.c:317:15: error: implicit declaration of function 'pgp_parse_packets' [-Werror=implicit-function-declaration]
+     317 |         ret = pgp_parse_packets(prep->data, prep->datalen, &ctx.pgp);
+         |               ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
 
 
-vim +/module_map_module_page +276 arch/arm64/kvm/hyp/nvhe/modules.c
+vim +/pgp +25 crypto/asymmetric_keys/pgp_preload.c
 
-   275	
- > 276	int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-   277				   bool is_protected)
-   278	{
-   279		return __pkvm_map_module_pages(pfn, va, 1, prot, is_protected);
-   280	}
-   281	
- > 282	int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-   283				   bool is_protected)
-   284	{
-   285		return __pkvm_map_module_pages(pfn, va, nr_pages, prot, is_protected);
-   286	}
-   287	
- > 288	int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-   289	{
-   290		return __pkvm_unmap_module_pages(pfn, va, nr_pages);
-   291	}
-   292	
+    23	
+    24	struct preload_pgp_keys_context {
+  > 25		struct pgp_parse_context pgp;
+    26		key_ref_t keyring;
+    27		const u8 *key_start;
+    28		const u8 *key_end;
+    29		bool found_key;
+    30	};
+    31	
+    32	/*
+    33	 * Create a key.
+    34	 */
+    35	static int __init create_pgp_key(struct preload_pgp_keys_context *ctx)
+    36	{
+    37		key_ref_t key;
+    38	
+    39		key = key_create_or_update(ctx->keyring,
+    40					   "asymmetric",
+    41					   NULL,
+    42					   ctx->key_start,
+    43					   ctx->key_end - ctx->key_start,
+    44					   ((KEY_POS_ALL & ~KEY_POS_SETATTR) |
+    45					    KEY_USR_VIEW | KEY_USR_READ),
+    46					   KEY_ALLOC_NOT_IN_QUOTA |
+    47					   KEY_ALLOC_BUILT_IN |
+    48					   KEY_ALLOC_BYPASS_RESTRICTION);
+    49		if (IS_ERR(key))
+    50			return PTR_ERR(key);
+    51	
+    52		pr_notice("Loaded PGP key '%s'\n",
+    53			  key_ref_to_ptr(key)->description);
+    54	
+    55		key_ref_put(key);
+    56		return 0;
+    57	}
+    58	
+    59	/*
+    60	 * Extract a public key or subkey from the PGP stream.
+    61	 */
+  > 62	static int __init found_pgp_key(struct pgp_parse_context *context,
+  > 63					enum pgp_packet_tag type, u8 headerlen,
+    64					const u8 *data, size_t datalen)
+    65	{
+    66		struct preload_pgp_keys_context *ctx =
+    67			container_of(context, struct preload_pgp_keys_context, pgp);
+    68		int ret;
+    69	
+    70		if (ctx->found_key) {
+    71			ctx->key_end = data - headerlen;
+    72			ret = create_pgp_key(ctx);
+    73			if (ret < 0)
+    74				return ret;
+    75		}
+    76	
+    77		ctx->key_start = data - headerlen;
+    78		ctx->found_key = true;
+    79		return 0;
+    80	}
+    81	
+    82	/**
+    83	 * preload_pgp_keys - Load keys from a PGP keyring blob
+    84	 * @pgpdata: The PGP keyring blob containing the keys.
+    85	 * @pgpdatalen: The size of the @pgpdata blob.
+    86	 * @keyring: The keyring to add the new keys to.
+    87	 *
+    88	 * Preload a pack of keys from a PGP keyring blob.
+    89	 *
+    90	 * The keys have their descriptions generated from the user ID and fingerprint
+    91	 * in the PGP stream.  Since keys can be matched on their key IDs independently
+    92	 * of the key description, the description is mostly irrelevant apart from the
+    93	 * fact that keys of the same description displace one another from a keyring.
+    94	 *
+    95	 * The caller should override the current creds if they want the keys to be
+    96	 * owned by someone other than the current process's owner.  Keys will not be
+    97	 * accounted towards the owner's quota.
+    98	 *
+    99	 * This function may only be called whilst the kernel is booting.
+   100	 */
+   101	int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
+   102				    struct key *keyring)
+   103	{
+   104		struct preload_pgp_keys_context ctx;
+   105		int ret;
+   106	
+ > 107		ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY);
+   108		ctx.pgp.process_packet = found_pgp_key;
+   109		ctx.keyring = make_key_ref(keyring, 1);
+   110		ctx.found_key = false;
+   111	
+ > 112		ret = pgp_parse_packets(pgpdata, pgpdatalen, &ctx.pgp);
+   113		if (ret < 0)
+   114			return ret;
+   115	
+   116		if (ctx.found_key) {
+   117			ctx.key_end = pgpdata + pgpdatalen;
+   118			return create_pgp_key(&ctx);
+   119		}
+   120		return 0;
+   121	}
+   122	
 
 -- 
 0-DAY CI Kernel Test Service
