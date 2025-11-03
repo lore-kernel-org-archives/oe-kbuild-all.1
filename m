@@ -1,227 +1,224 @@
-Received: from outbound.mr.icloud.com (p-west2-cluster2-host1-snip4-2.eps.apple.com [57.103.68.185])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EE42D5922
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 08:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.68.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A905B22D7B0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 08:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762159081; cv=none; b=pV/46pLEEKCwILyQqavHU+ZcI0o32QGMi1Hn+Tr1BCHuRJDqKIX2xKWKPWrxpuPAkv6w2DBm7rXMAnj1Zh9v9ndJTBO7F0QlFFpvJfLgMb6shN97cDh500rTUJvFLpsHytk8QTZvmMx8VgEY839/eoJAVxjzjm6yi8AV4MEAxZA=
+	t=1762159573; cv=none; b=BqPdXb/joyKwNsxLLpWa1kEJhlvBrCea74jmS2bcpjRRcxl0DT44DVn2auPkGYFH0fb4hiR4vLLmC2Z2uGhhmmhz6n61CBrHLKRc0HW7wq0a28XCYYlv3CGUHGFHMErrLBOJn8WiAeO6IkOpP3KeEmb/JH8p84/9w7rRZ/cpT4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762159081; c=relaxed/simple;
-	bh=Sp7nSaXbOCNj+brMy3i1C+VjmzXxTE/hC3oJTrEU3E4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=ZPU1YxiGZkbHI5yn8S9QLEVSQnc7bW/DrlzkSp5nJ6wyVrEonKiidENbAkfGudPIOOterHVrX9GMcZeKLVFpIxAd/SruEUCZKqUYQs3OR5VEE9aY+aKPVI/ll9b67LWqeryS2zd7CeGzDuhvDrEjcEW12utFZf2pUo62QPCnLIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=pass smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=DWFAg4xx; arc=none smtp.client-ip=57.103.68.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ljones.dev
+	s=arc-20240116; t=1762159573; c=relaxed/simple;
+	bh=9y2sgCz7hRRYZw6FWyo2qFQTkkcr93Db065W4f9Q8yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kvGsUM22CyPzKUWNSHEqmD0Be4laN6QqW5ZrQl46OTFos6QFec7VQMrYqewYn9g0l2lGHaj2AaN9n0rRL3iyZ2D9ml+/l1KxFoczyfjRtV7nGtkhMxjEfWVjmCqQrs9n9ABJ71R5c+WsEq/Olf4NcIda+xV1t0RCIja4np3pwdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0qW23wx; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="DWFAg4xx"
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-60-percent-7 (Postfix) with ESMTPS id CDDDF1800176;
-	Mon,  3 Nov 2025 08:37:56 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; s=sig1; bh=A5gZGsxsUWbC8mj8gE4jWelFQ54ptgMLFPpk+7cReZg=; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To:x-icloud-hme; b=DWFAg4xxE+m20x9u9wD9OY/lr1Y7D5slT97bh68PmrJ+rsRr8BdfN/aVM+20Kzaq3lrPtlw9e+dvOwksUZEnp+TYOY/QWt73veAx09Y9CPDDteq9pogmBxQP3XlJA4/7UqD7huBJ+mTsPFGUK5eTovHQ5dkkswevRU3FRKjlpTKHtz0vbGmPex8xeRE6Nbs8scMfBKBPZUE48KGObQ60xUOmBf0ih1OIuC84s81q7nAzIcL6Ux/CwPUIVQ+gG+U/xfvemiJeTvcvQQcz8v2pVxaQrSmJKuZbdb5uxnvNL9jawdXafzqCbXf90UOLlRV7VnCR8wE/I6D05NCeZL9Wvg==
-mail-alias-created-date: 1566896761000
-Received: from smtpclient.apple (unknown [17.57.152.38])
-	by p00-icloudmta-asmtp-us-west-2a-60-percent-7 (Postfix) with ESMTPSA id C7E0218000A2;
-	Mon,  3 Nov 2025 08:37:53 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0qW23wx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762159568; x=1793695568;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9y2sgCz7hRRYZw6FWyo2qFQTkkcr93Db065W4f9Q8yU=;
+  b=M0qW23wxENf7g+gl+aY+xsfLNtWbQrhiwLa+h1ji48SWtYvBC0Rdh7xS
+   ehsygb6deVfU8KMCtCuHlNmJx1JgMFdpnGAu7fxP2T1uN4tgkTqibtCna
+   iB8Th3mN72toHrxEh3NHcL0EDPl8e2sxwF/EmUKuufBfh4gNF2dTyLDLb
+   //FnDqPEHeQBHc3wPGsWtNHQkqWKlMh8l3xKtBmdUuVF71GrvbCKDtQRV
+   WJ66ButPfJEE6XEz8uDthYsEq8PLVCoDsdUDZ4/O/EFQh2aC7sA6E8Jol
+   USnBxJQWgKLpfzlqd4cIspjBLdK4Yx9+HzYilxzLuoW9bayusGqBL4zOE
+   g==;
+X-CSE-ConnectionGUID: VADfUXXQRWyvlJ8S/P7UPw==
+X-CSE-MsgGUID: O1lDb4+cTKO57WMuWyeRAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="66843147"
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
+   d="scan'208";a="66843147"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 00:45:54 -0800
+X-CSE-ConnectionGUID: Kyq6ij/+Tbqgwm9KfNybMg==
+X-CSE-MsgGUID: HkgAi4YqSGKN2xlvIVYzvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,275,1754982000"; 
+   d="scan'208";a="217634954"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Nov 2025 00:45:53 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vFqCF-000000001eK-226W;
+	Mon, 03 Nov 2025 08:45:51 +0000
+Date: Mon, 3 Nov 2025 09:45:38 +0100
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <chao@kernel.org>
+Subject: [chao:locking 5/5] kernel/locking/rwsem.c:1007:24: error: expected
+ ')' before 'goto'
+Message-ID: <202511030918.80zFXnNf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.200.81.1.6\))
-Subject: Re: [PATCH v7 5/9] platform/x86: asus-wmi: Add support for multiple
- kbd led handlers
-From: luke@ljones.dev
-In-Reply-To: <CAGwozwHCnHwOVw08ZJ4LOFD8kDv+kevvF1-PkjBq2+VMBBx9TQ@mail.gmail.com>
-Date: Mon, 3 Nov 2025 21:37:40 +1300
-Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>,
- Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>,
- Corentin Chary <corentin.chary@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Denis Benato <benato.denis96@gmail.com>,
- kernel test robot <lkp@intel.com>,
- platform-driver-x86@vger.kernel.org,
- linux-input@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <52B61B78-4177-474B-9D40-471ED918C951@ljones.dev>
-References: <CAGwozwFgd91n2HnHn0VEL3BTGkj8QCRnp2jfCsMB38JqK8znNg@mail.gmail.com>
- <20251103042848.9302-1-derekjohn.clark@gmail.com>
- <CAGwozwHCnHwOVw08ZJ4LOFD8kDv+kevvF1-PkjBq2+VMBBx9TQ@mail.gmail.com>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-X-Mailer: Apple Mail (2.3864.200.81.1.6)
-X-Proofpoint-GUID: 7TEDa_DEytf2rJ2G_QvLuacr2f32o_bB
-X-Proofpoint-ORIG-GUID: 7TEDa_DEytf2rJ2G_QvLuacr2f32o_bB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDA3OSBTYWx0ZWRfX+2R3w4de1bFi
- Uoi+7W7T669pWxfnxoMqJYU0u4FOJBd3oGi7s97P1RCKvMCUNjxPWqbeu0y/4X6XPRrskpnU16n
- l780+p1LLHNjvNxrXKRqESJ+Fbq4pXY8BiIK7lkujs+D4+4g7TelObBUCyylRUi924126StCQ0f
- dbfZ9cB8EEcZClu5rYKzEbIYg7jbqcZEXoNj8VQeM/51KVy2LGaLGVdqmmPH1aAXKI+zvIg0Mnv
- MqpSyRzLEWm57JyF9eQobuUX99ETrBImuCbJE2eV1JXN7Bg2ZJ3wkj9F3Z5fIc31vo5ZlRjDQ=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-02_02,2025-10-29_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxscore=0 clxscore=1030 mlxlogscore=999
- spamscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.22.0-2506270000 definitions=main-2511030079
-X-JNJ: AAAAAAABbd6XqknHa+CF2M9WuZZR5OKHSDARVg9jtMkzSgwqIagSwG7+g5Ssmnkzk3xUZFHnxEwri1mPi5uS5bMEfZnetGW5CPWf9HpyK42SlQTrSZlb6W6sxOaeNRZIwJVuexGtpzmgCSkP15DREt3MeFSyOTc0sf4wT6lyF6HLRKZN7VvbYGlnEQhDkrtFfQJu9TyJeIeyNTe/wqeK8QaHw5UtiJPrj8VnIXCwBeulEIfzb2hqZpvw9w66UaBmeVA7O8to06cNqlSdiwsm4iHrYgtjZhfQkkFVFPvf0PBUEiBoZ7V27qw/bSQleHc54iwXGbw+0lz63cKiiiFBrzWmTdh/fR8o71fRr/7DOtne7Bi8U+6mCjc1CMX8PZ1cf8oHA/CsM1fJVognGYYdCjHWctrzbxL6+pN7HG/5SXAgRsZJvHSGlmrj3KfOZ0U5LGmV0obIFASig3EJU6WC592/wW6CUYioy4qtT00YrsjqB6b4dKtYJEVjIgBfaa3eIrOQxAc+lH+WJF2me4OSWR8QT2eKfz6joEH4mf1ATFMGykaXq/k6edSKW52Rx5Ubq+QQG4Bb0bSTLX2MYEsIea3jkLnmABOR0ynVVNXN69QkbI25kTBtA/Ar9D7rVB436Zrs8ECticPiUCKQBGENU8KIQ41qp3sLizZON68d0V0FUk6551zo7+55hFICbxv3FLyoJTiyhNqKF8tj249sXLwLXZNh9+0/XJpuXvPCIWOuF2vZHqEjTwnwNhWmI9arC2KuXMOWOKKK1c4u47Xo5Xsg3Z+/eGMl85bTNT9jPJzJr3Nn7g/9w6Nj/g==
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git locking
+head:   cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a
+commit: cbce0966b2c1f7cc06b410bac3d96ae003a7bc8a [5/5] rwsem: clean up code
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251103/202511030918.80zFXnNf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511030918.80zFXnNf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511030918.80zFXnNf-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   kernel/locking/rwsem.c: In function 'rwsem_down_read_slowpath':
+>> kernel/locking/rwsem.c:1007:24: error: expected ')' before 'goto'
+    1007 |             (rcnt > 1))
+         |                        ^
+         |                        )
+    1008 |                 goto queue;
+         |                 ~~~~    
+   kernel/locking/rwsem.c:1005:12: note: to match this '('
+    1005 |         if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
+         |            ^
+>> kernel/locking/rwsem.c:1102:1: error: expected expression before '}' token
+    1102 | }
+         | ^
+   kernel/locking/rwsem.c:997:29: warning: unused variable 'waiter' [-Wunused-variable]
+     997 |         struct rwsem_waiter waiter;
+         |                             ^~~~~~
+   kernel/locking/rwsem.c:995:14: warning: unused variable 'adjustment' [-Wunused-variable]
+     995 |         long adjustment = -RWSEM_READER_BIAS;
+         |              ^~~~~~~~~~
+   kernel/locking/rwsem.c:1102:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1102 | }
+         | ^
 
 
-> On 3 Nov 2025, at 20:36, Antheas Kapenekakis <lkml@antheas.dev> wrote:
->=20
-> On Mon, 3 Nov 2025 at 05:29, Derek J. Clark =
-<derekjohn.clark@gmail.com> wrote:
->>=20
->>> On Fri, 31 Oct 2025 at 09:27, Jiri Kosina <jikos@kernel.org> wrote:
->>>>=20
->>>> On Thu, 23 Oct 2025, Antheas Kapenekakis wrote:
->>>>=20
->>>>>>  1589
->>>>>>  1590  static void kbd_led_update_all(struct work_struct *work)
->>>>>>  1591  {
->>>>>>  1592          enum led_brightness value;
->>>>>>  1593          struct asus_wmi *asus;
->>>>>>  1594          bool registered, notify;
->>>>>>  1595          int ret;
->>>>>                              /\ value should have been an int and
->>>>> placed here. It can take the value -1 hence the check
->>>>=20
->>>> Thanks, that needs to be fixed before the final merge.
->>>>=20
->>>>> Are there any other comments on the series?
->>>>>=20
->>>>> The only issue I am aware of is that Denis identified a bug in =
-asusd
->>>>> (asusctl userspace program daemon) in certain Asus G14/G16 laptops
->>>>> that cause laptop keys to become sticky, I have had users also =
-report
->>>>> that bug in previous versions of the series. WIthout asusd =
-running,
->>>>> keyboards work fine incl. with brightness control (did not work
->>>>> before). Given it will take two months for this to reach mainline, =
-I
->>>>> think it is a fair amount of time to address the bug.
->>>>=20
->>>> One thing that is not clear to me about this -- is this causing a =
-visible
->>>> user-space behavior regression before vs. after the patchset with =
-asusctl?
->>>>=20
->>>> If so, I am afraid this needs to be root-caused and fixed before =
-the set
->>>> can be considered for inclusion.
->>=20
->>> Commit 591ba2074337 ("HID: asus: prevent binding to all HID devices =
-on
->>> ROG") adds HID_QUIRK_INPUT_PER_APP and the extra devices seem to
->>> confuse asusd. Since the devices are the same as with hid-asus not
->>> loaded, it is specific to that program.
->>>=20
->>>=20
->> Hi Antheas.
->>=20
->> While you have previously expressed to me directly that you wish =
-InputPlumber
->> didn't exist, it still very much does, in fact, exist. I also know =
-that you are
->> explicitly aware that InputPlumber is a consumer of this interface, =
-so your
->> comment that asusctl is the only affected program is something you =
-know to be
->> false. This is not even the first time you have renamed an input =
-device that
->> you knew InputPlumber was a consumer of without notifying me[1].
->>=20
->> I can't abide you outright lying to the maintainers here and I'm sick =
-and tired
->> of having to watch your every move on the LKML. Either become a good =
-citizen of
->> kernel maintenance, or get out of it.
->=20
-> Hi Derek,
-> I am not aware if your software is affected or not by this series as I
-> have not received reports about it.
->=20
-> If it is, please add:
-> "ASUSTeK Computer Inc. N-KEY Device"
->=20
-> As a name match to your software (should only take 5 minutes).
->=20
-> I worked with Luke and Dennis on it for the better part of a year so
-> hopefully they forwarded to you if it affects you or not.
->=20
-> Your software relies on OOT drivers for most devices incl. the Ally so
-> I am unsure if it is affected in reality. E.g., it would not be
-> affected in SteamOS and CachyOS. In the future, it would be good to
-> avoid name matches for your software as it makes it very fragile,
-> which is a discussion we have had before. I do not think device evdev
-> names constitute an ABI technically.
+vim +1007 kernel/locking/rwsem.c
 
-Taking no sides here.
+   988	
+   989	/*
+   990	 * Wait for the read lock to be granted
+   991	 */
+   992	static struct rw_semaphore __sched *
+   993	rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int state)
+   994	{
+   995		long adjustment = -RWSEM_READER_BIAS;
+   996		long rcnt = (count >> RWSEM_READER_SHIFT);
+   997		struct rwsem_waiter waiter;
+   998		DEFINE_WAKE_Q(wake_q);
+   999	
+  1000		/*
+  1001		 * To prevent a constant stream of readers from starving a sleeping
+  1002		 * writer, don't attempt optimistic lock stealing if the lock is
+  1003		 * very likely owned by readers.
+  1004		 */
+  1005		if ((count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) ||
+  1006		    ((atomic_long_read(&sem->owner) & RWSEM_READER_OWNED) &&
+> 1007		    (rcnt > 1))
+  1008			goto queue;
+  1009	
+  1010		/*
+  1011		 * Reader optimistic lock stealing.
+  1012		 */
+  1013		rwsem_set_reader_owned(sem);
+  1014		lockevent_inc(rwsem_rlock_steal);
+  1015	
+  1016		/*
+  1017		 * Wake up other readers in the wait queue if it is the first reader.
+  1018		 */
+  1019		if ((rcnt == 1) && (count & RWSEM_FLAG_WAITERS)) {
+  1020			raw_spin_lock_irq(&sem->wait_lock);
+  1021			if (!list_empty(&sem->wait_list))
+  1022				rwsem_mark_wake(sem, RWSEM_WAKE_READ_OWNED, &wake_q);
+  1023			raw_spin_unlock_irq(&sem->wait_lock);
+  1024			wake_up_q(&wake_q);
+  1025		}
+  1026		return sem;
+  1027	
+  1028	queue:
+  1029		waiter.task = current;
+  1030		waiter.type = RWSEM_WAITING_FOR_READ;
+  1031		waiter.timeout = jiffies + RWSEM_WAIT_TIMEOUT;
+  1032		waiter.handoff_set = false;
+  1033	
+  1034		raw_spin_lock_irq(&sem->wait_lock);
+  1035		if (list_empty(&sem->wait_list)) {
+  1036			/*
+  1037			 * In case the wait queue is empty and the lock isn't owned
+  1038			 * by a writer, this reader can exit the slowpath and return
+  1039			 * immediately as its RWSEM_READER_BIAS has already been set
+  1040			 * in the count.
+  1041			 */
+  1042			if (!(atomic_long_read(&sem->count) & RWSEM_WRITER_MASK)) {
+  1043				/* Provide lock ACQUIRE */
+  1044				smp_acquire__after_ctrl_dep();
+  1045				raw_spin_unlock_irq(&sem->wait_lock);
+  1046				rwsem_set_reader_owned(sem);
+  1047				lockevent_inc(rwsem_rlock_fast);
+  1048				return sem;
+  1049			}
+  1050			adjustment += RWSEM_FLAG_WAITERS;
+  1051		}
+  1052		rwsem_add_waiter(sem, &waiter);
+  1053	
+  1054		/* we're now waiting on the lock, but no longer actively locking */
+  1055		count = atomic_long_add_return(adjustment, &sem->count);
+  1056	
+  1057		rwsem_cond_wake_waiter(sem, count, &wake_q);
+  1058		raw_spin_unlock_irq(&sem->wait_lock);
+  1059	
+  1060		if (!wake_q_empty(&wake_q))
+  1061			wake_up_q(&wake_q);
+  1062	
+  1063		trace_contention_begin(sem, LCB_F_READ);
+  1064		set_current_state(state);
+  1065	
+  1066		if (state == TASK_UNINTERRUPTIBLE)
+  1067			hung_task_set_blocker(sem, BLOCKER_TYPE_RWSEM_READER);
+  1068	
+  1069		/* wait to be given the lock */
+  1070		for (;;) {
+  1071			if (!smp_load_acquire(&waiter.task)) {
+  1072				/* Matches rwsem_mark_wake()'s smp_store_release(). */
+  1073				break;
+  1074			}
+  1075			if (signal_pending_state(state, current)) {
+  1076				raw_spin_lock_irq(&sem->wait_lock);
+  1077				if (waiter.task)
+  1078					goto out_nolock;
+  1079				raw_spin_unlock_irq(&sem->wait_lock);
+  1080				/* Ordered by sem->wait_lock against rwsem_mark_wake(). */
+  1081				break;
+  1082			}
+  1083			schedule_preempt_disabled();
+  1084			lockevent_inc(rwsem_sleep_reader);
+  1085			set_current_state(state);
+  1086		}
+  1087	
+  1088		if (state == TASK_UNINTERRUPTIBLE)
+  1089			hung_task_clear_blocker();
+  1090	
+  1091		__set_current_state(TASK_RUNNING);
+  1092		lockevent_inc(rwsem_rlock);
+  1093		trace_contention_end(sem, 0);
+  1094		return sem;
+  1095	
+  1096	out_nolock:
+  1097		rwsem_del_wake_waiter(sem, &waiter, &wake_q);
+  1098		__set_current_state(TASK_RUNNING);
+  1099		lockevent_inc(rwsem_rlock_fail);
+  1100		trace_contention_end(sem, -EINTR);
+  1101		return ERR_PTR(-EINTR);
+> 1102	}
+  1103	
 
-An unfortunate reality is that there is stuff out there that does use =
-name matches (and yes I agree they shouldn=E2=80=99t because it is *not* =
-an ABI and many many devices have had name changes over the decades).
-
-While name strings aren't a formal ABI, when a change affects known =
-downstream users, a heads-up helps the ecosystem adapt smoothly=E2=80=94ev=
-en if the technical stance is that they shouldn't rely on names.
-
-In general it also needs to be justified such as:
-- "Matches updated product branding"
-- "Current string is misleading (says 'mouse' but it's a keyboard)"
-- "Fixing spelling error"
-- "Aligning with USB-IF device class names"
-
-I always advocated use of evdev libraries to discover devices rather =
-than the shortcut of name matching as it is much more powerful and =
-reliable (which is how asusctl does dynamic add/remove of LED dev dbus =
-interfaces). It=E2=80=99s much better to use evdev with vid/pid, device =
-sub/classes, into descriptors and so on - you can be as open or =
-restrictive as required by use case. This particular issue illustrates =
-why this approach is preferable.
-
-If the name change is a result of something I said or missed then I =
-apologise to both Derek and yourself. Likely I missed it as I=E2=80=99ve =
-never relied on name strings for userspace.
-
-Regarding the OOT ally drivers I started, these will of course get =
-upstreamed in the future (by Denis in this case when he can). They are =
-getting very heavily battled tested in the mean time. Please do =
-contribute to them if there is anything required to be addressed or chat =
-to Denis, after all they are made only to benefit all users (there is no =
-*race to be first* here.
-
-As I no longer work on Asus laptops/handhelds and don't have hardware =
-left to test with, I can't contribute further to this discussion. Best =
-of luck resolving this.
-
-I'm out.
-Luke.
-
->=20
-> Best,
-> Antheas
->=20
->> Commit 591ba2074337 ("HID: asus: prevent binding to all HID devices =
-on ROG")
->> Nacked-By: Derek J. Clark <derekjohn.clark@gmail.com>
->>=20
->> - Derek
->>=20
->> [1] https://lore.kernel.org/linux-input/Z74vZD7ZtKBTDlwy@google.com/
->>=20
->>> We can delay that patch until Denis who took over maintenance of the
->>> program can have a deeper look. I will still keep the last part of
->>> that patch that skips the input check, because that causes errors in
->>> devices that do not create an input device (e.g., lightbar).
->>>=20
->>> Antheas
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
