@@ -1,247 +1,110 @@
-Received: from mail.burntcomma.com (mail2.burntcomma.com [217.169.27.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7F831A058
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 16:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.169.27.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD353148D8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 17:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762188572; cv=none; b=GKZXAHriMkxyGY53S3q8RmSZmUP3PYubg2roScAhv+vq0yPGX/jV7icnWD2241YLfKmS1QRC9EgvSLsMfVt9O0l9Z2RtL1xCHuzn5d0uXJEAXlfdL6rtNmIQ/m11ssxRDBBCg3FzRHKgAFfCUdV29H6tmnrvtFs465evxB6GLnY=
+	t=1762189243; cv=none; b=CX7iW6Fzis1ciExiRdhWxEWDQ5Yl/SqTpQykT0TOjk/jk9cmPD00qSA9ukXOrIe1yvpb4YQp6+JpH0wCvD13JlKENTNrCrevc8z+TrR73WkOCW6Gr8RpdQyWQHY2i13reBWlkuNtDs/XPLPmo0047e684MNlfVf+c6MhXosOE9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762188572; c=relaxed/simple;
-	bh=d3Z6bOubMmKCm2dtiQv5GB16VgWSwoTz/L3+465/xso=;
-	h=Message-ID:Date:Mime-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K080urjFHIFyz6dCS4gfwMqQk2ELP9k+m+Fska1eFF9N6OE2LK2KL1Z4u+MoDD+TUbRNvyU8CN3jhoM3Av/h0dlD9rjiHwZyI64U1dPzbLTiL8BECTmparMgQWqVqDvoTFGMeS1f0H8ANdCTFpZwHN2a9XTbMavPlKL0fyq1kjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=harmstone.com; spf=pass smtp.mailfrom=harmstone.com; dkim=pass (1024-bit key) header.d=harmstone.com header.i=@harmstone.com header.b=mFVkXXAZ; arc=none smtp.client-ip=217.169.27.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=harmstone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harmstone.com
+	s=arc-20240116; t=1762189243; c=relaxed/simple;
+	bh=QrOfsXXs9/YwwOJBrK7u9D+FRcI1OHlVtxffhXpyz0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p6gKIiO4A691ZiEjvY+yu/PeM8PbaN8qlos+lHVo84KorFH3JCXrZiMyiOpshJmL90Pp77s6ZLEEVD8sgMqD1dK//YnArK/TpgJW6FgzImNmeH2jyWAmBEtPbDQbLDPYwQvACGAGa28uqBYAFeKO+DKxK2aXwCiqrJoPf5x6DqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IzUgS01d; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=harmstone.com header.i=@harmstone.com header.b="mFVkXXAZ"
-Received: from [IPV6:2a02:8012:8cf0:0:ce28:aaff:fe0d:6db2] (beren.burntcomma.com [IPv6:2a02:8012:8cf0:0:ce28:aaff:fe0d:6db2])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "hellas", Issuer "burntcomma.com" (verified OK))
-	by mail.burntcomma.com (Postfix) with ESMTPS id 31D4A2D5526;
-	Mon,  3 Nov 2025 16:49:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=harmstone.com;
-	s=mail; t=1762188567;
-	bh=Pe/DV0A17vmtgKXNI1x+5tjznCB5XqGuhee9GH4vKRM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mFVkXXAZKl9R5bvoAWRMH64za366h7L5TEYnIA6z7H6SU1s5VaSeCmiZbwRln0wzX
-	 yeApOmz4ZazXkhPz4JijfaNDsZAkR7NIYORXuPxzPHqe5vMj7D8amrVHB13YR0K3G9
-	 vS41Yun3Lgzu3Ycn7rQMrcKiA4wfn0TlttUE2FJI=
-Message-ID: <475df362-2bf8-4cfd-b85d-df4579ddc8d3@harmstone.com>
-Date: Mon, 3 Nov 2025 16:49:26 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IzUgS01d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762189241; x=1793725241;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QrOfsXXs9/YwwOJBrK7u9D+FRcI1OHlVtxffhXpyz0c=;
+  b=IzUgS01dVC0TV0Q7YIcI6ZGQgCXFsco/pUgO6L7UrnLqG+eawkpiIW5B
+   YI2YsRQKpyPjQFuDkSVbfaWAUwN31xBkg6iNYrEszRKltLz/7mt/pN50I
+   AlvPqCRcs+f3ezOMRSp+lT1fLwe7Sy4xQ1gKqdXgPYrL4qFbzHg1Hydpb
+   jFp0kkhc2kSQtYkokfY34H+QlWO6eymvrWUNNqVLTaxMeuJgxK9RzngW0
+   huAzU7bjrdrxBrsDdRImoDUhwYFfjH/ZWAdclLBbIh8bbtH0DbdARDUoP
+   5ivGoLNoNkqGNdCziimcndbFPLhZNhvwjXTw/k1wNxeKKXWePVYML4VWf
+   Q==;
+X-CSE-ConnectionGUID: YiS3Ce+JSB+jhz8NwxAp5g==
+X-CSE-MsgGUID: TiG5jA6gTpu5BUNEPRAIyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="68130421"
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="68130421"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 09:00:41 -0800
+X-CSE-ConnectionGUID: wD7YxxKdReOxFXvO2mNu/w==
+X-CSE-MsgGUID: 0PIyi6P5Q7y8L955idwaew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="186206536"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 03 Nov 2025 09:00:38 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vFxuq-000QNm-1M;
+	Mon, 03 Nov 2025 17:00:30 +0000
+Date: Tue, 4 Nov 2025 00:57:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Lei Gong <gonglei25@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3098/3098] include/linux/iommu.h:2001:40:
+ warning: 'struct iommu_plb_gather' declared inside parameter list will not
+ be visible outside of this definition or declaration
+Message-ID: <202511040032.5Xz72vRE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Subject: Re: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block
- groups
-To: Boris Burkov <boris@bur.io>, kernel test robot <lkp@intel.com>
-Cc: linux-btrfs@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-References: <20251024181227.32228-16-mark@harmstone.com>
- <202510272322.N1S5rdDc-lkp@intel.com>
- <aQU0TJLSbEXcSX1s@devvm12410.ftw0.facebook.com>
-Content-Language: en-US
-From: Mark Harmstone <mark@harmstone.com>
-Autocrypt: addr=mark@harmstone.com; keydata=
- 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
-In-Reply-To: <aQU0TJLSbEXcSX1s@devvm12410.ftw0.facebook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 31/10/2025 10.12 pm, Boris Burkov wrote:
-> On Tue, Oct 28, 2025 at 12:04:11AM +0800, kernel test robot wrote:
->> Hi Mark,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on kdave/for-next]
->> [also build test WARNING on next-20251027]
->> [cannot apply to linus/master v6.18-rc3]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251025-021910
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
->> patch link:    https://lore.kernel.org/r/20251024181227.32228-16-mark%40harmstone.com
->> patch subject: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block groups
->> config: arm-randconfig-003-20251027 (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/config)
->> compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202510272322.N1S5rdDc-lkp@intel.com/
->>
->> Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
->> http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
->>
->> All warnings (new ones prefixed by >>):
->>
->>     fs/btrfs/discard.c: In function 'btrfs_discard_workfn':
->>>> fs/btrfs/discard.c:596:6: warning: 'discard_state' may be used uninitialized in this function [-Wmaybe-uninitialized]
->>        if (discard_state == BTRFS_DISCARD_BITMAPS ||
->>           ^
-> 
-> I think this gets set by peek_discard_list() so I don't think this is
-> a valid warning.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
+commit: d46a4bd5bdfd7f1d6e2fa159398df4c54345070c [3098/3098] iommu/ummu-core: introduce iommu sva permission operation
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251104/202511040032.5Xz72vRE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040032.5Xz72vRE-lkp@intel.com/reproduce)
 
-You are correct. discard_state gets initialized if the return value of 
-peek_discard_list() is not NULL, and if it is NULL we return before we 
-use it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040032.5Xz72vRE-lkp@intel.com/
 
-This is an ancient version of GCC, the warning doesn't trigger on GCC 15 
-- presumably it has better control flow analysis. I don't think the 
-robot should be compiling with this warning turned on for old compiler 
-versions, if it's prone to false positives.
+All warnings (new ones prefixed by >>):
 
->>
->>
->> vim +/discard_state +596 fs/btrfs/discard.c
->>
->>     513	
->>     514	/*
->>     515	 * Discard work queue callback
->>     516	 *
->>     517	 * @work: work
->>     518	 *
->>     519	 * Find the next block_group to start discarding and then discard a single
->>     520	 * region.  It does this in a two-pass fashion: first extents and second
->>     521	 * bitmaps.  Completely discarded block groups are sent to the unused_bgs path.
->>     522	 */
->>     523	static void btrfs_discard_workfn(struct work_struct *work)
->>     524	{
->>     525		struct btrfs_discard_ctl *discard_ctl;
->>     526		struct btrfs_block_group *block_group;
->>     527		enum btrfs_discard_state discard_state;
->>     528		int discard_index = 0;
->>     529		u64 trimmed = 0;
->>     530		u64 minlen = 0;
->>     531		u64 now = ktime_get_ns();
->>     532	
->>     533		discard_ctl = container_of(work, struct btrfs_discard_ctl, work.work);
->>     534	
->>     535		block_group = peek_discard_list(discard_ctl, &discard_state,
->>     536						&discard_index, now);
->>     537		if (!block_group)
->>     538			return;
->>     539		if (!btrfs_run_discard_work(discard_ctl)) {
->>     540			spin_lock(&discard_ctl->lock);
->>     541			btrfs_put_block_group(block_group);
->>     542			discard_ctl->block_group = NULL;
->>     543			spin_unlock(&discard_ctl->lock);
->>     544			return;
->>     545		}
->>     546		if (now < block_group->discard_eligible_time) {
->>     547			spin_lock(&discard_ctl->lock);
->>     548			btrfs_put_block_group(block_group);
->>     549			discard_ctl->block_group = NULL;
->>     550			spin_unlock(&discard_ctl->lock);
->>     551			btrfs_discard_schedule_work(discard_ctl, false);
->>     552			return;
->>     553		}
->>     554	
->>     555		/* Perform discarding */
->>     556		minlen = discard_minlen[discard_index];
->>     557	
->>     558		switch (discard_state) {
->>     559		case BTRFS_DISCARD_BITMAPS: {
->>     560			u64 maxlen = 0;
->>     561	
->>     562			/*
->>     563			 * Use the previous levels minimum discard length as the max
->>     564			 * length filter.  In the case something is added to make a
->>     565			 * region go beyond the max filter, the entire bitmap is set
->>     566			 * back to BTRFS_TRIM_STATE_UNTRIMMED.
->>     567			 */
->>     568			if (discard_index != BTRFS_DISCARD_INDEX_UNUSED)
->>     569				maxlen = discard_minlen[discard_index - 1];
->>     570	
->>     571			btrfs_trim_block_group_bitmaps(block_group, &trimmed,
->>     572					       block_group->discard_cursor,
->>     573					       btrfs_block_group_end(block_group),
->>     574					       minlen, maxlen, true);
->>     575			discard_ctl->discard_bitmap_bytes += trimmed;
->>     576	
->>     577			break;
->>     578		}
->>     579	
->>     580		case BTRFS_DISCARD_FULLY_REMAPPED:
->>     581			btrfs_trim_fully_remapped_block_group(block_group);
->>     582			break;
->>     583	
->>     584		default:
->>     585			btrfs_trim_block_group_extents(block_group, &trimmed,
->>     586					       block_group->discard_cursor,
->>     587					       btrfs_block_group_end(block_group),
->>     588					       minlen, true);
->>     589			discard_ctl->discard_extent_bytes += trimmed;
->>     590	
->>     591			break;
->>     592		}
->>     593	
->>     594		/* Determine next steps for a block_group */
->>     595		if (block_group->discard_cursor >= btrfs_block_group_end(block_group)) {
->>   > 596			if (discard_state == BTRFS_DISCARD_BITMAPS ||
->>     597			    discard_state == BTRFS_DISCARD_FULLY_REMAPPED) {
->>     598				btrfs_finish_discard_pass(discard_ctl, block_group);
->>     599			} else {
->>     600				block_group->discard_cursor = block_group->start;
->>     601				spin_lock(&discard_ctl->lock);
->>     602				if (block_group->discard_state !=
->>     603				    BTRFS_DISCARD_RESET_CURSOR)
->>     604					block_group->discard_state =
->>     605								BTRFS_DISCARD_BITMAPS;
->>     606				spin_unlock(&discard_ctl->lock);
->>     607			}
->>     608		}
->>     609	
->>     610		now = ktime_get_ns();
->>     611		spin_lock(&discard_ctl->lock);
->>     612		discard_ctl->prev_discard = trimmed;
->>     613		discard_ctl->prev_discard_time = now;
->>     614		btrfs_put_block_group(block_group);
->>     615		discard_ctl->block_group = NULL;
->>     616		__btrfs_discard_schedule_work(discard_ctl, now, false);
->>     617		spin_unlock(&discard_ctl->lock);
->>     618	}
->>     619	
->>
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
+   In file included from kernel/fork.c:101:
+>> include/linux/iommu.h:2001:40: warning: 'struct iommu_plb_gather' declared inside parameter list will not be visible outside of this definition or declaration
+    2001 |                                 struct iommu_plb_gather *plb_gather) {}
+         |                                        ^~~~~~~~~~~~~~~~
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
+   Depends on [n]: CGROUPS [=n]
+   Selected by [y]:
+   - ARM64 [=y]
+   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
+   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+   Selected by [y]:
+   - ARM64 [=y]
+
+
+vim +2001 include/linux/iommu.h
+
+  1993	
+  1994	static inline int iommu_sva_ungrant(struct iommu_sva *sva, void *va,
+  1995					    size_t size, void *cookie)
+  1996	{
+  1997		return -EOPNOTSUPP;
+  1998	}
+  1999	static inline void iommu_plb_sync_all(struct iommu_domain *domain) {}
+  2000	static inline void iommu_plb_sync(struct iommu_domain *domain,
+> 2001					struct iommu_plb_gather *plb_gather) {}
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
