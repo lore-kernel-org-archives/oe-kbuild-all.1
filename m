@@ -1,102 +1,96 @@
-Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66862F12CF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 12:38:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DAE2222BF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 13:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762173539; cv=none; b=LDSvC9cG6CDaLFBuKdVN83oHp+e3rt0pmw+u4isTl54M7SW/aTupN/Yl7A518lcJMaIciMEV7tedLYOTHVbzuN3PV0i7R1V7E2gSJhydrayoZjLpCRH55+7ObJFWJ/5VBtSxoZI6KokO9aO/1ZA5jBM/Gh8Fq/GQs7l9VNjIdlc=
+	t=1762177860; cv=none; b=ExTL9iqYF+oYz9gYIQxf8k0ukRAPgZcINqMz5BZYRy7uixHGoGakiZQh8TgM/5mma4s48YKFvmunnDq4IorAYdven6CxrmVGaoCyT9yWezJz3Knh1rItkqGhA4qiZd8/74EmoNypMpHkhKgobFqhtsGcxXe+TaKAHEENXFqx+D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762173539; c=relaxed/simple;
-	bh=izB7uJGtTSwNhXYbyWcEb41JmA2rnS0h/QqNb5tUfhE=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=hFd2qnZVTa8smuMG9HU2v0+FMwaUk4OS0QJC2GQ3kiJ72hrKFBvmSfQI7XNikTu8AqhO2QSFePblVB48rf9wZ5eqJjYKrXxqNJWCRSU0FQdZE5ZdFNC2i3oAx+CexAU9VRw6e7RqVP/Dq/fe1/PBo8hrNI5x/6i+uJw0j819eRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=Z9n/iC9U; arc=none smtp.client-ip=78.40.148.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
+	s=arc-20240116; t=1762177860; c=relaxed/simple;
+	bh=F6l5stcoXNysGsO1+GlrND65w1cBnNuDkPiI3HT4l0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D56fDiw5QFXtroVizU1fPUvo1OoGsXhfKkFlM7BC5rbyrgv72FMVyKqmZSaG0nhDOK38bFirKE7V7edo0TZxgs7wJ9gDlxrz13zKZR4LE/zUVmA8KInEFrGB6igsdBb0GNEFGkgJpmSnL9YjtVjld2buLu5v1NnRiRdL7GLvH5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVoW58kn; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="Z9n/iC9U"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:
-	Reply-To; bh=LE69I641i9BiEnoTELwC/9jIDwANz2JUs1g02a4LlHc=; b=Z9n/iC9URRvkrs8t
-	IRH33aLdxY9ltVZk6JcERrTuQaK9FhI9aoNrqcn4J+2t+7VsOg1wSa5/8AjExys4kL2ReBfGwTg3p
-	IoMqYmb0FOg1O5lcwBy8uuDBo5/7IPsu4Pqf37Z7rHWumNaNKjslahTHunDjVo7E1tB8fYIBphfl3
-	8fGMSFh6//76UfSebPGRL7fLpP1ClRecMDxhgmumAOjHiTxDPn9PZZhqBjCsrmWzAJ0y9tYLXelnv
-	81qu5GpM5SwdwAXzwi+Fp8imehktqx2qPDKmczoZL/g6i+w/n3mDV8DwT/lz67qWc4ORIOgkWb0bG
-	Irf1SDoPIKQloubBxg==;
-Received: from ipa12.colo.codethink.co.uk ([78.40.148.178] helo=webmail.codethink.co.uk)
-	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1vFtY0-00Fkr6-7w; Mon, 03 Nov 2025 12:20:32 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVoW58kn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762177859; x=1793713859;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F6l5stcoXNysGsO1+GlrND65w1cBnNuDkPiI3HT4l0c=;
+  b=ZVoW58knC8UP0Ym0DWnqhpKwBO5VtLYOZNmsSwLDMuNYzMEOdcTxt0Vm
+   sRFcP4BRuHzdKRUV+fsIn205dzMJI/3/HBDP8djSsonwg+zxV0PIPlNQL
+   cNKgg1UJScGdr0A0faNxrBbFndEC0nhL0VOqhl+kLmpliGJFRGlspVQXr
+   WpaZHFKOpIwvOK6HLy6dk8OfTbyHdloj7a5QbVlPAkDPP21CRhk0ArFND
+   sPAxHRCnSHnbUUntfkC25TW59KQz71oKcah3ZrirlqA9eALR0E7Pjk8j/
+   RjkhTMDUsyyPDnut64qIv3HADgeMiQHqxtk/WlMox03HpdHWIy3hKQl4t
+   w==;
+X-CSE-ConnectionGUID: cdnYpvV8QNWSFWjkbr37AA==
+X-CSE-MsgGUID: BlHT7ziKTUOYmwfSbXwDwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64176863"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64176863"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 05:50:59 -0800
+X-CSE-ConnectionGUID: 5uALy7E9QzisXs2sWBL5Cg==
+X-CSE-MsgGUID: dPUTE84hS0WiL7h8E8MC1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="191974361"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 03 Nov 2025 05:50:58 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vFuxT-000000001kK-3gm0;
+	Mon, 03 Nov 2025 13:50:55 +0000
+Date: Mon, 3 Nov 2025 14:50:46 +0100
+From: kernel test robot <lkp@intel.com>
+To: sheetal <sheetal@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thierry Reding <treding@nvidia.com>
+Subject: [linux-next:master 4717/5674]
+ arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb:
+ dma-controller@9440000 (nvidia,tegra264-adma): interrupts: [[0, 144, 4], [0,
+ 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 149, 4], [0, 150, 4],
+ [0, 151, 4], [0, 152, 4], [0, 153, 4], [0...
+Message-ID: <202511031425.0hG03rm3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 03 Nov 2025 12:20:32 +0000
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <pjw@kernel.org>, Andrew
- Jones <ajones@ventanamicro.com>
-Subject: Re: [linux-next:master 3969/5042]
- arch/riscv/include/asm/vdso/processor.h:27: Error: unrecognized opcode
- `0x100000f'
-In-Reply-To: <202510302348.Knwt7vQ1-lkp@intel.com>
-References: <202510302348.Knwt7vQ1-lkp@intel.com>
-Message-ID: <5331564de17c63a0f8d654c501007dfa@codethink.co.uk>
-X-Sender: ben.dooks@codethink.co.uk
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Sender: ben.dooks@codethink.co.uk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9823120909776bbca58a3c55ef1f27d49283c1f3
+commit: 0867951a1c9230074f61a045d19d76a406e20489 [4717/5674] arm64: tegra: Add Tegra264 audio support
+config: arm64-randconfig-2052-20251101 (https://download.01.org/0day-ci/archive/20251103/202511031425.0hG03rm3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251103/202511031425.0hG03rm3-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511031425.0hG03rm3-lkp@intel.com/
 
-On 2025-10-30 15:20, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
-> master
-> head:   131f3d9446a6075192cdd91f197989d98302faa6
-> commit: 44aa25c000b41d7afcb030ac1b8a38f06dabef0a [3969/5042] riscv: 
-> asm: use .insn for making custom instructions
-> config: riscv-randconfig-r132-20251030 
-> (https://download.01.org/0day-ci/archive/20251030/202510302348.Knwt7vQ1-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20251030/202510302348.Knwt7vQ1-lkp@intel.com/reproduce)
-> 
-
-[snip]
-
-> 
->     SYSCALL_DEFINE3(readlink, const char __user *, path, char __user *, 
-> buf,
->     ^~~~~~~~~~~~~~~
->    arch/riscv/include/asm/vdso/processor.h: Assembler messages:
->>> arch/riscv/include/asm/vdso/processor.h:27: Error: unrecognized 
->>> opcode `0x100000f'
-> ..
-> 
-> 
-> vim +27 arch/riscv/include/asm/vdso/processor.h
-> 
-> ad5d1122b82fbd Vincent Chen 2020-06-09  26
-> f811f58597acba Thomas Huth  2025-06-06 @27  #endif /* __ASSEMBLER__ */
-> ad5d1122b82fbd Vincent Chen 2020-06-09  28
-> 
-> :::::: The code at line 27 was first introduced by commit
-> :::::: f811f58597acba9100dd61cdef052d1d1f931968 riscv: Replace 
-> __ASSEMBLY__ with __ASSEMBLER__ in non-uapi headers
-> 
-> :::::: TO: Thomas Huth <thuth@redhat.com>
-> :::::: CC: Paul Walmsley <pjw@kernel.org>
-
-I'm guessing somehow this messed up with my change for ASM_JNSN_I() and 
-thus isn't building
-or is there some other configuration?
-
-I'm out for this week so not sure if I can get to look at this if needed
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: dma-controller@9440000 (nvidia,tegra264-adma): interrupts: [[0, 144, 4], [0, 145, 4], [0, 146, 4], [0, 147, 4], [0, 148, 4], [0, 149, 4], [0, 150, 4], [0, 151, 4], [0, 152, 4], [0, 153, 4], [0, 154, 4], [0, 155, 4], [0, 156, 4], [0, 157, 4], [0, 158, 4], [0, 159, 4], [0, 160, 4], [0, 161, 4], [0, 162, 4], [0, 163, 4], [0, 164, 4], [0, 165, 4], [0, 166, 4], [0, 167, 4], [0, 168, 4], [0, 169, 4], [0, 170, 4], [0, 171, 4], [0, 172, 4], [0, 173, 4], [0, 174, 4], [0, 175, 4], [0, 176, 4], [0, 177, 4], [0, 178, 4], [0, 179, 4], [0, 180, 4], [0, 181, 4], [0, 182, 4], [0, 183, 4], [0, 184, 4], [0, 185, 4], [0, 186, 4], [0, 187, 4], [0, 188, 4], [0, 189, 4], [0, 190, 4], [0, 191, 4], [0, 192, 4], [0, 193, 4], [0, 194, 4], [0, 195, 4], [0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4], [0, 200, 4], [0, 201, 4], [0, 202, 4], [0, 203, 4], [0, 204, 4], [0, 205, 4], [0, 206, 4], [0, 207, 4]] is too long
+   	from schema $id: http://devicetree.org/schemas/dma/nvidia,tegra210-adma.yaml
+   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:40: 'rx21' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
+   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:41: 'tx21' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
+   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:42: 'rx22' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
+   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:43: 'tx22' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml
+   arch/arm64/boot/dts/nvidia/tegra264-p3971-0089+p3834-0008.dtb: ahub@9630000 (nvidia,tegra264-ahub): admaif@9610000:dma-names:44: 'rx23' does not match '^[rt]x(1[0-9]|[1-9]|20)$'
 
 -- 
-Ben
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
