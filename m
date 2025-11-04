@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D2D306B0D;
-	Tue,  4 Nov 2025 08:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4798284B26
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 08:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762244410; cv=none; b=F73YGPk9UD4wbdRtxe3Rr2uTQeg1SILF13LXH0fBGOODaTPqQ/IAiNYJPW+OQWIG9sLjXQoQQ/GFbukc1vv/B+UDVb3rQqlEhM5Z4g2DGMMX06tGX6aLmVK4ZSF+2p+9xR0NPZ6TZJyzEQlusPDlGvORFiHQ63dAu9qhSfWdj/U=
+	t=1762244410; cv=none; b=X3xN1lfnJs/UqHaAFh/QIhnNv32La64yCK10hAP0D6PJTpwxVwU8n5n3HWBC1SUlVUjLgYFqnZdE4isSv/E0OykJNSYUYGJcoubT6B4oKxxGhsSBav0Zaii42xVeLZh+9CYALeuXnjB+U1vW+sd1DJRnL8FUYEoHklNrAB+qD3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762244410; c=relaxed/simple;
-	bh=DYM83bBbxx1y5vplV3YBcZ8Mx+qy4hDpBNYYrYsw0cM=;
+	bh=MtR/xZVvEaQczGlFwJlc3qeyM4jRQ5EHhZH0AQSey+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CpwpEf842jJgkioFrBtpjefbD5c8VH2NWSGfRQvvdbhTcHt05bzFRm4BoZ4GzS2LCleks9AlelsRkatWrXbvOrThznLsl96Vnr+afL+cPH4C8maY7iVQ1ctumu7Ngyj1MjRBHDD7uGS48QZLT2p17si0CZJmwscDeoCSQlrB/+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MuTyOQx7; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=uFYzszNePFzschb562DyttKdfo4SIPKankX/JYXjo7kTpmycjaVJfZxiWa4e84vQJ3chQjvCO7D14I1BAC1LWDXSn4MatcgwS4OEycds4OIglEHDWtoxIYafvrH6oJGZepXX3sAMLVTK07PrKvD0f/OgmBApt8qgKwFwfk+idm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJkteFLj; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MuTyOQx7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJkteFLj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762244409; x=1793780409;
+  t=1762244405; x=1793780405;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DYM83bBbxx1y5vplV3YBcZ8Mx+qy4hDpBNYYrYsw0cM=;
-  b=MuTyOQx7RcJ9oYqYYmBOEKJl166zO+pbU5HmR7azCwPyh3WqojJWkiNx
-   5hy+BoIDbahDqQ36VeTT/EigCBWtFu5u2e3Rjv71z8LgsBlOYuHh62Ps9
-   gvHJLpk0nzLe/KWYQq6l35gUry3Yhs3NWb96bFJzVf4cNXaLy3wErSJV5
-   /UDQBFZ9yIDkoDtbMs5+MoYDoo/XTV6i+A0YAsKqlRNNZhdYiATyKaW/z
-   Z+vWuCBp63FpwHQsxfha2F1WCIjTYA53epKv872quXVWvIEIt8Gk9aI+x
-   emzq9yaq1R8Ne0Xd6mA3EmPRx8zJYaxGXycrWzjBf/6NB2VM0hKiPvoaR
-   w==;
-X-CSE-ConnectionGUID: 9VdHJ19YScCSGwU8iUe4lQ==
-X-CSE-MsgGUID: 3XFGjCBEQdK5pSZych50Lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64029270"
+  bh=MtR/xZVvEaQczGlFwJlc3qeyM4jRQ5EHhZH0AQSey+E=;
+  b=LJkteFLjZZK0NdIs54BbuvQvJYE8vshykgUv+MPD3mCXNLtWb6U2exV1
+   pfpxcwP1SEG43M1WiesXCOeY8GEf1c00TWW+nLe2MVdMED17lyvOAXZ91
+   eQdPW3VnEMtznhxpqZO6yh9NtzaT5XjMbzkROhgYDp4B959c8LQ0eW5qz
+   rURnhg1kiXPuuYJhFuLl2relyQSpidpfvfF4sfFz1YWujH2ia38QupSge
+   JY2ND+wYuPGYD4+Bszx5vyaboV0L63y047YopQrYG0Z4cv5MlvquZ+aCv
+   jX6Tog8EXoT79V+MgwEmdcUh+sXReBbh1onlbWDIOzOpvsyr+I/RRq+LP
+   A==;
+X-CSE-ConnectionGUID: uRU/UbUTTaygeft2A+h5AA==
+X-CSE-MsgGUID: lJrgsMoQRnaM8MuSPLbunA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64217493"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="64029270"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 00:20:07 -0800
-X-CSE-ConnectionGUID: 4TYUN/wIR3WHvf4xaU/oPw==
-X-CSE-MsgGUID: y1bocoSQTwWw2NQg6pBoqQ==
+   d="scan'208";a="64217493"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 00:20:05 -0800
+X-CSE-ConnectionGUID: mHaQJxUGQH22XIprnhNFdg==
+X-CSE-MsgGUID: JKYDb3pmST2DVUAvDZJyjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="191445462"
+   d="scan'208";a="191186728"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 04 Nov 2025 00:20:04 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Nov 2025 00:20:04 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGCGn-000R7c-2T;
+	id 1vGCGn-000R7e-2X;
 	Tue, 04 Nov 2025 08:20:01 +0000
-Date: Tue, 4 Nov 2025 16:19:45 +0800
+Date: Tue, 4 Nov 2025 16:19:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>,
 	Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rob Herring <robh@kernel.org>,
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	linux-riscv@lists.infradead.org, linux-spi@vger.kernel.org,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
@@ -63,7 +62,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>
 Subject: Re: [PATCH v1 3/3] spi: add support for microchip "soft" spi
  controller
-Message-ID: <202511041624.BMMvzi6h-lkp@intel.com>
+Message-ID: <202511041552.wtkxOpRz-lkp@intel.com>
 References: <20251103160515.412706-4-prajna.rajendrakumar@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -89,24 +88,31 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Prajna-Rajendra-Kumar/spi
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 patch link:    https://lore.kernel.org/r/20251103160515.412706-4-prajna.rajendrakumar%40microchip.com
 patch subject: [PATCH v1 3/3] spi: add support for microchip "soft" spi controller
-config: sparc64-randconfig-002-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041624.BMMvzi6h-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041624.BMMvzi6h-lkp@intel.com/reproduce)
+config: sparc-randconfig-002-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041552.wtkxOpRz-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041552.wtkxOpRz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041624.BMMvzi6h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041552.wtkxOpRz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-microchip-core.c:163:23: warning: unused variable 'corespi' [-Wunused-variable]
+   drivers/spi/spi-microchip-core.c: In function 'mchp_corespi_setup':
+>> drivers/spi/spi-microchip-core.c:163:30: warning: unused variable 'corespi' [-Wunused-variable]
      163 |         struct mchp_corespi *corespi = spi_controller_get_devdata(spi->controller);
          |                              ^~~~~~~
->> drivers/spi/spi-microchip-core.c:438:3: error: field designator 'remove_new' does not refer to any field in type 'struct platform_driver'
+   drivers/spi/spi-microchip-core.c: At top level:
+>> drivers/spi/spi-microchip-core.c:438:10: error: 'struct platform_driver' has no member named 'remove_new'; did you mean 'remove'?
      438 |         .remove_new = mchp_corespi_remove,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+         |          ^~~~~~~~~~
+         |          remove
+>> drivers/spi/spi-microchip-core.c:438:23: error: initialization of 'const struct platform_device_id *' from incompatible pointer type 'void (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
+     438 |         .remove_new = mchp_corespi_remove,
+         |                       ^~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-microchip-core.c:438:23: note: (near initialization for 'mchp_corespi_driver.id_table')
+   cc1: some warnings being treated as errors
 
 
 vim +438 drivers/spi/spi-microchip-core.c
