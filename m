@@ -1,84 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7453BEEBB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 06:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F50189BB0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 06:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762236203; cv=none; b=Xq67qXFwVYMZTmXshQbFL5e/SvyVLISnjzgyVYBdylcbc5aodsbIRgA2Pk9ITFJNyBh4kT+lYHkZnUIA0WlSHgBcSOj2poXSwFO/z+TYQ/aw4nQONXTRLRkLMn2nHTQn0KwevA/aL5XKFkCdUKJ0rYcccs/QVRqB5lFWk4g0HcU=
+	t=1762236845; cv=none; b=Ws8UnpqodH+qoXDKd7wLd5gfm2wuTlf2q2GYYQnTxgznoAu+oCGVuLxGHWPLjYAAncg4cFiQMfXatPR4satS5gDM9idGMfnUf4RsWsx8B9mmzlriIHHXK0Cio8LmHy5FaqP43AXh+mpvnptrXmunewPBF5dKk2XUQN6yjPkyinY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762236203; c=relaxed/simple;
-	bh=/dL1gBSTItHzBoVba+zlzvDJWscPnr+j+9zMFRaFDIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XCbyEVlgum0nMgK6uJFG75W3FzUf5iPb4e5R1SEgREdoTr3rUmj1JqZ5wwFSD/9tHbIbv/t+hjylWfyzCDTv2HtwypxrGba7asEKNSEAFzq3DzUL4uxXGfQ+Ja5CaoI7MXsbv8aKfLBx2vzSYWZYSyol7eaBP45M13de0PtLa0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YG5cC2MG; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762236845; c=relaxed/simple;
+	bh=FmFUeqYriTtKskal/GSNCSz86dO8bk/T+EePTm4ZcaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M9sbJ/kcEnPKTsBqL1K2f2T7O0005lcg8+Mzrz0zsGu+gp/tEHomHNEFDdbTImIDsnR8eUhx1Qnpws5bwYXk24c++IPCizhRmgoPe14jOSSRygffr1dmmTndWXpj6MYJ4ykk1V1StP0vlBqPrarXovd7louoe/CCssQRn8v/Hso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itUTix72; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YG5cC2MG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itUTix72"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762236201; x=1793772201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/dL1gBSTItHzBoVba+zlzvDJWscPnr+j+9zMFRaFDIA=;
-  b=YG5cC2MGN7sSOAUtgoqHYfIXyY/JG0LA8CtSuxa2qQs2TakrV61psl0D
-   bPPbQizJULSyfeHctwnp9Ou2Aw/Qj45aQP8kT2fT7oM86LxredpJfZCEF
-   l0v+iRvDH+2xxFtNx550uljXdf9CK+VpOZspuzBGif5AhiZrro6CmPjfM
-   HPzBrKOAFuP3E55z2M8jSGwYOpvnB2ewWyDYioKYrImVETm82DN0fLnYB
-   YJ2+4t2VWE6E0RBukQMX5l1cG5lbWWS83dCSzsKMRtsRd7zCnk3/gId/J
-   fHSI/CbeEl4zRlYi4c2os/qxfEmxpylOxc61D2P80GXHd8zROtFk0nhY1
-   Q==;
-X-CSE-ConnectionGUID: T/TZHYKJT1W+K0Kr/p8XEw==
-X-CSE-MsgGUID: PXlIEXsYTPGysrj7bZHcAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66936268"
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="66936268"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 22:03:21 -0800
-X-CSE-ConnectionGUID: qsZ0NbiXT6ukdTHRh+FeNA==
-X-CSE-MsgGUID: t7vmxUyhSVeSFQnjNikDfQ==
+  t=1762236844; x=1793772844;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FmFUeqYriTtKskal/GSNCSz86dO8bk/T+EePTm4ZcaU=;
+  b=itUTix72MjbPJudPzeYki3r7ksf9+55Oym5EEd2Snv4iwUinaPftj1/L
+   5ZsAx7p0ejXV1+o4W3nmjs/pefvtynYOPMXXS/DIk6pw5N4u/jWHIcgjB
+   SbqiojgntcTiio9Xj9spBTdJrlMb99rk4m5aDnF6+23rtqZH9fVf+9hzl
+   JKxXpdeRS9X9slfK5ZfuMfJzaIA0Yt853Pl5DlzjJvLK7z4ghQ+Ql9/h5
+   WpjZxGbAUwRwmJT4peg7imzuSmi3RrIvKECDKSd+tMfN6dxYBzC4FoBSc
+   pt/9hf4gK6MOhjFG+6a6yF6BQGE2QgSflkf0LWbzngJ9cjWelNfF1Puq0
+   A==;
+X-CSE-ConnectionGUID: lwkmw4g8TI2rdnyPCUvrqw==
+X-CSE-MsgGUID: VEZNmjFLSfWiXfvlpw8yDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68161224"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="68161224"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 22:14:03 -0800
+X-CSE-ConnectionGUID: jQi8YzRMR4WbMiI8V3O/lQ==
+X-CSE-MsgGUID: X4ZiJn1mTcmxjJWtSaJ9Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="186928092"
+   d="scan'208";a="217711594"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Nov 2025 22:03:14 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Nov 2025 22:14:02 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGA89-000Qyq-2I;
-	Tue, 04 Nov 2025 06:02:59 +0000
-Date: Tue, 4 Nov 2025 14:02:13 +0800
+	id 1vGAIa-000QzA-0U;
+	Tue, 04 Nov 2025 06:13:52 +0000
+Date: Tue, 4 Nov 2025 14:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Arnd Bergmann <arnd@arndb.de>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH 13/16] mm: remove non_swap_entry() and use leaf entry
- helpers instead
-Message-ID: <202511041345.8K1Nt70Q-lkp@intel.com>
-References: <b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes@oracle.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:main-16k-gs-shusky-5.15 24/24]
+ drivers/cma/mm/mem_phys_layout.c:252:32: warning: initialization makes
+ pointer from integer without a cast
+Message-ID: <202511041448.Mng7BJHY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,52 +62,190 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-correctly-handle-UFFD-PTE-markers/20251103-204118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes%40oracle.com
-patch subject: [PATCH 13/16] mm: remove non_swap_entry() and use leaf entry helpers instead
-config: s390-randconfig-r112-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041345.8K1Nt70Q-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041345.8K1Nt70Q-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common main-16k-gs-shusky-5.15
+head:   b696261dbf8a4b298226981a96af8587dc5f5558
+commit: 90b05bcbb174b28bb0bc20f6d7f68c092a66a64f [24/24] ANDROID: mm: Get Physical memory model for the system
+config: arm-randconfig-004-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041448.Mng7BJHY-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041448.Mng7BJHY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041345.8K1Nt70Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041448.Mng7BJHY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/s390/mm/pgtable.c:693:47: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct folio *folio @@     got struct folio const *folio @@
-   arch/s390/mm/pgtable.c:693:47: sparse:     expected struct folio *folio
-   arch/s390/mm/pgtable.c:693:47: sparse:     got struct folio const *folio
-   arch/s390/mm/pgtable.c:1098:9: sparse: sparse: context imbalance in 'pgste_perform_essa' - unexpected unlock
-   arch/s390/mm/pgtable.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
-   arch/s390/include/asm/pgtable.h:2067:9: sparse: sparse: context imbalance in 'set_pgste_bits' - unexpected unlock
-   arch/s390/mm/pgtable.c: note: in included file:
-   include/linux/mm.h:2832:9: sparse: sparse: context imbalance in 'get_pgste' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +693 arch/s390/mm/pgtable.c
+      ^~~~~~
+   In file included from include/asm-generic/bug.h:22:0,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:9,
+                    from include/linux/memblock.h:13,
+                    from drivers/cma/mm/mem_phys_layout.c:14:
+   drivers/cma/mm/mem_phys_layout.c: In function 'print_phys_memory_model':
+   drivers/cma/mm/mem_phys_layout.c:237:48: error: 'MAX_PAGE_ORDER' undeclared (first use in this function); did you mean 'XA_STATE_ORDER'?
+     pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
+                                                   ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:237:2: note: in expansion of macro 'pr_info'
+     pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:237:48: note: each undeclared identifier is reported only once for each function it appears in
+     pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
+                                                   ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:237:2: note: in expansion of macro 'pr_info'
+     pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:239:48: error: 'PFN_SECTION_SHIFT' undeclared (first use in this function); did you mean 'SECTIONS_SHIFT'?
+     pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
+                                                   ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:239:2: note: in expansion of macro 'pr_info'
+     pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:241:48: error: 'SECTION_SIZE_BITS' undeclared (first use in this function); did you mean '_IOC_SIZEBITS'?
+     pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
+                                                   ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:241:2: note: in expansion of macro 'pr_info'
+     pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:243:49: error: 'SUBSECTION_SIZE' undeclared (first use in this function); did you mean 'AT_VECTOR_SIZE'?
+     pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
+                                                    ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:243:2: note: in expansion of macro 'pr_info'
+     pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:244:49: error: 'SUBSECTIONS_PER_SECTION' undeclared (first use in this function); did you mean 'SUBSECTION_SIZE'?
+     pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
+                                                    ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:244:2: note: in expansion of macro 'pr_info'
+     pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:248:43: error: 'PAGES_PER_SUBSECTION' undeclared (first use in this function); did you mean 'DEFINE_PER_CPU_SECTION'?
+     pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
+                                              ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:248:2: note: in expansion of macro 'pr_info'
+     pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
+     ^~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:250:2: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     phys_addr_t start_addr = memblock_start_of_DRAM();
+     ^~~~~~~~~~~
+   drivers/cma/mm/mem_phys_layout.c:252:32: error: implicit declaration of function '__pfn_to_section'; did you mean '__initcall_section'? [-Werror=implicit-function-declaration]
+     struct mem_section *section = __pfn_to_section(start_pfn);
+                                   ^~~~~~~~~~~~~~~~
+                                   __initcall_section
+>> drivers/cma/mm/mem_phys_layout.c:252:32: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+   drivers/cma/mm/mem_phys_layout.c:253:22: error: implicit declaration of function '__section_mem_map_addr'; did you mean 'is_ioremap_addr'? [-Werror=implicit-function-declaration]
+     struct page *page = __section_mem_map_addr(section);
+                         ^~~~~~~~~~~~~~~~~~~~~~
+                         is_ioremap_addr
+   drivers/cma/mm/mem_phys_layout.c:253:22: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+   In file included from include/asm-generic/bug.h:22:0,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:9,
+                    from include/linux/memblock.h:13,
+                    from drivers/cma/mm/mem_phys_layout.c:14:
+   drivers/cma/mm/mem_phys_layout.c:259:4: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+       (u64) page,
+       ^
+   include/linux/printk.h:422:19: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+                      ^~~~~~~~~~~
+   include/linux/printk.h:523:2: note: in expansion of macro 'printk'
+     printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   drivers/cma/mm/mem_phys_layout.c:256:2: note: in expansion of macro 'pr_info'
+     pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
+     ^~~~~~~
+   cc1: some warnings being treated as errors
 
-4be130a08420d6 Martin Schwidefsky 2016-03-08  685  
-9c8ce56552b434 Lorenzo Stoakes    2025-11-03  686  static void ptep_zap_leaf_entry(struct mm_struct *mm, leaf_entry_t entry)
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  687  {
-9c8ce56552b434 Lorenzo Stoakes    2025-11-03  688  	if (leafent_is_swap(entry))
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  689  		dec_mm_counter(mm, MM_SWAPENTS);
-9c8ce56552b434 Lorenzo Stoakes    2025-11-03  690  	else if (leafent_is_migration(entry)) {
-9c8ce56552b434 Lorenzo Stoakes    2025-11-03  691  		const struct folio *folio = leafent_to_folio(entry);
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  692  
-a23f517b0e1554 Kefeng Wang        2024-01-11 @693  		dec_mm_counter(mm, mm_counter(folio));
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  694  	}
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  695  	free_swap_and_cache(entry);
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  696  }
-1e133ab296f3ff Martin Schwidefsky 2016-03-08  697  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_TTM
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
+
+
+vim +252 drivers/cma/mm/mem_phys_layout.c
+
+   234	
+   235	static void print_phys_memory_model(void)
+   236	{
+   237		pr_info("MAX_PAGE_ORDER                = %d", MAX_PAGE_ORDER);
+   238		pr_info("pageblock_order               = %d", pageblock_order);
+   239		pr_info("PFN_SECTION_SHIFT             = %d", PFN_SECTION_SHIFT);
+   240		pr_info("(MAX_PAGE_ORDER + PAGE_SHIFT) = %d", (MAX_PAGE_ORDER + PAGE_SHIFT));
+   241		pr_info("SECTION_SIZE_BITS             = %d", SECTION_SIZE_BITS);
+   242		pr_info("2 ^ SECTION_SIZE_BITS         = %d", (1 << SECTION_SIZE_BITS));
+   243		pr_info("SUBSECTION_SIZE               = %ld", SUBSECTION_SIZE);
+   244		pr_info("SUBSECTIONS_PER_SECTION       = %ld", SUBSECTIONS_PER_SECTION);
+   245		pr_info("SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION = %ld = %ldMiB",
+   246				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION,
+   247				SUBSECTION_SIZE * SUBSECTIONS_PER_SECTION / 1024 / 1024);
+   248		pr_info("PAGES_PER_SUBSECTION    = %ld", PAGES_PER_SUBSECTION);
+   249	
+ > 250		phys_addr_t start_addr = memblock_start_of_DRAM();
+   251		unsigned long start_pfn = PHYS_PFN(start_addr);
+ > 252		struct mem_section *section = __pfn_to_section(start_pfn);
+   253		struct page *page = __section_mem_map_addr(section);
+   254	
+   255		pr_info("Using struct mem_section");
+   256		pr_info("    PFN: %10llu == %#010Lx  struct page[mem %#010Lx], PHYS[mem %#010Lx]",
+   257				(u64)start_pfn,
+   258				(u64)start_pfn,
+   259				(u64) page,
+   260				(u64)PFN_PHYS(start_pfn));
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
