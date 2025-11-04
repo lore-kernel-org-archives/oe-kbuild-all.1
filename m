@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512FD22154F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 01:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92BF26FD9B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 03:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762220079; cv=none; b=JNEJ0TjC49iPXAgvgJzE/Y2VIk40JlRc2/znxdF1WBdDAd8nS9UxSVjeriTf3n0yNAKo/3nnMAYgHxdebWUqm5AIRCB5HjP1GOyvtT1i1A+TyH1nl9l+belAg6x3lwh/5I0uXZUm3n9TC/EqYEVS2rVxLu1cYxWnAqMFmErSc9w=
+	t=1762225856; cv=none; b=Ii69E7D4wofyEyu4sW/OvwSwOs8vUBwTms9M4Rvdv0E1pOO7LvR1OvB0ph/LrVdOYySdYHCOep+0pnB+2/FKpvsg8F9wWwYyTU+/A+RVi2uFhf8HZbuCyQ59M/9tnc694oY7ICy0TXVkPV1qpqDbNuS+Vs2CXT+nV/It6XGXW80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762220079; c=relaxed/simple;
-	bh=PD0fT2/G5PeBw1YSpO6vFTtLb30V9P9O3gXC/MNJuNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SBvGGnItHZRRqx0c6Uw87NMeyhImMdszL15oZ0pW7txa7ZXnyJXZLBxUts5DOqPZzLQMrs1qieQ58c8W0Glitsys3DRePfg0r4In72AvX6R465/glFRMBsDvxvgakS81rEgzLy5PiI6UWsUQeFq/kritBWvXjVKvKgvoO1kB/g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLhtPymq; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1762225856; c=relaxed/simple;
+	bh=ZNqbYtUX/yE1sCWuMUS+UmLNe0h2/HLgjwy7/c3JYPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m/Biv1ByuhiUTxoGBDc6N/Dyh1U/UyyXUDi6qV1NU9ExLK1C1XSgnf06dKEXrJDM+BX4iSsop9pNKvh70Md4SlkRKESsJJVbndRlfA1Q3YAhfUoS05g2MHEzbKQVulwJrBRKrXhYnuW+355vrpvv+kD9D3Clg9iJDeo6HOD9e1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBCwDv1Y; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLhtPymq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBCwDv1Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762220077; x=1793756077;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PD0fT2/G5PeBw1YSpO6vFTtLb30V9P9O3gXC/MNJuNM=;
-  b=YLhtPymqaFzYG70Vlliwk2G2u6JRvKV2QvPnq30MHJrM2TbE6ZD/S+3L
-   mmXLBHxLX98dEEPE6ba4skuyJnGDmvvFI6YYnPLzoUhKjjhiQkUNmAbvg
-   78b+spCFJ5VgOt84c5SF0j5nuaFKx9EtSWVt3oHYtgjGFn9jIPMOxeR7G
-   Ydz/64SWLxeg2xolGo+WWOGofaI8+B9jpVo2EbhnODU2PRdkeZdT/r9M9
-   Zy2b5X+Ub8dt0/8MdSv47Xa15qXWbcoUmlw02C81BVfDxizsI7Bk2EGaZ
-   2hc7Un15a4fddU3KNQL4d6PAKXUpwINupNXGIl3Z/g9ZUDFFw6s2UpYHG
+  t=1762225855; x=1793761855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZNqbYtUX/yE1sCWuMUS+UmLNe0h2/HLgjwy7/c3JYPE=;
+  b=aBCwDv1YI6yCfmJOh2OeLa7+pMAdZj5p8rF31jtfZ+Hy2zG4EDe+3103
+   fxUXhEb0e6iloP/5hXeUARj7YxEiX+dSL1dWZdPKDwSV1rLxwIAeRwA3x
+   WanMbeZovEh4FS+HVBb7nqZlLAHZlvq+YTfmvf5ARXoc0laSBzAedwLgI
+   hmZShG+zx48SANA6GofwrEn+iq/7yZoPU+lRoiOCaLGJ4AnFz2mi8NKNa
+   TKvcybZrxd5YbE8rk2fyJt9SJ+ckdZbeVLdywHdOKktmZRk/AoyvYVpsi
+   Yqx3ohoMMtFwb3LSVXquKsxGC/egp6pu6nFVzI9XEfk4ACDw6XhHK+7jC
    A==;
-X-CSE-ConnectionGUID: 3UzDtVP/T2Sl0kaqLsJKog==
-X-CSE-MsgGUID: plqTTyvfQ9+xIx2N4PaV5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="89768723"
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="89768723"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 17:34:36 -0800
-X-CSE-ConnectionGUID: xnS5Q7r2RYma6owAF6BYLw==
-X-CSE-MsgGUID: kXnwvqeXQWadpRY4Atq6MQ==
+X-CSE-ConnectionGUID: Zcw5WnocT3ayh3WrWTsv8w==
+X-CSE-MsgGUID: Acq247fATyKFgFfbDl0bCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="81718846"
+X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
+   d="scan'208";a="81718846"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 19:10:54 -0800
+X-CSE-ConnectionGUID: e18xhBaqS+2wLu/fd9pMHQ==
+X-CSE-MsgGUID: uRjHsecCRNe4O8LfqjZrhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="186261546"
+X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
+   d="scan'208";a="186714679"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 03 Nov 2025 17:34:35 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Nov 2025 19:10:53 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG5wD-000Qj8-1Y;
-	Tue, 04 Nov 2025 01:34:24 +0000
-Date: Tue, 4 Nov 2025 09:34:03 +0800
+	id 1vG7Rb-000QnQ-0C;
+	Tue, 04 Nov 2025 03:10:51 +0000
+Date: Tue, 4 Nov 2025 11:08:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
-	leon@kernel.org, jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, linux-rdma@vger.kernel.org,
-	andrew.gospodarek@broadcom.com, selvin.xavier@broadcom.com,
-	kalesh-anakkur.purayil@broadcom.com,
-	Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
-Subject: Re: [PATCH rdma-next 3/4] RDMA/bnxt_re: Direct Verbs: Support DBR
- and UMEM verbs
-Message-ID: <202511040929.WGNASMrK-lkp@intel.com>
-References: <20251103105033.205586-4-sriharsha.basavapatna@broadcom.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3098/3098] fs/proc/stat.c:224:17: warning: no
+ previous prototype for 'bpf_get_idle_time'
+Message-ID: <202511041056.Im8VvChb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,68 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251103105033.205586-4-sriharsha.basavapatna@broadcom.com>
 
-Hi Sriharsha,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.18-rc4 next-20251103]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sriharsha-Basavapatna/RDMA-bnxt_re-Move-the-UAPI-methods-to-a-dedicated-file/20251103-190151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20251103105033.205586-4-sriharsha.basavapatna%40broadcom.com
-patch subject: [PATCH rdma-next 3/4] RDMA/bnxt_re: Direct Verbs: Support DBR and UMEM verbs
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251104/202511040929.WGNASMrK-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
+commit: 70780f6924c9b58d5a745d4e20e08e9ace28e711 [3098/3098] bpf-rvi: proc: add bpf_get_{idle,iowait}_time kfunc
+config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041056.Im8VvChb-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040929.WGNASMrK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041056.Im8VvChb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040929.WGNASMrK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041056.Im8VvChb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/infiniband/hw/bnxt_re/dv.c: In function 'bnxt_re_handler_BNXT_RE_METHOD_DBR_QUERY':
->> drivers/infiniband/hw/bnxt_re/dv.c:552:29: warning: variable 'rdev' set but not used [-Wunused-but-set-variable]
-     552 |         struct bnxt_re_dev *rdev;
-         |                             ^~~~
+>> fs/proc/stat.c:224:17: warning: no previous prototype for 'bpf_get_idle_time' [-Wmissing-prototypes]
+     224 | __bpf_kfunc u64 bpf_get_idle_time(struct kernel_cpustat *kcs, int cpu)
+         |                 ^~~~~~~~~~~~~~~~~
+>> fs/proc/stat.c:229:17: warning: no previous prototype for 'bpf_get_iowait_time' [-Wmissing-prototypes]
+     229 | __bpf_kfunc u64 bpf_get_iowait_time(struct kernel_cpustat *kcs, int cpu)
+         |                 ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/rdev +552 drivers/infiniband/hw/bnxt_re/dv.c
+vim +/bpf_get_idle_time +224 fs/proc/stat.c
 
-   546	
-   547	static int UVERBS_HANDLER(BNXT_RE_METHOD_DBR_QUERY)(struct uverbs_attr_bundle *attrs)
-   548	{
-   549		struct bnxt_re_dv_db_region dpi = {};
-   550		struct bnxt_re_ucontext *uctx;
-   551		struct ib_ucontext *ib_uctx;
- > 552		struct bnxt_re_dev *rdev;
-   553		int ret;
-   554	
-   555		ib_uctx = ib_uverbs_get_ucontext(attrs);
-   556		if (IS_ERR(ib_uctx))
-   557			return PTR_ERR(ib_uctx);
-   558	
-   559		uctx = container_of(ib_uctx, struct bnxt_re_ucontext, ib_uctx);
-   560		rdev = uctx->rdev;
-   561	
-   562		dpi.umdbr = uctx->dpi.umdbr;
-   563		dpi.dpi = uctx->dpi.dpi;
-   564	
-   565		ret = uverbs_copy_to_struct_or_zero(attrs, BNXT_RE_DV_QUERY_DBR_ATTR,
-   566						    &dpi, sizeof(dpi));
-   567		if (ret)
-   568			return ret;
-   569	
-   570		return 0;
-   571	}
-   572	
+   222	
+   223	#ifdef CONFIG_BPF_RVI
+ > 224	__bpf_kfunc u64 bpf_get_idle_time(struct kernel_cpustat *kcs, int cpu)
+   225	{
+   226		return get_idle_time(kcs, cpu);
+   227	}
+   228	
+ > 229	__bpf_kfunc u64 bpf_get_iowait_time(struct kernel_cpustat *kcs, int cpu)
+   230	{
+   231		return get_iowait_time(kcs, cpu);
+   232	}
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
