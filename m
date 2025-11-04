@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EB11865FA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 14:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3955F328606;
+	Tue,  4 Nov 2025 14:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762266417; cv=none; b=cuCjrg6BH0CrVOVL4p7DvLYg0fATZx/yipgFwaabiyTFOvBwA13GSUynnVsk+xWXdv2FJLPUTCmHxWZhEeNbWvV6BFFb1usfSa8zMkbq8UkbqA6DK+J20Tu63Wa0p+ylEAISNxpZaBlpQshsTye7cVxL7GzFEBVrDbpLvwChkac=
+	t=1762267915; cv=none; b=rxw7tRoFc6/triuvim5w45Y5pjdETfa6Tzkl+XjWW2F3X9UctgoyZeglka/vKhxUDApcVTJcX+Jvpi6dpC8cD5xgdVea7q7St9zD6aZ7qw/sGXQJFdSHlx17+wH5BwKLJkHDFIJE8qHn+Bu7SxpvrdQsVvR3h4+g79y0DUYqXts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762266417; c=relaxed/simple;
-	bh=RSU6pOH3ia7H9J3yFqoXIv1A6hQJZiS9cMuW7MCascg=;
+	s=arc-20240116; t=1762267915; c=relaxed/simple;
+	bh=P/HlHjCiyP8djl/YsJTrzZ+Ot6NggdaEPCcyndLWpOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ORglVFw6CVb7DbnsqitkXuMXEfrcJQ2YcugeEpLWNwCZq1h3eDgswlXPUGCXS6Z8rK/UqD9c903va4vjTGMgQHc6iKtONIXlF2aOGhYFjiE55NsgThEhG/nLEVmTrlu6RKzvqJw35iiKjKG34PWv5A7Gjg0WCyB0LKbYUOTb9Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YV2m5vyg; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=IuBufL1VATaKjdfrpPsTD5ITgiTp4W36yjIu/4BUHJW3dJVoeiiN6xWO4W6G8ysOnoNY2wGVLvMq9M5/SQXbOw/oVdUrpvRQZvQfUsyqanBV57vGhZwri/XHGOSp7vuGk64VQS5cXcsarhmXwm90TKLcyee4ZckecBUr/Y49lAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O7F985D9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YV2m5vyg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7F985D9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762266415; x=1793802415;
+  t=1762267914; x=1793803914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RSU6pOH3ia7H9J3yFqoXIv1A6hQJZiS9cMuW7MCascg=;
-  b=YV2m5vygFVH6xphgnljdVsaOOtM5Mk+S2KCM1JPO/m8hPSOjkzOc0H4o
-   KDewlBZDUcjXWaSIG3WioU0cc2cZY1LblfNljPEBna0BRIn618U1uu5y3
-   VtHd3x4V0KJS/SWZyBfhof6a4j5bjB6oVh0Z3JnmASiuO6bAfSIjR1Rb7
-   ue7C9pHUNVH2M9o0SA7SeW4/a+l++8nQCslroZc348XavsqWgOvPPcX3F
-   54XoQb1G5XmLMJkDSbAW8sXQHqyOqGWmZmhk8JfZNiBLdBL+fFHNyaexR
-   JVVqU79t794PIfqqO8Udxmhd970YSjttra4fjnOtcUxWB++OlPEsAYC+Q
-   Q==;
-X-CSE-ConnectionGUID: YQZTx9OmSj+wuAinkqNlgA==
-X-CSE-MsgGUID: L3bbQs+fSO+0AtRanU8R0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="68016074"
+  bh=P/HlHjCiyP8djl/YsJTrzZ+Ot6NggdaEPCcyndLWpOY=;
+  b=O7F985D9rpA2pJXh94mY7w0LxdzzJhvUowRAZWN3TX0s93X1U1VYK9oG
+   Ych/SRdo+fluBGdkXMmkQF4HnCHHI3D42EQhviFV1o+qkyiyNRWu4y7Mz
+   kg2f9oDCHQ2ztPj7rSORPraGlMKNedSmJFc6TyHCI9gk+xLTWV+x7EXxC
+   xkNxdpEhgQog5qCBWLV5VmXaA3j3wkfnnwh7en3lXacyXskEiiFlo6ZZO
+   QUI7IkQBe4+ExII5H6AwurYkCgpK+B6xO1ooGa/5PBZx4/qsOHWmY45dQ
+   Y4aiHID3xyum6cq0iaDr0AmM+zxwyK0nYcVOGCJOYVX+Tu1jMxFcAuemN
+   w==;
+X-CSE-ConnectionGUID: eXZWNufjQhGcwUY4PAGGSw==
+X-CSE-MsgGUID: T04wdGV2Tm6lmUJfGx6Hvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="89826735"
 X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="68016074"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 06:26:54 -0800
-X-CSE-ConnectionGUID: iSok6PXxShCdiMfTqBMFVw==
-X-CSE-MsgGUID: rF+xigRNR+SYFY6kOqANxw==
+   d="scan'208";a="89826735"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 06:51:53 -0800
+X-CSE-ConnectionGUID: tnqYtCWNTsOF1XeIP41pWQ==
+X-CSE-MsgGUID: ekfRqJRhQZKEz6/up32sYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="192339246"
+   d="scan'208";a="186416255"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2025 06:26:53 -0800
+  by orviesa006.jf.intel.com with ESMTP; 04 Nov 2025 06:51:52 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGHz2-000RTq-0F;
-	Tue, 04 Nov 2025 14:26:24 +0000
-Date: Tue, 4 Nov 2025 22:16:46 +0800
+	id 1vGIN9-000RVX-21;
+	Tue, 04 Nov 2025 14:51:17 +0000
+Date: Tue, 4 Nov 2025 22:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] kernel/sched/cpuacct.c:417:17:
- warning: no previous prototype for 'bpf_task_ca_cpuusage'
-Message-ID: <202511042208.SaUQnITn-lkp@intel.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 4972/5926] kernel/kexec_handover_debug.c:16:18:
+ error: use of undeclared identifier 'kho_scratch_cnt'
+Message-ID: <202511042251.paO6f5BZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +64,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   25097b0e8b7a08363a1cba931a5762548a3b0e16
-commit: 00c32c5569d488b6c90f1695175577e35c17c21c [3098/3098] bpf-rvi: cpuacct: Add bpf_task_ca_cpuusage() kfunc
-config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251104/202511042208.SaUQnITn-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511042208.SaUQnITn-lkp@intel.com/reproduce)
+Hi Mike,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   17490bd0527f59d841168457b245581f314b5fa0
+commit: 8c211175c3abcebb8bffce8095d78d193e482105 [4972/5926] liveupdate-kho-warn-and-fail-on-metadata-or-preserved-memory-in-scratch-area-fix
+config: x86_64-randconfig-071-20251104 (https://download.01.org/0day-ci/archive/20251104/202511042251.paO6f5BZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511042251.paO6f5BZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511042208.SaUQnITn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511042251.paO6f5BZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:61:
->> kernel/sched/cpuacct.c:417:17: warning: no previous prototype for 'bpf_task_ca_cpuusage' [-Wmissing-prototypes]
-     417 | __bpf_kfunc u64 bpf_task_ca_cpuusage(struct task_struct *p)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/cpuacct.c:424:18: warning: no previous prototype for 'bpf_cpuacct_kcpustat_cpu_fetch' [-Wmissing-prototypes]
-     424 | __bpf_kfunc void bpf_cpuacct_kcpustat_cpu_fetch(struct kernel_cpustat *dst,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_utility.c:73:
-   kernel/sched/debug.c:102:12: warning: no previous prototype for 'is_prefer_numa' [-Wmissing-prototypes]
-     102 | int __weak is_prefer_numa(void)
-         |            ^~~~~~~~~~~~~~
+>> kernel/kexec_handover_debug.c:16:18: error: use of undeclared identifier 'kho_scratch_cnt'
+      16 |         for (i = 0; i < kho_scratch_cnt; i++) {
+         |                         ^
+>> kernel/kexec_handover_debug.c:17:19: error: use of undeclared identifier 'kho_scratch'
+      17 |                 scratch_start = kho_scratch[i].addr;
+         |                                 ^
+   kernel/kexec_handover_debug.c:18:17: error: use of undeclared identifier 'kho_scratch'
+      18 |                 scratch_end = kho_scratch[i].addr + kho_scratch[i].size;
+         |                               ^
+   kernel/kexec_handover_debug.c:18:39: error: use of undeclared identifier 'kho_scratch'
+      18 |                 scratch_end = kho_scratch[i].addr + kho_scratch[i].size;
+         |                                                     ^
+   4 errors generated.
 
 
-vim +/bpf_task_ca_cpuusage +417 kernel/sched/cpuacct.c
+vim +/kho_scratch_cnt +16 kernel/kexec_handover_debug.c
 
-   416	
- > 417	__bpf_kfunc u64 bpf_task_ca_cpuusage(struct task_struct *p)
-   418	{
-   419		if (!p)
-   420			return 0;
-   421		return cpuusage_read(task_css(p, cpuacct_cgrp_id), NULL);
-   422	}
-   423	
+4039a00022d42a Pasha Tatashin 2025-10-20  10  
+4039a00022d42a Pasha Tatashin 2025-10-20  11  bool kho_scratch_overlap(phys_addr_t phys, size_t size)
+4039a00022d42a Pasha Tatashin 2025-10-20  12  {
+4039a00022d42a Pasha Tatashin 2025-10-20  13  	phys_addr_t scratch_start, scratch_end;
+4039a00022d42a Pasha Tatashin 2025-10-20  14  	unsigned int i;
+4039a00022d42a Pasha Tatashin 2025-10-20  15  
+4039a00022d42a Pasha Tatashin 2025-10-20 @16  	for (i = 0; i < kho_scratch_cnt; i++) {
+4039a00022d42a Pasha Tatashin 2025-10-20 @17  		scratch_start = kho_scratch[i].addr;
+
+:::::: The code at line 16 was first introduced by commit
+:::::: 4039a00022d42ac3d68b2eea63066bc9f7ef89ce kho: warn and fail on metadata or preserved memory in scratch area
+
+:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
