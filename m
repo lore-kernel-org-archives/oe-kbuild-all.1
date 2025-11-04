@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420052FFF89
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Nov 2025 23:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA531DA55
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 00:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762214086; cv=none; b=hePmMM/baIz2zoNR0uL4P3EADzn3ZcTAfd7T02SKZwKn/DOVwCvCxvOzME+E01sAUV5XERtCKp48nvsp9vztZnbFqwMUzQOFeD5/dNgRJbOFjX3Koh5T4X9IluGOdbRhk4NhsrdMcXH2iUDQtt0N1Gef4pedn1YdZtv5tbhaM4c=
+	t=1762214818; cv=none; b=I4kf4YRakdYfQsV9/tE0lwVR442I3Ee/pVhmHlYLJH315m9TlrOY1gIiR977hh6Erc/DPpqrT7daY0T+SfGnjSZW26hhLGJJsgebb2J7a1RRzgVi9AaRRDRoAUaqIQx5mcIfOGrhJbBWhUABo6UxaKqFWUhJltIKKbVqHBAYmUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762214086; c=relaxed/simple;
-	bh=QL1RwUzqoFhONfxYeLrEFILrHTrrd7u74ulIoTQZMWY=;
+	s=arc-20240116; t=1762214818; c=relaxed/simple;
+	bh=7TCcS2H7MfZ4Mvy33mfuXTP243caEzBm0t4Hq19jK50=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dDo5R4Rv16LdlLlxK/cvuw+z5t4fvrkmdKavVkK4YzhzVxxRchH0BOnzhgY7ZF0qgI5sbyHuSIgE8q2UsINw9NphLEnm/pT0fCBn0Si9Ok9Pg0bHNCS+gnUoyhC11dYQiUbhV7LiI3RCTtwTklu8lKjyrUB2/sgjz3mWHYi2jj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/OV/DXV; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=E9t9fyoj8+FHRJWI2LV0HwytfqfFSicab1lRhTSLZ/+jzyfzFj7c48iWlYfh8qqUJuah3/WqKGypC5jWkkRxARtaX7cb5ngO4a190Nn1VSTRBkBwIpihBRrqV6XKYY2MNWxHR7VDSn4Wnhbxn9pWU63n6OwT9T8jvvQAuzCVYzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LGcq+w61; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/OV/DXV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LGcq+w61"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762214083; x=1793750083;
+  t=1762214816; x=1793750816;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QL1RwUzqoFhONfxYeLrEFILrHTrrd7u74ulIoTQZMWY=;
-  b=f/OV/DXVP6Jspi2uh1Crf909qwyFq3NdrX/cWItFNvl/FfPu8GjvoJJ8
-   MPvj8y2zjhBmKfa4MptZ4oksrk3xUNXMrrJBPWZEHl1v6pLKyyVdea+4f
-   PH2AVj1OfzHDdCwcoXh2tX/ggixfCM1v7LWa7if1VLKNW6gQcpPgIJq3x
-   9gAp7lLSsoPdQidzwRHAVBtabHZF1XPI3e6pGSZKgnMtJs+9kyCp8jLMG
-   9lynzG7feG6qTt0mJjnoj9qMhrs/vWTjKkNKifnnoeEL3TOFoEOriZZD0
-   uKCg1oKMHu2xwo31UR/bRVlZDQkOl9Qse/OnDFCCFiHqK4FNftMmeTY+D
+  bh=7TCcS2H7MfZ4Mvy33mfuXTP243caEzBm0t4Hq19jK50=;
+  b=LGcq+w61wfaEaJNMq3PS6iSqqT6eltzhA0iPF/OehXAn0PbvtLT6lbqe
+   ElpjrxXbKoilU/mWQIwdPYp+C9osmRLu8FoeLKzZhSfiD1z1UBcNlRV84
+   awV9EQQyFfsQomojJCfKiJqtrjhxBF9FcvqafJfNZYq7H3vFgj1+8VJku
+   f5PQ4d+FbhVUb/C81FzL6zuSZ9BYw8sNfFyI/XwgxkDL96y/F4QYFiUEX
+   6bAr20d657/K4UqoZuUjZTVVVce0Xdjz8UbPBVWEJO3S4H3NLEBo7+yWn
+   quXizLAB6hX/R9JPPxxZV2km4NI87PvqcL1tzvBiKqY63hAcDpVAH5BIy
    g==;
-X-CSE-ConnectionGUID: FfqR38mKSXGAaWo5MHJFzg==
-X-CSE-MsgGUID: HkJmj6mGTNqapiUND0y8yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="63503345"
+X-CSE-ConnectionGUID: VfMSYedrR3e2YUOhOFlqkw==
+X-CSE-MsgGUID: NlvOD+wQTkSHjnBbTkfPfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="64453062"
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="63503345"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 15:54:42 -0800
-X-CSE-ConnectionGUID: eBSjshgdSB6BKJnPZhhTPQ==
-X-CSE-MsgGUID: oRYD5p3HR1q6jLU7lysZUg==
+   d="scan'208";a="64453062"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 16:06:56 -0800
+X-CSE-ConnectionGUID: AN7GlyngTFO2LcbG1DvV8Q==
+X-CSE-MsgGUID: 4zbZgkuwRkGx62KtNbnr1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,277,1754982000"; 
-   d="scan'208";a="224250339"
+   d="scan'208";a="192165779"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2025 15:54:42 -0800
+  by orviesa005.jf.intel.com with ESMTP; 03 Nov 2025 16:06:55 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG4Nc-000Qdk-27;
-	Mon, 03 Nov 2025 23:54:38 +0000
-Date: Tue, 4 Nov 2025 07:53:32 +0800
+	id 1vG4Y5-000QeR-21;
+	Tue, 04 Nov 2025 00:05:58 +0000
+Date: Tue, 4 Nov 2025 08:03:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
+To: kernel@openeuler.org, Wang Liang <wangliang74@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098]
- crypto/asymmetric_keys/pgp_preload.c:25:34: error: field 'pgp' has
- incomplete type
-Message-ID: <202511040743.baYclJ8W-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3098/3098] net/oenetcls/oenetcls_flow.c:140:48:
+ error: 'struct net_device' has no member named 'rx_cpu_rmap'
+Message-ID: <202511040811.Ogiq35Kv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,299 +62,209 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Wang,
+
+First bad commit (maybe != root cause):
+
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
-commit: 43d4042e06d2bf96adf67d25e8d91653507a4cf9 [3098/3098] KEYS: Provide a function to load keys from a PGP keyring blob
-config: x86_64-randconfig-003-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040743.baYclJ8W-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040743.baYclJ8W-lkp@intel.com/reproduce)
+commit: 22d4075bf5ef29ba4b329f954ac28a7de1d69a65 [3098/3098] net/oenetcls: remove oenetcls trace hook
+config: x86_64-randconfig-121-20251104 (https://download.01.org/0day-ci/archive/20251104/202511040811.Ogiq35Kv-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511040811.Ogiq35Kv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511040743.baYclJ8W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511040811.Ogiq35Kv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> crypto/asymmetric_keys/pgp_preload.c:25:34: error: field 'pgp' has incomplete type
-      25 |         struct pgp_parse_context pgp;
-         |                                  ^~~
-   crypto/asymmetric_keys/pgp_preload.c:63:38: warning: 'enum pgp_packet_tag' declared inside parameter list will not be visible outside of this definition or declaration
-      63 |                                 enum pgp_packet_tag type, u8 headerlen,
-         |                                      ^~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_preload.c:63:53: error: parameter 2 ('type') has incomplete type
-      63 |                                 enum pgp_packet_tag type, u8 headerlen,
-         |                                 ~~~~~~~~~~~~~~~~~~~~^~~~
->> crypto/asymmetric_keys/pgp_preload.c:62:19: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-      62 | static int __init found_pgp_key(struct pgp_parse_context *context,
-         |                   ^~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from crypto/asymmetric_keys/pgp_preload.c:17:
-   crypto/asymmetric_keys/pgp_preload.c: In function 'found_pgp_key':
-   include/linux/compiler_types.h:374:27: error: expression in static assertion is not an integer
-     374 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_preload.c:67:17: note: in expansion of macro 'container_of'
-      67 |                 container_of(context, struct preload_pgp_keys_context, pgp);
-         |                 ^~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_preload.c: At top level:
-   crypto/asymmetric_keys/pgp_preload.c:101:12: warning: no previous prototype for 'preload_pgp_keys' [-Wmissing-prototypes]
-     101 | int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
-         |            ^~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_preload.c: In function 'preload_pgp_keys':
->> crypto/asymmetric_keys/pgp_preload.c:107:43: error: 'PGP_PKT_PUBLIC_KEY' undeclared (first use in this function)
-     107 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY);
-         |                                           ^~~~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_preload.c:107:43: note: each undeclared identifier is reported only once for each function it appears in
->> crypto/asymmetric_keys/pgp_preload.c:112:15: error: implicit declaration of function 'pgp_parse_packets' [-Werror=implicit-function-declaration]
-     112 |         ret = pgp_parse_packets(pgpdata, pgpdatalen, &ctx.pgp);
-         |               ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> crypto/asymmetric_keys/pgp_public_key.c:37:34: error: field 'pgp' has incomplete type
-      37 |         struct pgp_parse_context pgp;
-         |                                  ^~~
-   crypto/asymmetric_keys/pgp_public_key.c:50:39: warning: 'struct pgp_parse_pubkey' declared inside parameter list will not be visible outside of this definition or declaration
-      50 |                                struct pgp_parse_pubkey *pgp,
-         |                                       ^~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_calc_pkey_keyid':
->> crypto/asymmetric_keys/pgp_public_key.c:63:9: error: implicit declaration of function 'kenter' [-Werror=implicit-function-declaration]
-      63 |         kenter("");
-         |         ^~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:65:17: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      65 |         n = (pgp->version < PGP_KEY_VERSION_4) ? 8 : 6;
-         |                 ^~
->> crypto/asymmetric_keys/pgp_public_key.c:65:29: error: 'PGP_KEY_VERSION_4' undeclared (first use in this function)
-      65 |         n = (pgp->version < PGP_KEY_VERSION_4) ? 8 : 6;
-         |                             ^~~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:65:29: note: each undeclared identifier is reported only once for each function it appears in
->> crypto/asymmetric_keys/pgp_public_key.c:67:23: error: implicit declaration of function 'mpi_key_length' [-Werror=implicit-function-declaration]
-      67 |                 ret = mpi_key_length(key_ptr, keylen, nb + i, nn + i);
-         |                       ^~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:87:32: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      87 |         digest_putc(digest, pgp->version);
-         |                                ^~
-   crypto/asymmetric_keys/pgp_public_key.c:89:18: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      89 |         a32 = pgp->creation_time;
-         |                  ^~
-   crypto/asymmetric_keys/pgp_public_key.c:95:16: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      95 |         if (pgp->version < PGP_KEY_VERSION_4) {
-         |                ^~
-   crypto/asymmetric_keys/pgp_public_key.c:98:24: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      98 |                 if (pgp->expires_at)
-         |                        ^~
-   crypto/asymmetric_keys/pgp_public_key.c:99:35: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      99 |                         a16 = (pgp->expires_at - pgp->creation_time) / 86400UL;
-         |                                   ^~
-   crypto/asymmetric_keys/pgp_public_key.c:99:53: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-      99 |                         a16 = (pgp->expires_at - pgp->creation_time) / 86400UL;
-         |                                                     ^~
-   crypto/asymmetric_keys/pgp_public_key.c:106:32: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-     106 |         digest_putc(digest, pgp->pubkey_algo);
-         |                                ^~
->> crypto/asymmetric_keys/pgp_public_key.c:115:9: error: implicit declaration of function 'kleave' [-Werror=implicit-function-declaration]
-     115 |         kleave(" = %d", ret);
-         |         ^~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c: At top level:
-   crypto/asymmetric_keys/pgp_public_key.c:123:44: warning: 'struct pgp_parse_pubkey' declared inside parameter list will not be visible outside of this definition or declaration
-     123 |                                     struct pgp_parse_pubkey *pgp,
-         |                                            ^~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_generate_fingerprint':
-   crypto/asymmetric_keys/pgp_public_key.c:134:37: error: invalid use of undefined type 'struct pgp_parse_pubkey'
-     134 |         tfm = crypto_alloc_shash(pgp->version < PGP_KEY_VERSION_4 ?
-         |                                     ^~
-   crypto/asymmetric_keys/pgp_public_key.c:134:49: error: 'PGP_KEY_VERSION_4' undeclared (first use in this function)
-     134 |         tfm = crypto_alloc_shash(pgp->version < PGP_KEY_VERSION_4 ?
-         |                                                 ^~~~~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:150:43: error: passing argument 2 of 'pgp_calc_pkey_keyid' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     150 |         ret = pgp_calc_pkey_keyid(digest, pgp, pub);
-         |                                           ^~~
-         |                                           |
-         |                                           struct pgp_parse_pubkey *
-   crypto/asymmetric_keys/pgp_public_key.c:50:57: note: expected 'struct pgp_parse_pubkey *' but argument is of type 'struct pgp_parse_pubkey *'
-      50 |                                struct pgp_parse_pubkey *pgp,
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   crypto/asymmetric_keys/pgp_public_key.c: At top level:
-   crypto/asymmetric_keys/pgp_public_key.c:199:40: warning: 'enum pgp_packet_tag' declared inside parameter list will not be visible outside of this definition or declaration
-     199 |                                   enum pgp_packet_tag type,
-         |                                        ^~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:199:55: error: parameter 2 ('type') has incomplete type
-     199 |                                   enum pgp_packet_tag type,
-         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~
->> crypto/asymmetric_keys/pgp_public_key.c:198:12: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-     198 | static int pgp_process_public_key(struct pgp_parse_context *context,
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from crypto/asymmetric_keys/pgp_public_key.c:16:
-   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_process_public_key':
-   include/linux/compiler_types.h:374:27: error: expression in static assertion is not an integer
-     374 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:206:17: note: in expansion of macro 'container_of'
-     206 |                 container_of(context, struct pgp_key_data_parse_context, pgp);
-         |                 ^~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:207:33: error: storage size of 'pgp' isn't known
-     207 |         struct pgp_parse_pubkey pgp;
-         |                                 ^~~
->> crypto/asymmetric_keys/pgp_public_key.c:213:21: error: 'PGP_PKT_USER_ID' undeclared (first use in this function)
-     213 |         if (type == PGP_PKT_USER_ID) {
-         |                     ^~~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:230:15: error: implicit declaration of function 'pgp_parse_public_key'; did you mean 'pgp_process_public_key'? [-Werror=implicit-function-declaration]
-     230 |         ret = pgp_parse_public_key(&data, &datalen, &pgp);
-         |               ^~~~~~~~~~~~~~~~~~~~
-         |               pgp_process_public_key
->> crypto/asymmetric_keys/pgp_public_key.c:234:32: error: 'PGP_PUBKEY__LAST' undeclared (first use in this function)
-     234 |         if (pgp.pubkey_algo >= PGP_PUBKEY__LAST)
-         |                                ^~~~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:236:16: error: 'pgp_to_public_key_algo' undeclared (first use in this function)
-     236 |         algo = pgp_to_public_key_algo[pgp.pubkey_algo];
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:207:33: warning: unused variable 'pgp' [-Wunused-variable]
-     207 |         struct pgp_parse_pubkey pgp;
-         |                                 ^~~
-   crypto/asymmetric_keys/pgp_public_key.c: In function 'pgp_key_parse':
->> crypto/asymmetric_keys/pgp_public_key.c:313:43: error: 'PGP_PKT_PUBLIC_KEY' undeclared (first use in this function)
-     313 |         ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY) |
-         |                                           ^~~~~~~~~~~~~~~~~~
-   crypto/asymmetric_keys/pgp_public_key.c:314:43: error: 'PGP_PKT_USER_ID' undeclared (first use in this function)
-     314 |                                     (1 << PGP_PKT_USER_ID);
-         |                                           ^~~~~~~~~~~~~~~
->> crypto/asymmetric_keys/pgp_public_key.c:317:15: error: implicit declaration of function 'pgp_parse_packets' [-Werror=implicit-function-declaration]
-     317 |         ret = pgp_parse_packets(prep->data, prep->datalen, &ctx.pgp);
-         |               ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   net/oenetcls/oenetcls_flow.c:18:6: warning: no previous prototype for 'is_oecls_config_netdev' [-Wmissing-prototypes]
+      18 | bool is_oecls_config_netdev(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   net/oenetcls/oenetcls_flow.c: In function 'set_oecls_cpu':
+>> net/oenetcls/oenetcls_flow.c:140:48: error: 'struct net_device' has no member named 'rx_cpu_rmap'
+     140 |         if (!skb_rx_queue_recorded(skb) || !dev->rx_cpu_rmap ||
+         |                                                ^~
+>> net/oenetcls/oenetcls_flow.c:161:29: error: 'const struct net_device_ops' has no member named 'ndo_rx_flow_steer'
+     161 |         rc = dev->netdev_ops->ndo_rx_flow_steer(dev, skb, rxq_index, flow_id);
+         |                             ^~
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
+   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
+   Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
+   Selected by [m]:
+   - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+   - SXE_VF [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
 
 
-vim +/pgp +25 crypto/asymmetric_keys/pgp_preload.c
+vim +140 net/oenetcls/oenetcls_flow.c
 
-    23	
-    24	struct preload_pgp_keys_context {
-  > 25		struct pgp_parse_context pgp;
-    26		key_ref_t keyring;
-    27		const u8 *key_start;
-    28		const u8 *key_end;
-    29		bool found_key;
-    30	};
-    31	
-    32	/*
-    33	 * Create a key.
-    34	 */
-    35	static int __init create_pgp_key(struct preload_pgp_keys_context *ctx)
-    36	{
-    37		key_ref_t key;
-    38	
-    39		key = key_create_or_update(ctx->keyring,
-    40					   "asymmetric",
-    41					   NULL,
-    42					   ctx->key_start,
-    43					   ctx->key_end - ctx->key_start,
-    44					   ((KEY_POS_ALL & ~KEY_POS_SETATTR) |
-    45					    KEY_USR_VIEW | KEY_USR_READ),
-    46					   KEY_ALLOC_NOT_IN_QUOTA |
-    47					   KEY_ALLOC_BUILT_IN |
-    48					   KEY_ALLOC_BYPASS_RESTRICTION);
-    49		if (IS_ERR(key))
-    50			return PTR_ERR(key);
-    51	
-    52		pr_notice("Loaded PGP key '%s'\n",
-    53			  key_ref_to_ptr(key)->description);
-    54	
-    55		key_ref_put(key);
-    56		return 0;
-    57	}
-    58	
-    59	/*
-    60	 * Extract a public key or subkey from the PGP stream.
-    61	 */
-  > 62	static int __init found_pgp_key(struct pgp_parse_context *context,
-  > 63					enum pgp_packet_tag type, u8 headerlen,
-    64					const u8 *data, size_t datalen)
-    65	{
-    66		struct preload_pgp_keys_context *ctx =
-    67			container_of(context, struct preload_pgp_keys_context, pgp);
-    68		int ret;
-    69	
-    70		if (ctx->found_key) {
-    71			ctx->key_end = data - headerlen;
-    72			ret = create_pgp_key(ctx);
-    73			if (ret < 0)
-    74				return ret;
-    75		}
-    76	
-    77		ctx->key_start = data - headerlen;
-    78		ctx->found_key = true;
-    79		return 0;
-    80	}
-    81	
-    82	/**
-    83	 * preload_pgp_keys - Load keys from a PGP keyring blob
-    84	 * @pgpdata: The PGP keyring blob containing the keys.
-    85	 * @pgpdatalen: The size of the @pgpdata blob.
-    86	 * @keyring: The keyring to add the new keys to.
-    87	 *
-    88	 * Preload a pack of keys from a PGP keyring blob.
-    89	 *
-    90	 * The keys have their descriptions generated from the user ID and fingerprint
-    91	 * in the PGP stream.  Since keys can be matched on their key IDs independently
-    92	 * of the key description, the description is mostly irrelevant apart from the
-    93	 * fact that keys of the same description displace one another from a keyring.
-    94	 *
-    95	 * The caller should override the current creds if they want the keys to be
-    96	 * owned by someone other than the current process's owner.  Keys will not be
-    97	 * accounted towards the owner's quota.
-    98	 *
-    99	 * This function may only be called whilst the kernel is booting.
-   100	 */
-   101	int __init preload_pgp_keys(const u8 *pgpdata, size_t pgpdatalen,
-   102				    struct key *keyring)
-   103	{
-   104		struct preload_pgp_keys_context ctx;
-   105		int ret;
-   106	
- > 107		ctx.pgp.types_of_interest = (1 << PGP_PKT_PUBLIC_KEY);
-   108		ctx.pgp.process_packet = found_pgp_key;
-   109		ctx.keyring = make_key_ref(keyring, 1);
-   110		ctx.found_key = false;
-   111	
- > 112		ret = pgp_parse_packets(pgpdata, pgpdatalen, &ctx.pgp);
-   113		if (ret < 0)
-   114			return ret;
-   115	
-   116		if (ctx.found_key) {
-   117			ctx.key_end = pgpdata + pgpdatalen;
-   118			return create_pgp_key(&ctx);
-   119		}
-   120		return 0;
-   121	}
-   122	
+4bed6ba0e88f50 Wang Liang 2025-08-26   17  
+4bed6ba0e88f50 Wang Liang 2025-08-26  @18  bool is_oecls_config_netdev(const char *name)
+4bed6ba0e88f50 Wang Liang 2025-08-26   19  {
+4bed6ba0e88f50 Wang Liang 2025-08-26   20  	struct oecls_netdev_info *netdev_info;
+4bed6ba0e88f50 Wang Liang 2025-08-26   21  	int netdev_loop;
+4bed6ba0e88f50 Wang Liang 2025-08-26   22  
+4bed6ba0e88f50 Wang Liang 2025-08-26   23  	for_each_oecls_netdev(netdev_loop, netdev_info)
+4bed6ba0e88f50 Wang Liang 2025-08-26   24  		if (strcmp(netdev_info->dev_name, name) == 0)
+4bed6ba0e88f50 Wang Liang 2025-08-26   25  			return true;
+4bed6ba0e88f50 Wang Liang 2025-08-26   26  
+4bed6ba0e88f50 Wang Liang 2025-08-26   27  	return false;
+4bed6ba0e88f50 Wang Liang 2025-08-26   28  }
+4bed6ba0e88f50 Wang Liang 2025-08-26   29  
+22d4075bf5ef29 Wang Liang 2025-09-12   30  static bool _oecls_timeout(struct net_device *dev, u16 rxq_index,
+22d4075bf5ef29 Wang Liang 2025-09-12   31  			   u32 flow_id, u16 filter_id)
+4bed6ba0e88f50 Wang Liang 2025-08-26   32  {
+4bed6ba0e88f50 Wang Liang 2025-08-26   33  	struct netdev_rx_queue *rxqueue = dev->_rx + rxq_index;
+4bed6ba0e88f50 Wang Liang 2025-08-26   34  	struct oecls_dev_flow_table *flow_table;
+4bed6ba0e88f50 Wang Liang 2025-08-26   35  	struct oecls_dev_flow *rflow;
+4bed6ba0e88f50 Wang Liang 2025-08-26   36  	bool expire = true;
+4bed6ba0e88f50 Wang Liang 2025-08-26   37  	unsigned int cpu;
+4bed6ba0e88f50 Wang Liang 2025-08-26   38  
+4bed6ba0e88f50 Wang Liang 2025-08-26   39  	rcu_read_lock();
+4bed6ba0e88f50 Wang Liang 2025-08-26   40  	flow_table = rcu_dereference(rxqueue->oecls_ftb);
+4bed6ba0e88f50 Wang Liang 2025-08-26   41  	if (flow_table && flow_id <= flow_table->mask) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   42  		rflow = &flow_table->flows[flow_id];
+4bed6ba0e88f50 Wang Liang 2025-08-26   43  		cpu = READ_ONCE(rflow->cpu);
+4bed6ba0e88f50 Wang Liang 2025-08-26   44  		oecls_debug("dev:%s, rxq:%d, flow_id:%u, filter_id:%d/%d, cpu:%d\n", dev->name,
+4bed6ba0e88f50 Wang Liang 2025-08-26   45  			    rxq_index, flow_id, filter_id, rflow->filter, cpu);
+4bed6ba0e88f50 Wang Liang 2025-08-26   46  
+4bed6ba0e88f50 Wang Liang 2025-08-26   47  		if (rflow->filter == filter_id && cpu < nr_cpu_ids) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   48  			if (time_before(jiffies, rflow->timeout + OECLS_TIMEOUT)) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   49  				expire = false;
+4bed6ba0e88f50 Wang Liang 2025-08-26   50  			} else {
+4bed6ba0e88f50 Wang Liang 2025-08-26   51  				rflow->isvalid = 0;
+4bed6ba0e88f50 Wang Liang 2025-08-26   52  				WRITE_ONCE(rflow->cpu, OECLS_NO_CPU);
+4bed6ba0e88f50 Wang Liang 2025-08-26   53  			}
+4bed6ba0e88f50 Wang Liang 2025-08-26   54  		}
+4bed6ba0e88f50 Wang Liang 2025-08-26   55  	}
+4bed6ba0e88f50 Wang Liang 2025-08-26   56  	rcu_read_unlock();
+4bed6ba0e88f50 Wang Liang 2025-08-26   57  	oecls_debug("%s, dev:%s, rxq:%d, flow_id:%u, filter_id:%d, expire:%d\n", __func__,
+4bed6ba0e88f50 Wang Liang 2025-08-26   58  		    dev->name, rxq_index, flow_id, filter_id, expire);
+22d4075bf5ef29 Wang Liang 2025-09-12   59  	return expire;
+4bed6ba0e88f50 Wang Liang 2025-08-26   60  }
+4bed6ba0e88f50 Wang Liang 2025-08-26   61  
+22d4075bf5ef29 Wang Liang 2025-09-12   62  static void _oecls_flow_update(struct sock *sk)
+4bed6ba0e88f50 Wang Liang 2025-08-26   63  {
+4bed6ba0e88f50 Wang Liang 2025-08-26   64  	struct oecls_sock_flow_table *tb;
+4bed6ba0e88f50 Wang Liang 2025-08-26   65  	unsigned int hash, index;
+4bed6ba0e88f50 Wang Liang 2025-08-26   66  	u32 val;
+4bed6ba0e88f50 Wang Liang 2025-08-26   67  	u32 cpu = raw_smp_processor_id();
+4bed6ba0e88f50 Wang Liang 2025-08-26   68  
+4bed6ba0e88f50 Wang Liang 2025-08-26   69  	if (sk->sk_state != TCP_ESTABLISHED)
+4bed6ba0e88f50 Wang Liang 2025-08-26   70  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26   71  
+4bed6ba0e88f50 Wang Liang 2025-08-26   72  	if (check_appname(current->comm))
+4bed6ba0e88f50 Wang Liang 2025-08-26   73  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26   74  
+4bed6ba0e88f50 Wang Liang 2025-08-26   75  	rcu_read_lock();
+4bed6ba0e88f50 Wang Liang 2025-08-26   76  	tb = rcu_dereference(oecls_sock_flow_table);
+4bed6ba0e88f50 Wang Liang 2025-08-26   77  	hash = READ_ONCE(sk->sk_rxhash);
+4bed6ba0e88f50 Wang Liang 2025-08-26   78  	if (tb && hash) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   79  		index = hash & tb->mask;
+4bed6ba0e88f50 Wang Liang 2025-08-26   80  		val = hash & ~oecls_cpu_mask;
+4bed6ba0e88f50 Wang Liang 2025-08-26   81  		val |= cpu;
+4bed6ba0e88f50 Wang Liang 2025-08-26   82  
+4bed6ba0e88f50 Wang Liang 2025-08-26   83  		if (READ_ONCE(tb->ents[index]) != val) {
+4bed6ba0e88f50 Wang Liang 2025-08-26   84  			WRITE_ONCE(tb->ents[index], val);
+4bed6ba0e88f50 Wang Liang 2025-08-26   85  
+4bed6ba0e88f50 Wang Liang 2025-08-26   86  			oecls_debug("[%s] sk:%p, hash:0x%x, index:0x%x, val:0x%x, cpu:%d\n",
+4bed6ba0e88f50 Wang Liang 2025-08-26   87  				    current->comm, sk, hash, index, val, cpu);
+4bed6ba0e88f50 Wang Liang 2025-08-26   88  		}
+4bed6ba0e88f50 Wang Liang 2025-08-26   89  	}
+4bed6ba0e88f50 Wang Liang 2025-08-26   90  	rcu_read_unlock();
+4bed6ba0e88f50 Wang Liang 2025-08-26   91  }
+4bed6ba0e88f50 Wang Liang 2025-08-26   92  
+4bed6ba0e88f50 Wang Liang 2025-08-26   93  static int flow_get_queue_idx(struct net_device *dev, int nid, struct sk_buff *skb)
+4bed6ba0e88f50 Wang Liang 2025-08-26   94  {
+4bed6ba0e88f50 Wang Liang 2025-08-26   95  	struct oecls_netdev_info *netdev_info;
+4bed6ba0e88f50 Wang Liang 2025-08-26   96  	int netdev_loop;
+4bed6ba0e88f50 Wang Liang 2025-08-26   97  	u32 hash, index;
+4bed6ba0e88f50 Wang Liang 2025-08-26   98  	struct oecls_numa_info *numa_info;
+4bed6ba0e88f50 Wang Liang 2025-08-26   99  	struct oecls_numa_bound_dev_info *bound_dev = NULL;
+4bed6ba0e88f50 Wang Liang 2025-08-26  100  	int rxq_id, rxq_num, i;
+4bed6ba0e88f50 Wang Liang 2025-08-26  101  
+4bed6ba0e88f50 Wang Liang 2025-08-26  102  	numa_info = get_oecls_numa_info(nid);
+4bed6ba0e88f50 Wang Liang 2025-08-26  103  	if (!numa_info)
+4bed6ba0e88f50 Wang Liang 2025-08-26  104  		return -1;
+4bed6ba0e88f50 Wang Liang 2025-08-26  105  
+4bed6ba0e88f50 Wang Liang 2025-08-26  106  	for_each_oecls_netdev(netdev_loop, netdev_info) {
+4bed6ba0e88f50 Wang Liang 2025-08-26  107  		if (strcmp(netdev_info->dev_name, dev->name) == 0) {
+4bed6ba0e88f50 Wang Liang 2025-08-26  108  			bound_dev = &numa_info->bound_dev[netdev_loop];
+4bed6ba0e88f50 Wang Liang 2025-08-26  109  			break;
+4bed6ba0e88f50 Wang Liang 2025-08-26  110  		}
+4bed6ba0e88f50 Wang Liang 2025-08-26  111  	}
+4bed6ba0e88f50 Wang Liang 2025-08-26  112  
+4bed6ba0e88f50 Wang Liang 2025-08-26  113  	if (!bound_dev)
+4bed6ba0e88f50 Wang Liang 2025-08-26  114  		return -1;
+4bed6ba0e88f50 Wang Liang 2025-08-26  115  	rxq_num = bitmap_weight(bound_dev->bitmap_rxq, OECLS_MAX_RXQ_NUM_PER_DEV);
+4bed6ba0e88f50 Wang Liang 2025-08-26  116  	if (rxq_num == 0)
+4bed6ba0e88f50 Wang Liang 2025-08-26  117  		return -1;
+4bed6ba0e88f50 Wang Liang 2025-08-26  118  
+4bed6ba0e88f50 Wang Liang 2025-08-26  119  	hash = skb_get_hash(skb);
+4bed6ba0e88f50 Wang Liang 2025-08-26  120  	index = hash % rxq_num;
+4bed6ba0e88f50 Wang Liang 2025-08-26  121  
+4bed6ba0e88f50 Wang Liang 2025-08-26  122  	i = 0;
+4bed6ba0e88f50 Wang Liang 2025-08-26  123  	for_each_set_bit(rxq_id, bound_dev->bitmap_rxq, OECLS_MAX_RXQ_NUM_PER_DEV)
+4bed6ba0e88f50 Wang Liang 2025-08-26  124  		if (index == i++)
+4bed6ba0e88f50 Wang Liang 2025-08-26  125  			return rxq_id;
+4bed6ba0e88f50 Wang Liang 2025-08-26  126  
+4bed6ba0e88f50 Wang Liang 2025-08-26  127  	return -1;
+4bed6ba0e88f50 Wang Liang 2025-08-26  128  }
+4bed6ba0e88f50 Wang Liang 2025-08-26  129  
+4bed6ba0e88f50 Wang Liang 2025-08-26  130  static void set_oecls_cpu(struct net_device *dev, struct sk_buff *skb,
+4bed6ba0e88f50 Wang Liang 2025-08-26  131  			  struct oecls_dev_flow *old_rflow, int old_rxq_id, u16 next_cpu)
+4bed6ba0e88f50 Wang Liang 2025-08-26  132  {
+4bed6ba0e88f50 Wang Liang 2025-08-26  133  	struct netdev_rx_queue *rxqueue;
+4bed6ba0e88f50 Wang Liang 2025-08-26  134  	struct oecls_dev_flow_table *dtb;
+4bed6ba0e88f50 Wang Liang 2025-08-26  135  	struct oecls_dev_flow *rflow;
+4bed6ba0e88f50 Wang Liang 2025-08-26  136  	u32 flow_id, hash;
+4bed6ba0e88f50 Wang Liang 2025-08-26  137  	u16 rxq_index;
+4bed6ba0e88f50 Wang Liang 2025-08-26  138  	int rc;
+4bed6ba0e88f50 Wang Liang 2025-08-26  139  
+4bed6ba0e88f50 Wang Liang 2025-08-26 @140  	if (!skb_rx_queue_recorded(skb) || !dev->rx_cpu_rmap ||
+4bed6ba0e88f50 Wang Liang 2025-08-26  141  	    !(dev->features & NETIF_F_NTUPLE))
+4bed6ba0e88f50 Wang Liang 2025-08-26  142  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26  143  
+4bed6ba0e88f50 Wang Liang 2025-08-26  144  	rxq_index = flow_get_queue_idx(dev, cpu_to_node(next_cpu), skb);
+4bed6ba0e88f50 Wang Liang 2025-08-26  145  	if (rxq_index == skb_get_rx_queue(skb) || rxq_index < 0)
+4bed6ba0e88f50 Wang Liang 2025-08-26  146  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26  147  
+4bed6ba0e88f50 Wang Liang 2025-08-26  148  	rxqueue = dev->_rx + rxq_index;
+4bed6ba0e88f50 Wang Liang 2025-08-26  149  	dtb = rcu_dereference(rxqueue->oecls_ftb);
+4bed6ba0e88f50 Wang Liang 2025-08-26  150  	if (!dtb)
+4bed6ba0e88f50 Wang Liang 2025-08-26  151  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26  152  
+4bed6ba0e88f50 Wang Liang 2025-08-26  153  	hash = skb_get_hash(skb);
+4bed6ba0e88f50 Wang Liang 2025-08-26  154  	flow_id = hash & dtb->mask;
+4bed6ba0e88f50 Wang Liang 2025-08-26  155  	rflow = &dtb->flows[flow_id];
+4bed6ba0e88f50 Wang Liang 2025-08-26  156  	if (rflow->isvalid && rflow->cpu == next_cpu) {
+4bed6ba0e88f50 Wang Liang 2025-08-26  157  		rflow->timeout = jiffies;
+4bed6ba0e88f50 Wang Liang 2025-08-26  158  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26  159  	}
+4bed6ba0e88f50 Wang Liang 2025-08-26  160  
+4bed6ba0e88f50 Wang Liang 2025-08-26 @161  	rc = dev->netdev_ops->ndo_rx_flow_steer(dev, skb, rxq_index, flow_id);
+4bed6ba0e88f50 Wang Liang 2025-08-26  162  	oecls_debug("skb:%p, rxq:%d, hash:0x%x, flow_id:%u, old_rxq_id:%d, next_cpu:%d, rc:%d\n",
+4bed6ba0e88f50 Wang Liang 2025-08-26  163  		    skb, rxq_index, hash, flow_id, old_rxq_id, next_cpu, rc);
+4bed6ba0e88f50 Wang Liang 2025-08-26  164  	if (rc < 0)
+4bed6ba0e88f50 Wang Liang 2025-08-26  165  		return;
+4bed6ba0e88f50 Wang Liang 2025-08-26  166  
+4bed6ba0e88f50 Wang Liang 2025-08-26  167  	rflow->filter = rc;
+4bed6ba0e88f50 Wang Liang 2025-08-26  168  	rflow->isvalid = 1;
+4bed6ba0e88f50 Wang Liang 2025-08-26  169  	rflow->timeout = jiffies;
+4bed6ba0e88f50 Wang Liang 2025-08-26  170  	if (old_rflow->filter == rflow->filter)
+4bed6ba0e88f50 Wang Liang 2025-08-26  171  		old_rflow->filter = OECLS_NO_FILTER;
+4bed6ba0e88f50 Wang Liang 2025-08-26  172  	rflow->cpu = next_cpu;
+4bed6ba0e88f50 Wang Liang 2025-08-26  173  }
+4bed6ba0e88f50 Wang Liang 2025-08-26  174  
+
+:::::: The code at line 140 was first introduced by commit
+:::::: 4bed6ba0e88f50484fd5fb06bd993727b981b718 net/oenetcls: introduce oenetcls for network optimization
+
+:::::: TO: Wang Liang <wangliang74@huawei.com>
+:::::: CC: Wang Liang <wangliang74@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
