@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92BF26FD9B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 03:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025802571B8;
+	Tue,  4 Nov 2025 03:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762225856; cv=none; b=Ii69E7D4wofyEyu4sW/OvwSwOs8vUBwTms9M4Rvdv0E1pOO7LvR1OvB0ph/LrVdOYySdYHCOep+0pnB+2/FKpvsg8F9wWwYyTU+/A+RVi2uFhf8HZbuCyQ59M/9tnc694oY7ICy0TXVkPV1qpqDbNuS+Vs2CXT+nV/It6XGXW80=
+	t=1762225859; cv=none; b=LYnl8X8qzzSVy7hMu29GnoCNTHY/M0NOc7X293WOrvHlpELfGrOwNo+g3swVnk5ta+silqSWg+t8NokJ2V5FDVXV1iOZeqmVk9FKYZ8cOEXJw5zTf6CcssZtlB0HYfFamY0KgekQSoaXd+fIESLGWB0l+6lOAH4nVwvpJ1iCxS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762225856; c=relaxed/simple;
-	bh=ZNqbYtUX/yE1sCWuMUS+UmLNe0h2/HLgjwy7/c3JYPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m/Biv1ByuhiUTxoGBDc6N/Dyh1U/UyyXUDi6qV1NU9ExLK1C1XSgnf06dKEXrJDM+BX4iSsop9pNKvh70Md4SlkRKESsJJVbndRlfA1Q3YAhfUoS05g2MHEzbKQVulwJrBRKrXhYnuW+355vrpvv+kD9D3Clg9iJDeo6HOD9e1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBCwDv1Y; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1762225859; c=relaxed/simple;
+	bh=nasp7obvVZx/zW5fYzUXJMKnK906v8ptyaXO0ca9Boo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R/8Ds2IZkpeW355e4RnL3nU3z32zpsJe2vmEDsfbrdCG3yildwiJPoKEq+6SoaLmNxXow5g87Q/xq561x/hPC6xbkfYl4OpgBPVPlHyHtSJdsZ9k8DAvnOrpA7sT43utJEb9TsxIKHCZI/CN71WbLqHqWxBrjLHVT1/a06orJ9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CrUlzhX/; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBCwDv1Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CrUlzhX/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762225855; x=1793761855;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZNqbYtUX/yE1sCWuMUS+UmLNe0h2/HLgjwy7/c3JYPE=;
-  b=aBCwDv1YI6yCfmJOh2OeLa7+pMAdZj5p8rF31jtfZ+Hy2zG4EDe+3103
-   fxUXhEb0e6iloP/5hXeUARj7YxEiX+dSL1dWZdPKDwSV1rLxwIAeRwA3x
-   WanMbeZovEh4FS+HVBb7nqZlLAHZlvq+YTfmvf5ARXoc0laSBzAedwLgI
-   hmZShG+zx48SANA6GofwrEn+iq/7yZoPU+lRoiOCaLGJ4AnFz2mi8NKNa
-   TKvcybZrxd5YbE8rk2fyJt9SJ+ckdZbeVLdywHdOKktmZRk/AoyvYVpsi
-   Yqx3ohoMMtFwb3LSVXquKsxGC/egp6pu6nFVzI9XEfk4ACDw6XhHK+7jC
-   A==;
-X-CSE-ConnectionGUID: Zcw5WnocT3ayh3WrWTsv8w==
-X-CSE-MsgGUID: Acq247fATyKFgFfbDl0bCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="81718846"
+  t=1762225858; x=1793761858;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nasp7obvVZx/zW5fYzUXJMKnK906v8ptyaXO0ca9Boo=;
+  b=CrUlzhX/GuJIaQrf2CTe2mhhhOd7ZY7YSf+6yv3FbWOjaUhNhpppJiKa
+   g4T6a9PnFg1zB3y9iqWgYOSbWpO9gP4NSQ+/D6J/VPIdhNzEjeluCEmFp
+   sN5RHVHk4VwAW0OdNX+NBjjCGqaF+c+mFWm0XaWoIc+QbbrRykLPFlLo8
+   K+eEzN62xnpgkI9r61tbEPJYiKMLaOhdlIlqK4T5iluRjXKPYXe++q5lv
+   bBdBRsohCqSqb/4X9MiwdBqA0DqkES21iOByFhaYaoyhRf93n4Tre+fyc
+   0foTjlrM8xxhnpMYw+7PER6hwb23/bMKMJP1SfWCkygl4uA1WHQWH9s5d
+   g==;
+X-CSE-ConnectionGUID: WBjNMoTqSNCwE6h63imdpA==
+X-CSE-MsgGUID: QLpiGQLISIig05aLWYV1yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66925644"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="81718846"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 19:10:54 -0800
-X-CSE-ConnectionGUID: e18xhBaqS+2wLu/fd9pMHQ==
-X-CSE-MsgGUID: uRjHsecCRNe4O8LfqjZrhw==
+   d="scan'208";a="66925644"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 19:10:58 -0800
+X-CSE-ConnectionGUID: Klu5rGQySFOcoXjRl282jw==
+X-CSE-MsgGUID: oH3aw8ubRJiFJiwtRMte1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="186714679"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Nov 2025 19:10:53 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2025 19:10:53 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG7Rb-000QnQ-0C;
-	Tue, 04 Nov 2025 03:10:51 +0000
-Date: Tue, 4 Nov 2025 11:08:26 +0800
+	id 1vG7RZ-000QnM-34;
+	Tue, 04 Nov 2025 03:10:50 +0000
+Date: Tue, 4 Nov 2025 11:07:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] fs/proc/stat.c:224:17: warning: no
- previous prototype for 'bpf_get_idle_time'
-Message-ID: <202511041056.Im8VvChb-lkp@intel.com>
+To: Jacky Chou <jacky_chou@aspeedtech.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Po-Yu Chuang <ratbert@faraday-tech.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, taoren@meta.com,
+	Jacky Chou <jacky_chou@aspeedtech.com>
+Subject: Re: [PATCH net-next v3 4/4] net: ftgmac100: Add RGMII delay support
+ for AST2600
+Message-ID: <202511041023.QGAHaAZ3-lkp@intel.com>
+References: <20251103-rgmii_delay_2600-v3-4-e2af2656f7d7@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,43 +75,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251103-rgmii_delay_2600-v3-4-e2af2656f7d7@aspeedtech.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a29fc03bd0ddaf7388cf31604ef5bd9807585109
-commit: 70780f6924c9b58d5a745d4e20e08e9ace28e711 [3098/3098] bpf-rvi: proc: add bpf_get_{idle,iowait}_time kfunc
-config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041056.Im8VvChb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041056.Im8VvChb-lkp@intel.com/reproduce)
+Hi Jacky,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 01cc760632b875c4ad0d8fec0b0c01896b8a36d4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Chou/dt-bindings-net-ftgmac100-Add-delay-properties-for-AST2600/20251103-154258
+base:   01cc760632b875c4ad0d8fec0b0c01896b8a36d4
+patch link:    https://lore.kernel.org/r/20251103-rgmii_delay_2600-v3-4-e2af2656f7d7%40aspeedtech.com
+patch subject: [PATCH net-next v3 4/4] net: ftgmac100: Add RGMII delay support for AST2600
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20251104/202511041023.QGAHaAZ3-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041023.QGAHaAZ3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041056.Im8VvChb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041023.QGAHaAZ3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/proc/stat.c:224:17: warning: no previous prototype for 'bpf_get_idle_time' [-Wmissing-prototypes]
-     224 | __bpf_kfunc u64 bpf_get_idle_time(struct kernel_cpustat *kcs, int cpu)
-         |                 ^~~~~~~~~~~~~~~~~
->> fs/proc/stat.c:229:17: warning: no previous prototype for 'bpf_get_iowait_time' [-Wmissing-prototypes]
-     229 | __bpf_kfunc u64 bpf_get_iowait_time(struct kernel_cpustat *kcs, int cpu)
-         |                 ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/faraday/ftgmac100.c:1865:13: warning: variable 'rgmii_delay_unit' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1865 |         } else if (of_device_is_compatible(np, "aspeed,ast2600-mac23")) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/faraday/ftgmac100.c:1870:53: note: uninitialized use occurs here
+    1870 |         rgmii_tx_delay = DIV_ROUND_CLOSEST(rgmii_tx_delay, rgmii_delay_unit);
+         |                                                            ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/faraday/ftgmac100.c:1865:9: note: remove the 'if' if its condition is always true
+    1865 |         } else if (of_device_is_compatible(np, "aspeed,ast2600-mac23")) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/faraday/ftgmac100.c:1844:22: note: initialize the variable 'rgmii_delay_unit' to silence this warning
+    1844 |         u32 rgmii_delay_unit;
+         |                             ^
+         |                              = 0
+   1 warning generated.
 
 
-vim +/bpf_get_idle_time +224 fs/proc/stat.c
+vim +1865 drivers/net/ethernet/faraday/ftgmac100.c
 
-   222	
-   223	#ifdef CONFIG_BPF_RVI
- > 224	__bpf_kfunc u64 bpf_get_idle_time(struct kernel_cpustat *kcs, int cpu)
-   225	{
-   226		return get_idle_time(kcs, cpu);
-   227	}
-   228	
- > 229	__bpf_kfunc u64 bpf_get_iowait_time(struct kernel_cpustat *kcs, int cpu)
-   230	{
-   231		return get_iowait_time(kcs, cpu);
-   232	}
-   233	
+  1838	
+  1839	static int ftgmac100_set_ast2600_rgmii_delay(struct platform_device *pdev,
+  1840						     u32 rgmii_tx_delay,
+  1841						     u32 rgmii_rx_delay)
+  1842	{
+  1843		struct device_node *np = pdev->dev.of_node;
+  1844		u32 rgmii_delay_unit;
+  1845		struct regmap *scu;
+  1846		int dly_mask;
+  1847		int dly_reg;
+  1848		int id;
+  1849	
+  1850		scu = syscon_regmap_lookup_by_phandle(np, "scu");
+  1851		if (IS_ERR(scu)) {
+  1852			dev_err(&pdev->dev, "failed to get scu");
+  1853			return PTR_ERR(scu);
+  1854		}
+  1855	
+  1856		id = of_alias_get_id(np, "ethernet");
+  1857		if (id < 0 || id > 3) {
+  1858			dev_err(&pdev->dev, "get wrong alise id %d\n", id);
+  1859			return -EINVAL;
+  1860		}
+  1861	
+  1862		if (of_device_is_compatible(np, "aspeed,ast2600-mac01")) {
+  1863			dly_reg = AST2600_MAC01_CLK_DLY;
+  1864			rgmii_delay_unit = AST2600_MAC01_CLK_DLY_UNIT;
+> 1865		} else if (of_device_is_compatible(np, "aspeed,ast2600-mac23")) {
+  1866			dly_reg = AST2600_MAC23_CLK_DLY;
+  1867			rgmii_delay_unit = AST2600_MAC23_CLK_DLY_UNIT;
+  1868		}
+  1869	
+  1870		rgmii_tx_delay = DIV_ROUND_CLOSEST(rgmii_tx_delay, rgmii_delay_unit);
+  1871		if (rgmii_tx_delay >= 32) {
+  1872			dev_err(&pdev->dev,
+  1873				"The index %u of TX delay setting is out of range\n",
+  1874				rgmii_tx_delay);
+  1875			return -EINVAL;
+  1876		}
+  1877	
+  1878		rgmii_rx_delay = DIV_ROUND_CLOSEST(rgmii_rx_delay, rgmii_delay_unit);
+  1879		if (rgmii_rx_delay >= 32) {
+  1880			dev_err(&pdev->dev,
+  1881				"The index %u of RX delay setting is out of range\n",
+  1882				rgmii_rx_delay);
+  1883			return -EINVAL;
+  1884		}
+  1885	
+  1886		/* Due to the hardware design reason, for MAC23 on AST2600, the zero
+  1887		 * delay ns on RX is configured by setting value 0x1a.
+  1888		 * List as below:
+  1889		 * 0x1a -> 0   ns, 0x1b -> 0.25 ns, ... , 0x1f -> 1.25 ns,
+  1890		 * 0x00 -> 1.5 ns, 0x01 -> 1.75 ns, ... , 0x19 -> 7.75 ns, 0x1a -> 0 ns
+  1891		 */
+  1892		if (of_device_is_compatible(np, "aspeed,ast2600-mac23"))
+  1893			rgmii_rx_delay = (AST2600_MAC23_RX_DLY_0_NS + rgmii_rx_delay) &
+  1894					 AST2600_MAC_TX_RX_DLY_MASK;
+  1895	
+  1896		if (id == 0 || id == 2) {
+  1897			dly_mask = ASPEED_MAC0_2_TX_DLY | ASPEED_MAC0_2_RX_DLY;
+  1898			rgmii_tx_delay = FIELD_PREP(ASPEED_MAC0_2_TX_DLY, rgmii_tx_delay);
+  1899			rgmii_rx_delay = FIELD_PREP(ASPEED_MAC0_2_RX_DLY, rgmii_rx_delay);
+  1900		} else {
+  1901			dly_mask = ASPEED_MAC1_3_TX_DLY | ASPEED_MAC1_3_RX_DLY;
+  1902			rgmii_tx_delay = FIELD_PREP(ASPEED_MAC1_3_TX_DLY, rgmii_tx_delay);
+  1903			rgmii_rx_delay = FIELD_PREP(ASPEED_MAC1_3_RX_DLY, rgmii_rx_delay);
+  1904		}
+  1905	
+  1906		regmap_update_bits(scu, dly_reg, dly_mask, rgmii_tx_delay | rgmii_rx_delay);
+  1907	
+  1908		return 0;
+  1909	}
+  1910	
 
 -- 
 0-DAY CI Kernel Test Service
