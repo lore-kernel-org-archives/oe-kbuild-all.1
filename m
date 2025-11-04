@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08262046BA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 20:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438B6D27E;
+	Tue,  4 Nov 2025 20:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762287011; cv=none; b=JQSbGNWWOrm3i877MUqNUSPovb8Mz9gDtOup9/qqidc5a85cCqfHDvSbUbqlmid+lwW+4beoVbfdrIbAS0kRr/74vH9Yz3YGGVSWOJ4GeiETVN9I27D0W/MIwNOiL7IC+81cUEiLYaSHC0paeNld/87fK1nr8umJRbaCBGo5J88=
+	t=1762289490; cv=none; b=QuvsNyfTdSmN+601JsFCmdt+Z4uCOXCkOkkcfJXVzX+01yslt9ouMQAiNWY5R6WJQFftWWSqo0jj33tlhVqgoCwDsp3iShKrmOp4dJVpKVZa+/jjyEuge4tnnmeq2GEjkbqV3Hb40EcGrS+eE9oMbYiqhUPwlevSUM3iN7u4WLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762287011; c=relaxed/simple;
-	bh=+dzNEruzawD16Wov2v6px1/Uq16YfTIBTEtHvvPwhKw=;
+	s=arc-20240116; t=1762289490; c=relaxed/simple;
+	bh=8bLTs6wDKk3qr42kNSErNhGJeMR7rvigmxb0+LIL/JY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O7LHJjLguKSPYp5yavsJ3cJ0Efms0ZR9RxpVmOG9tc+VcSiDuMpNPILjJIMkAGcdzKJbyxsjhBqbD47I0yIMEjgI9PbKKe8Flq69ASf00FJf3wLzdf3kpXwRGFz5hktqG8lvBOmV8PO/leNB/STjq+UTAJ70DBdjRdEqy/rV+5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr/Gml/t; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Gacclrkvd3fjoWfzo02M9DfB+4LAQ5UN7nswNrf7ZYIqIeAmFn50cpGQ76JXFfdr1b21Gaq6IxXlcEVJw2J662lp+WdefpIiniIffKUBdVPRdVjQQmGKuDRGZzGRQRVPz4lRmo83YwOjtStSPDHLFCNBDViu/mdtZkwvpxlsAR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CVLoEa+t; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr/Gml/t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CVLoEa+t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762287009; x=1793823009;
+  t=1762289487; x=1793825487;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+dzNEruzawD16Wov2v6px1/Uq16YfTIBTEtHvvPwhKw=;
-  b=Jr/Gml/tDy+prKP2VEqvmeqQUbCo+JSTZWEQ5Irk/guW9TGjyb6wrHxA
-   ZW09g+M9bzbJmBL2TBZGSjAvc7pFURyFfgnLVG8SoJ4+593oFCYCAG9g4
-   BH/dMCcfhdlkwkgJ3PckF0CVHfMiz3KBxAgsxxvg4wqH7ZJHgWjJ15ie1
-   ycFsj0cgLsKu3BwzhpW7FX742bjWOu4sOoA5mOrJR/8Z/lXx2BSRvOb2y
-   bgTZ60nLGfDUpyjeny1ScAEBDKTgoIG9s+QiaMR77SywWGv2J8df74tnY
-   3uLVa5CzMvZfEI7TKfM6IgLdg3NhYn/eovBRyNLxoX7Vz0UWmWJxR/pLs
-   Q==;
-X-CSE-ConnectionGUID: dfEiBdhYQqK6ay1pu01VrQ==
-X-CSE-MsgGUID: iJqOL9WLShSANDIwtJ1wuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="63402977"
-X-IronPort-AV: E=Sophos;i="6.19,279,1754982000"; 
-   d="scan'208";a="63402977"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 12:10:09 -0800
-X-CSE-ConnectionGUID: Gr9Oo1+MSuqK6vjW+Kvkkw==
-X-CSE-MsgGUID: w36Wo1i9TLqo5n+w2nNLLw==
+  bh=8bLTs6wDKk3qr42kNSErNhGJeMR7rvigmxb0+LIL/JY=;
+  b=CVLoEa+tzwZ950GEdTRyWd63NxAOPBAKHSqxnDDyHwJdttVCh63U2v8/
+   u5Q/sOM7cpFTQ5lbrP4G9CXJ6mzrNDtgPzgJTqd+KtqsTkXXZssV2BENu
+   xFhEoOGnrKloo2U3ftzNqJfC43XIlaY4Yztj5nHMzSjQQn1CbgBIJEYrj
+   TeSpSruKP8sgxTrQRaEybhCNzOAGEvdKi+IcPUVJENOlzZKnIOmVfMEIe
+   WUftvxE36E1ompbmJ2VnknvRlbZO3DdxlEgwLPkQPeB4G4cH6UPqcVgYS
+   40T3CILqAQSqk+xzxbhz9mVZUPhyBhfrwvGhmMUaFWX75jTFD/xZ3JU83
+   A==;
+X-CSE-ConnectionGUID: i44n1gadRFG7Z4oTnghPWQ==
+X-CSE-MsgGUID: Njza+U7NTgGmDZdvR9rMlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64280613"
+X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
+   d="scan'208";a="64280613"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 12:51:27 -0800
+X-CSE-ConnectionGUID: hIRvz3qIRA+4XDnChnAv5A==
+X-CSE-MsgGUID: JxIe0AqBR3aWGqMUEoJM1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="192419617"
+   d="scan'208";a="187706971"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2025 12:10:08 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 04 Nov 2025 12:51:26 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGNLm-000RnI-0Z;
-	Tue, 04 Nov 2025 20:10:02 +0000
-Date: Wed, 5 Nov 2025 04:08:51 +0800
+	id 1vGNzK-000Roe-1K;
+	Tue, 04 Nov 2025 20:50:50 +0000
+Date: Wed, 5 Nov 2025 04:50:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] kernel/bpf-rvi/common_kfuncs.c:97:18:
- warning: no previous prototype for 'bpf_seq_file_append'
-Message-ID: <202511050410.2c1BvP2L-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:slab-fms-cleanup 2/4] mm/slab.h:107:15: error: static
+ assertion failed due to requirement 'sizeof(struct slab) <= sizeof(struct
+ page)': sizeof(struct slab) <= sizeof(struct page)
+Message-ID: <202511050409.LJTnpEfF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   faa195bad3afed3c326917fb4cd36e0bd311220c
-commit: 1afa15e45da121993a15941b08fef5e3d58f40e5 [3098/3098] bpf-rvi: Add bpf_seq_file_append() kfunc
-config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251105/202511050410.2c1BvP2L-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050410.2c1BvP2L-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slab-fms-cleanup
+head:   e401df7388463ed094dca0ba9c7bac58b1ee4cc7
+commit: 382037dcfead97fb0a66368b8237220a7f4a661b [2/4] slab: move counters union to freelist_aba_t
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251105/202511050409.LJTnpEfF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050409.LJTnpEfF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511050410.2c1BvP2L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511050409.LJTnpEfF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf-rvi/common_kfuncs.c:20:32: warning: no previous prototype for 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
-      20 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:29:35: warning: no previous prototype for 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
-      29 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:34:17: warning: no previous prototype for 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
-      34 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |                 ^~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:48:17: warning: no previous prototype for 'bpf_pidns_last_pid' [-Wmissing-prototypes]
-      48 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |                 ^~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:77:18: warning: no previous prototype for 'bpf_si_memswinfo' [-Wmissing-prototypes]
-      77 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
-         |                  ^~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:87:27: warning: no previous prototype for 'bpf_page_counter_read' [-Wmissing-prototypes]
-      87 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
-         |                           ^~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf-rvi/common_kfuncs.c:97:18: warning: no previous prototype for 'bpf_seq_file_append' [-Wmissing-prototypes]
-      97 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-         |                  ^~~~~~~~~~~~~~~~~~~
+   In file included from mm/mempool.c:21:
+>> mm/slab.h:107:15: error: static assertion failed due to requirement 'sizeof(struct slab) <= sizeof(struct page)': sizeof(struct slab) <= sizeof(struct page)
+     107 | static_assert(sizeof(struct slab) <= sizeof(struct page));
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   mm/slab.h:107:35: note: expression evaluates to '64 <= 56'
+     107 | static_assert(sizeof(struct slab) <= sizeof(struct page));
+         |               ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   1 error generated.
 
 
-vim +/bpf_seq_file_append +97 kernel/bpf-rvi/common_kfuncs.c
+vim +107 mm/slab.h
 
-    91	
-    92	/*
-    93	 * Stat related kfuncs
-    94	 */
-    95	
-    96	/* Moving src's content to the end of dst. Reference: seq_vprintf. */
-  > 97	__bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-    98	{
-    99		/*
-   100		 * ->count: length of content
-   101		 * ->size: available buffer space
-   102		 * i.e. seq_printf(dst, "%s", src->buf)
-   103		 */
-   104		if (dst->count < dst->size)
-   105			if (src->count < dst->size - dst->count) {
-   106				memmove(dst->buf + dst->count, src->buf, src->count);
-   107				dst->count += src->count;
-   108			}
-   109	}
-   110	
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04   95) 
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04   96) #define SLAB_MATCH(pg, sl)						\
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04   97) 	static_assert(offsetof(struct page, pg) == offsetof(struct slab, sl))
+30908096dd8d79 Matthew Wilcox (Oracle  2025-06-11   98) SLAB_MATCH(flags, flags);
+130d4df57390a2 Vlastimil Babka         2022-08-26   99  SLAB_MATCH(compound_head, slab_cache);	/* Ensure bit 0 is clear */
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04  100) SLAB_MATCH(_refcount, __page_refcount);
+a52c6330ff2fe1 Alex Shi (Tencent       2024-07-12  101) #ifdef CONFIG_MEMCG
+21c690a349baab Suren Baghdasaryan      2024-03-21  102  SLAB_MATCH(memcg_data, obj_exts);
+a52c6330ff2fe1 Alex Shi (Tencent       2024-07-12  103) #elif defined(CONFIG_SLAB_OBJ_EXT)
+a52c6330ff2fe1 Alex Shi (Tencent       2024-07-12  104) SLAB_MATCH(_unused_slab_obj_exts, obj_exts);
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04  105) #endif
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04  106) #undef SLAB_MATCH
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04 @107) static_assert(sizeof(struct slab) <= sizeof(struct page));
+a9e0b9f27266d4 Vlastimil Babka         2023-10-02  108  #if defined(system_has_freelist_aba)
+6801be4f2653e5 Peter Zijlstra          2023-05-31  109  static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(freelist_aba_t)));
+130d4df57390a2 Vlastimil Babka         2022-08-26  110  #endif
+d122019bf061cc Matthew Wilcox (Oracle  2021-10-04  111) 
+
+:::::: The code at line 107 was first introduced by commit
+:::::: d122019bf061cccc4583eb9ad40bf58c2fe517be mm: Split slab into its own type
+
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Vlastimil Babka <vbabka@suse.cz>
 
 -- 
 0-DAY CI Kernel Test Service
