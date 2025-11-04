@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19422367B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 10:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF95272E63
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 10:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762251990; cv=none; b=SWF+yC3GovVkF0/gDDO9VCD1fxUcCIHAHg+adX8oU9v54mS9xXssANr6FMixUGxzu8GYNlTA2+k4fiuTtUpXZiL3HQWyyoPcaHRLClPRmlNEyMWrMYCOPip9oweKMlvK61lSQFXVVJbaACqrY+LWBDg7hqpIlFcxh7LCEqH0GzA=
+	t=1762253226; cv=none; b=namSsADw4n9zGeUEoYYjUjZd9+czcbxZBL1n8gC7KdOO6anwZ2cPJjv80oE7pPqYPFjIvjVhASrr7qkPreTYh9Yoa8+AQYWQy7h6BGJvRAjWTjw/3PAxzlGOOXydKT/ovk25xriwtD+sPGc59dANyC5dOiO/wfPbJLr1hplAMXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762251990; c=relaxed/simple;
-	bh=B6qKHitAlUwDlbEq4zLglHDoX6qLE4dZ7ySXeje+Qng=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gjNu9Nnsrbhly+zjf7NQIJJf5sENmeDXnSWd4ieWGCMRUr1QsLBR5wWlNyPYu/Iif+9K5tJ4wH79DkdWKOMYv8EMFuALxLM/DqZEe79QkcQvrosOozplJ57QceEtA0YZs1rNYxOmoJLDVVEjxUej5GrZfa4PkasDXSN3M7QBlgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E6zFBu2m; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1762253226; c=relaxed/simple;
+	bh=gScxm6CnROa3uZ09KE5cxAsJBQSDQEuKnhuhP8jWQHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=idlQGmxuQJfoyfXIv74Z5A9ISAzj4jywZJKN3JHlRLnEC3UBfoeN4Yd8vqofl2x0BoTbJXqTsHmdaA77y6tq9WVZIuAt19O2r0wayK4LxOKtIxDMuNObepbyKSALlc1s1XskyRXUjdPVPR5PGqqrSo/YuAgynn5yQZJy5PQVG4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbWJUBS/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6zFBu2m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbWJUBS/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762251989; x=1793787989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B6qKHitAlUwDlbEq4zLglHDoX6qLE4dZ7ySXeje+Qng=;
-  b=E6zFBu2moY6Cq+ldX2uehWiPFNEvD+bb0F75JofQjvMrvEC7VNytIvmR
-   B0Zqzx0oBGlJUwUVHRqPACvDZlqS3oMrL4hSuxDD8hf3Kp6px2n6utX+e
-   Q/84WP134Mo5C8SkdBYEUbwH3l9m1rIzJvafoy8QaYkdAb8HDVwivKDMZ
-   qa/VRo2tI7t8kqomx/Puq4YrS0H/z/IXA0+3dF0oWtESgpV/Okex3SlIh
-   MvIvpoCv/Q1ocJY+lXAZmakHF/wfNqs4L9FV02Dq6ZSPWciO+ujTCW8nP
-   UWsKmjoMfjLl22hTzquQCx1AxEP2juFj2Aw9xnUFdUxGklLhAItjaK9q1
+  t=1762253224; x=1793789224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gScxm6CnROa3uZ09KE5cxAsJBQSDQEuKnhuhP8jWQHk=;
+  b=PbWJUBS/WN7AbY7RHXuJ07yc0kctIzmDfXDzsveozJY/IXMWi8NnXxsI
+   W/pW2O0oz9EwMzH5fKyVnzF0mP56hTMo8huF5oZ2Jyanpwhh4pgQhqJiO
+   spa8Fh8bDFXClKxBBIXy5NyGbNtnPBClfm39ohs3L5MUSDheFMgRUeYnA
+   1CUMwAKCbrlRnO1xv3D3B+8MAz5MLLVPG3xpTZCdCIllEwTGgo0kv440S
+   3xpRCJvKEQWVInxYODfHxONewwRLIUCK6mO0Orx5dQwx1DvzGuaOa1zN8
+   Q72NxG77B6zMdyzwVCdGg/5LGt/WCZrFosrF4FxdriqQE5DvZWRGGolpn
    Q==;
-X-CSE-ConnectionGUID: 8BwXn+IhQ1W4M+8wmyguFQ==
-X-CSE-MsgGUID: ovaKEzSKS6ajvnp/2WNguA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="67996493"
+X-CSE-ConnectionGUID: ys/5NUpyRVqiAf5PyGu1Xg==
+X-CSE-MsgGUID: u2rRjIJGSIqd+HvwRh5KwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="68203400"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="67996493"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 02:26:28 -0800
-X-CSE-ConnectionGUID: BJA78LeaSWqajm+uA1F1xg==
-X-CSE-MsgGUID: HisYVvG3SkW98JFCCPzrvg==
+   d="scan'208";a="68203400"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 02:47:03 -0800
+X-CSE-ConnectionGUID: LCDNcIwxTLuuHqI7P897uQ==
+X-CSE-MsgGUID: vAR0sPbITIuR5jwjWmkh0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="224372754"
+   d="scan'208";a="191434867"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2025 02:26:27 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Nov 2025 02:47:02 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGEF7-000RGk-06;
-	Tue, 04 Nov 2025 10:26:25 +0000
-Date: Tue, 4 Nov 2025 18:25:29 +0800
+	id 1vGEZ2-000RIA-1v;
+	Tue, 04 Nov 2025 10:47:00 +0000
+Date: Tue, 4 Nov 2025 18:46:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+To: Dan Williams <dan.j.williams@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] block/bpf-rvi.c:36:28: error: implicit
- declaration of function 'css_to_blkcg'; did you mean 'pd_to_blkg'?
-Message-ID: <202511041808.gFZ75q5u-lkp@intel.com>
+Subject: Re: [PATCH v8 4/9] PCI/TSM: Establish Secure Sessions and Link
+ Encryption
+Message-ID: <202511041832.ylcgIiqN-lkp@intel.com>
+References: <20251031212902.2256310-5-dan.j.williams@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,66 +63,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251031212902.2256310-5-dan.j.williams@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   25097b0e8b7a08363a1cba931a5762548a3b0e16
-commit: 89fa7dcff5e533bd14396601f40c388cfb6c1e59 [3098/3098] bpf-rvi: block: Add diskstats iterator target
-config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041808.gFZ75q5u-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041808.gFZ75q5u-lkp@intel.com/reproduce)
+Hi Dan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 211ddde0823f1442e4ad052a2f30f050145ccada]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/coco-tsm-Introduce-a-core-device-for-TEE-Security-Managers/20251101-053254
+base:   211ddde0823f1442e4ad052a2f30f050145ccada
+patch link:    https://lore.kernel.org/r/20251031212902.2256310-5-dan.j.williams%40intel.com
+patch subject: [PATCH v8 4/9] PCI/TSM: Establish Secure Sessions and Link Encryption
+config: sparc-randconfig-r064-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041832.ylcgIiqN-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041832.ylcgIiqN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041808.gFZ75q5u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041832.ylcgIiqN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   block/bpf-rvi.c: In function 'bpf_disk_seqf_start':
->> block/bpf-rvi.c:36:28: error: implicit declaration of function 'css_to_blkcg'; did you mean 'pd_to_blkg'? [-Wimplicit-function-declaration]
-      36 |         priv->task_blkcg = css_to_blkcg(task_css(reaper ?: current, io_cgrp_id));
-         |                            ^~~~~~~~~~~~
-         |                            pd_to_blkg
->> block/bpf-rvi.c:36:69: error: 'io_cgrp_id' undeclared (first use in this function); did you mean 'cpu_cgrp_id'?
-      36 |         priv->task_blkcg = css_to_blkcg(task_css(reaper ?: current, io_cgrp_id));
-         |                                                                     ^~~~~~~~~~
-         |                                                                     cpu_cgrp_id
-   block/bpf-rvi.c:36:69: note: each undeclared identifier is reported only once for each function it appears in
+   sparc-linux-ld: drivers/pci/tsm.o: in function `connect_store':
+>> drivers/pci/tsm.c:256:(.text+0xbdc): undefined reference to `find_tsm_dev'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for TSM
+   Depends on [n]: VIRT_DRIVERS [=n]
+   Selected by [y]:
+   - PCI_TSM [=y] && PCI [=y]
 
 
-vim +36 block/bpf-rvi.c
+vim +256 drivers/pci/tsm.c
 
-    20	
-    21	/*
-    22	 * Basically the same with disk_seqf_start() but without allocating iter and
-    23	 * then overwriting seqf->private, which points to priv_data->target_private
-    24	 * in bpf_iter case (see prepare_seq_file()), and is needed to retrieve
-    25	 * struct bpf_iter_priv_data. Here we allocate iter via setting
-    26	 * .seq_priv_size and turning priv_data->target_private into iter.
-    27	 */
-    28	static void *bpf_disk_seqf_start(struct seq_file *seqf, loff_t *pos)
-    29	{
-    30		loff_t skip = *pos;
-    31		struct diskstats_seq_priv *priv = seqf->private;
-    32		struct class_dev_iter *iter;
-    33		struct device *dev;
-    34		struct task_struct *reaper = get_current_level1_reaper();
-    35	
-  > 36		priv->task_blkcg = css_to_blkcg(task_css(reaper ?: current, io_cgrp_id));
-    37		if (reaper)
-    38			put_task_struct(reaper);
-    39	
-    40		iter = &priv->iter;
-    41		class_dev_iter_init(iter, &block_class, NULL, &disk_type);
-    42		do {
-    43			dev = class_dev_iter_next(iter);
-    44			if (!dev)
-    45				return NULL;
-    46		} while (skip--);
-    47	
-    48		return dev_to_disk(dev);
-    49	}
-    50	
+   238	
+   239	static ssize_t connect_store(struct device *dev, struct device_attribute *attr,
+   240				     const char *buf, size_t len)
+   241	{
+   242		struct pci_dev *pdev = to_pci_dev(dev);
+   243		int rc, id;
+   244	
+   245		rc = sscanf(buf, "tsm%d\n", &id);
+   246		if (rc != 1)
+   247			return -EINVAL;
+   248	
+   249		ACQUIRE(rwsem_write_kill, lock)(&pci_tsm_rwsem);
+   250		if ((rc = ACQUIRE_ERR(rwsem_write_kill, &lock)))
+   251			return rc;
+   252	
+   253		if (pdev->tsm)
+   254			return -EBUSY;
+   255	
+ > 256		struct tsm_dev *tsm_dev __free(put_tsm_dev) = find_tsm_dev(id);
+   257		if (!is_link_tsm(tsm_dev))
+   258			return -ENXIO;
+   259	
+   260		rc = pci_tsm_connect(pdev, tsm_dev);
+   261		if (rc)
+   262			return rc;
+   263		return len;
+   264	}
+   265	static DEVICE_ATTR_RW(connect);
+   266	
 
 -- 
 0-DAY CI Kernel Test Service
