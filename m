@@ -1,59 +1,84 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894EB2D0C76
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 05:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7453BEEBB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 06:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762234815; cv=none; b=KpqX1lBhbfpkaQxk0Tg/ke66QHdiUWkB4JpYYg2iTuVJOWGc1XT3minSPO+W7olFchVPxWtZqPelQBHrZXCMMWeZ5MmBENCN3zYbUvpE87pancSrjq30ZbQs4iPo+hRPf7NQQtHwDRouWO0uKbxAE3WE/KcWSNgnNsaMX4RASEM=
+	t=1762236203; cv=none; b=Xq67qXFwVYMZTmXshQbFL5e/SvyVLISnjzgyVYBdylcbc5aodsbIRgA2Pk9ITFJNyBh4kT+lYHkZnUIA0WlSHgBcSOj2poXSwFO/z+TYQ/aw4nQONXTRLRkLMn2nHTQn0KwevA/aL5XKFkCdUKJ0rYcccs/QVRqB5lFWk4g0HcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762234815; c=relaxed/simple;
-	bh=rBUzD1yxmVfDNy3grg2GjueIZD+r9V9Q5s1ig4TnyFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KF6LgfKCsZSY/eynr+4W98sv/LO5+0J2IbpZUGehyX1EghUiZHqH8kayHad4WLs6jZXDddhdRIcieNJ5kdG6eSJo2Se0Mtv8pN9l/K+acZzGLHStNlNSsWW2dcerzjVuceX3H1JN+6rCkGfN+6Tk7OEa/wUFblPSx1YmBpfv4bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkQEJEr3; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762236203; c=relaxed/simple;
+	bh=/dL1gBSTItHzBoVba+zlzvDJWscPnr+j+9zMFRaFDIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCbyEVlgum0nMgK6uJFG75W3FzUf5iPb4e5R1SEgREdoTr3rUmj1JqZ5wwFSD/9tHbIbv/t+hjylWfyzCDTv2HtwypxrGba7asEKNSEAFzq3DzUL4uxXGfQ+Ja5CaoI7MXsbv8aKfLBx2vzSYWZYSyol7eaBP45M13de0PtLa0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YG5cC2MG; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkQEJEr3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YG5cC2MG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762234813; x=1793770813;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rBUzD1yxmVfDNy3grg2GjueIZD+r9V9Q5s1ig4TnyFk=;
-  b=YkQEJEr3kvCXF7Vdhsm8yFmm6pq7T6VVQDpnRVX0fMZenmmK9Hp1pBXw
-   qywHFgW8J+BCuMJpwMfIepVMVQa6OMiMhlvwhV390iiqIb+eorbuZF8cO
-   bgkEUShtsjfpdhlqOtnA7HRKCk8IPnVRn5aEem6VfMzt6bhk+FvjL2laW
-   k4RGcK1MQEQxWmxehJlIlhZ2UkFqX24VM8Jl2cvmoKFoxnMtQiQtB/s2y
-   ROy+TJAKYO9avg6EtVLKtmd7tp2k1TRMrKJkvEvvil5vMp+xRwoow/PuW
-   y7Fn5JFYxJ7rNoef4ZnmNB4D15icppoBMaRkzx9T3aeekF1R10OBAYr7E
+  t=1762236201; x=1793772201;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/dL1gBSTItHzBoVba+zlzvDJWscPnr+j+9zMFRaFDIA=;
+  b=YG5cC2MGN7sSOAUtgoqHYfIXyY/JG0LA8CtSuxa2qQs2TakrV61psl0D
+   bPPbQizJULSyfeHctwnp9Ou2Aw/Qj45aQP8kT2fT7oM86LxredpJfZCEF
+   l0v+iRvDH+2xxFtNx550uljXdf9CK+VpOZspuzBGif5AhiZrro6CmPjfM
+   HPzBrKOAFuP3E55z2M8jSGwYOpvnB2ewWyDYioKYrImVETm82DN0fLnYB
+   YJ2+4t2VWE6E0RBukQMX5l1cG5lbWWS83dCSzsKMRtsRd7zCnk3/gId/J
+   fHSI/CbeEl4zRlYi4c2os/qxfEmxpylOxc61D2P80GXHd8zROtFk0nhY1
    Q==;
-X-CSE-ConnectionGUID: BPTbJstRRbGfsmfMgL3m2g==
-X-CSE-MsgGUID: 3TBiXDpzTKSC/x1Y0BfNkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66934517"
+X-CSE-ConnectionGUID: T/TZHYKJT1W+K0Kr/p8XEw==
+X-CSE-MsgGUID: PXlIEXsYTPGysrj7bZHcAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="66936268"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="66934517"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 21:40:12 -0800
-X-CSE-ConnectionGUID: EDmZYHd9QJSvqPehavReyg==
-X-CSE-MsgGUID: 10lNZL+0T8CKlNagQ2sWxg==
+   d="scan'208";a="66936268"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 22:03:21 -0800
+X-CSE-ConnectionGUID: qsZ0NbiXT6ukdTHRh+FeNA==
+X-CSE-MsgGUID: t7vmxUyhSVeSFQnjNikDfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="192228007"
+   d="scan'208";a="186928092"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Nov 2025 21:40:11 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 03 Nov 2025 22:03:14 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vG9m5-000QxM-0Z;
-	Tue, 04 Nov 2025 05:40:09 +0000
-Date: Tue, 4 Nov 2025 13:40:07 +0800
+	id 1vGA89-000Qyq-2I;
+	Tue, 04 Nov 2025 06:02:59 +0000
+Date: Tue, 4 Nov 2025 14:02:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:kernel-6.19.cred 37/39]
- kernel/trace/trace_events_user.c:1456:23: error: redefinition of 'cred'
-Message-ID: <202511041333.25hxA4L9-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Arnd Bergmann <arnd@arndb.de>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH 13/16] mm: remove non_swap_entry() and use leaf entry
+ helpers instead
+Message-ID: <202511041345.8K1Nt70Q-lkp@intel.com>
+References: <b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +87,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes@oracle.com>
 
-tree:   https://github.com/brauner/linux.git kernel-6.19.cred
-head:   59e578cf86c391d6595e005247ebefd4f371242c
-commit: 9dd471f9caa5eb3aba71eebec26fab60dd0a220a [37/39] trace: use prepare credential guard
-config: i386-randconfig-r072-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041333.25hxA4L9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041333.25hxA4L9-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-correctly-handle-UFFD-PTE-markers/20251103-204118
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/b4925aeaf6b7e8255b1cf1585476b718862b8104.1762171281.git.lorenzo.stoakes%40oracle.com
+patch subject: [PATCH 13/16] mm: remove non_swap_entry() and use leaf entry helpers instead
+config: s390-randconfig-r112-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041345.8K1Nt70Q-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041345.8K1Nt70Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041333.25hxA4L9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041345.8K1Nt70Q-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/s390/mm/pgtable.c:693:47: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected struct folio *folio @@     got struct folio const *folio @@
+   arch/s390/mm/pgtable.c:693:47: sparse:     expected struct folio *folio
+   arch/s390/mm/pgtable.c:693:47: sparse:     got struct folio const *folio
+   arch/s390/mm/pgtable.c:1098:9: sparse: sparse: context imbalance in 'pgste_perform_essa' - unexpected unlock
+   arch/s390/mm/pgtable.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+   arch/s390/include/asm/pgtable.h:2067:9: sparse: sparse: context imbalance in 'set_pgste_bits' - unexpected unlock
+   arch/s390/mm/pgtable.c: note: in included file:
+   include/linux/mm.h:2832:9: sparse: sparse: context imbalance in 'get_pgste' - unexpected unlock
 
->> kernel/trace/trace_events_user.c:1456:2: warning: attribute declaration must precede definition [-Wignored-attributes]
-    1456 |         CLASS(prepare_creds, cred)();
-         |         ^
-   include/linux/cleanup.h:290:24: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |                               ^
-   include/linux/compiler-clang.h:15:25: note: expanded from macro '__cleanup'
-      15 | #define __cleanup(func) __maybe_unused __attribute__((__cleanup__(func)))
-         |                         ^
-   include/linux/compiler_attributes.h:343:56: note: expanded from macro '__maybe_unused'
-     343 | #define __maybe_unused                  __attribute__((__unused__))
-         |                                                        ^
-   kernel/trace/trace_events_user.c:1454:15: note: previous definition is here
-    1454 |         struct cred *cred;
-         |                      ^
->> kernel/trace/trace_events_user.c:1456:2: warning: attribute declaration must precede definition [-Wignored-attributes]
-    1456 |         CLASS(prepare_creds, cred)();
-         |         ^
-   include/linux/cleanup.h:290:24: note: expanded from macro 'CLASS'
-     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
-         |                               ^
-   include/linux/compiler-clang.h:15:55: note: expanded from macro '__cleanup'
-      15 | #define __cleanup(func) __maybe_unused __attribute__((__cleanup__(func)))
-         |                                                       ^
-   kernel/trace/trace_events_user.c:1454:15: note: previous definition is here
-    1454 |         struct cred *cred;
-         |                      ^
->> kernel/trace/trace_events_user.c:1456:23: error: redefinition of 'cred'
-    1456 |         CLASS(prepare_creds, cred)();
-         |                              ^
-   kernel/trace/trace_events_user.c:1454:15: note: previous definition is here
-    1454 |         struct cred *cred;
-         |                      ^
-   2 warnings and 1 error generated.
+vim +693 arch/s390/mm/pgtable.c
 
-
-vim +/cred +1456 kernel/trace/trace_events_user.c
-
-  1449	
-  1450	static int user_event_set_call_visible(struct user_event *user, bool visible)
-  1451	{
-  1452		int ret;
-  1453		const struct cred *old_cred;
-  1454		struct cred *cred;
-  1455	
-> 1456		CLASS(prepare_creds, cred)();
-  1457		if (!cred)
-  1458			return -ENOMEM;
-  1459	
-  1460		/*
-  1461		 * While by default tracefs is locked down, systems can be configured
-  1462		 * to allow user_event files to be less locked down. The extreme case
-  1463		 * being "other" has read/write access to user_events_data/status.
-  1464		 *
-  1465		 * When not locked down, processes may not have permissions to
-  1466		 * add/remove calls themselves to tracefs. We need to temporarily
-  1467		 * switch to root file permission to allow for this scenario.
-  1468		 */
-  1469		cred->fsuid = GLOBAL_ROOT_UID;
-  1470	
-  1471		old_cred = override_creds(cred);
-  1472	
-  1473		if (visible)
-  1474			ret = trace_add_event_call(&user->call);
-  1475		else
-  1476			ret = trace_remove_event_call(&user->call);
-  1477	
-  1478		revert_creds(old_cred);
-  1479	
-  1480		return ret;
-  1481	}
-  1482	
+4be130a08420d6 Martin Schwidefsky 2016-03-08  685  
+9c8ce56552b434 Lorenzo Stoakes    2025-11-03  686  static void ptep_zap_leaf_entry(struct mm_struct *mm, leaf_entry_t entry)
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  687  {
+9c8ce56552b434 Lorenzo Stoakes    2025-11-03  688  	if (leafent_is_swap(entry))
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  689  		dec_mm_counter(mm, MM_SWAPENTS);
+9c8ce56552b434 Lorenzo Stoakes    2025-11-03  690  	else if (leafent_is_migration(entry)) {
+9c8ce56552b434 Lorenzo Stoakes    2025-11-03  691  		const struct folio *folio = leafent_to_folio(entry);
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  692  
+a23f517b0e1554 Kefeng Wang        2024-01-11 @693  		dec_mm_counter(mm, mm_counter(folio));
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  694  	}
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  695  	free_swap_and_cache(entry);
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  696  }
+1e133ab296f3ff Martin Schwidefsky 2016-03-08  697  
 
 -- 
 0-DAY CI Kernel Test Service
