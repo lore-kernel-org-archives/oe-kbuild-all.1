@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EAB23B61B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 09:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55D62C376B;
+	Tue,  4 Nov 2025 09:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762248233; cv=none; b=DZI6D4zt9vbDawDtQxby6C7aRuMcQFAF5DhrPPYepWwVLLFJWjwY1dvYzr7lNLo2KIxFrHYKyR/1/cYldxPwPyYSt2vcMzaB8qWXrKhjQIoU7hyW6tUmDn8YlUDLOrwe0q2Qo94ATfCqIBQgRl0UwBdQttn7mT8/tj6eFg93uvc=
+	t=1762248797; cv=none; b=kJawpfSFvg8Alh4Uqx2iIkh6eSYwvhjda5osJ2v4yGthKukAtBZCbHMDj+kOZKKMV73rCw3X+6D6DvVjbD7k5a6yXDFh20Cxevf1MWgf6TtZC5b8EDkhWkUJkM2/pec9sYZx2cKqchzgndoooh+fWUWrmS8Drs+h8AZtkay+ckU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762248233; c=relaxed/simple;
-	bh=i/faRy2zS/Yz1an9lsMbbDMjY6ERiHYMFHITJmSFYek=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OQAomGSjKMnAcyp7k5uKw1MTT9EYPkGq7OdI9Bf8fdYZV6a1y0MkHgmDyem6QqDzSMAQoK6yxMcC8FFcXKS7GBfJh6VnRCj2syj8UXeokeZvwJZNOd9YsW5ZN6zYrNoKt+hkAxuHG6LGgD3lV9bnFDToeiG09odFwpgtvF0BcHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPDEV9J+; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1762248797; c=relaxed/simple;
+	bh=cN9H7ZhJf3nnJ1g656RnHeU+GFAnuSv5RWdv9SAimRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gqrTqAoeo1GnFqJuHvdHa/8V+GG1QREsq4r7dzK4GplyVoEU6yhLn3sNIOgB9tPK31BCGWc233DE8WlGNq5xk4U7ZE+og+7GTxLh/v7gqMeiPv98ZAarLFqraByJaJGkiMJPFHB9hdhGY8loHVQgyQDpF3sWvECy6hP1bfoyCM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwvRdFA+; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPDEV9J+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwvRdFA+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762248231; x=1793784231;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i/faRy2zS/Yz1an9lsMbbDMjY6ERiHYMFHITJmSFYek=;
-  b=LPDEV9J+y4Q6tLJ54WP7J6FUP8FPmR0GOzE6lhfaY93m5EdoifEPzkFN
-   jafJkUualPy2++4AImVUxE2rY/WUr+iaFrTf+OfdkG4DqkT/ZP/PhhtWk
-   OV+8AENNX62CLISVJ9bZV92zBtCLBBovnv4MesvSfUFlZ9xshKOtnlGIZ
-   wUErYPcSTZiNDu+ZnbMuz9TdirDWaYwbV1IdNgwNQIeMv7xavexkrZvDI
-   YpCEDUUb2mThJl5oY8hGrlrveAPJSr19HNk4cyV9gxWsBI616DaccA32l
-   NT3jknIfxeKsb86Hs4ebQRKQWvKWwo9k7Fn85qpEmvY/kOPhQyfs9Z3Bt
-   A==;
-X-CSE-ConnectionGUID: pCw7MGfmS62npJLXtgmnvg==
-X-CSE-MsgGUID: OoKmc3MPQDufIim0lKi8bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="68197013"
+  t=1762248796; x=1793784796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cN9H7ZhJf3nnJ1g656RnHeU+GFAnuSv5RWdv9SAimRc=;
+  b=BwvRdFA+4H19A5EUo2UPGMMOKG14Ed8W3vEpa3VbHpQecU8KyfyAPFPB
+   6rrtARsnP9F2n627rxuHdkrULw/URQsoWnt+7aa6Kb9A6h6+Gzf7YWmt0
+   ZW5RrLxgCAwNEo0xJGFquSkAu1a31XZMcpPyEXLiBJSJdIZGW8PtwbsNH
+   QYLRMbZvla8DkvT/A95dg/RPBLw79gH5od061MawrFCQkx72rSKm8aqq0
+   V/9DA7ewxnlsm4u5rUPkz+NFj4+9ytwMBsw0O/jNZ2yN2pQUFIcXxUo2l
+   k0sqWbOivUh6E7/EFC4iue/fbnkl+ameqtLCZYZcovCfoHXlGuvkIMLRA
+   Q==;
+X-CSE-ConnectionGUID: 0U4fCW4oTtuZUtqUkdvN0w==
+X-CSE-MsgGUID: sQeqAPfnRjGLGe2jTZwoRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11602"; a="75017844"
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="68197013"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 01:23:49 -0800
-X-CSE-ConnectionGUID: 8X6An0kyRYOt64W4l3lUTA==
-X-CSE-MsgGUID: QBIgLTRnQGmWkkOqovocKg==
+   d="scan'208";a="75017844"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 01:33:15 -0800
+X-CSE-ConnectionGUID: KxH+KwbAQliQ121G2A+xWQ==
+X-CSE-MsgGUID: DSFTjp29Sb2wYJJHgFNNfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,278,1754982000"; 
-   d="scan'208";a="192277303"
+   d="scan'208";a="210616320"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2025 01:23:48 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2025 01:33:11 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGDGP-000RCE-2E;
-	Tue, 04 Nov 2025 09:23:43 +0000
-Date: Tue, 4 Nov 2025 17:22:25 +0800
+	id 1vGDPZ-000RCi-1S;
+	Tue, 04 Nov 2025 09:33:09 +0000
+Date: Tue, 4 Nov 2025 17:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:iomap-ioerr-reporting 18/28]
- fs/xfs/xfs_notify_failure.c:474:10: error: invalid use of undefined type
- 'struct xfs_failure_info'
-Message-ID: <202511041718.pViu7hoD-lkp@intel.com>
+To: Robert Richter <rrichter@amd.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Gregory Price <gourry@gourry.net>,
+	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Terry Bowman <terry.bowman@amd.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Robert Richter <rrichter@amd.com>
+Subject: Re: [PATCH v4 10/14] cxl: Enable AMD Zen5 address translation using
+ ACPI PRMT
+Message-ID: <202511041721.oCz4BaCp-lkp@intel.com>
+References: <20251103184804.509762-11-rrichter@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,204 +76,248 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251103184804.509762-11-rrichter@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git iomap-ioerr-reporting
-head:   fe3c1f3502d002505e2a3992b3448ee14141eede
-commit: b98248a61ffa4266e1711739cc71bf8d3c7793ad [18/28] xfs: add media error reporting ioctl
-config: arm-randconfig-r072-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041718.pViu7hoD-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041718.pViu7hoD-lkp@intel.com/reproduce)
+Hi Robert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 211ddde0823f1442e4ad052a2f30f050145ccada]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Richter/cxl-region-Store-root-decoder-in-struct-cxl_region/20251104-025351
+base:   211ddde0823f1442e4ad052a2f30f050145ccada
+patch link:    https://lore.kernel.org/r/20251103184804.509762-11-rrichter%40amd.com
+patch subject: [PATCH v4 10/14] cxl: Enable AMD Zen5 address translation using ACPI PRMT
+config: x86_64-randconfig-072-20251104 (https://download.01.org/0day-ci/archive/20251104/202511041721.oCz4BaCp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251104/202511041721.oCz4BaCp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511041718.pViu7hoD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511041721.oCz4BaCp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/xfs/xfs_notify_failure.c: In function 'xfs_report_one_data_loss':
->> fs/xfs/xfs_notify_failure.c:474:10: error: invalid use of undefined type 'struct xfs_failure_info'
-     474 |    notify->startblock + notify->blockcount;
-         |          ^~
-   fs/xfs/xfs_notify_failure.c:474:31: error: invalid use of undefined type 'struct xfs_failure_info'
-     474 |    notify->startblock + notify->blockcount;
-         |                               ^~
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from include/linux/uuid.h:11,
-                    from fs/xfs/xfs_linux.h:10,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_notify_failure.c:6:
-   fs/xfs/xfs_notify_failure.c:487:12: error: invalid use of undefined type 'struct xfs_failure_info'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |            ^~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   fs/xfs/xfs_notify_failure.c:487:2: note: in expansion of macro 'if'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |  ^~
-   fs/xfs/xfs_notify_failure.c:487:12: error: invalid use of undefined type 'struct xfs_failure_info'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |            ^~
-   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
-   fs/xfs/xfs_notify_failure.c:487:2: note: in expansion of macro 'if'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |  ^~
-   fs/xfs/xfs_notify_failure.c:487:12: error: invalid use of undefined type 'struct xfs_failure_info'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |            ^~
-   include/linux/compiler.h:68:3: note: in definition of macro '__trace_if_value'
-      68 |  (cond) ?     \
-         |   ^~~~
-   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ^~~~~~~~~~~~~~
-   fs/xfs/xfs_notify_failure.c:487:2: note: in expansion of macro 'if'
-     487 |  if (notify->startblock > rec->rm_startblock) {
-         |  ^~
-   fs/xfs/xfs_notify_failure.c:488:20: error: invalid use of undefined type 'struct xfs_failure_info'
-     488 |   fileoff += notify->startblock - rec->rm_startblock;
-         |                    ^~
-   fs/xfs/xfs_notify_failure.c:489:19: error: invalid use of undefined type 'struct xfs_failure_info'
-     489 |   blocks -= notify->startblock - rec->rm_startblock;
-         |                   ^~
-   fs/xfs/xfs_notify_failure.c: In function 'xfs_report_data_loss':
->> fs/xfs/xfs_notify_failure.c:531:10: error: variable 'notify' has initializer but incomplete type
-     531 |   struct xfs_failure_info notify = { };
-         |          ^~~~~~~~~~~~~~~~
->> fs/xfs/xfs_notify_failure.c:531:27: error: storage size of 'notify' isn't known
-     531 |   struct xfs_failure_info notify = { };
-         |                           ^~~~~~
-   fs/xfs/xfs_notify_failure.c:531:27: warning: unused variable 'notify' [-Wunused-variable]
+>> drivers/cxl/core/atl.c:63:42: error: incomplete definition of type 'struct cxl_region_context'
+      63 |         struct cxl_endpoint_decoder *cxled = ctx->cxled;
+         |                                              ~~~^
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:65:32: error: incomplete definition of type 'struct cxl_region_context'
+      65 |         struct cxl_memdev *cxlmd = ctx->cxlmd;
+         |                                    ~~~^
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:66:30: error: incomplete definition of type 'struct cxl_region_context'
+      66 |         struct range hpa_range = ctx->hpa_range;
+         |                                  ~~~^
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:92:9: error: incomplete definition of type 'struct cxl_region_context'
+      92 |         if (ctx->interleave_ways != 1) {
+         |             ~~~^
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:94:7: error: incomplete definition of type 'struct cxl_region_context'
+      94 |                         ctx->interleave_ways, ctx->interleave_granularity);
+         |                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:94:29: error: incomplete definition of type 'struct cxl_region_context'
+      94 |                         ctx->interleave_ways, ctx->interleave_granularity);
+         |                                               ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:114:39: error: incomplete definition of type 'struct cxl_region_context'
+     114 |                         hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+         |                                                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:115:7: error: incomplete definition of type 'struct cxl_region_context'
+     115 |                         ctx->hpa_range.end, dev_name(&cxld->dev));
+         |                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:130:39: error: incomplete definition of type 'struct cxl_region_context'
+     130 |                         hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+         |                                                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:131:7: error: incomplete definition of type 'struct cxl_region_context'
+     131 |                         ctx->hpa_range.end, dev_name(&cxld->dev));
+         |                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                        ^~~~~~~~~~~
+   drivers/cxl/core/atl.c:62:9: note: forward declaration of 'struct cxl_region_context'
+      62 |         struct cxl_region_context *ctx = data;
+         |                ^
+   drivers/cxl/core/atl.c:156:39: error: incomplete definition of type 'struct cxl_region_context'
+     156 |                         hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+         |                                                         ~~~^
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
 
 
-vim +474 fs/xfs/xfs_notify_failure.c
+vim +63 drivers/cxl/core/atl.c
 
-   461	
-   462	static int
-   463	xfs_report_one_data_loss(
-   464		struct xfs_btree_cur		*cur,
-   465		const struct xfs_rmap_irec	*rec,
-   466		void				*data)
-   467	{
-   468		struct xfs_mount		*mp = cur->bc_mp;
-   469		struct xfs_inode		*ip;
-   470		struct xfs_failure_info		*notify = data;
-   471		xfs_fileoff_t			fileoff = rec->rm_offset;
-   472		xfs_extlen_t			blocks = rec->rm_blockcount;
-   473		const xfs_agblock_t		notify_end =
- > 474				notify->startblock + notify->blockcount;
-   475		const xfs_agblock_t		rmap_end =
-   476				rec->rm_startblock + rec->rm_blockcount;
-   477		int				error = 0;
-   478	
-   479		if (XFS_RMAP_NON_INODE_OWNER(rec->rm_owner) ||
-   480		    (rec->rm_flags & (XFS_RMAP_ATTR_FORK | XFS_RMAP_BMBT_BLOCK)))
-   481			return 0;
-   482	
-   483		error = xfs_iget(mp, cur->bc_tp, rec->rm_owner, 0, 0, &ip);
-   484		if (error)
-   485			return 0;
-   486	
-   487		if (notify->startblock > rec->rm_startblock) {
-   488			fileoff += notify->startblock - rec->rm_startblock;
-   489			blocks -= notify->startblock - rec->rm_startblock;
-   490		}
-   491		if (rmap_end > notify_end)
-   492			blocks -= rmap_end - notify_end;
-   493	
-   494		xfs_inode_media_error(ip, XFS_FSB_TO_B(mp, fileoff),
-   495				XFS_FSB_TO_B(mp, blocks));
-   496	
-   497		xfs_irele(ip);
-   498		return 0;
-   499	}
-   500	
-   501	static int
-   502	xfs_report_data_loss(
-   503		struct xfs_mount	*mp,
-   504		enum xfs_group_type	type,
-   505		xfs_daddr_t		daddr,
-   506		u64			bblen)
-   507	{
-   508		struct xfs_group	*xg = NULL;
-   509		struct xfs_trans	*tp;
-   510		xfs_fsblock_t		start_bno, end_bno;
-   511		uint32_t		start_gno, end_gno;
-   512		int			error;
-   513	
-   514		if (type == XG_TYPE_RTG) {
-   515			start_bno = xfs_daddr_to_rtb(mp, daddr);
-   516			end_bno = xfs_daddr_to_rtb(mp, daddr + bblen - 1);
-   517		} else {
-   518			start_bno = XFS_DADDR_TO_FSB(mp, daddr);
-   519			end_bno = XFS_DADDR_TO_FSB(mp, daddr + bblen - 1);
-   520		}
-   521	
-   522		tp = xfs_trans_alloc_empty(mp);
-   523		start_gno = xfs_fsb_to_gno(mp, start_bno, type);
-   524		end_gno = xfs_fsb_to_gno(mp, end_bno, type);
-   525		while ((xg = xfs_group_next_range(mp, xg, start_gno, end_gno, type))) {
-   526			struct xfs_buf		*agf_bp = NULL;
-   527			struct xfs_rtgroup	*rtg = NULL;
-   528			struct xfs_btree_cur	*cur;
-   529			struct xfs_rmap_irec	ri_low = { };
-   530			struct xfs_rmap_irec	ri_high;
- > 531			struct xfs_failure_info	notify = { };
-   532	
-   533			if (type == XG_TYPE_AG) {
-   534				struct xfs_perag	*pag = to_perag(xg);
-   535	
-   536				error = xfs_alloc_read_agf(pag, tp, 0, &agf_bp);
-   537				if (error) {
-   538					xfs_perag_put(pag);
-   539					break;
-   540				}
-   541	
-   542				cur = xfs_rmapbt_init_cursor(mp, tp, agf_bp, pag);
-   543			} else {
-   544				rtg = to_rtg(xg);
-   545				xfs_rtgroup_lock(rtg, XFS_RTGLOCK_RMAP);
-   546				cur = xfs_rtrmapbt_init_cursor(tp, rtg);
-   547			}
-   548	
-   549			/*
-   550			 * Set the rmap range from ri_low to ri_high, which represents
-   551			 * a [start, end] where we looking for the files or metadata.
-   552			 */
-   553			memset(&ri_high, 0xFF, sizeof(ri_high));
-   554			if (xg->xg_gno == start_gno)
-   555				ri_low.rm_startblock =
-   556					xfs_fsb_to_gbno(mp, start_bno, type);
-   557			if (xg->xg_gno == end_gno)
-   558				ri_high.rm_startblock =
-   559					xfs_fsb_to_gbno(mp, end_bno, type);
-   560	
-   561			notify.startblock = ri_low.rm_startblock;
-   562			notify.blockcount = min(xg->xg_block_count,
-   563						ri_high.rm_startblock + 1) -
-   564						ri_low.rm_startblock;
-   565	
-   566			error = xfs_rmap_query_range(cur, &ri_low, &ri_high,
-   567					xfs_report_one_data_loss, &notify);
-   568			xfs_btree_del_cursor(cur, error);
-   569			if (agf_bp)
-   570				xfs_trans_brelse(tp, agf_bp);
-   571			if (rtg)
-   572				xfs_rtgroup_unlock(rtg, XFS_RTGLOCK_RMAP);
-   573			if (error) {
-   574				xfs_group_put(xg);
-   575				break;
-   576			}
-   577		}
-   578	
-   579		xfs_trans_cancel(tp);
-   580		return 0;
-   581	}
-   582	
+    59	
+    60	static int cxl_prm_translate_hpa_range(struct cxl_root *cxl_root, void *data)
+    61	{
+    62		struct cxl_region_context *ctx = data;
+  > 63		struct cxl_endpoint_decoder *cxled = ctx->cxled;
+    64		struct cxl_decoder *cxld = &cxled->cxld;
+    65		struct cxl_memdev *cxlmd = ctx->cxlmd;
+    66		struct range hpa_range = ctx->hpa_range;
+    67		struct pci_dev *pci_dev;
+    68		u64 spa_len, len = range_len(&hpa_range);
+    69		u64 addr, base_spa, base = hpa_range.start;
+    70		int ways, gran;
+    71	
+    72		/*
+    73		 * When Normalized Addressing is enabled, the endpoint
+    74		 * maintains a 1:1 mapping between HPA and DPA. If disabled,
+    75		 * skip address translation and perform only a range check.
+    76		 */
+    77		if (hpa_range.start != cxled->dpa_res->start)
+    78			return 0;
+    79	
+    80		if (!IS_ALIGNED(hpa_range.start, SZ_256M) ||
+    81		    !IS_ALIGNED(hpa_range.end + 1, SZ_256M)) {
+    82			dev_dbg(cxld->dev.parent,
+    83				"CXL address translation: Unaligned decoder HPA range: %#llx-%#llx(%s)\n",
+    84				hpa_range.start, hpa_range.end, dev_name(&cxld->dev));
+    85			return -ENXIO;
+    86		}
+    87	
+    88		/*
+    89		 * Endpoints are programmed passthrough in Normalized
+    90		 * Addressing mode.
+    91		 */
+    92		if (ctx->interleave_ways != 1) {
+    93			dev_dbg(&cxld->dev, "unexpected interleaving config: ways: %d granularity: %d\n",
+    94				ctx->interleave_ways, ctx->interleave_granularity);
+    95			return -ENXIO;
+    96		}
+    97	
+    98		if (!cxlmd || !dev_is_pci(cxlmd->dev.parent)) {
+    99			dev_dbg(&cxld->dev, "No endpoint found: %s, range %#llx-%#llx\n",
+   100				dev_name(cxld->dev.parent), hpa_range.start,
+   101				hpa_range.end);
+   102			return -ENXIO;
+   103		}
+   104	
+   105		pci_dev = to_pci_dev(cxlmd->dev.parent);
+   106	
+   107		/* Translate HPA range to SPA. */
+   108		hpa_range.start = base_spa = prm_cxl_dpa_spa(pci_dev, hpa_range.start);
+   109		hpa_range.end = prm_cxl_dpa_spa(pci_dev, hpa_range.end);
+   110	
+   111		if (hpa_range.start == ULLONG_MAX || hpa_range.end == ULLONG_MAX) {
+   112			dev_dbg(cxld->dev.parent,
+   113				"CXL address translation: Failed to translate HPA range: %#llx-%#llx:%#llx-%#llx(%s)\n",
+   114				hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+   115				ctx->hpa_range.end, dev_name(&cxld->dev));
+   116			return -ENXIO;
+   117		}
+   118	
+   119		/*
+   120		 * Since translated addresses include the interleaving
+   121		 * offsets, align the range to 256 MB.
+   122		 */
+   123		hpa_range.start = ALIGN_DOWN(hpa_range.start, SZ_256M);
+   124		hpa_range.end = ALIGN(hpa_range.end, SZ_256M) - 1;
+   125	
+   126		spa_len = range_len(&hpa_range);
+   127		if (!len || !spa_len || spa_len % len) {
+   128			dev_dbg(cxld->dev.parent,
+   129				"CXL address translation: HPA range not contiguous: %#llx-%#llx:%#llx-%#llx(%s)\n",
+   130				hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+   131				ctx->hpa_range.end, dev_name(&cxld->dev));
+   132			return -ENXIO;
+   133		}
+   134	
+   135		ways = spa_len / len;
+   136		gran = SZ_256;
+   137	
+   138		/*
+   139		 * Determine interleave granularity
+   140		 *
+   141		 * Note: The position of the chunk from one interleaving block
+   142		 * to the next may vary and thus cannot be considered
+   143		 * constant. Address offsets larger than the interleaving
+   144		 * block size cannot be used to calculate the granularity.
+   145		 */
+   146		while (ways > 1 && gran <= SZ_16M) {
+   147			addr = prm_cxl_dpa_spa(pci_dev, base + gran);
+   148			if (addr != base_spa + gran)
+   149				break;
+   150			gran <<= 1;
+   151		}
+   152	
+   153		if (gran > SZ_16M) {
+   154			dev_dbg(cxld->dev.parent,
+   155				"CXL address translation: Cannot determine granularity: %#llx-%#llx:%#llx-%#llx(%s)\n",
+   156				hpa_range.start, hpa_range.end, ctx->hpa_range.start,
+   157				ctx->hpa_range.end, dev_name(&cxld->dev));
+   158			return -ENXIO;
+   159		}
+   160	
+   161		ctx->hpa_range = hpa_range;
+   162		ctx->interleave_ways = ways;
+   163		ctx->interleave_granularity = gran;
+   164	
+   165		dev_dbg(&cxld->dev,
+   166			"address mapping found for %s (hpa -> spa): %#llx+%#llx -> %#llx+%#llx ways:%d granularity:%d\n",
+   167			dev_name(ctx->cxlmd->dev.parent), base, len, hpa_range.start,
+   168			spa_len, ways, gran);
+   169	
+   170		return 0;
+   171	}
+   172	
 
 -- 
 0-DAY CI Kernel Test Service
