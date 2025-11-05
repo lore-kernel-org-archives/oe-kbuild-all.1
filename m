@@ -1,84 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6334126ED51
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 20:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FEA2DFA5A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 20:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762373060; cv=none; b=oK1MMG05s/sY11l5oLKXJ5wWOC/xT+K+T7S25fk26BvEA/Fu89OMFXfk0o8++UMQ1ifzz+n8CaivajOCkXkvZm8Pwo8nt16eV8J/8qlVQ5GWFqY0cfRYa6afzIO996C3hlndx7hxWQ5Z7k0d4FG55dps4g7uljc7KSkltEQFC9k=
+	t=1762375059; cv=none; b=Avd/PuSuKp/fZklc2pViRhoayb7PJn4D2TTkt7uNcuKWJC3zxxo2MRAlg7LbSSVzzgnDB87xsLmTdvn/UtFz6loP/iSWaE6Z7C+xd3+7S0KqDWfb3ociijW7BjoNt/07koLBp2jGoQy9MoJV88W1WHPdzQJOy8LopScH6OKy9qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762373060; c=relaxed/simple;
-	bh=oKgZztT8f3W6MWiN/zazhdSsNokeNyr7xswfaFkLjjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V0MpVWeZSwz3VOo0nYv6tTdkDRi008xpj8QBMwAt0LDjVnw/jt8ec58eMAxl8Zan/vNMkhzbWhql0NUmb9oEf8+ypK/QLX2fU4YQHvNaCpNF8VW9ebLFjmHLmTQZd7zF5IhAMrbgR9zrfZiqlGGGrzF2x5ZW6H3/n5m6BgLxTbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYi0nQAF; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762375059; c=relaxed/simple;
+	bh=ExXlSlFznARu5X2fbablrgQn7X+UWQDKcmncyHJ6Wow=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hvlrSmdqAAUnt2Qk5Cj42iLETd12Vuq5eYscjIVv42Xoi4UEvK4vzRv7KSEiQzqOKgFG4GaGOnTmeK5mv44nYPx6/Jw0CGUGcrTt8XO+gjPd96s90oZeHW3OVBxf2mOk7/xw+RNvVYuBniIq7Iw7IWbn/h0tZR+U2a5XVqY+c2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=V4A1dI9t; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYi0nQAF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762373058; x=1793909058;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oKgZztT8f3W6MWiN/zazhdSsNokeNyr7xswfaFkLjjs=;
-  b=FYi0nQAFNvPsavSsv9gG8VZzU2BUJHjQcWG4r7LMnY+4hnof98AV1q/D
-   r6Xj2QCq0e9zWRdI9ztfyZ7b3x+tJui0uh2XIrIntOAl97ghd3+HaI3w9
-   PLRmc68U+IFIG7vGV3+UvEuxRS9ECTY1y5ijvMfQD+TFOH2i1EBY47pnE
-   6HOIlgZ4bGHilE7Waxxl8OLk20BYPJBxKv8+Uq73r1qg7Aol/BSQmAzaY
-   bkIhU6MmGvlr890RgFLilLCoGTMf/9VJusamERdSMd6vvq1f8v6lPUEn7
-   W8Fx8+Puvwh1xZZgw+4bCHbt40JXR8u0W/4YwVN8SHpq8OCjbcIPXJ3s3
-   Q==;
-X-CSE-ConnectionGUID: YVYtdLmwTnOp+M0UXETYgQ==
-X-CSE-MsgGUID: EiiGP0/RTg6jE4rUSyZ/3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="81902442"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="81902442"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:04:18 -0800
-X-CSE-ConnectionGUID: 0vst0Mm5SsybWmFpKP3FLg==
-X-CSE-MsgGUID: oULZbMQ2Rf6qukV7/6GwZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="188000202"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Nov 2025 12:04:17 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGjjq-000T40-2V;
-	Wed, 05 Nov 2025 20:04:14 +0000
-Date: Thu, 6 Nov 2025 04:02:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 183/183]
- drivers/cpufreq/cpufreq.o: warning: objtool: cpufreq_update_limits()+0xcf:
- unreachable instruction
-Message-ID: <202511060354.ug5T0aym-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="V4A1dI9t"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b4f323cf89bso51448066b.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Nov 2025 12:37:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1762375055; x=1762979855; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fZBgD4ZZSu93myN+BjJl3OLl+uAoi6JuCLuDCbBPyoM=;
+        b=V4A1dI9ty1f46HxCAA4kvSz+qO5V+MXnSWyTQ4I99NmnsYXPV6dp/tu75aLETX16pg
+         WWDay8EuW1WezpECru/JbNJgW94HVX1QTrj3FAakcb9JRP3G8ApkUf13Mc5EARuL3Ljp
+         GZyixaMIPo0IMwKN6+bBBGDKLT1iSseKsIaIIM8u9EMSb7wPJUTeXPso1OD8Gb09DJLN
+         8ICqHl3uWDNr4z6chIi8wwinz+WqeUJFhKnP3Vc04nSN/qHISIwjHb0DxZ/vcqjhhhfH
+         ORR9cMU3Hij3iq3t4XT9XnU18UixFWbr+Rq5coihXX6ZXDaka9+vT8xLGlqNvtC/RT6A
+         MODA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762375055; x=1762979855;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fZBgD4ZZSu93myN+BjJl3OLl+uAoi6JuCLuDCbBPyoM=;
+        b=GSb9FnwQ71HMaueZWDLswvm1LNBZUpBS+Tapz8L/fDZUQPL3+BZl8DtLdJgFMv48c+
+         H7rpcmisVqdEsMA5/ivnQCuvRrVpyFmwYf9EkeWWA6hB95NsziJ92aRLt5GXrwTbIVlH
+         rKooGNQOe1zr8rED14r0GrHZ43Tgph2U0/H3mKf61jYRfRd40XtImVuE3zfvvXXe9+lh
+         ZtNIW2KiEeqT/mFPocSB3KjmX/nrUTZpGrrayHBDMyZz4P5D9K6oqNvxBFGkEOyXvMGe
+         xVEx59b7GJBMXXSOkfzQuaOlXjCA1Wqib2xSLNwclly92Fvl/J6HUjlQ1uKjSFUnr28s
+         mYjw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZARO27pVHMjWl3O6HjMJ5rMB1mPa++bXR1V6KRrBSlnoWL8wCh23E4nQr8jhc9BKhCbGLH5d9FTrnKrFT@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKykR5Uwl6HZ2ZnDuDbi7ODBKJnVWIemhQN36Cs7khqzrjhfQ3
+	E33XgISSfo224CHFhQwSDukW7Jn3mRxZtTiF7DlkbSJvdyqmIvaGvXJRqC50SoNAO4qXSoClfpk
+	EU68UrSI=
+X-Gm-Gg: ASbGncs54ItcsiDkwNYFlP+vbrS+UNAsa7amiJCvA5jo2As2HNZ5lFN/itvRZR9qyJK
+	A6cjDgLOyC6q4CzQl9vrJosn+I2wQnsU/E3jWhlpFnKcliqllkLJ+FqdM6j/NqeAzAjih44EarQ
+	0YaNA6NI0kXj5wdD0k5/Dyd62aldCKcVy3b/upd3RnjGIUKyBFi0e5edOFxiJZoL6b5hTSYCK7x
+	cdZRKD/LP+s/yTx5HbYM6DV2w7iUsJ6EbIDhdixwV9e417sG9dIYoegJ0cnihYsBaJ3kLoh5ng5
+	SV5bRR1I1wbayE/mgUXvdG3Ev7hi9xW97USBL//T6pQcMbbfpnr/CDEVzpq0VZp8RO8LPGJQc0s
+	WYbB0B/Dpd0Lxyyp8hcXeinn1aPXFotYxInqoF0NAi4OszZ+oFXLa23tMMs4Y1JYSzD+AutQbHf
+	z60FoTkc6Bxp0Q8XlnA8E5lWYtSDf9
+X-Google-Smtp-Source: AGHT+IFfdmWSnz5BkQbh1GAHKyAOhd0B6BV6Ki9184eLMI1VAk0j/xIAzIkMv7uX0J8j+BaIkSdhrw==
+X-Received: by 2002:a17:906:4783:b0:b6d:7f24:8428 with SMTP id a640c23a62f3a-b726567f639mr541521766b.54.1762375054742;
+        Wed, 05 Nov 2025 12:37:34 -0800 (PST)
+Received: from ?IPV6:2403:580d:fda1::e9d? (2403-580d-fda1--e9d.ip6.aussiebb.net. [2403:580d:fda1::e9d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-296509683easm4325085ad.15.2025.11.05.12.37.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Nov 2025 12:37:34 -0800 (PST)
+Message-ID: <c4b56f0b-a535-4ed8-917a-b3d8b6cfd4ab@suse.com>
+Date: Thu, 6 Nov 2025 07:07:29 +1030
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5952/6507] fs/btrfs/bio.c:740
+ btrfs_submit_chunk() warn: variable dereferenced before check 'inode' (see
+ line 665)
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ David Sterba <dsterba@suse.com>
+References: <f75f6edb-d9dc-49f2-a626-af74ef39ded5@suswa.mountain>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXVgBQkQ/lqxAAoJEMI9kfOh
+ Jf6o+jIH/2KhFmyOw4XWAYbnnijuYqb/obGae8HhcJO2KIGcxbsinK+KQFTSZnkFxnbsQ+VY
+ fvtWBHGt8WfHcNmfjdejmy9si2jyy8smQV2jiB60a8iqQXGmsrkuR+AM2V360oEbMF3gVvim
+ 2VSX2IiW9KERuhifjseNV1HLk0SHw5NnXiWh1THTqtvFFY+CwnLN2GqiMaSLF6gATW05/sEd
+ V17MdI1z4+WSk7D57FlLjp50F3ow2WJtXwG8yG8d6S40dytZpH9iFuk12Sbg7lrtQxPPOIEU
+ rpmZLfCNJJoZj603613w/M8EiZw6MohzikTWcFc55RLYJPBWQ+9puZtx1DopW2jOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJnEXWBBQkQ/lrSAAoJEMI9kfOhJf6o
+ cakH+QHwDszsoYvmrNq36MFGgvAHRjdlrHRBa4A1V1kzd4kOUokongcrOOgHY9yfglcvZqlJ
+ qfa4l+1oxs1BvCi29psteQTtw+memmcGruKi+YHD7793zNCMtAtYidDmQ2pWaLfqSaryjlzR
+ /3tBWMyvIeWZKURnZbBzWRREB7iWxEbZ014B3gICqZPDRwwitHpH8Om3eZr7ygZck6bBa4MU
+ o1XgbZcspyCGqu1xF/bMAY2iCDcq6ULKQceuKkbeQ8qxvt9hVxJC2W3lHq8dlK1pkHPDg9wO
+ JoAXek8MF37R8gpLoGWl41FIUb3hFiu3zhDDvslYM4BmzI18QgQTQnotJH8=
+In-Reply-To: <f75f6edb-d9dc-49f2-a626-af74ef39ded5@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   b632be2a7073355baca5794f6c9a31d4b104ba8b
-commit: e8c628ec2f611229175752b43446bac9817f3311 [183/183] cpufreq: Reference count policy in cpufreq_update_limits()
-config: x86_64-buildonly-randconfig-005-20251106 (https://download.01.org/0day-ci/archive/20251106/202511060354.ug5T0aym-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060354.ug5T0aym-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060354.ug5T0aym-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+在 2025/11/6 03:10, Dan Carpenter 写道:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   84d39fb9d529f27d2f3d295430d1be0abdae7a6d
+> commit: b61fb56b832da658b61f93b6fe0daa5663baef81 [5952/6507] btrfs: remove btrfs_bio::fs_info by extracting it from btrfs_bio::inode
+> config: um-randconfig-r073-20251105 (https://download.01.org/0day-ci/archive/20251105/202511052053.zZZ5GjNx-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202511052053.zZZ5GjNx-lkp@intel.com/
+> 
+> smatch warnings:
+> fs/btrfs/bio.c:740 btrfs_submit_chunk() warn: variable dereferenced before check 'inode' (see line 665)
 
->> drivers/cpufreq/cpufreq.o: warning: objtool: cpufreq_update_limits()+0xcf: unreachable instruction
+Thanks for the report.
+Although this one is a false alert, I'll update the patches to remove 
+this alert.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> vim +/inode +740 fs/btrfs/bio.c
+> 
+> ae42a154ca8972 Christoph Hellwig  2023-03-07  662  static bool btrfs_submit_chunk(struct btrfs_bio *bbio, int mirror_num)
+> 103c19723c80bf Christoph Hellwig  2022-11-15  663  {
+> d5e4377d505189 Christoph Hellwig  2023-01-21  664  	struct btrfs_inode *inode = bbio->inode;
+> b61fb56b832da6 Qu Wenruo          2025-10-29 @665  	struct btrfs_fs_info *fs_info = inode->root->fs_info;
+> ae42a154ca8972 Christoph Hellwig  2023-03-07  666  	struct bio *bio = &bbio->bio;
+> adbe7e388e4239 Anand Jain         2023-04-15  667  	u64 logical = bio->bi_iter.bi_sector << SECTOR_SHIFT;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  668  	u64 length = bio->bi_iter.bi_size;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  669  	u64 map_length = length;
+> 921603c76246a7 Christoph Hellwig  2022-12-12  670  	bool use_append = btrfs_use_zone_append(bbio);
+> 103c19723c80bf Christoph Hellwig  2022-11-15  671  	struct btrfs_io_context *bioc = NULL;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  672  	struct btrfs_io_stripe smap;
+> beaa7cdb6a1fef David Sterba       2025-04-23  673  	blk_status_t status;
+> 9c0b0807ece11e David Sterba       2025-04-23  674  	int ret;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  675
+> b61fb56b832da6 Qu Wenruo          2025-10-29  676  	if (bbio->is_scrub || btrfs_is_data_reloc_root(inode->root))
+> 
+> Unchecked dereference
+> 
+> f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  677  		smap.rst_search_commit_root = true;
+> f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  678  	else
+> f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  679  		smap.rst_search_commit_root = false;
+> 9acaa64187f9b4 Johannes Thumshirn 2023-09-14  680
+> 103c19723c80bf Christoph Hellwig  2022-11-15  681  	btrfs_bio_counter_inc_blocked(fs_info);
+> 9c0b0807ece11e David Sterba       2025-04-23  682  	ret = btrfs_map_block(fs_info, btrfs_op(bio), logical, &map_length,
+> 9fb2acc2fe07f1 Qu Wenruo          2023-09-17  683  			      &bioc, &smap, &mirror_num);
+> 9c0b0807ece11e David Sterba       2025-04-23  684  	if (ret) {
+> 9c0b0807ece11e David Sterba       2025-04-23  685  		status = errno_to_blk_status(ret);
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  686  		btrfs_bio_counter_dec(fs_info);
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  687  		goto end_bbio;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  688  	}
+> 103c19723c80bf Christoph Hellwig  2022-11-15  689
+> 852eee62d31abd Christoph Hellwig  2023-01-21  690  	map_length = min(map_length, length);
+> d5e4377d505189 Christoph Hellwig  2023-01-21  691  	if (use_append)
+> b35243a447b9fe Christoph Hellwig  2024-08-26  692  		map_length = btrfs_append_map_length(bbio, map_length);
+> d5e4377d505189 Christoph Hellwig  2023-01-21  693
+> 103c19723c80bf Christoph Hellwig  2022-11-15  694  	if (map_length < length) {
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  695  		struct btrfs_bio *split;
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  696
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  697  		split = btrfs_split_bio(fs_info, bbio, map_length);
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  698  		if (IS_ERR(split)) {
+> beaa7cdb6a1fef David Sterba       2025-04-23  699  			status = errno_to_blk_status(PTR_ERR(split));
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  700  			btrfs_bio_counter_dec(fs_info);
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  701  			goto end_bbio;
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  702  		}
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  703  		bbio = split;
+> 2cef0c79bb81d8 Christoph Hellwig  2023-03-07  704  		bio = &bbio->bio;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  705  	}
+> 103c19723c80bf Christoph Hellwig  2022-11-15  706
+> 1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  707  	/*
+> 1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  708  	 * Save the iter for the end_io handler and preload the checksums for
+> 1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  709  	 * data reads.
+> 1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  710  	 */
+> fbe960877b6f43 Christoph Hellwig  2023-05-31  711  	if (bio_op(bio) == REQ_OP_READ && is_data_bbio(bbio)) {
+> 0d3acb25e70d5f Christoph Hellwig  2023-01-21  712  		bbio->saved_iter = bio->bi_iter;
+> 9c0b0807ece11e David Sterba       2025-04-23  713  		ret = btrfs_lookup_bio_sums(bbio);
+> 9c0b0807ece11e David Sterba       2025-04-23  714  		status = errno_to_blk_status(ret);
+> beaa7cdb6a1fef David Sterba       2025-04-23  715  		if (status)
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  716  			goto fail;
+> 1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  717  	}
+> 7276aa7d38255b Christoph Hellwig  2023-01-21  718
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  719  	if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
+> d5e4377d505189 Christoph Hellwig  2023-01-21  720  		if (use_append) {
+> d5e4377d505189 Christoph Hellwig  2023-01-21  721  			bio->bi_opf &= ~REQ_OP_WRITE;
+> d5e4377d505189 Christoph Hellwig  2023-01-21  722  			bio->bi_opf |= REQ_OP_ZONE_APPEND;
+> 69ccf3f4244abc Christoph Hellwig  2023-01-21  723  		}
+> 69ccf3f4244abc Christoph Hellwig  2023-01-21  724
+> 9c48bcec47c8dd Johannes Thumshirn 2024-12-16  725  		if (is_data_bbio(bbio) && bioc && bioc->use_rst) {
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  726  			/*
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  727  			 * No locking for the list update, as we only add to
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  728  			 * the list in the I/O submission path, and list
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  729  			 * iteration only happens in the completion path, which
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  730  			 * can't happen until after the last submission.
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  731  			 */
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  732  			btrfs_get_bioc(bioc);
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  733  			list_add_tail(&bioc->rst_ordered_entry, &bbio->ordered->bioc_list);
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  734  		}
+> 02c372e1f016e5 Johannes Thumshirn 2023-09-14  735
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  736  		/*
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  737  		 * Csum items for reloc roots have already been cloned at this
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  738  		 * point, so they are handled as part of the no-checksum case.
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  739  		 */
+> 4317ff0056bedf Qu Wenruo          2023-03-23 @740  		if (inode && !(inode->flags & BTRFS_INODE_NODATASUM) &&
+>                                                                      ^^^^^
+> Checked too late
+
+Now @inode will always be set, thus this old check is no longer needed.
+
+Thanks,
+Qu
+
+> 
+> 169aaaf2e0be61 Qu Wenruo          2024-06-14  741  		    !test_bit(BTRFS_FS_STATE_NO_DATA_CSUMS, &fs_info->fs_state) &&
+> d5e4377d505189 Christoph Hellwig  2023-01-21  742  		    !btrfs_is_data_reloc_root(inode->root)) {
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  743  			if (should_async_write(bbio) &&
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  744  			    btrfs_wq_submit_bio(bbio, bioc, &smap, mirror_num))
+> 852eee62d31abd Christoph Hellwig  2023-01-21  745  				goto done;
+> 103c19723c80bf Christoph Hellwig  2022-11-15  746
+> 9c0b0807ece11e David Sterba       2025-04-23  747  			ret = btrfs_bio_csum(bbio);
+> 9c0b0807ece11e David Sterba       2025-04-23  748  			status = errno_to_blk_status(ret);
+> beaa7cdb6a1fef David Sterba       2025-04-23  749  			if (status)
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  750  				goto fail;
+> cebae292e0c32a Johannes Thumshirn 2024-06-07  751  		} else if (use_append ||
+> cebae292e0c32a Johannes Thumshirn 2024-06-07  752  			   (btrfs_is_zoned(fs_info) && inode &&
+> cebae292e0c32a Johannes Thumshirn 2024-06-07  753  			    inode->flags & BTRFS_INODE_NODATASUM)) {
+> 853b5727c93dae David Sterba       2025-04-23  754  			ret = btrfs_alloc_dummy_sum(bbio);
+> 853b5727c93dae David Sterba       2025-04-23  755  			status = errno_to_blk_status(ret);
+> beaa7cdb6a1fef David Sterba       2025-04-23  756  			if (status)
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  757  				goto fail;
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  758  		}
+> 103c19723c80bf Christoph Hellwig  2022-11-15  759  	}
+> f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  760
+> 22b4ef50dc1d11 David Sterba       2024-08-27  761  	btrfs_submit_bio(bio, bioc, &smap, mirror_num);
+> 852eee62d31abd Christoph Hellwig  2023-01-21  762  done:
+> 852eee62d31abd Christoph Hellwig  2023-01-21  763  	return map_length == length;
+> 9ba0004bd95e05 Christoph Hellwig  2023-01-21  764
+> 9ba0004bd95e05 Christoph Hellwig  2023-01-21  765  fail:
+> 9ba0004bd95e05 Christoph Hellwig  2023-01-21  766  	btrfs_bio_counter_dec(fs_info);
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  767  	/*
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  768  	 * We have split the original bbio, now we have to end both the current
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  769  	 * @bbio and remaining one, as the remaining one will never be submitted.
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  770  	 */
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  771  	if (map_length < length) {
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  772  		struct btrfs_bio *remaining = bbio->private;
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  773
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  774  		ASSERT(bbio->bio.bi_pool == &btrfs_clone_bioset);
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  775  		ASSERT(remaining);
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  776
+> beaa7cdb6a1fef David Sterba       2025-04-23  777  		btrfs_bio_end_io(remaining, status);
+> 10d9d8c3512f16 Qu Wenruo          2024-08-17  778  	}
+> c7c97ceff98cc4 Johannes Thumshirn 2024-12-02  779  end_bbio:
+> beaa7cdb6a1fef David Sterba       2025-04-23  780  	btrfs_bio_end_io(bbio, status);
+> 852eee62d31abd Christoph Hellwig  2023-01-21  781  	/* Do not submit another chunk */
+> 852eee62d31abd Christoph Hellwig  2023-01-21  782  	return true;
+> 852eee62d31abd Christoph Hellwig  2023-01-21  783  }
+> 
+
