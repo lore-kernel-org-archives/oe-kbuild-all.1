@@ -1,84 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B214C1E4AB;
-	Wed,  5 Nov 2025 21:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09C51FA272
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 23:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762379267; cv=none; b=UKsfR06bH2NPktOSycPLzgwtMkQS/xwpC0ojEy1wnKixJezhHKXji6wnmTfdxvDYbjo5TpqOp/SVylz6JsYmcT6Z0Ml+UTVk4W8Wb27PIiM51LzdUE9J7xCsdo+XW2DLoxneEYeog4DtCGHmDI3/JpzNegtAGvzNSaTGfjPkS0I=
+	t=1762386619; cv=none; b=O5KqdcJbcvkpI0CnqL6A/Vn5VrANGQy5KBx3IQ7MYoyUvi6J36eDbvMrOx/VdNCnPbzWqrqZIw94W/YjB8dBhynu+uWCn+vDnDX4s67h7oNf9HQxDQ1mqP2aHPfbmUboFjXWYCHSqLvuOfj7v8ekyWFH3d0J/NmI7BemlA8LJ3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762379267; c=relaxed/simple;
-	bh=5xzsc/7T1gL0sCj7nOJv8DaIl+OnW9UaT5raFEotIik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lWRnCvrvwAKrZC+z4IU5T4B/OtgqlRQHTJaiNev0JWLXfp11PXWhxUMASNtPbGcI9J8YMoQYKmLKEq5q3B0IKLSH+P/E44iQYbRa+Y7Pjp52eHtUmybkchXvWdloWNLRlwheKHTFX9iILTqbxub1GhT9zShlIXRvgN9aX20iXCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhcXv6+U; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1762386619; c=relaxed/simple;
+	bh=lLXdAU+na/neF/4x+JN5DyGU6jsBuldvi6xxJtrzThk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MHx8Db2juu+FzigAuBckAZIqIPosD4AHpAuPKCSpyDVHQH6Ja52/8lNfg+uB0ntPg6PWxcwXRUwooX4UfgPOgAO8rT0zSiO0yu6OLWoZqc0qCl0U23QBiaFngsF4MrV7/h3+hrNHM/Fl0nzuQPX6YM0rykUxkreztU8QuDOw74E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V3sMsAmM; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhcXv6+U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V3sMsAmM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762379266; x=1793915266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5xzsc/7T1gL0sCj7nOJv8DaIl+OnW9UaT5raFEotIik=;
-  b=JhcXv6+UssnO/P8ehWbJ3Xmof2zpuyaxXJOHMs2NVRWjT2ocCtKAErp+
-   8Lk5rx6GnPSFhLu5sFhOoRC27fZcvkOi3R7y94vJEsnhAhd/PjhkRjl+x
-   dWDc7CV0LCIED+ENdBb96mvUbm4hb+BGb6nFkFIeb+VHKXIt3UMWOrrsb
-   XfPUIli5FJlWejvsREptMCYNg/V7FrGDcABjHahG1CYMDqu1IOTpAqnDm
-   Qi3rRwFT8rmE2ViYTlv1X4jyab33LsZjegj0e8iex4jfjNBViUfqHCFPP
-   +WXwifhZp2ajnJAS8qi47ycRGUqpeL/Inubr2Wd4bHI/W8YkqsJSDBIvE
-   g==;
-X-CSE-ConnectionGUID: ExS3BBDuRPqa67KN6mn7RQ==
-X-CSE-MsgGUID: 712FJ9ioQWyG431J/GqFCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64605790"
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="64605790"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 13:47:45 -0800
-X-CSE-ConnectionGUID: 7giLDUKZQjShi4WYLTI2Tw==
-X-CSE-MsgGUID: lJP7Z8i6Qzydv1uaesmqjw==
+  t=1762386618; x=1793922618;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lLXdAU+na/neF/4x+JN5DyGU6jsBuldvi6xxJtrzThk=;
+  b=V3sMsAmMsBMihE/IjzQkfzXfapgbokTkCeU/E0LMZEvcQ/yLEI09WHe+
+   RipJz5Z2SWbrPziHtAHuUTv2qqZImwv/bRjvEv2CeGRzPq1jD5q25at6G
+   sMF/ORDCB2RDYeJbDkuuZCD5dQQ6kkVMt2EK4NyuxxCDhdA5v5wuc3rVK
+   Pv4mmWNCm7P6qO5wZ6T0XuSCsUmovZunUrm6XdH90WjEVHEVS1Wt7zGLM
+   DKTWviwIJgPmikUscRXRMfiQtX7djdOu17Uxv1GA/PrqtW2iASTQoTIu8
+   yeTGjaJrBtkfcmanSW6Dq39gMsXrjjfZD8f/9aabaqzBXd2t74EL3ZZBQ
+   w==;
+X-CSE-ConnectionGUID: XrxslLQTRaiLQ6Q3EwdPTw==
+X-CSE-MsgGUID: 2x9dVfV8QX27J0Ibl7lzqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="52084129"
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="52084129"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 15:50:16 -0800
+X-CSE-ConnectionGUID: /KDwu5oHQTqtzMp7vZMz5w==
+X-CSE-MsgGUID: z28gBDOKT7KRj/w2OIaBFw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="191859112"
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="191953682"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2025 13:47:38 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2025 15:50:15 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGlLX-000TA8-1m;
-	Wed, 05 Nov 2025 21:47:20 +0000
-Date: Thu, 6 Nov 2025 05:47:03 +0800
+	id 1vGnGW-000TFw-0m;
+	Wed, 05 Nov 2025 23:50:12 +0000
+Date: Thu, 6 Nov 2025 07:49:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Courbot <acourbot@nvidia.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>
-Subject: Re: [PATCH v2 1/3] firmware_loader: make RUST_FW_LOADER_ABSTRACTIONS
- select FW_LOADER
-Message-ID: <202511060527.knZk5HZP-lkp@intel.com>
-References: <20251105-b4-select-rust-fw-v2-1-156d9014ed3b@nvidia.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1932/1932] drivers/char/svm.c:366:43:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202511060739.4h8XJsMM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,98 +61,209 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251105-b4-select-rust-fw-v2-1-156d9014ed3b@nvidia.com>
 
-Hi Alexandre,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6553a8f168fb7941ae73d39eccac64f3a2b9b399]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Courbot/firmware_loader-make-RUST_FW_LOADER_ABSTRACTIONS-select-FW_LOADER/20251105-160437
-base:   6553a8f168fb7941ae73d39eccac64f3a2b9b399
-patch link:    https://lore.kernel.org/r/20251105-b4-select-rust-fw-v2-1-156d9014ed3b%40nvidia.com
-patch subject: [PATCH v2 1/3] firmware_loader: make RUST_FW_LOADER_ABSTRACTIONS select FW_LOADER
-config: x86_64-kexec (attached as .config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060527.knZk5HZP-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   27e321784c005c852ca4b3a2d146547deac0698f
+commit: 51d0e1a742714b2599d54fd92a71bd2998b01084 [1932/1932] support multiple node for getting phys interface
+config: arm64-randconfig-r132-20251106 (https://download.01.org/0day-ci/archive/20251106/202511060739.4h8XJsMM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060739.4h8XJsMM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060527.knZk5HZP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060739.4h8XJsMM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/char/svm.c:248:20: sparse: sparse: symbol 'svm_find_mem_reg_node' was not declared. Should it be static?
+   drivers/char/svm.c:325:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct svm_va2pa_slot *slot @@     got void [noderef] <asn:2> * @@
+   drivers/char/svm.c:325:14: sparse:     expected struct svm_va2pa_slot *slot
+   drivers/char/svm.c:325:14: sparse:     got void [noderef] <asn:2> *
+>> drivers/char/svm.c:366:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got struct svm_va2pa_slot *slots @@
+   drivers/char/svm.c:366:43: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/char/svm.c:366:43: sparse:     got struct svm_va2pa_slot *slots
+   drivers/char/svm.c:449:6: sparse: sparse: symbol 'sysrq_sched_debug_show_export' was not declared. Should it be static?
+   drivers/char/svm.c:1272:35: sparse: sparse: Using plain integer as NULL pointer
+   drivers/char/svm.c:248:21: warning: no previous prototype for 'svm_find_mem_reg_node' [-Wmissing-prototypes]
+     248 | struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:449:6: warning: no previous prototype for 'sysrq_sched_debug_show_export' [-Wmissing-prototypes]
+     449 | void sysrq_sched_debug_show_export(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:1476:5: warning: no previous prototype for 'svm_get_pasid' [-Wmissing-prototypes]
+    1476 | int svm_get_pasid(pid_t vpid, int dev_id __maybe_unused)
+         |     ^~~~~~~~~~~~~
+   drivers/char/svm.c:2269:36: warning: 'svm_acpi_match' defined but not used [-Wunused-const-variable=]
+    2269 | static const struct acpi_device_id svm_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:34,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from arch/arm64/include/asm/memory.h:27,
+                    from arch/arm64/include/asm/esr.h:21,
+                    from drivers/char/svm.c:10:
+   drivers/char/svm.c: In function 'svm_proc_load_flag':
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds]
+     492 |         asm volatile(                                                   37-      |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c:1796:25: note: while referencing 'l2buf_load_flag'
+    1796 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:34,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from arch/arm64/include/asm/memory.h:27,
+                    from arch/arm64/include/asm/esr.h:21,
+                    from drivers/char/svm.c:10:
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds]
+     492 |         asm volatile(                                                   57-      |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c:1796:25: note: while referencing 'l2buf_load_flag'
+    1796 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
 
->> drivers/base/firmware_loader/Kconfig:41: syntax error
-   drivers/base/firmware_loader/Kconfig:41: invalid statement
-   drivers/base/firmware_loader/Kconfig:42: invalid statement
-   drivers/base/firmware_loader/Kconfig:43:warning: ignoring unsupported character '.'
-   drivers/base/firmware_loader/Kconfig:43: unknown statement "This"
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
-   make[2]: *** [Makefile:742: oldconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/base/firmware_loader/Kconfig:41: syntax error
-   drivers/base/firmware_loader/Kconfig:41: invalid statement
-   drivers/base/firmware_loader/Kconfig:42: invalid statement
-   drivers/base/firmware_loader/Kconfig:43:warning: ignoring unsupported character '.'
-   drivers/base/firmware_loader/Kconfig:43: unknown statement "This"
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
-   make[2]: *** [Makefile:742: olddefconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
+vim +366 drivers/char/svm.c
 
-
-vim +41 drivers/base/firmware_loader/Kconfig
-
-     3	
-     4	config FW_LOADER
-     5		tristate "Firmware loading facility" if EXPERT
-     6		select CRYPTO_LIB_SHA256 if FW_LOADER_DEBUG
-     7		default y
-     8		help
-     9		  This enables the firmware loading facility in the kernel. The kernel
-    10		  will first look for built-in firmware, if it has any. Next, it will
-    11		  look for the requested firmware in a series of filesystem paths:
-    12	
-    13			o firmware_class path module parameter or kernel boot param
-    14			o /lib/firmware/updates/UTS_RELEASE
-    15			o /lib/firmware/updates
-    16			o /lib/firmware/UTS_RELEASE
-    17			o /lib/firmware
-    18	
-    19		  Enabling this feature only increases your kernel image by about
-    20		  828 bytes, enable this option unless you are certain you don't
-    21		  need firmware.
-    22	
-    23		  You typically want this built-in (=y) but you can also enable this
-    24		  as a module, in which case the firmware_class module will be built.
-    25		  You also want to be sure to enable this built-in if you are going to
-    26		  enable built-in firmware (CONFIG_EXTRA_FIRMWARE).
-    27	
-    28	config FW_LOADER_DEBUG
-    29		bool "Log filenames and checksums for loaded firmware"
-    30		depends on DYNAMIC_DEBUG
-    31		depends on FW_LOADER
-    32		default FW_LOADER
-    33		help
-    34		  Select this option to use dynamic debug to log firmware filenames and
-    35		  SHA256 checksums to the kernel log for each firmware file that is
-    36		  loaded.
-    37	
-    38	config RUST_FW_LOADER_ABSTRACTIONS
-    39		bool "Rust Firmware Loader abstractions"
-    40		depends on RUST
-  > 41		select FW_LOADER=y
-    42		help
-    43		  This enables the Rust abstractions for the firmware loader API.
-    44	
+   247	
+ > 248	struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
+   249	{
+   250		int index = 0;
+   251		struct device_node *tmp = NULL;
+   252		struct device_node *np = dev->of_node;
+   253	
+   254		for (; ; index++) {
+   255			tmp = of_parse_phandle(np, "memory-region", index);
+   256			if (!tmp)
+   257				break;
+   258	
+   259			if (of_device_is_compatible(tmp, compat))
+   260				return tmp;
+   261	
+   262			of_node_put(tmp);
+   263		}
+   264	
+   265		return NULL;
+   266	}
+   267	
+   268	static int svm_parse_trunk_memory(struct device *dev)
+   269	{
+   270		int err, count;
+   271		struct resource r;
+   272		struct device_node *trunk = NULL;
+   273	
+   274		trunk = svm_find_mem_reg_node(dev, SVM_MEM_REG);
+   275		if (!trunk) {
+   276			dev_err(dev, "Didn't find reserved memory\n");
+   277			return -EINVAL;
+   278		}
+   279	
+   280		for (count = 0; count < SVM_VA2PA_TRUNK_COUNT_MAX; count++) {
+   281			err = of_address_to_resource(trunk, count, &r);
+   282			if (err)
+   283				break;
+   284	
+   285			va2pa_trunk[count].base = r.start;
+   286			va2pa_trunk[count].size = resource_size(&r);
+   287		}
+   288	
+   289		if (!count) {
+   290			dev_err(dev, "Couldn't address to resource for reserved memory\n");
+   291			return -ENODEV;
+   292		}
+   293	
+   294		return 0;
+   295	}
+   296	
+   297	static int __svm_setup_trunk(struct device *dev, struct svm_va2pa_trunk *trunk)
+   298	{
+   299		int slot_total;
+   300		unsigned long *bitmap = NULL;
+   301		struct svm_va2pa_slot *slot = NULL;
+   302		phys_addr_t base = trunk->base;
+   303		unsigned long size = trunk->size;
+   304	
+   305		if (!IS_ALIGNED(base, SVM_VA2PA_MEMORY_ALIGN)) {
+   306			dev_err(dev, "Didn't aligned to %u\n", SVM_VA2PA_MEMORY_ALIGN);
+   307			return -EINVAL;
+   308		}
+   309	
+   310		if ((size == 0) || (size > SVM_VA2PA_TRUNK_SIZE_MAX)) {
+   311			dev_err(dev, "Size of reserved memory is not right\n");
+   312			return -EINVAL;
+   313		}
+   314	
+   315		slot_total = size / SVM_VA2PA_SLOT_SIZE;
+   316		if (slot_total < BITS_PER_LONG)
+   317			return -EINVAL;
+   318	
+   319		bitmap = kvcalloc(slot_total / BITS_PER_LONG, sizeof(unsigned long), GFP_KERNEL);
+   320		if (!bitmap) {
+   321			dev_err(dev, "alloc memory failed\n");
+   322			return -ENOMEM;
+   323		}
+   324	
+   325		slot = ioremap(base, size);
+   326		if (!slot) {
+   327			kvfree(bitmap);
+   328			dev_err(dev, "Ioremap trunk failed\n");
+   329			return -ENXIO;
+   330		}
+   331	
+   332		trunk->slots = slot;
+   333		trunk->slot_used = 0;
+   334		trunk->slot_total = slot_total;
+   335		trunk->bitmap = bitmap;
+   336		mutex_init(&trunk->mutex);
+   337	
+   338		return 0;
+   339	}
+   340	
+   341	static int svm_setup_trunk(struct device *dev)
+   342	{
+   343		int err = 0;
+   344		int count;
+   345	
+   346		for (count = 0; count < SVM_VA2PA_TRUNK_COUNT_MAX; count++) {
+   347			if (!va2pa_trunk[count].base)
+   348				break;
+   349	
+   350			err = __svm_setup_trunk(dev, &va2pa_trunk[count]);
+   351			if (err)
+   352				break;
+   353		}
+   354	
+   355		return err;
+   356	}
+   357	
+   358	static void svm_remove_trunk(struct device *dev)
+   359	{
+   360		int count;
+   361	
+   362		for (count = 0; count < SVM_VA2PA_TRUNK_COUNT_MAX; count++) {
+   363			if (!va2pa_trunk[count].base)
+   364				break;
+   365	
+ > 366			iounmap(va2pa_trunk[count].slots);
+   367			kvfree(va2pa_trunk[count].bitmap);
+   368			va2pa_trunk[count].slots = NULL;
+   369			va2pa_trunk[count].bitmap = NULL;
+   370		}
+   371	}
+   372	
 
 -- 
 0-DAY CI Kernel Test Service
