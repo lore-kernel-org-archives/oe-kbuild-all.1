@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AAB34C812
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Nov 2025 23:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B44EACE;
+	Wed,  5 Nov 2025 01:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762300637; cv=none; b=mhgg+OeLw5/zCICHBJRllI5jbI/0M0s8OBL+deEQ5iUfSxmI/BjcnPSRG3n7HZm3Rs/5h+PqVNeO6ODWMwRP5mlFVQDk64e0Rs9cK1KKLr3Jw8VSvh4QqBvDzFuyp5drgQM0ThCykvVBL0tdPe2wICHo4VV9T9yWH3eiV8lrkPY=
+	t=1762304994; cv=none; b=UF40HCfRwO5Kww0Ljc03r+YgPBqotppDgnJ5DHgjroShlwbDdfAT0YaZKffKB211RDNG6UrvZvbI33BAl0bEmFTKfCjlSCNnBScrEuTVtdzAx/Rf0ZRjj7MQnQnu/RSAfwp2RszYeTKfsdEf4t/xIRORhA1MbaivriN8YWLbIKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762300637; c=relaxed/simple;
-	bh=9/QFc5PMLDmVCzE+P4fESez98GANYgAmXLH1CMUAFfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qaK2uSfuiZ76LbSXx9Eorv/Cy0t0tQpJXsasJZ7dxv3SxP8kr5EoAqXy4t4jZsbjyiCRIP99QQSmxcob9nZ3vHY5koRUx8xq5h8q+k+nfbhTJePdl4v8rr0yk2N1V97fCicHwIhvY4joKXe6qaNUqJ1Lx4qoKMcyPQwcu25aoTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpVES9fn; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1762304994; c=relaxed/simple;
+	bh=FFfDIqSM/9x7BMOCDpR60+XjPYyWl3N8kflVm4dcMck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=di7lZeeU1tsv4IGgyS6BVcaJaXKptuttGvLhdYE1IH6yIlnuDTMjIlgF5sisP5tNXZJjUefzjQjMlqZiCSQRNVVPy/7nSkhAPmIPDMnrCf1Fm3U4RveNfr+QuuvCLv6Q2zs4ir3Lj1+9XErux9WeeivctfGXYrUGV1kpmeq18lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXGPZ9mA; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpVES9fn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXGPZ9mA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762300635; x=1793836635;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9/QFc5PMLDmVCzE+P4fESez98GANYgAmXLH1CMUAFfE=;
-  b=QpVES9fnwceAOouuMYTw3wwqPvXybH9U7Q71Vl35GfZWS7KIN2EOfGPT
-   YS0L9UMXasIk6ltnyKApi5sSvAtx2t29ooubL58NqXBx4sKdRn8E/KXAX
-   Q7jcmQR6AfRcwD4i7g+SxTgbLmRcPdnUHN9Lfq5aOaO1bq/rFCAv42GAd
-   KaonOYYYAB9FuUChvyVxfd2jm68hWWnXBJT0ZRQk3c9OZUpmfJiODTyj+
-   dgdaDPTs571Gs/URX76VV1q8P/CdX2p0TtA+nem3RvkW1OWP9ENO1FaS9
-   kMIGKwpm68L87UU6/Bs13zMHcoPGAGyWPnX6AXzRX80UerZt4OlyOISqd
+  t=1762304993; x=1793840993;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FFfDIqSM/9x7BMOCDpR60+XjPYyWl3N8kflVm4dcMck=;
+  b=eXGPZ9mAD5NjFSMQTGwxpyaqrQtaJFaDcF5cThLxH6JnMaucwGYM9cbs
+   DkasoIKcFD2O3sjyNwRPFxr7rKqNHvRVguVijGROvwRpqYf0zFP8fzXjm
+   KGVYEp5iElrxD6Obax1fV4WMCDWC1A8eJurh6+kRm7oXeWkE3Aw3odHBl
+   8q2iFj7OUb91YsWUIKZJXnM1bVDCXJSpydj0T8o1s76u/C+GhZhfIcTkk
+   /ei292h+awNBrQzLMtzLINPWX70g2TE7vXvpqbndIhum17qWwaPB1Q2t7
+   boGkjR7HXqM9o9155gN+o2pZ+DktU/yIkX4/eFZBIUcUOmppI59YcBj2i
    A==;
-X-CSE-ConnectionGUID: EZD4iG8ORzuxamcalgbPvA==
-X-CSE-MsgGUID: EkuVSzL6RYCdhoy/VN3J+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="89870730"
+X-CSE-ConnectionGUID: TgFUtncWRoOjzlxZ4qz+ZA==
+X-CSE-MsgGUID: g4CylbTTSoC4NpyNzCfbrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64511450"
 X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="89870730"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 15:57:14 -0800
-X-CSE-ConnectionGUID: 5FfgXT3DRcKphLreo8XPVA==
-X-CSE-MsgGUID: p1bZiQHZTt+S7OY/bWKK4Q==
+   d="scan'208";a="64511450"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 17:09:51 -0800
+X-CSE-ConnectionGUID: u4x7LBY1TjafuokxlPvc3g==
+X-CSE-MsgGUID: T1qvwjEnQmadicmAvnWwqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="188022063"
+   d="scan'208";a="217956010"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Nov 2025 15:57:13 -0800
+  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2025 17:09:48 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGQte-000RxE-2V;
-	Tue, 04 Nov 2025 23:57:08 +0000
-Date: Wed, 5 Nov 2025 07:56:51 +0800
+	id 1vGS1x-000S0O-1D;
+	Wed, 05 Nov 2025 01:09:45 +0000
+Date: Wed, 5 Nov 2025 09:08:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3098/3098] kernel/bpf-rvi/common_kfuncs.c:127:26:
- warning: no previous prototype for 'bpf_nr_running'
-Message-ID: <202511050754.SzG0bccj-lkp@intel.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Val Packett <val@packett.cool>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Subject: Re: [PATCH v2] media: iris: Refine internal buffer reconfiguration
+ logic for resolution change
+Message-ID: <202511050842.FTUh6ym8-lkp@intel.com>
+References: <20251104-iris-seek-fix-v2-1-c9dace39b43d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,107 +72,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251104-iris-seek-fix-v2-1-c9dace39b43d@oss.qualcomm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   faa195bad3afed3c326917fb4cd36e0bd311220c
-commit: 34f90dce941b028e02a0336711907b220e3c5765 [3098/3098] bpf-rvi: Add cpu runqueue related kfuncs
-config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251105/202511050754.SzG0bccj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050754.SzG0bccj-lkp@intel.com/reproduce)
+Hi Dikshita,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 163917839c0eea3bdfe3620f27f617a55fd76302]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/media-iris-Refine-internal-buffer-reconfiguration-logic-for-resolution-change/20251104-131307
+base:   163917839c0eea3bdfe3620f27f617a55fd76302
+patch link:    https://lore.kernel.org/r/20251104-iris-seek-fix-v2-1-c9dace39b43d%40oss.qualcomm.com
+patch subject: [PATCH v2] media: iris: Refine internal buffer reconfiguration logic for resolution change
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251105/202511050842.FTUh6ym8-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050842.FTUh6ym8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511050754.SzG0bccj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511050842.FTUh6ym8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   kernel/bpf-rvi/common_kfuncs.c:25:32: warning: no previous prototype for 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
-      25 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:34:35: warning: no previous prototype for 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
-      34 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:39:17: warning: no previous prototype for 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
-      39 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
-         |                 ^~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:53:17: warning: no previous prototype for 'bpf_pidns_last_pid' [-Wmissing-prototypes]
-      53 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
-         |                 ^~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:82:18: warning: no previous prototype for 'bpf_si_memswinfo' [-Wmissing-prototypes]
-      82 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
-         |                  ^~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:92:27: warning: no previous prototype for 'bpf_page_counter_read' [-Wmissing-prototypes]
-      92 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:102:18: warning: no previous prototype for 'bpf_seq_file_append' [-Wmissing-prototypes]
-     102 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-         |                  ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:116:18: warning: no previous prototype for 'bpf_get_boottime_timens' [-Wmissing-prototypes]
-     116 | __bpf_kfunc void bpf_get_boottime_timens(struct task_struct *tsk, struct timespec64 *boottime)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf-rvi/common_kfuncs.c:122:27: warning: no previous prototype for 'bpf_get_total_forks' [-Wmissing-prototypes]
-     122 | __bpf_kfunc unsigned long bpf_get_total_forks(void)
-         |                           ^~~~~~~~~~~~~~~~~~~
->> kernel/bpf-rvi/common_kfuncs.c:127:26: warning: no previous prototype for 'bpf_nr_running' [-Wmissing-prototypes]
-     127 | __bpf_kfunc unsigned int bpf_nr_running(void)
-         |                          ^~~~~~~~~~~~~~
->> kernel/bpf-rvi/common_kfuncs.c:132:32: warning: no previous prototype for 'bpf_nr_context_switches' [-Wmissing-prototypes]
-     132 | __bpf_kfunc unsigned long long bpf_nr_context_switches(void)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/bpf-rvi/common_kfuncs.c:137:26: warning: no previous prototype for 'bpf_nr_iowait' [-Wmissing-prototypes]
-     137 | __bpf_kfunc unsigned int bpf_nr_iowait(void)
-         |                          ^~~~~~~~~~~~~
+>> drivers/media/platform/qcom/iris/iris_common.c:99:2: error: use of undeclared identifier 'first_ipsc'
+      99 |         first_ipsc = inst->sub_state & IRIS_INST_SUB_FIRST_IPSC;
+         |         ^
+>> drivers/media/platform/qcom/iris/iris_common.c:101:2: error: use of undeclared identifier 'drain_active'
+     101 |         drain_active = inst->sub_state & IRIS_INST_SUB_DRAIN &&
+         |         ^
+>> drivers/media/platform/qcom/iris/iris_common.c:104:2: error: use of undeclared identifier 'drc_active'
+     104 |         drc_active = inst->sub_state & IRIS_INST_SUB_DRC &&
+         |         ^
+   drivers/media/platform/qcom/iris/iris_common.c:107:6: error: use of undeclared identifier 'drc_active'
+     107 |         if (drc_active)
+         |             ^
+   drivers/media/platform/qcom/iris/iris_common.c:109:11: error: use of undeclared identifier 'drain_active'; did you mean 'swait_active'?
+     109 |         else if (drain_active)
+         |                  ^~~~~~~~~~~~
+         |                  swait_active
+   include/linux/swait.h:121:19: note: 'swait_active' declared here
+     121 | static inline int swait_active(struct swait_queue_head *wq)
+         |                   ^
+   drivers/media/platform/qcom/iris/iris_common.c:113:6: error: use of undeclared identifier 'first_ipsc'
+     113 |         if (first_ipsc || drc_active) {
+         |             ^
+   drivers/media/platform/qcom/iris/iris_common.c:113:20: error: use of undeclared identifier 'drc_active'
+     113 |         if (first_ipsc || drc_active) {
+         |                           ^
+   drivers/media/platform/qcom/iris/iris_common.c:127:8: error: use of undeclared identifier 'drain_active'; did you mean 'swait_active'?
+     127 |                 if (!drain_active)
+         |                      ^~~~~~~~~~~~
+         |                      swait_active
+   include/linux/swait.h:121:19: note: 'swait_active' declared here
+     121 | static inline int swait_active(struct swait_queue_head *wq)
+         |                   ^
+>> drivers/media/platform/qcom/iris/iris_common.c:127:8: warning: address of function 'swait_active' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     127 |                 if (!drain_active)
+         |                     ~^~~~~~~~~~~~
+   drivers/media/platform/qcom/iris/iris_common.c:127:8: note: prefix with the address-of operator to silence this warning
+     127 |                 if (!drain_active)
+         |                      ^
+         |                      &
+   1 warning and 8 errors generated.
 
 
-vim +/bpf_nr_running +127 kernel/bpf-rvi/common_kfuncs.c
+vim +/first_ipsc +99 drivers/media/platform/qcom/iris/iris_common.c
 
+    90	
+    91	int iris_process_streamon_output(struct iris_inst *inst)
+    92	{
+    93		const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
+    94		enum iris_inst_sub_state clear_sub_state = 0;
+    95		int ret = 0;
     96	
-    97	/*
-    98	 * Stat related kfuncs
-    99	 */
+    97		iris_scale_power(inst);
+    98	
+  > 99		first_ipsc = inst->sub_state & IRIS_INST_SUB_FIRST_IPSC;
    100	
-   101	/* Moving src's content to the end of dst. Reference: seq_vprintf. */
- > 102	__bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
-   103	{
-   104		/*
-   105		 * ->count: length of content
-   106		 * ->size: available buffer space
-   107		 * i.e. seq_printf(dst, "%s", src->buf)
-   108		 */
-   109		if (dst->count < dst->size)
-   110			if (src->count < dst->size - dst->count) {
-   111				memmove(dst->buf + dst->count, src->buf, src->count);
-   112				dst->count += src->count;
-   113			}
-   114	}
-   115	
- > 116	__bpf_kfunc void bpf_get_boottime_timens(struct task_struct *tsk, struct timespec64 *boottime)
-   117	{
-   118		getboottime64(boottime);
-   119		*boottime = timespec64_sub(*boottime, tsk->nsproxy->time_ns->offsets.boottime);
-   120	}
-   121	
- > 122	__bpf_kfunc unsigned long bpf_get_total_forks(void)
-   123	{
-   124		return total_forks;
-   125	}
-   126	
- > 127	__bpf_kfunc unsigned int bpf_nr_running(void)
-   128	{
-   129		return nr_running();
-   130	}
-   131	
- > 132	__bpf_kfunc unsigned long long bpf_nr_context_switches(void)
-   133	{
-   134		return nr_context_switches();
-   135	}
-   136	
- > 137	__bpf_kfunc unsigned int bpf_nr_iowait(void)
-   138	{
-   139		return nr_iowait();
-   140	}
-   141	
+ > 101		drain_active = inst->sub_state & IRIS_INST_SUB_DRAIN &&
+   102			inst->sub_state & IRIS_INST_SUB_DRAIN_LAST;
+   103	
+ > 104		drc_active = inst->sub_state & IRIS_INST_SUB_DRC &&
+   105			inst->sub_state & IRIS_INST_SUB_DRC_LAST;
+   106	
+   107		if (drc_active)
+   108			clear_sub_state = IRIS_INST_SUB_DRC | IRIS_INST_SUB_DRC_LAST;
+   109		else if (drain_active)
+   110			clear_sub_state = IRIS_INST_SUB_DRAIN | IRIS_INST_SUB_DRAIN_LAST;
+   111	
+   112		/* Input internal buffer reconfiguration required in case of resolution change */
+   113		if (first_ipsc || drc_active) {
+   114			ret = iris_alloc_and_queue_input_int_bufs(inst);
+   115			if (ret)
+   116				return ret;
+   117			ret = iris_set_stage(inst, STAGE);
+   118			if (ret)
+   119				return ret;
+   120			ret = iris_set_pipe(inst, PIPE);
+   121			if (ret)
+   122				return ret;
+   123		}
+   124	
+   125		if (inst->state == IRIS_INST_INPUT_STREAMING &&
+   126		    inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE) {
+ > 127			if (!drain_active)
+   128				ret = hfi_ops->session_resume_drc(inst,
+   129								  V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+   130			else if (hfi_ops->session_resume_drain)
+   131				ret = hfi_ops->session_resume_drain(inst,
+   132								    V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+   133			if (ret)
+   134				return ret;
+   135			clear_sub_state |= IRIS_INST_SUB_INPUT_PAUSE;
+   136		}
+   137	
+   138		if (inst->sub_state & IRIS_INST_SUB_FIRST_IPSC)
+   139			clear_sub_state |= IRIS_INST_SUB_FIRST_IPSC;
+   140	
+   141		ret = hfi_ops->session_start(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+   142		if (ret)
+   143			return ret;
+   144	
+   145		if (inst->sub_state & IRIS_INST_SUB_OUTPUT_PAUSE)
+   146			clear_sub_state |= IRIS_INST_SUB_OUTPUT_PAUSE;
+   147	
+   148		ret = iris_inst_state_change_streamon(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+   149		if (ret)
+   150			return ret;
+   151	
+   152		inst->last_buffer_dequeued = false;
+   153	
+   154		return iris_inst_change_sub_state(inst, clear_sub_state, 0);
+   155	}
+   156	
 
 -- 
 0-DAY CI Kernel Test Service
