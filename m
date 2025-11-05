@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF92B208AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 05:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7529621C167
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 05:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762320402; cv=none; b=fOltIQmlNDj2/aX8/kiemSTCd8gGUXG2rwUw+3jYuCJ6sXUsFVoNUYyT/7FF+H2aqga/un1blh3OR3zbRTUyKHT4grJJ3oxi6lbIrictp54TbqKnE1XXSO3mNIj/GCqLAsKORfW0ZLbKQ/CZq0pKkfW+dX8ktlt7Bz4F4Jws30A=
+	t=1762320445; cv=none; b=tbeuxUmdiqSlFdyOAfcYlcBXfEUiCF3NGEkA+l9OXghc2FuZW2ZQ5smx7TSEZ6T44r6jf130Gn8OALlIAMTod+8LOy67JI6Gpxw96s4dAooEgugAc2BkhW83FFjfQRoCtJ9uggq/0j3IsFhYiw+MuXIfd9/UOXS7jYo+ba+hALM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762320402; c=relaxed/simple;
-	bh=VFDrT7v9nzeQc0ET3dcKyt9fXBWzIXludixrYjczo8Y=;
+	s=arc-20240116; t=1762320445; c=relaxed/simple;
+	bh=vTcoB99s0dCPDyQw790rmz9khhUmzVpHkcw7ysSzk0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uXVwzO6z7JUhTQxmAS0D6D5xcVAC7FGOgK+hEr1ja9RXxiRtYJUUuX0GAB7VItpQO1X+BoLtklahKCGOgxquOTYmf2/bwch4ClWigv9MU74S4XFWTqgKwPcbVa6MPNojNNcYzhKF5+xRhVYOeqVQaaHBfcFC5k+fa6TQkK/WrTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9RC3ILs; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7snTN68D4bA+YZIi37CyGOZ373QkyPsRb8zz0vU6pc9B0RSckkgaiOkQW2Q7+cDQGaa7iWYhgSfX20UrqT7egIIRT8OY8bmcJKQ1H8xc3NAPso2onjkcZKODceZNzjYokrvwO12myShkpvxfNeWPQfMXVjiQaCKHANgAkqmr/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iauSROgv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9RC3ILs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iauSROgv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762320401; x=1793856401;
+  t=1762320442; x=1793856442;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VFDrT7v9nzeQc0ET3dcKyt9fXBWzIXludixrYjczo8Y=;
-  b=B9RC3ILs3DxtqetpIAZpaIrHJCYAzkfpyDGuvgGLT/CKmOduNjrVlqWc
-   pe3zbbCKDktfPE+DqSDS0S3ScwSi86XK5UPywLgKT8/fSTQDNpbP41TFC
-   Nsv2OZd+eIQrgDd6nOBnIYfzBsG553ALcJKwflidbsymbaFtr5yKHd2VF
-   2+NVhGcZwPK8sCaeq5cd6+0wPEUsAzFHKjVDTnvKUN4NJwnaPCFyGfb2A
-   ZVsvHpSxUyOlDzFVn5fWh79KEAKU1BBALYEtLa0L4cnA6wFmZQZm5goeX
-   afpY6HpP0/UYyLlQpBLaNgt/2ut3JZkzAMqqxnp6B56eHQjbB6b51MUX5
-   w==;
-X-CSE-ConnectionGUID: znXLaJbzSouUcFpeXA1+dg==
-X-CSE-MsgGUID: rSmTyMN4RrmmCDeZIyRKgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="81830770"
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="81830770"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 21:26:41 -0800
-X-CSE-ConnectionGUID: OXlpr7hMSQOGDq2+tKgeiw==
-X-CSE-MsgGUID: /Dik2WviQ4q6fl6ZlucOYw==
+  bh=vTcoB99s0dCPDyQw790rmz9khhUmzVpHkcw7ysSzk0o=;
+  b=iauSROgvVSZy4eN9PtzoTUW+7HWZJVPOUtqio2yM5vn4oYD/jyOGnKv2
+   JqjtXy4x+JQTTkdHlzKWtL2N4+nsCWiQxYAPtKHsKBdGsQ2BKa6APLPbL
+   NmPH+cF5sX9YY6H1P68lf8AbJ2FBl4XAhij/fZMkKDMjDN/nkz/tXcCVn
+   Vqh1Buiz0f6i1wk5U+l/EMeJEEy007gDDIVghO3i977WYAJMDrSVL2TxO
+   EbxDvNDtYu1hrXciwXI4vsvvTtmvo/YV2tRZMUiKMMDh5qSBgx33zTM6f
+   UfkhfgzX6tB+qqOWIT/KiixGGzvSiCo46/DN8O4LaZxeEzygu5euCmO3i
+   A==;
+X-CSE-ConnectionGUID: 1XACm++VTwOBCiq7+SiGyw==
+X-CSE-MsgGUID: OwaeOYZBTXCok1H6qZqNAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="68264325"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="68264325"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 21:27:22 -0800
+X-CSE-ConnectionGUID: +jpMAKazT4GOMgOmPT+aXg==
+X-CSE-MsgGUID: Gj9Yv3hqTliEaqkBRhTxtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="187656381"
+   d="scan'208";a="186646179"
 Received: from ldmartin-desk2.corp.intel.com (HELO ashevche-desk.local) ([10.124.221.135])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 21:26:38 -0800
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 21:27:20 -0800
 Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vGW2T-00000005g1S-2rVY;
-	Wed, 05 Nov 2025 07:26:33 +0200
-Date: Wed, 5 Nov 2025 07:26:32 +0200
+	id 1vGW39-00000005g1y-1tZD;
+	Wed, 05 Nov 2025 07:27:15 +0200
+Date: Wed, 5 Nov 2025 07:27:14 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: kernel test robot <lkp@intel.com>, Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>,
@@ -56,9 +56,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
 Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
  discarded
-Message-ID: <aQrgCBm1QQxIJZyK@smile.fi.intel.com>
+Message-ID: <aQrgMldkQIS7VTtV@smile.fi.intel.com>
 References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <202511050720.nJ9ccENC-lkp@intel.com>
+ <202511050706.NIxJwZER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,16 +67,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202511050720.nJ9ccENC-lkp@intel.com>
+In-Reply-To: <202511050706.NIxJwZER-lkp@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Nov 05, 2025 at 07:14:57AM +0800, kernel test robot wrote:
+On Wed, Nov 05, 2025 at 07:14:58AM +0800, kernel test robot wrote:
 > Hi Andy,
 > 
 > kernel test robot noticed the following build warnings:
 
-Right, the change restores the check, so these should be fixed separately.
+So do these...
+
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on next-20251104]
+> [cannot apply to linus/master v6.18-rc4]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/kernel-doc-Issue-warnings-that-were-silently-discarded/20251105-055629
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/20251104215502.1049817-1-andriy.shevchenko%40linux.intel.com
+> patch subject: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently discarded
+> config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511050706.NIxJwZER-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'd' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'ctrlr' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intspec' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intsize' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_hwirq' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_type' not described in 'intc_evt_xlate'
+> >> Warning: drivers/sh/intc/irqdomain.c:29 expecting prototype for intc_irq_domain_evt_xlate(). Prototype was for intc_evt_xlate() instead
 
 -- 
 With Best Regards,
