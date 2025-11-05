@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122872472A2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 03:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1CF207A0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 03:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762312746; cv=none; b=AkYp1OPk+gp3CH+aHVApNHMGUpOdQRFEbrXaU+plnqZP+jjia3xzLtaS3S8ab3lUa7SGAXMFppvbobw0oRx6cdosSh2lijmkApbZT7iR9pZ8VayeaueqPoHjvpNIuxEvmgyB6obAbXVa/JlO2USk4fVgCk82uVJ7Rm1KokNPGGc=
+	t=1762314947; cv=none; b=ElJ9uxVsjKJ4XxhGYrQ7f6guBDiHycWzIN6asuoFhYJb0qdrlXSCV7jFIn9kxLfSgKMJnpPvN/3dNeUHReopIVODvk4wGKsS+kDO3B0/6PaYT0J+PaymG9OoDXAAAdy9v4eQ/8OeCY8DFHmPxmlcRQzc0LtGY/XaXMawn+RfyuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762312746; c=relaxed/simple;
-	bh=rAMAPqLRErq8k8QYnCAWXAG29UTdlb3GnFhkKN5LA1A=;
+	s=arc-20240116; t=1762314947; c=relaxed/simple;
+	bh=GgdIvjdU8uL/QtVKzEtOForLRp3chwqvmV3QsWt8voA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ASM1HMmI9QmQvzb2kB5N2d/iOLAne9M/5aXpL+jGMB3yje7XXbGQTkRdF4lGUyfATN3y4Uyn/XgoYqqZGfLbNLIzKEfoYRVW6RIx+yGER6fh4xgD1jy2ozEvhK2+v8IqM9iWkIQsHcywxK0i2oI1NeU6zWLvpkTy2mK/K+ZYN/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2PbRL3a; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=B0t1Fq+xi7PPH1tCxq87Skzj1bVRcKY1fjCMF6HuYqhdHdJSCJ37DnKzTncejm05d142skq+vUE+aG59fvS73UAOOmr+MBc/gHexelhkWSc/W5eQju8TKIbYDhgBH/shjmZr1by6uLTec2/q/Tng/5BlofACBzZm8sZ7Bmp4dPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WWKPDq2q; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2PbRL3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WWKPDq2q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762312745; x=1793848745;
+  t=1762314945; x=1793850945;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rAMAPqLRErq8k8QYnCAWXAG29UTdlb3GnFhkKN5LA1A=;
-  b=U2PbRL3aaNfPuI/16h+YYVWW9xTQoGPJhVgc7cpLQugINayhn6AbmRRn
-   XhXNYCl43WVuklk+dLyuZHHCnsnlAu93wFMfeJP4bPIs+blriGk4USwbu
-   YgUgF9zd+0wE/ulk028rO1IIb3IpUUmGHxeuw3f3P/dBQaWVlEBUsork5
-   a0GujdRnRXYFc7k8Wi3dfxcyLFpZFNZGn4w1SgRem/ju0AOAbLaeASniH
-   +VdExIqU+0lDK/KM2SIXHRwYSIQHjKGTbPWzjKxeWHQydF4XwtTNQINJo
-   i7SpdvNZDP8F9BRAbXTS7toCOIF1zLonoiROY6EiNxCOjs+PwXamygNep
-   A==;
-X-CSE-ConnectionGUID: 4EzIXroQSKeA7wJefQ1fkg==
-X-CSE-MsgGUID: yup/42A0SQy1yIacfNkHiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64518789"
+  bh=GgdIvjdU8uL/QtVKzEtOForLRp3chwqvmV3QsWt8voA=;
+  b=WWKPDq2qhDb0l91hRlCQIv571I/qNrfJnJr6WHxiR/iZs2RpJNSa8ZUi
+   /DN3KeW0ydwHNVvDOs3BL2m5W9TKIkyPmsph6hMU3oXrM6QC8DanMC0xi
+   Qk2TIgWc8sQvwwmn0NbXAGZdtv25OJrJF+/4atc4yXBc1J9GeBruUTvDu
+   LV1YrIioNrbb1mxSEYr78xt46DyU91yVL+p79sgZOUG1j/a0n3Ml2yqmN
+   8Ma2mZY3rYKKcBgmLURHzgOPfxoi8S/9Q6RICBX+5VEIpZJMHwPbz7BQS
+   5ltoP6ugXwRkWbUgWrqzCCKZUpzpcko/s3byIk/DKb3ANymCJeXL1LbQq
+   w==;
+X-CSE-ConnectionGUID: 4AGrEnohTmK7Ujr73hmBkQ==
+X-CSE-MsgGUID: ZnYb2pyBSJ6QdPrOBgs05A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="74715329"
 X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="64518789"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 19:19:04 -0800
-X-CSE-ConnectionGUID: DmLgtqThTTOoNruEb9dueA==
-X-CSE-MsgGUID: c5VtkHpWSEGZwRJvfiCBow==
+   d="scan'208";a="74715329"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 19:55:44 -0800
+X-CSE-ConnectionGUID: ZJC6u131Rkym/XF7aVzZgg==
+X-CSE-MsgGUID: dQfpEgmjSPipy2OXJeqAMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,280,1754982000"; 
-   d="scan'208";a="186623499"
+   d="scan'208";a="187283312"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 04 Nov 2025 19:19:03 -0800
+  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2025 19:55:43 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGU32-000S6y-39;
-	Wed, 05 Nov 2025 03:19:00 +0000
-Date: Wed, 5 Nov 2025 11:18:11 +0800
+	id 1vGUcW-000S8N-2h;
+	Wed, 05 Nov 2025 03:55:40 +0000
+Date: Wed, 5 Nov 2025 11:48:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Gu Bowen <gubowen5@huawei.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1930/1930]
- drivers/video/fbdev/core/sysfillrect.c:291:51: sparse: sparse: cast removes
- address space '<asn:2>' of expression
-Message-ID: <202511051110.kqecU8nf-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3098/3098] kernel/bpf-rvi/common_kfuncs.c:162:27:
+ warning: no previous prototype for 'bpf_mem_file_hugepage'
+Message-ID: <202511051134.JuwQrZOr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,122 +62,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   ef0390f1259df6b9ca86aa41a598fd07c29ba602
-commit: 7389066b79d5dc829e15de2509e43a66bf24e296 [1930/1930] fbdev: Fix out-of-bounds issue in sys_fillrect()
-config: arm64-randconfig-r134-20251105 (https://download.01.org/0day-ci/archive/20251105/202511051110.kqecU8nf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511051110.kqecU8nf-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f1418110051edb8e47923b009bbd051f7c06ad1a
+commit: d97bc9c8827bb5cd9f66dab10e0b505a879256e2 [3098/3098] bpf-rvi: Add bpf_mem_{file_{hugepage,pmdmapped},kreclaimable} kfunc
+config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251105/202511051134.JuwQrZOr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511051134.JuwQrZOr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511051110.kqecU8nf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511051134.JuwQrZOr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/core/sysfillrect.c:291:51: sparse: sparse: cast removes address space '<asn:2>' of expression
-   drivers/video/fbdev/core/sysfillrect.c:329:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long word @@     got restricted __le64 [usertype] @@
-   drivers/video/fbdev/core/sysfillrect.c:329:32: sparse:     expected unsigned long word
-   drivers/video/fbdev/core/sysfillrect.c:329:32: sparse:     got restricted __le64 [usertype]
-   drivers/video/fbdev/core/sysfillrect.c:329:32: sparse: sparse: cast to restricted __le64
+All warnings (new ones prefixed by >>):
 
-vim +291 drivers/video/fbdev/core/sysfillrect.c
+   kernel/bpf-rvi/common_kfuncs.c:25:32: warning: no previous prototype for 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
+      25 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:34:35: warning: no previous prototype for 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
+      34 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:39:17: warning: no previous prototype for 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
+      39 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
+         |                 ^~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:53:17: warning: no previous prototype for 'bpf_pidns_last_pid' [-Wmissing-prototypes]
+      53 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
+         |                 ^~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:82:18: warning: no previous prototype for 'bpf_si_memswinfo' [-Wmissing-prototypes]
+      82 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
+         |                  ^~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:92:27: warning: no previous prototype for 'bpf_page_counter_read' [-Wmissing-prototypes]
+      92 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:102:18: warning: no previous prototype for 'bpf_seq_file_append' [-Wmissing-prototypes]
+     102 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
+         |                  ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:116:18: warning: no previous prototype for 'bpf_get_boottime_timens' [-Wmissing-prototypes]
+     116 | __bpf_kfunc void bpf_get_boottime_timens(struct task_struct *tsk, struct timespec64 *boottime)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:122:27: warning: no previous prototype for 'bpf_get_total_forks' [-Wmissing-prototypes]
+     122 | __bpf_kfunc unsigned long bpf_get_total_forks(void)
+         |                           ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:127:26: warning: no previous prototype for 'bpf_nr_running' [-Wmissing-prototypes]
+     127 | __bpf_kfunc unsigned int bpf_nr_running(void)
+         |                          ^~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:132:32: warning: no previous prototype for 'bpf_nr_context_switches' [-Wmissing-prototypes]
+     132 | __bpf_kfunc unsigned long long bpf_nr_context_switches(void)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:137:26: warning: no previous prototype for 'bpf_nr_iowait' [-Wmissing-prototypes]
+     137 | __bpf_kfunc unsigned int bpf_nr_iowait(void)
+         |                          ^~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:143:26: warning: no previous prototype for 'bpf_kstat_softirqs_cpu' [-Wmissing-prototypes]
+     143 | __bpf_kfunc unsigned int bpf_kstat_softirqs_cpu(unsigned int irq, int cpu)
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:148:27: warning: no previous prototype for 'bpf_kstat_cpu_irqs_sum' [-Wmissing-prototypes]
+     148 | __bpf_kfunc unsigned long bpf_kstat_cpu_irqs_sum(unsigned int cpu)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:153:18: warning: no previous prototype for 'bpf_kcpustat_cpu_fetch' [-Wmissing-prototypes]
+     153 | __bpf_kfunc void bpf_kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf-rvi/common_kfuncs.c:162:27: warning: no previous prototype for 'bpf_mem_file_hugepage' [-Wmissing-prototypes]
+     162 | __bpf_kfunc unsigned long bpf_mem_file_hugepage(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf-rvi/common_kfuncs.c:167:27: warning: no previous prototype for 'bpf_mem_file_pmdmapped' [-Wmissing-prototypes]
+     167 | __bpf_kfunc unsigned long bpf_mem_file_pmdmapped(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf-rvi/common_kfuncs.c:172:27: warning: no previous prototype for 'bpf_mem_kreclaimable' [-Wmissing-prototypes]
+     172 | __bpf_kfunc unsigned long bpf_mem_kreclaimable(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~
 
-   242	
-   243	void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
-   244	{
-   245		unsigned long pat, pat2, fg;
-   246		unsigned long width = rect->width, height = rect->height;
-   247		int bits = BITS_PER_LONG, bytes = bits >> 3;
-   248		u32 bpp = p->var.bits_per_pixel;
-   249		unsigned long *dst;
-   250		int dst_idx, left;
-   251		long dst_offset;
-   252	
-   253		if (p->state != FBINFO_STATE_RUNNING)
-   254			return;
-   255	
-   256		if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
-   257		    p->fix.visual == FB_VISUAL_DIRECTCOLOR )
-   258			fg = ((u32 *) (p->pseudo_palette))[rect->color];
-   259		else
-   260			fg = rect->color;
-   261	
-   262		pat = pixel_to_pat( bpp, fg);
-   263	
-   264		dst = (unsigned long *)((unsigned long)p->screen_base & ~(bytes-1));
-   265		dst_idx = ((unsigned long)p->screen_base & (bytes - 1))*8;
-   266		dst_idx += rect->dy*p->fix.line_length*8+rect->dx*bpp;
-   267		/* FIXME For now we support 1-32 bpp only */
-   268		left = bits % bpp;
-   269		if (p->fbops->fb_sync)
-   270			p->fbops->fb_sync(p);
-   271		if (!left) {
-   272			void (*fill_op32)(struct fb_info *p, unsigned long *dst,
-   273					  int dst_idx, unsigned long pat, unsigned n,
-   274					  int bits) = NULL;
-   275	
-   276			switch (rect->rop) {
-   277			case ROP_XOR:
-   278				fill_op32 = bitfill_aligned_rev;
-   279				break;
-   280			case ROP_COPY:
-   281				fill_op32 = bitfill_aligned;
-   282				break;
-   283			default:
-   284				printk( KERN_ERR "cfb_fillrect(): unknown rop, "
-   285					"defaulting to ROP_COPY\n");
-   286				fill_op32 = bitfill_aligned;
-   287				break;
-   288			}
-   289			while (height--) {
-   290				dst += dst_idx >> (ffs(bits) - 1);
- > 291				dst_offset = (long)dst - (long)p->screen_base;
-   292				if (dst_offset < 0 || dst_offset >= p->fix.smem_len) {
-   293					pr_err("dst offset out of bound: dst_offset(%ld)", dst_offset);
-   294					return;
-   295				}
-   296				dst_idx &= (bits - 1);
-   297				fill_op32(p, dst, dst_idx, pat, width*bpp, bits);
-   298				dst_idx += p->fix.line_length*8;
-   299			}
-   300		} else {
-   301			int right, r;
-   302			void (*fill_op)(struct fb_info *p, unsigned long *dst,
-   303					int dst_idx, unsigned long pat, int left,
-   304					int right, unsigned n, int bits) = NULL;
-   305	#ifdef __LITTLE_ENDIAN
-   306			right = left;
-   307			left = bpp - right;
-   308	#else
-   309			right = bpp - left;
-   310	#endif
-   311			switch (rect->rop) {
-   312			case ROP_XOR:
-   313				fill_op = bitfill_unaligned_rev;
-   314				break;
-   315			case ROP_COPY:
-   316				fill_op = bitfill_unaligned;
-   317				break;
-   318			default:
-   319				printk(KERN_ERR "sys_fillrect(): unknown rop, "
-   320					"defaulting to ROP_COPY\n");
-   321				fill_op = bitfill_unaligned;
-   322				break;
-   323			}
-   324			while (height--) {
-   325				dst += dst_idx / bits;
-   326				dst_idx &= (bits - 1);
-   327				r = dst_idx % bpp;
-   328				/* rotate pattern to the correct start position */
-   329				pat2 = le_long_to_cpu(rolx(cpu_to_le_long(pat), r, bpp));
-   330				fill_op(p, dst, dst_idx, pat2, left, right,
-   331					width*bpp, bits);
-   332				dst_idx += p->fix.line_length*8;
-   333			}
-   334		}
-   335	}
-   336	
+
+vim +/bpf_mem_file_hugepage +162 kernel/bpf-rvi/common_kfuncs.c
+
+   157	
+   158	/*
+   159	 * Meminfo related kfuncs
+   160	 */
+   161	
+ > 162	__bpf_kfunc unsigned long bpf_mem_file_hugepage(void)
+   163	{
+   164		return global_node_page_state(NR_FILE_THPS);
+   165	}
+   166	
+ > 167	__bpf_kfunc unsigned long bpf_mem_file_pmdmapped(void)
+   168	{
+   169		return global_node_page_state(NR_FILE_PMDMAPPED);
+   170	}
+   171	
+ > 172	__bpf_kfunc unsigned long bpf_mem_kreclaimable(void)
+   173	{
+   174		return global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B) +
+   175			global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE);
+   176	}
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
