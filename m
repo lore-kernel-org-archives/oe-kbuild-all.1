@@ -1,131 +1,146 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714DA335546
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 16:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2AF3101A3;
+	Wed,  5 Nov 2025 17:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762361304; cv=none; b=KP60zwZaRjXn5Ua5xUOsQ6N2mWKsOEoshcwwQe2j7kWPvTRGM5m8/MDPJvrOY3/3bdeWTy6MZL6969UShacg7wrxl0qAmYYgPB7K2h6kh508oLcPz7cdkFAQpIuSjlxCuNMkYTa9WyxaT5QolJAbNHaWUWFpjpQoK/p+3tYQf4E=
+	t=1762362205; cv=none; b=GNq03X3EVMHdsp+iJhKG7bjSUgYkFr9ZJT3bCE3926vMlMyxyp2BcYWcAN07Nb38pT/wITKsCM4kvSzUXcvFn0ygYXBZYi4/C7Xq1a1a6khuB2aULANxoGDGlLS+3xI7VrUmLOzaeEfvrcLHobkTZaA6zCkBtgJShyKYjacWSi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762361304; c=relaxed/simple;
-	bh=613CfTeB04BMDfbYpCzU4r1GHXVyQQQOK+q1bwUH4As=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCFm9rV/WAuWtjQ+SBQTbESlRTXGZrnvzjJLXBBD/NREjQJRzVQz0Kx2QjNBgKzRoMvrL94SMH4P8w8RHMsBK89ke/BkcVQP0PYj2H5N5GQfE3ncL1dr0O/THZGTAp+1AKG0nkYZb5KmXMcpmytdk1yDjbUErqeXTOvSxXTUFds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fbzO6DWf; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762362205; c=relaxed/simple;
+	bh=6uz+hHxrqzxaxcnh265LgUfoQ/5ByCeht/rVNdwWt5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DgTxdz+FX/WO2SSHBf6WIyugBNNUnJpxKoBdA3d1xDSL8X1GGEvujUJ41ZcpAJqb7g7meVg2mc0wCcXj4hVX/cyROJqCimmerYtH63qKCR/OBqb4ZzKduxjfFS+/FUPcA+lEYs0txtihUuQFEp1BzewdVebKLplg6JTN0j3K2mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CiGAqwn3; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fbzO6DWf"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b70bee93dc4so624166b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Nov 2025 08:48:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762361301; x=1762966101; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XmFotMcFPtd7mRBsLfVlVk451p+y5nFGd9HEIFSHePA=;
-        b=fbzO6DWfLeo+NVw2EKadtbXd+DXV6ncvU7l6XwL2LXN7NjuU5PfwZfMLu12rFfmfXu
-         9fcaYX9doy5mOx95IwtMXZFGSDRx3uKhQ9U+BpSq5za6YmFOGhHZ/jWZVU2BEf2UIC/T
-         Kq5JRWj/UpInpbRIoA9uAKWlDQ9KSzpiOpALm41bBiHXzMjpGTLOdm07jRrRxD/CLA1U
-         vVEJjnGRBcoaZx9tQmI7ogkPH2XvbR/8ddj1kXcjp1B4ShWWy7bbBD6fIiRAtrx5eogN
-         mdXbzPIfdy566XiyM/EtOce1VS3ox63iS/7VCA0nnuyv5B7R5jn/N1rqQULPcbRq0F3w
-         nI/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762361301; x=1762966101;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XmFotMcFPtd7mRBsLfVlVk451p+y5nFGd9HEIFSHePA=;
-        b=hP2JwDzeLKEmdr5q5T0fm4xcihdl91QFBW4C01uBBSc0bzCF2iDrEZMy9pBV0oHY21
-         ymNKcxGixjy642NV7AyFKecmIFh7EUC0cn9gVgFCqzHLt6PZPGSXN45YrqVR6humZRgz
-         yMAeUJAAdUR9OF+xlMzfZoco+rcemhMlbcyBWXBCOVQYkFJF60+L///KXAEApM6yGJ9t
-         whMeczXD3stJBNYX4aSAcmCyT2C7OLsM9CtkUMBQ/NtSK9+GCW5kOVg5E2SPp6oFvsNM
-         0bKbnHk9uPrslxLp5F3mpMXNhNa6w4mNoMyG80K7tLtKg0g+Yuo9tg18UR8zG3k7EBRB
-         pRVw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+5XPG6RTYfDrBeQolyndMz/ehc2tjjJcr6RUhK+lWS30Ugueq3rxDageYpgGbGt1RrAvWKpCkwkXHhym7@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeyLAVQrD/MkUMJkOxER1yCbZLO5qeRILr2YDmMfg/C7wkeHBO
-	2EOK1aQpjdtPlMojnA63eb42AVTC0AcniVPzeCS2OSmVfsf32Jo49wi5TnNMYBiUOvM=
-X-Gm-Gg: ASbGncuG3G09zZwWp2V9mN0hOUvyRQEOMCzifRa9MJIRt2f0Jpdq2eQe5MwEV6Qrr7L
-	OWUFNWx0XFCn8lJZwKk8xtojG+oC2QrhXKBjUUPNbi3W9PVB990R/XVRX80K4jSpdM57wsDmznN
-	SWcaXiwY73FiHE3rekAvHgZSD2VUydhPm5TYKL5307XiaIyqzuQBp9UG5qRObk8W1Xcxd28UgtT
-	hzOQNP52a1QPKfevwMUGLzyzVKZDw9/+bmhXTyJV1dMv/Gu/3+6wfFSWz1dCjQZGZpFQa7DkixC
-	eplSPw/gXXhZ7IRH0IWEl/PXojNg5loAmw2D/iCw0cEjZ3JqnMSmJpqZHjMWNACYWXjj28fNuqa
-	dUz0gqpYhFuZZvrxGbVoh69A4LKjEPqobjvQ0p20g9w9tB6CxoeJgJbp4LQuPJI3hDDUDQ9Sv8u
-	wlQZOkyQvwoSji
-X-Google-Smtp-Source: AGHT+IGm3Wa56XUydCTKudmGMentGaT4iUui9wuImfhosfZAtqWdEBdlJW8tn8ToaWyI3p+ndFALWA==
-X-Received: by 2002:a17:907:3e0b:b0:b70:b3cb:3b30 with SMTP id a640c23a62f3a-b726567fa67mr356526566b.59.1762361300655;
-        Wed, 05 Nov 2025 08:48:20 -0800 (PST)
-Received: from localhost ([87.213.113.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72893cbc72sm3380366b.29.2025.11.05.08.48.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Nov 2025 08:48:20 -0800 (PST)
-Date: Wed, 5 Nov 2025 19:48:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Phil Elwell <phil@raspberrypi.com>
-Cc: oe-kbuild@lists.linux.dev, Jai Luthra <jai.luthra@ideasonboard.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <uajain@igalia.com>
-Subject: Re: [PATCH v3 6/7] platform/raspberrypi: Destage VCHIQ interface
-Message-ID: <99c95bb6-6595-4b68-afa7-1614f619a20f@suswa.mountain>
-References: <20251029-vchiq-destage-v3-6-da8d6c83c2c5@ideasonboard.com>
- <f11dd2de-d8fd-4d8f-ba29-6974ba923b4e@suswa.mountain>
- <CAMEGJJ1Rsjsa9CGB4Hv6ukf=xi41TTDRNf7nkrX4nQniEp+8zw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CiGAqwn3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762362203; x=1793898203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6uz+hHxrqzxaxcnh265LgUfoQ/5ByCeht/rVNdwWt5w=;
+  b=CiGAqwn3RLRZUY8Z7KfPIwEdSjjKrq+ghSI62BtG/1MJ1eOlP8fSAmXO
+   daBx1Ikac9kkOGEuFC5hpacg4MXzZl3+69S9eACfclr2ArGVULpQmRjuF
+   cyxBBklDCQ3U5u9LAPgzldKCTgbynM+slqMOuvagAZgdiaz81Og0HUu7c
+   Ntz3sUsqI8la4yM7RUYXaH4pPcnjsT0dfeq2M6Rqs3BOf4eTRMK/UHfou
+   GwB9WEx47SbxjjySiP2pDDgaracnTdh0dRNe4CRN1MVXID1mhVR9sKVZ1
+   4Qg/6y+dAN7RAXCX9OLBpuUDSTtTKhjwrBlr1u6ECyYHtrMdv6MRc9ukF
+   Q==;
+X-CSE-ConnectionGUID: BhkZBNIlR8270Fzj4AfMJw==
+X-CSE-MsgGUID: dzuA5bFIRgiUugwbRPIKZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64181606"
+X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
+   d="scan'208";a="64181606"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 09:03:22 -0800
+X-CSE-ConnectionGUID: pSQ9JlCCSJajS5avkj4UVg==
+X-CSE-MsgGUID: ebWbgNUAQHyzGt8CW9eLLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
+   d="scan'208";a="186760465"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 05 Nov 2025 09:03:20 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGguh-000SuF-1N;
+	Wed, 05 Nov 2025 17:03:15 +0000
+Date: Thu, 6 Nov 2025 00:55:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/core 1/2] kernel/sched/fair.c:8973:3: error:
+ call to undeclared function 'update_min_vruntime'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202511060021.VEXgdS4a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMEGJJ1Rsjsa9CGB4Hv6ukf=xi41TTDRNf7nkrX4nQniEp+8zw@mail.gmail.com>
 
-On Wed, Nov 05, 2025 at 03:17:01PM +0000, Phil Elwell wrote:
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  583  static long
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  584  vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  585  {
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  586   struct vchiq_instance *instance = file->private_data;
-> > 3414994ba84042 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Umang Jain       2022-12-23  587   int status = 0;
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  588   struct vchiq_service *service = NULL;
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  589   long ret = 0;
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  590   int i, rc;
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  591
-> > 96622d58f50b8f drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Thomas Weißschuh 2025-03-11  592   dev_dbg(instance->state->dev, "arm: instance %p, cmd %s, arg %lx\n", instance,
-> > 8757f705d936ad drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Gaston Gonzalez  2021-09-12  593           ((_IOC_TYPE(cmd) == VCHIQ_IOC_MAGIC) && (_IOC_NR(cmd) <= VCHIQ_IOC_MAX)) ?
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  594           ioctl_names[_IOC_NR(cmd)] : "<invalid>", arg);
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  595
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  596   switch (cmd) {
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  597   case VCHIQ_IOC_SHUTDOWN:
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  598           if (!instance->connected)
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  599                   break;
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  600
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21  601           /* Remove all services */
-> > f05916281fd75d drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c Ojaswin Mujoo    2021-07-21 @602           i = 0;
-> >
-> > i is not used any more.  Delete.
-> 
-> No, don't do that. It's passed as an in/out parameter to
-> next_service_by_instance - it maintains the iterator position. This is
-> a false positive.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   6bcca639d45811ed51ccc5db1a47a7b42dee077c
+commit: 4df5bbe4a3ab35dc2ca8fca5569d49cfda688417 [1/2] sched/eevdf: Fix min_vruntime vs avg_vruntime
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251106/202511060021.VEXgdS4a-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060021.VEXgdS4a-lkp@intel.com/reproduce)
 
-Uh...  Crud.  You're right.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060021.VEXgdS4a-lkp@intel.com/
 
-I knew this check was generating false positives but I try to filter it
-manually.  Which is lazy.  I will fix this false positive.
+All errors (new ones prefixed by >>):
 
-regards,
-dan carpenter
+>> kernel/sched/fair.c:8973:3: error: call to undeclared function 'update_min_vruntime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8973 |                 update_min_vruntime(cfs_rq);
+         |                 ^
+   kernel/sched/fair.c:8973:3: note: did you mean 'update_zero_vruntime'?
+   kernel/sched/fair.c:743:13: note: 'update_zero_vruntime' declared here
+     743 | static void update_zero_vruntime(struct cfs_rq *cfs_rq)
+         |             ^
+   1 error generated.
 
+
+vim +/update_min_vruntime +8973 kernel/sched/fair.c
+
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar     2007-07-09  8932  
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8933  /*
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8934   * sched_yield() is very simple
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8935   */
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8936  static void yield_task_fair(struct rq *rq)
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8937  {
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8938  	struct task_struct *curr = rq->curr;
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8939  	struct cfs_rq *cfs_rq = task_cfs_rq(curr);
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8940  	struct sched_entity *se = &curr->se;
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8941  
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8942  	/*
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8943  	 * Are we the only task in the tree?
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8944  	 */
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8945  	if (unlikely(rq->nr_running == 1))
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8946  		return;
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8947  
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8948  	clear_buddies(cfs_rq, se);
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8949  
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8950  	update_rq_clock(rq);
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8951  	/*
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8952  	 * Update run-time statistics of the 'current'.
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8953  	 */
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8954  	update_curr(cfs_rq);
+916671c08b7808 kernel/sched/fair.c Mike Galbraith  2011-11-22  8955  	/*
+916671c08b7808 kernel/sched/fair.c Mike Galbraith  2011-11-22  8956  	 * Tell update_rq_clock() that we've just updated,
+916671c08b7808 kernel/sched/fair.c Mike Galbraith  2011-11-22  8957  	 * so we don't do microscopic update in schedule()
+916671c08b7808 kernel/sched/fair.c Mike Galbraith  2011-11-22  8958  	 * and double the fastpath cost.
+916671c08b7808 kernel/sched/fair.c Mike Galbraith  2011-11-22  8959  	 */
+adcc8da8859bee kernel/sched/fair.c Davidlohr Bueso 2018-04-04  8960  	rq_clock_skip_update(rq);
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8961  
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8962  	/*
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8963  	 * Forfeit the remaining vruntime, only if the entity is eligible. This
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8964  	 * condition is necessary because in core scheduling we prefer to run
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8965  	 * ineligible tasks rather than force idling. If this happens we may
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8966  	 * end up in a loop where the core scheduler picks the yielding task,
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8967  	 * which yields immediately again; without the condition the vruntime
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8968  	 * ends up quickly running away.
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8969  	 */
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8970  	if (entity_eligible(cfs_rq, se)) {
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8971  		se->vruntime = se->deadline;
+5e963f2bd4654a kernel/sched/fair.c Peter Zijlstra  2023-05-31  8972  		se->deadline += calc_delta_fair(se->slice, se);
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18 @8973  		update_min_vruntime(cfs_rq);
+79104becf42bae kernel/sched/fair.c Fernand Sieber  2025-09-18  8974  	}
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8975  }
+ac53db596cc08e kernel/sched_fair.c Rik van Riel    2011-02-01  8976  
+
+:::::: The code at line 8973 was first introduced by commit
+:::::: 79104becf42baeeb4a3f2b106f954b9fc7c10a3c sched/fair: Forfeit vruntime on yield
+
+:::::: TO: Fernand Sieber <sieberf@amazon.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
