@@ -1,62 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E9D2D1F7C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 07:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFEF34D3B9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 07:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762327089; cv=none; b=hsn5ksTGslTyJUxCSrO6hlZ7wK4q8mjjXDHzhaeOOjvaNwL3708VWWO1ZDLEMw7AuDuMHzUrEa9xdtFnsRij/Xrjm0Ll2h9iNsC5Lq1xw8Kj54EGOYx8oNhtMAil56ADs7sOvqlcPsWG4MClmXxjVhjZn6ut8FvnkwQJau1pTSQ=
+	t=1762327157; cv=none; b=XzyU92veyUuqkosc48og61wEZVWSyYYWPFeq1MONrEBo7+gbnJ5SFP8x3aynOgicwoVQjiDCopqP1HvBOGOQVptoWKDwxBEXNiGZBOz7GGR0n0KN5xN7s0Ae46X+xK1Vv0fu7qM1nGU9SrEydxPZuxiCN8VAQ1VnANqUoFgG2VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762327089; c=relaxed/simple;
-	bh=0jENaG5TcvsOk5HG6h+5wpqjihfYR/5a1tIT6kGcv+Y=;
+	s=arc-20240116; t=1762327157; c=relaxed/simple;
+	bh=0KK7ia02w0Fvey6RGHPOajTij35rBwtDHsoWATuFaL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIqKCBjpL5JHV8kVSNVqq+Otm9z8JCOjGQML4NHk+qkFOkOADYNcfWZ0akWB1jb4OVCyx2Oiuc4KO4iAf2ht3GiZ20f67yajlIqND0ekzm2y08aT/Jp9Zwmmp3MAiv9HCyNaKiwNEmRzTOH0ESMEVl0ZvPLxli6eCUIy+E6mQ6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etE+g+Z+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=mwSkN+KyvPS4hgv8JKRinT0i8gWMkR95s6BqZS2ke416tkK4HEd2yTZ6UquM+tU+5xa9LtV4TrCmn+Q+tFBqQYFlPSGyec08omh4AjQpksqxnv8RULW3dvEvK35/Wjy0iC983lWtU70jtSF1c+ObTlUmpowujCEcW80xFPDGbwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HmRj98Hy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etE+g+Z+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmRj98Hy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762327088; x=1793863088;
+  t=1762327157; x=1793863157;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0jENaG5TcvsOk5HG6h+5wpqjihfYR/5a1tIT6kGcv+Y=;
-  b=etE+g+Z+KXRRTkkwHmktsChFYu5ZS9OVM5TKzpty0UNL2y1ZsPfundc/
-   wa6OqozxqAJirgz7RFTIScO6JpAeYymp4fKsrWAgMRw+51Ao7OCHvLHE/
-   hscH8Bjr8rZVJ6feIIcjYsZzWAf4KTWeRB/9BZO0bTXYLwgIkzi3okuK7
-   7cxbjv/MY+I6wYrK3LEOdvDERT7P0iXleLdepAFLY66b7ppdnzuyyaCt0
-   ICjv9lvkCGkUuIp/aTkW4HdlvTU0QRba5OKm3izj78KvQTa8AvmVXK6SP
-   aL/9Kk4sUC8u5rDp8H5WXzcZH0AuXu1RAKKzmGSMMNy3l4X9mz08P0C+7
-   A==;
-X-CSE-ConnectionGUID: CPhsje/ESOuHJz8hghsf3g==
-X-CSE-MsgGUID: HeL4lhzuRyCkoCcKGZISlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="87061440"
+  bh=0KK7ia02w0Fvey6RGHPOajTij35rBwtDHsoWATuFaL0=;
+  b=HmRj98HyOBq4a1nRGfLRY+ciCxzhwCxfwAKIeZjHg7rGToPlfrfDFDqA
+   kJmbGGMsljah24tUi1hqeM4Qe5cwNBLBNSMzMWMCIzgUkFYUswMNjlc+Z
+   3mEJ272vvYnIh9zZuNRvFtNykPnOMIxEmWAS89y8uXtmqOMsc/4YxcJ75
+   HyMmoFBRVvu5mx50fEzhBXdm1FJsD/AdWbPEG+8BQi+qoHFSDWgHJBu+o
+   FDHfJ4keF4UICRnsgPCCOgkDnejKmuylvklWfPfurWrKZkzm8zc8DlBun
+   oK0zYbOvwNkSU7tnsUaP1SebXCsTBX0OgBTyPPPuOmyaUhIlwtLP3l/W1
+   Q==;
+X-CSE-ConnectionGUID: y6g+q8NfSDm6nAYWEn8D0Q==
+X-CSE-MsgGUID: eDFhuDDMQaSl2tlEZprtEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="87061516"
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="87061440"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 23:18:07 -0800
-X-CSE-ConnectionGUID: JYKnhvvcSxGl/MfEfg0OuA==
-X-CSE-MsgGUID: apvBLsFmRbqVXCV7UjNzJg==
+   d="scan'208";a="87061516"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 23:19:16 -0800
+X-CSE-ConnectionGUID: gorJg/h5RdiRJnLbOALtZQ==
+X-CSE-MsgGUID: CnPV+/N0QXm8zJ0zw+gS5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="187050142"
+   d="scan'208";a="191671317"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Nov 2025 23:18:05 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Nov 2025 23:19:14 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGXmH-000SFo-0o;
-	Wed, 05 Nov 2025 07:17:58 +0000
-Date: Wed, 5 Nov 2025 15:17:54 +0800
+	id 1vGXnL-000SFs-0A;
+	Wed, 05 Nov 2025 07:19:04 +0000
+Date: Wed, 5 Nov 2025 15:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huiwen He <hehuiwen@kylinos.cn>, Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Huiwen He <hehuiwen@kylinos.cn>
-Subject: Re: [PATCH] tracing/hist: make err_text array fully const
-Message-ID: <202511051436.6ZUGn3Af-lkp@intel.com>
-References: <20251104045558.1644671-1-hehuiwen@kylinos.cn>
+To: Ian Abbott <abbotti@mev.co.uk>, linux-fpga@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Moritz Fischer <mdf@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	linux-kernel@vger.kernel.org, Ian Abbott <abbotti@mev.co.uk>
+Subject: Re: [PATCH 1/4] fpga: altera-pr-ip: Add dummy definitions of API
+ functions
+Message-ID: <202511051513.Wkv71gq0-lkp@intel.com>
+References: <20251104153013.154463-2-abbotti@mev.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,57 +65,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104045558.1644671-1-hehuiwen@kylinos.cn>
+In-Reply-To: <20251104153013.154463-2-abbotti@mev.co.uk>
 
-Hi Huiwen,
+Hi Ian,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on linus/master v6.18-rc4 next-20251104]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc4 next-20251104]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huiwen-He/tracing-hist-make-err_text-array-fully-const/20251104-125932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251104045558.1644671-1-hehuiwen%40kylinos.cn
-patch subject: [PATCH] tracing/hist: make err_text array fully const
-config: riscv-randconfig-001-20251105 (https://download.01.org/0day-ci/archive/20251105/202511051436.6ZUGn3Af-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511051436.6ZUGn3Af-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Abbott/fpga-altera-pr-ip-Add-dummy-definitions-of-API-functions/20251105-000956
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251104153013.154463-2-abbotti%40mev.co.uk
+patch subject: [PATCH 1/4] fpga: altera-pr-ip: Add dummy definitions of API functions
+config: parisc-randconfig-001-20251105 (https://download.01.org/0day-ci/archive/20251105/202511051513.Wkv71gq0-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511051513.Wkv71gq0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511051436.6ZUGn3Af-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511051513.Wkv71gq0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/trace/trace_events_hist.c: In function 'hist_err':
->> kernel/trace/trace_events_hist.c:808:46: warning: passing argument 4 of 'tracing_log_err' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     tracing_log_err(tr, last_cmd_loc, last_cmd, err_text,
-                                                 ^~~~~~~~
-   In file included from kernel/trace/trace_dynevent.h:14,
-                    from kernel/trace/trace_synth.h:5,
-                    from kernel/trace/trace_events_hist.c:22:
-   kernel/trace/trace.h:2113:21: note: expected 'const char **' but argument is of type 'const char * const*'
-           const char **errs, u8 type, u16 pos);
-           ~~~~~~~~~~~~~^~~~
+   In file included from drivers/fpga/altera-pr-ip-core.c:11:
+>> include/linux/fpga/altera-pr-ip-core.h:11: error: unterminated #ifndef
+      11 | #ifndef _ALT_PR_IP_CORE_H
+         | 
+>> drivers/fpga/altera-pr-ip-core.c:176:5: error: redefinition of 'alt_pr_register'
+     176 | int alt_pr_register(struct device *dev, void __iomem *reg_base)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/fpga/altera-pr-ip-core.h:19:19: note: previous definition of 'alt_pr_register' with type 'int(struct device *, void *)'
+      19 | static inline int alt_pr_register(struct device *dev, void __iomem *reg_base)
+         |                   ^~~~~~~~~~~~~~~
+--
+   In file included from altera-pr-ip-core.c:11:
+>> include/linux/fpga/altera-pr-ip-core.h:11: error: unterminated #ifndef
+      11 | #ifndef _ALT_PR_IP_CORE_H
+         | 
+   altera-pr-ip-core.c:176:5: error: redefinition of 'alt_pr_register'
+     176 | int alt_pr_register(struct device *dev, void __iomem *reg_base)
+         |     ^~~~~~~~~~~~~~~
+   include/linux/fpga/altera-pr-ip-core.h:19:19: note: previous definition of 'alt_pr_register' with type 'int(struct device *, void *)'
+      19 | static inline int alt_pr_register(struct device *dev, void __iomem *reg_base)
+         |                   ^~~~~~~~~~~~~~~
 
 
-vim +808 kernel/trace/trace_events_hist.c
+vim +11 include/linux/fpga/altera-pr-ip-core.h
 
-4b147936fa50965 Tom Zanussi      2018-01-15  802  
-edfeed318d59ff2 Tom Zanussi      2022-01-28  803  static void hist_err(struct trace_array *tr, u8 err_type, u16 err_pos)
-7bbab38d07f3185 Masami Hiramatsu 2018-11-05  804  {
-edfeed318d59ff2 Tom Zanussi      2022-01-28  805  	if (!last_cmd)
-edfeed318d59ff2 Tom Zanussi      2022-01-28  806  		return;
-edfeed318d59ff2 Tom Zanussi      2022-01-28  807  
-726721a51838e39 Tom Zanussi      2020-05-28 @808  	tracing_log_err(tr, last_cmd_loc, last_cmd, err_text,
-726721a51838e39 Tom Zanussi      2020-05-28  809  			err_type, err_pos);
-7bbab38d07f3185 Masami Hiramatsu 2018-11-05  810  }
-7bbab38d07f3185 Masami Hiramatsu 2018-11-05  811  
+d201cc17a8a31c Matthew Gerlach 2017-03-23 @11  #ifndef _ALT_PR_IP_CORE_H
+d201cc17a8a31c Matthew Gerlach 2017-03-23  12  #define _ALT_PR_IP_CORE_H
+d201cc17a8a31c Matthew Gerlach 2017-03-23  13  #include <linux/io.h>
+961ea9f518b406 Ian Abbott      2025-11-04  14  #include <asm/errno.h>
+d201cc17a8a31c Matthew Gerlach 2017-03-23  15  
 
 -- 
 0-DAY CI Kernel Test Service
