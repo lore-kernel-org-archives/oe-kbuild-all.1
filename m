@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0708D2D837E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 20:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4202D8783;
+	Wed,  5 Nov 2025 20:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762376211; cv=none; b=Ns0Er4g314VGMmipRexEoebWAVTuQtrEwb4TkM1D+OlBil10lENA4Qdr80pIfR0W/QYmE7sH2lFN+Y53023uUzmn15TA1BWtSm1fIgsvRNzdn9qP3dbmehRQl6Ywu7Wp8a0UUYFhhvt6LppS5WI12U6eX/UuYqbM/crm6W7QY2k=
+	t=1762376212; cv=none; b=C6FPpFIPuPi3rp70vFrq3cyuYDEk34bpXSP6kB8ZtKN9DOC05VGedYkguEOjseGsYOfcwmFt4TD7vun9EOIvuiQt+u6xS4JWSEYOpevHKoWV79AYAiyABA+/ojGyX7X6EkKiCSZQkj767Tlm/6axhtKlnBnEaKSKq+BDHwZMXSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762376211; c=relaxed/simple;
-	bh=3YWwgQi9pamq55MRiyGIwd2ciVp732wOAixp3u9/Wuw=;
+	s=arc-20240116; t=1762376212; c=relaxed/simple;
+	bh=icLJr+c9Ou8t6mfrlf9E2yy34tCJAvTdwGzY+3zd2vw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SOl/ZF9JCRKr55dEKVumx4SBOERjYkG/8CRXUkgRT4F0wwuPY30cu1vwPIt+gG6w16MUmj5vf6Iq7mKDeEfOXDNz1Rar2G4xm0ja2AEhXJ3ExsqpZG7tzngAF41yCMolXlpSQnTMzlwOM/BB6SSXRH6voNzFfC1JK2jnrdoX3/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZsjC98xH; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bj+p88Nk5kjCWdMjRLu+mBmZoDaxur1o3uE7fJYMvP8JJp7ua5GHmU0WMhHVfAdjzK6R545KAgAE35eInXwyouFTq36K6mr683SLRfJpqCKzy7agD4rI40roj+wxcdLUaO4XSkTAmf4CqQZKhUqAw/Y7U84f/kVAf5aL9uiAMNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZn2pTZt; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsjC98xH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZn2pTZt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762376209; x=1793912209;
+  t=1762376211; x=1793912211;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3YWwgQi9pamq55MRiyGIwd2ciVp732wOAixp3u9/Wuw=;
-  b=ZsjC98xH7KI0j1QD4JT6FzGSZSYhj5D4IqdonbwKSRNUUYsGeF4Mi12C
-   kZoFNAZrH5mc9NVa7KiR3Ei6alkQXExbYIiDQyvaDWwd4qWvDY6sZLr9l
-   3Ph0z1sTrBigW1te6+vvBxxWFZvvJmbPPaUSxsArbNmFbGk/QCMz0c4US
-   tQ57/AY8wW9n1uN3YMR60l/ou5weYDLTEL+cz0KgAuR8twUCT0gpvg8jH
-   d9K1i7iirv2j1c28la/bk3BA1TIeOb7FRLW4o3ReW6MvrJvzLal+otQNL
-   8rBbZoSojLO6+LiNSQvhjLSCX9V63gnerPhDuoAkrxax3PRgF+Y9tuJqD
-   g==;
-X-CSE-ConnectionGUID: uluTWdzsRM6v7sj/YBAMhg==
-X-CSE-MsgGUID: nrsuEf+XTPujg4DIs6BMPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75113578"
+  bh=icLJr+c9Ou8t6mfrlf9E2yy34tCJAvTdwGzY+3zd2vw=;
+  b=VZn2pTZtqqqF+8ivqDDU2pJxCwt3BIM4qupxOBZ5Kj7E5QclO7LbSVcg
+   4he9wyZ1zUzklS6UNPbd3RS8nPFpCfEXL/VJtB0TaRiHUMSo1Q/2QtH+L
+   ZrTV/6jG4H/h/mJlXfL29XLvdyhSCI/nWeS+Cfr6WlxyxNbH0rhzzhqj6
+   hEA9Pvg5e0y6Jd3CRXBnFSqkyp+zC6TKWjnafOhCOO9epxKb930mAVKQ2
+   RQm+LfePJ4CtmAw1HhV6lUow3kBUfCGudxYOQeAWfpp4JAYRgyWSRBb0I
+   OufswJ9wC0APj/wMaKLzecLLCt/jMkMc0hfm1pFCsT8AOPC8o8Wciccgh
+   A==;
+X-CSE-ConnectionGUID: Hq+jzkHRQWGZhE238/VZrA==
+X-CSE-MsgGUID: OF4pRDMRSLinQ4l9jlS+tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75185446"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="75113578"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:48 -0800
-X-CSE-ConnectionGUID: U0kr8VC2QQ+/FFBt+8TnkA==
-X-CSE-MsgGUID: 1yNn68zFSRKVXmbGcuHY7w==
+   d="scan'208";a="75185446"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:51 -0800
+X-CSE-ConnectionGUID: GzZhOu1sS12N0qDVZkIlfg==
+X-CSE-MsgGUID: wfCPU+KKSxul5WNhWWDhjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="191664887"
+   d="scan'208";a="191850902"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 05 Nov 2025 12:56:46 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2025 12:56:49 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGkYH-000T7k-29;
-	Wed, 05 Nov 2025 20:56:22 +0000
-Date: Thu, 6 Nov 2025 04:55:22 +0800
+	id 1vGkYh-000T7q-14;
+	Wed, 05 Nov 2025 20:56:47 +0000
+Date: Thu, 6 Nov 2025 04:55:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: Re: [PATCH 3/3] bus: rifsc: add debugfs entry to dump the firewall
- configuration
-Message-ID: <202511060449.FdKTConU-lkp@intel.com>
-References: <20251104-rifsc_debugfs-v1-3-7ebdfbf8d33f@foss.st.com>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] EDAC/ie31200: Fix error handling in
+ ie31200_register_mci
+Message-ID: <202511060427.k5gEuYdp-lkp@intel.com>
+References: <20251105022146.22105-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,137 +63,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-rifsc_debugfs-v1-3-7ebdfbf8d33f@foss.st.com>
+In-Reply-To: <20251105022146.22105-1-make24@iscas.ac.cn>
 
-Hi Gatien,
+Hi Ma,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 6146a0f1dfae5d37442a9ddcba012add260bceb0]
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on linus/master v6.18-rc4 next-20251105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/dt-bindings-bus-add-stm32mp21-RIFSC-compatible/20251104-215726
-base:   6146a0f1dfae5d37442a9ddcba012add260bceb0
-patch link:    https://lore.kernel.org/r/20251104-rifsc_debugfs-v1-3-7ebdfbf8d33f%40foss.st.com
-patch subject: [PATCH 3/3] bus: rifsc: add debugfs entry to dump the firewall configuration
-config: csky-randconfig-r062-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060449.FdKTConU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/EDAC-ie31200-Fix-error-handling-in-ie31200_register_mci/20251105-102435
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+patch link:    https://lore.kernel.org/r/20251105022146.22105-1-make24%40iscas.ac.cn
+patch subject: [PATCH v2] EDAC/ie31200: Fix error handling in ie31200_register_mci
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251106/202511060427.k5gEuYdp-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060427.k5gEuYdp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060449.FdKTConU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060427.k5gEuYdp-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/bus/stm32_rifsc.c:538:6-33: opportunity for str_enabled_disabled(d_dbg_entry . dev_cid_filt_en)
->> drivers/bus/stm32_rifsc.c:540:6-28: opportunity for str_enabled_disabled(d_dbg_entry . dev_sem_en)
->> drivers/bus/stm32_rifsc.c:596:8-30: opportunity for str_enabled_disabled(sr_dbg_entry . sr_enable)
+All warnings (new ones prefixed by >>):
 
-vim +538 drivers/bus/stm32_rifsc.c
+>> drivers/edac/ie31200_edac.c:483:6: warning: variable 'priv' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     483 |         if (!window) {
+         |             ^~~~~~~
+   drivers/edac/ie31200_edac.c:531:14: note: uninitialized use occurs here
+     531 |         put_device(&priv->dev);
+         |                     ^~~~
+   drivers/edac/ie31200_edac.c:483:2: note: remove the 'if' if its condition is always false
+     483 |         if (!window) {
+         |         ^~~~~~~~~~~~~~
+     484 |                 ret = -ENODEV;
+         |                 ~~~~~~~~~~~~~~
+     485 |                 goto fail_free;
+         |                 ~~~~~~~~~~~~~~~
+     486 |         }
+         |         ~
+   drivers/edac/ie31200_edac.c:465:27: note: initialize the variable 'priv' to silence this warning
+     465 |         struct ie31200_priv *priv;
+         |                                  ^
+         |                                   = NULL
+   1 warning generated.
 
-   505	
-   506	static int stm32_rifsc_conf_dump_show(struct seq_file *s, void *data)
-   507	{
-   508		struct rifsc_dbg_private *rifsc = (struct rifsc_dbg_private *)s->private;
-   509		int i, j;
-   510	
-   511		seq_puts(s, "\n=============================================\n");
-   512		seq_puts(s, "                 RIFSC dump\n");
-   513		seq_puts(s, "=============================================\n\n");
-   514	
-   515		seq_puts(s, "\n=============================================\n");
-   516		seq_puts(s, "                 RISUP dump\n");
-   517		seq_puts(s, "=============================================\n");
-   518	
-   519		seq_printf(s, "\n| %-15s |", "Peripheral name");
-   520		seq_puts(s, "| Firewall ID |");
-   521		seq_puts(s, "| N/SECURE |");
-   522		seq_puts(s, "| N/PRIVILEGED |");
-   523		seq_puts(s, "| CID filtering |");
-   524		seq_puts(s, "| Semaphore mode |");
-   525		seq_puts(s, "| SCID |");
-   526		seq_printf(s, "| %7s |\n", "SEMWL");
-   527	
-   528		for (i = 0; i < RIFSC_RISUP_ENTRIES && i < rifsc->nb_risup; i++) {
-   529			struct rifsc_risup_debug_data d_dbg_entry;
-   530	
-   531			stm32_rifsc_fill_dev_dbg_entry(rifsc, &d_dbg_entry, i);
-   532	
-   533			seq_printf(s, "| %-15s |", d_dbg_entry.dev_name);
-   534			seq_printf(s, "| %-11d |", d_dbg_entry.dev_id);
-   535			seq_printf(s, "| %-8s |", d_dbg_entry.dev_sec ? "SEC" : "NSEC");
-   536			seq_printf(s, "| %-12s |", d_dbg_entry.dev_priv ? "PRIV" : "NPRIV");
-   537			seq_printf(s, "| %-13s |",
- > 538				   d_dbg_entry.dev_cid_filt_en ? "enabled" : "disabled");
-   539			seq_printf(s, "| %-14s |",
- > 540				   d_dbg_entry.dev_sem_en ? "enabled" : "disabled");
-   541			seq_printf(s, "| %-4d |", d_dbg_entry.dev_cid);
-   542			seq_printf(s, "| %#-7x |\n", d_dbg_entry.dev_sem_cids);
-   543		}
-   544	
-   545		seq_puts(s, "\n=============================================\n");
-   546		seq_puts(s, "                  RIMU dump\n");
-   547		seq_puts(s, "=============================================\n");
-   548	
-   549		seq_puts(s, "| RIMU's name |");
-   550		seq_puts(s, "| CIDSEL |");
-   551		seq_puts(s, "| MCID |");
-   552		seq_puts(s, "| N/SECURE |");
-   553		seq_puts(s, "| N/PRIVILEGED |\n");
-   554	
-   555		for (i = 0; i < RIFSC_RIMU_ENTRIES && rifsc->nb_rimu; i++) {
-   556			struct rifsc_rimu_debug_data m_dbg_entry;
-   557	
-   558			stm32_rifsc_fill_rimu_dbg_entry(rifsc, &m_dbg_entry, i);
-   559	
-   560			seq_printf(s, "| %-11s |", m_dbg_entry.m_name);
-   561			seq_printf(s, "| %-6s |", m_dbg_entry.cidsel ? "CIDSEL" : "");
-   562			seq_printf(s, "| %-4d |", m_dbg_entry.m_cid);
-   563			seq_printf(s, "| %-8s |", m_dbg_entry.m_sec ? "SEC" : "NSEC");
-   564			seq_printf(s, "| %-12s |\n", m_dbg_entry.m_priv ? "PRIV" : "NPRIV");
-   565		}
-   566	
-   567		if (rifsc->nb_risal > 0) {
-   568			seq_puts(s, "\n=============================================\n");
-   569			seq_puts(s, "                  RISAL dump\n");
-   570			seq_puts(s, "=============================================\n");
-   571	
-   572			seq_puts(s, "| Memory  |");
-   573			seq_puts(s, "| Subreg. |");
-   574			seq_puts(s, "| N/SECURE |");
-   575			seq_puts(s, "| N/PRIVILEGED |");
-   576			seq_puts(s, "| Subreg. CID |");
-   577			seq_puts(s, "| Resource lock |");
-   578			seq_puts(s, "| Subreg. enable |");
-   579			seq_puts(s, "| Subreg. start |");
-   580			seq_puts(s, "|  Subreg. end  |\n");
-   581	
-   582			for (i = 0; i < rifsc->nb_risal; i++) {
-   583				for (j = 0; j < RIFSC_RISAL_SUBREGIONS; j++) {
-   584					struct rifsc_subreg_debug_data sr_dbg_entry;
-   585	
-   586					stm32_rifsc_fill_subreg_dbg_entry(rifsc, &sr_dbg_entry, i, j);
-   587	
-   588					seq_printf(s, "| LPSRAM%1d |", i + 1);
-   589					seq_printf(s, "|    %1s    |", (j == 0) ? "A" : "B");
-   590					seq_printf(s, "| %-8s |", sr_dbg_entry.sr_sec ? "SEC" : "NSEC");
-   591					seq_printf(s, "| %-12s |", sr_dbg_entry.sr_priv ? "PRIV" : "NPRIV");
-   592					seq_printf(s, "| 0x%-9x |", sr_dbg_entry.sr_cid);
-   593					seq_printf(s, "| %-13s |",
-   594						   sr_dbg_entry.sr_rlock ? "locked (1)" : "unlocked (0)");
-   595					seq_printf(s, "| %-14s |",
- > 596						   sr_dbg_entry.sr_enable ? "enabled" : "disabled");
-   597	
-   598					seq_printf(s, "| 0x%-11x |", sr_dbg_entry.sr_start);
-   599					seq_printf(s, "| 0x%-11x |\n", sr_dbg_entry.sr_start +
-   600						   sr_dbg_entry.sr_length - 1);
-   601				}
-   602			}
-   603		}
-   604	
-   605		return 0;
-   606	}
-   607	DEFINE_SHOW_ATTRIBUTE(stm32_rifsc_conf_dump);
-   608	
+
+vim +483 drivers/edac/ie31200_edac.c
+
+7ee40b897d18ab Jason Baron 2014-07-04  461  
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  462  static int ie31200_register_mci(struct pci_dev *pdev, struct res_config *cfg, int mc)
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  463  {
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  464  	struct edac_mc_layer layers[2];
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  465  	struct ie31200_priv *priv;
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  466  	struct mem_ctl_info *mci;
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  467  	void __iomem *window;
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  468  	int ret;
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  469  
+7ee40b897d18ab Jason Baron 2014-07-04  470  	nr_channels = how_many_channels(pdev);
+7ee40b897d18ab Jason Baron 2014-07-04  471  	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+d59d844e319d97 Qiuxu Zhuo  2025-03-10  472  	layers[0].size = IE31200_RANKS_PER_CHANNEL;
+7ee40b897d18ab Jason Baron 2014-07-04  473  	layers[0].is_virt_csrow = true;
+7ee40b897d18ab Jason Baron 2014-07-04  474  	layers[1].type = EDAC_MC_LAYER_CHANNEL;
+7ee40b897d18ab Jason Baron 2014-07-04  475  	layers[1].size = nr_channels;
+7ee40b897d18ab Jason Baron 2014-07-04  476  	layers[1].is_virt_csrow = false;
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  477  	mci = edac_mc_alloc(mc, ARRAY_SIZE(layers), layers,
+7ee40b897d18ab Jason Baron 2014-07-04  478  			    sizeof(struct ie31200_priv));
+7ee40b897d18ab Jason Baron 2014-07-04  479  	if (!mci)
+78fd4d1242e88f Jason Baron 2014-07-09  480  		return -ENOMEM;
+7ee40b897d18ab Jason Baron 2014-07-04  481  
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  482  	window = ie31200_map_mchbar(pdev, cfg, mc);
+78fd4d1242e88f Jason Baron 2014-07-09 @483  	if (!window) {
+78fd4d1242e88f Jason Baron 2014-07-09  484  		ret = -ENODEV;
+78fd4d1242e88f Jason Baron 2014-07-09  485  		goto fail_free;
+78fd4d1242e88f Jason Baron 2014-07-09  486  	}
+7ee40b897d18ab Jason Baron 2014-07-04  487  
+78fd4d1242e88f Jason Baron 2014-07-09  488  	edac_dbg(3, "MC: init mci\n");
+2a52cce6486171 Qiuxu Zhuo  2025-03-10  489  	mci->mtype_cap = BIT(cfg->mtype);
+7ee40b897d18ab Jason Baron 2014-07-04  490  	mci->edac_ctl_cap = EDAC_FLAG_SECDED;
+7ee40b897d18ab Jason Baron 2014-07-04  491  	mci->edac_cap = EDAC_FLAG_SECDED;
+7ee40b897d18ab Jason Baron 2014-07-04  492  	mci->mod_name = EDAC_MOD_STR;
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  493  	mci->ctl_name = ie31200_devs[mc].ctl_name;
+7ee40b897d18ab Jason Baron 2014-07-04  494  	mci->dev_name = pci_name(pdev);
+a5db1b296b181c Qiuxu Zhuo  2025-03-10  495  	mci->edac_check = cfg->cmci ? NULL : ie31200_check;
+7ee40b897d18ab Jason Baron 2014-07-04  496  	mci->ctl_page_to_phys = NULL;
+7ee40b897d18ab Jason Baron 2014-07-04  497  	priv = mci->pvt_info;
+7ee40b897d18ab Jason Baron 2014-07-04  498  	priv->window = window;
+2a52cce6486171 Qiuxu Zhuo  2025-03-10  499  	priv->c0errlog = window + cfg->reg_eccerrlog_offset[0];
+2a52cce6486171 Qiuxu Zhuo  2025-03-10  500  	priv->c1errlog = window + cfg->reg_eccerrlog_offset[1];
+2a52cce6486171 Qiuxu Zhuo  2025-03-10  501  	priv->cfg = cfg;
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  502  	priv->mci = mci;
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  503  	priv->pdev = pdev;
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  504  	device_initialize(&priv->dev);
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  505  	/*
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  506  	 * The EDAC core uses mci->pdev (pointer to the structure device)
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  507  	 * as the memory controller ID. The SoCs attach one or more memory
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  508  	 * controllers to a single pci_dev (a single pci_dev->dev can
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  509  	 * correspond to multiple memory controllers).
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  510  	 *
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  511  	 * To make mci->pdev unique, assign pci_dev->dev to mci->pdev
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  512  	 * for the first memory controller and assign a unique priv->dev
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  513  	 * to mci->pdev for each additional memory controller.
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  514  	 */
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  515  	mci->pdev = mc ? &priv->dev : &pdev->dev;
+7ee40b897d18ab Jason Baron 2014-07-04  516  
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  517  	ie31200_get_dimm_config(mci, window, cfg, mc);
+7ee40b897d18ab Jason Baron 2014-07-04  518  	ie31200_clear_error_info(mci);
+7ee40b897d18ab Jason Baron 2014-07-04  519  
+7ee40b897d18ab Jason Baron 2014-07-04  520  	if (edac_mc_add_mc(mci)) {
+7ee40b897d18ab Jason Baron 2014-07-04  521  		edac_dbg(3, "MC: failed edac_mc_add_mc()\n");
+78fd4d1242e88f Jason Baron 2014-07-09  522  		ret = -ENODEV;
+78fd4d1242e88f Jason Baron 2014-07-09  523  		goto fail_unmap;
+7ee40b897d18ab Jason Baron 2014-07-04  524  	}
+7ee40b897d18ab Jason Baron 2014-07-04  525  
+d0742284ec6da1 Qiuxu Zhuo  2025-03-10  526  	ie31200_pvt.priv[mc] = priv;
+7ee40b897d18ab Jason Baron 2014-07-04  527  	return 0;
+7ee40b897d18ab Jason Baron 2014-07-04  528  fail_unmap:
+7ee40b897d18ab Jason Baron 2014-07-04  529  	iounmap(window);
+78fd4d1242e88f Jason Baron 2014-07-09  530  fail_free:
+329c40e0a4c7b0 Ma Ke       2025-11-05  531  	put_device(&priv->dev);
+78fd4d1242e88f Jason Baron 2014-07-09  532  	edac_mc_free(mci);
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  533  	return ret;
+498550e1fa7c1c Qiuxu Zhuo  2025-03-10  534  }
+78fd4d1242e88f Jason Baron 2014-07-09  535  
 
 -- 
 0-DAY CI Kernel Test Service
