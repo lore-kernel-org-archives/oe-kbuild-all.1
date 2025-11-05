@@ -1,60 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4202D8783;
-	Wed,  5 Nov 2025 20:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7328321F27
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 20:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762376212; cv=none; b=C6FPpFIPuPi3rp70vFrq3cyuYDEk34bpXSP6kB8ZtKN9DOC05VGedYkguEOjseGsYOfcwmFt4TD7vun9EOIvuiQt+u6xS4JWSEYOpevHKoWV79AYAiyABA+/ojGyX7X6EkKiCSZQkj767Tlm/6axhtKlnBnEaKSKq+BDHwZMXSQ=
+	t=1762376215; cv=none; b=reVkGPq4sdan4whElIugPVPf07+Vbm0LOaKKRC1uLh66vdKaJRKZxq9o7Ei4bRBAriH+Ggqu8sJZubmvVZn3DUssI9805+RXOkEAe8wOo/hHUynlwCrtDw4ixO9Bt0YM8HLqmEYVudMPFdOFDTi78E7/Z5IO07teoVsoZRTyMJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762376212; c=relaxed/simple;
-	bh=icLJr+c9Ou8t6mfrlf9E2yy34tCJAvTdwGzY+3zd2vw=;
+	s=arc-20240116; t=1762376215; c=relaxed/simple;
+	bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bj+p88Nk5kjCWdMjRLu+mBmZoDaxur1o3uE7fJYMvP8JJp7ua5GHmU0WMhHVfAdjzK6R545KAgAE35eInXwyouFTq36K6mr683SLRfJpqCKzy7agD4rI40roj+wxcdLUaO4XSkTAmf4CqQZKhUqAw/Y7U84f/kVAf5aL9uiAMNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZn2pTZt; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3m5pkRzozRZ2XAb0cEUycNq/BsqPr9VfKbHGoQ4TkfUOUlfrmAcTpJF7rffN9QqrgU42BUb4HeE88BjSZnExnetLhHGSy9MPy6mFPRO/CT4UqBQje1PWZ5mwOfA07t3EnDtznBuGrfR659SFSDCqwGZv7ERZx4IjrGYsDECsJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckvI0FsD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZn2pTZt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckvI0FsD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762376211; x=1793912211;
+  t=1762376214; x=1793912214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=icLJr+c9Ou8t6mfrlf9E2yy34tCJAvTdwGzY+3zd2vw=;
-  b=VZn2pTZtqqqF+8ivqDDU2pJxCwt3BIM4qupxOBZ5Kj7E5QclO7LbSVcg
-   4he9wyZ1zUzklS6UNPbd3RS8nPFpCfEXL/VJtB0TaRiHUMSo1Q/2QtH+L
-   ZrTV/6jG4H/h/mJlXfL29XLvdyhSCI/nWeS+Cfr6WlxyxNbH0rhzzhqj6
-   hEA9Pvg5e0y6Jd3CRXBnFSqkyp+zC6TKWjnafOhCOO9epxKb930mAVKQ2
-   RQm+LfePJ4CtmAw1HhV6lUow3kBUfCGudxYOQeAWfpp4JAYRgyWSRBb0I
-   OufswJ9wC0APj/wMaKLzecLLCt/jMkMc0hfm1pFCsT8AOPC8o8Wciccgh
-   A==;
-X-CSE-ConnectionGUID: Hq+jzkHRQWGZhE238/VZrA==
-X-CSE-MsgGUID: OF4pRDMRSLinQ4l9jlS+tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75185446"
+  bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
+  b=ckvI0FsD6WqK/aloEeaEjkfCr+KEi5juwibY0Y8u584ydCVZ17qPvWxM
+   mQOCrSY+uZPwObGzegBn2lno657O7kkcdqR84vKTtPjpBR1ehVM4JNkv/
+   ysaUeHId93ozHpEDZ2NmZf5qOYu4DMoedBhziN4OQ6lRLWBQ5JiOnBdcu
+   x7NhV/PMz3y98hpo5+QcQTEsQ/DdB0T6K08CdF7I0UN1Br9nAJhKAcXnn
+   0l/75y/BC7EWWRC8uosBY5TZ7jWu8od0wE/UzUIEtSyXQoIVUX+o4fjZi
+   ierc2f1NfC8dnibcylU93Vrml2jTMHlPMzHU6LSgSpiPzmW+cKIDbOf3I
+   Q==;
+X-CSE-ConnectionGUID: Y/8qCtsaQoOS1l+E/C1jJw==
+X-CSE-MsgGUID: Qq3ezTK1QdeS6f8uI+iD3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64602313"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="75185446"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:51 -0800
-X-CSE-ConnectionGUID: GzZhOu1sS12N0qDVZkIlfg==
-X-CSE-MsgGUID: wfCPU+KKSxul5WNhWWDhjg==
+   d="scan'208";a="64602313"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:53 -0800
+X-CSE-ConnectionGUID: AeMS6Am/TCalEZpqKR8AjA==
+X-CSE-MsgGUID: 3GJ74quFQrKrVc0jEipUHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="191850902"
+   d="scan'208";a="187401197"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2025 12:56:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 05 Nov 2025 12:56:48 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGkYh-000T7q-14;
-	Wed, 05 Nov 2025 20:56:47 +0000
-Date: Thu, 6 Nov 2025 04:55:26 +0800
+	id 1vGkYd-000T7m-1A;
+	Wed, 05 Nov 2025 20:56:46 +0000
+Date: Thu, 6 Nov 2025 04:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] EDAC/ie31200: Fix error handling in
- ie31200_register_mci
-Message-ID: <202511060427.k5gEuYdp-lkp@intel.com>
-References: <20251105022146.22105-1-make24@iscas.ac.cn>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mina Almasry <almasrymina@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
+ token management
+Message-ID: <202511060345.AQs0FTNg-lkp@intel.com>
+References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,132 +79,226 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251105022146.22105-1-make24@iscas.ac.cn>
+In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 
-Hi Ma,
+Hi Bobby,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on linus/master v6.18-rc4 next-20251105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 255d75ef029f33f75fcf5015052b7302486f7ad2]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/EDAC-ie31200-Fix-error-handling-in-ie31200_register_mci/20251105-102435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-patch link:    https://lore.kernel.org/r/20251105022146.22105-1-make24%40iscas.ac.cn
-patch subject: [PATCH v2] EDAC/ie31200: Fix error handling in ie31200_register_mci
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251106/202511060427.k5gEuYdp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060427.k5gEuYdp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
+base:   255d75ef029f33f75fcf5015052b7302486f7ad2
+patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
+patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
+config: arc-nsimosci_hs_defconfig (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060427.k5gEuYdp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060345.AQs0FTNg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/edac/ie31200_edac.c:483:6: warning: variable 'priv' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     483 |         if (!window) {
-         |             ^~~~~~~
-   drivers/edac/ie31200_edac.c:531:14: note: uninitialized use occurs here
-     531 |         put_device(&priv->dev);
-         |                     ^~~~
-   drivers/edac/ie31200_edac.c:483:2: note: remove the 'if' if its condition is always false
-     483 |         if (!window) {
-         |         ^~~~~~~~~~~~~~
-     484 |                 ret = -ENODEV;
-         |                 ~~~~~~~~~~~~~~
-     485 |                 goto fail_free;
-         |                 ~~~~~~~~~~~~~~~
-     486 |         }
-         |         ~
-   drivers/edac/ie31200_edac.c:465:27: note: initialize the variable 'priv' to silence this warning
-     465 |         struct ie31200_priv *priv;
-         |                                  ^
-         |                                   = NULL
-   1 warning generated.
+   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
+>> net/ipv4/tcp.c:2661:12: warning: 'refs' is used uninitialized [-Wuninitialized]
+    2661 |         if (refs > 0)
+         |            ^
+   net/ipv4/tcp.c:2496:13: note: 'refs' was declared here
+    2496 |         int refs;
+         |             ^~~~
 
 
-vim +483 drivers/edac/ie31200_edac.c
+vim +/refs +2661 net/ipv4/tcp.c
 
-7ee40b897d18ab Jason Baron 2014-07-04  461  
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  462  static int ie31200_register_mci(struct pci_dev *pdev, struct res_config *cfg, int mc)
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  463  {
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  464  	struct edac_mc_layer layers[2];
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  465  	struct ie31200_priv *priv;
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  466  	struct mem_ctl_info *mci;
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  467  	void __iomem *window;
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  468  	int ret;
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  469  
-7ee40b897d18ab Jason Baron 2014-07-04  470  	nr_channels = how_many_channels(pdev);
-7ee40b897d18ab Jason Baron 2014-07-04  471  	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
-d59d844e319d97 Qiuxu Zhuo  2025-03-10  472  	layers[0].size = IE31200_RANKS_PER_CHANNEL;
-7ee40b897d18ab Jason Baron 2014-07-04  473  	layers[0].is_virt_csrow = true;
-7ee40b897d18ab Jason Baron 2014-07-04  474  	layers[1].type = EDAC_MC_LAYER_CHANNEL;
-7ee40b897d18ab Jason Baron 2014-07-04  475  	layers[1].size = nr_channels;
-7ee40b897d18ab Jason Baron 2014-07-04  476  	layers[1].is_virt_csrow = false;
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  477  	mci = edac_mc_alloc(mc, ARRAY_SIZE(layers), layers,
-7ee40b897d18ab Jason Baron 2014-07-04  478  			    sizeof(struct ie31200_priv));
-7ee40b897d18ab Jason Baron 2014-07-04  479  	if (!mci)
-78fd4d1242e88f Jason Baron 2014-07-09  480  		return -ENOMEM;
-7ee40b897d18ab Jason Baron 2014-07-04  481  
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  482  	window = ie31200_map_mchbar(pdev, cfg, mc);
-78fd4d1242e88f Jason Baron 2014-07-09 @483  	if (!window) {
-78fd4d1242e88f Jason Baron 2014-07-09  484  		ret = -ENODEV;
-78fd4d1242e88f Jason Baron 2014-07-09  485  		goto fail_free;
-78fd4d1242e88f Jason Baron 2014-07-09  486  	}
-7ee40b897d18ab Jason Baron 2014-07-04  487  
-78fd4d1242e88f Jason Baron 2014-07-09  488  	edac_dbg(3, "MC: init mci\n");
-2a52cce6486171 Qiuxu Zhuo  2025-03-10  489  	mci->mtype_cap = BIT(cfg->mtype);
-7ee40b897d18ab Jason Baron 2014-07-04  490  	mci->edac_ctl_cap = EDAC_FLAG_SECDED;
-7ee40b897d18ab Jason Baron 2014-07-04  491  	mci->edac_cap = EDAC_FLAG_SECDED;
-7ee40b897d18ab Jason Baron 2014-07-04  492  	mci->mod_name = EDAC_MOD_STR;
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  493  	mci->ctl_name = ie31200_devs[mc].ctl_name;
-7ee40b897d18ab Jason Baron 2014-07-04  494  	mci->dev_name = pci_name(pdev);
-a5db1b296b181c Qiuxu Zhuo  2025-03-10  495  	mci->edac_check = cfg->cmci ? NULL : ie31200_check;
-7ee40b897d18ab Jason Baron 2014-07-04  496  	mci->ctl_page_to_phys = NULL;
-7ee40b897d18ab Jason Baron 2014-07-04  497  	priv = mci->pvt_info;
-7ee40b897d18ab Jason Baron 2014-07-04  498  	priv->window = window;
-2a52cce6486171 Qiuxu Zhuo  2025-03-10  499  	priv->c0errlog = window + cfg->reg_eccerrlog_offset[0];
-2a52cce6486171 Qiuxu Zhuo  2025-03-10  500  	priv->c1errlog = window + cfg->reg_eccerrlog_offset[1];
-2a52cce6486171 Qiuxu Zhuo  2025-03-10  501  	priv->cfg = cfg;
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  502  	priv->mci = mci;
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  503  	priv->pdev = pdev;
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  504  	device_initialize(&priv->dev);
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  505  	/*
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  506  	 * The EDAC core uses mci->pdev (pointer to the structure device)
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  507  	 * as the memory controller ID. The SoCs attach one or more memory
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  508  	 * controllers to a single pci_dev (a single pci_dev->dev can
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  509  	 * correspond to multiple memory controllers).
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  510  	 *
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  511  	 * To make mci->pdev unique, assign pci_dev->dev to mci->pdev
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  512  	 * for the first memory controller and assign a unique priv->dev
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  513  	 * to mci->pdev for each additional memory controller.
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  514  	 */
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  515  	mci->pdev = mc ? &priv->dev : &pdev->dev;
-7ee40b897d18ab Jason Baron 2014-07-04  516  
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  517  	ie31200_get_dimm_config(mci, window, cfg, mc);
-7ee40b897d18ab Jason Baron 2014-07-04  518  	ie31200_clear_error_info(mci);
-7ee40b897d18ab Jason Baron 2014-07-04  519  
-7ee40b897d18ab Jason Baron 2014-07-04  520  	if (edac_mc_add_mc(mci)) {
-7ee40b897d18ab Jason Baron 2014-07-04  521  		edac_dbg(3, "MC: failed edac_mc_add_mc()\n");
-78fd4d1242e88f Jason Baron 2014-07-09  522  		ret = -ENODEV;
-78fd4d1242e88f Jason Baron 2014-07-09  523  		goto fail_unmap;
-7ee40b897d18ab Jason Baron 2014-07-04  524  	}
-7ee40b897d18ab Jason Baron 2014-07-04  525  
-d0742284ec6da1 Qiuxu Zhuo  2025-03-10  526  	ie31200_pvt.priv[mc] = priv;
-7ee40b897d18ab Jason Baron 2014-07-04  527  	return 0;
-7ee40b897d18ab Jason Baron 2014-07-04  528  fail_unmap:
-7ee40b897d18ab Jason Baron 2014-07-04  529  	iounmap(window);
-78fd4d1242e88f Jason Baron 2014-07-09  530  fail_free:
-329c40e0a4c7b0 Ma Ke       2025-11-05  531  	put_device(&priv->dev);
-78fd4d1242e88f Jason Baron 2014-07-09  532  	edac_mc_free(mci);
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  533  	return ret;
-498550e1fa7c1c Qiuxu Zhuo  2025-03-10  534  }
-78fd4d1242e88f Jason Baron 2014-07-09  535  
+  2481	
+  2482	/* On error, returns the -errno. On success, returns number of bytes sent to the
+  2483	 * user. May not consume all of @remaining_len.
+  2484	 */
+  2485	static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
+  2486				      unsigned int offset, struct msghdr *msg,
+  2487				      int remaining_len)
+  2488	{
+  2489		struct net_devmem_dmabuf_binding *binding = NULL;
+  2490		struct dmabuf_cmsg dmabuf_cmsg = { 0 };
+  2491		struct tcp_xa_pool tcp_xa_pool;
+  2492		unsigned int start;
+  2493		int i, copy, n;
+  2494		int sent = 0;
+  2495		int err = 0;
+  2496		int refs;
+  2497	
+  2498		tcp_xa_pool.max = 0;
+  2499		tcp_xa_pool.idx = 0;
+  2500		do {
+  2501			start = skb_headlen(skb);
+  2502	
+  2503			if (skb_frags_readable(skb)) {
+  2504				err = -ENODEV;
+  2505				goto out;
+  2506			}
+  2507	
+  2508			/* Copy header. */
+  2509			copy = start - offset;
+  2510			if (copy > 0) {
+  2511				copy = min(copy, remaining_len);
+  2512	
+  2513				n = copy_to_iter(skb->data + offset, copy,
+  2514						 &msg->msg_iter);
+  2515				if (n != copy) {
+  2516					err = -EFAULT;
+  2517					goto out;
+  2518				}
+  2519	
+  2520				offset += copy;
+  2521				remaining_len -= copy;
+  2522	
+  2523				/* First a dmabuf_cmsg for # bytes copied to user
+  2524				 * buffer.
+  2525				 */
+  2526				memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
+  2527				dmabuf_cmsg.frag_size = copy;
+  2528				err = put_cmsg_notrunc(msg, SOL_SOCKET,
+  2529						       SO_DEVMEM_LINEAR,
+  2530						       sizeof(dmabuf_cmsg),
+  2531						       &dmabuf_cmsg);
+  2532				if (err)
+  2533					goto out;
+  2534	
+  2535				sent += copy;
+  2536	
+  2537				if (remaining_len == 0)
+  2538					goto out;
+  2539			}
+  2540	
+  2541			/* after that, send information of dmabuf pages through a
+  2542			 * sequence of cmsg
+  2543			 */
+  2544			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
+  2545				skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
+  2546				struct net_iov *niov;
+  2547				u64 frag_offset;
+  2548				u32 token;
+  2549				int end;
+  2550	
+  2551				/* !skb_frags_readable() should indicate that ALL the
+  2552				 * frags in this skb are dmabuf net_iovs. We're checking
+  2553				 * for that flag above, but also check individual frags
+  2554				 * here. If the tcp stack is not setting
+  2555				 * skb_frags_readable() correctly, we still don't want
+  2556				 * to crash here.
+  2557				 */
+  2558				if (!skb_frag_net_iov(frag)) {
+  2559					net_err_ratelimited("Found non-dmabuf skb with net_iov");
+  2560					err = -ENODEV;
+  2561					goto out;
+  2562				}
+  2563	
+  2564				niov = skb_frag_net_iov(frag);
+  2565				if (!net_is_devmem_iov(niov)) {
+  2566					err = -ENODEV;
+  2567					goto out;
+  2568				}
+  2569	
+  2570				end = start + skb_frag_size(frag);
+  2571				copy = end - offset;
+  2572	
+  2573				if (copy > 0) {
+  2574					copy = min(copy, remaining_len);
+  2575	
+  2576					frag_offset = net_iov_virtual_addr(niov) +
+  2577						      skb_frag_off(frag) + offset -
+  2578						      start;
+  2579					dmabuf_cmsg.frag_offset = frag_offset;
+  2580					dmabuf_cmsg.frag_size = copy;
+  2581	
+  2582					binding = net_devmem_iov_binding(niov);
+  2583	
+  2584					if (!sk->sk_devmem_info.binding)
+  2585						sk->sk_devmem_info.binding = binding;
+  2586	
+  2587					if (sk->sk_devmem_info.binding != binding) {
+  2588						err = -EFAULT;
+  2589						goto out;
+  2590					}
+  2591	
+  2592					if (sk->sk_devmem_info.autorelease) {
+  2593						err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
+  2594									 skb_shinfo(skb)->nr_frags - i);
+  2595						if (err)
+  2596							goto out;
+  2597	
+  2598						dmabuf_cmsg.frag_token =
+  2599							tcp_xa_pool.tokens[tcp_xa_pool.idx];
+  2600					} else {
+  2601						token = net_iov_virtual_addr(niov) >> PAGE_SHIFT;
+  2602						dmabuf_cmsg.frag_token = token;
+  2603					}
+  2604	
+  2605	
+  2606					/* Will perform the exchange later */
+  2607					dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
+  2608	
+  2609					offset += copy;
+  2610					remaining_len -= copy;
+  2611	
+  2612					err = put_cmsg_notrunc(msg, SOL_SOCKET,
+  2613							       SO_DEVMEM_DMABUF,
+  2614							       sizeof(dmabuf_cmsg),
+  2615							       &dmabuf_cmsg);
+  2616					if (err)
+  2617						goto out;
+  2618	
+  2619					if (sk->sk_devmem_info.autorelease) {
+  2620						atomic_long_inc(&niov->pp_ref_count);
+  2621						tcp_xa_pool.netmems[tcp_xa_pool.idx++] =
+  2622							skb_frag_netmem(frag);
+  2623					} else {
+  2624						if (atomic_inc_return(&niov->uref) == 1)
+  2625							atomic_long_inc(&niov->pp_ref_count);
+  2626						refs++;
+  2627					}
+  2628	
+  2629					sent += copy;
+  2630	
+  2631					if (remaining_len == 0)
+  2632						goto out;
+  2633				}
+  2634				start = end;
+  2635			}
+  2636	
+  2637			tcp_xa_pool_commit(sk, &tcp_xa_pool);
+  2638	
+  2639			if (!remaining_len)
+  2640				goto out;
+  2641	
+  2642			/* if remaining_len is not satisfied yet, we need to go to the
+  2643			 * next frag in the frag_list to satisfy remaining_len.
+  2644			 */
+  2645			skb = skb_shinfo(skb)->frag_list ?: skb->next;
+  2646	
+  2647			offset = offset - start;
+  2648		} while (skb);
+  2649	
+  2650		if (remaining_len) {
+  2651			err = -EFAULT;
+  2652			goto out;
+  2653		}
+  2654	
+  2655	out:
+  2656		tcp_xa_pool_commit(sk, &tcp_xa_pool);
+  2657	
+  2658		if (!sent)
+  2659			sent = err;
+  2660	
+> 2661		if (refs > 0)
+  2662			atomic_add(refs, &sk->sk_devmem_info.outstanding_urefs);
+  2663	
+  2664		return sent;
+  2665	}
+  2666	
 
 -- 
 0-DAY CI Kernel Test Service
