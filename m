@@ -1,76 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7328321F27
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 20:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05411E47A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 21:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762376215; cv=none; b=reVkGPq4sdan4whElIugPVPf07+Vbm0LOaKKRC1uLh66vdKaJRKZxq9o7Ei4bRBAriH+Ggqu8sJZubmvVZn3DUssI9805+RXOkEAe8wOo/hHUynlwCrtDw4ixO9Bt0YM8HLqmEYVudMPFdOFDTi78E7/Z5IO07teoVsoZRTyMJ0=
+	t=1762377439; cv=none; b=g9YaTyxJyLHBBEASL8An85q4kUMtqvieun22Wqtl+SVKLW2v49syI+Ddu07EsguumY3aL6MaLOF26530v2llH+FCXvvHriftiscZfs+pnHoKRG6pERTB3TIaxXgWFYfcOlNvIuZn9Og62gJ2Zf0L1SnBMjMIZRDR6jF9X5tvJg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762376215; c=relaxed/simple;
-	bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t3m5pkRzozRZ2XAb0cEUycNq/BsqPr9VfKbHGoQ4TkfUOUlfrmAcTpJF7rffN9QqrgU42BUb4HeE88BjSZnExnetLhHGSy9MPy6mFPRO/CT4UqBQje1PWZ5mwOfA07t3EnDtznBuGrfR659SFSDCqwGZv7ERZx4IjrGYsDECsJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckvI0FsD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1762377439; c=relaxed/simple;
+	bh=LJ2GGNKAhrpK6pA+moMMwCo30pDwqTl/LtA+ytZeLeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ErJhCafDcAO4Ildhmx5fH0c01HUfAhyv3ln8wG14UaVCuK+e9rX8N7TZg41O0zeN046dnB+WK1qs6gKwP0BZqPKRusdeBgzbaa9SDBTYtn758DHOSFvAc6l5WeF8/2123CGjxRDQ9rOIyYyUe5++cSHe+skfD3/J/xe2ijy0nBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AreGl8ts; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckvI0FsD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AreGl8ts"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762376214; x=1793912214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fC9X5qQj+U0WNsqsc7Qvk95wkvv4i6g0VGE+cP4MB1g=;
-  b=ckvI0FsD6WqK/aloEeaEjkfCr+KEi5juwibY0Y8u584ydCVZ17qPvWxM
-   mQOCrSY+uZPwObGzegBn2lno657O7kkcdqR84vKTtPjpBR1ehVM4JNkv/
-   ysaUeHId93ozHpEDZ2NmZf5qOYu4DMoedBhziN4OQ6lRLWBQ5JiOnBdcu
-   x7NhV/PMz3y98hpo5+QcQTEsQ/DdB0T6K08CdF7I0UN1Br9nAJhKAcXnn
-   0l/75y/BC7EWWRC8uosBY5TZ7jWu8od0wE/UzUIEtSyXQoIVUX+o4fjZi
-   ierc2f1NfC8dnibcylU93Vrml2jTMHlPMzHU6LSgSpiPzmW+cKIDbOf3I
-   Q==;
-X-CSE-ConnectionGUID: Y/8qCtsaQoOS1l+E/C1jJw==
-X-CSE-MsgGUID: Qq3ezTK1QdeS6f8uI+iD3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64602313"
+  t=1762377437; x=1793913437;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LJ2GGNKAhrpK6pA+moMMwCo30pDwqTl/LtA+ytZeLeY=;
+  b=AreGl8tsm1ji5pJXYFs7HYbr1+sLoP3hYXe8KBBVNxbzgNhfmsSrvaDq
+   Qc0gq+J41YM2iAIFk45f+OG/4tgF/0I/7cgEMLX8gvrg5kpXI8ywJ957Y
+   4kq2P2S0fzqtqHnyrvkKkCtbtq05AqXotjgLGDeKi+F0ucf9Nbc/ji7TK
+   TiCuEjcBTglRiqTqf95N87qBbFKgQHaPlFTbYltHAcshIpZU9TcIJSBuH
+   tZeEDx8QeKQhXgL7bZxCc18OlVYXe6+3zlW8fdw/RDNRckTPMqooFK7G2
+   g6+LNN/hLjUFv+uH0BOAZnAB4bZ0kCdgxuWVwttsK5ka5S8CrjUkdtayL
+   g==;
+X-CSE-ConnectionGUID: kp3TYij9RPC8PmUiois0YA==
+X-CSE-MsgGUID: 0bUO/OtoQpOQkZKzP0B1rQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="52073806"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="64602313"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 12:56:53 -0800
-X-CSE-ConnectionGUID: AeMS6Am/TCalEZpqKR8AjA==
-X-CSE-MsgGUID: 3GJ74quFQrKrVc0jEipUHw==
+   d="scan'208";a="52073806"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 13:17:17 -0800
+X-CSE-ConnectionGUID: XbszwmprRzuvnEGqB17geQ==
+X-CSE-MsgGUID: 4v2VKAGPQiaEStBv5H8wwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="187401197"
+   d="scan'208";a="191669079"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 05 Nov 2025 12:56:48 -0800
+  by orviesa003.jf.intel.com with ESMTP; 05 Nov 2025 13:17:15 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGkYd-000T7m-1A;
-	Wed, 05 Nov 2025 20:56:46 +0000
-Date: Thu, 6 Nov 2025 04:55:32 +0800
+	id 1vGksO-000T8m-1N;
+	Wed, 05 Nov 2025 21:17:09 +0000
+Date: Thu, 6 Nov 2025 05:16:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
- token management
-Message-ID: <202511060345.AQs0FTNg-lkp@intel.com>
-References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1932/1932] drivers/char/svm.c:320:14:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202511060514.zlUwipLt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,226 +61,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 
-Hi Bobby,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 255d75ef029f33f75fcf5015052b7302486f7ad2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
-base:   255d75ef029f33f75fcf5015052b7302486f7ad2
-patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
-patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
-config: arc-nsimosci_hs_defconfig (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060345.AQs0FTNg-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   27e321784c005c852ca4b3a2d146547deac0698f
+commit: 9469d1759c2905dcef49df7e6240ad5c32b66296 [1932/1932] ascend: share_pool: enable svm to use share pool memory
+config: arm64-randconfig-r132-20251106 (https://download.01.org/0day-ci/archive/20251106/202511060514.zlUwipLt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060514.zlUwipLt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060345.AQs0FTNg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060514.zlUwipLt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/char/svm.c:240:24: sparse: sparse: symbol 'va2pa_trunk' was not declared. Should it be static?
+   drivers/char/svm.c:249:20: sparse: sparse: symbol 'svm_find_mem_reg_node' was not declared. Should it be static?
+>> drivers/char/svm.c:320:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct svm_va2pa_slot *slot @@     got void [noderef] <asn:2> * @@
+   drivers/char/svm.c:320:14: sparse:     expected struct svm_va2pa_slot *slot
+   drivers/char/svm.c:320:14: sparse:     got void [noderef] <asn:2> *
+   drivers/char/svm.c:338:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got struct svm_va2pa_slot *[addressable] [assigned] [toplevel] slots @@
+   drivers/char/svm.c:338:28: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/char/svm.c:338:28: sparse:     got struct svm_va2pa_slot *[addressable] [assigned] [toplevel] slots
+   drivers/char/svm.c:419:6: sparse: sparse: symbol 'sysrq_sched_debug_show_export' was not declared. Should it be static?
+   drivers/char/svm.c:1242:35: sparse: sparse: Using plain integer as NULL pointer
+   drivers/char/svm.c:1502:5: sparse: sparse: symbol '__svm_get_mpam' was not declared. Should it be static?
+   drivers/char/svm.c:249:21: warning: no previous prototype for 'svm_find_mem_reg_node' [-Wmissing-prototypes]
+     249 | struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:419:6: warning: no previous prototype for 'sysrq_sched_debug_show_export' [-Wmissing-prototypes]
+     419 | void sysrq_sched_debug_show_export(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/svm.c:1429:5: warning: no previous prototype for 'svm_get_pasid' [-Wmissing-prototypes]
+    1429 | int svm_get_pasid(pid_t vpid, int dev_id __maybe_unused)
+         |     ^~~~~~~~~~~~~
+   drivers/char/svm.c:1502:5: warning: no previous prototype for '__svm_get_mpam' [-Wmissing-prototypes]
+    1502 | int __svm_get_mpam(struct svm_mpam *mpam)
+         |     ^~~~~~~~~~~~~~
+   drivers/char/svm.c:2437:36: warning: 'svm_acpi_match' defined but not used [-Wunused-const-variable=]
+    2437 | static const struct acpi_device_id svm_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:34,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from arch/arm64/include/asm/memory.h:27,
+                    from arch/arm64/include/asm/esr.h:21,
+                    from drivers/char/svm.c:10:
+   drivers/char/svm.c: In function 'svm_proc_load_flag':
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds]
+     492 |         asm volatile(                                                   42-      |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c:1958:25: note: while referencing 'l2buf_load_flag'
+    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:34,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from arch/arm64/include/asm/memory.h:27,
+                    from arch/arm64/include/asm/esr.h:21,
+                    from drivers/char/svm.c:10:
+   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds]
+     492 |         asm volatile(                                                   62-      |         ^~~
+   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
+     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
+         | ^~~~~~~~~~~~~~
+   drivers/char/svm.c:1958:25: note: while referencing 'l2buf_load_flag'
+    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
+         |                         ^~~~~~~~~~~~~~~
 
-   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
->> net/ipv4/tcp.c:2661:12: warning: 'refs' is used uninitialized [-Wuninitialized]
-    2661 |         if (refs > 0)
-         |            ^
-   net/ipv4/tcp.c:2496:13: note: 'refs' was declared here
-    2496 |         int refs;
-         |             ^~~~
+vim +320 drivers/char/svm.c
 
-
-vim +/refs +2661 net/ipv4/tcp.c
-
-  2481	
-  2482	/* On error, returns the -errno. On success, returns number of bytes sent to the
-  2483	 * user. May not consume all of @remaining_len.
-  2484	 */
-  2485	static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-  2486				      unsigned int offset, struct msghdr *msg,
-  2487				      int remaining_len)
-  2488	{
-  2489		struct net_devmem_dmabuf_binding *binding = NULL;
-  2490		struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-  2491		struct tcp_xa_pool tcp_xa_pool;
-  2492		unsigned int start;
-  2493		int i, copy, n;
-  2494		int sent = 0;
-  2495		int err = 0;
-  2496		int refs;
-  2497	
-  2498		tcp_xa_pool.max = 0;
-  2499		tcp_xa_pool.idx = 0;
-  2500		do {
-  2501			start = skb_headlen(skb);
-  2502	
-  2503			if (skb_frags_readable(skb)) {
-  2504				err = -ENODEV;
-  2505				goto out;
-  2506			}
-  2507	
-  2508			/* Copy header. */
-  2509			copy = start - offset;
-  2510			if (copy > 0) {
-  2511				copy = min(copy, remaining_len);
-  2512	
-  2513				n = copy_to_iter(skb->data + offset, copy,
-  2514						 &msg->msg_iter);
-  2515				if (n != copy) {
-  2516					err = -EFAULT;
-  2517					goto out;
-  2518				}
-  2519	
-  2520				offset += copy;
-  2521				remaining_len -= copy;
-  2522	
-  2523				/* First a dmabuf_cmsg for # bytes copied to user
-  2524				 * buffer.
-  2525				 */
-  2526				memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-  2527				dmabuf_cmsg.frag_size = copy;
-  2528				err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2529						       SO_DEVMEM_LINEAR,
-  2530						       sizeof(dmabuf_cmsg),
-  2531						       &dmabuf_cmsg);
-  2532				if (err)
-  2533					goto out;
-  2534	
-  2535				sent += copy;
-  2536	
-  2537				if (remaining_len == 0)
-  2538					goto out;
-  2539			}
-  2540	
-  2541			/* after that, send information of dmabuf pages through a
-  2542			 * sequence of cmsg
-  2543			 */
-  2544			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-  2545				skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-  2546				struct net_iov *niov;
-  2547				u64 frag_offset;
-  2548				u32 token;
-  2549				int end;
-  2550	
-  2551				/* !skb_frags_readable() should indicate that ALL the
-  2552				 * frags in this skb are dmabuf net_iovs. We're checking
-  2553				 * for that flag above, but also check individual frags
-  2554				 * here. If the tcp stack is not setting
-  2555				 * skb_frags_readable() correctly, we still don't want
-  2556				 * to crash here.
-  2557				 */
-  2558				if (!skb_frag_net_iov(frag)) {
-  2559					net_err_ratelimited("Found non-dmabuf skb with net_iov");
-  2560					err = -ENODEV;
-  2561					goto out;
-  2562				}
-  2563	
-  2564				niov = skb_frag_net_iov(frag);
-  2565				if (!net_is_devmem_iov(niov)) {
-  2566					err = -ENODEV;
-  2567					goto out;
-  2568				}
-  2569	
-  2570				end = start + skb_frag_size(frag);
-  2571				copy = end - offset;
-  2572	
-  2573				if (copy > 0) {
-  2574					copy = min(copy, remaining_len);
-  2575	
-  2576					frag_offset = net_iov_virtual_addr(niov) +
-  2577						      skb_frag_off(frag) + offset -
-  2578						      start;
-  2579					dmabuf_cmsg.frag_offset = frag_offset;
-  2580					dmabuf_cmsg.frag_size = copy;
-  2581	
-  2582					binding = net_devmem_iov_binding(niov);
-  2583	
-  2584					if (!sk->sk_devmem_info.binding)
-  2585						sk->sk_devmem_info.binding = binding;
-  2586	
-  2587					if (sk->sk_devmem_info.binding != binding) {
-  2588						err = -EFAULT;
-  2589						goto out;
-  2590					}
-  2591	
-  2592					if (sk->sk_devmem_info.autorelease) {
-  2593						err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
-  2594									 skb_shinfo(skb)->nr_frags - i);
-  2595						if (err)
-  2596							goto out;
-  2597	
-  2598						dmabuf_cmsg.frag_token =
-  2599							tcp_xa_pool.tokens[tcp_xa_pool.idx];
-  2600					} else {
-  2601						token = net_iov_virtual_addr(niov) >> PAGE_SHIFT;
-  2602						dmabuf_cmsg.frag_token = token;
-  2603					}
-  2604	
-  2605	
-  2606					/* Will perform the exchange later */
-  2607					dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-  2608	
-  2609					offset += copy;
-  2610					remaining_len -= copy;
-  2611	
-  2612					err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2613							       SO_DEVMEM_DMABUF,
-  2614							       sizeof(dmabuf_cmsg),
-  2615							       &dmabuf_cmsg);
-  2616					if (err)
-  2617						goto out;
-  2618	
-  2619					if (sk->sk_devmem_info.autorelease) {
-  2620						atomic_long_inc(&niov->pp_ref_count);
-  2621						tcp_xa_pool.netmems[tcp_xa_pool.idx++] =
-  2622							skb_frag_netmem(frag);
-  2623					} else {
-  2624						if (atomic_inc_return(&niov->uref) == 1)
-  2625							atomic_long_inc(&niov->pp_ref_count);
-  2626						refs++;
-  2627					}
-  2628	
-  2629					sent += copy;
-  2630	
-  2631					if (remaining_len == 0)
-  2632						goto out;
-  2633				}
-  2634				start = end;
-  2635			}
-  2636	
-  2637			tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2638	
-  2639			if (!remaining_len)
-  2640				goto out;
-  2641	
-  2642			/* if remaining_len is not satisfied yet, we need to go to the
-  2643			 * next frag in the frag_list to satisfy remaining_len.
-  2644			 */
-  2645			skb = skb_shinfo(skb)->frag_list ?: skb->next;
-  2646	
-  2647			offset = offset - start;
-  2648		} while (skb);
-  2649	
-  2650		if (remaining_len) {
-  2651			err = -EFAULT;
-  2652			goto out;
-  2653		}
-  2654	
-  2655	out:
-  2656		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2657	
-  2658		if (!sent)
-  2659			sent = err;
-  2660	
-> 2661		if (refs > 0)
-  2662			atomic_add(refs, &sk->sk_devmem_info.outstanding_urefs);
-  2663	
-  2664		return sent;
-  2665	}
-  2666	
+   293	
+   294	static int svm_setup_trunk(struct device *dev, phys_addr_t base, unsigned long size)
+   295	{
+   296		int slot_total;
+   297		unsigned long *bitmap = NULL;
+   298		struct svm_va2pa_slot *slot = NULL;
+   299	
+   300		if (!IS_ALIGNED(base, SVM_VA2PA_MEMORY_ALIGN)) {
+   301			dev_err(dev, "Didn't aligned to %u\n", SVM_VA2PA_MEMORY_ALIGN);
+   302			return -EINVAL;
+   303		}
+   304	
+   305		if ((size == 0) || (size > SVM_VA2PA_TRUNK_SIZE_MAX)) {
+   306			dev_err(dev, "Size of reserved memory is not right\n");
+   307			return -EINVAL;
+   308		}
+   309	
+   310		slot_total = size / SVM_VA2PA_SLOT_SIZE;
+   311		if (slot_total < BITS_PER_LONG)
+   312			return -EINVAL;
+   313	
+   314		bitmap = kvcalloc(slot_total / BITS_PER_LONG, sizeof(unsigned long), GFP_KERNEL);
+   315		if (!bitmap) {
+   316			dev_err(dev, "alloc memory failed\n");
+   317			return -ENOMEM;
+   318		}
+   319	
+ > 320		slot = ioremap(base, size);
+   321		if (!slot) {
+   322			kvfree(bitmap);
+   323			dev_err(dev, "Ioremap trunk failed\n");
+   324			return -ENXIO;
+   325		}
+   326	
+   327		va2pa_trunk.slots = slot;
+   328		va2pa_trunk.slot_used = 0;
+   329		va2pa_trunk.slot_total = slot_total;
+   330		va2pa_trunk.bitmap = bitmap;
+   331		mutex_init(&va2pa_trunk.mutex);
+   332	
+   333		return 0;
+   334	}
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
