@@ -1,224 +1,445 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634F6258CDC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 07:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762328916; cv=fail; b=iCNKiCzJsGFPiVcq/6YrR6g/oslCS4qBjavD/uFehcr1c8Lg02y/tqRziLUU7oSmdHCr/Mp/lFUm+c6Aa9zkP7MW0h+54jltW4MGO+whUWWrgoRPsFAmIJGGSgzFC7ghcJsI8AHevPKsv9dazL6V1taU9gGYb9PA6su5SZvGL7g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762328916; c=relaxed/simple;
-	bh=xmx22ZNg9wYkfSOMjaet689y6TbaMJUddYb0H6iS1b8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=NofO8OnniTwl7X+Wx1pXLIHV4avvNo4UelLl2mHCs1y2u7kRZaYuv673eMY+u7Hti02jRzbQD67B5hxGMEvPYJMRAIrQ2WUNToyQorF8mvnqPQ/JoKuqF+Ufc0dSgn/8JxTVyuH66gTdjgJQ+CXPU9sBVHyoLkHMO9NejnYpvSI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cm+i1ig4; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C2621CC68
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 08:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762330251; cv=none; b=kUWFc/UvNOwT9ZbK03LyjF6dAeHzI5RVxqF9EUH5X3AgMOfalxnAu5mNurZJYC/5TzlqybkWQMeiPqfGf4A1MtArVJjF2xAxUCLo3U+tKZvjd6POKT6TgnNW/ng35ZQAhf3OKhesoJ/KP3vNOCjskPc0gYGz7fpvB/vPxgzkDys=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762330251; c=relaxed/simple;
+	bh=ZwzmWC/UI8vKQARCoFMIiDyEKn8tnIcOH93rqdRgQ5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GxPc5+swjJVnYgBOQBJdjHHEP+Eq+KybOHdYBIz/lxV+DQikqu0LZzQYLckrJrqYspjhxrxyrbOJvwihACsMovnlQQb5wZWtkw0k+4Ly8W84RY5ZGctUNq+qP5VJqtIjdPNIM8BufAzsODXW/3KIBv2SBHZeXnj6SynWSwG7GMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=URCv7SMO; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cm+i1ig4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762328915; x=1793864915;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=xmx22ZNg9wYkfSOMjaet689y6TbaMJUddYb0H6iS1b8=;
-  b=cm+i1ig4t27o91YYTU87szwKXA+hPb0RMST0jacIXVJeoFR/I5SKT7IJ
-   mQFHqBm4Lku54EA29GbFzkQndC3PoFO4DV2cxE0Qd8pZr+IGU+Kb0C40a
-   1RmrNNbwJZGIWCqsLKJdYjLD2U/ODBCLc1txc1+5M9TwDgxucTuDD8Vto
-   lYAVmjJvQaecWm1lETpdloLfwMwjhq8PGy5pzMLumh1wPxLdwZinunI3J
-   FGM+q2AiT8Jswxnnf4ZBlL8tuGJ+VBmvmXxi0y5BaahhWPfEZ3oA1TXvr
-   NRgAbpDTyjreZmC2DMZGJRinJlmc5lvIzDlD9GqvdI12CwHr4iK2z1KEU
-   w==;
-X-CSE-ConnectionGUID: 5ctRSBUsREq5KJbno6GNZQ==
-X-CSE-MsgGUID: dRmOVTKPQxmNGQR6qdVB9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="75115923"
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="75115923"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 23:48:34 -0800
-X-CSE-ConnectionGUID: DzetlgaURhm+I4oDH3tmMw==
-X-CSE-MsgGUID: yFkkIXiMTwyc2yw+m3nNug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="187230837"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2025 23:48:33 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 4 Nov 2025 23:48:33 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Tue, 4 Nov 2025 23:48:33 -0800
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.71) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Tue, 4 Nov 2025 23:48:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jpgLc89KNmbOcHdWIEgel5JjkPmL2yk8m1Tqc/pjQgRXOZEtgGoTrwB7oRuPi/PFVuUkZNQVgW2BFqAoxtgHKDG2NvxubcpgMqCmlkDo6LubpsCc8izff1ugy8PF5Fa2sCOiGB85qwmz1XSmxugwU6Qao6LCbaVWYhNYRadOsdzf9TQmSMaYkB5GRThNfwP9SdBhcCo0LTsG9M/NJ6pyJMKccffatG/cAsdg+IlvcVj6dUWbHFhCoxEOyBnljz0vV5xjI1y+6cWLxyieQZjLsGvRWRbBMcWUkPr0WXGGNnhpC2cB1a2+XGak1mDMnmWya8kUtVtxYpAf22wRytoACQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zWvZeRTsUxFPVcT9r7EfVT1o2BJ9yVbi064N0KRRjOc=;
- b=EIoRiXR/fS80zPhtFIStktZZHjxByKINCJZqMF2vzBP7CHwI0KRml4WfXEFtcsUSzaarPtr57LXGvfmItqu+TsTGg5a67ScVEe8lYYZuJOBLE09oFE0qNemtsHYhstMVtL5tQ6mRltaI2yb1cSUFJUckwGKWH91wQTBkRtIDWjzLyIY9SB/kNCs5YPplFvNGr/rxtmyRXJrForo1uEGUAsfyCXrPPdjak7nJ0OoxgeUsht+9uMl9M8YpwYtmXG1n3/1E8WrSPCWdgyhRyJcOxeio8/2C15bLQHNM3HP6+zhSRMrRlgFFMFVL4dIsGbEswluxN5mRxdKfaNfOl/M1kQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by MW4PR11MB6810.namprd11.prod.outlook.com (2603:10b6:303:207::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.8; Wed, 5 Nov
- 2025 07:48:31 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Wed, 5 Nov 2025
- 07:48:31 +0000
-Date: Wed, 5 Nov 2025 15:48:20 +0800
-From: Philip Li <philip.li@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: kernel test robot <lkp@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-Message-ID: <aQsBRFPwz0RJ/u9S@rli9-mobl>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <202511050706.NIxJwZER-lkp@intel.com>
- <aQrgMldkQIS7VTtV@smile.fi.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aQrgMldkQIS7VTtV@smile.fi.intel.com>
-X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="URCv7SMO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=6o77NbDB4e0Jxpb566UfYBsyo2maYqMBXFkd0ulaCOY=; b=URCv7SMOw5FkmNCNBJHGGPKTs5
+	+ukoQA2QUxDW6mHMxZdwK0Z3mOszhBnnl+mA0WWkIRD1iJIG7YVHcVGeOoX7+beECCJ5xDKUPpa3m
+	aIsj9zyjTJvbRlAt0KwYX7mZj2vRbt3N2zJerj8mROA4AOJOYYxp90GyS/r4LKYzysjkzyM6SYH7h
+	LXWWm+w79lonSYxvpgAkQuBASF/SISgxXvlhvFEBsySiMDt8jgiso7U1Ej55bm/6UhsITS47G1xve
+	7Kkt8DoHiqpWmOLf4JuboRZ9pxYoTnfgAoF73nMTzcsp7WEogIJCnvSOwwcLemX94eARKjiR+sv0M
+	MSLM/4Bthv+YC7ga/yhE0kczv+hmBrA+VQRrt73weQsQOPq5API8fDpB4GlMDFQZtGD1LCMYffzBF
+	wt9XrYPidWpsQjKZfcpZHqGc0XrNhOYiwzwK1ODvM6wWn4Rpk4LrY2F8qoT0XyRMFZGfSkL1qOJNj
+	AANltm8Lqn4oNLRpV/RZhJqd;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1vGYbL-00Ch8R-30;
+	Wed, 05 Nov 2025 08:10:44 +0000
+Message-ID: <dd4cc961-2eee-483b-91b9-ad29dc754c35@samba.org>
+Date: Wed, 5 Nov 2025 09:10:43 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|MW4PR11MB6810:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87acd2e7-18dd-405b-29b8-08de1c3fb6bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BK1cv1uktfjDCtsEIwDDTGYCGOAJWHh5E5TeB4dNvPm6qI7d5Esdk6grWfi0?=
- =?us-ascii?Q?B1Nung2Ay8UQp3kMbiLzRX/K3RM6hGZCMOPcsbPNgBJBCndMIEVgRUwR54eY?=
- =?us-ascii?Q?KCgghd3mXkUuW0M1360X8jcxumXqzCC+o/uBgfn8ERiEc3C1Fq5IRfohMTqj?=
- =?us-ascii?Q?E/0kNKmlz1Fqqq6gA3+Bw2DdSdiQseS3CylIHj4RaPCbwDyQPADkAXqw08xL?=
- =?us-ascii?Q?4+2THtWZcBOh6USZqvLjlR6JjYOJJTNJOHS9AAEd//e3uyiOxiF7d167doj7?=
- =?us-ascii?Q?JRDOetUBBYEuZGpaTastaRYTgBl5jZC+5K9SjUocl7PO1LiOZJAs6y/DNsY7?=
- =?us-ascii?Q?0q4UAaTTmou7heI3spEyeVMCvJpgo7ZnJeDobe78dw/MV7NJVuT2DfHf4Mnk?=
- =?us-ascii?Q?dMDA1t181i+hcHcbeYZXWZlygLXL7yEegxsiXkgyJy1+vUdS1VzAPLnjXEa8?=
- =?us-ascii?Q?F/QW2d0d5nmL0FzrCBsTHmPEy6AYt18ma3laGIZDNLOJvzZ8V+lxcqrcleVS?=
- =?us-ascii?Q?DkYtNkvAXXFNcw3rp2zbD9UeMN0Zs68/wJH81SOo/QPGJKbaNG3t0YvjydvK?=
- =?us-ascii?Q?49aNnebMRmo8uCafCx8EWlmp4+ss0ociY7nkiKGmSvJC9BOLvZhlmCnZT0vV?=
- =?us-ascii?Q?7SuzyFx+YcptG/nBuySeBfw9huRumlmmfeJxv/sL2BFSuxUVu5kcsKKKv7Qf?=
- =?us-ascii?Q?0lPFu16zWTQhtHY5IWrJQeGVvERi/F8kfbgjWDMx7SppnZO+VuvfsFn1pQPm?=
- =?us-ascii?Q?kIQFEUiCbnNWYGMJW/NrDwzsXNkg6yb1J6MBZyDT8Zn1nFxWb+Iz39XuN95n?=
- =?us-ascii?Q?4T6otfqOiolGuLz3bB5HbHZq72xYkPQQAcZ3bxnMpLNyiSj8yCTmOpMgFiFv?=
- =?us-ascii?Q?WSfXMOo82C1DwELEOxI1NkXNo+sHaJ7iXbtYrOg6tQ2ARoHj1aRqipup+RO2?=
- =?us-ascii?Q?SfSfSbAHn/IluAJtL5rF3LtZaJiFFt2KdbeMojDausA/YflCysnE1OvJJEPl?=
- =?us-ascii?Q?7F6FpkSfMbMAevXRAHU4G+/U6BouuWVX42/aOvTno/Ng1g16fG3GwcZNz+QK?=
- =?us-ascii?Q?S+IcQP0yrdMk3Eq70o3LrnxM7oqAOJnENl150e+yZCbEsPb3JZ8bGCRrmHDc?=
- =?us-ascii?Q?FrXMz+L+Tffwx9NeD4BP8gOiHEGj/VzwD88XHtdK9YJwcKqvCwFDSr2S3/1J?=
- =?us-ascii?Q?1eEB7ow6CrTNdPItGfLPYMD0Qs+lV4nwhPa77dcdinERvmWNNInaxC9P3uIu?=
- =?us-ascii?Q?/kos5z43vdUN0ANm+ZyCIAhnW81pW6p1uid51CC8PtFSgK6G+71Gbo8KEFXC?=
- =?us-ascii?Q?0NEUXjYKZ+d0fjfVoSCNgFHXLhl9BMIZ1WovfEpMqIGOaZutCv1T1GsH+oqS?=
- =?us-ascii?Q?BTGkr+gjfZQFsRMy9/aiKPKa2MqZ34rB2WC5aBB1ZOqm56QWGRt07BLqjV0A?=
- =?us-ascii?Q?X2NXAc0EwRWfUPcBgwP9yu1otO73pKVBzFCyJPApcZzpEmZREK/Tiw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oJU1FC1JsC/zJWb0RY/rA5LuuV2npZ3ilGujpJ+ViiAaLst5hK6MPmOB4VMm?=
- =?us-ascii?Q?7XtRMW2oeivssfBavDH/Xib0qQZOAosATGGzwnznhDJcAvv+Ns2h8DC10Yn1?=
- =?us-ascii?Q?MaSCkOGhhkWH/JIG0EOhXVdOY2x3W3tKdJF2y4I02ePgBcHyhCfrrmiAYv8u?=
- =?us-ascii?Q?ZxoZCojN8If9vzdvDuXUPv3DIALAaJDVnwU4Sz+MS71BA46wVVqogkWtERf7?=
- =?us-ascii?Q?j6ypkb6Yc5lCt8cad+wPj2tTQbNKuI5dTiy+uZw5ymcoDjOQrkwQH9yYteDk?=
- =?us-ascii?Q?ou2aZupfb1YudVk7jqVjDDtE8wPS7QPwVEVp9lzo29DucP7U9zLPAZ0JCLRy?=
- =?us-ascii?Q?r02WZwvDROWcK5iF8KFLR+mUZznRpA7BFoHBWUDiLC9mCxPCtA2IerU180Yz?=
- =?us-ascii?Q?k1n4/4gAwL9pcORLa54nBsm+CY22SNHItbm3DDMoa5Y6Eog0VfzPp/ZZnZJ7?=
- =?us-ascii?Q?OWq2GNrIuFt2snfq23NipiuBI/VPsWm1iY061nKPTRaiLW24OY2+80kSUzG+?=
- =?us-ascii?Q?7ieMYTAOvjCdcKRNXqHuEZrQvT+OcdDAV7vxSysuoyvTBc8hsr1V389PZh7u?=
- =?us-ascii?Q?ndQJNk1/hdhSIN+9lN8gn/Jz3iX+akQSpFpo6AXDnuTE3TLl0NbzWto6MYYD?=
- =?us-ascii?Q?qUr5DO7dnuSO53xzoE9f4sp+50m5Fvpqq/mLuNcse9iwlirOS0XFuy3QVJG5?=
- =?us-ascii?Q?Z9l/PrtSrdD4egQRc8a5POuS4rekr/AbIRVhRCls8Q3NOFFdIsF/fp5t9mJI?=
- =?us-ascii?Q?rfgoeCfAkWS/wQHeBaFmMhw2LtuzI75P9hdp+/7MK9m8hLKNDyb+Qo/s9Z8g?=
- =?us-ascii?Q?qmmtXSV4B2aKkfnU3bgRZO6klWbXJYnep5psOmUI0LfOFzFkFvvEAOFKHSza?=
- =?us-ascii?Q?MujFUtksZsd4JRrv2VpM33jnnwVLGlgkKjJXxP2PbTdELCJ0GXCF5ULMAVT7?=
- =?us-ascii?Q?Q69V5Zbhhmt5Exjutz3zzBUsnZJ0zYtWriTRx22M/evT+EbMgNBXLLeCrPgG?=
- =?us-ascii?Q?07uZT/DO1kA7Ff0vIdNQL1gDOeh9lfM5aYkyds5akdf/p3vGtDKQ0gOlgkpn?=
- =?us-ascii?Q?rkf7LW9ps9e1DwWKcUxb2+14kV6KldBmM24VMaPbjIIb3cyKLQhCXFN8LEi7?=
- =?us-ascii?Q?wUA+KEZ0dki1nVRp0+ZAjvQDNfzhnUCgo+glihR6RNBVuW+2Xcr4ZiR8cWD/?=
- =?us-ascii?Q?O1RYV9DjJaklBMJJL42nfKYxLj7aIbsQckx2/Dw0tvvsP4mXaiSg3Ash9QhS?=
- =?us-ascii?Q?BCdb/Yqe7U9maZdeQg+FzTSMNJg578Hl6NX0yoHW4DCAnpQMHK6oBBRSVTc2?=
- =?us-ascii?Q?3OM7yYJ1DmEAXq40FCVjG/uudlMw54EpqS2Y9KfTgLou/RTDoO+X8xlbIgGx?=
- =?us-ascii?Q?qxakyQFZvNtt+2OnsvHyVVrexFcq6OBpSFcLybTqGkrXZHnhyuFsfkU9PeHQ?=
- =?us-ascii?Q?8m4G4o1LGlzlM0KNBmjLZ0orL8OoKEAGhGj0a3/sOLgNhMq3WeU4x8RgBkxU?=
- =?us-ascii?Q?HV37t3fUHpTDCk10GY9vEWmR1JCBv786Tthls1f7K4vLrr/FnS9IOBiBMhQW?=
- =?us-ascii?Q?lQsTHH0w7niDdVq+2QxuHIOSCgj2YS/hB3lPgGOT?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87acd2e7-18dd-405b-29b8-08de1c3fb6bd
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 07:48:31.1038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Co0ErTzVPVhpC7hYIIND8okahVr7zcdhkuK4i17m5qSm5SrvPJkldj2ljGO/1n+xkECMaHKPfXjBo99M2Bc58A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6810
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 091/127] smb: client: make use of smbdirect.ko
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <8ae722e2bc80de69e330baa49102011572eb100b.1761742839.git.metze@samba.org>
+ <202510311833.Qq8Lu8O0-lkp@intel.com>
+Content-Language: en-US
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <202510311833.Qq8Lu8O0-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 05, 2025 at 07:27:14AM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 05, 2025 at 07:14:58AM +0800, kernel test robot wrote:
-> > Hi Andy,
-> > 
-> > kernel test robot noticed the following build warnings:
-> 
-> So do these...
+Hi test robot,
 
-Got it, thanks for the info, I will update the bot to ignore the further
-reports on this commit. Sorry for the false positive.
+can you retest with this branch?
+git fetch https://git.samba.org/ksmbd.git ksmbd-for-next-next
 
-Thanks
+Thanks!
+metze
 
+Am 31.10.25 um 12:41 schrieb kernel test robot:
+> Hi Stefan,
 > 
-> > [auto build test WARNING on lwn/docs-next]
-> > [also build test WARNING on next-20251104]
-> > [cannot apply to linus/master v6.18-rc4]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/kernel-doc-Issue-warnings-that-were-silently-discarded/20251105-055629
-> > base:   git://git.lwn.net/linux.git docs-next
-> > patch link:    https://lore.kernel.org/r/20251104215502.1049817-1-andriy.shevchenko%40linux.intel.com
-> > patch subject: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently discarded
-> > config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 15.1.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511050706.NIxJwZER-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202511050706.NIxJwZER-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'd' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'ctrlr' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intspec' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'intsize' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_hwirq' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 function parameter 'out_type' not described in 'intc_evt_xlate'
-> > >> Warning: drivers/sh/intc/irqdomain.c:29 expecting prototype for intc_irq_domain_evt_xlate(). Prototype was for intc_evt_xlate() instead
+> kernel test robot noticed the following build errors:
 > 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.18-rc3 next-20251030]
+> [cannot apply to cifs/for-next brauner-vfs/vfs.all v6.18-rc3 v6.18-rc2 v6.18-rc1]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Metzmacher/smb-smbdirect-let-smbdirect-h-include-include-linux-types-h/20251030-015100
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/8ae722e2bc80de69e330baa49102011572eb100b.1761742839.git.metze%40samba.org
+> patch subject: [PATCH v2 091/127] smb: client: make use of smbdirect.ko
+> config: sparc-randconfig-001-20251030 (https://download.01.org/0day-ci/archive/20251031/202510311833.Qq8Lu8O0-lkp@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251031/202510311833.Qq8Lu8O0-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510311833.Qq8Lu8O0-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from fs/smb/common/smbdirect/smbdirect_internal.h:17,
+>                      from fs/smb/common/smbdirect/smbdirect_connect.c:6:
+>>> fs/smb/common/smbdirect/smbdirect_socket.h:191:4: error: unknown type name 'mempool_t'
+>         mempool_t *pool;
+>         ^~~~~~~~~
+>     fs/smb/common/smbdirect/smbdirect_socket.h:246:4: error: unknown type name 'mempool_t'
+>         mempool_t *pool;
+>         ^~~~~~~~~
+> --
+>     In file included from fs/smb/common/smbdirect/smbdirect_internal.h:17,
+>                      from fs/smb/common/smbdirect/smbdirect_connection.c:7:
+>>> fs/smb/common/smbdirect/smbdirect_socket.h:191:4: error: unknown type name 'mempool_t'
+>         mempool_t *pool;
+>         ^~~~~~~~~
+>     fs/smb/common/smbdirect/smbdirect_socket.h:246:4: error: unknown type name 'mempool_t'
+>         mempool_t *pool;
+>         ^~~~~~~~~
+>     fs/smb/common/smbdirect/smbdirect_connection.c: In function 'smbdirect_connection_create_mem_pools':
+>>> fs/smb/common/smbdirect/smbdirect_connection.c:702:25: error: implicit declaration of function 'mempool_create_slab_pool'; did you mean 'proc_create_seq_data'? [-Werror=implicit-function-declaration]
+>       sc->send_io.mem.pool = mempool_create_slab_pool(sp->send_credit_target,
+>                              ^~~~~~~~~~~~~~~~~~~~~~~~
+>                              proc_create_seq_data
+>     fs/smb/common/smbdirect/smbdirect_connection.c:702:23: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>       sc->send_io.mem.pool = mempool_create_slab_pool(sp->send_credit_target,
+>                            ^
+>     fs/smb/common/smbdirect/smbdirect_connection.c:731:23: warning: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>       sc->recv_io.mem.pool = mempool_create_slab_pool(sp->recv_credit_max,
+>                            ^
+>>> fs/smb/common/smbdirect/smbdirect_connection.c:739:13: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
+>        recv_io = mempool_alloc(sc->recv_io.mem.pool,
+>                  ^~~~~~~~~~~~~
+>                  mm_alloc
+>     fs/smb/common/smbdirect/smbdirect_connection.c:739:11: warning: assignment to 'struct smbdirect_recv_io *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>        recv_io = mempool_alloc(sc->recv_io.mem.pool,
+>                ^
+>     fs/smb/common/smbdirect/smbdirect_connection.c: In function 'smbdirect_connection_destroy_mem_pools':
+>>> fs/smb/common/smbdirect/smbdirect_connection.c:761:3: error: implicit declaration of function 'mempool_free'; did you mean 'reqsk_free'? [-Werror=implicit-function-declaration]
+>        mempool_free(recv_io, sc->recv_io.mem.pool);
+>        ^~~~~~~~~~~~
+>        reqsk_free
+>>> fs/smb/common/smbdirect/smbdirect_connection.c:769:2: error: implicit declaration of function 'mempool_destroy'; did you mean 'ib_mr_pool_destroy'? [-Werror=implicit-function-declaration]
+>       mempool_destroy(sc->recv_io.mem.pool);
+>       ^~~~~~~~~~~~~~~
+>       ib_mr_pool_destroy
+>     fs/smb/common/smbdirect/smbdirect_connection.c: In function 'smbdirect_connection_alloc_send_io':
+>     fs/smb/common/smbdirect/smbdirect_connection.c:787:6: warning: assignment to 'struct smbdirect_send_io *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>       msg = mempool_alloc(sc->send_io.mem.pool, sc->send_io.mem.gfp_mask);
+>           ^
+>     cc1: some warnings being treated as errors
 > 
 > 
+> vim +/mempool_t +191 fs/smb/common/smbdirect/smbdirect_socket.h
 > 
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15   95
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28   96  struct smbdirect_socket {
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28   97  	enum smbdirect_socket_status status;
+> 371d3ab51ce44c8 Stefan Metzmacher 2025-08-08   98  	wait_queue_head_t status_wait;
+> f5b893edde7bcd1 Stefan Metzmacher 2025-08-28   99  	int first_error;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  100
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  101  	/*
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  102  	 * This points to the workqueue to
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  103  	 * be used for this socket.
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  104  	 * It can be per socket (on the client)
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  105  	 * or point to a global workqueue (on the server)
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  106  	 */
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  107  	struct workqueue_struct *workqueue;
+> 6c5b0f9253d7f15 Stefan Metzmacher 2025-08-22  108
+> de32f33c0365d06 Stefan Metzmacher 2025-08-08  109  	struct work_struct disconnect_work;
+> de32f33c0365d06 Stefan Metzmacher 2025-08-08  110
+> f23812679f6587e Stefan Metzmacher 2025-10-29  111  	/*
+> f23812679f6587e Stefan Metzmacher 2025-10-29  112  	 * The reference counts.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  113  	 */
+> f23812679f6587e Stefan Metzmacher 2025-10-29  114  	struct {
+> f23812679f6587e Stefan Metzmacher 2025-10-29  115  		/*
+> f23812679f6587e Stefan Metzmacher 2025-10-29  116  		 * This holds the references by the
+> f23812679f6587e Stefan Metzmacher 2025-10-29  117  		 * frontend, typically the smb layer.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  118  		 *
+> f23812679f6587e Stefan Metzmacher 2025-10-29  119  		 * It is typically 1 and a disconnect
+> f23812679f6587e Stefan Metzmacher 2025-10-29  120  		 * will happen if it reaches 0.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  121  		 */
+> f23812679f6587e Stefan Metzmacher 2025-10-29  122  		struct kref disconnect;
+> f23812679f6587e Stefan Metzmacher 2025-10-29  123
+> f23812679f6587e Stefan Metzmacher 2025-10-29  124  		/*
+> f23812679f6587e Stefan Metzmacher 2025-10-29  125  		 * This holds the reference by the
+> f23812679f6587e Stefan Metzmacher 2025-10-29  126  		 * backend, the code that manages
+> f23812679f6587e Stefan Metzmacher 2025-10-29  127  		 * the lifetime of the whole
+> f23812679f6587e Stefan Metzmacher 2025-10-29  128  		 * struct smbdirect_socket,
+> f23812679f6587e Stefan Metzmacher 2025-10-29  129  		 * if this reaches 0 it can will
+> f23812679f6587e Stefan Metzmacher 2025-10-29  130  		 * be freed.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  131  		 *
+> f23812679f6587e Stefan Metzmacher 2025-10-29  132  		 * Can be REFCOUNT_MAX is part
+> f23812679f6587e Stefan Metzmacher 2025-10-29  133  		 * of another structure.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  134  		 *
+> f23812679f6587e Stefan Metzmacher 2025-10-29  135  		 * This is equal or higher than
+> f23812679f6587e Stefan Metzmacher 2025-10-29  136  		 * the disconnect refcount.
+> f23812679f6587e Stefan Metzmacher 2025-10-29  137  		 */
+> f23812679f6587e Stefan Metzmacher 2025-10-29  138  		struct kref destroy;
+> f23812679f6587e Stefan Metzmacher 2025-10-29  139  	} refs;
+> f23812679f6587e Stefan Metzmacher 2025-10-29  140
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  141  	/* RDMA related */
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  142  	struct {
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  143  		struct rdma_cm_id *cm_id;
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  144  		/*
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  145  		 * The expected event in our current
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  146  		 * cm_id->event_handler, all other events
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  147  		 * are treated as an error.
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  148  		 */
+> beda261c142cc7b Stefan Metzmacher 2025-10-29  149  		enum rdma_cm_event_type expected_event;
+> 2baedb2026a5c01 Stefan Metzmacher 2025-08-21  150  		/*
+> 2baedb2026a5c01 Stefan Metzmacher 2025-08-21  151  		 * This is for iWarp MPA v1
+> 2baedb2026a5c01 Stefan Metzmacher 2025-08-21  152  		 */
+> 2baedb2026a5c01 Stefan Metzmacher 2025-08-21  153  		bool legacy_iwarp;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  154  	} rdma;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  155
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  156  	/* IB verbs related */
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  157  	struct {
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  158  		struct ib_pd *pd;
+> 2a871f3e3b060fa Stefan Metzmacher 2025-10-29  159  		enum ib_poll_context poll_ctx;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  160  		struct ib_cq *send_cq;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  161  		struct ib_cq *recv_cq;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  162
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  163  		/*
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  164  		 * shortcuts for rdma.cm_id->{qp,device};
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  165  		 */
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  166  		struct ib_qp *qp;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  167  		struct ib_device *dev;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  168  	} ib;
+> dce8047f4725d44 Stefan Metzmacher 2025-05-28  169
+> dce8047f4725d44 Stefan Metzmacher 2025-05-28  170  	struct smbdirect_socket_parameters parameters;
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  171
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  172  	/*
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  173  	 * The state for keepalive and timeout handling
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  174  	 */
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  175  	struct {
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  176  		enum smbdirect_keepalive_status keepalive;
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  177  		struct work_struct immediate_work;
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  178  		struct delayed_work timer_work;
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  179  	} idle;
+> 89bae05f9df68f8 Stefan Metzmacher 2025-08-15  180
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  181  	/*
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  182  	 * The state for posted send buffers
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  183  	 */
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  184  	struct {
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  185  		/*
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  186  		 * Memory pools for preallocating
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  187  		 * smbdirect_send_io buffers
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  188  		 */
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  189  		struct {
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  190  			struct kmem_cache *cache;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06 @191  			mempool_t *pool;
+> 932070bf508d8ad Stefan Metzmacher 2025-10-29  192  			gfp_t gfp_mask;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  193  		} mem;
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  194
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  195  		/*
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  196  		 * The local credit state for ib_post_send()
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  197  		 */
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  198  		struct {
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  199  			atomic_t count;
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  200  			wait_queue_head_t wait_queue;
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  201  		} lcredits;
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  202
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  203  		/*
+> 68335cbcddcd586 Stefan Metzmacher 2025-10-20  204  		 * The remote credit state for the send side
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  205  		 */
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  206  		struct {
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  207  			atomic_t count;
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  208  			wait_queue_head_t wait_queue;
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  209  		} credits;
+> 2191b3471df53d8 Stefan Metzmacher 2025-08-11  210
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  211  		/*
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  212  		 * The state about posted/pending sends
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  213  		 */
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  214  		struct {
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  215  			atomic_t count;
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  216  			/*
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  217  			 * woken when count is decremented
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  218  			 */
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  219  			wait_queue_head_t dec_wait_queue;
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  220  			/*
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  221  			 * woken when count reached zero
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  222  			 */
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  223  			wait_queue_head_t zero_wait_queue;
+> 3b7be44a0eb18b2 Stefan Metzmacher 2025-08-11  224  		} pending;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  225  	} send_io;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  226
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  227  	/*
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  228  	 * The state for posted receive buffers
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  229  	 */
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  230  	struct {
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  231  		/*
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  232  		 * The type of PDU we are expecting
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  233  		 */
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  234  		enum {
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  235  			SMBDIRECT_EXPECT_NEGOTIATE_REQ = 1,
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  236  			SMBDIRECT_EXPECT_NEGOTIATE_REP = 2,
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  237  			SMBDIRECT_EXPECT_DATA_TRANSFER = 3,
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  238  		} expected;
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  239
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  240  		/*
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  241  		 * Memory pools for preallocating
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  242  		 * smbdirect_recv_io buffers
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  243  		 */
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  244  		struct {
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  245  			struct kmem_cache *cache;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  246  			mempool_t *pool;
+> 932070bf508d8ad Stefan Metzmacher 2025-10-29  247  			gfp_t gfp_mask;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  248  		} mem;
+> 5ef8278e3734a88 Stefan Metzmacher 2025-08-06  249
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  250  		/*
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  251  		 * The list of free smbdirect_recv_io
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  252  		 * structures
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  253  		 */
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  254  		struct {
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  255  			struct list_head list;
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  256  			spinlock_t lock;
+> d0df32a3025c2de Stefan Metzmacher 2025-08-05  257  		} free;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  258
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  259  		/*
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  260  		 * The state for posted recv_io messages
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  261  		 * and the refill work struct.
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  262  		 */
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  263  		struct {
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  264  			atomic_t count;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  265  			struct work_struct refill_work;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  266  		} posted;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  267
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  268  		/*
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  269  		 * The credit state for the recv side
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  270  		 */
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  271  		struct {
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  272  			u16 target;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  273  			atomic_t count;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  274  		} credits;
+> ec76e3cc6bbcb17 Stefan Metzmacher 2025-08-11  275
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  276  		/*
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  277  		 * The list of arrived non-empty smbdirect_recv_io
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  278  		 * structures
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  279  		 *
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  280  		 * This represents the reassembly queue.
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  281  		 */
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  282  		struct {
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  283  			struct list_head list;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  284  			spinlock_t lock;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  285  			wait_queue_head_t wait_queue;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  286  			/* total data length of reassembly queue */
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  287  			int data_length;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  288  			int queue_length;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  289  			/* the offset to first buffer in reassembly queue */
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  290  			int first_entry_offset;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  291  			/*
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  292  			 * Indicate if we have received a full packet on the
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  293  			 * connection This is used to identify the first SMBD
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  294  			 * packet of a assembled payload (SMB packet) in
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  295  			 * reassembly queue so we can return a RFC1002 length to
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  296  			 * upper layer to indicate the length of the SMB packet
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  297  			 * received
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  298  			 */
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  299  			bool full_packet_received;
+> b7ffb4d2a036004 Stefan Metzmacher 2025-08-05  300  		} reassembly;
+> 33dd53a90e3419e Stefan Metzmacher 2025-08-05  301  	} recv_io;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  302
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  303  	/*
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  304  	 * The state for Memory registrations on the client
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  305  	 */
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  306  	struct {
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  307  		enum ib_mr_type type;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  308
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  309  		/*
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  310  		 * The list of free smbdirect_mr_io
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  311  		 * structures
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  312  		 */
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  313  		struct {
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  314  			struct list_head list;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  315  			spinlock_t lock;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  316  		} all;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  317
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  318  		/*
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  319  		 * The number of available MRs ready for memory registration
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  320  		 */
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  321  		struct {
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  322  			atomic_t count;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  323  			wait_queue_head_t wait_queue;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  324  		} ready;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  325
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  326  		/*
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  327  		 * The number of used MRs
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  328  		 */
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  329  		struct {
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  330  			atomic_t count;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  331  		} used;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  332
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  333  		struct work_struct recovery_work;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  334
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  335  		/* Used by transport to wait until all MRs are returned */
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  336  		struct {
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  337  			wait_queue_head_t wait_queue;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  338  		} cleanup;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  339  	} mr_io;
+> ed3350f09d2c023 Stefan Metzmacher 2025-08-19  340
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  341  	/*
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  342  	 * The state for RDMA read/write requests on the server
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  343  	 */
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  344  	struct {
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  345  		/*
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  346  		 * Memory hints for
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  347  		 * smbdirect_rw_io structs
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  348  		 */
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  349  		struct {
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  350  			gfp_t gfp_mask;
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  351  		} mem;
+> dbd035a139e7e0a Stefan Metzmacher 2025-10-29  352
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  353  		/*
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  354  		 * The credit state for the send side
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  355  		 */
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  356  		struct {
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  357  			/*
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  358  			 * The maximum number of rw credits
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  359  			 */
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  360  			size_t max;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  361  			/*
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  362  			 * The number of pages per credit
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  363  			 */
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  364  			size_t num_pages;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  365  			atomic_t count;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  366  			wait_queue_head_t wait_queue;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  367  		} credits;
+> 90255ed46774bda Stefan Metzmacher 2025-08-14  368  	} rw_io;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  369
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  370  	/*
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  371  	 * For debug purposes
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  372  	 */
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  373  	struct {
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  374  		u64 get_receive_buffer;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  375  		u64 put_receive_buffer;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  376  		u64 enqueue_reassembly_queue;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  377  		u64 dequeue_reassembly_queue;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  378  		u64 send_empty;
+> 6889d2f5caa69ff Stefan Metzmacher 2025-08-19  379  	} statistics;
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  380
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  381  	struct {
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  382  		void *private_ptr;
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  383  		bool (*needed)(struct smbdirect_socket *sc,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  384  			       void *private_ptr,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  385  			       unsigned int lvl,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  386  			       unsigned int cls);
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  387  		void (*vaprintf)(struct smbdirect_socket *sc,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  388  				 const char *func,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  389  				 unsigned int line,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  390  				 void *private_ptr,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  391  				 unsigned int lvl,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  392  				 unsigned int cls,
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  393  				 struct va_format *vaf);
+> 8ddb25e3ca878f2 Stefan Metzmacher 2025-10-29  394  	} logging;
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  395  };
+> 22234e37d7e9765 Stefan Metzmacher 2025-05-28  396
+> 
+
