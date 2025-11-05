@@ -1,199 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606B630C62A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 12:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762344151; cv=fail; b=Aqa5EO5omcMwekEzGDHl+HCBJEomRyrrvbaM0UhI+P/2xMNuJutx+YGcz9rZcW87lW+5KhciZp3vE0yuRXQaJE8EzRNx51aJMftdDUhDfd65J57T7DLoR5s6DrRzs6pEFBWYbmHi0VLVn0Ewojdb1JOA/0njzz1foNOqYy9uGTU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762344151; c=relaxed/simple;
-	bh=uFzDlajjndXb/Js2GDvwD0zKnKX9JhscO9Dmj7jp6js=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ozMZjkUgEKDpsqAc0vPn5InR/VjznzR6j3IlEZdkZI3y72bn1IA1bFuQxzKmfzeGkRp0+1JhzsOYO28NwF62F5zcdFor7LMOK9BCSntOYUGMCdfo4KYCcRgvyCHu4AkqdmicyU324XNXChHIW7ZUYBICRA9k6hQl/A9voePPLGI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ub5nq52Q; arc=fail smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9BB314B9D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 12:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762346528; cv=none; b=AGkHuI1Qi7A8CCc9zbazndTCHeO1gOBzWsUqQ8+pgnI5Iup/5YktnjLGaYj3Qfml53r6xQwGxMswdlpz0oCOO+ne592IZb7LKr5zCxoWh6AP346q00d2UAyyVpx/dN0Y2us4m/nZR8INMxZn7+OBvAL9ByS1h45lBjZ8aWe1SBE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762346528; c=relaxed/simple;
+	bh=7/4ijTCQH7ETA4mZXoDsDZjR5TTyacJY5fO1z1oKXPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hvcY12bQbdnSmAOPUYR1WN8+X86/mDu+58bocnnkMjO8pOyxhBmOjqa7A673oYtmJWzUBxGwE4hq5c/gtTRQzMxEZzNNChRlcsIXbrJswXOV0fErN3CMYHx6CbKwwXj2EzjrPFqXFaN1WSWpaPiMu7/NCgfQLWyyMY8LiVaSd5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkvSc7+k; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ub5nq52Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkvSc7+k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762344151; x=1793880151;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=uFzDlajjndXb/Js2GDvwD0zKnKX9JhscO9Dmj7jp6js=;
-  b=Ub5nq52QXYX/kWhng3IyqCZDBYaDl4OOb/DbF1vluqOoxEkSWUFRwMGD
-   dNNm2Hwd4JbQsAv6J0BNObq/OnJpktShKT0ltLGtI+15ipK5QLVO5x8K5
-   nE+BELYZHHz5sH3mMTpqvr9fM5jYWlLKh8Q8pyj/JUeJadG8hIi1QNNE1
-   XExIU8ATy/RLKfITY0CN2N3OQfKbbp99vyJ3j+usNyUzQTb1FeH5hVZgf
-   krK94cwxrcptjtKvIMzAnDO5RU2BkV3ZyEo5lODB5NVKrgvKBI3TKJYt8
-   tV6zJ3EkvjiEk4SP3r8csQx1vf7FBPQ5/mlOIKxDkwlhXzDVYpCpF5sPo
-   Q==;
-X-CSE-ConnectionGUID: c5QRbWICRwGqKbcu2RLKKw==
-X-CSE-MsgGUID: +IpcuhKqSOagXJHqUTekVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="63464924"
+  t=1762346525; x=1793882525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7/4ijTCQH7ETA4mZXoDsDZjR5TTyacJY5fO1z1oKXPw=;
+  b=hkvSc7+kz2z122TXnxATZfbmv2uoHvE9ZbxhkwSbC9ZIljC0BymF8cah
+   TScDAhWi0VgxckWzxFl3TWPYZ7J6tuHemJBXeiwEJ0UbVuCuyWCz86mXy
+   WmcUIgvZJXHMa4zbywmunqfeelt8BpThK9D0vgE4vvZzVqcIiQZ+pnufd
+   9Napmii++YBKLjiCavr3vs3/AF3jhO7sLfzMAa/CeVW7USmoLwBFuof0j
+   /n4PCY/huUXho+jVObiOOBSTfVjbB+aGThqYg/GQVkwrQU62IxOfZ2Qhv
+   rTL2vZBTBki7GQholPI7oFCNSZdtiQH3XHv+aVXhKoDgZdU+9c0z/zGJD
+   w==;
+X-CSE-ConnectionGUID: sFIQ/ucjRXqW9C01C6JR/Q==
+X-CSE-MsgGUID: RA5aq755To+AmkehKcydkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="89920735"
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="63464924"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 04:02:30 -0800
-X-CSE-ConnectionGUID: XwkSTZaGQX2XofhhSylmYQ==
-X-CSE-MsgGUID: zL4+9AKOSwuX6LjHqLmNzw==
+   d="scan'208";a="89920735"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 04:42:04 -0800
+X-CSE-ConnectionGUID: dt35Y+ZDQjmV0XkIcPlOTA==
+X-CSE-MsgGUID: mFlMwtbLTB6j9+0rkG4MQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,281,1754982000"; 
-   d="scan'208";a="192513391"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 04:02:29 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 5 Nov 2025 04:02:28 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 5 Nov 2025 04:02:28 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.37) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 5 Nov 2025 04:02:28 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vR2cUf0SLi6GCxbmbexjH3rX1md9csQW1pJ0Kh1zzCRN68F0BE7lKXigKg0ddEut4drNDwQAGI8zWqzEqnP0XPgdE/RqyViAVmIwhqvxlvXcfoD2e/sJo+c1fLJad9fL2+SdarbqxwI6EIO9bIVIr8HIQALZnIk9bO+r73dQ+ZCwKKXNZu82W9e73VaE5TwDRkW4k13wHs6UW8LKfkbDo5GVFgAKescnwSB08RGF3o3QgEVjm0gwxNgPRc49zKzzLFfq8iC86JiRRmw8BC3PVsLhDFR3xsC71gi53My3SXjmLmNky7SjA8Ta5QFE/WMhNYVIGWw/EzvvCBiiqylimg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OUSvVBOwazhPviqdsWC45a56k78OIr/23+ZgP7z6jIY=;
- b=XWpucrV+1jDk8V7E6H3TY5Teyj0UrAlBgGyO7FLi+M7GUGTkNIWVK6a18k5pycoc82pZswlWNjdN/CjbzFw2hica9Jd7g6mC18LIkDCBQuKZK5DTluDIhF61GIRC/uGs0ioSKqErAG1pDT9PysgOFbPqd/CHr/sxnqRTJgRFS/IQaunZuqYTqUydGorxJQtOd5iaOaUYTl93jtqGACZRR1UZI6M+9tzMN2QatEwqaNMG06O02VBd/MCJe79g+JMau92mNQWkEH9YK4MKCrJQiyrVE53H5HrzBDHS1Lm2AJkhbd4Z0ue90t6PCYiqSYS8ecsqIZZjExoXnj2CgmY1eA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by MN6PR11MB8104.namprd11.prod.outlook.com (2603:10b6:208:46c::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Wed, 5 Nov
- 2025 12:02:26 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Wed, 5 Nov 2025
- 12:02:26 +0000
-Date: Wed, 5 Nov 2025 20:02:16 +0800
-From: Philip Li <philip.li@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: kernel test robot <lkp@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v1 1/1] kernel-doc: Issue warnings that were silently
- discarded
-Message-ID: <aQs8yKAtagFQUUPo@rli9-mobl>
-References: <20251104215502.1049817-1-andriy.shevchenko@linux.intel.com>
- <202511050706.NIxJwZER-lkp@intel.com>
- <aQrgMldkQIS7VTtV@smile.fi.intel.com>
- <aQsBRFPwz0RJ/u9S@rli9-mobl>
- <aQsg0h_U2joioetO@smile.fi.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aQsg0h_U2joioetO@smile.fi.intel.com>
-X-ClientProxiedBy: SG2PR04CA0170.apcprd04.prod.outlook.com (2603:1096:4::32)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+   d="scan'208";a="224694573"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2025 04:42:03 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGcps-000SYh-2n;
+	Wed, 05 Nov 2025 12:42:00 +0000
+Date: Wed, 5 Nov 2025 20:41:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3098/3098] kernel/bpf-rvi/common_kfuncs.c:250:27:
+ warning: no previous prototype for 'bpf_mem_commit_limit'
+Message-ID: <202511052033.01T6CrLU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|MN6PR11MB8104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07b57f9e-66a6-4ae8-c257-08de1c632f6f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?X8SsChvoS3jZZaTjRyyCB3G2C8I7F2nP0BlcI2EyKRPZGvztKZ94Kq+vesBi?=
- =?us-ascii?Q?8oo677p/OeMZXIT1CyJUO2cYysORiXKPiTfQEL9gssAkGrhxl3MlRhpoSOju?=
- =?us-ascii?Q?P6l5y/lWdmY8gYwI2jk7Hrspi61g2tspnNkaczw3dMde3AdV2pR24xoe+CAf?=
- =?us-ascii?Q?/K218hprF9ATyxgHEzbOujhYbDwMuPpAgbadJjJmqiMFb3X/xfUGNLVB4eam?=
- =?us-ascii?Q?poHswK8NlcJHdD4+g7EyRNUUxGKNahBZK2N2G8PPMY9eD5rK3uJp5a8bh5Zh?=
- =?us-ascii?Q?tkLkY0n3dybJoxoOtP9+o6Wl3srXp4EyQOG2SE8ksnKnxwTV41BsUrS+FIJ3?=
- =?us-ascii?Q?QWgk2IM0sjeH0OKe00F4NaRuvAbj0Mlvb3IQVF49G2Z7VUyEBltz2brCz3tU?=
- =?us-ascii?Q?a8XwR3ga+N8wMp5cQyHf4L/BvLEL4RTiXtRiWdjqIyK6+juoyhAOFl6b5gXM?=
- =?us-ascii?Q?TqQhRePBjp0pM+htytgDLaDC+Lt1FAZmC2kVzFYMauopnYa3j+h4MirGmN/o?=
- =?us-ascii?Q?BfDR0CTLDu1W3pzvE3AKl7Sbg/9Xu/mVQWPi1qaG05dRSezAV5DCFtP+V8Bz?=
- =?us-ascii?Q?9Bm6URBIyS/v9rxrmbBTZuA2+4E6R7XQhrj2+E5+AbPKsifS9JK/ezzJfo+y?=
- =?us-ascii?Q?dOtQeHUd8o7IqOMGy/ZnNyCNljVRKRMzggkK0bzJ9H3k7oO+yaXviYAF36lh?=
- =?us-ascii?Q?b6mGYr52ToQ6PkVeb4rxOtUzpGRna33E1b78uEA9noRzjNKg6sbBSdRD7QHX?=
- =?us-ascii?Q?s3E1id6yV44/BLKAMTFGUjM2I1Plq6iTDt2ny5oyG2WrLEkkw8MaHisoGIs4?=
- =?us-ascii?Q?66n/dzbzssQlTrZLk8GnEYhjL4PsRWw3EpCIRwKX9EdRcKo7nJfvAx3IDPL4?=
- =?us-ascii?Q?5LvIXdF0fJVhX39E87AaoYyv4KBbGmIdhXDttWnYUzTBE94vy3W15tLZAz1t?=
- =?us-ascii?Q?mqtYNKJw5vN6w0nkgMjpEtQKPsAOqSHrBQA8GDp0PITL+BbpRL3l8aDBnh5D?=
- =?us-ascii?Q?XViFyxn9UOG1ReA4SKw/7xC362syUHFyr5qFZTII6MwudUYfaqPGzeDJd2er?=
- =?us-ascii?Q?vKR6o/F/NBXqhHGqTWuBrNM6xMMH16/87W5kFDN3CyXzkbQd+fGaSCNr0p/x?=
- =?us-ascii?Q?/eJKreLEJva08PxFWpKwPEaRSgiMKv+kxf8fTN6nWMCxVU9tE+bcRXrJ4Jxe?=
- =?us-ascii?Q?lL4IABtiatRfnlBuh3ErqH2UQSVAJ9iFMReMvlxqyA3uEiQNbbDMgZ5w0yaA?=
- =?us-ascii?Q?H6nfSzcts9T4cN4c1+2GiDWP2hVZe/7QcgoO5+fwpm5E1Fl6dmJDdSwBTEAU?=
- =?us-ascii?Q?oSZXohG6tqF4IiEuuH05xc/5XcdpfYGHeeSbH9aVARgwPwMS0SlLuYweANjO?=
- =?us-ascii?Q?+mlsXmVWj2aQJpISy06w4WKIFzjDJz9yKQgCd4tqhKwk9vQRhNu318uFduq7?=
- =?us-ascii?Q?zkxAsfGxSXmAOaJp6R9tNxHlNVtTjlzj?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rvip4C/R+Q9l8GMAFPYifEeaH/+esY1Jq6G2AHuWv2Lb1qPAlabMsttkYjdN?=
- =?us-ascii?Q?PSiE6T/gNCYuWL56/ca0D6xWT7SYcYmjMlyYX7LDtB8xA+vhWqaoI+pwXK24?=
- =?us-ascii?Q?+P1szR6mj0WwR9Zh44wER1DLwBZwnc9Q8CGFVa87kDJNOZYV/nd6ayC9ZfUT?=
- =?us-ascii?Q?UDj5orj4gy3es7Y1CJAbCfHHyXfg54P01cUpFDXWdUR5bnvbcKxXbR6D6tF/?=
- =?us-ascii?Q?U7TS7eeGSbMKPnY0fHTY8mvhQS9XKnkkhrEcgRu/2isI0kZ5qLASuCSkYYaz?=
- =?us-ascii?Q?D0dI1e2oU2QiqIOGDV/erLFSiiJUHWGmBZPueIHatmZEy5kgZ+nC+oz53GFb?=
- =?us-ascii?Q?VennCYkT6Kyycf+AJOwsipV8EO4Zm3rjFogWz6nnUNNF3YOuVOmoENOAbomC?=
- =?us-ascii?Q?u0Jo56N6ZlHNlzvYjKscMKFpC+Hik7fOHqVitsoegBLRHkWjI0yxh8Xe8ECj?=
- =?us-ascii?Q?83XL7Bh5o+sbIks3A1yLfKkhq6cBV93G54X0TUbT7cd1xLnPiP1dBA+0ohPN?=
- =?us-ascii?Q?t+/FndQ7k9dSZKMeJ1vZX6lGS4ajjpxaKUiSASu74CYaEZikOrjMxZA8rIHc?=
- =?us-ascii?Q?1e5vkja2S21RBLrwU+cgPhK0aJLMhU4yBSLOSVAs+5Rw2MC/Qpt1HXAObls7?=
- =?us-ascii?Q?W/nd2kJhsc/xGbYhmecQ/NOcNTsmAiza+RR31i63kb5sTk6xuXeRgHO4oH/e?=
- =?us-ascii?Q?UDa5mcDehPokgKKGjMI/xNMtjlvnnieBY0o/FNwl2j9WY3aHn2ESeYZaerqw?=
- =?us-ascii?Q?318+AqvMlee6NPrb/bvoM9Kmm9is9rx8WbwTHKqIrvV1lgUqsnO21WycLcCy?=
- =?us-ascii?Q?kfNxQvkVREF+ZpFkYXNiX1SWT7XHfXkNNugJJpWqfcBVvKnDOOlsdZJdnO+1?=
- =?us-ascii?Q?ES8w5k19fJzzhmsEZkJtrnADXo6fqYDpVgaIUfB+SGpiz6/aAve0eRLFMNSc?=
- =?us-ascii?Q?M0OhNHRgxEM7+d5yjixXAkoJAIuN/EAeZ0wxGtdni6q1npwXVe9z+OJmnGLD?=
- =?us-ascii?Q?TGaf8NUAWoE6PqU5+I6xjXN9GafvJZXlwzDBDgOBXvav7qDjEP46oZaS3Ydu?=
- =?us-ascii?Q?PIchD06E0TGqVofeLIJQAoOW8TrHq8pCYynYNhjrqcp17sXsdmZuj6qm7hMC?=
- =?us-ascii?Q?4xLk+wckYVABabDwjTc6hDMY2W5vSNeyRF1nhK4Umrsctwz+kky0aOWedafG?=
- =?us-ascii?Q?Y+QVtrzvVjWl+Y4Wn33J97J3zBD7ktHs3vqLnZLL7upnAsUodUoXDF659pqE?=
- =?us-ascii?Q?mXqE9YaLVuUmAH4vA7VVxRMSxWcNXdMGMSOB/+QKgI3KZZw/15Fh2wfseacu?=
- =?us-ascii?Q?oPEv+C+LMjXsf9gHo4M7aR9NwjafBIedbJmXxu4D1xf7zOlns4W9oZGTgvwO?=
- =?us-ascii?Q?wPKuZk1M49B8bKZ/TdgfAa1AQa8WygYJ7x/PMMbfqwu6tqI4lRABBWKO/+sc?=
- =?us-ascii?Q?zBQ7FolxRgPdk3GgXru5gw2t5SQeQNv91HzL2FJ0XGDtu/yosqktr87oRXUH?=
- =?us-ascii?Q?YqXn4kOptpf6h+6xp+seacNjoMieZpuU+k2s8eWNh1rk5pzeevvgpcUpgGZ7?=
- =?us-ascii?Q?SPzh/Rknroaul+xoeaq+d40SnfqfuhT9dQc6j+iU?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07b57f9e-66a6-4ae8-c257-08de1c632f6f
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2025 12:02:25.9645
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 08hC7+Cw13rHRg7jxOF7PBua+Tf647NL5L5KYSEBtRCgzTv3JBu28d1U2p04Km4+omH7aLCkEb/uVMd8Wg042g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8104
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Nov 05, 2025 at 12:02:58PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 05, 2025 at 03:48:20PM +0800, Philip Li wrote:
-> > On Wed, Nov 05, 2025 at 07:27:14AM +0200, Andy Shevchenko wrote:
-> > > On Wed, Nov 05, 2025 at 07:14:58AM +0800, kernel test robot wrote:
-> > > > 
-> > > > kernel test robot noticed the following build warnings:
-> > > 
-> > > So do these...
-> > 
-> > Got it, thanks for the info, I will update the bot to ignore the further
-> > reports on this commit. Sorry for the false positive.
-> 
-> No, they are not false positives, they are legit and good to have. Just that
-> the root cause is not this commit.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b2b8512ca97108929f3aca5405875d91577b8c80
+commit: 7aa850a9126f0acd994e09afe54bb0200214e068 [3098/3098] bpf-rvi: Add bpf_mem_commit_limit & bpf_mem_committed kfunc
+config: x86_64-randconfig-001-20251104 (https://download.01.org/0day-ci/archive/20251105/202511052033.01T6CrLU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511052033.01T6CrLU-lkp@intel.com/reproduce)
 
-Thanks Andy, got it. I will add comments clearly to be part of bot configuration.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511052033.01T6CrLU-lkp@intel.com/
 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+All warnings (new ones prefixed by >>):
+
+   kernel/bpf-rvi/common_kfuncs.c:28:32: warning: no previous prototype for 'bpf_mem_cgroup_from_task' [-Wmissing-prototypes]
+      28 | __bpf_kfunc struct mem_cgroup *bpf_mem_cgroup_from_task(struct task_struct *p)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:37:35: warning: no previous prototype for 'bpf_task_active_pid_ns' [-Wmissing-prototypes]
+      37 | __bpf_kfunc struct pid_namespace *bpf_task_active_pid_ns(struct task_struct *task)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:42:17: warning: no previous prototype for 'bpf_pidns_nr_tasks' [-Wmissing-prototypes]
+      42 | __bpf_kfunc u64 bpf_pidns_nr_tasks(struct pid_namespace *ns)
+         |                 ^~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:56:17: warning: no previous prototype for 'bpf_pidns_last_pid' [-Wmissing-prototypes]
+      56 | __bpf_kfunc u32 bpf_pidns_last_pid(struct pid_namespace *ns)
+         |                 ^~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:85:18: warning: no previous prototype for 'bpf_si_memswinfo' [-Wmissing-prototypes]
+      85 | __bpf_kfunc void bpf_si_memswinfo(struct bpf_sysinfo *bsi)
+         |                  ^~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:95:27: warning: no previous prototype for 'bpf_page_counter_read' [-Wmissing-prototypes]
+      95 | __bpf_kfunc unsigned long bpf_page_counter_read(struct page_counter *counter)
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:105:18: warning: no previous prototype for 'bpf_seq_file_append' [-Wmissing-prototypes]
+     105 | __bpf_kfunc void bpf_seq_file_append(struct seq_file *dst, struct seq_file *src)
+         |                  ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:119:18: warning: no previous prototype for 'bpf_get_boottime_timens' [-Wmissing-prototypes]
+     119 | __bpf_kfunc void bpf_get_boottime_timens(struct task_struct *tsk, struct timespec64 *boottime)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:125:27: warning: no previous prototype for 'bpf_get_total_forks' [-Wmissing-prototypes]
+     125 | __bpf_kfunc unsigned long bpf_get_total_forks(void)
+         |                           ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:130:26: warning: no previous prototype for 'bpf_nr_running' [-Wmissing-prototypes]
+     130 | __bpf_kfunc unsigned int bpf_nr_running(void)
+         |                          ^~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:135:32: warning: no previous prototype for 'bpf_nr_context_switches' [-Wmissing-prototypes]
+     135 | __bpf_kfunc unsigned long long bpf_nr_context_switches(void)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:140:26: warning: no previous prototype for 'bpf_nr_iowait' [-Wmissing-prototypes]
+     140 | __bpf_kfunc unsigned int bpf_nr_iowait(void)
+         |                          ^~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:146:26: warning: no previous prototype for 'bpf_kstat_softirqs_cpu' [-Wmissing-prototypes]
+     146 | __bpf_kfunc unsigned int bpf_kstat_softirqs_cpu(unsigned int irq, int cpu)
+         |                          ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:151:27: warning: no previous prototype for 'bpf_kstat_cpu_irqs_sum' [-Wmissing-prototypes]
+     151 | __bpf_kfunc unsigned long bpf_kstat_cpu_irqs_sum(unsigned int cpu)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:156:18: warning: no previous prototype for 'bpf_kcpustat_cpu_fetch' [-Wmissing-prototypes]
+     156 | __bpf_kfunc void bpf_kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:165:27: warning: no previous prototype for 'bpf_mem_file_hugepage' [-Wmissing-prototypes]
+     165 | __bpf_kfunc unsigned long bpf_mem_file_hugepage(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:170:27: warning: no previous prototype for 'bpf_mem_file_pmdmapped' [-Wmissing-prototypes]
+     170 | __bpf_kfunc unsigned long bpf_mem_file_pmdmapped(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:175:27: warning: no previous prototype for 'bpf_mem_kreclaimable' [-Wmissing-prototypes]
+     175 | __bpf_kfunc unsigned long bpf_mem_kreclaimable(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:181:27: warning: no previous prototype for 'bpf_mem_totalcma' [-Wmissing-prototypes]
+     181 | __bpf_kfunc unsigned long bpf_mem_totalcma(void)
+         |                           ^~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:186:27: warning: no previous prototype for 'bpf_mem_freecma' [-Wmissing-prototypes]
+     186 | __bpf_kfunc unsigned long bpf_mem_freecma(void)
+         |                           ^~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:201:17: warning: no previous prototype for 'bpf_hugetlb_report_meminfo' [-Wmissing-prototypes]
+     201 | __bpf_kfunc int bpf_hugetlb_report_meminfo(struct bpf_mem_hugepage *hugepage_info)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:234:27: warning: no previous prototype for 'bpf_mem_failure' [-Wmissing-prototypes]
+     234 | __bpf_kfunc unsigned long bpf_mem_failure(void)
+         |                           ^~~~~~~~~~~~~~~
+   kernel/bpf-rvi/common_kfuncs.c:245:27: warning: no previous prototype for 'bpf_mem_percpu' [-Wmissing-prototypes]
+     245 | __bpf_kfunc unsigned long bpf_mem_percpu(void)
+         |                           ^~~~~~~~~~~~~~
+>> kernel/bpf-rvi/common_kfuncs.c:250:27: warning: no previous prototype for 'bpf_mem_commit_limit' [-Wmissing-prototypes]
+     250 | __bpf_kfunc unsigned long bpf_mem_commit_limit(void)
+         |                           ^~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf-rvi/common_kfuncs.c:254:27: warning: no previous prototype for 'bpf_mem_committed' [-Wmissing-prototypes]
+     254 | __bpf_kfunc unsigned long bpf_mem_committed(void)
+         |                           ^~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_mem_commit_limit +250 kernel/bpf-rvi/common_kfuncs.c
+
+   199	
+   200	#ifdef CONFIG_HUGETLB_PAGE
+ > 201	__bpf_kfunc int bpf_hugetlb_report_meminfo(struct bpf_mem_hugepage *hugepage_info)
+   202	{
+   203		struct hstate *h;
+   204		unsigned long total = 0;
+   205	
+   206		if (!hugepages_supported())
+   207			return -1;
+   208	
+   209		for_each_hstate(h) {
+   210			unsigned long count = h->nr_huge_pages;
+   211	
+   212			total += huge_page_size(h) * count;
+   213	
+   214			if (h == &default_hstate) {
+   215				hugepage_info->total = count;
+   216				hugepage_info->free = h->free_huge_pages;
+   217				hugepage_info->rsvd = h->resv_huge_pages;
+   218				hugepage_info->surp = h->surplus_huge_pages;
+   219				hugepage_info->size = huge_page_size(h) / SZ_1K;
+   220			}
+   221		}
+   222	
+   223		hugepage_info->hugetlb = total / SZ_1K;
+   224		return 0;
+   225	}
+   226	#else
+   227	__bpf_kfunc int bpf_hugetlb_report_meminfo(struct bpf_mem_hugepage *hugepage_info)
+   228	{
+   229		return -1;
+   230	}
+   231	#endif
+   232	
+   233	#ifdef CONFIG_MEMORY_FAILURE
+ > 234	__bpf_kfunc unsigned long bpf_mem_failure(void)
+   235	{
+   236		return atomic_long_read(&num_poisoned_pages) << (PAGE_SHIFT - 10);
+   237	}
+   238	#else
+   239	__bpf_kfunc unsigned long bpf_mem_failure(void)
+   240	{
+   241		return 0;
+   242	}
+   243	#endif
+   244	
+   245	__bpf_kfunc unsigned long bpf_mem_percpu(void)
+   246	{
+   247		return pcpu_nr_pages();
+   248	}
+   249	
+ > 250	__bpf_kfunc unsigned long bpf_mem_commit_limit(void)
+   251	{
+   252		return vm_commit_limit();
+   253	}
+ > 254	__bpf_kfunc unsigned long bpf_mem_committed(void)
+   255	{
+   256		return vm_memory_committed();
+   257	}
+   258	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
