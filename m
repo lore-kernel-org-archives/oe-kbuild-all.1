@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F9234D3A7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 15:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D523C3148D3;
+	Wed,  5 Nov 2025 16:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762356821; cv=none; b=nJr4hsE8yleK2Pn9zwbIHBueyWkFfFGt9fQPeQmuVTuVgxdGpzWTg9D3Za2KBYW3yvh5TZOfxACB/4BpvOEWhBNLBpoFOjwa8kg9Qz1K+IUvzcW0B3T6BH5rWT5CmOiOlgDRgnyPi9nt8sbEAUzOeVZp+786lo+oQqk/cYmM3AY=
+	t=1762358687; cv=none; b=rJ3RhiPdaqzZpUUNXNsidHMfn4yxB/atbBNjWqEUyt7UnQ574VWQbzF3HxpHqfHPDb6zYWCqaeqapT4aQv1dXN9RLi83tXxOJXPRWiZZ1cOtXQ7HSIDAjrfTuWx2jFwAkbimpQjlNrQ3h/ROwJ3m8CnCoarTjY+xWAYlz3PUYSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762356821; c=relaxed/simple;
-	bh=P465Df+Wcw9esl9Mg+n3mlhE4wZRO3IZf6ZZP4EYSmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ivbl2Hcqnh6MPd1iTF9n0hLnPaFsYtv/RvCPtOdGcUC/ArT+Tm4jB+uVGiE+IvhBMuZoEC/ORMdvAGQ+T8UEEvSfMFdLSV5GAMYFv2CovHQwBezUbJ1PmT9aG0IOq9uDpVn3h7IqHwJ6cxpfry2VyoNMpfbY2DeFvjoF4a1c0J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zk74pMBC; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1762358687; c=relaxed/simple;
+	bh=Vc8K3MrTyVwbjqp/DCwioUL/LWadEWrFyl8zAIAawBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i9uTbMRlb+VXrhSdI/u0w5mLtq7I85urDSoJdfRninR4tXZM2ATsypZzpHLOKyq55yQN776FoMvmgdQHbTMF4UexofzgHfHqcSzJUBpB09vIq3tnmsdrUppWJp9Doxfe0nLJwkTXd+kbOcGjbGwdLuJqHTQaHn4wDTOkn7IsEQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JwMuZVy1; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zk74pMBC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JwMuZVy1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762356821; x=1793892821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P465Df+Wcw9esl9Mg+n3mlhE4wZRO3IZf6ZZP4EYSmw=;
-  b=Zk74pMBCnKMNCLuXmjSi38SH8psG0h6fYPwo/xUq+XGD40kzuR8V33Di
-   ckFxpBLqlFUUz3qFtzA0KLy1aEa5wgLy1T767ZHRxkXjjz4lHQxprOuwd
-   b5cP6C4vK18HcatRa8Y2FLZPDWMTFsO4LbEMJJocNA+56Nchqh9YHlYzG
-   mTuXfgncxDyC710RktvII9ot67g6MVEEXrH57mgOPNRLYsH9EtyTT8ROj
-   KN91f7GXz/G08yvRzF6N/5am7RYW6hvtkxF1uV1hyNrGYUQTe3TapcOz7
-   WLb6GZu6NKGCtkrG0HXHQ3VCN8di9dNLOyYgQZ3FyKakhTmjTA2R8RESn
-   g==;
-X-CSE-ConnectionGUID: DBX0yl5oT1CxYdV36EJPDw==
-X-CSE-MsgGUID: 9Pj9Fjg5TfuhETJ5y29iEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="81877712"
+  t=1762358686; x=1793894686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vc8K3MrTyVwbjqp/DCwioUL/LWadEWrFyl8zAIAawBA=;
+  b=JwMuZVy1ly6nA4IUoOnSRnG8aePBQjMxh0iwOLJNpAHucJxn4cTs3jPM
+   Key02nEUhap+qZViMigokcW2A48KQ5I9xZTc2WwGjKcdSY/W4oAjQRBlt
+   +A0r/NdWa3v7UnxB+7AJepmTAHBBBcKkKgn0L+jSe4TscSDBvQvGT0uF7
+   zpbt001DmjkuENff6KJ5pjp1khtoW+/n3Sr9tGr71ljY9EhMGN1wGyrwj
+   gmPMlJnmRaJIvdrYYDn2cG2ospwj5ZWI/4mVGee1zY2mEBHSufJroZkRT
+   otC7Xvoo0QxTd5vxwyNHIFJEQPS0qNkfmD5ueJIMQq8mDrUZIdx9rxhav
+   w==;
+X-CSE-ConnectionGUID: RPRbhjZPQj65c364eaue0Q==
+X-CSE-MsgGUID: EJRCQQOhTkyB85WAGkN6JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11603"; a="64174678"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="81877712"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 07:33:40 -0800
-X-CSE-ConnectionGUID: 8IJp9kTjQNmxfwf2WctBAA==
-X-CSE-MsgGUID: CWRpFZrlSMiDNmERmgWr0w==
+   d="scan'208";a="64174678"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 08:04:45 -0800
+X-CSE-ConnectionGUID: uKDzES6cQJ+/2F/g+UvqTw==
+X-CSE-MsgGUID: reYSz8GhRLO04UAr3rNsZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="186772518"
+   d="scan'208";a="210969542"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 05 Nov 2025 07:33:39 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2025 08:04:40 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGfV9-000Sm2-1R;
-	Wed, 05 Nov 2025 15:33:02 +0000
-Date: Wed, 5 Nov 2025 23:30:05 +0800
+	id 1vGfzS-000SoS-0u;
+	Wed, 05 Nov 2025 16:04:24 +0000
+Date: Thu, 6 Nov 2025 00:02:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2]
- arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for
- function 'module_map_module_page'
-Message-ID: <202511052337.bMji8ryi-lkp@intel.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mina Almasry <almasrymina@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx
+ token management
+Message-ID: <202511052307.doTV8fDn-lkp@intel.com>
+References: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +80,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3@meta.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   d094009d1e30c716d38ece606426186229810aa6
-commit: db8bad4a59d2609e1ec4c6da947554ab51901f4a [2/2] ANDROID: KVM: arm64: Expose unmap_module_page to modules
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251105/202511052337.bMji8ryi-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511052337.bMji8ryi-lkp@intel.com/reproduce)
+Hi Bobby,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 255d75ef029f33f75fcf5015052b7302486f7ad2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-rename-tx_vec-to-vec-in-dmabuf-binding/20251105-092703
+base:   255d75ef029f33f75fcf5015052b7302486f7ad2
+patch link:    https://lore.kernel.org/r/20251104-scratch-bobbyeshleman-devmem-tcp-token-upstream-v6-3-ea98cf4d40b3%40meta.com
+patch subject: [PATCH net-next v6 3/6] net: devmem: prepare for autorelease rx token management
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251105/202511052307.doTV8fDn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251105/202511052307.doTV8fDn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511052337.bMji8ryi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511052307.doTV8fDn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/modules.c:276:5: warning: no previous prototype for function 'module_map_module_page' [-Wmissing-prototypes]
-     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/modules.c:276:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     276 | int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/modules.c:282:5: warning: no previous prototype for function 'module_map_module_pages' [-Wmissing-prototypes]
-     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/modules.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     282 | int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/modules.c:288:5: warning: no previous prototype for function 'module_unmap_module_pages' [-Wmissing-prototypes]
-     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/modules.c:288:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     288 | int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-         | ^
-         | static 
-   3 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [y]:
-   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
-   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+>> net/core/sock.c:1107:12: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    1107 |                                 return ret;
+         |                                        ^~~
+   net/core/sock.c:1095:9: note: initialize the variable 'ret' to silence this warning
+    1095 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
+--
+>> net/ipv4/tcp.c:2626:6: warning: variable 'refs' is uninitialized when used here [-Wuninitialized]
+    2626 |                                         refs++;
+         |                                         ^~~~
+   net/ipv4/tcp.c:2496:10: note: initialize the variable 'refs' to silence this warning
+    2496 |         int refs;
+         |                 ^
+         |                  = 0
+   1 warning generated.
 
 
-vim +/module_map_module_page +276 arch/arm64/kvm/hyp/nvhe/modules.c
+vim +/ret +1107 net/core/sock.c
 
-   275	
- > 276	int module_map_module_page(u64 pfn, void *va, enum kvm_pgtable_prot prot,
-   277				   bool is_protected)
-   278	{
-   279		return __pkvm_map_module_pages(pfn, va, 1, prot, is_protected);
-   280	}
-   281	
- > 282	int module_map_module_pages(u64 pfn, void *va, u64 nr_pages, enum kvm_pgtable_prot prot,
-   283				   bool is_protected)
-   284	{
-   285		return __pkvm_map_module_pages(pfn, va, nr_pages, prot, is_protected);
-   286	}
-   287	
- > 288	int module_unmap_module_pages(u64 pfn, void *va, u64 nr_pages)
-   289	{
-   290		return __pkvm_unmap_module_pages(pfn, va, nr_pages);
-   291	}
-   292	
+  1085	
+  1086	static noinline_for_stack int
+  1087	sock_devmem_dontneed_manual_release(struct sock *sk, struct dmabuf_token *tokens,
+  1088					    unsigned int num_tokens)
+  1089	{
+  1090		struct net_iov *niov;
+  1091		unsigned int i, j;
+  1092		netmem_ref netmem;
+  1093		unsigned int token;
+  1094		int num_frags = 0;
+  1095		int ret;
+  1096	
+  1097		if (!sk->sk_devmem_info.binding)
+  1098			return -EINVAL;
+  1099	
+  1100		for (i = 0; i < num_tokens; i++) {
+  1101			for (j = 0; j < tokens[i].token_count; j++) {
+  1102				token = tokens[i].token_start + j;
+  1103				if (token >= sk->sk_devmem_info.binding->dmabuf->size / PAGE_SIZE)
+  1104					break;
+  1105	
+  1106				if (++num_frags > MAX_DONTNEED_FRAGS)
+> 1107					return ret;
+  1108	
+  1109				niov = sk->sk_devmem_info.binding->vec[token];
+  1110				if (atomic_dec_and_test(&niov->uref)) {
+  1111					netmem = net_iov_to_netmem(niov);
+  1112					WARN_ON_ONCE(!napi_pp_put_page(netmem));
+  1113				}
+  1114				ret++;
+  1115			}
+  1116		}
+  1117	
+  1118		atomic_sub(ret, &sk->sk_devmem_info.outstanding_urefs);
+  1119	
+  1120		return ret;
+  1121	}
+  1122	
 
 -- 
 0-DAY CI Kernel Test Service
