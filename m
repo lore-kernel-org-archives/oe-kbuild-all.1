@@ -1,94 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C9033A002
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 18:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7755B33CE81
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Nov 2025 18:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762366286; cv=none; b=to59YLifKYSQyQmti/dKN3Mkgt9tw1g1zej+s91peiN83CEizU19ruvS/ziTPM52WSqdmiuLYoJCJZgFGHMEkj9b1fGoRCnC0+WwfvcXCUmbHwYEKLVVG0uUZEC8R1lTBPHc72x1+Xzd+atwNZghU+Tl4jvhwu/fCNzTaybZlRY=
+	t=1762366297; cv=none; b=j9BH5wNjIefeIzOPb4G7g38nzVfnRS3Mz5zdbGsFPQuKVBVyw8oXfAYii/x1b/JZLEvsXTqiYgYGC2ocCT3mZmQiisG13Q95PkuRP5B5dXa/Oisvi/Weg5JmAFE03dMyPE53p/A2fc8bZiQCtALPoDBv6/Bjx58JHVTIWdsRmkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762366286; c=relaxed/simple;
-	bh=9loNyRUX1wS2cOs7DQJJEJ95uz7h+5PiXpPI+M3H/ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RTqTYE86p5lM848ZXH9jFYyyaZtIi1Esim2/IsuJ2twBz3YiZocUhbECcQ/lW5aSeF73H0waiX3H/TEJmZaeWLhxX2/C8yjXKARu1hlcEV6FGnMtLh1o2mhO8tm+BL+u9tJVSCF6gj59hHv4BEKxUBB5tGhx0k9r8qDsvQXOPIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/ZrUVJ1; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762366297; c=relaxed/simple;
+	bh=HJOrasHsdzKL7ziY1rWiO7Xa8XG99NhpujbH+jMlO2A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H1DyzfcLiiD6pFi1VoCv5ppHX+OdKCjfR/fcsEqB1wooOZWe2cvIjmcihz/QBKemVnD+W9skB0TzGTkHmk3MSRUh0Zwd9BOKnK0k60kXIgkoyfYGw+vJuLhrFQyjW50LugOR+RKfCFgsr7XxBIRuhIZtE37gh42pD82/btoYYUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DR+QvzPa; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/ZrUVJ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DR+QvzPa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762366284; x=1793902284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9loNyRUX1wS2cOs7DQJJEJ95uz7h+5PiXpPI+M3H/ao=;
-  b=S/ZrUVJ13yChf1/6oswEEeHXM2zs7/QmzzMrADQkVRRnqDWZSepfANF6
-   KzuZg5hEtm9bUnfgXWs6bR29666klolNU9UAgKxJ7h71x5Xh7VsQ0PRod
-   EbEWWfQ8NuFfLqsmBr2L+Vb5W9xVqU8H8N7jERSwXH2Zsw8ELHLwDuKDl
-   xJUsb9vzzpFCDj+wdlqPevmPMj0RT9T32j66sBghldguZrVO4kJAfKzfg
-   BLU46OkOsIR4eiXMfqTS5N28G+sMF2sy/rODFKxoN8zXub7Rtq3u75j0n
-   74IR4OyLZ4E0kdbLniVNj35+qInGpPc1USH1AY1z8yaN69cySj6vgAlO1
+  t=1762366294; x=1793902294;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HJOrasHsdzKL7ziY1rWiO7Xa8XG99NhpujbH+jMlO2A=;
+  b=DR+QvzPakGHWMVjqD5o9EIXAEHi7qHUkEf6LWefdFJHhqTvWV06NI4U/
+   ROccsmJk173WuBiBt0ht1NYGqitQKYSUhnF3rCT8idj1haYcIJmtt62Va
+   53XnWzM37Nm8/2dNCPW0O9bfu/xFM16XEUb7aMCVBC8OWP/FTxB389bqN
+   zBIXVlomeG1vMuQcl4il9krzb0UpepEoDB5QRGv0I3OD9Pt768pR33rAT
+   FxXfObVhydMVpgrA+FHwb+axupcGumpfDxtGCjoVML0pTnMUBQTBokAdk
+   4P2Q+iiyw7ST4BQo0WE2Pd1NOcRP6lljKZokg7Edtj3BZ3Co2EcvOhZNp
    A==;
-X-CSE-ConnectionGUID: mVIbkuuFS+u6H9q9PBBbuQ==
-X-CSE-MsgGUID: 5z2HjLZkRDK3Tn+EfFau7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64405189"
+X-CSE-ConnectionGUID: zfXEcr0ERtCtsL+ASwZT1Q==
+X-CSE-MsgGUID: sy8dD5NcSJy3rRpliqXGyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64188143"
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="64405189"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 10:11:23 -0800
-X-CSE-ConnectionGUID: quFJjTh1TiuZnS0SxOxwUQ==
-X-CSE-MsgGUID: 6FC3tLUgRj2h02UmRepFNg==
+   d="scan'208";a="64188143"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 10:11:32 -0800
+X-CSE-ConnectionGUID: 3DPG09umSY+ohClMC7vdIA==
+X-CSE-MsgGUID: 9ED2FR+aRBiht1pB9uzO2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,282,1754982000"; 
-   d="scan'208";a="187191632"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Nov 2025 10:11:12 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vGhwW-000Sy4-1H;
-	Wed, 05 Nov 2025 18:10:18 +0000
-Date: Thu, 6 Nov 2025 02:08:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Alexey Kardashevskiy <aik@amd.com>
-Subject: [linux-next:master 5630/6507] ide.c:undefined reference to
- `tsm_ide_stream_unregister'
-Message-ID: <202511060242.1PnkE9qI-lkp@intel.com>
+   d="scan'208";a="211000706"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO fdefranc-mobl3.localnet) ([10.245.246.26])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 10:11:27 -0800
+From: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
+To: linux-cxl@vger.kernel.org, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Gregory Price <gourry@gourry.net>, Robert Richter <rrichter@amd.com>,
+ Cheatham Benjamin <benjamin.cheatham@amd.com>
+Subject:
+ Re: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory Holes on x86
+Date: Wed, 05 Nov 2025 19:11:25 +0100
+Message-ID: <5072006.vqk35OSZvh@fdefranc-mobl3>
+In-Reply-To: <202510101555.zofjGvZF-lkp@intel.com>
+References:
+ <20251006155836.791418-3-fabio.m.de.francesco@linux.intel.com>
+ <202510101555.zofjGvZF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   84d39fb9d529f27d2f3d295430d1be0abdae7a6d
-commit: a4438f06b1db15ce3d831ce82b8767665638aa2a [5630/6507] PCI/TSM: Report active IDE streams
-config: sparc-randconfig-r113-20251105 (https://download.01.org/0day-ci/archive/20251106/202511060242.1PnkE9qI-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060242.1PnkE9qI-lkp@intel.com/reproduce)
+On Friday, October 10, 2025 9:38:02=E2=80=AFAM Central European Standard Ti=
+me kernel test robot wrote:
+> Hi Fabio,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on 46037455cbb748c5e85071c95f2244e81986eb58]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Frances=
+co/cxl-core-Change-match_-_by_range-signatures/20251010-111627
+> base:   46037455cbb748c5e85071c95f2244e81986eb58
+> patch link:    https://lore.kernel.org/r/20251006155836.791418-3-fabio.m.=
+de.francesco%40linux.intel.com
+> patch subject: [PATCH 2/4 v5] cxl/core: Add helpers to detect Low Memory =
+Holes on x86
+> config: i386-buildonly-randconfig-005-20251010 (https://download.01.org/0=
+day-ci/archive/20251010/202510101555.zofjGvZF-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251010/202510101555.zofjGvZF-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202510101555.zofjGvZF-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    ld: drivers/cxl/core/platform_quirks.o: in function `platform_res_adju=
+st':
+> >> drivers/cxl/core/platform_quirks.c:95:(.text+0x1f1): undefined referen=
+ce to `__udivdi3'
+>=20
+>=20
+> vim +95 drivers/cxl/core/platform_quirks.c
+>=20
+>     76=09
+>     77	void platform_res_adjust(struct resource *res,
+>     78				 struct cxl_endpoint_decoder *cxled,
+>     79				 const struct cxl_root_decoder *cxlrd)
+>     80	{
+>     81		if (!platform_cxlrd_matches_cxled(cxlrd, cxled))
+>     82			return;
+>     83=09
+>     84		guard(rwsem_write)(&cxl_rwsem.dpa);
+>     85		dev_dbg(cxled_to_memdev(cxled)->dev.parent,
+>     86			"Low Memory Hole detected. Resources were (%s: %pr, %pr)\n",
+>     87			dev_name(&cxled->cxld.dev), res, cxled->dpa_res);
+>     88		if (res) {
+>     89			/* Trim region resource overlap with LMH */
+>     90			res->end =3D cxlrd->res->end;
+>     91		}
+>     92		/* Match endpoint decoder's DPA resource to root decoder's */
+>     93		cxled->dpa_res->end =3D
+>     94			cxled->dpa_res->start +
+>   > 95			resource_size(cxlrd->res) / cxled->cxld.interleave_ways - 1;
+>=20
+I think that the use of udiv_64() (per Alison suggestion) will fix this=20
+error.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060242.1PnkE9qI-lkp@intel.com/
+=46abio
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
 
-All errors (new ones prefixed by >>):
 
-   sparc-linux-ld: drivers/pci/ide.o: in function `pci_ide_stream_release':
->> ide.c:(.text+0x898): undefined reference to `tsm_ide_stream_unregister'
-   sparc-linux-ld: drivers/pci/tsm.o: in function `connect_store':
-   tsm.c:(.text+0x88c): undefined reference to `find_tsm_dev'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TSM
-   Depends on [n]: VIRT_DRIVERS [=n]
-   Selected by [y]:
-   - PCI_TSM [=y] && PCI [=y]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
