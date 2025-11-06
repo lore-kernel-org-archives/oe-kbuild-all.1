@@ -1,71 +1,66 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF21019F48D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 13:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F6D1E0DD9;
+	Thu,  6 Nov 2025 13:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434615; cv=none; b=sstX3e084JBQM09nu4GT6RkpIsCcXqpgvf7GkvrwrzpOph2DwBuC3HxR2xPdRYB7ENH8mpPHkS2E9zEt0aO3J5k7615w00/ELDMKhAzmlWVj30bXiVA05lRZW1h9/jPoaCAZfK66tMnevgJAoFib1tWWHKcxMIj0NOuxrk1ql4Y=
+	t=1762434973; cv=none; b=SDEhbG03fCAKW+iTexDIwqdRWK81wZX1Z6LAGMPAYfiifRlyHsVQoTC7HEf4hIt1SkEVYMoyUUO+izE1UrNqLEpbBMOChw/2X0hDTyPNfEXzppgoxuQtqH/z53aKrNIWgNK6JgJRva66pQe4ymDL44pZYJEg/V4snDyHfis6/a4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434615; c=relaxed/simple;
-	bh=QVY/AYM5oY5fMTDiOLcTDfmGhegxKbaFzRVX886wGAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SI/QIJDGU1xuDbY5vMWxf/CKnKQeGvzAiVTOb8oU6nWDp9IgjXDu6S5tF8DbvraXU57Jy5W/yV9FEwd0TilFoJcri0PKNjHOBUrF0v4Ta2ScBms7gjlbV9A/xEkkzbjoWF0EsOcEVU4u982oUcvWCru4lNTAuiW6o46BdkgNQI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MQMMDQcc; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1762434973; c=relaxed/simple;
+	bh=fWIzYkeyLR0zM1nmLNN94zCZ4jX0OH0Y8wuA0ODbkxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iEJj2rRwBXXT0101V9zCZp+iUelP59QUMc3U84zkP+uY9cA5FbIyPe+XM0FDRS8CJInlgpvU/VYm161oahtLnSmOvSyMiVthcdUwmqoEu3uyFOj8p9Rndqt+IiKL829rpbsf/ks6gUYuEC2gn67CuET87WEPM8Aa/aJZP44i8po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKoK1acL; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MQMMDQcc"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640c3940649so1303398a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 05:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762434612; x=1763039412; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
-        b=MQMMDQccDYzbGOMx9ONqQEbw5vk2nW9L+3642mHn33lJVMoADfsw95SgyVc3NNjg01
-         SxSbP/ajvc0lU2oXFE7mr5DkKHtdAxVGE1GoVvnJlC6nJK2vSBfvpfczTMMdAfGkt/S0
-         tx/REU70WzrlYuCN4A/qEdY3zEizDuPnOgwDnNc0LTvjxuRA+kQM/y5/ajhPPnHiXInN
-         TeWf4avsgrh3pXRDR5w9J7DPHD9cvbYdzFAKkwMcZto+9t3vWdDN3TKZITi9eWa/VSIS
-         dbK+r2xuI1fgBhuhqw2Pd6U0Ry9C4QDqrO3I8npOWER0ETaTKknjV5CDGpWCq+lDBiED
-         n33w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762434612; x=1763039412;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
-        b=oNdbGEj3Rfqq3shnCBhfo68ZEMuk039kVFV4/oRExa2tZ8OfAs+nZTbXWbhOkW7cJt
-         EguaNKVbnFHKDhRA0KreU2ts8xiBr1Vhwir4tAEuACi9LY9FeAkMPRK4V5SIOpGlz/qH
-         lJtSIgguq/JIzC/YrGibu1eMUZRj9oCAoWNqXWN+D8fckM+4Z/ajykuulgG3IfuEnqLN
-         cWQtmv7RN0yDgECKzdF6Bm12rx5ZSC2Xj4YDQgrBCu1AXJk18Sg9IrBJNrkjNXrTarWA
-         Znggiolc+wSEzE6SVwnbmFoAWd/E7t8YhzRvdksEwdRJu7McZiwWSZ5k4X6/18rm9ITX
-         fg5w==
-X-Forwarded-Encrypted: i=1; AJvYcCU/GmPcRBm/cAl5W9Nv27aOLtRn1tpr6o8p/1YVevQuDyEnkZAG5RvFQ4edMOq/gRo9iAP7sxOwqcjRBkBW@lists.linux.dev
-X-Gm-Message-State: AOJu0YxxhHWeYmNKMZmRYXu+RDc5ceSYXjM68KpAmDTM1D326XyW+sDQ
-	fPwiN6fejRu4cEIim3B6xLTOsyEOqBSWNnkdPq2kapvXqoTsbcvbm+h9csd3CapY+AI=
-X-Gm-Gg: ASbGncvf19wptREG8HHyKSfkBz1YPHLsg1TL8rOaMgD+NVYUDdVQHl1jiqm+KWIX2SY
-	JQOnaNCm233D1FpHpKe+WNuTeTvcr9IHSjewomuMhaKqWTLQfLbU+XHj9q+itNqFWOySQjWd1i0
-	paf2HpT4KDkgQ6Vvb5Q61uOH4PzTdLctaT8d4swpG9TYkmVi2uC9q0o8Yr+tI3nY0mx+r+LkXwS
-	KV5Ms99yHZrfqmJ5gr7nQ/EFLDYGJXzkzx9aTfuDZPG7MAk1JwSdkgWkablmHtNHaXOp3dUxwRo
-	p5/VumI0DPMFYN8nUxk/3j3znOhnf1yvR/2CF5uRhCwVobH2Xg4xJO36vdwdJOk0AobKGPF8kL/
-	jzieBPvnEbgnrCxlSreI1s+qvWifmolgYB83dOBrlUrgfcjD8MeLHhUBQeihoIHHGeGZB03jqK6
-	iOW8t+lFdLvB5d
-X-Google-Smtp-Source: AGHT+IGDC3NDQYPTkkfUUoVyM/sJxUdHO2Lpp1MzeugUZlOM8vLQhbQSiv+7msu1x/Jy2tsYDRamhg==
-X-Received: by 2002:a17:906:c103:b0:b6d:50f7:a805 with SMTP id a640c23a62f3a-b7265607354mr700966366b.59.1762434612174;
-        Thu, 06 Nov 2025 05:10:12 -0800 (PST)
-Received: from localhost ([87.213.113.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896848a5sm207325966b.57.2025.11.06.05.10.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 05:10:11 -0800 (PST)
-Date: Thu, 6 Nov 2025 16:10:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rob Clark <robin.clark@oss.qualcomm.com>
-Subject: drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn:
- variable dereferenced before check 'kms' (see line 235)
-Message-ID: <9412d8fc-7bb8-456f-9911-8443303497a5@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKoK1acL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762434971; x=1793970971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fWIzYkeyLR0zM1nmLNN94zCZ4jX0OH0Y8wuA0ODbkxw=;
+  b=IKoK1acLZVZpJjTR0ROodTkW5WBmoY389A28uwIOmf6+o+efLlL0XEmk
+   4QnAfimAw8RpDQgW6xjyoTnFZRef6GWR0WE+b8aUN3gzzIBgTfOIBXh/u
+   Nlj+rTE91a6US771Dw8cw/sMar3VC6cX3Y9liNk2OGXOmPXlGUqFynr5E
+   pISgAg+gjQ4G12D8s5clstvOLCk8mYL6ldnki8L7Tvv3dPWul8FMxEOKk
+   JD6dewF4txo4qRe+x/qxflwpvzOEcauFYlNfUo41LhxCrU/wMSTLC6cxB
+   Lm+oIwkde7JigrIR+/J8/oyW+2mFFnyGvw8yePwfOidhCS2m3S0u+OkjC
+   g==;
+X-CSE-ConnectionGUID: KvknNyNjSZGH7yPu0aXNPw==
+X-CSE-MsgGUID: JgfOH8rUSjyHGoboAxUYKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75684738"
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="75684738"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 05:16:10 -0800
+X-CSE-ConnectionGUID: aeqL+VAlRRWd2b+1r3alkg==
+X-CSE-MsgGUID: PvnjBAKaRSe2LKdR0ffM/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="211215979"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2025 05:16:06 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGzqO-000TxI-01;
+	Thu, 06 Nov 2025 13:16:04 +0000
+Date: Thu, 6 Nov 2025 21:16:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
+	pekka.paalanen@collabora.com, contact@emersion.fr,
+	harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
+	sebastian.wick@redhat.com, shashank.sharma@amd.com,
+	swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
+	Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [v6 13/16] drm/i915/xelpd: Program Plane Post CSC Registers
+Message-ID: <202511062120.wwoYUHAR-lkp@intel.com>
+References: <20251105123413.2671075-14-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,66 +69,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251105123413.2671075-14-uma.shankar@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dc77806cf3b4788d328fddf245e86c5b529f31a2
-commit: a409b78fcdf724422fa030bd5ef177ebf3b7608a drm/msm: move wq handling to KMS code
-config: powerpc64-randconfig-r073-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061924.Y0EaYmPu-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
+Hi Uma,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20251105]
+[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-AMD-series-squashed/20251105-202623
+base:   next-20251105
+patch link:    https://lore.kernel.org/r/20251105123413.2671075-14-uma.shankar%40intel.com
+patch subject: [v6 13/16] drm/i915/xelpd: Program Plane Post CSC Registers
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20251106/202511062120.wwoYUHAR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062120.wwoYUHAR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511061924.Y0EaYmPu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511062120.wwoYUHAR-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn: variable dereferenced before check 'kms' (see line 235)
+All warnings (new ones prefixed by >>):
 
-vim +/kms +251 drivers/gpu/drm/msm/msm_kms.c
+>> drivers/gpu/drm/i915/display/intel_color.c:4018:52: warning: variable 'j' is uninitialized when used here [-Wuninitialized]
+    4018 |                                 lut_val = drm_color_lut32_extract(post_csc_lut[j++].green, 24);
+         |                                                                                ^
+   drivers/gpu/drm/i915/display/intel_color.c:4007:10: note: initialize the variable 'j' to silence this warning
+    4007 |         u32 i, j, lut_size, lut_val;
+         |                 ^
+         |                  = 0
+   1 warning generated.
 
-506efcba31296e Dmitry Baryshkov 2023-10-09  220  void msm_drm_kms_uninit(struct device *dev)
-506efcba31296e Dmitry Baryshkov 2023-10-09  221  {
-506efcba31296e Dmitry Baryshkov 2023-10-09  222  	struct platform_device *pdev = to_platform_device(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  223  	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  224  	struct drm_device *ddev = priv->dev;
-506efcba31296e Dmitry Baryshkov 2023-10-09  225  	struct msm_kms *kms = priv->kms;
-506efcba31296e Dmitry Baryshkov 2023-10-09  226  	int i;
-506efcba31296e Dmitry Baryshkov 2023-10-09  227  
-506efcba31296e Dmitry Baryshkov 2023-10-09  228  	BUG_ON(!kms);
-506efcba31296e Dmitry Baryshkov 2023-10-09  229  
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  230  	/* We must cancel and cleanup any pending vblank enable/disable
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  231  	 * work before msm_irq_uninstall() to avoid work re-enabling an
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  232  	 * irq after uninstall has disabled it.
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  233  	 */
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  234  
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05 @235  	flush_workqueue(kms->wq);
-                                                                        ^^^^^^^
-Dereferenced
 
-a409b78fcdf724 Dmitry Baryshkov 2025-07-05  236  
-506efcba31296e Dmitry Baryshkov 2023-10-09  237  	/* clean up event worker threads */
-506efcba31296e Dmitry Baryshkov 2023-10-09  238  	for (i = 0; i < priv->num_crtcs; i++) {
-506efcba31296e Dmitry Baryshkov 2023-10-09  239  		if (priv->event_thread[i].worker)
-506efcba31296e Dmitry Baryshkov 2023-10-09  240  			kthread_destroy_worker(priv->event_thread[i].worker);
-506efcba31296e Dmitry Baryshkov 2023-10-09  241  	}
-506efcba31296e Dmitry Baryshkov 2023-10-09  242  
-506efcba31296e Dmitry Baryshkov 2023-10-09  243  	drm_kms_helper_poll_fini(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  244  
-506efcba31296e Dmitry Baryshkov 2023-10-09  245  	msm_disp_snapshot_destroy(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  246  
-506efcba31296e Dmitry Baryshkov 2023-10-09  247  	pm_runtime_get_sync(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  248  	msm_irq_uninstall(ddev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  249  	pm_runtime_put_sync(dev);
-506efcba31296e Dmitry Baryshkov 2023-10-09  250  
-506efcba31296e Dmitry Baryshkov 2023-10-09 @251  	if (kms && kms->funcs)
-                                                            ^^^
-Checked too late.
+vim +/j +4018 drivers/gpu/drm/i915/display/intel_color.c
 
-506efcba31296e Dmitry Baryshkov 2023-10-09  252  		kms->funcs->destroy(kms);
-506efcba31296e Dmitry Baryshkov 2023-10-09  253  }
+  3997	
+  3998	static void
+  3999	xelpd_program_plane_post_csc_lut(struct intel_dsb *dsb,
+  4000					 const struct intel_plane_state *plane_state)
+  4001	{
+  4002		struct intel_display *display = to_intel_display(plane_state);
+  4003		const struct drm_plane_state *state = &plane_state->uapi;
+  4004		enum pipe pipe = to_intel_plane(state->plane)->pipe;
+  4005		enum plane_id plane = to_intel_plane(state->plane)->id;
+  4006		const struct drm_color_lut32 *post_csc_lut = plane_state->hw.gamma_lut->data;
+  4007		u32 i, j, lut_size, lut_val;
+  4008	
+  4009		if (icl_is_hdr_plane(display, plane)) {
+  4010			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
+  4011					   PLANE_PAL_PREC_AUTO_INCREMENT);
+  4012			/* TODO: Add macro */
+  4013			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_SEG0_INDEX_ENH(pipe, plane, 0),
+  4014					   PLANE_PAL_PREC_AUTO_INCREMENT);
+  4015			if (post_csc_lut) {
+  4016				lut_size = 32;
+  4017				for (i = 0; i < lut_size; i++) {
+> 4018					lut_val = drm_color_lut32_extract(post_csc_lut[j++].green, 24);
+  4019	
+  4020					intel_de_write_dsb(display, dsb,
+  4021							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  4022							   lut_val);
+  4023				}
+  4024	
+  4025				/* Segment 2 */
+  4026				do {
+  4027					intel_de_write_dsb(display, dsb,
+  4028							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  4029							   (1 << 24));
+  4030				} while (++j < 34);
+  4031			} else {
+  4032				/*TODO: Add for segment 0 */
+  4033				lut_size = 32;
+  4034				for (i = 0; i < lut_size; i++) {
+  4035					u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
+  4036	
+  4037					intel_de_write_dsb(display, dsb,
+  4038							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
+  4039				}
+  4040	
+  4041				do {
+  4042					intel_de_write_dsb(display, dsb,
+  4043							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  4044							   1 << 24);
+  4045				} while (i++ < 34);
+  4046			}
+  4047	
+  4048			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
+  4049			intel_de_write_dsb(display, dsb,
+  4050					   PLANE_POST_CSC_GAMC_SEG0_INDEX_ENH(pipe, plane, 0), 0);
+  4051		}
+  4052	}
+  4053	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
