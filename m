@@ -1,149 +1,118 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235BE30DEB7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 10:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78FD1553A3;
+	Thu,  6 Nov 2025 10:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762424040; cv=none; b=XlrQwyCpfvH2RADraV2xdfqVY+nLrpjyiE8sr32xFv5/P2uMkLeu1mUIDHgc0HdHYs0DEJUhWQEj6Jn7PeT1dwmgtBELPchcVEfEbt4YTi93+8V1/kuH+kb61+fLZyupeYuS7F+LhrfxoxBC5t6U6jDWS8uTcRfxouh9nJ02ABw=
+	t=1762425072; cv=none; b=hSLLvDwUDeorLdAXkLLehKCotpMXf+HQJ4kibeljBbb7UaY3wqrCqWPP4sE/yv/AhZzyWDzFWrD6Ga838pQ1mQuHeCLZ8wIbNSyWNfrtXkD+/EB2r2b9A1XswkTsyznSuAhDJIgJbhCcMwNuJn9O/UFp5UpiOU/dqHJXoRtj+z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762424040; c=relaxed/simple;
-	bh=3g6OwqvUvgOuE0sVQ1tvj2/4v52gpeHEPrmCnel5VNw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iiFgQ8d2JrsVKtOvZl2Uql0wovO39k6wqiOyQ+4XlD0KMYILndzyHnme77bJrzwHG75FS9CqrJmQL4ac5GNIOyU16otrjfXBYYh3UCEDbbQrYF0MriYuD+IFvC770A1NIAVr3rTEnO9WesOoftyLHTKy3VPU4+S+ZQ588HYC7ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y7J+hUZs; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1762425072; c=relaxed/simple;
+	bh=JFOdbYffsARPA55o25J5nmd1eh1TGG+Rp7ggcIJ/X3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E2TfHKG+2tG4O+EGr8tgoOBm1nvB7cnG3Gy0t562xy5Lt2YiezRLm2EvgKs0QU2AD8gGPt5k70RlQSYH9wAbud6y9u9LKM8gSFZ+d0x57ItpR1nJX/35pGNSuK/64Q7zSlvCYJ+o4B3qp0gP5tx2bbtEEaGLzGA5igoNQqp7bVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STVLeWeH; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y7J+hUZs"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-781ea2cee3fso817708b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 02:13:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762424038; x=1763028838; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XVferEyN4+RzXvE7eehEmFRfQazqGQ49nTw3vZt6WP4=;
-        b=Y7J+hUZsN2PPcyFOhmiTMM+9lWs+G3wZVaQiOdJViRW+X+xXZ+i6goHemQ7xOooV03
-         VkSb7A70UTPmPrDXppKvwyJx4OgS6MfJ5l/iECQgbcfXpo/0fMX5Hxw5R83TeNanh4zd
-         B5WH9I5sOLdsozhWWkX40b0qb1/jSg6R+iq2PrTZxCbe4aX0rWMf6vlJT9iC0nknJ1ii
-         Jvlu2Lvp4EvLtH+/Jt4CcpZefCF87ySLDW5213GyroUgMFFvg8MHT2kHTKT+UmL5C16c
-         NjDyGJCBTy+q1t4zawqQvdj7jHPhUYUbE7au/CFXsm6wK/F2ijVZfISCwbgsg9h3qv2g
-         dEkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762424038; x=1763028838;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XVferEyN4+RzXvE7eehEmFRfQazqGQ49nTw3vZt6WP4=;
-        b=l8An905auYpdFQF5vNeakztNuB/ewNW/Kz/ZLqMB3gXxanf4T5kHkTvQ1TSl+OVQ4u
-         JuU2PoLwu5f1KyhBihEQJWcziNVtqzxQVrywiwI4WOdLP2LdZcXqdxO3N+SVtifdhjI9
-         m7f4X6Exj+07suJp7bCtiNpWU0aEKIRcEq97O5x1U4+6tU5nrvTQrRTykrFH06WxokNB
-         eG6WQKnmbzTAQtYAq3Td435fmtd8xyyaHQtpaO/aHsRkWE8FrosAPYxMpPWmpaQ84ZPz
-         d/sI4B63q9CNmygImXLjnbsf1yLE3xpapSw9V5u4SAXjohZQgI9mTWo6wP2QBrqsXEn6
-         b8Bw==
-X-Gm-Message-State: AOJu0YyyBfVxcuHwKD9YzROqaSPt3yFabqkgnw73wNWyGfLPZlTWclIn
-	m5gMRM/0H1/ULsp3V6oep9qyTBN7uo6AQyuCQMqtkMxXcSSgp/a7UMsH
-X-Gm-Gg: ASbGncvmEAoAK7bdwk2nePYYoq3na8TBamqOfBpYr8OJ6wqbBJHy8gtHXblOWwdotlK
-	Pmq6aK7pzhiz74mTBZ1JCmN3qw4hDWERaMS5y2i4S6uQO1Vuk57bthB1uW7ZXSdr5o5LCBilJ5E
-	Czh3+8Bag0TinbCx9hBzffriVsPqol+Is/Wd9qi+Bk0DJIHgTRbomVTmmpVLwbX1RDgxZmsKZJK
-	O/3yKZrrjS+upWSGyhGd7vtwuR4IYzNLBsoH7jlSpbvJTEOOUxKHE3RlxwDTUyvZgqPKmzTP24b
-	TVrKz+pp3kHtGMF0EaSCb3EMAuNg8MT18DOzHv2VS3byU4+UHuQueVzv2fOPK6tCLpq3+XMtjp8
-	ZzbROVg/vHmRy5athHSFW+9qJavkhdxKNtfOPHte+I3lg5ATMhHSimjqS8Kddjqbrc9eieIT7r0
-	hNGgfvXSWy8xr1sCFHrDk6MYfD1bd6QkC35DfafZt+JL1bEYf+
-X-Google-Smtp-Source: AGHT+IHFm4f4DIfuJZeWFWHECmS607MVUrzEbqxwY7bBNABCSqwm+nfFI94x/cfAN4hYxfUSU4FFIA==
-X-Received: by 2002:a05:6a00:2e0d:b0:792:574d:b12 with SMTP id d2e1a72fcca58-7ae1d7350a5mr8116654b3a.10.1762424038444;
-        Thu, 06 Nov 2025 02:13:58 -0800 (PST)
-Received: from ?IPv6:2401:4900:88f4:f6c4:5041:b658:601d:5d75? ([2401:4900:88f4:f6c4:5041:b658:601d:5d75])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7af825fbc63sm2270481b3a.49.2025.11.06.02.13.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 02:13:58 -0800 (PST)
-Message-ID: <26b0845236aeeedae68b20765376e6acf3bb0e97.camel@gmail.com>
-Subject: Re: [PATCH] net: ethernet: fix uninitialized pointers with free attr
-From: ally heev <allyheev@gmail.com>
-To: kernel test robot <lkp@intel.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>,  Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller"	 <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, "K. Y.
- Srinivasan"	 <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu	 <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, Dan Carpenter <error27@gmail.com>
-Date: Thu, 06 Nov 2025 15:43:49 +0530
-In-Reply-To: <202511061627.TYBaNPrX-lkp@intel.com>
-References: 
-	<20251105-aheev-uninitialized-free-attr-net-ethernet-v1-1-f6ea84bbd750@gmail.com>
-	 <202511061627.TYBaNPrX-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+deb13u1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STVLeWeH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762425071; x=1793961071;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JFOdbYffsARPA55o25J5nmd1eh1TGG+Rp7ggcIJ/X3I=;
+  b=STVLeWeHzv6ILv38R2/zQgW/qNBZtJTXA6cqGDCuVjLEXzLwB5pAmRil
+   ROUq5W8wj0jH8XTLBT8lX0G2ogpoodfxBYAPB98DhUuIQVy2TLsbBR0sB
+   RV8s0g61kjt1ty9uJNqxfkzOW/zYzz9gaht7e6Tgi65Bei+jwfp/snfgR
+   DJSlvPscg5d/uXF9LqXVJTUHjuZC2FS5nTvay3pn1Moq2NzwhQeS+53Y5
+   wy5s6+pm+0CbkNgNi8Nr4g7Lof0KKV23eILNq6FyZRAD1GvNk/PMkHHhQ
+   1k2Vyt62LD1GtIkEHFxr2IVz0iB39Xox+DId41h7cPZYpOe7Ut+BS4arn
+   w==;
+X-CSE-ConnectionGUID: ueA5JRuXTruNozQBoslMIQ==
+X-CSE-MsgGUID: 6DXBFRUGTZuKPnC8o+ZemQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="63762601"
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="63762601"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 02:31:10 -0800
+X-CSE-ConnectionGUID: dnlOyaMCRDCGbU6AZp/ILA==
+X-CSE-MsgGUID: VPaCKE7sRxmOnX0GhoFMRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
+   d="scan'208";a="186974815"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 06 Nov 2025 02:31:03 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGxGf-000Tlq-05;
+	Thu, 06 Nov 2025 10:31:01 +0000
+Date: Thu, 6 Nov 2025 18:30:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+	viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+	corbet@lwn.net, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
+	rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
+	mario.limonciello@amd.com, perry.yuan@amd.com,
+	ionela.voinescu@arm.com, zhanjie9@hisilicon.com,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-tegra@vger.kernel.org, treding@nvidia.com,
+	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com,
+	sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com,
+	sumitg@nvidia.com
+Subject: Re: [PATCH v4 4/8] ACPI: CPPC: add APIs and sysfs interface for
+ min/max_perf
+Message-ID: <202511061802.lIq09jwh-lkp@intel.com>
+References: <20251105113844.4086250-5-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251105113844.4086250-5-sumitg@nvidia.com>
 
-On Thu, 2025-11-06 at 17:06 +0800, kernel test robot wrote:
-> Hi Ally,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on c9cfc122f03711a5124b4aafab3211cf4d35a2ac]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ally-Heev/net-ethe=
-rnet-fix-uninitialized-pointers-with-free-attr/20251105-192022
-> base:   c9cfc122f03711a5124b4aafab3211cf4d35a2ac
-> patch link:    https://lore.kernel.org/r/20251105-aheev-uninitialized-fre=
-e-attr-net-ethernet-v1-1-f6ea84bbd750%40gmail.com
-> patch subject: [PATCH] net: ethernet: fix uninitialized pointers with fre=
-e attr
-> config: x86_64-randconfig-015-20251106 (https://download.01.org/0day-ci/a=
-rchive/20251106/202511061627.TYBaNPrX-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251106/202511061627.TYBaNPrX-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202511061627.TYBaNPrX-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    In file included from include/uapi/linux/posix_types.h:5,
->                     from include/uapi/linux/types.h:14,
->                     from include/linux/types.h:6,
->                     from include/linux/objtool_types.h:7,
->                     from include/linux/objtool.h:5,
->                     from arch/x86/include/asm/bug.h:7,
->                     from include/linux/bug.h:5,
->                     from include/linux/vfsdebug.h:5,
->                     from include/linux/fs.h:5,
->                     from include/linux/debugfs.h:15,
->                     from drivers/net/ethernet/microsoft/mana/gdma_main.c:=
-4:
->    drivers/net/ethernet/microsoft/mana/gdma_main.c: In function 'irq_setu=
-p':
-> > > include/linux/stddef.h:8:14: error: invalid initializer
->        8 | #define NULL ((void *)0)
->          |              ^
->    drivers/net/ethernet/microsoft/mana/gdma_main.c:1508:55: note: in expa=
-nsion of macro 'NULL'
->     1508 |         cpumask_var_t cpus __free(free_cpumask_var) =3D NULL;
->          |                                                       ^~~~
->=20
->=20
-> vim +8 include/linux/stddef.h
->=20
-> ^1da177e4c3f41 Linus Torvalds   2005-04-16  6 =20
-> ^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
-> ^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-> 6e218287432472 Richard Knutsson 2006-09-30  9 =20
+Hi Sumit,
 
-Sorry. I think I messed up config somehow during build. Hence, couldn't
-catch the error in local. Fixed in v2
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.18-rc4 next-20251106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/cpufreq-CPPC-Add-generic-helpers-for-sysfs-show-store/20251105-194715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20251105113844.4086250-5-sumitg%40nvidia.com
+patch subject: [PATCH v4 4/8] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20251106/202511061802.lIq09jwh-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061802.lIq09jwh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061802.lIq09jwh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:954 function parameter 'policy' not described in 'show_min_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:954 function parameter 'buf' not described in 'show_min_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'policy' not described in 'store_min_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'buf' not described in 'store_min_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'count' not described in 'store_min_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:1003 function parameter 'policy' not described in 'show_max_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:1003 function parameter 'buf' not described in 'show_max_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'policy' not described in 'store_max_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'buf' not described in 'store_max_perf'
+>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'count' not described in 'store_max_perf'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
