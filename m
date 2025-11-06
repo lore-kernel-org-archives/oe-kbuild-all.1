@@ -1,157 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D9926D4F6;
-	Thu,  6 Nov 2025 15:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E34286D57
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 15:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762442973; cv=none; b=PADSl5OePLeezlZRHpv66toGT3rH/wXt/H4kscY7vicRfaxMdJKBgdT/boQiyO7pjOv+r5W5MgNChMOrFLuHYC0t5hBwKPeRMem/Cd0x3aqt7kqAwdB+gWQEzizGM8PkRG2ZLadIuXP03KUPnW+d6TldionqUPevgFhis2S+RYg=
+	t=1762443972; cv=none; b=IYjRCNKP6eeLjx21DHkk5V57MKJWPUVYa0H8dEZzv/xSCU7bXH4RRopx1pQQkdYMqK19zDparBZ85RhariziA4ECY4/5otjGKvsH+o1VNQPdMgtpipClzIs87LZbq5gPvJu0a5eShPX2vNCBLpDDKfbIsPfHmlqGi9GgpCPYWM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762442973; c=relaxed/simple;
-	bh=Fy5kb+xSEe8CuLReHJSiSgwCvjIGVD2dswSaWqR9TqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FGDcVLXwuL//95ExhNee8u2StO/EsiYp9wkNOQIs2RWRKY/LxicWkda5WhDT3wq/tqSDPXAbXRWggyNQmA7lIbyAcGoWFEl13PSXRSXbgkf+ybYF+2aMadACmmDM88AZyBFyHJpsfLNDTneTDSqwSc54ZwY1K74l7VpHVPQl/QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PdRR4124; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762443972; c=relaxed/simple;
+	bh=B+UGheMgEsNyZTFyDezsqey+Ye9J3I4uGlRqQyERUsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FjOkMvbMvH4Uhxo1wH/vwJPwTjtjGPf32FfiWZbcRA0ceQORoQtu//xoo0CARZ7fi/3tdiKSYWKm7YsOt0R+n/MK1bGg3dw07ZuOfH3gDVYc5ENGFnNt1LhLWpHbANMOOtIMkKQDuUMTh+CUZCAH1qV1M3fvEIVOO7Ii3jysz+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Tc7XGnmP; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PdRR4124"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762442971; x=1793978971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fy5kb+xSEe8CuLReHJSiSgwCvjIGVD2dswSaWqR9TqU=;
-  b=PdRR41246utrRXkrCatRVtQ3oP1FkXRIN8jJCTtlcdkW9rhlAKcEvXrj
-   5g7aIRRaEJorf2jxcP0wN3GV0xtAjHPSgobDQaVr+HuI4Qd96uVJn0tlX
-   UvN9ip7IV+3l1xl64HZf2S6POjomokMHoszGobMJuHuEiTs1+Ct39nw0o
-   7IvkO+yusF0qZahLj/As5/LUdaFe6uBSIxLf6Y2+EIbYW9x1bgtDcxSLN
-   kGQJwSkkhldYosaaJIMSoGBz/2+b+HdJKoGOYvzchnurUqzizgVCkmVNY
-   okpZsV31Kl0JKmGAoXEnmngcDcjk6bxfDaQLBWIC1MwJU4S6upZSgA/YA
-   g==;
-X-CSE-ConnectionGUID: SBkaD1GuRvSMOni2mgwT5Q==
-X-CSE-MsgGUID: v2RMAUbqRk2UEswde8DbLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="52150100"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="52150100"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 07:29:31 -0800
-X-CSE-ConnectionGUID: sZfJMlAgRIG2UQxuqDCZKQ==
-X-CSE-MsgGUID: Sny0jVoXSGuME85WdEfqVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="188502501"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Nov 2025 07:29:28 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vH1vS-000U5A-0r;
-	Thu, 06 Nov 2025 15:29:26 +0000
-Date: Thu, 6 Nov 2025 23:29:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
-Message-ID: <202511062257.TSJTBQ2c-lkp@intel.com>
-References: <20251105161935.545400234@kernel.org>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Tc7XGnmP"
+Received: from trampoline.thunk.org (pool-173-48-124-240.bstnma.fios.verizon.net [173.48.124.240])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5A6FjqdX005527
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 6 Nov 2025 10:45:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1762443955; bh=UGc7IAsi5k7X/ZNrBvqTxtQUxRzMNJ5fSoiXPuhWQeE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Tc7XGnmPOTd2pENZGABKEyHXvav3+xcqdR7Y4czpVqe5O/MbTDCBAHUUHXiMTTpTg
+	 lb2z1ELCH8GLouAxuw3YbpDAWEPbusMy4eHqtSGNimS4ef+J1xVj7lMKrJyEmMhGxI
+	 LlWL/MtT33L9iD9NoT4UyyaPrQCTMzO1HzcImGSFzW430DGSJkCXyTLUVvqzvr/UNB
+	 OLWT8k0tlk+LBYsH7daEighqbrUov87nLsBuVjSYUD+H3vqw9hX+1M4cJMNZG3gbHJ
+	 YkytcCwkGpvjZJPZREjdI2uHvvVfiyZU/hRzW3fu4QvKykhs3xPIA9zh+IZZwfyyS/
+	 eoVhjfG57LkKQ==
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 7029F2E00D7; Thu, 06 Nov 2025 10:45:52 -0500 (EST)
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: lkp@intel.com, Ranganath V N <vnranganath.20@gmail.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>, adilger.kernel@dilger.ca,
+        david.hunter.linux@gmail.com, khalid@kernel.org,
+        linux-ext4@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+        skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] fs: ext4: fix uninitialized symbols
+Date: Thu,  6 Nov 2025 10:45:47 -0500
+Message-ID: <176244393634.3131189.2721696855170413272.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251011063830.47485-1-vnranganath.20@gmail.com>
+References: <202510110207.yBvUMr5Z-lkp@intel.com> <20251011063830.47485-1-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105161935.545400234@kernel.org>
-
-Hi Steven,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trace/for-next]
-[cannot apply to linus/master v6.18-rc4 next-20251106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
-patch subject: [PATCH 3/5] tracing: Have tracer option be instance specific
-config: i386-buildonly-randconfig-004-20251106 (https://download.01.org/0day-ci/archive/20251106/202511062257.TSJTBQ2c-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062257.TSJTBQ2c-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511062257.TSJTBQ2c-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/trace/trace.c:2174:23: error: redefinition of 'type' with a different type: 'struct trace_tracer *' vs 'struct tracer *'
-    2174 |         struct trace_tracer *type = tracers->trace;
-         |                              ^
-   kernel/trace/trace.c:2171:47: note: previous definition is here
-    2171 | static int run_tracer_selftest(struct tracer *type)
-         |                                               ^
->> kernel/trace/trace.c:2174:30: error: use of undeclared identifier 'tracers'
-    2174 |         struct trace_tracer *type = tracers->trace;
-         |                                     ^
-   kernel/trace/trace.c:5172:17: warning: variable 'trace' set but not used [-Wunused-but-set-variable]
-    5172 |         struct tracer *trace;
-         |                        ^
-   1 warning and 2 errors generated.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
-vim +2174 kernel/trace/trace.c
+On Sat, 11 Oct 2025 12:08:29 +0530, Ranganath V N wrote:
+> Fix the issue detected by the smatch tool.
+> 
+> fs/ext4/inode.c:3583 ext4_map_blocks_atomic_write_slow() error: uninitialized symbol 'next_pblk'.
+> fs/ext4/namei.c:1776 ext4_lookup() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:1829 ext4_get_parent() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3162 ext4_rmdir() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3242 __ext4_unlink() error: uninitialized symbol 'de'.
+> fs/ext4/namei.c:3697 ext4_find_delete_entry() error: uninitialized symbol 'de'.
+> 
+> [...]
 
-  2170	
-  2171	static int run_tracer_selftest(struct tracer *type)
-  2172	{
-  2173		struct trace_array *tr = &global_trace;
-> 2174		struct trace_tracer *type = tracers->trace;
-  2175		struct tracer_flags *saved_flags = tr->current_trace_flags;
-  2176		struct tracer_flags *flags;
-  2177		struct tracer *saved_tracer = tr->current_trace;
-  2178		int ret;
-  2179	
-  2180		if (!type->selftest || tracing_selftest_disabled)
-  2181			return 0;
-  2182	
-  2183		/*
-  2184		 * If a tracer registers early in boot up (before scheduling is
-  2185		 * initialized and such), then do not run its selftests yet.
-  2186		 * Instead, run it a little later in the boot process.
-  2187		 */
-  2188		if (!selftests_can_run)
-  2189			return save_selftest(type);
-  2190	
-  2191		if (!tracing_is_on()) {
-  2192			pr_warn("Selftest for tracer %s skipped due to tracing disabled\n",
-  2193				type->name);
-  2194			return 0;
-  2195		}
-  2196	
-  2197		/*
-  2198		 * Run a selftest on this tracer.
-  2199		 * Here we reset the trace buffer, and set the current
-  2200		 * tracer to be this tracer. The tracer can then run some
-  2201		 * internal tracing to verify that everything is in order.
-  2202		 * If we fail, we do not register this tracer.
-  2203		 */
-  2204		tracing_reset_online_cpus(&tr->array_buffer);
-  2205	
-  2206		tr->current_trace = type;
-  2207		tr->current_trace_flags = type->flags ? : type->default_flags;
-  2208	
+Applied, thanks!
 
+[1/1] fs: ext4: fix uninitialized symbols
+      commit: 6640d552185f7c11235c64a832004db9af119b2d
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Theodore Ts'o <tytso@mit.edu>
