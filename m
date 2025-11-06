@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00912FFF9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 08:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB915301034;
+	Thu,  6 Nov 2025 08:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762416259; cv=none; b=q+9xGUUOcopAxR4XO+A2svyY7zgL3YufLGsO8APxpxPMqAiye3UNZ+n8mU6NUDVtoAhDAnS83eWk4CG+Bk4wCu+fTLoPtdbv/5codZyF+EkWNoHGaHIjy1Wf9nCv+sqYNx/b+/G6x1DP09umKurh+MdOIzis/NbQKkDDwX9AubU=
+	t=1762417534; cv=none; b=WiXw1RLIQ07R99ciLUPZHmNvXRtv85iSJVujRMEOCh7fI4a0jmPelBC5NxO+WQWFU35c+MVTqSODQiHbqnVhKlONuCGoqxNkUISlk451JK47gkhKQKc8DKlPXDC0eeCpDA7oqN4uDjG2GK79CxYlXRvfNW2G4UKAkaaEquRI28c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762416259; c=relaxed/simple;
-	bh=131iDQVyyskIhVuG1SFU61y/fyTqSpI4DzA2ydWEaSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pv51kfAyxLY1pvqGl8lGVqfgwmTz6z5vheSp+76dyVR+QQMW8M4tRisIPI6RKbtLstA543c0wSw61e71WWWoBiS5EAFQgQELyKPUCz8sb42KJSE4atoKWLVIlqvCn8vltUp6ufCUiG63QEDxrgk5Qc+7bU2SIGM0bDcoxv1eBvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mlCVHfEt; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1762417534; c=relaxed/simple;
+	bh=wcMkvRvM2rxBATENH3MUgVd4MLzRYBId91zHJmnMrTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LweExVDtLBPIhsJ6kZBknHDKAi2cX8WvjHDdyBPO7MmNeH8g0+FUlqknR01ohy7TKXmmkBRZZJy9YUJdpNL/gvUAALgsagvNAWbvJ4SpnZRkASeZfkF5gN7YCD5k+6rvivNK/292fxLg2mxHFRo0f08QUYxNhOHrZrOeS1uJWLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGHrDh/f; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mlCVHfEt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGHrDh/f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762416258; x=1793952258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=131iDQVyyskIhVuG1SFU61y/fyTqSpI4DzA2ydWEaSU=;
-  b=mlCVHfEtmDNCc+6K+P5lJTEsepx06Ed8p1JauN+SjtvVSbnnhq3IulH8
-   xrMDdCudbIE640G8h4fHxZWtaLdSLz0Vd+3dAiTEANW5TJNg82go7ePy9
-   8Jy7ijm+TOEDrZUO3pR8WilwitI7IAUf0Cc3lbNYG/VNxlhF6Hsb2Ki3o
-   DbdJLDy1GqgnRP9TbS+XsxV/oy+qKTSlFaoAiH+iqdS+Wv0N+4umJgyYQ
-   61sxR+LabK4mVNgLpX2RbdsQ02j0cz0c/8FoXyljfxBZvqBhX6BpzS40X
-   Pvb40f7mfxmEW1TTo/Gjii4NJPAXaVRMryw+szhoWyZTNe1MUNYJfBUyd
-   A==;
-X-CSE-ConnectionGUID: CeQVEDFJSgq/w0hHrKAkgQ==
-X-CSE-MsgGUID: n3lwZeLMRJKMeAp1PaBh0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75661927"
+  t=1762417533; x=1793953533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wcMkvRvM2rxBATENH3MUgVd4MLzRYBId91zHJmnMrTg=;
+  b=AGHrDh/foN7KvkoBqKl8/NGZwHc0mEjnX4E6MALutz8cp0lbMegzFd7b
+   B+Z6+kvevIgldx96JjMJLFk3OV7nTDyIbluLxbECsc8kprZF+velJ0Rg5
+   AG83uT5ftJ/nF339VVOVUoXRdW5YCUtkkZ//fdBUC+rPYNv8KAhabXdFf
+   Copu0Co88xPiaXU/RYy0pTxDNAVx5+swUDsnXI0pki7XwnLzf3YUXYx+s
+   f76EnvTlD/zWk+Ll1MoToXVWejP+Wgg5mDkdQp18o+jHUZs2/y+Am2dq2
+   xKmRIp/FsotIatqQzuDJ+w1whCX9sdJIk0ZOp0LSVEdsWU5kl/vS5GS5w
+   g==;
+X-CSE-ConnectionGUID: GkfX5bdHSAWCXe5tehce1A==
+X-CSE-MsgGUID: Oq/74Fm9TZ6BJf9xBRtcUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75998675"
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="75661927"
+   d="scan'208";a="75998675"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 00:04:17 -0800
-X-CSE-ConnectionGUID: hnUDeEh8TwiKbA4olcaorg==
-X-CSE-MsgGUID: 5dUVcYXoTZau1DVQwPTbdg==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 00:25:32 -0800
+X-CSE-ConnectionGUID: 7Bo9loeFSCGqTxaDFSQGHQ==
+X-CSE-MsgGUID: 7FpxxH5HSh+15lqizB5UVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="192742600"
+   d="scan'208";a="192747006"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2025 00:04:13 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2025 00:25:31 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGuyV-000Tds-1P;
-	Thu, 06 Nov 2025 08:04:07 +0000
-Date: Thu, 6 Nov 2025 16:03:46 +0800
+	id 1vGvJB-000Tek-04;
+	Thu, 06 Nov 2025 08:25:29 +0000
+Date: Thu, 6 Nov 2025 16:24:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Jander <david@protonic.nl>,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Subject: Re: [PATCH v1 2/2] iio: adc: Add TI ADS131M0x ADC driver
-Message-ID: <202511061518.r106EK1T-lkp@intel.com>
-References: <20251105143814.1807444-3-o.rempel@pengutronix.de>
+To: Weidong Wang <wangweidong.a@awinic.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:v3_20251028_wangweidong_a_rework_the_awinic_driver
+ 41/46] sound/soc/codecs/aw88261.c:16:10: fatal error:
+ 'aw88395/aw88395_data_type.h' file not found
+Message-ID: <202511061628.AIOG0CfO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,137 +63,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251105143814.1807444-3-o.rempel@pengutronix.de>
 
-Hi Oleksij,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.18-rc4 next-20251106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/bindings-iio-adc-Add-bindings-for-TI-ADS131M0x-ADCs/20251105-224149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20251105143814.1807444-3-o.rempel%40pengutronix.de
-patch subject: [PATCH v1 2/2] iio: adc: Add TI ADS131M0x ADC driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251106/202511061518.r106EK1T-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061518.r106EK1T-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_20251028_wangweidong_a_rework_the_awinic_driver
+head:   6911f5ed5253f3a0deaa3dea2e9e8cfa4324048e
+commit: dc3ed59a386ff3ca76a05e77f29f5c34f9e4b23b [41/46] ASoC: codecs:Rework the awinic driver lib
+config: x86_64-randconfig-012-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061628.AIOG0CfO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061628.AIOG0CfO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511061518.r106EK1T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061628.AIOG0CfO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ti-ads131m0x.c: In function 'ads131m_tx_frame_unlocked':
->> drivers/iio/adc/ti-ads131m0x.c:174:9: error: implicit declaration of function 'put_unaligned_be24' [-Wimplicit-function-declaration]
-     174 |         put_unaligned_be24(command << 8, &priv->tx_buffer[0]);
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ti-ads131m0x.c:163:13: warning: unused variable 'ret' [-Wunused-variable]
-     163 |         int ret;
-         |             ^~~
-   drivers/iio/adc/ti-ads131m0x.c: In function 'ads131m_check_status_crc_err':
->> drivers/iio/adc/ti-ads131m0x.c:224:18: error: implicit declaration of function 'get_unaligned_be16' [-Wimplicit-function-declaration]
-     224 |         status = get_unaligned_be16(&priv->rx_buffer[0]);
-         |                  ^~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/ti-ads131m0x.c: In function 'ads131m_adc_read':
->> drivers/iio/adc/ti-ads131m0x.c:523:30: error: implicit declaration of function 'get_unaligned_be24' [-Wimplicit-function-declaration]
-     523 |         *val = sign_extend32(get_unaligned_be24(buf), 23);
-         |                              ^~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/aw88261.c:16:10: fatal error: 'aw88395/aw88395_data_type.h' file not found
+      16 | #include "aw88395/aw88395_data_type.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/put_unaligned_be24 +174 drivers/iio/adc/ti-ads131m0x.c
+vim +16 sound/soc/codecs/aw88261.c
 
-   149	
-   150	/**
-   151	 * ads131m_tx_frame_unlocked - Sends a command frame with Input CRC
-   152	 * @priv: Device private data structure.
-   153	 * @command: The 16-bit command to send (e.g., NULL, RREG, RESET).
-   154	 *
-   155	 * Assumes the mutex lock is held.
-   156	 * This function sends a command in Word 0, and its calculated 16-bit
-   157	 * CRC in Word 1, as required when Input CRC is enabled.
-   158	 *
-   159	 * Return: 0 on success, or a negative error code from spi_sync.
-   160	 */
-   161	static int ads131m_tx_frame_unlocked(struct ads131m_priv *priv, u32 command)
-   162	{
-   163		int ret;
-   164		u16 crc;
-   165	
-   166		/*
-   167		 * Zero the entire TX buffer to send a valid frame.
-   168		 */
-   169		memset(priv->tx_buffer, 0, ADS131M_FRAME_BSIZE(priv->num_channels));
-   170	
-   171		/*
-   172		 * Word 0: 16-bit command, MSB-aligned in 24-bit word.
-   173		 */
- > 174		put_unaligned_be24(command << 8, &priv->tx_buffer[0]);
-   175	
-   176		/*
-   177		 * Word 1: Input CRC
-   178		 * Calculated over the 3 bytes of Word 0.
-   179		 */
-   180		crc = ads131m_crc_calculate(priv->tx_buffer, 3);
-   181		put_unaligned_be24(crc << 8, &priv->tx_buffer[3]);
-   182	
-   183		return spi_sync(priv->spi, &priv->msg);
-   184	}
-   185	
-   186	/**
-   187	 * ads131m_rx_frame_unlocked - Receives a full SPI data frame.
-   188	 * @priv: Device private data structure.
-   189	 *
-   190	 * This function sends a NULL command (with its CRC) to clock out a
-   191	 * full SPI frame from the device (e.g., response + channel data + CRC).
-   192	 *
-   193	 * Assumes the mutex lock is held.
-   194	 *
-   195	 * Return: 0 on success, or a negative error code from spi_sync.
-   196	 */
-   197	static int ads131m_rx_frame_unlocked(struct ads131m_priv *priv)
-   198	{
-   199		return ads131m_tx_frame_unlocked(priv, ADS131M_CMD_NULL);
-   200	}
-   201	
-   202	/**
-   203	 * ads131m_check_status_crc_err - Checks for an Input CRC error.
-   204	 * @priv: Device private data structure.
-   205	 *
-   206	 * Sends a NULL command to fetch the STATUS register and checks the
-   207	 * CRC_ERR bit. This is used to verify the integrity of the previous
-   208	 * command (like RREG or WREG).
-   209	 *
-   210	 * Context: This function assumes the mutex 'lock' is held.
-   211	 * Return: 0 on success, -EIO if CRC_ERR bit is set.
-   212	 */
-   213	static int ads131m_check_status_crc_err(struct ads131m_priv *priv)
-   214	{
-   215		int ret;
-   216		u16 status;
-   217	
-   218		ret = ads131m_rx_frame_unlocked(priv);
-   219		if (ret < 0) {
-   220			dev_err(&priv->spi->dev, "SPI error on STATUS read for CRC check\n");
-   221			return ret;
-   222		}
-   223	
- > 224		status = get_unaligned_be16(&priv->rx_buffer[0]);
-   225		if (status & ADS131M_STATUS_CRC_ERR) {
-   226			dev_err(&priv->spi->dev, "Previous input CRC error, STATUS=0x%04x\n",
-   227				status);
-   228			return -EIO;
-   229		}
-   230	
-   231		return 0;
-   232	}
-   233	
+028a2ae256916e Weidong Wang 2023-08-04  10  
+028a2ae256916e Weidong Wang 2023-08-04  11  #include <linux/i2c.h>
+028a2ae256916e Weidong Wang 2023-08-04  12  #include <linux/firmware.h>
+028a2ae256916e Weidong Wang 2023-08-04  13  #include <linux/regmap.h>
+028a2ae256916e Weidong Wang 2023-08-04  14  #include <sound/soc.h>
+028a2ae256916e Weidong Wang 2023-08-04  15  #include "aw88261.h"
+028a2ae256916e Weidong Wang 2023-08-04 @16  #include "aw88395/aw88395_data_type.h"
+028a2ae256916e Weidong Wang 2023-08-04  17  #include "aw88395/aw88395_device.h"
+028a2ae256916e Weidong Wang 2023-08-04  18  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: 028a2ae256916eeae1040049d2d0129535ace60e ASoC: codecs: Add aw88261 amplifier driver
+
+:::::: TO: Weidong Wang <wangweidong.a@awinic.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
