@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3BA2D12E7;
-	Thu,  6 Nov 2025 04:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208A63C38
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 04:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762405092; cv=none; b=a9IETClkS6MY6YzVP/PZluClEuIi0N4AjAxpzO0i9s2WQBgfUg1/gYzQsC4G14zz/irj0FDyVV6Oa27ANK7apfjBWJhdxnY6G84NRptw8ZAooVHq0iouRKoHn9ZQwhl2pyoZY7IudylYt6h8k8x+Wsi8c87bxulxkxbKLP0C8NE=
+	t=1762405092; cv=none; b=r1oQ8nZdHlOwmzu7WYAtajSSp5GA3Z94f7O4g4psS9m7IFjlJ3XU88l23m0V3uemQvbwzg4X12cVnuBn7fIa6WjTIb84UY/tNLvZGZB+qVmQGcEDxjdf2bIORyDaRmyUA4Tf++4SbE7vF5CbsC9uS5EyQwj62mxyazImB2RWT44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762405092; c=relaxed/simple;
-	bh=TK0r4Z5MNYrtX8cpP4cT6f14wdu/p/gidtWqMY7gVtg=;
+	bh=zmOs/hv/LODxBpGkiAXckZifF11dWSHUi2Bebdz1LMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YwD2N5og6caEYLRgVo38vJO9c609GY2KSUFa5E7ZUDWEXGm+bsdtxcGecF2SvS+lMGThmKJg93HhBuNY1JTzpUCi2O88Ee+0xtxLUIAHjvG8RcHPHJ+4rZb+ifLCdHhOHLBsK84OfRW2sf6ZbcTnowpInGVgJeOW7pbSbuAEEVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwbNGq6W; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=YY422OIcO/75fDBjDJOrQEPOyJCKS15aCNigcjx0YOEetprnMm3q2yRU0ncNj6vWM8IJXoSTzZhs35643jwqoL3mbnugOkyTLFmqpYAnciRDtAA8J0s4FoEsuuKqazlFMifCHvJZ7PYrzemgGgYMETWtSrxkpTkuJoj/+fgXMaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHew6YgF; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwbNGq6W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHew6YgF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762405090; x=1793941090;
+  t=1762405091; x=1793941091;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TK0r4Z5MNYrtX8cpP4cT6f14wdu/p/gidtWqMY7gVtg=;
-  b=lwbNGq6WaTw0wYyL323pEKSF7n1/Nhq5oyei0gJwESxM9MX8JzV8ZtSZ
-   xRBxy2AXPlV14oEBad63JJIm59spa6gB/l2wdpqQYOZOs34lFWmGNFcmf
-   ocPGHhzlt3TbrAFhIqESM86A7f0UzXLoD2MMqQPXT5Lky4So2imgrXi+0
-   XFn+d+Sys7ok9WGlu4xc4Jk3qFLOMN8a2IJJmIcJoinbYVt2l1k9CdHSR
-   2Id2tkWkfLJkERKieEKSBK3GmJK/k+lMRnoA+QUfjBBdFWZQPd3NWB0z5
-   r0tVHpbJTta7jgHAEMNJSryLQdefFgQsyYbGF6c5ZBuFGZWrdZ17S41Z9
-   A==;
-X-CSE-ConnectionGUID: z7zfijUIT1OD8r1Qml1aMw==
-X-CSE-MsgGUID: zfb++R/bRhmoWFmLXcer2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="67147504"
+  bh=zmOs/hv/LODxBpGkiAXckZifF11dWSHUi2Bebdz1LMM=;
+  b=fHew6YgFUwL9VlX8ppHxKLIooopGb97KfQGUCVO51ZVSd6p7J6n+QKF0
+   JROPChLiMxmNsD4NTMEiDQFKZr2n1nMbz0hqGu05Iw9dx2zBH8SuY641L
+   YTKuawWz66CAVQSsBTehQyVgFClGyjuAnWj2ObkWj6WB9j4Wreh6bopGo
+   b2w7idZsw1tYrSCXR8vcwF5xCfasZCvGKuHUdg3B5DGCeqW+KKlDgu+BY
+   9TzEyE42/tg7IJUrwDmvrzHPBLdwOG2GkEoiEKBYLr9BnjbbK9ZkvknjE
+   hJvbGnj4wG/MVc4RMRYxnEbSP+ujGsh+vSCqx1F6efjBD1rIpVvEg7JVV
+   w==;
+X-CSE-ConnectionGUID: 6KdD+yXPTISkz6kdXjjYEw==
+X-CSE-MsgGUID: 5p8aDvwjQoyMM5AQKLyOew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75649335"
 X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="67147504"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 20:58:10 -0800
-X-CSE-ConnectionGUID: P+cw0oEqTLOHMLu43hrsAQ==
-X-CSE-MsgGUID: +KePRhIDTFGfPOZ8ZOyZAw==
+   d="scan'208";a="75649335"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 20:58:10 -0800
+X-CSE-ConnectionGUID: WmT07QwqQlCROkzc6iRdTg==
+X-CSE-MsgGUID: av4hbY/wQ/q/Gg3Z/pNO+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="211122326"
+   d="scan'208";a="188376916"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2025 20:58:08 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Nov 2025 20:58:08 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGs4U-000TVE-1L;
+	id 1vGs4U-000TVC-1H;
 	Thu, 06 Nov 2025 04:58:06 +0000
-Date: Thu, 6 Nov 2025 12:57:33 +0800
+Date: Thu, 6 Nov 2025 12:57:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: [rcu:rcu/refscale 8/8] kernel/rcu/refscale.c:260:15: error: use of
- undeclared identifier 'srcu_fast_updown_refctl_scale'
-Message-ID: <202511061232.svMuXZp9-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3116/3116] drivers/ub/ubase/ubase_cmd.c:551:26:
+ warning: variable 'desc' set but not used
+Message-ID: <202511061247.ZMPukP6K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,163 +62,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/refscale
-head:   0c990a8562a127b71e72eec4b9b92ba0f602510c
-commit: 0c990a8562a127b71e72eec4b9b92ba0f602510c [8/8] refscale: Add SRCU-fast-updown readers
-config: riscv-randconfig-001-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061232.svMuXZp9-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b2b8512ca97108929f3aca5405875d91577b8c80
+commit: 663203772f391e4bd5f17d800974f694137fc2e9 [3116/3116] !18710 ub: ubase: Add support of base driver for ub network
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20251106/202511061247.ZMPukP6K-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061232.svMuXZp9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061247.ZMPukP6K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511061232.svMuXZp9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061247.ZMPukP6K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/rcu/refscale.c:188:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     188 | DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:42:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
+      42 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_THREAD__ 1
+         |         ^
+>> drivers/ub/ubase/ubase_cmd.c:551:26: warning: variable 'desc' set but not used [-Wunused-but-set-variable]
+     551 |         struct ubase_cmdq_desc *desc;
+         |                                 ^
+>> drivers/ub/ubase/ubase_cmd.c:576:6: warning: no previous prototype for function 'ubase_cmd_crq_handler' [-Wmissing-prototypes]
+     576 | void ubase_cmd_crq_handler(struct ubase_dev *udev)
+         |      ^
+   drivers/ub/ubase/ubase_cmd.c:576:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     576 | void ubase_cmd_crq_handler(struct ubase_dev *udev)
          | ^
-         | int
-   kernel/rcu/refscale.c:188:25: error: a parameter list without types is only allowed in a function definition
-     188 | DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
-         |                         ^
-   kernel/rcu/refscale.c:189:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     189 | DEFINE_STATIC_SRCU_FAST_UPDOWN(srcu_fast_updown_refctl_scale);
+         | static 
+   3 warnings generated.
+--
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:150:
+   include/linux/compiler-clang.h:42:9: warning: '__SANITIZE_THREAD__' macro redefined [-Wmacro-redefined]
+      42 | #define __SANITIZE_THREAD__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_THREAD__ 1
+         |         ^
+>> drivers/ub/ubase/ubase_eq.c:785:6: warning: no previous prototype for function 'ubase_irq_table_free' [-Wmissing-prototypes]
+     785 | void ubase_irq_table_free(struct ubase_dev *udev)
+         |      ^
+   drivers/ub/ubase/ubase_eq.c:785:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     785 | void ubase_irq_table_free(struct ubase_dev *udev)
          | ^
-         | int
-   kernel/rcu/refscale.c:189:32: error: a parameter list without types is only allowed in a function definition
-     189 | DEFINE_STATIC_SRCU_FAST_UPDOWN(srcu_fast_updown_refctl_scale);
-         |                                ^
-   kernel/rcu/refscale.c:224:15: error: use of undeclared identifier 'srcu_fast_refctl_scale'; did you mean 'srcu_refctl_scale'?
-     224 |         srcu_ctlp = &srcu_fast_refctl_scale;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      srcu_refctl_scale
-   kernel/rcu/refscale.c:187:20: note: 'srcu_refctl_scale' declared here
-     187 | DEFINE_STATIC_SRCU(srcu_refctl_scale);
-         |                    ^
->> kernel/rcu/refscale.c:260:15: error: use of undeclared identifier 'srcu_fast_updown_refctl_scale'
-     260 |         srcu_ctlp = &srcu_fast_updown_refctl_scale;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/rcu/refscale.c:270:9: error: call to undeclared function 'srcu_read_lock_fast_updown'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     270 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
-         |                       ^
->> kernel/rcu/refscale.c:270:7: error: incompatible integer to pointer conversion assigning to 'struct srcu_ctr *' from 'int' [-Wint-conversion]
-     270 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/rcu/refscale.c:271:3: error: call to undeclared function 'srcu_read_unlock_fast_updown'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     271 |                 srcu_read_unlock_fast_updown(srcu_ctlp, scp);
-         |                 ^
-   kernel/rcu/refscale.c:281:9: error: call to undeclared function 'srcu_read_lock_fast_updown'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     281 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
-         |                       ^
-   kernel/rcu/refscale.c:281:7: error: incompatible integer to pointer conversion assigning to 'struct srcu_ctr *' from 'int' [-Wint-conversion]
-     281 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/refscale.c:283:3: error: call to undeclared function 'srcu_read_unlock_fast_updown'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     283 |                 srcu_read_unlock_fast_updown(srcu_ctlp, scp);
-         |                 ^
-   12 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=n] && ELF_CORE [=y]
-   Selected by [y]:
-   - RISCV [=y]
+         | static 
+   2 warnings generated.
+--
+>> drivers/ub/ubase/ubase_cmd.c:757: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * When uninstalling, cmdq needs to be successfully sended as much as possible,
 
 
-vim +/srcu_fast_updown_refctl_scale +260 kernel/rcu/refscale.c
+vim +/desc +551 drivers/ub/ubase/ubase_cmd.c
 
-   185	
-   186	// Definitions for SRCU ref scale testing.
- > 187	DEFINE_STATIC_SRCU(srcu_refctl_scale);
-   188	DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
-   189	DEFINE_STATIC_SRCU_FAST_UPDOWN(srcu_fast_updown_refctl_scale);
-   190	static struct srcu_struct *srcu_ctlp = &srcu_refctl_scale;
-   191	
-   192	static void srcu_ref_scale_read_section(const int nloops)
-   193	{
-   194		int i;
-   195		int idx;
-   196	
-   197		for (i = nloops; i >= 0; i--) {
-   198			idx = srcu_read_lock(srcu_ctlp);
-   199			srcu_read_unlock(srcu_ctlp, idx);
-   200		}
-   201	}
-   202	
-   203	static void srcu_ref_scale_delay_section(const int nloops, const int udl, const int ndl)
-   204	{
-   205		int i;
-   206		int idx;
-   207	
-   208		for (i = nloops; i >= 0; i--) {
-   209			idx = srcu_read_lock(srcu_ctlp);
-   210			un_delay(udl, ndl);
-   211			srcu_read_unlock(srcu_ctlp, idx);
-   212		}
-   213	}
-   214	
-   215	static const struct ref_scale_ops srcu_ops = {
-   216		.init		= rcu_sync_scale_init,
-   217		.readsection	= srcu_ref_scale_read_section,
-   218		.delaysection	= srcu_ref_scale_delay_section,
-   219		.name		= "srcu"
-   220	};
-   221	
-   222	static bool srcu_fast_sync_scale_init(void)
-   223	{
- > 224		srcu_ctlp = &srcu_fast_refctl_scale;
-   225		return true;
-   226	}
-   227	
-   228	static void srcu_fast_ref_scale_read_section(const int nloops)
-   229	{
-   230		int i;
-   231		struct srcu_ctr __percpu *scp;
-   232	
-   233		for (i = nloops; i >= 0; i--) {
-   234			scp = srcu_read_lock_fast(srcu_ctlp);
-   235			srcu_read_unlock_fast(srcu_ctlp, scp);
-   236		}
-   237	}
-   238	
-   239	static void srcu_fast_ref_scale_delay_section(const int nloops, const int udl, const int ndl)
-   240	{
-   241		int i;
-   242		struct srcu_ctr __percpu *scp;
-   243	
-   244		for (i = nloops; i >= 0; i--) {
-   245			scp = srcu_read_lock_fast(srcu_ctlp);
-   246			un_delay(udl, ndl);
-   247			srcu_read_unlock_fast(srcu_ctlp, scp);
-   248		}
-   249	}
-   250	
-   251	static const struct ref_scale_ops srcu_fast_ops = {
-   252		.init		= srcu_fast_sync_scale_init,
-   253		.readsection	= srcu_fast_ref_scale_read_section,
-   254		.delaysection	= srcu_fast_ref_scale_delay_section,
-   255		.name		= "srcu-fast"
-   256	};
-   257	
-   258	static bool srcu_fast_updown_sync_scale_init(void)
-   259	{
- > 260		srcu_ctlp = &srcu_fast_updown_refctl_scale;
-   261		return true;
-   262	}
-   263	
-   264	static void srcu_fast_updown_ref_scale_read_section(const int nloops)
-   265	{
-   266		int i;
-   267		struct srcu_ctr __percpu *scp;
-   268	
-   269		for (i = nloops; i >= 0; i--) {
- > 270			scp = srcu_read_lock_fast_updown(srcu_ctlp);
- > 271			srcu_read_unlock_fast_updown(srcu_ctlp, scp);
-   272		}
-   273	}
-   274	
+8d68017f37faef Xiongchuan Zhou 2025-09-12  547  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  548  static void ubase_gen_single_bd_data(struct ubase_dev *udev, void **msg_data)
+8d68017f37faef Xiongchuan Zhou 2025-09-12  549  {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  550  	struct ubase_cmdq_ring *crq = &udev->hw.cmdq.crq;
+8d68017f37faef Xiongchuan Zhou 2025-09-12 @551  	struct ubase_cmdq_desc *desc;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  552  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  553  	desc = &crq->desc[crq->ci];
+8d68017f37faef Xiongchuan Zhou 2025-09-12  554  	*msg_data = crq->desc[crq->ci].data;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  555  	UBASE_MOVE_CRQ_RING_PTR(crq);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  556  }
+8d68017f37faef Xiongchuan Zhou 2025-09-12  557  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  558  static void ubase_gen_bd_data(struct ubase_dev *udev, u32 bd_num,
+8d68017f37faef Xiongchuan Zhou 2025-09-12  559  			      void **msg_data, u32 msg_data_len)
+8d68017f37faef Xiongchuan Zhou 2025-09-12  560  {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  561  	if (bd_num == 1) {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  562  		ubase_gen_single_bd_data(udev, msg_data);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  563  		return;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  564  	}
+8d68017f37faef Xiongchuan Zhou 2025-09-12  565  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  566  	ubase_gen_multi_bd_data(udev, bd_num, msg_data, msg_data_len);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  567  }
+8d68017f37faef Xiongchuan Zhou 2025-09-12  568  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  569  static bool ubase_cmd_crq_empty(struct ubase_dev *udev, struct ubase_hw *hw)
+8d68017f37faef Xiongchuan Zhou 2025-09-12  570  {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  571  	hw->cmdq.crq.pi = ubase_read_dev(hw, UBASE_CRQ_TAIL_REG);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  572  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  573  	return hw->cmdq.crq.pi == hw->cmdq.crq.ci;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  574  }
+8d68017f37faef Xiongchuan Zhou 2025-09-12  575  
+8d68017f37faef Xiongchuan Zhou 2025-09-12 @576  void ubase_cmd_crq_handler(struct ubase_dev *udev)
+8d68017f37faef Xiongchuan Zhou 2025-09-12  577  {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  578  	struct ubase_cmdq_ring *crq = &udev->hw.cmdq.crq;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  579  	u32 msg_data_len;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  580  	void *msg_data;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  581  	u16 opcode;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  582  	u8 bd_num;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  583  	u8 flag;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  584  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  585  	while (!ubase_cmd_crq_empty(udev, &udev->hw)) {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  586  		if (test_bit(UBASE_STATE_CMD_DISABLE, &udev->hw.state)) {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  587  			ubase_warn(udev,
+8d68017f37faef Xiongchuan Zhou 2025-09-12  588  				   "command queue needs re-initializing.\n");
+8d68017f37faef Xiongchuan Zhou 2025-09-12  589  			return;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  590  		}
+8d68017f37faef Xiongchuan Zhou 2025-09-12  591  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  592  		opcode = crq->desc[crq->ci].opcode;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  593  		bd_num = crq->desc[crq->ci].bd_num;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  594  		flag = crq->desc[crq->ci].flag;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  595  		msg_data_len = bd_num * sizeof(struct ubase_cmdq_desc) -
+8d68017f37faef Xiongchuan Zhou 2025-09-12  596  			       UBASE_CMD_HEADER_LENGTH;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  597  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  598  		if (unlikely(!bd_num || !(flag & UBASE_CMD_FLAG_OUT))) {
+8d68017f37faef Xiongchuan Zhou 2025-09-12  599  			ubase_err(udev,
+8d68017f37faef Xiongchuan Zhou 2025-09-12  600  				  "drop invalid crq message, opcode = 0x%x, bd_num = %u, flag = 0x%x.",
+8d68017f37faef Xiongchuan Zhou 2025-09-12  601  				  opcode, bd_num, flag);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  602  			UBASE_MOVE_CRQ_RING_PTR(crq);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  603  			continue;
+8d68017f37faef Xiongchuan Zhou 2025-09-12  604  		}
+8d68017f37faef Xiongchuan Zhou 2025-09-12  605  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  606  		ubase_gen_bd_data(udev, bd_num, &msg_data, msg_data_len);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  607  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  608  		ubase_cmd_exec_callback(udev, opcode, msg_data,
+8d68017f37faef Xiongchuan Zhou 2025-09-12  609  					msg_data_len);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  610  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  611  		ubase_free_bd_data(msg_data, bd_num);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  612  	}
+8d68017f37faef Xiongchuan Zhou 2025-09-12  613  
+8d68017f37faef Xiongchuan Zhou 2025-09-12  614  	ubase_write_dev(&udev->hw, UBASE_CRQ_HEAD_REG, crq->ci);
+8d68017f37faef Xiongchuan Zhou 2025-09-12  615  }
+8d68017f37faef Xiongchuan Zhou 2025-09-12  616  
+
+:::::: The code at line 551 was first introduced by commit
+:::::: 8d68017f37faefe5f545dbfd994e1b5141ec06e1 ub: ubase: support for command process
+
+:::::: TO: Xiongchuan Zhou <zhouxiongchuan@h-partners.com>
+:::::: CC: Fengyan Mu <mufengyan@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
