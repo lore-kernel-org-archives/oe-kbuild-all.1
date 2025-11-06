@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8C92FB616
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 08:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC2D305044;
+	Thu,  6 Nov 2025 08:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762419416; cv=none; b=YquQFoDld5zaYdo0KvWPuqpYwhKU5x3Jz1rGGkCcvosuuF8K42ulghhJ+L9wR009I55VVYbKO8DSmoocLryN6uONOv3hUK/VNKtchnhn13tRKJM1Ice8W7oMacKnLI6EPsNUsfOSm64hIuPxCp5IGKvF4MHFfIX3BDxBp29PDmo=
+	t=1762419423; cv=none; b=X8NXq98s6VN2btrNqfjjYEzpu1h8I7Tn4IOk7Zy8XlnIMh6jq0fvBpbU0/1JGrUz6HxEfQT5BBNKT7gJxZiu3DJkBHPvT4fPQuedsQ8F8xq3yyBP08bfxUf3tpFg/ghFlryzos5lAeE5KmFYUlg1/E1BguHFwsziLQP38xpPWGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762419416; c=relaxed/simple;
-	bh=sXiCrdjbMV4e2P7fyxw7Yhakha2+YKj2DrUmvYVWG4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cw/ydbr6WgrjnqAx+3Q3b2UmfZxYl0wcJAdkqkJ22dYAKwtrAiE9vfq6ySrHLoQfPgslzdEj3+xJYi1xyqr6NZm2pVALDvpxbWE6P6bgthuWJFeDkZCfapW8zFYZe874/HKxIpIP2wbnXtH3InPUVVKBHeC8vw/KQyOqx0+qloU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7KnJiWX; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1762419423; c=relaxed/simple;
+	bh=aQg/C6oXUX/uq+W/35HkP5IokMhK7EBtRMCxsBW5lF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NjF5VOxWZh64Xd1pCAjYVyduVriHHxf930Oqssmsuh9YGhfsTiixeOqzXydfiaFh8/MLnb2MHe/qTPlz6+49IGGvRSdTBZzYZG4e9v9iG5kjRz0ydZtZ2s9OjUhiq91JyX9c6K6VPagKu1sswfdsQTdXMF2oWdVCCBbiYqo5EPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzLEqe0h; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7KnJiWX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzLEqe0h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762419414; x=1793955414;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sXiCrdjbMV4e2P7fyxw7Yhakha2+YKj2DrUmvYVWG4A=;
-  b=g7KnJiWXg3P8nXEz6Phz+7meT2LqxCzO1AdfYNC4suF1dtvL5eN8UrCl
-   2n6DBZ0r9kufk7YKpFChru5yOpwc18Ko2SLoCgyOL45/6dxLZMRLm7yt/
-   cuvB2gUluBtpvsE35K1rPUJXdZxuKdfPfSau01+aPnCWojRI7SLuxTaZG
-   DsIQY+KcvCq7a8BBmPnHQAPZeL+kALZBWL6Xhw+U+cGgFu/6Cnr82zkvv
-   TkS1bw9/CP9eN3ZVHpdHf4qzxXGJNa0aaYV2vkia8Tssv+XHnoX/ViVHC
-   qwcIG2fZZuyXj77lehNkZ8MIurmsCeGLCoJojm56Cm0I1rpMD/QMA//eZ
-   A==;
-X-CSE-ConnectionGUID: JywlJgyhRoCEAwR+iYQaiA==
-X-CSE-MsgGUID: 2A4o18xJQbO64AcmK9Whlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64247908"
+  t=1762419423; x=1793955423;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aQg/C6oXUX/uq+W/35HkP5IokMhK7EBtRMCxsBW5lF4=;
+  b=UzLEqe0h8OXQk5TGB/Xl1smlfcNEzPMbABgo0hIyw8Jhb3wWXIOqg7/k
+   U8IgDVzRtehdJli8sUGLsPZuqLzVjmsbzN4P5UBStFs821BkDQ+IyXr1H
+   IvWUD6f33vlyj5MYoru/wMaICARQI92nijRrOSUPvcD0RzJ7l76vq1i6z
+   97jGsQ+NMWOUBMvbEQgJ01WMuoU/oHmdc8VTglyHEH7eFk6HCXyRGdE7Q
+   eSCj3q0k5eDlpqKpv+vhss3iiO6m8pnN7kTyG4WgHPSJeLpx9IBv14rE0
+   dEIc4LzR2AOtXIIvzBj70IxGQlX3z0zZE7O6+38YvxxlcL5EdSsjuzVYR
+   w==;
+X-CSE-ConnectionGUID: b9lGIh/URFaB7FIi+Ws81A==
+X-CSE-MsgGUID: m2sNmsN8QyGNIeL4go77IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="68201001"
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="64247908"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 00:56:53 -0800
-X-CSE-ConnectionGUID: jC7sJMaMRtejB4uXJhgqmg==
-X-CSE-MsgGUID: g3/099PpRiWWzaltGU0bZg==
+   d="scan'208";a="68201001"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 00:57:01 -0800
+X-CSE-ConnectionGUID: +RK5Vu/FQQq2pv4jGCN6KQ==
+X-CSE-MsgGUID: FeFkI5V6TOyfmcVT+3iv0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="187649491"
+   d="scan'208";a="186954637"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 06 Nov 2025 00:56:50 -0800
+  by orviesa006.jf.intel.com with ESMTP; 06 Nov 2025 00:56:57 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGvnN-000TgC-0C;
-	Thu, 06 Nov 2025 08:56:41 +0000
-Date: Thu, 6 Nov 2025 16:56:11 +0800
+	id 1vGvnU-000TgE-0R;
+	Thu, 06 Nov 2025 08:56:49 +0000
+Date: Thu, 6 Nov 2025 16:56:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Manish Chopra <manishc@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Richard Cochran <richardcochran@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Kory Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next 2/2] qede: convert to use ndo_hwtstamp callbacks
-Message-ID: <202511061627.LB8wUSOs-lkp@intel.com>
-References: <20251105185133.3542054-3-vadim.fedorenko@linux.dev>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 6703/6818] Warning:
+ arch/arm/mm/dma-mapping.c:1405 expecting prototype for
+ arm_iommu_unmap_page(). Prototype was for arm_iommu_unmap_phys() instead
+Message-ID: <202511061613.whODAEJk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,75 +62,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251105185133.3542054-3-vadim.fedorenko@linux.dev>
 
-Hi Vadim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bnx2x-convert-to-use-ndo_hwtstamp-callbacks/20251106-030837
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251105185133.3542054-3-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net-next 2/2] qede: convert to use ndo_hwtstamp callbacks
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251106/202511061627.LB8wUSOs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061627.LB8wUSOs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df5d79720b152e7ff058f11ed7e88d5b5c8d2a0c
+commit: 0d0f6cd98c646b34bd754e062f3350c14651c91f [6703/6818] Merge branch 'docs-next' of git://git.lwn.net/linux.git
+config: arm-randconfig-002-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061613.whODAEJk-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061613.whODAEJk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511061627.LB8wUSOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061613.whODAEJk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/qlogic/qede/qede_ptp.c: In function 'qede_hwtstamp_set':
->> drivers/net/ethernet/qlogic/qede/qede_ptp.c:289:13: warning: unused variable 'rc' [-Wunused-variable]
-     289 |         int rc;
-         |             ^~
-
-
-vim +/rc +289 drivers/net/ethernet/qlogic/qede/qede_ptp.c
-
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  282  
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  283  int qede_hwtstamp_set(struct net_device *netdev,
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  284  		      struct kernel_hwtstamp_config *config,
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  285  		      struct netlink_ext_ack *extack)
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  286  {
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  287  	struct qede_dev *edev = netdev_priv(netdev);
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  288  	struct qede_ptp *ptp;
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15 @289  	int rc;
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  290  
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  291  	ptp = edev->ptp;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  292  	if (!ptp) {
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  293  		NL_SET_ERR_MSG_MOD(extack, "HW timestamping is not supported");
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  294  		return -EIO;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  295  	}
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  296  
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  297  	DP_VERBOSE(edev, QED_MSG_DEBUG,
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  298  		   "HWTSTAMP SET: Requested tx_type = %d, requested rx_filters = %d\n",
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  299  		   config->tx_type, config->rx_filter);
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  300  
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  301  	switch (config->tx_type) {
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  302  	case HWTSTAMP_TX_ONESTEP_SYNC:
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  303  	case HWTSTAMP_TX_ONESTEP_P2P:
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  304  		NL_SET_ERR_MSG_MOD(extack,
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  305  				   "One-step timestamping is not supported");
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  306  		return -ERANGE;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  307  	}
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  308  
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  309  	ptp->hw_ts_ioctl_called = 1;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  310  	ptp->tx_type = config->tx_type;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  311  	ptp->rx_filter = config->rx_filter;
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  312  
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  313  	qede_ptp_cfg_filters(edev);
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  314  
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  315  	config->rx_filter = ptp->rx_filter;
-4c55215c05d252 Sudarsana Reddy Kalluru 2017-02-15  316  
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  317  	return 0;
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  318  }
-c704f693a6ea05 Vadim Fedorenko         2025-11-05  319  
+   Warning: arch/arm/mm/dma-mapping.c:1239 function parameter 'attrs' not described in 'arm_iommu_map_sg'
+   Warning: arch/arm/mm/dma-mapping.c:1298 function parameter 'attrs' not described in 'arm_iommu_unmap_sg'
+>> Warning: arch/arm/mm/dma-mapping.c:1405 expecting prototype for arm_iommu_unmap_page(). Prototype was for arm_iommu_unmap_phys() instead
+   Warning: arch/arm/mm/dma-mapping.c:1239 function parameter 'attrs' not described in 'arm_iommu_map_sg'
+   Warning: arch/arm/mm/dma-mapping.c:1298 function parameter 'attrs' not described in 'arm_iommu_unmap_sg'
 
 -- 
 0-DAY CI Kernel Test Service
