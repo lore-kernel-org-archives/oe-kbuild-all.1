@@ -1,71 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB4D222578;
-	Thu,  6 Nov 2025 01:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6142BE621
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 03:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762393388; cv=none; b=XGgOGNNoCi6vUK9NfOgkSUPlZ0AR2n5mpKaIsnOWFvXJz3jvp6rIfWG+mrJPWRvnwzPzlsgN1to5DhKTd0EU3BYnuiDnX0C2scXX2lLC4XXRk5Bdfa+98Z3JKUrpXf8VIa7ISPYhpc7OTo2S2f91+CAIEKmf9PeHT/CJPBPb7KQ=
+	t=1762399558; cv=none; b=YZyGghHMQtbT+QTyey+w93vcraZ8YcOG1ff/vFsMBlB6Gf0Q7LB5i0WQHjWCl/HMk/PaECChfhFWBDjT6lIzs6ByVeAyJvDIVqriCR3qI5wb+ZkETQ2eadRNrZ1u3NNV4VmEFCnDuugOdAPjhVyN+26/Pob0hZyts17Bk9pKw14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762393388; c=relaxed/simple;
-	bh=2BVMpR3FHyZ+X/hxS26Deu2WAC/NgwDf1oq+a7rG/6Y=;
+	s=arc-20240116; t=1762399558; c=relaxed/simple;
+	bh=TVPL5Y8wTO7zDSVKPKd2ZKD08gTy26YTPkgy4WgfZfk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cel/R6BFh9/oceXJcUCsn1ooDbovZ+v9r3wcUQigGjqybDRZ0crqoncFXHKB2YA1fM4PW4nhGP9AHAu391l0SXtScnPiv6Bh7pmpP04sw3pzOmHKXbvRztOHyGtP+/hf9To5tZ9EHHMGhSU+OTevGt0sl4OyYfRfZvykvm1RTlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYTFnmqY; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gs0f//OQt39JsTL3PUUGzQxkWZkoiSNrPQEJGRQ3/dkBRw9Tfh8FKjXB+Z9Klya/AhJkH6zd5J9BtxeOq4DVsuZyqwLp1cVlSYztqLjyphTO3IB9jGbjKVVpQuMWxcKu0HzQTBm0Em+O+AFBj6rdVlr6lhTTxps5gRd2V2fM9CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfh8Zvc8; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYTFnmqY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfh8Zvc8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762393387; x=1793929387;
+  t=1762399556; x=1793935556;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2BVMpR3FHyZ+X/hxS26Deu2WAC/NgwDf1oq+a7rG/6Y=;
-  b=hYTFnmqY38PBTmbinunFFYCXCUPmk7dj0vD2rJTx1P2EUPUNTfGXGcSs
-   u3Y7MxiX4lm3ndefFgT7KI1tZWzF47qJjMKD8wbtQegwPR04MGV7otRs/
-   hgB2U2efW9+UzJ7MihQcbwe0hHT6ILQAwN5sXmo2Vktx4lPsuKsp541L5
-   iyhc2Mtv9JzeIABB+RfsyIkElIY/20Uq7lG7i3CGY+WCoTCpKW99/LPhk
-   1qecIyvJd5N5YgvoDmaa3ks5GG40gp2LdygtZKtsdl1uBkRl3D7j3EvCH
-   dMkHh0oxQbA9AY9GC0VSci4latuPg9BzLvg5CHHZ5mtsf/U6diRYpDJRy
-   w==;
-X-CSE-ConnectionGUID: K9UdNbjjSP6YAwriZLIOHQ==
-X-CSE-MsgGUID: mTI9rO4zRfaZukzhaIwuMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75874940"
+  bh=TVPL5Y8wTO7zDSVKPKd2ZKD08gTy26YTPkgy4WgfZfk=;
+  b=nfh8Zvc8N5+svQ2lZ61j4m4HXtYkDohwWc0cM28QHDsp+/7mrXzqnOuC
+   5imIjVOlS5KrlnPcpKb8fUXDtv03B9NSo2VaKlPc9gzZHweLFFXoQJh6D
+   5YmqQhyS0PJJUO+Ddnmq4C5R7YQbXJPnr+0LxEXifjttfXQiHydBP+Slc
+   2GK2rO8uS3kOsYUbDvTiYAGVsQ7xjAwpW/5DUStd0MZyrwyrJ/5V+7NqQ
+   0c0kJNAQerABbZX9+kVlyn8ilO4eFPKGkHdoA4S5FZyv8ofPP3Fq/wvEC
+   30AlnLIVCPlmhgBXiDTDpznzUP0x7/QGyunYJaE/mijTE5ePGjQZ20eqY
+   g==;
+X-CSE-ConnectionGUID: +oI+TWGsR1Wy+kUuSG6YsQ==
+X-CSE-MsgGUID: W3AjVK1VSOOzziVWqQq+hQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75211307"
 X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="75874940"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 17:43:04 -0800
-X-CSE-ConnectionGUID: CJWimRuKSDGhm1KNZzS0Ug==
-X-CSE-MsgGUID: iOJKe8OyRfez6UZyGvb2Pg==
+   d="scan'208";a="75211307"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 19:25:56 -0800
+X-CSE-ConnectionGUID: D/9mhqmSRAqy7SZ2++hTjQ==
+X-CSE-MsgGUID: BYQg6bwbTWaIai9smGwbvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
-   d="scan'208";a="191976026"
+   d="scan'208";a="192812795"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2025 17:43:00 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2025 19:25:54 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGp1e-000TL2-02;
-	Thu, 06 Nov 2025 01:42:58 +0000
-Date: Thu, 6 Nov 2025 09:42:22 +0800
+	id 1vGqd9-000TRQ-2J;
+	Thu, 06 Nov 2025 03:25:49 +0000
+Date: Thu, 6 Nov 2025 11:24:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>, Marco Elver <elver@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	m.wieczorretman@pm.me, stable@vger.kernel.org,
-	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
-	Baoquan He <bhe@redhat.com>, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] kasan: Unpoison pcpu chunks with base address tag
-Message-ID: <202511060927.eg2dcKpK-lkp@intel.com>
-References: <821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman@pm.me>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 2/2] Bluetooth: btusb: Add support for Bulk
+ Serialization Mode
+Message-ID: <202511061054.iucfnuVO-lkp@intel.com>
+References: <20251105170445.518320-2-luiz.dentz@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,47 +64,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman@pm.me>
+In-Reply-To: <20251105170445.518320-2-luiz.dentz@gmail.com>
 
-Hi Maciej,
+Hi Luiz,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.18-rc4 next-20251105]
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.18-rc4 next-20251105]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Wieczor-Retman/kasan-Unpoison-pcpu-chunks-with-base-address-tag/20251104-225204
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman%40pm.me
-patch subject: [PATCH v1 1/2] kasan: Unpoison pcpu chunks with base address tag
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251106/202511060927.eg2dcKpK-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060927.eg2dcKpK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-btusb-Add-support-for-Bulk-Serialization-Mode/20251106-024830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20251105170445.518320-2-luiz.dentz%40gmail.com
+patch subject: [PATCH v1 2/2] Bluetooth: btusb: Add support for Bulk Serialization Mode
+config: nios2-randconfig-002-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061054.iucfnuVO-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061054.iucfnuVO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511060927.eg2dcKpK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061054.iucfnuVO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/kasan/common.c:584:6: warning: no previous prototype for function '__kasan_unpoison_vmap_areas' [-Wmissing-prototypes]
-     584 | void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-         |      ^
-   mm/kasan/common.c:584:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     584 | void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
-         | ^
-         | static 
-   1 warning generated.
+   drivers/bluetooth/btusb.c: In function 'btusb_recv_h4':
+>> drivers/bluetooth/btusb.c:1286:17: error: implicit declaration of function 'h4_recv_skb'; did you mean 'sk_eat_skb'? [-Werror=implicit-function-declaration]
+     data->rx_skb = h4_recv_skb(data->hdev, NULL, NULL, data->rx_skb, buffer,
+                    ^~~~~~~~~~~
+                    sk_eat_skb
+>> drivers/bluetooth/btusb.c:1286:15: warning: assignment to 'struct sk_buff *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     data->rx_skb = h4_recv_skb(data->hdev, NULL, NULL, data->rx_skb, buffer,
+                  ^
+   cc1: some warnings being treated as errors
 
 
-vim +/__kasan_unpoison_vmap_areas +584 mm/kasan/common.c
+vim +1286 drivers/bluetooth/btusb.c
 
-   583	
- > 584	void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+  1280	
+  1281	static int btusb_recv_h4(struct btusb_data *data, void *buffer, int count)
+  1282	{
+  1283		unsigned long flags;
+  1284	
+  1285		spin_lock_irqsave(&data->rxlock, flags);
+> 1286		data->rx_skb = h4_recv_skb(data->hdev, NULL, NULL, data->rx_skb, buffer,
+  1287					   count, btusb_recv_pkts,
+  1288					   ARRAY_SIZE(btusb_recv_pkts));
+  1289		spin_unlock_irqrestore(&data->rxlock, flags);
+  1290	
+  1291		return 0;
+  1292	}
+  1293	
 
 -- 
 0-DAY CI Kernel Test Service
