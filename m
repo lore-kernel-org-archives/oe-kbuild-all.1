@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F6D1E0DD9;
-	Thu,  6 Nov 2025 13:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B4C3446B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 14:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434973; cv=none; b=SDEhbG03fCAKW+iTexDIwqdRWK81wZX1Z6LAGMPAYfiifRlyHsVQoTC7HEf4hIt1SkEVYMoyUUO+izE1UrNqLEpbBMOChw/2X0hDTyPNfEXzppgoxuQtqH/z53aKrNIWgNK6JgJRva66pQe4ymDL44pZYJEg/V4snDyHfis6/a4=
+	t=1762439909; cv=none; b=Fwf8ASW8//QSlBxbhMJMDJJY+zqGABWanaMgoywNR/Z0NaZLBpDoKK/YLB2nItHs0kxGLPtYnshDOLhXqT77+In0/5ry+Zoefxm/bicUp/3QwZVFFp7L8ZrTh8nyp2xcbk6VhGtAkbUQBEV3YV//luoXo6ux9HZg5RkDLCCdJ+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434973; c=relaxed/simple;
-	bh=fWIzYkeyLR0zM1nmLNN94zCZ4jX0OH0Y8wuA0ODbkxw=;
+	s=arc-20240116; t=1762439909; c=relaxed/simple;
+	bh=qjA9ze1XqObCgR5Te5hbEW9wde11R4+WtauacdBNGBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iEJj2rRwBXXT0101V9zCZp+iUelP59QUMc3U84zkP+uY9cA5FbIyPe+XM0FDRS8CJInlgpvU/VYm161oahtLnSmOvSyMiVthcdUwmqoEu3uyFOj8p9Rndqt+IiKL829rpbsf/ks6gUYuEC2gn67CuET87WEPM8Aa/aJZP44i8po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKoK1acL; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=asoofM7fjLZCz7RwXcHs0UqTg5bGHqS7fEBuO6PV7qevGnTjm1wwSqnSjOKpv2JSMv2U1ceeatl5djI1+c4APTZ5PwmUEyRoJr4tRG9cGrFTtOd3tYQZJAaugeovpcC6RSAuap8BlB2AxwxXHB9aF5nTQuQQjw4QroN5KZ1LANc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqtkRJ2N; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKoK1acL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqtkRJ2N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762434971; x=1793970971;
+  t=1762439908; x=1793975908;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fWIzYkeyLR0zM1nmLNN94zCZ4jX0OH0Y8wuA0ODbkxw=;
-  b=IKoK1acLZVZpJjTR0ROodTkW5WBmoY389A28uwIOmf6+o+efLlL0XEmk
-   4QnAfimAw8RpDQgW6xjyoTnFZRef6GWR0WE+b8aUN3gzzIBgTfOIBXh/u
-   Nlj+rTE91a6US771Dw8cw/sMar3VC6cX3Y9liNk2OGXOmPXlGUqFynr5E
-   pISgAg+gjQ4G12D8s5clstvOLCk8mYL6ldnki8L7Tvv3dPWul8FMxEOKk
-   JD6dewF4txo4qRe+x/qxflwpvzOEcauFYlNfUo41LhxCrU/wMSTLC6cxB
-   Lm+oIwkde7JigrIR+/J8/oyW+2mFFnyGvw8yePwfOidhCS2m3S0u+OkjC
-   g==;
-X-CSE-ConnectionGUID: KvknNyNjSZGH7yPu0aXNPw==
-X-CSE-MsgGUID: JgfOH8rUSjyHGoboAxUYKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75684738"
+  bh=qjA9ze1XqObCgR5Te5hbEW9wde11R4+WtauacdBNGBU=;
+  b=PqtkRJ2N/cHUhQQizgwWyTARzg5buqBJhcUJVJEEhgXzsBuU0TjITIU7
+   NFsbNAUzkg91BEbNPfcHpLeln/yxEowvvkBtTNfZeA0SwKYq5eDcTGsBt
+   rd2MF0juIFotM/rYLy/W58BVu5W3L6RwQQDkicVlg3xXyuDK8uSgCrobS
+   GvCWCKyNvuEQuXmMonL6FMapTLQY4zSeC3JXpoYOVW+Y2tIS9allM3Lbq
+   b7Cr/0A2tMFHIBHQSm3SHcnyNspfvPk5V9jqBUDPiQ2W2qKXGviOJNL0X
+   D1yW1t8Q9XUVIw4dsZmsREWNc8bZssJrOuvkoOcWKhiZrhfr0uj50R3J6
+   w==;
+X-CSE-ConnectionGUID: PmSjYPrfTK2FA5drl5sZzQ==
+X-CSE-MsgGUID: 8LZy9AxeQv2FjcRiI5oE7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75929266"
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="75684738"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 05:16:10 -0800
-X-CSE-ConnectionGUID: aeqL+VAlRRWd2b+1r3alkg==
-X-CSE-MsgGUID: PvnjBAKaRSe2LKdR0ffM/A==
+   d="scan'208";a="75929266"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 06:38:27 -0800
+X-CSE-ConnectionGUID: QD+x6HneTv6Gu9i9eTzITQ==
+X-CSE-MsgGUID: JYgGY/w/QwKQkjtpz9L0SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="211215979"
+   d="scan'208";a="187716231"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2025 05:16:06 -0800
+  by orviesa007.jf.intel.com with ESMTP; 06 Nov 2025 06:38:24 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGzqO-000TxI-01;
-	Thu, 06 Nov 2025 13:16:04 +0000
-Date: Thu, 6 Nov 2025 21:16:02 +0800
+	id 1vH182-000U1I-14;
+	Thu, 06 Nov 2025 14:38:22 +0000
+Date: Thu, 6 Nov 2025 22:38:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
-	pekka.paalanen@collabora.com, contact@emersion.fr,
-	harry.wentland@amd.com, mwen@igalia.com, jadahl@redhat.com,
-	sebastian.wick@redhat.com, shashank.sharma@amd.com,
-	swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
-	Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v6 13/16] drm/i915/xelpd: Program Plane Post CSC Registers
-Message-ID: <202511062120.wwoYUHAR-lkp@intel.com>
-References: <20251105123413.2671075-14-uma.shankar@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
+Message-ID: <202511062223.ocoUvCBI-lkp@intel.com>
+References: <20251105161935.545400234@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,102 +67,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251105123413.2671075-14-uma.shankar@intel.com>
+In-Reply-To: <20251105161935.545400234@kernel.org>
 
-Hi Uma,
+Hi Steven,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20251105]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc4]
+[auto build test ERROR on trace/for-next]
+[cannot apply to linus/master v6.18-rc4 next-20251106]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-AMD-series-squashed/20251105-202623
-base:   next-20251105
-patch link:    https://lore.kernel.org/r/20251105123413.2671075-14-uma.shankar%40intel.com
-patch subject: [v6 13/16] drm/i915/xelpd: Program Plane Post CSC Registers
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20251106/202511062120.wwoYUHAR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062120.wwoYUHAR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
+patch subject: [PATCH 3/5] tracing: Have tracer option be instance specific
+config: i386-buildonly-randconfig-003-20251106 (https://download.01.org/0day-ci/archive/20251106/202511062223.ocoUvCBI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062223.ocoUvCBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511062120.wwoYUHAR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511062223.ocoUvCBI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_color.c:4018:52: warning: variable 'j' is uninitialized when used here [-Wuninitialized]
-    4018 |                                 lut_val = drm_color_lut32_extract(post_csc_lut[j++].green, 24);
-         |                                                                                ^
-   drivers/gpu/drm/i915/display/intel_color.c:4007:10: note: initialize the variable 'j' to silence this warning
-    4007 |         u32 i, j, lut_size, lut_val;
-         |                 ^
-         |                  = 0
-   1 warning generated.
+   kernel/trace/trace.c: In function 'run_tracer_selftest':
+>> kernel/trace/trace.c:2174:30: error: 'type' redeclared as different kind of symbol
+    2174 |         struct trace_tracer *type = tracers->trace;
+         |                              ^~~~
+   kernel/trace/trace.c:2171:47: note: previous definition of 'type' with type 'struct tracer *'
+    2171 | static int run_tracer_selftest(struct tracer *type)
+         |                                ~~~~~~~~~~~~~~~^~~~
+>> kernel/trace/trace.c:2174:37: error: 'tracers' undeclared (first use in this function)
+    2174 |         struct trace_tracer *type = tracers->trace;
+         |                                     ^~~~~~~
+   kernel/trace/trace.c:2174:37: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/trace/trace.c:2180:18: error: invalid use of undefined type 'struct trace_tracer'
+    2180 |         if (!type->selftest || tracing_selftest_disabled)
+         |                  ^~
+>> kernel/trace/trace.c:2189:38: error: passing argument 1 of 'save_selftest' from incompatible pointer type [-Wincompatible-pointer-types]
+    2189 |                 return save_selftest(type);
+         |                                      ^~~~
+         |                                      |
+         |                                      struct trace_tracer *
+   kernel/trace/trace.c:2158:41: note: expected 'struct tracer *' but argument is of type 'struct trace_tracer *'
+    2158 | static int save_selftest(struct tracer *type)
+         |                          ~~~~~~~~~~~~~~~^~~~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/ring_buffer.h:5,
+                    from kernel/trace/trace.c:15:
+   kernel/trace/trace.c:2193:29: error: invalid use of undefined type 'struct trace_tracer'
+    2193 |                         type->name);
+         |                             ^~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/trace/trace.c:2192:17: note: in expansion of macro 'pr_warn'
+    2192 |                 pr_warn("Selftest for tracer %s skipped due to tracing disabled\n",
+         |                 ^~~~~~~
+>> kernel/trace/trace.c:2206:27: error: assignment to 'struct tracer *' from incompatible pointer type 'struct trace_tracer *' [-Wincompatible-pointer-types]
+    2206 |         tr->current_trace = type;
+         |                           ^
+   kernel/trace/trace.c:2207:39: error: invalid use of undefined type 'struct trace_tracer'
+    2207 |         tr->current_trace_flags = type->flags ? : type->default_flags;
+         |                                       ^~
+   kernel/trace/trace.c:2207:55: error: invalid use of undefined type 'struct trace_tracer'
+    2207 |         tr->current_trace_flags = type->flags ? : type->default_flags;
+         |                                                       ^~
+   kernel/trace/trace.c:2210:17: error: invalid use of undefined type 'struct trace_tracer'
+    2210 |         if (type->use_max_tr) {
+         |                 ^~
+   kernel/trace/trace.c:2220:44: error: invalid use of undefined type 'struct trace_tracer'
+    2220 |         pr_info("Testing tracer %s: ", type->name);
+         |                                            ^~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'printk'
+     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   kernel/trace/trace.c:2220:9: note: in expansion of macro 'pr_info'
+    2220 |         pr_info("Testing tracer %s: ", type->name);
+         |         ^~~~~~~
+   kernel/trace/trace.c:2221:19: error: invalid use of undefined type 'struct trace_tracer'
+    2221 |         ret = type->selftest(type, tr);
+         |                   ^~
+   kernel/trace/trace.c:2235:17: error: invalid use of undefined type 'struct trace_tracer'
+    2235 |         if (type->use_max_tr) {
+         |                 ^~
+>> kernel/trace/trace.c:2176:30: warning: unused variable 'flags' [-Wunused-variable]
+    2176 |         struct tracer_flags *flags;
+         |                              ^~~~~
+   kernel/trace/trace.c: In function 'tracing_trace_options_show':
+   kernel/trace/trace.c:5172:24: warning: variable 'trace' set but not used [-Wunused-but-set-variable]
+    5172 |         struct tracer *trace;
+         |                        ^~~~~
 
 
-vim +/j +4018 drivers/gpu/drm/i915/display/intel_color.c
+vim +/type +2174 kernel/trace/trace.c
 
-  3997	
-  3998	static void
-  3999	xelpd_program_plane_post_csc_lut(struct intel_dsb *dsb,
-  4000					 const struct intel_plane_state *plane_state)
-  4001	{
-  4002		struct intel_display *display = to_intel_display(plane_state);
-  4003		const struct drm_plane_state *state = &plane_state->uapi;
-  4004		enum pipe pipe = to_intel_plane(state->plane)->pipe;
-  4005		enum plane_id plane = to_intel_plane(state->plane)->id;
-  4006		const struct drm_color_lut32 *post_csc_lut = plane_state->hw.gamma_lut->data;
-  4007		u32 i, j, lut_size, lut_val;
-  4008	
-  4009		if (icl_is_hdr_plane(display, plane)) {
-  4010			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
-  4011					   PLANE_PAL_PREC_AUTO_INCREMENT);
-  4012			/* TODO: Add macro */
-  4013			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_SEG0_INDEX_ENH(pipe, plane, 0),
-  4014					   PLANE_PAL_PREC_AUTO_INCREMENT);
-  4015			if (post_csc_lut) {
-  4016				lut_size = 32;
-  4017				for (i = 0; i < lut_size; i++) {
-> 4018					lut_val = drm_color_lut32_extract(post_csc_lut[j++].green, 24);
-  4019	
-  4020					intel_de_write_dsb(display, dsb,
-  4021							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  4022							   lut_val);
-  4023				}
-  4024	
-  4025				/* Segment 2 */
-  4026				do {
-  4027					intel_de_write_dsb(display, dsb,
-  4028							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  4029							   (1 << 24));
-  4030				} while (++j < 34);
-  4031			} else {
-  4032				/*TODO: Add for segment 0 */
-  4033				lut_size = 32;
-  4034				for (i = 0; i < lut_size; i++) {
-  4035					u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
-  4036	
-  4037					intel_de_write_dsb(display, dsb,
-  4038							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
-  4039				}
-  4040	
-  4041				do {
-  4042					intel_de_write_dsb(display, dsb,
-  4043							   PLANE_POST_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  4044							   1 << 24);
-  4045				} while (i++ < 34);
-  4046			}
-  4047	
-  4048			intel_de_write_dsb(display, dsb, PLANE_POST_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
-  4049			intel_de_write_dsb(display, dsb,
-  4050					   PLANE_POST_CSC_GAMC_SEG0_INDEX_ENH(pipe, plane, 0), 0);
-  4051		}
-  4052	}
-  4053	
+  2170	
+> 2171	static int run_tracer_selftest(struct tracer *type)
+  2172	{
+  2173		struct trace_array *tr = &global_trace;
+> 2174		struct trace_tracer *type = tracers->trace;
+  2175		struct tracer_flags *saved_flags = tr->current_trace_flags;
+> 2176		struct tracer_flags *flags;
+  2177		struct tracer *saved_tracer = tr->current_trace;
+  2178		int ret;
+  2179	
+> 2180		if (!type->selftest || tracing_selftest_disabled)
+  2181			return 0;
+  2182	
+  2183		/*
+  2184		 * If a tracer registers early in boot up (before scheduling is
+  2185		 * initialized and such), then do not run its selftests yet.
+  2186		 * Instead, run it a little later in the boot process.
+  2187		 */
+  2188		if (!selftests_can_run)
+> 2189			return save_selftest(type);
+  2190	
+  2191		if (!tracing_is_on()) {
+> 2192			pr_warn("Selftest for tracer %s skipped due to tracing disabled\n",
+  2193				type->name);
+  2194			return 0;
+  2195		}
+  2196	
+  2197		/*
+  2198		 * Run a selftest on this tracer.
+  2199		 * Here we reset the trace buffer, and set the current
+  2200		 * tracer to be this tracer. The tracer can then run some
+  2201		 * internal tracing to verify that everything is in order.
+  2202		 * If we fail, we do not register this tracer.
+  2203		 */
+  2204		tracing_reset_online_cpus(&tr->array_buffer);
+  2205	
+> 2206		tr->current_trace = type;
+  2207		tr->current_trace_flags = type->flags ? : type->default_flags;
+  2208	
+  2209	#ifdef CONFIG_TRACER_MAX_TRACE
+  2210		if (type->use_max_tr) {
+  2211			/* If we expanded the buffers, make sure the max is expanded too */
+  2212			if (tr->ring_buffer_expanded)
+  2213				ring_buffer_resize(tr->max_buffer.buffer, trace_buf_size,
+  2214						   RING_BUFFER_ALL_CPUS);
+  2215			tr->allocated_snapshot = true;
+  2216		}
+  2217	#endif
+  2218	
+  2219		/* the test is responsible for initializing and enabling */
+> 2220		pr_info("Testing tracer %s: ", type->name);
+  2221		ret = type->selftest(type, tr);
+  2222		/* the test is responsible for resetting too */
+  2223		tr->current_trace = saved_tracer;
+  2224		tr->current_trace_flags = saved_flags;
+  2225		if (ret) {
+  2226			printk(KERN_CONT "FAILED!\n");
+  2227			/* Add the warning after printing 'FAILED' */
+  2228			WARN_ON(1);
+  2229			return -1;
+  2230		}
+  2231		/* Only reset on passing, to avoid touching corrupted buffers */
+  2232		tracing_reset_online_cpus(&tr->array_buffer);
+  2233	
 
 -- 
 0-DAY CI Kernel Test Service
