@@ -1,72 +1,71 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400E8E571
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 13:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF21019F48D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 13:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762434508; cv=none; b=VhJ24zS7fFEIgmizf7YFyv7xaVG3Jz4CunoXKGyou0+Qm0blUyIdDo5p3KcGqKa4q+YRB3BfXos/GKVI9dLvRLAXNeXaG3p9SpVL00TPSnepwUiZyCJgBAZqnVvAtWQi6bQxdEpp4E38hiA3S7d348BcBMOTJQDcWMLmSSyP9TQ=
+	t=1762434615; cv=none; b=sstX3e084JBQM09nu4GT6RkpIsCcXqpgvf7GkvrwrzpOph2DwBuC3HxR2xPdRYB7ENH8mpPHkS2E9zEt0aO3J5k7615w00/ELDMKhAzmlWVj30bXiVA05lRZW1h9/jPoaCAZfK66tMnevgJAoFib1tWWHKcxMIj0NOuxrk1ql4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762434508; c=relaxed/simple;
-	bh=8wi8v4pafiCAVW0LlbviwrSq4+RD7ApxtwSAV0zAito=;
+	s=arc-20240116; t=1762434615; c=relaxed/simple;
+	bh=QVY/AYM5oY5fMTDiOLcTDfmGhegxKbaFzRVX886wGAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ny6CJYar3jpneHLnGGpDn0VBUnsaYLGXHm6nYUzuqoMj5xGqVbeNQafTB5j3Gz9/gCXksX6yiExMX7yIJQreoxA/rbGn5cOPie5yUdYVIFhL3GupTl86E+uus7rQJFZjJWfqL4N+q3TXhsdp/SA/tpIwLAqGqIzI857TucxDYYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V/aGCYY/; arc=none smtp.client-ip=209.85.218.42
+	 Content-Disposition; b=SI/QIJDGU1xuDbY5vMWxf/CKnKQeGvzAiVTOb8oU6nWDp9IgjXDu6S5tF8DbvraXU57Jy5W/yV9FEwd0TilFoJcri0PKNjHOBUrF0v4Ta2ScBms7gjlbV9A/xEkkzbjoWF0EsOcEVU4u982oUcvWCru4lNTAuiW6o46BdkgNQI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MQMMDQcc; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V/aGCYY/"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b729a941e35so82030666b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 05:08:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MQMMDQcc"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-640c3940649so1303398a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 05:10:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762434504; x=1763039304; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=enqwyA/A3yCA7Wm2D9J7INIOgAB6+/16vEu7wgpBUcE=;
-        b=V/aGCYY/74dhSsIAE2erN91on+nO603tCLpsULyGOjkMerBp9Mb4z7HopfIavZSOUr
-         Wha+ZiFvYdZhFAKZsWD1KOn8vcK9bCEmPqUBNV1wIS8hWjAqtdUO/qPIlHaTVZf8DCBB
-         Pcxdeq7XwXx9JuMbCfIga8/5X3CeWeoV1NiJCV/WcipuuGXX2isUa/0czezkbKvrRikr
-         61G1mAtdN0TJY0UVq0f44VgO6mfhV6TAufVeJZb7vaJ/5gibpsNLIlkyvf5GO7+TpaY6
-         lwbf0+3uORzLhPHTk9jDg+e7+uyNgEOM2d+ke9Av7khrIwtydKvmumY15add/rZeEk9+
-         fqgA==
+        d=linaro.org; s=google; t=1762434612; x=1763039412; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
+        b=MQMMDQccDYzbGOMx9ONqQEbw5vk2nW9L+3642mHn33lJVMoADfsw95SgyVc3NNjg01
+         SxSbP/ajvc0lU2oXFE7mr5DkKHtdAxVGE1GoVvnJlC6nJK2vSBfvpfczTMMdAfGkt/S0
+         tx/REU70WzrlYuCN4A/qEdY3zEizDuPnOgwDnNc0LTvjxuRA+kQM/y5/ajhPPnHiXInN
+         TeWf4avsgrh3pXRDR5w9J7DPHD9cvbYdzFAKkwMcZto+9t3vWdDN3TKZITi9eWa/VSIS
+         dbK+r2xuI1fgBhuhqw2Pd6U0Ry9C4QDqrO3I8npOWER0ETaTKknjV5CDGpWCq+lDBiED
+         n33w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762434504; x=1763039304;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=enqwyA/A3yCA7Wm2D9J7INIOgAB6+/16vEu7wgpBUcE=;
-        b=OsG1DVcrhZwt1uUoKc0jgbYLNqIZwj7Yniv9FqnCrYasrfJQVT3Ef2GN6gP5vPbcjh
-         kx02LsYjRRaaeXIdanD0Jdy2q6DsVCh4KBwcwmXmMX5zHq/KLWTSk8+wT927rMkOhugK
-         ohHccHD2Yc8HX+Xb2nmy8o1o7L0056DwP3xoUhKF4LiGSbH5BLwhd+WbgKnKizKF//s8
-         +y3Tl0JKIlwnqNsIvWk/ju9Us2PHm5XXa2pRNmH5BXPyRpl/fMGqfZ7s9FaKh89ObX4o
-         29TzilhOuYUkLsKeo9f+aYwSK5dSnSejVCKujoV5dtZtQUuDwm93ooHV6q9O4uHzwFv0
-         bxCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhco96cJiNPl767Kv0yfPX968XMz5ZMmDpiyiKZ+znXLR8NqSrZ5GtMHSGZymN9S4i21sFUHOiuEKElIOC@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywa9fFmarnQZ6LD2f8R66VGLH1Q8idPxFCQtV82RbJY3RDMiwL7
-	qV9FNe9TsayFcK4GhqtrqH9PIS+5+QInIBwUITTwO4cR2kmKRZSOWmiogRiM9myA/os=
-X-Gm-Gg: ASbGnct9eZzNV1FnJfq+2/K6+hFFTSpsvnhxtvMISziE7xM4fAAzlkAYNXHxv7/+std
-	i3kSK5ru9Af8jwsMlemOMe5DptubvgYv5p80vVtsI+xG+0ijYl/LxK5/WF/AIG/A2ToHup9rPjz
-	ccNMh6gMolFbw3yr+ZPO2pddLmdR12F+NOzsGHPOcoOYd6xZWmxACilznmAdu2LUisRP778x9by
-	Co1SPd/oFU1z9eWyRrcid0vpW9G5xiMqRNjLgqDsP+bhx65jGdvdGQGym4/j6xf6bKBXempx1qN
-	6qMlW2gpZz+Cd7Jqr3AgfOB6+pMOeNEeI27s2hF7B8NgOzBXgPFRl3KnDPI4bcp6HR1bmpuqlHF
-	m67Imc3Y0OuCLRXcFv61sW1ggT1Krs4uiOCkjYcVHTSFYjH7m5DI1SiQSs6FjkzmjWf+lEf5uhk
-	N76dzuJm5xz/cW
-X-Google-Smtp-Source: AGHT+IFDbNceai8kygqAPsrd4nZO/xDH+qcQBTNTFiNY8JYz+2UNeSt3srq3B3R4fGOrxSuhtxFg2Q==
-X-Received: by 2002:a17:906:c103:b0:b70:7d61:b8a5 with SMTP id a640c23a62f3a-b7265603d1cmr729211766b.62.1762434504394;
-        Thu, 06 Nov 2025 05:08:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762434612; x=1763039412;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t28efrrGHhAa89xd4/lbe98NRmddX9nmQ/RG7kZgsm4=;
+        b=oNdbGEj3Rfqq3shnCBhfo68ZEMuk039kVFV4/oRExa2tZ8OfAs+nZTbXWbhOkW7cJt
+         EguaNKVbnFHKDhRA0KreU2ts8xiBr1Vhwir4tAEuACi9LY9FeAkMPRK4V5SIOpGlz/qH
+         lJtSIgguq/JIzC/YrGibu1eMUZRj9oCAoWNqXWN+D8fckM+4Z/ajykuulgG3IfuEnqLN
+         cWQtmv7RN0yDgECKzdF6Bm12rx5ZSC2Xj4YDQgrBCu1AXJk18Sg9IrBJNrkjNXrTarWA
+         Znggiolc+wSEzE6SVwnbmFoAWd/E7t8YhzRvdksEwdRJu7McZiwWSZ5k4X6/18rm9ITX
+         fg5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU/GmPcRBm/cAl5W9Nv27aOLtRn1tpr6o8p/1YVevQuDyEnkZAG5RvFQ4edMOq/gRo9iAP7sxOwqcjRBkBW@lists.linux.dev
+X-Gm-Message-State: AOJu0YxxhHWeYmNKMZmRYXu+RDc5ceSYXjM68KpAmDTM1D326XyW+sDQ
+	fPwiN6fejRu4cEIim3B6xLTOsyEOqBSWNnkdPq2kapvXqoTsbcvbm+h9csd3CapY+AI=
+X-Gm-Gg: ASbGncvf19wptREG8HHyKSfkBz1YPHLsg1TL8rOaMgD+NVYUDdVQHl1jiqm+KWIX2SY
+	JQOnaNCm233D1FpHpKe+WNuTeTvcr9IHSjewomuMhaKqWTLQfLbU+XHj9q+itNqFWOySQjWd1i0
+	paf2HpT4KDkgQ6Vvb5Q61uOH4PzTdLctaT8d4swpG9TYkmVi2uC9q0o8Yr+tI3nY0mx+r+LkXwS
+	KV5Ms99yHZrfqmJ5gr7nQ/EFLDYGJXzkzx9aTfuDZPG7MAk1JwSdkgWkablmHtNHaXOp3dUxwRo
+	p5/VumI0DPMFYN8nUxk/3j3znOhnf1yvR/2CF5uRhCwVobH2Xg4xJO36vdwdJOk0AobKGPF8kL/
+	jzieBPvnEbgnrCxlSreI1s+qvWifmolgYB83dOBrlUrgfcjD8MeLHhUBQeihoIHHGeGZB03jqK6
+	iOW8t+lFdLvB5d
+X-Google-Smtp-Source: AGHT+IGDC3NDQYPTkkfUUoVyM/sJxUdHO2Lpp1MzeugUZlOM8vLQhbQSiv+7msu1x/Jy2tsYDRamhg==
+X-Received: by 2002:a17:906:c103:b0:b6d:50f7:a805 with SMTP id a640c23a62f3a-b7265607354mr700966366b.59.1762434612174;
+        Thu, 06 Nov 2025 05:10:12 -0800 (PST)
 Received: from localhost ([87.213.113.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896c8e29sm208344066b.74.2025.11.06.05.08.23
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896848a5sm207325966b.57.2025.11.06.05.10.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 05:08:23 -0800 (PST)
-Date: Thu, 6 Nov 2025 16:08:22 +0300
+        Thu, 06 Nov 2025 05:10:11 -0800 (PST)
+Date: Thu, 6 Nov 2025 16:10:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Francesco Pompo <francescopompo2@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-efi@vger.kernel.org,
+To: oe-kbuild@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Francesco Pompo <francescopompo2@gmail.com>
-Subject: Re: [PATCH] efistub/smbios: Add fallback for SMBIOS record lookup
-Message-ID: <68a428fd-aad8-4540-a509-d33ba116b5b9@suswa.mountain>
+	Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn:
+ variable dereferenced before check 'kms' (see line 235)
+Message-ID: <9412d8fc-7bb8-456f-9911-8443303497a5@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,48 +74,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251102001411.108385-1-francescopompo2@gmail.com>
 
-Hi Francesco,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Pompo/efistub-smbios-Add-fallback-for-SMBIOS-record-lookup/20251102-081803
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-patch link:    https://lore.kernel.org/r/20251102001411.108385-1-francescopompo2%40gmail.com
-patch subject: [PATCH] efistub/smbios: Add fallback for SMBIOS record lookup
-config: i386-randconfig-141-20251103 (https://download.01.org/0day-ci/archive/20251104/202511040131.8yGeRa6u-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dc77806cf3b4788d328fddf245e86c5b529f31a2
+commit: a409b78fcdf724422fa030bd5ef177ebf3b7608a drm/msm: move wq handling to KMS code
+config: powerpc64-randconfig-r073-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061924.Y0EaYmPu-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511040131.8yGeRa6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511061924.Y0EaYmPu-lkp@intel.com/
 
 smatch warnings:
-drivers/firmware/efi/libstub/smbios.c:55 verify_ep_int_checksum() error: buffer overflow 'ptr' 5 <= 14
+drivers/gpu/drm/msm/msm_kms.c:251 msm_drm_kms_uninit() warn: variable dereferenced before check 'kms' (see line 235)
 
-vim +/ptr +55 drivers/firmware/efi/libstub/smbios.c
+vim +/kms +251 drivers/gpu/drm/msm/msm_kms.c
 
-d45578057224c4 Francesco Pompo 2025-11-02  48  static bool verify_ep_int_checksum(const struct smbios_entry_point *ep)
-d45578057224c4 Francesco Pompo 2025-11-02  49  {
-d45578057224c4 Francesco Pompo 2025-11-02  50  	const u8 *ptr = (u8 *)&ep->int_anchor;
-d45578057224c4 Francesco Pompo 2025-11-02  51  	u8 sum = 0;
-d45578057224c4 Francesco Pompo 2025-11-02  52  	int i;
-d45578057224c4 Francesco Pompo 2025-11-02  53  
-d45578057224c4 Francesco Pompo 2025-11-02  54  	for (i = 0; i < 15; i++)
-d45578057224c4 Francesco Pompo 2025-11-02 @55  		sum += ptr[i];
+506efcba31296e Dmitry Baryshkov 2023-10-09  220  void msm_drm_kms_uninit(struct device *dev)
+506efcba31296e Dmitry Baryshkov 2023-10-09  221  {
+506efcba31296e Dmitry Baryshkov 2023-10-09  222  	struct platform_device *pdev = to_platform_device(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  223  	struct msm_drm_private *priv = platform_get_drvdata(pdev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  224  	struct drm_device *ddev = priv->dev;
+506efcba31296e Dmitry Baryshkov 2023-10-09  225  	struct msm_kms *kms = priv->kms;
+506efcba31296e Dmitry Baryshkov 2023-10-09  226  	int i;
+506efcba31296e Dmitry Baryshkov 2023-10-09  227  
+506efcba31296e Dmitry Baryshkov 2023-10-09  228  	BUG_ON(!kms);
+506efcba31296e Dmitry Baryshkov 2023-10-09  229  
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  230  	/* We must cancel and cleanup any pending vblank enable/disable
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  231  	 * work before msm_irq_uninstall() to avoid work re-enabling an
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  232  	 * irq after uninstall has disabled it.
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  233  	 */
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  234  
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05 @235  	flush_workqueue(kms->wq);
+                                                                        ^^^^^^^
+Dereferenced
 
-This loop reads across a bunch of struct members.  We would normally
-use a struct_group() to say that all the struct members are grouped
-together.
+a409b78fcdf724 Dmitry Baryshkov 2025-07-05  236  
+506efcba31296e Dmitry Baryshkov 2023-10-09  237  	/* clean up event worker threads */
+506efcba31296e Dmitry Baryshkov 2023-10-09  238  	for (i = 0; i < priv->num_crtcs; i++) {
+506efcba31296e Dmitry Baryshkov 2023-10-09  239  		if (priv->event_thread[i].worker)
+506efcba31296e Dmitry Baryshkov 2023-10-09  240  			kthread_destroy_worker(priv->event_thread[i].worker);
+506efcba31296e Dmitry Baryshkov 2023-10-09  241  	}
+506efcba31296e Dmitry Baryshkov 2023-10-09  242  
+506efcba31296e Dmitry Baryshkov 2023-10-09  243  	drm_kms_helper_poll_fini(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  244  
+506efcba31296e Dmitry Baryshkov 2023-10-09  245  	msm_disp_snapshot_destroy(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  246  
+506efcba31296e Dmitry Baryshkov 2023-10-09  247  	pm_runtime_get_sync(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  248  	msm_irq_uninstall(ddev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  249  	pm_runtime_put_sync(dev);
+506efcba31296e Dmitry Baryshkov 2023-10-09  250  
+506efcba31296e Dmitry Baryshkov 2023-10-09 @251  	if (kms && kms->funcs)
+                                                            ^^^
+Checked too late.
 
-d45578057224c4 Francesco Pompo 2025-11-02  56  
-d45578057224c4 Francesco Pompo 2025-11-02  57  	return sum == 0;
-d45578057224c4 Francesco Pompo 2025-11-02  58  }
+506efcba31296e Dmitry Baryshkov 2023-10-09  252  		kms->funcs->destroy(kms);
+506efcba31296e Dmitry Baryshkov 2023-10-09  253  }
 
 -- 
 0-DAY CI Kernel Test Service
