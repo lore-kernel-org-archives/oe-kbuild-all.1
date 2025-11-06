@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC1B214A94
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 09:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC86218845
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 09:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762421304; cv=none; b=MsKKTBKNqdZng/7G4im+57D2eucrCweaSlD/5sxKfYLX7dWmrOV1RvGjkYAgHufgfAnAmGazZ4k2MZYw1ux1leDEYOftVaXdnVNiOzvLqGKrh+0XY53WfHcgoI3VuxFwCDd+HxoDSZcYsdlrx4kth3htlPCHJLItWEoafqKQ5Fo=
+	t=1762421948; cv=none; b=Z2u+1sGXl0J5MGj4syyYd7r0vykBhHC6WZEObWxrKMrVBhxe5uLYy/Z9FRdHjj3iflex89G2UUvcuqmps2Ttr+i/vDl2VPghG6P2e/bnhAQ7+rAtl2sOLKDov8ygpqv/qlNm+3FblgItmV9UUFd1GLgyV85JianhKDBUTRj8PDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762421304; c=relaxed/simple;
-	bh=wbf7ytDbOpFa9ZD1MPjc3wSqqLhVd37/WD3BjBDiUGw=;
+	s=arc-20240116; t=1762421948; c=relaxed/simple;
+	bh=g5vZmkrvgxSqOo15D1uVn0KcnoBNdMGgB3rLW33L9JI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QBXyzVua3nzHt7O0SZp7Tw5Egw5yAgoE0E0v7H1lUx3ZpmVbFVpK54Mkyj4hzvW9RvGdAzTiRqW1YLjkLliMh15CT28ei4W28+PuBArWFMBQT5VkJOs6+ZRxG5K00Sxp0ZainDj2sx7srKx8QzRk/PKF3yNsj0DNKm4SSrYpqrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8PFlb8R; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=WHtpSVsLSNTYK9MQ2f/dhFDWo+uKhNRPjVxTiF0WFQMcLPm6YBRjV0PKxGJjKlPLN38Ec2T+COq6qkBFtDgMZ2ksycUAg9CjHY8vZO2L/AD1J9rHAMY2+DikP9VSljYsT16e1sjHp0No5FFdwoihb2A5PU7EEV4nugOMUFgvavY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbVNlbhN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8PFlb8R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbVNlbhN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762421303; x=1793957303;
+  t=1762421947; x=1793957947;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wbf7ytDbOpFa9ZD1MPjc3wSqqLhVd37/WD3BjBDiUGw=;
-  b=K8PFlb8Rz9oj4R/qnx5zNlrrZNAabXAq6yER2PiYR+yiqCX/lvDZman0
-   f9AHKmt26Wrkqa4a/pP9qt2VWCQ7KxOEa6B4mwO73vwuwyM6vZD9gafur
-   aeLTinbH7JHZPC+UOyfQuOqp4wjhUEmTK8/pjmHWFEkFO8CZKr6X92Zwz
-   9u+1EEQfhhhURqswstBF0PzhDwx3cmF5lct8rm+NdB6DSWp1rz6sQlx6S
-   W7OGhRM9r5Z8lqlNE/ya6jc2bJWW3e4HBO9gXEKWeFwNEdwNi9I/MG4bJ
-   inRu1b1B8JAJlKQBGBDsiqO0DDo1pZyYcIDCksmxFlAQi3spo/eGlqcJd
+  bh=g5vZmkrvgxSqOo15D1uVn0KcnoBNdMGgB3rLW33L9JI=;
+  b=kbVNlbhNLBcUf1njAltqylWSmhvpoC1b2TTi8MrXzHcxSviH7Cgp+O3K
+   o0jb+sYVRmdw/MQf4OtWtNvkRiKVuGtN1NDwd5B6IMEXN5KhtKhkOAubN
+   hDsFD0zIp5UDqM4oHMQiwJAnlGlxh/y9W+AfI9mXe6SDoNR3Q08DmU/lX
+   +Lvp+lSxW4Ne4x7RxXFPnG8GYdbo/XSrg2qtRB8UWv/xW1yyF/R5bOAHW
+   7Nk2rbS47E7g9Pv0VVq2cGGIs8xe63eFIwN5YaCDIZaBosqSgb6Yu2H45
+   D0P2H0juqr1XqWJEvhn5lppBkTVco8jjevHjS3CpXU4kFvvzC8YpEDI+z
    A==;
-X-CSE-ConnectionGUID: R/NxOu2HQR2fYA0OKsKSww==
-X-CSE-MsgGUID: FlC6XvSjTY2vSHwrMIuYvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="64591154"
+X-CSE-ConnectionGUID: PQwwC0aTQ2GYQ6NXAe84Fg==
+X-CSE-MsgGUID: Vbh+bsiCSQGf9djnsOupzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="63759016"
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="64591154"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 01:28:22 -0800
-X-CSE-ConnectionGUID: KswzJpTBRZyh6w7Cd/sisA==
-X-CSE-MsgGUID: YBdNx50BSYaFNQttrImmpA==
+   d="scan'208";a="63759016"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 01:39:06 -0800
+X-CSE-ConnectionGUID: /iuCGmf1RV2rC8IEIrCIKQ==
+X-CSE-MsgGUID: HsYW6GpKSRmy32r+a2iBWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="218471065"
+   d="scan'208";a="187873145"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2025 01:28:21 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2025 01:39:05 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vGwHi-000Tia-2C;
-	Thu, 06 Nov 2025 09:28:06 +0000
-Date: Thu, 6 Nov 2025 17:27:56 +0800
+	id 1vGwSM-000TjK-2i;
+	Thu, 06 Nov 2025 09:39:02 +0000
+Date: Thu, 6 Nov 2025 17:38:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Casey Schaufler <casey@schaufler-ca.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 6747/6818] Warning:
- security/smack/smack_access.c:583 function parameter 'gfp' not described in
- 'smk_import_allocated_label'
-Message-ID: <202511061746.dPegBnNf-lkp@intel.com>
+Subject: [linux-next:master 6722/6818] Warning:
+ drivers/gpu/drm/xe/xe_pm.c:131 expecting prototype for
+ xe_pm_might_block_on_suspend(). Prototype was for xe_pm_block_on_suspend()
+ instead
+Message-ID: <202511061736.CiuroL7H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,20 +66,19 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   df5d79720b152e7ff058f11ed7e88d5b5c8d2a0c
-commit: e2b6c40d09c5967f33dbc4d8118889f205b2587d [6747/6818] Merge branch 'next' of https://github.com/cschaufler/smack-next
-config: xtensa-randconfig-002-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061746.dPegBnNf-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061746.dPegBnNf-lkp@intel.com/reproduce)
+commit: c6db94fd0d2023b5a2fd774864c4039352805ce5 [6722/6818] Merge branch 'drm-next' of https://gitlab.freedesktop.org/drm/kernel.git
+config: parisc-randconfig-002-20251106 (https://download.01.org/0day-ci/archive/20251106/202511061736.CiuroL7H-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511061736.CiuroL7H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511061746.dPegBnNf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511061736.CiuroL7H-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: security/smack/smack_access.c:583 function parameter 'gfp' not described in 'smk_import_allocated_label'
->> Warning: security/smack/smack_access.c:583 expecting prototype for smk_import_valid_allocated_label(). Prototype was for smk_import_allocated_label() instead
+>> Warning: drivers/gpu/drm/xe/xe_pm.c:131 expecting prototype for xe_pm_might_block_on_suspend(). Prototype was for xe_pm_block_on_suspend() instead
 
 -- 
 0-DAY CI Kernel Test Service
