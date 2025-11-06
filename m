@@ -1,71 +1,78 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCCD33DEEC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 14:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB6F346E56
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 15:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762441010; cv=none; b=lhoGF/H5XSVzD0klEj4UuHIcLamYy95SYtxUQrfVH6ZhvrZUqt1eMq7FP+uGfeWtoAPY0OACrHAF6WzLq+Bw6N+DXnCSNz6j6COPcn6f8+wvjpKT1BFBMofqvNc2bjw1uDgkT+JF82ogggZS58KErCsRsJhYGo0gHlLzA4b+Cjw=
+	t=1762441439; cv=none; b=IE53D5v97U466FXjVBJQHwis7vUsJMAQPi1LAeZXySND3HLjVGC5EwduSDoEzekInyF8yZtzS5CKHDG1tIHTUvRjSUf4yZtQ60+3gO03VJlOvwXVCnOjjR4AKSq/jb/0HGZOGp1idnR+Z6fBhAUu9OTRVhgHIyf0QaVdAAOPVZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762441010; c=relaxed/simple;
-	bh=n/Bd7/snV3eURY+ywL671CnPXYMhVnja6SgaOBw9EHI=;
+	s=arc-20240116; t=1762441439; c=relaxed/simple;
+	bh=55SSt3Gkzzq+ugMem0J0DiZiyJVQiw2q4O9Mf2FxiCg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZdDFhErP4I48RWPLnWMwnbaXsm/TtIg713yOO1PG2w/90iq2BZFn2mZU+eliVUUvRgl1Zpd6z2KykCAKQ5+G+ZBPbyXU6fAYyW6DcIBhwQ7iBQinw3RJIXsjDSJ7xYV2Xt79s4R/zwcO+b1cW5+65TeuDJFrl/mOmgZFawCM46o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RyMOagCn; arc=none smtp.client-ip=209.85.218.46
+	 Content-Disposition:In-Reply-To; b=UQv+Fpgz+SXnVhqEhg8vm7olQQlTMK5ld6f5NZ11WztoDoRW/KrpCnpSp5CRPy0yM/MSGYwzUCRuiLjsUX2VDiG/J+DjEtraCZYelLTi5kXOLGN0BIAeUIw1o89jwhp/EoCMzoxo9iUE5jOjWAAnfgasjgvIYQtbZgk95em6m14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O6KYKP7A; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RyMOagCn"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b64cdbb949cso195960466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 06:56:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O6KYKP7A"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b7277324204so126084266b.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 07:03:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1762441007; x=1763045807; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4cZBXfyVG+iyRMG+Gxr/rrQlxQkjiNHu4700aC64gkg=;
-        b=RyMOagCnL4vfmGRnMZGsUzIxOV2RYuEEs00b3uAFoQZQiuieDyTCqHgeHaVjbVd7Q8
-         rT6dt+O+8GyF8tln9wBMtU5vA1eKr4o7DC1PkvnaWwsig+Vmlh5Zvz+vgEWOysHxZe3s
-         MnviYtV4KT66YQtDm2DIjH0Dt2SdtzPG9CZd8L1rhDsFQ2F6Mr7Z9RLhkLqGDfJs7Fxc
-         WZ36eFw6CvCVjMMAmkgywT4HhGW+IXLjiRzf17pfbCK8pDK5TR9PTERV7vCU95t404en
-         W/LQbZvRAWKovYDRz7OGMdtA4QeXVZJB7r6p+6beklLA8qH6joc+LuH9vR2DSLwjxDQf
-         IcSg==
+        d=linaro.org; s=google; t=1762441435; x=1763046235; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XRLohXtRGatztz+SeKrGjSMg+wc0GgYqEIBKdX3UGlY=;
+        b=O6KYKP7AK244hTWE4kmVRc9kSw+AcXisG76DQ01pUsrofZlq6lBGlrOQtA/S5XdKDl
+         1Ni0iCgKDVHw+35nlyuBFe6INzXsVl80OYgiF1o3oxTAHymPQ8Irn5HLWqBNVwCQtLPv
+         eh6tEDbKtRBRLvR77KWl2N/MYUNZtKhYm9DyXlwjBJoT2IBmjkn6uek1iYGNtnbginsU
+         wudDzLaWAKT5VpCrcLh4YGAflC/ETI+H1UlrU+c6U5vrMrlU5zaJhs+nk1TJjX2Zz1tZ
+         WNRd/ziZdysQjBsC/c6vRgBAR6iCAr4nrAjD9LwgHx9CKMkyHNpN0j3867904In2NzZp
+         Gdrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762441007; x=1763045807;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cZBXfyVG+iyRMG+Gxr/rrQlxQkjiNHu4700aC64gkg=;
-        b=dAoZQoEtcl9oV/0eli1LuTMfI9UGmsL9mpldMux1hHhX1/yTvwMOir31lbgXxQqtox
-         Y2om+P0WluTabHQGWvIqCOcbxFdBK3EsklQ2kRZkX386PyMum3XKRsFCAe8AdDX0ZlFM
-         HwNxwgmv7FOmsh25XuFd1eithoWofybjdyjRUfR4Fpv7EB3Sk+HOnzNPqh+1OoDhREbf
-         AlEhjchB5o7m9pmBXYW51CKRjZ9UTsPPKKqfxw4dsaFZaWlQBuuK4VQlnuH0twgvoEJo
-         eYL37ic/ErajVh1sZT2MEr6dlGgyKqGKTfKCSbFWmLGCztzUMKLjQ/Ows1qiLMUHj+ls
-         LPYA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2557ITcc6wJy2N+oBREIhxtGNM1vkD6xllfH6vcVIiHqtOlGuuiWxJ8d+c/U7tOKFKmqcwdcE7X74+aMU@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqWC7i7j8DXimhQ50LDEcgGJCJE+nbFqpD0hQS2sZuOKIacSUk
-	NLqOxtdsiwTS/FhTdh6p6llPhzYVps3s0eJdaF6KCgGzcsU7gX1gLc//bDWbEdWEKME=
-X-Gm-Gg: ASbGncvZaKKFz7ZJfLwXEvviSa2zGZ4Vxit8k63PNUypwvFNbk1K8yWvGhbYUw1qWu9
-	7mwCb6isBvgvXRxQHZifX2zoYCO2W4Da4uTOx6hS7CuzHVyX6IKjw/715cPosxyDaUpPkX7leuk
-	4hhstm2JQ4ow2MZ2ERS+RP3n4DTAWNW5y8b8OgdRb9XspWbsMMlCPpxW+acQU/Fl/M/9ubCi2Ii
-	7iJ+ZaaIHTaqP+FnFCPO/ERjUWcVS19g/V4GaXp7g1qDh/nua34UEyHlhd5Ela6fMjeKhO75yYl
-	N/HCkrxSiY9jACBBGp+TdGv5BS9cfGtroQELdCZFAijqLGP6ofWyGvMuKFVtyvovBz4caVEOou9
-	TbStIeetXDec+Wm4G8DwFXXRhh5PNz6dX2bnoJXMm9zbM8+Y9MQdDl2HzQz86xN7GojySAssQlM
-	bUaY01isNHc4H2
-X-Google-Smtp-Source: AGHT+IGxIARIFdT8QKdjVus9pKC+4LttK7muSxiBACisce7x+5Op/S+eLKsGU6c0B1NhGDTVHdwoEg==
-X-Received: by 2002:a17:906:f855:b0:b72:95ff:3996 with SMTP id a640c23a62f3a-b7295ff4f7amr213659766b.10.1762441007341;
-        Thu, 06 Nov 2025 06:56:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762441435; x=1763046235;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XRLohXtRGatztz+SeKrGjSMg+wc0GgYqEIBKdX3UGlY=;
+        b=vFG4H9hs1/vTkYITv8dVRHY3K8AFjosRUg+7a62oWm6gzxsWPPxCKuEGOGD1WL/q+c
+         SRSbHYBVpdQhJcrscAlINLeKaZDaM5hLYMuHIsINS8xDXbXHfZ+NLgVch8f+tVLdsmgC
+         9waZu9Fw18Nm5VDGtsJAPLifdS3IDlWHOkrGTwX8NnFLI/IPUpJJjd+Fog2E6ZCyAwy/
+         v53zxrOTd3t8uEEMO9g+K5Ki5j7uVn9Igh+p5GLKNNinLVPh+yxv8orFfG1Mj4RJoiDH
+         nkX9MIB3QZKu++YmX9zRauA0Aef4KJ43/hgKy5inTtsdFmL13uZ+4EzXq0RU2wuohGtP
+         wxFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7KMv9PvMeeouYozO0arp4bBFvEQ77kYzqjY5U9PcI0J9HUefLABHefH97yUAF9mZECMFONpChyMUxNueI@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFEhwt17jDHlwfc1rqAW2W8Z8OvcyZRdeiEjf1I1NtJFng3ZAY
+	r4ZJTR236c14DPGo5uh4ApAuOV1AyGawGlY5qTmp+Q1TDBZWH78woKLjGdt4lKHMhJs=
+X-Gm-Gg: ASbGncubeTh8U4zu2AS/+6Q8IzF34Dmk6nzggePpGW1V5yCE/LjyUosQc2UlxM5YMkK
+	yvDBV5mukJ1AidMX9MmZprpZeB1O5MmJ1vLeppkMe8ABXJ8KLHQTM9IFhkVHj7YUWrHvvhRyok5
+	N4UzAQxBTyiZhxLh64v4dRg6/0n9PsvC+YKDCQS71+cDGwN104niD44HSFWZEc0/OrD6ZLR0grX
+	Eayi9lNfUNr7deDWgqwoWsVnK5kL6qsW88VMrwD9u4hn87B7VBkKblmX+lEvIdusNMQPWAZfguV
+	fwvOW9TIaVODE+1P8qKTcxvcttHmc6enDE4CwxGB/TVSlE207usTTiULLeERsqvIQtURQgLaMD2
+	xCpLkoSg31FV8ZqbJOS99/0Nfh9Q1PSsK+kjkEHWo+QgWXCkU7P+TENh5DDsNVgYSJEsLu5nHEh
+	1oT0owZWVePI5B
+X-Google-Smtp-Source: AGHT+IFnv2kR+7AyxozjbIcjjKi77N+kW4qDPXl6xjDKudbBmTU0vSNFCi9nDzLNKrbJlFvId55g3g==
+X-Received: by 2002:a17:907:7b88:b0:b70:a9fd:1170 with SMTP id a640c23a62f3a-b72656112a3mr832404066b.65.1762441434963;
+        Thu, 06 Nov 2025 07:03:54 -0800 (PST)
 Received: from localhost ([87.213.113.147])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b728937faedsm230489666b.27.2025.11.06.06.56.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7289377c0dsm238249566b.20.2025.11.06.07.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Nov 2025 06:56:46 -0800 (PST)
-Date: Thu, 6 Nov 2025 17:56:45 +0300
+        Thu, 06 Nov 2025 07:03:54 -0800 (PST)
+Date: Thu, 6 Nov 2025 18:03:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Anup Patel <apatel@ventanamicro.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mayuresh Chitale <mchitale@ventanamicro.com>
-Subject: [avpatel:riscv_trace_support_v2 48/58]
- drivers/hwtracing/rvtrace/rvtrace-platform.c:83 rvtrace_of_parse_outconns()
- error: we previously assumed 'pdata->outconns' could be null (see line 29)
-Message-ID: <76e46318-d6ad-41a2-8c43-aa6fb6a3e1a3@suswa.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	robh@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, bjorn.andersson@oss.qualcomm.com,
+	bod@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
+	saravanak@google.com, prakash.gupta@oss.qualcomm.com,
+	vikash.garodia@oss.qualcomm.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
+Subject: Re: [PATCH 5/6] of: add infra to parse iommu-map per IOMMU cell count
+Message-ID: <3fc0cd48-91d3-401b-9102-ebc77de731c4@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,106 +81,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <74d4ddf90c0fb485fda1feec5116dc38e5fd23cf.1762235099.git.charan.kalla@oss.qualcomm.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v2
-head:   41e2962102e2318916f87f0ed7eb297a6b3224d3
-commit: 23eb544f3ac1c85fd63c43865b4429cbcfd35e63 [48/58] rvtrace: Initial implementation of driver framework
-config: riscv-randconfig-r071-20251103 (https://download.01.org/0day-ci/archive/20251104/202511041509.Nqw6F4Fn-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
+Hi Charan,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charan-Teja-Kalla/of-create-a-wrapper-for-of_map_id/20251104-170223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/74d4ddf90c0fb485fda1feec5116dc38e5fd23cf.1762235099.git.charan.kalla%40oss.qualcomm.com
+patch subject: [PATCH 5/6] of: add infra to parse iommu-map per IOMMU cell count
+config: hexagon-randconfig-r072-20251105 (https://download.01.org/0day-ci/archive/20251105/202511051256.fSouTFuY-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511041509.Nqw6F4Fn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511051256.fSouTFuY-lkp@intel.com/
 
 smatch warnings:
-drivers/hwtracing/rvtrace/rvtrace-platform.c:83 rvtrace_of_parse_outconns() error: we previously assumed 'pdata->outconns' could be null (see line 29)
+drivers/of/base.c:2130 of_iommu_map_id_cell_count() error: uninitialized symbol 'legacy_iommu_cells'.
 
-vim +83 drivers/hwtracing/rvtrace/rvtrace-platform.c
+vim +/legacy_iommu_cells +2130 drivers/of/base.c
 
-23eb544f3ac1c8 Anup Patel 2025-07-10  15  static int rvtrace_of_parse_outconns(struct rvtrace_platform_data *pdata)
-23eb544f3ac1c8 Anup Patel 2025-07-10  16  {
-23eb544f3ac1c8 Anup Patel 2025-07-10  17  	struct device_node *parent, *ep_node, *rep_node, *rdev_node;
-23eb544f3ac1c8 Anup Patel 2025-07-10  18  	struct rvtrace_connection *conn;
-23eb544f3ac1c8 Anup Patel 2025-07-10  19  	struct of_endpoint ep, rep;
-23eb544f3ac1c8 Anup Patel 2025-07-10  20  	int ret = 0, i = 0;
-23eb544f3ac1c8 Anup Patel 2025-07-10  21  
-23eb544f3ac1c8 Anup Patel 2025-07-10  22  	parent = of_get_child_by_name(dev_of_node(pdata->dev), "out-ports");
-23eb544f3ac1c8 Anup Patel 2025-07-10  23  	if (!parent)
-23eb544f3ac1c8 Anup Patel 2025-07-10  24  		return 0;
-23eb544f3ac1c8 Anup Patel 2025-07-10  25  
-23eb544f3ac1c8 Anup Patel 2025-07-10  26  	pdata->nr_outconns = of_graph_get_endpoint_count(parent);
-23eb544f3ac1c8 Anup Patel 2025-07-10  27  	pdata->outconns = devm_kcalloc(pdata->dev, pdata->nr_outconns,
-23eb544f3ac1c8 Anup Patel 2025-07-10  28  				       sizeof(*pdata->outconns), GFP_KERNEL);
-23eb544f3ac1c8 Anup Patel 2025-07-10 @29  	if (!pdata->outconns) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  30  		ret = -ENOMEM;
-23eb544f3ac1c8 Anup Patel 2025-07-10  31  		goto done;
+5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2123  static int of_iommu_map_id_cell_count(const __be32 *map, int map_len, u32 cells)
+c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2124  {
+5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2125  	u32 legacy_iommu_cells;
+5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2126  
+c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2127  	if (map_len % 4 != 0)
+5288ad2aeeeb419 Charan Teja Kalla 2025-11-04  2128  		legacy_iommu_cells = of_iommu_map_id_legacy_cell_count(map, map_len);
 
-->outcons is NULL.  ret is -ENOMEME
+legacy_iommu_cells uninitialize on else path
 
-23eb544f3ac1c8 Anup Patel 2025-07-10  32  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  33  
-23eb544f3ac1c8 Anup Patel 2025-07-10  34  	for_each_endpoint_of_node(parent, ep_node) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  35  		conn = devm_kzalloc(pdata->dev, sizeof(*conn), GFP_KERNEL);
-23eb544f3ac1c8 Anup Patel 2025-07-10  36  		if (!conn) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  37  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  38  			ret = -ENOMEM;
-23eb544f3ac1c8 Anup Patel 2025-07-10  39  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  40  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  41  
-23eb544f3ac1c8 Anup Patel 2025-07-10  42  		ret = of_graph_parse_endpoint(ep_node, &ep);
-23eb544f3ac1c8 Anup Patel 2025-07-10  43  		if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  44  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  45  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  46  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  47  
-23eb544f3ac1c8 Anup Patel 2025-07-10  48  		rep_node = of_graph_get_remote_endpoint(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  49  		if (!rep_node) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  50  			ret = -ENODEV;
-23eb544f3ac1c8 Anup Patel 2025-07-10  51  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  52  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  53  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  54  		rdev_node = of_graph_get_port_parent(rep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  55  
-23eb544f3ac1c8 Anup Patel 2025-07-10  56  		ret = of_graph_parse_endpoint(rep_node, &rep);
-23eb544f3ac1c8 Anup Patel 2025-07-10  57  		if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  58  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  59  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  60  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  61  
-23eb544f3ac1c8 Anup Patel 2025-07-10  62  		conn->src_port = ep.port;
-23eb544f3ac1c8 Anup Patel 2025-07-10  63  		conn->src_fwnode = dev_fwnode(pdata->dev);
-23eb544f3ac1c8 Anup Patel 2025-07-10  64  		/* The 'src_comp' is set by rvtrace_register_component() */
-23eb544f3ac1c8 Anup Patel 2025-07-10  65  		conn->src_comp = NULL;
-23eb544f3ac1c8 Anup Patel 2025-07-10  66  		conn->dest_port = rep.port;
-23eb544f3ac1c8 Anup Patel 2025-07-10  67  		conn->dest_fwnode = of_fwnode_handle(rdev_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  68  		fwnode_handle_get(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  69  		conn->dest_comp = rvtrace_find_by_fwnode(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  70  		if (!conn->dest_comp) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  71  			ret = -EPROBE_DEFER;
-23eb544f3ac1c8 Anup Patel 2025-07-10  72  			of_node_put(ep_node);
-23eb544f3ac1c8 Anup Patel 2025-07-10  73  			break;
-23eb544f3ac1c8 Anup Patel 2025-07-10  74  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  75  
-23eb544f3ac1c8 Anup Patel 2025-07-10  76  		pdata->outconns[i] = conn;
-23eb544f3ac1c8 Anup Patel 2025-07-10  77  		i++;
-23eb544f3ac1c8 Anup Patel 2025-07-10  78  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  79  
-23eb544f3ac1c8 Anup Patel 2025-07-10  80  done:
-23eb544f3ac1c8 Anup Patel 2025-07-10  81  	if (ret) {
-23eb544f3ac1c8 Anup Patel 2025-07-10  82  		for (i = 0; i < pdata->nr_outconns; i++) {
-23eb544f3ac1c8 Anup Patel 2025-07-10 @83  			conn = pdata->outconns[i];
-                                                                       ^^^^^^^^^^^^^^^^^^
-NULL dereference
-
-23eb544f3ac1c8 Anup Patel 2025-07-10  84  			if (conn && conn->dest_fwnode)
-23eb544f3ac1c8 Anup Patel 2025-07-10  85  				fwnode_handle_put(conn->dest_fwnode);
-23eb544f3ac1c8 Anup Patel 2025-07-10  86  		}
-23eb544f3ac1c8 Anup Patel 2025-07-10  87  	}
-23eb544f3ac1c8 Anup Patel 2025-07-10  88  	of_node_put(parent);
-23eb544f3ac1c8 Anup Patel 2025-07-10  89  	return ret;
-23eb544f3ac1c8 Anup Patel 2025-07-10  90  }
+c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2129  
+5288ad2aeeeb419 Charan Teja Kalla 2025-11-04 @2130  	return legacy_iommu_cells ? : of_iommu_map_id_actual_cell_count(map, map_len, cells);
+c74d6f4acf99ef3 Charan Teja Kalla 2025-11-04  2131  }
 
 -- 
 0-DAY CI Kernel Test Service
