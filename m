@@ -1,257 +1,121 @@
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B10013D521;
-	Thu,  6 Nov 2025 00:53:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB4D222578;
+	Thu,  6 Nov 2025 01:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762390420; cv=none; b=PWoVGYjZXn2ekXzwAwAxWfB2Ks8qEPtcM/xwa//8zdS37/QMeSErXoCh7174LPtHaTLJ3L1Hu7wDtn/74tDrGXS9WdGWgNeqtZu1j8uwhsBzYLammlpNJB5fifBGONosIEpIBYkNRyRSCoqFa9YwtxQHogIId2KZj+tJbvZ38Kg=
+	t=1762393388; cv=none; b=XGgOGNNoCi6vUK9NfOgkSUPlZ0AR2n5mpKaIsnOWFvXJz3jvp6rIfWG+mrJPWRvnwzPzlsgN1to5DhKTd0EU3BYnuiDnX0C2scXX2lLC4XXRk5Bdfa+98Z3JKUrpXf8VIa7ISPYhpc7OTo2S2f91+CAIEKmf9PeHT/CJPBPb7KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762390420; c=relaxed/simple;
-	bh=TzrOJWRTbh7msYotwzy/SyrEreFMAa3VOyZxfcnWujU=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=Ne895zkY4R4N0Iw3fcIxdT46NhSNkgzre4MvdjPIs8FaIA3luIvl1vOtFA5Y+t1tlPC4uUfNsIU6Vq+8Zt0ImUXfdbIRIvhi580o6XS7zB46Gf1nI1x6LaNk5awxH+1wZXHrtK/IcSeQ0ADQKWcOPbrg1BXlBKE4wLaxj/jk04I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=NAr8JS/3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LSaRr0kq; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1762393388; c=relaxed/simple;
+	bh=2BVMpR3FHyZ+X/hxS26Deu2WAC/NgwDf1oq+a7rG/6Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cel/R6BFh9/oceXJcUCsn1ooDbovZ+v9r3wcUQigGjqybDRZ0crqoncFXHKB2YA1fM4PW4nhGP9AHAu391l0SXtScnPiv6Bh7pmpP04sw3pzOmHKXbvRztOHyGtP+/hf9To5tZ9EHHMGhSU+OTevGt0sl4OyYfRfZvykvm1RTlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYTFnmqY; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="NAr8JS/3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LSaRr0kq"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.stl.internal (Postfix) with ESMTP id 9D30013005BF;
-	Wed,  5 Nov 2025 19:53:36 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 05 Nov 2025 19:53:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
-	1762390416; x=1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt
-	/8EZGKTY=; b=NAr8JS/3M+2IUJ3D+p7usRL4At+2mUcGbp8GRf7LO0VCv1h7vbx
-	wStmrsUlM4Lql5V3ApSpllB6JzKByOEe0opp3oedLRIY0UmwNZwJCqTKUf+RsO/J
-	AHWdkTXHQZzx2AsexBmTRPLLKHb5SQ8U3EZ2ng7Lr5NkJ5UqJCgtD2FCp8BMlmJN
-	xXE9E74VKK8ZOyq5h/o5LAWwQxmwn/6/iEYETgXC+6okz/kJvy9YXhB7KVUVe28V
-	WGpwlVBU+g0hYnUH/o8Ov/sknMWtud1cpKRWaEf25TGVPOYkxHoPOAP+cxJRW4ph
-	B8AC/oX4F8Pb8niP3FF4ZXL+dgbcgm9+7Fw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762390416; x=
-	1762397616; bh=KaR5D0R2IqTiUpqIio9Ha+v4jRl+XG/S1Kt/8EZGKTY=; b=L
-	SaRr0kqpJF2YPTK/LzJGUT2N52Bkjt4Gcq2NKN+l+uyPbuSwlSJ3VbwJRzr52/hv
-	WSYnFef3jPogb2K8CiM8sfdqVE26U3y0mER6E5HiyKRveI3LA68FSVqzg6IgiR/s
-	7cm4furRaj1J4fmn/IX0AXNAyfnd99HUuaH1AYQaVPblrsLpe3DYA2oJ6jJouhA6
-	FJVTmQ2+a5FP8KUIpnhO0NFq7NNxTjWc2zB3ICYTJIlp3/GuO5qSu/mOzN4o9NV3
-	odU2VSlRA0AJNlkabcX5MAAHk3UXwZ6d2Pi4Nd6Iuz7/8KTD8viLBbR6a3jwtfDy
-	enm3pTOrCBL4mfF/MRIdA==
-X-ME-Sender: <xms:jfELadkNHXTjssrASPiJD75WnXJCpgF2V6_hoEN2kIlds9qZGIAqtw>
-    <xme:jfELaU8muodkf1a0aKqMSbCdR7LDzmwIIAYcUQIJVTR4dKWGb86H2_TeSAo9mIIUG
-    cReJ-f-V8oJBRWPEEMhho_GGJ09FR2T_pNpIAfuSicFAd5OPw>
-X-ME-Received: <xmr:jfELac5l1pgGGuA_2dZTl2s6yp2UEtcwwA-RfIYg3WSlOxJXd53ePPw9olVmeLH7o075HatuDFzN2LbAwck-02an7ayuoJMyUcDDva39ESr1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddukeehfeelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurheptgfgggfhvfevufgjfhffkfhrsehtqhertddttdejnecuhfhrohhmpefpvghilheu
-    rhhofihnuceonhgvihhlsgesohifnhhmrghilhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epheehjedthfegiedufeefgeevkeffhfduveegteektefhhefggeduieehieekgffgnecu
-    ffhomhgrihhnpehgihhtqdhstghmrdgtohhmpdhgihhthhhusgdrtghomhdpkhgvrhhnvg
-    hlrdhorhhgpddtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehnvghilhgssehofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtth
-    hopeefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvhhirhhoseiivghnihhv
-    rdhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghouggvsehthihhihgtkhhs
-    rdgtohhmpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtth
-    hopehjrggtkhesshhushgvrdgtiidprhgtphhtthhopegushhtvghrsggrsehsuhhsvgdr
-    tghomhdprhgtphhtthhopehomhhoshhnrggtvgesrhgvughhrghtrdgtohhmpdhrtghpth
-    htohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhopeguhhhofigv
-    lhhlshesrhgvughhrghtrdgtohhm
-X-ME-Proxy: <xmx:jfELacrRi4SgsbizRE6AUTaXXftMlnCM-POU0yBQzCAR4ZtCP6A0UQ>
-    <xmx:jfELaQDGu_Zo9JNMX7hV9V_a53rIl7FDsAen1DvAXsbwc3MpaMp0QA>
-    <xmx:jfELadNCuR4RjpuVTK8umiuv_uM4nn8kRMGDGsSNVvhJ5OfcuiGbiw>
-    <xmx:jfELaXmIOb0G1hyib2CfAFFBkesRVPIgwESw-xdlSFXE0L17LasaAg>
-    <xmx:kPELaZ_1AUytM_IrMFErhME7e8Cb_3Om39m8SYINOJSdpjPX_6Yk5pBG>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Nov 2025 19:53:25 -0500 (EST)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYTFnmqY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762393387; x=1793929387;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2BVMpR3FHyZ+X/hxS26Deu2WAC/NgwDf1oq+a7rG/6Y=;
+  b=hYTFnmqY38PBTmbinunFFYCXCUPmk7dj0vD2rJTx1P2EUPUNTfGXGcSs
+   u3Y7MxiX4lm3ndefFgT7KI1tZWzF47qJjMKD8wbtQegwPR04MGV7otRs/
+   hgB2U2efW9+UzJ7MihQcbwe0hHT6ILQAwN5sXmo2Vktx4lPsuKsp541L5
+   iyhc2Mtv9JzeIABB+RfsyIkElIY/20Uq7lG7i3CGY+WCoTCpKW99/LPhk
+   1qecIyvJd5N5YgvoDmaa3ks5GG40gp2LdygtZKtsdl1uBkRl3D7j3EvCH
+   dMkHh0oxQbA9AY9GC0VSci4latuPg9BzLvg5CHHZ5mtsf/U6diRYpDJRy
+   w==;
+X-CSE-ConnectionGUID: K9UdNbjjSP6YAwriZLIOHQ==
+X-CSE-MsgGUID: mTI9rO4zRfaZukzhaIwuMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="75874940"
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="75874940"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2025 17:43:04 -0800
+X-CSE-ConnectionGUID: CJWimRuKSDGhm1KNZzS0Ug==
+X-CSE-MsgGUID: iOJKe8OyRfez6UZyGvb2Pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,283,1754982000"; 
+   d="scan'208";a="191976026"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2025 17:43:00 -0800
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vGp1e-000TL2-02;
+	Thu, 06 Nov 2025 01:42:58 +0000
+Date: Thu, 6 Nov 2025 09:42:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>, Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	m.wieczorretman@pm.me, stable@vger.kernel.org,
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+	Baoquan He <bhe@redhat.com>, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] kasan: Unpoison pcpu chunks with base address tag
+Message-ID: <202511060927.eg2dcKpK-lkp@intel.com>
+References: <821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman@pm.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Christian Brauner" <brauner@kernel.org>, oe-kbuild@lists.linux.dev,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, "Jan Kara" <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, "Jeff Layton" <jlayton@kernel.org>,
- "Chris Mason" <chris.mason@fusionio.com>,
- "David Sterba" <dsterba@suse.com>, "David Howells" <dhowells@redhat.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Tyler Hicks" <code@tyhicks.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
- "Steve French" <smfrench@gmail.com>,
- "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- "Carlos Maiolino" <cem@kernel.org>,
- "John Johansen" <john.johansen@canonical.com>,
- "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- "Stephen Smalley" <stephen.smalley.work@gmail.com>,
- "Ondrej Mosnacek" <omosnace@redhat.com>,
- "Mateusz Guzik" <mjguzik@gmail.com>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
- "Stefan Berger" <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creating()
- and end_creating()
-In-reply-to:
- <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
-References: <20251029234353.1321957-5-neilb@ownmail.net>,
- <202511021406.Tv3dcpn5-lkp@intel.com>,
- <CAOQ4uxgaANjJXdhiQamgop8cicWXZ7Er2CWW3W7w-VgNMn9OVw@mail.gmail.com>
-Date: Thu, 06 Nov 2025 11:53:21 +1100
-Message-id: <176239040101.634289.7648391031383720166@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman@pm.me>
 
-On Sun, 02 Nov 2025, Amir Goldstein wrote:
-> On Sun, Nov 2, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> >
-> > Hi NeilBrown,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/debugfs-=
-rename-end_creating-to-debugfs_end_creating/20251030-075146
-> > base:   driver-core/driver-core-testing
-> > patch link:    https://lore.kernel.org/r/20251029234353.1321957-5-neilb%4=
-0ownmail.net
-> > patch subject: [PATCH v4 04/14] VFS/nfsd/cachefiles/ovl: add start_creati=
-ng() and end_creating()
-> > config: x86_64-randconfig-161-20251101 (https://download.01.org/0day-ci/a=
-rchive/20251102/202511021406.Tv3dcpn5-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202511021406.Tv3dcpn5-lkp@intel.com/
-> >
-> > smatch warnings:
-> > fs/overlayfs/dir.c:130 ovl_whiteout() error: uninitialized symbol 'whiteo=
-ut'.
-> > fs/overlayfs/dir.c:130 ovl_whiteout() warn: passing zero to 'PTR_ERR'
-> >
-> > vim +/whiteout +130 fs/overlayfs/dir.c
-> >
-> > c21c839b8448dd Chengguang Xu     2020-04-24   97  static struct dentry *o=
-vl_whiteout(struct ovl_fs *ofs)
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   98  {
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24   99        int err;
-> > 807b78b0fffc23 NeilBrown         2025-10-30  100        struct dentry *wh=
-iteout, *link;
-> > c21c839b8448dd Chengguang Xu     2020-04-24  101        struct dentry *wo=
-rkdir =3D ofs->workdir;
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  102        struct inode *wdi=
-r =3D workdir->d_inode;
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  103
-> > 8afa0a73671389 NeilBrown         2025-07-16  104        guard(mutex)(&ofs=
-->whiteout_lock);
-> > 8afa0a73671389 NeilBrown         2025-07-16  105
-> > c21c839b8448dd Chengguang Xu     2020-04-24  106        if (!ofs->whiteou=
-t) {
-> > 807b78b0fffc23 NeilBrown         2025-10-30  107                whiteout =
-=3D ovl_start_creating_temp(ofs, workdir);
-> > 8afa0a73671389 NeilBrown         2025-07-16  108                if (IS_ER=
-R(whiteout))
-> > 8afa0a73671389 NeilBrown         2025-07-16  109                        r=
-eturn whiteout;
-> >
-> > white out is not an error pointer.
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  110                err =3D o=
-vl_do_whiteout(ofs, wdir, whiteout);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  111                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  112                        o=
-fs->whiteout =3D dget(whiteout);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  113                end_creat=
-ing(whiteout, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  114                if (err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  115                        r=
-eturn ERR_PTR(err);
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  116        }
-> >
-> > whiteout not set on else path
-> >
-> > e9be9d5e76e348 Miklos Szeredi    2014-10-24  117
-> > e4599d4b1aeff0 Amir Goldstein    2023-06-17  118        if (!ofs->no_shar=
-ed_whiteout) {
-> > 807b78b0fffc23 NeilBrown         2025-10-30  119                link =3D =
-ovl_start_creating_temp(ofs, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  120                if (IS_ER=
-R(link))
-> > 807b78b0fffc23 NeilBrown         2025-10-30  121                        r=
-eturn link;
-> > 807b78b0fffc23 NeilBrown         2025-10-30  122                err =3D o=
-vl_do_link(ofs, ofs->whiteout, wdir, link);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  123                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  124                        w=
-hiteout =3D dget(link);
-> >
-> > It's set here, but then returned on line 127.
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  125                end_creat=
-ing(link, workdir);
-> > 807b78b0fffc23 NeilBrown         2025-10-30  126                if (!err)
-> > 807b78b0fffc23 NeilBrown         2025-10-30  127                        r=
-eturn whiteout;;
-> >
-> > nit: double ;;
-> >
-> > 807b78b0fffc23 NeilBrown         2025-10-30  128
-> > 807b78b0fffc23 NeilBrown         2025-10-30  129                if (err !=
-=3D -EMLINK) {
-> > 672820a070ea5e Antonio Quartulli 2025-07-21 @130                        p=
-r_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=3D%u=
-, err=3D%lu)\n",
-> > 672820a070ea5e Antonio Quartulli 2025-07-21  131                         =
-       ofs->whiteout->d_inode->i_nlink,
-> > 672820a070ea5e Antonio Quartulli 2025-07-21  132                         =
-       PTR_ERR(whiteout));
-> >
-> > whiteout is either valid or uninitialized.  For some reason
-> > Smatch thinks whiteout can be NULL, I suspect because of
-> > the NULL check in dget().
-> >
->=20
-> That looks like "rebase race" with the fix commit 672820a070ea5e
-> ("ovl: properly print correct variable").
->=20
-> The fix is no longer correct, but also no longer needed because of
-> early return on lookup error in line 121.
->=20
-> This implies that there is also a change of behavior in this patch
-> causing that an error in lookup will not have a warning.
->=20
-> I have no problem with this change, because the warning text
-> indicated it was intended to refer to errors in linking.
->=20
-> Long story short, patch needs to go back to using err here for
-> printing the link error.
+Hi Maciej,
 
-Thanks.  I've revised that patch to use 'err' and '%d'.
+kernel test robot noticed the following build warnings:
 
-NeilBrown
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.18-rc4 next-20251105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Wieczor-Retman/kasan-Unpoison-pcpu-chunks-with-base-address-tag/20251104-225204
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/821677dd824d003cc5b7a77891db4723e23518ea.1762267022.git.m.wieczorretman%40pm.me
+patch subject: [PATCH v1 1/2] kasan: Unpoison pcpu chunks with base address tag
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251106/202511060927.eg2dcKpK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511060927.eg2dcKpK-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511060927.eg2dcKpK-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/kasan/common.c:584:6: warning: no previous prototype for function '__kasan_unpoison_vmap_areas' [-Wmissing-prototypes]
+     584 | void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+         |      ^
+   mm/kasan/common.c:584:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     584 | void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/__kasan_unpoison_vmap_areas +584 mm/kasan/common.c
+
+   583	
+ > 584	void __kasan_unpoison_vmap_areas(struct vm_struct **vms, int nr_vms)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
