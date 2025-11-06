@@ -1,121 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D6632C327;
-	Thu,  6 Nov 2025 17:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8D22D7DD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 17:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762449137; cv=none; b=gOi59zEELMWTYk0Utnby/3WqXoO3yhIbqY3w4ZTX+mIMILLBrwPOtOai4GFM/xDY318ALZVvAgRJpzq9ZafYJVyOKFNtnvEr6H4b35Qp/mL9359mJDiwf4qmchwga/5EY+6SKboZkuoRzX/P2QuK2byDJpnBShxqZSoYbeClF58=
+	t=1762449582; cv=none; b=QIe76tuLyQh1yYdOn3jmksFAtt4OPSGn6QY84xZHw/rIKXhjNtFWCSVaDr4RfH1qd8T4gfbQxr6ADtg9WXPBsvF981vNUVJxFyRqFDsSKL7kEKbwlzRK+bbC+09wLs/khGIKlQ2ubKPQSIDHPduFri/vMGdurBZpc/hlR6Nd94g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762449137; c=relaxed/simple;
-	bh=4qrkGpsp3n4OXdocdoXmdZtejgU0nYsAv6I2+O0Xyo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FiR7MQ0+u/1kkpA8udJbgxhoafc50LQnlOSRGcc6cmNNGJRWe6cXzcsIKs7lOXc2uVuScRkUOeuqaz/1MXWyzp1Qh7tRi9KODSm8RsUIyp3h0zoeUMMzrAqZiWHKLzA4zVKtQuRVt83rdKI6XI66XqYGR29GMHCPwsCDkBgCY5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FK++MOsw; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FK++MOsw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762449136; x=1793985136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4qrkGpsp3n4OXdocdoXmdZtejgU0nYsAv6I2+O0Xyo4=;
-  b=FK++MOsw52bjxwPj7gW6J7VFv19aEdkG9DrZjhAj85tfQBcBIAyzsvmW
-   HoilC+/uX02owaJ4/E4nCgcUru3msbHWszQL1c3/QUlN5GZJ1kevuPMcC
-   Yq507RYkq0wtT6IcJD0yJlE0Fgt0yn20uLvDybv6TPto117wWc4EqJcAv
-   LhAwg2ZGsx5UUlTcLruaZN3nxOQyZQIHO4Df9wJIIel9ZnYkgySXQYhht
-   AMcbBwLw91znGZ7MuBJw1yDEesyeAuVy7qXonpeMcpYREMoNA329qsDNz
-   5Wl83+5+v0m3Nj1XfiVYGlMfcoR+Hq5OmYKjmIlTNcZLWvFczDg5YWFGo
-   g==;
-X-CSE-ConnectionGUID: /oFyy/UnRvKRhzCKaBwpDg==
-X-CSE-MsgGUID: 9dzFm08fT1i2T99Xz7whBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="82223047"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="82223047"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 09:12:15 -0800
-X-CSE-ConnectionGUID: GIvfeu/KRVybxpUq8O1Gaw==
-X-CSE-MsgGUID: WXLYJNS0RSGygrxvMDGi/g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="187651813"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Nov 2025 09:12:10 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vH3Wq-000UCK-23;
-	Thu, 06 Nov 2025 17:12:08 +0000
-Date: Fri, 7 Nov 2025 01:11:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, tzungbi@kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
-Message-ID: <202511070033.7X18bWdJ-lkp@intel.com>
-References: <20251106152712.11850-2-tzungbi@kernel.org>
+	s=arc-20240116; t=1762449582; c=relaxed/simple;
+	bh=d3/7MWMIPt2qklFTqM8v59G1zedbNsNB/RD8Zl6VbQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kFDA8lcbfmn/1W9TpdT6cMG5kFY+tYtErtMbKliXJ/pMGC3hzdLRWGv2fZq1BBb++fRvsSJkoGtCynfkwM0roF5cdEYYDE2698giJYS2B3ud1F4aqU/gUQi2OtF2UZpsljKu5enTOc4lrOZHwpE4Rx1Rko4EHVny0Q8cph5CzQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id CF9D91DFA6C;
+	Thu,  6 Nov 2025 17:19:38 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id A4EF22000F;
+	Thu,  6 Nov 2025 17:19:36 +0000 (UTC)
+Date: Thu, 6 Nov 2025 12:19:35 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
+Message-ID: <20251106121935.3efdb61c@gandalf.local.home>
+In-Reply-To: <202511062223.ocoUvCBI-lkp@intel.com>
+References: <20251105161935.545400234@kernel.org>
+	<202511062223.ocoUvCBI-lkp@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251106152712.11850-2-tzungbi@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: fk9grwiihqoq53jhdokau8byn1wkbaed
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: A4EF22000F
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18uWTdcXlyyoR3VMGpvOa0DxYvE6ud2xdM=
+X-HE-Tag: 1762449576-625784
+X-HE-Meta: U2FsdGVkX19ic/j+PnEM6rRsH3Typqk/8ymi/MDdxNp8zsI3g+yMWgsZVaBQhf/K8fSYw2rd+yY0fFCTOxTViutoUoQtmMoFHS7xQU4XtqKWPFcx2W/HTggJMu4c6XaVdg3YbK/6OskY/q/vONW0/S6wJKPHMatZH4c9kj0fjQIutME7kacdU+xjve0cNnl4RLuSurolzS0Wq63NEyQe1Aunq9N2OWWFaIxqf5IkEzpkXOlsNS7u6CLxxVWILPwPmkep0PwEq4Xk4vmXV30cJ0rwrLpkDSXhq2n0ooWXOIDLt5y9cc2SpwUIBNgPM6o4JeQsLrz7RkmVe02ZJy52EsXr7rXvkwhI
 
-Hi Tzung-Bi,
+On Thu, 6 Nov 2025 22:38:04 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> All error/warnings (new ones prefixed by >>):
+> 
+>    kernel/trace/trace.c: In function 'run_tracer_selftest':
+> >> kernel/trace/trace.c:2174:30: error: 'type' redeclared as different kind of symbol  
+>     2174 |         struct trace_tracer *type = tracers->trace;
+>          |                              ^~~~
+>    kernel/trace/trace.c:2171:47: note: previous definition of '
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on v6.18-rc4 next-20251106]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus chrome-platform/for-next chrome-platform/for-firmware-next linus/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Yeah, I caught this last night during my more thorough tests. Silly me
+turned off selftests to make a bisect go faster and never turned it back
+on. :-p
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/revocable-Add-fops-replacement/20251106-233108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251106152712.11850-2-tzungbi%40kernel.org
-patch subject: [PATCH v6 1/3] revocable: Add fops replacement
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251107/202511070033.7X18bWdJ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070033.7X18bWdJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511070033.7X18bWdJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from fs/fs_revocable.c:9:
->> include/linux/fs_revocable.h:10:10: fatal error: linux/revocable.h: No such file or directory
-      10 | #include <linux/revocable.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +10 include/linux/fs_revocable.h
-
-     8	
-     9	#include <linux/fs.h>
-  > 10	#include <linux/revocable.h>
-    11	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
