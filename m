@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006C530C636
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 14:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B3034676E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Nov 2025 14:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762440569; cv=none; b=kverxYgggFTQemV8yrv3x1CN3EE9h0nGW7+YgfO8C4xXwEq8cLu9dhl2Unx0am+o6FvV+nW8GBTdtBFAu0CiwfvTUHfxZBMnVjnyCXRC9ZHHGlBI9B6h0OkVQR8kzF+2bTXYLyGQlKtL34Or5GH3wGZSEc9conIUON8ij9W4qw8=
+	t=1762440869; cv=none; b=ORxotrhDGqvlG2pH8ej6OvgGjslBbp5iFM4O2Zy7YnGcLS12q+Ht/SsV5+XZwB39L2Gks7+v1AIiw5br5g/is/DeLgUo1SlYjKrT0UHzYIfIzW8lZvxThuO+mxwvkq5/zAat8ffc3uwQkmSf4R+Jo8hsawcW1DUc3aUy9PxjqLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762440569; c=relaxed/simple;
-	bh=Wx6jk2RNotFRB0Zml6/FPzdXbi1XBn0dlei8Uwtop5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QITVR6qqwAetkyBa5Wi8bPXeg7tWdm5nw0yCvnksy07/hoHQSmZ6lNEx9T8OW6Z7l/nC6GxR1YxmFN15PGmfAttfFIPyUOi25K2Nnu5+/JYuH1NQ6cCuOwEdIAYB/VwV9s79RFLMlN5vLiVoL0PFXnZA30Dltvd3nc0iC8LYWzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AndMEcw5; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762440869; c=relaxed/simple;
+	bh=o+/PQFG3orNQPH2Wmqzbip5DQ+AWN7J8e8scPBdzoHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QIe170hvyph2Fe7dRK9OLHP0RahgrfDxtZkIyxT44Ywvos/n4fwxd8t7QXYImRnipoJsXhuIEsNQ4Ig7U50MArcrksdXilvCubLn0lMqEmliz9Pgl9EwPG9PUDmbBwlCiDkF60GrM67guZAND7tvX/3/dL3gbEb1YFn9F8oQu8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cx+XLsuX; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AndMEcw5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762440567; x=1793976567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wx6jk2RNotFRB0Zml6/FPzdXbi1XBn0dlei8Uwtop5M=;
-  b=AndMEcw5oFuPmDMDBBAprZCnB85dhOcYN0Bsd8FoKYtP5QfDviNkzdUV
-   xoKAi5PY3WuwhTpomATinSGd93PYIRk//iaTmGOs417uRhiEZ+5FNTZ6x
-   0XvlsOZXRsBnh52iMTGwWF1eAuFdH/A1eQugyhZfJyehAg9XosXIKq6cD
-   0Vwvpg3SCWunPlZmns3ixrx4DqSBTrAdnhHcnyrEX+9C3lbGkFTBJrnXH
-   FTbAMkn4FZLLFtu/NY6+SFADrcFTqk8aAaMbVs3SYksOMRSF/3pYSlmG0
-   s/C+w9fnBO5SK9EZPc4cWJey2Pb3sxcBV7z1jDOfGWBP9otuwfQgZMQsA
-   A==;
-X-CSE-ConnectionGUID: bKZZyvgASCK0vjSj8BwnzA==
-X-CSE-MsgGUID: TLBNqAzWSBmFNcqLxWVeSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11604"; a="74868411"
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="74868411"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 06:49:26 -0800
-X-CSE-ConnectionGUID: +rPuxGKFSh2HJUN+gULeDw==
-X-CSE-MsgGUID: oz2gX6w4QRa2Y6J85UBFOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,284,1754982000"; 
-   d="scan'208";a="211232826"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2025 06:49:25 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vH1Ih-000U1o-0i;
-	Thu, 06 Nov 2025 14:49:23 +0000
-Date: Thu, 6 Nov 2025 22:48:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] blk-integrity: support arbitrary buffer alignment
-Message-ID: <202511062217.2bN31Olr-lkp@intel.com>
-References: <20251104224045.3396384-1-kbusch@meta.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cx+XLsuX"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-63bdfd73e6eso3703257a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 06:54:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1762440865; x=1763045665; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MC4EJk+crq3INwyh+anBHhYJkKhseB8yhr9wZcX7VEo=;
+        b=cx+XLsuXbkW1/GYZrzx+3Rvr+RmUJoSbfk/O8TmrqWvoospYjjkLpGe7jtygLQBhEP
+         Gnv7dJT/BwTSJ/9VP9uwpTQK6PMiRfYvFSwGDrsIFelI0/tTpJ+R0l6bcus23WF1sB9z
+         YgsN94JCMxhMqWHfiM6/SHLiZhaUVVOdG0TdvzRY6Gb3auxzDWmWCKqk0ZPdVPy7QhwO
+         rPc5G+ZxvI1JLruk36rRAt2sLRVm8t+KsirG1so66hqW+1N1Ja4wS/EcYWb8PyeGbTst
+         nSRAwVs4Dg4YWqozk02Xq0NeTNIlTj/dIjaPPb2vYg7++zeq/3fQfEPwPBpZJe+1qaT1
+         f4mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762440865; x=1763045665;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MC4EJk+crq3INwyh+anBHhYJkKhseB8yhr9wZcX7VEo=;
+        b=r/BR6IpzkF6Ai3KqerZlX0r2tqicIoSnb+deai/o3nEq7syWOe0JFNWrmr+eB8GuKz
+         ac1w4ik07rKeRRDvqsaLQSIjXD+WZFrB6IdjF7I+CL/+I9k98FIXIhybBZRAtYPk8UvZ
+         WXNOHJvJ7fylxqznbqdEN+KYP9mFQXtzi7m2D5FNjCgEn5nwRCxs0L2b64rJBOP9Vdqs
+         HsCfd+JXMuv74awzzgWw16JWK89EFJea7kR+Ft8F+gROgefzqZRcR1opIYHEMLeJlC+J
+         RL69SwGVzOI+Yrm62ACfGTVmls5YSg1lQ3jwDYDKla+I/0aksQCWpcFOP4kybeXHpQ+X
+         S1MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXyTti3gsWVkNm8m0GhbL4ZXEE2f+e3oYAjdDxbjy1i88UCFiuIczN9VNyaHZ3MZdnR09vjer3fawZwFsA8@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBy4geZzIuKlMsaOv2SOXPmSdyH9Mwk1KmfbNI+1iFiy+oNDAJ
+	U+mblDxgwnC4eZWOaV+FX6+DpdSFCPUiEM0YYPita32ApBAAM6EMuCS/3oa5l2UHsZQCFFDzPJe
+	lIZcB
+X-Gm-Gg: ASbGncuSWLY0O5dquJXQYukkUBeyV/hqPZj2sOBFpIY5h8RcDvVGXkBo7YjMkbBluVG
+	6kQyNXlVaiLMnIR/7Z0OPIBh2sAomRwawO99HHpSuj3HvACxmPkO+Hnq6lSmShjdxE6UDCVOncq
+	3iHVnKp2i6QtCnXh4Kbx3WksLI8jxjHoAshu9TlCnfpPG08yo/pzJufHltrp8JDIMoTQ0x+NV57
+	t+dCA88k1Y96TOClRF1qbTuIm5iBEt7ujIMi7QCoyTDvlhm4b2ThHVbbK1Vwz0K6OEif7xulzxe
+	PkgldxfSi0rjMxardGQg98zaMgSlxXuxIdumcRkEM1MVU0nTmY4Ad/B/Lv+oXUdHRFy3ktfVOTf
+	+szamDWvYikHgp1QFuizg0GXjHvaWPVj+FDqxk7WABXuNBGiKonZvymYNnPCAAslYi2OHce196X
+	ISGOKFTz33MpXb
+X-Google-Smtp-Source: AGHT+IGsGkbjm4cQhd58PPhX8sj6kHaV3UG6B6SZQr32M8vl46qcUsdwyT7k6jVd0sZpwEdnmU+gdA==
+X-Received: by 2002:a17:907:7f14:b0:b72:7a86:e497 with SMTP id a640c23a62f3a-b72892ac754mr401480466b.5.1762440865437;
+        Thu, 06 Nov 2025 06:54:25 -0800 (PST)
+Received: from localhost ([87.213.113.147])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72896c814esm227285166b.68.2025.11.06.06.54.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 06:54:25 -0800 (PST)
+Date: Thu, 6 Nov 2025 17:54:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Himanshu Chauhan <hchauhan@ventanamicro.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_support_v2 39/58]
+ drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we
+ previously assumed 'cb' could be null (see line 718)
+Message-ID: <ad9d6bc3-9b91-443d-8799-4709a961b5b5@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +76,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104224045.3396384-1-kbusch@meta.com>
 
-Hi Keith,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18-rc4]
-[cannot apply to axboe-block/for-next hch-configfs/for-next next-20251106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-integrity-support-arbitrary-buffer-alignment/20251105-064500
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251104224045.3396384-1-kbusch%40meta.com
-patch subject: [RFC PATCH] blk-integrity: support arbitrary buffer alignment
-config: sh-randconfig-001-20251106 (https://download.01.org/0day-ci/archive/20251106/202511062217.2bN31Olr-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251106/202511062217.2bN31Olr-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v2
+head:   41e2962102e2318916f87f0ed7eb297a6b3224d3
+commit: 7a78f3d24d5d385aad5e5540aab849569f2335cd [39/58] riscv: Add functions to register ghes having SSE notification
+config: riscv-randconfig-r071-20251103 (https://download.01.org/0day-ci/archive/20251104/202511041114.4M7JPo19-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511062217.2bN31Olr-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511041114.4M7JPo19-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/firmware/riscv/riscv_sbi_sse.c:717 sse_ghes_handler() error: we previously assumed 'cb' could be null (see line 718)
 
->> Warning: block/t10-pi.c:56 function parameter 'iter' not described in 'blk_integrity_crc_offset'
->> Warning: block/t10-pi.c:93 function parameter 'iter' not described in 'blk_integrity_copy_from_tuple'
->> Warning: block/t10-pi.c:93 function parameter 'tuple' not described in 'blk_integrity_copy_from_tuple'
->> Warning: block/t10-pi.c:118 function parameter 'iter' not described in 'blk_integrity_copy_to_tuple'
->> Warning: block/t10-pi.c:118 function parameter 'tuple' not described in 'blk_integrity_copy_to_tuple'
->> Warning: block/t10-pi.c:406 function parameter 'bi' not described in 'blk_pi_advance_offset'
->> Warning: block/t10-pi.c:406 function parameter 'bip' not described in 'blk_pi_advance_offset'
->> Warning: block/t10-pi.c:406 function parameter 'iter' not described in 'blk_pi_advance_offset'
+vim +/cb +717 drivers/firmware/riscv/riscv_sbi_sse.c
+
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  712  static int sse_ghes_handler(u32 event_num, void *arg, struct pt_regs *regs)
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  713  {
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  714  	struct sse_ghes_event_data *ev_data = arg;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  715  	struct sse_ghes_callback *cb = NULL;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  716  
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @717  	list_for_each_entry(cb, &ev_data->callback_list, head) {
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29 @718  		if (cb && cb->ghes && cb->callback) {
+                                                                    ^^
+This NULL check should be deleted.  List iterators cannot be NULL.
+
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  719  			cb->callback(ev_data->event_num, cb->ghes, regs);
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  720  		}
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  721  	}
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  722  
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  723  	return 0;
+7a78f3d24d5d38 Himanshu Chauhan 2025-10-29  724  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
