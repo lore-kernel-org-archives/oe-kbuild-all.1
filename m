@@ -1,193 +1,143 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B7930AAC7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 10:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4334C22FDE8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 12:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762511490; cv=none; b=A80iDalO1YJ3OKmZFqgAnfm56lG738Rf1cF6SyYPRQ1tXkZ3UBAG6KoLy4l9yPLEHaASKraVyloowoLm0L96bhLSzFSJzXWzsqGSldxR6SatgnD+ugEeN8GomxzfKRIbUTMMh+QOL1kmLKDUquM+J6chpUoOmjtVELUzdA8gJRM=
+	t=1762518926; cv=none; b=LRwc3s+3P6xyByEw8/yiRRX0fHulD/ojLCMbuDIT6rIb/Rhc/RVtUrM/4VXwm0UXb8WBZfN682IwGO4n06fPSY2Dq+wB9oXei1n/9KM0g5Rw3frkMpEerT3uGHhH6ZbhtcT4WAdYpsF23XAHYs6M6jbViwYG2hsJqhKijZO0DZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762511490; c=relaxed/simple;
-	bh=wFPClCyB81hUhTdScwcNpQMnKZd+4jjbswENFhMPyrI=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tyxHeQevsMfeb+v8SsI4BaRyyHlPJkquAFMjhuvD6EG6IGVItCDCfF6lwFyibLWspyx4+jD61TMxwjwGqqz3fgG9TiAOv5muzwA2972KJUVo/mSvudmmlywyhsBFWNRpVewLV7rIMaozkYFGayVAwIayWjmbvbhM0pi1bodChiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=markus.stockhausen@gmx.de header.b=o+r77pLJ; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1762518926; c=relaxed/simple;
+	bh=pLvyc6ULa1v695GetHGUdiROaStRRQQOXfCptfmJOIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iLA0sg2cu+h8NtBvSUKEip2jIRb3k1iF+RQfpridfI2n1Cx8hEQGVneVmMYhbr5ckwmOMUpFYB/v+Wk7EVPM+oq/H+pPXjdz9YnGxtdl4+SXXM3a411z4HI1eurb9FAfKZQ6ecKG7lddIehpxuISAGDuEhps25qsLQRNwhjrUZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMWjt4ko; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=markus.stockhausen@gmx.de header.b="o+r77pLJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1762511479; x=1763116279;
-	i=markus.stockhausen@gmx.de;
-	bh=W8F0VjW8lRYxO1OG7WuWmkYThR7Kpeatr10h6A93E6s=;
-	h=X-UI-Sender-Class:From:To:Cc:References:In-Reply-To:Subject:Date:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=o+r77pLJPlhJo9YR1YoKissc6m8wOLhGUpafsPQF1znqGJATa5susEQz6j6ln6hq
-	 /mhHkl4GDA5bVAyyRrVujkmrNM8Uu8KkoYShvHazORGAUPMlF/6Lbe5nOw5Xiqgpq
-	 k2UgjAQ7VmS1J6nmBUuJH1j0CFwOyT6n1u1VYMvJiwAiuaK9+urMemtBY8EIQzKn9
-	 Ro1jzsv3H0Dr0EaGG/IAMkuiKAq12AynYkgsNO7oFF6fVG+eCYkwrRNvPpV19J6A5
-	 LKXHQxBlsACyYEtlJxPt5soAN46mrEpWxKWkaehspnGFOB35cjlrPo5eREmhSTUdv
-	 des/ZYHzZfwanIL1zA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from colnote55 ([94.31.70.55]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MUXpK-1vhgHu3kRs-00NwKJ; Fri, 07
- Nov 2025 11:31:18 +0100
-From: <markus.stockhausen@gmx.de>
-To: "'Miquel Raynal'" <miquel.raynal@bootlin.com>
-Cc: <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>,
-	"'kernel test robot'" <lkp@intel.com>
-References: <202511071114.8WeW2GZK-lkp@intel.com>
-In-Reply-To: <202511071114.8WeW2GZK-lkp@intel.com>
-Subject: AW: drivers/mtd/nand/ecc-realtek.c:443:undefined reference to `dma_free_pages'
-Date: Fri, 7 Nov 2025 11:31:18 +0100
-Message-ID: <003801dc4fd1$a76efc20$f64cf460$@gmx.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMWjt4ko"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762518924; x=1794054924;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pLvyc6ULa1v695GetHGUdiROaStRRQQOXfCptfmJOIw=;
+  b=EMWjt4ko5WXt1cBoqGvGsz+SI+xx5SzCQn61FLEK5NgFIdcI4Fb5utB7
+   st97erggfWUeeX8qnpy2QHX7H0P0XMsUebXwMo/5GwyCB9Dj0A6K5fvdb
+   vhKwBAby8SFoaeqXGksrb7keal42yT1SyzjIzbi+G9QpJNzkIlO0x6GPM
+   8/ZK1AeKhD/cIE2CR7VZjrATm0ft4eXHsy0mE034bK2oqPCaZZfyvTzaD
+   RQm6/F2IlAzasZ7tJBqRlrg9WPIxeOBTnhrc4JW55qtzD/RAs2KEr5tPY
+   DhONuFkX1C/QlEF9XSL4AtTK4DuWirfBvPOVz9b4QW1RchyECFo819iKm
+   Q==;
+X-CSE-ConnectionGUID: Ztez7fkeRZuR1iHMhhHMhg==
+X-CSE-MsgGUID: uHP2O9dnRgaEslOwKxknjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64366232"
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="64366232"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 04:35:23 -0800
+X-CSE-ConnectionGUID: S3hEEPnoR2KOgXNSJ0TPYQ==
+X-CSE-MsgGUID: HUnYLZnkTjGvJmL3f7Es0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="218682271"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 07 Nov 2025 04:35:23 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vHLgW-000000003NG-1J9i;
+	Fri, 07 Nov 2025 12:35:20 +0000
+Date: Fri, 7 Nov 2025 13:35:01 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: [linux-next:master 6287/7207] kernel/rcu/refscale.c:187:1: error:
+ type defaults to 'int' in declaration of 'DEFINE_STATIC_SRCU_FAST'
+Message-ID: <202511071343.DLlwkGcN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQLieNS3s8KtD1Ya0AXI/nJ6xtI95LLasT/w
-Content-Language: de
-X-Provags-ID: V03:K1:OX/azINIbOB9/vDcgE7SpUu96QuARoodd0UwUkPihPYEgqfFCZ4
- gxdMwzf8Eyp3z1i2unJCxpuab7mSUWtEq7oLPQm/PQMR7nnjssDesJVQ5TVcuB2xj0y8Lbh
- O83U58HSNMt92w7SSbudj6Z6nlzlyl95UJN7TUlpSp+UelJgZ6hPtonpEnPnUYZq/e2dOGq
- PSg4dAUgYXj7jYhyQCiHw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zpc67cd0NJ0=;2Vx4Ox8rZReRyhHgZmhUtpmQGAj
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Von: kernel test robot <lkp@intel.com>=20
-> Gesendet: Freitag, 7. November 2025 04:39
-> An: Markus Stockhausen <markus.stockhausen@gmx.de>
-> Cc: oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kernel.org; Miquel
-Raynal <miquel.raynal@bootlin.com>
-> Betreff: drivers/mtd/nand/ecc-realtek.c:443:undefined reference to
-`dma_free_pages'
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it
-master
-> head:   4a0c9b3391999818e2c5b93719699b255be1f682
-> commit: 3148d0e5b1c5733d69ec51b70c8280e46488750a mtd: nand: realtek-ecc:
-Add Realtek external ECC engine support
-> date:   6 weeks ago
-> config: sh-randconfig-r121-20251107
-(https://download.01.org/0day-ci/archive/20251107/202511071114.8WeW2GZK-lk=
-p@
-intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build):
-(https://download.01.org/0day-ci/archive/20251107/202511071114.8WeW2GZK-lk=
-p@
-intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-version of the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:=20
-> | https://lore.kernel.org/oe-kbuild-all/202511071114.8WeW2GZK-lkp@intel.
-> | com/
->
-> All errors (new ones prefixed by >>):
->
->    sh4-linux-ld: drivers/mtd/nand/ecc-realtek.o: in function
-`rtl_ecc_remove':
-> >> drivers/mtd/nand/ecc-realtek.c:443:(.text+0x1f8): undefined reference
-to `dma_free_pages'
->    sh4-linux-ld: drivers/mtd/nand/ecc-realtek.o: in function
-`rtl_ecc_probe':
-> >> drivers/mtd/nand/ecc-realtek.c:434:(.text+0x2e8): undefined reference
-to `dma_alloc_pages'
->    sh4-linux-ld: drivers/media/i2c/tc358746.o: in function
-`tc358746_probe':
->    drivers/media/i2c/tc358746.c:1585:(.text+0x15cc): undefined reference
-to `devm_clk_hw_register'
->    sh4-linux-ld: drivers/media/i2c/tc358746.c:1610:(.text+0x163c):
-undefined reference to `devm_of_clk_add_hw_provider'
->    sh4-linux-ld: drivers/media/i2c/tc358746.c:1610:(.text+0x1640):
-undefined reference to `of_clk_hw_simple_get'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c0826a5d9aa4d52206dd89976858457a2a8a7ed
+commit: 04f65881ec76959989d5218440085bb0a5042b01 [6287/7207] refscale: Exercise DEFINE_STATIC_SRCU_FAST() and init_srcu_struct_fast()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251107/202511071343.DLlwkGcN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071343.DLlwkGcN-lkp@intel.com/reproduce)
 
-Hi Miquel,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071343.DLlwkGcN-lkp@intel.com/
 
-help. What needs to be done here?
+Note: the linux-next/master HEAD 9c0826a5d9aa4d52206dd89976858457a2a8a7ed builds fine.
+      It may have been fixed somewhere.
 
-Markus
+All errors (new ones prefixed by >>):
 
+   kernel/rcu/refscale.c:187:1: warning: data definition has no type or storage class
+     187 | DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/rcu/refscale.c:187:1: error: type defaults to 'int' in declaration of 'DEFINE_STATIC_SRCU_FAST' [-Wimplicit-int]
+>> kernel/rcu/refscale.c:187:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   kernel/rcu/refscale.c: In function 'srcu_fast_sync_scale_init':
+>> kernel/rcu/refscale.c:222:22: error: 'srcu_fast_refctl_scale' undeclared (first use in this function); did you mean 'srcu_refctl_scale'?
+     222 |         srcu_ctlp = &srcu_fast_refctl_scale;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                      srcu_refctl_scale
+   kernel/rcu/refscale.c:222:22: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +187 kernel/rcu/refscale.c
+
+   184	
+   185	// Definitions for SRCU ref scale testing.
+   186	DEFINE_STATIC_SRCU(srcu_refctl_scale);
+ > 187	DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
+   188	static struct srcu_struct *srcu_ctlp = &srcu_refctl_scale;
+   189	
+   190	static void srcu_ref_scale_read_section(const int nloops)
+   191	{
+   192		int i;
+   193		int idx;
+   194	
+   195		for (i = nloops; i >= 0; i--) {
+   196			idx = srcu_read_lock(srcu_ctlp);
+   197			srcu_read_unlock(srcu_ctlp, idx);
+   198		}
+   199	}
+   200	
+   201	static void srcu_ref_scale_delay_section(const int nloops, const int udl, const int ndl)
+   202	{
+   203		int i;
+   204		int idx;
+   205	
+   206		for (i = nloops; i >= 0; i--) {
+   207			idx = srcu_read_lock(srcu_ctlp);
+   208			un_delay(udl, ndl);
+   209			srcu_read_unlock(srcu_ctlp, idx);
+   210		}
+   211	}
+   212	
+   213	static const struct ref_scale_ops srcu_ops = {
+   214		.init		= rcu_sync_scale_init,
+   215		.readsection	= srcu_ref_scale_read_section,
+   216		.delaysection	= srcu_ref_scale_delay_section,
+   217		.name		= "srcu"
+   218	};
+   219	
+   220	static bool srcu_fast_sync_scale_init(void)
+   221	{
+ > 222		srcu_ctlp = &srcu_fast_refctl_scale;
+   223		return true;
+   224	}
+   225	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
