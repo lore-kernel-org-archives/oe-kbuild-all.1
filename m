@@ -1,92 +1,59 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1632F618B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 14:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEE3328B77
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 14:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762524884; cv=none; b=NQe6f2j2bTQ39Imp22nfHQ7g6ava+7I/CWOa5IjKBcNprbNntPMCWs4ylCOk87gF1dBo4koACl1ycXIqqnecwgZo/RNyS1xa0hPrJ2s0KIfZdstt4/WtDob8DBWiGxb44ObAJgmkSjpA8fElIugClKUI2LXW6yTIaCsXF/oP5r0=
+	t=1762525588; cv=none; b=O+Gq02/xTeOJDbs9QYOizH9j+Q3/rrPVXydo8eS3a8KgOS4K1aygB7NAIwabMnAq6UP/PT4Wst8ZGLUL85q/piQmlgayZjY46kk7FKVmT4tjuZdy+U03ACGiqkv7/2cHz5No4Jo9ClCGJWx6u+SqAD3Ct5E/Z6ckMvoJEYOllgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762524884; c=relaxed/simple;
-	bh=RvPQxgIgtwop9B2He8NTdcqhJ7VIGmyJd05aqc1U+Xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WQc8iE/nGjvGiMyLhQDrcpap4yzQ1lLLfCOLH+bLFXcWRrikIojuvSzIiE6Qz+hScr8YJZNQP0ZWcs3RtVwtUkerqAIWYl2jDv5vf624qEIy8SpEt6fzdLBHmZJrGhwIdquZCklfIYzd1CZ5A0Ih+w8R2WPnSgnk8YDmrKscDU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Bjh5494M; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cdBg6jWP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1762525588; c=relaxed/simple;
+	bh=dUa9o26Vs8kLdXFsrboXh9yf/RNDjaNv6+Y9qBSypoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bz1keu1zPuyTZS6d+CA2L5YD9LtpBkEBwDxIPsDzo03nLUPWgbdjmdCvxXR7nnMUvp3LIQR1t9hBpOqKrM6rcx5ZTWa9ljsmLo1Hz0jQ91nFtOJFGZlylSQLjffaQl7PqbA+OZ2y62bcDjt+epOmKVW7cgFaAgSOhzQ/oyOXGVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CjQ9HZKU; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Bjh5494M";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cdBg6jWP"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A7CTwZs2280821
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 7 Nov 2025 14:14:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=SmS3Q7L4A3dg/6fm+d7u4/uz
-	7vXGdzANJKFOfiokV5I=; b=Bjh5494MsS6Sk0DJGfkDLCDoysY3bFCW5F2R/eRK
-	Iyu39AzYTmWDp6Key2rEag9eNZYJSm/zVM1W7uOxcHJMzmYRgflBckSSsvPOyqcD
-	i0vgzH8Y3diCVQzO6X03IorfVO6LQK5sTqLNLcUl3CSWLYqT0Zsb2Fq9VkiehWDv
-	qBrXyfMtwGfNeXj+AW2xvGiefDPGczF5axJCS/oiXxahnUlmWcVU/A+GlClU3I5F
-	sk3HGkvbc49koe0zSIGarEpycMHqtQ7OTrKDVHrjaAY6yJFkVqqPmh0oJkp/lG43
-	6c+rw5CBEEfGTEvZ3fUkO/NLBM5sBU+O80YkFCJ2f8Lprg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9a9shfu1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Nov 2025 14:14:41 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ed79dd4a47so22833361cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Nov 2025 06:14:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762524881; x=1763129681; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SmS3Q7L4A3dg/6fm+d7u4/uz7vXGdzANJKFOfiokV5I=;
-        b=cdBg6jWPuAVst1lIE6yhyBbXJD7uoeZvV23n8XJskCnLwVYkfsA+6QSXJSfLcU77xO
-         i5tM2bkjKfB8tpQ4wXvbToE671TqnLomCwx2QMj3iDpoN/t5RmtRNvg1SOx4u5DfqnAS
-         FH19IbeRvNFOaH5DCgeo1D6PlD7XhJCCdYHVHVMejpcDGkv0x7zTXNzhKSxPKcmuVhb+
-         W7vGi19fWCtpwJ86bZikJU3gE/iCtyISNuutYomEeyAl7gYX/YN/J77mLVxDhhu5vFMA
-         Ojg/gmY1AuVRDLeaRQ0086mTs66uAlQPx0AIEhgZxRxFS9FVudiEO4I7mO6s4IICtnZZ
-         BKjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762524881; x=1763129681;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SmS3Q7L4A3dg/6fm+d7u4/uz7vXGdzANJKFOfiokV5I=;
-        b=orsdATydMCEWa3XzjRrYuCN4Ckq9IgZ7lD3zzWzlTZ2XXM8fXND/UdqKcfiwEydQp/
-         brCdy7VYB0cEWvbU1oje3oMgg8uDRala9G74JKgkhph1Qu8lh570y1dEa6/+G5PoTtfh
-         /pK9d67NlBogcqSkmRk+0lJZhADG3/vxQvSLK0sk2KfaozNrt1fHy+5cTEFArXVi4zeg
-         k5z1YlBwH6tIyyUm6mT7rOqiZoqJf8fNWge8tB+Oj8m/9t3htRBz9A/kjf/bnILEXHmP
-         BVZINo58mcdzmjVwRiZZTxr+RzearvBc23FiXmoGbK6YpjhSPGa94YnVlRcJO1FvzsH0
-         1XOw==
-X-Forwarded-Encrypted: i=1; AJvYcCUX9TKdex/deOQvMbh6XeBp7amj5BqRlN5rCGUijA0HWdJ6Q3Esy3td9M0fbDa1Ew9jllYDPmLKraRJVf9L@lists.linux.dev
-X-Gm-Message-State: AOJu0YxD/88xgKh9nifGvgiUKneexHIZ4JcsNgNn7/knMTBwee30M+Lb
-	/oR8S0trXM5+3FmAcalOPSa3+aoBvb9jfmFtOTdeWf5JAcxGWjLP5XxdLEFjKSp05f2C8nY/V6V
-	lUof0WtAyILqUYhHxHJxJo5qIu698+A1SuvkCW1XRfs++iha3BNgcjjLBGznj0n7B+Y3+
-X-Gm-Gg: ASbGncvliJgCKBbn/Kbn+QDzGkCIl5XgIu2RJBKhe5SZdEBxf8zrs/5W+CdzTRsKPbw
-	nwRVaALaspRmE/FlP7z/n8FgTUFClbm4RGpmwQ+yKBF9wBMFAWY/nGwnSU5UeoD6GsEg0iv+Vdj
-	wzeYqPt1F4m4b8vw5O/Nne7RUfOW/18WNqXbT2jlQAnUaPpN9bjNMD4SR70M0yfIKAtOm4r5cBd
-	CDf92dHnW3E7IA/QOCkiNgjgevhio9r3H/WIqqlsQfzk3DzoTF5PHt7nOdmzgA3/K287sHnE7YJ
-	XUhgCLLgEJ9vcjvTfMBDAX5/R1How6LrJG55VnmNPMga7vA0jhH9cnNmD/OOckVFpfyu8cTYtJz
-	phJWyss1kQDskgK9LE5peHVwRBGnalrvU1IgbZfIoXFPIapZFXendrFnWwB6WDKYCTt8qhbj4X5
-	si3eDo6beDx390
-X-Received: by 2002:a05:622a:206:b0:4ed:66bd:95ea with SMTP id d75a77b69052e-4ed94963e22mr44318251cf.29.1762524880473;
-        Fri, 07 Nov 2025 06:14:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEBnY5MD4wdoLvWeRk7iLw84FFclEfzHbsf58yd7Jn6ByFyHQib5KMoXl14FvsPrPr2Dh2gbA==
-X-Received: by 2002:a05:622a:206:b0:4ed:66bd:95ea with SMTP id d75a77b69052e-4ed94963e22mr44317521cf.29.1762524879844;
-        Fri, 07 Nov 2025 06:14:39 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5944a013cf3sm1484499e87.12.2025.11.07.06.14.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 06:14:39 -0800 (PST)
-Date: Fri, 7 Nov 2025 16:14:37 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Shuai Zhang <quic_shuaz@quicinc.com>, stable@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
-Message-ID: <66bjkpos6ul2gnh4ezmtidjguv3qx6bedhlihbg4vtdkmnvsrb@jmojegj6ijf3>
-References: <20251107125405.1632663-2-quic_shuaz@quicinc.com>
- <aQ3sbHDGL4DQAE8J@4b976af397a4>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CjQ9HZKU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762525587; x=1794061587;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dUa9o26Vs8kLdXFsrboXh9yf/RNDjaNv6+Y9qBSypoc=;
+  b=CjQ9HZKUdSHw8qXiLNdM+MPdKOSIB0I4ngYHkTjOzX3mvB1+2m5gn9eF
+   bBQL3mhy7v2MiGb0UfEDuVeu8AGrY2xSwWaJ+J2duPlAwgkfylDOqV6XH
+   FgCI1oq6ZzHlqO++FhJ4ZFqN/pxi5zJebZ6kJ50Wkkc+3hWC3R7gTXMYw
+   l3h8XDSEUY8dDXOW+mFKvYpO6TyGi3qRG5EdNHMezifllPWIywxtw1J4j
+   JP9WnKsF+lBy59zFkTMUb8D3nog9M91TLrTEECYFWWaWej1JodKYgele/
+   PMTzWoBoYaq3VdSZ7tSeZDg+850GAwBfX6ph2FFFCbuK0ncoeU2K4f6rY
+   w==;
+X-CSE-ConnectionGUID: vwElchVpQZSsN8s8/0wjgQ==
+X-CSE-MsgGUID: QFeSm05fR4qFFEl6YVzjqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="75284310"
+X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
+   d="scan'208";a="75284310"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 06:26:26 -0800
+X-CSE-ConnectionGUID: yh1WfbAFQU+VmX1GGxwQCQ==
+X-CSE-MsgGUID: Mkh8SQQUR/OhmkQ4gK6FRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
+   d="scan'208";a="218791870"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2025 06:26:24 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vHNPy-000000003QS-2vvX;
+	Fri, 07 Nov 2025 14:26:22 +0000
+Date: Fri, 7 Nov 2025 15:25:54 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: [linux-next:master 6294/7207] kernel/rcu/refscale.c:189:1: error:
+ type defaults to 'int' in declaration of 'DEFINE_STATIC_SRCU_FAST_UPDOWN'
+Message-ID: <202511071535.60uarkvF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -95,48 +62,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aQ3sbHDGL4DQAE8J@4b976af397a4>
-X-Authority-Analysis: v=2.4 cv=CdgFJbrl c=1 sm=1 tr=0 ts=690dfed1 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=zWZEkmIZHcL_vKng5HoA:9 a=CjuIK1q_8ugA:10
- a=1R1Xb7_w0-cA:10 a=OREKyDgYLcYA:10 a=dawVfQjAaf238kedN5IG:22
- a=TjNXssC_j7lpFel5tvFf:22 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA3MDExNyBTYWx0ZWRfX7ZIjC3sbH+c8
- oJMcZGKB2TWCApvGwOljmDCX0VXJukAd23AknxqZdUqy9CQ1MPA8+Js/nO1D3QFVurFvgdcZIj5
- bUT33Q9yCQsh7Eyx0gGt7gtnXG6gDAv+W4u5+OGm7w2qNxSwym51NBZn0WLNekCnzibgjMMBdKy
- 81cKU+nN10zqoJ4YJUhblIGcJp8GZrDRjYcnXNUNVPAsQ3qj7Q7SyBPs+JIYNV7vuD09HIAwCVt
- M5Da961cysRLzCQ9/Kkcu4CLsgT0d3WdXgiZvqCNB9NpUakBMt87vXdJtXiDYKovuNy8AjsyC8z
- 4Cmkosn2+mLQ/IuHC4+mkm5pT7ehUTlBErUk96s9DaNkThVdJjOcVZLwytXse8UXro6kX1kjM26
- 2mDn0+qXYa12KemFctx0pDFh8+3yzw==
-X-Proofpoint-ORIG-GUID: 4PEe2wlWIX7vqmOTjguwTBqdPqmpX6jI
-X-Proofpoint-GUID: 4PEe2wlWIX7vqmOTjguwTBqdPqmpX6jI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-07_03,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511070117
 
-On Fri, Nov 07, 2025 at 08:56:12PM +0800, kernel test robot wrote:
-> Hi,
-> 
-> Thanks for your patch.
-> 
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> 
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> 
-> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> Subject: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
-> Link: https://lore.kernel.org/stable/20251107125405.1632663-2-quic_shuaz%40quicinc.com
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c0826a5d9aa4d52206dd89976858457a2a8a7ed
+commit: 0c990a8562a127b71e72eec4b9b92ba0f602510c [6294/7207] refscale: Add SRCU-fast-updown readers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251107/202511071535.60uarkvF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071535.60uarkvF-lkp@intel.com/reproduce)
 
-Shuai, why are you sending a patch which is not a fix for inclusion into
-the stable tree? Why do you cc:stable in your headers? Do you understand
-what stable kernels are for?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071535.60uarkvF-lkp@intel.com/
+
+Note: the linux-next/master HEAD 9c0826a5d9aa4d52206dd89976858457a2a8a7ed builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   kernel/rcu/refscale.c:188:1: warning: data definition has no type or storage class
+     188 | DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/refscale.c:188:1: error: type defaults to 'int' in declaration of 'DEFINE_STATIC_SRCU_FAST' [-Wimplicit-int]
+   kernel/rcu/refscale.c:188:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   kernel/rcu/refscale.c:189:1: warning: data definition has no type or storage class
+     189 | DEFINE_STATIC_SRCU_FAST_UPDOWN(srcu_fast_updown_refctl_scale);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/rcu/refscale.c:189:1: error: type defaults to 'int' in declaration of 'DEFINE_STATIC_SRCU_FAST_UPDOWN' [-Wimplicit-int]
+   kernel/rcu/refscale.c:189:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   kernel/rcu/refscale.c: In function 'srcu_fast_sync_scale_init':
+   kernel/rcu/refscale.c:224:22: error: 'srcu_fast_refctl_scale' undeclared (first use in this function); did you mean 'srcu_refctl_scale'?
+     224 |         srcu_ctlp = &srcu_fast_refctl_scale;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                      srcu_refctl_scale
+   kernel/rcu/refscale.c:224:22: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/rcu/refscale.c: In function 'srcu_fast_updown_sync_scale_init':
+>> kernel/rcu/refscale.c:260:22: error: 'srcu_fast_updown_refctl_scale' undeclared (first use in this function); did you mean 'srcu_fast_updown_sync_scale_init'?
+     260 |         srcu_ctlp = &srcu_fast_updown_refctl_scale;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      srcu_fast_updown_sync_scale_init
+   kernel/rcu/refscale.c: In function 'srcu_fast_updown_ref_scale_read_section':
+>> kernel/rcu/refscale.c:270:23: error: implicit declaration of function 'srcu_read_lock_fast_updown'; did you mean 'srcu_read_lock_fast_notrace'? [-Wimplicit-function-declaration]
+     270 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                       srcu_read_lock_fast_notrace
+>> kernel/rcu/refscale.c:270:21: error: assignment to '__seg_gs struct srcu_ctr *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     270 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
+         |                     ^
+>> kernel/rcu/refscale.c:271:17: error: implicit declaration of function 'srcu_read_unlock_fast_updown'; did you mean 'srcu_read_unlock_fast_notrace'? [-Wimplicit-function-declaration]
+     271 |                 srcu_read_unlock_fast_updown(srcu_ctlp, scp);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 srcu_read_unlock_fast_notrace
+   kernel/rcu/refscale.c: In function 'srcu_fast_updown_ref_scale_delay_section':
+   kernel/rcu/refscale.c:281:21: error: assignment to '__seg_gs struct srcu_ctr *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     281 |                 scp = srcu_read_lock_fast_updown(srcu_ctlp);
+         |                     ^
+
+
+vim +189 kernel/rcu/refscale.c
+
+   185	
+   186	// Definitions for SRCU ref scale testing.
+   187	DEFINE_STATIC_SRCU(srcu_refctl_scale);
+   188	DEFINE_STATIC_SRCU_FAST(srcu_fast_refctl_scale);
+ > 189	DEFINE_STATIC_SRCU_FAST_UPDOWN(srcu_fast_updown_refctl_scale);
+   190	static struct srcu_struct *srcu_ctlp = &srcu_refctl_scale;
+   191	
+   192	static void srcu_ref_scale_read_section(const int nloops)
+   193	{
+   194		int i;
+   195		int idx;
+   196	
+   197		for (i = nloops; i >= 0; i--) {
+   198			idx = srcu_read_lock(srcu_ctlp);
+   199			srcu_read_unlock(srcu_ctlp, idx);
+   200		}
+   201	}
+   202	
+   203	static void srcu_ref_scale_delay_section(const int nloops, const int udl, const int ndl)
+   204	{
+   205		int i;
+   206		int idx;
+   207	
+   208		for (i = nloops; i >= 0; i--) {
+   209			idx = srcu_read_lock(srcu_ctlp);
+   210			un_delay(udl, ndl);
+   211			srcu_read_unlock(srcu_ctlp, idx);
+   212		}
+   213	}
+   214	
+   215	static const struct ref_scale_ops srcu_ops = {
+   216		.init		= rcu_sync_scale_init,
+   217		.readsection	= srcu_ref_scale_read_section,
+   218		.delaysection	= srcu_ref_scale_delay_section,
+   219		.name		= "srcu"
+   220	};
+   221	
+   222	static bool srcu_fast_sync_scale_init(void)
+   223	{
+   224		srcu_ctlp = &srcu_fast_refctl_scale;
+   225		return true;
+   226	}
+   227	
+   228	static void srcu_fast_ref_scale_read_section(const int nloops)
+   229	{
+   230		int i;
+   231		struct srcu_ctr __percpu *scp;
+   232	
+   233		for (i = nloops; i >= 0; i--) {
+   234			scp = srcu_read_lock_fast(srcu_ctlp);
+   235			srcu_read_unlock_fast(srcu_ctlp, scp);
+   236		}
+   237	}
+   238	
+   239	static void srcu_fast_ref_scale_delay_section(const int nloops, const int udl, const int ndl)
+   240	{
+   241		int i;
+   242		struct srcu_ctr __percpu *scp;
+   243	
+   244		for (i = nloops; i >= 0; i--) {
+   245			scp = srcu_read_lock_fast(srcu_ctlp);
+   246			un_delay(udl, ndl);
+   247			srcu_read_unlock_fast(srcu_ctlp, scp);
+   248		}
+   249	}
+   250	
+   251	static const struct ref_scale_ops srcu_fast_ops = {
+   252		.init		= srcu_fast_sync_scale_init,
+   253		.readsection	= srcu_fast_ref_scale_read_section,
+   254		.delaysection	= srcu_fast_ref_scale_delay_section,
+   255		.name		= "srcu-fast"
+   256	};
+   257	
+   258	static bool srcu_fast_updown_sync_scale_init(void)
+   259	{
+ > 260		srcu_ctlp = &srcu_fast_updown_refctl_scale;
+   261		return true;
+   262	}
+   263	
+   264	static void srcu_fast_updown_ref_scale_read_section(const int nloops)
+   265	{
+   266		int i;
+   267		struct srcu_ctr __percpu *scp;
+   268	
+   269		for (i = nloops; i >= 0; i--) {
+ > 270			scp = srcu_read_lock_fast_updown(srcu_ctlp);
+ > 271			srcu_read_unlock_fast_updown(srcu_ctlp, scp);
+   272		}
+   273	}
+   274	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
