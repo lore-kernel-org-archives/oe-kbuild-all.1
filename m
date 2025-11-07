@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0D526C391;
-	Fri,  7 Nov 2025 03:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7A41E32D3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 03:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762486814; cv=none; b=L4DjnwhKvP4128ZgBU8xSYxDU/sUgxiJXGKOGxgaIBOeJPh7/oB10PLdvSJ9oxK9hyQWUev6dYl+5nCmwwEfnm984akBN6LajknLFQQhoZOB2oBlzJDqTkm2zfhEdhg3/ynm0+hH6jLf8rWiYBEhhWk7nA8a3GRhpus8OMAScUI=
+	t=1762486871; cv=none; b=OIKJkNGSvn0NUrpwnr0oKqM3ZWkuE0h+CCeWFrRveDo36V3B/Fbgig6Lmhgi7urDpd31l57dssLXLdRPXv/s00mNGgROey8G6tuu2hZ3Yl/8cYHAxneqSbe6+Z6+TOVH/K+jFzmfS4Jhz6yX97m1VjV+F28b7Xv2dYwRf3Wu3BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762486814; c=relaxed/simple;
-	bh=5mryAzNSONsN2Qp9qiKezJx2wYrwlgHNENlTmAdtyPY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ux/vJlcfIKaNiQRjfan4ljIESUqDO6aZoQcE0NGnVFvK4RwWXBT5ASRSC+1fw/VOtPwX+A7DB0nLsK2mpE+JrwvfGGPe164JP2bKzREzW0WpR7lkfr9xRUK68CHOpaU5i+xoLMY57bLur83vvtcODEAhh+6eVRwZ+dVw/GH1q4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2pH2a3F; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1762486871; c=relaxed/simple;
+	bh=s4gDsQXTGLmkO86GK80L1Mh9JJwBgH9BfFIwQ8B9k2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=iSchkM7a/s0Q9DSH7FVJXfPdivK37OXvco0MEyiG5nfPHkck/+95psJuCMp2jNSXesouHSpGt5d+bP9XMHhiMyigr0ONdeYy2v4mG5ywlz9jy7R+m3RzAEzTEtckEIiM3UHFZqId9Qw9K+0gJliGlpKlsQ4KCHMJ64pUGqvkv1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDwicLVt; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2pH2a3F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDwicLVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762486813; x=1794022813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5mryAzNSONsN2Qp9qiKezJx2wYrwlgHNENlTmAdtyPY=;
-  b=X2pH2a3FMjlmvD6xQ6KRjnhT1knlJs/joneAIsTumJfoLPxlm2gQnaGF
-   JdWwy1xKG+Zf68fhqB0gQQBqCo88bnI+MZx33gLrw0+uILeGo/t7HOCL5
-   7okG/9FubtjP+koHck9eRz5HUdDpjb4G/LOswvluKdt7TU2wmPrEZm1Lo
-   0MlbJbOkvvZGn8zXuHh0evESvt3EqvB1L0FwFzo1ZOXTwKSof9bzHd4Xo
-   xwpx8XDMNlo5/Vw3nf1stjUujNk0D805RoAMrVEEI9UfAd8ihnYREvg+E
-   KmKURht66QlJ2skIJtY1ymvQ6RqUVRFVVsu5Q1vJ2jfHGt3jeRTb8WCsH
-   Q==;
-X-CSE-ConnectionGUID: r6/Pxd77RtGmyydeJ1mUdg==
-X-CSE-MsgGUID: ddtIvBJxRFKN60LJ7gjgmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="68497417"
+  t=1762486870; x=1794022870;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=s4gDsQXTGLmkO86GK80L1Mh9JJwBgH9BfFIwQ8B9k2M=;
+  b=PDwicLVtCNWeKDOqPWsO4PH4BjdmQWSb4szWpbBVptjSm6BmBquIII7Q
+   59TPwv2g2u17JhwHOPvJzv3LUI8VvrEcM1LyUiAM+b1DqT8ECdjpKBon3
+   XWwelFEI4oXwpQ7e8JUn8CJ9OECMvOQJ+IblgAO2amCpf+gu0+s3UhfTu
+   I+di0nym1sDhvGHXbj+Vh2HkrD+2v+GGnsLeXEBNmfmGtr52jy5rWmM6W
+   iB0bXSiIDJ02a1ZwbfAESUiHtn0Em68h0uxCUpg4xGoWffr6ngq3/ot1M
+   Sf9TJl/jXzi3FTToOBmcb86bQM2WrrEdZucj7i6EO6WSO1sawZGxV8iGB
+   w==;
+X-CSE-ConnectionGUID: l9Su9mnJQI6q/BZmCVnctA==
+X-CSE-MsgGUID: F2EwlomeTyuFNF99aUtFyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="52203088"
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="68497417"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:40:12 -0800
-X-CSE-ConnectionGUID: z63NhgyxQsu6z3LlMrKALg==
-X-CSE-MsgGUID: q8H5WDsQSfm+YNa+YbFMUw==
+   d="scan'208";a="52203088"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:41:09 -0800
+X-CSE-ConnectionGUID: IcqZYJ5ZSXykh/6Za6enVg==
+X-CSE-MsgGUID: 3fFEqD7hQGeSAy3/e0nnfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="225185237"
+   d="scan'208";a="192200538"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2025 19:40:08 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2025 19:41:07 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHDKX-000UfY-2q;
-	Fri, 07 Nov 2025 03:40:05 +0000
-Date: Fri, 7 Nov 2025 11:39:10 +0800
+	id 1vHDLW-000Ufg-0D;
+	Fri, 07 Nov 2025 03:41:06 +0000
+Date: Fri, 7 Nov 2025 11:40:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, tzungbi@kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v6 1/3] revocable: Add fops replacement
-Message-ID: <202511070909.JnNsfyvx-lkp@intel.com>
-References: <20251106152712.11850-2-tzungbi@kernel.org>
+To: Shuai Zhang <quic_shuaz@quicinc.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] Bluetooth: qca: Fix delayed hw_error handling due
+ to missing wakeup during SSR
+Message-ID: <aQ1qS9-MyXH-N5Jx@4b976af397a4>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,48 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106152712.11850-2-tzungbi@kernel.org>
+In-Reply-To: <20251107033924.3707495-2-quic_shuaz@quicinc.com>
 
-Hi Tzung-Bi,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on v6.18-rc4 next-20251106]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus chrome-platform/for-next chrome-platform/for-firmware-next linus/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/revocable-Add-fops-replacement/20251106-233108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251106152712.11850-2-tzungbi%40kernel.org
-patch subject: [PATCH v6 1/3] revocable: Add fops replacement
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251107/202511070909.JnNsfyvx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070909.JnNsfyvx-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511070909.JnNsfyvx-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from fs/fs_revocable.c:9:
->> include/linux/fs_revocable.h:10:10: fatal error: 'linux/revocable.h' file not found
-      10 | #include <linux/revocable.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +10 include/linux/fs_revocable.h
-
-     8	
-     9	#include <linux/fs.h>
-  > 10	#include <linux/revocable.h>
-    11	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v3 1/2] Bluetooth: qca: Fix delayed hw_error handling due to missing wakeup during SSR
+Link: https://lore.kernel.org/stable/20251107033924.3707495-2-quic_shuaz%40quicinc.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
