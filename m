@@ -1,314 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06602E3365;
-	Fri,  7 Nov 2025 01:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762477514; cv=none; b=G3uVe5qV34FeIWtM+Y9+75m/B0NVoyDjlZcPDmci6m0sSmHkZdBqz6vTrDNDDdYkn8lAJyvcivKzcUt7nmiUaNqkm7yEfUa7oHMjGz9E2cQ7NjL57tF+f0JAJY191UrUPsXixTr35mVPQJe6rTpnTBRgW3XfusaR6nOtrjOFZN0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762477514; c=relaxed/simple;
-	bh=jGYT6u7rfNJrUnzzJ6XMzJTPuT4pQluLa+Krtx32sbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PdAEgXAkrHIfyFHAzIE+hipG3k41icHogwLz3lxdq6HdxZI49OXnY1SXDXDXqSsF8PJVkPq9mbSQhvKZNrOb1vFmmwS++wtS1hROmTYV+HSwbW8z3Yw55Y0OJaOHx/h5EouZ9aEX9AfEPOHcS2FqJo1SsyPRq0wFVBtaP06+Pr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kUFsFA0K; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290B1282F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 02:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762482545; cv=fail; b=tEHclQBesn/s/qvwinQbTgPEHrl+wqg8PBlawAOiSfeOdDSBDM38bxPpe3advYgSwXwCf5gUQ8C8L63ZKxvf08T4tO5Q5Od+9ZD76oOFDHEY5rL+tpGlyo+pISJAekUGx9XgVcHqACuPdX+WSMMFJbs3VakEJzEr6rLnroSAp0o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762482545; c=relaxed/simple;
+	bh=vZ9n66HBgGBt8MML/5iO9dLc1/RZxzeZNei6nfDjpPE=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=VgzV4egCrZdMGeYIfQewACfBvSU9ySBvodJ0xmAC8s9YRLPKq4cTxQQjeNJk5XBDC2FENeO6RsNu0ls7ljuq6TvjIKTHdhCeHB4eCXX7J1vJyHt5BqycziilfLLUhrpHNtMttbKmS0Ao/vidSHoH5vGiuzm72NncFBZFhx6oMLY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjgDJdCN; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kUFsFA0K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjgDJdCN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762477511; x=1794013511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jGYT6u7rfNJrUnzzJ6XMzJTPuT4pQluLa+Krtx32sbI=;
-  b=kUFsFA0K4PviE8zSLDmQN1gdJUtCah6Woa9VugQ3Asw4A8k+YXLka5n9
-   j2RTBxDBBQbLn7fVEjWQx5QHWFB1NkKnVXxt0DBqPvTKl8/v4vxj4UYA8
-   Hp44alVtUhfilJ8ruzXWRVT1vD7fISwLlmvzRI0Vo0+msr4O8Mhqt86Ve
-   UspF9lEJKVMbWIoW+yN9EGlpcipCSRSmDECqq1c57M9Tvd7ByA3RW6pGt
-   IXLmG9VqGn0uGPflPWqCI8AhA10zBouTMsXn2PoK4gnSsMKfXIaKmj24F
-   OEtYOsEbhNXSYksNov5Cbv/o0iJCTeveHdxYfV2qqO++M7I78HG24zQdO
-   A==;
-X-CSE-ConnectionGUID: pHmpFR94Q+mOCA3XKfv99Q==
-X-CSE-MsgGUID: nmmrj8E6RmS33L41t7yIvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="52194555"
+  t=1762482544; x=1794018544;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vZ9n66HBgGBt8MML/5iO9dLc1/RZxzeZNei6nfDjpPE=;
+  b=JjgDJdCNGvhqeYQuB+zvZNhzbUWPTPfo/1QkbzUfoWsfDQi589KuXRVN
+   A3+rXBrsGu302hbzGKUG9z24eBhrhqLh46rN8F6QzC7TauiLv0oUBwaMr
+   cfmnXXq4vzp0XVrFy07BVaaDvl70mfEVclLtztGzvQoshjFFlnJUl7hTM
+   lb0N2OxPr/owpTM4LJSmq0T8FDFDBpuW755naAR9XWHvO3TtlVuXQoWjf
+   1ZSdGTI9mMfShYyRtaH8wpVR5AFIHo23+k1sXO6AV2GkKCCLf+uP3kZ/Z
+   NU+3b8WhHhkiysVOup4mjMhp3hTN6QLh5HC61b3iUar/EnnjvuAl5892t
+   g==;
+X-CSE-ConnectionGUID: 3eza4CI2SbeP8t1iClxY0A==
+X-CSE-MsgGUID: e2b8kp8ATciYWaZyVxBb/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="67244524"
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="52194555"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 17:05:10 -0800
-X-CSE-ConnectionGUID: +BQZI5nvRSGzq7eiHB+yzg==
-X-CSE-MsgGUID: ABS6YGc5SY+Ij3+y1QopLA==
+   d="scan'208";a="67244524"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 18:29:03 -0800
+X-CSE-ConnectionGUID: I2NuQTpCSkaB1gmnzKgaxA==
+X-CSE-MsgGUID: Fs6YeXjOSDS8ezP83QSjSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="188344432"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Nov 2025 17:05:09 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vHAuY-000UXQ-1x;
-	Fri, 07 Nov 2025 01:05:06 +0000
-Date: Fri, 7 Nov 2025 09:04:12 +0800
+   d="scan'208";a="187225832"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 18:29:03 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 6 Nov 2025 18:29:02 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 6 Nov 2025 18:29:02 -0800
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.35) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 6 Nov 2025 18:29:02 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c49LOQbKr0ogek4n0CG1JxLpevo2oB/S/zU2KWALT49X9lGZmX0oA4vZIUBrMaFVzqD/HZ6Y9RIo6VHh7sm6sghnn3qhhsZNHqss0uWKmsJxvPiZ1q6M8zSh4SOGFWxWYh3QrNABqMrslY5XI9DF4bbrrOfDSX64cJH1lcDOyVJyeeLN5wev141vc7zjEmWqW+XLwAsvMLkA2vRPREzcBTY+zueb2CT1Tjt9FAtJHyZpFVQjuiP35gm69ibV2IC1sFBbQMj3zd20p6cTPka7dVijt3bok2s9MBdLMkhT06jaJYLncVhIM5maeyZtfMJYOS+OkKcynsIXLDCVsr7tjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c7oYjRTdWMuOAyk5AADSVKhgDY/X+Ag5wgZqAiitiNg=;
+ b=KvOXZTwd1xl/X2KYGah9B5EDM+yN1ESZ5fFfqg8ihHt9AorrEysTY9P+c90ZVePCyCP5DXnTxCcfbd896YIS1DhzN7rwp2FBq/ArJ4eMz/eyM0Mv3Ldk7IWCg4ZoZeZeklJAfl7V/kZ9h4pYPSkgumr/v+36p9509oNMeSWHudhbTLiRJWmI3MoOYgwbaYu/6j2hX5oiUmM6NbQEgiIPA0LxNnayEk37DfNEODZYj/906Bjb2S0ZazI4h8eFEP00cB37qlb+kEJXfdfQqTDt/XbJs03sEMRb8ci1OAVKKXuv0zx66WM8FAQtRz17/Blj+8Q/9r56U4liIim5U7fvgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by SJ0PR11MB8271.namprd11.prod.outlook.com (2603:10b6:a03:47a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Fri, 7 Nov
+ 2025 02:29:00 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Fri, 7 Nov 2025
+ 02:29:00 +0000
+Date: Fri, 7 Nov 2025 10:28:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 2/2] Bluetooth: btusb: Add support for Bulk
- Serialization Mode
-Message-ID: <202511070808.Qvyqjzoc-lkp@intel.com>
-References: <20251105170445.518320-2-luiz.dentz@gmail.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>
+Subject: [morimoto:renesas-lts/v6.18-rc3-2025-10-30-x5h-ironhide 18/21]
+ arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0704000
+ (renesas,scif-r8a78000): 'resets' is a required property
+Message-ID: <aQ1ZZbNCCi0XXkTi@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251105170445.518320-2-luiz.dentz@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|SJ0PR11MB8271:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6c69280-d61a-46f6-9318-08de1da568d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|13003099007|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pdeyjv751TQ9gmt877HvxYFp9ne01za1HYqnxBhyxgCyKBM8cB3q/qSL4Wjw?=
+ =?us-ascii?Q?wbzvBXp4BtM6MZ4nUfa4nGjvfe7KLuF3l4apAWWDV2YlzgMmZjJUI8RAQY2J?=
+ =?us-ascii?Q?wWVOSx+ZaOeULw4LQdvwB81zNeUr5DltNbrnuQMeuF/b+UOZrnSHua6K0fWO?=
+ =?us-ascii?Q?BD0/7NIOyKObLMQGOJT5J2oFRSvItj9qfhlxxj/vPA859cpz7jy4PNwli9+z?=
+ =?us-ascii?Q?clnr4qt0JJLvjf33rz+v2wM0Y5tDSVKRfSklW37YH4JvdcGev9Zdj3tRydJG?=
+ =?us-ascii?Q?GmSdMRzXfjZVBty3IDBIjiAYX+9pXiEI/85e/cKCDwavXwM3hy2gZw9hZohK?=
+ =?us-ascii?Q?J56nybSmOYPh3zhq6TUKRFD7YURrQ5f6KS5cxIdiLHr+S5HARcrKhSkGs1W0?=
+ =?us-ascii?Q?wIB/30Q55EET+Owkd42Snu5Q0OafA6FmIWvpaw3wQlbDi3FFtwCo+pd4SqLa?=
+ =?us-ascii?Q?SSWEG09uFEggkrLiU8J/eDzcSbUKYI276IaswuFDTKl8gYZc4MzdPMJm3CJz?=
+ =?us-ascii?Q?tjevlLZZf3iaDtiFvJ9HStmabSGF+QT+eE1g5lSkAfbuFuh08Vfrkpse1qRq?=
+ =?us-ascii?Q?n8hfowAlWZuCIV9JgMK6cg81TAiFtQK4jYS5AgZmN/w6PpOB87axKWtJPGTh?=
+ =?us-ascii?Q?DxBtvkfjKO9lx/BrpRlYDaW7txhHX1DacrbE3UGYVlEvatbGq7e0Cy518+7D?=
+ =?us-ascii?Q?f4SW3+vl/hq3XjVCK/wpyEgog1L8QPSfLzJazFKz99hZiIYN1e+kSgjlUnK8?=
+ =?us-ascii?Q?e8ZCNdHbNClh62pP1ocwzc9dccQCsyh5BvfuKmJTuszJAs9rO+Yb4f3Gbxa4?=
+ =?us-ascii?Q?cB/xfWrNkrwEbucIRgiKnr2tR0hy7WLK6VMfYGgMmhKYsqY6Nlp8tawGxQ8I?=
+ =?us-ascii?Q?DUTWiqKZ7Z2BWlT5pHtgc/Qn2qnjxO9eGf6rHvR1Yo36c2irMCQtNRgqKl0u?=
+ =?us-ascii?Q?QCmQGCc93XVqhqBTsvqtwWe8H3j+60H7aW3+r2UlRJrtGsc9CFhqS/a2wT86?=
+ =?us-ascii?Q?YaYZdSr+PWqUKve9ZPAijXYk5g0GOnMR+xToLt0T4S8ZnQAfmjfvyTZ7DB4N?=
+ =?us-ascii?Q?AW1huZPf16mjC0C3oG3KHNacijtN6/JPRHrRjPWN7R0l6AceYggK/Oxi/WJI?=
+ =?us-ascii?Q?7sQpKmo76qVPQjEVnk2wR5epqEDzka595qlimu9+kNZNJ3/duzWad8Fz017Q?=
+ =?us-ascii?Q?Hksr/wx/2BgVwL/GjU7yyBu0/FIQrD8YIeIcviJshIh71BY0NUbEkVkkigyp?=
+ =?us-ascii?Q?Cf3o16myG81LTW+AJUw+u70650xBxd0aGiF66W2TEqbX+EvDI+jP5Sj+oqPL?=
+ =?us-ascii?Q?YKLEqSCemV8EncZl+ZvRBQM57yO1Ngimb6vq3Lw8p/AXoTuM8jVAB4d2Pn9Q?=
+ =?us-ascii?Q?t7Y/Ii27fgIxmW75nCHBpZ29V6zRiOYiicA/ESIaIQaAdRhKYAfsN0ZYP0bg?=
+ =?us-ascii?Q?vxERgrj97e6qac4YSqqU4V761SKEPST32LdpLFuFS4L9ARKs+KjT3jWxK4Qx?=
+ =?us-ascii?Q?hPgv3QS+5T6d8DFpHsLKB0HsAb4IAd+TnhBeekU8RIpGjv6c2CcbJwyUmA?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(13003099007)(220923002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?S6kTT/42P9SySB+ZRIU5wD3rUSnQLUyBOqF3wcsrqE/wkWXrHJ0El5Fv+Ea1?=
+ =?us-ascii?Q?J6TiPAKcsg9+uKfhz2U7NxMagm20EUuQTk1T7oYBv+c2IhuoROexLcQiKqS+?=
+ =?us-ascii?Q?R3OwCxYINP89RFfEufj/ZKVtLL0Xo3s5hDD9ByieIxqZjm3NsgK39P7YZkI1?=
+ =?us-ascii?Q?rUJKQbYGBn/RYg8pX7CpbGh832zQiMiRhB8tAr5L5uRQieVecYwXm3RfEKY2?=
+ =?us-ascii?Q?w2nlHCcS7PHxFS9Z73yi5v4h38SldW0lzdFpr/FZWJKbOjKJJEQusff5J/xX?=
+ =?us-ascii?Q?eoYksurLZFA+ZHAEIA1+J7uPUO5fmEkV2xKRrR3beq7Ko9W4u9MGEkcJE9QS?=
+ =?us-ascii?Q?v70b7PQMMX/yFIUngV7hv1a7flsejS4y3YZ5r0shNVl4swBsydER8eChYRx4?=
+ =?us-ascii?Q?oGtzTWLhtrAilT+cEjcKTREuBfRA9WzJPqd1YAeGHXwjBEcTijpmKS6wJT+z?=
+ =?us-ascii?Q?aoqj4LsTVch/l9ExrxUjUGd0vAo5pAD59COzvTeGI8jkag5w5yej2rf/ZhXF?=
+ =?us-ascii?Q?7Mm38tQsfIuzjjlxJ7mvkt0qdTsSMq8wQDVm9SO2FNn+M7UjEIXl3Q9Ti7pn?=
+ =?us-ascii?Q?EJU0BWJDLlwNrheIi5hZd9fbLfX11GkXQ0K5sfdkVW24s0kY3IapXTUVa8if?=
+ =?us-ascii?Q?oxQy5jvuxedWskv6n3AM42Q5G54r6Bdob/cjkNhrg8Y9HqFKdIca4UgJwtp9?=
+ =?us-ascii?Q?EIDQRYYJh+1lU3Hbn2/35M63zRncEE6egfqMFt/FdaUGNCWQa5Z3puKZ/wbk?=
+ =?us-ascii?Q?8EHSHu+g/rUG0scfDFwCsZimQaDKSUFcV3NEk9+LQ41vqfQEL5j0EHdZurpY?=
+ =?us-ascii?Q?Mn/dxzaDbIGMJjJirKI01ZXiQpPsSrABd58xEI7qtjRp59KOQbopSlo46Yzt?=
+ =?us-ascii?Q?mOSi4X9MpmhiD05OhHTeXNx4TLT2bdArINY/WaQaAMshglB0YhAjkQK+dwoa?=
+ =?us-ascii?Q?6SBoY/HdoG7znoYFDkKH/1zhQtW8qIOHZjXGmbf8m7enYrRnjSySInpNs3vD?=
+ =?us-ascii?Q?fe7B76Dfl90w+D9Hk6uYKnIJaEgVq+FVHT2PzXx/9rouEqouwPF/UTXKhc85?=
+ =?us-ascii?Q?QRNC1mcZQ8YbeEc9wSkDvR/PgRtbFVw2eGIUrN7BO4LgexfLDTJqGfd+T5MZ?=
+ =?us-ascii?Q?SmZwBNErkC5Qfm52llcImc5qSBOCMLbqdDAF64DZpSgkGIZFTcxGiy5scmOB?=
+ =?us-ascii?Q?mJGnEuvXcopOkutv+/wbOHCTujCXREXcFUkZnSpo/j4EAYGTL/sfn8q0WLik?=
+ =?us-ascii?Q?wSv2xQjx1F/NpXWVbTM1nSEuy0aevP8ui30anMEzH5np+PJeVVi6ZO3bzcBv?=
+ =?us-ascii?Q?UkV50v6l9MfY4dkeoE+HKiC7I7YnRQdB3rnTwQcboq8LAywQWhf4TvKzI3Ml?=
+ =?us-ascii?Q?5gc2x0zo6PFOUEzdyxy4NGem1SLGb5Bh/7omhS56p1x46okb8PREeoo1uKft?=
+ =?us-ascii?Q?r18zL8bNPmYyD7SMz4Hvf3K0IG7fR7/3uXbhBxO8TtBNpg0f1Xk2WeJ2MUUa?=
+ =?us-ascii?Q?BuyPesLVqRb15uYmI/4gpO6/fEpga5qFguGbwqTaKCKimEwDV8nCZPak335X?=
+ =?us-ascii?Q?0suTWmb8J9PXHxMEBkPQ/XQYn2zd/xCsuaUGEXDF?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6c69280-d61a-46f6-9318-08de1da568d6
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2025 02:29:00.2804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lG0sQuyVULNdnDHgtXogT3htha02XirXT1DsX+qvAYWgius0i9+K0zyL3/hsrlzkOijlDKFku78jBM8+KRzHtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8271
+X-OriginatorOrg: intel.com
 
-Hi Luiz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on bluetooth/master linus/master v6.18-rc4 next-20251106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-btusb-Add-support-for-Bulk-Serialization-Mode/20251106-024830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20251105170445.518320-2-luiz.dentz%40gmail.com
-patch subject: [PATCH v1 2/2] Bluetooth: btusb: Add support for Bulk Serialization Mode
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251107/202511070808.Qvyqjzoc-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070808.Qvyqjzoc-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc3-2025-10-30-x5h-ironhide
+head:   80827640973fc37984dca63282497d3787866053
+commit: 9e41077ffdc895a91c3493109bdde2b6c5f65db2 [18/21] FIXME: arm64: renesas: r8a78000: Switch HSCIF0 back to dummy clock, enable HSCIF1 with SCMI clock
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-2052-20251106 (https://download.01.org/0day-ci/archive/20251107/202511070255.JR1e2Jgq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070255.JR1e2Jgq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511070808.Qvyqjzoc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511070255.JR1e2Jgq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/bluetooth/btusb.c:4101:6: warning: variable 'hdev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4102 |             !data->bulk_tx_ep || !data->bulk_rx_ep) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c:4436:15: note: uninitialized use occurs here
-    4436 |         hci_free_dev(hdev);
-         |                      ^~~~
-   drivers/bluetooth/btusb.c:4101:2: note: remove the 'if' if its condition is always false
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4102 |             !data->bulk_tx_ep || !data->bulk_rx_ep) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4103 |                 BT_ERR("failed to enumerate endpoints");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4104 |                 err = -ENODEV;
-         |                 ~~~~~~~~~~~~~~
-    4105 |                 goto out_free_dev;
-         |                 ~~~~~~~~~~~~~~~~~~
-    4106 |         }
-         |         ~
->> drivers/bluetooth/btusb.c:4101:6: warning: variable 'hdev' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4102 |             !data->bulk_tx_ep || !data->bulk_rx_ep) {
-         |             ~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c:4436:15: note: uninitialized use occurs here
-    4436 |         hci_free_dev(hdev);
-         |                      ^~~~
-   drivers/bluetooth/btusb.c:4101:6: note: remove the '||' if its condition is always false
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4102 |             !data->bulk_tx_ep || !data->bulk_rx_ep) {
-         |             ~~~~~~~~~~~~~~~~~~~~
->> drivers/bluetooth/btusb.c:4101:6: warning: variable 'hdev' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c:4436:15: note: uninitialized use occurs here
-    4436 |         hci_free_dev(hdev);
-         |                      ^~~~
-   drivers/bluetooth/btusb.c:4101:6: note: remove the '||' if its condition is always false
-    4101 |         if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/btusb.c:4030:22: note: initialize the variable 'hdev' to silence this warning
-    4030 |         struct hci_dev *hdev;
-         |                             ^
-         |                              = NULL
-   3 warnings generated.
-
-
-vim +4101 drivers/bluetooth/btusb.c
-
-  4023	
-  4024	static int btusb_probe(struct usb_interface *intf,
-  4025			       const struct usb_device_id *id)
-  4026	{
-  4027		struct usb_endpoint_descriptor *ep_desc;
-  4028		struct gpio_desc *reset_gpio;
-  4029		struct btusb_data *data;
-  4030		struct hci_dev *hdev;
-  4031		unsigned ifnum_base;
-  4032		int i, err, priv_size;
-  4033	
-  4034		BT_DBG("intf %p id %p", intf, id);
-  4035	
-  4036		if ((id->driver_info & BTUSB_IFNUM_2) &&
-  4037		    (intf->cur_altsetting->desc.bInterfaceNumber != 0) &&
-  4038		    (intf->cur_altsetting->desc.bInterfaceNumber != 2))
-  4039			return -ENODEV;
-  4040	
-  4041		ifnum_base = intf->cur_altsetting->desc.bInterfaceNumber;
-  4042	
-  4043		if (!id->driver_info) {
-  4044			const struct usb_device_id *match;
-  4045	
-  4046			match = usb_match_id(intf, quirks_table);
-  4047			if (match)
-  4048				id = match;
-  4049		}
-  4050	
-  4051		if (id->driver_info == BTUSB_IGNORE)
-  4052			return -ENODEV;
-  4053	
-  4054		if (id->driver_info & BTUSB_ATH3012) {
-  4055			struct usb_device *udev = interface_to_usbdev(intf);
-  4056	
-  4057			/* Old firmware would otherwise let ath3k driver load
-  4058			 * patch and sysconfig files
-  4059			 */
-  4060			if (le16_to_cpu(udev->descriptor.bcdDevice) <= 0x0001 &&
-  4061			    !btusb_qca_need_patch(udev))
-  4062				return -ENODEV;
-  4063		}
-  4064	
-  4065		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
-  4066		if (!data)
-  4067			return -ENOMEM;
-  4068	
-  4069		/* If alternate setting 1 is found, it means H4 mode is supported */
-  4070		if (btusb_find_altsetting(intf, 1)) {
-  4071			struct usb_device *udev = interface_to_usbdev(intf);
-  4072	
-  4073			err = usb_set_interface(udev, ifnum_base, 1);
-  4074			if (!err)
-  4075				data->proto = BTUSB_PROTO_H4;
-  4076		}
-  4077	
-  4078		for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
-  4079			ep_desc = &intf->cur_altsetting->endpoint[i].desc;
-  4080	
-  4081			if (!data->intr_ep && usb_endpoint_is_int_in(ep_desc)) {
-  4082				data->intr_ep = ep_desc;
-  4083				continue;
-  4084			}
-  4085	
-  4086			if (!data->bulk_tx_ep && usb_endpoint_is_bulk_out(ep_desc)) {
-  4087				data->bulk_tx_ep = ep_desc;
-  4088				continue;
-  4089			}
-  4090	
-  4091			if (!data->bulk_rx_ep && usb_endpoint_is_bulk_in(ep_desc)) {
-  4092				data->bulk_rx_ep = ep_desc;
-  4093				continue;
-  4094			}
-  4095		}
-  4096	
-  4097		/* Check if all endpoints could be enumerated, legacy mode requires
-  4098		 * interrupt and bulk endpoint while H4 mode only requires bulk
-  4099		 * endpoints.
-  4100		 */
-> 4101		if ((data->proto == BTUSB_PROTO_LEGACY && !data->intr_ep) ||
-  4102		    !data->bulk_tx_ep || !data->bulk_rx_ep) {
-  4103			BT_ERR("failed to enumerate endpoints");
-  4104			err = -ENODEV;
-  4105			goto out_free_dev;
-  4106		}
-  4107	
-  4108		if (id->driver_info & BTUSB_AMP) {
-  4109			data->cmdreq_type = USB_TYPE_CLASS | 0x01;
-  4110			data->cmdreq = 0x2b;
-  4111		} else {
-  4112			data->cmdreq_type = USB_TYPE_CLASS;
-  4113			data->cmdreq = 0x00;
-  4114		}
-  4115	
-  4116		data->udev = interface_to_usbdev(intf);
-  4117		data->intf = intf;
-  4118	
-  4119		INIT_WORK(&data->work, btusb_work);
-  4120		INIT_WORK(&data->waker, btusb_waker);
-  4121		INIT_DELAYED_WORK(&data->rx_work, btusb_rx_work);
-  4122	
-  4123		skb_queue_head_init(&data->acl_q);
-  4124	
-  4125		init_usb_anchor(&data->deferred);
-  4126		init_usb_anchor(&data->tx_anchor);
-  4127		spin_lock_init(&data->txlock);
-  4128	
-  4129		init_usb_anchor(&data->intr_anchor);
-  4130		init_usb_anchor(&data->bulk_anchor);
-  4131		init_usb_anchor(&data->isoc_anchor);
-  4132		init_usb_anchor(&data->diag_anchor);
-  4133		init_usb_anchor(&data->ctrl_anchor);
-  4134		spin_lock_init(&data->rxlock);
-  4135	
-  4136		priv_size = 0;
-  4137	
-  4138		data->recv_event = hci_recv_frame;
-  4139		data->recv_bulk = btusb_recv_bulk;
-  4140	
-  4141		if (id->driver_info & BTUSB_INTEL_COMBINED) {
-  4142			/* Allocate extra space for Intel device */
-  4143			priv_size += sizeof(struct btintel_data);
-  4144	
-  4145			/* Override the rx handlers */
-  4146			data->recv_event = btintel_recv_event;
-  4147			data->recv_bulk = btusb_recv_bulk_intel;
-  4148		} else if (id->driver_info & BTUSB_REALTEK) {
-  4149			/* Allocate extra space for Realtek device */
-  4150			priv_size += sizeof(struct btrealtek_data);
-  4151	
-  4152			data->recv_event = btusb_recv_event_realtek;
-  4153		} else if (id->driver_info & BTUSB_MEDIATEK) {
-  4154			/* Allocate extra space for Mediatek device */
-  4155			priv_size += sizeof(struct btmtk_data);
-  4156		}
-  4157	
-  4158		data->recv_acl = hci_recv_frame;
-  4159	
-  4160		hdev = hci_alloc_dev_priv(priv_size);
-  4161		if (!hdev)
-  4162			return -ENOMEM;
-  4163	
-  4164		hdev->bus = HCI_USB;
-  4165		hci_set_drvdata(hdev, data);
-  4166	
-  4167		data->hdev = hdev;
-  4168	
-  4169		SET_HCIDEV_DEV(hdev, &intf->dev);
-  4170	
-  4171		reset_gpio = gpiod_get_optional(&data->udev->dev, "reset",
-  4172						GPIOD_OUT_LOW);
-  4173		if (IS_ERR(reset_gpio)) {
-  4174			err = PTR_ERR(reset_gpio);
-  4175			goto out_free_dev;
-  4176		} else if (reset_gpio) {
-  4177			data->reset_gpio = reset_gpio;
-  4178		}
-  4179	
-  4180		hdev->open    = btusb_open;
-  4181		hdev->close   = btusb_close;
-  4182		hdev->flush   = btusb_flush;
-  4183		hdev->send    = btusb_send_frame;
-  4184		hdev->notify  = btusb_notify;
-  4185		hdev->wakeup  = btusb_wakeup;
-  4186		hdev->hci_drv = &btusb_hci_drv;
-  4187	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0704000 (renesas,scif-r8a78000): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml
+>> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0704000 (renesas,scif-r8a78000): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'resets' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: scp@c1000000 (mmio-sram): 'scp-shmem@60000', 'scp-shmem@60300' do not match any of the regexes: '^([a-z0-9]*-)?sram(-section)?@[a-f0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
+   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: scp@c1000000 (mmio-sram): $nodename:0: 'scp@c1000000' does not match '^sram(@.*)?'
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
