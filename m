@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43A8184540;
-	Fri,  7 Nov 2025 03:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED21E32D3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 03:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762486153; cv=none; b=pD8KMA+T4cK9e9WOWk80AcCPeqqv7C8DWTuPlBz7nRl4mE1avLrJ/brMLAX3Zel9n08Y2IdoPlLJsY+m4xWeze+XO+TbA7Uwc6SsmUBd5MAuqQv2sM2/JInJMqDvpFCZPbgSaV92h2QzWJuZRknwGjrtVtI/uNRUc9oCEAeldIQ=
+	t=1762486812; cv=none; b=X6kUKIIcErCbu1eBBWYhFKG98O/+ZVqQairf6Qkmbl2rf1o/jHMk88Xity0fGocilzk4CKx9uyver8jFUoHLQB097ExxxiycMS+mgo6z5LHoRmAApMeQDcmCfvU6dL3bNehyeBd+eDdyKh47HUlNC5PgAD8QlOWXCLsk4nIusV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762486153; c=relaxed/simple;
-	bh=IImINCHPo8SydfXgzNxPKnocMV0I2PHbN0YbvkHwWSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUr90+XUVLF9i6YaDd0+HXdhchU1UYJsqLLUbPeivOfoNgygzrefVx1Ry/XnmKdvZhhMQ93OFmVjwa0QQ2SFggvkCMCN4rGzZquawf9OiFBQe2Z6DkS/fk86r39VdNNOP3yE3fuiIJ+MROl26B3RtVUILmgjcwnEczhYkK0qOqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdMebRk8; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1762486812; c=relaxed/simple;
+	bh=VVQPqWHJT+IhU/quSD4PubuPAGzXLdwZDO/jSKslTeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o6Ge9ssS9A7FFsAV3v4KiXHQsY28uI+J0z/ELbobMh7ID9vW9F6LsSqXuj8SMzNcWlP3Knu1fYNByBeexyXMvz9NnLqDsNopSYJthedho57NPREXlX5Ba9+00/9UWW1DlIzK5N5ajpVVMX+W9NxLUtUu1qwD3pjp6GWZvFtze5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PlkDKbrD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdMebRk8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PlkDKbrD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762486150; x=1794022150;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IImINCHPo8SydfXgzNxPKnocMV0I2PHbN0YbvkHwWSE=;
-  b=JdMebRk8Xj33YjbNGVzPqXhj9xaqt2xFnHX4kF1uzam9FVCVUA/F/tlc
-   kH3Yq9jJjUUw/MaRn9hHJGSMqwRsvGQb86oFomCdJKgiNLf/siODYq9a5
-   ATYo8z7cdG1C6k41SydMFsMdzBY4VRdAfyOLs3cphWskqeVsu1K0ObdGn
-   nF2f1A61ZGj+zdnx9jtQPkiJ/vUJ5q7WXcqpFfddqsuC1cwzp61PRE0jy
-   CdfG2OweSCZQ4pgrvIULPwFOsu3buIm/5WbxpXfXolOCGcpI/QNCMCA3h
-   8mrXCqTjZtizrsDqHDljZuHQ/Bi6QHgUxIXRQxWi8Rks+hhM37ddC91c5
-   w==;
-X-CSE-ConnectionGUID: dHYX/rGuRViACDwkwNP8LQ==
-X-CSE-MsgGUID: FUVms+UjTnetjKoRLliwPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64562086"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64562086"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:29:10 -0800
-X-CSE-ConnectionGUID: Z6/WTQBjRRq8v4/Nzqz/1g==
-X-CSE-MsgGUID: phJBU6CNQ6OYLjJ23GpONA==
+  t=1762486810; x=1794022810;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VVQPqWHJT+IhU/quSD4PubuPAGzXLdwZDO/jSKslTeY=;
+  b=PlkDKbrDS6KDPiG/DOoMP1YqxxuXjQh8/y5g9KUfIuHZKx+s34UHmlBz
+   8rQ1plQktmNAi6jhRJuw9ybDTTofTLWy2S19tMSj6c+9r4Eg/EVjv9Lbw
+   J6qgGA9APWdIdtSgDA0GqWQWIsUVscxXn8DJUIcycYXZPfsYwbr1nEKL4
+   /k5MYyrlh5Jr6TOJRpqVTBMQ0fQJkGHkIcG+Us9Vx7PWkSc93USKr5ZJq
+   +aKIR3gD6WE2S9zin4lXTtBDoFfSD1DzlGpRma5xuDQRlUQYSRWDWC6BS
+   xFtgTEO/nXuU7mAI2l+E900+/G3BgijLzcHuIXr2uA0Rs2GT6RxXutt6G
+   g==;
+X-CSE-ConnectionGUID: TWXAqFjDSfyDIr6bOfpD7g==
+X-CSE-MsgGUID: WjVT0KQGRoCJj3RnqAJxOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64732386"
+X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
+   d="scan'208";a="64732386"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:40:10 -0800
+X-CSE-ConnectionGUID: m8rqnDgBTHWGdQ0LO9AhhQ==
+X-CSE-MsgGUID: 5GweQyUQRbSlecnd8D2Zbg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="193102109"
+   d="scan'208";a="218592385"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2025 19:29:06 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2025 19:40:08 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHD9q-000Uem-1y;
-	Fri, 07 Nov 2025 03:29:03 +0000
-Date: Fri, 7 Nov 2025 11:28:26 +0800
+	id 1vHDKX-000Ufa-2u;
+	Fri, 07 Nov 2025 03:40:05 +0000
+Date: Fri, 7 Nov 2025 11:39:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	bhelgaas@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, will@kernel.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	robh@kernel.org, linux-arm-msm@vger.kernel.org,
-	zhangsenchuan@eswincomputing.com,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Subject: Re: [PATCH 3/3] PCI: dwc: Skip PME_Turn_Off and L2/L3 transition if
- no device is available
-Message-ID: <202511071025.JM5nTGnO-lkp@intel.com>
-References: <20251106061326.8241-4-manivannan.sadhasivam@oss.qualcomm.com>
+To: Markus Stockhausen <markus.stockhausen@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: drivers/mtd/nand/ecc-realtek.c:443:undefined reference to
+ `dma_free_pages'
+Message-ID: <202511071114.8WeW2GZK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,107 +62,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106061326.8241-4-manivannan.sadhasivam@oss.qualcomm.com>
 
-Hi Manivannan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.18-rc4 next-20251106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/PCI-host-common-Add-an-API-to-check-for-any-device-under-the-Root-Ports/20251106-141822
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251106061326.8241-4-manivannan.sadhasivam%40oss.qualcomm.com
-patch subject: [PATCH 3/3] PCI: dwc: Skip PME_Turn_Off and L2/L3 transition if no device is available
-config: arm-randconfig-001-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071025.JM5nTGnO-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071025.JM5nTGnO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a0c9b3391999818e2c5b93719699b255be1f682
+commit: 3148d0e5b1c5733d69ec51b70c8280e46488750a mtd: nand: realtek-ecc: Add Realtek external ECC engine support
+date:   6 weeks ago
+config: sh-randconfig-r121-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071114.8WeW2GZK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071114.8WeW2GZK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511071025.JM5nTGnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071114.8WeW2GZK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-designware-host.c:1133:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1133 |         if (!pci_root_ports_have_device(pci->pp.bridge->bus))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1176:9: note: uninitialized use occurs here
-    1176 |         return ret;
-         |                ^~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1133:2: note: remove the 'if' if its condition is always false
-    1133 |         if (!pci_root_ports_have_device(pci->pp.bridge->bus))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1134 |                 goto stop_link;
-         |                 ~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1131:9: note: initialize the variable 'ret' to silence this warning
-    1131 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   sh4-linux-ld: drivers/mtd/nand/ecc-realtek.o: in function `rtl_ecc_remove':
+>> drivers/mtd/nand/ecc-realtek.c:443:(.text+0x1f8): undefined reference to `dma_free_pages'
+   sh4-linux-ld: drivers/mtd/nand/ecc-realtek.o: in function `rtl_ecc_probe':
+>> drivers/mtd/nand/ecc-realtek.c:434:(.text+0x2e8): undefined reference to `dma_alloc_pages'
+   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
+   drivers/media/i2c/tc358746.c:1585:(.text+0x15cc): undefined reference to `devm_clk_hw_register'
+   sh4-linux-ld: drivers/media/i2c/tc358746.c:1610:(.text+0x163c): undefined reference to `devm_of_clk_add_hw_provider'
+   sh4-linux-ld: drivers/media/i2c/tc358746.c:1610:(.text+0x1640): undefined reference to `of_clk_hw_simple_get'
 
 
-vim +1133 drivers/pci/controller/dwc/pcie-designware-host.c
+vim +443 drivers/mtd/nand/ecc-realtek.c
 
-  1126	
-  1127	int dw_pcie_suspend_noirq(struct dw_pcie *pci)
-  1128	{
-  1129		u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-  1130		u32 val;
-  1131		int ret;
-  1132	
-> 1133		if (!pci_root_ports_have_device(pci->pp.bridge->bus))
-  1134			goto stop_link;
-  1135	
-  1136		/*
-  1137		 * If L1SS is supported, then do not put the link into L2 as some
-  1138		 * devices such as NVMe expect low resume latency.
-  1139		 */
-  1140		if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
-  1141			return 0;
-  1142	
-  1143		if (pci->pp.ops->pme_turn_off) {
-  1144			pci->pp.ops->pme_turn_off(&pci->pp);
-  1145		} else {
-  1146			ret = dw_pcie_pme_turn_off(pci);
-  1147			if (ret)
-  1148				return ret;
-  1149		}
-  1150	
-  1151		ret = read_poll_timeout(dw_pcie_get_ltssm, val,
-  1152					val == DW_PCIE_LTSSM_L2_IDLE ||
-  1153					val <= DW_PCIE_LTSSM_DETECT_WAIT,
-  1154					PCIE_PME_TO_L2_TIMEOUT_US/10,
-  1155					PCIE_PME_TO_L2_TIMEOUT_US, false, pci);
-  1156		if (ret) {
-  1157			/* Only log message when LTSSM isn't in DETECT or POLL */
-  1158			dev_err(pci->dev, "Timeout waiting for L2 entry! LTSSM: 0x%x\n", val);
-  1159			return ret;
-  1160		}
-  1161	
-  1162		/*
-  1163		 * Per PCIe r6.0, sec 5.3.3.2.1, software should wait at least
-  1164		 * 100ns after L2/L3 Ready before turning off refclock and
-  1165		 * main power. This is harmless when no endpoint is connected.
-  1166		 */
-  1167		udelay(1);
-  1168	
-  1169	stop_link:
-  1170		dw_pcie_stop_link(pci);
-  1171		if (pci->pp.ops->deinit)
-  1172			pci->pp.ops->deinit(&pci->pp);
-  1173	
-  1174		pci->suspended = true;
-  1175	
-  1176		return ret;
-  1177	}
-  1178	EXPORT_SYMBOL_GPL(dw_pcie_suspend_noirq);
-  1179	
+   389	
+   390	static int rtl_ecc_probe(struct platform_device *pdev)
+   391	{
+   392		struct device *dev = &pdev->dev;
+   393		struct rtl_ecc_engine *rtlc;
+   394		void __iomem *base;
+   395		int ret;
+   396	
+   397		rtlc = devm_kzalloc(dev, sizeof(*rtlc), GFP_KERNEL);
+   398		if (!rtlc)
+   399			return -ENOMEM;
+   400	
+   401		base = devm_platform_ioremap_resource(pdev, 0);
+   402		if (IS_ERR(base))
+   403			return PTR_ERR(base);
+   404	
+   405		ret = devm_mutex_init(dev, &rtlc->lock);
+   406		if (ret)
+   407			return ret;
+   408	
+   409		rtlc->regmap = devm_regmap_init_mmio(dev, base, &rtl_ecc_regmap_config);
+   410		if (IS_ERR(rtlc->regmap))
+   411			return PTR_ERR(rtlc->regmap);
+   412	
+   413		/*
+   414		 * Focus on simplicity and use a preallocated DMA buffer for data exchange with the
+   415		 * engine. For now make it a noncoherent memory model as invalidating/flushing caches
+   416		 * is faster than reading/writing uncached memory on the known architectures.
+   417		 */
+   418	
+   419		rtlc->buf = dma_alloc_noncoherent(dev, RTL_ECC_DMA_SIZE, &rtlc->buf_dma,
+   420						  DMA_BIDIRECTIONAL, GFP_KERNEL);
+   421		if (IS_ERR(rtlc->buf))
+   422			return PTR_ERR(rtlc->buf);
+   423	
+   424		rtlc->dev = dev;
+   425		rtlc->engine.dev = dev;
+   426		rtlc->engine.ops = &rtl_ecc_engine_ops;
+   427		rtlc->engine.integration = NAND_ECC_ENGINE_INTEGRATION_EXTERNAL;
+   428	
+   429		nand_ecc_register_on_host_hw_engine(&rtlc->engine);
+   430	
+   431		platform_set_drvdata(pdev, rtlc);
+   432	
+   433		return 0;
+ > 434	}
+   435	
+   436	static void rtl_ecc_remove(struct platform_device *pdev)
+   437	{
+   438		struct rtl_ecc_engine *rtlc = platform_get_drvdata(pdev);
+   439	
+   440		nand_ecc_unregister_on_host_hw_engine(&rtlc->engine);
+   441		dma_free_noncoherent(rtlc->dev, RTL_ECC_DMA_SIZE, rtlc->buf, rtlc->buf_dma,
+   442				     DMA_BIDIRECTIONAL);
+ > 443	}
+   444	
 
 -- 
 0-DAY CI Kernel Test Service
