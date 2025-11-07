@@ -1,65 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A12303CAF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6359303CBB
 	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 06:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762498489; cv=none; b=muufJPmzNiJFfCjIPImP21i72PrBfuHitK2i3QQ7tLEt4etEbsdCbjMdf5poLlEMj3OZAEComlKDPc+87+hh6JTVdwuSbrtxnL7T6d4zyTQItU3xTvl+ELQzv+xJQxKmyLT7yjB+4g6vKCx/UFWkOwNwqfZLpWgUwu8/QVciJjs=
+	t=1762498490; cv=none; b=W5KVCSq8THgaOwAO29VVunvfRAsdHCBChoImfThkBFLUBaezgqpViD6+0x7G7KirFzCuHqJKezKKwlgQQcxLaFs+5xmo/ZbXs95Iy3HF5GuynZ/CA6e6N5//yq03SGqMRvtiyP3QNifedoVNWuC5i386N/bwUaOYCApVJal5qHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762498489; c=relaxed/simple;
-	bh=FvfOLjkE80+gbQn+a4An0EOfPXdtb1kZNcilFuT/WU8=;
+	s=arc-20240116; t=1762498490; c=relaxed/simple;
+	bh=sXyhTXDs909Z1OaZ582MkGIoqUjb2geKPygIS8L9w5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r+NmHYpOnz3F3pHUKZxe3dY+e31XbmpH3cannZ9VGD6EHbwyqSLQfNwmD2Y3afB6KdtqSNbmVpwgmMz22/B1MJS0BK9/aCK74T/vTrRv+YE+PF/en8PWlnFzVU+ZaglApnz+sE06iv7ZWNxJ3R+VNTjRnpLyi899HZvdOapvtXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrvFP0Ho; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=ik0K65+WAj8RGizqZr1WRbHjdVfr84e3jBMYg0fTPN3Ew4wUzUfE4XUjGRJ1mJ+0KwbvmMkdTBrWdu4KfTweuug40Gz0lcjHh/0PNWr3MVnRSwn1zT6cCL7TPKs146Yp0ry9EYJY7qureoWlKVlguK3x4dkNC2VHnf/OucNWXEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JijKWe7P; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrvFP0Ho"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JijKWe7P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762498488; x=1794034488;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FvfOLjkE80+gbQn+a4An0EOfPXdtb1kZNcilFuT/WU8=;
-  b=SrvFP0HoJ2slZ06K8jZ3+D/Yc9FsOJG0dN4gb/wtf6unstFtJ6uwP79i
-   SsY7yJCGlduLiW9vj7/Sr2bQa/0ObCm6YCgAw13Rp7h/2KzDS/wOb3bms
-   YbFZ6qZ4otIJo7SbbACk89WMumm1+fgMasO5uf67XCNe3FnY5o5cjXUr2
-   bX4djGEc2L0gip66EKxL9bJvt93yROU56GopvwSttL8HD6DN9Y+F2QK6j
-   qhBd1quDLHp7bZP9R0Y0USXVo1kUbHrdgYU9/12g25QE+ek6C4xiZ0rrQ
-   IWIun2y/G8OkhaVNWvDjDyHVdynxeo+Z0JbrpRbHzdB753L4YfqYl9NQ7
-   g==;
-X-CSE-ConnectionGUID: yaUUErlFRu+GsDXx/Ca98g==
-X-CSE-MsgGUID: lY+t5c2jQe6hfXyjwTQf4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64742522"
-X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="64742522"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 22:54:47 -0800
-X-CSE-ConnectionGUID: OdIrGuoIStGBxEkimjt+eg==
-X-CSE-MsgGUID: bZw+Z6vgQDyvp9cvISrUzA==
+  bh=sXyhTXDs909Z1OaZ582MkGIoqUjb2geKPygIS8L9w5M=;
+  b=JijKWe7PxTAog8KYTaysOpJNWl4pK4K1I7eyvX88YnYYRvM4m9T8OeMX
+   3LxWloykSCI/jMqPlhCESPVSOUPLDIp27KD03gf7lLZqckqRWaERvIiLy
+   RNRga3AxPOAqBMUG0RSie3MdDjIxPkG88NeqZmkA91axH1v8Fh1HFzJHf
+   3p5JcyTYAJCoGZtIMEth/VYqbPf7ZqYIzpDdeHP9yoE+DBNYBn8j+0yk1
+   4TY7Eqazp1b0GPIeQyDVMDIR0aYK/8Ye/NUBskY4lhp6puhXlVJtmoS3N
+   k6AqBTK96vyflhNOSLclgA8ZmL4dkXHIa6mfeg+jWLqDs/z1qlCJc5vXk
+   A==;
+X-CSE-ConnectionGUID: B1MCzqPuS12s9WIAmrgWbg==
+X-CSE-MsgGUID: 40/2zQDhQWyu0ZTnRETPUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64552953"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64552953"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 22:54:48 -0800
+X-CSE-ConnectionGUID: qCXu+G4TTie8yGYCXuV+sQ==
+X-CSE-MsgGUID: zmMYzrAYRzKAHZveSobs/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="225226832"
+   d="scan'208";a="188132550"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2025 22:54:44 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2025 22:54:44 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHGMr-000Uoj-1l;
+	id 1vHGMr-000Uoe-1G;
 	Fri, 07 Nov 2025 06:54:41 +0000
-Date: Fri, 7 Nov 2025 14:54:25 +0800
+Date: Fri, 7 Nov 2025 14:54:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tahera Fahimi <taherafahimi@linux.microsoft.com>, zohar@linux.ibm.com,
-	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	code@tyhicks.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tahera Fahimi <taherafahimi@linux.microsoft.com>
-Subject: Re: [Patch V1] ima: avoid duplicate policy rules insertions
-Message-ID: <202511071406.hU1UdCKh-lkp@intel.com>
-References: <20251106181404.3429710-1-taherafahimi@linux.microsoft.com>
+To: Fernand Sieber <sieberf@amazon.com>, mingo@redhat.com,
+	peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dwmw@amazon.co.uk, jschoenh@amazon.de, liuyuxua@amazon.com
+Subject: Re: [PATCH] sched: Proxy yields to donor tasks
+Message-ID: <202511071431.9PLsHNo5-lkp@intel.com>
+References: <20251106104022.195157-1-sieberf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,191 +67,285 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106181404.3429710-1-taherafahimi@linux.microsoft.com>
+In-Reply-To: <20251106104022.195157-1-sieberf@amazon.com>
 
-Hi Tahera,
+Hi Fernand,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on zohar-integrity/next-integrity]
+[auto build test WARNING on tip/sched/core]
 [also build test WARNING on linus/master v6.18-rc4 next-20251107]
+[cannot apply to peterz-queue/sched/core]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tahera-Fahimi/ima-avoid-duplicate-policy-rules-insertions/20251107-021615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20251106181404.3429710-1-taherafahimi%40linux.microsoft.com
-patch subject: [Patch V1] ima: avoid duplicate policy rules insertions
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251107/202511071406.hU1UdCKh-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071406.hU1UdCKh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fernand-Sieber/sched-Proxy-yields-to-donor-tasks/20251106-184337
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20251106104022.195157-1-sieberf%40amazon.com
+patch subject: [PATCH] sched: Proxy yields to donor tasks
+config: arm64-randconfig-r131-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071431.9PLsHNo5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071431.9PLsHNo5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511071406.hU1UdCKh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071431.9PLsHNo5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   security/integrity/ima/ima_policy.c: In function 'template_has_field':
->> security/integrity/ima/ima_policy.c:1958:13: warning: unused variable 'j' [-Wunused-variable]
-    1958 |         int j;
-         |             ^
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:1167:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:1167:49: sparse:     expected struct task_struct *running
+   kernel/sched/fair.c:1167:49: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:1201:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1201:33: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:1201:33: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:1259:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1259:34: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:1259:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:12848:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12848:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12848:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:7012:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:7012:58: sparse:     expected struct task_struct *p
+   kernel/sched/fair.c:7012:58: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:6072:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:6072:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:6072:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:8397:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8397:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:8397:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8601:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8601:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:8601:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8734:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8734:39: sparse:     expected struct task_struct *donor
+   kernel/sched/fair.c:8734:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:8766:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8766:37: sparse:     expected struct task_struct *tsk
+   kernel/sched/fair.c:8766:37: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/fair.c:8983:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8983:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8983:38: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:10020:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:10020:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair.c:10020:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair.c:10648:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:10648:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:10648:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:12093:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12093:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12093:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11743:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11743:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:11743:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:12208:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12208:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12208:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2625:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2625:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2625:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
 --
->> Warning: security/integrity/ima/ima_policy.c:2078 function parameter 'new_rule' not described in 'ima_rule_exists'
+   kernel/sched/rt.c:976:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/rt.c:1493:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/rt.c:1493:31: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:1493:31: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/rt.c:1809:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/rt.c:1809:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/rt.c:1809:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/rt.c:1512:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/rt.c:1512:14: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:1512:14: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:1513:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/rt.c:1513:15: sparse:     expected struct task_struct *donor
+   kernel/sched/rt.c:1513:15: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:1574:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/rt.c:1574:45: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:1574:45: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/rt.c:1616:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/rt.c:1616:39: sparse:     expected struct task_struct *donor
+   kernel/sched/rt.c:1616:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/rt.c:1635:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1635:64: sparse:     expected struct task_struct *tsk
+   kernel/sched/rt.c:1635:64: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1976:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1976:40: sparse:     expected struct task_struct *task
+   kernel/sched/rt.c:1976:40: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1999:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:1999:13: sparse:    struct task_struct *
+   kernel/sched/rt.c:1999:13: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:2345:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:2345:54: sparse:     expected struct task_struct *tsk
+   kernel/sched/rt.c:2345:54: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:2347:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/rt.c:2347:40: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:2347:40: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/rt.c:2347:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/rt.c:2347:62: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:2347:62: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/deadline.c:2677:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:2677:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:2677:23: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:2687:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2687:13: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2687:13: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2793:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2793:25: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2793:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2295:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:2295:42: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:2295:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:2305:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:2305:38: sparse:     expected struct task_struct *tsk
+   kernel/sched/deadline.c:2305:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1194:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1194:39: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1194:39: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1194:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:1194:85: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:1194:85: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:1292:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:1292:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1292:23: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:1590:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1590:31: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1590:31: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1590:70: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:1590:70: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:1590:70: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:1703:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:1703:39: sparse:     expected struct task_struct *donor
+   kernel/sched/deadline.c:1703:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:2513:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/deadline.c:2513:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/deadline.c:2513:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/deadline.c:2181:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/deadline.c:2181:14: sparse:     expected struct task_struct *curr
+   kernel/sched/deadline.c:2181:14: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2182:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/deadline.c:2182:15: sparse:     expected struct task_struct *donor
+   kernel/sched/deadline.c:2182:15: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2257:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:2257:43: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:2257:43: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:2838:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:2838:38: sparse:     expected struct task_struct *tsk
+   kernel/sched/deadline.c:2838:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2840:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:2840:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:2840:23: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:2842:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:2842:44: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:2842:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:3036:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:3036:23: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:3036:23: sparse:    struct task_struct *
+   kernel/sched/deadline.c:3083:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:185:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/syscalls.c:185:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/syscalls.c:185:22: sparse:    struct task_struct *
+>> kernel/sched/syscalls.c:1397:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/syscalls.c:1397:22: sparse:     expected struct task_struct *curr
+   kernel/sched/syscalls.c:1397:22: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2281:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2281:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:26: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:1257:6: sparse: sparse: context imbalance in 'sched_getaffinity' - wrong count at exit
+   kernel/sched/syscalls.c:1322:11: sparse: sparse: dereference of noderef expression
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:1659:15: sparse: sparse: dereference of noderef expression
 
+vim +8983 kernel/sched/fair.c
 
-vim +/j +1958 security/integrity/ima/ima_policy.c
-
-  1955	
-  1956	static bool template_has_field(const char *field_id, const struct ima_template_desc *template2)
-  1957	{
-> 1958		int j;
-  1959	
-  1960		for (int j = 0; j < template2->num_fields; j++)
-  1961			if (strcmp(field_id, template2->fields[j]->field_id) == 0)
-  1962				return true;
-  1963	
-  1964		return false;
-  1965	}
-  1966	
-  1967	static bool keyring_has_item(const char *item, const struct ima_rule_opt_list *keyrings)
-  1968	{
-  1969		int j;
-  1970	
-  1971		for (j = 0; j < keyrings->count; j++) {
-  1972			if (strcmp(item, keyrings->items[j]) == 0)
-  1973				return true;
-  1974		}
-  1975		return false;
-  1976	}
-  1977	
-  1978	static bool labels_has_item(const char *item, const struct ima_rule_opt_list *labels)
-  1979	{
-  1980		int j;
-  1981	
-  1982		for (j = 0; j < labels->count; j++) {
-  1983			if (strcmp(item, labels->items[j]) == 0)
-  1984				return true;
-  1985		}
-  1986		return false;
-  1987	}
-  1988	
-  1989	static bool ima_rules_equal(const struct ima_rule_entry *rule1, const struct ima_rule_entry *rule2)
-  1990	{
-  1991		int i;
-  1992	
-  1993		if (rule1->flags != rule2->flags)
-  1994			return false;
-  1995	
-  1996		if (rule1->action != rule2->action)
-  1997			return false;
-  1998	
-  1999		if (((rule1->flags & IMA_FUNC) && rule1->func != rule2->func) ||
-  2000		    ((rule1->flags & (IMA_MASK | IMA_INMASK)) && rule1->mask != rule2->mask) ||
-  2001		    ((rule1->flags & IMA_FSMAGIC) && rule1->fsmagic != rule2->fsmagic) ||
-  2002		    ((rule1->flags & IMA_FSUUID) && !uuid_equal(&rule1->fsuuid, &rule2->fsuuid)) ||
-  2003		    ((rule1->flags & IMA_UID) && !uid_eq(rule1->uid, rule2->uid)) ||
-  2004		    ((rule1->flags & IMA_GID) && !gid_eq(rule1->gid, rule2->gid)) ||
-  2005		    ((rule1->flags & IMA_FOWNER) && !uid_eq(rule1->fowner, rule2->fowner)) ||
-  2006		    ((rule1->flags & IMA_FGROUP) && !gid_eq(rule1->fgroup, rule2->fgroup)) ||
-  2007		    ((rule1->flags & IMA_FSNAME) && (strcmp(rule1->fsname, rule2->fsname) != 0)) ||
-  2008		    ((rule1->flags & IMA_PCR) && rule1->pcr != rule2->pcr) ||
-  2009		    ((rule1->flags & IMA_VALIDATE_ALGOS) &&
-  2010		      rule1->allowed_algos != rule2->allowed_algos) ||
-  2011		    ((rule1->flags & IMA_EUID) && !uid_eq(rule1->uid, rule2->uid)) ||
-  2012		    ((rule1->flags & IMA_EGID) && !gid_eq(rule1->gid, rule2->gid)))
-  2013			return false;
-  2014	
-  2015		if (!rule1->template && !rule2->template) {
-  2016			;
-  2017		} else if (!rule1->template || !rule2->template) {
-  2018			return false;
-  2019		} else if (rule1->template->num_fields != rule2->template->num_fields) {
-  2020			return false;
-  2021		} else if (rule1->template->num_fields != 0) {
-  2022			for (i = 0; i < rule1->template->num_fields; i++) {
-  2023				if (!template_has_field(rule1->template->fields[i]->field_id,
-  2024							rule2->template))
-  2025					return false;
-  2026			}
-  2027		}
-  2028	
-  2029		if (rule1->flags & IMA_KEYRINGS) {
-  2030			if (!rule1->keyrings && !rule2->keyrings) {
-  2031				;
-  2032			} else if (!rule1->keyrings || !rule2->keyrings) {
-  2033				return false;
-  2034			} else if (rule1->keyrings->count != rule2->keyrings->count) {
-  2035				return false;
-  2036			} else if (rule1->keyrings->count != 0) {
-  2037				for (i = 0; i < rule1->keyrings->count; i++) {
-  2038					if (!keyring_has_item(rule1->keyrings->items[i], rule2->keyrings))
-  2039						return false;
-  2040				}
-  2041			}
-  2042		}
-  2043	
-  2044		if (rule1->flags & IMA_LABEL) {
-  2045			if (!rule1->label && !rule2->label) {
-  2046				;
-  2047			} else if (!rule1->label || !rule2->label) {
-  2048				return false;
-  2049			} else if (rule1->label->count != rule2->label->count) {
-  2050				return false;
-  2051			} else if (rule1->label->count != 0) {
-  2052				for (i = 0; i < rule1->label->count; i++) {
-  2053					if (!labels_has_item(rule1->label->items[i], rule2->label))
-  2054						return false;
-  2055				}
-  2056			}
-  2057		}
-  2058	
-  2059		for (i = 0; i < MAX_LSM_RULES; i++) {
-  2060			if (!rule1->lsm[i].rule && !rule2->lsm[i].rule)
-  2061				continue;
-  2062	
-  2063			if (!rule1->lsm[i].rule || !rule2->lsm[i].rule)
-  2064				return false;
-  2065	
-  2066			if (strcmp(rule1->lsm[i].args_p, rule2->lsm[i].args_p) != 0)
-  2067				return false;
-  2068		}
-  2069	
-  2070		return true;
-  2071	}
-  2072	
-  2073	/**
-  2074	 * ima_rule_exists - check if a rule already exists in the policy
-  2075	 *
-  2076	 * Checking both the active policy and the temporary rules list.
-  2077	 */
-> 2078	static bool ima_rule_exists(struct ima_rule_entry *new_rule)
-  2079	{
-  2080		struct ima_rule_entry *entry;
-  2081		struct list_head *ima_rules_tmp;
-  2082	
-  2083		if (!list_empty(&ima_temp_rules)) {
-  2084			list_for_each_entry(entry, &ima_temp_rules, list) {
-  2085				if (ima_rules_equal(entry, new_rule))
-  2086					return true;
-  2087			}
-  2088		}
-  2089	
-  2090		rcu_read_lock();
-  2091		ima_rules_tmp = rcu_dereference(ima_rules);
-  2092		list_for_each_entry_rcu(entry, ima_rules_tmp, list) {
-  2093			if (ima_rules_equal(entry, new_rule)) {
-  2094				rcu_read_unlock();
-  2095				return true;
-  2096			}
-  2097		}
-  2098		rcu_read_unlock();
-  2099	
-  2100		return false;
-  2101	}
-  2102	
+  8977	
+  8978	/*
+  8979	 * sched_yield() is very simple
+  8980	 */
+  8981	static void yield_task_fair(struct rq *rq)
+  8982	{
+> 8983		struct task_struct *curr = rq->donor;
+  8984		struct cfs_rq *cfs_rq = task_cfs_rq(curr);
+  8985		struct sched_entity *se = &curr->se;
+  8986	
+  8987		/*
+  8988		 * Are we the only task in the tree?
+  8989		 */
+  8990		if (unlikely(rq->nr_running == 1))
+  8991			return;
+  8992	
+  8993		clear_buddies(cfs_rq, se);
+  8994	
+  8995		update_rq_clock(rq);
+  8996		/*
+  8997		 * Update run-time statistics of the 'current'.
+  8998		 */
+  8999		update_curr(cfs_rq);
+  9000		/*
+  9001		 * Tell update_rq_clock() that we've just updated,
+  9002		 * so we don't do microscopic update in schedule()
+  9003		 * and double the fastpath cost.
+  9004		 */
+  9005		rq_clock_skip_update(rq);
+  9006	
+  9007		/*
+  9008		 * Forfeit the remaining vruntime, only if the entity is eligible. This
+  9009		 * condition is necessary because in core scheduling we prefer to run
+  9010		 * ineligible tasks rather than force idling. If this happens we may
+  9011		 * end up in a loop where the core scheduler picks the yielding task,
+  9012		 * which yields immediately again; without the condition the vruntime
+  9013		 * ends up quickly running away.
+  9014		 */
+  9015		if (entity_eligible(cfs_rq, se)) {
+  9016			se->vruntime = se->deadline;
+  9017			se->deadline += calc_delta_fair(se->slice, se);
+  9018			update_min_vruntime(cfs_rq);
+  9019		}
+  9020	}
+  9021	
 
 -- 
 0-DAY CI Kernel Test Service
