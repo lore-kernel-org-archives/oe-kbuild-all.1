@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7A41E32D3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 03:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3E8A937
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 05:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762486871; cv=none; b=OIKJkNGSvn0NUrpwnr0oKqM3ZWkuE0h+CCeWFrRveDo36V3B/Fbgig6Lmhgi7urDpd31l57dssLXLdRPXv/s00mNGgROey8G6tuu2hZ3Yl/8cYHAxneqSbe6+Z6+TOVH/K+jFzmfS4Jhz6yX97m1VjV+F28b7Xv2dYwRf3Wu3BE=
+	t=1762493572; cv=none; b=bnvOyoABaX1fRTD1W6CJ6wXU6h6GOCiAtzVWVg+bypa6vd4fhiRNvU0DMUcrXhNx/fFN3Rp+qy7MPCg0nUINL02rVhSiCZkII/3rbh5M4mFKg56vA/POmOvbOB8/MI7y2F8sfO7bmr7m0bZHY/ECpAJ47ylxQScJ/z0aMr7wxHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762486871; c=relaxed/simple;
-	bh=s4gDsQXTGLmkO86GK80L1Mh9JJwBgH9BfFIwQ8B9k2M=;
+	s=arc-20240116; t=1762493572; c=relaxed/simple;
+	bh=uPlH+fFnEngPnUpwovNCLNeNiEKo2KnZs58LJ3qR3bA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=iSchkM7a/s0Q9DSH7FVJXfPdivK37OXvco0MEyiG5nfPHkck/+95psJuCMp2jNSXesouHSpGt5d+bP9XMHhiMyigr0ONdeYy2v4mG5ywlz9jy7R+m3RzAEzTEtckEIiM3UHFZqId9Qw9K+0gJliGlpKlsQ4KCHMJ64pUGqvkv1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDwicLVt; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=FIGFvhD9j3+mK5nJZUMPG9kRtKJlNQgX6NzNUnobcQPixWeFdl1QUk8u8JmGx4bTxI6iYX1tAIEPIHendp15AsA0UzD73QzY1MfblCMgqS8OPOAOjZWAnZfGisDf0aXgGXka+DWS1yny899/srLHlYqNEmhBTpa+f9cN1q2Kml4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8mV7hII; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDwicLVt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8mV7hII"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762486870; x=1794022870;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=s4gDsQXTGLmkO86GK80L1Mh9JJwBgH9BfFIwQ8B9k2M=;
-  b=PDwicLVtCNWeKDOqPWsO4PH4BjdmQWSb4szWpbBVptjSm6BmBquIII7Q
-   59TPwv2g2u17JhwHOPvJzv3LUI8VvrEcM1LyUiAM+b1DqT8ECdjpKBon3
-   XWwelFEI4oXwpQ7e8JUn8CJ9OECMvOQJ+IblgAO2amCpf+gu0+s3UhfTu
-   I+di0nym1sDhvGHXbj+Vh2HkrD+2v+GGnsLeXEBNmfmGtr52jy5rWmM6W
-   iB0bXSiIDJ02a1ZwbfAESUiHtn0Em68h0uxCUpg4xGoWffr6ngq3/ot1M
-   Sf9TJl/jXzi3FTToOBmcb86bQM2WrrEdZucj7i6EO6WSO1sawZGxV8iGB
-   w==;
-X-CSE-ConnectionGUID: l9Su9mnJQI6q/BZmCVnctA==
-X-CSE-MsgGUID: F2EwlomeTyuFNF99aUtFyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="52203088"
-X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="52203088"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 19:41:09 -0800
-X-CSE-ConnectionGUID: IcqZYJ5ZSXykh/6Za6enVg==
-X-CSE-MsgGUID: 3fFEqD7hQGeSAy3/e0nnfQ==
+  t=1762493571; x=1794029571;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uPlH+fFnEngPnUpwovNCLNeNiEKo2KnZs58LJ3qR3bA=;
+  b=Y8mV7hIIOGf+7tsG12rCf5cL+tLGrOshBZ/ZFPIonQS+6beGaHOV+ne/
+   mCDlJzdqIhaV6vkHzYFe/H7IVlYOFAMAiOFLtNzK7wdBAxxtA9dWKlMrN
+   wDaHICGl4xbHfpMvNSz4KKfTz4Kfsb8wxCrMxg99+DhZ1twFUCT0pey5I
+   ScmX6wg0tZI6o61urvCPaviAEaJhq47t6GnSQ4cf43rAnVRXnMwklvHzk
+   VoLE5gTpFVmBOepbmSwOGNLH5Vv3lAVI78Y+rbpcJ2GDAqKllxTb/l81U
+   SRRIrdGDRe/3TXxx7AKw/SosnpKNpmReu/9THisJDgUYV1LPjXBy0CG9v
+   A==;
+X-CSE-ConnectionGUID: CPGkkjFhQXCzkhmGp0WoLg==
+X-CSE-MsgGUID: JjrYhsFPShSwvL44Cu+HWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64567847"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64567847"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 21:32:50 -0800
+X-CSE-ConnectionGUID: xU+3WeIXTmOkhQzD4UXSyQ==
+X-CSE-MsgGUID: 87z8vLSkR2Kuqqt3ZWYKZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="192200538"
+   d="scan'208";a="188117737"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2025 19:41:07 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2025 21:32:48 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHDLW-000Ufg-0D;
-	Fri, 07 Nov 2025 03:41:06 +0000
-Date: Fri, 7 Nov 2025 11:40:59 +0800
+	id 1vHF5A-000Ujr-1Z;
+	Fri, 07 Nov 2025 05:32:25 +0000
+Date: Fri, 7 Nov 2025 13:31:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuai Zhang <quic_shuaz@quicinc.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] Bluetooth: qca: Fix delayed hw_error handling due
- to missing wakeup during SSR
-Message-ID: <aQ1qS9-MyXH-N5Jx@4b976af397a4>
+To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3075/3075] drivers/ub/ubus/interrupt.c:43:6:
+ warning: no previous prototype for function 'ub_intr_init'
+Message-ID: <202511071322.Zrq7tHrZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +61,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107033924.3707495-2-quic_shuaz@quicinc.com>
 
-Hi,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d92229e139bee35ce8e87e18db2e548549c94afd
+commit: 1faf759d302206a8387d685808928c228c9aa306 [3075/3075] ub:ubus: Add MSI capability for UBUS driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251107/202511071322.Zrq7tHrZ-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071322.Zrq7tHrZ-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071322.Zrq7tHrZ-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+>> drivers/ub/ubus/interrupt.c:43:6: warning: no previous prototype for function 'ub_intr_init' [-Wmissing-prototypes]
+      43 | void ub_intr_init(struct ub_entity *uent)
+         |      ^
+   drivers/ub/ubus/interrupt.c:43:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      43 | void ub_intr_init(struct ub_entity *uent)
+         | ^
+         | static 
+   1 warning generated.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v3 1/2] Bluetooth: qca: Fix delayed hw_error handling due to missing wakeup during SSR
-Link: https://lore.kernel.org/stable/20251107033924.3707495-2-quic_shuaz%40quicinc.com
+
+vim +/ub_intr_init +43 drivers/ub/ubus/interrupt.c
+
+    42	
+  > 43	void ub_intr_init(struct ub_entity *uent)
+    44	{
+    45		if (uent->cfg1_bitmap[0] & UB_INT_TYPE2_CAP_BIT)
+    46			uent->intr_type1 = 0;
+    47		else if (uent->cfg1_bitmap[0] & UB_INT_TYPE1_CAP_BIT)
+    48			uent->intr_type1 = 1;
+    49		else
+    50			uent->no_intr = 1;
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
