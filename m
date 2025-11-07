@@ -1,106 +1,83 @@
-Received: from fra-out-012.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-012.esa.eu-central-1.outbound.mail-perimeter.amazon.com [52.57.120.243])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CAA530F939
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 08:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.57.120.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F186E1DE2A7;
+	Fri,  7 Nov 2025 08:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762503218; cv=none; b=iNJ4PRSE+NSmfktc2PPI93sWgKAXCgjIRyTNbFkqk3QEBXniuFeKC6hjR705B4NFFPB2aGYK3PntwosDiA/YXEBJwMh4z6bxQod2QSuIWLJFUMBMt9/YGuBUSVd+gFnDiZuqYTPKZ5AWhW2Zd7xQpbRpi7CTI+eEXXCopDQi+nY=
+	t=1762503949; cv=none; b=EqsqoNPwlAZ7hGf/x5GUr0bY8sf7awUfDPoV8McR/xFsiwAvO2/RJ7suFS+DXw2Swxd0dl9STszb1s3+QbBRx9AX8LZMIDQIAYDu0WCHuuIeO1xYKH9LHQlwJeCtXz3hweNimMgzXs4bjAtl7R/b7ee+UrwvORGuMQRQP2Pl0Pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762503218; c=relaxed/simple;
-	bh=4drWl5oVKFuHl+xuGskNxzBylciVz8x2T3SKUA2S0FE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=INlWIWavQkXobVltUFjDN0C9/kE4dLMH421aNVDJ2V/GsMKrBCgTYJLtG6Dyv7GSbOrYE299w1teUYqBLkanYgYkkf+O0GumNXwOD19ztu0Rfjj8ByG3mmM5eRTRuBvBqOKYADhZEC/BrPrSaQ6oM6KhJSKZn5kAZBwqldhsfGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=WCrHPElf; arc=none smtp.client-ip=52.57.120.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1762503949; c=relaxed/simple;
+	bh=fSXTU+ZmbSrNyLZs/hXw56XEFhnbmazFyETIJgsmYnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUTsabbnMPNb2SEjRwpJPXuk1ndJWBfCgImKj5ixJ8yt6f6bj//lFkTbcWvaX/DBNyFHlVvPn95lGOz/anAIn9VZoPUi9Aa893bBowbR/Fo2kK2l7k0NlgAtjxKOmCdKcVHk9b7C1UHTs9d4uhvfihRDRdg0Hpy8YtM0+M35WkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C8tU/REP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="WCrHPElf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1762503216; x=1794039216;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6t2bOWhqRFGRHDboXfRasxJuQqR5SKfxvlginqnwOjY=;
-  b=WCrHPElfccFih/Fum/tCuo4mnsP7MZLfkZqVOVeUhYK27ak1oep6vXtT
-   dEOqcVo9LN1yF37CazmH3RV9bsa/cBcwLjCBFvyByZ5Mf1/DEsq3KSE6x
-   690xDhRiyUxCMex/7r83ZQGjswriAkNllukow15uVYUjsE3u3pM2zUJ+D
-   h9Vu3LjTInCC2X1pWYQpHDei66pOA4u5Bd2mPiSqA/hYNWgxDetJE6B6R
-   X9ODfcennc4NkRK+xsdBsGHpsd1RakxS70AJfCJBmdYLfpvjiaXGIsqQ7
-   yBYdX/loRDYZ5LQ6iGHP/4aZC2etZ4tnluFngv8jIz3PxY9obUskaPQLt
-   w==;
-X-CSE-ConnectionGUID: f6dI5ghBR+asn7PzWqp2kg==
-X-CSE-MsgGUID: jh4Yrn5OT0SwgNQA4jDeYA==
-X-IronPort-AV: E=Sophos;i="6.19,286,1754956800"; 
-   d="scan'208";a="4714418"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-012.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 08:13:18 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:11665]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.18.231:2525] with esmtp (Farcaster)
- id a18729ee-b55f-4e0f-9a07-b1edd40c21df; Fri, 7 Nov 2025 08:13:18 +0000 (UTC)
-X-Farcaster-Flow-ID: a18729ee-b55f-4e0f-9a07-b1edd40c21df
-Received: from EX19D003EUB001.ant.amazon.com (10.252.51.97) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Fri, 7 Nov 2025 08:13:17 +0000
-Received: from u5934974a1cdd59.ant.amazon.com (10.146.13.223) by
- EX19D003EUB001.ant.amazon.com (10.252.51.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Fri, 7 Nov 2025 08:13:10 +0000
-From: Fernand Sieber <sieberf@amazon.com>
-To: kernel test robot <lkp@intel.com>, <mingo@redhat.com>,
-	<peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
-	<vschneid@redhat.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<dwmw@amazon.co.uk>, <jschoenh@amazon.de>, <liuyuxua@amazon.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C8tU/REP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ElT3P/iQ0ud5lYAR0km91yYuetFA3A5e1fStQ11xLmY=; b=C8tU/REPeIXlYzRQOU4tafFYZt
+	68jxZ1j+smi0Sx5VpNF5wnh21aWwBmllH4q8HZqfH8bxNLQPySJiPj+d/5eQehm5XpcLTFzuTboQT
+	DmX1F74WZFpccVQW0gq42mlu9vp+TLdjpCzb2GKxRJ5npss9b/n1qvI1Du5RJ5yALPu4DGB2cowG4
+	Ba49ikld7zPPJoTDx1Xabgh16bF+9LLvsAlHO2QSGiJYr13j0Ggc4XPvpgMBtDUFUdtbzDOvC16CC
+	n92gSHJQ2OOybHgE4Bsf7Cvn8o/jMzYb1Xn4GJAzjfvktCweuRznJzmOQKG+Spvo65ACSP0cF1+TU
+	OIu610YA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vHHmp-00000004c0s-0LMh;
+	Fri, 07 Nov 2025 08:25:37 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 9A0143001D4; Fri, 07 Nov 2025 09:25:33 +0100 (CET)
+Date: Fri, 7 Nov 2025 09:25:33 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Fernand Sieber <sieberf@amazon.com>
+Cc: kernel test robot <lkp@intel.com>, mingo@redhat.com,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dwmw@amazon.co.uk, jschoenh@amazon.de,
+	liuyuxua@amazon.com
 Subject: Re: [PATCH] sched: Proxy yields to donor tasks
-Date: Fri, 7 Nov 2025 10:12:53 +0200
-Message-ID: <20251107081254.110947-1-sieberf@amazon.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202511071431.9PLsHNo5-lkp@intel.com>
-References: <20251106104022.195157-1-sieberf@amazon.com> <202511071431.9PLsHNo5-lkp@intel.com>
+Message-ID: <20251107082533.GA1508773@noisy.programming.kicks-ass.net>
+References: <20251106104022.195157-1-sieberf@amazon.com>
+ <202511071431.9PLsHNo5-lkp@intel.com>
+ <20251107081254.110947-1-sieberf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D031UWC001.ant.amazon.com (10.13.139.241) To
- EX19D003EUB001.ant.amazon.com (10.252.51.97)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251107081254.110947-1-sieberf@amazon.com>
 
-On Thu, Nov 07, 2025 at 02:31:16PM +0800, kernel test robot wrote:
-> sparse warnings: (new ones prefixed by >>)
->
->>> kernel/sched/rt.c:529:55: sparse: warning: incorrect type in initializer (different address spaces)
->>> kernel/sched/rt.c:976:39: sparse: warning: incorrect type in initializer (different address spaces)
+On Fri, Nov 07, 2025 at 10:12:53AM +0200, Fernand Sieber wrote:
+> On Thu, Nov 07, 2025 at 02:31:16PM +0800, kernel test robot wrote:
+> > sparse warnings: (new ones prefixed by >>)
+> >
+> >>> kernel/sched/rt.c:529:55: sparse: warning: incorrect type in initializer (different address spaces)
+> >>> kernel/sched/rt.c:976:39: sparse: warning: incorrect type in initializer (different address spaces)
+> 
+> Thank you for the report.
+> 
+> The warnings occur because my patch changes scheduler yield functions from
+> accessing rq->curr to rq->donor, both of which have identical __rcu annotations.
+> These are pre-existing annotation issues in the scheduler code, which has been
+> directly accessing RCU-annotated pointers without proper dereferencing, relying
+> on runqueue lock protection instead.
+> 
+> If we do want to address these sparse warnings, I can make modifications like:
+> 
+> -               curr = rq->donor;
+> +               curr = rcu_dereference_protected(rq->donor, lockdep_is_held(&rq->__lock));
+> 
+> This would have zero runtime overhead while satisfying sparse's RCU checking.
+> 
+> Peter, let me know if these warnings should be addressed.
 
-Thank you for the report.
-
-The warnings occur because my patch changes scheduler yield functions from
-accessing rq->curr to rq->donor, both of which have identical __rcu annotations.
-These are pre-existing annotation issues in the scheduler code, which has been
-directly accessing RCU-annotated pointers without proper dereferencing, relying
-on runqueue lock protection instead.
-
-If we do want to address these sparse warnings, I can make modifications like:
-
--               curr = rq->donor;
-+               curr = rcu_dereference_protected(rq->donor, lockdep_is_held(&rq->__lock));
-
-This would have zero runtime overhead while satisfying sparse's RCU checking.
-
-Peter, let me know if these warnings should be addressed.
-
-Thanks,
-Fernand
-
-
-
-Amazon Development Centre (South Africa) (Proprietary) Limited
-29 Gogosoa Street, Observatory, Cape Town, Western Cape, 7925, South Africa
-Registration Number: 2004 / 034463 / 07
-
+Nah, I'm happy to ignore them to retain readable code :-)
