@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEB5303CA0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 06:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A12303CAF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 06:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762498488; cv=none; b=eHKuPSlERVC92QzmVMJSgXFj0cgdc0zavJOb/rL5fdtwI68qU3ErhjccmK0S7R80MCfvrGQzmO+ZztfzrQ/muV/rR3neqzzPMNa/1ANx4m7t/BiPyp7f20rp30la9qZABz4YgJYqFGABZ48cNmZJBqaW3bQ6bXk1fiXhm/CJVC4=
+	t=1762498489; cv=none; b=muufJPmzNiJFfCjIPImP21i72PrBfuHitK2i3QQ7tLEt4etEbsdCbjMdf5poLlEMj3OZAEComlKDPc+87+hh6JTVdwuSbrtxnL7T6d4zyTQItU3xTvl+ELQzv+xJQxKmyLT7yjB+4g6vKCx/UFWkOwNwqfZLpWgUwu8/QVciJjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762498488; c=relaxed/simple;
-	bh=baqHi0dMXDMwqcuZ0IiBEJFEHLA4yuvJjuO6eYSjQWo=;
+	s=arc-20240116; t=1762498489; c=relaxed/simple;
+	bh=FvfOLjkE80+gbQn+a4An0EOfPXdtb1kZNcilFuT/WU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K6SA2XYJuKnHFXXwr3aos6LpdddPlyOgtxNRben0OigKHIEpaLqWY8w5Vh+9iX3j8GI4iHBy9dEy5Eoe/u0X/0e89jK0BVjOD/ylpNYhz/EdDWSD3bnk+pbROcNcRBohBzcxfrZmegY9KcnwMNmo5UbZxr55cPWO59ibD0GSIWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZYEN/EC; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=r+NmHYpOnz3F3pHUKZxe3dY+e31XbmpH3cannZ9VGD6EHbwyqSLQfNwmD2Y3afB6KdtqSNbmVpwgmMz22/B1MJS0BK9/aCK74T/vTrRv+YE+PF/en8PWlnFzVU+ZaglApnz+sE06iv7ZWNxJ3R+VNTjRnpLyi899HZvdOapvtXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrvFP0Ho; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZYEN/EC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrvFP0Ho"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762498486; x=1794034486;
+  t=1762498488; x=1794034488;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=baqHi0dMXDMwqcuZ0IiBEJFEHLA4yuvJjuO6eYSjQWo=;
-  b=JZYEN/ECASloBsB3bOx/mABP7md2HRZksZDZcac+UeCRT0X1YX13KAgc
-   nIkSaDpo3GLdJd4KF30u6FUSipnnF7FpO6EuFzbN99GFqseV4vtzbdKRp
-   hRYk5zHBun3SVm0Jkr2mYBzuecqisd6LxfootfjnL2MBef5fMyPn9qqkF
-   /TS9mynIg4A73KtOGoYxYhlIrsFfYq3JFw4VowiyY28hl0XSYSZJKUGPQ
-   md1lgr40GsM+ZmYM035vjq5M3kjW3UUqbI9KTM2XPapb5cf2Z7d50NAx2
-   RlLV3mTMqBMrFtrkVUWSrBoMyIjeC86U8CPFdmuvm/J4JJAhbL7PC4i82
-   A==;
-X-CSE-ConnectionGUID: 81U+pjbET9Wriq4Qrt47yw==
-X-CSE-MsgGUID: 7cRNRxUhQpCVU1xM2eVPTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="75759859"
+  bh=FvfOLjkE80+gbQn+a4An0EOfPXdtb1kZNcilFuT/WU8=;
+  b=SrvFP0HoJ2slZ06K8jZ3+D/Yc9FsOJG0dN4gb/wtf6unstFtJ6uwP79i
+   SsY7yJCGlduLiW9vj7/Sr2bQa/0ObCm6YCgAw13Rp7h/2KzDS/wOb3bms
+   YbFZ6qZ4otIJo7SbbACk89WMumm1+fgMasO5uf67XCNe3FnY5o5cjXUr2
+   bX4djGEc2L0gip66EKxL9bJvt93yROU56GopvwSttL8HD6DN9Y+F2QK6j
+   qhBd1quDLHp7bZP9R0Y0USXVo1kUbHrdgYU9/12g25QE+ek6C4xiZ0rrQ
+   IWIun2y/G8OkhaVNWvDjDyHVdynxeo+Z0JbrpRbHzdB753L4YfqYl9NQ7
+   g==;
+X-CSE-ConnectionGUID: yaUUErlFRu+GsDXx/Ca98g==
+X-CSE-MsgGUID: lY+t5c2jQe6hfXyjwTQf4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="64742522"
 X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="75759859"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 22:54:46 -0800
-X-CSE-ConnectionGUID: izkHjS9MTA2yQuRLAk25jw==
-X-CSE-MsgGUID: rGfDkCzhQnura6ISz0qw7w==
+   d="scan'208";a="64742522"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 22:54:47 -0800
+X-CSE-ConnectionGUID: OdIrGuoIStGBxEkimjt+eg==
+X-CSE-MsgGUID: bZw+Z6vgQDyvp9cvISrUzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
-   d="scan'208";a="193135607"
+   d="scan'208";a="225226832"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2025 22:54:44 -0800
+  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2025 22:54:44 -0800
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHGMr-000Uoh-1h;
+	id 1vHGMr-000Uoj-1l;
 	Fri, 07 Nov 2025 06:54:41 +0000
-Date: Fri, 7 Nov 2025 14:54:24 +0800
+Date: Fri, 7 Nov 2025 14:54:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Artem Shimko <a.shimko.dev@gmail.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>, Andi Shyti <andi.shyti@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Artem Shimko <a.shimko.dev@gmail.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: designware: Replace magic numbers with named
- constants
-Message-ID: <202511071402.qHS6LLi9-lkp@intel.com>
-References: <20251106160206.2617785-1-a.shimko.dev@gmail.com>
+To: Tahera Fahimi <taherafahimi@linux.microsoft.com>, zohar@linux.ibm.com,
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	code@tyhicks.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Tahera Fahimi <taherafahimi@linux.microsoft.com>
+Subject: Re: [Patch V1] ima: avoid duplicate policy rules insertions
+Message-ID: <202511071406.hU1UdCKh-lkp@intel.com>
+References: <20251106181404.3429710-1-taherafahimi@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,84 +68,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106160206.2617785-1-a.shimko.dev@gmail.com>
+In-Reply-To: <20251106181404.3429710-1-taherafahimi@linux.microsoft.com>
 
-Hi Artem,
+Hi Tahera,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on westeri-thunderbolt/next linus/master v6.18-rc4 next-20251107]
+[auto build test WARNING on zohar-integrity/next-integrity]
+[also build test WARNING on linus/master v6.18-rc4 next-20251107]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Artem-Shimko/i2c-designware-Replace-magic-numbers-with-named-constants/20251107-000812
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20251106160206.2617785-1-a.shimko.dev%40gmail.com
-patch subject: [PATCH v2] i2c: designware: Replace magic numbers with named constants
-config: loongarch-randconfig-001-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071402.qHS6LLi9-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071402.qHS6LLi9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tahera-Fahimi/ima-avoid-duplicate-policy-rules-insertions/20251107-021615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
+patch link:    https://lore.kernel.org/r/20251106181404.3429710-1-taherafahimi%40linux.microsoft.com
+patch subject: [Patch V1] ima: avoid duplicate policy rules insertions
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251107/202511071406.hU1UdCKh-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511071406.hU1UdCKh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511071402.qHS6LLi9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511071406.hU1UdCKh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-designware-common.c: In function 'i2c_dw_set_fifo_size':
->> drivers/i2c/busses/i2c-designware-common.c:712:25: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     712 |         tx_fifo_depth = FIELD_GET(DW_IC_FIFO_TX_FIELD, param) + 1;
-         |                         ^~~~~~~~~
+   security/integrity/ima/ima_policy.c: In function 'template_has_field':
+>> security/integrity/ima/ima_policy.c:1958:13: warning: unused variable 'j' [-Wunused-variable]
+    1958 |         int j;
+         |             ^
+--
+>> Warning: security/integrity/ima/ima_policy.c:2078 function parameter 'new_rule' not described in 'ima_rule_exists'
 
 
-vim +/FIELD_GET +712 drivers/i2c/busses/i2c-designware-common.c
+vim +/j +1958 security/integrity/ima/ima_policy.c
 
-   684	
-   685	int i2c_dw_set_fifo_size(struct dw_i2c_dev *dev)
-   686	{
-   687		u32 tx_fifo_depth, rx_fifo_depth;
-   688		unsigned int param;
-   689		int ret;
-   690	
-   691		/* DW_IC_COMP_PARAM_1 not implement for IP issue */
-   692		if ((dev->flags & MODEL_MASK) == MODEL_WANGXUN_SP) {
-   693			dev->tx_fifo_depth = TXGBE_TX_FIFO_DEPTH;
-   694			dev->rx_fifo_depth = TXGBE_RX_FIFO_DEPTH;
-   695	
-   696			return 0;
-   697		}
-   698	
-   699		/*
-   700		 * Try to detect the FIFO depth if not set by interface driver,
-   701		 * the depth could be from 2 to 256 from HW spec.
-   702		 */
-   703		ret = i2c_dw_acquire_lock(dev);
-   704		if (ret)
-   705			return ret;
-   706	
-   707		ret = regmap_read(dev->map, DW_IC_COMP_PARAM_1, &param);
-   708		i2c_dw_release_lock(dev);
-   709		if (ret)
-   710			return ret;
-   711	
- > 712		tx_fifo_depth = FIELD_GET(DW_IC_FIFO_TX_FIELD, param) + 1;
-   713		rx_fifo_depth = FIELD_GET(DW_IC_FIFO_RX_FIELD, param) + 1;
-   714		if (!dev->tx_fifo_depth) {
-   715			dev->tx_fifo_depth = tx_fifo_depth;
-   716			dev->rx_fifo_depth = rx_fifo_depth;
-   717		} else if (tx_fifo_depth >= DW_IC_FIFO_MIN_DEPTH) {
-   718			dev->tx_fifo_depth = min_t(u32, dev->tx_fifo_depth,
-   719					tx_fifo_depth);
-   720			dev->rx_fifo_depth = min_t(u32, dev->rx_fifo_depth,
-   721					rx_fifo_depth);
-   722		}
-   723	
-   724		return 0;
-   725	}
-   726	
+  1955	
+  1956	static bool template_has_field(const char *field_id, const struct ima_template_desc *template2)
+  1957	{
+> 1958		int j;
+  1959	
+  1960		for (int j = 0; j < template2->num_fields; j++)
+  1961			if (strcmp(field_id, template2->fields[j]->field_id) == 0)
+  1962				return true;
+  1963	
+  1964		return false;
+  1965	}
+  1966	
+  1967	static bool keyring_has_item(const char *item, const struct ima_rule_opt_list *keyrings)
+  1968	{
+  1969		int j;
+  1970	
+  1971		for (j = 0; j < keyrings->count; j++) {
+  1972			if (strcmp(item, keyrings->items[j]) == 0)
+  1973				return true;
+  1974		}
+  1975		return false;
+  1976	}
+  1977	
+  1978	static bool labels_has_item(const char *item, const struct ima_rule_opt_list *labels)
+  1979	{
+  1980		int j;
+  1981	
+  1982		for (j = 0; j < labels->count; j++) {
+  1983			if (strcmp(item, labels->items[j]) == 0)
+  1984				return true;
+  1985		}
+  1986		return false;
+  1987	}
+  1988	
+  1989	static bool ima_rules_equal(const struct ima_rule_entry *rule1, const struct ima_rule_entry *rule2)
+  1990	{
+  1991		int i;
+  1992	
+  1993		if (rule1->flags != rule2->flags)
+  1994			return false;
+  1995	
+  1996		if (rule1->action != rule2->action)
+  1997			return false;
+  1998	
+  1999		if (((rule1->flags & IMA_FUNC) && rule1->func != rule2->func) ||
+  2000		    ((rule1->flags & (IMA_MASK | IMA_INMASK)) && rule1->mask != rule2->mask) ||
+  2001		    ((rule1->flags & IMA_FSMAGIC) && rule1->fsmagic != rule2->fsmagic) ||
+  2002		    ((rule1->flags & IMA_FSUUID) && !uuid_equal(&rule1->fsuuid, &rule2->fsuuid)) ||
+  2003		    ((rule1->flags & IMA_UID) && !uid_eq(rule1->uid, rule2->uid)) ||
+  2004		    ((rule1->flags & IMA_GID) && !gid_eq(rule1->gid, rule2->gid)) ||
+  2005		    ((rule1->flags & IMA_FOWNER) && !uid_eq(rule1->fowner, rule2->fowner)) ||
+  2006		    ((rule1->flags & IMA_FGROUP) && !gid_eq(rule1->fgroup, rule2->fgroup)) ||
+  2007		    ((rule1->flags & IMA_FSNAME) && (strcmp(rule1->fsname, rule2->fsname) != 0)) ||
+  2008		    ((rule1->flags & IMA_PCR) && rule1->pcr != rule2->pcr) ||
+  2009		    ((rule1->flags & IMA_VALIDATE_ALGOS) &&
+  2010		      rule1->allowed_algos != rule2->allowed_algos) ||
+  2011		    ((rule1->flags & IMA_EUID) && !uid_eq(rule1->uid, rule2->uid)) ||
+  2012		    ((rule1->flags & IMA_EGID) && !gid_eq(rule1->gid, rule2->gid)))
+  2013			return false;
+  2014	
+  2015		if (!rule1->template && !rule2->template) {
+  2016			;
+  2017		} else if (!rule1->template || !rule2->template) {
+  2018			return false;
+  2019		} else if (rule1->template->num_fields != rule2->template->num_fields) {
+  2020			return false;
+  2021		} else if (rule1->template->num_fields != 0) {
+  2022			for (i = 0; i < rule1->template->num_fields; i++) {
+  2023				if (!template_has_field(rule1->template->fields[i]->field_id,
+  2024							rule2->template))
+  2025					return false;
+  2026			}
+  2027		}
+  2028	
+  2029		if (rule1->flags & IMA_KEYRINGS) {
+  2030			if (!rule1->keyrings && !rule2->keyrings) {
+  2031				;
+  2032			} else if (!rule1->keyrings || !rule2->keyrings) {
+  2033				return false;
+  2034			} else if (rule1->keyrings->count != rule2->keyrings->count) {
+  2035				return false;
+  2036			} else if (rule1->keyrings->count != 0) {
+  2037				for (i = 0; i < rule1->keyrings->count; i++) {
+  2038					if (!keyring_has_item(rule1->keyrings->items[i], rule2->keyrings))
+  2039						return false;
+  2040				}
+  2041			}
+  2042		}
+  2043	
+  2044		if (rule1->flags & IMA_LABEL) {
+  2045			if (!rule1->label && !rule2->label) {
+  2046				;
+  2047			} else if (!rule1->label || !rule2->label) {
+  2048				return false;
+  2049			} else if (rule1->label->count != rule2->label->count) {
+  2050				return false;
+  2051			} else if (rule1->label->count != 0) {
+  2052				for (i = 0; i < rule1->label->count; i++) {
+  2053					if (!labels_has_item(rule1->label->items[i], rule2->label))
+  2054						return false;
+  2055				}
+  2056			}
+  2057		}
+  2058	
+  2059		for (i = 0; i < MAX_LSM_RULES; i++) {
+  2060			if (!rule1->lsm[i].rule && !rule2->lsm[i].rule)
+  2061				continue;
+  2062	
+  2063			if (!rule1->lsm[i].rule || !rule2->lsm[i].rule)
+  2064				return false;
+  2065	
+  2066			if (strcmp(rule1->lsm[i].args_p, rule2->lsm[i].args_p) != 0)
+  2067				return false;
+  2068		}
+  2069	
+  2070		return true;
+  2071	}
+  2072	
+  2073	/**
+  2074	 * ima_rule_exists - check if a rule already exists in the policy
+  2075	 *
+  2076	 * Checking both the active policy and the temporary rules list.
+  2077	 */
+> 2078	static bool ima_rule_exists(struct ima_rule_entry *new_rule)
+  2079	{
+  2080		struct ima_rule_entry *entry;
+  2081		struct list_head *ima_rules_tmp;
+  2082	
+  2083		if (!list_empty(&ima_temp_rules)) {
+  2084			list_for_each_entry(entry, &ima_temp_rules, list) {
+  2085				if (ima_rules_equal(entry, new_rule))
+  2086					return true;
+  2087			}
+  2088		}
+  2089	
+  2090		rcu_read_lock();
+  2091		ima_rules_tmp = rcu_dereference(ima_rules);
+  2092		list_for_each_entry_rcu(entry, ima_rules_tmp, list) {
+  2093			if (ima_rules_equal(entry, new_rule)) {
+  2094				rcu_read_unlock();
+  2095				return true;
+  2096			}
+  2097		}
+  2098		rcu_read_unlock();
+  2099	
+  2100		return false;
+  2101	}
+  2102	
 
 -- 
 0-DAY CI Kernel Test Service
