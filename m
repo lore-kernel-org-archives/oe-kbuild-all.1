@@ -1,214 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD11E22422A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 19:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AB9303C9B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 20:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762542195; cv=none; b=tB6BZ34+s8o9Attfi8P/AsD89bXh/bDWihopjIiY0em1BNN8IT5LWfHNN9MvNNUQ3Q7tLwCUVSeqBiYrBn3lRFh8owp1/nOUEx7OZ56Yvv+nlcFtT+bGVBel3f7kPu02FzEGBtjxjN3FHrfk5PP22w5uLbjEuqXInvOD2Wb7+6k=
+	t=1762546133; cv=none; b=rfU3GqNny/R0oA9RrKRbl4PeqTXDfC7sTF2XPoj9n98I50wxG1K/b2BU3WF/2c89iieyw331MCS5G14EGYL4iLdOaeLi8kw/SQQAsFeulxc1Gx8zzvA/G04g6t7EQ1aszejEjAxmjAaCU6pG+ilaXOhwYedHCc+Y6yVGBgKXhf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762542195; c=relaxed/simple;
-	bh=bPqk3Q+eO6IY6LZKH9QHzMEyAi7mgDk5om75cwBmsCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JloA/qAL/VfBv6kWj4YT44NWiYoa5kyu5UVpJo5+le0sz1pC/RmvUOYBk0aHyQoAtcAwOYMZSVO0WiRfuWKrXvZ2PykkXLaeCvp55UnQ3d6J9QnU1Qh0sTSr9BmXnGvQ8EGe/NMQ02HWJEBkttU3cWcDHkb+mdbVpo58hYmf3Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fq4Ps+y3; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762546133; c=relaxed/simple;
+	bh=szesQpSM5oo7OsiDU5UKtOwtIL9eGv7CnUXjP7KFeos=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tUaoVVpMiDKi4Sj+Hu8y8NNFVYqOdoC4ysudb5rsO7NsqanGRvoL+9igdtgvoSXrZtK15OK1qtiRQ0N40ySpX2fklzAM2k1dD6wObKesiG/eUKXrIiuf1lBDCOFslU/1H4wI8bldVQIFTXOQyQDzJm03Ryy3EyeAB5DV4iFIxaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MK4ExjfM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fq4Ps+y3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762542194; x=1794078194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bPqk3Q+eO6IY6LZKH9QHzMEyAi7mgDk5om75cwBmsCY=;
-  b=fq4Ps+y3Q1Yii4v+DdXkkZG63Gte+lXEvNg3SDEIKTWmB01ATEwpQ72p
-   U0i6VbG9gGTuFcYy9xs/kHwa3uQQPFgmWZJH5jRHiLbjyYx+SChFX/lS7
-   S0/H1QgYwMnhNsUWuOugYxQg/GIqYbSjUIIGS9G01wzc1OgZZLj/39Ttp
-   mIvTDaY3ZIYNT1lcP3gnH6c/8jMPM0Wh1RQ+cXr1it2DWhmsmidGfa2LQ
-   0e2g4NtdV9AEvmL+auqLe6yID7pEjNzhy0RbrJY/fZEPXnDme0ZS8VejM
-   CEpInFLFZkcef7Km6dcPqr2z1BRpv0txWvwN5aM+Snt/CRhPLRumtiyyu
-   A==;
-X-CSE-ConnectionGUID: n5aPd9cRTVKBqng7iQolJw==
-X-CSE-MsgGUID: /F2p98yzTdeHjFSQTjJryQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64612401"
-X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
-   d="scan'208";a="64612401"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 11:03:13 -0800
-X-CSE-ConnectionGUID: W8YChswmTui/RPJdj8+/gA==
-X-CSE-MsgGUID: ARfXSstZQeanC60Om1BsTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
-   d="scan'208";a="187833773"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Nov 2025 11:03:11 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vHRjo-0000Gd-2E;
-	Fri, 07 Nov 2025 19:03:08 +0000
-Date: Sat, 8 Nov 2025 03:02:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	io-uring@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Akilesh Kailash <akailash@google.com>, bpf@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH 3/5] io_uring: bpf: extend io_uring with bpf struct_ops
-Message-ID: <202511080257.ZRnK6f2W-lkp@intel.com>
-References: <20251104162123.1086035-4-ming.lei@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MK4ExjfM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1123EC2BCB3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 20:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762546133;
+	bh=szesQpSM5oo7OsiDU5UKtOwtIL9eGv7CnUXjP7KFeos=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MK4ExjfMOWhtxaY36/EOJRaYXFbTHV0SGPpxdCQJWplE4xG4HgiJ/ylwJc787Sksa
+	 z4vyAEvMqm8NrQX0OlAizkMW8wjEZuNS5Wp+5v1eINEQeTr/blBsc7Dp74Ss+XFGm8
+	 ZP1vf2pa6AmEiaf541pEAg1rJiD2UJua1uBPdy34Z4A95X4npaz4LhFWjqwfhFnZig
+	 XS16qV7a8Numgked/F2/VWMeyKLyvY5hZhj9WSzJIhZ6vCWdvnFQOjkBEy59h3YFPM
+	 PslUlvQWGzFdNo/n3EMnmg0yoii6ECsU+V8Obkcrp0Zd7XhalC2zIu801ciyFm7KuX
+	 XWI6a6XH/tzRw==
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-656b612e607so493735eaf.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Nov 2025 12:08:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWBlBvQFx/vqEWNFB8UW68utaXrpHtsNpmN8DNwQa5R7NpNrSBqU7lAugrDN8NGincIdWLmRy8PRYdn8EGk@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIt3WheVG7e4aEZeIX4ndDYCN2bWm6PmoKgmbJHfx51161ds+r
+	q9PmK1e+ZvFu+C/iQDNEBwah7a+DXKHLJVSanREa+UjEw30mFKsMflitz6bNKnQY+KMtuzIeQVT
+	VIFjezwWHNTzTbhFHIcUhLXEpkivYWQc=
+X-Google-Smtp-Source: AGHT+IGA04jm71Ij9xeQJEzJY7AxE62iCGgrrBQyNvtjVXE70OmsxBr7+clNSkaS9F9EzCSb46Qp9YHiGNZGj0RJ2fQ=
+X-Received: by 2002:a05:6820:16a6:b0:656:8360:3906 with SMTP id
+ 006d021491bc7-656d8ea527dmr426344eaf.8.1762546131960; Fri, 07 Nov 2025
+ 12:08:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251104162123.1086035-4-ming.lei@redhat.com>
+References: <20251105113844.4086250-5-sumitg@nvidia.com> <202511061802.lIq09jwh-lkp@intel.com>
+ <be696cb5-7d0d-44f6-970b-e417c2f89a8e@nvidia.com>
+In-Reply-To: <be696cb5-7d0d-44f6-970b-e417c2f89a8e@nvidia.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 7 Nov 2025 21:08:40 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0j8bQm+00+m75rmpKpm8yVumvYsWzCdYyCPwksnebY__A@mail.gmail.com>
+X-Gm-Features: AWmQ_bnyTo8wfwCEW9lyu_1xYl179djStUEiTR_5ulbMLWD8CjXHhBWwog1DvlU
+Message-ID: <CAJZ5v0j8bQm+00+m75rmpKpm8yVumvYsWzCdYyCPwksnebY__A@mail.gmail.com>
+Subject: Re: [PATCH v4 4/8] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: kernel test robot <lkp@intel.com>, rafael@kernel.org, viresh.kumar@linaro.org, 
+	lenb@kernel.org, robert.moore@intel.com, corbet@lwn.net, 
+	pierre.gondois@arm.com, zhenglifeng1@huawei.com, rdunlap@infradead.org, 
+	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
+	perry.yuan@amd.com, ionela.voinescu@arm.com, zhanjie9@hisilicon.com, 
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com, 
+	ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com, 
+	bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ming,
+On Fri, Nov 7, 2025 at 11:00=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com> wro=
+te:
+>
+>
+> On 06/11/25 16:00, kernel test robot wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > Hi Sumit,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on rafael-pm/linux-next]
+> > [also build test WARNING on rafael-pm/bleeding-edge linus/master v6.18-=
+rc4 next-20251106]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/cpuf=
+req-CPPC-Add-generic-helpers-for-sysfs-show-store/20251105-194715
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm=
+.git linux-next
+> > patch link:    https://lore.kernel.org/r/20251105113844.4086250-5-sumit=
+g%40nvidia.com
+> > patch subject: [PATCH v4 4/8] ACPI: CPPC: add APIs and sysfs interface =
+for min/max_perf
+> > config: riscv-defconfig (https://download.01.org/0day-ci/archive/202511=
+06/202511061802.lIq09jwh-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project=
+ d2625a438020ad35330cda29c3def102c1687b1b)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20251106/202511061802.lIq09jwh-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202511061802.lIq09jwh-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:954 function parameter 'polic=
+y' not described in 'show_min_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:954 function parameter 'buf' =
+not described in 'show_min_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'polic=
+y' not described in 'store_min_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'buf' =
+not described in 'store_min_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:976 function parameter 'count=
+' not described in 'store_min_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:1003 function parameter 'poli=
+cy' not described in 'show_max_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:1003 function parameter 'buf'=
+ not described in 'show_max_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'poli=
+cy' not described in 'store_max_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'buf'=
+ not described in 'store_max_perf'
+> >>> Warning: drivers/cpufreq/cppc_cpufreq.c:1025 function parameter 'coun=
+t' not described in 'store_max_perf'
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+>
+> Thank you for the report.
+> Below change to comments seem to be fixing this warning.
 
-kernel test robot noticed the following build errors:
+So can you please send a new version of this patch with the changes
+below folded in?
 
-[auto build test ERROR on next-20251104]
-[cannot apply to bpf-next/net bpf-next/master bpf/master linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> -------------------------------------------------------
+>    /**
+>    * show_min_perf - Show minimum performance as frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
+>    *
+>    * Reads the MIN_PERF register and converts the performance value to
+>    * frequency (kHz) for user-space consumption.
+> @@ -1117,6 +1119,9 @@ static ssize_t show_min_perf(struct cpufreq_policy
+> *policy, char *buf)
+>
+>   /**
+>    * store_min_perf - Set minimum performance from frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
+> + * @count: size of @buf
+>    *
+>    * Converts the user-provided frequency (kHz) to a performance value
+>    * and writes it to the MIN_PERF register.
+> @@ -1144,6 +1149,8 @@ static ssize_t store_min_perf(struct
+> cpufreq_policy *policy, const char *buf, si
+>
+>   /**
+>    * show_max_perf - Show maximum performance as frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
+>    *
+>    * Reads the MAX_PERF register and converts the performance value to
+>    * frequency (kHz) for user-space consumption.
+> @@ -1166,6 +1173,9 @@ static ssize_t show_max_perf(struct cpufreq_policy
+> *policy, char *buf)
+>
+>   /**
+>    * store_max_perf - Set maximum performance from frequency (kHz)
+> + * @policy: cpufreq policy
+> + * @buf: buffer to write the frequency value to
+> + * @count: size of @buf
+> -------------------------------------------------------
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-prepare-for-extending-io_uring-with-bpf/20251105-002757
-base:   next-20251104
-patch link:    https://lore.kernel.org/r/20251104162123.1086035-4-ming.lei%40redhat.com
-patch subject: [PATCH 3/5] io_uring: bpf: extend io_uring with bpf struct_ops
-config: parisc-randconfig-r121-20251107 (https://download.01.org/0day-ci/archive/20251108/202511080257.ZRnK6f2W-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080257.ZRnK6f2W-lkp@intel.com/reproduce)
+As for the whole series, I generally need ARM folks to review it and
+tell me that it is fine.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080257.ZRnK6f2W-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   io_uring/bpf.c: In function 'uring_bpf_ops_is_valid_access':
->> io_uring/bpf.c:117:9: error: implicit declaration of function 'bpf_tracing_btf_ctx_access'; did you mean 'bpf_sock_convert_ctx_access'? [-Werror=implicit-function-declaration]
-     return bpf_tracing_btf_ctx_access(off, size, type, prog, info);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-            bpf_sock_convert_ctx_access
-   In file included from include/linux/bpf_verifier.h:7,
-                    from io_uring/bpf.c:9:
-   io_uring/bpf.c: In function 'io_bpf_init':
-   include/linux/bpf.h:2044:50: warning: statement with no effect [-Wunused-value]
-    #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-                                                     ^~~~~~~~~~~~~~~~
-   io_uring/bpf.c:303:8: note: in expansion of macro 'register_bpf_struct_ops'
-     err = register_bpf_struct_ops(&bpf_uring_bpf_ops, uring_bpf_ops);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   In function 'io_kiocb_cmd_sz_check',
-       inlined from 'io_uring_bpf_prep' at io_uring/bpf.c:41:32:
-   include/linux/compiler_types.h:603:38: error: call to '__compiletime_assert_513' declared with attribute error: BUILD_BUG_ON failed: cmd_sz > sizeof(struct io_cmd_data)
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:584:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:603:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-     ^~~~~~~~~~~~~~~~
-   include/linux/io_uring_types.h:655:2: note: in expansion of macro 'BUILD_BUG_ON'
-     BUILD_BUG_ON(cmd_sz > sizeof(struct io_cmd_data));
-     ^~~~~~~~~~~~
-   In function 'io_kiocb_cmd_sz_check',
-       inlined from '__io_uring_bpf_issue.isra.4' at io_uring/bpf.c:58:32,
-       inlined from 'io_uring_bpf_issue' at io_uring/bpf.c:72:9:
-   include/linux/compiler_types.h:603:38: error: call to '__compiletime_assert_513' declared with attribute error: BUILD_BUG_ON failed: cmd_sz > sizeof(struct io_cmd_data)
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:584:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:603:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-     ^~~~~~~~~~~~~~~~
-   include/linux/io_uring_types.h:655:2: note: in expansion of macro 'BUILD_BUG_ON'
-     BUILD_BUG_ON(cmd_sz > sizeof(struct io_cmd_data));
-     ^~~~~~~~~~~~
-   In function 'io_kiocb_cmd_sz_check',
-       inlined from '__io_uring_bpf_issue.isra.4' at io_uring/bpf.c:58:32,
-       inlined from 'io_uring_bpf_issue' at io_uring/bpf.c:77:9:
-   include/linux/compiler_types.h:603:38: error: call to '__compiletime_assert_513' declared with attribute error: BUILD_BUG_ON failed: cmd_sz > sizeof(struct io_cmd_data)
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:584:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:603:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-     ^~~~~~~~~~~~~~~~
-   include/linux/io_uring_types.h:655:2: note: in expansion of macro 'BUILD_BUG_ON'
-     BUILD_BUG_ON(cmd_sz > sizeof(struct io_cmd_data));
-     ^~~~~~~~~~~~
-   In function 'io_kiocb_cmd_sz_check',
-       inlined from 'io_uring_bpf_fail' at io_uring/bpf.c:82:32:
-   include/linux/compiler_types.h:603:38: error: call to '__compiletime_assert_513' declared with attribute error: BUILD_BUG_ON failed: cmd_sz > sizeof(struct io_cmd_data)
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:584:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:603:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-     ^~~~~~~~~~~~~~~~
-   include/linux/io_uring_types.h:655:2: note: in expansion of macro 'BUILD_BUG_ON'
-     BUILD_BUG_ON(cmd_sz > sizeof(struct io_cmd_data));
-     ^~~~~~~~~~~~
-   include/linux/io_uring_types.h: In function 'io_uring_bpf_cleanup':
-   include/linux/compiler_types.h:603:38: error: call to '__compiletime_assert_513' declared with attribute error: BUILD_BUG_ON failed: cmd_sz > sizeof(struct io_cmd_data)
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:584:4: note: in definition of macro '__compiletime_assert'
-
-
-vim +117 io_uring/bpf.c
-
-   111	
-   112	static bool uring_bpf_ops_is_valid_access(int off, int size,
-   113					       enum bpf_access_type type,
-   114					       const struct bpf_prog *prog,
-   115					       struct bpf_insn_access_aux *info)
-   116	{
- > 117		return bpf_tracing_btf_ctx_access(off, size, type, prog, info);
-   118	}
-   119	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
