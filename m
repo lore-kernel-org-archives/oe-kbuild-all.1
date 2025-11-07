@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE22257AD1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 21:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977472FD68F;
+	Fri,  7 Nov 2025 22:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762550189; cv=none; b=TuiDrp/on3YIRlix5NhUUmpJz+4/mabrWvFSD9rq7+LCi8/84utbtp/ScUNifW0zxTuhxrfocTb90SsqRGLm5jO1GKu/wvuvS4p6MKd3A1DIrhhSXVq9qc8+UjykcgKZutl13/0o4qRifO8klPcoRrbACC6uUTxeSaxqREqUieU=
+	t=1762555778; cv=none; b=soyHadajbEqHAEfRSwYy11HZUuU1C373P+skPxKCCiKJp87mEP+YLXcgwB8TPappEmArQo0DpC9huH5w0iCmYJyHtutez5aNmr3vouuh7TzviQNuKy1hpv7B0yInyXwDs42OAFx8sxUqFRTsQHqnDUG7fjErB3CHOsnqZHX1gJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762550189; c=relaxed/simple;
-	bh=nNRoSYdPQ51kfSTiYmZP4rz+UFe0Eah6sY1AWP6/5/g=;
+	s=arc-20240116; t=1762555778; c=relaxed/simple;
+	bh=gw6oG3QI9N3k+DjBmZ6zNjL9yJC0i0iwK8nhXShn4js=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tBMCozOgkQNkgIIUt/wtBfYEMJFLJ9uMZDGm3tC46grqC0DrFo1W9cT/xi/A9yV4sWP92g42q2SmR0LJEhga2BaEaGb4/mhsAd40LQWA992wCp8oa5wcA94NzZWGpPF3pT1t+BIIiKN1TwCdnf6FjAOsPE200D8SUEFoJT3dpyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpJZIRDl; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=cu90Ha8qRAT7NTh2W5V5DL6LVSdIjGiCVfdHdhnup1cF3hy2AxH0Dqg8vp6CrMBNAdpox5T21ELSyO1U2VgU0kx0AqN/nvtvNitpP94hFsgUC3SHSDeRZ0K9McFqz7wXaf5/jpUH657XMeydXrvlLOToUhZCm42HQGWwsTDHQUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YbgmCMl2; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpJZIRDl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YbgmCMl2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762550187; x=1794086187;
+  t=1762555776; x=1794091776;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nNRoSYdPQ51kfSTiYmZP4rz+UFe0Eah6sY1AWP6/5/g=;
-  b=BpJZIRDlgHBhjf6qJQIPZW8a1uXEz/ekT1sbP4MiGijuOFq/Uljpuc3Z
-   uD+xxTChh8zerOsbPvwCf9T5J/lTSQY5jwD+GOG41p0Z/pYeerg1QwoGY
-   LefecIFO+cwRY2ry1WL/nrTU1+PRQUKZ6OKNlmG8QCDEtDNpI8tZt1pHu
-   sAWIYnHWPVWUZq8mo1ZLIDxQy1wmsm5hJoW+ZOZ3DO1kYhrErCDsbgpMj
-   mYdBPzKgpwuoFCQuJJlFICJHGr4W/5nEceJQI5LRwqEqdRUDTQ5zaKjFV
-   SGaBZ5g32ccWoJXmmPcR8VlVLJWyPPEIVCEmD2rUsF01sfVO6UJhI1iv5
+  bh=gw6oG3QI9N3k+DjBmZ6zNjL9yJC0i0iwK8nhXShn4js=;
+  b=YbgmCMl2I2apbSHNB8mFzPU7Es0qkr13E4CfsXbNwp7vC81oqZKDRfrP
+   cNEFV/M7XPfxUO+R3ceJo97YcBBlhhSdxb38lMOQv29mzJRS+adjAgZu/
+   5Pw3qIif+8vXX2FsnDKiBQn1VrIOtDvnYiAIgU/Qn1oJYWWLc3IFkcuQi
+   O3WqFW44jRoGonLa/kUgLqlRuyEP1pNREAaMr+6NLngNncuEEfxTC6LFN
+   TOq/dCsstb+fmf6aeFnldTkNtNuYtmjp9Lf1+YbO3UP9q+63Q8G/wNN+C
+   Ym2cswtIsTIxx/9CWGF2Ig5qr4XVWsNGzb1NsT3dXrS+QlslnNFEJAWST
    g==;
-X-CSE-ConnectionGUID: ADe/q0QfTZe1uKuFpqgdvg==
-X-CSE-MsgGUID: 8oRbf2D3SYKWxZMzmm4dLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64621385"
-X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
-   d="scan'208";a="64621385"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 13:16:26 -0800
-X-CSE-ConnectionGUID: jyJ3b/H3Ta6hBJgATJuo2w==
-X-CSE-MsgGUID: DJbLW0MsSCqOFjTNS/Bblw==
+X-CSE-ConnectionGUID: l8JJWaiqQt61IFJ5CB1NTg==
+X-CSE-MsgGUID: 3C8sJrRdQyS0g4TQIUKGxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64617121"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64617121"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 14:49:35 -0800
+X-CSE-ConnectionGUID: U2PjCKWGRVqtXukWGrNxxQ==
+X-CSE-MsgGUID: 86VRHFJ9TcODZ2zOopLnog==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,287,1754982000"; 
-   d="scan'208";a="225394094"
+X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
+   d="scan'208";a="188868566"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Nov 2025 13:16:25 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Nov 2025 14:49:33 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHTok-0000NH-2E;
-	Fri, 07 Nov 2025 21:16:22 +0000
-Date: Sat, 8 Nov 2025 05:16:21 +0800
+	id 1vHVGt-0000Qu-0q;
+	Fri, 07 Nov 2025 22:49:31 +0000
+Date: Sat, 8 Nov 2025 06:49:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-5.10-CWF-EDAC-ANBZ25520 16/16]
- drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
- prototype for 'ps3_pci_init'
-Message-ID: <202511080528.uSfDue2u-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [linux-next:master 4684/7207]
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c:80:3: error: call to undeclared
+ function 'drm_err'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202511080858.FWtHMMlX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,257 +65,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-CWF-EDAC-ANBZ25520
-head:   1ab97dd0d1ee295351a5123c2ab5d073aac3548b
-commit: 4e26f605716a88a00d0e51dfd7da55198b13d759 [16/16] anolis: scsi: support linkdata HBA/RAID controllers
-config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20251108/202511080528.uSfDue2u-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080528.uSfDue2u-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9c0826a5d9aa4d52206dd89976858457a2a8a7ed
+commit: ea722522d505fa8fb3533a386adeb400607e5072 [4684/7207] drm/mm: replace drm_print.h include with a forward declaration
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251108/202511080858.FWtHMMlX-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080858.FWtHMMlX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080528.uSfDue2u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511080858.FWtHMMlX-lkp@intel.com/
+
+Note: the linux-next/master HEAD 9c0826a5d9aa4d52206dd89976858457a2a8a7ed builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
->> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:5: error: no previous prototype for 'ps3_hard_reset_to_ready' [-Werror=missing-prototypes]
-     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/hyperv/hyperv_drm_drv.c:80:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      80 |                 drm_err(dev, "Failed to allocate mmio\n");
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_drv.c:91:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      91 |                 drm_err(dev, "Failed to map vram\n");
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_drv.c:123:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     123 |                 drm_err(dev, "Failed to connect to vmbus.\n");
+         |                 ^
+>> drivers/gpu/drm/hyperv/hyperv_drm_drv.c:140:3: error: call to undeclared function 'drm_warn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     140 |                 drm_warn(dev, "Failed to update vram location.\n");
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_drv.c:148:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     148 |                 drm_err(dev, "Failed to register drm driver.\n");
+         |                 ^
+   5 errors generated.
 --
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for 'ps3_trigger_irq_poll' [-Werror=missing-prototypes]
-     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for 'ps3_resp_status_convert' [-Werror=missing-prototypes]
-     243 | int ps3_resp_status_convert(unsigned int resp_status)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:161:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     161 |                 drm_err(&hv->dev, "fb size requested by %s for %dX%d (pitch %d) greater than %ld\n",
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:278:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     278 |                 drm_err(dev, "Failed to initialized connector.\n");
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:311:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     311 |                 drm_err(dev, "Failed to initialized mode setting.\n");
+         |                 ^
+   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:327:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     327 |                 drm_err(dev, "Failed to initialized pipe.\n");
+         |                 ^
+   4 errors generated.
 --
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for 'ps3_qos_cmd_waitq_get' [-Werror=missing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for 'ps3_qos_vd_cmdword_get' [-Werror=missing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for 'ps3_qos_exclusive_cmdword_get' [-Werror=missing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for 'ps3_qos_tg_decision' [-Werror=missing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for 'ps3_qos_all_pd_rc_get' [-Werror=missing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for 'ps3_pd_quota_waitq_clear_all' [-Werror=missing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for 'ps3_pd_quota_waitq_clean' [-Werror=missing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for 'ps3_qos_pd_waitq_ratio_update' [-Werror=missing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for 'ps3_hba_qos_decision' [-Werror=missing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for 'ps3_hba_qos_waitq_notify' [-Werror=missing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for 'ps3_cmd_waitq_abort' [-Werror=missing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for 'ps3_hba_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for 'ps3_hba_qos_vd_init' [-Werror=missing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for 'ps3_hba_qos_vd_reset' [-Werror=missing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for 'ps3_hba_qos_waitq_poll' [-Werror=missing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for 'ps3_raid_qos_decision' [-Werror=missing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for 'ps3_qos_mgrq_resend' [-Werror=missing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for 'ps3_raid_qos_waitq_notify' [-Werror=missing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for 'ps3_raid_qos_waitq_abort' [-Werror=missing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:4022:6: error: no previous prototype for 'ps3_raid_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    4022 | void ps3_raid_qos_waitq_clear_all(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:4083:6: error: no previous prototype for 'ps3_raid_qos_waitq_poll' [-Werror=missing-prototypes]
-    4083 | void ps3_raid_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:215:3: error: call to undeclared function 'DRM_ERROR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     215 |                 DRM_ERROR("unsupported format[%08x]\n", format);
+         |                 ^
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:395:5: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     395 |                                 drm_dbg_kms(vop2->drm,
+         |                                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:405:5: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     405 |                                 drm_dbg_kms(vop2->drm, "Only support 32 bpp format with afbc\n");
+         |                                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:415:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     415 |                 drm_dbg_kms(vop2->drm, "Unsupported format modifier 0x%llx\n",
+         |                 ^
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:602:4: error: call to undeclared function 'drm_dbg'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     602 |                         drm_dbg(vop2->drm, "%s dst_w[%d] should align as 2 pixel\n",
+         |                         ^
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:763:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     763 |                 drm_err(vop2->drm, "failed to enable hclk - %d\n", ret);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:769:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     769 |                 drm_err(vop2->drm, "failed to enable aclk - %d\n", ret);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:775:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     775 |                 drm_err(vop2->drm, "failed to enable pclk - %d\n", ret);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:806:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     806 |                 drm_err(vop2->drm, "failed to get pm runtime: %d\n", ret);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:818:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     818 |                 drm_err(vop2->drm, "failed to attach dma mapping, %d\n", ret);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:824:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     824 |                 drm_err(vop2->drm, "Hardware version(0x%08x) mismatch\n", version);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:896:3: error: call to undeclared function 'drm_err'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     896 |                 drm_err(vp->vop2->drm, "display LUT RAM enable timeout!\n");
+         |                 ^
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:967:3: error: call to undeclared function 'drm_info'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     967 |                 drm_info(vop2->drm, "wait for vp%d dsp_hold timeout\n", vp->id);
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1043:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1043 |                 drm_dbg_kms(vop2->drm, "Invalid size: %dx%d->%dx%d, min size is 4x4\n",
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1050:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1050 |                 drm_dbg_kms(vop2->drm, "Invalid source: %dx%d. max input: %dx%d\n",
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1062:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1062 |                 drm_dbg_kms(vop2->drm, "Invalid Source: Yuv format not support odd xpos\n");
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1076:2: error: call to undeclared function 'drm_dbg'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1076 |         drm_dbg(vop2->drm, "%s disable\n", win->data->name);
+         |         ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1217:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1217 |                 drm_dbg_kms(vop2->drm,
+         |                 ^
+   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1229:3: error: call to undeclared function 'drm_dbg_kms'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1229 |                 drm_dbg_kms(vop2->drm,
+         |                 ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 --
->> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:6: error: no previous prototype for 'ps3_clean_mgr_cmd' [-Werror=missing-prototypes]
-     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_debug.c:883:5: error: no previous prototype for 'ps3_dump_dir_length' [-Werror=missing-prototypes]
-     883 | int ps3_dump_dir_length(const char *buf, size_t count)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_module_para.c:609:14: error: no previous prototype for 'ps3_cli_ver_query' [-Werror=missing-prototypes]
-     609 | unsigned int ps3_cli_ver_query(void)
-         |              ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:154:6: error: no previous prototype for 'rbtDelNodeDo' [-Werror=missing-prototypes]
-     154 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
-         |      ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:28:27: error: 'PS3_HDD_IOPS_MSIX_VECTORS' defined but not used [-Werror=unused-const-variable=]
-      28 | static const unsigned int PS3_HDD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:27:27: error: 'PS3_SSD_IOPS_MSIX_VECTORS' defined but not used [-Werror=unused-const-variable=]
-      27 | static const unsigned int PS3_SSD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:25:27: error: 'PS3_INTERRUPT_CLEAR_IRQ' defined but not used [-Werror=unused-const-variable=]
-      25 | static const unsigned int PS3_INTERRUPT_CLEAR_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:24:27: error: 'PS3_INTERRUPT_STATUS_EXIST_IRQ' defined but not used [-Werror=unused-const-variable=]
-      24 | static const unsigned int PS3_INTERRUPT_STATUS_EXIST_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:23:27: error: 'PS3_INTERRUPT_MASK_DISABLE' defined but not used [-Werror=unused-const-variable=]
-      23 | static const unsigned int PS3_INTERRUPT_MASK_DISABLE = 0x00000002;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:22:27: error: 'PS3_INTERRUPT_CMD_ENABLE_MSIX' defined but not used [-Werror=unused-const-variable=]
-      22 | static const unsigned int PS3_INTERRUPT_CMD_ENABLE_MSIX = 0x01;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_irq.c:21:27: error: 'PS3_INTERRUPT_CMD_DISABLE_ALL_MASK' defined but not used [-Werror=unused-const-variable=]
-      21 | static const unsigned int PS3_INTERRUPT_CMD_DISABLE_ALL_MASK = 0x02;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_recovery.c:72:30: error: no previous prototype for 'ps3_recovery_context_alloc' [-Werror=missing-prototypes]
-      72 | struct ps3_recovery_context *ps3_recovery_context_alloc(void)
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_recovery.c:82:6: error: no previous prototype for 'ps3_recovery_context_free' [-Werror=missing-prototypes]
-      82 | void ps3_recovery_context_free(struct ps3_recovery_context *context)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_recovery.c:88:6: error: no previous prototype for 'ps3_recovery_context_delete' [-Werror=missing-prototypes]
-      88 | void ps3_recovery_context_delete(struct ps3_recovery_context *context)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_recovery.c:204:6: error: no previous prototype for 'ps3_recovery_irq_queue_destroy' [-Werror=missing-prototypes]
-     204 | void ps3_recovery_irq_queue_destroy(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_recovery.c:363:5: error: no previous prototype for 'ps3_recovery_state_transfer' [-Werror=missing-prototypes]
-     363 | int ps3_recovery_state_transfer(struct ps3_instance *instance,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_recovery.c:2700:6: error: no previous prototype for 'ps3_hard_recovery_state_finish' [-Werror=missing-prototypes]
-    2700 | void ps3_hard_recovery_state_finish(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous prototype for 'ps3_pci_init' [-Werror=missing-prototypes]
-     545 | int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:899:5: error: no previous prototype for 'ps3_pci_init_complete' [-Werror=missing-prototypes]
-     899 | int ps3_pci_init_complete(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:945:6: error: no previous prototype for 'ps3_pci_init_complete_exit' [-Werror=missing-prototypes]
-     945 | void ps3_pci_init_complete_exit(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_dump.c:28:5: error: no previous prototype for 'ps3_dump_local_time' [-Werror=missing-prototypes]
-      28 | int ps3_dump_local_time(struct rtc_time *tm)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_dump.c:50:5: error: no previous prototype for 'ps3_dump_filename_build' [-Werror=missing-prototypes]
-      50 | int ps3_dump_filename_build(struct ps3_instance *instance, char *filename,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_dump.c:76:5: error: no previous prototype for 'ps3_dump_file_open' [-Werror=missing-prototypes]
-      76 | int ps3_dump_file_open(struct ps3_dump_context *ctxt, unsigned int dump_type)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_dump.c:159:5: error: no previous prototype for 'ps3_dump_file_write' [-Werror=missing-prototypes]
-     159 | int ps3_dump_file_write(struct ps3_dump_file_info *file_info, unsigned char *buf, unsigned int len)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_dump.c:200:5: error: no previous prototype for 'ps3_dump_file_close' [-Werror=missing-prototypes]
-     200 | int ps3_dump_file_close(struct ps3_dump_file_info *file_info)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c:173:2: error: call to undeclared function 'drm_info'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     173 |         drm_info(&rcdu->ddev, "Device %s probed\n", dev_name(&pdev->dev));
+         |         ^
+   1 error generated.
 
 
-vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
+vim +/drm_err +80 drivers/gpu/drm/hyperv/hyperv_drm_drv.c
 
-   544	
- > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
-   546	{
-   547		resource_size_t base_addr = 0;
-   548		int ret = PS3_SUCCESS;
-   549	
-   550		ret = pci_enable_device_mem(pdev);
-   551		if (ret != PS3_SUCCESS) {
-   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
-   553				  PS3_HOST(instance), pdev->dev.id);
-   554			goto l_pci_enable_device_mem_failed;
-   555		}
-   556	
-   557		pci_set_master(pdev);
-   558	
-   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
-   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
-   561		if (!ret) {
-   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
-   563				  PS3_HOST(instance), instance->reg_bar);
-   564			goto l_bar_check_failed;
-   565		}
-   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
-   567						   "PS3 pci regions");
-   568		if (ret != PS3_SUCCESS) {
-   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
-   570			goto l_pci_request_selected_regions_failed;
-   571		}
-   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   573		pci_enable_pcie_error_reporting(pdev);
-   574	#endif
-   575		if (instance->ioc_adpter->reg_set) {
-   576			instance->reg_set =
-   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
-   578					pdev, instance->reg_bar);
-   579		} else {
-   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
-   581				pci_resource_start(pdev, instance->reg_bar),
-   582				PS3_REGISTER_SET_SIZE);
-   583		}
-   584		if (instance->reg_set == NULL) {
-   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
-   586			goto l_ioremap_failed;
-   587		} else {
-   588			pci_set_drvdata(pdev, instance);
-   589		}
-   590	
-   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
-   592		LOG_INFO(
-   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
-   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
-   595	
-   596		return PS3_SUCCESS;
-   597	l_ioremap_failed:
-   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
-   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   600		pci_disable_pcie_error_reporting(pdev);
-   601	#endif
-   602	l_pci_request_selected_regions_failed:
-   603		pci_disable_device(instance->pdev);
-   604	l_bar_check_failed:
-   605	l_pci_enable_device_mem_failed:
-   606		return -PS3_FAILED;
-   607	}
-   608	
+76c56a5affeba1 Deepak Rawat       2021-05-27   68  
+a0ab5abced550d Saurabh Sengar     2022-05-21   69  static int hyperv_setup_vram(struct hyperv_drm_device *hv,
+76c56a5affeba1 Deepak Rawat       2021-05-27   70  			     struct hv_device *hdev)
+76c56a5affeba1 Deepak Rawat       2021-05-27   71  {
+76c56a5affeba1 Deepak Rawat       2021-05-27   72  	struct drm_device *dev = &hv->dev;
+76c56a5affeba1 Deepak Rawat       2021-05-27   73  	int ret;
+76c56a5affeba1 Deepak Rawat       2021-05-27   74  
+76c56a5affeba1 Deepak Rawat       2021-05-27   75  	hv->fb_size = (unsigned long)hv->mmio_megabytes * 1024 * 1024;
+76c56a5affeba1 Deepak Rawat       2021-05-27   76  
+76c56a5affeba1 Deepak Rawat       2021-05-27   77  	ret = vmbus_allocate_mmio(&hv->mem, hdev, 0, -1, hv->fb_size, 0x100000,
+76c56a5affeba1 Deepak Rawat       2021-05-27   78  				  true);
+76c56a5affeba1 Deepak Rawat       2021-05-27   79  	if (ret) {
+76c56a5affeba1 Deepak Rawat       2021-05-27  @80  		drm_err(dev, "Failed to allocate mmio\n");
+76c56a5affeba1 Deepak Rawat       2021-05-27   81  		return -ENOMEM;
+76c56a5affeba1 Deepak Rawat       2021-05-27   82  	}
+76c56a5affeba1 Deepak Rawat       2021-05-27   83  
+76c56a5affeba1 Deepak Rawat       2021-05-27   84  	/*
+76c56a5affeba1 Deepak Rawat       2021-05-27   85  	 * Map the VRAM cacheable for performance. This is also required for VM
+76c56a5affeba1 Deepak Rawat       2021-05-27   86  	 * connect to display properly for ARM64 Linux VM, as the host also maps
+76c56a5affeba1 Deepak Rawat       2021-05-27   87  	 * the VRAM cacheable.
+76c56a5affeba1 Deepak Rawat       2021-05-27   88  	 */
+76c56a5affeba1 Deepak Rawat       2021-05-27   89  	hv->vram = ioremap_cache(hv->mem->start, hv->fb_size);
+76c56a5affeba1 Deepak Rawat       2021-05-27   90  	if (!hv->vram) {
+76c56a5affeba1 Deepak Rawat       2021-05-27   91  		drm_err(dev, "Failed to map vram\n");
+76c56a5affeba1 Deepak Rawat       2021-05-27   92  		ret = -ENOMEM;
+76c56a5affeba1 Deepak Rawat       2021-05-27   93  		goto error;
+76c56a5affeba1 Deepak Rawat       2021-05-27   94  	}
+76c56a5affeba1 Deepak Rawat       2021-05-27   95  
+76c56a5affeba1 Deepak Rawat       2021-05-27   96  	hv->fb_base = hv->mem->start;
+76c56a5affeba1 Deepak Rawat       2021-05-27   97  	return 0;
+76c56a5affeba1 Deepak Rawat       2021-05-27   98  
+76c56a5affeba1 Deepak Rawat       2021-05-27   99  error:
+76c56a5affeba1 Deepak Rawat       2021-05-27  100  	vmbus_free_mmio(hv->mem->start, hv->fb_size);
+76c56a5affeba1 Deepak Rawat       2021-05-27  101  	return ret;
+76c56a5affeba1 Deepak Rawat       2021-05-27  102  }
+76c56a5affeba1 Deepak Rawat       2021-05-27  103  
+76c56a5affeba1 Deepak Rawat       2021-05-27  104  static int hyperv_vmbus_probe(struct hv_device *hdev,
+76c56a5affeba1 Deepak Rawat       2021-05-27  105  			      const struct hv_vmbus_device_id *dev_id)
+76c56a5affeba1 Deepak Rawat       2021-05-27  106  {
+76c56a5affeba1 Deepak Rawat       2021-05-27  107  	struct hyperv_drm_device *hv;
+76c56a5affeba1 Deepak Rawat       2021-05-27  108  	struct drm_device *dev;
+76c56a5affeba1 Deepak Rawat       2021-05-27  109  	int ret;
+76c56a5affeba1 Deepak Rawat       2021-05-27  110  
+76c56a5affeba1 Deepak Rawat       2021-05-27  111  	hv = devm_drm_dev_alloc(&hdev->device, &hyperv_driver,
+76c56a5affeba1 Deepak Rawat       2021-05-27  112  				struct hyperv_drm_device, dev);
+76c56a5affeba1 Deepak Rawat       2021-05-27  113  	if (IS_ERR(hv))
+76c56a5affeba1 Deepak Rawat       2021-05-27  114  		return PTR_ERR(hv);
+76c56a5affeba1 Deepak Rawat       2021-05-27  115  
+76c56a5affeba1 Deepak Rawat       2021-05-27  116  	dev = &hv->dev;
+76c56a5affeba1 Deepak Rawat       2021-05-27  117  	init_completion(&hv->wait);
+76c56a5affeba1 Deepak Rawat       2021-05-27  118  	hv_set_drvdata(hdev, hv);
+76c56a5affeba1 Deepak Rawat       2021-05-27  119  	hv->hdev = hdev;
+76c56a5affeba1 Deepak Rawat       2021-05-27  120  
+76c56a5affeba1 Deepak Rawat       2021-05-27  121  	ret = hyperv_connect_vsp(hdev);
+76c56a5affeba1 Deepak Rawat       2021-05-27  122  	if (ret) {
+76c56a5affeba1 Deepak Rawat       2021-05-27  123  		drm_err(dev, "Failed to connect to vmbus.\n");
+76c56a5affeba1 Deepak Rawat       2021-05-27  124  		goto err_hv_set_drv_data;
+76c56a5affeba1 Deepak Rawat       2021-05-27  125  	}
+76c56a5affeba1 Deepak Rawat       2021-05-27  126  
+37aeccf5f839c1 Thomas Zimmermann  2024-09-30  127  	aperture_remove_all_conflicting_devices(hyperv_driver.name);
+778e73d2411abc Thomas Zimmermann  2024-01-03  128  
+a0ab5abced550d Saurabh Sengar     2022-05-21  129  	ret = hyperv_setup_vram(hv, hdev);
+76c56a5affeba1 Deepak Rawat       2021-05-27  130  	if (ret)
+76c56a5affeba1 Deepak Rawat       2021-05-27  131  		goto err_vmbus_close;
+76c56a5affeba1 Deepak Rawat       2021-05-27  132  
+76c56a5affeba1 Deepak Rawat       2021-05-27  133  	/*
+76c56a5affeba1 Deepak Rawat       2021-05-27  134  	 * Should be done only once during init and resume. Failing to update
+76c56a5affeba1 Deepak Rawat       2021-05-27  135  	 * vram location is not fatal. Device will update dirty area till
+76c56a5affeba1 Deepak Rawat       2021-05-27  136  	 * preferred resolution only.
+76c56a5affeba1 Deepak Rawat       2021-05-27  137  	 */
+76c56a5affeba1 Deepak Rawat       2021-05-27  138  	ret = hyperv_update_vram_location(hdev, hv->fb_base);
+76c56a5affeba1 Deepak Rawat       2021-05-27  139  	if (ret)
+76c56a5affeba1 Deepak Rawat       2021-05-27 @140  		drm_warn(dev, "Failed to update vram location.\n");
+76c56a5affeba1 Deepak Rawat       2021-05-27  141  
+76c56a5affeba1 Deepak Rawat       2021-05-27  142  	ret = hyperv_mode_config_init(hv);
+76c56a5affeba1 Deepak Rawat       2021-05-27  143  	if (ret)
+f1f63cbb705dc3 Christophe JAILLET 2022-07-31  144  		goto err_free_mmio;
+76c56a5affeba1 Deepak Rawat       2021-05-27  145  
+76c56a5affeba1 Deepak Rawat       2021-05-27  146  	ret = drm_dev_register(dev, 0);
+76c56a5affeba1 Deepak Rawat       2021-05-27  147  	if (ret) {
+76c56a5affeba1 Deepak Rawat       2021-05-27  148  		drm_err(dev, "Failed to register drm driver.\n");
+f1f63cbb705dc3 Christophe JAILLET 2022-07-31  149  		goto err_free_mmio;
+76c56a5affeba1 Deepak Rawat       2021-05-27  150  	}
+76c56a5affeba1 Deepak Rawat       2021-05-27  151  
+663269cebc7157 Thomas Zimmermann  2024-09-24  152  	drm_client_setup(dev, NULL);
+76c56a5affeba1 Deepak Rawat       2021-05-27  153  
+76c56a5affeba1 Deepak Rawat       2021-05-27  154  	return 0;
+76c56a5affeba1 Deepak Rawat       2021-05-27  155  
+f1f63cbb705dc3 Christophe JAILLET 2022-07-31  156  err_free_mmio:
+aed709355fd05e Michael Kelley     2025-02-10  157  	iounmap(hv->vram);
+f1f63cbb705dc3 Christophe JAILLET 2022-07-31  158  	vmbus_free_mmio(hv->mem->start, hv->fb_size);
+76c56a5affeba1 Deepak Rawat       2021-05-27  159  err_vmbus_close:
+76c56a5affeba1 Deepak Rawat       2021-05-27  160  	vmbus_close(hdev->channel);
+76c56a5affeba1 Deepak Rawat       2021-05-27  161  err_hv_set_drv_data:
+76c56a5affeba1 Deepak Rawat       2021-05-27  162  	hv_set_drvdata(hdev, NULL);
+76c56a5affeba1 Deepak Rawat       2021-05-27  163  	return ret;
+76c56a5affeba1 Deepak Rawat       2021-05-27  164  }
+76c56a5affeba1 Deepak Rawat       2021-05-27  165  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 76c56a5affeba1e163b66b9d8cc192e6154466f0 drm/hyperv: Add DRM driver for hyperv synthetic video device
+
+:::::: TO: Deepak Rawat <drawat.floss@gmail.com>
+:::::: CC: Deepak Rawat <drawat.floss@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
