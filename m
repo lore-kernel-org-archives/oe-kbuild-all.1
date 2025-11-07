@@ -1,139 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527D0299944;
-	Fri,  7 Nov 2025 00:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF68B3009CB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Nov 2025 00:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762475677; cv=none; b=LX+w2SDtAfC7EC61FXuWBnqv/EqWC7L6jkxClH8lN/JsrLKbUcLoo/sDiAswJ8cDGC5vhN4uwZu6XzeuaEALknk1zCM0Led+jtTnbMQsoDQLsQbU83+qCwCOyfgvJDCTvR8Akpx5/tumcpkoA2T34mCErJFLEBE4YyfTAn4cHjI=
+	t=1762476605; cv=none; b=iKJ8aaT2WJHUPNpfUZxmGNx1HDDGapkVWPNRPY3UD5tYPvffeHYDccPBWR3erMbRKRzGhkzGjAB5DIAlEuvd2vezRKmoeI/9VQIFK6ss+O/tg/e40ImHsEsTajh+xI0tJSjYfQj5V7UL3e//HXvl2W0szez5vlNouIzoAzcIqfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762475677; c=relaxed/simple;
-	bh=SxsZcUVmYS9fVQ8O8ksqVm2X0A2OOGkEcYkfkaDaLm8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l7TAdmgFoqTvRsuo9EJ1N036+AJD0XzrGCcyEvmFFKgYskyxnm1tfqhEtiZPcJt8bPy2vP5mELXspNHkPBdQZYeDIaNvp3BxI9qzGVhy4ZwdUK2cOnwsnUfSKWFVUt+jtgL+qjBagIyGuDnYLpIxZDdQfd2K6I3Zrr8jbCC39oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SurwLjHw; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SurwLjHw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762475675; x=1794011675;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SxsZcUVmYS9fVQ8O8ksqVm2X0A2OOGkEcYkfkaDaLm8=;
-  b=SurwLjHwGIAFNwWxotyx5xNerDAh/8zVlUAS6AkWjPfLuB/xIfKn9qex
-   XbDXgX8cdPH8BoFPN7Ov9d2OhgI5ISGi9Yla7BrlDlYkp2V03B1MFFA4i
-   ppxPUqqje2IPS2B0YeiRIc++/rbG6/f7qzeNRUyhqkXRXnYJT3fTtNQux
-   QwZRFuiO6r4JsIaNeCMdel1t4dTa3enyVP1RmNxIZ8qIgSt6eqzM2w3Da
-   O2QELsOoTS8QokFpve35Y3QKWe65e4HNFodoTFc62PahOu1ETYQo9SWT9
-   TBnVeCdcs3p5/Nkhzutj3w9TmHZ8nzqTWkVkPcRvMvI3i0DOFppnwms2b
-   g==;
-X-CSE-ConnectionGUID: BkAknBEkT1eX4bNVlaustg==
-X-CSE-MsgGUID: nO80uCuFRO6xDwuGDrBxow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="63834109"
-X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="63834109"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2025 16:34:35 -0800
-X-CSE-ConnectionGUID: k9YqiQxBT3OMgY3zl9l0pg==
-X-CSE-MsgGUID: ddCyBOvpTzGCyK681S1TsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,285,1754982000"; 
-   d="scan'208";a="187156781"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 06 Nov 2025 16:34:34 -0800
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vHAQx-000UVU-0j;
-	Fri, 07 Nov 2025 00:34:31 +0000
-Date: Fri, 7 Nov 2025 08:33:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:override 2/2] kernel/trace/bpf_trace.c:2567:2: error:
- call to undeclared function 'ftrace_partial_regs_fix'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202511070802.KRBV6NYS-lkp@intel.com>
+	s=arc-20240116; t=1762476605; c=relaxed/simple;
+	bh=/uGxiUpVwBCUN3pD95xApGVngYUG2y+wBWn2neOR9RA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=nJ4LgWyDRxuvBjUsRFbyjECMqtHSY74aeFDfayLdG0a+UtKULcq8372EZXnRMLtilCJxBSvT9NV7S0C5bPHd+pQrSvus7/dlvvM7ps/Wf4zOYkwcLqM9BBjFcquxHv7iC/YGc6rxGKw8cHDwpy/kVeB7NGPWHJOADNnK9/SJehc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-4332987de75so6218985ab.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Nov 2025 16:50:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762476603; x=1763081403;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=scf9HvGkj6h9nQoDt/eHw462ipN6/I7qKBtgiEBj0/Q=;
+        b=FF71gfaEH18YZNIDLIDke85UoSb2QkAmenCvY5JTq3cgi+TYwniNtP0vDZO6baytg7
+         DVXK7eipxSrrd1Itv5Bxvk1tZrSRSjnS4c/lYuvBHuUpuWAjCXdK7RpofTyok1u6LgrY
+         orngUwwUqqijcimt433iBnpM8IahvLJJsIDtHnODaxjQN1Fus2GQrsddU9Ty2PEj6h3X
+         CIqvuwKzroV30ysnVvPURs0IGgxDsgsdcWPONJUFXOGDdcRnElI/KeZB+KG6OkEc8cVi
+         2HupM+p69Gle8SFpOcqlWf20KAc7fJhp3aTZ0N4zENZKDSeMCrF8Y3xAldSFX39XwENV
+         4cRw==
+X-Forwarded-Encrypted: i=1; AJvYcCW7qhOUZ8DGTqWQpou3J3cZXCcRlpw7u2rIJZT9HO97OApLDiAFug5kcBb+SCUJ1ZBsRPE8dm4ZeOmRx6vr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yye4PDzj/R/Q0KBcMCa1Q+Qvj65IcOC//XmN1c91lzVi4LP7vjN
+	+pcnjNOjH5YOfdvSOuZL/gXbKji9g8+9Rig5QFRDP+z+cJHLSb3oi/LMuBvkGfed2DPwlNH/ZZx
+	r8VQAfbwj3+JNSR6gTVk8uyEqGeLtGEaxB0kUNAgwexj+eqGudT+nH2RL72w=
+X-Google-Smtp-Source: AGHT+IHnFCEBkoL4JIf5R7Srt0Ir4FqM6VEIhsdO/2foJ1skJV7nN5HJ7sGRku8OoXDZDqtYlhQ4ivlCIsxA9YPSXakQPDFPPEjF
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Received: by 2002:a05:6e02:12c1:b0:433:1e74:9a52 with SMTP id
+ e9e14a558f8ab-4335f53dd2dmr23233735ab.15.1762476603127; Thu, 06 Nov 2025
+ 16:50:03 -0800 (PST)
+Date: Thu, 06 Nov 2025 16:50:03 -0800
+In-Reply-To: <68dad4bb.a70a0220.10c4b.0086.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <690d423b.a70a0220.22f260.0012.GAE@google.com>
+Subject: Re: [syzbot] [bcachefs?] KASAN: slab-out-of-bounds Read in bch2_btree_node_read_done
+From: syzbot <syzbot+ba71155d3eacc8f42477@syzkaller.appspotmail.com>
+To: eadavis@qq.com, kent.overstreet@linux.dev, linux-bcachefs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git override
-head:   6896dcc84fb29329853621bd3850dd3c19cdacd1
-commit: 6896dcc84fb29329853621bd3850dd3c19cdacd1 [2/2] fix
-config: riscv-randconfig-001-20251107 (https://download.01.org/0day-ci/archive/20251107/202511070802.KRBV6NYS-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d2625a438020ad35330cda29c3def102c1687b1b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070802.KRBV6NYS-lkp@intel.com/reproduce)
+syzbot suspects this issue was fixed by commit:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511070802.KRBV6NYS-lkp@intel.com/
+commit f2c61db29f277b9c80de92102fc532cc247495cd
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon Sep 29 20:43:52 2025 +0000
 
-All errors (new ones prefixed by >>):
+    Remove bcachefs core code
 
->> kernel/trace/bpf_trace.c:2567:2: error: call to undeclared function 'ftrace_partial_regs_fix'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2567 |         ftrace_partial_regs_fix(fregs, bpf_kprobe_multi_pt_regs_ptr());
-         |         ^
-   kernel/trace/bpf_trace.c:2567:2: note: did you mean 'ftrace_partial_regs'?
-   arch/riscv/include/asm/ftrace.h:210:1: note: 'ftrace_partial_regs' declared here
-     210 | ftrace_partial_regs(const struct ftrace_regs *fregs, struct pt_regs *regs)
-         | ^
-   1 error generated.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17012a58580000
+start commit:   083fc6d7fa0d Merge tag 'sched-urgent-2025-09-26' of git://..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f5b21423ca3f0a96
+dashboard link: https://syzkaller.appspot.com/bug?extid=ba71155d3eacc8f42477
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16433d34580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e79f12580000
 
+If the result looks correct, please mark the issue as fixed by replying with:
 
-vim +/ftrace_partial_regs_fix +2567 kernel/trace/bpf_trace.c
+#syz fix: Remove bcachefs core code
 
-  2531	
-  2532	static int
-  2533	kprobe_multi_link_prog_run(struct bpf_kprobe_multi_link *link,
-  2534				   unsigned long entry_ip, struct ftrace_regs *fregs,
-  2535				   bool is_return, void *data)
-  2536	{
-  2537		struct bpf_kprobe_multi_run_ctx run_ctx = {
-  2538			.session_ctx = {
-  2539				.is_return = is_return,
-  2540				.data = data,
-  2541			},
-  2542			.link = link,
-  2543			.entry_ip = entry_ip,
-  2544		};
-  2545		struct bpf_run_ctx *old_run_ctx;
-  2546		struct pt_regs *regs;
-  2547		int err;
-  2548	
-  2549		/*
-  2550		 * graph tracer framework ensures we won't migrate, so there is no need
-  2551		 * to use migrate_disable for bpf_prog_run again. The check here just for
-  2552		 * __this_cpu_inc_return.
-  2553		 */
-  2554		cant_sleep();
-  2555	
-  2556		if (unlikely(__this_cpu_inc_return(bpf_prog_active) != 1)) {
-  2557			bpf_prog_inc_misses_counter(link->link.prog);
-  2558			err = 1;
-  2559			goto out;
-  2560		}
-  2561	
-  2562		rcu_read_lock();
-  2563		regs = ftrace_partial_regs(fregs, bpf_kprobe_multi_pt_regs_ptr());
-  2564		old_run_ctx = bpf_set_run_ctx(&run_ctx.session_ctx.run_ctx);
-  2565		err = bpf_prog_run(link->link.prog, regs);
-  2566		bpf_reset_run_ctx(old_run_ctx);
-> 2567		ftrace_partial_regs_fix(fregs, bpf_kprobe_multi_pt_regs_ptr());
-  2568		rcu_read_unlock();
-  2569	
-  2570	 out:
-  2571		__this_cpu_dec(bpf_prog_active);
-  2572		return err;
-  2573	}
-  2574	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
