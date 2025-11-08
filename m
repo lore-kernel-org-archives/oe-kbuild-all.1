@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADC934D386
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 14:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106F51F8723
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 14:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762612018; cv=none; b=GgYr5nH3DXUbg3sMPS8y8E5elkbbFRxWAjB8WJA3h5Gnn8Lbwa/CU5LkS03pVAysw5M2jObwNZfaXis+9qXUO8fzmi/4w+BS6fWv96vG9TRZfH2b4ZJfeKS6hEPw1qdKBUGCD6CUiKB3XSDgDpXFvaLhOCgdvgZctz6/8ORpUIo=
+	t=1762613405; cv=none; b=m0GYN3oXHWKG34GTWDPFlESVoxv1sePHspNYUAfgczOHK5OpWdSUsOMThwkxUDevsOzb8OloL14pZjH5MuY5eDOtKA0J7Bi9qnDBMM8ViF0gUJK8r6al0Pya6v3/VFQ2gq0+ydCUIcQ5PUWfFjGXcIShOn5EXBoxSNMwngPC2x4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762612018; c=relaxed/simple;
-	bh=0YxSL5+7NseLxnvsvTrq6Zwh0C/1b6cl2/khiOr+Z/c=;
+	s=arc-20240116; t=1762613405; c=relaxed/simple;
+	bh=hYa+Q8VHTeIgKxDmaO/o87DQoAeuXog9c9S1QmySBBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qzakuGv2QnIx6UH7xfstpZGvlUYCFh5v3nDVrVcwrRaTBv5Z0xtHMk+YlIwaobXjlqj5IXOcLk1mzPWblxU6f9Ki9GFhmSu0EgdO5y89te7rTxz5yOnhIsYPPxIj7g/jD7UJwtxqQ24K+J/qcvziSa0UAacmWqkPvFxzhzgzvxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0+TdeiG; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=r3ng8mMjwCXh+sEj65l68fDM3Whrkfwgnc322kADbkkopVpO3jfCBv6EjWiTIBL5poH4o0IPi19DtqmEi1i0aHqmZzsNdY8hNfgoPNxS8EWHvKnhNfd+F4ZIJhGIjON1kp5ThWh4hi3n/X/cItCZdsdewOjm0wE6iH3Yxpqn118=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwG8F69f; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0+TdeiG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwG8F69f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762612017; x=1794148017;
+  t=1762613404; x=1794149404;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0YxSL5+7NseLxnvsvTrq6Zwh0C/1b6cl2/khiOr+Z/c=;
-  b=B0+TdeiG3UJgumCZZdsmyWhVTgosPct77vaavOdVixPZbCnQurVwtegG
-   HCElI1lpXkjcuJG1G7daRzONirpElxlj2UVU+louNkVFf6QopcoYnffm3
-   e1X4+AmZbJ3T/H3PZl3XVkUih14v8pGZnXI3ODf3rRj47E0Gpx652OpMV
-   DGE7WChsYexfso5Cn4nTrMS6PEZI1e7affNiElwZ6y3hWuuMDeTe3eNCd
-   KfkjfrtP9daUO5WvjaOmUJsFI68K/fbqNzm3uS4GSOzR3KvZSuNatM3c9
-   Ok9rBZSDr0oF92YgcWXxfNjxrmhzNQhpWhdj/jtiaFHtHBEjgbX5macCU
-   w==;
-X-CSE-ConnectionGUID: 5YhOYfYpTzCLTgOQnE4EZw==
-X-CSE-MsgGUID: f8s1kZ/DQ26DPUCzserHXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="87367070"
-X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; 
-   d="scan'208";a="87367070"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 06:26:57 -0800
-X-CSE-ConnectionGUID: BdO23U+BSjSAaM734T6Rjg==
-X-CSE-MsgGUID: W2BYNPonREWyRqsjpo77bw==
+  bh=hYa+Q8VHTeIgKxDmaO/o87DQoAeuXog9c9S1QmySBBM=;
+  b=gwG8F69fwVXYZm7ZC8A4FtbQbugaWjaugFcvsZdFnmUU/XJT6ifolxMe
+   LoTdq3dGD80atqb7qxVODULtZfSLPLeTiuZxHQb27BO1/SbaK9exJ732d
+   ENA6h18O16846+BeaWBC2UJL7QljA7bBjzLrdpSg3KxL4+1HiPvTsmnLC
+   biyjkEpfQa5Ia8nDEafv+MaqEZO1Y5nK0YWoRfeJSz2Z/DBWSr+Cdu5As
+   syUaGrdHyc6o4/6q1rnr407PveqPja1yMAFA4qkmkZpYBpHhqRv5V/493
+   +tw1sg4IhiUMJ5oUFp6jcxol3mOtNImUS9P9LL4mff19IflnWsxv/LQuT
+   A==;
+X-CSE-ConnectionGUID: CFbRxRuSTUqENNpRZxxqXA==
+X-CSE-MsgGUID: YhceCSDAS6mJZH3leqyerg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64644412"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64644412"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 06:50:03 -0800
+X-CSE-ConnectionGUID: byh1CyF1QpWGmyW+EegHqg==
+X-CSE-MsgGUID: 1YbM5zbwTDiwkeFWfpEw5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; 
-   d="scan'208";a="218941642"
+   d="scan'208";a="188025701"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Nov 2025 06:26:53 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Nov 2025 06:50:02 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHjtx-0000wR-2V;
-	Sat, 08 Nov 2025 14:26:49 +0000
-Date: Sat, 8 Nov 2025 22:26:49 +0800
+	id 1vHkGN-000139-15;
+	Sat, 08 Nov 2025 14:49:59 +0000
+Date: Sat, 8 Nov 2025 22:49:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Praveen K Paladugu <prapal@linux.microsoft.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	tglx@linutronix.de, mingo@redhat.com, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	arnd@arndb.de
-Cc: oe-kbuild-all@lists.linux.dev, anbelski@linux.microsoft.com,
-	prapal@linux.microsoft.com, easwar.hariharan@linux.microsoft.com,
-	nunodasneves@linux.microsoft.com, skinsburskii@linux.microsoft.com,
-	mhklinux@outlook.com
-Subject: Re: [PATCH v4 3/3] hyperv: Cleanly shutdown root partition with MSHV
-Message-ID: <202511082249.JoKyyEEZ-lkp@intel.com>
-References: <20251107221700.45957-4-prapal@linux.microsoft.com>
+To: Geliang Tang <geliang@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC mptcp-next 1/6] mptcp: add sock_set_nodelay
+Message-ID: <202511082238.xkh2dhn2-lkp@intel.com>
+References: <a1cf1ae0309392bee2e97b9a1640c7a056204fbd.1762485513.git.tanggeliang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,59 +62,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107221700.45957-4-prapal@linux.microsoft.com>
+In-Reply-To: <a1cf1ae0309392bee2e97b9a1640c7a056204fbd.1762485513.git.tanggeliang@kylinos.cn>
 
-Hi Praveen,
+Hi Geliang,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20251107]
-[cannot apply to tip/x86/core linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc4]
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on mptcp/export-net linux-nvme/for-next linus/master v6.18-rc4 next-20251107]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Praveen-K-Paladugu/hyperv-Add-definitions-for-MSHV-sleep-state-configuration/20251108-061825
-base:   next-20251107
-patch link:    https://lore.kernel.org/r/20251107221700.45957-4-prapal%40linux.microsoft.com
-patch subject: [PATCH v4 3/3] hyperv: Cleanly shutdown root partition with MSHV
-config: x86_64-randconfig-122-20251108 (https://download.01.org/0day-ci/archive/20251108/202511082249.JoKyyEEZ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511082249.JoKyyEEZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-add-sock_set_nodelay/20251107-113907
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/a1cf1ae0309392bee2e97b9a1640c7a056204fbd.1762485513.git.tanggeliang%40kylinos.cn
+patch subject: [RFC mptcp-next 1/6] mptcp: add sock_set_nodelay
+config: riscv-randconfig-002-20251108 (https://download.01.org/0day-ci/archive/20251108/202511082238.xkh2dhn2-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511082238.xkh2dhn2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511082249.JoKyyEEZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511082238.xkh2dhn2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/mshv_common.c:227:6: warning: variable 'status' set but not used [-Wunused-but-set-variable]
-     227 |         u64 status;
-         |             ^
-   1 warning generated.
+   In file included from include/net/tcp.h:44,
+                    from net/core/devmem.c:20:
+>> include/net/mptcp.h:329:13: warning: 'mptcp_sock_set_nodelay' defined but not used [-Wunused-function]
+     329 | static void mptcp_sock_set_nodelay(struct sock *sk) { }
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/status +227 drivers/hv/mshv_common.c
+vim +/mptcp_sock_set_nodelay +329 include/net/mptcp.h
 
-   220	
-   221	/*
-   222	 * Power off the machine by entering S5 sleep state via Hyper-V hypercall.
-   223	 * This call does not return if successful.
-   224	 */
-   225	void hv_machine_power_off(void)
-   226	{
- > 227		u64 status;
-   228		unsigned long flags;
-   229		struct hv_input_enter_sleep_state *in;
-   230	
-   231		local_irq_save(flags);
-   232		in = *this_cpu_ptr(hyperv_pcpu_input_arg);
-   233		in->sleep_state = HV_SLEEP_STATE_S5;
-   234	
-   235		status = hv_do_hypercall(HVCALL_ENTER_SLEEP_STATE, in, NULL);
-   236		local_irq_restore(flags);
-   237	
+   328	
+ > 329	static void mptcp_sock_set_nodelay(struct sock *sk) { }
+   330	#endif /* CONFIG_MPTCP */
+   331	
 
 -- 
 0-DAY CI Kernel Test Service
