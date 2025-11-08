@@ -1,61 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E781AB6F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 12:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875E01AB6F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 12:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762604628; cv=none; b=NHEBgHF+oK5OXCvLHvp5sVFIA+hOT80xm6J8LmxvZAJRb80nla0+IIWFfBb2mz3aZgzYaFztey7rQwovBirwJN1S9zDF6cquJc8YfmQJFeBviqn9gIGUV4AbQCWLVoybhG2tWASq7SuVDMvcdxwbfMlNRyoEB7u7WRHIuQ+wRsM=
+	t=1762604633; cv=none; b=bUIyqivwlEaLD7AOskJ66yMXlSCiL/5H1JyQmWkm9w1HLx51eZt6Bfhlk+9pMtrZqp+hP6M7A27dwkoD+7joJVN+VrOYpX5/bM9GxqnUQABcp7nkrHG8LsbTfA0ECKMq5IfGDIKWpHIE9sZGxfWGCZ/onERCwvOQXHZE3OtzN2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762604628; c=relaxed/simple;
-	bh=/UNiD6iZWtMAA32mdLWWp5dIJx1FTs18CCctACPfibM=;
+	s=arc-20240116; t=1762604633; c=relaxed/simple;
+	bh=JlDK2o9HYfY2kaS2RyAChzMdN1TtF/Cd0RWBi7o4VvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+as/MjcxbyGoitY797CfE1AeiyHl+vbi8ou7aR4HgczrFB19cktgo4yRFlY1j2QqhcsEWZn9mhlOki3c1Lp7tuG/8DtBR+BqruVKtGbCUeKxe6ANqbUEv1XWN/uoSyu69bPhPt2s+djNlT43BAd+sQE7UhTDqWfsyd780CNLFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6hMnC1r; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=okpRtvY5vbjZMKBJrQXPu9p/DWWACoNsQq4ady2Un9F89AXXWtwjhQUlhu3IoJIaFoY5p44sWu6eB497xhMMDbQ323YlD6B7HDcy/zcTQYIQJ4f2avMqcM163KBkOcv1TjDAaJnOU0xqZiQkzD1pKJ5CoIL4OCu8TdGFzxjI6d0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQjpj1Ye; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6hMnC1r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQjpj1Ye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762604626; x=1794140626;
+  t=1762604631; x=1794140631;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/UNiD6iZWtMAA32mdLWWp5dIJx1FTs18CCctACPfibM=;
-  b=n6hMnC1rMTBjHRK0XGbaN+NT/cuC4O4zWzJMcwzv/aW+DUusK9Nxd55H
-   rGN+TNBcBztNO2fEOCdEYIxS5h9n8xMScpI4M45V3ZylCZRr2ICpbLDdr
-   ONWm6N5ve4S0FqF4j1uzjKuH5OqxFIwRDiRaQTHQ+IJGu+A/PMsw9Vc4S
-   XzpCC52mJSODqBegUwZfxlLrzSEs0n6z4ahV2eQsypmHza1oy8e2xYgao
-   HTSUt3kd9/Bsw0UkfDNDf6zVpaBXLNDGAGIUUPO45XZjGPCnbP4sZ1PCw
-   HKj0CKaLcUjg0OWikKLW1JkmXKMIjxHAZ6Vr9dm0mKUPQBOMrw1Msuctu
-   Q==;
-X-CSE-ConnectionGUID: 8ZAqiyPISoeBIG5zbrhLVQ==
-X-CSE-MsgGUID: 9v9HjYdaS6yPLSJRFDWhtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64432004"
+  bh=JlDK2o9HYfY2kaS2RyAChzMdN1TtF/Cd0RWBi7o4VvY=;
+  b=lQjpj1Yew6xN833NW2Stf6JorcfEl9diSbE/SW46jbARxAvaKMX7v99E
+   pF7dEvoTBA4kBer+IKXaVCbKhdHdiSgrcpcTtqXqPrQ4+/3Wgh9wHT4MP
+   0l6dhwGV64nzRhqVA3g96yCf3MsVH9wf7In8I1nwCIGBBc92q46W6B4Nc
+   9pCQGt6XN886orT0K64kUUqkFeOG2UENP8D81/1xkmbYg87I1ZYZKoQdy
+   9vKXAB74FYrwKEplYyK2xEqsq+Y4fMwQgmP3cPHlNj7IVQfrebyyJoMGH
+   VV2I20IPUowM//MONHxLLX5VtvXvD5oP5Ul6aPERgusAsKVJIUcGAgZu7
+   w==;
+X-CSE-ConnectionGUID: QPOg49izQbWCzfkQZJLRfg==
+X-CSE-MsgGUID: 9enJqgktRw6w4XDvd15mag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="63743759"
 X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; 
-   d="scan'208";a="64432004"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 04:23:45 -0800
-X-CSE-ConnectionGUID: 5MO9ovN7SGmtO+WvV5zMFw==
-X-CSE-MsgGUID: cLNPkkqGRNaj2dSNCa/Cwg==
+   d="scan'208";a="63743759"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 04:23:51 -0800
+X-CSE-ConnectionGUID: RYFPoGpDSRWGk5Hfbrdbkw==
+X-CSE-MsgGUID: bh2zDC7rSviN1J1ul7zowQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,289,1754982000"; 
-   d="scan'208";a="187527035"
+   d="scan'208";a="193445303"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Nov 2025 04:23:44 -0800
+  by orviesa005.jf.intel.com with ESMTP; 08 Nov 2025 04:23:44 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHhyn-0000uv-2f;
+	id 1vHhyn-0000ut-2b;
 	Sat, 08 Nov 2025 12:23:41 +0000
-Date: Sat, 8 Nov 2025 20:23:07 +0800
+Date: Sat, 8 Nov 2025 20:23:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH] drm/gem: Use vmemdup_array_user in drm_gem_objects_lookup
-Message-ID: <202511082041.cMOd6r9h-lkp@intel.com>
-References: <20251106131926.28096-1-tvrtko.ursulin@igalia.com>
+To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	oleg@redhat.com, kees@kernel.org, luto@amacapital.net,
+	wad@chromium.org, mchauras@linux.ibm.com, thuth@redhat.com,
+	sshegde@linux.ibm.com, akpm@linux-foundation.org, macro@orcam.me.uk,
+	ldv@strace.io, deller@gmx.de, charlie@rivosinc.com,
+	bigeasy@linutronix.de, segher@kernel.crashing.org,
+	thomas.weissschuh@linutronix.de, menglong8.dong@gmail.com,
+	ankur.a.arora@oracle.com, peterz@infradead.org,
+	namcao@linutronix.de, tglx@linutronix.de, mingo@kernel.org,
+	atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
+	coltonlewis@google.com, rppt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+Message-ID: <202511082018.EpqTt1zo-lkp@intel.com>
+References: <20251102115358.1744304-9-mkchauras@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,90 +73,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106131926.28096-1-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251102115358.1744304-9-mkchauras@linux.ibm.com>
 
-Hi Tvrtko,
+Hi Mukesh,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-tip/drm-tip next-20251107]
-[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.18-rc4]
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.18-rc4 next-20251107]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-gem-Use-vmemdup_array_user-in-drm_gem_objects_lookup/20251106-212028
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251106131926.28096-1-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH] drm/gem: Use vmemdup_array_user in drm_gem_objects_lookup
-config: loongarch-randconfig-002-20251108 (https://download.01.org/0day-ci/archive/20251108/202511082041.cMOd6r9h-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511082041.cMOd6r9h-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20251102-195716
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251102115358.1744304-9-mkchauras%40linux.ibm.com
+patch subject: [PATCH 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+config: powerpc-randconfig-002-20251108 (https://download.01.org/0day-ci/archive/20251108/202511082018.EpqTt1zo-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511082018.EpqTt1zo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511082041.cMOd6r9h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511082018.EpqTt1zo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_gem.c: In function 'drm_gem_objects_lookup':
->> drivers/gpu/drm/drm_gem.c:786:28: warning: unused variable 'dev' [-Wunused-variable]
-     786 |         struct drm_device *dev = filp->minor->dev;
-         |                            ^~~
-
-
-vim +/dev +786 drivers/gpu/drm/drm_gem.c
-
-c117aa4d8701a7 Rob Herring         2019-03-08  764  
-c117aa4d8701a7 Rob Herring         2019-03-08  765  /**
-c117aa4d8701a7 Rob Herring         2019-03-08  766   * drm_gem_objects_lookup - look up GEM objects from an array of handles
-c117aa4d8701a7 Rob Herring         2019-03-08  767   * @filp: DRM file private date
-c117aa4d8701a7 Rob Herring         2019-03-08  768   * @bo_handles: user pointer to array of userspace handle
-c117aa4d8701a7 Rob Herring         2019-03-08  769   * @count: size of handle array
-c117aa4d8701a7 Rob Herring         2019-03-08  770   * @objs_out: returned pointer to array of drm_gem_object pointers
-c117aa4d8701a7 Rob Herring         2019-03-08  771   *
-c117aa4d8701a7 Rob Herring         2019-03-08  772   * Takes an array of userspace handles and returns a newly allocated array of
-c117aa4d8701a7 Rob Herring         2019-03-08  773   * GEM objects.
-c117aa4d8701a7 Rob Herring         2019-03-08  774   *
-c117aa4d8701a7 Rob Herring         2019-03-08  775   * For a single handle lookup, use drm_gem_object_lookup().
-c117aa4d8701a7 Rob Herring         2019-03-08  776   *
-c117aa4d8701a7 Rob Herring         2019-03-08  777   * Returns:
-c117aa4d8701a7 Rob Herring         2019-03-08  778   * @objs filled in with GEM object pointers. Returned GEM objects need to be
-be6ee102341bc4 Emil Velikov        2020-05-15  779   * released with drm_gem_object_put(). -ENOENT is returned on a lookup
-c117aa4d8701a7 Rob Herring         2019-03-08  780   * failure. 0 is returned on success.
-c117aa4d8701a7 Rob Herring         2019-03-08  781   *
-c117aa4d8701a7 Rob Herring         2019-03-08  782   */
-c117aa4d8701a7 Rob Herring         2019-03-08  783  int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-c117aa4d8701a7 Rob Herring         2019-03-08  784  			   int count, struct drm_gem_object ***objs_out)
-c117aa4d8701a7 Rob Herring         2019-03-08  785  {
-e5e0350d5d1ab0 Athul Raj Kollareth 2025-09-02 @786  	struct drm_device *dev = filp->minor->dev;
-c117aa4d8701a7 Rob Herring         2019-03-08  787  	struct drm_gem_object **objs;
-e5e0350d5d1ab0 Athul Raj Kollareth 2025-09-02  788  	u32 *handles;
-e5e0350d5d1ab0 Athul Raj Kollareth 2025-09-02  789  	int ret;
-c117aa4d8701a7 Rob Herring         2019-03-08  790  
-c117aa4d8701a7 Rob Herring         2019-03-08  791  	if (!count)
-c117aa4d8701a7 Rob Herring         2019-03-08  792  		return 0;
-c117aa4d8701a7 Rob Herring         2019-03-08  793  
-c117aa4d8701a7 Rob Herring         2019-03-08  794  	objs = kvmalloc_array(count, sizeof(struct drm_gem_object *),
-c117aa4d8701a7 Rob Herring         2019-03-08  795  			     GFP_KERNEL | __GFP_ZERO);
-c117aa4d8701a7 Rob Herring         2019-03-08  796  	if (!objs)
-c117aa4d8701a7 Rob Herring         2019-03-08  797  		return -ENOMEM;
-c117aa4d8701a7 Rob Herring         2019-03-08  798  
-ec0bb482de0ad5 Dan Carpenter       2020-03-20  799  	*objs_out = objs;
-ec0bb482de0ad5 Dan Carpenter       2020-03-20  800  
-50c1d127a2aa88 Tvrtko Ursulin      2025-11-06  801  	handles = vmemdup_array_user(bo_handles, count, sizeof(u32));
-50c1d127a2aa88 Tvrtko Ursulin      2025-11-06  802  	if (IS_ERR(handles)) {
-50c1d127a2aa88 Tvrtko Ursulin      2025-11-06  803  		ret = PTR_ERR(handles);
-c117aa4d8701a7 Rob Herring         2019-03-08  804  		goto out;
-c117aa4d8701a7 Rob Herring         2019-03-08  805  	}
-c117aa4d8701a7 Rob Herring         2019-03-08  806  
-c117aa4d8701a7 Rob Herring         2019-03-08  807  	ret = objects_lookup(filp, handles, count, objs);
-c117aa4d8701a7 Rob Herring         2019-03-08  808  out:
-c117aa4d8701a7 Rob Herring         2019-03-08  809  	kvfree(handles);
-c117aa4d8701a7 Rob Herring         2019-03-08  810  	return ret;
-c117aa4d8701a7 Rob Herring         2019-03-08  811  
+   powerpc-linux-ld: init/main.o: in function `do_one_initcall':
+>> main.c:(.text+0x2418): undefined reference to `memcpy'
+   powerpc-linux-ld: init/initramfs_test.o: in function `initramfs_test_many':
+>> initramfs_test.c:(.init.text+0x130): undefined reference to `memset'
+   powerpc-linux-ld: init/initramfs_test.o: in function `initramfs_test_hardlink':
+   initramfs_test.c:(.init.text+0x5a0): undefined reference to `memset'
+   powerpc-linux-ld: init/initramfs_test.o: in function `initramfs_test_csum':
+   initramfs_test.c:(.init.text+0x1054): undefined reference to `memset'
+   powerpc-linux-ld: init/initramfs_test.o: in function `initramfs_test_fname_overrun':
+   initramfs_test.c:(.init.text+0x21dc): undefined reference to `memset'
+   powerpc-linux-ld: init/initramfs_test.o: in function `initramfs_test_extract':
+   initramfs_test.c:(.init.text+0x2798): undefined reference to `memset'
+   powerpc-linux-ld: init/initramfs_test.o:initramfs_test.c:(.init.text+0x27a8): more undefined references to `memset' follow
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `arch_dup_task_struct':
+>> process.c:(.text+0x238c): undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `copy_thread':
+   process.c:(.text+0x2630): undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/signal.o: in function `do_signal':
+>> signal.c:(.text+0xc0): undefined reference to `memset'
+>> powerpc-linux-ld: signal.c:(.text+0x62c): undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `register_decrementer_clockevent.constprop.0':
+>> time.c:(.text+0xc00): undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `rtc_init':
+>> time.c:(.init.text+0x218): undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/mem.o: in function `execmem_arch_setup':
+>> mem.c:(.init.text+0x9ec): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_clone_args_from_user':
+>> fork.c:(.text+0x2f34): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `arch_dup_task_struct':
+>> fork.c:(.text+0x4abc): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `replace_mm_exe_file':
+   fork.c:(.text+0x5664): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `create_io_thread':
+   fork.c:(.text+0xbdc8): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `kernel_thread':
+   fork.c:(.text+0xc894): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `user_mode_thread':
+   fork.c:(.text+0xc998): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `sys_fork':
+   fork.c:(.text+0xca6c): undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o:fork.c:(.text+0xcb14): more undefined references to `memset' follow
+   powerpc-linux-ld: kernel/kallsyms.o: in function `__sprint_symbol.isra.0':
+>> kallsyms.c:(.text+0x1c38): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/acct.o: in function `acct_collect':
+>> acct.c:(.text+0x29fc): undefined reference to `memset'
+   powerpc-linux-ld: kernel/cgroup/cgroup.o: in function `features_show':
+>> cgroup.c:(.text+0x5ca8): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/trace/trace_events_synth.o: in function `print_synth_event':
+>> trace_events_synth.c:(.text+0x347c): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/trace/trace_events_hist.o: in function `hist_trigger_print_val':
+>> trace_events_hist.c:(.text+0x1e02c): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/events/core.o: in function `perf_event_namespaces.part.0':
+>> core.c:(.text+0xd0d0): undefined reference to `memset'
+   powerpc-linux-ld: kernel/events/core.o: in function `perf_event_addr_filters_apply':
+   core.c:(.text+0xdc10): undefined reference to `memset'
+   powerpc-linux-ld: kernel/events/core.o: in function `perf_event_alloc.part.0':
+>> core.c:(.text+0x20450): undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/events/core.o: in function `perf_event_mmap':
+   core.c:(.text+0x3d584): undefined reference to `memset'
+   powerpc-linux-ld: mm/filemap.o: in function `filemap_invalidate_inode':
+>> filemap.c:(.text+0x6c60): undefined reference to `memset'
+   powerpc-linux-ld: mm/filemap.o: in function `__filemap_fdatawrite_range':
+   filemap.c:(.text+0x1022c): undefined reference to `memset'
+   powerpc-linux-ld: mm/filemap.o: in function `filemap_splice_read':
+   filemap.c:(.text+0x1c0b8): undefined reference to `memset'
+   powerpc-linux-ld: mm/oom_kill.o: in function `__oom_reap_task_mm':
+>> oom_kill.c:(.text+0x47e8): undefined reference to `memset'
+   powerpc-linux-ld: mm/page-writeback.o:page-writeback.c:(.text+0x6640): more undefined references to `memset' follow
+   powerpc-linux-ld: fs/exec.o: in function `exec_test_bprm_stack_limits':
+>> exec.c:(.text+0x1644): undefined reference to `memcpy'
+   powerpc-linux-ld: fs/ioctl.o: in function `ioctl_get_fs_sysfs_path':
+   ioctl.c:(.text+0x5b0): undefined reference to `memset'
+   powerpc-linux-ld: fs/readdir.o: in function `sys_getdents':
+   readdir.c:(.text+0x1d84): undefined reference to `memset'
+   powerpc-linux-ld: fs/readdir.o: in function `sys_getdents64':
+   readdir.c:(.text+0x20ec): undefined reference to `memset'
+   powerpc-linux-ld: fs/inode.o: in function `dump_mapping':
+   inode.c:(.text+0xe484): undefined reference to `memset'
+   powerpc-linux-ld: fs/seq_file.o: in function `seq_read':
+   seq_file.c:(.text+0x54f4): undefined reference to `memset'
+   powerpc-linux-ld: fs/fs-writeback.o:fs-writeback.c:(.text+0x1de74): more undefined references to `memset' follow
+   powerpc-linux-ld: fs/verity/hash_algs.o: in function `fsverity_hash_block':
+   hash_algs.c:(.text+0x808): undefined reference to `memcpy'
+   powerpc-linux-ld: fs/binfmt_misc.o: in function `bm_entry_read':
+   binfmt_misc.c:(.text+0x9f0): undefined reference to `memcpy'
+   powerpc-linux-ld: binfmt_misc.c:(.text+0xdbc): undefined reference to `memcpy'
+   powerpc-linux-ld: fs/binfmt_elf.o: in function `elf_core_dump':
+   binfmt_elf.c:(.text+0x88e8): undefined reference to `memset'
+   powerpc-linux-ld: fs/coredump.o: in function `dump_vma_snapshot':
+   coredump.c:(.text+0x1ff4): undefined reference to `memset'
+   powerpc-linux-ld: fs/coredump.o: in function `vfs_coredump':
+   coredump.c:(.text+0x5614): undefined reference to `memset'
+   powerpc-linux-ld: fs/iomap/buffered-io.o: in function `iomap_page_mkwrite':
+   buffered-io.c:(.text+0xbec): undefined reference to `memset'
+   powerpc-linux-ld: fs/iomap/buffered-io.o: in function `iomap_read_folio':
+   buffered-io.c:(.text+0x6608): undefined reference to `memset'
+   powerpc-linux-ld: fs/iomap/buffered-io.o:buffered-io.c:(.text+0x6ae0): more undefined references to `memset' follow
+   powerpc-linux-ld: crypto/sha512.o: in function `__crypto_sha512_export':
+   sha512.c:(.text+0x620): undefined reference to `memcpy'
+   powerpc-linux-ld: crypto/sha3_generic.o: in function `crypto_sha3_finup':
+   sha3_generic.c:(.text+0x1654): undefined reference to `memset'
+   powerpc-linux-ld: sha3_generic.c:(.text+0x17b8): undefined reference to `memset'
+   powerpc-linux-ld: crypto/drbg.o: in function `drbg_seed':
+   drbg.c:(.text+0x19ec): undefined reference to `memset'
+   powerpc-linux-ld: crypto/drbg.o: in function `drbg_kcapi_random':
+   drbg.c:(.text+0x2634): undefined reference to `memset'
+   powerpc-linux-ld: crypto/jitterentropy-kcapi.o: in function `jent_kcapi_cleanup':
+   jitterentropy-kcapi.c:(.text+0x118): undefined reference to `memset'
+   powerpc-linux-ld: crypto/jitterentropy-kcapi.o:jitterentropy-kcapi.c:(.text+0xc5c): more undefined references to `memset' follow
+   powerpc-linux-ld: block/elevator.o: in function `elv_iosched_show':
+   elevator.c:(.text+0x50fc): undefined reference to `memcpy'
+   powerpc-linux-ld: elevator.c:(.text+0x5274): undefined reference to `memcpy'
+   powerpc-linux-ld: elevator.c:(.text+0x52cc): undefined reference to `memcpy'
+   powerpc-linux-ld: block/blk-core.o: in function `blk_alloc_queue':
+   blk-core.c:(.text+0xe6d4): undefined reference to `memcpy'
+   powerpc-linux-ld: block/blk-sysfs.o: in function `queue_attr_store':
+   blk-sysfs.c:(.text+0x3d90): undefined reference to `memcpy'
+   powerpc-linux-ld: block/blk-settings.o:blk-settings.c:(.text+0x216c): more undefined references to `memcpy' follow
+   powerpc-linux-ld: block/blk-mq.o: in function `blk_mq_alloc_queue':
+   blk-mq.c:(.text+0x27528): undefined reference to `memset'
+   powerpc-linux-ld: block/genhd.o: in function `__blk_alloc_disk':
+   genhd.c:(.text+0x6ea4): undefined reference to `memset'
+   powerpc-linux-ld: block/partitions/core.o: in function `check_partition':
+   core.c:(.text+0x1b20): undefined reference to `memcpy'
+   powerpc-linux-ld: block/blk-rq-qos.o: in function `rq_qos_wait':
+   blk-rq-qos.c:(.text+0x1598): undefined reference to `memset'
+   powerpc-linux-ld: block/disk-events.o: in function `disk_events_show':
+   disk-events.c:(.text+0x17c): undefined reference to `memcpy'
+   powerpc-linux-ld: block/disk-events.o: in function `disk_events_poll_msecs_show':
+   disk-events.c:(.text+0xd8c): undefined reference to `memcpy'
+   powerpc-linux-ld: block/blk-cgroup.o: in function `__blkg_clear_stat':
+   blk-cgroup.c:(.text+0x52b0): undefined reference to `memset'
+   powerpc-linux-ld: block/blk-cgroup-rwstat.o: in function `blkg_prfill_rwstat':
+   blk-cgroup-rwstat.c:(.text+0x430): undefined reference to `memset'
+   powerpc-linux-ld: block/blk-integrity.o: in function `flag_store':
+   blk-integrity.c:(.text+0x1050): undefined reference to `memcpy'
+   powerpc-linux-ld: blk-integrity.c:(.text+0x1060): undefined reference to `memcpy'
+   powerpc-linux-ld: block/sed-opal.o: in function `sed_ioctl':
+   sed-opal.c:(.text+0x10340): undefined reference to `memcpy'
+   powerpc-linux-ld: sed-opal.c:(.text+0x11810): undefined reference to `memset'
+   powerpc-linux-ld: io_uring/io_uring.o: in function `sys_io_uring_enter':
+   io_uring.c:(.text+0x25670): undefined reference to `memset'
+   powerpc-linux-ld: io_uring/msg_ring.o: in function `io_uring_sync_msg_ring':
+   msg_ring.c:(.text+0x2068): undefined reference to `memset'
+   powerpc-linux-ld: io_uring/register.o: in function `io_register_resize_rings':
+   register.c:(.text+0xc4): undefined reference to `memset'
+   powerpc-linux-ld: register.c:(.text+0xd4): undefined reference to `memset'
+   powerpc-linux-ld: lib/kunit/test.o:test.c:(.text+0x1f04): more undefined references to `memset' follow
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o: in function `LZ4_decompress_safe_partial':
+   lz4_decompress.c:(.text+0xa60): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0xb00): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0xb10): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0xc1c): undefined reference to `memmove'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0xc94): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x1288): undefined reference to `memmove'
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o: in function `LZ4_decompress_safe':
+   lz4_decompress.c:(.text+0x15c4): undefined reference to `memmove'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x1664): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x1700): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x1710): undefined reference to `memcpy'
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o: in function `LZ4_decompress_fast':
+   lz4_decompress.c:(.text+0x2a40): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x2ae4): undefined reference to `memcpy'
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o:lz4_decompress.c:(.text+0x2af4): more undefined references to `memcpy' follow
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o: in function `LZ4_decompress_fast':
+   lz4_decompress.c:(.text+0x2c48): undefined reference to `memmove'
+   powerpc-linux-ld: lib/lz4/lz4_decompress.o: in function `LZ4_decompress_safe_withPrefix64k':
+   lz4_decompress.c:(.text+0x4744): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x47d4): undefined reference to `memcpy'
+   powerpc-linux-ld: lz4_decompress.c:(.text+0x47e4): undefined reference to `memcpy'
 
 -- 
 0-DAY CI Kernel Test Service
