@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C3B4C98;
-	Sat,  8 Nov 2025 00:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0624C9D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 01:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762563351; cv=none; b=um+xfViCd9UqwjXpUkMHHrcop4xo6hrmuvOJQ5nXT0VvEUQQhtTXKRVe9zDUT3LEUqEd2m4klfRbqE5AS5w2f2Xij7e9CptpJKfBQ63wsSbAcXVKCZW6JcmAW6UjAmvj+o+5vRCYIAta5Blt0r0zV8zL4rfBMjP75Dn4zIDhQNY=
+	t=1762564616; cv=none; b=m0Ry75ARRIrrDrMDyVjtZ27nLmbZ+gwfIEVw66ZR0vOjFUnlljVbsoXLTptp0njlFQKY8vrG438CSpGEaphSylsVU5BR1U69NRqtxW/oki8G4YfcwmNzc1ZmwTstb73mbYf9fuXABXjX9/vtt8gCKM8zbpqhINhlX5MF6xFw/GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762563351; c=relaxed/simple;
-	bh=idVQy+7g/knnElMiisnbqGbKnJRrTqt0LGwoCX4+K9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BGeA+rbd7x0rL8MC4HH7rYhYOTgf1yIKyLBFhpOj2+rcKm/CsHwFiKORRSVnMs4wXRxknKlvWGuTPXJtz7DgsylIUIhD7xBftt9m5+BvX8Omr1iSXnGIOs44fGq5QK44X4oNroYADzTr5KOAzxbUbeylezHtyYZca55eOVvu+i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrRm+4dt; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1762564616; c=relaxed/simple;
+	bh=6LwQWMQZIwOVuvJvbaUG+uSWupdTacys+le/kOEXWKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqGokf0dZcXTWtxXCAZjFclDFc7r5eAK8PiiVE/imzL5LwPKEt2xxxhq68UDvFbpe28DE9ohN/N/LaMZKc58fBboSOOSZYmufhDbHKZl51SdZbmAZ3NVv1zGlLyYcymCg4CbwYy6m8WcQY/hJz1K0mkR6a+0Y+gK9sqiht3KQGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g0S3j/AI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrRm+4dt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0S3j/AI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762563349; x=1794099349;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=idVQy+7g/knnElMiisnbqGbKnJRrTqt0LGwoCX4+K9E=;
-  b=BrRm+4dtWZgsRz+Vrdg0owsEBny7My4u4+4MiXLkNaJmCftL6cCBgPNR
-   Bu2Z/RMH24IsUb7h7FoNbYyBdFxnnaAhS2rcHs+2b2GsNngdnspaJCMek
-   WEIB9utNkq4xXezNzLL3Bn94wSiHjJk6xs86kfG6gxNKCebPvx1EWKLWt
-   sT4tSKLrdk3yAmoTBLz9lNLz18/2lg8+2sg9WXeguHqs8e0Hyu2S17BiR
-   SKJCgGPe0zlIdaSAiQH0OLbsM3mESsN0ODwLuOXEPWrU1/F8cN0IHfHr1
-   oQupi5vqEI6jIxEDXy78BBtElVTT/fpLSpyKbVsPd9ZfSI3ttHl/V3uyy
-   Q==;
-X-CSE-ConnectionGUID: /dk52jUURVeUBPP+/leQyA==
-X-CSE-MsgGUID: /SzVYLKPR8Cl4PmWCdopJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64756110"
+  t=1762564615; x=1794100615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6LwQWMQZIwOVuvJvbaUG+uSWupdTacys+le/kOEXWKQ=;
+  b=g0S3j/AIt7aWWNn9eAQcKKJx0RJjpbtnYiu/k0/qXNQOuEVuxGyd+NqM
+   5rl+46KR/uIXv7J54y13T7Liz+MEgT3LE5mUuR90tAOx2Gew8VxsgGSRA
+   i+u72tO7Do+K+3U9Viw0KBt2GXFTKAwQYbMpF6V0FIy5txt1bZGtonPrM
+   wynCrlF4LxxiL9Q2EVTcPIJV3axuR/GJP4G5niDcIj/tVowyMDHrUoEC5
+   +9wtzC0OOg6cYsjhhUEvar2f447Zcetwx6uNHn8N3PiS72d4iAsZX8B9P
+   3gTPSImw7YCaeqGmimlnh1QmZ+FwIZqQzjEzrGMFsF4NfHHKU5hWrEwnQ
+   A==;
+X-CSE-ConnectionGUID: xtQDpFOkQH+EWXoHgRCzQQ==
+X-CSE-MsgGUID: d7F43wGqTaWYLIjypuANWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="68364338"
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="64756110"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 16:55:49 -0800
-X-CSE-ConnectionGUID: gBIEgg9NQG2bXnQiKFMnyQ==
-X-CSE-MsgGUID: NuJ6AZnfRMaVBasVyr5wBg==
+   d="scan'208";a="68364338"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:16:54 -0800
+X-CSE-ConnectionGUID: qjG+nvmtSKmIHJh9Y3cBpQ==
+X-CSE-MsgGUID: NoUEZRdtQD2Taho7s98w1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="187485582"
+   d="scan'208";a="218836106"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Nov 2025 16:55:49 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Nov 2025 17:16:51 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHXF3-0000Xz-2x;
-	Sat, 08 Nov 2025 00:55:45 +0000
-Date: Sat, 8 Nov 2025 08:54:56 +0800
+	id 1vHXZQ-0000ZN-1a;
+	Sat, 08 Nov 2025 01:16:48 +0000
+Date: Sat, 8 Nov 2025 09:15:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:scratch/gourry/isolation/linus 5/11]
- mm/oom_kill.c:1123:18: error: use of undeclared identifier
- 'default_sysram_nodes'
-Message-ID: <202511080812.LhooV61h-lkp@intel.com>
+To: Ranganath V N <vnranganath.20@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, horms@kernel.org, jhs@mojatatu.com,
+	jiri@resnulli.us, kuba@kernel.org, pabeni@redhat.com,
+	xiyou.wangcong@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, vnranganath.20@gmail.com,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 2/2] net: sched: act_ife: initialize struct tc_ife to
+ fix KMSAN kernel-infoleak
+Message-ID: <202511080954.ZMCEd0sG-lkp@intel.com>
+References: <20251106195635.2438-3-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,129 +70,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251106195635.2438-3-vnranganath.20@gmail.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
-head:   67062e895b94cd27af5fa58d8a567086a53d0914
-commit: b5fcc368ba4cbe6b7a89e1220e01dee600b9e4c5 [5/11] mm: default slub, oom_kill, compaction, and page_alloc to sysram
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251108/202511080812.LhooV61h-lkp@intel.com/config)
+Hi Ranganath,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.18-rc4 next-20251107]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranganath-V-N/net-sched-act_connmark-initialize-struct-tc_ife-to-fix-kernel-leak/20251107-035911
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251106195635.2438-3-vnranganath.20%40gmail.com
+patch subject: [PATCH v3 2/2] net: sched: act_ife: initialize struct tc_ife to fix KMSAN kernel-infoleak
+config: s390-randconfig-r073-20251108 (https://download.01.org/0day-ci/archive/20251108/202511080954.ZMCEd0sG-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d78e0ded5215824a63ac04fb87effd9eacf875eb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080812.LhooV61h-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080954.ZMCEd0sG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080812.LhooV61h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511080954.ZMCEd0sG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/oom_kill.c:1123:18: error: use of undeclared identifier 'default_sysram_nodes'
-    1123 |                 oc->nodemask = default_sysram_nodes;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   mm/oom_kill.c:1160:18: error: use of undeclared identifier 'default_sysram_nodes'
-    1160 |                 oc->nodemask = default_sysram_nodes;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> mm/page_alloc.c:4614:18: error: use of undeclared identifier 'default_sysram_nodes'
-    4614 |                 ac->nodemask = default_sysram_nodes;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:4798:18: error: use of undeclared identifier 'default_sysram_nodes'
-    4798 |                 ac->nodemask = default_sysram_nodes;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:4951:18: error: use of undeclared identifier 'default_sysram_nodes'
-    4951 |                 ac->nodemask = default_sysram_nodes;
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:5198:38: error: use of undeclared identifier 'default_sysram_nodes'
-    5198 |         ac.nodemask = nodemask ? nodemask : default_sysram_nodes;
-         |                                             ^~~~~~~~~~~~~~~~~~~~
+>> net/sched/act_ife.c:652:2: error: call to undeclared library function 'index' with type 'char *(const char *, int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     652 |         index = ife->tcf_index;
+         |         ^
+   net/sched/act_ife.c:652:2: note: include the header <strings.h> or explicitly provide a declaration for 'index'
+>> net/sched/act_ife.c:652:8: error: non-object type 'char *(const char *, int)' is not assignable
+     652 |         index = ife->tcf_index;
+         |         ~~~~~ ^
+>> net/sched/act_ife.c:653:2: error: use of undeclared identifier 'refcnt'
+     653 |         refcnt = refcount_read(&ife->tcf_refcnt) - ref;
+         |         ^~~~~~
+>> net/sched/act_ife.c:654:2: error: use of undeclared identifier 'bindcnt'
+     654 |         bindcnt = atomic_read(&ife->tcf_bindcnt) - bind;
+         |         ^~~~~~~
    4 errors generated.
 
 
-vim +/default_sysram_nodes +1123 mm/oom_kill.c
+vim +652 net/sched/act_ife.c
 
-  1109	
-  1110	/**
-  1111	 * out_of_memory - kill the "best" process when we run out of memory
-  1112	 * @oc: pointer to struct oom_control
-  1113	 *
-  1114	 * If we run out of memory, we have the choice between either
-  1115	 * killing a random task (bad), letting the system crash (worse)
-  1116	 * OR try to be smart about which process to kill. Note that we
-  1117	 * don't have to be perfect here, we just have to be good.
-  1118	 */
-  1119	bool out_of_memory(struct oom_control *oc)
-  1120	{
-  1121		unsigned long freed = 0;
-  1122		if (!oc->nodemask)
-> 1123			oc->nodemask = default_sysram_nodes;
-  1124	
-  1125		if (oom_killer_disabled)
-  1126			return false;
-  1127	
-  1128		if (!is_memcg_oom(oc)) {
-  1129			blocking_notifier_call_chain(&oom_notify_list, 0, &freed);
-  1130			if (freed > 0 && !is_sysrq_oom(oc))
-  1131				/* Got some memory back in the last second. */
-  1132				return true;
-  1133		}
-  1134	
-  1135		/*
-  1136		 * If current has a pending SIGKILL or is exiting, then automatically
-  1137		 * select it.  The goal is to allow it to allocate so that it may
-  1138		 * quickly exit and free its memory.
-  1139		 */
-  1140		if (task_will_free_mem(current)) {
-  1141			mark_oom_victim(current);
-  1142			queue_oom_reaper(current);
-  1143			return true;
-  1144		}
-  1145	
-  1146		/*
-  1147		 * The OOM killer does not compensate for IO-less reclaim.
-  1148		 * But mem_cgroup_oom() has to invoke the OOM killer even
-  1149		 * if it is a GFP_NOFS allocation.
-  1150		 */
-  1151		if (!(oc->gfp_mask & __GFP_FS) && !is_memcg_oom(oc))
-  1152			return true;
-  1153	
-  1154		/*
-  1155		 * Check if there were limitations on the allocation (only relevant for
-  1156		 * NUMA and memcg) that may require different handling.
-  1157		 */
-  1158		oc->constraint = constrained_alloc(oc);
-  1159		if (oc->constraint != CONSTRAINT_MEMORY_POLICY)
-  1160			oc->nodemask = default_sysram_nodes;
-  1161		check_panic_on_oom(oc);
-  1162	
-  1163		if (!is_memcg_oom(oc) && sysctl_oom_kill_allocating_task &&
-  1164		    current->mm && !oom_unkillable_task(current) &&
-  1165		    oom_cpuset_eligible(current, oc) &&
-  1166		    current->signal->oom_score_adj != OOM_SCORE_ADJ_MIN) {
-  1167			get_task_struct(current);
-  1168			oc->chosen = current;
-  1169			oom_kill_process(oc, "Out of memory (oom_kill_allocating_task)");
-  1170			return true;
-  1171		}
-  1172	
-  1173		select_bad_process(oc);
-  1174		/* Found nothing?!?! */
-  1175		if (!oc->chosen) {
-  1176			dump_header(oc);
-  1177			pr_warn("Out of memory and no killable processes...\n");
-  1178			/*
-  1179			 * If we got here due to an actual allocation at the
-  1180			 * system level, we cannot survive this and will enter
-  1181			 * an endless loop in the allocator. Bail out now.
-  1182			 */
-  1183			if (!is_sysrq_oom(oc) && !is_memcg_oom(oc))
-  1184				panic("System is deadlocked on memory\n");
-  1185		}
-  1186		if (oc->chosen && oc->chosen != (void *)-1UL)
-  1187			oom_kill_process(oc, !is_memcg_oom(oc) ? "Out of memory" :
-  1188					 "Memory cgroup out of memory");
-  1189		return !!oc->chosen;
-  1190	}
-  1191	
+   640	
+   641	static int tcf_ife_dump(struct sk_buff *skb, struct tc_action *a, int bind,
+   642				int ref)
+   643	{
+   644		unsigned char *b = skb_tail_pointer(skb);
+   645		struct tcf_ife_info *ife = to_ife(a);
+   646		struct tcf_ife_params *p;
+   647		struct tc_ife opt;
+   648		struct tcf_t t;
+   649	
+   650		memset(&opt, 0, sizeof(opt));
+   651	
+ > 652		index = ife->tcf_index;
+ > 653		refcnt = refcount_read(&ife->tcf_refcnt) - ref;
+ > 654		bindcnt = atomic_read(&ife->tcf_bindcnt) - bind;
+   655	
+   656		spin_lock_bh(&ife->tcf_lock);
+   657		opt.action = ife->tcf_action;
+   658		p = rcu_dereference_protected(ife->params,
+   659					      lockdep_is_held(&ife->tcf_lock));
+   660		opt.flags = p->flags;
+   661	
+   662		if (nla_put(skb, TCA_IFE_PARMS, sizeof(opt), &opt))
+   663			goto nla_put_failure;
+   664	
+   665		tcf_tm_dump(&t, &ife->tcf_tm);
+   666		if (nla_put_64bit(skb, TCA_IFE_TM, sizeof(t), &t, TCA_IFE_PAD))
+   667			goto nla_put_failure;
+   668	
+   669		if (!is_zero_ether_addr(p->eth_dst)) {
+   670			if (nla_put(skb, TCA_IFE_DMAC, ETH_ALEN, p->eth_dst))
+   671				goto nla_put_failure;
+   672		}
+   673	
+   674		if (!is_zero_ether_addr(p->eth_src)) {
+   675			if (nla_put(skb, TCA_IFE_SMAC, ETH_ALEN, p->eth_src))
+   676				goto nla_put_failure;
+   677		}
+   678	
+   679		if (nla_put(skb, TCA_IFE_TYPE, 2, &p->eth_type))
+   680			goto nla_put_failure;
+   681	
+   682		if (dump_metalist(skb, ife)) {
+   683			/*ignore failure to dump metalist */
+   684			pr_info("Failed to dump metalist\n");
+   685		}
+   686	
+   687		spin_unlock_bh(&ife->tcf_lock);
+   688		return skb->len;
+   689	
+   690	nla_put_failure:
+   691		spin_unlock_bh(&ife->tcf_lock);
+   692		nlmsg_trim(skb, b);
+   693		return -1;
+   694	}
+   695	
 
 -- 
 0-DAY CI Kernel Test Service
