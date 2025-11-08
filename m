@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4747D1AC44D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 19:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB21EDA03
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 20:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762631923; cv=none; b=W8CvlkvsOJpYixeeJZPeJ0snNmMQNcY20g58V9WD2bph0IUqBVtpzAb5rjI6/q/8DJeLt/XK+KD72UaNGaibAOUb9ksJ2cQDFN+93BoSrhFEt4SfFYCsZxrdyQM9CKZ2+BG1OzNFb6ncXnEcG7JfOBmSDt9ZtW2FbkXCW2qChuc=
+	t=1762633185; cv=none; b=JBzkoAChwGA92CUCpB1waLhrGVX9nvgCwBkMMia7e6GvGEs6XGJc3qIK6LL8e3NgVHY87ks90ahSpU7OjyFRxo6oNMlokORx4m96Gvgney66+Kjhb0/btPMx06Z3wvwpe1oedCGFdfTj1bF+dt7UCfxAQgkKwR/u4b65Ptpjm4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762631923; c=relaxed/simple;
-	bh=plhVHEBXm7QJOKf+WRWk8aQuYSGYHx8t6uD1XGz/MU4=;
+	s=arc-20240116; t=1762633185; c=relaxed/simple;
+	bh=PMeoW92rGF0Nuq2+K6wyMB1T4yhDol/cYbp+9eYtAr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WJD16H481VLegcUhqgRFMZPnKnJj6vHu0aq5FUB5213irLebC3btOw/RN35pP06C/WGoYWFL52RAUjc14aRSNfkDGZFgdEhtClzUKnYVrB3qZQA9I7BrXKx5q1UQszltL6Q89xEOx/SjTm2ic9+csHGgkLZTyrIdkj8ofMVq3PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/N4HMJb; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=N4MwVxwcoy67rF3IoVPKzXiN4pnzQ6cRIR97pABf1h7Rl3v/tRcHX64zjOxy//Ja7PfUgeK7tHR8t9TsQfjNSN79Wlu22JWpyuAyjmtYYeRrgvF8Uga5l8TLNCIBse7s8CSCmcap6pifpaltJnTu5zaJNRNcRt/HtaWxtLiK0w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxccpFO3; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/N4HMJb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxccpFO3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762631922; x=1794167922;
+  t=1762633183; x=1794169183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=plhVHEBXm7QJOKf+WRWk8aQuYSGYHx8t6uD1XGz/MU4=;
-  b=g/N4HMJbi/uc4+qJr2lWYACIQAe1ucPDjGFXk7bacuro7DBPwM8xWJ8h
-   86yP28ISiEcObfgSbhU47uE+p25aWUC8zE8mA4yTxodCVRQo9WZaix6bJ
-   TLFlPD/nR0n4x3CjMZS8UpdfJraOIVCD7BAoKSma/dT2T9TfAEC+aoQNE
-   ri+x19nsr0ycko3kodfEWLPzjbaNTp3u/96+zo7vJkXCdldhfpmbtfm0Y
-   cK+qhYXnuVKQ5Qs9z2DHLX8f3nVU3FmfV95jmsTT4lowwzobnjPRcJSs4
-   bNop9xxvvn8evxxSvXB7u+Gp4jLKtvth9OJjFD9P/EfNCuWk9ymMjiP8h
-   A==;
-X-CSE-ConnectionGUID: /+O9joWQSKuQmY41eLhQkQ==
-X-CSE-MsgGUID: paH8EFQtR3iV7u3XRyN52Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="52306466"
+  bh=PMeoW92rGF0Nuq2+K6wyMB1T4yhDol/cYbp+9eYtAr8=;
+  b=nxccpFO3kFaGDdaYUxtnNP+U0u8Ue78VcjZiDHZgKQ9D6fRmeIbupbgY
+   CtmPUDZeJuULV4wdoT9cGe9yRMzxjdCvnBfkqVkbLh40tKJzrZF0cA2yt
+   BfQ3v/zA6cSJk+s8faOXi6eR1W8CChmDH7r4rEjtO4u3NWXHTNKX00+5H
+   d17HhmDFi24ZgtZLaxa/NVhSa4QATzs7lJwUCuR0nHDyojR2HeGMhJCbA
+   Fx8d7x/BxAc+/6IU76cH9KJHVUDbJCSidWn24QHlR/45KzPe68YrmzPcs
+   /74IDpOzUsyid8Q/2F8BQPs+aJQXGdh309x0MyoqQUmLWllMFOF65w2T0
+   g==;
+X-CSE-ConnectionGUID: 6WYvlMQKQtGaHpAOG3HC7g==
+X-CSE-MsgGUID: wHzvswEwTSWsTrgYdvnwDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="68604638"
 X-IronPort-AV: E=Sophos;i="6.19,290,1754982000"; 
-   d="scan'208";a="52306466"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 11:58:41 -0800
-X-CSE-ConnectionGUID: jS2iGeBtTd+y52CBSdpldg==
-X-CSE-MsgGUID: Rx0/F1j6Tuumq1wHZHbvIQ==
+   d="scan'208";a="68604638"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 12:19:42 -0800
+X-CSE-ConnectionGUID: t6IqlnIzRY+yIpIsueqkDQ==
+X-CSE-MsgGUID: G5FNbue7TfuOl5Axbju3zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,290,1754982000"; 
-   d="scan'208";a="188496410"
+   d="scan'208";a="188064178"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 08 Nov 2025 11:58:40 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Nov 2025 12:19:41 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHp53-0001Oh-1h;
-	Sat, 08 Nov 2025 19:58:37 +0000
-Date: Sun, 9 Nov 2025 03:58:34 +0800
+	id 1vHpPP-0001PP-0H;
+	Sat, 08 Nov 2025 20:19:39 +0000
+Date: Sun, 9 Nov 2025 04:19:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/parisc/kernel/perf_regs.c:30:2-3: Unneeded semicolon
-Message-ID: <202511090323.OwYsZkev-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:scratch/gourry/isolation/linus 11/11]
+ mm/zswap.c:860:23: error: 'mt_compressed_nodelist' undeclared
+Message-ID: <202511090417.OpdaniiW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +62,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7bb4d6512545a792a6cd8d6c8be5718920b9b11a
-commit: 610cb23bcc75bcd9fead3e41cbd867cccd0eb229 parisc: Add initial kernel-side perf_event support
-date:   5 weeks ago
-config: parisc-randconfig-r062-20251109 (https://download.01.org/0day-ci/archive/20251109/202511090323.OwYsZkev-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
+tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
+head:   67062e895b94cd27af5fa58d8a567086a53d0914
+commit: 67062e895b94cd27af5fa58d8a567086a53d0914 [11/11] [HACK] mm/zswap: compressed ram integration example
+config: arm-randconfig-004-20251108 (https://download.01.org/0day-ci/archive/20251109/202511090417.OpdaniiW-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511090417.OpdaniiW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511090323.OwYsZkev-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511090417.OpdaniiW-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/parisc/kernel/perf_regs.c:30:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +30 arch/parisc/kernel/perf_regs.c
+   In file included from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:17,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from mm/zswap.c:16:
+   mm/zswap.c: In function 'zswap_compress_direct':
+>> mm/zswap.c:860:23: error: 'mt_compressed_nodelist' undeclared (first use in this function)
+     860 |  int nid = first_node(mt_compressed_nodelist);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/nodemask.h:250:40: note: in definition of macro 'first_node'
+     250 | #define first_node(src) __first_node(&(src))
+         |                                        ^~~
+   mm/zswap.c:860:23: note: each undeclared identifier is reported only once for each function it appears in
+     860 |  int nid = first_node(mt_compressed_nodelist);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/nodemask.h:250:40: note: in definition of macro 'first_node'
+     250 | #define first_node(src) __first_node(&(src))
+         |                                        ^~~
+   mm/zswap.c:869:6: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     869 |  dst = __alloc_pages(gfp, 0, nid, &mt_compressed_nodelist);
+         |      ^
+   In file included from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:17,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from mm/zswap.c:16:
+   mm/zswap.c: In function 'zswap_compress':
+   mm/zswap.c:908:19: error: 'mt_compressed_nodelist' undeclared (first use in this function)
+     908 |  if (!nodes_empty(mt_compressed_nodelist)) {
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
+     229 | #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
+         |                                          ^~~
 
-     8	
-     9	u64 perf_reg_value(struct pt_regs *regs, int idx)
-    10	{
-    11		switch (idx) {
-    12		case PERF_REG_PARISC_R0 ... PERF_REG_PARISC_R31:
-    13			return regs->gr[idx - PERF_REG_PARISC_R0];
-    14		case PERF_REG_PARISC_SR0 ... PERF_REG_PARISC_SR7:
-    15			return regs->sr[idx - PERF_REG_PARISC_SR0];
-    16		case PERF_REG_PARISC_IASQ0 ... PERF_REG_PARISC_IASQ1:
-    17			return regs->iasq[idx - PERF_REG_PARISC_IASQ0];
-    18		case PERF_REG_PARISC_IAOQ0 ... PERF_REG_PARISC_IAOQ1:
-    19			return regs->iasq[idx - PERF_REG_PARISC_IAOQ0];
-    20		case PERF_REG_PARISC_SAR:	/* CR11 */
-    21			return regs->sar;
-    22		case PERF_REG_PARISC_IIR:	/* CR19 */
-    23			return regs->iir;
-    24		case PERF_REG_PARISC_ISR:	/* CR20 */
-    25			return regs->isr;
-    26		case PERF_REG_PARISC_IOR:	/* CR21 */
-    27			return regs->ior;
-    28		case PERF_REG_PARISC_IPSW:	/* CR22 */
-    29			return regs->ipsw;
-  > 30		};
-    31		WARN_ON_ONCE((u32)idx >= PERF_REG_PARISC_MAX);
-    32		return 0;
-    33	}
-    34	
+
+vim +/mt_compressed_nodelist +860 mm/zswap.c
+
+   856	
+   857	static struct page *zswap_compress_direct(struct page *src,
+   858						  struct zswap_entry *entry)
+   859	{
+ > 860		int nid = first_node(mt_compressed_nodelist);
+   861		struct page *dst;
+   862		gfp_t gfp;
+   863	
+   864		if (nid == NUMA_NO_NODE)
+   865			return NULL;
+   866	
+   867		gfp = GFP_NOWAIT | __GFP_NORETRY | __GFP_HIGHMEM | __GFP_MOVABLE |
+   868		      __GFP_PROTECTED;
+   869		dst = __alloc_pages(gfp, 0, nid, &mt_compressed_nodelist);
+   870		if (!dst)
+   871			return NULL;
+   872	
+   873		/*
+   874		 * TODO: check that the page is safe to use
+   875		 *
+   876		 * In a real implementation, we would not be using ZSWAP to demonstrate this
+   877		 * and instead would implement a new component (compressed_ram, cram.c?)
+   878		 *
+   879		 * At this point we would check via some callback that the device's memory
+   880		 * is actually safe to use - and if not, free the page (without writing to
+   881		 * it), and kick off kswapd for that node to make room.
+   882		 *
+   883		 * Alternatively, if the compressed memory device(s) report a watermark
+   884		 * crossing via interrupt, a flag can be set that is checked here rather
+   885		 * that calling back into a device driver.
+   886		 *
+   887		 * In this case, we're testing with normal memory, so the memory is always
+   888		 * safe to use (i.e. no compression ratio to worry about).
+   889		 */
+   890		copy_mc_highpage(dst, src);
+   891		return dst;
+   892	}
+   893	
 
 -- 
 0-DAY CI Kernel Test Service
