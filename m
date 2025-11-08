@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61C429B799
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 01:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19783299949
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 01:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762567078; cv=none; b=MTgoDqO6cGUhHDquBWJ1KqtOsmctVFoDMZzA4bZxDxUAIKI7cX2HZsAx5jP/XJ1xakwx7i0A0QXrr3aB/7wbLITsw8qfo2ynGP+2CUGa6lfyVlzR62UdT7isSrEB0RWtZDAnL+AcA0pT1HiAO6xI+esnsVdQzu2vDW3CTsUp8HQ=
+	t=1762567081; cv=none; b=te5aO8/YJs1meZurgmLp1zHDe5FvfZDcDkgBLvYte53wbQgc3uLplvhIEXr9ecAzMw5ttV7UPiTXpRbvlABweW/0rsHOwUKi/45DAOFCd394h24G4ndPBXblyK6DQPiih3ROzEEKVo+11GJm3lvQr1pnRBO0nQqnKLWif3Ktim4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762567078; c=relaxed/simple;
-	bh=fHsMbjl1zv9VJXtJNWbNPuP9NMy2LcXXQQg5AAuc9gY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h1Ofg1uEqy6/JDcw/U25MQVBEIIKKa3tEWW+zf5IaXYNhOtsfbfskHb4lSHDnBb1ssuLCXU8QKwothIBJE4DeHZCEB5rx24OMa9JwJutdHvvkpn9Qxvjh9VotBOJXOAk6UuOxEjX7xcEngqY9jpUln5dLsxzoBVbHjj2V8KF+0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iB4n+y+r; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1762567081; c=relaxed/simple;
+	bh=CEDFMxYfpWpKEeZvHuIY1GU1d5cVnE9BuUKvjY0Shbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mdN5wKumwqLos3/LIdK8eftiyxR5ywYpCuu9AnP3lXpGNWOyyxzvQeaIJMGNCrnEMnsOfG3w2kDGRcdj7lH6lFn8EVmjY2H+ah97zQCOxVOOO5VtqCYwDSOfhAFPcOBShGRLxLEUZc1oYugaqw1cWUtjX4we6+8ORMEibXGSabo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcVQCcCN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iB4n+y+r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcVQCcCN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762567076; x=1794103076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fHsMbjl1zv9VJXtJNWbNPuP9NMy2LcXXQQg5AAuc9gY=;
-  b=iB4n+y+rBwPLlkhfz+YA+yKRI6YzHrr4cnQtKrbMIj3j0OF/lMoibJtV
-   j3HBggzO9qahf9YFg0KwkbcpfUYRUQ0O0A1tc2NUhhjXYRR2wO0067gLF
-   y09ozcbRLPDXb6Uyewfd/HVpPrzoR2WkS3B80BmdlD3AcchfpWe8xayrH
-   95NN4NQ6SuOybalYC/R4xNVeCuEgTr2cIrEthPuKf+TaVcgsdwZzsCUBi
-   e9/EVxCjMDJrbsrUlSALFrD6PAcgA0w19hORUZkbuUMdu2ROTVi5Pn2Jj
-   zNgVgRQ6BfH109mX8z8/INu5/DAnJTrMY6Gzi+Ml+6DMPb3G4XL894rRt
+  t=1762567081; x=1794103081;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CEDFMxYfpWpKEeZvHuIY1GU1d5cVnE9BuUKvjY0Shbg=;
+  b=XcVQCcCNT0b8bCqXRIEP5GgQEGBzFxuCJnL81C0IkFhHbbq/HhpUMS74
+   ckfiRPGb2trrOJN3EGegFKz0opUVKrku6/Ww50QnKXYr3yzi1h9xIiwNd
+   M5qijisvZ1IGl0U7YuUUyy0z/HyxMXdmEfPvjp2MJ5BzvgETCJxbAb/xu
+   vWZcKlbacWlNt3CcI+04+KQR0tDZpRZrEIxCOR6CYtRim3iHtP4PxnFhN
+   65u6u5HqQeyr4tJo5B+8VPZrWDkTfbegjNMS88nAxukn1CL5rMcdPUvY0
+   i0lHtGzdQhMkcbnhwmQCaIR5c3Udbo4TTnPQxhNp+9Zzn7ywsk66aoPbr
    w==;
-X-CSE-ConnectionGUID: rr71YI+LQoipR+hOzH9Qog==
-X-CSE-MsgGUID: 36LXTlc2Qw2JxF++wZAvbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="75830743"
+X-CSE-ConnectionGUID: saZL48AyQOaE8MPAfUuG1g==
+X-CSE-MsgGUID: eJd45zOCRxWS1YckfwYgZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="68365507"
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="75830743"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:57:55 -0800
-X-CSE-ConnectionGUID: g+VIaVTeSu+ChyaINQUKnQ==
-X-CSE-MsgGUID: 6fFslJFJQWa7jTpVxN3Zhw==
+   d="scan'208";a="68365507"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:58:00 -0800
+X-CSE-ConnectionGUID: fhd5po3kQQqI3uYkg2qquQ==
+X-CSE-MsgGUID: P0egOIl5Q4SssJqGD/40Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="188354232"
+   d="scan'208";a="192290071"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Nov 2025 17:57:54 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2025 17:57:54 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHYDA-0000bV-0H;
+	id 1vHYDA-0000bT-0D;
 	Sat, 08 Nov 2025 01:57:52 +0000
-Date: Sat, 8 Nov 2025 09:57:39 +0800
+Date: Sat, 8 Nov 2025 09:57:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:scratch/gourry/isolation/linus 7/11]
- kernel/cgroup/cpuset.c:2812:20: error: 'default_sysram_nodelist' undeclared;
- did you mean 'default_dram_nodes'?
-Message-ID: <202511080948.Zf5PlQKK-lkp@intel.com>
+To: Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
+	venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
+	Yi Zhang <zhanyi@qti.qualcomm.com>,
+	Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
+Subject: Re: [PATCH v2 2/2] drm/bridge: add support for lontium lt9211c bridge
+Message-ID: <202511080928.8r4OmyWW-lkp@intel.com>
+References: <20251107-add-lt9211c-bridge-v2-2-b0616e23407c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +80,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251107-add-lt9211c-bridge-v2-2-b0616e23407c@oss.qualcomm.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
-head:   67062e895b94cd27af5fa58d8a567086a53d0914
-commit: 2c5eedd6cd1524843e21a0e1ec1d1c8d9fd78e14 [7/11] cpuset: introduce cpuset.mems.default
-config: s390-randconfig-002-20251108 (https://download.01.org/0day-ci/archive/20251108/202511080948.Zf5PlQKK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080948.Zf5PlQKK-lkp@intel.com/reproduce)
+Hi Nilesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f50b969bafafb2810a07f376387350c4c0d72a21]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Laad/dt-bindings-bridge-lt9211c-Add-bindings/20251107-210546
+base:   f50b969bafafb2810a07f376387350c4c0d72a21
+patch link:    https://lore.kernel.org/r/20251107-add-lt9211c-bridge-v2-2-b0616e23407c%40oss.qualcomm.com
+patch subject: [PATCH v2 2/2] drm/bridge: add support for lontium lt9211c bridge
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251108/202511080928.8r4OmyWW-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080928.8r4OmyWW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080948.Zf5PlQKK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511080928.8r4OmyWW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:17,
-                    from arch/s390/include/asm/processor.h:31,
-                    from include/linux/sched.h:13,
-                    from include/linux/cgroup.h:12,
-                    from kernel/cgroup/cpuset-internal.h:6,
-                    from kernel/cgroup/cpuset.c:24:
-   kernel/cgroup/cpuset.c: In function 'update_nodemasks_hier':
->> kernel/cgroup/cpuset.c:2812:20: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-      if (!nodes_empty(default_sysram_nodelist))
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c:2812:20: note: each undeclared identifier is reported only once for each function it appears in
-      if (!nodes_empty(default_sysram_nodelist))
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'cpuset_css_online':
-   kernel/cgroup/cpuset.c:3601:20: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-      if (!nodes_empty(default_sysram_nodelist))
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'cpuset_init':
-   kernel/cgroup/cpuset.c:3840:19: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-     if (!nodes_empty(default_sysram_nodelist))
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'hotplug_update_tasks':
-   kernel/cgroup/cpuset.c:3873:19: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-     if (!nodes_empty(default_sysram_nodelist))
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'cpuset_handle_hotplug':
-   kernel/cgroup/cpuset.c:4067:20: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-      if (!nodes_empty(default_sysram_nodelist))
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'cpuset_init_smp':
-   kernel/cgroup/cpuset.c:4141:19: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-     if (!nodes_empty(default_sysram_nodelist))
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-   kernel/cgroup/cpuset.c: In function 'cpuset_current_node_allowed':
-   kernel/cgroup/cpuset.c:4375:38: error: 'default_sysram_nodelist' undeclared (first use in this function); did you mean 'default_dram_nodes'?
-     if (!protected_node && !nodes_empty(default_sysram_nodelist))
-                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:229:42: note: in definition of macro 'nodes_empty'
-    #define nodes_empty(src) __nodes_empty(&(src), MAX_NUMNODES)
-                                             ^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-   Selected by [y]:
-   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_configure_rx':
+>> drivers/gpu/drm/bridge/lontium-lt9211c.c:207:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     207 |         ret = regmap_write(ctx->regmap, 0x8180, (pval & 0xfc | 0x03));
+         |                                                  ~~~~~^~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:227:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     227 |         ret = regmap_write(ctx->regmap, 0x8530, (pval & 0xf8 | 0x11));
+         |                                                  ~~~~~^~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_autodetect_rx':
+>> drivers/gpu/drm/bridge/lontium-lt9211c.c:253:12: warning: unused variable 'bc' [-Wunused-variable]
+     253 |         u8 bc[3];
+         |            ^~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_configure_tx':
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:619:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
+     619 |         ret = regmap_write(ctx->regmap, 0x8530, (pval & 0x3f | 0x40));
+         |                                                  ~~~~~^~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c: At top level:
+>> drivers/gpu/drm/bridge/lontium-lt9211c.c:918:35: error: initialization of 'int (*)(struct drm_bridge *, struct drm_encoder *, enum drm_bridge_attach_flags)' from incompatible pointer type 'int (*)(struct drm_bridge *, enum drm_bridge_attach_flags)' [-Wincompatible-pointer-types]
+     918 |         .attach                 = lt9211c_attach,
+         |                                   ^~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:918:35: note: (near initialization for 'lt9211c_funcs.attach')
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:99:12: note: 'lt9211c_attach' declared here
+      99 | static int lt9211c_attach(struct drm_bridge *bridge,
+         |            ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/lontium-lt9211c.c:920:35: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
+     920 |         .atomic_enable          = lt9211c_atomic_enable,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:920:35: note: (near initialization for 'lt9211c_funcs.atomic_enable')
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:777:13: note: 'lt9211c_atomic_enable' declared here
+     777 | static void lt9211c_atomic_enable(struct drm_bridge *bridge,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:921:35: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
+     921 |         .atomic_disable         = lt9211c_atomic_disable,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:921:35: note: (near initialization for 'lt9211c_funcs.atomic_disable')
+   drivers/gpu/drm/bridge/lontium-lt9211c.c:857:13: note: 'lt9211c_atomic_disable' declared here
+     857 | static void lt9211c_atomic_disable(struct drm_bridge *bridge,
+         |             ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2812 kernel/cgroup/cpuset.c
+vim +918 drivers/gpu/drm/bridge/lontium-lt9211c.c
 
-  2769	
-  2770	/*
-  2771	 * update_nodemasks_hier - Update effective nodemasks and tasks in the subtree
-  2772	 * @cs: the cpuset to consider
-  2773	 * @new_mems: a temp variable for calculating new effective_mems
-  2774	 *
-  2775	 * When configured nodemask is changed, the effective nodemasks of this cpuset
-  2776	 * and all its descendants need to be updated.
-  2777	 *
-  2778	 * On legacy hierarchy, effective_mems will be the same with mems_allowed.
-  2779	 *
-  2780	 * Called with cpuset_mutex held
-  2781	 */
-  2782	static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
-  2783	{
-  2784		struct cpuset *cp;
-  2785		struct cgroup_subsys_state *pos_css;
-  2786	
-  2787		rcu_read_lock();
-  2788		cpuset_for_each_descendant_pre(cp, pos_css, cs) {
-  2789			struct cpuset *parent = parent_cs(cp);
-  2790	
-  2791			nodes_and(*new_mems, cp->mems_allowed, parent->effective_mems);
-  2792	
-  2793			/*
-  2794			 * If it becomes empty, inherit the effective mask of the
-  2795			 * parent, which is guaranteed to have some MEMs.
-  2796			 */
-  2797			if (is_in_v2_mode() && nodes_empty(*new_mems))
-  2798				*new_mems = parent->effective_mems;
-  2799	
-  2800			/* Skip the whole subtree if the nodemask remains the same. */
-  2801			if (nodes_equal(*new_mems, cp->effective_mems)) {
-  2802				pos_css = css_rightmost_descendant(pos_css);
-  2803				continue;
-  2804			}
-  2805	
-  2806			if (!css_tryget_online(&cp->css))
-  2807				continue;
-  2808			rcu_read_unlock();
-  2809	
-  2810			spin_lock_irq(&callback_lock);
-  2811			cp->effective_mems = *new_mems;
-> 2812			if (!nodes_empty(default_sysram_nodelist))
-  2813				nodes_and(cp->mems_default, cp->effective_mems,
-  2814					  default_sysram_nodelist);
-  2815			spin_unlock_irq(&callback_lock);
-  2816	
-  2817			WARN_ON(!is_in_v2_mode() &&
-  2818				!nodes_equal(cp->mems_allowed, cp->effective_mems));
-  2819	
-  2820			cpuset_update_tasks_nodemask(cp);
-  2821	
-  2822			rcu_read_lock();
-  2823			css_put(&cp->css);
-  2824		}
-  2825		rcu_read_unlock();
-  2826	}
-  2827	
+   916	
+   917	static const struct drm_bridge_funcs lt9211c_funcs = {
+ > 918		.attach			= lt9211c_attach,
+   919		.mode_valid		= lt9211c_mode_valid,
+ > 920		.atomic_enable		= lt9211c_atomic_enable,
+   921		.atomic_disable		= lt9211c_atomic_disable,
+   922		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+   923		.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+   924		.atomic_get_input_bus_fmts = lt9211c_atomic_get_input_bus_fmts,
+   925		.atomic_reset		= drm_atomic_helper_bridge_reset,
+   926	};
+   927	
 
 -- 
 0-DAY CI Kernel Test Service
