@@ -1,214 +1,284 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8214E14F70
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 04:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762575501; cv=fail; b=NQbzc1k35PAm+0SO6AMvAnxsATjedxm1x+vI7R8/AyXxagTcM5AMOYGEViiKy/joKGaU53dgxMJjs/O04vb/M1XZ9l+fkd9oum5BFWxpzCxek8MwwTH82SUr55NQwYuOFIqKns4gNO6k0nn0kRM2XYTS5yDXSjeaicT2DA4k67w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762575501; c=relaxed/simple;
-	bh=RpT+rf+Rc6I3lrofRl1WdCT5ONoFAWNOvIlNWHk52ys=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=o/9c2IIgRLhP8uqmXpB75NFwAD2nxI+H1ilIbydOQBPfz7dw5HmZfzUD7qlF6AwFhptXRUy8c8CnjBvSGtxd96AMJUDhouCaSvcQw0n6SuJNFwroIivTCm0JmVZ4M5ikBC+pW7oE0DJaGVDKMrcJq2fqHZKR7+QrRJ0hgmYK91U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJv5tzf5; arc=fail smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2593171C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 04:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762575792; cv=none; b=aIcqVytY37SahsXSetydxXCG3EFjokWcwK9aHcXfW69WwcNMpPOe2wthYw0o9jwOxyk7QRUk9cctNiWbIBdzT4RYV9CdVIH9Yke7Sazlckdh27C0NvhG9AvFyYYRwKEIKTutn5f4n88BCNa06tVdy4b2QucJAl0jomfR1XMzvS4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762575792; c=relaxed/simple;
+	bh=chiORo9/rPVIqK89VMemWlE2VXDUawf0sVzlZsnPgwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P7sv0HLPB7KWP42MlqabLlbEMohbUi/EgUvbkPkBW8DCk1+fx1a4kadmEO2qWb9KXfbdeQQxe2LZKPPcpme26afzJR8W00zhYqwaLpxEAGhlaQk4nU9epX1kG+3nJr48ucllakKeH/ymouWxz0nFg/L3T8lR+bzQ+KIApwl71so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMAlBn6I; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJv5tzf5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMAlBn6I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762575499; x=1794111499;
+  t=1762575789; x=1794111789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RpT+rf+Rc6I3lrofRl1WdCT5ONoFAWNOvIlNWHk52ys=;
-  b=TJv5tzf5wsRiK9TK6mypl+XXyo/TlBuw6lBDvye5B3jpUKoo4DR/cMvc
-   7pjybg92FdoXEhm3TIJvVN+E8yminmeqx3SUqHGQksfgniL4fdhhAeIBU
-   qI1tVSSiyOXK4mO2c2VWy5zJxVYeeNVWAq8kTZgsOJ6vH3aOhdJbBcKIx
-   7RYjjvFW178MUk6ymd/KnEFQEkBEMT1xrdqBdj55U0Gqahv5hPkKd3GWe
-   3XNio01om2VwLaTl/7MPN35YtcqihxdhgxjtNfUDH9sDKxm7kPJMjYaKT
-   pYZvLuO2cftUjwMawMBd2IDGxfmH+hP2EuWDmz3sb/JaeHeGILvRVVlF6
-   w==;
-X-CSE-ConnectionGUID: 5rnNWBE+QiKzH6vhK3TQtw==
-X-CSE-MsgGUID: NqSuJoHtQZyAjXUko8bWBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="87353467"
+  bh=chiORo9/rPVIqK89VMemWlE2VXDUawf0sVzlZsnPgwQ=;
+  b=VMAlBn6Iw9+zW9lRrGF6jxn3Xf1WFSOIWRKfEbRKzYluqLKiVdBb+bg+
+   0LGAZVf2/qU7ttjulBaHOjIpD8W+w9KBVaQzNeRb8NJ+xkGBv6VwDbaw4
+   v9BhNHiOIDH7A72eK8dy21fU34xfMbQLkh8QTMl0s2PPWFcpODlhnT13h
+   iufoJn9JgU5p3Kwji8rVdhMIUWwiVvMpvgkyR2MjyxJCmlykHihm4vOMk
+   vUou2x7YnsDgowSY4AgAhCoG2zgYFFsmgZSvRMlPzpVm6oikHm/RlHiWg
+   KKN1SAgpug060COHWNul1cAx5Cu0d6kNK/jMoD68PHI3/jWngUMLNMUvo
+   g==;
+X-CSE-ConnectionGUID: WnmNAK/mRcCceqb29DXkvg==
+X-CSE-MsgGUID: HgfifPYrRy+ADh2GR3PqoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="76171861"
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="87353467"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 20:18:19 -0800
-X-CSE-ConnectionGUID: bGvjE7v1Tkem8C/C7pLTuw==
-X-CSE-MsgGUID: 5WtIWsIwQAiEUAp+QicVEw==
+   d="scan'208";a="76171861"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 20:23:09 -0800
+X-CSE-ConnectionGUID: GvgyxBGWTNqrZtozu5/wdw==
+X-CSE-MsgGUID: 0M0Ey3ehTCajGVnHo1IgLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="193382905"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 20:18:18 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 7 Nov 2025 20:18:18 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 7 Nov 2025 20:18:18 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.64) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 7 Nov 2025 20:18:18 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U7RSRQXW2hT1oBUNROY6t0hrdAbNSf9Q9UfWMCdx9iNE5tFbxxDCAvPI1KRzNzqtTSjIyhBah2ZoFQcaNmdZcnf+qgZUcKSHdd5HbcNBHPwP0+Hwu0ylbA54Pbc2lRUbpVOBdY2KUPqCmQMF7DWmEjFR4mq3Ok26Pyv0J9tujm7GYqk8qhcKd3dBqg0cC9M2Bz3VQOz9Vv0Dbu0d4p9FZXL6YQzFhxbVSHCc3g7Be76OjSRRtFRV4hUtL2HS0LXb95AFtYh/dAvWRKz6+AqvZ0Xa3XJelnpHCEiJGCR18XF0LkUhjVmEGaWIiHJn1wTuGn0BmPo7m4ToqGQtdZPEqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RDh7SWZdeHnkjQbTp2glAV/vOJvDL+9v9/6gVT5SSYo=;
- b=J2yDOHciTPqGkLQbpa2YOyVPZYwoHPE6Yh5G43FwUwVNGySh5o8QELt6PKlhxk/06MEgu2G44xnVN8daX7boasWd8/ddSidIq2xoasRQD6ZTAEEsoptdbOEiwj22FDwu4+pCqX7mD1xkIOowmqnb14SKFFaYzRUxBmZHqcdNC1+5mwD2z/ynjsJM4OyMuv+as6CagKLvXqaM3XYvhzREPGkRcsV9h68lxkGbMnppBhdc+X8Ao4IKp7ONxNz2gm9ExRjU6yv3Diyw2sQ1DsDvxAaui4BkuloKP5VsKmszhVYrpRWBLqExfXki3430uutEG/x/ULRAxF48iuU6FRRLxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by DS0PR11MB6421.namprd11.prod.outlook.com (2603:10b6:8:c7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.14; Sat, 8 Nov
- 2025 04:18:16 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Sat, 8 Nov 2025
- 04:18:16 +0000
-Date: Sat, 8 Nov 2025 12:18:09 +0800
+   d="scan'208";a="193232889"
+Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2025 20:23:08 -0800
+Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vHaTi-0000jH-01;
+	Sat, 08 Nov 2025 04:23:06 +0000
+Date: Sat, 8 Nov 2025 12:22:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [linux-nvme:nvme-6.19 4/23] checkpatch: ERROR: switch and case
- should be at the same indent
-Message-ID: <aQ7EgX5CiwOS/3Eo@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:scratch/gourry/isolation/linus 11/11]
+ mm/memory_hotplug.c:1596:17: error: 'mt_compressed_nodelist' undeclared
+Message-ID: <202511081212.XNxYZW3U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DS0PR11MB6421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 851cb855-0837-4876-3110-08de1e7dd6e5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XF1KAaq5utvixJgVvG8aDiz7DHTTigXBy6B3nk5eCvamoDyK1JIhGqx+g7K5?=
- =?us-ascii?Q?VEC78aTZnJkYYiziMaQWocW104E0i3zA8X4FKuv1CDJwIFo7WKuSK1f6Keby?=
- =?us-ascii?Q?lqNQx50c4ayBbNsRbFwE24gYTxh9J4OD//rih+tpPeIkxRaKT0+nnpkCripF?=
- =?us-ascii?Q?h/S5S94lgDiRS+KFRjniG/lwHcmPTSQKmtxgiIe4nJ2jL1u+sUOui0Nhoc5l?=
- =?us-ascii?Q?8zgVQ7+Vd4RuIea2vXpCYFPBeWDFNetSinn9N6w/WpxZlevpiOPCxI7wwlcK?=
- =?us-ascii?Q?kMJwDrTCloGHByrhKsuKFKR5IDmLiAqH3+FhRoV4fDI+3lIK7KmNR81OtJdo?=
- =?us-ascii?Q?g2H6new2p4XIiveQxVDwVYh208aX4fRCjZKIWJHHabg6+Rd2ltGQ7vcmbhvG?=
- =?us-ascii?Q?3H5BXVLNCuvAbv7z6YbM/aSRucLSSlQe/9SDfYEzGWMgNbO+LSPc/mD8rDTn?=
- =?us-ascii?Q?O6Zu9fIOI6siXFcTI8zn8tFZ+vpotM8m2pjCh3m1NsuUZhkPo5IK75ynNWaN?=
- =?us-ascii?Q?oTlEaBzsrapTLzrPsn9TQaD39Fce188c76Zb71oUdwNd0Fw9SoA/c95H43VD?=
- =?us-ascii?Q?fHp/q1hfCE2fQcmV+jnd/MX7wa7oHWahnLVrD9tOxyoXP4IpZGJzvhuz7Zm3?=
- =?us-ascii?Q?rNRM+zTpvx6swNV4o1grJSa6ZFZrAfTwlVu3Nwj0xqxcLACc+eoMOvzVMutz?=
- =?us-ascii?Q?Ds/egK9boyVr6fYzcZWa67pcCW9SxgsS3zD8o0EIhmVfBcB5Hoyyl877JcPd?=
- =?us-ascii?Q?g6VfHC3zfx+pvwLZdvmqzHlieSLxtWSGDoNe7ygz//XrWokupFPt/suYuN/a?=
- =?us-ascii?Q?NKv4sbpTMo//keUe5hcblLOoRgHt7hdraHEZNaX16eLCi9+ppwECUkbUwBgi?=
- =?us-ascii?Q?5Meuwe+/tgLYSK4VFMwh+tgAxC5gkm2Wbe/kzLZKbzOFvu51BgMomvLa2VrJ?=
- =?us-ascii?Q?ajxkp46xPMxsBrFOqbJoHZuSH1X+kLMpmcGIGiJAUMGJFleQg43wb5Cbia2i?=
- =?us-ascii?Q?vIlr1nx9CgD3GdNROtFzq47nsgmUaEcy/agygvhalI50/jpWs7C9S/gIESeY?=
- =?us-ascii?Q?EAlcjonouuvwV1gM4mGYVXGKd3IZpfXqxlmZv0BEIE4gArKSosslT9n9huV7?=
- =?us-ascii?Q?Bq9SoLk0N5LpDO1v5Cm4sr7t1lXUs/zGliqWWm6+FQKAv85E6iXjB/nK3HTv?=
- =?us-ascii?Q?n9CIlEKOKazjZ9kq0yDMgdOYDOjRkp5OyfLv2TpuJyxfB/2sdBrEZ3eFMfm6?=
- =?us-ascii?Q?kUhsybgb/L/On0PP6hyuRp46yKvzcKlS/noB+LaoWUTefJ82DV/SGr+ObBVe?=
- =?us-ascii?Q?witTVZ/0/e4wyj7Rfiw+imDJipFMUBoXlWKYAMHS1NtNM/HEKREZ7Qe2LJLL?=
- =?us-ascii?Q?EJ76RDrukhWv28j8lnIky7Zze251DDi7WWapXIUJ47KDvr6K5yGiBtWdbnGg?=
- =?us-ascii?Q?naSJ8KcgWM7ckTxjdKk7HcfxXaA9lSE/iYV23uxRXM+gnLmJ5sLM+w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?smu8AbyCC/gQhhi6c2WQjTaEGjwU1GuLnGCCv7oT9iaexEqTjcXvHpTkQwNj?=
- =?us-ascii?Q?v+FRA/Xt1hGuRMNjR7DjO6mvP+QXz5lgN19a4n+3gjE2v9m0WGutf0EgpjT2?=
- =?us-ascii?Q?ryxhhQ3O42tSPleoeSJrcUQhHbG6b7Cx+Dmpo8avWBY4VAN5KAbUynedJ550?=
- =?us-ascii?Q?dMEgn99eTmn307TJl4z1IsKfSPiF1mB7QDbHTEDku8zqc62mzuFduUyyG3pd?=
- =?us-ascii?Q?a8Q8punQ+BRKBHN4znDksz/AlG1ZYttFAym4ppK/g79eSy1YKwN22/5IWNdg?=
- =?us-ascii?Q?XnDpd8higCyapP/r0NdufbA2X1oeroiGsCNjUV2QfNGnFH+exBN5RKdyNXc4?=
- =?us-ascii?Q?NQJJFu/LHZjozMV6UYASCP/JDCxiVQjtSyZuWU8OCdKBzTOfP7zsiLNbt+79?=
- =?us-ascii?Q?p+LhACgeVn3j7sdB98rTEvg3hwSrjc9QaU0HkZ3Mv+pNsKEY2f6Z2NpFEwah?=
- =?us-ascii?Q?VbS+Xlq6JOEIAJShwgTiRHvBVJ8TTQkdl/IEZKOVY00PiQFPj1/7vlR+FyRL?=
- =?us-ascii?Q?npAp4vL9pjvdX0h2uKZNqdIWFNfMq45iHHEuWPtxwEhg+oyenzxLt0E8BRjN?=
- =?us-ascii?Q?NrK71hnBmzfeabBIeYW8qyfM6LceRzYpPWwMMUH/x7XHrFsy+Og2Gf4PQSax?=
- =?us-ascii?Q?iudkrpdEh4cRv7lQvMqWKt9gHUCVNXjaqkEAi8X0D3S+TX8tKDH7pdQfjzUz?=
- =?us-ascii?Q?SJ3KvGGkVCD3lZMgWCbSFznwXFodJse6IcenQwowc6Hqh2/wkiDOyBNw/PlY?=
- =?us-ascii?Q?uWvSgZdBmB2QciOqDrAAKmtHQOC7ePyJWVKaZq9NaENbMF94+YbXIM+TfPiG?=
- =?us-ascii?Q?Z6qso+XQ5KUDIECNOI8PLejWzoO0Suqro2BKRzUIy9XLMf+P2gobf0mVWdHv?=
- =?us-ascii?Q?9+M5aPFlw3BjIcuiBDCQMtHQC0+xg0J1FiUzmL1qhtx7+C0cRYULAKjFfpSF?=
- =?us-ascii?Q?Kno1H38przn2CrY9qqUfnlsDyLG2CWeJdR6i4Zog3tJEYJTzHJOWcy3FtZAJ?=
- =?us-ascii?Q?bgyrXTRYb4xzfAFOMOsQMSIAwOLw8hucxsn/FBmvhcN45VcZInKpcWkLNiFi?=
- =?us-ascii?Q?wA4bx2Uy7W/fY7Oir617C1OrmXh9gzdeecZtg5SoSvbQ4hIkRdKO0XnDB3L5?=
- =?us-ascii?Q?eERX3HLu48OwlJue0zgJeEKmBp+JeC42q2TuS8QaN44t6jK3hxnzXFoWJddT?=
- =?us-ascii?Q?7rXZn2pDE+xGqlsAfI0PLWdlBk+VZWY4yy/wkFmzOu6FtdXXSLM/66saidNi?=
- =?us-ascii?Q?WU9y5s1Hmf25uhkDQsfBiBt+kMz0AdsKI2ch0rGD1o7yexyKqLbjqPDna+HM?=
- =?us-ascii?Q?XdG6c3cbWftApbzVpyZ66xxpz39KXUgLYVHj3alDGa7vNSourIW0mgPKfhGi?=
- =?us-ascii?Q?TwISE7oZSvbN+PwlvDCqmuOtVbPD/JP0ku6S5ohgSmRm8XcZ3SpJ5SEKzBAV?=
- =?us-ascii?Q?+iwERMUI9/FBYNsfCSd4iUjs/Ds+wm/QkwKhVeMUnHxPVKEqIip9LHpQ9l5v?=
- =?us-ascii?Q?NgqbBhn4546lnYoyIUOpBoYzEOsp1yjCXS74/Xk2Nqehge/Pdn4I71agtsjs?=
- =?us-ascii?Q?UPYlCCVXDr27aCRwNUN4Riobwuo7uP8/6EaTfVoz?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 851cb855-0837-4876-3110-08de1e7dd6e5
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2025 04:18:16.1343
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w/wVr8fvvB1F6+jjYsM8uXFr5FHPO3bqZ15qt/mBXKM1kkJZME10irtXy1hJDBTTecgtK8Y/+UnCDKIzyqhXJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6421
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   git://git.infradead.org/nvme.git nvme-6.19
-head:   1c2ad96dbb33c75098b9c1b2a077d9434ecb9f02
-commit: 8d9937531a4d3cb6d2d352c46dd807bfa52988b6 [4/23] nvme-keyring: add 'dhchap' key type
-reproduce: (https://download.01.org/0day-ci/archive/20251107/202511072211.KCkd764O-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
+head:   67062e895b94cd27af5fa58d8a567086a53d0914
+commit: 67062e895b94cd27af5fa58d8a567086a53d0914 [11/11] [HACK] mm/zswap: compressed ram integration example
+config: s390-randconfig-002-20251108 (https://download.01.org/0day-ci/archive/20251108/202511081212.XNxYZW3U-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511081212.XNxYZW3U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511072211.KCkd764O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511081212.XNxYZW3U-lkp@intel.com/
 
-# many are suggestions rather than must-fix
+All errors (new ones prefixed by >>):
 
-WARNING:REPEATED_WORD: Possible repeated word: 'in'
-#76: FILE: drivers/nvme/common/keyring.c:297:
-+ * Decode the DH-HMAC-CHAP key data passed in in @prep and
+   In file included from arch/s390/include/asm/machine.h:25,
+                    from arch/s390/include/asm/lowcore.h:13,
+                    from arch/s390/include/asm/current.h:13,
+                    from arch/s390/include/asm/preempt.h:5,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/memory_hotplug.c:9:
+   mm/memory_hotplug.c: In function 'add_memory_resource':
+   mm/memory_hotplug.c:1541:36: error: 'default_sysram_nodes' undeclared (first use in this function); did you mean 'default_dram_nodes'?
+     node_is_sysram = node_isset(nid, *default_sysram_nodes);
+                                       ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:44:37: note: in definition of macro 'bitop'
+       __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                        ^~~~
+   include/linux/nodemask.h:149:36: note: in expansion of macro 'test_bit'
+    #define node_isset(node, nodemask) test_bit((node), (nodemask).bits)
+                                       ^~~~~~~~
+   mm/memory_hotplug.c:1541:19: note: in expansion of macro 'node_isset'
+     node_is_sysram = node_isset(nid, *default_sysram_nodes);
+                      ^~~~~~~~~~
+   mm/memory_hotplug.c:1541:36: note: each undeclared identifier is reported only once for each function it appears in
+     node_is_sysram = node_isset(nid, *default_sysram_nodes);
+                                       ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:44:37: note: in definition of macro 'bitop'
+       __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
+                                        ^~~~
+   include/linux/nodemask.h:149:36: note: in expansion of macro 'test_bit'
+    #define node_isset(node, nodemask) test_bit((node), (nodemask).bits)
+                                       ^~~~~~~~
+   mm/memory_hotplug.c:1541:19: note: in expansion of macro 'node_isset'
+     node_is_sysram = node_isset(nid, *default_sysram_nodes);
+                      ^~~~~~~~~~
+   In file included from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:17,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/memory_hotplug.c:9:
+>> mm/memory_hotplug.c:1596:17: error: 'mt_compressed_nodelist' undeclared (first use in this function)
+      node_set(nid, mt_compressed_nodelist);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/nodemask.h:124:50: note: in definition of macro 'node_set'
+    #define node_set(node, dst) __node_set((node), &(dst))
+                                                     ^~~
 
-ERROR:SWITCH_CASE_INDENT_LEVEL: switch and case should be at the same indent
-#165: FILE: drivers/nvme/common/keyring.c:386:
-+	switch (upayload->datalen) {
-+	    case 32:
-[...]
-+	    case 48:
-[...]
-+	    case 64:
-[...]
-+	    default:
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for MFD_STMFX
+   Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
+   Selected by [y]:
+   - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y] && HAS_IOMEM [=y]
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
-WARNING:TABSTOP: Statements should start on a tabstop
-#166: FILE: drivers/nvme/common/keyring.c:387:
-+	    case 32:
 
-WARNING:TABSTOP: Statements should start on a tabstop
-#169: FILE: drivers/nvme/common/keyring.c:390:
-+	    case 48:
+vim +/mt_compressed_nodelist +1596 mm/memory_hotplug.c
 
-WARNING:TABSTOP: Statements should start on a tabstop
-#172: FILE: drivers/nvme/common/keyring.c:393:
-+	    case 64:
-
-WARNING:TABSTOP: Statements should start on a tabstop
-#175: FILE: drivers/nvme/common/keyring.c:396:
-+	    default:
+  1496	
+  1497	/*
+  1498	 * NOTE: The caller must call lock_device_hotplug() to serialize hotplug
+  1499	 * and online/offline operations (triggered e.g. by sysfs).
+  1500	 *
+  1501	 * we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG
+  1502	 */
+  1503	int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+  1504	{
+  1505		struct mhp_params params = { .pgprot = pgprot_mhp(PAGE_KERNEL) };
+  1506		enum memblock_flags memblock_flags = MEMBLOCK_NONE;
+  1507		struct memory_group *group = NULL;
+  1508		u64 start, size;
+  1509		bool new_node = false;
+  1510		bool node_has_blocks, protected_mem, node_is_sysram;
+  1511		int ret;
+  1512	
+  1513		start = res->start;
+  1514		size = resource_size(res);
+  1515	
+  1516		ret = check_hotplug_memory_range(start, size);
+  1517		if (ret)
+  1518			return ret;
+  1519	
+  1520		if (mhp_flags & MHP_NID_IS_MGID) {
+  1521			group = memory_group_find_by_id(nid);
+  1522			if (!group)
+  1523				return -EINVAL;
+  1524			nid = group->nid;
+  1525		}
+  1526	
+  1527		if (!node_possible(nid)) {
+  1528			WARN(1, "node %d was absent from the node_possible_map\n", nid);
+  1529			return -EINVAL;
+  1530		}
+  1531	
+  1532		mem_hotplug_begin();
+  1533	
+  1534		/*
+  1535		 * If the NUMA node already has memory blocks, then we can only allow
+  1536		 * additional memory blocks of the same protection type (protected or
+  1537		 * un-protected).  Online/offline does not matter at this point.
+  1538		 */
+  1539		node_has_blocks = node_has_memory_blocks(nid);
+  1540		protected_mem = !!(mhp_flags & MHP_PROTECTED_MEMORY);
+  1541		node_is_sysram = node_isset(nid, *default_sysram_nodes);
+  1542		if (node_has_blocks && (protected_mem ^ node_is_sysram)) {
+  1543			ret = -EINVAL;
+  1544			goto error_mem_hotplug_end;
+  1545		}
+  1546	
+  1547		if (IS_ENABLED(CONFIG_ARCH_KEEP_MEMBLOCK)) {
+  1548			if (res->flags & IORESOURCE_SYSRAM_DRIVER_MANAGED)
+  1549				memblock_flags = MEMBLOCK_DRIVER_MANAGED;
+  1550			ret = memblock_add_node(start, size, nid, memblock_flags);
+  1551			if (ret)
+  1552				goto error_mem_hotplug_end;
+  1553		}
+  1554	
+  1555		ret = __try_online_node(nid, false);
+  1556		if (ret < 0)
+  1557			goto error_memblock_remove;
+  1558		if (ret) {
+  1559			node_set_online(nid);
+  1560			ret = register_one_node(nid);
+  1561			if (WARN_ON(ret)) {
+  1562				node_set_offline(nid);
+  1563				goto error_memblock_remove;
+  1564			}
+  1565			new_node = true;
+  1566		}
+  1567	
+  1568		/*
+  1569		 * Self hosted memmap array
+  1570		 */
+  1571		if ((mhp_flags & MHP_MEMMAP_ON_MEMORY) &&
+  1572		    mhp_supports_memmap_on_memory()) {
+  1573			ret = create_altmaps_and_memory_blocks(nid, group, start, size, mhp_flags);
+  1574			if (ret)
+  1575				goto error;
+  1576		} else {
+  1577			ret = arch_add_memory(nid, start, size, &params);
+  1578			if (ret < 0)
+  1579				goto error;
+  1580	
+  1581			/* create memory block devices after memory was added */
+  1582			ret = create_memory_block_devices(start, size, nid, NULL, group);
+  1583			if (ret) {
+  1584				arch_remove_memory(start, size, params.altmap);
+  1585				goto error;
+  1586			}
+  1587		}
+  1588	
+  1589		register_memory_blocks_under_node_hotplug(nid, PFN_DOWN(start),
+  1590						  PFN_UP(start + size - 1));
+  1591	
+  1592		/* At this point if not protected, we can add node to sysram nodes */
+  1593		if (!(mhp_flags & MHP_PROTECTED_MEMORY))
+  1594			node_set(nid, *default_sysram_nodes);
+  1595		else /* HACK: We would create a proper interface for something like this */
+> 1596			node_set(nid, mt_compressed_nodelist);
+  1597	
+  1598		/* create new memmap entry */
+  1599		if (!strcmp(res->name, "System RAM"))
+  1600			firmware_map_add_hotplug(start, start + size, "System RAM");
+  1601	
+  1602		/* device_online() will take the lock when calling online_pages() */
+  1603		mem_hotplug_done();
+  1604	
+  1605		/*
+  1606		 * In case we're allowed to merge the resource, flag it and trigger
+  1607		 * merging now that adding succeeded.
+  1608		 */
+  1609		if (mhp_flags & MHP_MERGE_RESOURCE)
+  1610			merge_system_ram_resource(res);
+  1611	
+  1612		/* online pages if requested */
+  1613		if (mhp_get_default_online_type() != MMOP_OFFLINE)
+  1614			walk_memory_blocks(start, size, NULL, online_memory_block);
+  1615	
+  1616		return ret;
+  1617	error:
+  1618		if (new_node) {
+  1619			node_set_offline(nid);
+  1620			unregister_one_node(nid);
+  1621		}
+  1622	error_memblock_remove:
+  1623		if (IS_ENABLED(CONFIG_ARCH_KEEP_MEMBLOCK))
+  1624			memblock_remove(start, size);
+  1625	error_mem_hotplug_end:
+  1626		mem_hotplug_done();
+  1627		return ret;
+  1628	}
+  1629	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
