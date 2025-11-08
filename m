@@ -1,77 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19783299949
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 01:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAF721FF4C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 03:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762567081; cv=none; b=te5aO8/YJs1meZurgmLp1zHDe5FvfZDcDkgBLvYte53wbQgc3uLplvhIEXr9ecAzMw5ttV7UPiTXpRbvlABweW/0rsHOwUKi/45DAOFCd394h24G4ndPBXblyK6DQPiih3ROzEEKVo+11GJm3lvQr1pnRBO0nQqnKLWif3Ktim4=
+	t=1762571403; cv=none; b=LnVuqibH+ccJEkIAXU7pzGCMFNW+5jRP0o7i5Sqiu5uUWZvHcM1aegMIWzGFmGaw1XOVTbM6754ElPQXrPkCLdbpGOUDzBLyGhJ1W/MRrwFNvOizW2S+h3PVnrLu2eANIAyUnypBoSP5UHTBxzTyUoFQo+gBPi2fcRusE18XL9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762567081; c=relaxed/simple;
-	bh=CEDFMxYfpWpKEeZvHuIY1GU1d5cVnE9BuUKvjY0Shbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdN5wKumwqLos3/LIdK8eftiyxR5ywYpCuu9AnP3lXpGNWOyyxzvQeaIJMGNCrnEMnsOfG3w2kDGRcdj7lH6lFn8EVmjY2H+ah97zQCOxVOOO5VtqCYwDSOfhAFPcOBShGRLxLEUZc1oYugaqw1cWUtjX4we6+8ORMEibXGSabo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcVQCcCN; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1762571403; c=relaxed/simple;
+	bh=3KemVDjE4Mm/US+YRUud6h/UiFK2pZEnDnUiPIkmXS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vDcst5Xa24mDtdxKjViOI3vRSZV8h4DtGhSE0TEUZK+Uonq0ZfI0L/JfGc1PGMc1z3d5cH/dq9GGj00v7lA79le+l27hFtih6N4Deq7sUfDT6K8DDN1MypHNOMwkpadSLrjlDN5rG6SdkyOsV3n9qqpaWx56qE/MsXVwTxKzK2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIiX4RA8; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcVQCcCN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIiX4RA8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762567081; x=1794103081;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CEDFMxYfpWpKEeZvHuIY1GU1d5cVnE9BuUKvjY0Shbg=;
-  b=XcVQCcCNT0b8bCqXRIEP5GgQEGBzFxuCJnL81C0IkFhHbbq/HhpUMS74
-   ckfiRPGb2trrOJN3EGegFKz0opUVKrku6/Ww50QnKXYr3yzi1h9xIiwNd
-   M5qijisvZ1IGl0U7YuUUyy0z/HyxMXdmEfPvjp2MJ5BzvgETCJxbAb/xu
-   vWZcKlbacWlNt3CcI+04+KQR0tDZpRZrEIxCOR6CYtRim3iHtP4PxnFhN
-   65u6u5HqQeyr4tJo5B+8VPZrWDkTfbegjNMS88nAxukn1CL5rMcdPUvY0
-   i0lHtGzdQhMkcbnhwmQCaIR5c3Udbo4TTnPQxhNp+9Zzn7ywsk66aoPbr
-   w==;
-X-CSE-ConnectionGUID: saZL48AyQOaE8MPAfUuG1g==
-X-CSE-MsgGUID: eJd45zOCRxWS1YckfwYgZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="68365507"
+  t=1762571402; x=1794107402;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3KemVDjE4Mm/US+YRUud6h/UiFK2pZEnDnUiPIkmXS0=;
+  b=OIiX4RA8MLp+9e0mtwKnUBDisrr52y61H5BmMVG8I3lfoqtses3u4NwJ
+   wObUfPdulfRrZDVg54qIYA8rlYa4YPEDifPNFKNeDKaMeL4L9chQi4gQ0
+   6BOtDvJ01wc3MsVfO4aS6205vfLtES59RyEF36+F5xkXpI5wnd8WA5tws
+   enDvaBw7UsR9snBw8rnDKtzKlP1Ap8UV32gXMWytgBX/QkR9yDfncdFkU
+   dPE3xmKRXE7+dwtLtLQ/hJtyKHVJOeFeQOwguq9CM96EtfEX4nQjhw9iS
+   4UKXMJhiJRNhkwTxSYgRfOdPUefnIOMGFznPgOdXDH8Y3Fo68Zuby20xU
+   Q==;
+X-CSE-ConnectionGUID: nJ6ruS3kSUe1qALBI6ihxQ==
+X-CSE-MsgGUID: VCT98ZMsRYyYJs8zHiFljg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="64813996"
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="68365507"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:58:00 -0800
-X-CSE-ConnectionGUID: fhd5po3kQQqI3uYkg2qquQ==
-X-CSE-MsgGUID: P0egOIl5Q4SssJqGD/40Yw==
+   d="scan'208";a="64813996"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 19:10:02 -0800
+X-CSE-ConnectionGUID: 20gdvBPdQqmHieLkLgNKSA==
+X-CSE-MsgGUID: qkKEEY2PSO6vfaJdZc1sMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="192290071"
+   d="scan'208";a="188917820"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2025 17:57:54 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Nov 2025 19:10:00 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHYDA-0000bT-0D;
-	Sat, 08 Nov 2025 01:57:52 +0000
-Date: Sat, 8 Nov 2025 09:57:40 +0800
+	id 1vHZKw-0000eb-27;
+	Sat, 08 Nov 2025 03:09:58 +0000
+Date: Sat, 8 Nov 2025 11:09:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
-	venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
-	Yi Zhang <zhanyi@qti.qualcomm.com>,
-	Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: add support for lontium lt9211c bridge
-Message-ID: <202511080928.8r4OmyWW-lkp@intel.com>
-References: <20251107-add-lt9211c-bridge-v2-2-b0616e23407c@oss.qualcomm.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_prolog 4/8] arch/x86/kernel/uprobes.c:1457:36:
+ warning: 'sub_xol_ops' defined but not used
+Message-ID: <202511081118.T3v3UNhW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,82 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107-add-lt9211c-bridge-v2-2-b0616e23407c@oss.qualcomm.com>
 
-Hi Nilesh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on f50b969bafafb2810a07f376387350c4c0d72a21]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Laad/dt-bindings-bridge-lt9211c-Add-bindings/20251107-210546
-base:   f50b969bafafb2810a07f376387350c4c0d72a21
-patch link:    https://lore.kernel.org/r/20251107-add-lt9211c-bridge-v2-2-b0616e23407c%40oss.qualcomm.com
-patch subject: [PATCH v2 2/2] drm/bridge: add support for lontium lt9211c bridge
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251108/202511080928.8r4OmyWW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080928.8r4OmyWW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_prolog
+head:   0a54bb564fac2eaf528c88c5d6abc55213a4f073
+commit: 7c946ecd37c7b9b7f90d3f722aac2f3a85486763 [4/8] emulate sub
+config: i386-buildonly-randconfig-006-20251108 (https://download.01.org/0day-ci/archive/20251108/202511081118.T3v3UNhW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511081118.T3v3UNhW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080928.8r4OmyWW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511081118.T3v3UNhW-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_configure_rx':
->> drivers/gpu/drm/bridge/lontium-lt9211c.c:207:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-     207 |         ret = regmap_write(ctx->regmap, 0x8180, (pval & 0xfc | 0x03));
-         |                                                  ~~~~~^~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:227:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-     227 |         ret = regmap_write(ctx->regmap, 0x8530, (pval & 0xf8 | 0x11));
-         |                                                  ~~~~~^~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_autodetect_rx':
->> drivers/gpu/drm/bridge/lontium-lt9211c.c:253:12: warning: unused variable 'bc' [-Wunused-variable]
-     253 |         u8 bc[3];
-         |            ^~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c: In function 'lt9211c_configure_tx':
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:619:55: warning: suggest parentheses around arithmetic in operand of '|' [-Wparentheses]
-     619 |         ret = regmap_write(ctx->regmap, 0x8530, (pval & 0x3f | 0x40));
-         |                                                  ~~~~~^~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c: At top level:
->> drivers/gpu/drm/bridge/lontium-lt9211c.c:918:35: error: initialization of 'int (*)(struct drm_bridge *, struct drm_encoder *, enum drm_bridge_attach_flags)' from incompatible pointer type 'int (*)(struct drm_bridge *, enum drm_bridge_attach_flags)' [-Wincompatible-pointer-types]
-     918 |         .attach                 = lt9211c_attach,
-         |                                   ^~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:918:35: note: (near initialization for 'lt9211c_funcs.attach')
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:99:12: note: 'lt9211c_attach' declared here
-      99 | static int lt9211c_attach(struct drm_bridge *bridge,
-         |            ^~~~~~~~~~~~~~
->> drivers/gpu/drm/bridge/lontium-lt9211c.c:920:35: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
-     920 |         .atomic_enable          = lt9211c_atomic_enable,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:920:35: note: (near initialization for 'lt9211c_funcs.atomic_enable')
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:777:13: note: 'lt9211c_atomic_enable' declared here
-     777 | static void lt9211c_atomic_enable(struct drm_bridge *bridge,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:921:35: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
-     921 |         .atomic_disable         = lt9211c_atomic_disable,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:921:35: note: (near initialization for 'lt9211c_funcs.atomic_disable')
-   drivers/gpu/drm/bridge/lontium-lt9211c.c:857:13: note: 'lt9211c_atomic_disable' declared here
-     857 | static void lt9211c_atomic_disable(struct drm_bridge *bridge,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/uprobes.c:1457:36: warning: 'sub_xol_ops' defined but not used [-Wunused-const-variable=]
+    1457 | static const struct uprobe_xol_ops sub_xol_ops = {
+         |                                    ^~~~~~~~~~~
+   arch/x86/kernel/uprobes.c:1453:36: warning: 'mov_xol_ops' defined but not used [-Wunused-const-variable=]
+    1453 | static const struct uprobe_xol_ops mov_xol_ops = {
+         |                                    ^~~~~~~~~~~
 
 
-vim +918 drivers/gpu/drm/bridge/lontium-lt9211c.c
+vim +/sub_xol_ops +1457 arch/x86/kernel/uprobes.c
 
-   916	
-   917	static const struct drm_bridge_funcs lt9211c_funcs = {
- > 918		.attach			= lt9211c_attach,
-   919		.mode_valid		= lt9211c_mode_valid,
- > 920		.atomic_enable		= lt9211c_atomic_enable,
-   921		.atomic_disable		= lt9211c_atomic_disable,
-   922		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-   923		.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-   924		.atomic_get_input_bus_fmts = lt9211c_atomic_get_input_bus_fmts,
-   925		.atomic_reset		= drm_atomic_helper_bridge_reset,
-   926	};
-   927	
+  1456	
+> 1457	static const struct uprobe_xol_ops sub_xol_ops = {
+  1458		.emulate  = sub_emulate_op,
+  1459	};
+  1460	
 
 -- 
 0-DAY CI Kernel Test Service
