@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CBA2638BF;
-	Sat,  8 Nov 2025 01:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D96F286D4E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Nov 2025 01:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762565214; cv=none; b=ezEITTJKbAya4YwddZRrQQa6UChPL8KuH5PHXpocEHdX7lseOb0zr3X++cLgzfpqnvjEuNN3DX7gOO7pwx2MxkdxfAsZMfDHtWOvozCAduPBClu872boSRGDJFWme0bAydaCsPbF34C7srR4DYOCzAEXIkLQceA9paqSnPJYJe4=
+	t=1762565277; cv=none; b=CCZLaxPbcnqR43UVPp7/6jEsaJAijh7NGzc1eq7/3zqK+IAO2wu68UZe7C6lOfSDRgm818TdDIKS1OsY+Ev58+WIfjuN4ulhIGWfV2JIA23CZmDpEvL/m4xFdP3S9pPM8mir0DINCys3UDrDUbHKLOZXagXtMo3xuu2pR06vnGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762565214; c=relaxed/simple;
-	bh=+tYSa2LM1ktrvmoFVc6CXUhg3r0K2dllcbnvRNf7fiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jtKug9QBBHRrVWVKlzMal7rv+MQ0PAODCClvz56N2Om46unR91qH/VwgfYSRqnTj92a4gGXmwhZb4RL3BNXD6WvpVBB3spIvOBbUhfU7QtO+HUNI52QUG+x3UliwcZXo53tiLLeUD44oZ/U6+QXsQyKEB2zmUJfrihyKhuECrBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8Ieg1LM; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762565277; c=relaxed/simple;
+	bh=zi+gWCq7LPw7fACbKThyVaX0lK2sJtmDbDaQh/MqCgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WBcPFlT0vDLeOt66DTSPd5D+RCqs7vhwm3UT+8j5lik7O6I+biQ0slEZtVbTnaaz2Ks4K0qdFugVt88IKmVZ+UZqlI1b44R3MDLxYPWXzsmJNY91ha5NjaDpak2su6wrMa6ykswfHchoMZ3KM9yM+Shg3bLh8ToqaPb8EI+a4S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyWSjfEg; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8Ieg1LM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyWSjfEg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762565212; x=1794101212;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+tYSa2LM1ktrvmoFVc6CXUhg3r0K2dllcbnvRNf7fiw=;
-  b=J8Ieg1LMazb+YoxengAbCozqMvga2NjhZ30DSPk/BKNQTvPTakEwzA9p
-   uC35/Y8SXkNrkn6kEqTXXzVDHP5KWUCPQjMRoyT5zX6bpMNQgct475fhT
-   yNRVLSnSTt9ep33/8ULp+31ZYO64kkZ5QT9ighYwX0a8zI5RKb4li0dWG
-   SceHP4/C8OnHGAnFi+W70gXPVbwEmI1UO45osUBv2/fx1gURqtaeOVb+3
-   ZABADfr7WmuBmyAR1G7NCx1WllGLlDtL775KV6zPrG70avexIo+LsNLH5
-   mzPiC4xZUU1TVDGM+rdKrX2IbwxOAOvwfIoWOKOSAdJ317pMjA8L+k9p3
-   g==;
-X-CSE-ConnectionGUID: yoRJov3+RD+fP5uNWOIbeg==
-X-CSE-MsgGUID: xXR83zTxS1OFXpkBJGQWBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="67326282"
+  t=1762565276; x=1794101276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zi+gWCq7LPw7fACbKThyVaX0lK2sJtmDbDaQh/MqCgI=;
+  b=cyWSjfEguqBOYGHsVdtQoHH9qiMNwk2E1qkyaT3Cx5gGDy7LSz4t0wqk
+   ymyseW73iYsbOWrL/g6xXA+UrMacyiLr4BPc4I+XlZG8YRtO29d7LsNrc
+   MZDTs/6+QmjTf/jfyum5Xxj0EymaE0q/K6F4a9U0qRUjX5gltNcz2zwjz
+   U0A5HwbYxklv86IMytmovzb8FIt8BTKAGFiTSgd1Hb0enw1Kki+pPszLS
+   CAPRk0qaCrI7NsdFHYSrRdFzMiUarligA8RXlhBaKncetmH50Z7GEgFEi
+   0eBLI21QtrmzD4k6p6MsfoNl/bIj3cXs7Qt8bLA/IODCCBiLNy7193G+0
+   w==;
+X-CSE-ConnectionGUID: ReNVi3D+RMWhjEo/ugNcBA==
+X-CSE-MsgGUID: 0TRc3e5EQhSO++0KGn6O5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11606"; a="75829927"
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="67326282"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:26:52 -0800
-X-CSE-ConnectionGUID: PwQigouySUaCuUsLWPRkyg==
-X-CSE-MsgGUID: 52CYDMErQn+CVf7P+sgIzg==
+   d="scan'208";a="75829927"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 17:27:55 -0800
+X-CSE-ConnectionGUID: g6UuUPTHRG6E/PTGaKesyQ==
+X-CSE-MsgGUID: eJDos0MuR3Se7vqFdF02OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,288,1754982000"; 
-   d="scan'208";a="211620460"
+   d="scan'208";a="188442130"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2025 17:26:51 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 07 Nov 2025 17:27:51 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vHXj7-0000Zt-0g;
-	Sat, 08 Nov 2025 01:26:49 +0000
-Date: Sat, 8 Nov 2025 09:26:48 +0800
+	id 1vHXk5-0000a1-11;
+	Sat, 08 Nov 2025 01:27:49 +0000
+Date: Sat, 8 Nov 2025 09:26:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_prolog 3/8] arch/x86/kernel/uprobes.c:1439:36:
- warning: unused variable 'mov_xol_ops'
-Message-ID: <202511080918.THWDN0lf-lkp@intel.com>
+To: Ranganath V N <vnranganath.20@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, horms@kernel.org, jhs@mojatatu.com,
+	jiri@resnulli.us, kuba@kernel.org, pabeni@redhat.com,
+	xiyou.wangcong@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, vnranganath.20@gmail.com,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 2/2] net: sched: act_ife: initialize struct tc_ife to
+ fix KMSAN kernel-infoleak
+Message-ID: <202511080909.0OWvBSbY-lkp@intel.com>
+References: <20251106195635.2438-3-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,34 +70,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251106195635.2438-3-vnranganath.20@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_prolog
-head:   0a54bb564fac2eaf528c88c5d6abc55213a4f073
-commit: a1e15dc94d1d860d6e066d7b547ee0451f2cc135 [3/8] emulate mov
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20251108/202511080918.THWDN0lf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080918.THWDN0lf-lkp@intel.com/reproduce)
+Hi Ranganath,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.18-rc4 next-20251107]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranganath-V-N/net-sched-act_connmark-initialize-struct-tc_ife-to-fix-kernel-leak/20251107-035911
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251106195635.2438-3-vnranganath.20%40gmail.com
+patch subject: [PATCH v3 2/2] net: sched: act_ife: initialize struct tc_ife to fix KMSAN kernel-infoleak
+config: i386-buildonly-randconfig-003-20251108 (https://download.01.org/0day-ci/archive/20251108/202511080909.0OWvBSbY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251108/202511080909.0OWvBSbY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511080918.THWDN0lf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511080909.0OWvBSbY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/uprobes.c:1439:36: warning: unused variable 'mov_xol_ops' [-Wunused-const-variable]
-    1439 | static const struct uprobe_xol_ops mov_xol_ops = {
-         |                                    ^~~~~~~~~~~
-   1 warning generated.
+   net/sched/act_ife.c: In function 'tcf_ife_dump':
+>> net/sched/act_ife.c:652:9: error: 'index' undeclared (first use in this function)
+     652 |         index = ife->tcf_index;
+         |         ^~~~~
+   net/sched/act_ife.c:652:9: note: each undeclared identifier is reported only once for each function it appears in
+>> net/sched/act_ife.c:653:9: error: 'refcnt' undeclared (first use in this function)
+     653 |         refcnt = refcount_read(&ife->tcf_refcnt) - ref;
+         |         ^~~~~~
+>> net/sched/act_ife.c:654:9: error: 'bindcnt' undeclared (first use in this function); did you mean 'bind'?
+     654 |         bindcnt = atomic_read(&ife->tcf_bindcnt) - bind;
+         |         ^~~~~~~
+         |         bind
 
 
-vim +/mov_xol_ops +1439 arch/x86/kernel/uprobes.c
+vim +/index +652 net/sched/act_ife.c
 
-  1438	
-> 1439	static const struct uprobe_xol_ops mov_xol_ops = {
-  1440		.emulate  = mov_emulate_op,
-  1441	};
-  1442	
+   640	
+   641	static int tcf_ife_dump(struct sk_buff *skb, struct tc_action *a, int bind,
+   642				int ref)
+   643	{
+   644		unsigned char *b = skb_tail_pointer(skb);
+   645		struct tcf_ife_info *ife = to_ife(a);
+   646		struct tcf_ife_params *p;
+   647		struct tc_ife opt;
+   648		struct tcf_t t;
+   649	
+   650		memset(&opt, 0, sizeof(opt));
+   651	
+ > 652		index = ife->tcf_index;
+ > 653		refcnt = refcount_read(&ife->tcf_refcnt) - ref;
+ > 654		bindcnt = atomic_read(&ife->tcf_bindcnt) - bind;
+   655	
+   656		spin_lock_bh(&ife->tcf_lock);
+   657		opt.action = ife->tcf_action;
+   658		p = rcu_dereference_protected(ife->params,
+   659					      lockdep_is_held(&ife->tcf_lock));
+   660		opt.flags = p->flags;
+   661	
+   662		if (nla_put(skb, TCA_IFE_PARMS, sizeof(opt), &opt))
+   663			goto nla_put_failure;
+   664	
+   665		tcf_tm_dump(&t, &ife->tcf_tm);
+   666		if (nla_put_64bit(skb, TCA_IFE_TM, sizeof(t), &t, TCA_IFE_PAD))
+   667			goto nla_put_failure;
+   668	
+   669		if (!is_zero_ether_addr(p->eth_dst)) {
+   670			if (nla_put(skb, TCA_IFE_DMAC, ETH_ALEN, p->eth_dst))
+   671				goto nla_put_failure;
+   672		}
+   673	
+   674		if (!is_zero_ether_addr(p->eth_src)) {
+   675			if (nla_put(skb, TCA_IFE_SMAC, ETH_ALEN, p->eth_src))
+   676				goto nla_put_failure;
+   677		}
+   678	
+   679		if (nla_put(skb, TCA_IFE_TYPE, 2, &p->eth_type))
+   680			goto nla_put_failure;
+   681	
+   682		if (dump_metalist(skb, ife)) {
+   683			/*ignore failure to dump metalist */
+   684			pr_info("Failed to dump metalist\n");
+   685		}
+   686	
+   687		spin_unlock_bh(&ife->tcf_lock);
+   688		return skb->len;
+   689	
+   690	nla_put_failure:
+   691		spin_unlock_bh(&ife->tcf_lock);
+   692		nlmsg_trim(skb, b);
+   693		return -1;
+   694	}
+   695	
 
 -- 
 0-DAY CI Kernel Test Service
