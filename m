@@ -1,68 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26B32AD25
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 10:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3CB22B5AC;
+	Sun,  9 Nov 2025 11:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762685078; cv=none; b=L6vMbZ4jUqPCtfkohAAbqyA6OLyYsyPfYO8SkK4nxlkz2c9cqu5FZCr26NCQzz9bSZfqgTHz7x2gHESWlmhuB3g1WS9v4wwIvFB+O1ohGM0Ljk/gyuCg8bIJHCLuQDsnPvHVteWTrlsqfFelqXTR9pduTdNML/Y6aPt32t1XPNE=
+	t=1762686338; cv=none; b=sZ0UiB6Xm+EhwShoKsXRDBYzQF9l7naD0al8R9xuqNBgbYVBV7b+8k9h3Ndu7qsLZUdIEa2VO6HupUEpcTV9/GeRDPi6brsOPNI7Dw9tGl5bZsNgDIzfWR2yoEPu1Sff7PiYROSqTxbwF4Oexhiuv/W3wAIEjg/1NwK8c8mBFkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762685078; c=relaxed/simple;
-	bh=44MHQPu5x73Mpyie/3cjmT1gjLe/2NVED6ahHMZiY0E=;
+	s=arc-20240116; t=1762686338; c=relaxed/simple;
+	bh=HrMUzheQaOv9R4Evprn/x622r03F+FlEJxIhmxwu/A4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSdZrXlyR5kWvvIWxIY4iiTcfw3mmPXF/nFrd5Tx3VTpHxl+Mhe3SzOjI7b4xbrkxhRzMj0MvOY9Yuo3wL4QdtQX5SSLOZiUhl++g1OLSsaIaIC63owp+EZTCkvqW6uJPkxMgsvMHttgZtAzV/ONhvT516aYDLrdrMHCnz3mk4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAH/6l27; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=EmP8Zf+zWUyIC9a7hmXgWD39OJiznPegj/yh2EuXSOLEXid3ej0YGx0k3yz6WcCWD2G2Ifox9y2xR66YHfPwQXRhCvNH5MWRmQn+oloaQad0e+OvYiVSkoRIixyzvwNTSekxh/aVKw7jpA1Avu7WfBAd8yBsWFreReRFumFWEDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9grP9zL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAH/6l27"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9grP9zL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762685077; x=1794221077;
+  t=1762686337; x=1794222337;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=44MHQPu5x73Mpyie/3cjmT1gjLe/2NVED6ahHMZiY0E=;
-  b=WAH/6l27ObCgxgHqHs5ap7BbA+m96vgYrVTN1e6MHysagx6B4Z+d5+J4
-   RsLiEpuc8Gz6kT+EGHVwTRJ8sQOvM/8s9UQc3Ih3Yj7JB8iJQuS9P154j
-   Pszjl4O8RjsRJMX0QXfkXjPR+TaV/BiFFaNAOFVLm1OX0Qnr4IZcHus/U
-   ktIZrmfZ4RtUunT1z8cpuXcUtdvRueJwGlbK/CLyhxlOWIwcVd6fjnWuX
-   SrKzOTriHLabTa/lsIM3AjXkkHSZVVG7rf55VU9oEWYKDrK/TWBfBTYfF
-   jfOdejRb15N+0CWwwFN9sf0zCh8Bs3mdtQ+ofT4jDxKAb06jmEvit9x8Y
-   Q==;
-X-CSE-ConnectionGUID: pWhw9b/XSFKWZcJFPDpmVw==
-X-CSE-MsgGUID: 4dcunIEARquv/2q29pNzbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64673005"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64673005"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 02:44:37 -0800
-X-CSE-ConnectionGUID: CE3LIVPBR7e/xN0LEEcy/g==
-X-CSE-MsgGUID: I0kkBDkwT5qwGH5mPL0TUg==
+  bh=HrMUzheQaOv9R4Evprn/x622r03F+FlEJxIhmxwu/A4=;
+  b=U9grP9zL5sCIaAUu+FH4Dwx5hqn4eGwrs6TC4UBqdtM+s4/9zEtCpnCa
+   6RQ+7oNk7B1UTJU80Kv5JvDW/Jtr8e0NCZbMK3/+YLyaS41tU2pw5Y0PZ
+   r2o2izx6UXqEy2E8J2cFeFZnQzB+T34H/ZLJE00f2nvBxXEMDe/2shNdJ
+   SOisdsfEdnTlH6DQxp78tSuRTnG6tx4YeKbs2FxPdmck/ZO8RzszLehnq
+   NB++3ibVp6J8GOHwrEGDyxpTWisT2YyzZAmBW76wvvFtzg3bMFTRqW85m
+   RGHYlmK4nuWZ5KLnFsQLQd3zyaa7UYMGMFk6NQAk5khe5BpkQqLOgD9+r
+   A==;
+X-CSE-ConnectionGUID: 3fLYSeYZQtGlRwx9GpJi/w==
+X-CSE-MsgGUID: 7CA9vjuYShiRHV5kHj0/Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="75376989"
+X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
+   d="scan'208";a="75376989"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 03:05:36 -0800
+X-CSE-ConnectionGUID: XWLJAbMVTyyLRRN7OTwMJw==
+X-CSE-MsgGUID: EUPCigK0TBeeinhHSUL0kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="192547074"
+   d="scan'208";a="189153446"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2025 02:44:34 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2025 03:05:35 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vI2uN-0001w7-0B;
-	Sun, 09 Nov 2025 10:44:31 +0000
-Date: Sun, 9 Nov 2025 18:43:46 +0800
+	id 1vI3Ei-0001x1-2Y;
+	Sun, 09 Nov 2025 11:05:32 +0000
+Date: Sun, 9 Nov 2025 19:05:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alejandro Colomar <alx@kernel.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Christopher Bazley <chris.bazley.wg14@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Marco Elver <elver@google.com>, Michal Hocko <mhocko@suse.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 1/4] array_size.h: Add ARRAY_END()
-Message-ID: <202511091804.XUQA4dOK-lkp@intel.com>
-References: <35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx@kernel.org>
+To: syzbot <syzbot+04c2672c56fbb9401640@syzkaller.appspotmail.com>,
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: Forwarded: [PATCH] fs: fix inode use-after-free in chown_common
+ delegation retry
+Message-ID: <202511091815.6q5WUuzH-lkp@intel.com>
+References: <691059ff.a70a0220.22f260.00a6.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,48 +64,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx@kernel.org>
+In-Reply-To: <691059ff.a70a0220.22f260.00a6.GAE@google.com>
 
-Hi Alejandro,
+Hi syzbot,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 6146a0f1dfae5d37442a9ddcba012add260bceb0]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.18-rc4 next-20251107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/array_size-h-Add-ARRAY_END/20251109-062234
-base:   6146a0f1dfae5d37442a9ddcba012add260bceb0
-patch link:    https://lore.kernel.org/r/35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx%40kernel.org
-patch subject: [PATCH v2 1/4] array_size.h: Add ARRAY_END()
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20251109/202511091804.XUQA4dOK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511091804.XUQA4dOK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/syzbot/Forwarded-PATCH-fs-fix-inode-use-after-free-in-chown_common-delegation-retry/20251109-171000
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/691059ff.a70a0220.22f260.00a6.GAE%40google.com
+patch subject: Forwarded: [PATCH] fs: fix inode use-after-free in chown_common delegation retry
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251109/202511091815.6q5WUuzH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b9ea93cd5c37fb6d606502fd01208dd48330549d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511091815.6q5WUuzH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511091804.XUQA4dOK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511091815.6q5WUuzH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/block/floppy.c:4805:9: warning: 'ARRAY_END' redefined
-    4805 | #define ARRAY_END(X) (&((X)[ARRAY_SIZE(X)]))
-         |         ^~~~~~~~~
-   In file included from include/linux/string.h:6,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/nodemask.h:91,
-                    from include/linux/numa.h:6,
-                    from include/linux/async.h:13,
-                    from drivers/block/floppy.c:166:
-   include/linux/array_size.h:17:9: note: this is the location of the previous definition
-      17 | #define ARRAY_END(a)  (a + ARRAY_SIZE(a))
-         |         ^~~~~~~~~
+>> fs/open.c:771:9: warning: format specifies type 'void *' but the argument has type 'long' [-Wformat]
+     769 |         printk("DEBUG: [%s] retry_deleg: inode=%p, i_count=%d, i_rwsem.owner=%px\n",
+         |                                                                              ~~
+         |                                                                              %ld
+     770 |                current->comm, inode, atomic_read(&inode->i_count),
+     771 |                atomic_long_read(&inode->i_rwsem.owner));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   fs/open.c:785:31: warning: format specifies type 'void *' but the argument has type 'long' [-Wformat]
+     784 |         printk("DEBUG: [%s] after inode_lock: inode=%p, i_rwsem.owner=%px (current=%px)\n",
+         |                                                                       ~~
+         |                                                                       %ld
+     785 |                current->comm, inode, atomic_long_read(&inode->i_rwsem.owner), current);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   fs/open.c:798:31: warning: format specifies type 'void *' but the argument has type 'long' [-Wformat]
+     797 |         printk("DEBUG: [%s] before inode_unlock: inode=%p, i_rwsem.owner=%px, delegated_inode=%p\n",
+         |                                                                          ~~
+         |                                                                          %ld
+     798 |                current->comm, inode, atomic_long_read(&inode->i_rwsem.owner), delegated_inode);
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   fs/open.c:801:31: warning: format specifies type 'void *' but the argument has type 'long' [-Wformat]
+     800 |         printk("DEBUG: [%s] after inode_unlock: inode=%p, i_rwsem.owner=%px\n",
+         |                                                                         ~~
+         |                                                                         %ld
+     801 |                current->comm, inode, atomic_long_read(&inode->i_rwsem.owner));
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +/ARRAY_END +4805 drivers/block/floppy.c
+vim +771 fs/open.c
 
-5a74db06cc8d36 Philippe De Muyter 2009-02-18  4804  
-5a74db06cc8d36 Philippe De Muyter 2009-02-18 @4805  #define ARRAY_END(X) (&((X)[ARRAY_SIZE(X)]))
-5a74db06cc8d36 Philippe De Muyter 2009-02-18  4806  
+   750	
+   751	int chown_common(const struct path *path, uid_t user, gid_t group)
+   752	{
+   753		struct mnt_idmap *idmap;
+   754		struct user_namespace *fs_userns;
+   755		struct inode *inode = path->dentry->d_inode;
+   756		struct inode *delegated_inode = NULL;
+   757		int error;
+   758		struct iattr newattrs;
+   759		kuid_t uid;
+   760		kgid_t gid;
+   761	
+   762		uid = make_kuid(current_user_ns(), user);
+   763		gid = make_kgid(current_user_ns(), group);
+   764	
+   765		idmap = mnt_idmap(path->mnt);
+   766		fs_userns = i_user_ns(inode);
+   767	
+   768	retry_deleg:
+   769		printk("DEBUG: [%s] retry_deleg: inode=%p, i_count=%d, i_rwsem.owner=%px\n",
+   770		       current->comm, inode, atomic_read(&inode->i_count),
+ > 771		       atomic_long_read(&inode->i_rwsem.owner));
+   772		newattrs.ia_vfsuid = INVALID_VFSUID;
+   773		newattrs.ia_vfsgid = INVALID_VFSGID;
+   774		newattrs.ia_valid =  ATTR_CTIME;
+   775		if ((user != (uid_t)-1) && !setattr_vfsuid(&newattrs, uid))
+   776			return -EINVAL;
+   777		if ((group != (gid_t)-1) && !setattr_vfsgid(&newattrs, gid))
+   778			return -EINVAL;
+   779		printk("DEBUG: [%s] before inode_lock: inode=%p, i_count=%d\n",
+   780		       current->comm, inode, atomic_read(&inode->i_count));
+   781		error = inode_lock_killable(inode);
+   782		if (error)
+   783			return error;
+   784		printk("DEBUG: [%s] after inode_lock: inode=%p, i_rwsem.owner=%px (current=%px)\n",
+   785		       current->comm, inode, atomic_long_read(&inode->i_rwsem.owner), current);
+   786		if (!S_ISDIR(inode->i_mode))
+   787			newattrs.ia_valid |= ATTR_KILL_SUID | ATTR_KILL_PRIV |
+   788					     setattr_should_drop_sgid(idmap, inode);
+   789		/* Continue to send actual fs values, not the mount values. */
+   790		error = security_path_chown(
+   791			path,
+   792			from_vfsuid(idmap, fs_userns, newattrs.ia_vfsuid),
+   793			from_vfsgid(idmap, fs_userns, newattrs.ia_vfsgid));
+   794		if (!error)
+   795			error = notify_change(idmap, path->dentry, &newattrs,
+   796					      &delegated_inode);
+   797		printk("DEBUG: [%s] before inode_unlock: inode=%p, i_rwsem.owner=%px, delegated_inode=%p\n",
+   798		       current->comm, inode, atomic_long_read(&inode->i_rwsem.owner), delegated_inode);
+   799		inode_unlock(inode);
+   800		printk("DEBUG: [%s] after inode_unlock: inode=%p, i_rwsem.owner=%px\n",
+   801		       current->comm, inode, atomic_long_read(&inode->i_rwsem.owner));
+   802		if (delegated_inode) {
+   803			printk("DEBUG: [%s] calling break_deleg_wait: inode=%p, i_count=%d, delegated_inode=%p\n",
+   804			       current->comm, inode, atomic_read(&inode->i_count), delegated_inode);
+   805			error = break_deleg_wait(&delegated_inode);
+   806			printk("DEBUG: [%s] after break_deleg_wait: inode=%p, i_count=%d, error=%d\n",
+   807			       current->comm, inode, atomic_read(&inode->i_count), error);
+   808			if (!error)
+   809				goto retry_deleg;
+   810		}
+   811		return error;
+   812	}
+   813	
 
 -- 
 0-DAY CI Kernel Test Service
