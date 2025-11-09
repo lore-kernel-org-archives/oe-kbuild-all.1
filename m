@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED848175A5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 09:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26B32AD25
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 10:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762678888; cv=none; b=Ld/57S92JOjbdc/XBs/78IL+0O1esYiS4hPAVsZBDZz55EnElLvdN4GRb7+AlichluHaJfvfkqULIkm/UNJHMEjFpNnQOhcBzJGImmFmox79nyopyHkBr1Lze+EHzQxL7vHs1WttQdrvXuFEQGm1r8cxFJgeFAI00m0dZrByOwA=
+	t=1762685078; cv=none; b=L6vMbZ4jUqPCtfkohAAbqyA6OLyYsyPfYO8SkK4nxlkz2c9cqu5FZCr26NCQzz9bSZfqgTHz7x2gHESWlmhuB3g1WS9v4wwIvFB+O1ohGM0Ljk/gyuCg8bIJHCLuQDsnPvHVteWTrlsqfFelqXTR9pduTdNML/Y6aPt32t1XPNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762678888; c=relaxed/simple;
-	bh=5SVGLZu3s0vUpV8lZzzM2/EMzL3Ku3FfNFdPwVs2rAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Eh6LTCAzYyHzPpXtPPXtDipIa4lc6yf0tkoX25bLue39HOk1hUsVgmTjt3rYc9HCfeid2CWlV9RxlgKp+HNbvE0Qw0LAk4CxXv9twvXjkbs1Frmwog6wiI35rg0X2AjTRMg4vt8J1xNJ0PLJLFPC5zumfwP6P4B5+sN0gzm1vZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7dHC6WL; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1762685078; c=relaxed/simple;
+	bh=44MHQPu5x73Mpyie/3cjmT1gjLe/2NVED6ahHMZiY0E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSdZrXlyR5kWvvIWxIY4iiTcfw3mmPXF/nFrd5Tx3VTpHxl+Mhe3SzOjI7b4xbrkxhRzMj0MvOY9Yuo3wL4QdtQX5SSLOZiUhl++g1OLSsaIaIC63owp+EZTCkvqW6uJPkxMgsvMHttgZtAzV/ONhvT516aYDLrdrMHCnz3mk4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAH/6l27; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7dHC6WL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAH/6l27"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762678886; x=1794214886;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5SVGLZu3s0vUpV8lZzzM2/EMzL3Ku3FfNFdPwVs2rAk=;
-  b=J7dHC6WLyPHSvBK/jOOAEABU86IBWYXyMP7wYjBYA7Uk1RBwjPMBwDMk
-   L8tTlSCcTxCne/B9SLt5MiUhQ7MWsnJq+CuxH3EXRpBqgUD9b6ptVcpf/
-   ohy6vQ4IsaEJfqvw1oGgH/drM03/G6maOfdatOU1dcWFL4vazfO0qWnfv
-   m0xG8+LAxHefiIGy4Kg3L5MPNUPhmKgrhqg/+IfC1imep98BAhGsR1CPO
-   uCdmZIENm221S9lXcsOuJbND0RsAgCXVa+JNf6ZdlFiwePws98sFpudR6
-   +RCW8zXqCFOFnfI2hUxiwlc3owXMbYeTgnZSusZ/s8Q5Di6PaX0xihzqm
+  t=1762685077; x=1794221077;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=44MHQPu5x73Mpyie/3cjmT1gjLe/2NVED6ahHMZiY0E=;
+  b=WAH/6l27ObCgxgHqHs5ap7BbA+m96vgYrVTN1e6MHysagx6B4Z+d5+J4
+   RsLiEpuc8Gz6kT+EGHVwTRJ8sQOvM/8s9UQc3Ih3Yj7JB8iJQuS9P154j
+   Pszjl4O8RjsRJMX0QXfkXjPR+TaV/BiFFaNAOFVLm1OX0Qnr4IZcHus/U
+   ktIZrmfZ4RtUunT1z8cpuXcUtdvRueJwGlbK/CLyhxlOWIwcVd6fjnWuX
+   SrKzOTriHLabTa/lsIM3AjXkkHSZVVG7rf55VU9oEWYKDrK/TWBfBTYfF
+   jfOdejRb15N+0CWwwFN9sf0zCh8Bs3mdtQ+ofT4jDxKAb06jmEvit9x8Y
    Q==;
-X-CSE-ConnectionGUID: T3qFcUZITFCOKaPr2uwI8A==
-X-CSE-MsgGUID: J+Mfbb2vRruG5rG1Ld/33w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="64916522"
-X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="64916522"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 01:01:25 -0800
-X-CSE-ConnectionGUID: GNLwoQsHRoKumja+rT12hw==
-X-CSE-MsgGUID: Cr1F9l02SCOeoQIq1uF4Cg==
+X-CSE-ConnectionGUID: pWhw9b/XSFKWZcJFPDpmVw==
+X-CSE-MsgGUID: 4dcunIEARquv/2q29pNzbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64673005"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64673005"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 02:44:37 -0800
+X-CSE-ConnectionGUID: CE3LIVPBR7e/xN0LEEcy/g==
+X-CSE-MsgGUID: I0kkBDkwT5qwGH5mPL0TUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="192809353"
+   d="scan'208";a="192547074"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2025 01:01:25 -0800
+  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2025 02:44:34 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vI1IY-0001tL-0r;
-	Sun, 09 Nov 2025 09:01:22 +0000
-Date: Sun, 9 Nov 2025 17:01:21 +0800
+	id 1vI2uN-0001w7-0B;
+	Sun, 09 Nov 2025 10:44:31 +0000
+Date: Sun, 9 Nov 2025 18:43:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_prolog 6/8] arch/x86/kernel/uprobes.c:859
- __do_sys_uprobe() warn: inconsistent indenting
-Message-ID: <202511091656.ysbsQyC5-lkp@intel.com>
+To: Alejandro Colomar <alx@kernel.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Christopher Bazley <chris.bazley.wg14@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Marco Elver <elver@google.com>, Michal Hocko <mhocko@suse.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v2 1/4] array_size.h: Add ARRAY_END()
+Message-ID: <202511091804.XUQA4dOK-lkp@intel.com>
+References: <35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,107 +71,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_prolog
-head:   0a54bb564fac2eaf528c88c5d6abc55213a4f073
-commit: d61886bf13325710a187aeed37cef10307a87c36 [6/8] opt
-config: x86_64-randconfig-161-20251109 (https://download.01.org/0day-ci/archive/20251109/202511091656.ysbsQyC5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Alejandro,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6146a0f1dfae5d37442a9ddcba012add260bceb0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/array_size-h-Add-ARRAY_END/20251109-062234
+base:   6146a0f1dfae5d37442a9ddcba012add260bceb0
+patch link:    https://lore.kernel.org/r/35255c1ceb54518779a45351dcd79a3c1910818a.1762637046.git.alx%40kernel.org
+patch subject: [PATCH v2 1/4] array_size.h: Add ARRAY_END()
+config: alpha-defconfig (https://download.01.org/0day-ci/archive/20251109/202511091804.XUQA4dOK-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511091804.XUQA4dOK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511091656.ysbsQyC5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511091804.XUQA4dOK-lkp@intel.com/
 
-smatch warnings:
-arch/x86/kernel/uprobes.c:859 __do_sys_uprobe() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +859 arch/x86/kernel/uprobes.c
+>> drivers/block/floppy.c:4805:9: warning: 'ARRAY_END' redefined
+    4805 | #define ARRAY_END(X) (&((X)[ARRAY_SIZE(X)]))
+         |         ^~~~~~~~~
+   In file included from include/linux/string.h:6,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/nodemask.h:91,
+                    from include/linux/numa.h:6,
+                    from include/linux/async.h:13,
+                    from drivers/block/floppy.c:166:
+   include/linux/array_size.h:17:9: note: this is the location of the previous definition
+      17 | #define ARRAY_END(a)  (a + ARRAY_SIZE(a))
+         |         ^~~~~~~~~
 
-   809	
-   810	SYSCALL_DEFINE0(uprobe)
-   811	{
-   812		struct pt_regs *regs = task_pt_regs(current);
-   813		struct uprobe_syscall_args args;
-   814		unsigned long ip, sp, sret;
-   815		int err;
-   816	
-   817		trace_printk("SYS0\n");
-   818	
-   819		/* Allow execution only from uprobe trampolines. */
-   820		if (!in_uprobe_trampoline(regs->ip))
-   821			return -ENXIO;
-   822	
-   823		err = copy_from_user(&args, (void __user *)regs->sp, sizeof(args));
-   824		if (err)
-   825			goto sigill;
-   826	
-   827		ip = regs->ip;
-   828	
-   829		/*
-   830		 * expose the "right" values of ax/r11/cx/ip/sp to uprobe_consumer/s, plus:
-   831		 * - adjust ip to the probe address, call saved next instruction address
-   832		 * - adjust sp to the probe's stack frame (check trampoline code)
-   833		 */
-   834		regs->ax  = args.ax;
-   835		regs->r11 = args.r11;
-   836		regs->cx  = args.cx;
-   837		regs->ip  = args.retaddr - 5;
-   838		regs->sp += sizeof(args);
-   839		regs->orig_ax = -1;
-   840	
-   841		sp = regs->sp;
-   842	
-   843		err = shstk_pop((u64 *)&sret);
-   844		if (err == -EFAULT || (!err && sret != args.retaddr))
-   845			goto sigill;
-   846	
-   847		trace_printk("SYS1 ip %lx sp %lx retaddr %lx\n", regs->ip, regs->sp, args.retaddr);
-   848		handle_syscall_uprobe(regs, regs->ip);
-   849		trace_printk("SYS2 ip %lx sp %lx\n", regs->ip, regs->sp);
-   850	
-   851		/*
-   852		 * Some of the uprobe consumers has changed sp, we can do nothing,
-   853		 * just return via iret.
-   854		 */
-   855		if (regs->sp != sp) {
-   856			/* skip the trampoline call */
-   857			if (args.retaddr - 5 == regs->ip)
-   858				regs->ip += 5;
- > 859		trace_printk("SYS3 ip %lx sp %lx\n", regs->ip, regs->sp);
-   860			return regs->ax;
-   861		}
-   862	
-   863		regs->sp -= sizeof(args);
-   864	
-   865		/* for the case uprobe_consumer has changed ax/r11/cx */
-   866		args.ax  = regs->ax;
-   867		args.r11 = regs->r11;
-   868		args.cx  = regs->cx;
-   869	
-   870		/* keep return address unless we are instructed otherwise */
-   871		if (args.retaddr - 5 != regs->ip)
-   872			args.retaddr = regs->ip;
-   873	
-   874		if (shstk_push(args.retaddr) == -EFAULT)
-   875			goto sigill;
-   876	
-   877		regs->ip = ip;
-   878	
-   879		err = copy_to_user((void __user *)regs->sp, &args, sizeof(args));
-   880		if (err)
-   881			goto sigill;
-   882	
-   883		/* ensure sysret, see do_syscall_64() */
-   884		regs->r11 = regs->flags;
-   885		regs->cx  = regs->ip;
-   886		return 0;
-   887	
-   888	sigill:
-   889		force_sig(SIGILL);
-   890		return -1;
-   891	}
-   892	
+
+vim +/ARRAY_END +4805 drivers/block/floppy.c
+
+5a74db06cc8d36 Philippe De Muyter 2009-02-18  4804  
+5a74db06cc8d36 Philippe De Muyter 2009-02-18 @4805  #define ARRAY_END(X) (&((X)[ARRAY_SIZE(X)]))
+5a74db06cc8d36 Philippe De Muyter 2009-02-18  4806  
 
 -- 
 0-DAY CI Kernel Test Service
