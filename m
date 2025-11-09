@@ -1,136 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDEA2144C7;
-	Sun,  9 Nov 2025 05:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB3423DEB6;
+	Sun,  9 Nov 2025 06:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762667929; cv=none; b=cJrfbqCYOpFwdetyo1mFZWw78RXIXPS8g+bB8v0tdGD8iJ57XwpgHX3Rm29HhCXGa2gBxaCfREENkLHbJ9lL/ovxPUvYfmvsrlSd5K3RGxfu538ciOdUgtDksSChWkDAAntZQwg8yw+QpKbBh3EtXGNejOCRa38TVvL9bAnQ/fE=
+	t=1762669439; cv=none; b=EAPmh6OVxSXuJRKcZst4iGTJclfx9XVwDqP7IjuEtLZp0mQe5nrOlRpIfZuq0gqZE8LPtOzlud55BElmvzPSOEAgv+kpY5xnF9xqUAQA4Yd6CLmGMfn0i4dW7CVV4Schg0c6LnOn8FRrQ9fDBL2v4d6GCmbMCjxbzQ9GiHG2r28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762667929; c=relaxed/simple;
-	bh=dJDKBI9C/t3oC8rzuP3IFu6rPxvZkeXCeHJ+1VHh/oI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fmp8MJO8QMY42qRLmyhozGnNjf/2x+W4yoJwpM9Sjti8Cej7D/ndBEgoyAuR8gxxx/DUaiJosqBExFnmXpMkBZhJTiUNRSyDGkMNr8UMZThKRufEnQGfylk26qOoUUYOPWqkz7Gbu2mqZ2rO8ygKsvSSQsVdG2cv7GOo97r4w8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RvCt0oIC; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762669439; c=relaxed/simple;
+	bh=ZA3WOin+Ic+7yNFAqgJtH9uboaaS+mRnwgM13YBtU+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=p750oII+FNAh8buyL56PeKdyLeXnqADPkD31L2XScgq+fgPsDYXtSx7Z3V//TuGlhadR6+V9my4oxQ0KLtuzdix0Mi7hAYIkz2JjFeYlkk0SOVVeDjgM9jNCcvqrFBh9T5WfLH0qBl7PB1K4EaRO2S1xIXzwuo8i8k4RsFngqDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n+JdvuwS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RvCt0oIC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762667927; x=1794203927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dJDKBI9C/t3oC8rzuP3IFu6rPxvZkeXCeHJ+1VHh/oI=;
-  b=RvCt0oICgu0eCezi7zWxWp9gYvdFgzncmp+u2RjzugQlgGD7IaWVlazD
-   wVNW3wUdksOkUkaHGkdRffa+9+J91L/SW7IbsRAbEq5+jQet6m1gW7Xqt
-   yZsUNOVTrJCBLZNPYRgQBENXIZ93XhdKzEMwT+LYKCysvmMrqDvdACV50
-   96oSAOBGI1Los3HSWpk1RjnbiQtwj5+pZgVYmQmKU69eR1JpDL7G+mMwq
-   T6FE5fXLf5SVpk7I+QQQyNCVfDvUP2M7GahPysavWgmRTwt/1W8M3FRym
-   YU68Qv2eqGQAiIgRqV9kkqcsKf869fO7e2RQH869NVLoaAlLJwvNbuRCt
-   w==;
-X-CSE-ConnectionGUID: Quv8nRa4RXKbJ/LumaZVdg==
-X-CSE-MsgGUID: WoMyq18qQRWs6wcLdtOzTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="75448383"
-X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="75448383"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2025 21:58:47 -0800
-X-CSE-ConnectionGUID: yoGoFhiLQZ6PRUbwZTIMSw==
-X-CSE-MsgGUID: xnAORxazRya8mgr2lz4Zzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="192784861"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2025 21:58:44 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vHyRl-0001oF-1f;
-	Sun, 09 Nov 2025 05:58:41 +0000
-Date: Sun, 9 Nov 2025 13:57:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bod@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>,
-	Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
-Subject: Re: [PATCH v5 3/5] media: iris: Add support for AV1 format in iris
- decoder
-Message-ID: <202511091302.TuplwHhw-lkp@intel.com>
-References: <20251107-av1d_stateful_v3-v5-3-351652ba49cd@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n+JdvuwS"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A93gDiT3405494;
+	Sun, 9 Nov 2025 06:23:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1PFVwLU+PwPAcQxv50gU88qqYYM5kLsABu7HUle+scw=; b=n+JdvuwSnzYBzIy9
+	VWbqtbmo+14euFGwTxiNqwqyHtLShTqIzFSVrLsv//BpbrQ7Q4TQNJiPN+msDFsf
+	29BuLOhb6pWqTf1BpSmxhccv5lmOjxBXQvoWqla/rkvP1jEGeHFXgG1etnTTrLpl
+	7snyBBBExCJdWZn72jEH5ZQu7BgraxYSZCJLZSPqD8ks5p3faa/cYvPRimliLONj
+	u6sv9/0Lq88zieCqS+uZ+ePP0E50AcYcHHotlqyGoaIE8d4+8zQ+ubajhPZnB69k
+	eiAX7P7sX/wifepYxehHjPQtt7zhJjCHNxL/dj7Qm+on8cAScHwiKChRU2nbJ3ow
+	mQPcGw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9y1h1qce-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 09 Nov 2025 06:23:49 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5A96NmgR001804
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 9 Nov 2025 06:23:48 GMT
+Received: from [10.253.12.191] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Sat, 8 Nov
+ 2025 22:23:47 -0800
+Message-ID: <41684170-b9d2-4fdb-8c7a-ecb0bc9a79b9@quicinc.com>
+Date: Sun, 9 Nov 2025 14:23:44 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251107-av1d_stateful_v3-v5-3-351652ba49cd@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        kernel test robot
+	<lkp@intel.com>
+CC: <stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
+References: <20251107125405.1632663-2-quic_shuaz@quicinc.com>
+ <aQ3sbHDGL4DQAE8J@4b976af397a4>
+ <66bjkpos6ul2gnh4ezmtidjguv3qx6bedhlihbg4vtdkmnvsrb@jmojegj6ijf3>
+Content-Language: en-US
+From: Shuai Zhang <quic_shuaz@quicinc.com>
+In-Reply-To: <66bjkpos6ul2gnh4ezmtidjguv3qx6bedhlihbg4vtdkmnvsrb@jmojegj6ijf3>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mxsL80OHJqHLWoWJf0l8X0a_7F_BKh9d
+X-Proofpoint-GUID: mxsL80OHJqHLWoWJf0l8X0a_7F_BKh9d
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA5MDA1MiBTYWx0ZWRfX5TloFg+eEeSJ
+ qed81VuMW33mzRtS15RtCNv/xmIqn9k89ZR8Z0AQaAbNlIlYd6nZzg7vBvtZxsDmn6zn1FCxDV/
+ N6Cf3GVg09cKzlYeaYpwMoFEYn4R6thgPlP6zRurI8ZswLhGHoGqkcUa8OUFrPI7a8jzyQ3nDF/
+ CML1Or9fuPSDF9SuV60AAjmU/kc7wngZ6cLEsvrlv4TZr1JiPa/yfszAvC6sBwjSR0Dv2nR/HJZ
+ dy9R4ANa80QdQ0Lm0wzzTWcEpQn/2Ocz1Cx3MIcvwLHBr61qfPWvC+xlUJtvJIBcRlKrJswDhMQ
+ DsLf1WUIbqf/+HCd1bdzm/x4xGoJwNkm0RSuCglh8AfbkntQsKl+fL/7cZyWmROP3Kt+uA82+AN
+ 5vUQ4xS0jioF5uwZFob/KSIyoEz7Ew==
+X-Authority-Analysis: v=2.4 cv=Xuj3+FF9 c=1 sm=1 tr=0 ts=69103375 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=Up1s5pyZt900Hf9bEyoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1R1Xb7_w0-cA:10 a=OREKyDgYLcYA:10 a=TjNXssC_j7lpFel5tvFf:22
+ a=HhbK4dLum7pmb74im6QT:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-09_03,2025-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 suspectscore=0 spamscore=0 phishscore=0
+ malwarescore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511090052
 
-Hi Deepa,
+Hi Dmitry 
 
-kernel test robot noticed the following build errors:
+On 11/7/2025 10:14 PM, Dmitry Baryshkov wrote:
+> On Fri, Nov 07, 2025 at 08:56:12PM +0800, kernel test robot wrote:
+>> Hi,
+>>
+>> Thanks for your patch.
+>>
+>> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>>
+>> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+>>
+>> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+>> Subject: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
+>> Link: https://lore.kernel.org/stable/20251107125405.1632663-2-quic_shuaz%40quicinc.com
+> 
+> Shuai, why are you sending a patch which is not a fix for inclusion into
+> the stable tree? Why do you cc:stable in your headers? Do you understand
+> what stable kernels are for?
+> 
 
-[auto build test ERROR on 163917839c0eea3bdfe3620f27f617a55fd76302]
+Sorry for the oversight — I forgot to remove the Cc: stable@vger.kernel.org. 
+I will correct this in the next revision. Thank you for pointing it out.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Deepa-Guthyappa-Madivalara/media-uapi-videodev2-Add-support-for-AV1-stateful-decoder/20251108-122511
-base:   163917839c0eea3bdfe3620f27f617a55fd76302
-patch link:    https://lore.kernel.org/r/20251107-av1d_stateful_v3-v5-3-351652ba49cd%40oss.qualcomm.com
-patch subject: [PATCH v5 3/5] media: iris: Add support for AV1 format in iris decoder
-config: x86_64-buildonly-randconfig-005-20251109 (https://download.01.org/0day-ci/archive/20251109/202511091302.TuplwHhw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511091302.TuplwHhw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511091302.TuplwHhw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/qcom/iris/iris_platform_sm8250.c:20:48: error: array has incomplete element type 'struct iris_fmt'
-      20 | static struct iris_fmt platform_fmts_sm8250_dec[] = {
-         |                                                ^
-   drivers/media/platform/qcom/iris/iris_platform_common.h:217:9: note: forward declaration of 'struct iris_fmt'
-     217 |         struct iris_fmt *inst_iris_fmts;
-         |                ^
-   drivers/media/platform/qcom/iris/iris_platform_sm8250.c:21:3: error: use of undeclared identifier 'IRIS_FMT_H264'
-      21 |         [IRIS_FMT_H264] = {
-         |          ^
->> drivers/media/platform/qcom/iris/iris_platform_sm8250.c:25:3: error: use of undeclared identifier 'IRIS_FMT_HEVC'
-      25 |         [IRIS_FMT_HEVC] = {
-         |          ^
->> drivers/media/platform/qcom/iris/iris_platform_sm8250.c:29:3: error: use of undeclared identifier 'IRIS_FMT_VP9'
-      29 |         [IRIS_FMT_VP9] = {
-         |          ^
-   4 errors generated.
-
-
-vim +/IRIS_FMT_HEVC +25 drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-
-    19	
-    20	static struct iris_fmt platform_fmts_sm8250_dec[] = {
-    21		[IRIS_FMT_H264] = {
-    22			.pixfmt = V4L2_PIX_FMT_H264,
-    23			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-    24		},
-  > 25		[IRIS_FMT_HEVC] = {
-    26			.pixfmt = V4L2_PIX_FMT_HEVC,
-    27			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-    28		},
-  > 29		[IRIS_FMT_VP9] = {
-    30			.pixfmt = V4L2_PIX_FMT_VP9,
-    31			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-    32		},
-    33	};
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Shuai Zhang
