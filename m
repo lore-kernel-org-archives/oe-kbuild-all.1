@@ -1,68 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C7B1A58D;
-	Sun,  9 Nov 2025 21:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2686255E43;
+	Sun,  9 Nov 2025 22:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762724932; cv=none; b=TywQlqDcV7wjAoTj5bzOoM31ejOjH0yUbU2mCRXw7PdjsVvgM3fddskHcrNi2xu3bbzLo1FkhUb0TeD2uhEQCZJSYuMYgiTdeIGrhFbHnSUyIoUF/dcmZMV2S/xok2CIv6guRCQYjA7vzIwvO130BbAi1cHK6IRRu9Hbc+ZBagI=
+	t=1762728058; cv=none; b=LQMcSJSx2x7DygDo1hw4z67X5U+qW97IxSE7hGOep/zYr7e2fKPR04R8LL/HTzWNeZDWiq4yw6tsYha1Wvxu6NrxC2+3Geza7qM+reTzrIUGg6g5gn5ZsggIkS3IyPB+YyovWkn+5RPJZHPMySnYjLq3g6tYxttf03qCAF+C1UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762724932; c=relaxed/simple;
-	bh=Q2KbBtdvFBz63OxXv1wztUo9rT/L1z8KKdXs98sTjzo=;
+	s=arc-20240116; t=1762728058; c=relaxed/simple;
+	bh=cMmPa9Fxj7ZO+ut5H2ulYJ53jkvVxvjyBkouir73++0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgbMKLKouuJ3FBry8ehwnB3SV6hpezvUn2ZS1f/YzTtnJHmRPNlLq+SiSnxn5dFit/StsLy7sYXFX14cOm1CkA0vJd/BFuJD39gfjZnubZ6nrJoVEFxvtnayykIn+SZtPGEb8q0HfU75L2N/5h0UvkMidkzdVcM3O04T7lDA1sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ag2QPTyW; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=YCawxlEKfcDb5tbT7T6E3+ljUYDXnHWr7lTXz5YmPDYh7Rq0EB76G1YX1lESXWpi6tYr10w3jHzCSDsZauDz/aVYYnq0XzJpmfdKoy+XfWXBPVzQLZmuH9jO8QcqDW1zaU/rbFlJAq95S1oiOF186T8AlUZbjvOyPbafjHCowqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmEnJk44; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ag2QPTyW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmEnJk44"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762724931; x=1794260931;
+  t=1762728056; x=1794264056;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q2KbBtdvFBz63OxXv1wztUo9rT/L1z8KKdXs98sTjzo=;
-  b=Ag2QPTyWEUdn56jVr9gCO43OYvPN9nD1wEm7d+Ism6Wi8bpg8gvnakos
-   BbcI8Bek7QgSRpH85LLZASJVPWsRkwPLYaviRCASRnDEa58/GVUEASn0k
-   ZAtZq0e+bV5ovJFW0ldJ08ATtd0Yr1wGy67AL6NruARajUCKK/YOGb0Lo
-   /dTFe3JJavIkyauqW7fZY5eNc+DBEGyCRUnhQO5kLtw/1xccwyvnHBJid
-   ymW/1ygyY9yDvyRwiWAfRidN6GEUgAWGGVQyPw4iYG8nZNcbm5ssiYzug
-   GoBjPlq9HiUx7MqmiLKvRISskv2Efr389JmgTFThY8PlPDSamhzT+uSjq
-   w==;
-X-CSE-ConnectionGUID: Q9Vqfa+3Q7euCErnF/cbKw==
-X-CSE-MsgGUID: N1lDt/vfRIe8zuHIny3qHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="82408603"
+  bh=cMmPa9Fxj7ZO+ut5H2ulYJ53jkvVxvjyBkouir73++0=;
+  b=fmEnJk44m/w7AIt6znVHfq3kAFwBFtHMpmtZHnBqP2nTIJwRYkkDxZij
+   msY+bTgcjCYnolN1R7L5L/EAD+IiDThYyYgHchX93tSw01Ax3wJuAw6fx
+   gKYbqgFLnQmaNVdKlApAiWitrK1IGcNiB0WSL9edDE12jQSflazVjKSFl
+   w4Jo0ymiAufFpK3hzwEBZUP+yFKq8sF35AaiixlWSLUNWDmi73gH1Vl6x
+   HAocBcQh4w497oEoQ4vsbOe+AR92LQEWdwtV9FymAI/VTkWnEQNMqRoDy
+   KdrzaCUVIqvBRbEbGkk5fpyFt9qMdp4GZjtkbvHc0pl0wsyoMGSaH+06H
+   A==;
+X-CSE-ConnectionGUID: jv5LUCHFSQqvWhGdhVbNgA==
+X-CSE-MsgGUID: 2zOuqRyYS26bGsRCDB5ZRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64665588"
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="82408603"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 13:48:50 -0800
-X-CSE-ConnectionGUID: yZi8cpxlTAmH/01aimhL0A==
-X-CSE-MsgGUID: 016R6T/9TRG4taXsPRCqpQ==
+   d="scan'208";a="64665588"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 14:40:56 -0800
+X-CSE-ConnectionGUID: xAz8T/LTTc2AJbg4gm+ITg==
+X-CSE-MsgGUID: lWAqsRqVTdurGKj8c/WK7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="188775217"
+   d="scan'208";a="193540812"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Nov 2025 13:48:47 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 09 Nov 2025 14:40:53 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIDHB-0002Qd-2b;
-	Sun, 09 Nov 2025 21:48:45 +0000
-Date: Mon, 10 Nov 2025 05:48:29 +0800
+	id 1vIE5b-0002Sl-1r;
+	Sun, 09 Nov 2025 22:40:51 +0000
+Date: Mon, 10 Nov 2025 06:40:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v1 3/6] media: imx-mipi-csis: Implement the
- .set_routing() operation
-Message-ID: <202511100531.4skNcchV-lkp@intel.com>
-References: <20251107015813.5834-4-laurent.pinchart@ideasonboard.com>
+To: Sumit Kumar <sumit.kumar@oss.qualcomm.com>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	Akhil Vinod <akhil.vinod@oss.qualcomm.com>,
+	Subramanian Ananthanarayanan <subramanian.ananthanarayanan@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, quic_vpernami@quicinc.com,
+	Sumit Kumar <sumit.kumar@oss.qualcomm.com>
+Subject: Re: [PATCH v2 3/3] bus: mhi: ep: Add loopback driver for data path
+ testing
+Message-ID: <202511100649.KfikwcaY-lkp@intel.com>
+References: <20251104-loopback_mhi-v2-3-727a3fd9aa74@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,71 +70,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251107015813.5834-4-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20251104-loopback_mhi-v2-3-727a3fd9aa74@oss.qualcomm.com>
 
-Hi Laurent,
+Hi Sumit,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa]
+[auto build test WARNING on e6b9dce0aeeb91dfc0974ab87f02454e24566182]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Pinchart/media-imx-mipi-csis-Add-VC-related-register-fields/20251107-100134
-base:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
-patch link:    https://lore.kernel.org/r/20251107015813.5834-4-laurent.pinchart%40ideasonboard.com
-patch subject: [PATCH v1 3/6] media: imx-mipi-csis: Implement the .set_routing() operation
-config: arm-randconfig-003-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100531.4skNcchV-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511100531.4skNcchV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Kumar/bus-mhi-host-Add-loopback-driver-with-sysfs-interface/20251104-174320
+base:   e6b9dce0aeeb91dfc0974ab87f02454e24566182
+patch link:    https://lore.kernel.org/r/20251104-loopback_mhi-v2-3-727a3fd9aa74%40oss.qualcomm.com
+patch subject: [PATCH v2 3/3] bus: mhi: ep: Add loopback driver for data path testing
+config: csky-randconfig-r061-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100649.KfikwcaY-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511100531.4skNcchV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511100649.KfikwcaY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/bus/mhi/ep/mhi_ep_loopback.c:80:2-7: WARNING: NULL check before some freeing functions is not needed.
+--
+>> drivers/bus/mhi/ep/mhi_ep_loopback.c:46:8-15: WARNING opportunity for kmemdup
 
->> drivers/media/platform/nxp/imx-mipi-csis.c:1164:32: error: initializer element is not a compile-time constant
-                   .code = mipi_csis_formats[0].code,
-                           ~~~~~~~~~~~~~~~~~~~~~^~~~
-   1 error generated.
+vim +80 drivers/bus/mhi/ep/mhi_ep_loopback.c
 
-
-vim +1164 drivers/media/platform/nxp/imx-mipi-csis.c
-
-  1156	
-  1157	static int __mipi_csis_set_routing(struct v4l2_subdev *sd,
-  1158					   struct v4l2_subdev_state *state,
-  1159					   struct v4l2_subdev_krouting *routing)
-  1160	{
-  1161		static const struct v4l2_mbus_framefmt format = {
-  1162			.width = MIPI_CSIS_DEF_PIX_WIDTH,
-  1163			.height = MIPI_CSIS_DEF_PIX_HEIGHT,
-> 1164			.code = mipi_csis_formats[0].code,
-  1165			.field = V4L2_FIELD_NONE,
-  1166			.colorspace = V4L2_XFER_FUNC_709,
-  1167			.ycbcr_enc = V4L2_YCBCR_ENC_601,
-  1168			.quantization = V4L2_QUANTIZATION_LIM_RANGE,
-  1169			.xfer_func = V4L2_XFER_FUNC_SRGB,
-  1170		};
-  1171		int ret;
-  1172	
-  1173		ret = v4l2_subdev_routing_validate(sd, routing,
-  1174						   V4L2_SUBDEV_ROUTING_NO_1_TO_N);
-  1175		if (ret)
-  1176			return ret;
-  1177	
-  1178		/* Only a single route is supported for now. */
-  1179		if (routing->num_routes != 1 ||
-  1180		    !(routing->routes[0].flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-  1181			return -EINVAL;
-  1182	
-  1183		ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
-  1184		if (ret)
-  1185			return ret;
-  1186	
-  1187		return 0;
-  1188	}
-  1189	
+    37	
+    38	static void mhi_ep_loopback_ul_callback(struct mhi_ep_device *mhi_dev,
+    39						struct mhi_result *mhi_res)
+    40	{
+    41		struct mhi_ep_loopback *mhi_ep_lb = dev_get_drvdata(&mhi_dev->dev);
+    42		struct mhi_ep_loopback_work *mhi_ep_lb_work;
+    43		void *buf;
+    44	
+    45		if (!(mhi_res->transaction_status)) {
+  > 46			buf = kmalloc(mhi_res->bytes_xferd, GFP_KERNEL);
+    47			if (!buf) {
+    48				dev_err(&mhi_dev->dev, "Failed to allocate buffer\n");
+    49				return;
+    50			}
+    51	
+    52			memcpy(buf, mhi_res->buf_addr, mhi_res->bytes_xferd);
+    53	
+    54			mhi_ep_lb_work = kmalloc(sizeof(*mhi_ep_lb_work), GFP_KERNEL);
+    55			if (!mhi_ep_lb_work) {
+    56				dev_err(&mhi_dev->dev, "Unable to allocate the work structure\n");
+    57				kfree(buf);
+    58				return;
+    59			}
+    60	
+    61			INIT_WORK(&mhi_ep_lb_work->work, mhi_ep_loopback_work_handler);
+    62			mhi_ep_lb_work->mdev = mhi_dev;
+    63			mhi_ep_lb_work->buf = buf;
+    64			mhi_ep_lb_work->len = mhi_res->bytes_xferd;
+    65	
+    66			queue_work(mhi_ep_lb->loopback_wq, &mhi_ep_lb_work->work);
+    67		}
+    68	}
+    69	
+    70	static void mhi_ep_loopback_dl_callback(struct mhi_ep_device *mhi_dev,
+    71						struct mhi_result *mhi_res)
+    72	{
+    73		void *buf;
+    74	
+    75		if (mhi_res->transaction_status)
+    76			return;
+    77	
+    78		buf = mhi_res->buf_addr;
+    79		if (buf)
+  > 80			kfree(buf);
+    81	}
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
