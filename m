@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D00B1ADC7E;
-	Sun,  9 Nov 2025 14:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1512E92DA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 16:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762699444; cv=none; b=SlXeUI+/G+/ZgUAtUo6PpEORu0ud9CAo6h4ezNmcSa4/cpFXQnVUje9iUv1ewBr9kfUZ+3FFn/ML7X484x7LuCBlKAt37WXxqxENPHE0Y+eq58H7QNMhdjj7hDk1a8Wmg9c7KNwFKBDw/3tXZEnAM5kURZFub6hSXhbdX9bL9LQ=
+	t=1762707442; cv=none; b=oodsoXVL2ucwNQmmSIM6zeN6w7U+cjtBNKn5clNOoWr7S37UEfWvQBJIBSxFW7dIZlPcCP5Oxk52eTusv0HcOHeCJiVx9gJJehg2g7HdUrjbIVeFE7mrzMN1i5/bHvCyjMAMe9mJjZfEGiNsqQZ1KZjVBs+uwvqofqZCQ9QwFS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762699444; c=relaxed/simple;
-	bh=K/flutwXOWP1spERdSsXyhKUjzthQGcnVpG5FlwSZrY=;
+	s=arc-20240116; t=1762707442; c=relaxed/simple;
+	bh=jaecpBiGxdCTCjQDD+9zv59gnEFk7LhUJrF7Yyancec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ym2hsCzlOnxLD1K74yjxJI2tfDrzdHWMPriBDX1XUjGCVV+xB3fM9FWk0jponba8ZiNTYEX9S8pDomeExzgr2NookLJj4WLxK9UUsDO2w+wpwKZrSryj8klIL+1yJsPb9c9KRzL0o+ArDqow4RItehPZ5mKf7JLcrfiFdfWXhn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmelZpfA; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWXLKCkKeuwGyofKJiWw0GPLR6OWRE4pn7dglK1VdtnV4IQvfuboIzNqx7kgnHlMIlkpcTHMNlTOtqIzxHvWZ0jWZr75fQKRo9uq1uZqofOqTe7TXTmJa5Rlo4lrTMQ9bOGH0JZYmHpyzIwq5y3k7MGUTSEGDmL2VF3nYPSHfMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFmfoFAM; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmelZpfA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFmfoFAM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762699442; x=1794235442;
+  t=1762707441; x=1794243441;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K/flutwXOWP1spERdSsXyhKUjzthQGcnVpG5FlwSZrY=;
-  b=lmelZpfATazTWDQXBIGdq3VTfvh+zLVwlAcuVdZZfCsHUuZLq/7vRsDo
-   e4nLowKVBxU/3nHtirPPZ+OobAAcSHjq5lh6Del/8gUQ94He1EB0N4ocK
-   Hs9FM5zlGoHkbPM4KZpVHSXJx5Vb58p7ZDziw/gzVmCgt2DoHVt6Wqk5I
-   nYocFkpR7ZmWGUaC/kUxGpqUUxsO9SWJmjX6RvLWqg0a15Rv+15mYKAuX
-   T6LgvDw9XmDGHNu7OxBEbCJ297z8Bw8iiQ8SYJMPUVPUkPx8gv3uXnLDq
-   0dSzm+GsETEpsdAHOJaCD198BeFU/JT47jA7SJq+c++fsyPekGv0Wu0bl
+  bh=jaecpBiGxdCTCjQDD+9zv59gnEFk7LhUJrF7Yyancec=;
+  b=RFmfoFAMedwy85u2/BXiJeBNrhfsZOyGG7irDkENDtxsdr35U5rjBM6g
+   RbUiBEfDyWySbYNLOXKwXGwrY7IEsFor704PzdtS9KCb05CXmG3y6Dk5Q
+   l9H07/xYTx0WsmCKR6C2clbXhNDl2zqHOV0oyF9PTMCN4WMlPpTHMx4nv
+   FCsHe/QiVGiJmUzx3ZVkDqDsoc5d7XVYZB9P45nsZ7BNar67AwR5qFUOC
+   bxvcWx56fgW7OEnmhRlrbFr7f+WMOcPaRvQk8stxEigHs5r4ius48Nt6z
+   CyH/aSo4TyStYoTwQcRhh4wXsVd6oZfO9mdUH65rjUzhIT0lpNnEF71SD
    g==;
-X-CSE-ConnectionGUID: g7dI0ulOS+2MhwYmCo3nog==
-X-CSE-MsgGUID: j3Mglhm0S8iDiGAGi+zwww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="82397178"
-X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="82397178"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 06:44:02 -0800
-X-CSE-ConnectionGUID: gcGdM3EbR/2REKsI9pafdg==
-X-CSE-MsgGUID: 56MIu5rWQPmTbi6MxISANQ==
+X-CSE-ConnectionGUID: T2jJXl+VSy2l7cune8Bwcw==
+X-CSE-MsgGUID: QNITpu3RTHuxgFJ+f1kXUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64476391"
+X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
+   d="scan'208";a="64476391"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 08:57:20 -0800
+X-CSE-ConnectionGUID: G3FM2qbTRP+iSJUy5hLlJA==
+X-CSE-MsgGUID: EiEP1WmYQkSWy0xjbIQiog==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="211880061"
+X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
+   d="scan'208";a="188325663"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2025 06:43:54 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 09 Nov 2025 08:57:13 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vI6e0-00024d-2T;
-	Sun, 09 Nov 2025 14:43:52 +0000
-Date: Sun, 9 Nov 2025 22:42:54 +0800
+	id 1vI8j1-0002DL-02;
+	Sun, 09 Nov 2025 16:57:11 +0000
+Date: Mon, 10 Nov 2025 00:56:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Xie Yuanbin <qq570070308@gmail.com>, david@redhat.com,
 	tglx@linutronix.de, segher@kernel.crashing.org, riel@surriel.com,
@@ -61,9 +61,9 @@ To: Xie Yuanbin <qq570070308@gmail.com>, david@redhat.com,
 	acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
 	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
 	irogers@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 1/4] Make enter_lazy_tlb inline on x86
-Message-ID: <202511092219.73aMMES4-lkp@intel.com>
+Message-ID: <202511100042.ZklpqjOY-lkp@intel.com>
 References: <20251108172346.263590-2-qq570070308@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -90,47 +90,76 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Xie-Yuanbin/Make-enter_la
 base:   tip/sched/core
 patch link:    https://lore.kernel.org/r/20251108172346.263590-2-qq570070308%40gmail.com
 patch subject: [PATCH v2 1/4] Make enter_lazy_tlb inline on x86
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251109/202511092219.73aMMES4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511092219.73aMMES4-lkp@intel.com/reproduce)
+config: i386-randconfig-014-20251109 (https://download.01.org/0day-ci/archive/20251110/202511100042.ZklpqjOY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511100042.ZklpqjOY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511092219.73aMMES4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511100042.ZklpqjOY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/../../../virt/kvm/async_pf.c:14:
-   In file included from include/linux/mmu_context.h:5:
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+   In file included from include/asm-generic/bug.h:5,
+                    from arch/x86/include/asm/bug.h:108,
+                    from include/linux/bug.h:5,
+                    from include/linux/vfsdebug.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/highmem.h:5,
+                    from arch/x86/kvm/vmx/vmx.c:17:
+   arch/x86/include/asm/mmu_context.h: In function 'enter_lazy_tlb':
+>> arch/x86/include/asm/mmu_context.h:155:27: error: 'cpu_tlbstate' undeclared (first use in this function); did you mean 'cpuhp_state'?
      155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
-         |                           ^
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+         |                           ^~~~~~~~~~~~
+   include/linux/compiler.h:244:47: note: in definition of macro 'TYPEOF_UNQUAL'
+     244 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
+         |                                               ^~~
+   include/linux/percpu-defs.h:499:41: note: in expansion of macro '__pcpu_size_call_return'
+     499 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:155:13: note: in expansion of macro 'this_cpu_read'
+     155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+         |             ^~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:155:27: note: each undeclared identifier is reported only once for each function it appears in
+     155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+         |                           ^~~~~~~~~~~~
+   include/linux/compiler.h:244:47: note: in definition of macro 'TYPEOF_UNQUAL'
+     244 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
+         |                                               ^~~
+   include/linux/percpu-defs.h:499:41: note: in expansion of macro '__pcpu_size_call_return'
+     499 | #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu_read_, pcp)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:155:13: note: in expansion of macro 'this_cpu_read'
+     155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+         |             ^~~~~~~~~~~~~
+   In file included from arch/x86/kvm/vmx/vmx.c:46:
+   arch/x86/include/asm/mmu_context.h:155:51: warning: comparison between pointer and integer
+     155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+         |                                                   ^~
+   In file included from include/asm-generic/percpu.h:7,
+                    from arch/x86/include/asm/percpu.h:597,
+                    from arch/x86/include/asm/preempt.h:6,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7:
+>> arch/x86/include/asm/mmu_context.h:158:24: error: 'cpu_tlbstate_shared' undeclared (first use in this function)
      158 |         this_cpu_write(cpu_tlbstate_shared.is_lazy, true);
-         |                        ^
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
->> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+         |                        ^~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:221:54: note: in definition of macro '__verify_pcpu_ptr'
+     221 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                      ^~~
+   include/linux/percpu-defs.h:500:41: note: in expansion of macro '__pcpu_size_call'
+     500 | #define this_cpu_write(pcp, val)        __pcpu_size_call(this_cpu_write_, pcp, val)
+         |                                         ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:158:9: note: in expansion of macro 'this_cpu_write'
+     158 |         this_cpu_write(cpu_tlbstate_shared.is_lazy, true);
+         |         ^~~~~~~~~~~~~~
 
 
-vim +/cpu_tlbstate +155 arch/x86/include/asm/mmu_context.h
+vim +155 arch/x86/include/asm/mmu_context.h
 
    138	
    139	/*
