@@ -1,121 +1,343 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB3423DEB6;
-	Sun,  9 Nov 2025 06:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762669439; cv=none; b=EAPmh6OVxSXuJRKcZst4iGTJclfx9XVwDqP7IjuEtLZp0mQe5nrOlRpIfZuq0gqZE8LPtOzlud55BElmvzPSOEAgv+kpY5xnF9xqUAQA4Yd6CLmGMfn0i4dW7CVV4Schg0c6LnOn8FRrQ9fDBL2v4d6GCmbMCjxbzQ9GiHG2r28=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762669439; c=relaxed/simple;
-	bh=ZA3WOin+Ic+7yNFAqgJtH9uboaaS+mRnwgM13YBtU+U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=p750oII+FNAh8buyL56PeKdyLeXnqADPkD31L2XScgq+fgPsDYXtSx7Z3V//TuGlhadR6+V9my4oxQ0KLtuzdix0Mi7hAYIkz2JjFeYlkk0SOVVeDjgM9jNCcvqrFBh9T5WfLH0qBl7PB1K4EaRO2S1xIXzwuo8i8k4RsFngqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n+JdvuwS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5537418DB35
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 08:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762677776; cv=fail; b=Fg4HKEDRqxJdLgQmZncw7PKbFdW80DbrAsLbDI2rWW2NBq3jQGCurZpIiGunzbV0kaP53Ve4qfaehaFPdKQEfSnzIqPkDswt1Cy+Oomqyn+2VIRJuMp8fpXmQ2hYwShxFkiyA/nMqbEN8it33J42je1ypeB6sS1nyIxpoEtiCbk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762677776; c=relaxed/simple;
+	bh=+DQMJk1ctyddLk86QpjEMrVIdnx/mfr7CpdEbdg6SFM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Y2L1ngRwxlxB2qS0OC8YMSzFXGtgTuWvzrJGQ7x5T01Yk/n5b4SwKmNBTfYNW8lL8mFHUk5lDAq0UFCMbITyCg2WFy1ircuOOIywAU6IVC34cNy9tF2lCDCRhcaZ94AAp2qiXkEa7/l5lJZ9jB7IRIWnFXyFOR+9zTsg7NJwRGo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLBR7CPV; arc=fail smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n+JdvuwS"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A93gDiT3405494;
-	Sun, 9 Nov 2025 06:23:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1PFVwLU+PwPAcQxv50gU88qqYYM5kLsABu7HUle+scw=; b=n+JdvuwSnzYBzIy9
-	VWbqtbmo+14euFGwTxiNqwqyHtLShTqIzFSVrLsv//BpbrQ7Q4TQNJiPN+msDFsf
-	29BuLOhb6pWqTf1BpSmxhccv5lmOjxBXQvoWqla/rkvP1jEGeHFXgG1etnTTrLpl
-	7snyBBBExCJdWZn72jEH5ZQu7BgraxYSZCJLZSPqD8ks5p3faa/cYvPRimliLONj
-	u6sv9/0Lq88zieCqS+uZ+ePP0E50AcYcHHotlqyGoaIE8d4+8zQ+ubajhPZnB69k
-	eiAX7P7sX/wifepYxehHjPQtt7zhJjCHNxL/dj7Qm+on8cAScHwiKChRU2nbJ3ow
-	mQPcGw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a9y1h1qce-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 09 Nov 2025 06:23:49 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5A96NmgR001804
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 9 Nov 2025 06:23:48 GMT
-Received: from [10.253.12.191] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Sat, 8 Nov
- 2025 22:23:47 -0800
-Message-ID: <41684170-b9d2-4fdb-8c7a-ecb0bc9a79b9@quicinc.com>
-Date: Sun, 9 Nov 2025 14:23:44 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLBR7CPV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762677774; x=1794213774;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=+DQMJk1ctyddLk86QpjEMrVIdnx/mfr7CpdEbdg6SFM=;
+  b=JLBR7CPVTfYAeZygcLDeguWN1UBh0gu+9948NoTgtKRA4b/JYofgbql3
+   23sfjpRowj/q4yZf230GjnI1rmZ5BHyW9EyKgNIA5m5mXjERyGSPEeU6R
+   6Shlt2mwB/Ve8xyZ7P3bzWT8fO7kQ22dFmyQnI5EQ3wGIqbjLvxZ37LvK
+   rRk3gcnfJal0gHJKTrwinPF8R4m2KW13j49vr3zhYgGzHbDGvj0mQQHwz
+   Z0Q81FJswtfo3dvcKffgnKRgeZi+lYMXtbLYzzInHhCKrBqnp623CbRUx
+   SdWAN+xs/eLNgen3rAcHwgPWeKWt0hQo9+0hDTLpaoweznmYpvNFzNl7Y
+   w==;
+X-CSE-ConnectionGUID: KifgTPUES5yYENNNCk5xdQ==
+X-CSE-MsgGUID: JS4165n8S4OOeeD7heDt/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="64798066"
+X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
+   d="scan'208";a="64798066"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:42:53 -0800
+X-CSE-ConnectionGUID: Xv+irB++ThWZjju6Cu4BvQ==
+X-CSE-MsgGUID: 9q2SR6m4RQWEJEeIvlFjXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
+   d="scan'208";a="188156814"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:42:53 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sun, 9 Nov 2025 00:42:52 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Sun, 9 Nov 2025 00:42:52 -0800
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.4) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sun, 9 Nov 2025 00:42:52 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y/aU3oZ7mv+zTlio9lWHWnczk43QKlHSLqR1AH2h55Pfr+C8RuimoJrVoPQabPoHs/hWbrX+j/5Ihl71zEjqrHIQefkZEatACdhvGeyzNRbRlhg2LI0lFhW7ZJCZtXKpA+5nwY/Z93VnWbZOz7ExLE85Axvq1nsf6+bDTKBeic/1TyBztIRRvveZsFuhW7TWfI3sUVYGAuof3rgAQXx6KS8PvCUCxcKGNvMovoPwBKdbedYFLDA9id4gl1MTy+C8Inpc+43Mx200RxGvVJssyFHuHpEDBcw+o6j2ORmgX9ek0uIJOz1Eun3QU97MAg6nECAHOeVyNLwirk5l1VLdFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IPyh3BzYKaxmJ+EGLc11I5Gbi68rRIXSDyqKK8hQNEo=;
+ b=l5WiWUSncB9X5qft47QbjnR8i+u3wnIgijisJn1/BNWJyS7thbOhNkHTRV/xNPHER5bLSPk8U/yQLMvvBd3HUukbSjtjBh/Lek0IQ/0XQsOe3BkX88kdubdnKtntpGYrPNLL9MpRMHteJi+DR1bSQc0Wvyz+2xpkbeQeC5bscjbwGTDLGAiqhs2qRrYVPzhhEtHI4aQr573GMCUoHn8vWbaReiiJfVKUMoYJc8Z3kJsLSVnIZxO0CMl4wTccBK1jRNII9twZMa+/8oEvJ/DiEywWBvhwhmo5ioppUFxaz69hYs+31z2RmA2ZetuJRKjtO3HBuhAXR6M/1EMy6IcK9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by SA1PR11MB5779.namprd11.prod.outlook.com (2603:10b6:806:22b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Sun, 9 Nov
+ 2025 08:42:49 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Sun, 9 Nov 2025
+ 08:42:49 +0000
+Date: Sun, 9 Nov 2025 16:42:41 +0800
+From: Philip Li <philip.li@intel.com>
+To: Mark Harmstone <mark@harmstone.com>
+CC: Boris Burkov <boris@bur.io>, kernel test robot <lkp@intel.com>,
+	<linux-btrfs@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block
+ groups
+Message-ID: <aRBUAUiaObMAS706@rli9-mobl>
+References: <20251024181227.32228-16-mark@harmstone.com>
+ <202510272322.N1S5rdDc-lkp@intel.com>
+ <aQU0TJLSbEXcSX1s@devvm12410.ftw0.facebook.com>
+ <475df362-2bf8-4cfd-b85d-df4579ddc8d3@harmstone.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <475df362-2bf8-4cfd-b85d-df4579ddc8d3@harmstone.com>
+X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        kernel test robot
-	<lkp@intel.com>
-CC: <stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-References: <20251107125405.1632663-2-quic_shuaz@quicinc.com>
- <aQ3sbHDGL4DQAE8J@4b976af397a4>
- <66bjkpos6ul2gnh4ezmtidjguv3qx6bedhlihbg4vtdkmnvsrb@jmojegj6ijf3>
-Content-Language: en-US
-From: Shuai Zhang <quic_shuaz@quicinc.com>
-In-Reply-To: <66bjkpos6ul2gnh4ezmtidjguv3qx6bedhlihbg4vtdkmnvsrb@jmojegj6ijf3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: mxsL80OHJqHLWoWJf0l8X0a_7F_BKh9d
-X-Proofpoint-GUID: mxsL80OHJqHLWoWJf0l8X0a_7F_BKh9d
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTA5MDA1MiBTYWx0ZWRfX5TloFg+eEeSJ
- qed81VuMW33mzRtS15RtCNv/xmIqn9k89ZR8Z0AQaAbNlIlYd6nZzg7vBvtZxsDmn6zn1FCxDV/
- N6Cf3GVg09cKzlYeaYpwMoFEYn4R6thgPlP6zRurI8ZswLhGHoGqkcUa8OUFrPI7a8jzyQ3nDF/
- CML1Or9fuPSDF9SuV60AAjmU/kc7wngZ6cLEsvrlv4TZr1JiPa/yfszAvC6sBwjSR0Dv2nR/HJZ
- dy9R4ANa80QdQ0Lm0wzzTWcEpQn/2Ocz1Cx3MIcvwLHBr61qfPWvC+xlUJtvJIBcRlKrJswDhMQ
- DsLf1WUIbqf/+HCd1bdzm/x4xGoJwNkm0RSuCglh8AfbkntQsKl+fL/7cZyWmROP3Kt+uA82+AN
- 5vUQ4xS0jioF5uwZFob/KSIyoEz7Ew==
-X-Authority-Analysis: v=2.4 cv=Xuj3+FF9 c=1 sm=1 tr=0 ts=69103375 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=Up1s5pyZt900Hf9bEyoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1R1Xb7_w0-cA:10 a=OREKyDgYLcYA:10 a=TjNXssC_j7lpFel5tvFf:22
- a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-09_03,2025-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 suspectscore=0 spamscore=0 phishscore=0
- malwarescore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511090052
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|SA1PR11MB5779:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb0ee10d-a85c-426f-1b9a-08de1f6bf679
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9S2EoSbnRv38CHtHRm1dBRATr4jdaZfXgiVdkd8EDwknGfIhgTf1zCpdLjqL?=
+ =?us-ascii?Q?ry1/JF4Kvd2bfQgYW3GrrMxAG0xRaZDcmqJfUq8lGApytTtZEmqyl06Pfyiq?=
+ =?us-ascii?Q?dpoUY8pK4VKKjk1ZCp0Hk4XZD7y09y7ruglJ4qKugc65o/eFOhAObuWlsgUn?=
+ =?us-ascii?Q?j5+4Z443ceJTucyI9YXTOAIpvtyTnoptqmkD5EpZD9MNPXUrNkpasbZlbPAG?=
+ =?us-ascii?Q?lUFE9fqWtmjvLXYElT4wyvbVSxuroIxI9KnlE/9aXcPWdWsoLuHcvCxSikbL?=
+ =?us-ascii?Q?d90ESRp5BOIg5J7KI3SeFuT05eZEYPFf1LmgFZe0pNjdK3Nyl5N7ez34aoaM?=
+ =?us-ascii?Q?wnsXhmxaJ8/eu04Wl0egUWef1xWhHytIwcXWAupINjUriwgF6gBAvRNtT0ux?=
+ =?us-ascii?Q?n9j2lzNzXYPm0J7sJPmqG31VZUOt+6qQVftqNzeohGg029yRvn0l62y6MwPi?=
+ =?us-ascii?Q?lGug7NPQluhMdiUPJgJlB9Ckq/a/53tA7NxT1mD4xnhW62doPuvp1zy70y5v?=
+ =?us-ascii?Q?jWr+B5hoaUkHvrKX2jpWvjA8kAcN4mKdcV/+CPxkN1298qvlfRrl31ydDN6V?=
+ =?us-ascii?Q?EM5BnZhMYSsqLm776/SspduA7AEevd3LNPEvM/S0EuWjifRYY7lfXYW06LTs?=
+ =?us-ascii?Q?dI3cXyUk3KlJj88o+ugKB87KKn0ihRRDMJRzXdeVgz2tkcPc1KjCJ2QY76dP?=
+ =?us-ascii?Q?hY7NwR9+pRtWFq8SvyC53Wk6ksGFuR6VihYxB8QQUOrx+uqb7w0y/kdZn9ZC?=
+ =?us-ascii?Q?cMGkYfQUZ+YnaFPKuJkDa4rAGSBmroO5l/SeE1CBQI+euDVxPo8EDEtRv+DN?=
+ =?us-ascii?Q?5aOYwrdzGtYsm3dV3xzvBQxXPt/u8WdjR6YV42T3WvxDRhnjwKXULajxRn7k?=
+ =?us-ascii?Q?kwiMTfQOKTz+TmJONHUfGgfrire0PSoPOxpXStBXK+vrtEVRYThVV/ajnjGS?=
+ =?us-ascii?Q?Yd19UifvCwcOXJKLygq7Jpjf8B0HweChjyVq6OxnQsLBUwa7pITXx/swIVWh?=
+ =?us-ascii?Q?HfYm94fHNb29F96+k//BMmKKS3ouCtCNLf3E+Wg1m6qjr8zDrz7zZpJeNVlu?=
+ =?us-ascii?Q?ndKnZpolToQR4kJDSN5z60eNKP2cFaTHMNF0BWDZCMN7a0UQZOIEIC8VFHGJ?=
+ =?us-ascii?Q?I3wwYzMdNxXf50//LvNofIyrdgampJgPlW9lG9NlPgqJ4ExvlkOmetT/tTSp?=
+ =?us-ascii?Q?SFA1c62EmdIsYW4qXJnypEtPeqXHXOnwMgWEdKteoRczUFXAp/bMpqzXZsm9?=
+ =?us-ascii?Q?ntskU1J9/vYNqBC4NvQdx9j9ayPbzWTep1nJVB+q1Q7yUNm5ShwgoWof+Rak?=
+ =?us-ascii?Q?1qCOXUZi3Ed1gS7fmG+hFECkiB6i26TbP/Fd5NJzMzTSjPNaNu/kKpqbZ5QA?=
+ =?us-ascii?Q?iG2Scxwe4iLchM5qbfeOKSGB4myxqo3vJhZT9G06fY9OSAzsJZfJvr/YI+IS?=
+ =?us-ascii?Q?xGXbCGoCQHLYYG3AjzzrXYwDHHyfVYK81XNBKPnDLrXiNm4HnGW5pA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YFn1fUTHht09rft6vpmsFKYnXffivtE0dbyocUq21nxo/zAlGr1mRNDKyDmo?=
+ =?us-ascii?Q?R0zdMCemZCbsGe8qXm2+R8lMAzAsr3gHbpwiycgLpoA2CjPJAel0RAorBDEA?=
+ =?us-ascii?Q?ys6VdMOq0ib9lE5HNwM2C8LD43QDu+nml6IXk3ZAfq+gkc061XHXEG3QXeB4?=
+ =?us-ascii?Q?weJsbNIeBqn1+HVCiHhY8EJjAzyilojCzs3PlwiVOh6Rvk9HDVY1k6hVdbnb?=
+ =?us-ascii?Q?8oxQmp+fFr4r246canYtYP4lE2iJOYsZxp1P/KNZz3s+uN0m81T65kbUSco4?=
+ =?us-ascii?Q?rJT8h7ljUoWb7pF9eYhj7xRx/j43X3MCorQtOVx2XGtqQRqNkuvxVl5tSj4c?=
+ =?us-ascii?Q?L9h/Y3E6B52o2serQJkvrUQCB1Y7LQxnFdBUJ7CTFPBmNsEUu1dD941WlfDy?=
+ =?us-ascii?Q?XZ9sgQwXY7XFnYfRP6hMzBI5L0jtk99g/yzfXBfkWCVzeO5Otd9Cx190PY12?=
+ =?us-ascii?Q?MSQ71MytxdH2KGyV0ToTeCvpwwbAdKXMsu5/3BRy6uWaSPe/mS3kwQgiwqRE?=
+ =?us-ascii?Q?6s+8JciVnNHsdtaSHqPWvehMq8G0OPR7DTSuJckA+rTxoPkPzrXI5KFMrzR3?=
+ =?us-ascii?Q?Kdr3tJ6xdB+7t69OWx2w4NMW7WAZzlUrfUky5GCUfgrwRkIAqZqeKwJbdSKG?=
+ =?us-ascii?Q?lKt+od51v3NGiHB69A/KR/Gwo9JPes1n7WIPiCCafSIWkAv2IIjBrEDS5Ily?=
+ =?us-ascii?Q?ePmiYJOTjsmXzS7PnQlie9Bpz7K0Ycy+eV0xKTeNhJ0YuLSpmr1FD09lnZHO?=
+ =?us-ascii?Q?F+l6M06M89xpuJ1ivJgYFP9Aw+1zqoySNoOxNHyiHkSAnYyj7iVUoXxocUEc?=
+ =?us-ascii?Q?fX2UOxD8NGU/udHQtAWTRJKE0Bug6XS4vXx+pJwGeTCgjULFNGNdTbj24iqr?=
+ =?us-ascii?Q?frWVCPREXzJzJ1MhHPm4CGCwzocBvKEbaYWMCj5AmNm+jN52AY6LF4C6qjCf?=
+ =?us-ascii?Q?5pdROrkRN7G4t6bUG7rUjQYQp+wRnr38fpoRyHKL7pSejglXTmXqig0Tsc8z?=
+ =?us-ascii?Q?/RxdcOwlrX1SRs+qJMnwqaS36TFPk7KG0qnlTW6pWVmGrblbeber4Q6iwiMc?=
+ =?us-ascii?Q?1nQo3kmKzI+0McBbcHc6ozYmdvw9ZXYYC8b4zFt+1xk/OC+lI84FuHQW/lTu?=
+ =?us-ascii?Q?OCFtVuAjePNgSyudlpAD5Ua00Jj6uiVXuuXyJsUQKrOzlUfwk7MQSKvgF2LF?=
+ =?us-ascii?Q?dGIwE09F74toDTfr3s2Kf/JSBEpe/mJ++tp802a+rGHw6W7nswyXAdOTHqQ3?=
+ =?us-ascii?Q?yX9X5yKd2MWPlWM3JRxoCNsHBZSbVgcrtBDKdpWWaEcx85smKN2qZWDA9j5X?=
+ =?us-ascii?Q?GO58rSc2ViMDARL3LFp4yx2Lea8Cmk8rFBY1RBQbsPJlWN19oMTQm+3PVFYg?=
+ =?us-ascii?Q?HeyWiR2LnrhEdkuODI0SpkIaSQi08ZY9pQyhLQWhkCcbn5uQ/AVgfPRvYgYA?=
+ =?us-ascii?Q?kjhMpoOatU94DtbF1oOr7ASCgesm6bm5b+Q0aGLM6ZP09gctc/umNEC3FsOQ?=
+ =?us-ascii?Q?/imndaX2T6g9lZZJr/+QdnEZ2fXfOPQmM5vx5xPuJM/4WRgyTIo7HCIX3P84?=
+ =?us-ascii?Q?JXcyr7jttfsj33nNWu9ewPKXYVDmz8i4MOuiHVPz?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb0ee10d-a85c-426f-1b9a-08de1f6bf679
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2025 08:42:49.3536
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rJE928VFu0e5A92Gw9hVy7+8aKDfin2DzDX7oj/65VRAEe1RBv5RpYKwCqJjmQDeKE8G2hVS0EIBdskUC/KaeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5779
+X-OriginatorOrg: intel.com
 
-Hi Dmitry 
-
-On 11/7/2025 10:14 PM, Dmitry Baryshkov wrote:
-> On Fri, Nov 07, 2025 at 08:56:12PM +0800, kernel test robot wrote:
->> Hi,
->>
->> Thanks for your patch.
->>
->> FYI: kernel test robot notices the stable kernel rule is not satisfied.
->>
->> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
->>
->> Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
->> Subject: [PATCH v2 1/1] Bluetooth: btusb: add new custom firmwares
->> Link: https://lore.kernel.org/stable/20251107125405.1632663-2-quic_shuaz%40quicinc.com
+On Mon, Nov 03, 2025 at 04:49:26PM +0000, Mark Harmstone wrote:
+> On 31/10/2025 10.12 pm, Boris Burkov wrote:
+> > On Tue, Oct 28, 2025 at 12:04:11AM +0800, kernel test robot wrote:
+> > > Hi Mark,
+> > > 
+> > > kernel test robot noticed the following build warnings:
+> > > 
+> > > [auto build test WARNING on kdave/for-next]
+> > > [also build test WARNING on next-20251027]
+> > > [cannot apply to linus/master v6.18-rc3]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251025-021910
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+> > > patch link:    https://lore.kernel.org/r/20251024181227.32228-16-mark%40harmstone.com
+> > > patch subject: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block groups
+> > > config: arm-randconfig-003-20251027 (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/config)
+> > > compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202510272322.N1S5rdDc-lkp@intel.com/
+> > > 
+> > > Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+> > > http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+> > > 
+> > > All warnings (new ones prefixed by >>):
+> > > 
+> > >     fs/btrfs/discard.c: In function 'btrfs_discard_workfn':
+> > > > > fs/btrfs/discard.c:596:6: warning: 'discard_state' may be used uninitialized in this function [-Wmaybe-uninitialized]
+> > >        if (discard_state == BTRFS_DISCARD_BITMAPS ||
+> > >           ^
+> > 
+> > I think this gets set by peek_discard_list() so I don't think this is
+> > a valid warning.
 > 
-> Shuai, why are you sending a patch which is not a fix for inclusion into
-> the stable tree? Why do you cc:stable in your headers? Do you understand
-> what stable kernels are for?
+> You are correct. discard_state gets initialized if the return value of
+> peek_discard_list() is not NULL, and if it is NULL we return before we use
+> it.
 > 
+> This is an ancient version of GCC, the warning doesn't trigger on GCC 15 -
+> presumably it has better control flow analysis. I don't think the robot
+> should be compiling with this warning turned on for old compiler versions,
+> if it's prone to false positives.
 
-Sorry for the oversight — I forgot to remove the Cc: stable@vger.kernel.org. 
-I will correct this in the next revision. Thank you for pointing it out.
+Thanks for the suggestion, I will update the bot to avoid sending out this
+directly. Sorry for the false positive.
 
-Best regards,
-Shuai Zhang
+> 
+> > > 
+> > > 
+> > > vim +/discard_state +596 fs/btrfs/discard.c
+> > > 
+> > >     513	
+> > >     514	/*
+> > >     515	 * Discard work queue callback
+> > >     516	 *
+> > >     517	 * @work: work
+> > >     518	 *
+> > >     519	 * Find the next block_group to start discarding and then discard a single
+> > >     520	 * region.  It does this in a two-pass fashion: first extents and second
+> > >     521	 * bitmaps.  Completely discarded block groups are sent to the unused_bgs path.
+> > >     522	 */
+> > >     523	static void btrfs_discard_workfn(struct work_struct *work)
+> > >     524	{
+> > >     525		struct btrfs_discard_ctl *discard_ctl;
+> > >     526		struct btrfs_block_group *block_group;
+> > >     527		enum btrfs_discard_state discard_state;
+> > >     528		int discard_index = 0;
+> > >     529		u64 trimmed = 0;
+> > >     530		u64 minlen = 0;
+> > >     531		u64 now = ktime_get_ns();
+> > >     532	
+> > >     533		discard_ctl = container_of(work, struct btrfs_discard_ctl, work.work);
+> > >     534	
+> > >     535		block_group = peek_discard_list(discard_ctl, &discard_state,
+> > >     536						&discard_index, now);
+> > >     537		if (!block_group)
+> > >     538			return;
+> > >     539		if (!btrfs_run_discard_work(discard_ctl)) {
+> > >     540			spin_lock(&discard_ctl->lock);
+> > >     541			btrfs_put_block_group(block_group);
+> > >     542			discard_ctl->block_group = NULL;
+> > >     543			spin_unlock(&discard_ctl->lock);
+> > >     544			return;
+> > >     545		}
+> > >     546		if (now < block_group->discard_eligible_time) {
+> > >     547			spin_lock(&discard_ctl->lock);
+> > >     548			btrfs_put_block_group(block_group);
+> > >     549			discard_ctl->block_group = NULL;
+> > >     550			spin_unlock(&discard_ctl->lock);
+> > >     551			btrfs_discard_schedule_work(discard_ctl, false);
+> > >     552			return;
+> > >     553		}
+> > >     554	
+> > >     555		/* Perform discarding */
+> > >     556		minlen = discard_minlen[discard_index];
+> > >     557	
+> > >     558		switch (discard_state) {
+> > >     559		case BTRFS_DISCARD_BITMAPS: {
+> > >     560			u64 maxlen = 0;
+> > >     561	
+> > >     562			/*
+> > >     563			 * Use the previous levels minimum discard length as the max
+> > >     564			 * length filter.  In the case something is added to make a
+> > >     565			 * region go beyond the max filter, the entire bitmap is set
+> > >     566			 * back to BTRFS_TRIM_STATE_UNTRIMMED.
+> > >     567			 */
+> > >     568			if (discard_index != BTRFS_DISCARD_INDEX_UNUSED)
+> > >     569				maxlen = discard_minlen[discard_index - 1];
+> > >     570	
+> > >     571			btrfs_trim_block_group_bitmaps(block_group, &trimmed,
+> > >     572					       block_group->discard_cursor,
+> > >     573					       btrfs_block_group_end(block_group),
+> > >     574					       minlen, maxlen, true);
+> > >     575			discard_ctl->discard_bitmap_bytes += trimmed;
+> > >     576	
+> > >     577			break;
+> > >     578		}
+> > >     579	
+> > >     580		case BTRFS_DISCARD_FULLY_REMAPPED:
+> > >     581			btrfs_trim_fully_remapped_block_group(block_group);
+> > >     582			break;
+> > >     583	
+> > >     584		default:
+> > >     585			btrfs_trim_block_group_extents(block_group, &trimmed,
+> > >     586					       block_group->discard_cursor,
+> > >     587					       btrfs_block_group_end(block_group),
+> > >     588					       minlen, true);
+> > >     589			discard_ctl->discard_extent_bytes += trimmed;
+> > >     590	
+> > >     591			break;
+> > >     592		}
+> > >     593	
+> > >     594		/* Determine next steps for a block_group */
+> > >     595		if (block_group->discard_cursor >= btrfs_block_group_end(block_group)) {
+> > >   > 596			if (discard_state == BTRFS_DISCARD_BITMAPS ||
+> > >     597			    discard_state == BTRFS_DISCARD_FULLY_REMAPPED) {
+> > >     598				btrfs_finish_discard_pass(discard_ctl, block_group);
+> > >     599			} else {
+> > >     600				block_group->discard_cursor = block_group->start;
+> > >     601				spin_lock(&discard_ctl->lock);
+> > >     602				if (block_group->discard_state !=
+> > >     603				    BTRFS_DISCARD_RESET_CURSOR)
+> > >     604					block_group->discard_state =
+> > >     605								BTRFS_DISCARD_BITMAPS;
+> > >     606				spin_unlock(&discard_ctl->lock);
+> > >     607			}
+> > >     608		}
+> > >     609	
+> > >     610		now = ktime_get_ns();
+> > >     611		spin_lock(&discard_ctl->lock);
+> > >     612		discard_ctl->prev_discard = trimmed;
+> > >     613		discard_ctl->prev_discard_time = now;
+> > >     614		btrfs_put_block_group(block_group);
+> > >     615		discard_ctl->block_group = NULL;
+> > >     616		__btrfs_discard_schedule_work(discard_ctl, now, false);
+> > >     617		spin_unlock(&discard_ctl->lock);
+> > >     618	}
+> > >     619	
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> 
+> 
