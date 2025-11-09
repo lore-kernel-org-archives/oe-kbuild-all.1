@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5537418DB35
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 08:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395EC1DF963
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 08:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762677776; cv=fail; b=Fg4HKEDRqxJdLgQmZncw7PKbFdW80DbrAsLbDI2rWW2NBq3jQGCurZpIiGunzbV0kaP53Ve4qfaehaFPdKQEfSnzIqPkDswt1Cy+Oomqyn+2VIRJuMp8fpXmQ2hYwShxFkiyA/nMqbEN8it33J42je1ypeB6sS1nyIxpoEtiCbk=
+	t=1762678063; cv=fail; b=qgtcfBLePshYo5jfFGqowbRlJk7vIKBb/MbWgUYsN4rH78ns+1YwN7Ke14hAxAnyO0CJIXtjo9QZoket3aUMQ08TPyUbf7WgR6OqCJ8ZcaPrqWZCvgRduyJDodNw1s0ZBlgR52BKozqHU0CnlrsN4W2uebLND+hR8UZcZL9PxGs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762677776; c=relaxed/simple;
-	bh=+DQMJk1ctyddLk86QpjEMrVIdnx/mfr7CpdEbdg6SFM=;
+	s=arc-20240116; t=1762678063; c=relaxed/simple;
+	bh=NZtyIEH7VkZw8FEi+nQb23ZigFb+tilqkkbfT3GHcDk=;
 	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Y2L1ngRwxlxB2qS0OC8YMSzFXGtgTuWvzrJGQ7x5T01Yk/n5b4SwKmNBTfYNW8lL8mFHUk5lDAq0UFCMbITyCg2WFy1ircuOOIywAU6IVC34cNy9tF2lCDCRhcaZ94AAp2qiXkEa7/l5lJZ9jB7IRIWnFXyFOR+9zTsg7NJwRGo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLBR7CPV; arc=fail smtp.client-ip=192.198.163.14
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mQb0lSm/ntGHrYDZjVgtz2pWhb8N9CckVdzPeLjW+t8RvGUPDy1AOVN0B4t/rGah0gNGyD5ZX8dHUUEXhU/nMoLrIxRturmq4LraSuPZRbxBjpTJQNipDjpT1e9TOPPNHsdSy76arY8HIMDGbTzRlJ2j+Va2bEpazGuwRYQhpso=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mzNGhRfQ; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLBR7CPV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mzNGhRfQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762677774; x=1794213774;
+  t=1762678061; x=1794214061;
   h=date:from:to:cc:subject:message-id:references:
    in-reply-to:mime-version;
-  bh=+DQMJk1ctyddLk86QpjEMrVIdnx/mfr7CpdEbdg6SFM=;
-  b=JLBR7CPVTfYAeZygcLDeguWN1UBh0gu+9948NoTgtKRA4b/JYofgbql3
-   23sfjpRowj/q4yZf230GjnI1rmZ5BHyW9EyKgNIA5m5mXjERyGSPEeU6R
-   6Shlt2mwB/Ve8xyZ7P3bzWT8fO7kQ22dFmyQnI5EQ3wGIqbjLvxZ37LvK
-   rRk3gcnfJal0gHJKTrwinPF8R4m2KW13j49vr3zhYgGzHbDGvj0mQQHwz
-   Z0Q81FJswtfo3dvcKffgnKRgeZi+lYMXtbLYzzInHhCKrBqnp623CbRUx
-   SdWAN+xs/eLNgen3rAcHwgPWeKWt0hQo9+0hDTLpaoweznmYpvNFzNl7Y
-   w==;
-X-CSE-ConnectionGUID: KifgTPUES5yYENNNCk5xdQ==
-X-CSE-MsgGUID: JS4165n8S4OOeeD7heDt/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="64798066"
+  bh=NZtyIEH7VkZw8FEi+nQb23ZigFb+tilqkkbfT3GHcDk=;
+  b=mzNGhRfQ+XxrP6RlKI1kLX3oBU/+cFWTRSrfrYSKBLRUTH5OUOukjzlh
+   qLN+DnIUedP1972oR6lzaBKtEHtHUo+Gt278j3NCbwCHn9K4oLOxVkOVN
+   QiHnC4ENdx2KvXNaCrhFdVCpDEIujCwvyMaLjEpgJtIfqgb8xYJDN48Qs
+   MoZT4dpK/q35HVUeY28rOTbuwBEvGKrKldHGnim+gsk5uoDW3x5u3IbJy
+   eZrpYgId5x673f6vN1ZFEZRGqu5WovNvfn2/XM75avZ/DlzwzKEJxTm3q
+   TibswDmPYc5FdXWrg9ZvWN0ei1eFBxJiilGgzTmeprcqsaNW3vtI2NX0Y
+   Q==;
+X-CSE-ConnectionGUID: ldihjm7dQ2CpYVEa1WZbfA==
+X-CSE-MsgGUID: rEFDm9Z6Q/GtmHfk9Ve4og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="90232069"
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="64798066"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:42:53 -0800
-X-CSE-ConnectionGUID: Xv+irB++ThWZjju6Cu4BvQ==
-X-CSE-MsgGUID: 9q2SR6m4RQWEJEeIvlFjXw==
+   d="scan'208";a="90232069"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:47:40 -0800
+X-CSE-ConnectionGUID: POt551ZeRm2Bo60knBlvfw==
+X-CSE-MsgGUID: hjpzS2QjSUqSJzjblUbJmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="188156814"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:42:53 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+   d="scan'208";a="211836805"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 00:47:40 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 9 Nov 2025 00:42:52 -0800
+ 15.2.2562.27; Sun, 9 Nov 2025 00:47:40 -0800
 Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Sun, 9 Nov 2025 00:42:52 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.4) by
+ 15.2.2562.27 via Frontend Transport; Sun, 9 Nov 2025 00:47:40 -0800
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.50) by
  edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Sun, 9 Nov 2025 00:42:52 -0800
+ 15.2.2562.27; Sun, 9 Nov 2025 00:47:40 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y/aU3oZ7mv+zTlio9lWHWnczk43QKlHSLqR1AH2h55Pfr+C8RuimoJrVoPQabPoHs/hWbrX+j/5Ihl71zEjqrHIQefkZEatACdhvGeyzNRbRlhg2LI0lFhW7ZJCZtXKpA+5nwY/Z93VnWbZOz7ExLE85Axvq1nsf6+bDTKBeic/1TyBztIRRvveZsFuhW7TWfI3sUVYGAuof3rgAQXx6KS8PvCUCxcKGNvMovoPwBKdbedYFLDA9id4gl1MTy+C8Inpc+43Mx200RxGvVJssyFHuHpEDBcw+o6j2ORmgX9ek0uIJOz1Eun3QU97MAg6nECAHOeVyNLwirk5l1VLdFA==
+ b=f5xwiKEzo9e+hrTeEVMuR/eFWFA69Nn3/VFtKwJBOOmX1o0deYmo+b5dg7Xt02wEXd5C6PC//QDv5Rc6smJcLRcpnlct/St5xPLYRQiYXU472EcVKeJugjULjlDXZpAjsHnGv1ssRv8lurGxdGvdQq95baOks7xQ8MpvyFNzEfXSQkTZVKq/A/0Fez1U32tVAoL6FuRGGhYZtvXKFYgmTrVmkNJHnfR85JPWWF8lTI4C12eL3fftvn19pjrH90pLCmxhvMZVp/pMTGN4wOC2LA+Imly5dozUofmJArCiJBBnD7yLYsJl/8vkVk4CUta9NACVcpP+B0qGwqexMIWaWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IPyh3BzYKaxmJ+EGLc11I5Gbi68rRIXSDyqKK8hQNEo=;
- b=l5WiWUSncB9X5qft47QbjnR8i+u3wnIgijisJn1/BNWJyS7thbOhNkHTRV/xNPHER5bLSPk8U/yQLMvvBd3HUukbSjtjBh/Lek0IQ/0XQsOe3BkX88kdubdnKtntpGYrPNLL9MpRMHteJi+DR1bSQc0Wvyz+2xpkbeQeC5bscjbwGTDLGAiqhs2qRrYVPzhhEtHI4aQr573GMCUoHn8vWbaReiiJfVKUMoYJc8Z3kJsLSVnIZxO0CMl4wTccBK1jRNII9twZMa+/8oEvJ/DiEywWBvhwhmo5ioppUFxaz69hYs+31z2RmA2ZetuJRKjtO3HBuhAXR6M/1EMy6IcK9w==
+ bh=MD0juJMtAZX4vo01oTWHZ1ULjdUQPGy2oQldlN2Vk4A=;
+ b=tjUlWAPwEGgy3xT2pjvXVuzMuAQ3azJGETFcvE6e7VUbPiVOYVM+BRMklKArTuqWZrHdnbmZ/6R+RHTrLhT6FQf1senWDbmNUXw+u5Kboo5EX8KFRJTUPIBb+y3DX24TufzYDxK5rEkNfXg6cMv0HY29Bbp1VfRIS0m/loxPAFoG6IIHos7BpuZTuJ40qOGmnboXnOQcIe4T1k3aIVYX8YopAdEyAQThNAmuewPFChvde4im9cLD/NXL6o61UsD4E1Qc6DUCoklYhPzz4Av/y8WPjuVZFQ7yB+elVJRBbn/gYJvI4E3EvhdYMWdUB2F8pvvo6kckvKbT9lJHv//PZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,27 +71,24 @@ Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
  by SA1PR11MB5779.namprd11.prod.outlook.com (2603:10b6:806:22b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Sun, 9 Nov
- 2025 08:42:49 +0000
+ 2025 08:47:37 +0000
 Received: from BY5PR11MB4165.namprd11.prod.outlook.com
  ([fe80::d9f7:7a66:b261:8891]) by BY5PR11MB4165.namprd11.prod.outlook.com
  ([fe80::d9f7:7a66:b261:8891%7]) with mapi id 15.20.9275.015; Sun, 9 Nov 2025
- 08:42:49 +0000
-Date: Sun, 9 Nov 2025 16:42:41 +0800
+ 08:47:37 +0000
+Date: Sun, 9 Nov 2025 16:47:29 +0800
 From: Philip Li <philip.li@intel.com>
-To: Mark Harmstone <mark@harmstone.com>
-CC: Boris Burkov <boris@bur.io>, kernel test robot <lkp@intel.com>,
-	<linux-btrfs@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block
- groups
-Message-ID: <aRBUAUiaObMAS706@rli9-mobl>
-References: <20251024181227.32228-16-mark@harmstone.com>
- <202510272322.N1S5rdDc-lkp@intel.com>
- <aQU0TJLSbEXcSX1s@devvm12410.ftw0.facebook.com>
- <475df362-2bf8-4cfd-b85d-df4579ddc8d3@harmstone.com>
+To: kernel test robot <lkp@intel.com>
+CC: Filipe Manana <fdmanana@suse.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, David Sterba <dsterba@suse.com>
+Subject: Re: fs/btrfs/tree-log.c:2649:32: warning: 'inode_item' may be used
+ uninitialized
+Message-ID: <aRBVIcoLcBmQzwXU@rli9-mobl>
+References: <202511090321.X08Rh6eK-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <475df362-2bf8-4cfd-b85d-df4579ddc8d3@harmstone.com>
-X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
+In-Reply-To: <202511090321.X08Rh6eK-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
  To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -101,243 +98,297 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|SA1PR11MB5779:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb0ee10d-a85c-426f-1b9a-08de1f6bf679
+X-MS-Office365-Filtering-Correlation-Id: 3786acb2-7ac1-4943-8339-08de1f6ca278
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9S2EoSbnRv38CHtHRm1dBRATr4jdaZfXgiVdkd8EDwknGfIhgTf1zCpdLjqL?=
- =?us-ascii?Q?ry1/JF4Kvd2bfQgYW3GrrMxAG0xRaZDcmqJfUq8lGApytTtZEmqyl06Pfyiq?=
- =?us-ascii?Q?dpoUY8pK4VKKjk1ZCp0Hk4XZD7y09y7ruglJ4qKugc65o/eFOhAObuWlsgUn?=
- =?us-ascii?Q?j5+4Z443ceJTucyI9YXTOAIpvtyTnoptqmkD5EpZD9MNPXUrNkpasbZlbPAG?=
- =?us-ascii?Q?lUFE9fqWtmjvLXYElT4wyvbVSxuroIxI9KnlE/9aXcPWdWsoLuHcvCxSikbL?=
- =?us-ascii?Q?d90ESRp5BOIg5J7KI3SeFuT05eZEYPFf1LmgFZe0pNjdK3Nyl5N7ez34aoaM?=
- =?us-ascii?Q?wnsXhmxaJ8/eu04Wl0egUWef1xWhHytIwcXWAupINjUriwgF6gBAvRNtT0ux?=
- =?us-ascii?Q?n9j2lzNzXYPm0J7sJPmqG31VZUOt+6qQVftqNzeohGg029yRvn0l62y6MwPi?=
- =?us-ascii?Q?lGug7NPQluhMdiUPJgJlB9Ckq/a/53tA7NxT1mD4xnhW62doPuvp1zy70y5v?=
- =?us-ascii?Q?jWr+B5hoaUkHvrKX2jpWvjA8kAcN4mKdcV/+CPxkN1298qvlfRrl31ydDN6V?=
- =?us-ascii?Q?EM5BnZhMYSsqLm776/SspduA7AEevd3LNPEvM/S0EuWjifRYY7lfXYW06LTs?=
- =?us-ascii?Q?dI3cXyUk3KlJj88o+ugKB87KKn0ihRRDMJRzXdeVgz2tkcPc1KjCJ2QY76dP?=
- =?us-ascii?Q?hY7NwR9+pRtWFq8SvyC53Wk6ksGFuR6VihYxB8QQUOrx+uqb7w0y/kdZn9ZC?=
- =?us-ascii?Q?cMGkYfQUZ+YnaFPKuJkDa4rAGSBmroO5l/SeE1CBQI+euDVxPo8EDEtRv+DN?=
- =?us-ascii?Q?5aOYwrdzGtYsm3dV3xzvBQxXPt/u8WdjR6YV42T3WvxDRhnjwKXULajxRn7k?=
- =?us-ascii?Q?kwiMTfQOKTz+TmJONHUfGgfrire0PSoPOxpXStBXK+vrtEVRYThVV/ajnjGS?=
- =?us-ascii?Q?Yd19UifvCwcOXJKLygq7Jpjf8B0HweChjyVq6OxnQsLBUwa7pITXx/swIVWh?=
- =?us-ascii?Q?HfYm94fHNb29F96+k//BMmKKS3ouCtCNLf3E+Wg1m6qjr8zDrz7zZpJeNVlu?=
- =?us-ascii?Q?ndKnZpolToQR4kJDSN5z60eNKP2cFaTHMNF0BWDZCMN7a0UQZOIEIC8VFHGJ?=
- =?us-ascii?Q?I3wwYzMdNxXf50//LvNofIyrdgampJgPlW9lG9NlPgqJ4ExvlkOmetT/tTSp?=
- =?us-ascii?Q?SFA1c62EmdIsYW4qXJnypEtPeqXHXOnwMgWEdKteoRczUFXAp/bMpqzXZsm9?=
- =?us-ascii?Q?ntskU1J9/vYNqBC4NvQdx9j9ayPbzWTep1nJVB+q1Q7yUNm5ShwgoWof+Rak?=
- =?us-ascii?Q?1qCOXUZi3Ed1gS7fmG+hFECkiB6i26TbP/Fd5NJzMzTSjPNaNu/kKpqbZ5QA?=
- =?us-ascii?Q?iG2Scxwe4iLchM5qbfeOKSGB4myxqo3vJhZT9G06fY9OSAzsJZfJvr/YI+IS?=
- =?us-ascii?Q?xGXbCGoCQHLYYG3AjzzrXYwDHHyfVYK81XNBKPnDLrXiNm4HnGW5pA=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hEXDpJz+7pmsdzgrOEIejLclXcXJrF8z+brbQPEAtP5OcTmvHHbE1bG+JGU1?=
+ =?us-ascii?Q?BFK+Ov+cbcRenO1fuYQtlpSfFGiU9ozTrRzUJxkqphiXUGQVDJP34fNukgai?=
+ =?us-ascii?Q?vbr58jVne5al8yJF+oG7cIyBvS8Zjm/uiC9Sj0dJEM4wKHQAl3paxjAQwnHl?=
+ =?us-ascii?Q?nJtGVH6sLhI733WEcxicgkXZJEJf1jvYFp/SQKMTMk8T7kM0j8FoRcl4vC6V?=
+ =?us-ascii?Q?yWjknm1fvSBiyB0lFUBfo9Rrgj5e4lH8I2AWPt4fu+6t0YDBjw1EcKljMVzA?=
+ =?us-ascii?Q?v3rzo1brNeTh+LJ6S5qMt4kibAsw9UCUteyuWPMh4qQPXZKAh5IhlNHJ10cB?=
+ =?us-ascii?Q?/1XlxNU0sXC71rHu7RA8vBCUPpxzudOM7EQENPNIsK3g3GX3pU/5HaLAEQ1G?=
+ =?us-ascii?Q?ythpgOEMdFu2QGzBrHqkG2rxI751olomJC/I2horrF9NuJkN9u99H7HPJzG8?=
+ =?us-ascii?Q?9uG2jwfWADZonG7200GiPnEBrslhwhRauiLQP2bwMRtF8CMdp5DsBhE74r5f?=
+ =?us-ascii?Q?q6pUbS3R15bMAK7O0219VIr0/oDyw424sdiw/JM8UbKNgutunaAkn48bI2gJ?=
+ =?us-ascii?Q?4uwiB1EZtQe8WmAXaSWLeHjHt+amUpGgx0dPEsi15Jzb15kgWaUU+Cnbt5pk?=
+ =?us-ascii?Q?OsCz8G4imYX6CnbvQZPVN+PVrJMfPv+hWcZgnkl5ykh5R89WPb3sRdW61Xvf?=
+ =?us-ascii?Q?Xllrgh2vzD42a4sh3UJSfKkZVyCFjH2HnaXkzyHWx+tkq5Tm+oHDpC7cFPR+?=
+ =?us-ascii?Q?28d/eQH1xZBncCL2xmBf02coa7WPddJf9el39MAfFB4Bbc1lGjad5D6wKtTq?=
+ =?us-ascii?Q?wYcDLkASdVM6Qf6zE4avobhZYrN7YOMu76jL1yBkS2jYgFqG8GjTzYUrFiFr?=
+ =?us-ascii?Q?gJi9i1sCYD5roxO0Q9/XniqkTOO5ZhYZpV6ULnN6c55f4D19G2O95yta2c6L?=
+ =?us-ascii?Q?dPVK/GJpiXfg1FHrx0PffNsC1DhSucBRjyd1hlHUAszGQXFdUp2Gv70Q+F+z?=
+ =?us-ascii?Q?cqRBlr8FNS1yEZxuKaC6BsdAJHl+wp3qYbj/LaphPQi0oAr6zuFzORUDxtF0?=
+ =?us-ascii?Q?LThGxOqMdiUhACqjv+xmYEN6iKaKCpmMqzdmXNkWxw+9a5ziMHntjQ8PXC+N?=
+ =?us-ascii?Q?C6hVPy+rPWCtXbB6mrShudD5RKVTtPxVArd+IySdnzt7vI+3udymbSUOX9Cx?=
+ =?us-ascii?Q?XWVSELtNVPPGK883YzA5pUoOQ5YqsF1UcsXuTnbW/D96934ptwfNJqqUxAt5?=
+ =?us-ascii?Q?qaM62AuPRgyQ+4q57UuMLNfnOMo7s8ldu6h5Q0X56yPb0TAxVCKYFSMjKp89?=
+ =?us-ascii?Q?ax/sd36QnKIiz3eZsgcYkmNWodHK74lfLU7yOLDrE73G4Bzziv+AvbJBeKWi?=
+ =?us-ascii?Q?SVXkFIZvybFS6CxjVcgNa1Jj9PxhnFJZEKUkccKmcXUGiDcZTzT2ILJ/V2ow?=
+ =?us-ascii?Q?5HA8S1elYd6M7vWcxvoPk5gdyxlpG15qjwlqaOebzjdHXpxHohSrnQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YFn1fUTHht09rft6vpmsFKYnXffivtE0dbyocUq21nxo/zAlGr1mRNDKyDmo?=
- =?us-ascii?Q?R0zdMCemZCbsGe8qXm2+R8lMAzAsr3gHbpwiycgLpoA2CjPJAel0RAorBDEA?=
- =?us-ascii?Q?ys6VdMOq0ib9lE5HNwM2C8LD43QDu+nml6IXk3ZAfq+gkc061XHXEG3QXeB4?=
- =?us-ascii?Q?weJsbNIeBqn1+HVCiHhY8EJjAzyilojCzs3PlwiVOh6Rvk9HDVY1k6hVdbnb?=
- =?us-ascii?Q?8oxQmp+fFr4r246canYtYP4lE2iJOYsZxp1P/KNZz3s+uN0m81T65kbUSco4?=
- =?us-ascii?Q?rJT8h7ljUoWb7pF9eYhj7xRx/j43X3MCorQtOVx2XGtqQRqNkuvxVl5tSj4c?=
- =?us-ascii?Q?L9h/Y3E6B52o2serQJkvrUQCB1Y7LQxnFdBUJ7CTFPBmNsEUu1dD941WlfDy?=
- =?us-ascii?Q?XZ9sgQwXY7XFnYfRP6hMzBI5L0jtk99g/yzfXBfkWCVzeO5Otd9Cx190PY12?=
- =?us-ascii?Q?MSQ71MytxdH2KGyV0ToTeCvpwwbAdKXMsu5/3BRy6uWaSPe/mS3kwQgiwqRE?=
- =?us-ascii?Q?6s+8JciVnNHsdtaSHqPWvehMq8G0OPR7DTSuJckA+rTxoPkPzrXI5KFMrzR3?=
- =?us-ascii?Q?Kdr3tJ6xdB+7t69OWx2w4NMW7WAZzlUrfUky5GCUfgrwRkIAqZqeKwJbdSKG?=
- =?us-ascii?Q?lKt+od51v3NGiHB69A/KR/Gwo9JPes1n7WIPiCCafSIWkAv2IIjBrEDS5Ily?=
- =?us-ascii?Q?ePmiYJOTjsmXzS7PnQlie9Bpz7K0Ycy+eV0xKTeNhJ0YuLSpmr1FD09lnZHO?=
- =?us-ascii?Q?F+l6M06M89xpuJ1ivJgYFP9Aw+1zqoySNoOxNHyiHkSAnYyj7iVUoXxocUEc?=
- =?us-ascii?Q?fX2UOxD8NGU/udHQtAWTRJKE0Bug6XS4vXx+pJwGeTCgjULFNGNdTbj24iqr?=
- =?us-ascii?Q?frWVCPREXzJzJ1MhHPm4CGCwzocBvKEbaYWMCj5AmNm+jN52AY6LF4C6qjCf?=
- =?us-ascii?Q?5pdROrkRN7G4t6bUG7rUjQYQp+wRnr38fpoRyHKL7pSejglXTmXqig0Tsc8z?=
- =?us-ascii?Q?/RxdcOwlrX1SRs+qJMnwqaS36TFPk7KG0qnlTW6pWVmGrblbeber4Q6iwiMc?=
- =?us-ascii?Q?1nQo3kmKzI+0McBbcHc6ozYmdvw9ZXYYC8b4zFt+1xk/OC+lI84FuHQW/lTu?=
- =?us-ascii?Q?OCFtVuAjePNgSyudlpAD5Ua00Jj6uiVXuuXyJsUQKrOzlUfwk7MQSKvgF2LF?=
- =?us-ascii?Q?dGIwE09F74toDTfr3s2Kf/JSBEpe/mJ++tp802a+rGHw6W7nswyXAdOTHqQ3?=
- =?us-ascii?Q?yX9X5yKd2MWPlWM3JRxoCNsHBZSbVgcrtBDKdpWWaEcx85smKN2qZWDA9j5X?=
- =?us-ascii?Q?GO58rSc2ViMDARL3LFp4yx2Lea8Cmk8rFBY1RBQbsPJlWN19oMTQm+3PVFYg?=
- =?us-ascii?Q?HeyWiR2LnrhEdkuODI0SpkIaSQi08ZY9pQyhLQWhkCcbn5uQ/AVgfPRvYgYA?=
- =?us-ascii?Q?kjhMpoOatU94DtbF1oOr7ASCgesm6bm5b+Q0aGLM6ZP09gctc/umNEC3FsOQ?=
- =?us-ascii?Q?/imndaX2T6g9lZZJr/+QdnEZ2fXfOPQmM5vx5xPuJM/4WRgyTIo7HCIX3P84?=
- =?us-ascii?Q?JXcyr7jttfsj33nNWu9ewPKXYVDmz8i4MOuiHVPz?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb0ee10d-a85c-426f-1b9a-08de1f6bf679
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9R+lCX7D9zkDcv07AL65dyCjeSor4Ok0ZF8wcqrlyWqZ7+rmOSgbOzHb3Phl?=
+ =?us-ascii?Q?ZhaqJMr/fOINCVtSewbZ9tTOpKd3Dce9FmacWgear68OC2K9RpGbDpEE+rfQ?=
+ =?us-ascii?Q?dCq4z523ezfmXIKohXwMKVzwnU4azvkeFhwYPzhZOwf0Tmz/pAL7rUnqPBR9?=
+ =?us-ascii?Q?t6sl/FFbu5qDD044CEJBLSb/6HEVESBecFi4kOQxLtkj3hCfhEAdartMr39X?=
+ =?us-ascii?Q?CPDrJR89vO5Hra4KXS5Ywr7+IDAHiKkwHF2UNMI9wjDLbwTykW2gv18VHWF2?=
+ =?us-ascii?Q?pUd6k12uXPpNFauQOduGwuJd0usuNpolSLFRSwQG8E3ocXI12Xa1luzyzflj?=
+ =?us-ascii?Q?l/G7FDpSExvxT+rrln+B8oCtPHRuUyTdCfAPAGeDTkkEstudWV0VRuK/DCYY?=
+ =?us-ascii?Q?8C4g7KGpJnnlR6o3zsy5GQF7XibRi9n+uhbI1buNesZ2Kf06mf2Yq5bIuBLz?=
+ =?us-ascii?Q?P6z0KnD3ekvzkXEcBF+4PNMlAqDDtgFRzSP7pcST71517LIhcRN0mBAY6I/l?=
+ =?us-ascii?Q?sFrm8S8VMD3Jvi1Sx3npI3ekd1pAsuizb5YmOtiFOus3PcMOY8fxwQ86F2Am?=
+ =?us-ascii?Q?NHVGp0wgm/NRgQ9P3QWslZkBjfVWNEnlc/WQgrKTuMbQE8buFS1NeNqCDRYo?=
+ =?us-ascii?Q?bSmnYG51+lo1eqtu4xlKYFzrWuHe3d8dLZd595QDv2XwwUvpE9rPb0SyXnCY?=
+ =?us-ascii?Q?g0wA1yceEu+b7yevNfHLl/yficBo9tTeWFAhSSRn/stkaPEOIBNDQpRQyCIK?=
+ =?us-ascii?Q?owj3+xtw1/SsF3rQgY/+GWdB/9M2X/oaiNBQEg6lzulxvGXZlDHpWC997z8r?=
+ =?us-ascii?Q?bBAT8coKalU5ph+AKsr4Sdt91X7LnP//rEzntEKgm8CAIkw+hObcet8xW3hQ?=
+ =?us-ascii?Q?fjzCs0jdiQZrKeOvv1kvX0hPi8znhLBcPwDvr8ASishQ4ZMdiv6zOgaNTxL1?=
+ =?us-ascii?Q?dT+YvF2iZW90yTROJptegnL5X6mbkZr5aJfl4FmTxYoJfjtZule6siyLQf3U?=
+ =?us-ascii?Q?RotHsf50Y57SMA+tsOUgR/avLwiZu30p64aA6gfSFhbZPSr39pAsY7lMhB6c?=
+ =?us-ascii?Q?51a9Fu6rdLLJr4HdefLhH+RwkO7v4wRaMzW3DZCWrJ8cc8/jsjTi6K2zLZer?=
+ =?us-ascii?Q?fZn7coGtHvOPjc2zd/nPvSdRyLPgopbo7DCHMUfTwwNB78XzxXz75rRsg4f5?=
+ =?us-ascii?Q?0a5XDq0VRJNrXHK9b6u/rNQfTI35CWhQY09vtwPyXl6L9v60s5zyHURgySin?=
+ =?us-ascii?Q?uYTW842CS/QGu8aFVYudxMGWX5jbAgeSdaaD/EuJ1KBQ7PcxD/ZlxIuC3i/i?=
+ =?us-ascii?Q?wZXKWqnOZt3brWmiD8wqeZdbaIirWoXWY9nxeTMVuUR/5XMp3Bp1eOddFR4E?=
+ =?us-ascii?Q?TaMzzflWgqY2tVm+7SQ/h8JC79vXdlp5wBuTVRoStICS/DGXBjJvIhBc+Csd?=
+ =?us-ascii?Q?bJyhp11/FHHlE5nrq1LxyeCuJo1Do2tIWxl66g+JSH7nm8nhdllLLK158Psu?=
+ =?us-ascii?Q?EJYgApPPy9B95itjEbxz+GCWYz4iRL8oZm6a2tzB9QgH4NR45rnjKk1sTccO?=
+ =?us-ascii?Q?cM9hqtq7ArP5sYnNbsRXYnH8YxrFghgK81ntPk4O?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3786acb2-7ac1-4943-8339-08de1f6ca278
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2025 08:42:49.3536
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2025 08:47:37.8675
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rJE928VFu0e5A92Gw9hVy7+8aKDfin2DzDX7oj/65VRAEe1RBv5RpYKwCqJjmQDeKE8G2hVS0EIBdskUC/KaeA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0BX/ltuTB/llirLKjMuLbBPLNd4y4KeeYOBbOOBQvBZdURbTAskuiRecPJz/IfSbKEds91SscZrXmjZKxZqX2g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5779
 X-OriginatorOrg: intel.com
 
-On Mon, Nov 03, 2025 at 04:49:26PM +0000, Mark Harmstone wrote:
-> On 31/10/2025 10.12 pm, Boris Burkov wrote:
-> > On Tue, Oct 28, 2025 at 12:04:11AM +0800, kernel test robot wrote:
-> > > Hi Mark,
-> > > 
-> > > kernel test robot noticed the following build warnings:
-> > > 
-> > > [auto build test WARNING on kdave/for-next]
-> > > [also build test WARNING on next-20251027]
-> > > [cannot apply to linus/master v6.18-rc3]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20251025-021910
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-> > > patch link:    https://lore.kernel.org/r/20251024181227.32228-16-mark%40harmstone.com
-> > > patch subject: [PATCH v4 15/16] btrfs: handle discarding fully-remapped block groups
-> > > config: arm-randconfig-003-20251027 (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/config)
-> > > compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251027/202510272322.N1S5rdDc-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202510272322.N1S5rdDc-lkp@intel.com/
-> > > 
-> > > Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-> > > http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >     fs/btrfs/discard.c: In function 'btrfs_discard_workfn':
-> > > > > fs/btrfs/discard.c:596:6: warning: 'discard_state' may be used uninitialized in this function [-Wmaybe-uninitialized]
-> > >        if (discard_state == BTRFS_DISCARD_BITMAPS ||
-> > >           ^
-> > 
-> > I think this gets set by peek_discard_list() so I don't think this is
-> > a valid warning.
+On Sun, Nov 09, 2025 at 03:48:21AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0d7bee10beeb59b1133bf5a4749b17a4ef3bbb01
+> commit: 2ac70946621ff3d90eb84d2e3b74563f4154f24c btrfs: add current log leaf, key and slot to struct walk_control
+> date:   7 weeks ago
+> config: um-randconfig-001-20251109 (https://download.01.org/0day-ci/archive/20251109/202511090321.X08Rh6eK-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511090321.X08Rh6eK-lkp@intel.com/reproduce)
 > 
-> You are correct. discard_state gets initialized if the return value of
-> peek_discard_list() is not NULL, and if it is NULL we return before we use
-> it.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511090321.X08Rh6eK-lkp@intel.com/
 > 
-> This is an ancient version of GCC, the warning doesn't trigger on GCC 15 -
-> presumably it has better control flow analysis. I don't think the robot
-> should be compiling with this warning turned on for old compiler versions,
-> if it's prone to false positives.
+> Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+> http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+> 
+> All warnings (new ones prefixed by >>):
 
-Thanks for the suggestion, I will update the bot to avoid sending out this
-directly. Sorry for the false positive.
+Kindly ignore this report, it should be a false positive, sorry about this.
 
 > 
-> > > 
-> > > 
-> > > vim +/discard_state +596 fs/btrfs/discard.c
-> > > 
-> > >     513	
-> > >     514	/*
-> > >     515	 * Discard work queue callback
-> > >     516	 *
-> > >     517	 * @work: work
-> > >     518	 *
-> > >     519	 * Find the next block_group to start discarding and then discard a single
-> > >     520	 * region.  It does this in a two-pass fashion: first extents and second
-> > >     521	 * bitmaps.  Completely discarded block groups are sent to the unused_bgs path.
-> > >     522	 */
-> > >     523	static void btrfs_discard_workfn(struct work_struct *work)
-> > >     524	{
-> > >     525		struct btrfs_discard_ctl *discard_ctl;
-> > >     526		struct btrfs_block_group *block_group;
-> > >     527		enum btrfs_discard_state discard_state;
-> > >     528		int discard_index = 0;
-> > >     529		u64 trimmed = 0;
-> > >     530		u64 minlen = 0;
-> > >     531		u64 now = ktime_get_ns();
-> > >     532	
-> > >     533		discard_ctl = container_of(work, struct btrfs_discard_ctl, work.work);
-> > >     534	
-> > >     535		block_group = peek_discard_list(discard_ctl, &discard_state,
-> > >     536						&discard_index, now);
-> > >     537		if (!block_group)
-> > >     538			return;
-> > >     539		if (!btrfs_run_discard_work(discard_ctl)) {
-> > >     540			spin_lock(&discard_ctl->lock);
-> > >     541			btrfs_put_block_group(block_group);
-> > >     542			discard_ctl->block_group = NULL;
-> > >     543			spin_unlock(&discard_ctl->lock);
-> > >     544			return;
-> > >     545		}
-> > >     546		if (now < block_group->discard_eligible_time) {
-> > >     547			spin_lock(&discard_ctl->lock);
-> > >     548			btrfs_put_block_group(block_group);
-> > >     549			discard_ctl->block_group = NULL;
-> > >     550			spin_unlock(&discard_ctl->lock);
-> > >     551			btrfs_discard_schedule_work(discard_ctl, false);
-> > >     552			return;
-> > >     553		}
-> > >     554	
-> > >     555		/* Perform discarding */
-> > >     556		minlen = discard_minlen[discard_index];
-> > >     557	
-> > >     558		switch (discard_state) {
-> > >     559		case BTRFS_DISCARD_BITMAPS: {
-> > >     560			u64 maxlen = 0;
-> > >     561	
-> > >     562			/*
-> > >     563			 * Use the previous levels minimum discard length as the max
-> > >     564			 * length filter.  In the case something is added to make a
-> > >     565			 * region go beyond the max filter, the entire bitmap is set
-> > >     566			 * back to BTRFS_TRIM_STATE_UNTRIMMED.
-> > >     567			 */
-> > >     568			if (discard_index != BTRFS_DISCARD_INDEX_UNUSED)
-> > >     569				maxlen = discard_minlen[discard_index - 1];
-> > >     570	
-> > >     571			btrfs_trim_block_group_bitmaps(block_group, &trimmed,
-> > >     572					       block_group->discard_cursor,
-> > >     573					       btrfs_block_group_end(block_group),
-> > >     574					       minlen, maxlen, true);
-> > >     575			discard_ctl->discard_bitmap_bytes += trimmed;
-> > >     576	
-> > >     577			break;
-> > >     578		}
-> > >     579	
-> > >     580		case BTRFS_DISCARD_FULLY_REMAPPED:
-> > >     581			btrfs_trim_fully_remapped_block_group(block_group);
-> > >     582			break;
-> > >     583	
-> > >     584		default:
-> > >     585			btrfs_trim_block_group_extents(block_group, &trimmed,
-> > >     586					       block_group->discard_cursor,
-> > >     587					       btrfs_block_group_end(block_group),
-> > >     588					       minlen, true);
-> > >     589			discard_ctl->discard_extent_bytes += trimmed;
-> > >     590	
-> > >     591			break;
-> > >     592		}
-> > >     593	
-> > >     594		/* Determine next steps for a block_group */
-> > >     595		if (block_group->discard_cursor >= btrfs_block_group_end(block_group)) {
-> > >   > 596			if (discard_state == BTRFS_DISCARD_BITMAPS ||
-> > >     597			    discard_state == BTRFS_DISCARD_FULLY_REMAPPED) {
-> > >     598				btrfs_finish_discard_pass(discard_ctl, block_group);
-> > >     599			} else {
-> > >     600				block_group->discard_cursor = block_group->start;
-> > >     601				spin_lock(&discard_ctl->lock);
-> > >     602				if (block_group->discard_state !=
-> > >     603				    BTRFS_DISCARD_RESET_CURSOR)
-> > >     604					block_group->discard_state =
-> > >     605								BTRFS_DISCARD_BITMAPS;
-> > >     606				spin_unlock(&discard_ctl->lock);
-> > >     607			}
-> > >     608		}
-> > >     609	
-> > >     610		now = ktime_get_ns();
-> > >     611		spin_lock(&discard_ctl->lock);
-> > >     612		discard_ctl->prev_discard = trimmed;
-> > >     613		discard_ctl->prev_discard_time = now;
-> > >     614		btrfs_put_block_group(block_group);
-> > >     615		discard_ctl->block_group = NULL;
-> > >     616		__btrfs_discard_schedule_work(discard_ctl, now, false);
-> > >     617		spin_unlock(&discard_ctl->lock);
-> > >     618	}
-> > >     619	
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
+>    fs/btrfs/tree-log.c: In function 'replay_one_buffer':
+> >> fs/btrfs/tree-log.c:2649:32: warning: 'inode_item' may be used uninitialized [-Wmaybe-uninitialized]
+>     2649 |                         mode = btrfs_inode_mode(eb, inode_item);
+>          |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    fs/btrfs/tree-log.c:2607:42: note: 'inode_item' was declared here
+>     2607 |                 struct btrfs_inode_item *inode_item;
+>          |                                          ^~~~~~~~~~
 > 
+> 
+> vim +/inode_item +2649 fs/btrfs/tree-log.c
+> 
+> e02119d5a7b439 Chris Mason   2008-09-05  2563  
+> e02119d5a7b439 Chris Mason   2008-09-05  2564  /*
+> e02119d5a7b439 Chris Mason   2008-09-05  2565   * the process_func used to replay items from the log tree.  This
+> e02119d5a7b439 Chris Mason   2008-09-05  2566   * gets called in two different stages.  The first stage just looks
+> e02119d5a7b439 Chris Mason   2008-09-05  2567   * for inodes and makes sure they are all copied into the subvolume.
+> e02119d5a7b439 Chris Mason   2008-09-05  2568   *
+> e02119d5a7b439 Chris Mason   2008-09-05  2569   * The second stage copies all the other item types from the log into
+> e02119d5a7b439 Chris Mason   2008-09-05  2570   * the subvolume.  The two stage approach is slower, but gets rid of
+> e02119d5a7b439 Chris Mason   2008-09-05  2571   * lots of complexity around inodes referencing other inodes that exist
+> e02119d5a7b439 Chris Mason   2008-09-05  2572   * only in the log (references come from either directory items or inode
+> e02119d5a7b439 Chris Mason   2008-09-05  2573   * back refs).
+> e02119d5a7b439 Chris Mason   2008-09-05  2574   */
+> efa44fc4fde3eb Filipe Manana 2025-08-26  2575  static int replay_one_buffer(struct extent_buffer *eb,
+> 581c1760415c48 Qu Wenruo     2018-03-29  2576  			     struct walk_control *wc, u64 gen, int level)
+> e02119d5a7b439 Chris Mason   2008-09-05  2577  {
+> e02119d5a7b439 Chris Mason   2008-09-05  2578  	int nritems;
+> 789d6a3a876e32 Qu Wenruo     2022-09-14  2579  	struct btrfs_tree_parent_check check = {
+> 789d6a3a876e32 Qu Wenruo     2022-09-14  2580  		.transid = gen,
+> 789d6a3a876e32 Qu Wenruo     2022-09-14  2581  		.level = level
+> 789d6a3a876e32 Qu Wenruo     2022-09-14  2582  	};
+> e02119d5a7b439 Chris Mason   2008-09-05  2583  	struct btrfs_path *path;
+> 2c123db1f0e1fb Filipe Manana 2025-08-26  2584  	struct btrfs_root *root = wc->root;
+> 425652cf102838 Filipe Manana 2025-07-16  2585  	struct btrfs_trans_handle *trans = wc->trans;
+> e02119d5a7b439 Chris Mason   2008-09-05  2586  	int ret;
+> e02119d5a7b439 Chris Mason   2008-09-05  2587  
+> 6cb7f0b8c9b0d6 Filipe Manana 2025-08-28  2588  	if (level != 0)
+> 6cb7f0b8c9b0d6 Filipe Manana 2025-08-28  2589  		return 0;
+> 6cb7f0b8c9b0d6 Filipe Manana 2025-08-28  2590  
+> 789d6a3a876e32 Qu Wenruo     2022-09-14  2591  	ret = btrfs_read_extent_buffer(eb, &check);
+> 912c257c88cd8c Filipe Manana 2025-07-18  2592  	if (ret) {
+> 912c257c88cd8c Filipe Manana 2025-07-18  2593  		btrfs_abort_transaction(trans, ret);
+> 018642a1f19788 Tsutomu Itoh  2012-05-29  2594  		return ret;
+> 912c257c88cd8c Filipe Manana 2025-07-18  2595  	}
+> e02119d5a7b439 Chris Mason   2008-09-05  2596  
+> e02119d5a7b439 Chris Mason   2008-09-05  2597  	path = btrfs_alloc_path();
+> 912c257c88cd8c Filipe Manana 2025-07-18  2598  	if (!path) {
+> 912c257c88cd8c Filipe Manana 2025-07-18  2599  		btrfs_abort_transaction(trans, -ENOMEM);
+> 1e5063d093b5f0 Mark Fasheh   2011-07-12  2600  		return -ENOMEM;
+> 912c257c88cd8c Filipe Manana 2025-07-18  2601  	}
+> e02119d5a7b439 Chris Mason   2008-09-05  2602  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2603  	wc->log_leaf = eb;
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2604  
+> e02119d5a7b439 Chris Mason   2008-09-05  2605  	nritems = btrfs_header_nritems(eb);
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2606  	for (wc->log_slot = 0; wc->log_slot < nritems; wc->log_slot++) {
+> e02119d5a7b439 Chris Mason   2008-09-05  2607  		struct btrfs_inode_item *inode_item;
+> e02119d5a7b439 Chris Mason   2008-09-05  2608  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2609  		btrfs_item_key_to_cpu(eb, &wc->log_key, wc->log_slot);
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2610  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2611  		if (wc->log_key.type == BTRFS_INODE_ITEM_KEY) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2612  			inode_item = btrfs_item_ptr(eb, wc->log_slot,
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2613  						    struct btrfs_inode_item);
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2614  			/*
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2615  			 * An inode with no links is either:
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2616  			 *
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2617  			 * 1) A tmpfile (O_TMPFILE) that got fsync'ed and never
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2618  			 *    got linked before the fsync, skip it, as replaying
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2619  			 *    it is pointless since it would be deleted later.
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2620  			 *    We skip logging tmpfiles, but it's always possible
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2621  			 *    we are replaying a log created with a kernel that
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2622  			 *    used to log tmpfiles;
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2623  			 *
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2624  			 * 2) A non-tmpfile which got its last link deleted
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2625  			 *    while holding an open fd on it and later got
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2626  			 *    fsynced through that fd. We always log the
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2627  			 *    parent inodes when inode->last_unlink_trans is
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2628  			 *    set to the current transaction, so ignore all the
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2629  			 *    inode items for this inode. We will delete the
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2630  			 *    inode when processing the parent directory with
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2631  			 *    replay_dir_deletes().
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2632  			 */
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2633  			if (btrfs_inode_nlink(eb, inode_item) == 0) {
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2634  				wc->ignore_cur_inode = true;
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2635  				continue;
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2636  			} else {
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2637  				wc->ignore_cur_inode = false;
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2638  			}
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2639  		}
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2640  
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2641  		/* Inode keys are done during the first stage. */
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2642  		if (wc->log_key.type == BTRFS_INODE_ITEM_KEY &&
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2643  		    wc->stage == LOG_WALK_REPLAY_INODES) {
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2644  			u32 mode;
+> 0a32e4f0025a74 Filipe Manana 2025-07-30  2645  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2646  			ret = replay_xattr_deletes(wc, path);
+> 4f764e5153616f Filipe Manana 2015-02-23  2647  			if (ret)
+> 4f764e5153616f Filipe Manana 2015-02-23  2648  				break;
+> e02119d5a7b439 Chris Mason   2008-09-05 @2649  			mode = btrfs_inode_mode(eb, inode_item);
+> e02119d5a7b439 Chris Mason   2008-09-05  2650  			if (S_ISDIR(mode)) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2651  				ret = replay_dir_deletes(wc, path, wc->log_key.objectid, false);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2652  				if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2653  					break;
+> e02119d5a7b439 Chris Mason   2008-09-05  2654  			}
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2655  			ret = overwrite_item(wc, path);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2656  			if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2657  				break;
+> e02119d5a7b439 Chris Mason   2008-09-05  2658  
+> 471d557afed155 Filipe Manana 2018-04-05  2659  			/*
+> 471d557afed155 Filipe Manana 2018-04-05  2660  			 * Before replaying extents, truncate the inode to its
+> 471d557afed155 Filipe Manana 2018-04-05  2661  			 * size. We need to do it now and not after log replay
+> 471d557afed155 Filipe Manana 2018-04-05  2662  			 * because before an fsync we can have prealloc extents
+> 471d557afed155 Filipe Manana 2018-04-05  2663  			 * added beyond the inode's i_size. If we did it after,
+> 471d557afed155 Filipe Manana 2018-04-05  2664  			 * through orphan cleanup for example, we would drop
+> 471d557afed155 Filipe Manana 2018-04-05  2665  			 * those prealloc extents just after replaying them.
+> e02119d5a7b439 Chris Mason   2008-09-05  2666  			 */
+> e02119d5a7b439 Chris Mason   2008-09-05  2667  			if (S_ISREG(mode)) {
+> 5893dfb98f2578 Filipe Manana 2020-11-04  2668  				struct btrfs_drop_extents_args drop_args = { 0 };
+> b4c50cbb01a1b6 Filipe Manana 2025-03-06  2669  				struct btrfs_inode *inode;
+> 471d557afed155 Filipe Manana 2018-04-05  2670  				u64 from;
+> 471d557afed155 Filipe Manana 2018-04-05  2671  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2672  				inode = btrfs_iget_logging(wc->log_key.objectid, root);
+> 5f61b961599acb Filipe Manana 2025-06-18  2673  				if (IS_ERR(inode)) {
+> 5f61b961599acb Filipe Manana 2025-06-18  2674  					ret = PTR_ERR(inode);
+> 912c257c88cd8c Filipe Manana 2025-07-18  2675  					btrfs_abort_transaction(trans, ret);
+> 471d557afed155 Filipe Manana 2018-04-05  2676  					break;
+> 471d557afed155 Filipe Manana 2018-04-05  2677  				}
+> b4c50cbb01a1b6 Filipe Manana 2025-03-06  2678  				from = ALIGN(i_size_read(&inode->vfs_inode),
+> 471d557afed155 Filipe Manana 2018-04-05  2679  					     root->fs_info->sectorsize);
+> 5893dfb98f2578 Filipe Manana 2020-11-04  2680  				drop_args.start = from;
+> 5893dfb98f2578 Filipe Manana 2020-11-04  2681  				drop_args.end = (u64)-1;
+> 5893dfb98f2578 Filipe Manana 2020-11-04  2682  				drop_args.drop_cache = true;
+> 425652cf102838 Filipe Manana 2025-07-16  2683  				ret = btrfs_drop_extents(trans, root, inode,  &drop_args);
+> 912c257c88cd8c Filipe Manana 2025-07-18  2684  				if (ret) {
+> 912c257c88cd8c Filipe Manana 2025-07-18  2685  					btrfs_abort_transaction(trans, ret);
+> 912c257c88cd8c Filipe Manana 2025-07-18  2686  				} else {
+> b4c50cbb01a1b6 Filipe Manana 2025-03-06  2687  					inode_sub_bytes(&inode->vfs_inode,
+> 2766ff61762c3f Filipe Manana 2020-11-04  2688  							drop_args.bytes_found);
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2689  					/* Update the inode's nbytes. */
+> 425652cf102838 Filipe Manana 2025-07-16  2690  					ret = btrfs_update_inode(trans, inode);
+> 912c257c88cd8c Filipe Manana 2025-07-18  2691  					if (ret)
+> 912c257c88cd8c Filipe Manana 2025-07-18  2692  						btrfs_abort_transaction(trans, ret);
+> 471d557afed155 Filipe Manana 2018-04-05  2693  				}
+> b4c50cbb01a1b6 Filipe Manana 2025-03-06  2694  				iput(&inode->vfs_inode);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2695  				if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2696  					break;
+> e02119d5a7b439 Chris Mason   2008-09-05  2697  			}
+> c71bf099abddf3 Yan, Zheng    2009-11-12  2698  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2699  			ret = link_to_fixup_dir(wc, path, wc->log_key.objectid);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2700  			if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2701  				break;
+> e02119d5a7b439 Chris Mason   2008-09-05  2702  		}
+> dd8e721773fdab Josef Bacik   2013-09-11  2703  
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2704  		if (wc->ignore_cur_inode)
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2705  			continue;
+> f2d72f42d5fa3b Filipe Manana 2018-10-08  2706  
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2707  		if (wc->log_key.type == BTRFS_DIR_INDEX_KEY &&
+> dd8e721773fdab Josef Bacik   2013-09-11  2708  		    wc->stage == LOG_WALK_REPLAY_DIR_INDEX) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2709  			ret = replay_one_dir_item(wc, path);
+> dd8e721773fdab Josef Bacik   2013-09-11  2710  			if (ret)
+> dd8e721773fdab Josef Bacik   2013-09-11  2711  				break;
+> dd8e721773fdab Josef Bacik   2013-09-11  2712  		}
+> dd8e721773fdab Josef Bacik   2013-09-11  2713  
+> e02119d5a7b439 Chris Mason   2008-09-05  2714  		if (wc->stage < LOG_WALK_REPLAY_ALL)
+> e02119d5a7b439 Chris Mason   2008-09-05  2715  			continue;
+> e02119d5a7b439 Chris Mason   2008-09-05  2716  
+> e02119d5a7b439 Chris Mason   2008-09-05  2717  		/* these keys are simply copied */
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2718  		if (wc->log_key.type == BTRFS_XATTR_ITEM_KEY) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2719  			ret = overwrite_item(wc, path);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2720  			if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2721  				break;
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2722  		} else if (wc->log_key.type == BTRFS_INODE_REF_KEY ||
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2723  			   wc->log_key.type == BTRFS_INODE_EXTREF_KEY) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2724  			ret = add_inode_ref(wc, path);
+> 7ebf381a69421a Filipe Manana 2025-07-11  2725  			if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2726  				break;
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2727  		} else if (wc->log_key.type == BTRFS_EXTENT_DATA_KEY) {
+> 2ac70946621ff3 Filipe Manana 2025-09-01  2728  			ret = replay_one_extent(wc, path);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2729  			if (ret)
+> b50c6e250ef913 Josef Bacik   2013-04-25  2730  				break;
+> e02119d5a7b439 Chris Mason   2008-09-05  2731  		}
+> 339d035424849c Filipe Manana 2021-10-25  2732  		/*
+> 339d035424849c Filipe Manana 2021-10-25  2733  		 * We don't log BTRFS_DIR_ITEM_KEY keys anymore, only the
+> 339d035424849c Filipe Manana 2021-10-25  2734  		 * BTRFS_DIR_INDEX_KEY items which we use to derive the
+> 339d035424849c Filipe Manana 2021-10-25  2735  		 * BTRFS_DIR_ITEM_KEY items. If we are replaying a log from an
+> 339d035424849c Filipe Manana 2021-10-25  2736  		 * older kernel with such keys, ignore them.
+> 339d035424849c Filipe Manana 2021-10-25  2737  		 */
+> e02119d5a7b439 Chris Mason   2008-09-05  2738  	}
+> e02119d5a7b439 Chris Mason   2008-09-05  2739  	btrfs_free_path(path);
+> b50c6e250ef913 Josef Bacik   2013-04-25  2740  	return ret;
+> e02119d5a7b439 Chris Mason   2008-09-05  2741  }
+> e02119d5a7b439 Chris Mason   2008-09-05  2742  
+> 
+> :::::: The code at line 2649 was first introduced by commit
+> :::::: e02119d5a7b4396c5a872582fddc8bd6d305a70a Btrfs: Add a write ahead tree log to optimize synchronous operations
+> 
+> :::::: TO: Chris Mason <chris.mason@oracle.com>
+> :::::: CC: Chris Mason <chris.mason@oracle.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 > 
