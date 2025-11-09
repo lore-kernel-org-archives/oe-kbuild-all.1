@@ -1,67 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DB120ED
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Nov 2025 14:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D00B1ADC7E;
+	Sun,  9 Nov 2025 14:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762696858; cv=none; b=Vbvp2edus8ajPD2qP44eDYGr80fDKbM6c0ldHkA+Lqqb9ZObmNS+UaSzHNGgQ4+8W1fAdeA24ZamOVdurVGMn/eKrlIvRdLxI0bO9S57RR0MIeo5GfieWiY4kjQCeGF3/EkFfQ2JfFbFX6WZoFg2ONkxcbsI43Gk7S+2PxN7Bj8=
+	t=1762699444; cv=none; b=SlXeUI+/G+/ZgUAtUo6PpEORu0ud9CAo6h4ezNmcSa4/cpFXQnVUje9iUv1ewBr9kfUZ+3FFn/ML7X484x7LuCBlKAt37WXxqxENPHE0Y+eq58H7QNMhdjj7hDk1a8Wmg9c7KNwFKBDw/3tXZEnAM5kURZFub6hSXhbdX9bL9LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762696858; c=relaxed/simple;
-	bh=qRmvRrnare0TWk/dp4GNb0PQAxXpydFLfOVO9gdJJl8=;
+	s=arc-20240116; t=1762699444; c=relaxed/simple;
+	bh=K/flutwXOWP1spERdSsXyhKUjzthQGcnVpG5FlwSZrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sPPdjgC3LuKKTc9RW7en7Byq57mMh2765R3saCVOWEAfdO50vXlJJWdG9v/9NB2BFbHd0jalowrlRHLEwJzJsdHQALM87fukW0F7Wfa95iWg1od+OHOEpL0opifWtwZSPtgwOmgaSsh0sTCWiHr7YuXn/dE/FhhYsOrHsXit/2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eBQt3xoL; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ym2hsCzlOnxLD1K74yjxJI2tfDrzdHWMPriBDX1XUjGCVV+xB3fM9FWk0jponba8ZiNTYEX9S8pDomeExzgr2NookLJj4WLxK9UUsDO2w+wpwKZrSryj8klIL+1yJsPb9c9KRzL0o+ArDqow4RItehPZ5mKf7JLcrfiFdfWXhn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmelZpfA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eBQt3xoL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmelZpfA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762696856; x=1794232856;
+  t=1762699442; x=1794235442;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qRmvRrnare0TWk/dp4GNb0PQAxXpydFLfOVO9gdJJl8=;
-  b=eBQt3xoLFuZWA8XFt9ADpn325FmRJA36Jss9qCDYWM04gX1RIVuGUIxJ
-   rKMdr1zYX74fWe2SRHuLUz4Kvm/sgn3ayPxcUuYSuOjLeh1sYwP+ZuYf3
-   V+aa6ySNsQyyEFcdQi+qsbn8Wldl1FP48T1lq4sBMZ9jUGanhnifff0ct
-   vNq4Os1j+eTDV+Vuei1FvedAijnTb4m0FavuMmJryZcE9641vXzkN5ikA
-   NbH0yrsj+8WU66KYiMQH1R5T5VVoNJ4O0hF1Un7vZ84baXV+cvu0Pze5N
-   BpPFwbFbx8bM02zE2dKRDqrKAJLBDjyadFtacFv/F3FXD5woblpWUnIlv
-   A==;
-X-CSE-ConnectionGUID: 0S6GV/+/SFW+Qz+E1gvk6Q==
-X-CSE-MsgGUID: Zq2P/xT8Qai2d69KA/4vkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11607"; a="68630716"
+  bh=K/flutwXOWP1spERdSsXyhKUjzthQGcnVpG5FlwSZrY=;
+  b=lmelZpfATazTWDQXBIGdq3VTfvh+zLVwlAcuVdZZfCsHUuZLq/7vRsDo
+   e4nLowKVBxU/3nHtirPPZ+OobAAcSHjq5lh6Del/8gUQ94He1EB0N4ocK
+   Hs9FM5zlGoHkbPM4KZpVHSXJx5Vb58p7ZDziw/gzVmCgt2DoHVt6Wqk5I
+   nYocFkpR7ZmWGUaC/kUxGpqUUxsO9SWJmjX6RvLWqg0a15Rv+15mYKAuX
+   T6LgvDw9XmDGHNu7OxBEbCJ297z8Bw8iiQ8SYJMPUVPUkPx8gv3uXnLDq
+   0dSzm+GsETEpsdAHOJaCD198BeFU/JT47jA7SJq+c++fsyPekGv0Wu0bl
+   g==;
+X-CSE-ConnectionGUID: g7dI0ulOS+2MhwYmCo3nog==
+X-CSE-MsgGUID: j3Mglhm0S8iDiGAGi+zwww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="82397178"
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="68630716"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 06:00:56 -0800
-X-CSE-ConnectionGUID: wak9vCs2R62rKxC/6PUr/g==
-X-CSE-MsgGUID: mY/wPM1hQTq/TlKA2wytsg==
+   d="scan'208";a="82397178"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 06:44:02 -0800
+X-CSE-ConnectionGUID: gcGdM3EbR/2REKsI9pafdg==
+X-CSE-MsgGUID: 56MIu5rWQPmTbi6MxISANQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,291,1754982000"; 
-   d="scan'208";a="225718384"
+   d="scan'208";a="211880061"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Nov 2025 06:00:51 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2025 06:43:54 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vI5yL-00023L-0H;
-	Sun, 09 Nov 2025 14:00:49 +0000
-Date: Sun, 9 Nov 2025 21:59:50 +0800
+	id 1vI6e0-00024d-2T;
+	Sun, 09 Nov 2025 14:43:52 +0000
+Date: Sun, 9 Nov 2025 22:42:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: hans.zhang@cixtech.com, bhelgaas@google.com, helgaas@kernel.org,
-	lpieralisi@kernel.org, kw@linux.com, mani@kernel.org,
-	robh@kernel.org, kwilczynski@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mpillai@cadence.com,
-	fugang.duan@cixtech.com, guoyin.chen@cixtech.com,
-	peter.chen@cixtech.com, cix-kernel-upstream@cixtech.com,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 03/10] PCI: cadence: Move PCIe RP common functions to
- a separate file
-Message-ID: <202511092106.mkNV0iyb-lkp@intel.com>
-References: <20251108140305.1120117-4-hans.zhang@cixtech.com>
+To: Xie Yuanbin <qq570070308@gmail.com>, david@redhat.com,
+	tglx@linutronix.de, segher@kernel.crashing.org, riel@surriel.com,
+	peterz@infradead.org, linux@armlinux.org.uk,
+	mathieu.desnoyers@efficios.com, paulmck@kernel.org, pjw@kernel.org,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com, davem@davemloft.net,
+	andreas@gaisler.com, luto@kernel.org, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+	acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+	irogers@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] Make enter_lazy_tlb inline on x86
+Message-ID: <202511092219.73aMMES4-lkp@intel.com>
+References: <20251108172346.263590-2-qq570070308@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,105 +73,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251108140305.1120117-4-hans.zhang@cixtech.com>
+In-Reply-To: <20251108172346.263590-2-qq570070308@gmail.com>
 
-Hi,
+Hi Xie,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 6146a0f1dfae5d37442a9ddcba012add260bceb0]
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on tip/x86/core tip/x86/mm s390/features perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master v6.18-rc4 next-20251107]
+[cannot apply to acme/perf/core tip/timers/nohz]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/PCI-cadence-Add-module-support-for-platform-controller-driver/20251108-220607
-base:   6146a0f1dfae5d37442a9ddcba012add260bceb0
-patch link:    https://lore.kernel.org/r/20251108140305.1120117-4-hans.zhang%40cixtech.com
-patch subject: [PATCH v11 03/10] PCI: cadence: Move PCIe RP common functions to a separate file
-config: i386-randconfig-014-20251109 (https://download.01.org/0day-ci/archive/20251109/202511092106.mkNV0iyb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511092106.mkNV0iyb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Xie-Yuanbin/Make-enter_lazy_tlb-inline-on-x86/20251109-013003
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20251108172346.263590-2-qq570070308%40gmail.com
+patch subject: [PATCH v2 1/4] Make enter_lazy_tlb inline on x86
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251109/202511092219.73aMMES4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511092219.73aMMES4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511092106.mkNV0iyb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511092219.73aMMES4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/cadence/pcie-cadence-host-common.c: In function 'cdns_pcie_host_bar_config':
->> drivers/pci/controller/cadence/pcie-cadence-host-common.c:188:23: warning: variable 'pci_addr' set but not used [-Wunused-but-set-variable]
-     188 |         u64 cpu_addr, pci_addr, size, winsize;
-         |                       ^~~~~~~~
+   In file included from arch/x86/kvm/../../../virt/kvm/async_pf.c:14:
+   In file included from include/linux/mmu_context.h:5:
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+     155 |         if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+         |                           ^
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:155:20: error: use of undeclared identifier 'cpu_tlbstate'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+     158 |         this_cpu_write(cpu_tlbstate_shared.is_lazy, true);
+         |                        ^
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+>> arch/x86/include/asm/mmu_context.h:158:17: error: use of undeclared identifier 'cpu_tlbstate_shared'
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +/pci_addr +188 drivers/pci/controller/cadence/pcie-cadence-host-common.c
+vim +/cpu_tlbstate +155 arch/x86/include/asm/mmu_context.h
 
-   183	
-   184	int cdns_pcie_host_bar_config(struct cdns_pcie_rc *rc,
-   185				      struct resource_entry *entry,
-   186				      cdns_pcie_host_bar_ib_cfg pci_host_ib_config)
-   187	{
- > 188		u64 cpu_addr, pci_addr, size, winsize;
-   189		struct cdns_pcie *pcie = &rc->pcie;
-   190		struct device *dev = pcie->dev;
-   191		enum cdns_pcie_rp_bar bar;
-   192		unsigned long flags;
-   193		int ret;
-   194	
-   195		cpu_addr = entry->res->start;
-   196		pci_addr = entry->res->start - entry->offset;
-   197		flags = entry->res->flags;
-   198		size = resource_size(entry->res);
-   199	
-   200		while (size > 0) {
-   201			/*
-   202			 * Try to find a minimum BAR whose size is greater than
-   203			 * or equal to the remaining resource_entry size. This will
-   204			 * fail if the size of each of the available BARs is less than
-   205			 * the remaining resource_entry size.
-   206			 *
-   207			 * If a minimum BAR is found, IB ATU will be configured and
-   208			 * exited.
-   209			 */
-   210			bar = cdns_pcie_host_find_min_bar(rc, size);
-   211			if (bar != RP_BAR_UNDEFINED) {
-   212				ret = pci_host_ib_config(rc, bar, cpu_addr, size, flags);
-   213				if (ret)
-   214					dev_err(dev, "IB BAR: %d config failed\n", bar);
-   215				return ret;
-   216			}
-   217	
-   218			/*
-   219			 * If the control reaches here, it would mean the remaining
-   220			 * resource_entry size cannot be fitted in a single BAR. So we
-   221			 * find a maximum BAR whose size is less than or equal to the
-   222			 * remaining resource_entry size and split the resource entry
-   223			 * so that part of resource entry is fitted inside the maximum
-   224			 * BAR. The remaining size would be fitted during the next
-   225			 * iteration of the loop.
-   226			 *
-   227			 * If a maximum BAR is not found, there is no way we can fit
-   228			 * this resource_entry, so we error out.
-   229			 */
-   230			bar = cdns_pcie_host_find_max_bar(rc, size);
-   231			if (bar == RP_BAR_UNDEFINED) {
-   232				dev_err(dev, "No free BAR to map cpu_addr %llx\n",
-   233					cpu_addr);
-   234				return -EINVAL;
-   235			}
-   236	
-   237			winsize = bar_max_size[bar];
-   238			ret = pci_host_ib_config(rc, bar, cpu_addr, winsize, flags);
-   239			if (ret) {
-   240				dev_err(dev, "IB BAR: %d config failed\n", bar);
-   241				return ret;
-   242			}
-   243	
-   244			size -= winsize;
-   245			cpu_addr += winsize;
-   246		}
-   247	
-   248		return 0;
-   249	}
-   250	
+   138	
+   139	/*
+   140	 * Please ignore the name of this function.  It should be called
+   141	 * switch_to_kernel_thread().
+   142	 *
+   143	 * enter_lazy_tlb() is a hint from the scheduler that we are entering a
+   144	 * kernel thread or other context without an mm.  Acceptable implementations
+   145	 * include doing nothing whatsoever, switching to init_mm, or various clever
+   146	 * lazy tricks to try to minimize TLB flushes.
+   147	 *
+   148	 * The scheduler reserves the right to call enter_lazy_tlb() several times
+   149	 * in a row.  It will notify us that we're going back to a real mm by
+   150	 * calling switch_mm_irqs_off().
+   151	 */
+   152	#define enter_lazy_tlb enter_lazy_tlb
+   153	static __always_inline void enter_lazy_tlb(struct mm_struct *mm, struct task_struct *tsk)
+   154	{
+ > 155		if (this_cpu_read(cpu_tlbstate.loaded_mm) == &init_mm)
+   156			return;
+   157	
+ > 158		this_cpu_write(cpu_tlbstate_shared.is_lazy, true);
+   159	}
+   160	
 
 -- 
 0-DAY CI Kernel Test Service
