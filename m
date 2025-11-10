@@ -1,67 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC46303A22;
-	Mon, 10 Nov 2025 13:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19BE26F297
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 13:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762781213; cv=none; b=qNjJhorX+QkfDe3f7Q1p0ctI/c0tksq1AcBhUR33LVh+ULslctyR2h72rTIXgxnwGhleCBiNKY+uIC952N5BNNzC4VsNGUQlrQCA50W55nFDARaXp+i5yhKBOdVGt06ripXU9sCrj7jdxttX7+RnVgar32aSqrjX7DdKtjFrPvo=
+	t=1762781873; cv=none; b=OqlOpalEfDXlyDx2EdNMHA/gGI+J3o2akOPvgBcy3ePp7nN6olhxp27MAKUuASK2CAsqCAXQvkRHsEzD2Re3eOI1GDESVXjXSsDBwl5dHiD1jzltnMSZwXBsFoBrFezDXzam4VGzG/AI0CnpqsvHLrbs5uGre9kScQLbHMiL9/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762781213; c=relaxed/simple;
-	bh=gqluEsxLQlbV3vngbeO8V//CEUVe0NkM4sEqKyJqBVc=;
+	s=arc-20240116; t=1762781873; c=relaxed/simple;
+	bh=MpvpQ+zwFGgElKQFGsR3rvUlYTM2YXz7/yo8/if9x7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2Uehh2rXRuOqC3SlwuM2b1y6Fu53EDudxeaoB44bPkvs1cTCn3IB1+0QPQV64ttyi5iS3I1WForPfnncxbXGjOYFBEb0Kc2zLqBmtVYl45Xy48uoRjHkaDh2aJ996ARFxeHh6/BZA3nK+TGrCffOlhUv1ZBBRHVCuYpO6Ik6E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMOehkiy; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=oTwMJTv7JK79jtWs8xj6iqRQKggjljylUFl9gDX+xJEMatb79N91uaGnt2Xu2WQULbg4NIg+dcyWqDMKfHjzzqoEsgiqjVvEfl3R7x52R/I5KG8s2EOkpdD6XzWys1+1eOjUTI06CUslSgoQB16X0ALIvn1gHETXQEyDj7XKIa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtXXSAOz; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMOehkiy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtXXSAOz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762781211; x=1794317211;
+  t=1762781872; x=1794317872;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gqluEsxLQlbV3vngbeO8V//CEUVe0NkM4sEqKyJqBVc=;
-  b=ZMOehkiyNZMJdT6wlKz1eQlP7EdIaGli/KwkhbSmCQ3BMgsy3w+agHIk
-   C0EZgiSvmDOO66ptfkAa+3s3SbbAIRcDwtw5KNV/wR2O3W7c4WWiesCS0
-   JKbnCNdSZFtdLMHaN2/9y152apuH/tmLU02/1D765dVUw8O21QPCZTOz8
-   GB3H/K33ESwD/Wh7x2kSbzwEmnP17TJ0ZPKsYfJBKWjSDPnn7Lxd9xgB/
-   YPE7hWfU5FG2g2uWqDOgQCyAUjmUUms3T8do0PlMcQ3LwdOeeqhEZNtXg
-   R8OzmVF+okqZPXqZKqT/5Ii97dihSPcBX6y2rj/aG4vQldLNFuEUTwr83
-   w==;
-X-CSE-ConnectionGUID: 5xV9sQstTuCXVQLy5NPbrA==
-X-CSE-MsgGUID: 4zUBO0ljT026gVy1rP+jjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75122598"
+  bh=MpvpQ+zwFGgElKQFGsR3rvUlYTM2YXz7/yo8/if9x7A=;
+  b=ZtXXSAOztPj74TZdrN2nzmY5FvMQf0431cw9MUoeFztIxVo84k4YRtBy
+   GU713NNjcZOtKThcJm87s3MNaQdaFJwKNZ+YZxtCAiTTw9xr/hGI0vkUl
+   1FpgyXGeYN0ThsBECog2CMCw9WNzjl8XkXpbqSiJHPYg2TR6jFIgkKXxZ
+   3yy0o5ZFqKXJxpVwAHHM816e3pQ77a4MDofXmVmlU41c5pspFIbuxKaG9
+   V2e0OPBAfxRiEPa3t3xIQC/mmXnibfIXuPq10BMJllC1Q0K6fiCsBpOvK
+   QjCDmsFQNBJiN0IMwl4kcG92BDq3Wxip5F8Q/LR9DC/k3rH4g9PZXTLCO
+   A==;
+X-CSE-ConnectionGUID: 7g3zevxuTfqXOmuYLaTIYg==
+X-CSE-MsgGUID: Zq+6YhVTTmmuq/b7vPIOfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64985444"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75122598"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 05:26:51 -0800
-X-CSE-ConnectionGUID: t+LJONLVQHSZACIPcylDHg==
-X-CSE-MsgGUID: TMq45V+1QXibCa/0AnAzug==
+   d="scan'208";a="64985444"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 05:37:51 -0800
+X-CSE-ConnectionGUID: PdttmHQiQuysIPlPSwzWBg==
+X-CSE-MsgGUID: fQoCJl5PR6CSp6RTav1i+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="192932412"
+   d="scan'208";a="212068745"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 05:26:45 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2025 05:37:48 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIRuu-0000Sp-2q;
-	Mon, 10 Nov 2025 13:26:44 +0000
-Date: Mon, 10 Nov 2025 21:26:01 +0800
+	id 1vIS5Z-0000Td-2t;
+	Mon, 10 Nov 2025 13:37:45 +0000
+Date: Mon, 10 Nov 2025 21:37:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chrisl@kernel.org, kasong@tencent.com, hannes@cmpxchg.org,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, shikemeng@huaweicloud.com, nphamcs@gmail.com,
-	bhe@redhat.com, baohua@kernel.org, youngjun.park@lge.com,
-	gunho.lee@lge.com, taejoon.song@lge.com
-Subject: Re: [PATCH 3/3] mm/swap: integrate swap tier infrastructure into
- swap subsystem
-Message-ID: <202511102100.y6n1mtle-lkp@intel.com>
-References: <20251109124947.1101520-4-youngjun.park@lge.com>
+To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Mary Guillemard <mary@mary.zone>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	nouveau@lists.freedesktop.org,
+	Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
+	James Jones <jajones@nvidia.com>
+Subject: Re: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
+Message-ID: <202511102116.qWX79pIo-lkp@intel.com>
+References: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,78 +73,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251109124947.1101520-4-youngjun.park@lge.com>
+In-Reply-To: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
 
-Hi Youngjun,
+Hi Mohamed,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc5 next-20251110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-introduce-swap-tier-infrastructure/20251109-215033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251109124947.1101520-4-youngjun.park%40lge.com
-patch subject: [PATCH 3/3] mm/swap: integrate swap tier infrastructure into swap subsystem
-config: riscv-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251110/202511102100.y6n1mtle-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511102100.y6n1mtle-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mohamed-Ahmed/drm-nouveau-uvmm-Prepare-for-larger-pages/20251109-035142
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251108194919.68754-3-mohamedahmedegypt2001%40gmail.com
+patch subject: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
+config: i386-randconfig-141-20251110 (https://download.01.org/0day-ci/archive/20251110/202511102116.qWX79pIo-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511102116.qWX79pIo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511102100.y6n1mtle-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511102116.qWX79pIo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/page_io.c:29:
->> mm/swap_tier.h:71:1: error: expected identifier or '('
-      71 | {
-         | ^
+>> drivers/gpu/drm/nouveau/nouveau_uvmm.c:508:16: error: incompatible pointer types passing 'struct drm_device *' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+     508 |         dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
+         |                       ^~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:201:27: note: expanded from macro 'dev_warn_once'
+     201 |         dev_level_once(dev_warn, dev, fmt, ##__VA_ARGS__)
+         |                                  ^~~
+   include/linux/dev_printk.h:181:13: note: expanded from macro 'dev_level_once'
+     181 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
+         |                           ^~~
+   include/linux/dev_printk.h:156:49: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~
+   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/linux/dev_printk.h:52:37: note: passing argument to parameter 'dev' here
+      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
+         |                                     ^
    1 error generated.
---
-   In file included from mm/swapfile.c:52:
->> mm/swap_tier.h:71:1: error: expected identifier or '('
-      71 | {
-         | ^
->> mm/swapfile.c:1309:31: error: no member named 'tier_idx' in 'struct swap_info_struct'
-    1309 |                 if (swap_tiers_test_off(si->tier_idx, mask))
-         |                                         ~~  ^
-   2 errors generated.
 
 
-vim +71 mm/swap_tier.h
+vim +508 drivers/gpu/drm/nouveau/nouveau_uvmm.c
 
-c17fe68325c921 Youngjun Park 2025-11-09  41  
-c17fe68325c921 Youngjun Park 2025-11-09  42  void swap_tiers_init(void);
-c17fe68325c921 Youngjun Park 2025-11-09  43  int swap_tiers_add(struct tiers_desc desc[], int nr);
-c17fe68325c921 Youngjun Park 2025-11-09  44  int swap_tiers_remove(struct tiers_desc desc[], int nr);
-c17fe68325c921 Youngjun Park 2025-11-09  45  ssize_t swap_tiers_show_sysfs(char *buf);
-c17fe68325c921 Youngjun Park 2025-11-09  46  void swap_tiers_show_memcg(struct seq_file *m, struct mem_cgroup *memcg);
-c17fe68325c921 Youngjun Park 2025-11-09  47  void swap_tiers_assign(struct swap_info_struct *swp);
-c17fe68325c921 Youngjun Park 2025-11-09  48  void swap_tiers_release(struct swap_info_struct *swp);
-c17fe68325c921 Youngjun Park 2025-11-09  49  int swap_tiers_get_mask(struct tiers_desc *desc, int nr, struct mem_cgroup *memcg);
-c17fe68325c921 Youngjun Park 2025-11-09  50  void swap_tiers_put_mask(struct mem_cgroup *memcg);
-c17fe68325c921 Youngjun Park 2025-11-09  51  static inline bool swap_tiers_test_off(int tier_idx, int mask)
-c17fe68325c921 Youngjun Park 2025-11-09  52  {
-c17fe68325c921 Youngjun Park 2025-11-09  53  	return TIER_MASK(tier_idx, TIER_OFF_MASK) & mask;
-c17fe68325c921 Youngjun Park 2025-11-09  54  }
-c17fe68325c921 Youngjun Park 2025-11-09  55  int swap_tiers_collect_compare_mask(struct mem_cgroup *memcg);
-c17fe68325c921 Youngjun Park 2025-11-09  56  #else
-c17fe68325c921 Youngjun Park 2025-11-09  57  static inline void swap_tiers_init(void)
-c17fe68325c921 Youngjun Park 2025-11-09  58  {
-c17fe68325c921 Youngjun Park 2025-11-09  59  }
-c17fe68325c921 Youngjun Park 2025-11-09  60  static inline void swap_tiers_assign(struct swap_info_struct *swp)
-c17fe68325c921 Youngjun Park 2025-11-09  61  {
-c17fe68325c921 Youngjun Park 2025-11-09  62  }
-c17fe68325c921 Youngjun Park 2025-11-09  63  static inline void swap_tiers_release(struct swap_info_struct *swp)
-c17fe68325c921 Youngjun Park 2025-11-09  64  {
-c17fe68325c921 Youngjun Park 2025-11-09  65  }
-c17fe68325c921 Youngjun Park 2025-11-09  66  static inline bool swap_tiers_test_off(int tier_off_mask, int mask)
-c17fe68325c921 Youngjun Park 2025-11-09  67  {
-c17fe68325c921 Youngjun Park 2025-11-09  68  	return false;
-c17fe68325c921 Youngjun Park 2025-11-09  69  }
-c17fe68325c921 Youngjun Park 2025-11-09  70  static inline int swap_tiers_collect_compare_mask(struct mem_cgroup *memcg);
-c17fe68325c921 Youngjun Park 2025-11-09 @71  {
+   466	
+   467	static u8
+   468	select_page_shift(struct nouveau_uvmm *uvmm, struct drm_gpuva_op_map *op)
+   469	{
+   470		struct nouveau_bo *nvbo = nouveau_gem_object(op->gem.obj);
+   471	
+   472		/* nouveau_bo_fixup_align() guarantees that the page size will be aligned
+   473		 * for most cases, but it can't handle cases where userspace allocates with
+   474		 * a size and then binds with a smaller granularity. So in order to avoid
+   475		 * breaking old userspace, we need to ensure that the VA is actually
+   476		 * aligned before using it, and if it isn't, then we downgrade to the first
+   477		 * granularity that will fit, which is optimal from a correctness and
+   478		 * performance perspective.
+   479		 */
+   480		if (op_map_aligned_to_page_shift(op, nvbo->page))
+   481			return nvbo->page;
+   482	
+   483		struct nouveau_mem *mem = nouveau_mem(nvbo->bo.resource);
+   484		struct nvif_vmm *vmm = &uvmm->vmm.vmm;
+   485		int i;
+   486	
+   487		/* If the given granularity doesn't fit, let's find one that will fit. */
+   488		for (i = 0; i < vmm->page_nr; i++) {
+   489			/* Ignore anything that is bigger or identical to the BO preference. */
+   490			if (vmm->page[i].shift >= nvbo->page)
+   491				continue;
+   492	
+   493			/* Skip incompatible domains. */
+   494			if ((mem->mem.type & NVIF_MEM_VRAM) && !vmm->page[i].vram)
+   495				continue;
+   496			if ((mem->mem.type & NVIF_MEM_HOST) &&
+   497			    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
+   498				continue;
+   499	
+   500			/* If it fits, return the proposed shift. */
+   501			if (op_map_aligned_to_page_shift(op, vmm->page[i].shift))
+   502				return vmm->page[i].shift;
+   503		}
+   504	
+   505		/* If we get here then nothing can reconcile the requirements. This should never
+   506		 * happen.
+   507		 */
+ > 508		dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
+   509	
+   510		return PAGE_SHIFT;
+   511	}
+   512	
 
 -- 
 0-DAY CI Kernel Test Service
