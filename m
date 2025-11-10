@@ -1,101 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F9F228CBC;
-	Mon, 10 Nov 2025 13:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BE226CE2B;
+	Mon, 10 Nov 2025 13:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762782148; cv=none; b=NoToLihSk3AUihuY/kXCH9e/M2L2WuDEnmVYLDWo2APqsZDbZ91hx6sREgAq/i8lvvcVEzSgi4f1Q2kazBr8KPdlwu5hjJNSJ5UyIterTjiYf0LfH4gj//RgNAcCBxUAA6Bg10AA995JNdvfrWLtqT91+9aQeT76voxIjGQrP8c=
+	t=1762782535; cv=none; b=X5k9PA9lj126Mles/lAcDRU2rWs+OyR6XRd0OleA3w8QRUqzGAICLltyJZfbFry3YBYOGkIEW5NjyKoXJuuL31LhrKj9Dfyu0mHiuluBCJUyG9PNOUNTQlvMnDz1yga+z95rljQDij7I2qmFT+B3si6VqUw/xVMmnOY2mfS2Jf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762782148; c=relaxed/simple;
-	bh=odW9RE5kXkX2DoPQTnJV7+yOA9qzBKlmq7olgQ28j3g=;
+	s=arc-20240116; t=1762782535; c=relaxed/simple;
+	bh=LOyAN0iO2EMSmgKDPwrtHMT6er9B+4VjQSQPgBTISus=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJGdALyxp1rlw20bS7x0ApS/fz4uhS7vGwZJFBtPeyDZgTQF+wP1NK6UE5c9EFhQfPqEQgUUFwU+mvI3qhMGRc5e1Ytae9qhHdkFJPA0v/nnH6Shdw6SR+gVI+qxhfP6wZkzpomicfQl7HEDEVhH8uOAqdaqTlyj2JAWxjOVNEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcM3pBk1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhLwMvTZ3PdDZIx0Z9bCnps//wuPXJvVpYiZksOf3gcEBKXNebSnS6bhV3DhWJ2jEva+qhIO8sxtyxJzEbXFAp2KETXs9lB87KPLO3P7pwlqyzQY1wz7MfOTSWTek6za6kaWsaEGMztWNJQhMxwB0ej5A/2/KTyIka0rwitBC3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcOi4P3T; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcM3pBk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27AC6C19422;
-	Mon, 10 Nov 2025 13:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762782148;
-	bh=odW9RE5kXkX2DoPQTnJV7+yOA9qzBKlmq7olgQ28j3g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BcM3pBk15O8CeNHJ6ZFU3yCzeMV4Y+gf/ucl4hMOp9TkHKM4w83754QMcY+eHCplJ
-	 VVvkxwiMOhYVejdAAQ9ZV0OPwuRx+XLt330hwDHRO4OHadL3UaBkhzHbMyi4EGaAgA
-	 u5Ole6i5YV13ByA1G8X61zv+qbe4FLEcet5D57A8PbObccoz9wMQKlAZnxxQRUaP69
-	 HlOhICvag0gpNdQs903tkSLBxBZOP8dCzqepwtV8tZ08Z6zy0iTTNtRqxegEK5SZaJ
-	 V1oWm0OMSRwIrHwH3HINjqk3Xv4PACI/el1NKNphPbwoV51TtN0A6IF4pyeatJz4Ww
-	 DOTd87ugiq7qg==
-Date: Mon, 10 Nov 2025 13:42:21 +0000
-From: Lee Jones <lee@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Shree Ramamoorthy <s-ramamoorthy@ti.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	Andrew Davis <afd@ti.com>, Bajjuri Praneeth <praneeth@ti.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] mfd: tps65219: Implement LOCK register handling
- for TPS65214
-Message-ID: <20251110134221.GD1949330@google.com>
-References: <20251106-fix_tps65219-v2-1-a7d608c4272f@bootlin.com>
- <202511070607.Il9q9meO-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcOi4P3T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762782534; x=1794318534;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LOyAN0iO2EMSmgKDPwrtHMT6er9B+4VjQSQPgBTISus=;
+  b=EcOi4P3Tm/NpSLAyyis1vLisU+9lvFHEK1bw0rs/zXU/p0kKIasFmi0q
+   5C+WES27rECaQhf6Y/qs4UPMjAomyS+s7gVacnsQoK9OU3wV7dYdeAQx/
+   jEIIXyoQNFofdMO/amuIMUS+YFFZazX1VKZ8Kr1AQHv2voNTNfcA2nXgb
+   ZcUGi9DHZv25irqTBrWNswJ3PWVCPvBtYtbdSxkJ/Vs6brqGYoIEax/LI
+   dZ3sfspiHVQptv7v+FSe6pxF/7nfGLpAlTB4EsgMOpkVMKEl2gKNGMxKm
+   ejgDZxQA7AR//CikU/5QzrEZe8ivgux+wp4jNRIz12DUxOZEG91plyTJ9
+   g==;
+X-CSE-ConnectionGUID: CtV+6M01SpicRgytMavh2Q==
+X-CSE-MsgGUID: 355s4cqBRqSukOgjX+oImg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64037929"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="64037929"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 05:48:53 -0800
+X-CSE-ConnectionGUID: ksHDq/jlT0CyTbiAG0Kh1A==
+X-CSE-MsgGUID: fTYm8Jd0R7+bZjc6v7kurQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="193060165"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2025 05:48:50 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vISGF-0000UV-1e;
+	Mon, 10 Nov 2025 13:48:47 +0000
+Date: Mon, 10 Nov 2025 21:47:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+	javierm@redhat.com, simona@ffwll.ch, airlied@gmail.com,
+	mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/3] drm/client: Support emergency restore via sysrq for
+ all clients
+Message-ID: <202511102156.RRA8JQGz-lkp@intel.com>
+References: <20251107142612.467817-3-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202511070607.Il9q9meO-lkp@intel.com>
+In-Reply-To: <20251107142612.467817-3-tzimmermann@suse.de>
 
-On Fri, 07 Nov 2025, kernel test robot wrote:
+Hi Thomas,
 
-> Hi Kory,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 1c353dc8d962de652bc7ad2ba2e63f553331391c]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kory-Maincent-TI-com/mfd-tps65219-Implement-LOCK-register-handling-for-TPS65214/20251106-185551
-> base:   1c353dc8d962de652bc7ad2ba2e63f553331391c
-> patch link:    https://lore.kernel.org/r/20251106-fix_tps65219-v2-1-a7d608c4272f%40bootlin.com
-> patch subject: [PATCH v2 1/2] mfd: tps65219: Implement LOCK register handling for TPS65214
-> config: i386-buildonly-randconfig-003-20251107 (https://download.01.org/0day-ci/archive/20251107/202511070607.Il9q9meO-lkp@intel.com/config)
-> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251107/202511070607.Il9q9meO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511070607.Il9q9meO-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/mfd/tps65219.c: In function 'tps65214_reg_write':
-> >> drivers/mfd/tps65219.c:479:26: warning: variable 'tps' set but not used [-Wunused-but-set-variable]
->      479 |         struct tps65219 *tps;
->          |                          ^~~
-> 
-> 
-> vim +/tps +479 drivers/mfd/tps65219.c
-> 
->    475	
->    476	static int tps65214_reg_write(void *context, unsigned int reg, unsigned int val)
->    477	{
->    478		struct i2c_client *i2c = context;
->  > 479		struct tps65219 *tps;
+kernel test robot noticed the following build errors:
 
-Please fix.
+[auto build test ERROR on next-20251107]
+[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc4 v6.18-rc3 v6.18-rc2 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-client-Pass-force-parameter-to-client-restore/20251107-223026
+base:   next-20251107
+patch link:    https://lore.kernel.org/r/20251107142612.467817-3-tzimmermann%40suse.de
+patch subject: [PATCH 2/3] drm/client: Support emergency restore via sysrq for all clients
+config: powerpc64-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251110/202511102156.RRA8JQGz-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0d786b9a207aa0e6d88dde7fd9ffe0b364db69a4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511102156.RRA8JQGz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511102156.RRA8JQGz-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_auth.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_unregister
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_unregister) in archive vmlinux.a
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_auth.o:(.text+0x40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_edid.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_unregister
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_unregister) in archive vmlinux.a
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_edid.o:(.text+0x40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_encoder.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_unregister
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_unregister) in archive vmlinux.a
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_encoder.o:(.text+0x40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_file.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_unregister
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_unregister) in archive vmlinux.a
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_file.o:(.text+0x40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_framebuffer.o:(.text+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_unregister
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_unregister) in archive vmlinux.a
+   >>> defined at drm_internal.h:67 (drivers/gpu/drm/drm_internal.h:67)
+   >>>            drivers/gpu/drm/drm_framebuffer.o:(.text+0x40) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: drm_client_sysrq_register
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_atomic.o:(drm_client_sysrq_register) in archive vmlinux.a
+   >>> defined at drm_internal.h:65 (drivers/gpu/drm/drm_internal.h:65)
+   >>>            drivers/gpu/drm/drm_gem.o:(.text+0x0) in archive vmlinux.a
+..
 
 -- 
-Lee Jones [李琼斯]
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
