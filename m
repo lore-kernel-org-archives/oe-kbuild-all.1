@@ -1,70 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C9F2F7471
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 10:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685922F657C;
+	Mon, 10 Nov 2025 10:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762769192; cv=none; b=eKzZjlQlkZC+x/shN00VbixYeaCuTTV/Lz2M7OpB/lfKC/9WLplA8hCaNoDMEUMsLspov+h4r/WdNSvP4X7yO6wVEyk5q47Ptix/K+u7sefVt4k87R4AytMVEccZ9eXp5nue8Eq3w7i7uVAQtFDwpT4RD9God9ob2aK3BDMsAxc=
+	t=1762769913; cv=none; b=tZFhQN9ts5JGE8qWEq4UeC/8Hjdui3Y8rMr1YQV+vc36UpGhtG5WDNU7plY7R1bkKXrrZwT6KfUMAl0QEefmrHHHq+KUqftGFLYrnrNn1qYxeV45xVfdCHplyLkB5blfC/at0/xso1aJRNDcLS6olxS4+9fFMPaMZfvfmF9Ei9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762769192; c=relaxed/simple;
-	bh=njMvkb3GKogZWduhp71RZ/0zgC5Z05aRgumYU/Ofx3k=;
+	s=arc-20240116; t=1762769913; c=relaxed/simple;
+	bh=e3PCZB+6Yrv72SbD8Y/ik1Ae4wkWt0aagsodthP5aYs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtJS++DrxR6Bn8143dw88lLVju/vzuYARvHqhqULQfal42xmbiAcT/UUp57fBmW9sNPP+dC2HJTyONvxPo9cMz7TN3DCADSJozxfcHWnM1v2jPISn36hlKPVa6zkiaiWkwojXyqUdXFMV6c0iiiEQoxMhv2xz7p+8pWgL8DJCQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giRz8wQD; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=a72Epi0EuYKPtpQ4p/C/dguG5ONG4HXZQKVqvaKqHAKgJXVtW2Ol9J8uxv9+gQ2GBXsBOfw4UHjy+M7bE38hZ0XEKAvpQgX9nyX8+OSkPkd8ipsnCE5KRFnS6iDSYI3DSTpZpLVn7CVNrPFwFz6z3f4azO9JcfTP6P1B3J4kF4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQhPfYN+; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giRz8wQD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQhPfYN+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762769191; x=1794305191;
+  t=1762769912; x=1794305912;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=njMvkb3GKogZWduhp71RZ/0zgC5Z05aRgumYU/Ofx3k=;
-  b=giRz8wQDVQoUYMDCrehXgXrZpLGwTg8rRwOx4+5s4E8EMKHqyRK9L3+U
-   IR4z70zPF5sNMUQ133bZg6BPjWC2NJj25WIxD3a4pCRCfe7SukAEPN651
-   ahNVvTOf1I6HJP9F/2trp/TZ9lYivopw4lH7YM63f9Wo0EH+kp+3tfzHH
-   ee18mLtpFvamhgyC00C2t59AWLshQD0zczYee47bV9PMy840lk6jBGk9z
-   n92NZ9/WId0RTVcdKQKudigj5UwU6QMBloTtb6g/+i7NkD7X0zgJnwYn8
-   IVWnPlV+CQB0ZbrJviUbVsS8YKTINpMdUVXgaEww92EWjJaU9uhTYkL+t
-   A==;
-X-CSE-ConnectionGUID: hrJyEVcZQNqyb4qcMdhy+Q==
-X-CSE-MsgGUID: KqNeooqWSJCUqsScubFhtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="82214310"
+  bh=e3PCZB+6Yrv72SbD8Y/ik1Ae4wkWt0aagsodthP5aYs=;
+  b=fQhPfYN+HmyX5tgLcMF/WT+yZa4QpMDrp+Ul9m/cAPh7oJehp/EV7Wn3
+   C0xvf3KSzxG+Ma4eKFUvBTO6Nx9xc7dYm1rlFy7cGT/sXHhuayn5krc/5
+   Z715vrslVk6ZhF6V8+9YBKbQUoLE1odd85u4wYDVdCXz63bHP/sIZnnMx
+   XyO/HrcaODh9HsKzQk6FDWZTyrqaQkVMUfFko1Kz3qNTVGWFrNeisS4p+
+   l1OLh7XNbFpdzmmLTOeoG1Te8oxOFSxzn3UIiB4uDOezxwtCv+Inh1OoI
+   4XADOLJ1MgqKvt5tGn5uzWSXCwWf6jrZyJaIeJxOTzDqHUHyVhwvdM3/u
+   g==;
+X-CSE-ConnectionGUID: iIEImtKHRvSQdO17yXR+cQ==
+X-CSE-MsgGUID: 9uB3ZmdyQ2qoqaZpyVIwCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64858062"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="82214310"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 02:06:31 -0800
-X-CSE-ConnectionGUID: NKU8XwPTQqCuTvGu0yP1NQ==
-X-CSE-MsgGUID: GSJ8l7dqQwCwM32MrKNugw==
+   d="scan'208";a="64858062"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 02:18:31 -0800
+X-CSE-ConnectionGUID: MKfpNpLKRFaxc4+bwWKWBg==
+X-CSE-MsgGUID: 1oCeGOScS8u/OifLfd+Fjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="212032316"
+   d="scan'208";a="187890680"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2025 02:06:26 -0800
+  by orviesa006.jf.intel.com with ESMTP; 10 Nov 2025 02:18:28 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIOn2-0000HD-1v;
-	Mon, 10 Nov 2025 10:06:24 +0000
-Date: Mon, 10 Nov 2025 18:06:19 +0800
+	id 1vIOyf-0000I3-2A;
+	Mon, 10 Nov 2025 10:18:25 +0000
+Date: Mon, 10 Nov 2025 18:17:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Mary Guillemard <mary@mary.zone>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	nouveau@lists.freedesktop.org,
-	Mohamed Ahmed <mohamedahmedegypt2001@gmail.com>,
-	James Jones <jajones@nvidia.com>
-Subject: Re: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
-Message-ID: <202511101750.gQGInWw5-lkp@intel.com>
-References: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
+To: Ajith Anandhan <ajithanandhan0406@gmail.com>, jic23@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ajith Anandhan <ajithanandhan0406@gmail.com>
+Subject: Re: [PATCH v2 2/2] iio: adc: Add support for TI ADS1120
+Message-ID: <202511101707.NSNVObH4-lkp@intel.com>
+References: <20251109141119.561756-3-ajithanandhan0406@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,112 +67,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251108194919.68754-3-mohamedahmedegypt2001@gmail.com>
+In-Reply-To: <20251109141119.561756-3-ajithanandhan0406@gmail.com>
 
-Hi Mohamed,
+Hi Ajith,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc5 next-20251110]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.18-rc5 next-20251110]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohamed-Ahmed/drm-nouveau-uvmm-Prepare-for-larger-pages/20251109-035142
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251108194919.68754-3-mohamedahmedegypt2001%40gmail.com
-patch subject: [PATCH v5 2/5] drm/nouveau/uvmm: Allow larger pages
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20251110/202511101750.gQGInWw5-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101750.gQGInWw5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajith-Anandhan/dt-bindings-iio-adc-Add-TI-ADS1120-binding/20251109-221245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251109141119.561756-3-ajithanandhan0406%40gmail.com
+patch subject: [PATCH v2 2/2] iio: adc: Add support for TI ADS1120
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251110/202511101707.NSNVObH4-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101707.NSNVObH4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101750.gQGInWw5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101707.NSNVObH4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from drivers/gpu/drm/nouveau/include/nvif/os.h:8,
-                    from drivers/gpu/drm/nouveau/include/nvif/object.h:4,
-                    from drivers/gpu/drm/nouveau/include/nvif/client.h:5,
-                    from drivers/gpu/drm/nouveau/nouveau_drv.h:42,
-                    from drivers/gpu/drm/nouveau/nouveau_uvmm.c:23:
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c: In function 'select_page_shift':
->> drivers/gpu/drm/nouveau/nouveau_uvmm.c:508:34: error: passing argument 1 of '_dev_warn' from incompatible pointer type [-Wincompatible-pointer-types]
-     508 |         dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-         |                       ~~~~~~~~~~~^~~~~
-         |                                  |
-         |                                  struct drm_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   include/linux/dev_printk.h:181:17: note: in expansion of macro 'dev_warn'
-     181 |                 dev_level(dev, fmt, ##__VA_ARGS__);                     \
-         |                 ^~~~~~~~~
-   include/linux/dev_printk.h:201:9: note: in expansion of macro 'dev_level_once'
-     201 |         dev_level_once(dev_warn, dev, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_uvmm.c:508:9: note: in expansion of macro 'dev_warn_once'
-     508 |         dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-         |         ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:52:37: note: expected 'const struct device *' but argument is of type 'struct drm_device *'
-      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
-         |                ~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/iio/adc/ti-ads1120.c:347:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     347 |                 guard(mutex)(&st->lock);
+         |                 ^
+   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+         |         ^
+   <scratch space>:10:1: note: expanded from here
+      10 | class_mutex_t
+         | ^
+>> drivers/iio/adc/ti-ads1120.c:366:2: error: cannot jump from switch statement to this case label
+     366 |         default:
+         |         ^
+   drivers/iio/adc/ti-ads1120.c:347:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     347 |                 guard(mutex)(&st->lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:8:1: note: expanded from here
+       8 | __UNIQUE_ID_guard560
+         | ^
+   drivers/iio/adc/ti-ads1120.c:353:2: error: cannot jump from switch statement to this case label
+     353 |         case IIO_CHAN_INFO_SCALE:
+         |         ^
+   drivers/iio/adc/ti-ads1120.c:347:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     347 |                 guard(mutex)(&st->lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:8:1: note: expanded from here
+       8 | __UNIQUE_ID_guard560
+         | ^
+   drivers/iio/adc/ti-ads1120.c:390:2: error: cannot jump from switch statement to this case label
+     390 |         default:
+         |         ^
+   drivers/iio/adc/ti-ads1120.c:387:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+     387 |                 guard(mutex)(&st->lock);
+         |                 ^
+   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
+     401 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:17:1: note: expanded from here
+      17 | __UNIQUE_ID_guard561
+         | ^
+   1 warning and 3 errors generated.
 
 
-vim +/_dev_warn +508 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+vim +366 drivers/iio/adc/ti-ads1120.c
 
-   466	
-   467	static u8
-   468	select_page_shift(struct nouveau_uvmm *uvmm, struct drm_gpuva_op_map *op)
-   469	{
-   470		struct nouveau_bo *nvbo = nouveau_gem_object(op->gem.obj);
-   471	
-   472		/* nouveau_bo_fixup_align() guarantees that the page size will be aligned
-   473		 * for most cases, but it can't handle cases where userspace allocates with
-   474		 * a size and then binds with a smaller granularity. So in order to avoid
-   475		 * breaking old userspace, we need to ensure that the VA is actually
-   476		 * aligned before using it, and if it isn't, then we downgrade to the first
-   477		 * granularity that will fit, which is optimal from a correctness and
-   478		 * performance perspective.
-   479		 */
-   480		if (op_map_aligned_to_page_shift(op, nvbo->page))
-   481			return nvbo->page;
-   482	
-   483		struct nouveau_mem *mem = nouveau_mem(nvbo->bo.resource);
-   484		struct nvif_vmm *vmm = &uvmm->vmm.vmm;
-   485		int i;
-   486	
-   487		/* If the given granularity doesn't fit, let's find one that will fit. */
-   488		for (i = 0; i < vmm->page_nr; i++) {
-   489			/* Ignore anything that is bigger or identical to the BO preference. */
-   490			if (vmm->page[i].shift >= nvbo->page)
-   491				continue;
-   492	
-   493			/* Skip incompatible domains. */
-   494			if ((mem->mem.type & NVIF_MEM_VRAM) && !vmm->page[i].vram)
-   495				continue;
-   496			if ((mem->mem.type & NVIF_MEM_HOST) &&
-   497			    (!vmm->page[i].host || vmm->page[i].shift > PAGE_SHIFT))
-   498				continue;
-   499	
-   500			/* If it fits, return the proposed shift. */
-   501			if (op_map_aligned_to_page_shift(op, vmm->page[i].shift))
-   502				return vmm->page[i].shift;
-   503		}
-   504	
-   505		/* If we get here then nothing can reconcile the requirements. This should never
-   506		 * happen.
-   507		 */
- > 508		dev_warn_once(op->gem.obj->dev, "Could not find an appropriate page size.\n");
-   509	
-   510		return PAGE_SHIFT;
-   511	}
-   512	
+   337	
+   338	static int ads1120_read_raw(struct iio_dev *indio_dev,
+   339				    struct iio_chan_spec const *chan,
+   340				    int *val, int *val2, long mask)
+   341	{
+   342		struct ads1120_state *st = iio_priv(indio_dev);
+   343		int ret, gain;
+   344	
+   345		switch (mask) {
+   346		case IIO_CHAN_INFO_RAW:
+ > 347			guard(mutex)(&st->lock);
+   348			ret = ads1120_read_measurement(st, chan, val);
+   349			if (ret)
+   350				return ret;
+   351			return IIO_VAL_INT;
+   352	
+   353		case IIO_CHAN_INFO_SCALE:
+   354			/*
+   355			 * Scale = Vref / (gain * 2^15)
+   356			 * Return in format: val / 2^val2
+   357			 */
+   358			gain = ads1120_get_gain(st);
+   359			if (gain < 0)
+   360				return gain;
+   361	
+   362			*val = st->vref_mv;
+   363			*val2 = gain * 15;
+   364			return IIO_VAL_FRACTIONAL_LOG2;
+   365	
+ > 366		default:
+   367			return -EINVAL;
+   368		}
+   369	}
+   370	
 
 -- 
 0-DAY CI Kernel Test Service
