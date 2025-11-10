@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CCB301494
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 16:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25166217F53
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 17:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762793113; cv=none; b=VfaMpHpWSxBVEhixduYmAJkbWAsCydC7ZUsVyOTnL8AqpUSKodYCRw/foKzad9JGti8ufGfv2eqjPmchJMzCFUZSUxm/VnUOAg7M/XLkPM1GroBV8vL89S2NtSq+2qhCbeL4IVe7S+qD4bOHd2E749kBL06ei6GnSdF3xZQvrMQ=
+	t=1762794974; cv=none; b=HTooij6oTAyQMrit7RdPSRszZJa43uiZz8rF9gGpGYd4KpDmNjRUqLEvIFrEyoYI99eZ7WjP84LhrUurqQAOaV+R8NDEU/Oj9cJR+SeqiF16RUGK3qGb5/XOzrmfP7Wm60sitsC9USpes3YAGvfW6OehrazGxVKivuhDwFzqBN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762793113; c=relaxed/simple;
-	bh=6f20xq54TtLMEztquYTz/7sBfmq6m9A/0irzWSYMt5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwX255oBz9qq3gD2HTH7ukBesTqdJ6WEi/98A6W8kyRb9On9aJ0ucmvmdwIPy1OBirlCrJlHDS84w5uqfcN/tarjaKJBdgPvyRtG8u+OIAmPkpzeLcDhg0TuPGaD/3Cx0Zc3B8lJ6W0wxYWFAOmt36lvERgY8BpB6hFOnOXCiIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RibJyiN7; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762794974; c=relaxed/simple;
+	bh=Q2Mxbsv8T6237AEDUSVYx+jeCmcsm3LFOZw0ZhKAQuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hYVQOzkCIe1RZo5nBriBA+STUXph02fHBzXI+vK3GJJr+OQNKyjRA6yVb9irbmqCBFbaypN8AG2uy5TO0gNq/6asNJZkchS0Hg4PFt2U8138XLAMoIu1zoX+95Vq+Pn9Vkm4LuUtF6z37KFyL08bjktrX5JId9F8vcIxY1gUlxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMC9e447; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RibJyiN7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMC9e447"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762793111; x=1794329111;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6f20xq54TtLMEztquYTz/7sBfmq6m9A/0irzWSYMt5A=;
-  b=RibJyiN7dxIACcTtSLDg2Scsq273aNPVHLHjVOXRlNMquqLFvMNT4SqQ
-   T/asvdX921Z6xTW+Rymg2+4tKFY10kUUMP/JLb+4acqewpBiC0BnETMh1
-   T9TxnhTesrI2BhCZSzBQguBKcLvaZFPt4JAD6cbxc2JXyiS4UJQ3yxNEe
-   clfsaOp55LF82wUMg0gWP1liQ74qXFOxRTmtceWxE/taQLblOUtc/tPzT
-   rcC41EcAnj6p3tLLOFZcW4vIYMcAdivR6fM+tJVJBTKLyWyfTvz/jN2E1
-   puqcuS7YpFpZ6mNZmsZN3ag2Uufrybv+wgiAu7fieg7JRwS9oDNvdfgwg
-   w==;
-X-CSE-ConnectionGUID: ce68EeLOT/yQ5iQ5/sEpIA==
-X-CSE-MsgGUID: G6sEwp1wSOiBiRr745GXiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="67452337"
+  t=1762794973; x=1794330973;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q2Mxbsv8T6237AEDUSVYx+jeCmcsm3LFOZw0ZhKAQuY=;
+  b=cMC9e447ZqWIKBtyRXkblO1GyOrsyMbw2IN4MNsPobmPBDev+mAnS4gi
+   Qx5FuaxKmc1BmPNlEpnGu147AJ9+ocTfafVVKwweHf1C58SWNmNlBt4U7
+   y5oViCNSle9IKaQZXeeAdxikd8k9Bul+xvcTmluSQUm1CP2Jifk8BdsYh
+   MzPldJ9kTUyO7Rpu4yniNm5dw8s1hOYLrY+/nj3tjisr8wzwIA3RLd26+
+   BjDvVkHfn5x4QSs1wrKTgx6pTOp/GMDDdBBiJOx3s2+T+0bqLTX1ZRyI4
+   pf50zekjZm5MXHlY7yoca5ni3y1PTLkfvjG4Xjbhq31eEYDY3fUdNu0EY
+   g==;
+X-CSE-ConnectionGUID: vV9p7ViYRkmLggpIt+4cRg==
+X-CSE-MsgGUID: Fj+162WCQfGgw7C2bFVBIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68697316"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="67452337"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 08:45:11 -0800
-X-CSE-ConnectionGUID: 8AFq1LKyRMmFIRouCX1Frw==
-X-CSE-MsgGUID: 5NKautCWTWy8rabxuFIM7g==
+   d="scan'208";a="68697316"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 09:16:13 -0800
+X-CSE-ConnectionGUID: 1X3bAiOxSze6tk2+GHIV+Q==
+X-CSE-MsgGUID: X7WS2uHcTFacIe1/JszFXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="225975965"
+   d="scan'208";a="188033016"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Nov 2025 08:45:08 -0800
+  by orviesa010.jf.intel.com with ESMTP; 10 Nov 2025 09:16:12 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIV0s-0000h9-27;
-	Mon, 10 Nov 2025 16:45:06 +0000
-Date: Tue, 11 Nov 2025 00:44:24 +0800
+	id 1vIVUv-0000j9-2I;
+	Mon, 10 Nov 2025 17:16:09 +0000
+Date: Tue, 11 Nov 2025 01:15:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-fpga@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Moritz Fischer <mdf@kernel.org>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fpga: stratix10-soc: add COMPILE_TEST support
-Message-ID: <202511110022.BepBhYbE-lkp@intel.com>
-References: <20251106185938.6419-3-rosenp@gmail.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:keys-pqc 2/8]
+ crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in
+ argument 3 (different base types)
+Message-ID: <202511110107.cresrLdf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,55 +62,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106185938.6419-3-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc5 next-20251110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/fpga-stratix10-soc-add-missing-header/20251107-030213
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251106185938.6419-3-rosenp%40gmail.com
-patch subject: [PATCH 2/2] fpga: stratix10-soc: add COMPILE_TEST support
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20251111/202511110022.BepBhYbE-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110022.BepBhYbE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
+head:   445b842b50b449ceb18cbbfc72dc28bc25fa8b08
+commit: 7ae730f92709e7f54f560e4ca88b10ef1aeb6c22 [2/8] crypto: Add ML-DSA/Dilithium verify support
+config: mips-randconfig-r134-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110107.cresrLdf-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d445cba39f4dd3dcda4fa1433eca825cf8fc09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110107.cresrLdf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110022.BepBhYbE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110107.cresrLdf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   crypto/ml_dsa/dilithium_44.c: note: in included file (through crypto/ml_dsa/dilithium_signature_c.c):
+>> crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [addressable] [usertype] nonce @@     got restricted __le16 [usertype] @@
+   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     expected unsigned short [addressable] [usertype] nonce
+   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     got restricted __le16 [usertype]
+>> crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [addressable] [usertype] nonce @@     got restricted __le16 [usertype] @@
+   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     expected unsigned short [addressable] [usertype] nonce
+   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     got restricted __le16 [usertype]
 
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_remove':
->> stratix10-soc.c:(.text+0x1c): undefined reference to `stratix10_svc_free_channel'
->> stratix10-soc.c:(.text+0x1c): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_free_channel'
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_svc_send_msg':
->> stratix10-soc.c:(.text+0xb4): undefined reference to `stratix10_svc_send'
->> stratix10-soc.c:(.text+0xb4): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_send'
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_probe':
->> stratix10-soc.c:(.text+0x1d4): undefined reference to `stratix10_svc_request_channel_byname'
->> stratix10-soc.c:(.text+0x1d4): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_request_channel_byname'
->> nios2-linux-ld: stratix10-soc.c:(.text+0x25c): undefined reference to `stratix10_svc_free_channel'
-   stratix10-soc.c:(.text+0x25c): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_free_channel'
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_free_buffers':
->> stratix10-soc.c:(.text+0x344): undefined reference to `stratix10_svc_free_memory'
->> stratix10-soc.c:(.text+0x344): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_free_memory'
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_ops_write_complete':
->> stratix10-soc.c:(.text+0x4b0): undefined reference to `stratix10_svc_done'
->> stratix10-soc.c:(.text+0x4b0): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_done'
-   nios2-linux-ld: drivers/fpga/stratix10-soc.o: in function `s10_ops_write_init':
->> stratix10-soc.c:(.text+0x988): undefined reference to `stratix10_svc_allocate_memory'
->> stratix10-soc.c:(.text+0x988): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_allocate_memory'
->> nios2-linux-ld: stratix10-soc.c:(.text+0x9c0): undefined reference to `stratix10_svc_done'
-   stratix10-soc.c:(.text+0x9c0): relocation truncated to fit: R_NIOS2_CALL26 against `stratix10_svc_done'
+vim +41 crypto/ml_dsa/dilithium_polyvec_c.h
+
+    21	
+    22	/*
+    23	 * @brief expand_mat - Implementation of ExpandA. Generates matrix A with
+    24	 *		       uniformly random coefficients a_{i,j} by performing
+    25	 *		       rejection sampling on the output stream of
+    26	 *		       SHAKE128(rho|j|i).
+    27	 *
+    28	 * @param [out] mat output matrix
+    29	 * @param [in] rho byte array containing seed rho
+    30	 */
+    31	static inline void
+    32	polyvec_matrix_expand(polyvecl mat[DILITHIUM_K],
+    33			      const uint8_t rho[DILITHIUM_SEEDBYTES], void *ws_buf)
+    34	{
+    35		unsigned int i, j;
+    36	
+    37		for (i = 0; i < DILITHIUM_K; ++i)
+    38			for (j = 0; j < DILITHIUM_L; ++j)
+    39				poly_uniform(
+    40					&mat[i].vec[j], rho,
+  > 41					cpu_to_le16((uint16_t)(i << 8) + (uint16_t)j),
+    42					ws_buf);
+    43	}
+    44	
 
 -- 
 0-DAY CI Kernel Test Service
