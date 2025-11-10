@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CF62EDD52;
-	Mon, 10 Nov 2025 20:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1826723BCE4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 21:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762806879; cv=none; b=QlplJeCNFvnYd5/da2HYSKlU4SGIkyH3ucOZbMHrNhFRFKUopZms5YkTpfLaeBoCsmk6Vk1JVcAHDt/rcFg7cOKSOlANRIH5tLXxOZDtwmqIZ60Hjdu6t2e4/Z5sDS8kKnWagUKcnrUKZFdpkDaaZxL+nivUglokp7iLLa7JnVY=
+	t=1762810605; cv=none; b=lr7cgqrhGz4E8yurhYQjvnbDqZzep5wXu/TInERCmbOYttidQvAFwQR4ieLp7Yo0wEBz2Ld1yAysAyJghILaqDsLr+5zrIQpEyK2l8gkSdlhI5AcmlYpaGMcfy8FIer0T1eMBKSuPDAUQ/m6quEkexmz40hb2e0i27MfwWsbp6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762806879; c=relaxed/simple;
-	bh=hZOvKyj6XBdvi5A6WGdxy5AfVmNCi1exI6P9i2I1ox8=;
+	s=arc-20240116; t=1762810605; c=relaxed/simple;
+	bh=A0GU5qq9HA1svLiXjvESvIcAHmWUinWInAPgwPjSTWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C6q7DGYpWhjyhkZpC03y28E6UWeovJgJmENujGQUUuk71N7ozFOXRadAbrRllAnatNaWCyIfCQP6vTG9Q/ittXypQWtQVQEJHMRQfPEKGlS9wtY588gKl8tyOFo13ILpjwkzONs/zyTQ9lH2zJu8bv8b5ks0oewsYolHe/2qaec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=erp3QnG3; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=q0YyWXAA69mjX3AZ7a+7xRebRQ6Y1nvoT+1yKWGeWCL/47QipzjThoDPLfl8Wyp5rb6xBHIUXTEMd5HD4sqPW3t8dvJ9uRxu0JAqxOf0X4AUGHOVIMh8hTiIfZEAN7I+qSX63CR4wNRcZDFw+++re6Ofn5KHuvGnIumjZ7mEWGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwUiZyhb; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="erp3QnG3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwUiZyhb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762806877; x=1794342877;
+  t=1762810603; x=1794346603;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hZOvKyj6XBdvi5A6WGdxy5AfVmNCi1exI6P9i2I1ox8=;
-  b=erp3QnG3jp0VbgrIFnaI3kdGh8yrR/E6O7NUn8k9S66/8ZxxjRpiQmk8
-   zCBRjpZuB1sAMWuLp5tzM4DbIWpJjC4pb12Tfn++5BZ8tf4dIE0gOqX9a
-   3yh1ZHwem7CIMzWD1YI1mO2yyX51C4beakXjPuxGa04ud7sAW8teOXa8Y
-   K1lZrF56kIqVehQJsCkQ+Rz5wGhlHZyS9JHyrAF1ICnXRnYHrm088FhPq
-   5DYdSl+HGFAN4MweG8NsVGo3J5UD/YR4vjvRvr6DB5Vpi1y+vxVupyJ7n
-   UsT6udHMiPsqua1fi/6RlnoWGdjPhhTWVdWMemGwqEYoEd5mJfnhe32QC
-   A==;
-X-CSE-ConnectionGUID: OvkrB6SaQCimKc/yNL2AoQ==
-X-CSE-MsgGUID: kJJnPYtOT6Or6l/c8EOOxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64904241"
+  bh=A0GU5qq9HA1svLiXjvESvIcAHmWUinWInAPgwPjSTWU=;
+  b=bwUiZyhb9fs7vpL1YvidHQ4kHYqqPEMzFoHY1Z21ejVX758r8T3gwvZh
+   sdYK/ZRxtjD6mbnSLV8B9yDu1/unlf+qczAVZhIhQNq3uNcX9UJ/hBqVn
+   GKKwwp8SNTMZlZRmkX9zuP6TFkjfjAJg5Mdr7OVeg62+HoBwffkhpiHDa
+   U8Z7++klR/PM6EFDa+CbcKiUOvot7X4qhlGRu00WB+paJseXwjBim/MSy
+   uDLPif/C5KfMmV1/0rt9xCeGLqmR4+Jlzz56CR2r5x1MGTAbENpz8kBey
+   rASQRjxdNc/CLTrAK6byvZO9ifkR/675pikP2L6QUvcLLBUnVSR7jd+JZ
+   w==;
+X-CSE-ConnectionGUID: 4pxsL5EATACKjc9hX9R+8Q==
+X-CSE-MsgGUID: pMtanO5yRbee0oi3jfYnWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="67473623"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="64904241"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 12:34:36 -0800
-X-CSE-ConnectionGUID: Ko2JSn9SRzSRRI32RsqMDQ==
-X-CSE-MsgGUID: QnGl+YzEQaa5mZIitFi7uw==
+   d="scan'208";a="67473623"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 13:36:42 -0800
+X-CSE-ConnectionGUID: KIlcU9kPRnKTWEoMBzFePw==
+X-CSE-MsgGUID: EpX+DLxLRhms1zELMfG9tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="219423406"
+   d="scan'208";a="212161385"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 12:34:36 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2025 13:36:42 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIYau-0000yH-2t;
-	Mon, 10 Nov 2025 20:34:32 +0000
-Date: Tue, 11 Nov 2025 04:33:54 +0800
+	id 1vIZZ1-00013D-2D;
+	Mon, 10 Nov 2025 21:36:39 +0000
+Date: Tue, 11 Nov 2025 05:35:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [morimoto:renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk 16/29]
- drivers/media/platform/dreamchip/rppx1/rpp_stats.c:16:8: error: use of
- undeclared identifier 'ENODEV'
-Message-ID: <202511110405.VNyKrJUp-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 49/49] mm/shrinker.c:698: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202511110515.i62TbDxd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,40 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk
-head:   14a3f460905b5d9be43ad2bab030625085a52423
-commit: 97361c66c826ea94c2924afa0b31d41886d844b9 [16/29] media: rppx1: Add support for AWB measurement parameters and statistics
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251111/202511110405.VNyKrJUp-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110405.VNyKrJUp-lkp@intel.com/reproduce)
+Hi Qi,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   9964ca4dc63640e5a033c29162ca148e6a4dd12a
+commit: 1e63c23f99e1610c8c483368df6922ec9076d95a [49/49] drm/ttm: introduce pool_shrink_rwsem
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251111/202511110515.i62TbDxd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110515.i62TbDxd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110405.VNyKrJUp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110515.i62TbDxd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/dreamchip/rppx1/rpp_stats.c:16:8: error: use of undeclared identifier 'ENODEV'
-      16 |                 if (!rpp_module_call(&rpp->post.wbmeas, stats_rkisp1, &stats->params))
-         |                      ^
-   drivers/media/platform/dreamchip/rppx1/rpp_module.h:149:16: note: expanded from macro 'rpp_module_call'
-     149 |                         __result = -ENODEV;                             \
-         |                                     ^
-   1 error generated.
+>> mm/shrinker.c:698: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
 
 
-vim +/ENODEV +16 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+vim +698 mm/shrinker.c
 
-     8	
-     9	void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
-    10	{
-    11		struct rkisp1_stat_buffer *stats = buf;
-    12	
-    13		stats->meas_type = 0;
-    14	
-    15		if (isc & RPPX1_IRQ_ID_POST_AWB_MEAS)
-  > 16			if (!rpp_module_call(&rpp->post.wbmeas, stats_rkisp1, &stats->params))
+   695	
+   696	
+   697	/**
+ > 698	 * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
 
 -- 
 0-DAY CI Kernel Test Service
