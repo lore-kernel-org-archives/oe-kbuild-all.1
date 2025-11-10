@@ -1,188 +1,131 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022115.outbound.protection.outlook.com [52.101.126.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F4A145B3E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 01:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.115
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762737923; cv=fail; b=oEFvrcN60NXD6aOAwIkHvi0p+Jj2KyqeSvfq5XbCN9p35Palsu0tyH8iqq3tiaeVi2SWMv4rsossUu3HgWDSdWhyC5kxAkAxLoHZnXn47VxtWUsRug+sxu+pLDMXyvYUloW3ShOm8GpdZtfQQRCTHWFMJd7GMcFOj6RHEatRFIg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762737923; c=relaxed/simple;
-	bh=158+CvfCjyJbDrUkksgqu8oTRlHVfZoK5R//+/DH6YE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c8dtVv7l4FpYQb7lzi/orCvUk7frK/KGpNpraz+KAwtK8OPP0xJI6dn/GYFM/c8Kh+xT4OVievyndMdv71tE5D4cyIN4wyTyYXFn+mAyShLEJ2k0//fda7C0QkGRxFUkJZGdbgTVf6fFL55+NNB4RNrDG12QlpsiSxqBtOWtKkg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oKtIZXFO8dxq+093f7nzYOqWzGdMuttPwwKdVINpV3Z3xyxsdUo01qk7RbEOWzLhW+6Jhm6IcejeLmPisy/A9BRxqkpO91VG5/hz9lL9T+FvIeDJx9oj8MdwXgQVdeurFzNiLSHqv0zBG9yhWIwxEjPGH5hcIChJ9k1fm1hzpeZAIcOpyayW6ZbgaIUcFA0cneTQTwjyG5d+wd+KD7UHtoR86NqZQL16FL6HsLVC0gt/xTf2I/HATLsT6HYm5oACCE4NKxTmkRwStT6d2QsH8Uosoq8lqZI4suIDUvyfYX2WaT5yAJFlWCJhLW4Vkv35vdRkXSrzl9XDp6U0jeEcdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KWjPOyH7amipU1r6BzVCjG82zpKGj3ajdiX9K6C3qX8=;
- b=pQmiFcJZ5RDRulZDYaMLyT1Ii5rWliuxKwxrb+8qVTKZT49WxSCT6ihafwaGrj69bwMP8xb5PuBqRpVnQQyHV3frP7EpdHi3sVbVOEHPj4u95K/Zm0xvvcqeSfgxqO9ZtbqVKG8kizKxaD1u2iBvdo3uJbmEYByosCH769vmlR8tK+Jz37RpoHjDxUCtU8L2euIiokW00QK8uMnqpcVsHDeQVQlPwXSAbx7OI65edcpqDQkrDNBacEmLkNty0zAZBJzRAH2evWZivDUYwFtPjEEAuxVVot1aV4MpdU1nNu/XugwGYyPFl7Tyc62/m9gHH+UV3a+LDNRsStqU7ihDpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from PSBPR02CA0009.apcprd02.prod.outlook.com (2603:1096:301::19) by
- PUZPR06MB6066.apcprd06.prod.outlook.com (2603:1096:301:113::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Mon, 10 Nov
- 2025 01:25:14 +0000
-Received: from OSA0EPF000000CB.apcprd02.prod.outlook.com
- (2603:1096:301:0:cafe::6) by PSBPR02CA0009.outlook.office365.com
- (2603:1096:301::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Mon,
- 10 Nov 2025 01:25:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- OSA0EPF000000CB.mail.protection.outlook.com (10.167.240.57) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Mon, 10 Nov 2025 01:25:13 +0000
-Received: from [172.16.96.116] (unknown [172.16.96.116])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 236E740A5BD4;
-	Mon, 10 Nov 2025 09:25:12 +0800 (CST)
-Message-ID: <8f24da57-9700-4429-8947-36b27211476a@cixtech.com>
-Date: Mon, 10 Nov 2025 09:25:11 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6613E47B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 01:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762739942; cv=none; b=h46sroz2F7eVaYdZ3Ot/Igo2Se7t+J4zX2RCGrfIrV9EtSx9CcGUSz3+HfymQvhhWp++U1X+akY7AJTheEQjxhmudFlbNpZht5s5j1KRlG0s6ybi/pjIedfSy0JeeaDo0OX+eChDaJZ/d6cfiYZn/c19+gq0hEA0BdmP9jYBsZE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762739942; c=relaxed/simple;
+	bh=OV1r25tG6TVmH2w6Dlbl2gYefTwmiZqVyIhtq7eg0UU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d1O4jTb2nirjE+xYki6XsXh0dv505/SyiWfcW8Bv97IdTUhYfuMHtahEnHZSZqWxoMAtm+jD8AYi3zXphTgZc7hpmoxfrw0mYtkt6/jXWiIhdBt8lHWPL0spxzwUyKs7C0ZX9fwktzjvFQgyMSeJCCiHQHlO0IBPc3Zi76/7Rdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdCZzBjh; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdCZzBjh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762739940; x=1794275940;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OV1r25tG6TVmH2w6Dlbl2gYefTwmiZqVyIhtq7eg0UU=;
+  b=UdCZzBjhHUtx4i9TY3+G2qL9x5Ykj2gzNsDOFXZgcvSlcyuwUV3/1czP
+   /gvpQZ/PGUC9nnzS1pADJ2LViVKvc18dHOcFnzkl4Z4V5NNMLbCZU91Td
+   lyMTgoMBuU2uyyzA8Hm7aBzUJZ4UfMIc4b+K7iRIVx4VNgO6Mo/3gf/yj
+   xSXTX5XAbDTx8k1VRT764L1iPcHGvL6S2Df5882wVLHcGkPD7AjfCWorS
+   5OlxiUwfyYa+E8Ij8qmVpC2XGPZj+c8EjY140uTiN7lxgmn7c8ock0L8u
+   6smps5p0q0mIWcD4OeCvNi7kLNZZShFQRUpaggVYZkhR/FBXyV6lE2wa4
+   A==;
+X-CSE-ConnectionGUID: PGbCODbTTnuLV2yCF/F5Ng==
+X-CSE-MsgGUID: qizf+TCjSS2OtgBrHKWVDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75084120"
+X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
+   d="scan'208";a="75084120"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 17:59:00 -0800
+X-CSE-ConnectionGUID: wY9RxmsfTQC0AzkIKps53Q==
+X-CSE-MsgGUID: zHS4clUZQE6hczki2nXVwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
+   d="scan'208";a="188294623"
+Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 09 Nov 2025 17:58:59 -0800
+Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vIHBI-0002Zj-2J;
+	Mon, 10 Nov 2025 01:58:56 +0000
+Date: Mon, 10 Nov 2025 09:57:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of
+ __dma_request_channel()
+Message-ID: <202511100917.IbXHDyqF-lkp@intel.com>
+References: <20251109222944.3222436-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 03/10] PCI: cadence: Move PCIe RP common functions to
- a separate file
-To: Manivannan Sadhasivam <mani@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: bhelgaas@google.com, helgaas@kernel.org, lpieralisi@kernel.org,
- kw@linux.com, robh@kernel.org, kwilczynski@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, oe-kbuild-all@lists.linux.dev, mpillai@cadence.com,
- fugang.duan@cixtech.com, guoyin.chen@cixtech.com, peter.chen@cixtech.com,
- cix-kernel-upstream@cixtech.com, linux-pci@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251108140305.1120117-4-hans.zhang@cixtech.com>
- <202511092106.mkNV0iyb-lkp@intel.com>
- <xiaf3qvskwrqr7riradv6jnt5jmwcgenfr6mss5wtlddmxuwoa@ke2kdaq6adqz>
-Content-Language: en-US
-From: Hans Zhang <hans.zhang@cixtech.com>
-In-Reply-To: <xiaf3qvskwrqr7riradv6jnt5jmwcgenfr6mss5wtlddmxuwoa@ke2kdaq6adqz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000CB:EE_|PUZPR06MB6066:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6677bd3-035e-4cf9-658d-08de1ff7ff4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700013|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SG0rMWRKc3VNNUxCZERLWVkyaFhFQmZwZ2ZVelZuKzAxaGt2M0h2cmYzY3Zq?=
- =?utf-8?B?SVB2dUhYeU1RT0N2bDE4b0lWVjhpNW1HK3BvWUtyVThyMExjNkJpVytndHJm?=
- =?utf-8?B?dXk1Vk9FUFBlSVYyOUtmbEJYZW5tSjBXRVVwWEl4VVZ4am1pKzhqT0hFU3RX?=
- =?utf-8?B?Y0hnQm56UjhTd3U3TTJsVytSMzd3eTFiZ0pVYU9pZy81VGVqUDBoa2hRZUpY?=
- =?utf-8?B?bmtmWitHS3BCaFB1RTFrcysxVHM2elFaVkJJWTE2S1NVMWR5dmZCZk94TElu?=
- =?utf-8?B?TGU1M2NocityeWlaRG9IT1hNd0dGT1Z0MTVPbW9IdGNVMVRTWi96YnhER09Z?=
- =?utf-8?B?UTFVYzlyM1g5NzRaQXJReXRvcHpaYVIrQzlMVTJrYlRramxoZXBOM29Ybmk0?=
- =?utf-8?B?YWhkLytRYWhSekFWRXEvS1RNMXRLWHV4cU9HSW16eFpOcHNmaWtFTTZYbnpH?=
- =?utf-8?B?dlpoQlZPaVIvNmMxQ2lEZ3djamVyMEpmaWkvTGdkVVNGZUw4MjUvNXRMMkRB?=
- =?utf-8?B?dmFoR3VDcVIwMFh6MXl4cWt4WXVyUmFJREVWcDF1TWZPK2hFYUYraTJ1NmpK?=
- =?utf-8?B?bHdnSk0wQnA0V3pXa3VMRmF5cE04RU9seUZqdmhuUURtczdjZzd1d1B1V1Ra?=
- =?utf-8?B?dHdOeHVlbHlQZWRBNDFnY0FuY3R1S1dpNUVGaFdWOEVlS1JCeExmUnRNRVF3?=
- =?utf-8?B?Y015K3NISEVzTnVvSEV3QmFXZVdOcHNiZ1NYUko3YW50K3puYU1tK2FrSFB1?=
- =?utf-8?B?ajArTGJSWGV6dHZ1S2xQOWhseS93M1JoN3Q3cjNKUEVrY0FJdmttYjExOGhn?=
- =?utf-8?B?YlhNNGo3ejhDOU03eHlJOFRGTWsvK1IvOWRFd29neUZITWJDOWxlck9odHEy?=
- =?utf-8?B?elpmNWhOTjlYNkQ0bXZBYXlnN0NabjkzcVV3cEpRc09BZmtoNnlOQmdqOHE5?=
- =?utf-8?B?TTEwWk40TWhUKzhLd2xVMDdCSWY5WEU3KzN5a28zYXNBNEpCOTJNSUpkQmhp?=
- =?utf-8?B?c3dZWEVaRlk3dTBUUERzdGI3aXhHRU0vU0ZlNm1kemV1VE1TeTJUNkdBRXZj?=
- =?utf-8?B?bTlmbGlBSDBFNWlXYXA0UnBqYk5Cd0FnK1MxZytPNUlVNlFkdHNVTFJnNTE1?=
- =?utf-8?B?UklRSnlmRmtlM0JYNTBLVWMzSURZM3hacEFjSEg4U251M3prOWZZSlF0bGtv?=
- =?utf-8?B?aU41YjBmdjZ5YlYySHpNbU1PTkRsc0ZtbDBnblVyS084N2JyTjVwR21wQmdS?=
- =?utf-8?B?TW5pYXdqRzk0RENXZDkvTGUxc1lhbWF1ZENYWEVpZDlSNGZYVndkTFBiQWRY?=
- =?utf-8?B?Z0RSMzFaT3ZGeE4vd1BlaWxIY1l2YU5vUFIycWlqNjBDQ0JuVy80UWVHWHVl?=
- =?utf-8?B?MzZhTmcxY205Mm04REFMbUljbTF1eWVwN2RDcFArcC9JQ3ZOWC9yRk00bFdE?=
- =?utf-8?B?YVhNQ1p1eWx5OXYxYk1oOG80Q2JyVDhjeDhBK2t5SS9SK1BLYnNva1UySXN6?=
- =?utf-8?B?Uis2TCtqSUF0MmxCcEMwUVNsdjFSQnVMVEFHTC9HRFB2TWVqTjR0d1VINmNY?=
- =?utf-8?B?TUhsWWEzNHNiVERrOWliNGtCNEh4cEg2UVF6WkJWRzNMUWt4ZEpLUnZyVVFV?=
- =?utf-8?B?SmFsWXVockFZRW1nN0t1RG4ram5NdWxyQ1U2WTY5U1E1UjNSLzMxN3cwSlR1?=
- =?utf-8?B?Qk13WllNUGhKdHozZm80R3N2RHJrR0JHMVlTQUdvRU5paUV1cDhKVUs1MG5p?=
- =?utf-8?B?UXVxOTFmVXZuYlF6aHRneWROVHJmdVUrajRXTFZTclh3bVFEWUc0ajNwUmFv?=
- =?utf-8?B?b3VpV1AybVVvNHkzRFFCOFZkcjNhV3FTSFZra3AycE9FM1hNR1lVTlhVTy8z?=
- =?utf-8?B?c1hFV2lnL3NOZlJoUXlMQVcrbzdTZ1YxckhsaHRXeFgrODlkTktkWEdiZVAx?=
- =?utf-8?B?OXN3Ym14QWM2TEY3MHV1QkFmVEFlRzFhQlUrVytPcW9VVkVWb0Y4WWdLNnIz?=
- =?utf-8?B?QnRNelJpa29jck15NzM1Y3dPUmxNcWdhdXBVMVZvVlBEbm5WbjZwMXZDRnpw?=
- =?utf-8?B?cmxhNDBKM2Z3bGpiSGZTeDI1Q3FkcC9wdUZYS2JBeS92akR4N1FUWmRUSmlz?=
- =?utf-8?Q?PL43XcXVOeVfTlqqvbWLJICoS?=
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700013)(13003099007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2025 01:25:13.1281
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6677bd3-035e-4cf9-658d-08de1ff7ff4a
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	OSA0EPF000000CB.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB6066
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251109222944.3222436-2-andriy.shevchenko@linux.intel.com>
+
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on linus/master v6.18-rc5 next-20251107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/dmaengine-Use-dma_request_channel-instead-of-__dma_request_channel/20251110-063117
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20251109222944.3222436-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of __dma_request_channel()
+config: s390-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100917.IbXHDyqF-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511100917.IbXHDyqF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511100917.IbXHDyqF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/dma/dmaengine.c:40:
+   drivers/dma/dmaengine.c: In function 'dma_request_chan_by_mask':
+>> include/linux/dmaengine.h:1627:24: error: passing argument 1 of '__dma_request_channel' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     __dma_request_channel(&(mask), x, y, NULL)
+                           ^~~~~~~
+   drivers/dma/dmaengine.c:889:9: note: in expansion of macro 'dma_request_channel'
+     chan = dma_request_channel(mask, NULL, NULL);
+            ^~~~~~~~~~~~~~~~~~~
+   drivers/dma/dmaengine.c:757:62: note: expected 'const dma_cap_mask_t *' {aka 'const struct <anonymous> *'} but argument is of type 'const dma_cap_mask_t **' {aka 'const struct <anonymous> **'}
+    struct dma_chan *__dma_request_channel(const dma_cap_mask_t *mask,
+                                           ~~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=y] && HAS_IOMEM [=n]
+   Selected by [y]:
+   - REGULATOR_RT5133 [=y] && REGULATOR [=y] && I2C [=y] && GPIOLIB [=y] && OF [=y]
 
 
+vim +/__dma_request_channel +1627 include/linux/dmaengine.h
 
-On 11/10/2025 1:01 AM, Manivannan Sadhasivam wrote:
-> EXTERNAL EMAIL
-> 
-> On Sun, Nov 09, 2025 at 09:59:50PM +0800, kernel test robot wrote:
->> Hi,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on 6146a0f1dfae5d37442a9ddcba012add260bceb0]
->>
->> url:https://github.com/intel-lab-lkp/linux/commits/hans-zhang-cixtech-com/ 
->> PCI-cadence-Add-module-support-for-platform-controller- 
->> driver/20251108-220607
->> base:   6146a0f1dfae5d37442a9ddcba012add260bceb0
->> patch link:https://lore.kernel.org/r/20251108140305.1120117-4- 
->> hans.zhang%40cixtech.com
->> patch subject: [PATCH v11 03/10] PCI: cadence: Move PCIe RP common functions to a separate file
->> config: i386-randconfig-014-20251109 (https://download.01.org/0day-ci/ 
->> archive/20251109/202511092106.mkNV0iyb-lkp@intel.com/config)
->> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/ 
->> archive/20251109/202511092106.mkNV0iyb-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot<lkp@intel.com>
->> | Closes:https://lore.kernel.org/oe-kbuild-all/202511092106.mkNV0iyb-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>     drivers/pci/controller/cadence/pcie-cadence-host-common.c: In function 'cdns_pcie_host_bar_config':
->>>> drivers/pci/controller/cadence/pcie-cadence-host-common.c:188:23: warning: variable 'pci_addr' set but not used [-Wunused-but-set-variable]
->>       188 |         u64 cpu_addr, pci_addr, size, winsize;
->>           |                       ^~~~~~~~
->>
->>
-> No need to repost the series, just to fix this warning. If there are no more
-> comments, then I will fix it up while applying.
-> 
+c13c8260da3155 Chris Leech     2006-05-23  1616  
+c13c8260da3155 Chris Leech     2006-05-23  1617  int dma_async_device_register(struct dma_device *device);
+f39b948dbeaf9d Huang Shijie    2018-07-26  1618  int dmaenginem_async_device_register(struct dma_device *device);
+c13c8260da3155 Chris Leech     2006-05-23  1619  void dma_async_device_unregister(struct dma_device *device);
+e81274cd6b5264 Dave Jiang      2020-01-21  1620  int dma_async_device_channel_register(struct dma_device *device,
+10b8e0fd3f7234 Amelie Delaunay 2024-05-31  1621  				      struct dma_chan *chan,
+10b8e0fd3f7234 Amelie Delaunay 2024-05-31  1622  				      const char *name);
+e81274cd6b5264 Dave Jiang      2020-01-21  1623  void dma_async_device_channel_unregister(struct dma_device *device,
+e81274cd6b5264 Dave Jiang      2020-01-21  1624  					 struct dma_chan *chan);
+07f2211e4fbce6 Dan Williams    2009-01-05  1625  void dma_run_dependencies(struct dma_async_tx_descriptor *tx);
+f5151311c3f37f Baolin Wang     2019-05-20  1626  #define dma_request_channel(mask, x, y) \
+f5151311c3f37f Baolin Wang     2019-05-20 @1627  	__dma_request_channel(&(mask), x, y, NULL)
+864ef69b2d9b34 Matt Porter     2013-02-01  1628  
 
-Hi Mani,
-
-Thank you very much.
-
-
-Best regards,
-Hans
-
-
-> - Mani
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
