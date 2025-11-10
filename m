@@ -1,134 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D92E542B;
-	Mon, 10 Nov 2025 05:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD8011CAF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 05:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762750851; cv=none; b=ZAgDCzWAWzEOitrvPTz2QDFxNLsPErscfQ1z1DSSmmfu65oAnv2p1xTMfQRwVup7nWkcrH4I2XkZr/u86jssI64zGlJrZix6u5mQ+kRWs0H2h2rGzzZ3XoYmlIhR9IOWbH0CTKyLQCW038MkEX4wTiaob+ri8j7E/rxfmQdlNSY=
+	t=1762751843; cv=none; b=cMORKqL30Lhw6jK1b9UIm1WLb9VG+lYkcoJwrVPYtCGNblxG8uCjuRIZ4i3hDGYvPCKyvU0nstGjCnJ50yEjuRERcKRqIUy6RpqsNsIBy71rSXLMrwm/PSZADkm76CIFfOwd1xTDZ3+xHbEgCEhcLymWIb0YnaclSMRP719o+GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762750851; c=relaxed/simple;
-	bh=Zihc7hWYZQ5PyKsrvTu7dvnZV4LROwLSC+EosXzLTkg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=usDeCNzd7B835WxynCVCTqfIJ1+2t+jktT0vg9oXjGH7ckTAkZiRhdz6XtV7GpvNKC9DO7sREZq0n7H2klYWRCuuPDAx1xfAdHTLuR4CouhF1y3qMb22dbUpalX6dzTTJq6eHo89Wg9oXai/F2Ht5aj22xznsxK3J84CH8EjN00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXRf8yzd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762751843; c=relaxed/simple;
+	bh=arMEVgo3EncNgwNhXraToER5I5/99hzkDqa6X/+wgao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AWClIbwEgnX7sBeKieEJVXCSAYU1gL/MslJvvTdrAo0aLUr6QiQ9BVndaKgXHVdP2mZDsj/0YSJ4wD1pOhCGlblhe96co7t/RYVXp8KNekzCBYO5AHm4qQtxAxnpLaqumAIivCbM54L3/iEaV90HKnuszfqEGxFU9eZThtp7sfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MiVkQ0Vx; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXRf8yzd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4986C4CEFB;
-	Mon, 10 Nov 2025 05:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762750850;
-	bh=Zihc7hWYZQ5PyKsrvTu7dvnZV4LROwLSC+EosXzLTkg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jXRf8yzdb7xe0Hx6zRVAuaecivybs7i3kxbZIk1UTs2KoHs91e+ZxJxp9NyiG9Udc
-	 Mpb5AAlUStuKXn3dEff7/a9Mulsyw3bdQbs0K9UC0tDttOhp2CFtc0QIMYc9C3eolf
-	 w/G7P04A8JLSfnB8BR/6+lbkvVQrJfG1xBD2yny9omGXnb7/P0Lv0nm6zl2DdriDLQ
-	 ZG56m4BWXlNwnkVMYaxTS92hYKRhqmwt7aCwnLv5tAJvfkOyTTvUw2RXpR0IOoWYID
-	 mJCmQh4g71ai2SK48A9/l0LEb3zRCF9aCYp5ib26xjJT14hXnbTK7GInDcV0GN4imu
-	 DvujI/SMX9Ssg==
-Date: Mon, 10 Nov 2025 14:00:48 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, oe-kbuild-all@lists.linux.dev,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH] tracing: Report wrong dynamic event command
-Message-Id: <20251110140048.4b2f93e0d5d93a12b030d550@kernel.org>
-In-Reply-To: <202511092149.N375MBPu-lkp@intel.com>
-References: <176259938768.261465.10714633393722227911.stgit@devnote2>
-	<202511092149.N375MBPu-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MiVkQ0Vx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762751841; x=1794287841;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=arMEVgo3EncNgwNhXraToER5I5/99hzkDqa6X/+wgao=;
+  b=MiVkQ0VxF/qRNLvoJNoWOhmslRve98RpFgbzURf+oP2W+iFeSxvu0reW
+   /Cn0xUFxbVin92fZMgiAJyBbr0BAl6cJm+NNIfwvzEGy2dxffckp4Qzyv
+   OGtjfS8s3rwFllw6qspR2K/I4jgPu+D+dnJlYtMhUE7NFeyJR7KwS+EbA
+   gHwmkU6Rv8Po9Yk2FuWa/hJ7ZTMA0Pk/dS105WFYWT7TuH7oo9CIInhx8
+   VJOr24ZAwNCTM/A36eOmRtZkDgxY75oa2oYlK4llVcfksME/b29cP7xFR
+   i6MkGtTfGYV6l9HkTPed9sb2RLjMsZJns3f0y4sza8BSfoP4jUEeOl3PC
+   Q==;
+X-CSE-ConnectionGUID: EVM0Nf4pQUqCism4dX5Mmg==
+X-CSE-MsgGUID: +Wn5AF1bRZWI0AN/TmDVmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75486490"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="75486490"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:17:21 -0800
+X-CSE-ConnectionGUID: qMO86JjpQ5ytB6igoohgxg==
+X-CSE-MsgGUID: j4kEaJboTVOCVcb0E/J8dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="211983862"
+Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2025 21:17:18 -0800
+Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vIKHE-0002gJ-0j;
+	Mon, 10 Nov 2025 05:17:16 +0000
+Date: Mon, 10 Nov 2025 13:16:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wanpeng Li <kernellwp@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Juri Lelli <juri.lelli@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>
+Subject: Re: [PATCH 05/10] sched/fair: Wire up yield deboost in
+ yield_to_task_fair()
+Message-ID: <202511101310.HuFb12n3-lkp@intel.com>
+References: <20251110033232.12538-6-kernellwp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251110033232.12538-6-kernellwp@gmail.com>
 
-On Sun, 9 Nov 2025 21:27:50 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Wanpeng,
 
-> Hi Masami,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on trace/for-next]
-> [also build test ERROR on next-20251107]
-> [cannot apply to linus/master v6.18-rc4]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Report-wrong-dynamic-event-command/20251108-185823
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-> patch link:    https://lore.kernel.org/r/176259938768.261465.10714633393722227911.stgit%40devnote2
-> patch subject: [PATCH] tracing: Report wrong dynamic event command
-> config: s390-randconfig-002-20251109 (https://download.01.org/0day-ci/archive/20251109/202511092149.N375MBPu-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511092149.N375MBPu-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511092149.N375MBPu-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    s390-linux-ld: kernel/trace/trace_dynevent.o: in function `create_dyn_event':
-> >> kernel/trace/trace_dynevent.c:150: undefined reference to `trace_probe_log_init'
-> >> s390-linux-ld: kernel/trace/trace_dynevent.c:151: undefined reference to `__trace_probe_log_err'
-> >> s390-linux-ld: kernel/trace/trace_dynevent.c:152: undefined reference to `trace_probe_log_clear'
+kernel test robot noticed the following build errors:
 
-Oops, it is because CONFIG_DYNAMIC_EVENTS=y but CONFIG_PROBE_EVENTS=n.
-Hmm, it seems better to make "trace_probe_log.{c,h}" for this purpose.
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next tip/sched/core tip/master linus/master v6.18-rc5 next-20251107]
+[cannot apply to kvm/linux-next tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thank you,
+url:    https://github.com/intel-lab-lkp/linux/commits/Wanpeng-Li/sched-Add-vCPU-debooster-infrastructure/20251110-114219
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20251110033232.12538-6-kernellwp%40gmail.com
+patch subject: [PATCH 05/10] sched/fair: Wire up yield deboost in yield_to_task_fair()
+config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20251110/202511101310.HuFb12n3-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101310.HuFb12n3-lkp@intel.com/reproduce)
 
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for I2C_K1
->    Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
->    Selected by [y]:
->    - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
-> 
-> 
-> vim +150 kernel/trace/trace_dynevent.c
-> 
->    133	
->    134	static int create_dyn_event(const char *raw_command)
->    135	{
->    136		struct dyn_event_operations *ops;
->    137		int ret = -ENODEV;
->    138	
->    139		if (raw_command[0] == '-' || raw_command[0] == '!')
->    140			return dyn_event_release(raw_command, NULL);
->    141	
->    142		mutex_lock(&dyn_event_ops_mutex);
->    143		list_for_each_entry(ops, &dyn_event_ops_list, list) {
->    144			ret = ops->create(raw_command);
->    145			if (!ret || ret != -ECANCELED)
->    146				break;
->    147		}
->    148		if (ret == -ECANCELED) {
->    149			/* Wrong dynamic event. Leave an error message. */
->  > 150			trace_probe_log_init("dynevent", 1, &raw_command);
->  > 151			trace_probe_log_err(0, BAD_DYN_EVENT);
->  > 152			trace_probe_log_clear();
->    153			ret = -EINVAL;
->    154		}
->    155	
->    156		mutex_unlock(&dyn_event_ops_mutex);
->    157	
->    158		return ret;
->    159	}
->    160	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101310.HuFb12n3-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   xtensa-linux-ld: kernel/sched/fair.o: in function `detach_entity_load_avg.constprop.0':
+   fair.c:(.text+0xc84): undefined reference to `__udivdi3'
+>> xtensa-linux-ld: fair.c:(.text+0xd06): undefined reference to `__udivdi3'
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
