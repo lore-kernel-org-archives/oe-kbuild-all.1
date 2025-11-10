@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D87D19D07A;
-	Mon, 10 Nov 2025 05:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A8420468D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 06:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762753486; cv=none; b=RiL+2hHpFDoiGWVOgFHMyhuEGk8UHlafQGdxAfPEE6gOyY/6pEpcsZ3fySwnro9ePoO2DACy054+TouyhN/RKNYaWDSJ9uKD4JasOZHCNhIJilp8qfxajzmVRTgeJFI+wQzX1cJ9rbGmwBp3ab2OoWjkbrBCnv6blFpi9cS/DFg=
+	t=1762756029; cv=none; b=YMrLaSybruNz6AwUMfZsJWqvg6tVxYubkX6Q76rAl6XdMPabio+VfPl7eq1UI6fRDIIBGm9fgylia9xZ6Z03aXE2uonQVB7oUqdaNPeSD54gqUE33RyypnFKslOM64dWTuzgB6hZ0hGxjLihi3zFrsNigGEwzFkTWcWLp7y2HHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762753486; c=relaxed/simple;
-	bh=yi+NjG7JULWwtcWsZnl6sS+KZMtXOuI3pCMMXkagBr4=;
+	s=arc-20240116; t=1762756029; c=relaxed/simple;
+	bh=HWzC7zpraGIpTCNuY/j0kH9Pr9vt8PHVS5TX6e66vZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d294/imB7RiC6iVuluuqN/A3bNJ8QykwExDT6+6CNLLACqAKypah/4mpGummcZPOjAq+Sx7FoXKKJpEhIUwdLyuehXBZDAOhJdgEmPOZ/Xr6mOZ9mA57aIvRBOsjEvk8SpQD2OX5LJ092iM5pHa38pDH2JgTyv/D7vrWPhmVHBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0uL3LB1; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition:In-Reply-To; b=aHYzHGRsokdwlgpUNtjS39ZCsFel0zJs8dRPD1SshGD/0FzzuQpt6yvpFDLi7OOTRS7JUBTsOijeMBKmcUpM7Xm3681LPw9+G6m7SD1Xh2qkRYbLTbJYfFADCGClQT/+DyYLKjpQ/VVbaf3xEPAB4ePPTS4bNHB13r6ipZ2MJvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVs0FWFw; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0uL3LB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVs0FWFw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762753484; x=1794289484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yi+NjG7JULWwtcWsZnl6sS+KZMtXOuI3pCMMXkagBr4=;
-  b=h0uL3LB1AYpRDE7hi0ETP/TF+QCLPfA4rck0SI26ab2ckqzJ+G1V4vCz
-   GYwnDHtXsc9gU8nMOI65w5kAGA9qIPAwghQXhakggcquDbnupOk2PFcaC
-   OPh6pDqNPDjPsfKY2ocPwxc24awrsusM/MI1vSaOOsJkFs+wdBqsvKX4J
-   OhqNpVuSQvho2kLrJSND5XgOMT8er6Od8efSR28h2AAGe8l2/Z632FD63
-   0b8VZaaR+JXHFklTGE/4r05RlMyC//Rucwn7JD9nWEmFqy9enrfTAK/hM
-   MXk5H8dS4kbDtUVX6znd44mBjbZhQwypKpRkY5XcLhe6lw+smVwhgNQPe
-   A==;
-X-CSE-ConnectionGUID: ZqwWyKGlTIW3s9cb4ZBdTw==
-X-CSE-MsgGUID: CfvuEOwnTU6WKbShoFZ2ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="68647176"
+  t=1762756028; x=1794292028;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=HWzC7zpraGIpTCNuY/j0kH9Pr9vt8PHVS5TX6e66vZI=;
+  b=RVs0FWFwlZQJM+lKZfmXqs6pMJ/IygTC5aAP1QPter6RVVT5oswMnsV7
+   BmErhOC7wCDSOrjBHht052RZmnlrdzu3g+Dhz1j537NPHH11ftZvVPr4Z
+   VhnZc6b6ELYzYQ68fXMRVNxXPJdTxXjrDKHoqCNIB9wx3vkhzYQYv2p+i
+   Cdz8rat9DCqNPPxnrYuv5kTlDuE9Xx8s7gZPz1518PFbVNGoSei9NwAyK
+   g/pcrS2cK9cGOkh/UzoBK78PZBg+oAZv5oWWb21Y711Z8IWzYttROI1iD
+   H41iiM+AelWWOZBEgDRlm9vEOoWKGAG7Sy9BgioBvB13nREh47wSKPQiP
+   w==;
+X-CSE-ConnectionGUID: YT8C41myTjyUPf4GoHHs3A==
+X-CSE-MsgGUID: 4RxpZzq7R/eiMXlou2Ex+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64842900"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="68647176"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:44:43 -0800
-X-CSE-ConnectionGUID: MwTZ2oLhTS65a7AQK6H/Og==
-X-CSE-MsgGUID: VSM/jK75SH2ATI/fyJTQ+Q==
+   d="scan'208";a="64842900"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 22:27:06 -0800
+X-CSE-ConnectionGUID: y72OW6nsQSuWgDW+Gf42zA==
+X-CSE-MsgGUID: IbuKepxeThqPXJCng2iACg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="211988213"
-Received: from lkp-server01.sh.intel.com (HELO a4b9b04596e0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2025 21:44:41 -0800
-Received: from kbuild by a4b9b04596e0 with local (Exim 4.96)
+   d="scan'208";a="188236098"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Nov 2025 22:27:04 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIKhj-00002d-2I;
-	Mon, 10 Nov 2025 05:44:39 +0000
-Date: Mon, 10 Nov 2025 13:43:54 +0800
+	id 1vILMk-00005f-11;
+	Mon, 10 Nov 2025 06:27:02 +0000
+Date: Mon, 10 Nov 2025 14:26:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dapeng Mi <dapeng1.mi@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <seanjc@google.com>,
-	Mingwei Zhang <mizhang@google.com>,
-	Sandipan Das <sandipan.das@amd.com>
-Subject: [sean-jc:x86/mediated_pmu 37/44] arch/x86/kvm/pmu.c:1308:50: error:
- too few arguments provided to function-like macro invocation
-Message-ID: <202511101315.v7OCEv9b-lkp@intel.com>
+To: Wei Deng <wei.deng@oss.qualcomm.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] arm64: dts: qcom: lemans-evk: Enable Bluetooth support
+Message-ID: <aRGFsvTZ4y5RmTwu@8d1a9004a541>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251110055709.319587-1-wei.deng@oss.qualcomm.com>
 
-tree:   https://github.com/sean-jc/linux x86/mediated_pmu
-head:   9b6b574f2d82517dd2018444e07f4b2ae84c2a49
-commit: a0a470fa63f1bc6440fd4b0e3babcc847262b8ed [37/44] KVM: x86/pmu: Load/put mediated PMU context when entering/exiting guest
-config: x86_64-buildonly-randconfig-004-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101315.v7OCEv9b-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101315.v7OCEv9b-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101315.v7OCEv9b-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> arch/x86/kvm/pmu.c:1308:50: error: too few arguments provided to function-like macro invocation
-    1308 |         WARN_ON_ONCE(rdmsrq(kvm_pmu_ops.PERF_GLOBAL_CTRL));
-         |                                                         ^
-   arch/x86/include/asm/msr.h:194:9: note: macro 'rdmsrq' defined here
-     194 | #define rdmsrq(msr, val)                        \
-         |         ^
->> arch/x86/kvm/pmu.c:1308:15: error: use of undeclared identifier 'rdmsrq'; did you mean 'wrmsrq'?
-    1308 |         WARN_ON_ONCE(rdmsrq(kvm_pmu_ops.PERF_GLOBAL_CTRL));
-         |                      ^~~~~~
-         |                      wrmsrq
-   include/asm-generic/bug.h:111:25: note: expanded from macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^
-   arch/x86/include/asm/msr.h:197:20: note: 'wrmsrq' declared here
-     197 | static inline void wrmsrq(u32 msr, u64 val)
-         |                    ^
-   2 errors generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +1308 arch/x86/kvm/pmu.c
-
-  1288	
-  1289	void kvm_mediated_pmu_load(struct kvm_vcpu *vcpu)
-  1290	{
-  1291		if (!kvm_vcpu_has_mediated_pmu(vcpu) ||
-  1292		    KVM_BUG_ON(!lapic_in_kernel(vcpu), vcpu->kvm))
-  1293			return;
-  1294	
-  1295		lockdep_assert_irqs_disabled();
-  1296	
-  1297		perf_load_guest_context();
-  1298	
-  1299		/*
-  1300		 * Sanity check that "loading" guest context disabled all counters, as
-  1301		 * modifying the LVTPC while host perf is active will cause explosions,
-  1302		 * as will loading event selectors and PMCs with guest values.
-  1303		 *
-  1304		 * VMX will enable/disable counters at VM-Enter/VM-Exit by atomically
-  1305		 * loading PERF_GLOBAL_CONTROL.  SVM effectively performs the switch by
-  1306		 * configuring all events to be GUEST_ONLY.
-  1307		 */
-> 1308		WARN_ON_ONCE(rdmsrq(kvm_pmu_ops.PERF_GLOBAL_CTRL));
-  1309	
-  1310		perf_load_guest_lvtpc(kvm_lapic_get_reg(vcpu->arch.apic, APIC_LVTPC));
-  1311	
-  1312		kvm_pmu_load_guest_pmcs(vcpu);
-  1313	
-  1314		kvm_pmu_call(mediated_load)(vcpu);
-  1315	}
-  1316	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] arm64: dts: qcom: lemans-evk: Enable Bluetooth support
+Link: https://lore.kernel.org/stable/20251110055709.319587-1-wei.deng%40oss.qualcomm.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
