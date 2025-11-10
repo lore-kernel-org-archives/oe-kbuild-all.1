@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C1B277016
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 03:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82344A59
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 03:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762744932; cv=none; b=B4dTkpnqNcGnWjZTNWos8Ts0csJWZ4/GmalhFvwWP50+ZmgcLF6Cxqm0xoIvkA8UciTvpgTiUyam3Xgi26h370OjtJrWQJJ+E9y4mbVM8m3I2LRVaisJJyMG3C5G6RziwNDoIf+dLjDAtVf4qOY61O3AjAVk1tlKa0V6JrLlZBU=
+	t=1762745534; cv=none; b=YcNJuqdEKaEnSKOOMGEnAqIfu97XF+xDd6gGvaJTOPxVn6CQe/H/D8DjLixcXDAE9kKwm84X3As2FXObJpJxljLYoNEQsmXs0yZ5kM5l6pNQrLXrawRZZD7k8gV9RNYr7ljga45CHIMK3uAdbFUF9Zdgehjb6bbkEMR+3LXWrSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762744932; c=relaxed/simple;
-	bh=fFXeusc/ORNmXapL4y2WMn4jZ5Sv6ZxjnhBOK9sOlfs=;
+	s=arc-20240116; t=1762745534; c=relaxed/simple;
+	bh=/8zOOR+oCibF4tRLRjeFYBEEzWcbAyhhNH0DEDTlSLg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRh3c0LkxDGcFugkoMy6de4aFdC7FQEIGG5ZQpz17nsmbYKup1vYLanCQnzPos8//87w0jiiu5YLhim64WCgj37OlU6Pos7OVFZMY5UhvFirZGCBDiYSyqdaZxoS0p5XJ3P+OS4JH2RWnwPjdhKn/ct70UevDbIs+vc6Myk9GD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlQaRIvi; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=rBcgAs9/x9mrY4kPtPIddtNoR3bUKc4kJYRMGUulBcMmQaUToAdWDE88SqdzV93poWWMUFYYtAOJvTLhVzMV0LMcF3iY97djRsZFbFDI7Ff8JnAaXvbdArKJ9oi3NiBf3iwI9assG6JoWmu8yv17rj32nVvmn+sqLMjR4jCKtvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZO0ePES8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlQaRIvi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZO0ePES8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762744931; x=1794280931;
+  t=1762745533; x=1794281533;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fFXeusc/ORNmXapL4y2WMn4jZ5Sv6ZxjnhBOK9sOlfs=;
-  b=TlQaRIviD/37lNzRiGr/Vx1QPOAYmL2TXvn83D9+u7EzJ28ff8UyTu2I
-   gVtm3riiBIMiGJLf9omsOhP5oIlKK+6F0bQBpVgRxc0nJ/ohND/Mfk/Io
-   TWpc8xfwt4lVyCTdFY5IvhzJUgr5JJKPyZ4D8FTmOH/eT6gAvlMdjbqI3
-   KVd9FhNnxJbBzN0dtahUFTwgZ/nDR/Bbv/XHYAxp+N1h/7hvhWvNqRHCZ
-   8Shai8IQoSZhaEDxBqu1HeBBprWrhwRks7S/6SsFj6sHeIZ0dRJb/S34m
-   Rj3ZaZTAlyGMh+8Hy70bAWqebW1mpA8yVO2gexG3QxdsbjYo75J1ltoxs
-   A==;
-X-CSE-ConnectionGUID: mTG4naB2T3uvOF4YFf8ETA==
-X-CSE-MsgGUID: CW2e5Q97Ra250WQmDNX0xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="87423568"
+  bh=/8zOOR+oCibF4tRLRjeFYBEEzWcbAyhhNH0DEDTlSLg=;
+  b=ZO0ePES8swcRNF6rtm3fCx3W4e69v5PE9Mpe2oTviXXVFnBu0aiKM/xy
+   UJh9dqOrZ64WHrj9jyUYbOT7hZqqjI7ZyK9F22VflfPySo3ZBSzkv7p1D
+   HJfzd+3pO17USfVKqdjzCXFtokK+KqO4P8KHwtSy6AMZrMtyPmbUtGxi2
+   zlSpRBjBk1mofxinIFXy9Db8Fuq7/aeIisVOTSnpBWkGwgkENPPQ1P/4v
+   3q6MgqJVZGFf1sFschkAE3VHR1n2EDqv6vX1B7wJ8uZpUllwInjL+etX2
+   CqVEC5AxwcS9p10y+ySOnEOZuigOZu/dInzXBebps18Gyvia4tgXgKDaS
+   Q==;
+X-CSE-ConnectionGUID: QgFxssWNThmVKBHzV6bwMg==
+X-CSE-MsgGUID: hXyGf0KmT6qeTy5dHNEC3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64834649"
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="87423568"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 19:22:10 -0800
-X-CSE-ConnectionGUID: 7VJglhsETQGo68803dEwIA==
-X-CSE-MsgGUID: fEuu/wdJRaesSck5hMQa8w==
+   d="scan'208";a="64834649"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 19:32:12 -0800
+X-CSE-ConnectionGUID: reJUaLiJRoKjvQelHWRgMA==
+X-CSE-MsgGUID: ud/veU49SfexU+wcSiJbnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="188514149"
+   d="scan'208";a="188818091"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Nov 2025 19:22:09 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 09 Nov 2025 19:32:09 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIITm-0002cJ-0a;
-	Mon, 10 Nov 2025 03:22:06 +0000
-Date: Mon, 10 Nov 2025 11:21:38 +0800
+	id 1vIIdS-0002cZ-30;
+	Mon, 10 Nov 2025 03:32:06 +0000
+Date: Mon, 10 Nov 2025 11:31:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, linux-fpga@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Moritz Fischer <mdf@kernel.org>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] fpga: stratix10-soc: add COMPILE_TEST support
-Message-ID: <202511101109.ZYEQ8h7p-lkp@intel.com>
-References: <20251106185938.6419-3-rosenp@gmail.com>
+To: Andreas Kemnade <andreas@kemnade.info>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH 3/3] regulator: Add FP9931/JD9930 driver
+Message-ID: <202511101159.tlofg0Nn-lkp@intel.com>
+References: <20251107-fp9931-submit-v1-3-aa7b79d9abb6@kemnade.info>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,39 +68,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251106185938.6419-3-rosenp@gmail.com>
+In-Reply-To: <20251107-fp9931-submit-v1-3-aa7b79d9abb6@kemnade.info>
 
-Hi Rosen,
+Hi Andreas,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc5 next-20251107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/fpga-stratix10-soc-add-missing-header/20251107-030213
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251106185938.6419-3-rosenp%40gmail.com
-patch subject: [PATCH 2/2] fpga: stratix10-soc: add COMPILE_TEST support
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251110/202511101109.ZYEQ8h7p-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101109.ZYEQ8h7p-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-vendor-prefixes-Add-Fitipower/20251108-040835
+base:   dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+patch link:    https://lore.kernel.org/r/20251107-fp9931-submit-v1-3-aa7b79d9abb6%40kemnade.info
+patch subject: [PATCH 3/3] regulator: Add FP9931/JD9930 driver
+config: mips-randconfig-r134-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101159.tlofg0Nn-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d445cba39f4dd3dcda4fa1433eca825cf8fc09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101159.tlofg0Nn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101109.ZYEQ8h7p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101159.tlofg0Nn-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/regulator/fp9931.c:402:18: sparse: sparse: Initializer entry defined twice
+   drivers/regulator/fp9931.c:409:18: sparse:   also defined here
 
->> ERROR: modpost: "stratix10_svc_free_channel" [drivers/fpga/stratix10-soc.ko] undefined!
->> ERROR: modpost: "stratix10_svc_send" [drivers/fpga/stratix10-soc.ko] undefined!
->> ERROR: modpost: "stratix10_svc_request_channel_byname" [drivers/fpga/stratix10-soc.ko] undefined!
->> ERROR: modpost: "stratix10_svc_free_memory" [drivers/fpga/stratix10-soc.ko] undefined!
->> ERROR: modpost: "stratix10_svc_done" [drivers/fpga/stratix10-soc.ko] undefined!
->> ERROR: modpost: "stratix10_svc_allocate_memory" [drivers/fpga/stratix10-soc.ko] undefined!
+vim +402 drivers/regulator/fp9931.c
+
+   398	
+   399	static const struct regulator_desc regulators[] = {
+   400		{
+   401			.name = "V3P3",
+ > 402			.of_match = of_match_ptr("V3P3"),
+   403			.id = 0,
+   404			.ops = &fp9931_v3p3ops,
+   405			.type = REGULATOR_VOLTAGE,
+   406			.owner = THIS_MODULE,
+   407			.enable_reg = FP9931_REG_CONTROL_REG1,
+   408			.enable_mask = BIT(1),
+   409			.of_match = of_match_ptr("v3p3"),
+   410			.n_voltages = 1,
+   411			.min_uV = 3300000
+   412		},
+   413		{
+   414			.name = "VPOSNEG",
+   415			.of_match = of_match_ptr("VPOSNEG"),
+   416			.id = 1,
+   417			.ops = &fp9931_vposneg_ops,
+   418			.type = REGULATOR_VOLTAGE,
+   419			.owner = THIS_MODULE,
+   420			.n_voltages = ARRAY_SIZE(VPOSNEG_table),
+   421			.vsel_reg = FP9931_REG_VPOSNEG_SETTING,
+   422			.vsel_mask = 0x3F,
+   423			.volt_table = VPOSNEG_table,
+   424		},
+   425		{
+   426			.name = "VCOM",
+   427			.of_match = of_match_ptr("VCOM"),
+   428			.id = 2,
+   429			.ops = &fp9931_vcom_ops,
+   430			.type = REGULATOR_VOLTAGE,
+   431			.owner = THIS_MODULE,
+   432			.n_voltages = 255,
+   433			.min_uV = 0,
+   434			.uV_step = 5000000 / 255,
+   435			.vsel_reg = FP9931_REG_VCOM_SETTING,
+   436			.vsel_mask = 0xFF
+   437		},
+   438	};
+   439	
 
 -- 
 0-DAY CI Kernel Test Service
