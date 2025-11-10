@@ -1,113 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B79918C31
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 04:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5D92E542B;
+	Mon, 10 Nov 2025 05:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762750579; cv=none; b=ELz/nmIF2WJJslT/bJKGIX0Sqlb18To+7fTqpBSdBvHtWhcpmiXu1fOWKhmVziC3S3EipoMHc5E1yp764OCNzzZ16QzjgOUmQSg5XsVMtpNkVZNOLhR/2MeZ1+na6FK8tMzqW/c52tAsnKJV8deLK+VbZcoey3mzkjWHRfSfLc0=
+	t=1762750851; cv=none; b=ZAgDCzWAWzEOitrvPTz2QDFxNLsPErscfQ1z1DSSmmfu65oAnv2p1xTMfQRwVup7nWkcrH4I2XkZr/u86jssI64zGlJrZix6u5mQ+kRWs0H2h2rGzzZ3XoYmlIhR9IOWbH0CTKyLQCW038MkEX4wTiaob+ri8j7E/rxfmQdlNSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762750579; c=relaxed/simple;
-	bh=o4dnrJF/zL3tHnHkxUrc86rJ5TDlOtv/Mscs8IBPhEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V9ExVDrf2qrcjOQdGwVE0BxVg7zFCApIL9BGVODjdSVk3JiaflYBqwIVdqu6yJej7G06G3ZHZJb0MOwbu5Lf51ijh6QYH1TJgnT5HcOxS4tvqqdFW99HPNxplgRsP7rZtAbBiF9WWfp0TqgLsRYIc3swwBnzM747Hcii7X0YBCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXBSkcQI; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1762750851; c=relaxed/simple;
+	bh=Zihc7hWYZQ5PyKsrvTu7dvnZV4LROwLSC+EosXzLTkg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=usDeCNzd7B835WxynCVCTqfIJ1+2t+jktT0vg9oXjGH7ckTAkZiRhdz6XtV7GpvNKC9DO7sREZq0n7H2klYWRCuuPDAx1xfAdHTLuR4CouhF1y3qMb22dbUpalX6dzTTJq6eHo89Wg9oXai/F2Ht5aj22xznsxK3J84CH8EjN00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXRf8yzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXBSkcQI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762750578; x=1794286578;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4dnrJF/zL3tHnHkxUrc86rJ5TDlOtv/Mscs8IBPhEs=;
-  b=cXBSkcQI6Zqi4JAazeyB/aRj6uH3Y9PET8ybGRDivAnUXlBSWcuH4OVP
-   VDylVVvjjYOpvtMh8U495obBNeYAn/LtOGLo2ujTrmi+NlHhQvCKwT/qA
-   Dxs50CasjbNM6F+JZHl9co1YK4uOzxbVYwedN01nKCgV/Y3Kerhnsf0zr
-   ny5DP3yBlJDQWCdeZYMRSPWZsKTBaSu73t3wwFwMqEIVmRG+LqI/TwHzZ
-   DnGVKfEAiIbJ1f3GJCByLkh5SRziA/RGxLUIWdmtWAQ0M8NoENodI+kfs
-   TAvFDY3HvHN3qxy8YX+tyCmb4fwb6Papc/h7ZUOf8UUUXXyQchJWJ80k3
-   w==;
-X-CSE-ConnectionGUID: rwm/aL6mTsmDIGycdQDxoQ==
-X-CSE-MsgGUID: CdREO39pQ4CQdU/TuYjlIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75091859"
-X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="75091859"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 20:56:17 -0800
-X-CSE-ConnectionGUID: XaF4WF3KRhubLCU1e3NS9w==
-X-CSE-MsgGUID: mznSG5n8Tamnb+dOdu8P1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,292,1754982000"; 
-   d="scan'208";a="193591058"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Nov 2025 20:56:16 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vIJws-0002fT-0y;
-	Mon, 10 Nov 2025 04:56:14 +0000
-Date: Mon, 10 Nov 2025 12:55:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 291/296] include/linux/mm.h:944:31: sparse: sparse:
- incorrect type in argument 2 (different modifiers)
-Message-ID: <202511101223.yntfHDDu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXRf8yzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4986C4CEFB;
+	Mon, 10 Nov 2025 05:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762750850;
+	bh=Zihc7hWYZQ5PyKsrvTu7dvnZV4LROwLSC+EosXzLTkg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jXRf8yzdb7xe0Hx6zRVAuaecivybs7i3kxbZIk1UTs2KoHs91e+ZxJxp9NyiG9Udc
+	 Mpb5AAlUStuKXn3dEff7/a9Mulsyw3bdQbs0K9UC0tDttOhp2CFtc0QIMYc9C3eolf
+	 w/G7P04A8JLSfnB8BR/6+lbkvVQrJfG1xBD2yny9omGXnb7/P0Lv0nm6zl2DdriDLQ
+	 ZG56m4BWXlNwnkVMYaxTS92hYKRhqmwt7aCwnLv5tAJvfkOyTTvUw2RXpR0IOoWYID
+	 mJCmQh4g71ai2SK48A9/l0LEb3zRCF9aCYp5ib26xjJT14hXnbTK7GInDcV0GN4imu
+	 DvujI/SMX9Ssg==
+Date: Mon, 10 Nov 2025 14:00:48 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, oe-kbuild-all@lists.linux.dev,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH] tracing: Report wrong dynamic event command
+Message-Id: <20251110140048.4b2f93e0d5d93a12b030d550@kernel.org>
+In-Reply-To: <202511092149.N375MBPu-lkp@intel.com>
+References: <176259938768.261465.10714633393722227911.stgit@devnote2>
+	<202511092149.N375MBPu-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   02dafa01ec9a00c3758c1c6478d82fe601f5f1ba
-commit: 85de428c7ca1b71457690b95e162662d0edb2792 [291/296] mm: set the VM_MAYBE_GUARD flag on guard region install
-config: csky-randconfig-r121-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101223.yntfHDDu-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101223.yntfHDDu-lkp@intel.com/reproduce)
+On Sun, 9 Nov 2025 21:27:50 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101223.yntfHDDu-lkp@intel.com/
+> Hi Masami,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on next-20251107]
+> [cannot apply to linus/master v6.18-rc4]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/tracing-Report-wrong-dynamic-event-command/20251108-185823
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+> patch link:    https://lore.kernel.org/r/176259938768.261465.10714633393722227911.stgit%40devnote2
+> patch subject: [PATCH] tracing: Report wrong dynamic event command
+> config: s390-randconfig-002-20251109 (https://download.01.org/0day-ci/archive/20251109/202511092149.N375MBPu-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251109/202511092149.N375MBPu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511092149.N375MBPu-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    s390-linux-ld: kernel/trace/trace_dynevent.o: in function `create_dyn_event':
+> >> kernel/trace/trace_dynevent.c:150: undefined reference to `trace_probe_log_init'
+> >> s390-linux-ld: kernel/trace/trace_dynevent.c:151: undefined reference to `__trace_probe_log_err'
+> >> s390-linux-ld: kernel/trace/trace_dynevent.c:152: undefined reference to `trace_probe_log_clear'
 
-sparse warnings: (new ones prefixed by >>)
-   mm/madvise.c:562:9: sparse: sparse: context imbalance in 'madvise_cold_or_pageout_pte_range' - different lock contexts for basic block
-   mm/madvise.c:781:9: sparse: sparse: context imbalance in 'madvise_free_pte_range' - different lock contexts for basic block
-   mm/madvise.c: note: in included file (through include/linux/mman.h):
->> include/linux/mm.h:944:31: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected unsigned long volatile *addr @@     got unsigned long [noderef] * @@
-   include/linux/mm.h:944:31: sparse:     expected unsigned long volatile *addr
-   include/linux/mm.h:944:31: sparse:     got unsigned long [noderef] *
+Oops, it is because CONFIG_DYNAMIC_EVENTS=y but CONFIG_PROBE_EVENTS=n.
+Hmm, it seems better to make "trace_probe_log.{c,h}" for this purpose.
 
-vim +944 include/linux/mm.h
+Thank you,
 
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  932  
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  933  /*
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  934   * Set VMA flag atomically. Requires only VMA/mmap read lock. Only specific
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  935   * valid flags are allowed to do this.
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  936   */
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  937  static inline void vma_flag_set_atomic(struct vm_area_struct *vma, int bit)
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  938  {
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  939  	/* mmap read lock/VMA read lock must be held. */
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  940  	if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  941  		vma_assert_locked(vma);
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  942  
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  943  	if (__vma_flag_atomic_valid(vma, bit))
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07 @944  		set_bit(bit, &vma->__vm_flags);
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  945  }
-bf91f4ed2a530f Lorenzo Stoakes 2025-11-07  946  
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for I2C_K1
+>    Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+>    Selected by [y]:
+>    - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+> 
+> 
+> vim +150 kernel/trace/trace_dynevent.c
+> 
+>    133	
+>    134	static int create_dyn_event(const char *raw_command)
+>    135	{
+>    136		struct dyn_event_operations *ops;
+>    137		int ret = -ENODEV;
+>    138	
+>    139		if (raw_command[0] == '-' || raw_command[0] == '!')
+>    140			return dyn_event_release(raw_command, NULL);
+>    141	
+>    142		mutex_lock(&dyn_event_ops_mutex);
+>    143		list_for_each_entry(ops, &dyn_event_ops_list, list) {
+>    144			ret = ops->create(raw_command);
+>    145			if (!ret || ret != -ECANCELED)
+>    146				break;
+>    147		}
+>    148		if (ret == -ECANCELED) {
+>    149			/* Wrong dynamic event. Leave an error message. */
+>  > 150			trace_probe_log_init("dynevent", 1, &raw_command);
+>  > 151			trace_probe_log_err(0, BAD_DYN_EVENT);
+>  > 152			trace_probe_log_clear();
+>    153			ret = -EINVAL;
+>    154		}
+>    155	
+>    156		mutex_unlock(&dyn_event_ops_mutex);
+>    157	
+>    158		return ret;
+>    159	}
+>    160	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-:::::: The code at line 944 was first introduced by commit
-:::::: bf91f4ed2a530f2e55e7b202c1692a4c682888d6 mm: add atomic VMA flags and set VM_MAYBE_GUARD as such
-
-:::::: TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
