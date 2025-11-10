@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD3B27AC4C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 20:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0807928000B;
+	Mon, 10 Nov 2025 20:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762806277; cv=none; b=LF3ouPFw92nHZ/yajVnZFKgx6rVtRM8PvDAkYTZA955MzfR6etGTEQIBRJKW9TpGhLlgP7H7vq+QN0TGUnsrCSN34zDasEIdYG0i1j8GgPRA4XMZBRFc5mEcIUsF5DVfgqNZNmeKXHhBtC1NPNvZ5BSXem2qVZUDB6Vtm3q+Qto=
+	t=1762806278; cv=none; b=hpbZXVDGgkmz+sy6Jk/epc40ddstzfdyg2oLudZhUEYDtgvgIoCTEeAIyBXS6uYv8+vBNABKXjZbs9LmIxGqXACimHmwuHj8epERm8wiKZMlpUza1nm9IZb/k4crvn+yiQQu6qPRAFUOGiMy+wItmUpXb92EKbmTQ1wH7kWz0ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762806277; c=relaxed/simple;
-	bh=UgxS/sQuKvzlwa+w9DzqM2SxR9lmwII4cMFyY4u5m+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jf3WkvW/3sbfKmUAHY1R+ff3tCw5pgjNXH8gG4E19FxcEo8FT29a2G/a918b44FIggLEvND8p0JYaFMRATl2pfORS5HSk+0SIERYwmdOexOiJF87pFWrFSMskuqkfzj6b5pUqHp/PSEtq6ktpZN+9ta+8aWyxet0nRc/iZT7Fss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxx4Pkul; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1762806278; c=relaxed/simple;
+	bh=HG4xZHzhnhKw1LK8sML0aZS5JEtaF7jrHFlxgcmZ93E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBeYhLow/s45T0v8tqPhOm6LD22wxF+JpwOhK8Xzq1BIWVxxwc85GhEsDW8hjq3OhYjsuvQcdKpGGPNZiOtVjcYSs1O9hN4sU980rcjyfviQe39u38R86pXVsjmcab30DzvTcwdKy9JYzpM4BI6nOEBcejEEKlBb9jGDPvrJm8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMNek7hH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxx4Pkul"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMNek7hH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762806276; x=1794342276;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UgxS/sQuKvzlwa+w9DzqM2SxR9lmwII4cMFyY4u5m+A=;
-  b=gxx4PkulbSYQl6P01uLlXh2uYI+a3bq+nVp7mvkp/Qi359RrM6oGRtVl
-   Otjyx3Htc5Lk/QRjJk3OVuB+qctzkUCUzY7g0hfDlK22PaIYQxq7WSy3G
-   hOl4sdHKP2rOPnAeJYpol/qA45hxDv1fQFRtFshysN1KzGV/P8oAYX3VZ
-   8rCeWPH9mBbTXglSxz1iYbDKaxv68FCtSp8Eoylv66ZXoW0XGFFCdvN+E
-   PAMbntTojFD0IPojbhSTmHpcvUcJkmcKMxMfY3fqkFDC21FxBByUqqJQK
-   8BM5mrpFtWCVX8cbQHYWjXEzH8Dc6lCAb9UsYaoIoCfrUN7WZ+TOV4xUg
-   A==;
-X-CSE-ConnectionGUID: Sm758873T72FwDy83dK2xQ==
-X-CSE-MsgGUID: d98r6yyESdOrCG7RrIILGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68713262"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HG4xZHzhnhKw1LK8sML0aZS5JEtaF7jrHFlxgcmZ93E=;
+  b=nMNek7hHV0QPR2QZbOaRAq2N/InekFdL+09M1oytRbAIlsoPC9kcADpb
+   rBDbu5v2UTXkKKBQmrMl637EKdRKOBAiCpEoSgJscXzdINrftihS0P6Jk
+   GwROjOCu6qIyaRscn+2XqqY2ySI5M+OeEMUvlCZstYYYoG1cSnyqG2M7r
+   ysRhbmQMX6CGH1vuQVEBpokVyuT7ww06Gb5ep0I/wi81CB9nmVJjRmZKY
+   X8+h756wslkr/j8aI6DRuiiRUR+OkJQZsuNT9GRQ/mvWckJbjnayAbLPe
+   /tbMeQGgbMUGC1fMZur61TJ6vTz/wiOo7fIbtGUgmu8gMiqWau8bn/mcx
+   g==;
+X-CSE-ConnectionGUID: nyas9mLsRKOqyVhlLA+Ggg==
+X-CSE-MsgGUID: /ijc2WPKQo+Ao/y98ztpHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="87494127"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="68713262"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 12:24:36 -0800
-X-CSE-ConnectionGUID: MjjEPCL6Tdyq8WgqD+eYdw==
-X-CSE-MsgGUID: YB/7yBbXR/2gkidaCkGmTg==
+   d="scan'208";a="87494127"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 12:24:36 -0800
+X-CSE-ConnectionGUID: tByTOAwpTr29dqYhLveYQQ==
+X-CSE-MsgGUID: HX9JjsLHQqO/9gChp8R1Lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188724202"
+   d="scan'208";a="219421682"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Nov 2025 12:24:35 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 12:24:35 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIYRE-0000y1-0s;
+	id 1vIYRE-0000xz-0o;
 	Mon, 10 Nov 2025 20:24:32 +0000
-Date: Tue, 11 Nov 2025 04:23:33 +0800
+Date: Tue, 11 Nov 2025 04:23:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Alexey Kardashevskiy <aik@amd.com>
-Subject: [linux-next:master 5404/7661] drivers/pci/ide.c:266: undefined
- reference to `tsm_ide_stream_unregister'
-Message-ID: <202511110401.d8l5Et2R-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of
+ __dma_request_channel()
+Message-ID: <202511110425.MwuWYv97-lkp@intel.com>
+References: <20251109222944.3222436-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +63,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251109222944.3222436-2-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ab40c92c74c6b0c611c89516794502b3a3173966
-commit: a4438f06b1db15ce3d831ce82b8767665638aa2a [5404/7661] PCI/TSM: Report active IDE streams
-config: powerpc-randconfig-001-20251111 (https://download.01.org/0day-ci/archive/20251111/202511110401.d8l5Et2R-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110401.d8l5Et2R-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on linus/master v6.18-rc5 next-20251110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/dmaengine-Use-dma_request_channel-instead-of-__dma_request_channel/20251110-063117
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20251109222944.3222436-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of __dma_request_channel()
+config: powerpc-randconfig-002-20251111 (https://download.01.org/0day-ci/archive/20251111/202511110425.MwuWYv97-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110425.MwuWYv97-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110401.d8l5Et2R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110425.MwuWYv97-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: drivers/pci/ide.o: in function `pci_ide_stream_release':
->> drivers/pci/ide.c:266: undefined reference to `tsm_ide_stream_unregister'
-   powerpc-linux-ld: drivers/pci/tsm.o: in function `connect_store':
-   drivers/pci/tsm.c:256: undefined reference to `find_tsm_dev'
+>> drivers/dma/dmaengine.c:889:9: error: incompatible pointer types passing 'const dma_cap_mask_t **' to parameter of type 'const dma_cap_mask_t *'; remove & [-Wincompatible-pointer-types]
+     889 |         chan = dma_request_channel(mask, NULL, NULL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dmaengine.h:1627:24: note: expanded from macro 'dma_request_channel'
+    1627 |         __dma_request_channel(&(mask), x, y, NULL)
+         |                               ^~~~~~~
+   drivers/dma/dmaengine.c:786:19: note: passing argument to parameter here
+     786 | EXPORT_SYMBOL_GPL(__dma_request_channel);
+         |                   ^
+   1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for TSM
-   Depends on [n]: VIRT_DRIVERS [=n]
-   Selected by [y]:
-   - PCI_TSM [=y] && PCI [=y]
 
+vim +889 drivers/dma/dmaengine.c
 
-vim +266 drivers/pci/ide.c
-
-   242	
-   243	/**
-   244	 * pci_ide_stream_release() - unwind and release an @ide context
-   245	 * @ide: partially or fully registered IDE settings descriptor
-   246	 *
-   247	 * In support of automatic cleanup of IDE setup routines perform IDE
-   248	 * teardown in expected reverse order of setup and with respect to which
-   249	 * aspects of IDE setup have successfully completed.
-   250	 *
-   251	 * Be careful that setup order mirrors this shutdown order. Otherwise,
-   252	 * open code releasing the IDE context.
-   253	 */
-   254	void pci_ide_stream_release(struct pci_ide *ide)
-   255	{
-   256		struct pci_dev *pdev = ide->pdev;
-   257		struct pci_dev *rp = pcie_find_root_port(pdev);
-   258	
-   259		if (ide->partner[PCI_IDE_RP].enable)
-   260			pci_ide_stream_disable(rp, ide);
-   261	
-   262		if (ide->partner[PCI_IDE_EP].enable)
-   263			pci_ide_stream_disable(pdev, ide);
-   264	
-   265		if (ide->tsm_dev)
- > 266			tsm_ide_stream_unregister(ide);
-   267	
-   268		if (ide->partner[PCI_IDE_RP].setup)
-   269			pci_ide_stream_teardown(rp, ide);
-   270	
-   271		if (ide->partner[PCI_IDE_EP].setup)
-   272			pci_ide_stream_teardown(pdev, ide);
-   273	
-   274		if (ide->name)
-   275			pci_ide_stream_unregister(ide);
-   276	
-   277		pci_ide_stream_free(ide);
-   278	}
-   279	EXPORT_SYMBOL_GPL(pci_ide_stream_release);
-   280	
+   875	
+   876	/**
+   877	 * dma_request_chan_by_mask - allocate a channel satisfying certain capabilities
+   878	 * @mask:	capabilities that the channel must satisfy
+   879	 *
+   880	 * Returns pointer to appropriate DMA channel on success or an error pointer.
+   881	 */
+   882	struct dma_chan *dma_request_chan_by_mask(const dma_cap_mask_t *mask)
+   883	{
+   884		struct dma_chan *chan;
+   885	
+   886		if (!mask)
+   887			return ERR_PTR(-ENODEV);
+   888	
+ > 889		chan = dma_request_channel(mask, NULL, NULL);
+   890		if (!chan) {
+   891			mutex_lock(&dma_list_mutex);
+   892			if (list_empty(&dma_device_list))
+   893				chan = ERR_PTR(-EPROBE_DEFER);
+   894			else
+   895				chan = ERR_PTR(-ENODEV);
+   896			mutex_unlock(&dma_list_mutex);
+   897		}
+   898	
+   899		return chan;
+   900	}
+   901	EXPORT_SYMBOL_GPL(dma_request_chan_by_mask);
+   902	
 
 -- 
 0-DAY CI Kernel Test Service
