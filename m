@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF882FD1D3;
-	Mon, 10 Nov 2025 21:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A6C242D60
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 21:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762811265; cv=none; b=cdiENpBRq9fOvJCxOFJjmwkF32O/90BcZvq3C39yU6CLmEQfZ7vli7HY6uKwuW/+VEyL2JcxJpbNEEjSEHgxypTsJMRxaRQ81EEitv65zpMo29cJwMF13VMxmMzBwNtV49h1HRi2AcXll5jyt7z6KZEpyu7GvJLdSxmu+1b8DBo=
+	t=1762811266; cv=none; b=uqWAMnTRpfRGsYbHF3oxiIcdrNVQ+3CHy537/Ol1oU/jO9CzeeqFrmn1Zr58p3TDMaHB9Hcu8vnrtP4lExO6zV5lzHYu6qPDPruXM5klk4PQOG4bIWEHxPSoydM/Whli7GI/SCHC/zniyqLxxCPPdgweYprV9yw9LTc//1nBdjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762811265; c=relaxed/simple;
-	bh=lUjR9/XOSVKNQBKD7Fu1NcleoRfGe3SyX2ifKsbS1uk=;
+	s=arc-20240116; t=1762811266; c=relaxed/simple;
+	bh=pRKku37Qvyk4KwLty6P7ysKjgWuWkBj3HfBsVhP64yQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G1dhW2qhDyFkVsAvFBGCroacO7VUitkIsb71NvqKLB8l9Sw866Hr7jOuxu5/l+GsZrb3N1a0YRp1iW5zkrIBmtzvRRrm13+YmgHP4vUfvJh2mHR4eajI51/QYvWh039Dp267We814lDz0SCRFe1KQpd5rN80H3Bv4073MSvG+Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xr8qcY0e; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=HV11yaqtIqSU+99eASWTRXfBX03NY2pKO16GYqWgB+DQf25lrZo97PfOVr8Yx/SNuXp8F3Lxr7FQoa4VJQdharK5hlkQJXtwy1MnNLSsjvPFdEvIND0T+a7ZlZHe7jd5mTKj9M0mDDIRhVeCOCggIQpGv5BWJlViUn0/wtSLNfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7N87QSY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xr8qcY0e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7N87QSY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762811263; x=1794347263;
+  t=1762811265; x=1794347265;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lUjR9/XOSVKNQBKD7Fu1NcleoRfGe3SyX2ifKsbS1uk=;
-  b=Xr8qcY0euCzf95wN1p81BHrNTNEwGa5XW982uIrtJbosESD0WLUryXs6
-   1fVmsjSmoFE3lnJ78D/qqc5cPhd2JlFjA4ix/v5MEnsKNYAteVPsJUUN5
-   1z67o8qCD4cHE9AYPBJm4KY/2n0+3EAucH4y5s4T9h994ZeXPJ7ffbgMW
-   x/D2YXjnbAIt6CB9NPpcAFZ8mE2PpS1xnvvWeRRQUq7G+yDddKnzwmAIR
-   kk2ZINhpLeagZV6Ietkkyo/LSBA6dquVOik+PVzDp6Y3omKX4D07FrSbQ
-   wDhvQrpbHcKOkzv7trIEpQ8H8FsFia6No0k+I8SjYJ97+gDgt8BxAfsZ2
-   w==;
-X-CSE-ConnectionGUID: jXdP+2rRS+O9pRvLxqXq+g==
-X-CSE-MsgGUID: a8ll+wxITQmUP1WJhd6y7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64569210"
+  bh=pRKku37Qvyk4KwLty6P7ysKjgWuWkBj3HfBsVhP64yQ=;
+  b=V7N87QSYWiKQeXXs4PNnEdhe53X9kM/M+Z+SDV5rr4gU8hSMQRBuk8io
+   zLoQVII8oR8RAGSWUnP27wJueDdJfGTcvJB61S3X6+BKm4d4ux9UtPKN9
+   UMOp2qADgsVHEtPD6fGcc6BkMEdefdjc3iAB7SHpe21LMAcFmNbeQ8eLy
+   ETVE0qU1TfoCVdDLXTQK/rhXBW1oL3F+EIgzgYb2Bv25KNUTjVwWa6e7R
+   4/2TQbVo8Yz89L5258h3H0EC73Nm+/pAneIWA23BSFq1APGAOajWk5s7m
+   0v+Y+ygryBvnI4HeSm2eJNudnzHaGwU+h53YHXTajGNIcnqxa1L69lcXt
+   Q==;
+X-CSE-ConnectionGUID: hNVwzvORRteiiEQ4gIHOIw==
+X-CSE-MsgGUID: Em3+kORYTcihJ5aGBM4MYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64750642"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="64569210"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 13:47:43 -0800
-X-CSE-ConnectionGUID: UA1qZuzXQKGuLW4GBb3BfA==
-X-CSE-MsgGUID: 4s0mMlYuRJWEEV4MLgpqTA==
+   d="scan'208";a="64750642"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 13:47:44 -0800
+X-CSE-ConnectionGUID: A0aQ8/M6RIGMNQq4EGrhow==
+X-CSE-MsgGUID: lPacuhshSbe8h6aUpe9PKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="219434206"
+   d="scan'208";a="188738952"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 13:47:43 -0800
+  by orviesa007.jf.intel.com with ESMTP; 10 Nov 2025 13:47:43 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIZjg-00013m-2c;
+	id 1vIZjg-00013p-2m;
 	Mon, 10 Nov 2025 21:47:40 +0000
-Date: Tue, 11 Nov 2025 05:46:42 +0800
+Date: Tue, 11 Nov 2025 05:46:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jonhunter:tegra/for-next 20/25] WARNING: modpost: vmlinux: section
- mismatch in reference: tegra_pmc_probe+0x5fc (section: .text) ->
- tegra_pmc_detect_tz_only (section: .init.text)
-Message-ID: <202511110557.N1ybZ3Lz-lkp@intel.com>
+To: Linu Cherian <lcherian@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Anil Kumar Reddy <areddy3@marvell.com>,
+	Tanmay Jagdale <tanmay@marvell.com>
+Subject: drivers/hwtracing/coresight/coresight-tmc-core.c:403:5-8: Unneeded
+ variable: "ret". Return "0" on line 416
+Message-ID: <202511110556.RDLHL0DU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +65,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jonhunter/linux tegra/for-next
-head:   702de7db1549684fe6d990f1e43e0c808d6f4489
-commit: 356e7d34047119a7c2a799ab8b7a2c06519ebfab [20/25] soc/tegra: pmc fixes
-config: arm-randconfig-001-20251111 (https://download.01.org/0day-ci/archive/20251111/202511110557.N1ybZ3Lz-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110557.N1ybZ3Lz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4ea7c1717f3f2344f7a1cdab4f5875cfa89c87a9
+commit: d58a70bdab575264fe75e4826464aaef0dd096b4 coresight: tmc: Add support for reading crash data
+date:   9 months ago
+config: arm64-randconfig-r052-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110556.RDLHL0DU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0d786b9a207aa0e6d88dde7fd9ffe0b364db69a4)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110557.N1ybZ3Lz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110556.RDLHL0DU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/hwtracing/coresight/coresight-tmc-core.c:403:5-8: Unneeded variable: "ret". Return "0" on line 416
 
->> WARNING: modpost: vmlinux: section mismatch in reference: tegra_pmc_probe+0x5fc (section: .text) -> tegra_pmc_detect_tz_only (section: .init.text)
+vim +403 drivers/hwtracing/coresight/coresight-tmc-core.c
+
+   400	
+   401	static int tmc_crashdata_release(struct inode *inode, struct file *file)
+   402	{
+ > 403		int ret = 0;
+   404		unsigned long flags;
+   405		struct tmc_resrv_buf *rbuf;
+   406		struct tmc_drvdata *drvdata = container_of(file->private_data,
+   407							   struct tmc_drvdata,
+   408							   crashdev);
+   409	
+   410		rbuf = &drvdata->resrv_buf;
+   411		spin_lock_irqsave(&drvdata->spinlock, flags);
+   412		rbuf->reading = false;
+   413		spin_unlock_irqrestore(&drvdata->spinlock, flags);
+   414	
+   415		dev_dbg(&drvdata->csdev->dev, "%s: released\n", __func__);
+ > 416		return ret;
+   417	}
+   418	
 
 -- 
 0-DAY CI Kernel Test Service
