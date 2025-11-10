@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C108E25392C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 05:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA8C1A2C25
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 05:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762751844; cv=none; b=efMkpPEDE6gyfDppql8uhGBmdA0F34I+wmEjI37HoMkioHSMaDWDUZVR51jl92L0VnvQ9izXFEL1c+tPU6DoDzjd3GyDLOMzvCe4JrR+IMVYbDof/7NUFCo4XIPQBsiSKc6gyoB+kNgxR2n/Teok28CkDK4/QRsZ2KaCuUMXTvQ=
+	t=1762751964; cv=none; b=Fz4Es1dalobmEfkA0J0Mqe8++AjjxETXIlwAxqQWjuyUk/cSwTMbqYuTF9BvyseHWKkps88fJU38EPY36TIbdcwWiXXWUGnWCXELjyXdXIrWRruiicdg8K1pkRZcwa8evPnulsfY3LrFHFf1bPvOuQ3+H63POtypmLU5JWBllTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762751844; c=relaxed/simple;
-	bh=B8xGLtXLk7UM8HEMQcyCyv4NJfNe+kYjKelm970TQKg=;
+	s=arc-20240116; t=1762751964; c=relaxed/simple;
+	bh=tG/LlJtg+YH4Kuz2BBWvsJOConLZpjRTS+j8lSXN0HI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCGDYx8KvBaHQ2xEmxQ7qqRoH1CsgZ5QM3WBsCVwIb9eRNLGdR8RRTuVv+mv7+8xAJgUATdXnlIeoaAOEaqexjRrM3xMIlIL09ewMnLIebqakm2jDrq53CZZDAFNPtN8Rktv/hF5YguN9YwkTm4y1wTf5mJhg4rsgFfYa+FkHrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4qiVwcj; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJwxcq3cqy2tufdgeRs7oEt/Brm9yPcszgJigud3zlYe+obRU1MquvoBlWcqNi4rHZfN+T+kcmg7MDsCUXywOQIeKxITBCviiOiJHFRKzdqlTwhIhcsshCGYKVuSth/Fcbt8Lxs2oflrUQI2y9w66zaCrJGIl9TZBDj1Slq+/o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C64UeF2L; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4qiVwcj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C64UeF2L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762751843; x=1794287843;
+  t=1762751963; x=1794287963;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=B8xGLtXLk7UM8HEMQcyCyv4NJfNe+kYjKelm970TQKg=;
-  b=C4qiVwcjs3/DQl6h/QycXB5puy+j1ZKISHePWchyOXGA3Mw2cOZ2QfKr
-   f95xx4ArCYKj73RVU+xnOnar42QZNg4VfilWc+WaF+p92APe3bCwT16va
-   CSmP89cyR5KBT72x2vbMp4mDIaFbnlxZaPLD5EmvHaUT+0jb8qsx6xP37
-   AmHhR6w2/eQL7+/k+oyHr+ngseb8z3XtMPJoTB2DOXd9OQxtow53zXjNy
-   YrrkRTCNg+Vl5oTjADE005lye9FSaa94s3areP8viTq8gePYr8q0PVF4Q
-   HOln2Kuw7VwcPWX8iAHqH56CYcqs/vpRGBbLJNDGjIpMjssmpBa9JV5VW
-   g==;
-X-CSE-ConnectionGUID: uNaxIZt2RY+nN5oxH/V96A==
-X-CSE-MsgGUID: G06ghED4QlaE2+YGby6Kog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64952864"
+  bh=tG/LlJtg+YH4Kuz2BBWvsJOConLZpjRTS+j8lSXN0HI=;
+  b=C64UeF2LKATWhWrUlj8jrJfoY1fh+UnIh5DOmDip8CMu7LN767rGi1Sr
+   lm52VA1hJc9HN50ytzbjTWB2mM3x8PrCeboJos7qGg27Ya3INdCkyX1GM
+   efYLexLfK3Wof8VBE5fPl9l1hnu6tVMbbXRafkrZOQDVw6olACxPcctlm
+   z3ehyPWOjxH5jG7jpQgGMDoEW2gB4zfDyAlbcAE4hsX1BISU7kHNRxfTk
+   4ZxTwkvJtQuvCZyLLsoU1VcuUww7Hi7yuFLdI0GgqfvtEN2qoTpMmkBY7
+   VyxuGKTTFBlp7K0V8OaX6QrZ7h/JwhqJC1dhVbaqoNvknf7cGONcdJ/6X
+   Q==;
+X-CSE-ConnectionGUID: hd5veZFCQlKA7tOzt5+y0A==
+X-CSE-MsgGUID: YZP50tfZQReW/srzlNbTig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64709495"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="64952864"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:17:22 -0800
-X-CSE-ConnectionGUID: 8HR3QZV9S1OSgKIsy81Iug==
-X-CSE-MsgGUID: dGB8psDJRTite3V++mI7OQ==
+   d="scan'208";a="64709495"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:19:22 -0800
+X-CSE-ConnectionGUID: 1eg6AQi0SIiVYOkRtQTxAQ==
+X-CSE-MsgGUID: MrQFw1BbSIGnGxMmFjHkTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="188323433"
-Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Nov 2025 21:17:18 -0800
-Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vIKHE-0002gL-0p;
-	Mon, 10 Nov 2025 05:17:16 +0000
-Date: Mon, 10 Nov 2025 13:16:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wanpeng Li <kernellwp@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Juri Lelli <juri.lelli@redhat.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>
-Subject: Re: [PATCH 05/10] sched/fair: Wire up yield deboost in
- yield_to_task_fair()
-Message-ID: <202511101338.8AICyae8-lkp@intel.com>
-References: <20251110033232.12538-6-kernellwp@gmail.com>
+   d="scan'208";a="188533178"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.185])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:19:22 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vIKJC-00000007Lgu-2p6f;
+	Mon, 10 Nov 2025 07:19:18 +0200
+Date: Mon, 10 Nov 2025 07:19:18 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of
+ __dma_request_channel()
+Message-ID: <aRF11uLJ6Pk06Nwr@smile.fi.intel.com>
+References: <20251109222944.3222436-2-andriy.shevchenko@linux.intel.com>
+ <202511100917.IbXHDyqF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,37 +64,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251110033232.12538-6-kernellwp@gmail.com>
+In-Reply-To: <202511100917.IbXHDyqF-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Wanpeng,
+On Mon, Nov 10, 2025 at 09:57:56AM +0800, kernel test robot wrote:
+> Hi Andy,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on vkoul-dmaengine/next]
+> [also build test ERROR on linus/master v6.18-rc5 next-20251107]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/dmaengine-Use-dma_request_channel-instead-of-__dma_request_channel/20251110-063117
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+> patch link:    https://lore.kernel.org/r/20251109222944.3222436-2-andriy.shevchenko%40linux.intel.com
+> patch subject: [PATCH v1 1/4] dmaengine: Use dma_request_channel() instead of __dma_request_channel()
+> config: s390-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251110/202511100917.IbXHDyqF-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511100917.IbXHDyqF-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511100917.IbXHDyqF-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvm/next tip/sched/core tip/master linus/master v6.18-rc5 next-20251107]
-[cannot apply to kvm/linux-next tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wanpeng-Li/sched-Add-vCPU-debooster-infrastructure/20251110-114219
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20251110033232.12538-6-kernellwp%40gmail.com
-patch subject: [PATCH 05/10] sched/fair: Wire up yield deboost in yield_to_task_fair()
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251110/202511101338.8AICyae8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101338.8AICyae8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101338.8AICyae8-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   m68k-linux-ld: kernel/sched/fair.o: in function `yield_deboost_calculate_penalty':
->> fair.c:(.text+0x1588): undefined reference to `__udivdi3'
+Wow, what did I have compile? Seems something different. I will fix this in v2.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
