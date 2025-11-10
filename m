@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25166217F53
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 17:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D402E5407;
+	Mon, 10 Nov 2025 17:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762794974; cv=none; b=HTooij6oTAyQMrit7RdPSRszZJa43uiZz8rF9gGpGYd4KpDmNjRUqLEvIFrEyoYI99eZ7WjP84LhrUurqQAOaV+R8NDEU/Oj9cJR+SeqiF16RUGK3qGb5/XOzrmfP7Wm60sitsC9USpes3YAGvfW6OehrazGxVKivuhDwFzqBN0=
+	t=1762796903; cv=none; b=QCDcIYLcAhYcmcCxFHO6avNGP8TSfcgJkdaQbHYyiyNvWCUil5sVCl+HIC42epCEju3uBnPiUzHxWy7kG8Ydg6gYsCkGJ4mbGH/UrTZ20ENplJVxRLTUe24O1E8X5+4UG2A5JBbVxbsnbdAsSZ9kaQQphyS/5PnoHva6nN7w9T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762794974; c=relaxed/simple;
-	bh=Q2Mxbsv8T6237AEDUSVYx+jeCmcsm3LFOZw0ZhKAQuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hYVQOzkCIe1RZo5nBriBA+STUXph02fHBzXI+vK3GJJr+OQNKyjRA6yVb9irbmqCBFbaypN8AG2uy5TO0gNq/6asNJZkchS0Hg4PFt2U8138XLAMoIu1zoX+95Vq+Pn9Vkm4LuUtF6z37KFyL08bjktrX5JId9F8vcIxY1gUlxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMC9e447; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1762796903; c=relaxed/simple;
+	bh=PBhGYG1Welq8HIr6/Eg4O9bQLBhw9HZVRcUiW+PyXlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cNvqtbL1NYacxdmbp/af3sJfxAgfJ69ADw1RYNJyQVdpWVfhOwolYrVGpItmK2oIbEpyJqVw+/mizLtlSfaxZPAa3fy75uccDLfos5z6Lw6u5A70XAzpc3fOhbNc32Qt8rIjhVc+3Beke4yyWrbFQoXuLUc3gBPar3iJmLCHXZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mROsNckL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMC9e447"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mROsNckL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762794973; x=1794330973;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q2Mxbsv8T6237AEDUSVYx+jeCmcsm3LFOZw0ZhKAQuY=;
-  b=cMC9e447ZqWIKBtyRXkblO1GyOrsyMbw2IN4MNsPobmPBDev+mAnS4gi
-   Qx5FuaxKmc1BmPNlEpnGu147AJ9+ocTfafVVKwweHf1C58SWNmNlBt4U7
-   y5oViCNSle9IKaQZXeeAdxikd8k9Bul+xvcTmluSQUm1CP2Jifk8BdsYh
-   MzPldJ9kTUyO7Rpu4yniNm5dw8s1hOYLrY+/nj3tjisr8wzwIA3RLd26+
-   BjDvVkHfn5x4QSs1wrKTgx6pTOp/GMDDdBBiJOx3s2+T+0bqLTX1ZRyI4
-   pf50zekjZm5MXHlY7yoca5ni3y1PTLkfvjG4Xjbhq31eEYDY3fUdNu0EY
-   g==;
-X-CSE-ConnectionGUID: vV9p7ViYRkmLggpIt+4cRg==
-X-CSE-MsgGUID: Fj+162WCQfGgw7C2bFVBIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68697316"
+  t=1762796901; x=1794332901;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PBhGYG1Welq8HIr6/Eg4O9bQLBhw9HZVRcUiW+PyXlo=;
+  b=mROsNckLsusFawOvmC6bfo2yLqzmQEMc+VjCoRApeIpGLxWrP8r7F3iW
+   MKPfWjLtG8iUmcYtLP5o1gwFZD1YRv15G4w2paWf8gQtGupI0HGMqlRtK
+   48X23PB/dLGlrMzVrBiphS2QQJmw2+yU+LPgKk4vTBdsZeqJZTXxPH2qT
+   SeNgWNp0yar0jqeo3KzM0QVEUyjTdeAOcIUxexhkmBjB8Hmn/eeCg6C1w
+   tGKfsCONWq6fb7dxjj2fnJyD0Gv6JZyMR+tNKpjZCBsch3dB9SCiCiHVZ
+   WPxhwQkXKUCOiV6j9CdRaCitmSUhlkHN+7DlF3+W+ooiG3AYOgdlS54vr
+   A==;
+X-CSE-ConnectionGUID: vMh0vEOlTsCDR26cKRKv2A==
+X-CSE-MsgGUID: /d93APFgSVmhc73Ui729FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75462921"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="68697316"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 09:16:13 -0800
-X-CSE-ConnectionGUID: 1X3bAiOxSze6tk2+GHIV+Q==
-X-CSE-MsgGUID: X7WS2uHcTFacIe1/JszFXQ==
+   d="scan'208";a="75462921"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 09:48:21 -0800
+X-CSE-ConnectionGUID: j6X54M9WSKCVMnW4BeP3NA==
+X-CSE-MsgGUID: 7Fg9QX7KRO2x1QPQxx978g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188033016"
+   d="scan'208";a="193113288"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Nov 2025 09:16:12 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2025 09:48:18 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIVUv-0000j9-2I;
-	Mon, 10 Nov 2025 17:16:09 +0000
-Date: Tue, 11 Nov 2025 01:15:13 +0800
+	id 1vIVzz-0000mZ-0L;
+	Mon, 10 Nov 2025 17:48:15 +0000
+Date: Tue, 11 Nov 2025 01:47:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 2/8]
- crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in
- argument 3 (different base types)
-Message-ID: <202511110107.cresrLdf-lkp@intel.com>
+To: Alejandro Colomar <alx@kernel.org>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alejandro Colomar <alx@kernel.org>, Marco Elver <elver@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Christopher Bazley <chris.bazley.wg14@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v1 2/3] mm: Fix benign off-by-one bugs
+Message-ID: <202511110100.9uPtQqN1-lkp@intel.com>
+References: <87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +71,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   445b842b50b449ceb18cbbfc72dc28bc25fa8b08
-commit: 7ae730f92709e7f54f560e4ca88b10ef1aeb6c22 [2/8] crypto: Add ML-DSA/Dilithium verify support
-config: mips-randconfig-r134-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110107.cresrLdf-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d445cba39f4dd3dcda4fa1433eca825cf8fc09)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110107.cresrLdf-lkp@intel.com/reproduce)
+Hi Alejandro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on kees/for-next/pstore kees/for-next/kspp linus/master linux/master v6.18-rc5 next-20251110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/array_size-h-Add-ARRAY_END/20251110-075203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx%40kernel.org
+patch subject: [PATCH v1 2/3] mm: Fix benign off-by-one bugs
+config: loongarch-randconfig-001-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110100.9uPtQqN1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110100.9uPtQqN1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110107.cresrLdf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110100.9uPtQqN1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   crypto/ml_dsa/dilithium_44.c: note: in included file (through crypto/ml_dsa/dilithium_signature_c.c):
->> crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [addressable] [usertype] nonce @@     got restricted __le16 [usertype] @@
-   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     expected unsigned short [addressable] [usertype] nonce
-   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     got restricted __le16 [usertype]
->> crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned short [addressable] [usertype] nonce @@     got restricted __le16 [usertype] @@
-   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     expected unsigned short [addressable] [usertype] nonce
-   crypto/ml_dsa/dilithium_polyvec_c.h:41:33: sparse:     got restricted __le16 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +41 crypto/ml_dsa/dilithium_polyvec_c.h
+>> mm/kfence/kfence_test.c:113:8: error: call to undeclared function 'ENDOF'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     113 |         end = ENDOF(expect[0]);
+         |               ^
+>> mm/kfence/kfence_test.c:113:6: error: incompatible integer to pointer conversion assigning to 'const char *' from 'int' [-Wint-conversion]
+     113 |         end = ENDOF(expect[0]);
+         |             ^ ~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c:143:6: error: incompatible integer to pointer conversion assigning to 'const char *' from 'int' [-Wint-conversion]
+     143 |         end = ENDOF(expect[1]);
+         |             ^ ~~~~~~~~~~~~~~~~
+   3 errors generated.
 
-    21	
-    22	/*
-    23	 * @brief expand_mat - Implementation of ExpandA. Generates matrix A with
-    24	 *		       uniformly random coefficients a_{i,j} by performing
-    25	 *		       rejection sampling on the output stream of
-    26	 *		       SHAKE128(rho|j|i).
-    27	 *
-    28	 * @param [out] mat output matrix
-    29	 * @param [in] rho byte array containing seed rho
-    30	 */
-    31	static inline void
-    32	polyvec_matrix_expand(polyvecl mat[DILITHIUM_K],
-    33			      const uint8_t rho[DILITHIUM_SEEDBYTES], void *ws_buf)
-    34	{
-    35		unsigned int i, j;
-    36	
-    37		for (i = 0; i < DILITHIUM_K; ++i)
-    38			for (j = 0; j < DILITHIUM_L; ++j)
-    39				poly_uniform(
-    40					&mat[i].vec[j], rho,
-  > 41					cpu_to_le16((uint16_t)(i << 8) + (uint16_t)j),
-    42					ws_buf);
-    43	}
-    44	
+
+vim +/ENDOF +113 mm/kfence/kfence_test.c
+
+    94	
+    95	/* Check observed report matches information in @r. */
+    96	static bool report_matches(const struct expect_report *r)
+    97	{
+    98		unsigned long addr = (unsigned long)r->addr;
+    99		bool ret = false;
+   100		unsigned long flags;
+   101		typeof(observed.lines) expect;
+   102		const char *end;
+   103		char *cur;
+   104	
+   105		/* Doubled-checked locking. */
+   106		if (!report_available())
+   107			return false;
+   108	
+   109		/* Generate expected report contents. */
+   110	
+   111		/* Title */
+   112		cur = expect[0];
+ > 113		end = ENDOF(expect[0]);
+   114		switch (r->type) {
+   115		case KFENCE_ERROR_OOB:
+   116			cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
+   117					 get_access_type(r));
+   118			break;
+   119		case KFENCE_ERROR_UAF:
+   120			cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
+   121					 get_access_type(r));
+   122			break;
+   123		case KFENCE_ERROR_CORRUPTION:
+   124			cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
+   125			break;
+   126		case KFENCE_ERROR_INVALID:
+   127			cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
+   128					 get_access_type(r));
+   129			break;
+   130		case KFENCE_ERROR_INVALID_FREE:
+   131			cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
+   132			break;
+   133		}
+   134	
+   135		scnprintf(cur, end - cur, " in %pS", r->fn);
+   136		/* The exact offset won't match, remove it; also strip module name. */
+   137		cur = strchr(expect[0], '+');
+   138		if (cur)
+   139			*cur = '\0';
+   140	
+   141		/* Access information */
+   142		cur = expect[1];
+   143		end = ENDOF(expect[1]);
+   144	
+   145		switch (r->type) {
+   146		case KFENCE_ERROR_OOB:
+   147			cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
+   148			addr = arch_kfence_test_address(addr);
+   149			break;
+   150		case KFENCE_ERROR_UAF:
+   151			cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
+   152			addr = arch_kfence_test_address(addr);
+   153			break;
+   154		case KFENCE_ERROR_CORRUPTION:
+   155			cur += scnprintf(cur, end - cur, "Corrupted memory at");
+   156			break;
+   157		case KFENCE_ERROR_INVALID:
+   158			cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
+   159			addr = arch_kfence_test_address(addr);
+   160			break;
+   161		case KFENCE_ERROR_INVALID_FREE:
+   162			cur += scnprintf(cur, end - cur, "Invalid free of");
+   163			break;
+   164		}
+   165	
+   166		cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+   167	
+   168		spin_lock_irqsave(&observed.lock, flags);
+   169		if (!report_available())
+   170			goto out; /* A new report is being captured. */
+   171	
+   172		/* Finally match expected output to what we actually observed. */
+   173		ret = strstr(observed.lines[0], expect[0]) && strstr(observed.lines[1], expect[1]);
+   174	out:
+   175		spin_unlock_irqrestore(&observed.lock, flags);
+   176		return ret;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
