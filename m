@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F5432F749
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 18:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797EC2773D3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 18:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762799366; cv=none; b=Wnkwc3CLb2l4S/VIxrKjfVixipTj61UtWLsVZVGxW2JkHkjEYhV0+tpH4RCaJy1AM6sbwJT7bEr25M0iy36UA872Jvav9Cspw1uyk1V6xaV3gerf/OA1piKcffkA5gRb3PZxMVEZih3Nf/I2qGk3RPzACN4WWB4PQdyeIe7TkdY=
+	t=1762800030; cv=none; b=ljJJg0lY/UgND1C6mLTl7NEN91GDzP/OQHMKaztIpJd6L0gc+wMW0KoGR4CF3n+EZdr8UyWZaj23gcDfpipV3/DUUrXjgcHKCFP71WvjkKEfR+ROo1O7tF1tUtZjJjEOPfxC5XuMgqulBYqf7RVXHQIxoUE77JjZy0ipzDUQ+V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762799366; c=relaxed/simple;
-	bh=rNDZRHH8pEm/7B8i80HBHOWE64I+881Dtf2euHKNRbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PE+ykJi+feDnaXx0mIcJa3f1mcBWOHjT6jUxRA7JgdboMRVGMZp/3ptZvx/g+3srj6DlG+xGoXFHyYJ+5GchSJ29lse+PgzeTi6D1heJHaus02KGZ5IldE+JQsgo0VqESsR7VJkV7Epl1LX/P1QSADicYIphr+25wLVYt4+Aiv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhUolEoS; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1762800030; c=relaxed/simple;
+	bh=ITmLWXo3e+y1YebPOYiecUwtXc4FTLTE2wV3joWNNbY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tIILaDyHz55SzMraBwZARwDVPHPW9pa8ipcF3ci4dcMu1ULAugPt8KwpQzxn9LVlcHioX/LqAT/hZAgoovwhnwsZKaW6CaAHBnpgz8T/OvkG8s1eO3VFJ/6WnXYU1xjM0+cM3kjWLSBeAkMCpwlgdhENrHpEB5evvst9a+6UKQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBlVlDQf; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhUolEoS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBlVlDQf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762799364; x=1794335364;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rNDZRHH8pEm/7B8i80HBHOWE64I+881Dtf2euHKNRbY=;
-  b=IhUolEoStqqJsFsKg5Qd/tnDjexrUsMRnD04DLYoC3u7PneOXOaRwRGa
-   CxF/qhekcNruZbMUGHJG2lmrruqtnSR+Q48oYnvlnVtFBq237alOlxJQ0
-   r64rvZ+Ql+Bg2PuQZ/wU0onzuKtRRPesyiiugdyR/ys5Bl3p9l3gO+Fdd
-   cFGmk8dD5qhGnFtR9T1sBLbDCkzNSkSuhjy37jmcz92J/yJZ89yFXdMeM
-   yljjEEnJRs8hqrHHswX/cGFzqUF3UQCAZ7lCmHvEw/ISP49/yxypYjSBG
-   9nX+Y/TOYryWrZf87aw6WiEdvmlaAxMefvpLvp+s8geVKuuHBoZ6+Ab0R
+  t=1762800028; x=1794336028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ITmLWXo3e+y1YebPOYiecUwtXc4FTLTE2wV3joWNNbY=;
+  b=XBlVlDQfxtlTSnrJeLfRUOTR6lS5Fq7t/hVxsXRx7evG6jZAx18dvvkl
+   oG/x0oPLaSgwo1lEjbHBVoQSA9COdwzphdb7eCZVMNUUs4fcdsZo3SAP/
+   CzswkmfjoQGPkYel9L4QQqASKrlkQr5mS2/7QzmkUVG7NgZSmkH/iPtzH
+   epLpiwcEF2lsByuRsFCAEnngy2KN+Hs2RSXehG8jBGvaYHkE5VPdFDuat
+   iNjfvQXXm+iw3o38hN5lrSjOA+V65spZ0VjZdFoHezCrk30L1wJW2cDK9
+   v1bp3KXkinzPmBDgRthp3qqd/3qd5ji9lSKulJFXzuL0tKjUzPeDegaiz
    g==;
-X-CSE-ConnectionGUID: 3/QkYkkqRG2JpCPi0FGUOQ==
-X-CSE-MsgGUID: YYeEWt19TySD8ygzfX23pA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="67461224"
+X-CSE-ConnectionGUID: MKBbcM7tTK2vxZ5Vlql40w==
+X-CSE-MsgGUID: /XAh5MRrQ/mOQgPmJEs5uA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64557182"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="67461224"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:29:23 -0800
-X-CSE-ConnectionGUID: oFnoUaddTI6rqKTOnmaX9Q==
-X-CSE-MsgGUID: WbQX4CWeQQmkkEYo/q7E0Q==
+   d="scan'208";a="64557182"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:40:28 -0800
+X-CSE-ConnectionGUID: bQyQQdPqS06MzEkKcaNRTg==
+X-CSE-MsgGUID: 13XDg5qEQ9qhGAA2/QwwsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188490806"
+   d="scan'208";a="193747970"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Nov 2025 10:29:22 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 10 Nov 2025 10:40:23 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIWdk-0000pz-0k;
-	Mon, 10 Nov 2025 18:29:20 +0000
-Date: Tue, 11 Nov 2025 02:29:09 +0800
+	id 1vIWoP-0000rb-1k;
+	Mon, 10 Nov 2025 18:40:21 +0000
+Date: Tue, 11 Nov 2025 02:40:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-09 0/1] mm/gup.c:479:6: warning:
- no previous prototype for '_trace_android_vh_mm_customize_longterm_pinnable'
-Message-ID: <202511110210.BHMC1gVH-lkp@intel.com>
+To: Alejandro Colomar <alx@kernel.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Colomar <alx@kernel.org>,
+	Marco Elver <elver@google.com>, Kees Cook <kees@kernel.org>,
+	Christopher Bazley <chris.bazley.wg14@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Michal Hocko <mhocko@suse.com>, Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v1 2/3] mm: Fix benign off-by-one bugs
+Message-ID: <202511110204.IxlIobdQ-lkp@intel.com>
+References: <87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,44 +70,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx@kernel.org>
 
-Hi Pengfei,
+Hi Alejandro,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
-head:   c6f1d967546daeefe825ba927fd1840515457f60
-commit: 792718bb234ac19db3efdbc3215485e874c41584 [0/1] ANDROID: vendor_hook: Added hook to tune reclaimed huge page
-config: i386-randconfig-016-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110210.BHMC1gVH-lkp@intel.com/config)
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on kees/for-next/pstore kees/for-next/kspp linus/master linux/master v6.18-rc5 next-20251110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/array_size-h-Add-ARRAY_END/20251110-075203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/87445e701574058b142e036c3b8a0f505086ab64.1758806023.git.alx%40kernel.org
+patch subject: [PATCH v1 2/3] mm: Fix benign off-by-one bugs
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251111/202511110204.IxlIobdQ-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110210.BHMC1gVH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110204.IxlIobdQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110210.BHMC1gVH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110204.IxlIobdQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/gup.c:479:6: warning: no previous prototype for '_trace_android_vh_mm_customize_longterm_pinnable' [-Wmissing-prototypes]
-     479 | void _trace_android_vh_mm_customize_longterm_pinnable(struct folio *folio,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kfence/kfence_test.c: In function 'report_matches':
+>> mm/kfence/kfence_test.c:113:15: error: implicit declaration of function 'ENDOF' [-Wimplicit-function-declaration]
+     113 |         end = ENDOF(expect[0]);
+         |               ^~~~~
+>> mm/kfence/kfence_test.c:113:13: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     113 |         end = ENDOF(expect[0]);
+         |             ^
+   mm/kfence/kfence_test.c:143:13: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     143 |         end = ENDOF(expect[1]);
+         |             ^
 
 
-vim +/_trace_android_vh_mm_customize_longterm_pinnable +479 mm/gup.c
+vim +/ENDOF +113 mm/kfence/kfence_test.c
 
-   473	
-   474	/*
-   475	 * trace_android_vh_mm_customize_longterm_pinnable is called in include/linux/mm.h
-   476	 * by including include/trace/hooks/mm.h, which will result to build-err.
-   477	 * So we create func: _trace_android_vh_mm_customize_longterm_pinnable.
-   478	 */
- > 479	void _trace_android_vh_mm_customize_longterm_pinnable(struct folio *folio,
-   480			bool *is_longterm_pinnable)
-   481	{
-   482		trace_android_vh_mm_customize_longterm_pinnable(folio, is_longterm_pinnable);
-   483	}
-   484	
+    94	
+    95	/* Check observed report matches information in @r. */
+    96	static bool report_matches(const struct expect_report *r)
+    97	{
+    98		unsigned long addr = (unsigned long)r->addr;
+    99		bool ret = false;
+   100		unsigned long flags;
+   101		typeof(observed.lines) expect;
+   102		const char *end;
+   103		char *cur;
+   104	
+   105		/* Doubled-checked locking. */
+   106		if (!report_available())
+   107			return false;
+   108	
+   109		/* Generate expected report contents. */
+   110	
+   111		/* Title */
+   112		cur = expect[0];
+ > 113		end = ENDOF(expect[0]);
+   114		switch (r->type) {
+   115		case KFENCE_ERROR_OOB:
+   116			cur += scnprintf(cur, end - cur, "BUG: KFENCE: out-of-bounds %s",
+   117					 get_access_type(r));
+   118			break;
+   119		case KFENCE_ERROR_UAF:
+   120			cur += scnprintf(cur, end - cur, "BUG: KFENCE: use-after-free %s",
+   121					 get_access_type(r));
+   122			break;
+   123		case KFENCE_ERROR_CORRUPTION:
+   124			cur += scnprintf(cur, end - cur, "BUG: KFENCE: memory corruption");
+   125			break;
+   126		case KFENCE_ERROR_INVALID:
+   127			cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid %s",
+   128					 get_access_type(r));
+   129			break;
+   130		case KFENCE_ERROR_INVALID_FREE:
+   131			cur += scnprintf(cur, end - cur, "BUG: KFENCE: invalid free");
+   132			break;
+   133		}
+   134	
+   135		scnprintf(cur, end - cur, " in %pS", r->fn);
+   136		/* The exact offset won't match, remove it; also strip module name. */
+   137		cur = strchr(expect[0], '+');
+   138		if (cur)
+   139			*cur = '\0';
+   140	
+   141		/* Access information */
+   142		cur = expect[1];
+   143		end = ENDOF(expect[1]);
+   144	
+   145		switch (r->type) {
+   146		case KFENCE_ERROR_OOB:
+   147			cur += scnprintf(cur, end - cur, "Out-of-bounds %s at", get_access_type(r));
+   148			addr = arch_kfence_test_address(addr);
+   149			break;
+   150		case KFENCE_ERROR_UAF:
+   151			cur += scnprintf(cur, end - cur, "Use-after-free %s at", get_access_type(r));
+   152			addr = arch_kfence_test_address(addr);
+   153			break;
+   154		case KFENCE_ERROR_CORRUPTION:
+   155			cur += scnprintf(cur, end - cur, "Corrupted memory at");
+   156			break;
+   157		case KFENCE_ERROR_INVALID:
+   158			cur += scnprintf(cur, end - cur, "Invalid %s at", get_access_type(r));
+   159			addr = arch_kfence_test_address(addr);
+   160			break;
+   161		case KFENCE_ERROR_INVALID_FREE:
+   162			cur += scnprintf(cur, end - cur, "Invalid free of");
+   163			break;
+   164		}
+   165	
+   166		cur += scnprintf(cur, end - cur, " 0x%p", (void *)addr);
+   167	
+   168		spin_lock_irqsave(&observed.lock, flags);
+   169		if (!report_available())
+   170			goto out; /* A new report is being captured. */
+   171	
+   172		/* Finally match expected output to what we actually observed. */
+   173		ret = strstr(observed.lines[0], expect[0]) && strstr(observed.lines[1], expect[1]);
+   174	out:
+   175		spin_unlock_irqrestore(&observed.lock, flags);
+   176		return ret;
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
