@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD8011CAF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C108E25392C
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 05:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762751843; cv=none; b=cMORKqL30Lhw6jK1b9UIm1WLb9VG+lYkcoJwrVPYtCGNblxG8uCjuRIZ4i3hDGYvPCKyvU0nstGjCnJ50yEjuRERcKRqIUy6RpqsNsIBy71rSXLMrwm/PSZADkm76CIFfOwd1xTDZ3+xHbEgCEhcLymWIb0YnaclSMRP719o+GE=
+	t=1762751844; cv=none; b=efMkpPEDE6gyfDppql8uhGBmdA0F34I+wmEjI37HoMkioHSMaDWDUZVR51jl92L0VnvQ9izXFEL1c+tPU6DoDzjd3GyDLOMzvCe4JrR+IMVYbDof/7NUFCo4XIPQBsiSKc6gyoB+kNgxR2n/Teok28CkDK4/QRsZ2KaCuUMXTvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762751843; c=relaxed/simple;
-	bh=arMEVgo3EncNgwNhXraToER5I5/99hzkDqa6X/+wgao=;
+	s=arc-20240116; t=1762751844; c=relaxed/simple;
+	bh=B8xGLtXLk7UM8HEMQcyCyv4NJfNe+kYjKelm970TQKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWClIbwEgnX7sBeKieEJVXCSAYU1gL/MslJvvTdrAo0aLUr6QiQ9BVndaKgXHVdP2mZDsj/0YSJ4wD1pOhCGlblhe96co7t/RYVXp8KNekzCBYO5AHm4qQtxAxnpLaqumAIivCbM54L3/iEaV90HKnuszfqEGxFU9eZThtp7sfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MiVkQ0Vx; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=tCGDYx8KvBaHQ2xEmxQ7qqRoH1CsgZ5QM3WBsCVwIb9eRNLGdR8RRTuVv+mv7+8xAJgUATdXnlIeoaAOEaqexjRrM3xMIlIL09ewMnLIebqakm2jDrq53CZZDAFNPtN8Rktv/hF5YguN9YwkTm4y1wTf5mJhg4rsgFfYa+FkHrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4qiVwcj; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MiVkQ0Vx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4qiVwcj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762751841; x=1794287841;
+  t=1762751843; x=1794287843;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=arMEVgo3EncNgwNhXraToER5I5/99hzkDqa6X/+wgao=;
-  b=MiVkQ0VxF/qRNLvoJNoWOhmslRve98RpFgbzURf+oP2W+iFeSxvu0reW
-   /Cn0xUFxbVin92fZMgiAJyBbr0BAl6cJm+NNIfwvzEGy2dxffckp4Qzyv
-   OGtjfS8s3rwFllw6qspR2K/I4jgPu+D+dnJlYtMhUE7NFeyJR7KwS+EbA
-   gHwmkU6Rv8Po9Yk2FuWa/hJ7ZTMA0Pk/dS105WFYWT7TuH7oo9CIInhx8
-   VJOr24ZAwNCTM/A36eOmRtZkDgxY75oa2oYlK4llVcfksME/b29cP7xFR
-   i6MkGtTfGYV6l9HkTPed9sb2RLjMsZJns3f0y4sza8BSfoP4jUEeOl3PC
-   Q==;
-X-CSE-ConnectionGUID: EVM0Nf4pQUqCism4dX5Mmg==
-X-CSE-MsgGUID: +Wn5AF1bRZWI0AN/TmDVmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75486490"
+  bh=B8xGLtXLk7UM8HEMQcyCyv4NJfNe+kYjKelm970TQKg=;
+  b=C4qiVwcjs3/DQl6h/QycXB5puy+j1ZKISHePWchyOXGA3Mw2cOZ2QfKr
+   f95xx4ArCYKj73RVU+xnOnar42QZNg4VfilWc+WaF+p92APe3bCwT16va
+   CSmP89cyR5KBT72x2vbMp4mDIaFbnlxZaPLD5EmvHaUT+0jb8qsx6xP37
+   AmHhR6w2/eQL7+/k+oyHr+ngseb8z3XtMPJoTB2DOXd9OQxtow53zXjNy
+   YrrkRTCNg+Vl5oTjADE005lye9FSaa94s3areP8viTq8gePYr8q0PVF4Q
+   HOln2Kuw7VwcPWX8iAHqH56CYcqs/vpRGBbLJNDGjIpMjssmpBa9JV5VW
+   g==;
+X-CSE-ConnectionGUID: uNaxIZt2RY+nN5oxH/V96A==
+X-CSE-MsgGUID: G06ghED4QlaE2+YGby6Kog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="64952864"
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="75486490"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:17:21 -0800
-X-CSE-ConnectionGUID: qMO86JjpQ5ytB6igoohgxg==
-X-CSE-MsgGUID: j4kEaJboTVOCVcb0E/J8dw==
+   d="scan'208";a="64952864"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2025 21:17:22 -0800
+X-CSE-ConnectionGUID: 8HR3QZV9S1OSgKIsy81Iug==
+X-CSE-MsgGUID: dGB8psDJRTite3V++mI7OQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
-   d="scan'208";a="211983862"
+   d="scan'208";a="188323433"
 Received: from lkp-server01.sh.intel.com (HELO 6ef82f2de774) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2025 21:17:18 -0800
+  by orviesa009.jf.intel.com with ESMTP; 09 Nov 2025 21:17:18 -0800
 Received: from kbuild by 6ef82f2de774 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIKHE-0002gJ-0j;
+	id 1vIKHE-0002gL-0p;
 	Mon, 10 Nov 2025 05:17:16 +0000
-Date: Mon, 10 Nov 2025 13:16:38 +0800
+Date: Mon, 10 Nov 2025 13:16:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Wanpeng Li <kernellwp@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -60,7 +60,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
 	kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>
 Subject: Re: [PATCH 05/10] sched/fair: Wire up yield deboost in
  yield_to_task_fair()
-Message-ID: <202511101310.HuFb12n3-lkp@intel.com>
+Message-ID: <202511101338.8AICyae8-lkp@intel.com>
 References: <20251110033232.12538-6-kernellwp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -87,20 +87,19 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Wanpeng-Li/sched-Add-vCPU
 base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
 patch link:    https://lore.kernel.org/r/20251110033232.12538-6-kernellwp%40gmail.com
 patch subject: [PATCH 05/10] sched/fair: Wire up yield deboost in yield_to_task_fair()
-config: xtensa-allnoconfig (https://download.01.org/0day-ci/archive/20251110/202511101310.HuFb12n3-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101310.HuFb12n3-lkp@intel.com/reproduce)
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251110/202511101338.8AICyae8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101338.8AICyae8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511101310.HuFb12n3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101338.8AICyae8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   xtensa-linux-ld: kernel/sched/fair.o: in function `detach_entity_load_avg.constprop.0':
-   fair.c:(.text+0xc84): undefined reference to `__udivdi3'
->> xtensa-linux-ld: fair.c:(.text+0xd06): undefined reference to `__udivdi3'
+   m68k-linux-ld: kernel/sched/fair.o: in function `yield_deboost_calculate_penalty':
+>> fair.c:(.text+0x1588): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
