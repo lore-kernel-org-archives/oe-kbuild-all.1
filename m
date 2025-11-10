@@ -1,226 +1,151 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4761C254AFF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 08:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC78301035;
+	Mon, 10 Nov 2025 09:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762762040; cv=none; b=s3LDL3pxyEK7fXXcOXdgGGq9oQFAhTcVrgvWrGXZ+Yf1H2ionsEgfjmJsD3r9UjLmQyW3lPFrB+6y+B2CycdRn4Fu5oeMcWrcnxtqknqj7lfNSziXpjmRM8/orHiWx6eUOvPO9Kf76pCzhoc8ONxU/fx0dke5yt55ppPJkG2U/c=
+	t=1762767928; cv=none; b=BkE+X01hmdudB7VHTcGk8UPctcnXWcoHxEkZZhJoxAbysCa+2wIZWe76tBFwTo37ykAOUNUrW2hBAEk71m4NJjE0vymu1ALxthJ630wBL2294o7G6ybHjAWj+YaZJRl8qBatuw+S1LuENdZQQnGkrVSlJCf41yZOL/Lg0kQvDcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762762040; c=relaxed/simple;
-	bh=XE9rNfbtCppOOc0ESV6MaPT1yxtFjl74Aj5Fvi0xTWk=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=SCS7o4Gtf78WSa+RfXJ8NUnWGRfwk5lC5Wcp0a2UHAkliNWz3oYUBfNLHwxjdghVSRSOsB+ZbPhrIDOsS89uI4caiF9W3u9wId2Bi26lzU2lV/8PKUBqocE/dGsxX//j3EUWwV3VycLWlr/bLY8Xn9EdmzIunWE1NLTk4gKoKqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com; spf=pass smtp.mailfrom=net-swift.com; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=net-swift.com
-X-QQ-mid: esmtpgz11t1762762011t8ad1da07
-X-QQ-Originating-IP: jebWHaXc8UD+0OL/OQ3Y8YwrWHEn+o3ibGGGhb14+uU=
-Received: from smtpclient.apple ( [125.120.180.10])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 10 Nov 2025 16:06:50 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 1781396948337886877
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1762767928; c=relaxed/simple;
+	bh=KuOjXaqFLtRTrWcU25hNsiUdYFSF7AKmNnR0D7iVs8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bEQOLXbmNbsjztTEBdI6WI+xEIYhOOzy7YZvkmSQKgwdrEp1iCpy6NyU2Knf8MNt95pw6fUt66QEV4OO1cm1dT57TGLw5KqhXik/eaSgTL4tYARHnyu9N1UoiAHUjK60iMe7x2VSxd2yprQT05nyV7/eOQeGbQgd9acomGJFT08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJwLtHvx; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJwLtHvx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762767926; x=1794303926;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KuOjXaqFLtRTrWcU25hNsiUdYFSF7AKmNnR0D7iVs8w=;
+  b=nJwLtHvx2/DKyI+CQQsOBMwDhFvVw9QXKkDcbm/Y+koL1Aqtrl6fNpI7
+   /0+mGuPIMkaEXg20Qgj7YvKoqWZsaytUsCYnAxI3tJButteGTT0wayA8P
+   uDfqLChbAfHYM+6P9CuBCqeXyv9i63TqoNJJajW9ZCv1Q2Y3LLb1o8xA2
+   yHa4VCaB1WPAzLtQN+19QF7IM90NJ2BSL9vYOCtqEOnqnqRzxNcOuugsf
+   COhQYBQsO2t1w35MqcCrGMx4yQT7ZcJYVB83s60yCRDEQ7kiOaqw3MiG1
+   0loh/pcv3UIbRafefGVEywwmS41gfLb+ZCwsBjCGOfe8vr7cIZD/5+E43
+   A==;
+X-CSE-ConnectionGUID: 0q4L5y96TomrBrm/Q7uHQw==
+X-CSE-MsgGUID: i4V/Pkh7TIKjdaR726RbEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11608"; a="75501420"
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="75501420"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 01:45:26 -0800
+X-CSE-ConnectionGUID: OoOWK0+ZTNqbv6Jt1lGamg==
+X-CSE-MsgGUID: /zafgGzwQmuakdWBMgK3kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,293,1754982000"; 
+   d="scan'208";a="219285834"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 01:45:24 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vIOSg-0000Fz-0R;
+	Mon, 10 Nov 2025 09:45:22 +0000
+Date: Mon, 10 Nov 2025 17:44:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chao Yu <chao@kernel.org>
+Subject: [chao:bugfix/common 3/3] fs/f2fs/segment.c:3075:27: warning:
+ variable 'sum_node' is uninitialized when used here
+Message-ID: <202511101720.2o5hUDXJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.100.1.1.5\))
-Subject: Re: drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:225:undefined
- reference to `phylink_ethtool_nway_reset'
-From: "mengyuanlou@net-swift.com" <mengyuanlou@net-swift.com>
-In-Reply-To: <202511101227.KAE47Twi-lkp@intel.com>
-Date: Mon, 10 Nov 2025 16:06:39 +0800
-Cc: oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9C57250E-E666-4AE0-8B88-25DB073B005B@net-swift.com>
-References: <202511101227.KAE47Twi-lkp@intel.com>
-To: kuba@kernel.org
-X-Mailer: Apple Mail (2.3864.100.1.1.5)
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:net-swift.com:qybglogicsvrgz:qybglogicsvrgz5b-1
-X-QQ-XMAILINFO: NehG/3ADkt1fzPl4nbBHnDAaSJ4T/wnSPI3SmxoVMcqmaSl46z+t4v/t
-	FiCvkPLsgSAoVLcBc7lnF6gvk83q7n6iI7eR6IEwpoPu7jKMAaBiaLoBJ5t/vXQSwsHdHm5
-	AqgrHuHiZQw6ydou//qWfEwwwNsuVQqwt2tgpgPK4lQAJh603GcCTmRiqWq0895x0vYBzxN
-	EA1qr5sAqRlbZi8c4PNHNAQXxd7C21oRl6yd25XRo+Y2rVG4wJHjCoaIqoztLntTq+wqRrh
-	o2kk1jxo5obU3XmbP52WOndbmWglTMABBfQExhyMLy6mzn0gzLVpPPifSt6jG5jhNiEoXul
-	hGoqVmcauOChVcDe0uJ4i9TXiUZL9hw7hgq7Ot3wxixhT0DqODw36Esz9tpO0b/MAiz6CA+
-	20ivfklHc9tJt9ETMXaXGIUX4xNXX2WUT2CY4XddAXWQi+lKd9HKEHslebn8+F4kCp1HJWI
-	fAfFt87NYsPsDS2lRbveoK/0kC/GifTBmyrTt7XJZDS7IVzEnxlKn6m1ccLK862BLp5jqSF
-	nJsj+ktScvpUv9YgKmMM79AxRiRcRtb68kQPDrGAvlrsz/MiePEOK3v4YaXXFoIiMem9nji
-	pluXWF0B7k9f7tvptSHnc6X8fKJOAQg4kydjBsiOD07qJhQIWpxjbY8SmO2wNot2rBErV5w
-	Ltdhlzt5s6zPqkbh3+sOHLnyHjk6m4YvMgswlIK92SPnTMLbQBUyRJzHz1NQuh9NQXGCJiI
-	/e9c6iMzJUNepcr3yEejK0ln4+h4DP5wvNCFBQ7aanzFwP6OY0dWDonYn1OXQoaN2filU87
-	vqM8apC3KIzB+Cf2hWj/gI72HmX83UTf2nzzA+B7LFiNqeG4DCUIH0kVAosqonP/1wDnrM0
-	tQx28DkEgr9+D6yTT5NW7J6c6Yds/Q3hMdMVH0RV5cmN0Q3631aq43EzurOYgy6S+zf6Vj/
-	2mEuN0GIBFMZ9yB3TMeF4HL3IfFrRFYOwfB7G7g/iSo7mDlZU8UYstQFMx2sikG7FTSa1JW
-	KfvlWoDfSLFw9jaUdfz2SpgwS5/moaQPPYcBWB9L3WLuSU5KmD
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
+head:   b7778d525fe14d1d671a7036ab62a3b72488a4f9
+commit: b7778d525fe14d1d671a7036ab62a3b72488a4f9 [3/3] [WIP] f2fs: cache entire summary block in curseg
+config: arm-randconfig-004-20251110 (https://download.01.org/0day-ci/archive/20251110/202511101720.2o5hUDXJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d445cba39f4dd3dcda4fa1433eca825cf8fc09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251110/202511101720.2o5hUDXJ-lkp@intel.com/reproduce)
 
- A fix patch has already been submitted.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511101720.2o5hUDXJ-lkp@intel.com/
 
-Commit id : a86eb2a60dcc2e23d86d24272d474f0ddecc824e
-=
-https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit=
-/drivers/net/ethernet/wangxun?id=3Da86eb2a60dcc2e23d86d24272d474f0ddecc824=
-e
+All warnings (new ones prefixed by >>):
+
+>> fs/f2fs/segment.c:3075:27: warning: variable 'sum_node' is uninitialized when used here [-Wuninitialized]
+    3075 |                 memcpy(curseg->sum_blk, sum_node, F2FS_BLKSIZE);
+         |                                         ^~~~~~~~
+   fs/f2fs/segment.c:3066:38: note: initialize the variable 'sum_node' to silence this warning
+    3066 |                 struct f2fs_summary_block *sum_node;
+         |                                                    ^
+         |                                                     = NULL
+   In file included from fs/f2fs/segment.c:8:
+   In file included from include/linux/fs.h:7:
+   In file included from include/linux/wait_bit.h:8:
+   In file included from include/linux/wait.h:9:
+   In file included from include/linux/spinlock.h:63:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:13:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:13:
+   In file included from include/linux/string.h:382:
+   include/linux/fortify-string.h:580:4: warning: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     580 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^
+   2 warnings generated.
 
 
-> 2025=E5=B9=B411=E6=9C=8810=E6=97=A5 12:12=EF=BC=8Ckernel test robot =
-<lkp@intel.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> tree:   =
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-> head:   e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c
-> commit: a0008a3658a34a54e77f2568bdaa2626233b1459 net: wangxun: add =
-ngbevf build
-> date:   4 months ago
-> config: x86_64-randconfig-072-20251110 =
-(https://download.01.org/0day-ci/archive/20251110/202511101227.KAE47Twi-lk=
-p@intel.com/config)
-> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-> reproduce (this is a W=3D1 build): =
-(https://download.01.org/0day-ci/archive/20251110/202511101227.KAE47Twi-lk=
-p@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: =
-https://lore.kernel.org/oe-kbuild-all/202511101227.KAE47Twi-lkp@intel.com/=
+vim +/sum_node +3075 fs/f2fs/segment.c
 
->=20
-> All errors (new ones prefixed by >>):
->=20
->   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function =
-`wx_nway_reset':
->>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:225:(.text+0x1ea0): =
-undefined reference to `phylink_ethtool_nway_reset'
->   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function =
-`wx_get_link_ksettings':
->>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:234:(.text+0x1ef7): =
-undefined reference to `phylink_ethtool_ksettings_get'
->   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function =
-`wx_set_link_ksettings':
->>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:246:(.text+0x1f74): =
-undefined reference to `phylink_ethtool_ksettings_set'
->   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function =
-`wx_set_pauseparam':
->>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:270:(.text+0x2014): =
-undefined reference to `phylink_ethtool_set_pauseparam'
->   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function =
-`wx_get_pauseparam':
->>> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:258:(.text+0x27a4): =
-undefined reference to `phylink_ethtool_get_pauseparam'
->=20
->=20
-> vim +225 drivers/net/ethernet/wangxun/libwx/wx_ethtool.c
->=20
-> e8e138cf7383cf Jiawen Wu 2024-01-03  217 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03  218  int wx_nway_reset(struct =
-net_device *netdev)
-> e8e138cf7383cf Jiawen Wu 2024-01-03  219  {
-> e8e138cf7383cf Jiawen Wu 2024-01-03  220   struct wx *wx =3D =
-netdev_priv(netdev);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  221 =20
-> 39709fe4bacda6 Jiawen Wu 2025-05-21  222   if (wx->mac.type =3D=3D =
-wx_mac_aml40)
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  223   return -EOPNOTSUPP;
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  224 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03 @225   return =
-phylink_ethtool_nway_reset(wx->phylink);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  226  }
-> e8e138cf7383cf Jiawen Wu 2024-01-03  227  =
-EXPORT_SYMBOL(wx_nway_reset);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  228 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03  229  int =
-wx_get_link_ksettings(struct net_device *netdev,
-> e8e138cf7383cf Jiawen Wu 2024-01-03  230    struct =
-ethtool_link_ksettings *cmd)
-> e8e138cf7383cf Jiawen Wu 2024-01-03  231  {
-> e8e138cf7383cf Jiawen Wu 2024-01-03  232   struct wx *wx =3D =
-netdev_priv(netdev);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  233 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03 @234   return =
-phylink_ethtool_ksettings_get(wx->phylink, cmd);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  235  }
-> e8e138cf7383cf Jiawen Wu 2024-01-03  236  =
-EXPORT_SYMBOL(wx_get_link_ksettings);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  237 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03  238  int =
-wx_set_link_ksettings(struct net_device *netdev,
-> e8e138cf7383cf Jiawen Wu 2024-01-03  239    const struct =
-ethtool_link_ksettings *cmd)
-> e8e138cf7383cf Jiawen Wu 2024-01-03  240  {
-> e8e138cf7383cf Jiawen Wu 2024-01-03  241   struct wx *wx =3D =
-netdev_priv(netdev);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  242 =20
-> 39709fe4bacda6 Jiawen Wu 2025-05-21  243   if (wx->mac.type =3D=3D =
-wx_mac_aml40)
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  244   return -EOPNOTSUPP;
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  245 =20
-> e8e138cf7383cf Jiawen Wu 2024-01-03 @246   return =
-phylink_ethtool_ksettings_set(wx->phylink, cmd);
-> e8e138cf7383cf Jiawen Wu 2024-01-03  247  }
-> e8e138cf7383cf Jiawen Wu 2024-01-03  248  =
-EXPORT_SYMBOL(wx_set_link_ksettings);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  249 =20
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  250  void =
-wx_get_pauseparam(struct net_device *netdev,
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  251         struct =
-ethtool_pauseparam *pause)
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  252  {
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  253   struct wx *wx =3D =
-netdev_priv(netdev);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  254 =20
-> 39709fe4bacda6 Jiawen Wu 2025-05-21  255   if (wx->mac.type =3D=3D =
-wx_mac_aml40)
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  256   return;
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  257 =20
-> 2fe2ca09da953b Jiawen Wu 2024-01-03 @258   =
-phylink_ethtool_get_pauseparam(wx->phylink, pause);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  259  }
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  260  =
-EXPORT_SYMBOL(wx_get_pauseparam);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  261 =20
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  262  int wx_set_pauseparam(struct =
-net_device *netdev,
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  263        struct =
-ethtool_pauseparam *pause)
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  264  {
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  265   struct wx *wx =3D =
-netdev_priv(netdev);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  266 =20
-> 39709fe4bacda6 Jiawen Wu 2025-05-21  267   if (wx->mac.type =3D=3D =
-wx_mac_aml40)
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  268   return -EOPNOTSUPP;
-> 2e5af6b2ae8532 Jiawen Wu 2025-02-21  269 =20
-> 2fe2ca09da953b Jiawen Wu 2024-01-03 @270   return =
-phylink_ethtool_set_pauseparam(wx->phylink, pause);
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  271  }
-> 2fe2ca09da953b Jiawen Wu 2024-01-03  272  =
-EXPORT_SYMBOL(wx_set_pauseparam);
-> 883b5984a5d290 Jiawen Wu 2024-01-03  273 =20
->=20
-> :::::: The code at line 225 was first introduced by commit
-> :::::: e8e138cf7383cf820419fcbec63992e75a01467b net: libwx: add =
-phylink to libwx
->=20
-> :::::: TO: Jiawen Wu <jiawenwu@trustnetic.com>
-> :::::: CC: David S. Miller <davem@davemloft.net>
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
+  3038	
+  3039	/*
+  3040	 * This function always allocates a used segment(from dirty seglist) by SSR
+  3041	 * manner, so it should recover the existing segment information of valid blocks
+  3042	 */
+  3043	static int change_curseg(struct f2fs_sb_info *sbi, int type)
+  3044	{
+  3045		struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
+  3046		struct curseg_info *curseg = CURSEG_I(sbi, type);
+  3047		unsigned int new_segno = curseg->next_segno;
+  3048		bool exchange_sumblk = GET_SEC_FROM_SEG(sbi, curseg->segno) !=
+  3049					GET_SEC_FROM_SEG(sbi, new_segno);
+  3050	
+  3051		if (curseg->inited && exchange_sumblk)
+  3052			write_sum_page(sbi, curseg->sum_blk, curseg->segno);
+  3053	
+  3054		__set_test_and_inuse(sbi, new_segno);
+  3055	
+  3056		mutex_lock(&dirty_i->seglist_lock);
+  3057		__remove_dirty_segment(sbi, new_segno, PRE);
+  3058		__remove_dirty_segment(sbi, new_segno, DIRTY);
+  3059		mutex_unlock(&dirty_i->seglist_lock);
+  3060	
+  3061		reset_curseg(sbi, type, 1);
+  3062		curseg->alloc_type = SSR;
+  3063		curseg->next_blkoff = __next_free_blkoff(sbi, curseg->segno, 0);
+  3064	
+  3065		if (exchange_sumblk) {
+  3066			struct f2fs_summary_block *sum_node;
+  3067			struct folio *sum_folio;
+  3068	
+  3069			sum_folio = f2fs_get_sum_folio(sbi, new_segno);
+  3070			if (IS_ERR(sum_folio)) {
+  3071				/* GC won't be able to use stale summary pages by cp_error */
+  3072				memset(curseg->sum_blk, 0, F2FS_BLKSIZE);
+  3073				return PTR_ERR(sum_folio);
+  3074			}
+> 3075			memcpy(curseg->sum_blk, sum_node, F2FS_BLKSIZE);
+  3076			f2fs_folio_put(sum_folio, true);
+  3077		}
+  3078		return 0;
+  3079	}
+  3080	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
