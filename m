@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0191324E4A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 01:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAC3335094
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 02:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762823114; cv=none; b=CjMe9DSiTWbPuauFdN44ROyzFQXitZNEUIilp06MVnaQRkWAvYpAqrqM8qeJzGySR1Qv7xqz6WSrwu84jcu4rSLKsZrAQ44XQMpvZFH10Wm5BcnqU+HtBYfeoQZTg9p74SKUoDXcA64r0NCouEXWb/CEBPd1znr+VaHA3eLPCoU=
+	t=1762826840; cv=none; b=mtAkLwYEbUjV9Ez2yELzhQ2jXiSm3hBpPLq5drXDXOZBde1GcnKXmQXRO7y5W5/TwspMsFeYLi7O8DYNq3p6Ow6RV41Kb5v97MRThdvgnWR/NB3u0Iqbe6S0nAOz9ARGZ76Z3O7Jw0ZTgp5nQC2cqORW80CKt5ps+PCdgvUDKTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762823114; c=relaxed/simple;
-	bh=WMEjQd5/E5IVYSGv4MSIo09uG/dr35WBfVaFE+hYyD4=;
+	s=arc-20240116; t=1762826840; c=relaxed/simple;
+	bh=B/atlUk965oK2ZIVai1/Y1GWMyxe/M+JVIxMKyWUm/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QBrH/LMRIv2L8nQPDqzRx18sJHW2c4gjLQpP5PRq/fxy7gOJtb90PV8xqy8PSf1hkNS+McK/DrxoIVxH0yanTWiTjssMrtOSeAi41Gfftkfk9+jQYsGfou8RLh/mcWHL9SvlhqfM+DXWAlzTpP7W2Mf4DWPMPxKeOnlgqryDCFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZl8sQvb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=AHWSM+KClbQUqGEMocikY3DK661h4MwVquDHYAdixMsAV+Vy7m+rga71ufo2iHDtQmrClHvvrsMU9QDd2gCX6SkIP1TkEfDnemGq6L8y6uRX68TwptnyoZ0hH80E73gbqQ5Xo1NsBH3ZASneRTlfTOmOwLdZyM16bM8ZEZtc/40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzcwK/l5; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZl8sQvb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzcwK/l5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762823113; x=1794359113;
+  t=1762826838; x=1794362838;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WMEjQd5/E5IVYSGv4MSIo09uG/dr35WBfVaFE+hYyD4=;
-  b=iZl8sQvbTLXW4yubsYEev4avxsiUDg/wUQFujRqfR4VRhYFxs6eh94n2
-   aKQyw4dZz/vnZyaoJvcsili0SlzQBWqwO3mwL4xq52czQnO1JU2pEfFe7
-   nBohA67+vChEtHcflbzjQDzV7iZxxFQZmE4BBpwZ6DkC4lKr0e6FJ1P8m
-   6/N2ZQJGbFTGVvmn62L0lo7Es8WlxbeG8odlGJyKX+/em1/jVEZQayCUb
-   F6ZW/PGjn1i06DZeIjBslpA9BqMWTinz3ez059vqc79K5dBVCriO2AsaL
-   aF3EEwGtThLQI0t/H+5WuSsLlihayhSsfl9RbTreo3quH5LpGmgUVHtJh
+  bh=B/atlUk965oK2ZIVai1/Y1GWMyxe/M+JVIxMKyWUm/k=;
+  b=kzcwK/l5IB844DecrvAtn3RokPdaxJ+s1+mz56pIZ0zr9EVx2MBRXLeE
+   ONnLeMHDkWGivRdm74o3zN0AVjBNSwLgEN8fjp1Fu3VOB6eznYnZsxNM2
+   u+VyAvwUzP46L1NRGmyjs7oevcguC18bxTSMR+M3/JMuvHJZ3R/X2rYX9
+   Fn1dsVqfwomteGvxvcyunvWAInCaNeLgDbcSHXIfBjOTIrpakjbjpkSlF
+   8K1IReLPTB3kEFKR271BQLZmVVTavhC+H8ZiXiuwxoXfi0Tomdmne1CIr
+   18swHhZWtkg0iVbO2ql0BF9zh/H7EqVDi+KGLlFE//uRaoosvy3cD3i4a
    w==;
-X-CSE-ConnectionGUID: VZaX5fL2QHmWxMgTXOakAQ==
-X-CSE-MsgGUID: QOC/EPQWSJqVQ5nF4WddoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68739780"
+X-CSE-ConnectionGUID: E925ucDHRyGTKpCNe3ggyw==
+X-CSE-MsgGUID: gSgZYYYvTrKO+nngjbSatQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="90355131"
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="68739780"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 17:05:13 -0800
-X-CSE-ConnectionGUID: nOcO5URDTUmPyK2WJdjqrw==
-X-CSE-MsgGUID: 0jk3Ap8mTZuGIgyOjte45Q==
+   d="scan'208";a="90355131"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 18:07:17 -0800
+X-CSE-ConnectionGUID: OvZrKfK8SWCCf8scRm0pfw==
+X-CSE-MsgGUID: Tb+iXEdYQSSq6jEm7tAkag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="193074876"
+   d="scan'208";a="219486474"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 17:05:11 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 18:07:16 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIcon-0001TV-0y;
-	Tue, 11 Nov 2025 01:05:09 +0000
-Date: Tue, 11 Nov 2025 09:04:44 +0800
+	id 1vIdmr-0002Wf-2f;
+	Tue, 11 Nov 2025 02:07:13 +0000
+Date: Tue, 11 Nov 2025 10:06:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [morimoto:renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk 15/29]
- drivers/media/platform/dreamchip/rppx1/rppx1.c:57:9: warning: 'CAC_BASE'
- redefined
-Message-ID: <202511110900.KQhKyGAT-lkp@intel.com>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Madhavan Srinivasan <maddy@linux.ibm.com>
+Subject: include/linux/compiler_types.h:557:45: error: call to
+ '__compiletime_assert_308' declared with attribute error: BUILD_BUG_ON
+ failed: !__builtin_constant_p(type)
+Message-ID: <202511111047.GZRksgk7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,55 +64,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk
-head:   14a3f460905b5d9be43ad2bab030625085a52423
-commit: deb53902b8777a75d24152d85dbfdec4f0e5cbab [15/29] media: rppx1: Add framework to support Dreamchip RPPX1 ISP
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20251111/202511110900.KQhKyGAT-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110900.KQhKyGAT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4ea7c1717f3f2344f7a1cdab4f5875cfa89c87a9
+commit: 1518474b70d663baf7757ccd1b1c229c077d9b3e KVM: powerpc: Enable commented out BUILD_BUG_ON() assertion
+date:   7 months ago
+config: powerpc64-randconfig-002-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111047.GZRksgk7-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111047.GZRksgk7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110900.KQhKyGAT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111047.GZRksgk7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/dreamchip/rppx1/rppx1.c:57:9: warning: 'CAC_BASE' redefined
-      57 | #define CAC_BASE                                0x0880 /* POST */
-         |         ^~~~~~~~
-   In file included from arch/mips/include/asm/addrspace.h:13,
-                    from arch/mips/include/asm/io.h:19,
-                    from include/linux/io.h:12,
-                    from drivers/media/platform/dreamchip/rppx1/rppx1.c:10:
-   arch/mips/include/asm/mach-generic/spaces.h:33:9: note: this is the location of the previous definition
-      33 | #define CAC_BASE                _AC(0x80000000, UL)
-         |         ^~~~~~~~
+   In file included from <command-line>:
+   In function 'kvmppc_account_exit_stat',
+       inlined from 'kvmppc_account_exit' at arch/powerpc/kvm/timing.h:92:2:
+>> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_308' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(type)
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
+     538 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
+     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/powerpc/kvm/timing.h:41:9: note: in expansion of macro 'BUILD_BUG_ON'
+      41 |         BUILD_BUG_ON(!__builtin_constant_p(type));
+         |         ^~~~~~~~~~~~
 
 
-vim +/CAC_BASE +57 drivers/media/platform/dreamchip/rppx1/rppx1.c
+vim +/__compiletime_assert_308 +557 include/linux/compiler_types.h
 
-    47	
-    48	/* PRE1/PRE2/POST Pipelines - Base Addresses */
-    49	#define ACQ_BASE				0x0080 /* PRE1, PRE2 */
-    50	#define BLS_BASE				0x0100 /* PRE1, PRE2 */
-    51	#define GAMMA_IN_BASE				0x0200 /* PRE1, PRE2 */
-    52	#define LSC_BASE				0x0400 /* PRE1, PRE2 */
-    53	#define AWB_GAIN_BASE				0x0500 /* PRE1, PRE2, POST */
-    54	#define DPCC_BASE				0x0600 /* PRE1, PRE2 */
-    55	#define DPF_BASE				0x0700 /* PRE1, PRE2 */
-    56	#define FILT_BASE				0x0800 /* POST */
-  > 57	#define CAC_BASE				0x0880 /* POST */
-    58	#define CCOR_BASE				0x0900 /* POST */
-    59	#define HIST_BASE				0x0a00 /* PRE1, PRE2, POST */
-    60	#define HIST256_BASE				0x0b00 /* PRE1 */
-    61	#define EXM_BASE				0x0c00 /* PRE1, PRE2 */
-    62	#define LTM_BASE				0x1000 /* POST */
-    63	#define LTM_MEAS_BASE				0x1200 /* POST */
-    64	#define WBMEAS_BASE				0x1700 /* POST */
-    65	#define BDRGB_BASE				0x1800 /* POST */
-    66	#define SHRP_BASE				0x1a00 /* POST */
-    67	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
