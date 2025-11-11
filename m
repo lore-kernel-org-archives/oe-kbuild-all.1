@@ -1,123 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3D34A01
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 09:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512BC2EC0B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 09:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762853355; cv=none; b=jESLauKc8eX4lH7NwvugYMccarMDOZ2r0pDKZFQYh4Qp99OcpES0zWqjTE8gIvrpHUF2XSQqkUbQNRLSjO/EzHvGMFdmslv+762C7nqOmHOfq1/l6Nq+ng2s/w+fIPvFJRJGfR7QnnzJxQpQrTrukbtg8yODit1BBamOCUY0De8=
+	t=1762854016; cv=none; b=PvozIR5qGp/PRBBzn4r7qKVSxl4JXiK5jgPYLapoi/LBNuImB6HvktgUG2zuarvP6F5NYxEQN+DVrsdB8sEbp/JEtyaHTvNrVDDxIFTLNiy4/ottnnntLDtmw5eqO7IYyMaywELIxuExWc2jkFqwZjmUK6EpyFu1YEu2p6sDT3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762853355; c=relaxed/simple;
-	bh=X3Pfna6q1LslALfJlKLTcg9wvJZz1J+YXyBMsPuJOdY=;
+	s=arc-20240116; t=1762854016; c=relaxed/simple;
+	bh=0XlN1hfbslC30BvQG9RAGDVDbjrdUmeNj1psqbSZSiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i1CjiY/wEoTse9MBOj5MNCSQFLeSK5pOepH93kom3JMXOOVJBt8AaDrBA3H2go1LY9JISaokpeVE09mzIknFHLA6zPCs90Zsj/v2T8RMy00tWSCXkWBlPBZ7F3nH65e/o2DO/HRxF2+P/JxX6FVn4jil0VnbczNngvMHGgKq4pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9y3NNKq; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=HW4GMiKgcjSI7NOKRlFhytQj0+J/MFqiQUCqmFjcq+FqT0avRNMaoYKVb3gsj0bmDL9E9LzN9fU+SIXYRV3pOKVQR/mZvjGZpFeKwMkXj55Wb131aVmJlnhxtQzONVX9YbGH6bRBd+DD1Vfn0tn3bGZWJxSmvF82w0mwkC2jy2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0Sfp0tY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9y3NNKq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0Sfp0tY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762853354; x=1794389354;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X3Pfna6q1LslALfJlKLTcg9wvJZz1J+YXyBMsPuJOdY=;
-  b=S9y3NNKq0y3KNKJrUiV9IJjim/MOs05Cu27ZvkExyCZU01ccoP+81f7p
-   n7Q0kDX/KbPx3Q3ROBTHMJ9l5/aKXpaXF6bmCMu/4DZFhVn3aSC4aW7WK
-   jI6CjeXd0l+Uwsl9YOduGzcUb/efoTSjpyJsGlL+I1ftKsXvpZiQeytcq
-   7Twfvk4we3s9pIwNxyiIHpgVSwysTDdakKFNZyW8Ci82JDjhvDovjSNX0
-   /UVAEGv3SStMDbPLrpK5tvijIKci7mLtrTmMlpOybmvEDtN+ELk+Hxw99
-   ybf9HMmfaxvaFShjykR5tG/wHQrtwvaLzw9k9XVd2P3RSGmNmnHoSMGw2
-   A==;
-X-CSE-ConnectionGUID: FryepiWcTaiFpcoRkVoDqQ==
-X-CSE-MsgGUID: Zm4dxCM/RGWew/AO7FKjLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75528954"
+  t=1762854015; x=1794390015;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0XlN1hfbslC30BvQG9RAGDVDbjrdUmeNj1psqbSZSiU=;
+  b=C0Sfp0tYC0c9C9Z1cp9C2GMcvUEnYEqiowuoOEHirxwDYVNaOFpfQbJS
+   dvzPqKAVWZ8uW9viXzPJ4agMLc2q/oOuhUS9zf1V//FZNyY/iaktqvmIX
+   liIunVei+2DwUHwVLbQMmKcC5MDd7ENfsCne6HYycKfj5P46fusQUhHzi
+   Kc6Hn+xIikN7jWw97rvQm/XIWa+Um1kX6v3B8iT38wjIJg77ggybJrL+J
+   FHl4ZAC+JjXx+QyYF0WfAmSb1XNLJ6K6v99zXre14nUrYr/nRa2yxaZPP
+   NWp9pNf3r4jhJI464FOj7+EmkC82egz756bTKUosRaToy4oeWGQYgzoHb
+   g==;
+X-CSE-ConnectionGUID: RwLev34lROWkN7AG5nNFRA==
+X-CSE-MsgGUID: 5p8J6GCrT9CeOMZLE6AeuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64797907"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="75528954"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 01:29:13 -0800
-X-CSE-ConnectionGUID: K6A4IGZtSJy6pOPRpGCvpQ==
-X-CSE-MsgGUID: w2XnrKhPSVSWNqwPHr3crQ==
+   d="scan'208";a="64797907"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 01:40:15 -0800
+X-CSE-ConnectionGUID: l7fVole9Tp6F6YYmGSCLvQ==
+X-CSE-MsgGUID: lsa9c3JGRzGlo0FO/iGpAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="212309282"
+   d="scan'208";a="189176176"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 01:29:12 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 11 Nov 2025 01:40:13 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIkgX-00030m-2U;
-	Tue, 11 Nov 2025 09:29:09 +0000
-Date: Tue, 11 Nov 2025 17:28:54 +0800
+	id 1vIkrD-00031D-1o;
+	Tue, 11 Nov 2025 09:40:11 +0000
+Date: Tue, 11 Nov 2025 17:39:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Wang <unicorn_wang@outlook.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: drivers/pci/controller/cadence/pci-j721e.c:648:undefined reference
- to `cdns_pcie_host_disable'
-Message-ID: <202511111705.MZ7ls8Hm-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20251110 10/18]
+ drivers/scsi/aic94xx/aic94xx_sas.h:323:35: error: field 'ssp_cmd' has
+ incomplete type
+Message-ID: <202511111702.50G2mceU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
-commit: 1c72774df028429836eec3394212f2921bb830fc PCI: sg2042: Add Sophgo SG2042 PCIe driver
-date:   8 weeks ago
-config: loongarch-randconfig-r113-20251110 (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20251110
+head:   be928bdef109364ada67e15d004067a1770a36f0
+commit: fc09359f7ea98c65bfc288e3e37dda0af71652f7 [10/18] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20251111/202511111702.50G2mceU-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111702.50G2mceU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111705.MZ7ls8Hm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111702.50G2mceU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/pci/controller/cadence/pci-j721e.o: in function `j721e_pcie_remove':
->> drivers/pci/controller/cadence/pci-j721e.c:648:(.text+0x83c): undefined reference to `cdns_pcie_host_disable'
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.h:19,
+                    from drivers/scsi/aic94xx/aic94xx_reg.h:13,
+                    from drivers/scsi/aic94xx/aic94xx_init.c:21:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:35: error: field 'ssp_cmd' has incomplete type
+     323 |         struct ssp_command_iu_hdr ssp_cmd;
+         |                                   ^~~~~~~
 
 
-vim +648 drivers/pci/controller/cadence/pci-j721e.c
+vim +/ssp_cmd +323 drivers/scsi/aic94xx/aic94xx_sas.h
 
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  637  
-c86f4bd6008e7e Uwe Kleine-König       2023-03-21  638  static void j721e_pcie_remove(struct platform_device *pdev)
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  639  {
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  640  	struct j721e_pcie *pcie = platform_get_drvdata(pdev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  641  	struct cdns_pcie *cdns_pcie = pcie->cdns_pcie;
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  642  	struct device *dev = &pdev->dev;
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  643  	struct cdns_pcie_ep *ep;
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  644  	struct cdns_pcie_rc *rc;
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  645  
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  646  	if (pcie->mode == PCI_MODE_RC) {
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  647  		rc = container_of(cdns_pcie, struct cdns_pcie_rc, pcie);
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17 @648  		cdns_pcie_host_disable(rc);
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  649  	} else {
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  650  		ep = container_of(cdns_pcie, struct cdns_pcie_ep, pcie);
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  651  		cdns_pcie_ep_disable(ep);
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  652  	}
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  653  
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  654  	gpiod_set_value_cansleep(pcie->reset_gpio, 0);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  655  
-49e0efdce79125 Kishon Vijay Abraham I 2021-03-08  656  	clk_disable_unprepare(pcie->refclk);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  657  	cdns_pcie_disable_phy(cdns_pcie);
-a2790bf81f0f7b Siddharth Vadapalli    2025-04-17  658  	j721e_pcie_disable_link_irq(pcie);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  659  	pm_runtime_put(dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  660  	pm_runtime_disable(dev);
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  661  }
-f3e25911a430ed Kishon Vijay Abraham I 2020-07-22  662  
-
-:::::: The code at line 648 was first introduced by commit
-:::::: a2790bf81f0f7b0fb683204cd3bef07feecb9958 PCI: j721e: Add support to build as a loadable module
-
-:::::: TO: Siddharth Vadapalli <s-vadapalli@ti.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+   316	
+   317	/* This is both ssp_task and long_ssp_task
+   318	 */
+   319	struct initiate_ssp_task {
+   320		u8     proto_conn_rate;	  /* proto:6,4, conn_rate:3,0 */
+   321		__le32 total_xfer_len;
+   322		struct ssp_frame_hdr  ssp_frame;
+ > 323		struct ssp_command_iu_hdr ssp_cmd;
+   324		__le16 sister_scb;	  /* 0xFFFF */
+   325		__le16 conn_handle;	  /* index to DDB for the intended target */
+   326		u8     data_dir;	  /* :1,0 */
+   327	#define DATA_DIR_NONE   0x00
+   328	#define DATA_DIR_IN     0x01
+   329	#define DATA_DIR_OUT    0x02
+   330	#define DATA_DIR_BYRECIPIENT 0x03
+   331	
+   332		u8     _r_a;
+   333		u8     retry_count;
+   334		u8     _r_b[5];
+   335		struct sg_el sg_element[3]; /* 2 real and 1 link */
+   336	} __attribute__ ((packed));
+   337	
 
 -- 
 0-DAY CI Kernel Test Service
