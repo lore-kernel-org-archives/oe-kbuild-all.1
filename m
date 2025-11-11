@@ -1,139 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9D23128AA;
-	Tue, 11 Nov 2025 14:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173D22C2357
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 14:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762870172; cv=none; b=Cmx3+v+mrrmkmw+lGwlHXo7P6CLusKEEwESL05rj3L3oFfDJ9UB//c/ZP7pKnt7VN18R5bmvHk1lUQmlKaQgf+j55WaUazrYz29S12DxGpoTiRFPI2FSQnkFcYmxYkdiAcic2t8aKWOPsibRMyp7BL3UTQOpqQLtDMO+glP6D7k=
+	t=1762870605; cv=none; b=euE30rJP/+ilSH9ZYf2poRDKR8gOctmQNcFxEdnFyWZQ+3x6aTXIbvnXX8jHL2tnT9RQdEL2n96CWfeKezVDIHhA4W2scfgT7yQ+eOHhyElLL3pOZG8r4tVJ9bpxmhxjDA4H7aTc6qWQ+HN68voQwr5BCimulMBTT5WWcueKjME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762870172; c=relaxed/simple;
-	bh=9XZLn3hwcBgcwon0Do7gSmY8VNlXuhNqzv0X7kReqCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mg2Sd55ZwzGoDjr50TnO4HZAdJYX86hkrPIH1+b4hfUwllkiFALBA1WNxTAIf4tbqmkPUPCrodLOvlrnCmxg2Qae93vvu310m+MjLdY+O8/1TOrfYTQBFDOvcmBmwiwhwklqJ81b80ESC3WUtlcmSRsNFTuwf7YqDiXWW+o2aMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aI9bp722; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762870605; c=relaxed/simple;
+	bh=ldd0MBfQA5ahB9OKyLXq2WHwZXflcX6TWBNO30ToaAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LBNN8Pp+7AFi8XAoVccsRF9m+YbvKgdCNpyMyEtugRC96DxP0rkfq13ZQmTcw7tlQ4BSOflzb/KaicTban+CR6Q1Ff4cJbftL/hr6KHgH47lSHXWo5ebFIwh5wbpX/wlfd/K+46YtZ5wFpA0ITxKvsLB3IZdplPRpATF0/FXgQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BlvqcNZi; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aI9bp722"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21FB0C19425;
-	Tue, 11 Nov 2025 14:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762870172;
-	bh=9XZLn3hwcBgcwon0Do7gSmY8VNlXuhNqzv0X7kReqCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aI9bp722FUSmUJr6eRfL2udVl2sgClyb0uGJH7X9OkkvEC63NbLuQrCp2bZIIxIgp
-	 HHY1L+UcFDKGMIHcaEdJR9GBIlQ3nkKto24GfmVmbaGF9dta80rsZcDesI5TEr32/e
-	 bI+JKTf5CPOzywaJuV5mtYGh1mMS4Ukq4JxAjrr+HGcUw2UNlL4fLfPbEysi1S7t5w
-	 9TS3i5V8atu9+e9UYnV/mdFCIKnmQQoIWK7vqZxD6nlF2GqzrE1sQUZzmMAKf7TNJD
-	 EAZ5dhobTzWb1i/4X7neVkJgbFyOz8CTAoC/SO416Qz113HMTc+Mai0exGaY09LynE
-	 BnrrHmxnnq/5A==
-Date: Tue, 11 Nov 2025 19:39:19 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/pci/controller/cadence/pci-j721e.c:648:undefined
- reference to `cdns_pcie_host_disable'
-Message-ID: <znkojajaxfudm3xn43ed4my5fcwyszv4gxajnizonqu3pf5t6g@bph3av5mzmg7>
-References: <202511111705.MZ7ls8Hm-lkp@intel.com>
- <h4yvzfhpd7exv2o2oxed7ocobn5zpwmtvzoxffj4rqsiq2dqfr@sobzxhwa5c23>
- <cc48c040dac2edc27b453bc482d62309cea25c06.camel@ti.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BlvqcNZi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762870603; x=1794406603;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=ldd0MBfQA5ahB9OKyLXq2WHwZXflcX6TWBNO30ToaAk=;
+  b=BlvqcNZi5TJn/5p+Zlba+2UtlBZnzZ08GDYBcpNSL9FMV7+T0tnuqcln
+   ATW/+joWO9zHBJF7VuHu34eCq8XQ6w0PFnkvtv4eSBwJsf3wC9ppg3PAW
+   t+4bG3Owr4Spz9a/YCYCoXo50EsRFZ/tpgRijrgumLLy/EcemCG9tfPit
+   bDxbdnlaaVmmi+A91T2cN9HZOKxDEH3yMPwcBjNI1XbRZG+/ihREnXUYI
+   eteEf67NmR3Wk1WXedGpzdzLyVuTWHBmgbCfn9IRC0NAyC8FSuIk+0rAL
+   NjWSuMnICJwF0zr6wLsBVvUyrW3a65uiHPHM3mYC4fnaxFh/YiDGLcSp+
+   w==;
+X-CSE-ConnectionGUID: lDMMy21zRhiQsWpFti05dA==
+X-CSE-MsgGUID: L5jBiPMSR7WcMhAwpVKvfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="64136065"
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
+   d="scan'208";a="64136065"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 06:16:42 -0800
+X-CSE-ConnectionGUID: SMjDAfDfS9CBHQoMWpu3zQ==
+X-CSE-MsgGUID: qlZqNdVER5qcM2a5ju8sIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
+   d="scan'208";a="188811155"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 11 Nov 2025 06:16:41 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vIpAl-0003E7-1s;
+	Tue, 11 Nov 2025 14:16:39 +0000
+Date: Tue, 11 Nov 2025 22:15:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] usb: mtu3: fix possible NULL pointer dereference in
+ ep0_rx_state()
+Message-ID: <aRNFFHSnzHjRJqp5@6d04f8574eac>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cc48c040dac2edc27b453bc482d62309cea25c06.camel@ti.com>
+In-Reply-To: <20251111140956.3285945-1-Pavel.Zhigulin@kaspersky.com>
 
-On Tue, Nov 11, 2025 at 05:09:25PM +0530, Siddharth Vadapalli wrote:
-> On Tue, 2025-11-11 at 16:24 +0530, Manivannan Sadhasivam wrote:
-> 
-> Hello Mani,
-> 
-> > + Siddharth
-> 
-> Thank you for notifying me of this.
-> 
-> > 
-> > On Tue, Nov 11, 2025 at 05:28:54PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
-> > > commit: 1c72774df028429836eec3394212f2921bb830fc PCI: sg2042: Add Sophgo SG2042 PCIe driver
-> > > date:   8 weeks ago
-> > > config: loongarch-randconfig-r113-20251110 (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/config)
-> > > compiler: loongarch64-linux-gcc (GCC) 15.1.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202511111705.MZ7ls8Hm-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    loongarch64-linux-ld: drivers/pci/controller/cadence/pci-j721e.o: in function `j721e_pcie_remove':
-> > > > > drivers/pci/controller/cadence/pci-j721e.c:648:(.text+0x83c): undefined reference to `cdns_pcie_host_disable'
-> > > 
-> > 
-> > From .config:
-> > 
-> > CONFIG_PCIE_CADENCE=y
-> > CONFIG_PCIE_CADENCE_HOST=m
-> > CONFIG_PCIE_CADENCE_EP=y
-> > CONFIG_PCIE_CADENCE_PLAT=y
-> > # CONFIG_PCIE_CADENCE_PLAT_HOST is not set
-> > CONFIG_PCIE_CADENCE_PLAT_EP=y
-> > CONFIG_PCIE_SG2042_HOST=m
-> > CONFIG_PCI_J721E=y
-> > # CONFIG_PCI_J721E_HOST is not set
-> > CONFIG_PCI_J721E_EP=y
-> > 
-> > PCI_J721E selects PCIE_CADENCE_HOST only if PCI_J721E_HOST is selected,
-> > otherwise, it will not select it. This will take care of the dependency between
-> > PCI_J721E and PCIE_CADENCE_{HOST/EP}.
-> > 
-> > But if PCIE_CADENCE_HOST is selected as a module by other drivers like,
-> > CONFIG_PCIE_SG2042_HOST=m, then if PCI_J721E is selected as a built-in using
-> > CONFIG_PCI_J721E_EP=y, it results in this build error as the built-in driver
-> > becomes dependent on a symbol from a loadable module.
-> 
-> While I don't deny the build error associated with the above config, it is
-> an invalid config in the sense that the Glue drivers for two different
-> devices are being enabled. This seems to be a generic issue wherein
-> multiple drivers tend to depend on a library/common driver. How is it
-> handled in such cases?
+Hi,
 
-AFAIK, the common library should be built-in to avoid issues like this.
+Thanks for your patch.
 
-> Is there a notion of reordering configs to ensure that such build errors
-> are avoided?
-> 
-> If PCI_J721E_EP was selected as 'y' before 'PCI_SG2042_HOST' being selected
-> as 'm', it would have resulted in 'PCIE_CADENCE_EP' being selected as 'y'
-> and this won't cause a build error even with 'PCI_SG2042_HOST' selected as
-> 'm'.
-> 
-> > 
-> > I guess, we should force PCIE_CADENCE_{HOST/EP} to be 'bool' as it is getting
-> > selected by multiple drivers.
-> 
-> This will defeat the purpose of the series that enabled loadable module
-> support for the pci-j721e.c driver and the pcie-cadence-host/ep.c drivers.
-> 
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Your 'pci-j721e.c' can still be a loadable module, only the common library will
-be built-in, which is not that bad.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-> Is there a way to address the issue by updating Kconfig? Specifically, is
-> there a way to re-order the 'select' scheme to fix the build error?
-> 
-
-Not that I'm aware of atm.
-
-- Mani
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] usb: mtu3: fix possible NULL pointer dereference in ep0_rx_state()
+Link: https://lore.kernel.org/stable/20251111140956.3285945-1-Pavel.Zhigulin%40kaspersky.com
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
