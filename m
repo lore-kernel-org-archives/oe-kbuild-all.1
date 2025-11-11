@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485F92741AC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 06:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431902F5A03
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 06:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762842777; cv=none; b=CnWqNjdjEvZ0w/w0Uwx4FEyzc29C+bAfYf//J5DTuk/BxcbWg6tmkxDHpQWB7rdJv5H9ahgKs/eikAZntDWSWcQ+p8n5D5azqdBQR+JM2bF1ShKfZe5G6ui1vTMvy2Q/yHl1NkmqCD9zk6I/MYFcUWlsHJu5a0g0x3yL7hCtfUM=
+	t=1762844039; cv=none; b=sggz4cWnO2tKN6pOC0ypAdpqe94liTFE/rwqq1+7eyhRg+Iq8lFH7HA7xXu7C6wLAlEWWeD4OF+ttQECVIW7DqeGntB3jiuxVviL0uRSWHg/xiQJ2ksA1TlFgMjr9rti5k+XRkhM1y7AssMS6F+fybsRYcCBBVHkRmjI2jOMPJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762842777; c=relaxed/simple;
-	bh=56ix2SKBOEA+H8mdFDt19V+JlCXK1l7Ec+VjbUBBekc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UHVdpJOjrMUxALc5BRCazgD8RYxW6utY65Lg8cyC5qEBWpR/ONJSeiOirT938wNs4MHaCp8u1YNWGGTeHsRV0LSqYS/6byGRGzgV1/S2W7LOgOHmSRfuU4lyeOvl0CZwRjpBZMDDbqtGS7oGOe+2ay08okOk9l5W+kmZrafWXII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijdazM7m; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1762844039; c=relaxed/simple;
+	bh=EC2gxUnljDATsyKRjwf6LU4khea07FYDr3Y7yqvUHXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oO2PKNBezyf39U2QxJtsSWiwDkCXmMOPnV3xrccMTrgPiwUKPj2rIg6BSdRYxzYkn5/Dhs3nYgY7u/1RXWs+Xnb9bNcIfuy5fmMu7DL7hr1TTesTRQF3+HhdmS/PddoVYc/0uSt6A7/3qZkda4hIu/+JhGjnaLjZXMhd7vZ76wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DN22A1Fg; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijdazM7m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DN22A1Fg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762842776; x=1794378776;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=56ix2SKBOEA+H8mdFDt19V+JlCXK1l7Ec+VjbUBBekc=;
-  b=ijdazM7mZdJpopeWppoS1o0gYIXRPUoViih2u3pgqpbzS5hvxIJj9fE7
-   QqbNGlkrjuCa0A9HVn5hppFebTPpHZHq1ZjgTkLUbNqeKiTmYYeakLvpe
-   D2ymhHbEG90nqgGEbP37NloLPxOuX4S71Sq84n7+crC0GKnHPafK+b9Hr
-   4f8CU3362TCvJ2u4c/7fU7vE121f9eKs0c5Z+6svvAj0DGv7e0bZn0Y1T
-   9MIlbD722WJVJhGH2zpKcjtHlKTuZ32VJUnNnz0sEA7LUx1C0u7/PoxF5
-   eG/KTzn5Sj757o45s81B06VGHuYjCMzlqhKYsqdMfrryMv5dJgJtNdO2z
+  t=1762844038; x=1794380038;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EC2gxUnljDATsyKRjwf6LU4khea07FYDr3Y7yqvUHXQ=;
+  b=DN22A1FgcQmzA0lfRv1jrK6Cn+WglxywwNy9RVB84SA/cwfGct335iVz
+   bPGro+XdRpeDpQ5ekHwBEYDdimQ0OVcohznsDbY0to5KNU85aGqr5oXNy
+   UNK2QDJrnZytoiDv/mnqEg4aNYaJ3pF2ocl9QyYyeWLjoNfDttN1eVTU7
+   GdtJqkzcsM3021xv4k6D2RAnh1OcTMSPnmrco7E9W9NVhagJDIlw+mlrb
+   DagYvH4uiBnPuHQANU6nvs4LKqiiE5oaJIbbQUp5vbKmLL0dC6Ru8iFDO
+   1YY852dQimiAxmEolJPxrcxfYaemRr8xDrMxfYLXsIZDKCzd/GklWcNv6
    g==;
-X-CSE-ConnectionGUID: zGHh2xD3QR2+V6Ic3AvKBg==
-X-CSE-MsgGUID: fjC+p7W8QliBTnAdmPb87A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64816950"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64816950"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:32:55 -0800
-X-CSE-ConnectionGUID: GyuOgP5QR3murIda1x89Lg==
-X-CSE-MsgGUID: FQVkXb04RjiRktHqeeadWg==
+X-CSE-ConnectionGUID: ILOvld7ZSYmqfN641t2K5A==
+X-CSE-MsgGUID: aUOCtPgwQzCIqU0D0ayAOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65058778"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="65058778"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:53:58 -0800
+X-CSE-ConnectionGUID: 5ScXENYnSbibb+G69kMoLw==
+X-CSE-MsgGUID: IYpuK8w5T/+x+omZ2UJn9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="188520250"
+   d="scan'208";a="194075963"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Nov 2025 22:32:53 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Nov 2025 22:53:56 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIhvv-0002rB-0Y;
-	Tue, 11 Nov 2025 06:32:51 +0000
-Date: Tue, 11 Nov 2025 14:32:07 +0800
+	id 1vIiGH-0002sB-1a;
+	Tue, 11 Nov 2025 06:53:53 +0000
+Date: Tue, 11 Nov 2025 14:52:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3129/3129] drivers/ub/ubfi/irq.c:18:20: error: no
- member named 'domain' in 'struct dev_msi_info'
-Message-ID: <202511111409.5wQwlEc6-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 13/24] drm/vblank: pass vblank to
+ drm_vblank_count_and_time()
+Message-ID: <202511111453.UaceJIMy-lkp@intel.com>
+References: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,61 +66,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   be4908c3dd5d15795275b738fbadd71ff8f0fbaa
-commit: 028a4161a77d2e15d331a13599a6f06cdd7490b6 [3129/3129] ub:ubfi: register ubc usi domain
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251111/202511111409.5wQwlEc6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111409.5wQwlEc6-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20251110]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-misc/drm-misc-next linus/master v6.18-rc5 v6.18-rc4 v6.18-rc3 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-vblank-Unexport-drm_wait_one_vblank/20251111-024823
+base:   next-20251110
+patch link:    https://lore.kernel.org/r/39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula%40intel.com
+patch subject: [PATCH 13/24] drm/vblank: pass vblank to drm_vblank_count_and_time()
+config: openrisc-randconfig-r071-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111409.5wQwlEc6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111453.UaceJIMy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/ub/ubfi/irq.c:18:20: error: no member named 'domain' in 'struct dev_msi_info'
-      18 |         domain = dev->msi.domain;
-         |                  ~~~~~~~~ ^
-   1 error generated.
-
-
-vim +18 drivers/ub/ubfi/irq.c
-
-    11	
-    12	int ub_update_msi_domain(struct device *dev,
-    13				 enum irq_domain_bus_token bus_token)
-    14	{
-    15		struct fwnode_handle *fwnode;
-    16		struct irq_domain *domain;
-    17	
-  > 18		domain = dev->msi.domain;
-    19		if (!domain) {
-    20			dev_err(dev, "find base irq domain failed!\n");
-    21			return -ENODEV;
-    22		}
-    23	
-    24		fwnode = domain->fwnode;
-    25		if (!fwnode) {
-    26			dev_err(dev, "find fwnode failed!\n");
-    27			return -ENODEV;
-    28		}
-    29	
-    30		domain = irq_find_matching_fwnode(fwnode, bus_token);
-    31		if (!domain) {
-    32			dev_err(dev, "find irq domain failed!\n");
-    33			return -ENODEV;
-    34		}
-    35	
-    36		/* Update msi domain with new bus_token */
-    37		dev_set_msi_domain(dev, domain);
-    38	
-    39		return 0;
-    40	}
-    41	EXPORT_SYMBOL_GPL(ub_update_msi_domain);
-    42	
+>> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
+>> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
 
 -- 
 0-DAY CI Kernel Test Service
