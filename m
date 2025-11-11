@@ -1,61 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FB8346FA7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 07:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4875354AF4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 07:04:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844642; cv=none; b=Y7l/EIrIjOHsz+IqRkIrBGN6yH3lZ/AIBzl0I3y6soeQhxQjUUTazX4w9VZTJ5lreg24+jYQIjyR+cGCjWqV0bdlbsvgkiIMAcg6NrT9IzIs5KRUmgoFqAekXClzjg3J/HfUHHfBgF99rMmiIdhI0ABgz+2iW5XDXV5Kk7bvfo4=
+	t=1762844644; cv=none; b=gOGdoFeC56ahTXzzunW3kwitd4cCA2XN/xFEn3bUAXqXXxyORkBbgW9TEB2g8fmuo8kw2GVU1XooPiZ2VMTJo1ceLKXHB/1V4ASqez0KbzV/6yf4u5ZB1ykYtCVml1E9RRzwBgJBMHsfgH9dtVIEiJigVHaHXNXKEh6hwXMY2/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762844642; c=relaxed/simple;
-	bh=2X2sD5EAGRWCC8kFNQTzbZen7FkQMk+gvKPgG/Q/8Oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SoVq/HzU329e3UP2wQnNiAW8lkii7fAj5MilylqV2t/2Xr8u0d6KKUEH9DkkRgRPTC2lvZryMpKPESXIxbWmr4UyX4LNgxhAEC76IbQABhrRFSgMq5EnfF50unucpr3S36ii2kBoiM3lgWgPwU1VwMiJhGDMremBotDyWfmdaw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKwCtLps; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1762844644; c=relaxed/simple;
+	bh=3vQc4dPwa/UKdGF3EP9rAzQyng9yyAvbMQ+CZQYtLBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=buL4G8pTyvVRE95kz8XVZsic+yrL3DtfSoZpT6I/r7rN3AI2R6f9NVF0JLWxAjquaJgdjNKZHgVjdJ8cI2bLWcmZLxAWGsse37xyMNJbJY963FqZYfW91wQkkACyciJFcKe+OT91wAuHCIyLxA1PTY3zJeCQdhjA2BVgjD6U5os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a9e7KoR5; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKwCtLps"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9e7KoR5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762844639; x=1794380639;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2X2sD5EAGRWCC8kFNQTzbZen7FkQMk+gvKPgG/Q/8Oo=;
-  b=UKwCtLps9IC3TtZS9ZgQKl6VjwQ4qMFzhOQ8AvxZxz3ZZKGW55K6jxZr
-   4crnCibpOvvOO9HTXXkhDDiGH0aMR/Lxon+9KuT9GapZC7/A8kzRhA5ZF
-   ahJ5UCprz+i+Z0aKEUGJX5jFA8sMYGWaMZpaLpn4htG3ESp6CL9hVRHuj
-   jEiqSIwOVBR6YNd2v3nALZNJPpJFai6zLymmBybp9qfMrbbFEqTkBSpyg
-   WcwfXLzLgVhFqXJN6A42dbsRYsW+U977U07eaLfN8kkZLSHb71VGJK9n6
-   xU5J3kcWbyok7kkAGfIJnViXFzcbfHh/pWJ6+Z3GcPNHQp2St6xVS0SRl
-   Q==;
-X-CSE-ConnectionGUID: rVaN6T7wQKSrx/CsTvl9cA==
-X-CSE-MsgGUID: +LALi3+0SWeMBIl1r1ZvFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65059302"
+  t=1762844643; x=1794380643;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3vQc4dPwa/UKdGF3EP9rAzQyng9yyAvbMQ+CZQYtLBU=;
+  b=a9e7KoR5yEHEGiIHaMBVKiHGrhFUoJu8NP30/L8Vr7BEno8WbTzDPmGt
+   r9dOuVNjJ1YU+hOefmemniU//5jTnEjZC0QVqKp2E93ESReKPKhnaHDym
+   kiPDA4aCQaBRLCfnIz4l2cdBYXw5RWOa0EUtN84x2urzXwXqkUOiqle5W
+   rQfnkpcDFgpLot4eBO3JyrMV87Cj0WIYKavTtT5r1ah3AuBWITsOPpa08
+   AIbuPhgkfwzGEeLlR+m9HTYDHO2UQPQT9zdiTA8GYWTP4bsYcbj258w9l
+   gGA3IUjKJkd0q9szrepX1QMKyNsQsm6QXhhaj6MVnZ7khbYfqpiyRnZRp
+   g==;
+X-CSE-ConnectionGUID: GrBF8qSET7a3+ZpjOYXCCQ==
+X-CSE-MsgGUID: s0MKNrpyT3GJaTKMOrW1LQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65059306"
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="65059302"
+   d="scan'208";a="65059306"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 23:03:59 -0800
-X-CSE-ConnectionGUID: XLxnmFOIR2GlG/6OeUPCgg==
-X-CSE-MsgGUID: 0TL7E0xkSFS4/0vNuj6X7A==
+X-CSE-ConnectionGUID: y1/4i393S3W1T2EJPDeKJw==
+X-CSE-MsgGUID: wnNyB14TR8egLjJrb6R1Rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="189629487"
+   d="scan'208";a="189629488"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 10 Nov 2025 23:03:57 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIiPy-0002tD-2h;
+	id 1vIiPy-0002t9-2S;
 	Tue, 11 Nov 2025 07:03:54 +0000
-Date: Tue, 11 Nov 2025 15:03:32 +0800
+Date: Tue, 11 Nov 2025 15:03:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20251110 10/18]
- drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:1002:32: error: invalid application
- of 'sizeof' to incomplete type 'struct ssp_command_iu'
-Message-ID: <202511111408.FUkLQsGp-lkp@intel.com>
+To: Ryan Foster <foster.ryan.r@gmail.com>, selinux@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org, serge@hallyn.com, paul@paul-moore.com,
+	Ryan Foster <foster.ryan.r@gmail.com>
+Subject: Re: [PATCH] security: Add KUnit tests for rootid_owns_currentns()
+Message-ID: <202511111453.e1clsyyc-lkp@intel.com>
+References: <20251110143748.4144288-1-foster.ryan.r@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,147 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251110143748.4144288-1-foster.ryan.r@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20251110
-head:   be928bdef109364ada67e15d004067a1770a36f0
-commit: fc09359f7ea98c65bfc288e3e37dda0af71652f7 [10/18] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
-config: arc-randconfig-001-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111408.FUkLQsGp-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111408.FUkLQsGp-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v6.18-rc5 next-20251110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Foster/security-Add-KUnit-tests-for-rootid_owns_currentns/20251110-223824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20251110143748.4144288-1-foster.ryan.r%40gmail.com
+patch subject: [PATCH] security: Add KUnit tests for rootid_owns_currentns()
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20251111/202511111453.e1clsyyc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111453.e1clsyyc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111408.FUkLQsGp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111453.e1clsyyc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
-   drivers/scsi/hisi_sas/hisi_sas_v1_hw.c: In function 'prep_ssp_v1_hw':
->> drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:1002:32: error: invalid application of 'sizeof' to incomplete type 'struct ssp_command_iu'
-    1002 |                 dw2 = ((sizeof(struct ssp_command_iu) +
-         |                                ^~~~~~
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
-   drivers/scsi/hisi_sas/hisi_sas_v2_hw.c: In function 'prep_ssp_v2_hw':
->> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:1779:25: error: invalid application of 'sizeof' to incomplete type 'struct ssp_command_iu'
-    1779 |         dw2 = (((sizeof(struct ssp_command_iu) + sizeof(struct ssp_frame_hdr)
-         |                         ^~~~~~
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_main.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
-
-
-vim +1002 drivers/scsi/hisi_sas/hisi_sas_v1_hw.c
-
-42e7a69368a585 John Garry  2015-11-18   950  
-a2b3820bddfbff Xiang Chen  2018-05-09   951  static void prep_ssp_v1_hw(struct hisi_hba *hisi_hba,
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   952  			  struct hisi_sas_slot *slot)
-42e7a69368a585 John Garry  2015-11-18   953  {
-42e7a69368a585 John Garry  2015-11-18   954  	struct sas_task *task = slot->task;
-42e7a69368a585 John Garry  2015-11-18   955  	struct hisi_sas_cmd_hdr *hdr = slot->cmd_hdr;
-42e7a69368a585 John Garry  2015-11-18   956  	struct domain_device *device = task->dev;
-42e7a69368a585 John Garry  2015-11-18   957  	struct hisi_sas_device *sas_dev = device->lldd_dev;
-42e7a69368a585 John Garry  2015-11-18   958  	struct hisi_sas_port *port = slot->port;
-42e7a69368a585 John Garry  2015-11-18   959  	struct sas_ssp_task *ssp_task = &task->ssp_task;
-42e7a69368a585 John Garry  2015-11-18   960  	struct scsi_cmnd *scsi_cmnd = ssp_task->cmd;
-bbfe82cdbaf84e John Garry  2022-02-17   961  	struct sas_tmf_task *tmf = slot->tmf;
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   962  	int has_data = 0, priority = !!tmf;
-ebf26e93cfece2 John Garry  2023-08-15   963  	u8 *buf_cmd;
-42e7a69368a585 John Garry  2015-11-18   964  	u32 dw1, dw2;
-42e7a69368a585 John Garry  2015-11-18   965  
-42e7a69368a585 John Garry  2015-11-18   966  	/* create header */
-42e7a69368a585 John Garry  2015-11-18   967  	hdr->dw0 = cpu_to_le32((1 << CMD_HDR_RESP_REPORT_OFF) |
-42e7a69368a585 John Garry  2015-11-18   968  			       (0x2 << CMD_HDR_TLR_CTRL_OFF) |
-42e7a69368a585 John Garry  2015-11-18   969  			       (port->id << CMD_HDR_PORT_OFF) |
-42e7a69368a585 John Garry  2015-11-18   970  			       (priority << CMD_HDR_PRIORITY_OFF) |
-42e7a69368a585 John Garry  2015-11-18   971  			       (1 << CMD_HDR_MODE_OFF) | /* ini mode */
-42e7a69368a585 John Garry  2015-11-18   972  			       (1 << CMD_HDR_CMD_OFF)); /* ssp */
-42e7a69368a585 John Garry  2015-11-18   973  
-42e7a69368a585 John Garry  2015-11-18   974  	dw1 = 1 << CMD_HDR_VERIFY_DTL_OFF;
-42e7a69368a585 John Garry  2015-11-18   975  
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   976  	if (tmf) {
-42e7a69368a585 John Garry  2015-11-18   977  		dw1 |= 3 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   978  	} else {
-42e7a69368a585 John Garry  2015-11-18   979  		switch (scsi_cmnd->sc_data_direction) {
-42e7a69368a585 John Garry  2015-11-18   980  		case DMA_TO_DEVICE:
-42e7a69368a585 John Garry  2015-11-18   981  			dw1 |= 2 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   982  			has_data = 1;
-42e7a69368a585 John Garry  2015-11-18   983  			break;
-42e7a69368a585 John Garry  2015-11-18   984  		case DMA_FROM_DEVICE:
-42e7a69368a585 John Garry  2015-11-18   985  			dw1 |= 1 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   986  			has_data = 1;
-42e7a69368a585 John Garry  2015-11-18   987  			break;
-42e7a69368a585 John Garry  2015-11-18   988  		default:
-42e7a69368a585 John Garry  2015-11-18   989  			dw1 |= 0 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   990  		}
-42e7a69368a585 John Garry  2015-11-18   991  	}
-42e7a69368a585 John Garry  2015-11-18   992  
-42e7a69368a585 John Garry  2015-11-18   993  	/* map itct entry */
-42e7a69368a585 John Garry  2015-11-18   994  	dw1 |= sas_dev->device_id << CMD_HDR_DEVICE_ID_OFF;
-42e7a69368a585 John Garry  2015-11-18   995  	hdr->dw1 = cpu_to_le32(dw1);
-42e7a69368a585 John Garry  2015-11-18   996  
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   997  	if (tmf) {
-42e7a69368a585 John Garry  2015-11-18   998  		dw2 = ((sizeof(struct ssp_tmf_iu) +
-42e7a69368a585 John Garry  2015-11-18   999  			sizeof(struct ssp_frame_hdr)+3)/4) <<
-42e7a69368a585 John Garry  2015-11-18  1000  			CMD_HDR_CFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1001  	} else {
-42e7a69368a585 John Garry  2015-11-18 @1002  		dw2 = ((sizeof(struct ssp_command_iu) +
-42e7a69368a585 John Garry  2015-11-18  1003  			sizeof(struct ssp_frame_hdr)+3)/4) <<
-42e7a69368a585 John Garry  2015-11-18  1004  			CMD_HDR_CFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1005  	}
-42e7a69368a585 John Garry  2015-11-18  1006  
-42e7a69368a585 John Garry  2015-11-18  1007  	dw2 |= (HISI_SAS_MAX_SSP_RESP_SZ/4) << CMD_HDR_MRFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1008  
-42e7a69368a585 John Garry  2015-11-18  1009  	hdr->transfer_tags = cpu_to_le32(slot->idx << CMD_HDR_IPTT_OFF);
-42e7a69368a585 John Garry  2015-11-18  1010  
-a2b3820bddfbff Xiang Chen  2018-05-09  1011  	if (has_data)
-a2b3820bddfbff Xiang Chen  2018-05-09  1012  		prep_prd_sge_v1_hw(hisi_hba, slot, hdr, task->scatter,
-42e7a69368a585 John Garry  2015-11-18  1013  					slot->n_elem);
-42e7a69368a585 John Garry  2015-11-18  1014  
-42e7a69368a585 John Garry  2015-11-18  1015  	hdr->data_transfer_len = cpu_to_le32(task->total_xfer_len);
-f557e32c0023ea Xiaofei Tan 2017-06-29  1016  	hdr->cmd_table_addr = cpu_to_le64(hisi_sas_cmd_hdr_addr_dma(slot));
-f557e32c0023ea Xiaofei Tan 2017-06-29  1017  	hdr->sts_buffer_addr = cpu_to_le64(hisi_sas_status_buf_addr_dma(slot));
-42e7a69368a585 John Garry  2015-11-18  1018  
-f557e32c0023ea Xiaofei Tan 2017-06-29  1019  	buf_cmd = hisi_sas_cmd_hdr_addr_mem(slot) +
-f557e32c0023ea Xiaofei Tan 2017-06-29  1020  		sizeof(struct ssp_frame_hdr);
-42e7a69368a585 John Garry  2015-11-18  1021  	hdr->dw2 = cpu_to_le32(dw2);
-42e7a69368a585 John Garry  2015-11-18  1022  
-42e7a69368a585 John Garry  2015-11-18  1023  	memcpy(buf_cmd, &task->ssp_task.LUN, 8);
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21  1024  	if (!tmf) {
-4dc051eb0c6b6c John Garry  2023-08-15  1025  		buf_cmd[9] = task->ssp_task.task_attr;
-42e7a69368a585 John Garry  2015-11-18  1026  		memcpy(buf_cmd + 12, task->ssp_task.cmd->cmnd,
-42e7a69368a585 John Garry  2015-11-18  1027  				task->ssp_task.cmd->cmd_len);
-42e7a69368a585 John Garry  2015-11-18  1028  	} else {
-42e7a69368a585 John Garry  2015-11-18  1029  		buf_cmd[10] = tmf->tmf;
-42e7a69368a585 John Garry  2015-11-18  1030  		switch (tmf->tmf) {
-42e7a69368a585 John Garry  2015-11-18  1031  		case TMF_ABORT_TASK:
-42e7a69368a585 John Garry  2015-11-18  1032  		case TMF_QUERY_TASK:
-42e7a69368a585 John Garry  2015-11-18  1033  			buf_cmd[12] =
-42e7a69368a585 John Garry  2015-11-18  1034  				(tmf->tag_of_task_to_be_managed >> 8) & 0xff;
-42e7a69368a585 John Garry  2015-11-18  1035  			buf_cmd[13] =
-42e7a69368a585 John Garry  2015-11-18  1036  				tmf->tag_of_task_to_be_managed & 0xff;
-42e7a69368a585 John Garry  2015-11-18  1037  			break;
-42e7a69368a585 John Garry  2015-11-18  1038  		default:
-42e7a69368a585 John Garry  2015-11-18  1039  			break;
-42e7a69368a585 John Garry  2015-11-18  1040  		}
-42e7a69368a585 John Garry  2015-11-18  1041  	}
-42e7a69368a585 John Garry  2015-11-18  1042  }
-42e7a69368a585 John Garry  2015-11-18  1043  
-
-:::::: The code at line 1002 was first introduced by commit
-:::::: 42e7a69368a5855b36cbaff130e58e2cc9976ff3 hisi_sas: Add ssp command function
-
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+>> Warning: security/commoncap_test.c:45 function parameter 'test' not described in 'test_rootid_owns_currentns_init_ns'
+>> Warning: security/commoncap_test.c:63 function parameter 'test' not described in 'test_rootid_owns_currentns_invalid'
+>> Warning: security/commoncap_test.c:79 function parameter 'test' not described in 'test_rootid_owns_currentns_nonroot'
 
 -- 
 0-DAY CI Kernel Test Service
