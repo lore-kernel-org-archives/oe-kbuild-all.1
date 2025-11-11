@@ -1,68 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14A3377E9D;
-	Tue, 11 Nov 2025 16:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEE3369960
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 17:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762880104; cv=none; b=UAZjPTu7B0ypLLRozGrwVKqo0o1mxoX6H3zEzMGU76Ajf6omicpIID9BXEwb5zXvYhoAOAgbfmkNfOOTmmyRgc8LFH2Pr2wOkpSGNhAE2i0pHCmt8KFlWYc9FN6mrCF9pA28oUOxXwp1v040FnSpKx/MoeQe4uBCST3mZQoGUSw=
+	t=1762882565; cv=none; b=Hx79ZAABYA/+W0fnuT+euYm1gYKqprsKNg5/g24uy/mFoTJofrquB1FXw5HLEyU8qnB6HHwCcDDvrqePuZpusDqYvWdnHBSbK5RXjB/A3BvVCNqr6iDGgFFCqhBNQL3TskXnDhkXrsYBRD6B6r5UvgX3TtheAiTQ79L1obiHLZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762880104; c=relaxed/simple;
-	bh=prdjIqfhZ5Q0oGHb9kMj2RXqTMX3Z4oj+cyb9XYhN0c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dcHzl34KNxED6P1kJRSrCagvpyDSIStsJ0vp4TP/V442zYYfGbtPCk71+SXnOygwPAApSQmJ03mZNmJq/eUiI5aZ6w3pyukMCVlies6uNbexzrvpeB0lbMS/AyiNvgeQZ6VAo6wlkSIkjVhEMSKBshEFlvYH3SyV0TUZ9hbmURA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCIRjXUS; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1762882565; c=relaxed/simple;
+	bh=Z7z0jIBrfwPsTRvc359YlODnEv8zxrOoGI6oPJXnKfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rmQr5bm0aXD0PilROgZP6nrMF31YeRrdH1WKlA/Fuxjtnt0tqv2+e6OW3K6NIzplOFyv0cxuyrhRyVZEn7ZNsceyaqdrVQ9XWOzE2XVzduA+ckOwSzHhV3vHYP8De7zMGp3Rc83sn7qv1PnBzWA4sauHMWrsOQ/oSG2uUe4HbFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gW/VuR/n; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCIRjXUS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gW/VuR/n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762880102; x=1794416102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=prdjIqfhZ5Q0oGHb9kMj2RXqTMX3Z4oj+cyb9XYhN0c=;
-  b=kCIRjXUSie5mtzwzJA8zfmRA3b/fDhVbGqqK9M3SERqSBTifiZ+wsWdG
-   qvxCA+Oz7LPVZegQYEtOprKI/CywsFHkCKoKYfduIhCL18W0pWs+GG1r3
-   T3TEM4MEa9LeXNdhaVvK63IOkHyRXZx5EBr/T7Tnaz7Qgq0xVeEWG7Rx+
-   Gy4YUEFGRHY/DY7pAPpe6cixUbcmvdeXdYwOmHg7DQxR0os0nO3aJ3ag+
-   IP7q1rBAYiaC55amLkwdlF3upSukyNryETcTw0d0RZ7XD8ttTHrlLQ+oY
-   heaYve2zV1ycJ4rh1LlmlUjHheG/+WESJPjjEmULNtOWxoXIXPdvbwxpq
-   Q==;
-X-CSE-ConnectionGUID: pbjwjsr7S0S8rTRTAVSAmA==
-X-CSE-MsgGUID: DEOHr9xjQ0eweiBax4IOGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="64150236"
+  t=1762882564; x=1794418564;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Z7z0jIBrfwPsTRvc359YlODnEv8zxrOoGI6oPJXnKfw=;
+  b=gW/VuR/n0uGYtDXwQ2JlPTK33BOKDH1aVdPAtTE2DDXKmnqxjcxPPzE/
+   ofcNo1lOAhSXMrXenvuCk5W7vmud01vD0oNt8XvCy9lXQiLEuMqTnpqXk
+   zYKOMp6KZVD8dv8Oa6sYgi+TsY87P1lHoEr2SIS3MV0uA9buj+aFutL+r
+   Hr5OORxzhPDVk/mksoZ39C0RpU6+oIseBbkyIksIsuyerwNhYX1D6fbS5
+   i/KmMKnQBi2t3l5wOAL6hf+VE2GAvYNhURgL2zZ8yUPPrRqeoq+x3SuT/
+   l5wb2V5zO9F7Z2dVQGg+eD2aA3Ei13nKN5tMUYbsjBnBoIWTJEvCJcLb8
+   g==;
+X-CSE-ConnectionGUID: 9Qp5gmP7RoKLMew9PFXrhg==
+X-CSE-MsgGUID: KJgvQnlbTBif7UCwSyHi2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="68797923"
 X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; 
-   d="scan'208";a="64150236"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 08:55:01 -0800
-X-CSE-ConnectionGUID: qj9ZEu2IS3q/G3o69uv9+w==
-X-CSE-MsgGUID: LiZ1YefBQLm1L/1gKRqSZw==
+   d="scan'208";a="68797923"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 09:36:03 -0800
+X-CSE-ConnectionGUID: ik2LA5FbRqiUUuxnHcGyDw==
+X-CSE-MsgGUID: xj1IegX6T5G2gztP/SBUZw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,297,1754982000"; 
-   d="scan'208";a="212405116"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 08:54:58 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 11 Nov 2025 09:36:02 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIrdv-0003Oh-3C;
-	Tue, 11 Nov 2025 16:54:55 +0000
-Date: Wed, 12 Nov 2025 00:54:40 +0800
+	id 1vIsHf-0003Qt-2j;
+	Tue, 11 Nov 2025 17:35:59 +0000
+Date: Wed, 12 Nov 2025 01:35:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Fedor Pchelkin <boddah8794@gmail.com>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Venkat Jayaraman <venkat.jayaraman@intel.com>,
-	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] usb: typec: ucsi: Add duplicate detection to
- nvidia registration path
-Message-ID: <202511120044.i2blPN85-lkp@intel.com>
-References: <20251111010541.145421-2-acelan.kao@canonical.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 0/2] kernel/module.c:643:2: error:
+ implicit declaration of function 'module_assert_mutex'
+Message-ID: <202511120150.06MX9Nxt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,129 +59,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251111010541.145421-2-acelan.kao@canonical.com>
 
-Hi Chia-Lin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.18-rc5 next-20251111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chia-Lin-Kao-AceLan/usb-typec-ucsi-Add-duplicate-detection-to-nvidia-registration-path/20251111-092153
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20251111010541.145421-2-acelan.kao%40canonical.com
-patch subject: [PATCH v2 2/3] usb: typec: ucsi: Add duplicate detection to nvidia registration path
-config: x86_64-randconfig-072-20251111 (https://download.01.org/0day-ci/archive/20251112/202511120044.i2blPN85-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   7a94817e9c9a8a92d1f149fa6333c80b6979c711
+commit: 49d5970ee4529fa67b5a5bf273d82a977b363c99 [0/2] UPSTREAM: kallsyms: refactor {,module_}kallsyms_on_each_symbol
+config: x86_64-randconfig-072-20251111 (https://download.01.org/0day-ci/archive/20251112/202511120150.06MX9Nxt-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120044.i2blPN85-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120150.06MX9Nxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511120044.i2blPN85-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511120150.06MX9Nxt-lkp@intel.com/
+
+Note: the android-common/android12-5.10 HEAD 7a94817e9c9a8a92d1f149fa6333c80b6979c711 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/typec/ucsi/ucsi.c:547:7: error: call to undeclared function 'ucsi_altmode_is_duplicate'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     547 |                 if (ucsi_altmode_is_duplicate(con, recipient, altmode_array, i,
-         |                     ^
-   drivers/usb/typec/ucsi/ucsi.c:570:13: error: static declaration of 'ucsi_altmode_is_duplicate' follows non-static declaration
-     570 | static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
+   In file included from kernel/module.c:12:
+   In file included from include/linux/moduleloader.h:6:
+   In file included from include/linux/module.h:16:
+   In file included from include/linux/kmod.h:9:
+   In file included from include/linux/umh.h:4:
+   In file included from include/linux/gfp.h:6:
+   include/linux/mmzone.h:1163:6: warning: variable 'nid' set but not used [-Wunused-but-set-variable]
+    1163 |         int nid;
          |             ^
-   drivers/usb/typec/ucsi/ucsi.c:547:7: note: previous implicit declaration is here
-     547 |                 if (ucsi_altmode_is_duplicate(con, recipient, altmode_array, i,
-         |                     ^
-   2 errors generated.
+>> kernel/module.c:643:2: error: implicit declaration of function 'module_assert_mutex' [-Werror,-Wimplicit-function-declaration]
+     643 |         module_assert_mutex();
+         |         ^
+   1 warning and 1 error generated.
 
 
-vim +/ucsi_altmode_is_duplicate +547 drivers/usb/typec/ucsi/ucsi.c
+vim +/module_assert_mutex +643 kernel/module.c
 
-   483	
-   484	static int
-   485	ucsi_register_altmodes_nvidia(struct ucsi_connector *con, u8 recipient)
-   486	{
-   487		int max_altmodes = UCSI_MAX_ALTMODES;
-   488		struct typec_altmode_desc desc;
-   489		struct ucsi_altmode alt;
-   490		struct ucsi_altmode orig[UCSI_MAX_ALTMODES];
-   491		struct ucsi_altmode updated[UCSI_MAX_ALTMODES];
-   492		struct ucsi *ucsi = con->ucsi;
-   493		bool multi_dp = false;
-   494		u64 command;
-   495		int ret;
-   496		int len;
-   497		int i;
-   498		int k = 0;
-   499	
-   500		if (recipient == UCSI_RECIPIENT_CON)
-   501			max_altmodes = con->ucsi->cap.num_alt_modes;
-   502	
-   503		memset(orig, 0, sizeof(orig));
-   504		memset(updated, 0, sizeof(updated));
-   505	
-   506		/* First get all the alternate modes */
-   507		for (i = 0; i < max_altmodes; i++) {
-   508			memset(&alt, 0, sizeof(alt));
-   509			command = UCSI_GET_ALTERNATE_MODES;
-   510			command |= UCSI_GET_ALTMODE_RECIPIENT(recipient);
-   511			command |= UCSI_GET_ALTMODE_CONNECTOR_NUMBER(con->num);
-   512			command |= UCSI_GET_ALTMODE_OFFSET(i);
-   513			len = ucsi_send_command(con->ucsi, command, &alt, sizeof(alt));
-   514			/*
-   515			 * We are collecting all altmodes first and then registering.
-   516			 * Some type-C device will return zero length data beyond last
-   517			 * alternate modes. We should not return if length is zero.
-   518			 */
-   519			if (len < 0)
-   520				return len;
-   521	
-   522			/* We got all altmodes, now break out and register them */
-   523			if (!len || !alt.svid)
-   524				break;
-   525	
-   526			orig[k].mid = alt.mid;
-   527			orig[k].svid = alt.svid;
-   528			k++;
-   529		}
-   530		/*
-   531		 * Update the original altmode table as some ppms may report
-   532		 * multiple DP altmodes.
-   533		 */
-   534		multi_dp = ucsi->ops->update_altmodes(ucsi, recipient, orig, updated);
-   535	
-   536		/* now register altmodes */
-   537		for (i = 0; i < max_altmodes; i++) {
-   538			struct ucsi_altmode *altmode_array = multi_dp ? updated : orig;
-   539	
-   540			if (!altmode_array[i].svid)
-   541				return 0;
-   542	
-   543			/*
-   544			 * Check for duplicates in current array and already
-   545			 * registered altmodes. Skip if duplicate found.
-   546			 */
- > 547			if (ucsi_altmode_is_duplicate(con, recipient, altmode_array, i,
-   548						      altmode_array[i].svid,
-   549						      altmode_array[i].mid, i))
-   550				continue;
-   551	
-   552			memset(&desc, 0, sizeof(desc));
-   553			desc.svid = altmode_array[i].svid;
-   554			desc.vdo = altmode_array[i].mid;
-   555			desc.roles = TYPEC_PORT_DRD;
-   556	
-   557			ret = ucsi_register_altmode(con, &desc, recipient);
-   558			if (ret)
-   559				return ret;
-   560		}
-   561	
-   562		return 0;
-   563	}
-   564	
+0d21b0e3477395 Rusty Russell  2013-01-12  640  
+0d21b0e3477395 Rusty Russell  2013-01-12  641  struct module *find_module(const char *name)
+0d21b0e3477395 Rusty Russell  2013-01-12  642  {
+fe0d34d242fa1e Rusty Russell  2015-07-29 @643  	module_assert_mutex();
+4f6de4d51f4a3a Mathias Krause 2013-07-02  644  	return find_module_all(name, strlen(name), false);
+0d21b0e3477395 Rusty Russell  2013-01-12  645  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  646  
+
+:::::: The code at line 643 was first introduced by commit
+:::::: fe0d34d242fa1e0dec059e774d146a705420bc9a module: weaken locking assertion for oops path.
+
+:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
+:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
 
 -- 
 0-DAY CI Kernel Test Service
