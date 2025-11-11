@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431902F5A03
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 06:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D511279358
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 06:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762844039; cv=none; b=sggz4cWnO2tKN6pOC0ypAdpqe94liTFE/rwqq1+7eyhRg+Iq8lFH7HA7xXu7C6wLAlEWWeD4OF+ttQECVIW7DqeGntB3jiuxVviL0uRSWHg/xiQJ2ksA1TlFgMjr9rti5k+XRkhM1y7AssMS6F+fybsRYcCBBVHkRmjI2jOMPJM=
+	t=1762844040; cv=none; b=LLac0hEvvzWa6hXf/bVUzbkSh7+eO4U3FgGTQfXT+MXphgpPbKTxcapVROIjvknE8o1OyI83QKsWISjQEDJ263A/+1xaICiFz5TAOhvzTigPGW0QsiM7ps69Cw0HrRIJT6o0ndm89WNHNVg5XKO/z+ZVfEsWhRATMxyWEG7r3gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762844039; c=relaxed/simple;
-	bh=EC2gxUnljDATsyKRjwf6LU4khea07FYDr3Y7yqvUHXQ=;
+	s=arc-20240116; t=1762844040; c=relaxed/simple;
+	bh=1ohHqJy3GtnFE3r4lHSgWNj8+fSVY8Y9eoPnFFJARb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oO2PKNBezyf39U2QxJtsSWiwDkCXmMOPnV3xrccMTrgPiwUKPj2rIg6BSdRYxzYkn5/Dhs3nYgY7u/1RXWs+Xnb9bNcIfuy5fmMu7DL7hr1TTesTRQF3+HhdmS/PddoVYc/0uSt6A7/3qZkda4hIu/+JhGjnaLjZXMhd7vZ76wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DN22A1Fg; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=QnYfUf4yQnzsw7+0KFqV+e39j3JCQoW7JsmdzhUieby+tLGqnfkFYfbUHj1PUl5R1kxlo2jiXMjyuBaug0xjbRUZ21FS6cWzCDuuheJ9wlL3WnzAgT8beKpXFBxdBJznkUYYxFmUMPoQRPDrIYH38tzTsJiJgVNy2SKpvBzBvIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBEaOfZQ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DN22A1Fg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBEaOfZQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762844038; x=1794380038;
+  t=1762844039; x=1794380039;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EC2gxUnljDATsyKRjwf6LU4khea07FYDr3Y7yqvUHXQ=;
-  b=DN22A1FgcQmzA0lfRv1jrK6Cn+WglxywwNy9RVB84SA/cwfGct335iVz
-   bPGro+XdRpeDpQ5ekHwBEYDdimQ0OVcohznsDbY0to5KNU85aGqr5oXNy
-   UNK2QDJrnZytoiDv/mnqEg4aNYaJ3pF2ocl9QyYyeWLjoNfDttN1eVTU7
-   GdtJqkzcsM3021xv4k6D2RAnh1OcTMSPnmrco7E9W9NVhagJDIlw+mlrb
-   DagYvH4uiBnPuHQANU6nvs4LKqiiE5oaJIbbQUp5vbKmLL0dC6Ru8iFDO
-   1YY852dQimiAxmEolJPxrcxfYaemRr8xDrMxfYLXsIZDKCzd/GklWcNv6
-   g==;
-X-CSE-ConnectionGUID: ILOvld7ZSYmqfN641t2K5A==
-X-CSE-MsgGUID: aUOCtPgwQzCIqU0D0ayAOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65058778"
+  bh=1ohHqJy3GtnFE3r4lHSgWNj8+fSVY8Y9eoPnFFJARb0=;
+  b=XBEaOfZQY4t4SGAKPSwKmj1mJ8CQX4lgeKALHX7A2pSzrNqudqujJ8Ef
+   P7abXLXPXHvzq3AFKQhVRrQRaCq0GN2+/ADDx15AKs8xVCxNogeRsbe8I
+   jslNZBaXsf8VuJqVK+oQ8SQCaTiVGNgX2pWxu+OCyojQvl8SdNEShMTPp
+   qBc/k1QoN/0R65ZoWxdF7kKok2TgAUkDcIdaIN79riXAvKymAPyr+n5Qh
+   Fw163Buye7nXAREFKUhSvh79iadWDsJa0NtZse6rL69HMYaHVLQBXcjM7
+   xYMDoImqmJRaksYzTILYu53JegF8Ed9ksT8p+mbBqItc1rENUbwA7PV9V
+   A==;
+X-CSE-ConnectionGUID: Pu915238SPyUAyQkjweV/A==
+X-CSE-MsgGUID: 8eCQ77bNRHi1/fiTtAt2lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="76250132"
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="65058778"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:53:58 -0800
-X-CSE-ConnectionGUID: 5ScXENYnSbibb+G69kMoLw==
-X-CSE-MsgGUID: IYpuK8w5T/+x+omZ2UJn9g==
+   d="scan'208";a="76250132"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 22:53:59 -0800
+X-CSE-ConnectionGUID: 7VwVqiR7RH+xabLrGDwc9g==
+X-CSE-MsgGUID: xrDE0GSYTLmtCPbuDM4V6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
-   d="scan'208";a="194075963"
+   d="scan'208";a="188145796"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Nov 2025 22:53:56 -0800
+  by orviesa006.jf.intel.com with ESMTP; 10 Nov 2025 22:53:56 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIiGH-0002sB-1a;
+	id 1vIiGH-0002sF-1h;
 	Tue, 11 Nov 2025 06:53:53 +0000
-Date: Tue, 11 Nov 2025 14:52:55 +0800
+Date: Tue, 11 Nov 2025 14:52:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 13/24] drm/vblank: pass vblank to
- drm_vblank_count_and_time()
-Message-ID: <202511111453.UaceJIMy-lkp@intel.com>
-References: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Petr Oros <poros@redhat.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Michal Schmidt <mschmidt@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 4/6] dpll: zl3073x: Cache all reference
+ properties in zl3073x_ref
+Message-ID: <202511111402.yEyMEeLb-lkp@intel.com>
+References: <20251110175818.1571610-5-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +68,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula@intel.com>
+In-Reply-To: <20251110175818.1571610-5-ivecera@redhat.com>
 
-Hi Jani,
+Hi Ivan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20251110]
-[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-misc/drm-misc-next linus/master v6.18-rc5 v6.18-rc4 v6.18-rc3 v6.18-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-vblank-Unexport-drm_wait_one_vblank/20251111-024823
-base:   next-20251110
-patch link:    https://lore.kernel.org/r/39a203dcc71aa4bfcf349d9c85672a6b9db4201f.1762791343.git.jani.nikula%40intel.com
-patch subject: [PATCH 13/24] drm/vblank: pass vblank to drm_vblank_count_and_time()
-config: openrisc-randconfig-r071-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111453.UaceJIMy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dpll-zl3073x-Store-raw-register-values-instead-of-parsed-state/20251111-020236
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251110175818.1571610-5-ivecera%40redhat.com
+patch subject: [PATCH net-next 4/6] dpll: zl3073x: Cache all reference properties in zl3073x_ref
+config: x86_64-randconfig-161-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111402.yEyMEeLb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111402.yEyMEeLb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111453.UaceJIMy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111402.yEyMEeLb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
->> Warning: drivers/gpu/drm/drm_vblank.c:954 function parameter 'vblank' not described in 'drm_vblank_count_and_time'
+   drivers/dpll/zl3073x/dpll.c: In function 'zl3073x_dpll_pin_phase_offset_check':
+>> drivers/dpll/zl3073x/dpll.c:1850:35: warning: variable 'ref' set but not used [-Wunused-but-set-variable]
+    1850 |         const struct zl3073x_ref *ref;
+         |                                   ^~~
+
+
+vim +/ref +1850 drivers/dpll/zl3073x/dpll.c
+
+  1836	
+  1837	/**
+  1838	 * zl3073x_dpll_pin_phase_offset_check - check for pin phase offset change
+  1839	 * @pin: pin to check
+  1840	 *
+  1841	 * Check for the change of DPLL to connected pin phase offset change.
+  1842	 *
+  1843	 * Return: true on phase offset change, false otherwise
+  1844	 */
+  1845	static bool
+  1846	zl3073x_dpll_pin_phase_offset_check(struct zl3073x_dpll_pin *pin)
+  1847	{
+  1848		struct zl3073x_dpll *zldpll = pin->dpll;
+  1849		struct zl3073x_dev *zldev = zldpll->dev;
+> 1850		const struct zl3073x_ref *ref;
+  1851		unsigned int reg;
+  1852		s64 phase_offset;
+  1853		u8 ref_id;
+  1854		int rc;
+  1855	
+  1856		ref_id = zl3073x_input_pin_ref_get(pin->id);
+  1857		ref = zl3073x_ref_state_get(zldev, ref_id);
+  1858	
+  1859		/* No phase offset if the ref monitor reports signal errors */
+  1860		if (!zl3073x_dev_ref_is_status_ok(zldev, ref_id))
+  1861			return false;
+  1862	
+  1863		/* Select register to read phase offset value depending on pin and
+  1864		 * phase monitor state:
+  1865		 * 1) For connected pin use dpll_phase_err_data register
+  1866		 * 2) For other pins use appropriate ref_phase register if the phase
+  1867		 *    monitor feature is enabled.
+  1868		 */
+  1869		if (pin->pin_state == DPLL_PIN_STATE_CONNECTED)
+  1870			reg = ZL_REG_DPLL_PHASE_ERR_DATA(zldpll->id);
+  1871		else if (zldpll->phase_monitor)
+  1872			reg = ZL_REG_REF_PHASE(ref_id);
+  1873		else
+  1874			return false;
+  1875	
+  1876		/* Read measured phase offset value */
+  1877		rc = zl3073x_read_u48(zldev, reg, &phase_offset);
+  1878		if (rc) {
+  1879			dev_err(zldev->dev, "Failed to read ref phase offset: %pe\n",
+  1880				ERR_PTR(rc));
+  1881	
+  1882			return false;
+  1883		}
+  1884	
+  1885		/* Convert to ps */
+  1886		phase_offset = div_s64(sign_extend64(phase_offset, 47), 100);
+  1887	
+  1888		/* Compare with previous value */
+  1889		if (phase_offset != pin->phase_offset) {
+  1890			dev_dbg(zldev->dev, "%s phase offset changed: %lld -> %lld\n",
+  1891				pin->label, pin->phase_offset, phase_offset);
+  1892			pin->phase_offset = phase_offset;
+  1893	
+  1894			return true;
+  1895		}
+  1896	
+  1897		return false;
+  1898	}
+  1899	
 
 -- 
 0-DAY CI Kernel Test Service
