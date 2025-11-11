@@ -1,207 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010021.outbound.protection.outlook.com [52.101.56.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915B9274FDC;
-	Tue, 11 Nov 2025 14:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762871386; cv=none; b=nupzvgE5yN8fMEzm233QASOkaRc+j+rlRnFYjWa8CasOj6uvp/Rmxzrr0P402Sl4NaZMWN6eDKZsITBQPWHQprBqIFJteQctpzC/gmXyLEDkfYjq3X6d0RkEABT0GYNV+HyLN3DTZZbmpLObMiYosCd8J3jgNfqduEHv1UDdw/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762871386; c=relaxed/simple;
-	bh=dQdc5lkChETm5mS6bGw4LxgMvCyocfkrTPE4kb3Fumw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gjZ3IK/peMDbfdfgqhpBaPul1LLWVcT9ziHMzNrUiLoRj2CA461rTBCFcJ+4zROqDbY11rdRiRjevXFN2fKgznOu+PTMh70xP7Av6WmKqtEBeSWGwvz8h3sfV1Csawo8PU2nljssM8s8UgEGPiJFvhfW80EwrNDP0h7GQFlyaS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A6dV0xGJ; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B9632D7EC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 14:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762873202; cv=fail; b=AE9q2dLVywNXU42qc6Lp+hVWxcT3jX/uYPgAbtfuiNAyJI7U5xZGH2X4hnU8s/xqNv0kFJD9MEiMjal5QWdIpZNEwOMgy1WpraWlKhp0o9hzyYkIPoLoQlUAzThrhhgHy7MKs17zDzPz/gQlowU+fPMb9oK6L6R+Xasw9Ua8k3A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762873202; c=relaxed/simple;
+	bh=Ezo+O51tBdxatAed/fDOBLXqOzWa7pWnCGauUDpEM0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=RzGGEUe8IDnzEa+cySXTNx2IoEj/bMdlLwSA9qjslZInx8mw8nLLdkDwYRWI71lfCiac9jiBEfbW3wFXWBRVmHiZhgyJV6HNJqp7HhL880Z1xTpqG4bWGFfJ78LoyuiGmS9U5rt9EwM9Eaz2JFWk2bdx3zEvL8JBnyXTM+jlgWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KnEMl/VL; arc=fail smtp.client-ip=52.101.56.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6dV0xGJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762871385; x=1794407385;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dQdc5lkChETm5mS6bGw4LxgMvCyocfkrTPE4kb3Fumw=;
-  b=A6dV0xGJJM1ptywckGn/GEiL5N+vGuLm5jLnwIyr6ZM8oh/2XVKQ6XP0
-   TIB+X20PRAoftK6hk+mrklm4vC1RuomOtB9H2HeZJILONvsEadF1ua4pt
-   Uj38Qpmh8cbuoK4M+3qiobJHdNXf8Rg7HWwnle2CwaKe6UtQuiGt31Sm/
-   VRH3+NMA+NKW8HXopFP6xzr5rxdlHB7M4s1HhJIGOuouZoLqUbBCfSdiu
-   XzhjURnwiwG0FVTDv/9+EU5eidB+smV3jGvw4gXtfINLAKtr15LH8PnIN
-   r3J7GPPULEShtXYsG2M01oAYKnG9i/TvJQAWru+KO6QFpqiw0kEpEGGar
-   Q==;
-X-CSE-ConnectionGUID: qJSjsOqTQOezgPiz9fEyVw==
-X-CSE-MsgGUID: o5ee+ju9RH+LO2AJbblPbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64851005"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64851005"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 06:29:44 -0800
-X-CSE-ConnectionGUID: WSYI8NpuTSez1498J8sAAQ==
-X-CSE-MsgGUID: dYuWJk7KQs6Xk8G/u4UpPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="188288859"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Nov 2025 06:29:43 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vIpNM-0003Ed-1Q;
-	Tue, 11 Nov 2025 14:29:40 +0000
-Date: Tue, 11 Nov 2025 22:29:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:scratch/gourry/isolation/linus 6/10]
- kernel/cgroup/cpuset.c:4339:13: warning: variable 'allowed' is used
- uninitialized whenever 'if' condition is false
-Message-ID: <202511112256.k3RvmZ7Q-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KnEMl/VL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ftTCGIEiu/NI+KKBkxyIOrMtwzNONS1J9p/QZVfWfUdIfi8BzPEdD+Ze9TDyv5lr0zU1mcas5LhQpTk5aX8YGz88Wd++Zk05iC/oFZMGFHBEefMyfkDwEccJTMSyGXPtHESR7nhaJSZlQpuEa04Bs498MFLehK13V7vugSuJZ2HPLRYzCrIS918ntsHhq/36ArNmUiosYikmC4IUHPjR1M5ylOyhltFEVaKnvxZruWsxUUpdKxIfvNbp8ssl7UKKyPMuDKMVfdzGzhshXOk6peDE7Kr6LvsODIQJl/GD7tX2S1P9aYL0oeF/fBl0Mw63m0m5ePOt4RmK4dArQlsHng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NpIqhfUpfIPNfPoxmUjdoTeErdA76kCPGpgoQw9gJVg=;
+ b=bKNb0+t4gcmw6ydJmXTYQ4WhwhqF5huOcCfvbabg5W29V3bCLhBwolrrPzbA1229ZZaJQtTbVp25TRUhmjSyF57twkvWwAzu/SCB6Qdyo3HnKkmlVEV9OKsuzSWe7aRmYwurjpqEtn9OMOHeGlSXJFZa+biCLbxo3mdnCNty2EeJvVFohMWsuBZpreioPHsGWtSbqS41eGF/b1Apakz3YquB9vXXy4anjL68Mf0uQJL90lsAxLsOpuBnl+bbtu2IoIu7vXziXtfb+Ug3v3DL6SXj65HODbks6vMh0OEzqj+Dd8BCBO88Hw9P9xp4UA1jDzDU5NLVc3MQKZ/Hw6v4MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NpIqhfUpfIPNfPoxmUjdoTeErdA76kCPGpgoQw9gJVg=;
+ b=KnEMl/VL/GPZM2NOjCpxqIYhS1dnpea1FWRvOkcjies0nOeLPV85O52ATt9eaY0hxenFnJ9Kh+4BO2ECQWX7PK/765ohj9imnI446OfQzDeGx1TQ0sF4QF8s0jVz66UW/Wb6Z0+bKy5KKIFc00MfBwvyDWlFUxjJHfbkbHw0Y3I=
+Received: from PH8PR22CA0011.namprd22.prod.outlook.com (2603:10b6:510:2d1::22)
+ by MW6PR10MB7591.namprd10.prod.outlook.com (2603:10b6:303:249::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Tue, 11 Nov
+ 2025 14:59:55 +0000
+Received: from CY4PEPF0000EDD4.namprd03.prod.outlook.com
+ (2603:10b6:510:2d1:cafe::d6) by PH8PR22CA0011.outlook.office365.com
+ (2603:10b6:510:2d1::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.16 via Frontend Transport; Tue,
+ 11 Nov 2025 14:59:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ CY4PEPF0000EDD4.mail.protection.outlook.com (10.167.241.200) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Tue, 11 Nov 2025 14:59:53 +0000
+Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 08:59:51 -0600
+Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 08:59:51 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 11 Nov 2025 08:59:51 -0600
+Received: from [10.249.139.123] ([10.249.139.123])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ABExnq21113931;
+	Tue, 11 Nov 2025 08:59:50 -0600
+Message-ID: <85fb83a9-6d8c-4c9d-8c78-2d3f5d473ea2@ti.com>
+Date: Tue, 11 Nov 2025 20:29:48 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/pci/controller/cadence/pci-j721e.c:648:undefined
+ reference to `cdns_pcie_host_disable'
+To: Manivannan Sadhasivam <mani@kernel.org>
+CC: kernel test robot <lkp@intel.com>, Chen Wang <unicorn_wang@outlook.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<s-vadapalli@ti.com>
+References: <202511111705.MZ7ls8Hm-lkp@intel.com>
+ <h4yvzfhpd7exv2o2oxed7ocobn5zpwmtvzoxffj4rqsiq2dqfr@sobzxhwa5c23>
+ <cc48c040dac2edc27b453bc482d62309cea25c06.camel@ti.com>
+ <znkojajaxfudm3xn43ed4my5fcwyszv4gxajnizonqu3pf5t6g@bph3av5mzmg7>
+Content-Language: en-US
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+In-Reply-To: <znkojajaxfudm3xn43ed4my5fcwyszv4gxajnizonqu3pf5t6g@bph3av5mzmg7>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD4:EE_|MW6PR10MB7591:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4924d3ba-8477-4084-e0cf-08de2132f8c7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|32650700017|36860700013|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZVVSZ21RSFRvV3BJN0kzVWlvRkk1d2VZNzZMK3hWMXhzQ21nZkJpU0ZQREhq?=
+ =?utf-8?B?NFVkZHR6ZGtDMkpCeGFMdmtyR2VHSER5WVplb2dHcFZrLzhuK0RxTG00RG9W?=
+ =?utf-8?B?MTl4Z1lrOC9sWXBtYW5pWFo1ZkxWalUvdzcwc1Z1aWlSMGxVMHI5N1dZdytU?=
+ =?utf-8?B?cmF4NGFyTzNnUWhNOW1IU2hvMXkxc3VncVk1bERvV3JjNTg0Z1Bwa1hoSlk0?=
+ =?utf-8?B?R25zLzNreUoxbGlpSEJmTHNxWS8xSTZuNWpCcFlaRnc5azJLa3h0Slh0OVlS?=
+ =?utf-8?B?cHZ6L2trRzFwY3ZMZFlrSlRmaWJOL2VHM3NJWlc1MXJESS93dEFVcEhHU2Vr?=
+ =?utf-8?B?dlZyNGFKSFhCSFNzY0JodTZGeUl2b1RSWnF0cEJFc040Rm5IS1kraS9zU3FH?=
+ =?utf-8?B?NHE3U240RGtUWFJackJBd2NIQWluSmszbXg1amp5TDZsMDlVdjdFODdVdm16?=
+ =?utf-8?B?MFJSdVRlbUFnMi9zVkw0c0hvWDRiWEcxZXJEYitqS01EcUE3eWJMZy9lZnY1?=
+ =?utf-8?B?L2xiaXFQblBvakF2V1c4cmovUnA3TUUwN0FvVERzV0phV2VvWWN6ZldNMXdO?=
+ =?utf-8?B?TzdJWDBZTXNHbUhvN0VOZ3RtTG5kS0NpdCsvRlNvSGlKN21rdEZ2SXB0OVpO?=
+ =?utf-8?B?VW4vNmRaT3RqTUU3WFliMzVQNTBZa1EyN0RtOWc2VG4zWlJrOENFa1dIQTZm?=
+ =?utf-8?B?d2Y2eHhUSk44L3pRRGVoMHZ6dlhncWZGalFNWmFFak9mbFNXK1dwZzd6YUl4?=
+ =?utf-8?B?ekt3YnMzMCtiVzAvRjlFOHRFeEYvRlMra20zWlJaN1FpK1NDN0xRRU8ya05X?=
+ =?utf-8?B?aS83SmFCZzVSaWNUY3FHRHdWZmJpTFUzd1oyS2hQK1pEQzUyaFN5UGZhMFlK?=
+ =?utf-8?B?cUlFQ3JYWUdpbDVjSmwySkFOQi9GcDdpdVgrMFhsdzN4RDdQQmM0VXkyTDdw?=
+ =?utf-8?B?U2doelptWmpwMnMzSXJ2dHdBTGtaTzExd1B5UStzYkVqRldLV1dzdHdiS2Vy?=
+ =?utf-8?B?NDhtQU13RW1uNUJjL2xKNVJEMDE0b3JmZjlyUkoyblBwSzRCM1Q3VEZyMC9G?=
+ =?utf-8?B?cXU2MXU4TVRIVEhMM0NjYTdXdVpDNVZxM0FjV1FSajVkd0xFb2JiZGhrNzRS?=
+ =?utf-8?B?WmVLbG1taVQ4alYrbjRpM2U0c3l6R3lVUzdsdS9kdnMzTUUzWmk5RTZEVDVD?=
+ =?utf-8?B?V0htakwvMEs4Z1FaMzJ2ZFJLNGFCbEhKQUJ2eTVJbDhiR0IvWGQyblNNL2xI?=
+ =?utf-8?B?RUtsakZKc1hRUGxXb0tlWC9JKzhpQVB1MGM3M2VRN050UklLZ3JjbmRUZ2ph?=
+ =?utf-8?B?VmVZTEg3SDFxb0RSK01QRHNFUituUE13UWM2RFBobHNIbmptTWVMeVd6dW9w?=
+ =?utf-8?B?akZDM1ZzMUFnc0FnZ1hTcFJPVWVNVlNpcW1DUGdZZkFtaUpxL0NiTUxBcFBH?=
+ =?utf-8?B?RXoybVBVY1hxQkYrUDJhN0tlelF1OG4wQzBBZFBGaEtteVNrRW4rM1VnSmd5?=
+ =?utf-8?B?TmxaTk9YY3Q5cFZaZURpRGQxME4xRHVCQ2xCNmdMSENqRjV4RWZFS0ErTFZm?=
+ =?utf-8?B?ODdkYUhtR0ovVUhiS2xMMmd3R3VjNlBKUmZJYTNld1IwQ0xaaFcyRWduN0Nn?=
+ =?utf-8?B?M0x1YVhkZURuSCtLRktSS3FvckkxWWVKMTFZQkthbWRFanhvMVo0OWc2Rlhh?=
+ =?utf-8?B?UlQrd0o3SjdjTVJ2dWFQWXdmQ1RBeWx1Q2g3WDIybURxdFNMMWdsQ2dyS2l6?=
+ =?utf-8?B?b2piWVNxNHVDN1VaYmR3L1FpOFVWRUFPWGNIZlMwWloyVjlsSEYyQmFkTC9V?=
+ =?utf-8?B?RklTV0ltT0xFTlJvL3FjcWJQNDFEOWNSOXl3amQySDZnSEJPUEwxYkJWNFZl?=
+ =?utf-8?B?MG16K2c4djBNT1hlSTF3Mkl1Q1VzcThMTzI4Vy9BSnU2TFdnYXRSZ3RCTUhU?=
+ =?utf-8?B?ajBCN1RWSjFsL2E4SjVsTm1qYWhOdllnOFBiZmNtcDR6RkJnRk1EWHUvVmg5?=
+ =?utf-8?B?WUJSaEozTGo2bHMyOWNDc0I2QzA2NzgwaHR3NGh1ZjQ0ckRaOUswalhhUkhz?=
+ =?utf-8?B?bXQvVk9DS2ozdWVPZUZvamtUU3NoS29EN0IySSsyQzd3dnJXZnBqZHNWQXVZ?=
+ =?utf-8?Q?0O0o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(32650700017)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 14:59:53.8337
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4924d3ba-8477-4084-e0cf-08de2132f8c7
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7591
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
-head:   c74a85115777a0e4ff7ba671c4631adb4ba32ecc
-commit: 81b4628c13856d1bc84678ed6655180ca0554688 [6/10] cpuset: introduce cpuset.mems.default
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251111/202511112256.k3RvmZ7Q-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511112256.k3RvmZ7Q-lkp@intel.com/reproduce)
+On 11/11/25 7:39 PM, Manivannan Sadhasivam wrote:
+> On Tue, Nov 11, 2025 at 05:09:25PM +0530, Siddharth Vadapalli wrote:
+>> On Tue, 2025-11-11 at 16:24 +0530, Manivannan Sadhasivam wrote:
+>>
+>> Hello Mani,
+>>
+>>> + Siddharth
+>>
+>> Thank you for notifying me of this.
+>>
+>>>
+>>> On Tue, Nov 11, 2025 at 05:28:54PM +0800, kernel test robot wrote:
+>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>>> head:   4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
+>>>> commit: 1c72774df028429836eec3394212f2921bb830fc PCI: sg2042: Add Sophgo SG2042 PCIe driver
+>>>> date:   8 weeks ago
+>>>> config: loongarch-randconfig-r113-20251110 (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/config)
+>>>> compiler: loongarch64-linux-gcc (GCC) 15.1.0
+>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/reproduce)
+>>>>
+>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>> the same patch/commit), kindly add following tags
+>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202511111705.MZ7ls8Hm-lkp@intel.com/
+>>>>
+>>>> All errors (new ones prefixed by >>):
+>>>>
+>>>>     loongarch64-linux-ld: drivers/pci/controller/cadence/pci-j721e.o: in function `j721e_pcie_remove':
+>>>>>> drivers/pci/controller/cadence/pci-j721e.c:648:(.text+0x83c): undefined reference to `cdns_pcie_host_disable'
+>>>>
+>>>
+>>>  From .config:
+>>>
+>>> CONFIG_PCIE_CADENCE=y
+>>> CONFIG_PCIE_CADENCE_HOST=m
+>>> CONFIG_PCIE_CADENCE_EP=y
+>>> CONFIG_PCIE_CADENCE_PLAT=y
+>>> # CONFIG_PCIE_CADENCE_PLAT_HOST is not set
+>>> CONFIG_PCIE_CADENCE_PLAT_EP=y
+>>> CONFIG_PCIE_SG2042_HOST=m
+>>> CONFIG_PCI_J721E=y
+>>> # CONFIG_PCI_J721E_HOST is not set
+>>> CONFIG_PCI_J721E_EP=y
+>>>
+>>> PCI_J721E selects PCIE_CADENCE_HOST only if PCI_J721E_HOST is selected,
+>>> otherwise, it will not select it. This will take care of the dependency between
+>>> PCI_J721E and PCIE_CADENCE_{HOST/EP}.
+>>>
+>>> But if PCIE_CADENCE_HOST is selected as a module by other drivers like,
+>>> CONFIG_PCIE_SG2042_HOST=m, then if PCI_J721E is selected as a built-in using
+>>> CONFIG_PCI_J721E_EP=y, it results in this build error as the built-in driver
+>>> becomes dependent on a symbol from a loadable module.
+>>
+>> While I don't deny the build error associated with the above config, it is
+>> an invalid config in the sense that the Glue drivers for two different
+>> devices are being enabled. This seems to be a generic issue wherein
+>> multiple drivers tend to depend on a library/common driver. How is it
+>> handled in such cases?
+> 
+> AFAIK, the common library should be built-in to avoid issues like this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511112256.k3RvmZ7Q-lkp@intel.com/
+Ok. If that is the usual approach then I have no objections to it.
 
-All warnings (new ones prefixed by >>):
+> 
+>> Is there a notion of reordering configs to ensure that such build errors
+>> are avoided?
+>>
+>> If PCI_J721E_EP was selected as 'y' before 'PCI_SG2042_HOST' being selected
+>> as 'm', it would have resulted in 'PCIE_CADENCE_EP' being selected as 'y'
+>> and this won't cause a build error even with 'PCI_SG2042_HOST' selected as
+>> 'm'.
+>>
+>>>
+>>> I guess, we should force PCIE_CADENCE_{HOST/EP} to be 'bool' as it is getting
+>>> selected by multiple drivers.
+>>
+>> This will defeat the purpose of the series that enabled loadable module
+>> support for the pci-j721e.c driver and the pcie-cadence-host/ep.c drivers.
+>>
+> 
+> Your 'pci-j721e.c' can still be a loadable module, only the common library will
+> be built-in, which is not that bad.
 
->> kernel/cgroup/cpuset.c:4339:13: warning: variable 'allowed' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    4339 |         } else if (node_isset(node, current->mems_default))
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/nodemask.h:149:36: note: expanded from macro 'node_isset'
-     149 | #define node_isset(node, nodemask) test_bit((node), (nodemask).bits)
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:60:29: note: expanded from macro 'test_bit'
-      60 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:43:2: note: expanded from macro 'bitop'
-      43 |         ((__builtin_constant_p(nr) &&                                   \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      44 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
-         |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      45 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
-         |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      46 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      47 |          const##op(nr, addr) : op(nr, addr))
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/cgroup/cpuset.c:4342:6: note: uninitialized use occurs here
-    4342 |         if (allowed)
-         |             ^~~~~~~
-   kernel/cgroup/cpuset.c:4339:9: note: remove the 'if' if its condition is always true
-    4339 |         } else if (node_isset(node, current->mems_default))
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    4340 |                 allowed = true;
-   kernel/cgroup/cpuset.c:4327:14: note: initialize the variable 'allowed' to silence this warning
-    4327 |         bool allowed;                   /* is allocation in zone z allowed? */
-         |                     ^
-         |                      = 0
-   1 warning generated.
+Yes, this will work.
 
+Please let me know if you want me to post the patch to update 
+CONFIG_PCIE_CADENCE_{EP/HOST} to a bool.
 
-vim +4339 kernel/cgroup/cpuset.c
-
-  4282	
-  4283	/*
-  4284	 * cpuset_current_node_allowed - Can current task allocate on a memory node?
-  4285	 * @node: is this an allowed node?
-  4286	 * @gfp_mask: memory allocation flags
-  4287	 *
-  4288	 * If we're in interrupt, yes, we can always allocate.  If @node is set in
-  4289	 * current's mems_default, yes.  If it's not a __GFP_HARDWALL request and this
-  4290	 * node is set in the nearest hardwalled cpuset ancestor to current's cpuset,
-  4291	 * yes.  If current has access to memory reserves as an oom victim, yes.
-  4292	 * Otherwise, no.
-  4293	 *
-  4294	 * GFP_USER allocations are marked with the __GFP_HARDWALL bit,
-  4295	 * and do not allow allocations outside the current tasks cpuset
-  4296	 * unless the task has been OOM killed.
-  4297	 * GFP_KERNEL allocations are not so marked, so can escape to the
-  4298	 * nearest enclosing hardwalled ancestor cpuset.
-  4299	 *
-  4300	 * Scanning up parent cpusets requires callback_lock.  The
-  4301	 * __alloc_pages() routine only calls here with __GFP_HARDWALL bit
-  4302	 * _not_ set if it's a GFP_KERNEL allocation, and all nodes in the
-  4303	 * current tasks mems_default came up empty on the first pass over
-  4304	 * the zonelist.  So only GFP_KERNEL allocations, if all nodes in the
-  4305	 * cpuset are short of memory, might require taking the callback_lock.
-  4306	 *
-  4307	 * The first call here from mm/page_alloc:get_page_from_freelist()
-  4308	 * has __GFP_HARDWALL set in gfp_mask, enforcing hardwall cpusets,
-  4309	 * so no allocation on a node outside the cpuset is allowed (unless
-  4310	 * in interrupt, of course).
-  4311	 *
-  4312	 * The second pass through get_page_from_freelist() doesn't even call
-  4313	 * here for GFP_ATOMIC calls.  For those calls, the __alloc_pages()
-  4314	 * variable 'wait' is not set, and the bit ALLOC_CPUSET is not set
-  4315	 * in alloc_flags.  That logic and the checks below have the combined
-  4316	 * affect that:
-  4317	 *	in_interrupt - any node ok (current task context irrelevant)
-  4318	 *	GFP_ATOMIC   - any node ok
-  4319	 *	tsk_is_oom_victim   - any node ok
-  4320	 *	GFP_KERNEL   - any node in enclosing hardwalled cpuset ok
-  4321	 *	GFP_USER     - only nodes in current tasks mems allowed ok.
-  4322	 *	GFP_PROTECTED - allow non-sysram nodes in mems_allowed
-  4323	 */
-  4324	bool cpuset_current_node_allowed(int node, gfp_t gfp_mask)
-  4325	{
-  4326		struct cpuset *cs;		/* current cpuset ancestors */
-  4327		bool allowed;			/* is allocation in zone z allowed? */
-  4328		unsigned long flags;
-  4329		bool protected_node = gfp_mask & __GFP_PROTECTED;
-  4330	
-  4331		if (in_interrupt())
-  4332			return true;
-  4333	
-  4334		if (protected_node) {
-  4335			rcu_read_lock();
-  4336			cs = task_cs(current);
-  4337			allowed = node_isset(node, cs->mems_allowed);
-  4338			rcu_read_unlock();
-> 4339		} else if (node_isset(node, current->mems_default))
-  4340			allowed = true;
-  4341	
-  4342		if (allowed)
-  4343			return allowed;
-  4344	
-  4345		/*
-  4346		 * Allow tasks that have access to memory reserves because they have
-  4347		 * been OOM killed to get memory anywhere.
-  4348		 */
-  4349		if (unlikely(tsk_is_oom_victim(current)))
-  4350			return true;
-  4351		if (gfp_mask & __GFP_HARDWALL)	/* If hardwall request, stop here */
-  4352			return false;
-  4353	
-  4354		if (current->flags & PF_EXITING) /* Let dying task have memory */
-  4355			return true;
-  4356	
-  4357		/* Not hardwall and node outside mems_allowed: scan up cpusets */
-  4358		spin_lock_irqsave(&callback_lock, flags);
-  4359	
-  4360		cs = nearest_hardwall_ancestor(task_cs(current));
-  4361		allowed = node_isset(node, cs->mems_allowed); /* include protected */
-  4362		if (!protected_node && !nodes_empty(mt_sysram_nodelist))
-  4363			allowed &= node_isset(node, mt_sysram_nodelist);
-  4364	
-  4365		spin_unlock_irqrestore(&callback_lock, flags);
-  4366		return allowed;
-  4367	}
-  4368	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Siddharth.
