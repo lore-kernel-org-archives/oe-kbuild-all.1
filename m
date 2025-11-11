@@ -1,61 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B9B19CD05
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Nov 2025 23:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4E3223DEA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 00:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762815656; cv=none; b=OfqTtGpW6K494v5QUm1yBo1mNsxFI0LGZXAIkJR3sxd1T+iUImhBi9LxrJWu2baMH2QDuEEvFJliWlyDvX623T1kWWw1i5RomkyT2foy5unAEut6oIdxwXzbHf1QVHaMw6h1WisJLUhuekdmVblMIE+g95M5v17APmP9vdyFFzI=
+	t=1762821244; cv=none; b=rjprKpRluFChT29YnbG1h5/m3trSgQynhYIpJLKBVEA5HqMj4Kxb100lhJd5kmYiB47LiiM3waWXXNWeAgQjQ5gCgtcKyuttensQpQcbX2sSjK7wCzjZ0j0sc95V0Hd9Drw395Sgk/D0xk7z1R2i9i6vfk2eka20/3oz8p4/v1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762815656; c=relaxed/simple;
-	bh=AsQ4Qh6rl8oV34QDJugDwweMhSxWKlo7A+X44Wrrjj0=;
+	s=arc-20240116; t=1762821244; c=relaxed/simple;
+	bh=Fx0F0tHtVLMPjcDZqQ4KgWyb6mJqxzHSo8zWixTRLtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fwYqqllCeN9jdqMlAd9b+cW4pBHeQE/v3s7BsS/kYpyqVREGTYZOStYrUreEYlMO4qHvAKuMN+q3bw7/Y6pKVv5doAjiKZkqoeHIlZHdWryIJX4iokMR7nC1oYjoIHY5wgChnfcIEvz6wC/W/4ofULvkkjLuGeOrdhnQTtwx/48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4JtkwbL; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=PEcjtfT8YTOc+B7LYaJl2W/rs82BIjvr6EtlM7Wf6Mxy4ejdQDUpEy9sQq3ph90aREMZoLFzagx9AwtKLfdetr4STI7e8VECcwnZlJAfLmYqd75ookCjDrLn7bQDnivAKq2mz7JAx5i4D9m9wJE/hhBdF735zzJdsSV2Tbj6DLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mb38Ta0u; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4JtkwbL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mb38Ta0u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762815654; x=1794351654;
+  t=1762821242; x=1794357242;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AsQ4Qh6rl8oV34QDJugDwweMhSxWKlo7A+X44Wrrjj0=;
-  b=R4JtkwbLYdp5Pn3HCfdzJjrZIikRpQx7GuXyV73X0z9WlJSSj31/xzjs
-   AK1ix+IwuaawDqLXkXrI9VUoUO8Wk325bVPmsWzitFdwKg8OHrxQv/AG1
-   1sgOSKBksEqRWScSDMC2qrSfFkXX2xb5b3wE+iRVuHnrAINmAvz4ZNgAu
-   APGWfh8fVktoH/my5mePWE9odUIf46B+a7xRQlA1OI6+7p2xc/cRpsmxF
-   gWBW28WfNNbd58lx26RGS6YY8/07/JpEoYUYSTupEk1lH59AB7r2co+dN
-   HaAL8BV5WClm62qNymVFfc4mu0vV8IeenrfQa3+lak/iITqPoxa0dYK5u
-   w==;
-X-CSE-ConnectionGUID: mOHSDL13TCixaLYtzWMx1g==
-X-CSE-MsgGUID: EzRae4K4RmWfxi/ipMWuTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82500224"
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="82500224"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 15:00:53 -0800
-X-CSE-ConnectionGUID: S2yKOcW3T7+i96IMJphQdw==
-X-CSE-MsgGUID: sNA4+7HBQ2yHKYX/MHuplg==
+  bh=Fx0F0tHtVLMPjcDZqQ4KgWyb6mJqxzHSo8zWixTRLtg=;
+  b=Mb38Ta0uu7OYt4Xe0W7HPGTy9+El4AjLVLYyHtrP2LShaj/sLfSOZczL
+   uskpQ/Vy5KUr0Fk64oUoJWMtAXrlmyFGq9X9u0SqsqOJufSuUmBuxkGUq
+   kTnLNnGo0PryFx36K3mMojbHcj16WQTGXfJwAxKlxza3XUbRZwU4pzSuP
+   xbpUqzndUiGOD7XA120u/Qdj+e72jUt8sEt5gzY7m42MnMsrRpw4sFtOn
+   t9KG9geSEvJ5AL+fWoXxs4bcsEIBB+FeYv3aGtVHN5oo0QySOSunqqTWY
+   51/zZEMaUx2l18eSmXblI4ckv5rxT5WoP0AQXw5FlXfUhpJ+ADWoBOQyv
+   A==;
+X-CSE-ConnectionGUID: aTPT2X9NTsqRf3VpRwN6Sg==
+X-CSE-MsgGUID: fIBhhWgwQBecgy3RXS3qcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64810368"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64810368"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 16:34:02 -0800
+X-CSE-ConnectionGUID: SwqVPE8tSKyx+iSwJMT7ow==
+X-CSE-MsgGUID: nzZaepNwQHGqDVVpAEXOJw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="219451783"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 15:00:51 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 10 Nov 2025 16:33:59 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIasS-00017T-1m;
-	Mon, 10 Nov 2025 23:00:48 +0000
-Date: Tue, 11 Nov 2025 07:00:40 +0800
+	id 1vIcKa-0001A8-2O;
+	Tue, 11 Nov 2025 00:33:56 +0000
+Date: Tue, 11 Nov 2025 08:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, Takashi Iwai <tiwai@suse.de>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>
-Subject: include/asm-generic/io.h:542:14: error: call to '_inb' declared with
- attribute error: inb()) requires CONFIG_HAS_IOPORT
-Message-ID: <202511110659.0E0b38nM-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/bugs 12/12] arch/x86/kernel/static_call.c:77:30:
+ error: '__WARN_trap' undeclared
+Message-ID: <202511110846.4i2IRYj2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,620 +60,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Niklas,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4ea7c1717f3f2344f7a1cdab4f5875cfa89c87a9
-commit: 6f043e75744596968b6547c4bd43e4d30bbb6d6e asm-generic/io.h: Remove I/O port accessors for HAS_IOPORT=n
-date:   1 year ago
-config: m68k-randconfig-r054-20251111 (https://download.01.org/0day-ci/archive/20251111/202511110659.0E0b38nM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110659.0E0b38nM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/bugs
+head:   ab2670d0a3af9012cda95e696875f0f5baf98564
+commit: 73b86a81cd36da4764a01bf51b2a40bb166baaa4 [12/12] x86_64/bug: Inline the UD1
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251111/202511110846.4i2IRYj2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110846.4i2IRYj2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110659.0E0b38nM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110846.4i2IRYj2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/io.h:14,
-                    from arch/m68k/include/asm/pgtable_no.h:14,
-                    from arch/m68k/include/asm/pgtable.h:8,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from arch/m68k/include/asm/cacheflush_no.h:8,
-                    from arch/m68k/include/asm/cacheflush.h:3,
-                    from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from drivers/net/ethernet/8390/mcf8390.c:15:
-   drivers/net/ethernet/8390/lib8390.c: In function '__ei_get_stats':
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:868:33: note: in expansion of macro 'ei_inb_p'
-     dev->stats.rx_frame_errors  += ei_inb_p(ioaddr + EN0_COUNTER0);
-                                    ^~~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:869:33: note: in expansion of macro 'ei_inb_p'
-     dev->stats.rx_crc_errors    += ei_inb_p(ioaddr + EN0_COUNTER1);
-                                    ^~~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:870:33: note: in expansion of macro 'ei_inb_p'
-     dev->stats.rx_missed_errors += ei_inb_p(ioaddr + EN0_COUNTER2);
-                                    ^~~~~~~~
-   drivers/net/ethernet/8390/lib8390.c: In function 'NS8390_trigger_send':
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1081:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(E8390_NODMA+E8390_PAGE0, e8390_base+E8390_CMD);
-     ^~~~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1083:6: note: in expansion of macro 'ei_inb_p'
-     if (ei_inb_p(e8390_base + E8390_CMD) & E8390_TRANS) {
-         ^~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1087:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(length & 0xff, e8390_base + EN0_TCNTLO);
-     ^~~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1088:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(length >> 8, e8390_base + EN0_TCNTHI);
-     ^~~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1089:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(start_page, e8390_base + EN0_TPSR);
-     ^~~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:1090:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(E8390_NODMA+E8390_TRANS+E8390_START, e8390_base+E8390_CMD);
-     ^~~~~~~~~
-   drivers/net/ethernet/8390/mcf8390.c: In function 'mcf8390_reset_8390':
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:157:10: note: in expansion of macro 'ei_inb'
-     ei_outb(ei_inb(addr + NE_RESET), addr + NE_RESET);
-             ^~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:157:2: note: in expansion of macro 'ei_outb'
-     ei_outb(ei_inb(addr + NE_RESET), addr + NE_RESET);
-     ^~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:163:10: note: in expansion of macro 'ei_inb'
-     while ((ei_inb(addr + NE_EN0_ISR) & ENISR_RESET) == 0) {
-             ^~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:170:2: note: in expansion of macro 'ei_outb'
-     ei_outb(ENISR_RESET, addr + NE_EN0_ISR);
-     ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c: In function '__ei_start_xmit':
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:325:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(0x00, e8390_base + EN0_IMR);
-     ^~~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:369:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(ENISR_ALL, e8390_base + EN0_IMR);
-      ^~~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:404:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(ENISR_ALL, e8390_base + EN0_IMR);
-     ^~~~~~~~~
-   drivers/net/ethernet/8390/lib8390.c: In function 'ei_receive':
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:673:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(E8390_NODMA+E8390_PAGE1, e8390_base + E8390_CMD);
-      ^~~~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:674:16: note: in expansion of macro 'ei_inb_p'
-      rxing_page = ei_inb_p(e8390_base + EN1_CURPAG);
-                   ^~~~~~~~
->> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:675:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(E8390_NODMA+E8390_PAGE0, e8390_base + E8390_CMD);
-      ^~~~~~~~~
->> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
-    #define _inb _inb
-   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
-    #define inb _inb
-                ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:131:17: note: in expansion of macro 'inb'
-    #define ei_inb  inb
-                    ^~~
-   drivers/net/ethernet/8390/mcf8390.c:140:18: note: in expansion of macro 'ei_inb'
-    #define ei_inb_p ei_inb
-                     ^~~~~~
-   drivers/net/ethernet/8390/lib8390.c:678:16: note: in expansion of macro 'ei_inb_p'
-      this_frame = ei_inb_p(e8390_base + EN0_BOUNDARY) + 1;
-                   ^~~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/lib8390.c:714:4: note: in expansion of macro 'ei_outb'
-       ei_outb(ei_local->current_page-1, e8390_base+EN0_BOUNDARY);
-       ^~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:767:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(next_frame-1, e8390_base+EN0_BOUNDARY);
-      ^~~~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:772:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(ENISR_RX+ENISR_RX_ERR, e8390_base+EN0_ISR);
-     ^~~~~~~~~
-   drivers/net/ethernet/8390/lib8390.c: In function 'do_set_multicast_list':
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:930:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(E8390_RXCONFIG, e8390_base + EN0_RXCR);
-      ^~~~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:931:2: note: in expansion of macro 'ei_outb_p'
-     ei_outb_p(E8390_NODMA + E8390_PAGE1, e8390_base + E8390_CMD);
-     ^~~~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
-   drivers/net/ethernet/8390/mcf8390.c:132:18: note: in expansion of macro 'outb'
-    #define ei_outb  outb
-                     ^~~~
-   drivers/net/ethernet/8390/mcf8390.c:141:19: note: in expansion of macro 'ei_outb'
-    #define ei_outb_p ei_outb
-                      ^~~~~~~
-   drivers/net/ethernet/8390/lib8390.c:933:3: note: in expansion of macro 'ei_outb_p'
-      ei_outb_p(ei_local->mcfilter[i], e8390_base + EN1_MULT_SHIFT(i));
-      ^~~~~~~~~
-   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-    #define _outb _outb
-   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
-    #define outb _outb
-                 ^~~~~
+   arch/x86/kernel/static_call.c: In function '__static_call_transform':
+>> arch/x86/kernel/static_call.c:77:30: error: '__WARN_trap' undeclared (first use in this function)
+      77 |                 if (func == &__WARN_trap) {
+         |                              ^~~~~~~~~~~
+   arch/x86/kernel/static_call.c:77:30: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/_inb +542 include/asm-generic/io.h
+vim +/__WARN_trap +77 arch/x86/kernel/static_call.c
 
-3f7e212df82ca0 Arnd Bergmann   2009-05-13  534  
-9216efafc52ff9 Thierry Reding  2014-10-01  535  /*
-9216efafc52ff9 Thierry Reding  2014-10-01  536   * {in,out}{b,w,l}() access little endian I/O. {in,out}{b,w,l}_p() can be
-9216efafc52ff9 Thierry Reding  2014-10-01  537   * implemented on hardware that needs an additional delay for I/O accesses to
-9216efafc52ff9 Thierry Reding  2014-10-01  538   * take effect.
-9216efafc52ff9 Thierry Reding  2014-10-01  539   */
-9216efafc52ff9 Thierry Reding  2014-10-01  540  
-f009c89df79abe John Garry      2020-03-28  541  #if !defined(inb) && !defined(_inb)
-f009c89df79abe John Garry      2020-03-28 @542  #define _inb _inb
-6f043e75744596 Niklas Schnelle 2024-10-24  543  #ifdef CONFIG_HAS_IOPORT
-214ba3584b2e2c Stafford Horne  2020-07-26  544  static inline u8 _inb(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  545  {
-87fe2d543f8173 Sinan Kaya      2018-04-05  546  	u8 val;
-87fe2d543f8173 Sinan Kaya      2018-04-05  547  
-87fe2d543f8173 Sinan Kaya      2018-04-05  548  	__io_pbr();
-87fe2d543f8173 Sinan Kaya      2018-04-05  549  	val = __raw_readb(PCI_IOBASE + addr);
-abbbbc83a210e9 Will Deacon     2019-02-22  550  	__io_par(val);
-87fe2d543f8173 Sinan Kaya      2018-04-05  551  	return val;
-9216efafc52ff9 Thierry Reding  2014-10-01  552  }
-6f043e75744596 Niklas Schnelle 2024-10-24  553  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  554  u8 _inb(unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  555  	__compiletime_error("inb()) requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  556  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  557  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  558  
-f009c89df79abe John Garry      2020-03-28  559  #if !defined(inw) && !defined(_inw)
-f009c89df79abe John Garry      2020-03-28  560  #define _inw _inw
-6f043e75744596 Niklas Schnelle 2024-10-24  561  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abe John Garry      2020-03-28  562  static inline u16 _inw(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  563  {
-87fe2d543f8173 Sinan Kaya      2018-04-05  564  	u16 val;
-87fe2d543f8173 Sinan Kaya      2018-04-05  565  
-87fe2d543f8173 Sinan Kaya      2018-04-05  566  	__io_pbr();
-c1d55d50139bea Stafford Horne  2020-07-29  567  	val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-abbbbc83a210e9 Will Deacon     2019-02-22  568  	__io_par(val);
-87fe2d543f8173 Sinan Kaya      2018-04-05  569  	return val;
-9216efafc52ff9 Thierry Reding  2014-10-01  570  }
-6f043e75744596 Niklas Schnelle 2024-10-24  571  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  572  u16 _inw(unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  573  	__compiletime_error("inw() requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  574  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  575  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  576  
-f009c89df79abe John Garry      2020-03-28  577  #if !defined(inl) && !defined(_inl)
-f009c89df79abe John Garry      2020-03-28  578  #define _inl _inl
-6f043e75744596 Niklas Schnelle 2024-10-24  579  #ifdef CONFIG_HAS_IOPORT
-214ba3584b2e2c Stafford Horne  2020-07-26  580  static inline u32 _inl(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  581  {
-87fe2d543f8173 Sinan Kaya      2018-04-05  582  	u32 val;
-87fe2d543f8173 Sinan Kaya      2018-04-05  583  
-87fe2d543f8173 Sinan Kaya      2018-04-05  584  	__io_pbr();
-c1d55d50139bea Stafford Horne  2020-07-29  585  	val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-abbbbc83a210e9 Will Deacon     2019-02-22  586  	__io_par(val);
-87fe2d543f8173 Sinan Kaya      2018-04-05  587  	return val;
-9216efafc52ff9 Thierry Reding  2014-10-01  588  }
-6f043e75744596 Niklas Schnelle 2024-10-24  589  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  590  u32 _inl(unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  591  	__compiletime_error("inl() requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  592  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  593  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  594  
-f009c89df79abe John Garry      2020-03-28  595  #if !defined(outb) && !defined(_outb)
-f009c89df79abe John Garry      2020-03-28 @596  #define _outb _outb
-6f043e75744596 Niklas Schnelle 2024-10-24  597  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abe John Garry      2020-03-28  598  static inline void _outb(u8 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  599  {
-a7851aa54c0cdd Sinan Kaya      2018-04-05  600  	__io_pbw();
-a7851aa54c0cdd Sinan Kaya      2018-04-05  601  	__raw_writeb(value, PCI_IOBASE + addr);
-a7851aa54c0cdd Sinan Kaya      2018-04-05  602  	__io_paw();
-9216efafc52ff9 Thierry Reding  2014-10-01  603  }
-6f043e75744596 Niklas Schnelle 2024-10-24  604  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  605  void _outb(u8 value, unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  606  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  607  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  608  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  609  
-f009c89df79abe John Garry      2020-03-28  610  #if !defined(outw) && !defined(_outw)
-f009c89df79abe John Garry      2020-03-28  611  #define _outw _outw
-6f043e75744596 Niklas Schnelle 2024-10-24  612  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abe John Garry      2020-03-28  613  static inline void _outw(u16 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  614  {
-a7851aa54c0cdd Sinan Kaya      2018-04-05  615  	__io_pbw();
-c1d55d50139bea Stafford Horne  2020-07-29  616  	__raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-a7851aa54c0cdd Sinan Kaya      2018-04-05  617  	__io_paw();
-9216efafc52ff9 Thierry Reding  2014-10-01  618  }
-6f043e75744596 Niklas Schnelle 2024-10-24  619  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  620  void _outw(u16 value, unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  621  	__compiletime_error("outw() requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  622  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  623  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  624  
-f009c89df79abe John Garry      2020-03-28  625  #if !defined(outl) && !defined(_outl)
-f009c89df79abe John Garry      2020-03-28  626  #define _outl _outl
-6f043e75744596 Niklas Schnelle 2024-10-24  627  #ifdef CONFIG_HAS_IOPORT
-f009c89df79abe John Garry      2020-03-28  628  static inline void _outl(u32 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  629  {
-a7851aa54c0cdd Sinan Kaya      2018-04-05  630  	__io_pbw();
-c1d55d50139bea Stafford Horne  2020-07-29  631  	__raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-a7851aa54c0cdd Sinan Kaya      2018-04-05  632  	__io_paw();
-9216efafc52ff9 Thierry Reding  2014-10-01  633  }
-6f043e75744596 Niklas Schnelle 2024-10-24  634  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  635  void _outl(u32 value, unsigned long addr)
-6f043e75744596 Niklas Schnelle 2024-10-24  636  	__compiletime_error("outl() requires CONFIG_HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  637  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  638  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  639  
-f009c89df79abe John Garry      2020-03-28  640  #include <linux/logic_pio.h>
-f009c89df79abe John Garry      2020-03-28  641  
-f009c89df79abe John Garry      2020-03-28  642  #ifndef inb
-f009c89df79abe John Garry      2020-03-28  643  #define inb _inb
-f009c89df79abe John Garry      2020-03-28  644  #endif
-f009c89df79abe John Garry      2020-03-28  645  
-f009c89df79abe John Garry      2020-03-28  646  #ifndef inw
-f009c89df79abe John Garry      2020-03-28  647  #define inw _inw
-f009c89df79abe John Garry      2020-03-28  648  #endif
-f009c89df79abe John Garry      2020-03-28  649  
-f009c89df79abe John Garry      2020-03-28  650  #ifndef inl
-f009c89df79abe John Garry      2020-03-28  651  #define inl _inl
-f009c89df79abe John Garry      2020-03-28  652  #endif
-f009c89df79abe John Garry      2020-03-28  653  
-f009c89df79abe John Garry      2020-03-28  654  #ifndef outb
-f009c89df79abe John Garry      2020-03-28  655  #define outb _outb
-f009c89df79abe John Garry      2020-03-28  656  #endif
-f009c89df79abe John Garry      2020-03-28  657  
-f009c89df79abe John Garry      2020-03-28  658  #ifndef outw
-f009c89df79abe John Garry      2020-03-28  659  #define outw _outw
-f009c89df79abe John Garry      2020-03-28  660  #endif
-f009c89df79abe John Garry      2020-03-28  661  
-f009c89df79abe John Garry      2020-03-28  662  #ifndef outl
-f009c89df79abe John Garry      2020-03-28  663  #define outl _outl
-f009c89df79abe John Garry      2020-03-28  664  #endif
-f009c89df79abe John Garry      2020-03-28  665  
-9216efafc52ff9 Thierry Reding  2014-10-01  666  #ifndef inb_p
-9216efafc52ff9 Thierry Reding  2014-10-01  667  #define inb_p inb_p
-9216efafc52ff9 Thierry Reding  2014-10-01  668  static inline u8 inb_p(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  669  {
-9216efafc52ff9 Thierry Reding  2014-10-01  670  	return inb(addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  671  }
-9216efafc52ff9 Thierry Reding  2014-10-01  672  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  673  
-9216efafc52ff9 Thierry Reding  2014-10-01  674  #ifndef inw_p
-9216efafc52ff9 Thierry Reding  2014-10-01  675  #define inw_p inw_p
-9216efafc52ff9 Thierry Reding  2014-10-01  676  static inline u16 inw_p(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  677  {
-9216efafc52ff9 Thierry Reding  2014-10-01  678  	return inw(addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  679  }
-9216efafc52ff9 Thierry Reding  2014-10-01  680  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  681  
-9216efafc52ff9 Thierry Reding  2014-10-01  682  #ifndef inl_p
-9216efafc52ff9 Thierry Reding  2014-10-01  683  #define inl_p inl_p
-9216efafc52ff9 Thierry Reding  2014-10-01  684  static inline u32 inl_p(unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  685  {
-9216efafc52ff9 Thierry Reding  2014-10-01  686  	return inl(addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  687  }
-9216efafc52ff9 Thierry Reding  2014-10-01  688  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  689  
-9216efafc52ff9 Thierry Reding  2014-10-01  690  #ifndef outb_p
-9216efafc52ff9 Thierry Reding  2014-10-01  691  #define outb_p outb_p
-9216efafc52ff9 Thierry Reding  2014-10-01  692  static inline void outb_p(u8 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  693  {
-9216efafc52ff9 Thierry Reding  2014-10-01  694  	outb(value, addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  695  }
-9216efafc52ff9 Thierry Reding  2014-10-01  696  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  697  
-9216efafc52ff9 Thierry Reding  2014-10-01  698  #ifndef outw_p
-9216efafc52ff9 Thierry Reding  2014-10-01  699  #define outw_p outw_p
-9216efafc52ff9 Thierry Reding  2014-10-01  700  static inline void outw_p(u16 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  701  {
-9216efafc52ff9 Thierry Reding  2014-10-01  702  	outw(value, addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  703  }
-9216efafc52ff9 Thierry Reding  2014-10-01  704  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  705  
-9216efafc52ff9 Thierry Reding  2014-10-01  706  #ifndef outl_p
-9216efafc52ff9 Thierry Reding  2014-10-01  707  #define outl_p outl_p
-9216efafc52ff9 Thierry Reding  2014-10-01  708  static inline void outl_p(u32 value, unsigned long addr)
-9216efafc52ff9 Thierry Reding  2014-10-01  709  {
-9216efafc52ff9 Thierry Reding  2014-10-01  710  	outl(value, addr);
-9216efafc52ff9 Thierry Reding  2014-10-01  711  }
-9216efafc52ff9 Thierry Reding  2014-10-01  712  #endif
-9216efafc52ff9 Thierry Reding  2014-10-01  713  
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  714  /*
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  715   * {in,out}s{b,w,l}{,_p}() are variants of the above that repeatedly access a
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  716   * single I/O port multiple times.
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  717   */
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  718  
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  719  #ifndef insb
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  720  #define insb insb
-6f043e75744596 Niklas Schnelle 2024-10-24  721  #ifdef CONFIG_HAS_IOPORT
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  722  static inline void insb(unsigned long addr, void *buffer, unsigned int count)
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  723  {
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  724  	readsb(PCI_IOBASE + addr, buffer, count);
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  725  }
-6f043e75744596 Niklas Schnelle 2024-10-24  726  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  727  void insb(unsigned long addr, void *buffer, unsigned int count)
-6f043e75744596 Niklas Schnelle 2024-10-24  728  	__compiletime_error("insb() requires HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  729  #endif
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  730  #endif
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  731  
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  732  #ifndef insw
-9ab3a7a0d2b417 Thierry Reding  2014-07-04 @733  #define insw insw
-6f043e75744596 Niklas Schnelle 2024-10-24  734  #ifdef CONFIG_HAS_IOPORT
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  735  static inline void insw(unsigned long addr, void *buffer, unsigned int count)
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  736  {
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  737  	readsw(PCI_IOBASE + addr, buffer, count);
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  738  }
-6f043e75744596 Niklas Schnelle 2024-10-24  739  #else
-6f043e75744596 Niklas Schnelle 2024-10-24  740  void insw(unsigned long addr, void *buffer, unsigned int count)
-6f043e75744596 Niklas Schnelle 2024-10-24  741  	__compiletime_error("insw() requires HAS_IOPORT");
-6f043e75744596 Niklas Schnelle 2024-10-24  742  #endif
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  743  #endif
-9ab3a7a0d2b417 Thierry Reding  2014-07-04  744  
-
-:::::: The code at line 542 was first introduced by commit
-:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
-
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Wei Xu <xuwei5@hisilicon.com>
+    48	
+    49	asm (".global __static_call_return\n\t"
+    50	     ".type __static_call_return, @function\n\t"
+    51	     ASM_FUNC_ALIGN "\n\t"
+    52	     "__static_call_return:\n\t"
+    53	     ANNOTATE_NOENDBR
+    54	     ANNOTATE_RETPOLINE_SAFE
+    55	     "ret; int3\n\t"
+    56	     ".size __static_call_return, . - __static_call_return \n\t");
+    57	
+    58	static void __ref __static_call_transform(void *insn, enum insn_type type,
+    59						  void *func, bool modinit)
+    60	{
+    61		const void *emulate = NULL;
+    62		int size = CALL_INSN_SIZE;
+    63		const void *code;
+    64		u8 op, buf[6];
+    65	
+    66		if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
+    67			type = JCC;
+    68	
+    69		switch (type) {
+    70		case CALL:
+    71			func = callthunks_translate_call_dest(func);
+    72			code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
+    73			if (func == &__static_call_return0) {
+    74				emulate = code;
+    75				code = &xor5rax;
+    76			}
+  > 77			if (func == &__WARN_trap) {
+    78				emulate = code;
+    79				code = &warninsn;
+    80			}
+    81			break;
+    82	
+    83		case NOP:
+    84			code = x86_nops[5];
+    85			break;
+    86	
+    87		case JMP:
+    88			code = text_gen_insn(JMP32_INSN_OPCODE, insn, func);
+    89			break;
+    90	
+    91		case RET:
+    92			if (cpu_wants_rethunk_at(insn))
+    93				code = text_gen_insn(JMP32_INSN_OPCODE, insn, x86_return_thunk);
+    94			else
+    95				code = &retinsn;
+    96			break;
+    97	
+    98		case JCC:
+    99			if (!func) {
+   100				func = __static_call_return;
+   101				if (cpu_wants_rethunk())
+   102					func = x86_return_thunk;
+   103			}
+   104	
+   105			buf[0] = 0x0f;
+   106			__text_gen_insn(buf+1, op, insn+1, func, 5);
+   107			code = buf;
+   108			size = 6;
+   109	
+   110			break;
+   111		}
+   112	
+   113		if (memcmp(insn, code, size) == 0)
+   114			return;
+   115	
+   116		if (system_state == SYSTEM_BOOTING || modinit)
+   117			return text_poke_early(insn, code, size);
+   118	
+   119		smp_text_poke_single(insn, code, size, emulate);
+   120	}
+   121	
 
 -- 
 0-DAY CI Kernel Test Service
