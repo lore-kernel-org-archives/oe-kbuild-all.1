@@ -1,56 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4E3223DEA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A523D22424C
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 00:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762821244; cv=none; b=rjprKpRluFChT29YnbG1h5/m3trSgQynhYIpJLKBVEA5HqMj4Kxb100lhJd5kmYiB47LiiM3waWXXNWeAgQjQ5gCgtcKyuttensQpQcbX2sSjK7wCzjZ0j0sc95V0Hd9Drw395Sgk/D0xk7z1R2i9i6vfk2eka20/3oz8p4/v1E=
+	t=1762821244; cv=none; b=gWPJGZaJ51zTLL89VX1XicCGfzsJg/OTn0+KtjGTAe3nrmrub8alu5QCjXz9DmTLVuIXXV+5doSt5T+R4DJfNYPUJh2LtEVOlnIKk7B/wsgqhjzxKlcARD59IcEf1Q05TInz0WVxY8rqqKqxwKqpfiSw6bKlh87XMrWDjV98Rlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762821244; c=relaxed/simple;
-	bh=Fx0F0tHtVLMPjcDZqQ4KgWyb6mJqxzHSo8zWixTRLtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PEcjtfT8YTOc+B7LYaJl2W/rs82BIjvr6EtlM7Wf6Mxy4ejdQDUpEy9sQq3ph90aREMZoLFzagx9AwtKLfdetr4STI7e8VECcwnZlJAfLmYqd75ookCjDrLn7bQDnivAKq2mz7JAx5i4D9m9wJE/hhBdF735zzJdsSV2Tbj6DLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mb38Ta0u; arc=none smtp.client-ip=198.175.65.17
+	bh=FN4CweFd1C3K2bDEXrQI2FrcndJARFnGCMf20zgvu1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dem+I2syNVg3fZHR8rleei11g7N6djNCbK+b7FLqBKO4LMKAkm5AP3grMD5e4D70sAV6NNTsdTbkncVyzPSAkB8cV2NYYntUzCsue544N1qFM2qco8NfmFe8sTMYbk5yVZbeW2jNBYz2cU3zbeSA2jzlhmlYb1U1I9qHj9TbN/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9FX4d3j; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mb38Ta0u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9FX4d3j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762821242; x=1794357242;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fx0F0tHtVLMPjcDZqQ4KgWyb6mJqxzHSo8zWixTRLtg=;
-  b=Mb38Ta0uu7OYt4Xe0W7HPGTy9+El4AjLVLYyHtrP2LShaj/sLfSOZczL
-   uskpQ/Vy5KUr0Fk64oUoJWMtAXrlmyFGq9X9u0SqsqOJufSuUmBuxkGUq
-   kTnLNnGo0PryFx36K3mMojbHcj16WQTGXfJwAxKlxza3XUbRZwU4pzSuP
-   xbpUqzndUiGOD7XA120u/Qdj+e72jUt8sEt5gzY7m42MnMsrRpw4sFtOn
-   t9KG9geSEvJ5AL+fWoXxs4bcsEIBB+FeYv3aGtVHN5oo0QySOSunqqTWY
-   51/zZEMaUx2l18eSmXblI4ckv5rxT5WoP0AQXw5FlXfUhpJ+ADWoBOQyv
-   A==;
-X-CSE-ConnectionGUID: aTPT2X9NTsqRf3VpRwN6Sg==
-X-CSE-MsgGUID: fIBhhWgwQBecgy3RXS3qcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64810368"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="64810368"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 16:34:02 -0800
-X-CSE-ConnectionGUID: SwqVPE8tSKyx+iSwJMT7ow==
-X-CSE-MsgGUID: nzZaepNwQHGqDVVpAEXOJw==
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FN4CweFd1C3K2bDEXrQI2FrcndJARFnGCMf20zgvu1Y=;
+  b=N9FX4d3j8bfY76J5jMxcVaXPPMpeVLD+PxVCmHKgDV1xWD386hafL9Ll
+   aVrLz2mD79zHrRg6BkTHt+NtE5dk3Kx2VA3FcWp+qU0+QqkxLYTyT+/3w
+   NL4Am7Vc7u2iXnfGsxBFEIvAo5ESCB683ujwEw1RsA5ZAh5x2yDVRSJf4
+   Zgu8lZU1pj1Lzzv6dXIPbAaYv3uHYnEOKy2tID3gdM71+kCzUazbXzX7x
+   uiP+l5FK67Yz1Zl8KoqTySzOVHoMv92JRAxbRYOvb4jxnbm39Iby8oO9V
+   jRDH6ao2NzCIBDtQyEKPowQpHlvmaz2ytd3MeKPEJsNO2BW9xkDRF5Uv0
+   Q==;
+X-CSE-ConnectionGUID: yFd3fwE0QPWDK++Ue0rfYQ==
+X-CSE-MsgGUID: Ul5FGZMLRl6jUjjDxY2EhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="64920148"
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="64920148"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 16:34:02 -0800
+X-CSE-ConnectionGUID: gia5D1ZLTXaavUo3tBquPQ==
+X-CSE-MsgGUID: R6VyaGQBT6+ndZWr6l0zkw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,295,1754982000"; 
+   d="scan'208";a="193069502"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Nov 2025 16:33:59 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2025 16:33:57 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIcKa-0001A8-2O;
+	id 1vIcKa-0001A3-24;
 	Tue, 11 Nov 2025 00:33:56 +0000
-Date: Tue, 11 Nov 2025 08:33:06 +0800
+Date: Tue, 11 Nov 2025 08:33:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/bugs 12/12] arch/x86/kernel/static_call.c:77:30:
- error: '__WARN_trap' undeclared
-Message-ID: <202511110846.4i2IRYj2-lkp@intel.com>
+To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrey.bokhanko@huawei.com,
+	Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next 07/14] ipvlan: Support IPv6 for learnable
+ l2-bridge
+Message-ID: <202511110823.oBrdGTfa-lkp@intel.com>
+References: <20251105161450.1730216-8-skorodumov.dmitry@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,104 +68,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251105161450.1730216-8-skorodumov.dmitry@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/bugs
-head:   ab2670d0a3af9012cda95e696875f0f5baf98564
-commit: 73b86a81cd36da4764a01bf51b2a40bb166baaa4 [12/12] x86_64/bug: Inline the UD1
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251111/202511110846.4i2IRYj2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110846.4i2IRYj2-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Skorodumov/ipvlan-Preparation-to-support-mac-nat/20251106-004449
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251105161450.1730216-8-skorodumov.dmitry%40huawei.com
+patch subject: [PATCH net-next 07/14] ipvlan: Support IPv6 for learnable l2-bridge
+config: um-randconfig-r123-20251110 (https://download.01.org/0day-ci/archive/20251111/202511110823.oBrdGTfa-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 93d445cba39f4dd3dcda4fa1433eca825cf8fc09)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511110823.oBrdGTfa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511110846.4i2IRYj2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511110823.oBrdGTfa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ipvlan/ipvlan_core.c:56:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __be32 const [usertype] s_addr @@
+   drivers/net/ipvlan/ipvlan_core.c:56:36: sparse:     expected unsigned int [usertype] a
+   drivers/net/ipvlan/ipvlan_core.c:56:36: sparse:     got restricted __be32 const [usertype] s_addr
+>> drivers/net/ipvlan/ipvlan_core.c:794:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] payload_len @@
+   drivers/net/ipvlan/ipvlan_core.c:794:23: sparse:     expected unsigned short [usertype] val
+   drivers/net/ipvlan/ipvlan_core.c:794:23: sparse:     got restricted __be16 [usertype] payload_len
+   drivers/net/ipvlan/ipvlan_core.c:794:23: sparse: sparse: cast from restricted __be16
+   drivers/net/ipvlan/ipvlan_core.c:794:23: sparse: sparse: cast from restricted __be16
+   drivers/net/ipvlan/ipvlan_core.c:794:19: sparse: sparse: cast from restricted __be16
+   drivers/net/ipvlan/ipvlan_core.c:854:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] payload_len @@
+   drivers/net/ipvlan/ipvlan_core.c:854:23: sparse:     expected unsigned short [usertype] val
+   drivers/net/ipvlan/ipvlan_core.c:854:23: sparse:     got restricted __be16 [usertype] payload_len
+   drivers/net/ipvlan/ipvlan_core.c:854:23: sparse: sparse: cast from restricted __be16
+   drivers/net/ipvlan/ipvlan_core.c:854:23: sparse: sparse: cast from restricted __be16
+   drivers/net/ipvlan/ipvlan_core.c:854:19: sparse: sparse: cast from restricted __be16
 
-   arch/x86/kernel/static_call.c: In function '__static_call_transform':
->> arch/x86/kernel/static_call.c:77:30: error: '__WARN_trap' undeclared (first use in this function)
-      77 |                 if (func == &__WARN_trap) {
-         |                              ^~~~~~~~~~~
-   arch/x86/kernel/static_call.c:77:30: note: each undeclared identifier is reported only once for each function it appears in
+vim +794 drivers/net/ipvlan/ipvlan_core.c
 
-
-vim +/__WARN_trap +77 arch/x86/kernel/static_call.c
-
-    48	
-    49	asm (".global __static_call_return\n\t"
-    50	     ".type __static_call_return, @function\n\t"
-    51	     ASM_FUNC_ALIGN "\n\t"
-    52	     "__static_call_return:\n\t"
-    53	     ANNOTATE_NOENDBR
-    54	     ANNOTATE_RETPOLINE_SAFE
-    55	     "ret; int3\n\t"
-    56	     ".size __static_call_return, . - __static_call_return \n\t");
-    57	
-    58	static void __ref __static_call_transform(void *insn, enum insn_type type,
-    59						  void *func, bool modinit)
-    60	{
-    61		const void *emulate = NULL;
-    62		int size = CALL_INSN_SIZE;
-    63		const void *code;
-    64		u8 op, buf[6];
-    65	
-    66		if ((type == JMP || type == RET) && (op = __is_Jcc(insn)))
-    67			type = JCC;
-    68	
-    69		switch (type) {
-    70		case CALL:
-    71			func = callthunks_translate_call_dest(func);
-    72			code = text_gen_insn(CALL_INSN_OPCODE, insn, func);
-    73			if (func == &__static_call_return0) {
-    74				emulate = code;
-    75				code = &xor5rax;
-    76			}
-  > 77			if (func == &__WARN_trap) {
-    78				emulate = code;
-    79				code = &warninsn;
-    80			}
-    81			break;
-    82	
-    83		case NOP:
-    84			code = x86_nops[5];
-    85			break;
-    86	
-    87		case JMP:
-    88			code = text_gen_insn(JMP32_INSN_OPCODE, insn, func);
-    89			break;
-    90	
-    91		case RET:
-    92			if (cpu_wants_rethunk_at(insn))
-    93				code = text_gen_insn(JMP32_INSN_OPCODE, insn, x86_return_thunk);
-    94			else
-    95				code = &retinsn;
-    96			break;
-    97	
-    98		case JCC:
-    99			if (!func) {
-   100				func = __static_call_return;
-   101				if (cpu_wants_rethunk())
-   102					func = x86_return_thunk;
-   103			}
-   104	
-   105			buf[0] = 0x0f;
-   106			__text_gen_insn(buf+1, op, insn+1, func, 5);
-   107			code = buf;
-   108			size = 6;
-   109	
-   110			break;
-   111		}
-   112	
-   113		if (memcmp(insn, code, size) == 0)
-   114			return;
-   115	
-   116		if (system_state == SYSTEM_BOOTING || modinit)
-   117			return text_poke_early(insn, code, size);
-   118	
-   119		smp_text_poke_single(insn, code, size, emulate);
-   120	}
-   121	
+   785	
+   786	static u8 *ipvlan_search_icmp6_ll_addr(struct sk_buff *skb, u8 icmp_option)
+   787	{
+   788		/* skb is ensured to pullable for all ipv6 payload_len by caller */
+   789		struct ipv6hdr *ip6h = ipv6_hdr(skb);
+   790		struct icmp6hdr *icmph;
+   791		int ndsize, curr_off;
+   792	
+   793		icmph = (struct icmp6hdr *)(ip6h + 1);
+ > 794		ndsize = (int)htons(ip6h->payload_len);
+   795		curr_off = sizeof(*icmph);
+   796	
+   797		if (icmph->icmp6_type != NDISC_ROUTER_SOLICITATION)
+   798			curr_off += sizeof(struct in6_addr);
+   799	
+   800		while ((curr_off + 2) < ndsize) {
+   801			u8  *data = (u8 *)icmph + curr_off;
+   802			u32 opt_len = data[1] << 3;
+   803	
+   804			if (unlikely(opt_len == 0))
+   805				return NULL;
+   806	
+   807			if (data[0] != icmp_option) {
+   808				curr_off += opt_len;
+   809				continue;
+   810			}
+   811	
+   812			if (unlikely(opt_len < ETH_ALEN + 2))
+   813				return NULL;
+   814	
+   815			if (unlikely(curr_off + opt_len > ndsize))
+   816				return NULL;
+   817	
+   818			return data + 2;
+   819		}
+   820	
+   821		return NULL;
+   822	}
+   823	
 
 -- 
 0-DAY CI Kernel Test Service
