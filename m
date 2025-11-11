@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DCC2EBBAF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Nov 2025 09:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1503370EA;
+	Tue, 11 Nov 2025 10:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762854017; cv=none; b=qgOlVDIC86cwBrkbpWESn3GQ5zVbmGTeulfU+90b0w+ClIejlxjonZUbxkhJImtiowEz9alMvx+EGbJYpaz4aBWpwvHV0spgU46fWV0of3awBNR7rKDKwwxvS6PQPvLKrqO1bE8gPj6FA71BbCnwPRBQT+o2y8Im2Oj2uKPXxLE=
+	t=1762855293; cv=none; b=EZyXCUBbIcMouRMes559ryWVq61TsjmAAww4aD/0KY13NsPx06MsrbmjvY2gDRhTkpy34W/OZF1VLEN3z3N9eTcXSM7YIf9rBHTO09BnDpewPMvMGnbueyZK/3SwpnnhXanrq4gBVrSgvTF6LDEjr2J2rHvRCyGhNXqVZco4yE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762854017; c=relaxed/simple;
-	bh=gkyet2fOmIY+c84M7Y0pHR/beTdJ9dlm36jlqkQQJu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QyIELHFOgEF9Rk4Ox5vg4BqIYE+qwrflOnXU5dizmJQ3vOKghO6WuCqdNHIudXtz0VG1sxor6emLg3/n4/HZM65WqvCKZUYfznAiVCUF6Tr24ZNoSJmrgjwAtA/JXwTQSMZoXpeoMzv4EwLnfo34pZaCVT8ygo103rrPT16Vsg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krNUSiRm; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1762855293; c=relaxed/simple;
+	bh=/TVqiTjU5KiiPK+xQ41EdIpWWk4P2nFDrGfU+Hsk/ko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GOKGiW0woyT427onlNqBedTXHxirxfpxfNYA95kLwWLzOIB3of0nhGuRamKIpqhOGQnoPDELaQAxA0agmKYudZZI6ngBZj3md2mCxeiZekBx5WqoXdV3ePZCCYj2/byR3x4PtmB3sur/QKEPEH2Xy6LoeAW0GgXu2d4OPumsT0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nf9DlrVh; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krNUSiRm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nf9DlrVh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762854016; x=1794390016;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gkyet2fOmIY+c84M7Y0pHR/beTdJ9dlm36jlqkQQJu4=;
-  b=krNUSiRmgSXj9q4MjqEIT7gVb4DDj/NCyZgTWSwHf78CMYDMlR57B4lK
-   44c1gLgjg1QvTACp5CIWytx2Q1bqi2K70ux0H9PE30jRGMtD4knBkvG0r
-   IfOKIA13SiCXOEXvC2pP6yGD41ZGZQNSqyELlkzwORv0oidI7JR37Hm8S
-   8+Z9ZL6FSCh6xdIhBvsyXXc6wqZRLCaWdWomAwLO+7/t02H3ia7P8SwB2
-   Dj3Qr7CHEBm5ayrBDl1nsIyjCdlqB1YpVUI/o5GkqebBlWkcOceYrD7Kl
-   k3wRzHey89Eq6KphtYElE1vBGx6MGdxqwz7HhrPvltuwOwEP50mJ5JUBl
-   A==;
-X-CSE-ConnectionGUID: lrSQZ2uIR9+gl1cQNtTasw==
-X-CSE-MsgGUID: pXV/FhRqSwi9uvMmmw2Qwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82309647"
+  t=1762855291; x=1794391291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/TVqiTjU5KiiPK+xQ41EdIpWWk4P2nFDrGfU+Hsk/ko=;
+  b=Nf9DlrVhfUMLESbUXzF2TE4cBh3sMq+t/RAwS01xOF4nT4n/qfdgPh/O
+   q5ik2w1CFYvgR+GWTw5sHPkIUvO5kT1kCdGNi3k0KU48bjm26r/ILK8Un
+   MpCXlyAWctI4T39wSMShDL/WKjDyECQIGt+W2pZ7nAD4yzyWsIQ+raR3p
+   vGhF8YszozMrYBjZO3Ypu0YbBvKf1Ftb+JpAc8oz9I28DrfGRoeVzC5l7
+   kjW1CGgkDpVf4UYTmKGG99468QlUTQqDeILbzGLAwzD0eCdQuFgr1op0x
+   FF91xXX6u5ohvRlCvn5kDylr4VYFetIXhyWCvCZ3GRHgBk+stuqhIzqT0
+   w==;
+X-CSE-ConnectionGUID: U6E6XUirRLqVrbNgHM/fcQ==
+X-CSE-MsgGUID: iOyEcFhjTHG+haEfnobviQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="68774963"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="82309647"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 01:40:15 -0800
-X-CSE-ConnectionGUID: 7hLsxHZsRui3nldgzDMIAQ==
-X-CSE-MsgGUID: QaI0jw54TeaCqMq8f3rrSg==
+   d="scan'208";a="68774963"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 02:01:18 -0800
+X-CSE-ConnectionGUID: vibqMbh2TW2rlDAMaG/KrA==
+X-CSE-MsgGUID: LteL762QT4esLeyhgjxfNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="193914805"
+   d="scan'208";a="193179539"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Nov 2025 01:40:13 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2025 02:01:16 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIkrD-00031F-1u;
-	Tue, 11 Nov 2025 09:40:11 +0000
-Date: Tue, 11 Nov 2025 17:39:36 +0800
+	id 1vIlBa-000323-18;
+	Tue, 11 Nov 2025 10:01:14 +0000
+Date: Tue, 11 Nov 2025 18:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [morimoto:renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk 15/29]
- drivers/media/platform/dreamchip/rppx1/rpp_params.c:14:13: error: implicit
- declaration of function 'WARN_ON'
-Message-ID: <202511111733.1PVwE4M3-lkp@intel.com>
+To: Niklas Neronin <niklas.neronin@linux.intel.com>,
+	mathias.nyman@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: Re: [PATCH 12/13] usb: xhci: standardize multi bit-field macros
+Message-ID: <202511111608.ytw8hqqD-lkp@intel.com>
+References: <20251110151450.635410-13-niklas.neronin@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +65,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251110151450.635410-13-niklas.neronin@linux.intel.com>
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk
-head:   14a3f460905b5d9be43ad2bab030625085a52423
-commit: deb53902b8777a75d24152d85dbfdec4f0e5cbab [15/29] media: rppx1: Add framework to support Dreamchip RPPX1 ISP
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251111/202511111733.1PVwE4M3-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111733.1PVwE4M3-lkp@intel.com/reproduce)
+Hi Niklas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus tegra/for-next westeri-thunderbolt/next linus/master v6.18-rc5 next-20251111]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Neronin/usb-xhci-remove-deprecated-TODO-comment/20251110-233045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20251110151450.635410-13-niklas.neronin%40linux.intel.com
+patch subject: [PATCH 12/13] usb: xhci: standardize multi bit-field macros
+config: hexagon-randconfig-002-20251111 (https://download.01.org/0day-ci/archive/20251111/202511111608.ytw8hqqD-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111608.ytw8hqqD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511111733.1PVwE4M3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511111608.ytw8hqqD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/dreamchip/rppx1/rpp_params.c: In function 'rppx1_params_rkisp1':
->> drivers/media/platform/dreamchip/rppx1/rpp_params.c:14:13: error: implicit declaration of function 'WARN_ON' [-Wimplicit-function-declaration]
-      14 |         if (WARN_ON(!cfg))
-         |             ^~~~~~~
->> drivers/media/platform/dreamchip/rppx1/rpp_params.c:15:25: error: 'EINVAL' undeclared (first use in this function)
-      15 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rpp_params.c:15:25: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from drivers/media/platform/dreamchip/rppx1/rppx1.h:8,
-                    from drivers/media/platform/dreamchip/rppx1/rpp_params.c:7:
->> drivers/media/platform/dreamchip/rppx1/rpp_module.h:149:37: error: 'ENODEV' undeclared (first use in this function)
-     149 |                         __result = -ENODEV;                             \
-         |                                     ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rpp_params.c:36:17: note: in expansion of macro 'rpp_module_call'
-      36 |                 rpp_module_call(module, param_rkisp1, block, write, priv);
-         |                 ^~~~~~~~~~~~~~~
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_acq.c: In function 'rppx1_acq_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_acq.c:61:25: error: 'EINVAL' undeclared (first use in this function)
-      61 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_acq.c:61:25: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/platform/dreamchip/rppx1/rppx1_acq.c: In function 'rppx1_acq_start':
-   drivers/media/platform/dreamchip/rppx1/rppx1_acq.c:109:25: error: 'EINVAL' undeclared (first use in this function)
-     109 |                 return -EINVAL;
-         |                         ^~~~~~
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c: In function 'rppx1_awbg_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c:23:25: error: 'EINVAL' undeclared (first use in this function)
-      23 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c:23:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_bd.c: In function 'rppx1_bd_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_bd.c:45:25: error: 'EINVAL' undeclared (first use in this function)
-      45 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_bd.c:45:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c: In function 'rppx1_bdrgb_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c:72:25: error: 'EINVAL' undeclared (first use in this function)
-      72 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c:72:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_bls.c: In function 'rppx1_bls_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_bls.c:51:25: error: 'EINVAL' undeclared (first use in this function)
-      51 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_bls.c:51:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_cac.c: In function 'rppx1_cac_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_cac.c:22:25: error: 'EINVAL' undeclared (first use in this function)
-      22 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_cac.c:22:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c: In function 'rppx1_ccor_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c:40:25: error: 'EINVAL' undeclared (first use in this function)
-      40 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c:40:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_db.c: In function 'rppx1_db_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_db.c:37:25: error: 'EINVAL' undeclared (first use in this function)
-      37 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_db.c:37:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c: In function 'rppx1_dpcc_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c:58:25: error: 'EINVAL' undeclared (first use in this function)
-      58 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c:58:25: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/media/platform/dreamchip/rppx1/rppx1_exm.c: In function 'rppx1_exm_probe':
->> drivers/media/platform/dreamchip/rppx1/rppx1_exm.c:43:25: error: 'EINVAL' undeclared (first use in this function)
-      43 |                 return -EINVAL;
-         |                         ^~~~~~
-   drivers/media/platform/dreamchip/rppx1/rppx1_exm.c:43:25: note: each undeclared identifier is reported only once for each function it appears in
-..
+>> drivers/usb/dwc3/host.c:49:27: error: called object type 'unsigned long' is not a function or function pointer
+                   op_regs_base = HC_LENGTH(readl(xhci_regs));
+                                  ~~~~~~~~~^
+   drivers/usb/dwc3/host.c:51:27: error: called object type 'unsigned long' is not a function or function pointer
+                   port_num = HCS_MAX_PORTS(reg);
+                              ~~~~~~~~~~~~~^
+   2 errors generated.
 
 
-vim +/WARN_ON +14 drivers/media/platform/dreamchip/rppx1/rpp_params.c
+vim +49 drivers/usb/dwc3/host.c
 
-     8	
-     9	int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
-    10				rppx1_reg_write write, void *priv)
-    11	{
-    12		size_t block_offset = 0;
-    13	
-  > 14		if (WARN_ON(!cfg))
-  > 15			return -EINVAL;
+2d2a3349521de1 Ran Wang      2024-01-24  24  
+2d2a3349521de1 Ran Wang      2024-01-24  25  /**
+2d2a3349521de1 Ran Wang      2024-01-24  26   * dwc3_power_off_all_roothub_ports - Power off all Root hub ports
+2d2a3349521de1 Ran Wang      2024-01-24  27   * @dwc: Pointer to our controller context structure
+2d2a3349521de1 Ran Wang      2024-01-24  28   */
+2d2a3349521de1 Ran Wang      2024-01-24  29  static void dwc3_power_off_all_roothub_ports(struct dwc3 *dwc)
+2d2a3349521de1 Ran Wang      2024-01-24  30  {
+2d2a3349521de1 Ran Wang      2024-01-24  31  	void __iomem *xhci_regs;
+2d2a3349521de1 Ran Wang      2024-01-24  32  	u32 op_regs_base;
+2d2a3349521de1 Ran Wang      2024-01-24  33  	int port_num;
+2d2a3349521de1 Ran Wang      2024-01-24  34  	u32 offset;
+2d2a3349521de1 Ran Wang      2024-01-24  35  	u32 reg;
+2d2a3349521de1 Ran Wang      2024-01-24  36  	int i;
+2d2a3349521de1 Ran Wang      2024-01-24  37  
+57d7a6b93822f7 Shen Lichuan  2024-09-30  38  	/* xhci regs are not mapped yet, do it temporarily here */
+2d2a3349521de1 Ran Wang      2024-01-24  39  	if (dwc->xhci_resources[0].start) {
+5ed9cc71432a8a Sven Peter    2025-10-15  40  		if (dwc->xhci_resources[0].flags & IORESOURCE_MEM_NONPOSTED)
+5ed9cc71432a8a Sven Peter    2025-10-15  41  			xhci_regs = ioremap_np(dwc->xhci_resources[0].start, DWC3_XHCI_REGS_END);
+5ed9cc71432a8a Sven Peter    2025-10-15  42  		else
+2d2a3349521de1 Ran Wang      2024-01-24  43  			xhci_regs = ioremap(dwc->xhci_resources[0].start, DWC3_XHCI_REGS_END);
+b65bdf7fd605eb Dan Carpenter 2024-01-31  44  		if (!xhci_regs) {
+2d2a3349521de1 Ran Wang      2024-01-24  45  			dev_err(dwc->dev, "Failed to ioremap xhci_regs\n");
+2d2a3349521de1 Ran Wang      2024-01-24  46  			return;
+2d2a3349521de1 Ran Wang      2024-01-24  47  		}
+2d2a3349521de1 Ran Wang      2024-01-24  48  
+2d2a3349521de1 Ran Wang      2024-01-24 @49  		op_regs_base = HC_LENGTH(readl(xhci_regs));
+2d2a3349521de1 Ran Wang      2024-01-24  50  		reg = readl(xhci_regs + XHCI_HCSPARAMS1);
+2d2a3349521de1 Ran Wang      2024-01-24  51  		port_num = HCS_MAX_PORTS(reg);
+2d2a3349521de1 Ran Wang      2024-01-24  52  
+2d2a3349521de1 Ran Wang      2024-01-24  53  		for (i = 1; i <= port_num; i++) {
+2d2a3349521de1 Ran Wang      2024-01-24  54  			offset = op_regs_base + XHCI_PORTSC_BASE + 0x10 * (i - 1);
+2d2a3349521de1 Ran Wang      2024-01-24  55  			reg = readl(xhci_regs + offset);
+2d2a3349521de1 Ran Wang      2024-01-24  56  			reg &= ~PORT_POWER;
+2d2a3349521de1 Ran Wang      2024-01-24  57  			writel(reg, xhci_regs + offset);
+2d2a3349521de1 Ran Wang      2024-01-24  58  		}
+2d2a3349521de1 Ran Wang      2024-01-24  59  
+2d2a3349521de1 Ran Wang      2024-01-24  60  		iounmap(xhci_regs);
+2d2a3349521de1 Ran Wang      2024-01-24  61  	} else {
+2d2a3349521de1 Ran Wang      2024-01-24  62  		dev_err(dwc->dev, "xhci base reg invalid\n");
+2d2a3349521de1 Ran Wang      2024-01-24  63  	}
+2d2a3349521de1 Ran Wang      2024-01-24  64  }
+2d2a3349521de1 Ran Wang      2024-01-24  65  
 
 -- 
 0-DAY CI Kernel Test Service
