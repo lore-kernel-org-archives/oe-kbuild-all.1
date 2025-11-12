@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159791514DC;
-	Wed, 12 Nov 2025 05:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A160A1D5AC0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 05:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762923609; cv=none; b=c+UtaX/UCP0mfh3QAi2Z/3pjQXIpV4ejlG5mdYH1bYuDjGR+hApT4qiR1s825ldljX2OEaSGdB3pFFX4CcM2dNgOgCiPk8sVKn2aylSQ1hwhfiXxKkjcV/KM7ZVc58N7JV/Z5l+3l36c8bAw/XMuGWCtD6YDsKxD1mV1GgBDPuo=
+	t=1762924929; cv=none; b=mHrI2TeU/+5EXkH0wDFZW4uCk1XAmqw0wIlMchBkyw1Q8zvqlGILpntq+M0SE691HdHlOW34lph6L+dNOPKR9OOxdp3FkcfzDvUmZSsexL39qClVSOy6uidFgIKOq1k+pFDs8vfAEb7YRanHKKKpFK8H5p2fV+JPeKaNeUSH+Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762923609; c=relaxed/simple;
-	bh=oVzcjrtUZy9ro5ZLynud7t632MdL27zlclznqXw5X1o=;
+	s=arc-20240116; t=1762924929; c=relaxed/simple;
+	bh=A06/4riA9CwEDRFPfv6xqGjvdapKqXSPUIHQhtplJO0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQUCbh+mcPpj+r+YEBRR76Vyk+Euh3ZocSSp6rVRVkoKr1kot+rKHIA6G+oIDk2+HVJNon+oLhjzJGq1VE27WtuoUVDNIk8satZXIZiS38Gt1BjQqgXe7xj2npfa6ENijbA21q+T5g4q+9zUgFoVPEmWiCBu9fV2KgwIhGc7TnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXPXPDb6; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=lyKjPiFQawgeNUFBZC7d6a1taM0JWwUCy9e9ILcTRkisbZpvl8dzspM5CAQym4MH8gPv0GXAu6pHBWxqflv0CsFqLB8w5J4w4ziid+55Ri14MeCCani7TsQ9DAe9/mNXi4BkPAe84QdOZzQvin2p1gCfMQ2MKtOJ/obrx8bszn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0I6zFxJ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXPXPDb6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0I6zFxJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762923607; x=1794459607;
+  t=1762924928; x=1794460928;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oVzcjrtUZy9ro5ZLynud7t632MdL27zlclznqXw5X1o=;
-  b=iXPXPDb6gaQn4lYZi9JaNIe36u+TM+f3ytIzb/MxmI2L849+dzZQpE0Y
-   66mWOrR6DEM71ddm6z/+RclwBrayi2G01Xdo9k/ys9YsTJrn8oP9LIlde
-   d4yUo2Y8xcJ0XQm8JyJDQCV08SdgjcqrUSRqPQ2fpVaF4hF3TVe81Ux2H
-   IaQSY5X+eqD4fgP8Oca868sYahHLXPDNezHqwjnY/drp1vIJL2g5VNPcv
-   Uvix9uY9YuCt0gpxSNojOvMMJigt8xHcyIijJBGmDjFirkqdL1jMGjban
-   0N9TUJtDXc081qwlEnaFo9f0X1C5mE/HWW5xRTuixjXh9TVcryxH2hXL1
-   g==;
-X-CSE-ConnectionGUID: 6qnHeLgwSs6Pdu/xaPjpmQ==
-X-CSE-MsgGUID: rcL9i7dMT7Gir1MLDemQiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="65075624"
+  bh=A06/4riA9CwEDRFPfv6xqGjvdapKqXSPUIHQhtplJO0=;
+  b=b0I6zFxJQJmolX+YoPC+Wcctgv57/PsUud1EnFfmO0txPgn8zuDlvCgn
+   p2wQnZkca2OFnKmRbUF+7HnOMyTZ6InU4cM5TwyeooDHE0a6uhxhk80My
+   Jsx3ifVSOH5ul2fsRfQX0sDE1JjzJ1o7dklvEVDLQAoZRouvPP4amcBBH
+   LHHdNkNaBy56dtpkZ3fWsYt3vQl6F5XNEgv3hjYtgFUb+xsi1KH1GAJ7K
+   /sYtn7IyekBCKb5+jZhDOT1kLrOlLX7N3dcItwTy36qBUeCxmffOl5Kl/
+   +dhPlLlhYHTNv5+d3Pb4OIO312bYwZGPbNSqablOiCcmJkWozVejcdJRG
+   A==;
+X-CSE-ConnectionGUID: 3dtvPlptTlGtE6cf3Amwmw==
+X-CSE-MsgGUID: PIYF+ndyQ3+nvJmQXLZXXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="87613083"
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="65075624"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 21:00:06 -0800
-X-CSE-ConnectionGUID: e9nXy1HZSSivhbPorUyohA==
-X-CSE-MsgGUID: nyCj46xkQmq/uZzmK/ihsg==
+   d="scan'208";a="87613083"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 21:22:07 -0800
+X-CSE-ConnectionGUID: U9BocXusT+uhcjWpS2HI1g==
+X-CSE-MsgGUID: mdMGKaRHS6qgnuPlT6YRBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="189289420"
+   d="scan'208";a="188971021"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Nov 2025 21:00:05 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 11 Nov 2025 21:22:06 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJ2xe-0003qd-1Q;
-	Wed, 12 Nov 2025 05:00:02 +0000
-Date: Wed, 12 Nov 2025 13:00:00 +0800
+	id 1vJ3Ix-0003qs-2f;
+	Wed, 12 Nov 2025 05:22:03 +0000
+Date: Wed, 12 Nov 2025 13:21:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chenghai Huang <huangchenghai2@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC 2/4] asm-generic/io.h: add io{read,write}128 accessors
-Message-ID: <202511121204.SWr5k0Gt-lkp@intel.com>
+Message-ID: <202511121203.2yAbgprF-lkp@intel.com>
 References: <20251112015846.1842207-3-huangchenghai2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,10 +67,10 @@ In-Reply-To: <20251112015846.1842207-3-huangchenghai2@huawei.com>
 Hi Chenghai,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on arm64/for-next/core soc/for-next linus/master v6.18-rc5 next-20251111]
+[auto build test WARNING on arnd-asm-generic/master]
+[also build test WARNING on arm64/for-next/core soc/for-next linus/master v6.18-rc5 next-20251111]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -79,44 +79,86 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Chenghai-Huang/UAPI-Intro
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
 patch link:    https://lore.kernel.org/r/20251112015846.1842207-3-huangchenghai2%40huawei.com
 patch subject: [PATCH RFC 2/4] asm-generic/io.h: add io{read,write}128 accessors
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251112/202511121204.SWr5k0Gt-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511121204.SWr5k0Gt-lkp@intel.com/reproduce)
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20251112/202511121203.2yAbgprF-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511121203.2yAbgprF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511121204.SWr5k0Gt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511121203.2yAbgprF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/loongarch/kernel/asm-offsets.c:11:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/loongarch/include/asm/hardirq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/loongarch/include/asm/io.h:82:
->> include/asm-generic/io.h:948:54: error: passing 'const volatile void *' to parameter of type 'volatile void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+   In file included from include/linux/byteorder/little_endian.h:5,
+                    from arch/riscv/include/uapi/asm/byteorder.h:10,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/riscv/include/asm/bitops.h:376,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:8:
+   include/asm-generic/io.h: In function 'ioread128':
+>> include/asm-generic/io.h:948:61: warning: passing argument 1 of '__raw_read128' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
      948 |         val = __le128_to_cpu((__le128 __force)__raw_read128(addr));
          |                                                             ^~~~
-   include/asm-generic/io.h:152:57: note: passing argument to parameter 'addr' here
+   include/uapi/linux/byteorder/little_endian.h:35:54: note: in definition of macro '__le128_to_cpu'
+      35 | #define __le128_to_cpu(x) ((__force __u128)(__le128)(x))
+         |                                                      ^
+   In file included from arch/riscv/include/asm/io.h:136,
+                    from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/riscv/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/trace_recursion.h:5,
+                    from include/linux/ftrace.h:10,
+                    from arch/riscv/kernel/asm-offsets.c:10:
+   include/asm-generic/io.h:152:57: note: expected 'volatile void *' but argument is of type 'const volatile void *'
      152 | static inline u128 __raw_read128(volatile void __iomem *addr)
-         |                                                         ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/loongarch/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1282: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+--
+   In file included from include/linux/byteorder/little_endian.h:5,
+                    from arch/riscv/include/uapi/asm/byteorder.h:10,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/riscv/include/asm/bitops.h:376,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:8:
+   include/asm-generic/io.h: In function 'ioread128':
+>> include/asm-generic/io.h:948:61: warning: passing argument 1 of '__raw_read128' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     948 |         val = __le128_to_cpu((__le128 __force)__raw_read128(addr));
+         |                                                             ^~~~
+   include/uapi/linux/byteorder/little_endian.h:35:54: note: in definition of macro '__le128_to_cpu'
+      35 | #define __le128_to_cpu(x) ((__force __u128)(__le128)(x))
+         |                                                      ^
+   In file included from arch/riscv/include/asm/io.h:136,
+                    from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/riscv/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/trace_recursion.h:5,
+                    from include/linux/ftrace.h:10,
+                    from arch/riscv/kernel/asm-offsets.c:10:
+   include/asm-generic/io.h:152:57: note: expected 'volatile void *' but argument is of type 'const volatile void *'
+     152 | static inline u128 __raw_read128(volatile void __iomem *addr)
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
 vim +948 include/asm-generic/io.h
