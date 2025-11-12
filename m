@@ -1,148 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1ABD314D07;
-	Wed, 12 Nov 2025 17:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6D8352938
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 18:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762968675; cv=none; b=JQAJ676T5gp7DA+wFcTgsX0RqMAOGrptb3Y8BiVA5I4LcJWcvViEeQR2JoTZohxzCK4XWUMBlVFu1pv2Xvsq/0buBNHCurSW3c6jgcMG9iQ+weaPlxMDOfU27rgv/X3fkPxciGakcMIHOJs2fYRJoftyN6L8R6nq+PyqAth876Y=
+	t=1762971931; cv=none; b=cztyJWciLU2+3fPHPCxi/110lk367TcUrpShvlPfa5LcHOcZYgEPfRXSlDhJkHtNPVXmojeHqG8j/Hx22LUcFqp4k6tOQLuWFygTWzKeCQ/HLKXM8MDCb9snhLreVf/nKUsBlGRI6T7fUpI2a1RqTrBP8WUeXLzORrCygSQgOC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762968675; c=relaxed/simple;
-	bh=HyJO29fVvlE6qNpkA9aSHviDDs3+KNwJRw9lc3P0PXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WKZJOwJAcH4THHnIq2r21pvdNH9N9R9+JwL+lbrY/sB5XVevLlcK52hRZS9DPheEKVcyy85CFMJl4zj9yXg7j7RJDPqkC9Vo/zR4yaeJC9GLOW7vhoMFKvaNixZ7d/kbREyA66tJ4Urlx0COpQ/bYYs3OSqDpKIb1Zg5EvtVh6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VvQo99hU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762971931; c=relaxed/simple;
+	bh=TPzWlqtHOWvWLR1lRgTp9O+8zpwW0nqY3yrQMInkpOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=YqV5DzioZzNgAK4ivREGIxP/j1J/6hCK4QhZjtd9GBs9iXa7d3CJNFa/vrTv8u2koiR7uDKck6/8CMqFbb7Oey079U9MWZx01IaIE6q2NSbtpc2ksi/27bEpmnYRAPRmdV5L0oEVInvdZpTpR5Wnu3aaGkjv0rgwEjmZrPfXWgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGxThRx8; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VvQo99hU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99AE2C4CEF7;
-	Wed, 12 Nov 2025 17:31:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762968675;
-	bh=HyJO29fVvlE6qNpkA9aSHviDDs3+KNwJRw9lc3P0PXI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VvQo99hUvCIo83FMCDkbn+6A9BxHjn4r/P3yvr/Gfp5dyZTqAPBhj22zYt0nX555B
-	 hZER0+n4ui1ZGhE68GTsXkUnqxWkYCSyC+xB48MmwyH8vd6nMw4uqpClFQw3ZrM8ki
-	 ejJ1FjHZSSPoFavIN3qBDMcx/0svqMuxAQj2cFWQPQ9beeqtcyv2MR7XkxquVsAv+D
-	 +QjZy4BbYTgO0XJhJlSJUKIBNO8MyMFKBePYjXmKg8Z+R+NzXdN33kbpheHF22cXXn
-	 ORoIuIJlA0Xt23JdTXc/NHTkrnEjnNO9E1zo95tJ9/Rix2v0joSKj7TVV7zH8QkuNL
-	 6uVdHNAUXS/Mg==
-Date: Wed, 12 Nov 2025 23:01:03 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/pci/controller/cadence/pci-j721e.c:648:undefined
- reference to `cdns_pcie_host_disable'
-Message-ID: <wwgrzgcdqralnyrhvufoldiyautpkp2d2chveovgnen5qvt4p6@l6xdmkezpdd2>
-References: <202511111705.MZ7ls8Hm-lkp@intel.com>
- <h4yvzfhpd7exv2o2oxed7ocobn5zpwmtvzoxffj4rqsiq2dqfr@sobzxhwa5c23>
- <cc48c040dac2edc27b453bc482d62309cea25c06.camel@ti.com>
- <znkojajaxfudm3xn43ed4my5fcwyszv4gxajnizonqu3pf5t6g@bph3av5mzmg7>
- <85fb83a9-6d8c-4c9d-8c78-2d3f5d473ea2@ti.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGxThRx8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762971929; x=1794507929;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=TPzWlqtHOWvWLR1lRgTp9O+8zpwW0nqY3yrQMInkpOc=;
+  b=mGxThRx8KoY70CIW9/eQI87tiiAHRayGNMjKkz95SaYRB+TVsxFjkxlk
+   JGkTINmQJWCQL0QikLuGh+K0R5wQsnX5cynVpGkKhjQRna039POpl4gmy
+   SaMyrtOdT6aZbeX8qfyX/G0psAjDmTxgvzsiZDYKy03oiiSkKi9///kHr
+   80PE0nEnVsaFKmTf7L0HCu4RQCvnQAgInphn/Ipm3nXADhuHmdmXCibWv
+   I6kwe+/Sdrwd1zkDiC474VWcks/yntn45/Vjuc/h9Pf4Er+a1PSs1zg0L
+   k6sP6L6fyYSNtfzG9WPJAQs2QG4N60oPJlocSk6WKKoOrVOL1OI18LtNu
+   w==;
+X-CSE-ConnectionGUID: YbaGeJcuR8i1cfht6IODnA==
+X-CSE-MsgGUID: 0XZqUQNSQMKQZZ02N4vlKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68677541"
+X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
+   d="scan'208";a="68677541"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 10:25:28 -0800
+X-CSE-ConnectionGUID: y/s9U4MmSG+eHG6fBbaGAg==
+X-CSE-MsgGUID: NIz5zMczToqsSPjcjvICSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
+   d="scan'208";a="188577400"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 12 Nov 2025 10:25:27 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJFX2-0004WV-39;
+	Wed, 12 Nov 2025 18:25:24 +0000
+Date: Thu, 13 Nov 2025 02:25:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: hariconscious@gmail.com
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] ASoC: Intel: avs: Fix potential buffer overflow by
+ snprintf()
+Message-ID: <aRTRDrpOiupksM0_@2b6d71d08b4d>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <85fb83a9-6d8c-4c9d-8c78-2d3f5d473ea2@ti.com>
+In-Reply-To: <20251112181851.13450-1-hariconscious@gmail.com>
 
-On Tue, Nov 11, 2025 at 08:29:48PM +0530, Siddharth Vadapalli wrote:
-> On 11/11/25 7:39 PM, Manivannan Sadhasivam wrote:
-> > On Tue, Nov 11, 2025 at 05:09:25PM +0530, Siddharth Vadapalli wrote:
-> > > On Tue, 2025-11-11 at 16:24 +0530, Manivannan Sadhasivam wrote:
-> > > 
-> > > Hello Mani,
-> > > 
-> > > > + Siddharth
-> > > 
-> > > Thank you for notifying me of this.
-> > > 
-> > > > 
-> > > > On Tue, Nov 11, 2025 at 05:28:54PM +0800, kernel test robot wrote:
-> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > > > head:   4427259cc7f7571a157fbc9b5011e1ef6fe0a4a8
-> > > > > commit: 1c72774df028429836eec3394212f2921bb830fc PCI: sg2042: Add Sophgo SG2042 PCIe driver
-> > > > > date:   8 weeks ago
-> > > > > config: loongarch-randconfig-r113-20251110 (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/config)
-> > > > > compiler: loongarch64-linux-gcc (GCC) 15.1.0
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251111/202511111705.MZ7ls8Hm-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > Closes: https://lore.kernel.org/oe-kbuild-all/202511111705.MZ7ls8Hm-lkp@intel.com/
-> > > > > 
-> > > > > All errors (new ones prefixed by >>):
-> > > > > 
-> > > > >     loongarch64-linux-ld: drivers/pci/controller/cadence/pci-j721e.o: in function `j721e_pcie_remove':
-> > > > > > > drivers/pci/controller/cadence/pci-j721e.c:648:(.text+0x83c): undefined reference to `cdns_pcie_host_disable'
-> > > > > 
-> > > > 
-> > > >  From .config:
-> > > > 
-> > > > CONFIG_PCIE_CADENCE=y
-> > > > CONFIG_PCIE_CADENCE_HOST=m
-> > > > CONFIG_PCIE_CADENCE_EP=y
-> > > > CONFIG_PCIE_CADENCE_PLAT=y
-> > > > # CONFIG_PCIE_CADENCE_PLAT_HOST is not set
-> > > > CONFIG_PCIE_CADENCE_PLAT_EP=y
-> > > > CONFIG_PCIE_SG2042_HOST=m
-> > > > CONFIG_PCI_J721E=y
-> > > > # CONFIG_PCI_J721E_HOST is not set
-> > > > CONFIG_PCI_J721E_EP=y
-> > > > 
-> > > > PCI_J721E selects PCIE_CADENCE_HOST only if PCI_J721E_HOST is selected,
-> > > > otherwise, it will not select it. This will take care of the dependency between
-> > > > PCI_J721E and PCIE_CADENCE_{HOST/EP}.
-> > > > 
-> > > > But if PCIE_CADENCE_HOST is selected as a module by other drivers like,
-> > > > CONFIG_PCIE_SG2042_HOST=m, then if PCI_J721E is selected as a built-in using
-> > > > CONFIG_PCI_J721E_EP=y, it results in this build error as the built-in driver
-> > > > becomes dependent on a symbol from a loadable module.
-> > > 
-> > > While I don't deny the build error associated with the above config, it is
-> > > an invalid config in the sense that the Glue drivers for two different
-> > > devices are being enabled. This seems to be a generic issue wherein
-> > > multiple drivers tend to depend on a library/common driver. How is it
-> > > handled in such cases?
-> > 
-> > AFAIK, the common library should be built-in to avoid issues like this.
-> 
-> Ok. If that is the usual approach then I have no objections to it.
-> 
-> > 
-> > > Is there a notion of reordering configs to ensure that such build errors
-> > > are avoided?
-> > > 
-> > > If PCI_J721E_EP was selected as 'y' before 'PCI_SG2042_HOST' being selected
-> > > as 'm', it would have resulted in 'PCIE_CADENCE_EP' being selected as 'y'
-> > > and this won't cause a build error even with 'PCI_SG2042_HOST' selected as
-> > > 'm'.
-> > > 
-> > > > 
-> > > > I guess, we should force PCIE_CADENCE_{HOST/EP} to be 'bool' as it is getting
-> > > > selected by multiple drivers.
-> > > 
-> > > This will defeat the purpose of the series that enabled loadable module
-> > > support for the pci-j721e.c driver and the pcie-cadence-host/ep.c drivers.
-> > > 
-> > 
-> > Your 'pci-j721e.c' can still be a loadable module, only the common library will
-> > be built-in, which is not that bad.
-> 
-> Yes, this will work.
-> 
-> Please let me know if you want me to post the patch to update
-> CONFIG_PCIE_CADENCE_{EP/HOST} to a bool.
-> 
+Hi,
 
-Yes, please.
+Thanks for your patch.
 
-- Mani
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] ASoC: Intel: avs: Fix potential buffer overflow by snprintf()
+Link: https://lore.kernel.org/stable/20251112181851.13450-1-hariconscious%40gmail.com
 
 -- 
-மணிவண்ணன் சதாசிவம்
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
