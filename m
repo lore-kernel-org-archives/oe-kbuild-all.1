@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1AB2417FB;
-	Tue, 11 Nov 2025 23:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE69E56A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 00:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762905461; cv=none; b=EzJ62Xdi3s8cvEtjR5HIguBBFceTFhoK5erGhR4Q3HKAcmQsODv2pS+rFpm+kPGggZbFFms9b45OdRJHBWBtNBqmJXcGfLSCdNPs0gEIK6hLph18Da4HSchdl6phY2iUF/7a03jycwnn8NblMOutYM42AtudvAYzNu1zTH5wSy0=
+	t=1762906031; cv=none; b=QWvqqA7Z3H0waJplAeEbRJkGb3anqDB7Mv8pDTAidgWNX9TUlbdbFRD/URYiarGUoEY/KXFDBV3dx9oNEXSdWyAzyt/7gKvm/8MYyII8/55xcvbmG+8AHaOQC1aeoMbgVyloZshq9pgZtineXvtdJEUWuMN2O7Gbqj+5iIYZCdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762905461; c=relaxed/simple;
-	bh=5z9tA7K/0d1txT/8PMIAmAecl9pQd/ZityN8iLjARrg=;
+	s=arc-20240116; t=1762906031; c=relaxed/simple;
+	bh=pMk5SiC1oO6shQSWQbpbUmgjsgqxWVPj8OTbQp79hUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A0kvJq3p/X3S4XO0dl2w0HQLsvLxh+kC4zGqLPSmXFK/ULjlSe9/pp5r9T2H934RH/H331dZMSXqVve+mo85K6lz8us5FN8oqrXVG36nzNwMAFuXvIYudbtRAVOdPM4Qc/oFpULzzC1CaR8AXE6MXVs7mKSq24/jTQEVPnPD/Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8y+Hwxb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=RzegTyUKgfs7qZOBqbTmUZ5+h4u15jAurk5ilQBYwCLj2dlJpYLPAVbHl0AzTuucGxMXBpuvTjPH7SrvO9i9jvRZt95JLw7fxCM1Jpf7J+5ZyfPUDgsnzZY+T4X9UeNfgjYN+GFmVjSQ7LcbabdZeqw9uW9f1Xd6Gw/nr/fShmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BR76S/LM; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8y+Hwxb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BR76S/LM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762905459; x=1794441459;
+  t=1762906028; x=1794442028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5z9tA7K/0d1txT/8PMIAmAecl9pQd/ZityN8iLjARrg=;
-  b=P8y+HwxbboOJ8bcKvvndAq9Z1Z5hRba8NGRs/WkQVuH/MnJuRkQOOUG9
-   RvaIKnsI9HXa0Dz859lTwlcxfCsMIj+vbL/39QJs7ZlQFn7zs5e0atrzX
-   56d6exJdkho4PN3JtbDP1UXBknUvlKd5jk6lhzBjZVDVRvRF8+F2O8h6v
-   7pM6qOgbL3D0j0ahDPmJk12l7bkWXLaJdgrj/Pu4p1Ka08DKAXW75Xac7
-   WNLCtqK4ERB3y9GMDiY98F0WMp6oCm/BEPj9EVs+W2HtjEuBWexF/XMq2
-   iKxXEbu9TGa1qrARpDnITmH3zp9MoN0TThp6zbqV8J5cvdRGqN9IhOK2B
-   Q==;
-X-CSE-ConnectionGUID: HYWcZyNoQvmw+6FfrHukMw==
-X-CSE-MsgGUID: 7+/gXMGORySZeHhdWOvgLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="68829584"
+  bh=pMk5SiC1oO6shQSWQbpbUmgjsgqxWVPj8OTbQp79hUw=;
+  b=BR76S/LM7EFaAlRUsYmAygf/EVu5K50uBcpGoIrAnOIReJkAJUWrrToH
+   i80QNl2tJfO7FZql6XVrsLhrvXsjP4WCPRKNRk4UUGf7vAeHKxTG0550s
+   DbSv3FQmvJTI6EjQAin15fMZ+eF0knjGaGF62lRWVWGry4Wg+tWgU3tcp
+   TyHWNnRknKr/kS11aBahJct61jDfUT169uCIb3mNT9PUntTSP3Wf8okf1
+   TPkwTq362IQ1Ya5FpCzFHWY33uPbl1kTtKwLp9wtkZIBdPhvWXyGKqs/f
+   D6RrUPkiegJMJKzzh6MSJQtM86vNOQFyb82ZrBjXbsb63jvut7YZ240mn
+   A==;
+X-CSE-ConnectionGUID: oQLJ7tcCRzWgH81Xxr9EdQ==
+X-CSE-MsgGUID: I0QwZgsJSn6mbh0Y6D47Ng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="64873547"
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="68829584"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 15:57:39 -0800
-X-CSE-ConnectionGUID: ++WSC1zOSGGK4pZZ0PcZxQ==
-X-CSE-MsgGUID: IuFzUWg1R4qe2bauQL42KA==
+   d="scan'208";a="64873547"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 16:07:08 -0800
+X-CSE-ConnectionGUID: Y3iDcgOUTVCIlkU4xxhOyA==
+X-CSE-MsgGUID: PdeHz/KeQjK00rIen3qCVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="189041904"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Nov 2025 15:57:37 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+   d="scan'208";a="219801404"
+Received: from igk-lkp-server01.igk.intel.com (HELO c2fcd27ee2f4) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Nov 2025 16:07:06 -0800
+Received: from kbuild by c2fcd27ee2f4 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vIyEw-0003gJ-2s;
-	Tue, 11 Nov 2025 23:57:34 +0000
-Date: Wed, 12 Nov 2025 07:57:07 +0800
+	id 1vIyO8-000000004Ei-3JIr;
+	Wed, 12 Nov 2025 00:07:04 +0000
+Date: Wed, 12 Nov 2025 01:06:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrea Righi <arighi@nvidia.com>
-Subject: [tj-sched-ext:scx-bypass-scalability-v2 33/37]
- kernel/watchdog.c:206:7: error: call to undeclared function
- 'scx_hardlockup'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202511120732.yXirARWn-lkp@intel.com>
+To: Anh Nguyen <anh.nguyen.pv@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [morimoto:renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk 14/29]
+ arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: /soc/gsx@fd000000:
+ failed to match any schema with compatible: ['renesas,gsx']
+Message-ID: <202511120128.QuAK1BUc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,115 +64,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-bypass-scalability-v2
-head:   27ab0bfd9e10121f25b6dd1b5500c7b627c5d215
-commit: 2b9c2213630da8f6f2a256005f9ce9070e39847f [33/37] sched_ext: Hook up hardlockup detector
-config: i386-randconfig-013-20251112 (https://download.01.org/0day-ci/archive/20251112/202511120732.yXirARWn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120732.yXirARWn-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc5-2025-11-10-sparrow-hawk
+head:   14a3f460905b5d9be43ad2bab030625085a52423
+commit: 3fceb9e9ebae37175df935cd4d9688c3ee6b3a0d [14/29] arm64: dts: renesas: r8a779g0: Add new gsx node for V4H SoC
+config: arm64-randconfig-2051-20251110 (https://download.01.org/0day-ci/archive/20251112/202511120128.QuAK1BUc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.9.dev13+gc72762e0c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120128.QuAK1BUc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511120732.yXirARWn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511120128.QuAK1BUc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> kernel/watchdog.c:206:7: error: call to undeclared function 'scx_hardlockup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     206 |                 if (scx_hardlockup())
-         |                     ^
-   kernel/watchdog.c:206:7: note: did you mean 'is_hardlockup'?
-   kernel/watchdog.c:154:13: note: 'is_hardlockup' declared here
-     154 | static bool is_hardlockup(unsigned int cpu)
-         |             ^
-   1 error generated.
-
-
-vim +/scx_hardlockup +206 kernel/watchdog.c
-
-   178	
-   179	void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
-   180	{
-   181		if (per_cpu(watchdog_hardlockup_touched, cpu)) {
-   182			per_cpu(watchdog_hardlockup_touched, cpu) = false;
-   183			return;
-   184		}
-   185	
-   186		/*
-   187		 * Check for a hardlockup by making sure the CPU's timer
-   188		 * interrupt is incrementing. The timer interrupt should have
-   189		 * fired multiple times before we overflow'd. If it hasn't
-   190		 * then this is a good indication the cpu is stuck
-   191		 */
-   192		if (is_hardlockup(cpu)) {
-   193			unsigned int this_cpu = smp_processor_id();
-   194			unsigned long flags;
-   195	
-   196	#ifdef CONFIG_SYSFS
-   197			++hardlockup_count;
-   198	#endif
-   199			/*
-   200			 * A poorly behaving BPF scheduler can trigger hard lockup by
-   201			 * e.g. putting numerous affinitized tasks in a single queue and
-   202			 * directing all CPUs at it. The following call can return true
-   203			 * only once when sched_ext is enabled and will immediately
-   204			 * abort the BPF scheduler and print out a warning message.
-   205			 */
- > 206			if (scx_hardlockup())
-   207				return;
-   208	
-   209			/* Only print hardlockups once. */
-   210			if (per_cpu(watchdog_hardlockup_warned, cpu))
-   211				return;
-   212	
-   213			/*
-   214			 * Prevent multiple hard-lockup reports if one cpu is already
-   215			 * engaged in dumping all cpu back traces.
-   216			 */
-   217			if (sysctl_hardlockup_all_cpu_backtrace) {
-   218				if (test_and_set_bit_lock(0, &hard_lockup_nmi_warn))
-   219					return;
-   220			}
-   221	
-   222			/*
-   223			 * NOTE: we call printk_cpu_sync_get_irqsave() after printing
-   224			 * the lockup message. While it would be nice to serialize
-   225			 * that printout, we really want to make sure that if some
-   226			 * other CPU somehow locked up while holding the lock associated
-   227			 * with printk_cpu_sync_get_irqsave() that we can still at least
-   228			 * get the message about the lockup out.
-   229			 */
-   230			pr_emerg("CPU%u: Watchdog detected hard LOCKUP on cpu %u\n", this_cpu, cpu);
-   231			printk_cpu_sync_get_irqsave(flags);
-   232	
-   233			print_modules();
-   234			print_irqtrace_events(current);
-   235			if (cpu == this_cpu) {
-   236				if (regs)
-   237					show_regs(regs);
-   238				else
-   239					dump_stack();
-   240				printk_cpu_sync_put_irqrestore(flags);
-   241			} else {
-   242				printk_cpu_sync_put_irqrestore(flags);
-   243				trigger_single_cpu_backtrace(cpu);
-   244			}
-   245	
-   246			if (sysctl_hardlockup_all_cpu_backtrace) {
-   247				trigger_allbutcpu_cpu_backtrace(cpu);
-   248				if (!hardlockup_panic)
-   249					clear_bit_unlock(0, &hard_lockup_nmi_warn);
-   250			}
-   251	
-   252			if (hardlockup_panic)
-   253				nmi_panic(regs, "Hard LOCKUP");
-   254	
-   255			per_cpu(watchdog_hardlockup_warned, cpu) = true;
-   256		} else {
-   257			per_cpu(watchdog_hardlockup_warned, cpu) = false;
-   258		}
-   259	}
-   260	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1384.12-1394.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1413.12-1423.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1442.12-1452.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1471.12-1481.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1500.12-1510.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1529.12-1539.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1558.12-1568.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1587.12-1597.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2327.12-2337.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1384.12-1394.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1413.12-1423.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1442.12-1452.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1471.12-1481.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1500.12-1510.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1529.12-1539.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1558.12-1568.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1587.12-1597.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2327.12-2337.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1384.12-1394.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1413.12-1423.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1442.12-1452.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1471.12-1481.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1500.12-1510.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1529.12-1539.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1558.12-1568.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1587.12-1597.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2327.12-2337.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1384.12-1394.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1413.12-1423.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1442.12-1452.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1471.12-1481.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1500.12-1510.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1529.12-1539.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1558.12-1568.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1587.12-1597.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2327.12-2337.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1384.12-1394.7: Warning (graph_child_address): /soc/video@e6ef0000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1413.12-1423.7: Warning (graph_child_address): /soc/video@e6ef1000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1442.12-1452.7: Warning (graph_child_address): /soc/video@e6ef2000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1471.12-1481.7: Warning (graph_child_address): /soc/video@e6ef3000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1500.12-1510.7: Warning (graph_child_address): /soc/video@e6ef4000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1529.12-1539.7: Warning (graph_child_address): /soc/video@e6ef5000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1558.12-1568.7: Warning (graph_child_address): /soc/video@e6ef6000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:1587.12-1597.7: Warning (graph_child_address): /soc/video@e6ef7000/ports/port@2: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r8a779g0.dtsi:2327.12-2337.7: Warning (graph_child_address): /soc/isp@fed00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r8a779g3-white-hawk-single.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ard-audio-da7212.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single-ard-audio-da7212.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-camera-j2-imx462.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-argon40.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-fan-pwm.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: dsi@fed80000 (renesas,r8a779g0-dsi-csi2-tx): '#address-cells', '#size-cells', 'panel@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: panel@0 (raspberrypi,dsi-5inch): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: panel@0 (raspberrypi,dsi-5inch): compatible:0: 'raspberrypi,dsi-5inch' is not one of ['ampire,am8001280g', 'bananapi,lhr050h41', 'bestar,bsd1218-a101kl68', 'feixin,k101-im2byl02', 'raspberrypi,dsi-7inch', 'startek,kd050hdfia020', 'tdo,tl050hdv35', 'wanchanglong,w552946aba']
+   	from schema $id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb: /soc/dsi@fed80000/panel@0: failed to match any schema with compatible: ['raspberrypi,dsi-5inch', 'ilitek,ili9881c']
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb: dsi@fed80000 (renesas,r8a779g0-dsi-csi2-tx): '#address-cells', '#size-cells', 'panel@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml
+   arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb: panel@0 (raspberrypi,dsi-7inch): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/display/panel/ilitek,ili9881c.yaml
+--
+>> arch/arm64/boot/dts/renesas/r8a779g3-white-hawk-single-ard-audio-da7212.dtb: /soc/gsx@fd000000: failed to match any schema with compatible: ['renesas,gsx']
 
 -- 
 0-DAY CI Kernel Test Service
