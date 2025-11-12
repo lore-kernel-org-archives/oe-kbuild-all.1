@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2064E29B793
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 08:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0642ECD34
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 08:09:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762934972; cv=none; b=ZbQrxJigRR1D2xloMN3HGUSwxVMIxdpZQFIsmb79AP7RpB2Ghzm7oPuXGgrn6GpnjMLTBSINFd1in/K3K3ZpNmEHHdsvbROpfL2kG0sK0SAXZPciTfmKVW86hBJb4zg8jWQcYL8gThgPan6DdT9MwrpLkTygssCc2OIxPLU/cgQ=
+	t=1762934973; cv=none; b=Ls17TvvkkM7hDPnP+GuIHmWFEL9NHhD03Ff9sTXZ3UYgdidZYB24z6VHhXhZP3N4jvNdnq6QK98QZeNWsrw7+UZFF72Gnfog9lX8ji5y1XNMdg3BN5SornWuwiQ/L1LcwDDMbIhQ951TaX+kZxCjhiFtsZRxijVmgdQSL6yUyOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762934972; c=relaxed/simple;
-	bh=2QxP35OhHsWgTq06Uon4G8bNG0l9ad4FHGsrYSpakao=;
+	s=arc-20240116; t=1762934973; c=relaxed/simple;
+	bh=jx6i1yXXVV1Mnxz2ZVhFZFebjuCYianpne0zTR+Xu0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HtrO2weAm6uW/H0vx5Kd5celdViVdRWR3pvU/xKEy0OLVNFh/fmbMBczBQ814pIpuuSaNmh6FAvVJP1vYVDg40de4JmzjhVc8BZDKb6RyPZkkXr0b4/kZGSID5m1olYHRKGWcCfd+69NRhbp9Xe0lunjnL4kqXppbOZIBxnjbRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gGGuMf2n; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=sZe7ukWNbhoz+mcu9etxxnX9nz/GU2Zm+scypYEmeccHyvu/L3OGEvARgd5a7Lkt/potF0bqWnn9VHXcPmyXS89ennE68nRsALUuPyd6/RzjtmllIZEUKU6E/s/kbYOHcx5PpjNgnykvaEZKmV/JD036tYrTluINN+Qmfc2Jvvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c2K2QBDN; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gGGuMf2n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c2K2QBDN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762934970; x=1794470970;
+  t=1762934972; x=1794470972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2QxP35OhHsWgTq06Uon4G8bNG0l9ad4FHGsrYSpakao=;
-  b=gGGuMf2nXOaDsy7f4Nhj1nslgycsS5pUJCkes3lNCjQ9fyo+kgy8tzLQ
-   wo1TKeskQukJyxx9hoNhizFvoSnOgS57JG4OtyNJPRsfb448ad8iBE9Q8
-   17HZP9w734d/oxeXA4IR/MexzjdQqWCKzO9f5zgR6k6PCvBna4x6dOBQC
-   KohyUkyNkVkWlZwwmUFwCWCpLuSOKtxp70QFg8t7Ld3puq/jXL5xT0fhc
-   DQOX+nEtSb+E66461Z7afdSc4Zwy25dTi8LlOA8P40uhiK4dTYN88yVyw
-   DGaNkzPFR9oOWpnrQ+VRq+AcVnRj3AljYUxu9BgRmKn9fairQFCR0zSO1
-   g==;
-X-CSE-ConnectionGUID: 5T8wXqqNT+uxENAlETiuDA==
-X-CSE-MsgGUID: ZpRO9D0kTVycdfZyc8p8gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="52552507"
+  bh=jx6i1yXXVV1Mnxz2ZVhFZFebjuCYianpne0zTR+Xu0A=;
+  b=c2K2QBDNaURCG7aVK1KkeUHJnkOUT7q0sJMZGevHVqhHClPLgyi+yivl
+   6vfogZsu3f7EANKOiJN8evAOfpr3U0tdqlsGgM4rFAQo8AJfOahVfgNFl
+   YweVZQfTKPGPFbnTjajwWm/vhn9hDFidHKn81nMX7TwWzyaPjiuZE6MTT
+   GKO3gGfZBxVeY3WpOvwBjuQAF7+DTOZyVgoe4ZVyTzO3JOgwNUUMxWzMy
+   KSjNZaf+Hz6N2Y07Oy8S3TjnzFgfx48AjwmywkrPMcwsj7KDOsG04iWBM
+   Hwui6wmfsu/0o89L2f1/wFP9WeLIdUClce7JWKpUSziMafhwwxbsTfOp/
+   w==;
+X-CSE-ConnectionGUID: 76VpNeLfShi0CKCIPZ23hA==
+X-CSE-MsgGUID: wpfxwfIcTG2dQOw16MAxCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="52552508"
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="52552507"
+   d="scan'208";a="52552508"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 00:09:30 -0800
-X-CSE-ConnectionGUID: CVAdG/LdTgC1s0Fic16BYw==
-X-CSE-MsgGUID: RGPH8JxSRNCDbWm/iRyx4A==
+X-CSE-ConnectionGUID: DYRRPZARQsiEEL9ptuDQtg==
+X-CSE-MsgGUID: pqnT4wNNRIeyId3Xr9LamQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="193542798"
+   d="scan'208";a="193542799"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 12 Nov 2025 00:09:23 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJ5ur-000409-1Q;
+	id 1vJ5ur-000407-1N;
 	Wed, 12 Nov 2025 08:09:21 +0000
-Date: Wed, 12 Nov 2025 16:08:40 +0800
+Date: Wed, 12 Nov 2025 16:08:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3282/3282] mm/memcontrol.c:5402:26: error:
- implicit declaration of function 'ksm_process_profit'
-Message-ID: <202511121630.TEi1Z7Hc-lkp@intel.com>
+Subject: [ambarus:b4/gs101-otp 3/6] drivers/nvmem/exynos-otp.c:75:22: error:
+ implicit declaration of function 'FIELD_GET'
+Message-ID: <202511121657.HNfySIOh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nanyong,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   36c423f81858a53a2f8b9ac653a4ee48a6b4a3ae
-commit: 0f6fb3570be40b783d8c756d64297be1a8e3d2b3 [3282/3282] memcg: support ksm merge any mode per cgroup
-config: x86_64-buildonly-randconfig-004-20251112 (https://download.01.org/0day-ci/archive/20251112/202511121630.TEi1Z7Hc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511121630.TEi1Z7Hc-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day b4/gs101-otp
+head:   0862419643dee379acb65ec070139ee9833f28c4
+commit: f137b011b07dfa01eee237ebea7fb58a457a67a9 [3/6] nvmem: add Samsung Exynos OTP support
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251112/202511121657.HNfySIOh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511121657.HNfySIOh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511121630.TEi1Z7Hc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511121657.HNfySIOh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/memcontrol.c:5402:26: error: implicit declaration of function 'ksm_process_profit' [-Werror,-Wimplicit-function-declaration]
-    5402 |                 ksm_process_profits += ksm_process_profit(mm);
-         |                                        ^
-   1 error generated.
+   drivers/nvmem/exynos-otp.c: In function 'exynos_otp_soc_device_register':
+>> drivers/nvmem/exynos-otp.c:75:22: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      75 |         product_id = FIELD_GET(EXYNOS_OTP_PRODUCT_ID_MASK, val);
+         |                      ^~~~~~~~~
 
 
-vim +/ksm_process_profit +5402 mm/memcontrol.c
+vim +/FIELD_GET +75 drivers/nvmem/exynos-otp.c
 
-  5379	
-  5380	static int memory_ksm_show(struct seq_file *m, void *v)
-  5381	{
-  5382		unsigned long ksm_merging_pages = 0;
-  5383		unsigned long ksm_rmap_items = 0;
-  5384		long ksm_process_profits = 0;
-  5385		unsigned int tasks = 0;
-  5386		struct task_struct *task;
-  5387		struct mm_struct *mm;
-  5388		struct css_task_iter it;
-  5389		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-  5390	
-  5391		css_task_iter_start(&memcg->css, CSS_TASK_ITER_PROCS, &it);
-  5392		while ((task = css_task_iter_next(&it))) {
-  5393			mm = get_task_mm(task);
-  5394			if (!mm)
-  5395				continue;
-  5396	
-  5397			if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-  5398				tasks++;
-  5399	
-  5400			ksm_rmap_items += mm->ksm_rmap_items;
-  5401			ksm_merging_pages += mm->ksm_merging_pages;
-> 5402			ksm_process_profits += ksm_process_profit(mm);
-  5403			mmput(mm);
-  5404		}
-  5405		css_task_iter_end(&it);
-  5406	
-  5407		seq_printf(m, "merge any state: %d\n", READ_ONCE(memcg->ksm_merge_any));
-  5408		seq_printf(m, "merge any tasks: %u\n", tasks);
-  5409		seq_printf(m, "ksm_rmap_items %lu\n", ksm_rmap_items);
-  5410		seq_printf(m, "ksm_merging_pages %lu\n", ksm_merging_pages);
-  5411		seq_printf(m, "ksm_process_profits %ld\n", ksm_process_profits);
-  5412		return 0;
-  5413	}
-  5414	
+    56	
+    57	static int exynos_otp_soc_device_register(struct exynos_otp *eotp)
+    58	{
+    59		struct soc_device_attribute *soc_dev_attr;
+    60		struct regmap *regmap = eotp->regmap;
+    61		struct device *dev = eotp->dev;
+    62		struct soc_device *soc_dev;
+    63		u32 val, main_rev, sub_rev;
+    64		u32 product_id, revision;
+    65		int ret;
+    66	
+    67		soc_dev_attr = devm_kzalloc(dev, sizeof(*soc_dev_attr), GFP_KERNEL);
+    68		if (!soc_dev_attr)
+    69			return -ENOMEM;
+    70	
+    71		ret = regmap_read(regmap, EXYNOS_OTP_PRODUCT_ID, &val);
+    72		if (ret)
+    73			return dev_err_probe(dev, ret, "failed to read product id");
+    74	
+  > 75		product_id = FIELD_GET(EXYNOS_OTP_PRODUCT_ID_MASK, val);
+    76		main_rev = FIELD_GET(EXYNOS_OTP_PRODUCT_ID_MAIN_REV, val);
+    77	
+    78		ret = regmap_read(regmap, EXYNOS_OTP_CHIPID(3), &val);
+    79		if (ret)
+    80			return dev_err_probe(dev, ret, "failed to read chip id");
+    81	
+    82		sub_rev = FIELD_GET(EXYNOS_OTP_CHIPID3_SUB_REV, val);
+    83		revision = main_rev << EXYNOS_OTP_PRODUCT_ID_MAIN_REV_SHIFT | sub_rev;
+    84	
+    85		soc_dev_attr->family = "Samsung Exynos";
+    86		soc_dev_attr->soc_id = exynos_otp_xlate_soc_name(product_id);
+    87		if (!soc_dev_attr->soc_id)
+    88			return dev_err_probe(dev, -ENODEV,
+    89					     "failed to translate chip id to name");
+    90	
+    91		soc_dev_attr->revision = devm_kasprintf(dev, GFP_KERNEL, "%x",
+    92							revision);
+    93		if (!soc_dev_attr->revision)
+    94			return -ENOMEM;
+    95	
+    96		soc_dev = soc_device_register(soc_dev_attr);
+    97		if (IS_ERR(soc_dev))
+    98			return dev_err_probe(dev, PTR_ERR(soc_dev),
+    99					     "failed to register to the SoC interface");
+   100	
+   101		ret = devm_add_action_or_reset(dev, exynos_otp_unregister_soc, soc_dev);
+   102		if (ret)
+   103			return dev_err_probe(dev, ret, "failed to add devm action");
+   104	
+   105		return 0;
+   106	}
+   107	
 
 -- 
 0-DAY CI Kernel Test Service
