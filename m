@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE76E4AEE2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 00:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3814C6D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Nov 2025 00:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762906063; cv=none; b=ps5m3+mTWdrg3aIqPFhYoVOuXNBT9Tk/dh50P7UFlZMarh2UAeN8T8PPOHV2GaC/AuQOQYkOqLZxy8+8zYeuUP0UL1PhH+LhF2oB4eLaY6Zv9Va54BlnejlpmNv32jxDNy0I18GR24WcREAt33YGTmBEqS4EmJ3pjARJhAuRGIo=
+	t=1762907984; cv=none; b=NohFODTPMksqrRE7kt0L9AGlbcu+GIJQtWla+lECVB7iWeiHRnmAdnRDdkUndB6YHyQSyJDvL92O1b3TrwlNvsrWKTbvAnTn6eOG8kww1WK18ToEdKa2huEPYuZIZN94fvqzMSAYhhjM8z1I5ryXLhRFyk+N17pch3RbYNcxQ/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762906063; c=relaxed/simple;
-	bh=AeZ5+CRwC3gcklLzD8Zp3pnyW1bu7e+fRQnoDRjZ7hY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fg6dLVb/if6OECk5CuDeOjm6qerEyJ3RnMqeUzUAf8wBSTFiRFYC0q04/9DZa1/vtkyQkV2vqo1EMWKbP2/ZYzsVGID9sCyvlPT2ynAUhvfM/GH4Az5YKexRu/E7JwajIyvO9/z8yw0T6gxSkiAk5RmY5Rgg5pqODEftii3dmNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScVEpeae; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1762907984; c=relaxed/simple;
+	bh=UCtoHSaTmZe/wMwKI7bLRtVsD24qBiF6lPzRKjvBIfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J68+YP06jy+hheJeTtDip59KGEmyLr0IRQsXG6hDKa+goEHjIkkMVHAAYnHSCZLke5drjwI4hYDQtVC5Ptzp1tPohX8kTlD8/0M9rn7B/orkpmsDsYx8O6S/0pDAspg67Zh0nkN8RcjjYAVfrJ8Sx3eXSYKf0sowN6ewpdhe5vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXyGrxPN; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScVEpeae"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXyGrxPN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762906061; x=1794442061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AeZ5+CRwC3gcklLzD8Zp3pnyW1bu7e+fRQnoDRjZ7hY=;
-  b=ScVEpeaeXO4efcNwmL2JxqSkBaux78P5CEMwqyfLnhrWrD81Cx5n1Fnx
-   i07ooW7KLfQmt7J7N4cZw6W7VPpWNHkekn+6J0ur6iu05o6E1sPu0j0OS
-   /BLZP3VvxRxUgresGiorYS7DGCWrI/8vh9iy0QSjLDbX0Rlm3cX3FaeHZ
-   EUg9NmSSatTAE9rlTzWfPY8laUsPQoWvLnuw0XA33mLW4LmZvBDTYylGn
-   Jn23OHosJFMRwGeo1VowNycVkRZCTkZF/VUYDOGmF95FovQT6lw/vyuK/
-   cDjR5LhTMkvNEbuWxSLq/cSxhiD4wEmFLAe8TvNJ1sC5lfnWLUlDkGxR1
+  t=1762907983; x=1794443983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UCtoHSaTmZe/wMwKI7bLRtVsD24qBiF6lPzRKjvBIfY=;
+  b=iXyGrxPNjoeq22LEwe5vOg9h8k19u501JwHzdYvWEJQzWpmvDSTxWJ91
+   Q0ClLbDZ77zhhzIY6Vb2d5/s+jJnhU14ybM424ZlHO38bC7p2ZIrbgNWC
+   Qdl5JhKRswpa+tvCfYem5oDyckONoFEXKXcIhKyCiKUy/AvMicFPCbOQf
+   O15ELGjsdK6Ap3ijKcTU5A1xo2BFmPcb/MTXVuTI1EW9EUBKNT1Eti/5/
+   DMSFOxPGWZY7P0tIgS6F6GnPvDX+M+Vds4ewXje+e+y0iepAoFb+3x5UZ
+   3AhZvAgUbjuz7Uo9CkrKKxIz2h9U8XdLTDkg6ZEbS501tC8V2nRuN9rHP
    w==;
-X-CSE-ConnectionGUID: EL255ywZSgudCrxdd5XhAQ==
-X-CSE-MsgGUID: qBgIHONASReXrUyfk8EcsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11610"; a="82364974"
-X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="82364974"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 16:07:41 -0800
-X-CSE-ConnectionGUID: iZWW1HrHRR6B/zMyZh0maw==
-X-CSE-MsgGUID: go3eZkH9TcyWfVKd7nonUg==
+X-CSE-ConnectionGUID: V6nCSmpyQNOTf2y9rAJARQ==
+X-CSE-MsgGUID: bavXhGoNTfq1Xl02g4TR7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64903012"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64903012"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 16:39:43 -0800
+X-CSE-ConnectionGUID: Z/2sYdDQQ5aUhFuykH9n7Q==
+X-CSE-MsgGUID: TV4MzlUBQN+w3mYIKdTUsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,298,1754982000"; 
-   d="scan'208";a="193324446"
+   d="scan'208";a="194282252"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2025 16:07:37 -0800
+  by orviesa005.jf.intel.com with ESMTP; 11 Nov 2025 16:39:41 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vIyOd-0003gR-1l;
-	Wed, 12 Nov 2025 00:07:35 +0000
-Date: Wed, 12 Nov 2025 08:07:20 +0800
+	id 1vIyte-0003hR-05;
+	Wed, 12 Nov 2025 00:39:38 +0000
+Date: Wed, 12 Nov 2025 08:39:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea Tomassetti <andrea.tomassetti@sipearl.com>, sudeep.holla@arm.com,
-	jassisinghbrar@gmail.com, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrea Tomassetti <andrea.tomassetti@sipearl.com>, lenb@kernel.org,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	olivierdautricourt@gmail.com,
-	Thibault Cantori <thibault.cantori@sipearl.com>,
-	Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-Subject: Re: [PATCH] mailbox: pcc: support polling mode when there is no
- platform IRQ
-Message-ID: <202511120729.R3XQNSnx-lkp@intel.com>
-References: <20251110150825.3548819-1-andrea.tomassetti@sipearl.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:iou-bpf/test 8/12] io_uring/bpf.h:43:1: warning: non-void
+ function does not return a value
+Message-ID: <202511120850.osYHgeoy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,89 +61,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251110150825.3548819-1-andrea.tomassetti@sipearl.com>
 
-Hi Andrea,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge jassibrar-mailbox/for-next linus/master v6.18-rc5 next-20251111]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Tomassetti/mailbox-pcc-support-polling-mode-when-there-is-no-platform-IRQ/20251110-232950
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251110150825.3548819-1-andrea.tomassetti%40sipearl.com
-patch subject: [PATCH] mailbox: pcc: support polling mode when there is no platform IRQ
-config: i386-buildonly-randconfig-002-20251112 (https://download.01.org/0day-ci/archive/20251112/202511120729.R3XQNSnx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120729.R3XQNSnx-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux iou-bpf/test
+head:   22c04e600798ca3905808ff55ebf3029fca38874
+commit: c153662b73aafa8d6879a136f2d643b2a2729bb6 [8/12] io_uring/bpf: add handle events callback
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251112/202511120850.osYHgeoy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511120850.osYHgeoy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511120729.R3XQNSnx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511120850.osYHgeoy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/acpi/acpi_pcc.o: in function `acpi_pcc_address_space_handler':
->> drivers/acpi/acpi_pcc.c:148:(.text+0x7e): undefined reference to `__udivdi3'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for GPIO_SYSCON
-   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
-   Selected by [m]:
-   - GPIO_SAMA5D2_PIOBU [=m] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [m]:
-   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+   In file included from io_uring/io_uring.c:102:
+>> io_uring/bpf.h:43:1: warning: non-void function does not return a value [-Wreturn-type]
+      43 | }
+         | ^
+   1 warning generated.
 
 
-vim +148 drivers/acpi/acpi_pcc.c
+vim +43 io_uring/bpf.h
 
-   124	
-   125	static acpi_status
-   126	acpi_pcc_address_space_handler(u32 function, acpi_physical_address addr,
-   127				       u32 bits, acpi_integer *value,
-   128				       void *handler_context, void *region_context)
-   129	{
-   130		acpi_status ret;
-   131		struct pcc_data *data = region_context;
-   132		u64 usecs_lat;
-   133		bool use_polling = data->pcc_chan->mchan->mbox->txdone_poll;
-   134	
-   135		reinit_completion(&data->done);
-   136	
-   137		/* Write to Shared Memory */
-   138		memcpy_toio(data->pcc_chan->shmem, (void *)value, data->ctx.length);
-   139	
-   140		/*
-   141		 * pcc_chan->latency is just a Nominal value. In reality the remote
-   142		 * processor could be much slower to reply. So add an arbitrary
-   143		 * amount of wait on top of Nominal.
-   144		 */
-   145		usecs_lat = PCC_CMD_WAIT_RETRIES_NUM * data->pcc_chan->latency;
-   146	
-   147		data->cl.tx_block = use_polling;
- > 148		data->cl.tx_tout = usecs_lat / USEC_PER_MSEC;
-   149	
-   150		if (use_polling)
-   151			ret = acpi_pcc_send_msg_polling(data);
-   152		else
-   153			ret = acpi_pcc_send_msg_irq(data);
-   154	
-   155		memcpy_fromio(value, data->pcc_chan->shmem, data->ctx.length);
-   156	
-   157		return ret;
-   158	}
-   159	
+    31	
+    32	
+    33	#ifdef CONFIG_IO_URING_BPF
+    34	void io_unregister_bpf(struct io_ring_ctx *ctx);
+    35	int io_run_cqwait_ops(struct io_ring_ctx *ctx, struct iou_loop_state *ls);
+    36	#else
+    37	static inline void io_unregister_bpf(struct io_ring_ctx *ctx)
+    38	{
+    39	}
+    40	static inline int io_run_cqwait_ops(struct io_ring_ctx *ctx,
+    41					    struct iou_loop_state *ls)
+    42	{
+  > 43	}
+    44	#endif
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
