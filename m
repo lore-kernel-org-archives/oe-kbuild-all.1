@@ -1,443 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8152034DCE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3562D350293
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 13:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763036836; cv=none; b=WzCQVz5IhncPn6oU1eTXUHkN+zY3LeRME3gATAlgI9NpmMWFBiMOMLDrwG1TNsIIFIVwPmG4fio0Rvjh1vkUfYTmtTqNoeFtnOvwhadv+3B5iWICsuStsUTXKkkrAw75K6kwTZnBwEFwP9cDe2aoLgQrki+KmMwdJNQ+TM1Jyfk=
+	t=1763039852; cv=none; b=pmMF3KtQkjHznEZ97mLUXE1u1YuYVOuF3zkJbVjCsPg3Ttz6BDnKCGFMemZ4ot6LLg2K+QvhTPSgboLCJKPbNEipOqQNPJGc8nnZroe2vmMu7tpSlCNCeFuCSiKDr7qGWLxtxwAywIxMHld9j1DYCByL9yl2YCGJh0NHs3lV2WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763036836; c=relaxed/simple;
-	bh=9YKDJvqo43CiDTABoeX6SOfBTdvF1QGBBQkMMDUt4oA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mgLQdMdOvTdRubDYlJcoxkloDA5Zk7742Xr/jKB3/uXFTt3VtxBEbSp/5vrUNAd8MT9CvHX0iPbu6PaEDo8XlFXJDINbPrvfuCar6rHZqxOJQH8XBLU+TAm9JE5DcOsTAwq2smnhwVkeXz8mIbcpBaFhlqn02XOqPpHKC+rwLDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQpBYnGZ; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763039852; c=relaxed/simple;
+	bh=qevxKG5CiOTkiXWDTKsz8tLT6M20acSj7pUk8B1nO04=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Du2osN2Tha2JSFnyqC8GRdsUCcpFxIXlzS70tqoxtF3IfUnjqGZy1xKdIDF5v9GDAIwFnkCW4sBwDdOXIbc+90TIY8LoRmqi4hHxgCyj5oUvEbdQDDejT8fBDWG2h1nz4yl1b5Rs5HfFCslu0nGEgOuKqbVA9a1VKDFG/doGm1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GJTI7h4X; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQpBYnGZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763036834; x=1794572834;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9YKDJvqo43CiDTABoeX6SOfBTdvF1QGBBQkMMDUt4oA=;
-  b=YQpBYnGZEy6o+E43IVTrqOdweQhuR7GmHN5CYPbktE8JmN8rLwjdARxo
-   38zFLtBDRx6u39Xa819nMxW3XccRIyd7bDVltO9C4Fs/nLH8duGM2nw7J
-   6MORVdl653SqB5Bmm79EOWKaBzjgO9UoHGdRUNTxmlehcEp5PVc4Ke7Sn
-   GRTh7KEYNrNCrOcYbkmobrUUpxB/8Pe0vNb1trbwWLxlBaR5zZgJkUpp/
-   J1auCSHEJWu5YpTLunop3FnGlr6hSZHalQNEuloIHXtY+8GgD4m3vpURV
-   rK05ALzvzn/MbQnOLtcYm+c56aH8jxnPwyutgSlW1MvPwHYRfqb9SnY4j
-   g==;
-X-CSE-ConnectionGUID: PsebC7hoTB2+d6hxINeEtQ==
-X-CSE-MsgGUID: h0QCvIdJSgSlW8Vu5t6n0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="75793363"
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="75793363"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 04:27:12 -0800
-X-CSE-ConnectionGUID: CwEwsBPdQf+Q52xtV60pbQ==
-X-CSE-MsgGUID: f5N/fGfJQ0+9LoLGf+QsDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="226789280"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2025 04:27:11 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vJWPs-0005Jn-1a;
-	Thu, 13 Nov 2025 12:27:08 +0000
-Date: Thu, 13 Nov 2025 20:26:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 36/283] include/uapi/linux/const.h:20:25:
- warning: conversion from 'long long unsigned int' to 'long unsigned int'
- changes value from '17179869184' to '0'
-Message-ID: <202511132024.tfRZgB5P-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GJTI7h4X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763039850;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=qevxKG5CiOTkiXWDTKsz8tLT6M20acSj7pUk8B1nO04=;
+	b=GJTI7h4XFiM+GT+zSvvbPM0M8mai7lvoiASqhH2URPvW8mIeamiQAf0oypu0j3vWZ3oE5K
+	57jlnT6ovXoLei/lrGZpewJhcbjcBZXxJFQ4+YMBA8FhQrfno8Z8MiJMa80uiBZxkfwnNa
+	Dqd+8OciKACFx7rtHKdEYDfLTTbTvDM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-225-Od5Fu3UeOhKGXV_yhDIGRQ-1; Thu, 13 Nov 2025 08:17:29 -0500
+X-MC-Unique: Od5Fu3UeOhKGXV_yhDIGRQ-1
+X-Mimecast-MFC-AGG-ID: Od5Fu3UeOhKGXV_yhDIGRQ_1763039848
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4775e00b16fso6793415e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 05:17:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763039848; x=1763644648;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qevxKG5CiOTkiXWDTKsz8tLT6M20acSj7pUk8B1nO04=;
+        b=MUu592uZlRnhQ0VUiNrOv9lrcXtCH7TssFkrRWYERwVYWfW2Cevzorncf7UFnpmL+A
+         pHXCOUWGWSgmO8x+Y4ZqmAEdZVGAyKtVCq/aSqvwabmdIhLn8vokLN//kuTRzoBwI+6B
+         AW9jS9Txn8NqDAV1urqrs2CTmLnsRogds8CsfoSUZ/bKdz82dYIB4AG+1A8KrnhAWXZh
+         2rxj56MqmNR0sbkJkT5HeE/aBGhk18ApUbO5ecqdOX9UcjopdZ0Ve0vgK9ddmQnu8b9W
+         Y4EuB5UGhTHcEDBT94R55olseSgLFG5bjZfAR+xCS6gqEmHuFosWzqtzjo8KoCROGTY1
+         KzAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVr+Pkq7F2ZBd/U2cFPphoFrVFK8fRbkzPhOq5qJdJlfnVvYkcLb1M3NZRISMemVykEoIkkVAGLCuE/kbNy@lists.linux.dev
+X-Gm-Message-State: AOJu0YzspbaYI3c58ZzlDQ9X/Vg0RRB+sVHhoGIDz8xpBF49tTh4bcEh
+	srfPO+AD6gzr5f2gLs64XzuciXmVg9tXc+J7pVzxp/b6cef2UjQ5Ipe4bazytWiNxk41OfppXar
+	0JM+49Wc4T47VDqs0QNpKQEBVxN0s/CxD2GTu+MiCaiA8Fo+HF0J5I0eRLjzjBmo04Kc=
+X-Gm-Gg: ASbGncsb4O5Y3440r0OyDRm3s4VI7WBRZVrYSQAAzC4Kg2LCeEZkhAskHP6WFOSOmLg
+	xrAuK3eIyD8aa4ShMpLDhjWWV6dFzERX2zO4r5p886GOZw/m3stM8LqDClo7PEZKyK4YvUEmYFG
+	H64obOZTnHWwE9GLt4L5CPwIb9QRW17N9P6/gZFdf/w9+ovbGXQWGds/KGJ3D8Kn2TzR6N/Oo2a
+	ol+eZqKii+rwKP/6EWKwSI2o0if3PH/hu5TXNQu/Bib+nnjfRZUgFCYSOCkM0SGcuO0TyjpckD2
+	nPEehoiUSHZwBBYWRQh4ZjSxCtg+5BrrKagUszO3E8DClq9B6Zmvx4Xfh2i7l8elq8P66czsfIW
+	x5cMuAwuEWsGJ8oZEtm8XXSNiz44=
+X-Received: by 2002:a05:600c:3153:b0:477:79a0:51e with SMTP id 5b1f17b1804b1-477871e8411mr54404745e9.40.1763039847871;
+        Thu, 13 Nov 2025 05:17:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFHOQ539u8DXltIYAuT5a2CteB1MT2o+TSWryPB2beeV97E36xvC+7NTzD7kK292d+kwJkefw==
+X-Received: by 2002:a05:600c:3153:b0:477:79a0:51e with SMTP id 5b1f17b1804b1-477871e8411mr54404495e9.40.1763039847449;
+        Thu, 13 Nov 2025 05:17:27 -0800 (PST)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.134.44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e953e3sm89018465e9.14.2025.11.13.05.17.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 05:17:27 -0800 (PST)
+Message-ID: <c4bb3aa4a73c0ec815bdc30c104b6f90fae5ed39.camel@redhat.com>
+Subject: Re: [trace:latency/for-next 3/5]
+ kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declaration of
+ 'rv_sleep' follows non-static declaration
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, 
+ Steven Rostedt <rostedt@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Date: Thu, 13 Nov 2025 14:17:25 +0100
+In-Reply-To: <20251113130659-27597fbf-a991-4cfb-aaf5-de69100ed34d@linutronix.de>
+References: <202511131948.vxi5mdjU-lkp@intel.com>
+	 <20251113130659-27597fbf-a991-4cfb-aaf5-de69100ed34d@linutronix.de>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: xT-ACjwsRYe96LI6ARiapKukd3UqDLbIK6cXatgvQs4_1763039848
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   f58b4cb6b0c11172a25c2ade23477f55596d7138
-commit: 2f6ff71280ffddb27ad7174d24f573e2683870cd [36/283] mm: fix MAX_FOLIO_ORDER on powerpc configs with hugetlb
-config: sh-randconfig-002-20251113 (https://download.01.org/0day-ci/archive/20251113/202511132024.tfRZgB5P-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511132024.tfRZgB5P-lkp@intel.com/reproduce)
+On Thu, 2025-11-13 at 13:13 +0100, Thomas Wei=C3=9Fschuh wrote:
+> That 'extern' declaration if !CONFIG_RV_REACTORS doesn't make sense.
+> The whole conditional should go away and just always declare:
+>=20
+> static struct rv_monitor RV_MONITOR_NAME;
+>=20
+> Want me to send a new revision or will you fix it up directly?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511132024.tfRZgB5P-lkp@intel.com/
+The commit is already on linux-next, I guess the easiest thing is to send a=
+ fix
+commit on top of that and Steven can decide whether to squash it before sen=
+ding
+it to Linus or leave it as it is.
 
-All warnings (new ones prefixed by >>):
+I can handle this.
 
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/migrate.h:5,
-                    from mm/migrate.c:16:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:346: Error: offset to unaligned destination
-   {standard input}:9897: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/backing-dev.h:13,
-                    from mm/vma_internal.h:12,
-                    from mm/vma_init.c:8:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/sh/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/sched/signal.h:5,
-                    from include/linux/oom.h:6,
-                    from mm/oom_kill.c:21:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:6594: Error: offset to unaligned destination
-   {standard input}:6866: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from mm/shmem.c:24:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:4979: Error: offset to unaligned destination
-   {standard input}:5987: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/ksm.c:17:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:14481: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from mm/mmap.c:13:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:4912: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/page_alloc.c:19:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'alloc_contig_range_noprof':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/page_alloc.c:6910:61: note: in expansion of macro 'MAX_FOLIO_ORDER'
-    6910 |         if (WARN_ON_ONCE((gfp_mask & __GFP_COMP) && order > MAX_FOLIO_ORDER))
-         |                                                             ^~~~~~~~~~~~~~~
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/backing-dev.h:13,
-                    from mm/truncate.c:12:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:1964: Error: offset to unaligned destination
---
-   In file included from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/hugetlb.c:8:
-   mm/internal.h: In function 'folio_set_order':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-     111 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |         ^~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-     758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-         |                                 ^~~~~~~~~~~~~~~
-   In file included from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/hugetlb.c:8:
-   mm/hugetlb.c: In function 'hugetlb_add_hstate':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   arch/sh/include/asm/bug.h:69:32: note: in definition of macro 'WARN_ON'
-      69 |         int __ret_warn_on = !!(x);                              \
-         |                                ^
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~
-   include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-         |                                           ^~~~~~
-   mm/hugetlb.c:4753:25: note: in expansion of macro 'MAX_FOLIO_ORDER'
-    4753 |         WARN_ON(order > MAX_FOLIO_ORDER);
-         |                         ^~~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:10762: Error: offset to unaligned destination
-   {standard input}:11421: Error: offset to unaligned destination
-   {standard input}:15615: Error: offset to unaligned destination
-..
+Thanks,
+Gabriele
 
-
-vim +20 include/uapi/linux/const.h
-
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
-6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
-
-:::::: The code at line 20 was first introduced by commit
-:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
-
-:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
-:::::: CC: Andi Kleen <andi@basil.nowhere.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
