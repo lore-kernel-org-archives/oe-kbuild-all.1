@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7718126299;
-	Thu, 13 Nov 2025 11:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE892ECD31
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 11:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763033471; cv=none; b=iTdiU2lX9O+uBHHQaSLn2JdKIawM6HLzn7Mw/6OymEQwfj0X5/aGktRIbjN0UkwTYA8OFa34okaADkD1HulLjI3JWSBHLsRsSYpghI3VGZTQ3c+DtxuKCGizuPDhetn+Cu0NclbYFWwWVijNZNHuThK76umNmv7wgR5vnIV7X2Y=
+	t=1763033473; cv=none; b=XnYU8D4ltGll06oT/lctSxlINx5bMwOQcfcfecqrJpbQeDjGMg7O2oa6SgOGMAI02twLgQR4R9FrFbRXs1KgliEHUM3AwKTHc1iY69hNQC46NlqoyPV8xLh5t0ae6ZrBD+LN1GPkmxjNvwhu/uP/hSRIFzncOWSVFVNQZVqxdZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763033471; c=relaxed/simple;
-	bh=leQexSe0QOsw8gKDWYROxDGXZhNe5hvXDiWHOWjWxbU=;
+	s=arc-20240116; t=1763033473; c=relaxed/simple;
+	bh=VO0D4qtFDnnqDUnf4u1aGwJJ/e/ChUkUSuVmhopuyUE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iiU8RIlymzSyNncaL/nKnwqy70qB9/HcmNxXy/PyT+4ktbKd8RJBGMRtaiwj5/LaMJg8PwoAWB+ual0wuNBz6TjcbLbR0Ju6ZiWIY0L8FJ6IaasXFycPbVt9TMhs2HSgc2s2r1O7uRhxKtzKAnGW9NCfKzWwqjsQo3Fub18iZw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XixOy/S0; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZCCOSCpwR7fqVXZFq5Mn3+pLWty4Lf8j40IFAxP47hWPllMtMAGbvMbhmsQt+dmHv7/Aw7jRHlZ6N/D3/cacWQ1b3a0tZw9EtcZtaQqIiL/tO+IrLK46mnfwcO5LaQ0pAbJUsKyLt9d2mqiCQ+jd6OxM59jakUfMpbNV5BeiSro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xr2w3xyP; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XixOy/S0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xr2w3xyP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763033467; x=1794569467;
+  t=1763033472; x=1794569472;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=leQexSe0QOsw8gKDWYROxDGXZhNe5hvXDiWHOWjWxbU=;
-  b=XixOy/S0KM52OeHZsljtOI2YycgrruHil4mjaRsFmQ8KTNliyHQWLSCu
-   y2sz6oYfZ2Jus8/4EXldYJkhpVyQN6xc9cpaOsMQVdvfJY+G6AxoIlUvU
-   N+IwZfKgFGrotii9AD/RibJeztuNPdiSD4UlfcJlZ+2PmzQdb10hk8mgF
-   xCqqnxfojY5z5GkmsF0H2E4TKELmK5a5UH1ZLqjd+WgnZVwy3NAkMlego
-   Xr/Oo9Sfkv5a8METoQ9H1aDBifMgl/QaG/+CBUp4wWnl9qGCnQVp2JAPS
-   XqXptBp4NDOS764il93gu6v0EEpRF2NlHmxRFXK6wVaLwKWVV9mpvbOyl
-   g==;
-X-CSE-ConnectionGUID: KwX7+JU/RJ2Idhw0JXhx5Q==
-X-CSE-MsgGUID: FgfX+x9RQumBB2lUhlGHww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68960602"
+  bh=VO0D4qtFDnnqDUnf4u1aGwJJ/e/ChUkUSuVmhopuyUE=;
+  b=Xr2w3xyPmkuN2IgfZAqP8tjoBuVnAnxy85gTZUQOt4B9xYmEPPoD7VMz
+   gOvhs7lpQb2hjB3iIDDzaJ854t6hH1nuBLONvfI86jSlW0oTq3FKPJAS8
+   NII4TxyxtQ4HseCka1VywpOO56DaPA44ZSb2Ss5Iv5dU2bjsI9UcNrLbJ
+   uPFAZUIWwWAKhRLU5QwZTYeKlvhUcqgcv812bH44QMc4EWZSsj413tBbq
+   Le5gjQ/DGRt8dEC6XEtidk6/or52k7ydTaRKOvXRwG9tAWWLksLt9ehLD
+   x/Yh8A1BBVfVLsGJuDaMtZ+mYH3yoozA5aW/b1bEYuXVhxn/pEwFdm5SD
+   Q==;
+X-CSE-ConnectionGUID: 3oBw6PJeTB6/eSOxjl4PhA==
+X-CSE-MsgGUID: WUw8OyAQQAu6TRgRwbQOEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68960603"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="68960602"
+   d="scan'208";a="68960603"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 03:31:06 -0800
-X-CSE-ConnectionGUID: 6Rj5s/SBSaeCL0167eGeig==
-X-CSE-MsgGUID: 3IowPMGiTGiQGduJiL6Haw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 03:31:07 -0800
+X-CSE-ConnectionGUID: qv+Wec9pSSqs4nivXwDvhQ==
+X-CSE-MsgGUID: Sn3jbVsASbKvR2WO6KQvFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="220132437"
+   d="scan'208";a="220132438"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 13 Nov 2025 03:31:05 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJVXa-0005FT-22;
+	id 1vJVXa-0005FV-26;
 	Thu, 13 Nov 2025 11:31:02 +0000
-Date: Thu, 13 Nov 2025 19:30:05 +0800
+Date: Thu, 13 Nov 2025 19:30:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>, mptcp@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 mptcp-net 3/3] Squash-to: "mptcp: leverage the backlog
- for RX packet processing"
-Message-ID: <202511131931.1yh3eKYe-lkp@intel.com>
-References: <ee40999f77d0186abba2a6b21958c1a8c4881c57.1762992570.git.pabeni@redhat.com>
+To: Rosen Penev <rosenp@gmail.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Dinh Nguyen <dinguyen@kernel.org>
+Subject: Re: [PATCHv2 2/2] firmware: stratix10-rsu: add COMPILE_TEST support
+Message-ID: <202511131954.IdQx9gfF-lkp@intel.com>
+References: <20251112063033.176276-3-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ee40999f77d0186abba2a6b21958c1a8c4881c57.1762992570.git.pabeni@redhat.com>
+In-Reply-To: <20251112063033.176276-3-rosenp@gmail.com>
 
-Hi Paolo,
+Hi Rosen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on mptcp/export]
-[cannot apply to mptcp/export-net linus/master v6.18-rc5 next-20251113]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc5 next-20251113]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/mptcp-fix-grafting-corner-case/20251113-081224
-base:   https://github.com/multipath-tcp/mptcp_net-next.git export
-patch link:    https://lore.kernel.org/r/ee40999f77d0186abba2a6b21958c1a8c4881c57.1762992570.git.pabeni%40redhat.com
-patch subject: [PATCH v3 mptcp-net 3/3] Squash-to: "mptcp: leverage the backlog for RX packet processing"
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20251113/202511131931.1yh3eKYe-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131931.1yh3eKYe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/firmware-stratix10-rsu-fix-32-bit-compilation/20251112-143202
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251112063033.176276-3-rosenp%40gmail.com
+patch subject: [PATCHv2 2/2] firmware: stratix10-rsu: add COMPILE_TEST support
+config: s390-randconfig-r111-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131954.IdQx9gfF-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131954.IdQx9gfF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131931.1yh3eKYe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511131954.IdQx9gfF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/mptcp/protocol.c: In function '__mptcp_add_backlog':
->> net/mptcp/protocol.c:693:17: error: 'struct sock' has no member named 'sk_memcg'
-     693 |         if (!ssk->sk_memcg)
-         |                 ^~
+   s390-linux-ld: drivers/firmware/stratix10-svc.o: in function `svc_smccc_hvc':
+>> drivers/firmware/stratix10-svc.c:845:(.text+0x5ba): undefined reference to `__arm_smccc_hvc'
 
 
-vim +693 net/mptcp/protocol.c
+vim +845 drivers/firmware/stratix10-svc.c
 
-   654	
-   655	static void __mptcp_add_backlog(struct sock *sk,
-   656					struct mptcp_subflow_context *subflow,
-   657					struct sk_buff *skb)
-   658	{
-   659		struct mptcp_sock *msk = mptcp_sk(sk);
-   660		struct sk_buff *tail = NULL;
-   661		struct sock *ssk = skb->sk;
-   662		bool fragstolen;
-   663		int delta;
-   664	
-   665		if (unlikely(sk->sk_state == TCP_CLOSE)) {
-   666			kfree_skb_reason(skb, SKB_DROP_REASON_SOCKET_CLOSE);
-   667			return;
-   668		}
-   669	
-   670		/* Try to coalesce with the last skb in our backlog */
-   671		if (!list_empty(&msk->backlog_list))
-   672			tail = list_last_entry(&msk->backlog_list, struct sk_buff, list);
-   673	
-   674		if (tail && MPTCP_SKB_CB(skb)->map_seq == MPTCP_SKB_CB(tail)->end_seq &&
-   675		    ssk == tail->sk &&
-   676		    __mptcp_try_coalesce(sk, tail, skb, &fragstolen, &delta)) {
-   677			skb->truesize -= delta;
-   678			kfree_skb_partial(skb, fragstolen);
-   679			__mptcp_subflow_lend_fwdmem(subflow, delta);
-   680			goto account;
-   681		}
-   682	
-   683		list_add_tail(&skb->list, &msk->backlog_list);
-   684		mptcp_subflow_lend_fwdmem(subflow, skb);
-   685		delta = skb->truesize;
-   686	
-   687	account:
-   688		WRITE_ONCE(msk->backlog_len, msk->backlog_len + delta);
-   689	
-   690		/* Possibly not accept()ed yet, keep track of memory not CG
-   691		 * accounted, mptcp_grapt_subflows will handle it.
-   692		 */
- > 693		if (!ssk->sk_memcg)
-   694			msk->backlog_unaccounted += delta;
-   695	}
-   696	
+7ca5ce896524f5 Richard Gong 2018-11-13  826  
+7ca5ce896524f5 Richard Gong 2018-11-13  827  /**
+7ca5ce896524f5 Richard Gong 2018-11-13  828   * svc_smccc_hvc() - hypervisor call between normal and secure world
+7ca5ce896524f5 Richard Gong 2018-11-13  829   * @a0: argument passed in registers 0
+7ca5ce896524f5 Richard Gong 2018-11-13  830   * @a1: argument passed in registers 1
+7ca5ce896524f5 Richard Gong 2018-11-13  831   * @a2: argument passed in registers 2
+7ca5ce896524f5 Richard Gong 2018-11-13  832   * @a3: argument passed in registers 3
+7ca5ce896524f5 Richard Gong 2018-11-13  833   * @a4: argument passed in registers 4
+7ca5ce896524f5 Richard Gong 2018-11-13  834   * @a5: argument passed in registers 5
+7ca5ce896524f5 Richard Gong 2018-11-13  835   * @a6: argument passed in registers 6
+7ca5ce896524f5 Richard Gong 2018-11-13  836   * @a7: argument passed in registers 7
+7ca5ce896524f5 Richard Gong 2018-11-13  837   * @res: result values from register 0 to 3
+7ca5ce896524f5 Richard Gong 2018-11-13  838   */
+7ca5ce896524f5 Richard Gong 2018-11-13  839  static void svc_smccc_hvc(unsigned long a0, unsigned long a1,
+7ca5ce896524f5 Richard Gong 2018-11-13  840  			  unsigned long a2, unsigned long a3,
+7ca5ce896524f5 Richard Gong 2018-11-13  841  			  unsigned long a4, unsigned long a5,
+7ca5ce896524f5 Richard Gong 2018-11-13  842  			  unsigned long a6, unsigned long a7,
+7ca5ce896524f5 Richard Gong 2018-11-13  843  			  struct arm_smccc_res *res)
+7ca5ce896524f5 Richard Gong 2018-11-13  844  {
+7ca5ce896524f5 Richard Gong 2018-11-13 @845  	arm_smccc_hvc(a0, a1, a2, a3, a4, a5, a6, a7, res);
+7ca5ce896524f5 Richard Gong 2018-11-13  846  }
+7ca5ce896524f5 Richard Gong 2018-11-13  847  
 
 -- 
 0-DAY CI Kernel Test Service
