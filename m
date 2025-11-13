@@ -1,232 +1,240 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE69E34B1A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73877333458
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763035453; cv=none; b=dMtaPeFIzMosqcMvV8d3Q1fX0LenUOJERBAsn/4qeweg5D+jCv3y2Ag/qa3XwkSGFwAVee1NWgfg9JxwAXPu1PlYg3qPzcCkThCaXtCgUV1zpJnqbv50qTLqKvpwVx0W19psq3QxPhmZysXdXoT4vOBsCF+FGY64f9jVPCzg/II=
+	t=1763035758; cv=none; b=jP5Yggd7swp717QXnc9y2NqpeqrH/47sjI7OAGpbU731HzoB9qZRuS3ylsbe0Khdnvq4SD3GnIENHqrV30abvdGG3Z4adSnqkQ2o3ouwbGp3BbLEseqpHLiNbB6V1GE5Z/ooqr4kSJWnDd+BWjGt/2QhvIozY7h3+EYXd2vahw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763035453; c=relaxed/simple;
-	bh=6jZIYN68tQEBVn4QK/I55/aItKlBxMKQ3zchz/QtGmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B9fVZlNbEMRaRtpVZZjJZkKA61mv1gRBZ6kMJFEyegrrIDj9X2Tfo2wfZPuog28jjYIZfR7hbk2Htklw+os0UDKvswhgPaxr5IrVDvsTyBQfVw8MKyuEprcHmgQS0zjiviPEjo7zCtOiaH39iZ8QJkZbWZLgZrRmXgXJYC9BWNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxBVE6WK; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763035758; c=relaxed/simple;
+	bh=sY0woISfq0V0vLn/UEhUhuUgg0pLJ+quj72pABKu2kk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PORViCEPwFAiqJzi7MNRwLMFjl9sUehpdAFUwkovEOxhg3VaSUkOMBFEw2U4N1GHBgNqjhFgaXH0dgqCX7arXzerhGYqupKidW8nnL35R1ZiipW9RJVYlciBLBtTzwdYdi0jjG+O5ywlOrPY3yRhVYXgEKThv7BOFa1k8OHHtUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fRCiud2H; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxBVE6WK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763035452; x=1794571452;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6jZIYN68tQEBVn4QK/I55/aItKlBxMKQ3zchz/QtGmY=;
-  b=UxBVE6WKFfxfzZ+F7I0CDeD4Le04uuWGYGQHy2wGDNJo89jef+001K7F
-   yNPwgx8IhyLI3PGmAhmo6Fa9CA6P9DxrrGTl5jcjRrLlxbNsQGXTkaEzV
-   jf5smqTsggOZUJ2jV91hI7KzaQ8RBzuSSeY6uFFR+cYZ97FsYYY8fRp0/
-   qgQTGrU/L4FIURFiCUc8dPS7HAKWPVPS+tIJyFSZITFoxhWXB07PgRADa
-   XtxNcco+VLLNm0/uognNDfURZPE6ACs3cYZhRdiA0FfSbp9a0LopflCvR
-   dTe273EKQCFuE8aXmHlLRBWB6yKrnEJvGD2yjSRmVroYQsiB9pUmVKL+e
-   w==;
-X-CSE-ConnectionGUID: D+sH22H+Tl+yfdJWt/9MGA==
-X-CSE-MsgGUID: 3xz1X4A4Td+e2Cd/5W27mA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68962844"
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="68962844"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 04:04:09 -0800
-X-CSE-ConnectionGUID: G7Sw+F/3QnS1lh9msdCIMw==
-X-CSE-MsgGUID: KxqVWKgjTDGuxGehnBcyHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="193922910"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Nov 2025 04:04:09 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vJW3Z-0005IJ-2k;
-	Thu, 13 Nov 2025 12:04:05 +0000
-Date: Thu, 13 Nov 2025 20:03:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:cifs-next 3/9] fs/smb/client/cifs_debug.c:48:14: error:
- too few arguments to function 'server->ops->check_message'; expected 4, have
- 3
-Message-ID: <202511132043.h3L3Kvz8-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fRCiud2H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1763035755;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=sY0woISfq0V0vLn/UEhUhuUgg0pLJ+quj72pABKu2kk=;
+	b=fRCiud2HFYBEVA0ZEXr1DJDVzHJGc2r5zVM1K5+qucYUzG9Rp/279F9H1Wegl4DFfMg1IF
+	ALLNwWTibWai1ahwsjG5UVAPzTCxVqZpc5XuNK+FTY1T9fEwZISAU0ZmZ6+KGeBtk3wEDu
+	jJcN12pb0weM9wOmI2ABGMIndEQFqN8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-498-MbMARIxaMIWNDeA01F6SmQ-1; Thu, 13 Nov 2025 07:09:14 -0500
+X-MC-Unique: MbMARIxaMIWNDeA01F6SmQ-1
+X-Mimecast-MFC-AGG-ID: MbMARIxaMIWNDeA01F6SmQ_1763035753
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4776b0ada3dso14552135e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:09:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763035753; x=1763640553;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ikaLXIGQ5TqU8Nok4kXMEcM1jtaKJmmuJC6cwYTsLBQ=;
+        b=LjgtFjt/8mON0Fag4DKog9y0x6JvX7irvKGZlirvCLwYdjdnUpJAf7Dbp9ImHB01Bm
+         W+nY5gIYz30PvLRpkTa/HqC9EQVTI9pLOPFNurOjXT+IkgOD+7UW5JidzhBwabVY3h76
+         6E2ANBLR37M1GNSQ002KwjecpAKSfGZ9cLvDmp8o9djAvohwSWd6P/JGPk2+C2AsdvRB
+         HfVDpKMDYO5UCYHwUPBEH52zHwMPD/7ahfsD51vWfhzyaJLLYPs/UgkCp3wdULNgHFZl
+         hP9o7LoyEwEStv1m1y6ncqfEry230zw2w9XKy6E1HpohKgABW3a3p6Cxk4q7kLvqvPlQ
+         UjGg==
+X-Gm-Message-State: AOJu0YxewXimP1Hwx15BZg+/CLvpPNkt5rgWS8dfAZcqEXZ/1NHDM6hw
+	9f0gMpHGwELJQScMlLjFb4cTOKdJ+dI7UbJ5TsRep6xoXVhmhBiRWetUoyob/NieLAlH3kNmxVI
+	qKbbqaEmbeof0qx6jctK7OPFKDtLAwfauDfBeDFULShHF4/HfEthPv/H21Ga2sH2DnHU=
+X-Gm-Gg: ASbGncvqKadH6BE5o7+t7xbCbc2qxh3e+j/g9AezwOsxZXS9J5o8h2FA+ajpgQD2743
+	f1doEi3dBuTwZYOrUv4oOVwvybkpSMXIL+QLB/V65k8cuuGiS9hcaTYRztxWDzIoncsur6HQDfO
+	vEMJqQT3VS70ds/8mmktbxH1Dqr+lmIUYoE42mQOqrnDpJ/XyFw0+kT4A49SUQt/QxzNaozJ/yJ
+	BHWxlIlL8Sda0JJMZJzJtR4881Do/17d7zL0Cvc6yZeA3t0gUOorWrISx8YGE5efUMhwzkJzigY
+	El7Pl7eH3CdkFZ36O/nmmm7PCigxIoFo4H8JMQL7ul+o1FlpSH2tu9THJJtYaEhtj0nTfXYZQSp
+	ZqMHxs8OesZx98Ixut2LdW2LC
+X-Received: by 2002:a05:6000:1785:b0:428:3d14:7378 with SMTP id ffacd0b85a97d-42b5282196fmr2721174f8f.24.1763035752848;
+        Thu, 13 Nov 2025 04:09:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE8kSf8/HWLajZCzeWCLm4U+G4OZ9zpyrvRjbuNV0w8OAhYY/jairpBHIN9CYlyZAFMRB8qJQ==
+X-Received: by 2002:a05:6000:1785:b0:428:3d14:7378 with SMTP id ffacd0b85a97d-42b5282196fmr2721145f8f.24.1763035752359;
+        Thu, 13 Nov 2025 04:09:12 -0800 (PST)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.40])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e7aea7sm3535591f8f.1.2025.11.13.04.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Nov 2025 04:09:12 -0800 (PST)
+Message-ID: <18f2704de283202ce1d634103bc480ad144f4e11.camel@redhat.com>
+Subject: Re: [trace:latency/for-next 3/5]
+ kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declaration of
+ 'rv_sleep' follows non-static declaration
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>, 
+ Nam Cao <nam.cao@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel
+	 <linux-trace-kernel@vger.kernel.org>
+Date: Thu, 13 Nov 2025 13:09:10 +0100
+In-Reply-To: <202511131948.vxi5mdjU-lkp@intel.com>
+References: <202511131948.vxi5mdjU-lkp@intel.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: TjyHuZHzjeo6iysAy4dbRA8--ULZ2a6vyqTkaZVFcmc_1763035753
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-next
-head:   4ca2b517a4ff65e3e8e3a7decc78e4a23481a1de
-commit: 99a365f9df4d8326defaf33b4dbef35c16d9cde8 [3/9] cifs: Remove the RFC1002 header from smb_hdr
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251113/202511132043.h3L3Kvz8-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511132043.h3L3Kvz8-lkp@intel.com/reproduce)
+On Thu, 2025-11-13 at 19:41 +0800, kernel test robot wrote:
+> tree:=C2=A0=C2=A0
+> https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace=C2=A0la=
+tency/for-
+> next
+> head:=C2=A0=C2=A0 69d8895cb9a9f6450374577af8584c2e21cb5a9f
+> commit: 4f739ed19d222de33b19ca639a34523fbbec20d0 [3/5] rv: Pass va_list t=
+o
+> reactors
+> config: arc-randconfig-r071-20251113
+> (https://download.01.org/0day-ci/archive/20251113/202511131948.vxi5mdjU-l=
+kp@in
+> tel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20251113/202511131948.vxi5mdjU-l=
+kp@in
+> tel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion
+> of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202511131948.vxi5mdjU-lkp@intel.c=
+om/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> > > kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declarat=
+ion
+> > > of 'rv_sleep' follows non-static declaration
+> =C2=A0=C2=A0=C2=A0 static struct rv_monitor rv_sleep =3D {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511132043.h3L3Kvz8-lkp@intel.com/
+My bad I didn't test with !CONFIG_RV_REACTORS, is there a reason why we'd w=
+ant
+this non-static?
 
-All errors (new ones prefixed by >>):
+#ifdef CONFIG_RV_REACTORS
+static struct rv_monitor RV_MONITOR_NAME;
+#else
+extern struct rv_monitor RV_MONITOR_NAME;
+#endif
 
-   fs/smb/client/cifs_debug.c: In function 'cifs_dump_detail':
-   fs/smb/client/cifs_debug.c:48:66: error: passing argument 3 of 'server->ops->check_message' makes integer from pointer without a cast [-Wint-conversion]
-      48 |         if (!server->ops->check_message(buf, server->total_read, server)) {
-         |                                                                  ^~~~~~
-         |                                                                  |
-         |                                                                  struct TCP_Server_Info *
-   fs/smb/client/cifs_debug.c:48:66: note: expected 'unsigned int' but argument is of type 'struct TCP_Server_Info *'
->> fs/smb/client/cifs_debug.c:48:14: error: too few arguments to function 'server->ops->check_message'; expected 4, have 3
-      48 |         if (!server->ops->check_message(buf, server->total_read, server)) {
-         |              ^~~~~~
-   In file included from fs/smb/client/cifs_debug.c:17:
-   fs/smb/client/cifsglob.h:354:15: note: declared here
-     354 |         int (*check_message)(char *, unsigned int, unsigned int, struct TCP_Server_Info *);
-         |               ^~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/vfsdebug.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/smb/client/cifs_debug.c:8:
-   fs/smb/client/cifs_debug.c: In function 'cifs_dump_mids':
-   include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct mid_q_entry'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
-      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:537:27: error: expression in static assertion is not an integer
-     537 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
-      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/sh/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:382,
-                    from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from arch/sh/include/asm/bug.h:5:
-   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct mid_q_entry'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
-      24 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
-     609 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
-     620 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
-     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
-      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7:
-   include/linux/list.h:773:26: error: invalid use of undefined type 'struct mid_q_entry'
-     773 |         list_is_head(&pos->member, (head))
-         |                          ^~
-   include/linux/list.h:783:15: note: in expansion of macro 'list_entry_is_head'
-     783 |              !list_entry_is_head(pos, head, member);                    \
-         |               ^~~~~~~~~~~~~~~~~~
---
-   fs/smb/client/smb2ops.c: In function 'smb2_dump_detail':
-   fs/smb/client/smb2ops.c:443:66: error: passing argument 3 of 'server->ops->check_message' makes integer from pointer without a cast [-Wint-conversion]
-     443 |         if (!server->ops->check_message(buf, server->total_read, server)) {
-         |                                                                  ^~~~~~
-         |                                                                  |
-         |                                                                  struct TCP_Server_Info *
-   fs/smb/client/smb2ops.c:443:66: note: expected 'unsigned int' but argument is of type 'struct TCP_Server_Info *'
->> fs/smb/client/smb2ops.c:443:14: error: too few arguments to function 'server->ops->check_message'; expected 4, have 3
-     443 |         if (!server->ops->check_message(buf, server->total_read, server)) {
-         |              ^~~~~~
-   In file included from fs/smb/client/smb2ops.c:19:
-   fs/smb/client/cifsglob.h:354:15: note: declared here
-     354 |         int (*check_message)(char *, unsigned int, unsigned int, struct TCP_Server_Info *);
-         |               ^~~~~~~~~~~~~
+ltl_monitor is included only by the files defining the rv_MONITOR_NAME, tha=
+t's
+definitely static as far as I see it.
 
+I'd go with a Fix like this:
 
-vim +48 fs/smb/client/cifs_debug.c
+diff --git a/include/rv/ltl_monitor.h b/include/rv/ltl_monitor.h
+index 00c42b36f961..eff60cd61106 100644
+--- a/include/rv/ltl_monitor.h
++++ b/include/rv/ltl_monitor.h
+@@ -17,12 +17,7 @@
+ #endif
+=20
+ #define RV_MONITOR_NAME CONCATENATE(rv_, MONITOR_NAME)
+-
+-#ifdef CONFIG_RV_REACTORS
+ static struct rv_monitor RV_MONITOR_NAME;
+-#else
+-extern struct rv_monitor RV_MONITOR_NAME;
+-#endif
+=20
+ static int ltl_monitor_slot =3D RV_PER_TASK_MONITOR_INIT;
+=20
+Any thought?
 
-^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds  2005-04-16  39  
-14547f7d74c4a2 fs/cifs/cifs_debug.c       Ronnie Sahlberg 2018-04-22  40  void cifs_dump_detail(void *buf, struct TCP_Server_Info *server)
-3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  41  {
-8aa26f3ed80ddb fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-05-17  42  #ifdef CONFIG_CIFS_DEBUG2
-0827f71b881c9d fs/cifs/cifs_debug.c       Yu Zhe          2022-06-14  43  	struct smb_hdr *smb = buf;
-d4e4854fd1c85a fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-03-23  44  
-b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  45  	cifs_dbg(VFS, "Cmd: %d Err: 0x%x Flags: 0x%x Flgs2: 0x%x Mid: %d Pid: %d Wct: %d\n",
-b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  46  		 smb->Command, smb->Status.CifsError, smb->Flags,
-b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  47  		 smb->Flags2, smb->Mid, smb->Pid, smb->WordCount);
-b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16 @48  	if (!server->ops->check_message(buf, server->total_read, server)) {
-14547f7d74c4a2 fs/cifs/cifs_debug.c       Ronnie Sahlberg 2018-04-22  49  		cifs_dbg(VFS, "smb buf %p len %u\n", smb,
-68ed14496b032b fs/cifs/cifs_debug.c       Enzo Matsumiya  2022-08-17  50  			 server->ops->calc_smb_size(smb));
-b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  51  	}
-8aa26f3ed80ddb fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-05-17  52  #endif /* CONFIG_CIFS_DEBUG2 */
-3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  53  }
-3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  54  
+Thanks,
+Gabriele
 
-:::::: The code at line 48 was first introduced by commit
-:::::: b50492b05fd02887b46aef079592207fb5c97a4c smb: client: fix potential OOB in cifs_dump_detail()
+> =C2=A0=C2=A0 In file included from include/linux/cleanup.h:7,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from include/linux/interrupt.h:8=
+,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from include/linux/trace_recursi=
+on.h:5,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from include/linux/ftrace.h:10,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from kernel/trace/rv/monitors/sl=
+eep/sleep.c:2:
+> =C2=A0=C2=A0 include/rv/ltl_monitor.h:19:37: note: previous declaration o=
+f 'rv_sleep'
+> was here
+> =C2=A0=C2=A0=C2=A0 #define RV_MONITOR_NAME CONCATENATE(rv_, MONITOR_NAME)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 ^~~
+> =C2=A0=C2=A0 include/linux/args.h:25:24: note: in definition of macro '__=
+CONCAT'
+> =C2=A0=C2=A0=C2=A0 #define __CONCAT(a, b) a ## b
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ^
+> =C2=A0=C2=A0 include/rv/ltl_monitor.h:19:25: note: in expansion of macro =
+'CONCATENATE'
+> =C2=A0=C2=A0=C2=A0 #define RV_MONITOR_NAME CONCATENATE(rv_, MONITOR_NAME)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 ^~~~~~~~~~~
+> =C2=A0=C2=A0 include/rv/ltl_monitor.h:24:26: note: in expansion of macro
+> 'RV_MONITOR_NAME'
+> =C2=A0=C2=A0=C2=A0 extern struct rv_monitor RV_MONITOR_NAME;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~
+>=20
+>=20
+> vim +/rv_sleep +219 kernel/trace/rv/monitors/sleep/sleep.c
+>=20
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 218=C2=A0=20
+> f74f8bb246cf22 Nam Cao 2025-07-09 @219=C2=A0 static struct rv_monitor rv_=
+sleep =3D {
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 220=C2=A0=C2=A0=09.name =3D "slee=
+p",
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 221=C2=A0=C2=A0=09.description =
+=3D "Monitor that
+> RT tasks do not undesirably sleep",
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 222=C2=A0=C2=A0=09.enable =3D ena=
+ble_sleep,
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 223=C2=A0=C2=A0=09.disable =3D di=
+sable_sleep,
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 224=C2=A0 };
+> f74f8bb246cf22 Nam Cao 2025-07-09=C2=A0 225=C2=A0=20
+>=20
+> :::::: The code at line 219 was first introduced by commit
+> :::::: f74f8bb246cf22f27752977da62079cb615f55b2 rv: Add rtapp_sleep monit=
+or
+>=20
+> :::::: TO: Nam Cao <namcao@linutronix.de>
+> :::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-:::::: TO: Paulo Alcantara <pc@manguebit.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
