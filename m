@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E4B33DEF4;
-	Thu, 13 Nov 2025 12:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE69E34B1A1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763035451; cv=none; b=jNE09TDKc/DLDyqcq8p26J7r7W2abmKlSqJcboYpgjfHvn5cr0CGl6LGHtNdooRTuzN6Jfj0YTrsTaRT3xTYZzgGArg+j1iiZAG3vX95h9ZLPEMMIPECftzZ4DwqNA4y5hb4R0wKKDTpzDPbuFz9h+VyxHow64Ig9ywJFm4LExA=
+	t=1763035453; cv=none; b=dMtaPeFIzMosqcMvV8d3Q1fX0LenUOJERBAsn/4qeweg5D+jCv3y2Ag/qa3XwkSGFwAVee1NWgfg9JxwAXPu1PlYg3qPzcCkThCaXtCgUV1zpJnqbv50qTLqKvpwVx0W19psq3QxPhmZysXdXoT4vOBsCF+FGY64f9jVPCzg/II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763035451; c=relaxed/simple;
-	bh=5Bgy8w0BOKxy9ewJMSK8ay19uv00IbONEG386rYJaYk=;
+	s=arc-20240116; t=1763035453; c=relaxed/simple;
+	bh=6jZIYN68tQEBVn4QK/I55/aItKlBxMKQ3zchz/QtGmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jf8HpVxH2sXfSzEYmjZebxibZTxy42Kyj/HkQlaR/rgGPk/TOYQtToHTF+09U64g38gu1jKbt67Rd68JkpyMlcYeC2LjTGYsVv6LqFlxRiByhyrdZ6caJ79uuAlrorTP5b/1snaM0zcNofYsxgT1Yy/KrqYlbZZt3m6d91hWvf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1i9odE4; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=B9fVZlNbEMRaRtpVZZjJZkKA61mv1gRBZ6kMJFEyegrrIDj9X2Tfo2wfZPuog28jjYIZfR7hbk2Htklw+os0UDKvswhgPaxr5IrVDvsTyBQfVw8MKyuEprcHmgQS0zjiviPEjo7zCtOiaH39iZ8QJkZbWZLgZrRmXgXJYC9BWNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxBVE6WK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1i9odE4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxBVE6WK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763035450; x=1794571450;
+  t=1763035452; x=1794571452;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5Bgy8w0BOKxy9ewJMSK8ay19uv00IbONEG386rYJaYk=;
-  b=b1i9odE40wBg3ZkrNErqY91JBpg0KDsKuXksi3/ZJhRgC3NvH71oovCL
-   62XXoIbSsT9E4A2S0ZesPsrz4Key2sY9u0PinfgSpd+Gnn18Sx5O9PCrE
-   CHMGNFaqSa0dfd1OskAatWzypMy1EsXAiLO+WUoAazabbrQIQVTkIfxCi
-   ByEThFcedT9nHTqPbPpj4d+h30ySpnDdm73ec/KVRYreSz9fiwQDyuSD8
-   HvfSAx8MlOmuf76ZqwVCz/zHNr2jDOBVMblQYiC/V1ZAJkimU5W2Z/V6h
-   GRqY9V5t6yO+9l0CtRzy+5yOsp0au3wrBF3ItR98lrdUeMPd/FZFY4enF
-   Q==;
-X-CSE-ConnectionGUID: uoGWCLlNSOSB7l4iQvdlxQ==
-X-CSE-MsgGUID: ZzxM8emETSOeyiGRYDfJsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68962842"
+  bh=6jZIYN68tQEBVn4QK/I55/aItKlBxMKQ3zchz/QtGmY=;
+  b=UxBVE6WKFfxfzZ+F7I0CDeD4Le04uuWGYGQHy2wGDNJo89jef+001K7F
+   yNPwgx8IhyLI3PGmAhmo6Fa9CA6P9DxrrGTl5jcjRrLlxbNsQGXTkaEzV
+   jf5smqTsggOZUJ2jV91hI7KzaQ8RBzuSSeY6uFFR+cYZ97FsYYY8fRp0/
+   qgQTGrU/L4FIURFiCUc8dPS7HAKWPVPS+tIJyFSZITFoxhWXB07PgRADa
+   XtxNcco+VLLNm0/uognNDfURZPE6ACs3cYZhRdiA0FfSbp9a0LopflCvR
+   dTe273EKQCFuE8aXmHlLRBWB6yKrnEJvGD2yjSRmVroYQsiB9pUmVKL+e
+   w==;
+X-CSE-ConnectionGUID: D+sH22H+Tl+yfdJWt/9MGA==
+X-CSE-MsgGUID: 3xz1X4A4Td+e2Cd/5W27mA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68962844"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="68962842"
+   d="scan'208";a="68962844"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 04:04:09 -0800
-X-CSE-ConnectionGUID: /S6Ony4BTRiEoBdTKvOD9g==
-X-CSE-MsgGUID: XtEWJwPlRDuzBab5QQOZ4A==
+X-CSE-ConnectionGUID: G7Sw+F/3QnS1lh9msdCIMw==
+X-CSE-MsgGUID: KxqVWKgjTDGuxGehnBcyHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="193922909"
+   d="scan'208";a="193922910"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 13 Nov 2025 04:04:09 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJW3Z-0005IL-2o;
+	id 1vJW3Z-0005IJ-2k;
 	Thu, 13 Nov 2025 12:04:05 +0000
-Date: Thu, 13 Nov 2025 20:03:33 +0800
+Date: Thu, 13 Nov 2025 20:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
-Subject: [gfs2:e2 4/4] Warning: fs/gfs2/super.c:1297 function parameter 'gh'
- not described in 'evict_unlinked_inode'
-Message-ID: <202511131953.EIKbaiYJ-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:cifs-next 3/9] fs/smb/client/cifs_debug.c:48:14: error:
+ too few arguments to function 'server->ops->check_message'; expected 4, have
+ 3
+Message-ID: <202511132043.h3L3Kvz8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,21 +63,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git e2
-head:   a879cfb41053acfcf88ec959b4dbc595a6fc2105
-commit: a879cfb41053acfcf88ec959b4dbc595a6fc2105 [4/4] gfs2: Fix data loss during inode evict
-config: powerpc-randconfig-r072-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131953.EIKbaiYJ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131953.EIKbaiYJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-next
+head:   4ca2b517a4ff65e3e8e3a7decc78e4a23481a1de
+commit: 99a365f9df4d8326defaf33b4dbef35c16d9cde8 [3/9] cifs: Remove the RFC1002 header from smb_hdr
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251113/202511132043.h3L3Kvz8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511132043.h3L3Kvz8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131953.EIKbaiYJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511132043.h3L3Kvz8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/gfs2/super.c:1297 function parameter 'gh' not described in 'evict_unlinked_inode'
+   fs/smb/client/cifs_debug.c: In function 'cifs_dump_detail':
+   fs/smb/client/cifs_debug.c:48:66: error: passing argument 3 of 'server->ops->check_message' makes integer from pointer without a cast [-Wint-conversion]
+      48 |         if (!server->ops->check_message(buf, server->total_read, server)) {
+         |                                                                  ^~~~~~
+         |                                                                  |
+         |                                                                  struct TCP_Server_Info *
+   fs/smb/client/cifs_debug.c:48:66: note: expected 'unsigned int' but argument is of type 'struct TCP_Server_Info *'
+>> fs/smb/client/cifs_debug.c:48:14: error: too few arguments to function 'server->ops->check_message'; expected 4, have 3
+      48 |         if (!server->ops->check_message(buf, server->total_read, server)) {
+         |              ^~~~~~
+   In file included from fs/smb/client/cifs_debug.c:17:
+   fs/smb/client/cifsglob.h:354:15: note: declared here
+     354 |         int (*check_message)(char *, unsigned int, unsigned int, struct TCP_Server_Info *);
+         |               ^~~~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/vfsdebug.h:5,
+                    from include/linux/fs.h:5,
+                    from fs/smb/client/cifs_debug.c:8:
+   fs/smb/client/cifs_debug.c: In function 'cifs_dump_mids':
+   include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct mid_q_entry'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
+      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:537:27: error: expression in static assertion is not an integer
+     537 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
+      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/sh/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:382,
+                    from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from arch/sh/include/asm/bug.h:5:
+   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct mid_q_entry'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   fs/smb/client/cifs_debug.c:65:9: note: in expansion of macro 'list_for_each_entry'
+      65 |         list_for_each_entry(mid_entry, &server->pending_mid_q, qhead) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7:
+   include/linux/list.h:773:26: error: invalid use of undefined type 'struct mid_q_entry'
+     773 |         list_is_head(&pos->member, (head))
+         |                          ^~
+   include/linux/list.h:783:15: note: in expansion of macro 'list_entry_is_head'
+     783 |              !list_entry_is_head(pos, head, member);                    \
+         |               ^~~~~~~~~~~~~~~~~~
+--
+   fs/smb/client/smb2ops.c: In function 'smb2_dump_detail':
+   fs/smb/client/smb2ops.c:443:66: error: passing argument 3 of 'server->ops->check_message' makes integer from pointer without a cast [-Wint-conversion]
+     443 |         if (!server->ops->check_message(buf, server->total_read, server)) {
+         |                                                                  ^~~~~~
+         |                                                                  |
+         |                                                                  struct TCP_Server_Info *
+   fs/smb/client/smb2ops.c:443:66: note: expected 'unsigned int' but argument is of type 'struct TCP_Server_Info *'
+>> fs/smb/client/smb2ops.c:443:14: error: too few arguments to function 'server->ops->check_message'; expected 4, have 3
+     443 |         if (!server->ops->check_message(buf, server->total_read, server)) {
+         |              ^~~~~~
+   In file included from fs/smb/client/smb2ops.c:19:
+   fs/smb/client/cifsglob.h:354:15: note: declared here
+     354 |         int (*check_message)(char *, unsigned int, unsigned int, struct TCP_Server_Info *);
+         |               ^~~~~~~~~~~~~
+
+
+vim +48 fs/smb/client/cifs_debug.c
+
+^1da177e4c3f41 fs/cifs/cifs_debug.c       Linus Torvalds  2005-04-16  39  
+14547f7d74c4a2 fs/cifs/cifs_debug.c       Ronnie Sahlberg 2018-04-22  40  void cifs_dump_detail(void *buf, struct TCP_Server_Info *server)
+3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  41  {
+8aa26f3ed80ddb fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-05-17  42  #ifdef CONFIG_CIFS_DEBUG2
+0827f71b881c9d fs/cifs/cifs_debug.c       Yu Zhe          2022-06-14  43  	struct smb_hdr *smb = buf;
+d4e4854fd1c85a fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-03-23  44  
+b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  45  	cifs_dbg(VFS, "Cmd: %d Err: 0x%x Flags: 0x%x Flgs2: 0x%x Mid: %d Pid: %d Wct: %d\n",
+b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  46  		 smb->Command, smb->Status.CifsError, smb->Flags,
+b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  47  		 smb->Flags2, smb->Mid, smb->Pid, smb->WordCount);
+b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16 @48  	if (!server->ops->check_message(buf, server->total_read, server)) {
+14547f7d74c4a2 fs/cifs/cifs_debug.c       Ronnie Sahlberg 2018-04-22  49  		cifs_dbg(VFS, "smb buf %p len %u\n", smb,
+68ed14496b032b fs/cifs/cifs_debug.c       Enzo Matsumiya  2022-08-17  50  			 server->ops->calc_smb_size(smb));
+b50492b05fd028 fs/smb/client/cifs_debug.c Paulo Alcantara 2023-12-16  51  	}
+8aa26f3ed80ddb fs/cifs/cifs_debug.c       Pavel Shilovsky 2012-05-17  52  #endif /* CONFIG_CIFS_DEBUG2 */
+3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  53  }
+3979877e5606ec fs/cifs/cifs_debug.c       Steve French    2006-05-31  54  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: b50492b05fd02887b46aef079592207fb5c97a4c smb: client: fix potential OOB in cifs_dump_detail()
+
+:::::: TO: Paulo Alcantara <pc@manguebit.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
