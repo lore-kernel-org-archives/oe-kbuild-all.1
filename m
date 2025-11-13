@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7D12D879F;
-	Thu, 13 Nov 2025 12:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DADC2E22BE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763036174; cv=none; b=ZUoP+yjxW5OoFMGgbJ0+K7uKATqHXGrF8VJw1u5c6RWLaKTD2TJipJCMf82ixbiy6UHdP3nygn+r71YorS6uuAiUPLe5UYdtlrk9n+OmN1j3SCw6B2gPctuVGSqxE+Cvzj88k0EazjPaZZGRHSJTcF8J2gLnhyw0Rt7IoxxNxJs=
+	t=1763036834; cv=none; b=GmOZYkmOzB6uwl47tVKNpasM8TJ+qe78xO4mzNAwCzgTmdWTw2FknnCJ7rR2jT2Shtn1UchmBR2lvMfHxQMKAimCxOsh8wH/2oArbTu8sA8ciqaTUovTYkswJUP93Bmo4jdURQj7aqqmXrkRzveuOIZKaUR6/neryWDXn0xt140=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763036174; c=relaxed/simple;
-	bh=ymUzwABaCWUeY/arnrVJraJRxCLYt63uNLdgQy6SZvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gTrGxsOcWejIAdqKfKGhzWNM3GO6qm5QVt0EILuVKo6WIDB7e1CsRR+2c3ThSVkBCD5iokqhCESIehYgLjKuPo07UdcAWQMkKdrH0w1ghEP+3MgbodOc2iMLJY9Z30dlRfQK1RHdERfexPKtFHIR+/S8yVxxzQZljXLatBUpW+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIunMlFR; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1763036834; c=relaxed/simple;
+	bh=nFWiEXUiwl19n7yBu6Qcl+UlL4wXqS3etNNXRhMwlQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Rom39TatzlVV/ADZ3/aLfd5fh8K/0VZ63p6kIXvHjkw9DzjEKef0SIeEBmGl66RwTwO+jJRWt1XX/CBflXs8a2nq+kQfk1v8zNT7FNH/Cd5D5LgDmXSX26JLklhytshmU9jIIYd84L/WSRlke0ED/m2xkJhDGzvhW/sUsFT5cME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cG3di2RR; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIunMlFR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cG3di2RR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763036173; x=1794572173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ymUzwABaCWUeY/arnrVJraJRxCLYt63uNLdgQy6SZvM=;
-  b=CIunMlFRQrECgBCqconrQrJzO+Vv/IXe4ryC7Ta2gA7jYGqPdbNXDA7Q
-   aCuXaz07Bcrl+8b2L7/yEC/jQj8w0ZHvAIgf/af8W9rik8B83rVfteKjT
-   yMvziuQUtBwrXVycN9NfYI7VLR8eAsVBYjNobdZtYmlZ2+y7xaC6hvGFd
-   5elFe0h4MFfMPPnVG+ihCHyRzXPuFKFG/rDxcxa1+2UNruxHD4vZ6KPff
-   BfbbomaF1aLuhd0tz7NLdbU086BV3d6OGO7wKhj4fgV2gXBUSfCmryFBL
-   WJLz370zBMiDccurBsaMPDv21IPCpFm480wxCrxDElI9RC1hEKbIL7Z/7
-   Q==;
-X-CSE-ConnectionGUID: nwtn4cDkRRS5zKjlS0o/OA==
-X-CSE-MsgGUID: o9bVDj86T4mvuynBUAezKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="64998437"
+  t=1763036832; x=1794572832;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nFWiEXUiwl19n7yBu6Qcl+UlL4wXqS3etNNXRhMwlQA=;
+  b=cG3di2RR5ME+0C1HniJCMQQqzH9HSLqOQQ6UHmoxIOBcvkAugzo7m09v
+   592EPB5BAYSyT2Jg0leElGIXbbpIehwV6fGQyAcu04gVzXfgvHg2NS8B9
+   TMKghhw2a2NQhEdBkGLNLFkPTmrJPdSUyFzbbZ5EM0RkvIvFw6Nh0UWve
+   FZZMNPl0aMOhD3grn3dMZzVw6k7lbIoULgFsGlsJZxrA0V5RLONe2fAwu
+   ovHuZ8RG3hFQjSDn1UcP5drQaht/e0HEbpU7nChhPgyPtRrIhvw/CNB3Y
+   O2qHtbypMiT6p4Ni+spcdFLubygS8tVWxdLCc+GW6l7tcnvy5VjwMbr3z
+   w==;
+X-CSE-ConnectionGUID: CQZnL2VyTHeOEpFAb5FG8g==
+X-CSE-MsgGUID: f+QbSzi+SPe3jqtaa3OKSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="75793361"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="64998437"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 04:16:11 -0800
-X-CSE-ConnectionGUID: FBHEm0HGQ820Oqx66wwwEw==
-X-CSE-MsgGUID: 2vKSDQYdRaK2P1TUMPeacA==
+   d="scan'208";a="75793361"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 04:27:12 -0800
+X-CSE-ConnectionGUID: TGBnaki8RiKR5Cq5oEW+Vw==
+X-CSE-MsgGUID: ttPoUxxhSGqLQJ+jpy/Xzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="193602834"
+   d="scan'208";a="226789282"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Nov 2025 04:16:09 -0800
+  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2025 04:27:11 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJWFC-0005J5-2e;
-	Thu, 13 Nov 2025 12:16:06 +0000
-Date: Thu, 13 Nov 2025 20:15:21 +0800
+	id 1vJWPs-0005Jp-1g;
+	Thu, 13 Nov 2025 12:27:08 +0000
+Date: Thu, 13 Nov 2025 20:26:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH v1 3/5] Input: gpio_decoder - replace custom loop by
- gpiod_get_array_value_cansleep()
-Message-ID: <202511131958.6ItfY60O-lkp@intel.com>
-References: <20251112191412.2088105-4-andriy.shevchenko@linux.intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:cifs-next 7/9] fs/smb/client/smb1ops.c:449:37: warning:
+ passing argument 2 of 'dequeue_mid' makes pointer from integer without a
+ cast
+Message-ID: <202511132044.l5sVSB1k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +62,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251112191412.2088105-4-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v6.18-rc5 next-20251113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/Input-gpio_decoder-make-use-of-device-properties/20251113-032111
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20251112191412.2088105-4-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 3/5] Input: gpio_decoder - replace custom loop by gpiod_get_array_value_cansleep()
-config: x86_64-buildonly-randconfig-002-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131958.6ItfY60O-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131958.6ItfY60O-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-next
+head:   4ca2b517a4ff65e3e8e3a7decc78e4a23481a1de
+commit: 0f9876e25f620d361808d41f0ffac234ad3712ab [7/9] cifs: Remove the server pointer from smb_message
+config: x86_64-randconfig-072-20251113 (https://download.01.org/0day-ci/archive/20251113/202511132044.l5sVSB1k-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511132044.l5sVSB1k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131958.6ItfY60O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511132044.l5sVSB1k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/input/misc/gpio_decoder.c:38:53: error: use of undeclared identifier 'val'
-      38 |                 dev_err(decoder->dev, "Error reading GPIO: %d\n", val);
-         |                                                                   ^
-   1 error generated.
+   fs/smb/client/smb1ops.c: In function 'cifs_find_mid':
+   fs/smb/client/smb1ops.c:147:34: error: passing argument 1 of 'kref_get' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     147 |                         kref_get(&smb->refcount);
+         |                                  ^~~~~~~~~~~~~~
+         |                                  |
+         |                                  refcount_t * {aka struct refcount_struct *}
+   In file included from include/linux/mm_types.h:8,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/pagemap.h:8,
+                    from fs/smb/client/smb1ops.c:8:
+   include/linux/kref.h:43:42: note: expected 'struct kref *' but argument is of type 'refcount_t *' {aka 'struct refcount_struct *'}
+      43 | static inline void kref_get(struct kref *kref)
+         |                             ~~~~~~~~~~~~~^~~~
+   fs/smb/client/smb1ops.c: In function 'cifs_check_trans2':
+>> fs/smb/client/smb1ops.c:449:37: warning: passing argument 2 of 'dequeue_mid' makes pointer from integer without a cast [-Wint-conversion]
+     449 |                 dequeue_mid(server, malformed);
+         |                                     ^~~~~~~~~
+         |                                     |
+         |                                     int
+   In file included from fs/smb/client/smb1ops.c:12:
+   fs/smb/client/cifsproto.h:268:70: note: expected 'struct smb_message *' but argument is of type 'int'
+     268 | void dequeue_mid(struct TCP_Server_Info *server, struct smb_message *smb, bool malformed);
+         |                                                  ~~~~~~~~~~~~~~~~~~~~^~~
+   fs/smb/client/smb1ops.c:449:17: error: too few arguments to function 'dequeue_mid'
+     449 |                 dequeue_mid(server, malformed);
+         |                 ^~~~~~~~~~~
+   fs/smb/client/cifsproto.h:268:6: note: declared here
+     268 | void dequeue_mid(struct TCP_Server_Info *server, struct smb_message *smb, bool malformed);
+         |      ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/val +38 drivers/input/misc/gpio_decoder.c
+vim +/dequeue_mid +449 fs/smb/client/smb1ops.c
 
-    27	
-    28	static int gpio_decoder_get_gpios_state(struct gpio_decoder *decoder)
-    29	{
-    30		struct gpio_descs *gpios = decoder->input_gpios;
-    31		DECLARE_BITMAP(values, 32);
-    32		unsigned int size;
-    33		int err;
-    34	
-    35		size = min(gpios->ndescs, 32U);
-    36		err = gpiod_get_array_value_cansleep(size, gpios->desc, gpios->info, values);
-    37		if (err) {
-  > 38			dev_err(decoder->dev, "Error reading GPIO: %d\n", val);
-    39			return err;
-    40		}
-    41	
-    42		return bitmap_read(values, 0, size);
-    43	}
-    44	
+   432	
+   433	static bool
+   434	cifs_check_trans2(struct smb_message *smb, struct TCP_Server_Info *server,
+   435			  char *buf, int malformed)
+   436	{
+   437		if (malformed)
+   438			return false;
+   439		if (check2ndT2(buf) <= 0)
+   440			return false;
+   441		smb->multiRsp = true;
+   442		if (smb->resp_buf) {
+   443			/* merge response - fix up 1st*/
+   444			malformed = coalesce_t2(buf, smb->resp_buf, &smb->response_pdu_len);
+   445			if (malformed > 0)
+   446				return true;
+   447			/* All parts received or packet is malformed. */
+   448			smb->multiEnd = true;
+ > 449			dequeue_mid(server, malformed);
+   450			return true;
+   451		}
+   452		if (!server->large_buf) {
+   453			/*FIXME: switch to already allocated largebuf?*/
+   454			cifs_dbg(VFS, "1st trans2 resp needs bigbuf\n");
+   455		} else {
+   456			/* Have first buffer */
+   457			smb->resp_buf = buf;
+   458			smb->large_buf = true;
+   459			server->bigbuf = NULL;
+   460		}
+   461		return true;
+   462	}
+   463	
 
 -- 
 0-DAY CI Kernel Test Service
