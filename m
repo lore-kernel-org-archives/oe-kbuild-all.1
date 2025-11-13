@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBDE2FD1D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36D5302769;
+	Thu, 13 Nov 2025 04:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009485; cv=none; b=uWVxgl27SDr0BH1XtUpE2VMo8AknSLk5x/fVppIOeW3SgGPfVjwXZsvsO1hwRnZdtCkRKxIdL3oWTYDsD9SNgB6rc3Uwhi2I7kUBgfhvsIUgWElunwB+ExUiiO98vaDmU6Fz6fgxDBURYL8Kv0fhMsTT+0sv4Hh1X2c/9V693BY=
+	t=1763009487; cv=none; b=NA+zWbT+YFukpGa2sqfIyuxewmhxXLqG1s85VK+BuJ/tOmZv9K8jQUaBJeFZBpN/YNPedCqpCITKdUTXKg9l5AA0yIulX6ytrV5A+sfYwTzHuQFzkThsy0rlElMUJVZazJf+Z+s8DQUVn30OVoB/ifFuguW1q33YYLReYyANbes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763009485; c=relaxed/simple;
-	bh=aKWsTkPKiurXSCoAZbcQRakZWSnBubFXrNcOj+bWS8A=;
+	s=arc-20240116; t=1763009487; c=relaxed/simple;
+	bh=28RzlPlyfRbhqui+diGRtnW+9x8VfdYTNgDbMt+fbLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Op5ZuzmA4TYSo0bFjkL18pD5TpC7zz5Jc4iwGgplaZMMVgsHnNtyiYPvBjy/zAC3me/mZeyJeknQoaJGSKlehmFYt/tiM67Iiw9hUPAd7a4MPV09u9H3a0wEV3c5seelRP7USBY1Sri5gx4Bzc8mncIXVEuztRrePCGxkTQ3IPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0S7qsNg; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Xf6rG3niKLz7SBFic3v9xPFrPhOBMvd/1e5wMwwupbheTFT5kE1wQEYMwodiB04ekVAQCDrRxHQuDQ9x1p8hvc9GO/3F70+B1dIH1Zbdn8FGBEeLIdoYJEHXU8CEgKeEPQ0loFVsl7B5xsZb/ps9W8OzrovaxoMePJPsfcWktgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuKVuNhN; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0S7qsNg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuKVuNhN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009483; x=1794545483;
+  t=1763009486; x=1794545486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aKWsTkPKiurXSCoAZbcQRakZWSnBubFXrNcOj+bWS8A=;
-  b=T0S7qsNg4XxxhS840EFbGwNDlwVlqYweEB7xiIHIh+sxkwiE4kjEeeiQ
-   YwybT7Xa4/OVkGEcaXt37plDm6SLEww+LtaFOpqMuRs5dahdTWIPf3dBl
-   Woj/0LOHJJhGKDLPrZ/MBNswupSRVK/6es1/5puWRJINncto4yiQ6N8Xe
-   f/tlWT86DVjL8L3KnvfoQSn9ovkQgQlvO1tM/d+5Dut2jrxHkLOudZj7q
-   pzF1hmJr74m8zSVVjlyFoqsQFzxk6Y/4xLA2H91eHO7NloXSWF0qkiDbm
-   zhIcA7c54wn8ierrfTAZPf5f7l1wIgV9RrswkZOVhEK8Xo6Eux3GFX+GE
-   A==;
-X-CSE-ConnectionGUID: eZRD6R9tRPWXHi0IsHg5sg==
-X-CSE-MsgGUID: uCoE+otsTPmeEkvXrDCOQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65008591"
+  bh=28RzlPlyfRbhqui+diGRtnW+9x8VfdYTNgDbMt+fbLo=;
+  b=JuKVuNhNHGFnKUv06sRZ0MYhdbwo7RzOXqcUcLfQIWPOUuD3qzzw2tJX
+   2eUtf/rqMN3p7c93QPRhn9dY6v42mpq1RH+OOqWV0EFQgm1M6rkT9VWI8
+   CScyZxGOY2F8IIs8fBucXIKFvepVbOYkG+nsFH/Y7iDFSeDT0BGu1l96Z
+   oe8qGDJeoGc+CtnpTREK1yTag7U3BiwoCCan3juClA+6XaTNIcBgqFfLT
+   zzt9YnNgTrSgBsXr6ZzKcvK5p2+i0rkLY/nLvPSo9d8iSPakzR78fg4FD
+   y1NE6fjzjQDM7f7aZ7ZLZcWPNXiMxD/Zzuef0q815tfmUqJmTDUYsuvQ/
+   Q==;
+X-CSE-ConnectionGUID: G4L3URDMQ52KMATEO4P9/Q==
+X-CSE-MsgGUID: EVEtmQSFTnyLjYwfiDJUhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65008595"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65008591"
+   d="scan'208";a="65008595"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:51:22 -0800
-X-CSE-ConnectionGUID: br0/CHWlReK169qDg9JhXQ==
-X-CSE-MsgGUID: 6iXMIHI+QQG91uq/7OyZSw==
+X-CSE-ConnectionGUID: +uuZD4eIR8io5aR6Iufewg==
+X-CSE-MsgGUID: KVddaVvhT22WUEamsoHNlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="220161050"
+   d="scan'208";a="220161051"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2025 20:51:21 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPIl-0004tV-0L;
+	id 1vJPIl-0004tX-0P;
 	Thu, 13 Nov 2025 04:51:19 +0000
-Date: Thu, 13 Nov 2025 12:51:02 +0800
+Date: Thu, 13 Nov 2025 12:51:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jiri Pirko <jiri@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpirko-mlxsw:wip_memfd_decrypted 1/1] mm/shmem.c:5236:5: error:
- redefinition of 'shmem_decrypt_folio'
-Message-ID: <202511130155.AGXwncQi-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpirko-mlxsw:wip_memfd_decrypted 1/1] mm/shmem.c:5253:8: error:
+ call to undeclared function 'set_memory_decrypted'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202511130322.x6B3sisb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,33 +66,27 @@ Content-Disposition: inline
 tree:   https://github.com/jpirko/linux_mlxsw wip_memfd_decrypted
 head:   dcdd295fca26e98165b1ddd584bf29a2fdc22f03
 commit: dcdd295fca26e98165b1ddd584bf29a2fdc22f03 [1/1] mm/memfd: add a flag allowing user to specify need for decrypted memory
-config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20251113/202511130155.AGXwncQi-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511130155.AGXwncQi-lkp@intel.com/reproduce)
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20251113/202511130322.x6B3sisb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511130322.x6B3sisb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511130155.AGXwncQi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511130322.x6B3sisb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/shmem.c:5236:5: error: redefinition of 'shmem_decrypt_folio'
-    5236 | int shmem_decrypt_folio(struct inode *inode, struct folio *folio)
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from mm/shmem.c:36:
-   include/linux/shmem_fs.h:165:19: note: previous definition of 'shmem_decrypt_folio' with type 'int(struct inode *, struct folio *)'
-     165 | static inline int shmem_decrypt_folio(struct inode *inode, struct folio *folio)
-         |                   ^~~~~~~~~~~~~~~~~~~
->> mm/shmem.c:5272:5: error: redefinition of 'shmem_encrypt_folio'
-    5272 | int shmem_encrypt_folio(struct inode *inode, struct folio *folio)
-         |     ^~~~~~~~~~~~~~~~~~~
-   include/linux/shmem_fs.h:169:19: note: previous definition of 'shmem_encrypt_folio' with type 'int(struct inode *, struct folio *)'
-     169 | static inline int shmem_encrypt_folio(struct inode *inode, struct folio *folio)
-         |                   ^~~~~~~~~~~~~~~~~~~
+>> mm/shmem.c:5253:8: error: call to undeclared function 'set_memory_decrypted'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5253 |         err = set_memory_decrypted(addr, nr_pages);
+         |               ^
+>> mm/shmem.c:5289:8: error: call to undeclared function 'set_memory_encrypted'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5289 |         err = set_memory_encrypted(addr, nr_pages);
+         |               ^
+   2 errors generated.
 
 
-vim +/shmem_decrypt_folio +5236 mm/shmem.c
+vim +/set_memory_decrypted +5253 mm/shmem.c
 
   5225	
   5226	/**
@@ -104,7 +99,7 @@ vim +/shmem_decrypt_folio +5236 mm/shmem.c
   5233	 *
   5234	 * Return: 0 on success, negative error code on failure
   5235	 */
-> 5236	int shmem_decrypt_folio(struct inode *inode, struct folio *folio)
+  5236	int shmem_decrypt_folio(struct inode *inode, struct folio *folio)
   5237	{
   5238		unsigned long addr;
   5239		int nr_pages;
@@ -121,7 +116,7 @@ vim +/shmem_decrypt_folio +5236 mm/shmem.c
   5250		if (!addr)
   5251			return 0;
   5252	
-  5253		err = set_memory_decrypted(addr, nr_pages);
+> 5253		err = set_memory_decrypted(addr, nr_pages);
   5254		if (err)
   5255			pr_warn_ratelimited("failed to decrypt folio at %p for inode %lu, error %d\n",
   5256					    folio_address(folio), inode->i_ino, err);
@@ -140,7 +135,7 @@ vim +/shmem_decrypt_folio +5236 mm/shmem.c
   5269	 *
   5270	 * Return: 0 on success, negative error code on failure
   5271	 */
-> 5272	int shmem_encrypt_folio(struct inode *inode, struct folio *folio)
+  5272	int shmem_encrypt_folio(struct inode *inode, struct folio *folio)
   5273	{
   5274		unsigned long addr;
   5275		int nr_pages;
@@ -157,7 +152,7 @@ vim +/shmem_decrypt_folio +5236 mm/shmem.c
   5286		if (!addr)
   5287			return 0;
   5288	
-  5289		err = set_memory_encrypted(addr, nr_pages);
+> 5289		err = set_memory_encrypted(addr, nr_pages);
   5290		if (err)
   5291			pr_warn_ratelimited("failed to encrypt folio at %p for inode %lu, error %d\n",
   5292					    folio_address(folio), inode->i_ino, err);
