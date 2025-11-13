@@ -1,84 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A9A35B12E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 16:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8AF3570B9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 16:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763050898; cv=none; b=G9KikomImnKxXv8TFWYimjFiYG7JJ25JdL2Dw/Acc8QBD7XCkWTHZmeATxUoadH433qkWgnlZBd+uhfKEdzXfTmrxokJyvg5tzlQrOTp0Ogvdv9sUKBFzxlWJ+wSWgwG9RSY9YId8K/1LTE38LXol/AE0ClpYscYOxgmCUmuRaY=
+	t=1763051406; cv=none; b=N9sh0lNmE0GBVwwfFSVnx8mvRfhBmihjJDLeM99rg41/vA30C3q3fbEz4KGZLBZQLqQtmNout7hbVIGbDlCrOS5O2KkdfeN7wW5vaUANp8OssZaG+jI79eCfY7Yk7fwUZnlqLm+oV3O+XgCZmvisr1VdRJTRt9UcVwnUhyUUa5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763050898; c=relaxed/simple;
-	bh=XSrcaNhguz8zSGMbWozn5kQN8atSs74h/cO9FuTZM2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IajQi6ItKlsFSHffpwm7t0x8LGvuw7Di2WvMZ3LredFnlSf/celxSRIgG6H8d6RjxWkAAK2dy6kfFTuea6mI2QorCpux/vmFLS2dNyfZCj8TRDlGj42feZiRbHEwsHqPtIISMZiRDVk9gs91/skJ4MIH+QdxE/CH3lvQfNZoW/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nzGAEvDw; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nzGAEvDw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763050896; x=1794586896;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=XSrcaNhguz8zSGMbWozn5kQN8atSs74h/cO9FuTZM2w=;
-  b=nzGAEvDwP7emAW/ffOE0c8hqVNJGAnyrE2DrlWKp/WjFfyNMNkRPjsMo
-   qZ1nveQne5NXV0Shz4vTpQQKsZbnpZPhUtxY8usBsbu29nO8cuuBux4eO
-   Zc0/Hu+cAQpfhH5OinSP8o0Y48BBmBPQTWqKytOv1iHJint23aOGSrMa1
-   2fA7sI5uB6oga+ALoSMPdUYy1AmS3sxtUj41FCIoJ42YtE7yb1Unzp4Sj
-   jP/0vUKlDih/2aBfIVMh8G4hIcJHe8MXUZ5RzGNhYIr0s1HM97ViWFMjj
-   ec5uoc4SKi9qAzu7ClaAyMjZU3R7LXbtJKXIw5IOtvrGXYSY284tSYvYy
-   w==;
-X-CSE-ConnectionGUID: q2ZarmOXT0KcYOjdLMeI5g==
-X-CSE-MsgGUID: As6ctXV2SWKWaJhdZpu1xA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68765923"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="68765923"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 08:21:36 -0800
-X-CSE-ConnectionGUID: 3RnC93V4RMe7kPiPIminsw==
-X-CSE-MsgGUID: CvMLncZiRomQ5FFhj++Xrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="189553016"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Nov 2025 08:21:35 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vJa4i-0005YJ-2o;
-	Thu, 13 Nov 2025 16:21:32 +0000
-Date: Fri, 14 Nov 2025 00:20:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH printk v2 1/2] printk: Allow printk_trigger_flush() to
- flush all types
-Message-ID: <aRYFVT9p8QIII8jL@c83b8aa73612>
+	s=arc-20240116; t=1763051406; c=relaxed/simple;
+	bh=GGcvtz6vS7HzN0LByk40g6f3XD4BE8F6+0UPjUj0gZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eFfrmk9PHafbqNLbOxbKPfZn/5n0unOqF2GM0VoCeCRRfSa9sbYIzLpzcdfkJTOOoM3qHH/YGLhZ/axNzPi1x4GSTMKxrFfC+pzQUmu0wi0uzgFTCvYcmzvJycap4KNcC4OJruTl1mRd1/NJv1lh5tpqyhtxJkpsiWiJ1d/BX78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id DDFC31397B5;
+	Thu, 13 Nov 2025 16:29:56 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 147E319;
+	Thu, 13 Nov 2025 16:29:55 +0000 (UTC)
+Date: Thu, 13 Nov 2025 11:30:10 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>,
+ Steven Rostedt <rostedt@kernel.org>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev
+Subject: Re: [trace:latency/for-next 3/5]
+ kernel/trace/rv/monitors/sleep/sleep.c:219:26: error: static declaration of
+ 'rv_sleep' follows non-static declaration
+Message-ID: <20251113113010.71489d68@gandalf.local.home>
+In-Reply-To: <c4bb3aa4a73c0ec815bdc30c104b6f90fae5ed39.camel@redhat.com>
+References: <202511131948.vxi5mdjU-lkp@intel.com>
+	<20251113130659-27597fbf-a991-4cfb-aaf5-de69100ed34d@linutronix.de>
+	<c4bb3aa4a73c0ec815bdc30c104b6f90fae5ed39.camel@redhat.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113160351.113031-2-john.ogness@linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 147E319
+X-Stat-Signature: ofipgk7pnpnna6oy3ea7atwncuzzz59k
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18sV/MuWJrNfA8qDAeN21HzGuTedm9HVCk=
+X-HE-Tag: 1763051395-334933
+X-HE-Meta: U2FsdGVkX19Br9cRYac8ci1KERoL+E726K+q4aC64OxJHCYD4q4OOzuJ08PSawiy4dd0MVy8rv0oMnKQidny8T3X/oGbp0DP8HGJyc0F20IZRRRgF+LeikH3hJuUimnp45Axmj4TKUFXmxZVqaPlIs8mB0lRysNY1zH9YTUa+fd5A5PcrmEIQyGv5v7wPP3UMiFEqCluypw3EMKJKbvv5DQoXUXsVTgNUhvI0kGZpvWgScxT5sIsbpVLpyRhZ0TN1yu4lXT2dm3NUM4cZwmPvDQGr4JYpGGqcSBWdiUv51rl5Gf+w8vgsHeaUij5l5abDMEeyuISodVboYfQKHS673LsDvBa28pt
 
-Hi,
+On Thu, 13 Nov 2025 14:17:25 +0100
+Gabriele Monaco <gmonaco@redhat.com> wrote:
 
-Thanks for your patch.
+> The commit is already on linux-next, I guess the easiest thing is to send a fix
+> commit on top of that and Steven can decide whether to squash it before sending
+> it to Linus or leave it as it is.
+> 
+> I can handle this.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+I like to treat linux-next as final, and seldom rebase unless there's a
+major bug that needs a revert.
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+I'll pull in your patch directly.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH printk v2 1/2] printk: Allow printk_trigger_flush() to flush all types
-Link: https://lore.kernel.org/stable/20251113160351.113031-2-john.ogness%40linutronix.de
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+-- Steve
