@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB9A311946
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 18:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356A930FF2A;
+	Thu, 13 Nov 2025 18:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763059018; cv=none; b=KoiWYh8/9J/FLnxQIB+uGGmueNRR+fZwvJt0L5bTNJT5QC3VGiEIjXuPX2rUf4Vjnms/VkH8O9TsuLsU7HzCQ21K3+rjdSRWZ43hegDSzlRGoLANm2cz3hMR7EkTB9JpU4C9JbbAyRqrEaHCKztd2u8ZZgR84fzYtM9f17k53Ic=
+	t=1763059499; cv=none; b=ZjNEyE2eYw1UGc0a8b4HGniIuSQEGEuJHFHibDOEHTCfgEQE+8GBuqO/ccKQQ248/lEwM1X6uAkGo3z3V9UoadukVXkP7YzxQAni/F7clphm4xqVIf+ASozC5VIs9UZ3Eyo0hYnKe4R3IDjDgGk3nIs+GX7hhH1blCvazprwuWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763059018; c=relaxed/simple;
-	bh=+lUZbBPlqyDZV10fRHSEKd0/IEZTPweBnTLZS8fvvUE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mwjG1atd4u9behuDvft20tRy5wD9G8EJOJF3wgwiHtB1+VXc+hSw8GE8SO701xTNf+sK83M0SVNibJmM1QKbumB0TSV3nx/Qezx+YcWTrfAZo58ObM3IHZBjLUhFNfLJyAHA9PSbwLpbwQUo7KZVv1uyJegUNMXH0LWDu0coP9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUMIXJx4; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1763059499; c=relaxed/simple;
+	bh=uJwfz7y+UOjyl3txMn7ctra7YU4BaP0tmmsat+CbBmU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DYVbr/iTl1T2dy2cGQfJgJotQ4S+Ky9T6ta7Y0/MssMulXFB+tXKyK7vfFvpuqFT5zxHjZJF4M5FElLyB3Ta1i0C+xpuYxWa0XSV7IBnSavyqiJdxLgrwbw+UYqWFWNyXQFQqTumORDDNSwFBrzs4YwqSbd/1yEX4zy/k2hZOMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PR6xYFk6; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUMIXJx4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PR6xYFk6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763059016; x=1794595016;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=+lUZbBPlqyDZV10fRHSEKd0/IEZTPweBnTLZS8fvvUE=;
-  b=BUMIXJx4SJKmqyejORFSHoJ6hWvlgRI0uszis6qsINycbIkeZ7fTnZnk
-   dHdx+Jk1AS/H1qOgcdh7JGDlkyBgevq0uPAj9Gg+qLg63tmxsDKUlfYkp
-   x96V+QQbGDZBrtoj2damyMKeJhAIGcT2VVrg7GHzrUiKmMlTXkr0v2KUd
-   /G9L4TcGyq7sWFvq5R6zYnVpdsyx7K3E01HhhSxGZi5Re15x+gZpS90at
-   k6YxfABYHqzAjipzVU3UzAAvZ5qyAwhuUAOfQpEVN7gGQXNjkXeK75+s0
-   8xBsuYaR+Rbh/nrSyOaq0fpbFMI2A+m8+Xn1xbUQmC7NN5DnEQ3m6saIV
+  t=1763059498; x=1794595498;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uJwfz7y+UOjyl3txMn7ctra7YU4BaP0tmmsat+CbBmU=;
+  b=PR6xYFk6qzUcxnEZIaVSpVaAt0c+LkEsHcif0As7UCSa0pSy2T41nHG7
+   Q9QwUZ3pt+lA+rmvD7RSmUp8xmD8QUxpSPqf1yhjwPjtqRnvX/kM5yvF5
+   E+kXmf+4v3tLfRLbMBQpsdIcqXkqGmMXW3jPIc0TTp18Dy3ezY+LVXkjX
+   VjqfB/LjMLo7fm/QQ+S8Z4QMvcTHOhEe4ktAJ5wc4QmezKtRFcx0fqEAz
+   Y7kwqFgRvuMzK9vzJt8KeORMwV6ZQKfChP+Z+Ro3pfDZ10vbSjdniyvf2
+   XZWr+VrQQDe4VubCGGMx8V1j+FK3piuY2z/VL4xuL4BW4+yaNVmO8OWGy
    g==;
-X-CSE-ConnectionGUID: SB94bxxlRsi0ZNYDQNQdBg==
-X-CSE-MsgGUID: Y2IXdG8kTIKoxntHT2luMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="64353610"
+X-CSE-ConnectionGUID: T+Q0Qht2SHW/Y/BnqbExDw==
+X-CSE-MsgGUID: aoFqrK9MRaqGT5CrShk+6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="82782233"
 X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="64353610"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 10:36:53 -0800
-X-CSE-ConnectionGUID: T5z/fcIwRjOzgl8QD4GehQ==
-X-CSE-MsgGUID: BDVUKdb/SeCRHfvs1NyaPg==
+   d="scan'208";a="82782233"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 10:44:57 -0800
+X-CSE-ConnectionGUID: pXRj2ntZQ4eRt1WRIuqYvA==
+X-CSE-MsgGUID: ckktt7N/RVqHdg43JpF33A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="189767274"
+   d="scan'208";a="189835423"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Nov 2025 10:36:51 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 13 Nov 2025 10:44:53 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJcBd-0005kh-1u;
-	Thu, 13 Nov 2025 18:36:49 +0000
-Date: Fri, 14 Nov 2025 02:36:26 +0800
+	id 1vJcJO-0005l9-2G;
+	Thu, 13 Nov 2025 18:44:50 +0000
+Date: Fri, 14 Nov 2025 02:43:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Farhan Ali <alifm@linux.ibm.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 3/9] PCI: Avoid saving error values for config space
-Message-ID: <aRYlKgnAzJvZHESe@c83b8aa73612>
+To: Yuntao Wang <yuntao.wang@linux.dev>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	James Morse <james.morse@arm.com>, Baoquan He <bhe@redhat.com>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Geoff Levand <geoff@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Changyuan Lyu <changyuanl@google.com>,
+	Alexander Graf <graf@amazon.com>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yuntao Wang <yuntao.wang@linux.dev>
+Subject: Re: [PATCH v2 3/7] of/fdt: Fix the len check in
+ early_init_dt_check_for_usable_mem_range()
+Message-ID: <202511140236.zLyckeBA-lkp@intel.com>
+References: <20251113155104.226617-4-yuntao.wang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +78,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251113183502.2388-4-alifm@linux.ibm.com>
+In-Reply-To: <20251113155104.226617-4-yuntao.wang@linux.dev>
 
-Hi,
+Hi Yuntao,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.18-rc5 next-20251113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuntao-Wang/of-fdt-Consolidate-duplicate-code-into-helper-functions/20251114-004121
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251113155104.226617-4-yuntao.wang%40linux.dev
+patch subject: [PATCH v2 3/7] of/fdt: Fix the len check in early_init_dt_check_for_usable_mem_range()
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251114/202511140236.zLyckeBA-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511140236.zLyckeBA-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v5 3/9] PCI: Avoid saving error values for config space
-Link: https://lore.kernel.org/stable/20251113183502.2388-4-alifm%40linux.ibm.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511140236.zLyckeBA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/of/fdt.c:903:31: error: incompatible pointer types passing 'phys_addr_t *' (aka 'unsigned int *') to parameter of type 'u64 *' (aka 'unsigned long long *') [-Wincompatible-pointer-types]
+     903 |                 of_fdt_read_addr_size(prop, &rgn[i].base, &rgn[i].size);
+         |                                             ^~~~~~~~~~~~
+   drivers/of/fdt.c:663:60: note: passing argument to parameter 'addr' here
+     663 | void __init of_fdt_read_addr_size(const __be32 *prop, u64 *addr, u64 *size)
+         |                                                            ^
+   drivers/of/fdt.c:903:45: error: incompatible pointer types passing 'phys_addr_t *' (aka 'unsigned int *') to parameter of type 'u64 *' (aka 'unsigned long long *') [-Wincompatible-pointer-types]
+     903 |                 of_fdt_read_addr_size(prop, &rgn[i].base, &rgn[i].size);
+         |                                                           ^~~~~~~~~~~~
+   drivers/of/fdt.c:663:71: note: passing argument to parameter 'size' here
+     663 | void __init of_fdt_read_addr_size(const __be32 *prop, u64 *addr, u64 *size)
+         |                                                                       ^
+   2 errors generated.
+
+
+vim +903 drivers/of/fdt.c
+
+   879	
+   880	/**
+   881	 * early_init_dt_check_for_usable_mem_range - Decode usable memory range
+   882	 * location from flat tree
+   883	 */
+   884	void __init early_init_dt_check_for_usable_mem_range(void)
+   885	{
+   886		struct memblock_region rgn[MAX_USABLE_RANGES] = {0};
+   887		const __be32 *prop;
+   888		int len, i;
+   889		unsigned long node = chosen_node_offset;
+   890	
+   891		if ((long)node < 0)
+   892			return;
+   893	
+   894		pr_debug("Looking for usable-memory-range property... ");
+   895	
+   896		prop = of_fdt_get_addr_size_prop(node, "linux,usable-memory-range", &len);
+   897		if (!prop)
+   898			return;
+   899	
+   900		len = min(len, MAX_USABLE_RANGES);
+   901	
+   902		for (i = 0; i < len; i++) {
+ > 903			of_fdt_read_addr_size(prop, &rgn[i].base, &rgn[i].size);
+   904	
+   905			pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
+   906				 i, &rgn[i].base, &rgn[i].size);
+   907		}
+   908	
+   909		memblock_cap_memory_range(rgn[0].base, rgn[0].size);
+   910		for (i = 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
+   911			memblock_add(rgn[i].base, rgn[i].size);
+   912	}
+   913	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
