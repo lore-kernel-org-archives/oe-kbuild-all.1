@@ -1,75 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33393081D2;
-	Thu, 13 Nov 2025 04:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD6E2BEFF6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009430; cv=none; b=sJl2b4Mjz60qpcaUZbcvyYBDRXNBRybk/Rb9CJ75q/DS2sn5QUh2aYqQ6BwIlMn3ecMo2jfYB9fgrkNdg8Na85g3wqH9W0+F3l0pw9rA6LmPbzCjwmjX///nR2qoXIh3u2RL+Sguytdsa3rC1ttOTZqB8lUPXZamrgOBvfyMHIM=
+	t=1763009484; cv=none; b=jlz3UwSKdmrLlMBZtjfKVRoHte/hJrz1U1n66oeecaitFwoLQBH0K1jfi3fUdEOjvcid1cNjL/TvMND5F+lZsFTrd8TL4I5TIXIO3SZQE+rzUS/OKMKIu6Xcckf+VuDQAELa9bjkAjvLxM904hYlkK5Fgc9rQ+URoVKHF5q/+cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763009430; c=relaxed/simple;
-	bh=omOaESTzC5JdyNOxcqj8pYklVvUg+2CQxKky1CjcYzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBwv0SaDbwd3L7f09itWF+26PBhmY/YZyqVKUtY6FQsPR3euibHBkDUKtlfGsfA9fFq8cw1SzoDbpBOUwoPJochypMdqi5eGAESG/i2V6KzNdHyC/P1ewrpx0EX+byVruMkVKu0dlqqB5jlH3hiBseoQF7OK6dC4iZuvqk644Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVBSSQTv; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1763009484; c=relaxed/simple;
+	bh=bedhbayu0Z+VVPMCykCwh3LzhMV84tw9YdIzcJkfUIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YA8tCWQqXfC96JoGtn6Yyp3drw+uEh0A+RcpiY2AemCpMJKFPUo1tD9+t8LWgeqCoihPGkIavUypNytW+gif6IcXP0lBFpxtBGgduH3urrR0IUw8lPgk32RdDInPBxKFnKWUm0rEQETNcK9k0+INDzRPKqwHWIe0X7xKZ5zv6Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TY0Qs1Zq; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVBSSQTv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TY0Qs1Zq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009429; x=1794545429;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=omOaESTzC5JdyNOxcqj8pYklVvUg+2CQxKky1CjcYzE=;
-  b=RVBSSQTvnV+ySosvzKH/46irz1n/AEsTuRfDxtyeXLvLswVWo07jKydw
-   Htin5jRn8QcCUoWIq3mZgBLppi+bKEPbNWHdx8t39xcdePed+lzqVFj3O
-   GivL4ELrzFrd1Y+uYDsHojWIkmQjPFe47vUoH8hKVqppZWQ9bdJAxOFRo
-   /hk+UmrbEJljoSEGYNG/jGAmsDx3dpsOmfik9kc05LXVcqyxENFM4onha
-   XjDTM2SAvWhEdcCw66V5hW2oN/GwGuRKb3pRv5v4qHce5dHcsfHLDW1s0
-   +rdGgPgxnzsILSsvsmiAa4jyz3hXOY9YkzbUqCtIql45o7Eih8SlpzXAK
-   A==;
-X-CSE-ConnectionGUID: i2qAU4beTyWrDrDZqb//rw==
-X-CSE-MsgGUID: Tqns9E6sSzOuoypDH7H+JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68947865"
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="68947865"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:50:25 -0800
-X-CSE-ConnectionGUID: ecAteJ/4Sxa1ScmBr/C/kQ==
-X-CSE-MsgGUID: 4xufap9JQJmtAoHNzMPqyg==
+  t=1763009482; x=1794545482;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bedhbayu0Z+VVPMCykCwh3LzhMV84tw9YdIzcJkfUIo=;
+  b=TY0Qs1ZqieK5n3JAzyrx/V8gs7NriFxW3KBB6O2j7rBI/72lXwui1ZCg
+   lr6CPyj+TusRLa8RpaHmh5ycXX5nGLvz4NIeQvcgP/RBkPsfPiqzDXrpG
+   +pezPM8233mPGZbx3I3tHWoHbeYO2dvxLmxTJtYQeY6DLmMWp9KyUR7Gh
+   WenXATLrWM16n/EbLHMVsZU9HMCOczo7DtgJDk9Qi8h+XEA+O4HQMVApM
+   shilU9Q4LnC0E/XvO2ulY8JxTWRnsGscR57t1kHOfDsJeL+9jSV8rIcCT
+   0XDhYULwH0MYR9vl3CqWaaD9JxJlVYilB8bfxgAPjLDUtZWGQcPj2EzrW
+   g==;
+X-CSE-ConnectionGUID: UHzuOCiHSmKcPUa+n0DB8Q==
+X-CSE-MsgGUID: mJj7Lf7yTdir+PLF3nMWuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65008589"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="65008589"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:51:22 -0800
+X-CSE-ConnectionGUID: bkPcej/KRQWg3aRHyGPMYg==
+X-CSE-MsgGUID: 9qgWFJ+xQrCN/HV+5YQRuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="212789121"
+   d="scan'208";a="220161053"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Nov 2025 20:50:20 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2025 20:51:21 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPHm-0004sh-2H;
-	Thu, 13 Nov 2025 04:50:18 +0000
-Date: Thu, 13 Nov 2025 12:49:38 +0800
+	id 1vJPIl-0004tT-0I;
+	Thu, 13 Nov 2025 04:51:19 +0000
+Date: Thu, 13 Nov 2025 12:51:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrei Botila <andrei.botila@oss.nxp.com>,
-	Richard Cochran <richardcochran@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: [PATCH net-next 1/8] phy: add hwtstamp_get callback to retrieve
- config
-Message-ID: <202511130038.ODz0uTOK-lkp@intel.com>
-References: <20251112000257.1079049-2-vadim.fedorenko@linux.dev>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:inode-time-nowait.2 11/13] fs/ubifs/file.c:1386:11: error:
+ 'EGAIN' undeclared; did you mean 'EAGAIN'?
+Message-ID: <202511130648.YYHkcsLg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,96 +61,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251112000257.1079049-2-vadim.fedorenko@linux.dev>
 
-Hi Vadim,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/phy-add-hwtstamp_get-callback-to-retrieve-config/20251112-080606
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251112000257.1079049-2-vadim.fedorenko%40linux.dev
-patch subject: [PATCH net-next 1/8] phy: add hwtstamp_get callback to retrieve config
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20251113/202511130038.ODz0uTOK-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511130038.ODz0uTOK-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git inode-time-nowait.2
+head:   3ce20cca83831d5ac50d07a470dd2fe571df4086
+commit: 3e99f13b5e628a98a65cb9825344547599ececac [11/13] fs: add support for non-blocking timestamp updates
+config: powerpc-randconfig-r072-20251113 (https://download.01.org/0day-ci/archive/20251113/202511130648.YYHkcsLg-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511130648.YYHkcsLg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511130038.ODz0uTOK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511130648.YYHkcsLg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/ti/netcp_ethss.c:2660:23: error: no member named 'hwtstamp' in 'struct mii_timestamper'
-    2660 |                 return phy->mii_ts->hwtstamp(phy->mii_ts, cfg, extack);
-         |                        ~~~~~~~~~~~  ^
-   1 error generated.
+   fs/ubifs/file.c: In function 'ubifs_update_time':
+>> fs/ubifs/file.c:1386:11: error: 'EGAIN' undeclared (first use in this function); did you mean 'EAGAIN'?
+    1386 |   return -EGAIN;
+         |           ^~~~~
+         |           EAGAIN
+   fs/ubifs/file.c:1386:11: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +2660 drivers/net/ethernet/ti/netcp_ethss.c
+vim +1386 fs/ubifs/file.c
 
-6246168b4a3835 WingMan Kwok    2016-12-08  2645  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2646  static int gbe_hwtstamp_set(void *intf_priv, struct kernel_hwtstamp_config *cfg,
-3f02b82725576a Vadim Fedorenko 2025-11-03  2647  			    struct netlink_ext_ack *extack)
-6246168b4a3835 WingMan Kwok    2016-12-08  2648  {
-3f02b82725576a Vadim Fedorenko 2025-11-03  2649  	struct gbe_intf *gbe_intf = intf_priv;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2650  	struct gbe_priv *gbe_dev;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2651  	struct phy_device *phy;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2652  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2653  	gbe_dev = gbe_intf->gbe_dev;
-6246168b4a3835 WingMan Kwok    2016-12-08  2654  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2655  	if (!gbe_dev->cpts)
-6246168b4a3835 WingMan Kwok    2016-12-08  2656  		return -EOPNOTSUPP;
-6246168b4a3835 WingMan Kwok    2016-12-08  2657  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2658  	phy = gbe_intf->slave->phy;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2659  	if (phy_has_hwtstamp(phy))
-3f02b82725576a Vadim Fedorenko 2025-11-03 @2660  		return phy->mii_ts->hwtstamp(phy->mii_ts, cfg, extack);
-6246168b4a3835 WingMan Kwok    2016-12-08  2661  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2662  	switch (cfg->tx_type) {
-6246168b4a3835 WingMan Kwok    2016-12-08  2663  	case HWTSTAMP_TX_OFF:
-a9423120343cb5 Ivan Khoronzhuk 2018-11-12  2664  		gbe_dev->tx_ts_enabled = 0;
-6246168b4a3835 WingMan Kwok    2016-12-08  2665  		break;
-6246168b4a3835 WingMan Kwok    2016-12-08  2666  	case HWTSTAMP_TX_ON:
-a9423120343cb5 Ivan Khoronzhuk 2018-11-12  2667  		gbe_dev->tx_ts_enabled = 1;
-6246168b4a3835 WingMan Kwok    2016-12-08  2668  		break;
-6246168b4a3835 WingMan Kwok    2016-12-08  2669  	default:
-6246168b4a3835 WingMan Kwok    2016-12-08  2670  		return -ERANGE;
-6246168b4a3835 WingMan Kwok    2016-12-08  2671  	}
-6246168b4a3835 WingMan Kwok    2016-12-08  2672  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2673  	switch (cfg->rx_filter) {
-6246168b4a3835 WingMan Kwok    2016-12-08  2674  	case HWTSTAMP_FILTER_NONE:
-a9423120343cb5 Ivan Khoronzhuk 2018-11-12  2675  		gbe_dev->rx_ts_enabled = HWTSTAMP_FILTER_NONE;
-6246168b4a3835 WingMan Kwok    2016-12-08  2676  		break;
-6246168b4a3835 WingMan Kwok    2016-12-08  2677  	case HWTSTAMP_FILTER_PTP_V1_L4_EVENT:
-6246168b4a3835 WingMan Kwok    2016-12-08  2678  	case HWTSTAMP_FILTER_PTP_V1_L4_SYNC:
-6246168b4a3835 WingMan Kwok    2016-12-08  2679  	case HWTSTAMP_FILTER_PTP_V1_L4_DELAY_REQ:
-a9423120343cb5 Ivan Khoronzhuk 2018-11-12  2680  		gbe_dev->rx_ts_enabled = HWTSTAMP_FILTER_PTP_V1_L4_EVENT;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2681  		cfg->rx_filter = HWTSTAMP_FILTER_PTP_V1_L4_EVENT;
-6246168b4a3835 WingMan Kwok    2016-12-08  2682  		break;
-6246168b4a3835 WingMan Kwok    2016-12-08  2683  	case HWTSTAMP_FILTER_PTP_V2_L4_EVENT:
-6246168b4a3835 WingMan Kwok    2016-12-08  2684  	case HWTSTAMP_FILTER_PTP_V2_L4_SYNC:
-6246168b4a3835 WingMan Kwok    2016-12-08  2685  	case HWTSTAMP_FILTER_PTP_V2_L4_DELAY_REQ:
-6246168b4a3835 WingMan Kwok    2016-12-08  2686  	case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
-6246168b4a3835 WingMan Kwok    2016-12-08  2687  	case HWTSTAMP_FILTER_PTP_V2_L2_SYNC:
-6246168b4a3835 WingMan Kwok    2016-12-08  2688  	case HWTSTAMP_FILTER_PTP_V2_L2_DELAY_REQ:
-6246168b4a3835 WingMan Kwok    2016-12-08  2689  	case HWTSTAMP_FILTER_PTP_V2_EVENT:
-6246168b4a3835 WingMan Kwok    2016-12-08  2690  	case HWTSTAMP_FILTER_PTP_V2_SYNC:
-6246168b4a3835 WingMan Kwok    2016-12-08  2691  	case HWTSTAMP_FILTER_PTP_V2_DELAY_REQ:
-a9423120343cb5 Ivan Khoronzhuk 2018-11-12  2692  		gbe_dev->rx_ts_enabled = HWTSTAMP_FILTER_PTP_V2_EVENT;
-3f02b82725576a Vadim Fedorenko 2025-11-03  2693  		cfg->rx_filter = HWTSTAMP_FILTER_PTP_V2_EVENT;
-6246168b4a3835 WingMan Kwok    2016-12-08  2694  		break;
-6246168b4a3835 WingMan Kwok    2016-12-08  2695  	default:
-6246168b4a3835 WingMan Kwok    2016-12-08  2696  		return -ERANGE;
-6246168b4a3835 WingMan Kwok    2016-12-08  2697  	}
-6246168b4a3835 WingMan Kwok    2016-12-08  2698  
-6246168b4a3835 WingMan Kwok    2016-12-08  2699  	gbe_hwtstamp(gbe_intf);
-6246168b4a3835 WingMan Kwok    2016-12-08  2700  
-3f02b82725576a Vadim Fedorenko 2025-11-03  2701  	return 0;
-6246168b4a3835 WingMan Kwok    2016-12-08  2702  }
-6246168b4a3835 WingMan Kwok    2016-12-08  2703  
+  1363	
+  1364	/**
+  1365	 * ubifs_update_time - update time of inode.
+  1366	 * @inode: inode to update
+  1367	 * @flags: time updating control flag determines updating
+  1368	 *	    which time fields of @inode
+  1369	 *
+  1370	 * This function updates time of the inode.
+  1371	 *
+  1372	 * Returns: %0 for success or a negative error code otherwise.
+  1373	 */
+  1374	int ubifs_update_time(struct inode *inode, int flags)
+  1375	{
+  1376		struct ubifs_inode *ui = ubifs_inode(inode);
+  1377		struct ubifs_info *c = inode->i_sb->s_fs_info;
+  1378		struct ubifs_budget_req req = { .dirtied_ino = 1,
+  1379				.dirtied_ino_d = ALIGN(ui->data_len, 8) };
+  1380		int err, release;
+  1381	
+  1382		if (!IS_ENABLED(CONFIG_UBIFS_ATIME_SUPPORT))
+  1383			return generic_update_time(inode, flags);
+  1384	
+  1385		if (flags & S_NOWAIT)
+> 1386			return -EGAIN;
+  1387	
+  1388		err = ubifs_budget_space(c, &req);
+  1389		if (err)
+  1390			return err;
+  1391	
+  1392		mutex_lock(&ui->ui_mutex);
+  1393		inode_update_timestamps(inode, flags);
+  1394		release = ui->dirty;
+  1395		__mark_inode_dirty(inode, I_DIRTY_SYNC);
+  1396		mutex_unlock(&ui->ui_mutex);
+  1397		if (release)
+  1398			ubifs_release_budget(c, &req);
+  1399		return 0;
+  1400	}
+  1401	
 
 -- 
 0-DAY CI Kernel Test Service
