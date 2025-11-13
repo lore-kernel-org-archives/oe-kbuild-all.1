@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EA33054F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33393081D2;
+	Thu, 13 Nov 2025 04:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009429; cv=none; b=DUaVnC2VheO32ojLRIY7/DzPzejgDddFDaSLV95p2Rc90AQ11ZYbRXaJBcO2V6IiXPF0Pv+YzXa8EyFD3vfudg+PCF+h0LQCVL1zX7gpAUuTHoNonJt+zZ7EUGXKpFhA8PUrFZNlvNioe61inD9fhkJCa8iY6cR7otllcFwEuks=
+	t=1763009430; cv=none; b=sJl2b4Mjz60qpcaUZbcvyYBDRXNBRybk/Rb9CJ75q/DS2sn5QUh2aYqQ6BwIlMn3ecMo2jfYB9fgrkNdg8Na85g3wqH9W0+F3l0pw9rA6LmPbzCjwmjX///nR2qoXIh3u2RL+Sguytdsa3rC1ttOTZqB8lUPXZamrgOBvfyMHIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763009429; c=relaxed/simple;
-	bh=90ttPY1qI/ixvslP1H1VXQfWx72HxaioAD+B6TMWq8k=;
+	s=arc-20240116; t=1763009430; c=relaxed/simple;
+	bh=omOaESTzC5JdyNOxcqj8pYklVvUg+2CQxKky1CjcYzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pIv+acNuwuS5Y8tgmyXS5xv5GCnACMLyNgG1uDY6SDVWx/zUKsNDOzZmqupkLeqdBfQDbAjIRnpubMnlfupHFFgpaGF3QKFVTGcgNUW3JQ3Q9+Omsu/D2z9iZuMbXyYwybJPXbKxVywPEvhcwcnabQXeR/0qIdHBcV2I/7Go7TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tsv9m/Mh; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBwv0SaDbwd3L7f09itWF+26PBhmY/YZyqVKUtY6FQsPR3euibHBkDUKtlfGsfA9fFq8cw1SzoDbpBOUwoPJochypMdqi5eGAESG/i2V6KzNdHyC/P1ewrpx0EX+byVruMkVKu0dlqqB5jlH3hiBseoQF7OK6dC4iZuvqk644Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVBSSQTv; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tsv9m/Mh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVBSSQTv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009428; x=1794545428;
+  t=1763009429; x=1794545429;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=90ttPY1qI/ixvslP1H1VXQfWx72HxaioAD+B6TMWq8k=;
-  b=Tsv9m/MhRJeiAar69DuEizfbq1vJWEKdNco735cJekQTXevctdO3hwQK
-   1jybXOoBp1/h4QG+IeLFXK0JaR5xujJYl2GlVMJO8ho3jYI+6A1pvClKb
-   dIsrNvs6Lpdxrkw2xzIm8y5uVo9CQGqomddWowFr6TU5PCL1r4kejM2hM
-   +vDYZewqiXO/mud8IgNC5fBXUWl+wWmIn+9SHwTZk5TEuUbrL7lROMiZG
-   uvtUd+hzMx9RwLduqQc4WxHc5XwdELTXKG0bYsAtj4FWeFB9pnZNiZeDa
-   VJmMdXKx7sdcLD9HnWFLcvfvdwLuSLHNfSD/XmYXyN/sQhHS5Git6mvNd
-   Q==;
-X-CSE-ConnectionGUID: lFUGvYNOQn2q+WFgdADOEg==
-X-CSE-MsgGUID: swmOSxrVSiq/0WdjdS5aEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68947849"
+  bh=omOaESTzC5JdyNOxcqj8pYklVvUg+2CQxKky1CjcYzE=;
+  b=RVBSSQTvnV+ySosvzKH/46irz1n/AEsTuRfDxtyeXLvLswVWo07jKydw
+   Htin5jRn8QcCUoWIq3mZgBLppi+bKEPbNWHdx8t39xcdePed+lzqVFj3O
+   GivL4ELrzFrd1Y+uYDsHojWIkmQjPFe47vUoH8hKVqppZWQ9bdJAxOFRo
+   /hk+UmrbEJljoSEGYNG/jGAmsDx3dpsOmfik9kc05LXVcqyxENFM4onha
+   XjDTM2SAvWhEdcCw66V5hW2oN/GwGuRKb3pRv5v4qHce5dHcsfHLDW1s0
+   +rdGgPgxnzsILSsvsmiAa4jyz3hXOY9YkzbUqCtIql45o7Eih8SlpzXAK
+   A==;
+X-CSE-ConnectionGUID: i2qAU4beTyWrDrDZqb//rw==
+X-CSE-MsgGUID: Tqns9E6sSzOuoypDH7H+JA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="68947865"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="68947849"
+   d="scan'208";a="68947865"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:50:25 -0800
-X-CSE-ConnectionGUID: xZPmvstDSqm4XKzyYbWeug==
-X-CSE-MsgGUID: KFMe4rC1TxmUXAbV/+YC+Q==
+X-CSE-ConnectionGUID: ecAteJ/4Sxa1ScmBr/C/kQ==
+X-CSE-MsgGUID: 4xufap9JQJmtAoHNzMPqyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="212789118"
+   d="scan'208";a="212789121"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 12 Nov 2025 20:50:20 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPHm-0004sf-2D;
+	id 1vJPHm-0004sh-2H;
 	Thu, 13 Nov 2025 04:50:18 +0000
-Date: Thu, 13 Nov 2025 12:49:35 +0800
+Date: Thu, 13 Nov 2025 12:49:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -59,8 +59,8 @@ To: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Andrei Botila <andrei.botila@oss.nxp.com>,
 	Richard Cochran <richardcochran@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
 	Vladimir Oltean <vladimir.oltean@nxp.com>,
 	Jacob Keller <jacob.e.keller@intel.com>,
 	Kory Maincent <kory.maincent@bootlin.com>,
@@ -68,7 +68,7 @@ Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>
 Subject: Re: [PATCH net-next 1/8] phy: add hwtstamp_get callback to retrieve
  config
-Message-ID: <202511122341.yMQLxKfa-lkp@intel.com>
+Message-ID: <202511130038.ODz0uTOK-lkp@intel.com>
 References: <20251112000257.1079049-2-vadim.fedorenko@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -90,22 +90,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/phy-add-h
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20251112000257.1079049-2-vadim.fedorenko%40linux.dev
 patch subject: [PATCH net-next 1/8] phy: add hwtstamp_get callback to retrieve config
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251112/202511122341.yMQLxKfa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511122341.yMQLxKfa-lkp@intel.com/reproduce)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20251113/202511130038.ODz0uTOK-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511130038.ODz0uTOK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511122341.yMQLxKfa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511130038.ODz0uTOK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/ti/netcp_ethss.c: In function 'gbe_hwtstamp_set':
->> drivers/net/ethernet/ti/netcp_ethss.c:2660:37: error: 'struct mii_timestamper' has no member named 'hwtstamp'; did you mean 'rxtstamp'?
+>> drivers/net/ethernet/ti/netcp_ethss.c:2660:23: error: no member named 'hwtstamp' in 'struct mii_timestamper'
     2660 |                 return phy->mii_ts->hwtstamp(phy->mii_ts, cfg, extack);
-         |                                     ^~~~~~~~
-         |                                     rxtstamp
+         |                        ~~~~~~~~~~~  ^
+   1 error generated.
 
 
 vim +2660 drivers/net/ethernet/ti/netcp_ethss.c
