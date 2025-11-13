@@ -1,134 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A8435C1A5;
-	Thu, 13 Nov 2025 17:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1257239E97;
+	Thu, 13 Nov 2025 17:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763054207; cv=none; b=jwwV9+yEYZ5vGwl/F/5Ohl4CRdS6zkg1pJWlwlMJxXqSqKSGKzawDLNVyXoSDVfEEMZLAPc+J3Gp3BaqQBPccgbRVgxIkG6XoZv/yKezdwjqHjXSR2EAmNBiPA6u6QE3Q5QfcKANYPqEo+l8J634BFoXUE6s9tYMHVbj2UoLWA4=
+	t=1763054446; cv=none; b=szp9tS/nVHiVxxAxgdwY9BFUkUpxCUj0spcush7w35lGs0wlJrm9KAoGeg2j02wxmum99RXMPZFiMtvznXh4y7QK+oYtM1QTsHborUqWpV7cCc8R6wmqwmcKeFHzeNN5sbMquI0of8479Rur2WlXXyHD37jgQuoCNnFQTHiK3WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763054207; c=relaxed/simple;
-	bh=uyyY9cHMRIOZigdUowSTBTWUrdpADGk8JLFriXjOiIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CWZ4kd90vYajCzTFxbE8K084Xg7wjsQmmAG+hpu5gMPP3jmcll5Ml21RdAJTFx7BKZ9GbRJT1A3yQ2XCzC7+ZfzzNnElZVusTOcza4FtISW4nM9IaJ4Cu1Vhf6nzKWvwkr5+6oXVvf6uxUGvYVu84VL/KCOhuSujHFecHa6X3B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTDOEiqP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763054446; c=relaxed/simple;
+	bh=aDj1OoGhJvvGvsKsa6KBqks1p2Eq0FXv/NvW8anZhfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hfzEkJ1EwL4YucHqRxZ/WXY0hqTVuweLcHjjJBHE1I+hh7cZ/aUbv9rvcSkfS4GDuN48xwMW7gZmxLkucHUY97aFNRcG0o83CQb9WTMQb14Z159hxnP96an8b9KbyrYkdrQkGJB0wA/6HClVmVtMoyUuBTPpI1mHoNYtgVFT9ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nj4H5Wx9; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTDOEiqP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68A05C4CEF7;
-	Thu, 13 Nov 2025 17:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763054207;
-	bh=uyyY9cHMRIOZigdUowSTBTWUrdpADGk8JLFriXjOiIc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UTDOEiqP936Gp8MbxUuTgpSBVSzpS+d/Nf4s83YjbzsKtq7Ipch9Os8/xzCnx4FWt
-	 ls4fcCBA0onptdr4MBkHK+JFbphE1+7U98HhJ3J0Jq9SEnbPH/7e2HcQlahe1qBZLH
-	 JsgpGpGvj2wjobpexGZlI2uvlGk+zVLBKlLupKcQalBra/cVu0t2WeWmYzxwz1nmlz
-	 UinIx3B7iDaYrFFFuXgbR8ysdW5aXmakRS/wR8wC+RMWq+zOt7UTJPe4RrRnuXXiWB
-	 6nheSKvHQAHxhhddcX5VVW51icmYvZ/ZoOLSXSu25vQCbHFIR5f9KO13VBeYIJIS41
-	 yo6me1uP6wiew==
-Message-ID: <c4170711-d764-46a1-9a65-56299ee9b28b@kernel.org>
-Date: Thu, 13 Nov 2025 18:16:44 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nj4H5Wx9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763054445; x=1794590445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aDj1OoGhJvvGvsKsa6KBqks1p2Eq0FXv/NvW8anZhfs=;
+  b=Nj4H5Wx9K4WSmyASphtg4JZhizF8opv/Nf6NfV6T5jDExcHwlGp4gy8v
+   Raxjw7UkuVKF4tFTN2+DEqmGTVXJ8K7KjfheyYcWu4CLxnqzRMVDpAAyy
+   NqBHJhQoVkIaQUE7QGHUnSwGixkiFwROAXed0D1tcFNoH/Iit2lagG1oA
+   YgnZ8eutau5Pi6edI84MMHI3uCLLfqHKqxIsPNoJc0TSAwSUS3dE7pmCm
+   nZJUCqzw5l/wBq9YfVslBpp24Qc7rjDad/ny9XqyJOZlhrMjb0QOaNJIL
+   K8gn5SXjov0zm7lO1tAHrVjSZ83/DoUl6Qk7Sd1/2AGzE/j77lCtDsDlv
+   g==;
+X-CSE-ConnectionGUID: uvFi/sO7RiaF52LdW9cX5w==
+X-CSE-MsgGUID: pybO6XjuT4GJpJXZowLm4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="64346367"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="64346367"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 09:20:44 -0800
+X-CSE-ConnectionGUID: WOrQ+05PSYalNge60HLevg==
+X-CSE-MsgGUID: uphhhZN1SdGJp3Vr5OFfdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="194706365"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2025 09:20:42 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJazw-0005eV-1H;
+	Thu, 13 Nov 2025 17:20:40 +0000
+Date: Fri, 14 Nov 2025 01:20:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:scratch/gourry/isolation/linus 4/11]
+ mm/memory-tiers.c:735:11: warning: variable 'err' is used uninitialized
+ whenever 'if' condition is false
+Message-ID: <202511140128.JLF0OvJQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 mptcp-net 3/3] Squash-to: "mptcp: leverage the backlog
- for RX packet processing"
-Content-Language: en-GB, fr-BE
-To: kernel test robot <lkp@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- mptcp@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev
-References: <ee40999f77d0186abba2a6b21958c1a8c4881c57.1762992570.git.pabeni@redhat.com>
- <202511131931.1yh3eKYe-lkp@intel.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <202511131931.1yh3eKYe-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
+tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/linus
+head:   d328d5f5e18e61a0572af00ed3707179b6aa78d5
+commit: 96bc1584e93242e2b4a7a015d21e8089880b12ba [4/11] memory-tiers: Introduce SysRAM and Specific Purpose Memory Nodes
+config: loongarch-randconfig-002-20251113 (https://download.01.org/0day-ci/archive/20251114/202511140128.JLF0OvJQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511140128.JLF0OvJQ-lkp@intel.com/reproduce)
 
-On 13/11/2025 12:30, kernel test robot wrote:
-> Hi Paolo,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on mptcp/export]
-> [cannot apply to mptcp/export-net linus/master v6.18-rc5 next-20251113]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/mptcp-fix-grafting-corner-case/20251113-081224
-> base:   https://github.com/multipath-tcp/mptcp_net-next.git export
-> patch link:    https://lore.kernel.org/r/ee40999f77d0186abba2a6b21958c1a8c4881c57.1762992570.git.pabeni%40redhat.com
-> patch subject: [PATCH v3 mptcp-net 3/3] Squash-to: "mptcp: leverage the backlog for RX packet processing"
-> config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20251113/202511131931.1yh3eKYe-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131931.1yh3eKYe-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511131931.1yh3eKYe-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    net/mptcp/protocol.c: In function '__mptcp_add_backlog':
->>> net/mptcp/protocol.c:693:17: error: 'struct sock' has no member named 'sk_memcg'
->      693 |         if (!ssk->sk_memcg)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511140128.JLF0OvJQ-lkp@intel.com/
 
-I guess mem_cgroup_from_sk() should be used if this patch doesn't target
--net.
+All warnings (new ones prefixed by >>):
 
-Cheers,
-Matt
+>> mm/memory-tiers.c:735:11: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     735 |         else if (type == MT_NODE_TYPE_SPM)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory-tiers.c:737:6: note: uninitialized use occurs here
+     737 |         if (err)
+         |             ^~~
+   mm/memory-tiers.c:735:7: note: remove the 'if' if its condition is always true
+     735 |         else if (type == MT_NODE_TYPE_SPM)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     736 |                 err = node_isset(node, mt_sysram_nodelist) ? -EBUSY : 0;
+   mm/memory-tiers.c:730:9: note: initialize the variable 'err' to silence this warning
+     730 |         int err;
+         |                ^
+         |                 = 0
+   1 warning generated.
+
+
+vim +735 mm/memory-tiers.c
+
+   708	
+   709	/**
+   710	 * mt_set_node_type() - Set a NUMA Node's Memory type.
+   711	 * @node: The node type to set
+   712	 * @type: The type to set
+   713	 *
+   714	 * This is a one-way setting, once a type is assigned it cannot be cleared
+   715	 * without resetting the system.  This is to avoid race conditions associated
+   716	 * with moving nodes from one type to another during memory hotplug.
+   717	 *
+   718	 * Once a node is added as a SysRAM node, it will be used by default in
+   719	 * the page allocator as a valid target when the calling does not provide
+   720	 * a node or nodemask.  This is safe as the page allocator iterates through
+   721	 * zones and uses this nodemask to filter zones - if a node is present but
+   722	 * has no zones the node is ignored.
+   723	 *
+   724	 * Return: 0 if the node type is set successfully (or it's already set)
+   725	 *         -EBUSY if the node has a different type already
+   726	 *         -ENODEV if the type is invalid
+   727	 */
+   728	int mt_set_node_type(int node, int type)
+   729	{
+   730		int err;
+   731	
+   732		mutex_lock(&memory_tier_lock);
+   733		if (type == MT_NODE_TYPE_SYSRAM)
+   734			err = node_isset(node, mt_spm_nodelist) ? -EBUSY : 0;
+ > 735		else if (type == MT_NODE_TYPE_SPM)
+   736			err = node_isset(node, mt_sysram_nodelist) ? -EBUSY : 0;
+   737		if (err)
+   738			goto out;
+   739	
+   740		if (type == MT_NODE_TYPE_SYSRAM)
+   741			node_set(node, mt_sysram_nodelist);
+   742		else if (type == MT_NODE_TYPE_SPM)
+   743			node_set(node, mt_spm_nodelist);
+   744		else
+   745			err = -ENODEV;
+   746	out:
+   747		mutex_unlock(&memory_tier_lock);
+   748		return err;
+   749	}
+   750	
+
 -- 
-Sponsored by the NGI0 Core fund.
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
