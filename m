@@ -1,163 +1,157 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE492D9482
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 18:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFE330DD2E;
+	Thu, 13 Nov 2025 18:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763058225; cv=none; b=dG74DhqavzqYsgeokMBn8qv0dkaT7DAhmn7mzA0VESx/sU7fuFhNhTrRVlLlj3T1lcq1X9p8kfkhNnCu5gQfB0G2xZYvrgbg3ZgoFY8DzNqgY2ayiAh1alL+DcEESV2amyU6ETyvyjTmArWBqawt7s0pDgd/ZTkueTj73Ivl0AU=
+	t=1763058836; cv=none; b=Q6/1shCLkmtdV/lrYjNvsS7KRBehAFiLzyz5fc+dtwXeMtFs/NhssoKpFKKjTcdTrEe0x1SSb7oriRBzRvuzfBaqUz+2uRjgK1kuQaPKEwZsI/3bA2mpWWX7VqviISTV6yLUAHbl+nqE/1DyAK25FoeOmnI1+M2cKesJgc88Xnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763058225; c=relaxed/simple;
-	bh=9wONgpFeFR+zvWoiyd3AGKx1BaiS71elSI9ojmPhoaA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qMQFXF5y0NpJb5VUhXao0xhEPz7zkrSvQ4OT22TyD8/DJT/fF/SlPnni9eBK0p4B/Wqd85eNOisdSmgG0tj3WrNlgME/KtAHMbS2IYppIpPTMB3ug75s6L6gohEt66RoNaombSSMCDPxpi9WcDkOpgesy5XXi7ddd/qb6Nn9iDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5598942c187so1351053e0c.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 10:23:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763058222; x=1763663022;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pbr6KNR1bUXZYViotVbUoRUsmFwFNCwuoCWcfoEfOT8=;
-        b=JsCkJ4CqKa/8E2C/xS7kCHeUOb3xcffl73lpsK0CUIyD4nDewhNPM61I1jVzqMwlrV
-         h+dVNmcRxs7z/IySFey9dA+MEBgCAfksWRPISLlPOR7mecqwOdanASL/NCIp+8DsbdWD
-         hP+2/+HGZcxJac5rk3eic+4bh/aQFR4oQB5yVISxgjPc1xFZlRpNjIh5xkUlSPnCRhBM
-         /eWZ2Z4CyRcljJR+yUBN3q6qoAGRhlJWXJ7RPF0gGGNhewn2UReexz/shvHlsUWR3ICF
-         HzIahpXpfzjKG4JAW1oglM5D0f/sCEOE5NsB2SfaDnWRRTp+Iw+VsL6vFostkSE/sW0z
-         e3Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpxQ1zvbbpkJ1JEqPjO+xmUnrJbGUJ75hxEy+LMCipBWofFsiyQBYevuAAJ59BcSYeUw6Uhd+EKOuPza1T@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzn+Pw4BKubpDh/0kCc4RJuTTUfdb2anPv6b0o5YKMejw5O/Cnt
-	cnXa28UEv1kY9GHdrsRkdOLqvGF58mtXGtwoVlVCNk6AZYMm0KJ1t2b0IZSmqt8FH1k=
-X-Gm-Gg: ASbGncvp0UejBX0Y7p2iC9G6TXAZCjdcCyLbh+GtD+iZq1efs8aLtn4EIU4VayP5lLn
-	+x1g+Z3tKQw7OZN3Y6mSD9cvBzYxZurB3PCPF+nv/4qQleuzNf0UGG5hhR5dEOsxngBKaAccXIi
-	8UGW545W9B30QNiawY43UHcPp2ecUX6XnlRF4NwpaFzMByoLs7npr/441eGS1171pIXvCtdvtow
-	2RahjjEbTDsJzBp2gJN45czPXq9UxOLv2GyHLmEt6oQZlnXT2hGL128LVP+sMoEf3z4ix0MbWMV
-	qUa4ld+Kvm8r1OrtyB83RSK0ur+3liHSnDySWrlD+L3jvTOHpe9+WEvrONHbBP5QuXQpcIiYOGZ
-	dW49VOFC9TPc4ZdbJyrGq3zpumuO/TTc8BQc5IVjxYqLDRnFNAgnqxzULfD9ap/eex5+PA9suEH
-	263INQ6tzdnGtnm1VP8OwJENIkOlueASS6btzb0A==
-X-Google-Smtp-Source: AGHT+IFOYgkrmufcXIgYDH2R1ciyLZxuC+FUZ6DRsExlB4xlMvGoB+o/siHTvwQq508VzoQz0jFsKQ==
-X-Received: by 2002:a05:6122:480d:b0:556:a243:8a72 with SMTP id 71dfb90a1353d-55b0d12ef0emr1316501e0c.5.1763058222464;
-        Thu, 13 Nov 2025 10:23:42 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-55b0f331034sm917323e0c.3.2025.11.13.10.23.42
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Nov 2025 10:23:42 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-5dbd8bb36fcso826172137.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 10:23:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVy5OPjB0Rn/pPwEw0QYIgzeROu5UmjW/tsiBjpwNs6eelSgw0QIVnh+iRREpe/RFofQhrYyQUi5RShgRCO@lists.linux.dev
-X-Received: by 2002:a05:6102:3051:b0:5d4:1499:99a4 with SMTP id
- ada2fe7eead31-5dfb41e267fmr1793358137.13.1763058221928; Thu, 13 Nov 2025
- 10:23:41 -0800 (PST)
+	s=arc-20240116; t=1763058836; c=relaxed/simple;
+	bh=wiEF9wo+xx6AtQx8sG2sFqXFb62gXjxc2vE5YCUrU44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOWTnmDW9kFw5g35oBOqYFFnT6TLTzSN9RHtTjos05qxHcxBKp+7nMfpBzob5QmBfWl5bSaoxYW8F7/QgERWsNvgMm/XpaVwNjFd3gBUsKkxBjZVrKm89dBasSdTslMUuRyg9X2eiqJoIS6C71X7S7CklgR+dOKg83O7jB7By88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZ95J5cd; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZ95J5cd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763058835; x=1794594835;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wiEF9wo+xx6AtQx8sG2sFqXFb62gXjxc2vE5YCUrU44=;
+  b=AZ95J5cdXqxpK6aq4rikhMTVI1AwDHWkBzPX3Fy2rniQWY4kJmTc5b8A
+   BZsgDWrDs5KtOlNzuiV+syo5P+U/X16hzVRDuhQ68tu6QXuIAUXzGv7s0
+   22MrbhytxZiSAEC15GUsM4x75AKJhFyAZOfZSa1LWGGafCKfv3Vvw4DPT
+   /zki7rtqr/nYrkurIT0cFQsk6/YYCXJ8oeIfhEW+MpgAOTTfvJKHkx67H
+   jj1lTt6A01a90YoxxGN2m+dN9emVgI1JHxfnNkA65Z2V/dZIL9LgSMaOr
+   MldSxz7fm9M5yD/HePXQHRrY9wI0BMQUBirHgB5PZgtqQfD/ZMjdwt8B4
+   A==;
+X-CSE-ConnectionGUID: etvtFJjCRmqkrCPCTY/J7A==
+X-CSE-MsgGUID: limzBI5lTp2MjFOFG5yMsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="64859062"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="64859062"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 10:33:55 -0800
+X-CSE-ConnectionGUID: JAy4oEsqTLm4X4+YeT2MyA==
+X-CSE-MsgGUID: GGrmpuoTQayb0qj9J4AMaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="188827303"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 Nov 2025 10:33:52 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJc8j-0005kN-0q;
+	Thu, 13 Nov 2025 18:33:49 +0000
+Date: Fri, 14 Nov 2025 02:33:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Donglin Peng <dolinux.peng@gmail.com>, rostedt@goodmis.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Donglin Peng <pengdonglin@xiaomi.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v5] function_graph: Enable funcgraph-args and
+ funcgraph-retaddr to work simultaneously
+Message-ID: <202511140224.loIXI9Us-lkp@intel.com>
+References: <20251113072938.333657-1-dolinux.peng@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511132024.tfRZgB5P-lkp@intel.com> <20251113100036.70130321f6629ce9cc8956cf@linux-foundation.org>
-In-Reply-To: <20251113100036.70130321f6629ce9cc8956cf@linux-foundation.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Nov 2025 19:23:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXpUat2cTH_YBqQNUQY4=Y3em38GDY5vr+HYhd_qk3qcA@mail.gmail.com>
-X-Gm-Features: AWmQ_bnmukM8VT5G1Q69IqWca-tF6jQbLcv0pbKs9CiZ8jCmLwhTSfU1v9SpYUk
-Message-ID: <CAMuHMdXpUat2cTH_YBqQNUQY4=Y3em38GDY5vr+HYhd_qk3qcA@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 36/283] include/uapi/linux/const.h:20:25:
- warning: conversion from 'long long unsigned int' to 'long unsigned int'
- changes value from '17179869184' to '0'
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, "David Hildenbrand (Red Hat)" <david@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251113072938.333657-1-dolinux.peng@gmail.com>
 
-Hi Andrew,
+Hi Donglin,
 
-On Thu, 13 Nov 2025 at 19:08, Andrew Morton <akpm@linux-foundation.org> wrote:
-> On Thu, 13 Nov 2025 20:26:42 +0800 kernel test robot <lkp@intel.com> wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   f58b4cb6b0c11172a25c2ade23477f55596d7138
-> > commit: 2f6ff71280ffddb27ad7174d24f573e2683870cd [36/283] mm: fix MAX_FOLIO_ORDER on powerpc configs with hugetlb
-> > config: sh-randconfig-002-20251113 (https://download.01.org/0day-ci/archive/20251113/202511132024.tfRZgB5P-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 11.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511132024.tfRZgB5P-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202511132024.tfRZgB5P-lkp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    In file included from arch/sh/include/asm/bug.h:112,
-> >                     from include/linux/bug.h:5,
-> >                     from include/linux/mmdebug.h:5,
-> >                     from include/linux/mm.h:6,
-> >                     from include/linux/migrate.h:5,
-> >                     from mm/migrate.c:16:
-> >    mm/internal.h: In function 'folio_set_order':
-> > >> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '17179869184' to '0' [-Woverflow]
-> >       20 | #define __AC(X,Y)       (X##Y)
-> >          |                         ^~~~~~
-> >    include/asm-generic/bug.h:111:32: note: in definition of macro 'WARN_ON_ONCE'
-> >      111 |         int __ret_warn_on = !!(condition);                      \
-> >          |                                ^~~~~~~~~
-> >    mm/internal.h:758:9: note: in expansion of macro 'VM_WARN_ON_ONCE'
-> >      758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-> >          |         ^~~~~~~~~~~~~~~
-> >    include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-> >       21 | #define _AC(X,Y)        __AC(X,Y)
-> >          |                         ^~~~
-> >    include/linux/sizes.h:56:41: note: in expansion of macro '_AC'
-> >       56 | #define SZ_16G                          _AC(0x400000000, ULL)
-> >          |                                         ^~~
-> >    include/linux/mm.h:2095:43: note: in expansion of macro 'SZ_16G'
-> >     2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
-> >          |                                           ^~~~~~
-> >    mm/internal.h:758:33: note: in expansion of macro 'MAX_FOLIO_ORDER'
-> >      758 |         VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
-> >          |                                 ^~~~~~~~~~~~~~~
->
-> Oh gee.
->
-> Here's the patch: https://lkml.kernel.org/r/20251112145632.508687-1-david@kernel.org
->
-> I'll append a copy below.
->
-> For a start, you have found an sh config which sets neither
-> CONFIG_32BIT not CONFIG_64BIT.  Should that even be possible?
+kernel test robot noticed the following build warnings:
 
-Apparently yes...
+[auto build test WARNING on v6.18-rc5]
+[also build test WARNING on linus/master]
+[cannot apply to trace/for-next next-20251113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-arch/sh/mm/Kconfig:
+url:    https://github.com/intel-lab-lkp/linux/commits/Donglin-Peng/function_graph-Enable-funcgraph-args-and-funcgraph-retaddr-to-work-simultaneously/20251113-153332
+base:   v6.18-rc5
+patch link:    https://lore.kernel.org/r/20251113072938.333657-1-dolinux.peng%40gmail.com
+patch subject: [PATCH v5] function_graph: Enable funcgraph-args and funcgraph-retaddr to work simultaneously
+config: sparc64-randconfig-001-20251113 (https://download.01.org/0day-ci/archive/20251114/202511140224.loIXI9Us-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511140224.loIXI9Us-lkp@intel.com/reproduce)
 
-    config 29BIT
-            def_bool !32BIT
-            select UNCACHED_MAPPING
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511140224.loIXI9Us-lkp@intel.com/
 
-    config 32BIT
-            bool
-            default !MMU
+All warnings (new ones prefixed by >>):
 
-    config PMB
-            bool "Support 32-bit physical addressing through PMB"
-            depends on MMU && CPU_SH4A && !CPU_SH4AL_DSP
-            select 32BIT
-            select UNCACHED_MAPPING
-            help
-              If you say Y here, physical addressing will be extended to
-              32-bits through the SH-4A PMB. If this is not set, legacy
-              29-bit physical addressing will be used.
+>> kernel/trace/trace_functions_graph.c:146:19: warning: variable 'args_offs' set but not used [-Wunused-but-set-variable]
+     146 |         int nr_args = 0, args_offs = 0;
+         |                          ^
+   kernel/trace/trace_functions_graph.c:169:20: warning: variable 'retaddr' is uninitialized when used here [-Wuninitialized]
+     169 |                 entry->args[0] = retaddr;
+         |                                  ^~~~~~~
+   kernel/trace/trace_functions_graph.c:143:23: note: initialize the variable 'retaddr' to silence this warning
+     143 |         unsigned long retaddr;
+         |                              ^
+         |                               = 0
+   2 warnings generated.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+vim +/args_offs +146 kernel/trace/trace_functions_graph.c
+
+   132	
+   133	static void
+   134	print_graph_duration(struct trace_array *tr, unsigned long long duration,
+   135			     struct trace_seq *s, u32 flags);
+   136	
+   137	static int __graph_entry(struct trace_array *tr, struct ftrace_graph_ent *trace,
+   138				 unsigned int trace_ctx, struct ftrace_regs *fregs)
+   139	{
+   140		struct ring_buffer_event *event;
+   141		struct trace_buffer *buffer = tr->array_buffer.buffer;
+   142		struct ftrace_graph_ent_entry *entry;
+   143		unsigned long retaddr;
+   144		int size = sizeof(*entry);
+   145		int type = TRACE_GRAPH_ENT;
+ > 146		int nr_args = 0, args_offs = 0;
+   147	
+   148		if (IS_ENABLED(CONFIG_FUNCTION_GRAPH_RETADDR) &&
+   149			tracer_flags_is_set(TRACE_GRAPH_PRINT_RETADDR)) {
+   150			retaddr = ftrace_graph_top_ret_addr(current);
+   151			type = TRACE_GRAPH_RETADDR_ENT;
+   152			nr_args += 1;
+   153		}
+   154	
+   155		/* If fregs is defined, add FTRACE_REGS_MAX_ARGS long size words */
+   156		if (!!fregs)
+   157			nr_args += FTRACE_REGS_MAX_ARGS;
+   158	
+   159		size += nr_args * sizeof(long);
+   160		event = trace_buffer_lock_reserve(buffer, type, size, trace_ctx);
+   161		if (!event)
+   162			return 0;
+   163	
+   164		entry = ring_buffer_event_data(event);
+   165		entry->graph_ent = *trace;
+   166	
+   167		/* Store the retaddr in args[0] */
+   168		if (type == TRACE_GRAPH_RETADDR_ENT) {
+   169			entry->args[0] = retaddr;
+   170			args_offs += 1;
+   171		}
+   172	
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
