@@ -1,66 +1,76 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F6D305046
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05851303C97;
+	Thu, 13 Nov 2025 04:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009609; cv=none; b=rFyeXhmZGZuA0dg6otKJT+bxYw6+saH0SCloR6te/OBFYgPo811ao5F39Pvu5BvUr8gvNal/QJfjL9sV8dRrvNqYmfDAMGcZP8Xxs2viDrbovmS+IsVV+2uYagyRYHYMnBK8LcKKgyZbickofis01eZjkV1ma7ahNcYp+QR78Ic=
+	t=1763009609; cv=none; b=jfb0qOjwXlH0CKROfcqIdDG8mrTCCbaCbiVD3bwKbrcikIP5fS/8pioI7wMkQSrMPJKmpu3Ke1vudScHDO2lESEchZt2dKKIRL9Dkhqci9SAJ6wIxfIdaM59zDbi2xJ5aBhdrMpe9a8PQmgKpegwqtT3j7Xa7pyZgzrghWgO6z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763009609; c=relaxed/simple;
-	bh=+RnNgJxnLCpjiL4aWVpfdB/7glQSfIJsvV6SyEJUxwg=;
+	bh=/S+WjjUSEkVtvCHe8svQ+akEl//PD1NKJVfzgDfMQlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=buZtiIw8wxNcdyGka5dTOxU9c5IEEKtUrdXOqD6VyD+oLQ+BTJo1EJG6EsggHaNdDBeKeErtuoo8NLkQtF5EtzmZsFTTTmlDWFzQrZSe59pJ/iNwtUGC9wRRhggZzWitEyrAUy6ErDhP74TfeWybViK122xA2s9qoACFohZNU8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O07+ygJX; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=RoKI5py5kn1S038enrKI5TjZ/G561MTvP28dzZnwJaLnr9BgpV8IfLtsI4Mxvy0WVrk4Uq9k5NvGf/Wk7pZrWSKuKOpC3pfeA3x0j0il3z5IP1OgDWhVxgpLNZm7azAFPZ9SqIqxgX9oM/9ZPxtgSDnir4ACi0OAcqG1poQWTuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbsyubLG; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O07+ygJX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbsyubLG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009607; x=1794545607;
+  t=1763009608; x=1794545608;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+RnNgJxnLCpjiL4aWVpfdB/7glQSfIJsvV6SyEJUxwg=;
-  b=O07+ygJXKmWeZQtbsCTU4hOBn/o6LpjSWlZIDZplRPm93DAULPe81DmB
-   Uv1Jnz2yW5YYTJahPQM8jspUa9Q6ctOliWFR0n18EktjSNy7OThx69Y2g
-   9xtdBEdVFSbpjLudyNPYPt30PU4idulgeT10ToIzMSYOjJe3AMUalYYxK
-   5ZjcBeomXx+sswTOl43zSDLnRfapPsmuDi/ahKQSCyuvllmeLzZQJx1NX
-   fcPy6bfl/Qy93oUNe+Zo5UBoGeeZGGRz9ooXtJ9tAGV7R3Mh9ZbkNEtu1
-   0xidM74zVdSmgFT7OYU38UDB3uvJLxiPHvMbNdFyJUSfY6k8HtYj7bGt5
-   w==;
-X-CSE-ConnectionGUID: DUEIOwR9TVC2XTDCubsutA==
-X-CSE-MsgGUID: 8MbKVEhaRwaenxQ+N50w3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82480080"
+  bh=/S+WjjUSEkVtvCHe8svQ+akEl//PD1NKJVfzgDfMQlE=;
+  b=JbsyubLG8eI61XEnNBHr0aecFkwUxb+G2js0gGbitbq39CaMtsKb89tA
+   AvKDLBDWLL34GyFk5ZwKcEoV1T4K/SZkT2j/exiIX0KVFs9BsnMr3Y8zl
+   xCQZnpKBSDthP/ZU02jzBT9ejWmFOlmoKoBTnCwu6710rADLU03upJLJ7
+   xUDe4q+UR8ul3jYYcLvu5fOsqVOH6oCzbyxi3Pk6+ig+SKMPXMgiKXszG
+   VPVDv1eYoT7k1PWVQi0cfVPzGx9YWjKuDaH8E/vnkLQMT9cthx6jFMLKV
+   qs+FEZRWXZDQ1bfQc7TeRSpUM4VZGqRPKzL6Nds8I+jJX+Iumz3XMyLFe
+   g==;
+X-CSE-ConnectionGUID: 0aO3fQs7QxaAmhq2DyYezw==
+X-CSE-MsgGUID: a8gEeU5bRt2G/Ha/Gjg0pQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82480089"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="82480080"
+   d="scan'208";a="82480089"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:53:24 -0800
-X-CSE-ConnectionGUID: 6lhh0uK5Qq+lEfWdF3px+w==
-X-CSE-MsgGUID: HP701mBmQ1iHdlrOACrSTw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:53:28 -0800
+X-CSE-ConnectionGUID: de5TNagITzuMYBg/6vVGzA==
+X-CSE-MsgGUID: 6ZLSdvckRpGmIxHl17leoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="189415460"
+   d="scan'208";a="189415465"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 12 Nov 2025 20:53:21 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPKh-0004tv-1B;
+	id 1vJPKh-0004tx-1F;
 	Thu, 13 Nov 2025 04:53:19 +0000
-Date: Thu, 13 Nov 2025 12:52:29 +0800
+Date: Thu, 13 Nov 2025 12:53:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Puranjay Mohan <puranjay@kernel.org>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Puranjay Mohan <puranjay@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next 1/4] bpf: arena: populate vm_area without
- allocating memory
-Message-ID: <202511122020.eyONeHrW-lkp@intel.com>
-References: <20251111163424.16471-2-puranjay@kernel.org>
+To: Samuel Holland <samuel.holland@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	linux-riscv@lists.infradead.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	devicetree@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+	linux-kernel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Conor Dooley <conor@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Rob Herring <robh+dt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Nicolas Palix <nicolas.palix@imag.fr>
+Subject: Re: [PATCH v3 06/22] mm: Always use page table accessor functions
+Message-ID: <202511131136.6CBuWpof-lkp@intel.com>
+References: <20251113014656.2605447-7-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,65 +79,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251111163424.16471-2-puranjay@kernel.org>
+In-Reply-To: <20251113014656.2605447-7-samuel.holland@sifive.com>
 
-Hi Puranjay,
+Hi Samuel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on 24172e0d79900908cf5ebf366600616d29c9b417]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/bpf-arena-populate-vm_area-without-allocating-memory/20251112-004253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251111163424.16471-2-puranjay%40kernel.org
-patch subject: [PATCH bpf-next 1/4] bpf: arena: populate vm_area without allocating memory
-config: loongarch-randconfig-002-20251112 (https://download.01.org/0day-ci/archive/20251112/202511122020.eyONeHrW-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251112/202511122020.eyONeHrW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/mm-ptdump-replace-READ_ONCE-with-standard-page-table-accessors/20251113-095117
+base:   24172e0d79900908cf5ebf366600616d29c9b417
+patch link:    https://lore.kernel.org/r/20251113014656.2605447-7-samuel.holland%40sifive.com
+patch subject: [PATCH v3 06/22] mm: Always use page table accessor functions
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251113/202511131136.6CBuWpof-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131136.6CBuWpof-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511122020.eyONeHrW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511131136.6CBuWpof-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/bpf/arena.c: In function 'apply_range_clear_cb':
->> kernel/bpf/arena.c:139:9: error: implicit declaration of function 'flush_tlb_kernel_range' [-Werror=implicit-function-declaration]
-     139 |         flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> mm/pgtable-generic.c:27:2: error: cannot take the address of an rvalue of type 'pgd_t'
+      27 |         pgd_ERROR(pgdp_get(pgd));
+         |         ^         ~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_64.h:50:29: note: expanded from macro 'pgd_ERROR'
+      50 |                __FILE__, __LINE__, &(e), pgd_val(e))
+         |                                    ^ ~
+   include/linux/printk.h:555:33: note: expanded from macro 'pr_err'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+>> mm/pgtable-generic.c:34:2: error: cannot take the address of an rvalue of type 'p4d_t'
+      34 |         p4d_ERROR(p4dp_get(p4d));
+         |         ^         ~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_64.h:46:29: note: expanded from macro 'p4d_ERROR'
+      46 |                __FILE__, __LINE__, &(e), p4d_val(e))
+         |                                    ^ ~
+   include/linux/printk.h:555:33: note: expanded from macro 'pr_err'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+>> mm/pgtable-generic.c:42:2: error: cannot take the address of an rvalue of type 'pud_t'
+      42 |         pud_ERROR(pudp_get(pud));
+         |         ^         ~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_64.h:42:29: note: expanded from macro 'pud_ERROR'
+      42 |                __FILE__, __LINE__, &(e), pud_val(e))
+         |                                    ^ ~
+   include/linux/printk.h:555:33: note: expanded from macro 'pr_err'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+>> mm/pgtable-generic.c:54:2: error: cannot take the address of an rvalue of type 'pmd_t'
+      54 |         pmd_ERROR(pmdp_get(pmd));
+         |         ^         ~~~~~~~~~~~~~
+   arch/x86/include/asm/pgtable_64.h:39:29: note: expanded from macro 'pmd_ERROR'
+      39 |                __FILE__, __LINE__, &(e), pmd_val(e))
+         |                                    ^ ~
+   include/linux/printk.h:555:33: note: expanded from macro 'pr_err'
+     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/printk.h:512:60: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                            ^~~~~~~~~~~
+   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   4 errors generated.
 
 
-vim +/flush_tlb_kernel_range +139 kernel/bpf/arena.c
+vim +/pgd_t +27 mm/pgtable-generic.c
 
-   119	
-   120	static int apply_range_clear_cb(pte_t *pte, unsigned long addr, void *data)
-   121	{
-   122		struct mm_struct *mm = &init_mm;
-   123		pte_t old_pte;
-   124		struct page *page;
-   125	
-   126		/* sanity check */
-   127		old_pte = ptep_get(pte);
-   128		if (pte_none(old_pte) || !pte_present(old_pte))
-   129			return 0; /* nothing to do */
-   130	
-   131		/* get page and free it */
-   132		page = pte_page(old_pte);
-   133		if (WARN_ON_ONCE(!page))
-   134			return -EINVAL;
-   135	
-   136		pte_clear(mm, addr, pte);
-   137	
-   138		/* ensure no stale TLB entries */
- > 139		flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-   140	
-   141		__free_page(page);
-   142	
-   143		return 0;
-   144	}
-   145	
+    18	
+    19	/*
+    20	 * If a p?d_bad entry is found while walking page tables, report
+    21	 * the error, before resetting entry to p?d_none.  Usually (but
+    22	 * very seldom) called out from the p?d_none_or_clear_bad macros.
+    23	 */
+    24	
+    25	void pgd_clear_bad(pgd_t *pgd)
+    26	{
+  > 27		pgd_ERROR(pgdp_get(pgd));
+    28		pgd_clear(pgd);
+    29	}
+    30	
+    31	#ifndef __PAGETABLE_P4D_FOLDED
+    32	void p4d_clear_bad(p4d_t *p4d)
+    33	{
+  > 34		p4d_ERROR(p4dp_get(p4d));
+    35		p4d_clear(p4d);
+    36	}
+    37	#endif
+    38	
+    39	#ifndef __PAGETABLE_PUD_FOLDED
+    40	void pud_clear_bad(pud_t *pud)
+    41	{
+  > 42		pud_ERROR(pudp_get(pud));
+    43		pud_clear(pud);
+    44	}
+    45	#endif
+    46	
+    47	/*
+    48	 * Note that the pmd variant below can't be stub'ed out just as for p4d/pud
+    49	 * above. pmd folding is special and typically pmd_* macros refer to upper
+    50	 * level even when folded
+    51	 */
+    52	void pmd_clear_bad(pmd_t *pmd)
+    53	{
+  > 54		pmd_ERROR(pmdp_get(pmd));
+    55		pmd_clear(pmd);
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
