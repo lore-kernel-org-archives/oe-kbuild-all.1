@@ -1,159 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEB833F392
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 11:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C1B257841;
+	Thu, 13 Nov 2025 11:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763034129; cv=none; b=pZUERZy1D+rj7Sq2LbR75rcvq0Rkw9Jc5jnSLcLGY+XpQQSq8/cy0sMXEMZXr7kj9DDU2KIu5Yrz39GekJR7QFhivsdf0u2fQ+kh2naUXk32/qlXHa2f2FJtFK4KW3kPJ55ullvD9LklRFM5sRqichNLjZz5RAqN1t0bmgz3RDk=
+	t=1763034129; cv=none; b=o8tbAK7APCKWKQP8BG3RWTQVviySsKZfB2wgI7Twt3Em58D+vlEzdKAI7+G87EUHgynqW6zO8Ao5CTk/U+/o8OWKSQgzgX76Aw488NXZyT48PLll/qrqngTnBVqZNZLttExomHgqz4wJvtTKc+hIa/7F1eBrUqI7gZeRtJBfXds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1763034129; c=relaxed/simple;
-	bh=XFuoCpILsY69OVgtg7QEmC2zHNsVpwAmcEk8eO5afnY=;
+	bh=Df0vS3ajxr6s+0fDZXYWEtjZjQAMfod3849JL3iEcdI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FTNQ4Y0vuOe3EvZF/fYLxCDJ9NSz9X8vTwMBq324ps4tniVUdsvMdh+D9oHf7fAPDmUusBpTQy8aj5Xm2JWPrxAPmGJa4afFdvqe8DTAZlORNFkpK5kLTK+ah/wkamjj+WD9m0r+6Zwu15tgERLQUfMR0AVPZXDAbR8zlSOmn4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gnSQTLuY; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=qp2xgldXAjvWLA5Ku8jX7MC/muEZr9oYF3yT8FNFfROExFw/ahTKaK+vDOznNUDbKWPKP9rf3aDDVxLvVYvli4KZR4kXuDnZdm4By/ZlrBPOYhTEK0MHlnHx9YoN7JLtjx/YVgCaGV9pNXv7W1fasIG14U5d9ZJk8eDmgdCRfg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUhFxRVs; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gnSQTLuY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUhFxRVs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1763034128; x=1794570128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFuoCpILsY69OVgtg7QEmC2zHNsVpwAmcEk8eO5afnY=;
-  b=gnSQTLuY7yyrZ6UCn8WXWHWCW42akHcVCEl4Y2gYCTWVED7K2W8FcdFE
-   F3ogH/d1Qdj1NcfU2ARB7lpJViyzvWHmT7WJA+75MLBzxQAnM9Si2nLty
-   ONqygQE/0d59/YovBXzgflO10spfQODRn9OsEqjpaJrU+/0Ubc3be0a+R
-   yRaTu3+BPmYWbS1DNJ6O5zH5pwPQQaxPG0p/WGa63wVtHkOnEdgGB5eji
-   4ZKFZ5lGpufE2dAYchGwgo9wObwsnD73n+s9sZiynId116OhSCuYbitul
-   nhkXIAOUVmxHXdBz9Ox4FP22pvtqH91X3aTX0HBdULBmEPT5YwKNs5Lfs
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Df0vS3ajxr6s+0fDZXYWEtjZjQAMfod3849JL3iEcdI=;
+  b=BUhFxRVsqQRoaWQsUpwsUYXfwoEDmTgsAIw1of7su+XzF1LtoFCx8SRk
+   nSpZGpH3dSyYwjaiXb+N+P5Cps5FG73DH1noCVxHmgzmrJINUhezYqbXv
+   UelPFFzNvTm6Df4a9fpWrMRXaG2rc1zK39JCuIUkwiNMSth/durH5GDTk
+   zmuzkgWLiOLMbRgvJyCdI4Eu+8DDCLhdjM/m7ygSUrlxczVqWTRM44pnf
+   XBQsEw8M7STckTSphx+eHisTEECaaKG91E6WiKZz0bp82loIWt3A8BjUb
+   Bid5PVtMAIfej2cqS5HT/m50CQnwsx30ipCDJfsB5vqrtGHe0ucty77DK
    A==;
-X-CSE-ConnectionGUID: odkAylleT2epxH92rnPpog==
-X-CSE-MsgGUID: O/Z7ybViQaGRAhCTgviatA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="76215041"
+X-CSE-ConnectionGUID: P4l1qiJATeGlqoFfEYAbxA==
+X-CSE-MsgGUID: 2XT5ixp/SeeaYd/hmrXHrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="75426213"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="76215041"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 03:42:08 -0800
-X-CSE-ConnectionGUID: d80N0CBRQFqADt3xfDEvAQ==
-X-CSE-MsgGUID: +EL7peWySI+E/30FaEBnAA==
+   d="scan'208";a="75426213"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 03:42:08 -0800
+X-CSE-ConnectionGUID: l//c8kZmQC+JHGGsWPb5qw==
+X-CSE-MsgGUID: d9IRvUgtQ6yPrXbHTP/axA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="189912075"
+   d="scan'208";a="189498227"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Nov 2025 03:42:06 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Nov 2025 03:42:06 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJViF-0005Gn-2t;
+	id 1vJViF-0005Gl-2q;
 	Thu, 13 Nov 2025 11:42:03 +0000
-Date: Thu, 13 Nov 2025 19:41:07 +0800
+Date: Thu, 13 Nov 2025 19:41:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3182/3182] include/linux/migrate.h:102:9: error:
- expected identifier or '(' before '{' token
-Message-ID: <202511131914.MqxXnsR5-lkp@intel.com>
+To: Dave Airlie <airlied@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 24/62]
+ drivers/gpu/drm/xe/xe_device.c:997:22: error: use of undeclared identifier
+ 'id'
+Message-ID: <202511131932.czkz3HtQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7c9750f803899fe67a8d281d2d283e8d75d08d4d
-commit: 2a212a2a044ed85140cdf66e516f6bde7da08e9d [3182/3182] mm: migrate: add isolate_and_migrate_folios()
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251113/202511131914.MqxXnsR5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131914.MqxXnsR5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   57dc6a91148b6b50bebe454028ce2488d74422df
+commit: 77c2336923d4a7f24d717ae22128e5cb65162650 [24/62] Merge remote-tracking branch 'drm/drm-next' into renesas-drivers
+config: arm-randconfig-004-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131932.czkz3HtQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131932.czkz3HtQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131914.MqxXnsR5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511131932.czkz3HtQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/filemap.c:45:
->> include/linux/migrate.h:102:9: error: expected identifier or '(' before '{' token
-     102 |         { return -EINVAL; }
-         |         ^
->> include/linux/migrate.h:98:19: warning: 'isolate_and_migrate_folios' declared 'static' but never defined [-Wunused-function]
-      98 | static inline int isolate_and_migrate_folios(struct folio **folios, unsigned int nr_folios,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from mm/shmem.c:72:
->> include/linux/migrate.h:102:9: error: expected identifier or '(' before '{' token
-     102 |         { return -EINVAL; }
-         |         ^
-   mm/shmem.c: In function 'shmem_swapin_cluster':
-   mm/shmem.c:1699:51: error: passing argument 3 of 'swap_cluster_readahead' from incompatible pointer type [-Wincompatible-pointer-types]
-    1699 |         folio = swap_cluster_readahead(swap, gfp, mpol, ilx);
-         |                                                   ^~~~
-         |                                                   |
-         |                                                   struct mempolicy *
-   In file included from mm/shmem.c:43:
-   mm/swap.h:102:66: note: expected 'struct vm_fault *' but argument is of type 'struct mempolicy *'
-     102 |                                 gfp_t gfp_mask, struct vm_fault *vmf)
-         |                                                 ~~~~~~~~~~~~~~~~~^~~
-   mm/shmem.c:1699:17: error: too many arguments to function 'swap_cluster_readahead'; expected 3, have 4
-    1699 |         folio = swap_cluster_readahead(swap, gfp, mpol, ilx);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~                  ~~~
-   mm/swap.h:101:29: note: declared here
-     101 | static inline struct folio *swap_cluster_readahead(swp_entry_t entry,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/migrate.h: At top level:
->> include/linux/migrate.h:98:19: warning: 'isolate_and_migrate_folios' declared 'static' but never defined [-Wunused-function]
-      98 | static inline int isolate_and_migrate_folios(struct folio **folios, unsigned int nr_folios,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from mm/memory.c:68:
->> include/linux/migrate.h:102:9: error: expected identifier or '(' before '{' token
-     102 |         { return -EINVAL; }
-         |         ^
-   mm/memory.c: In function 'do_numa_page':
-   mm/memory.c:5538:24: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
-    5538 |         int flags = 0, nr_pages;
-         |                        ^~~~~~~~
-   include/linux/migrate.h: At top level:
->> include/linux/migrate.h:98:19: warning: 'isolate_and_migrate_folios' declared 'static' but never defined [-Wunused-function]
-      98 | static inline int isolate_and_migrate_folios(struct folio **folios, unsigned int nr_folios,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
-   Depends on [n]: CGROUPS [=n]
-   Selected by [y]:
-   - ARM64 [=y]
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
+>> drivers/gpu/drm/xe/xe_device.c:997:22: error: use of undeclared identifier 'id'
+     997 |         for_each_gt(gt, xe, id)
+         |                             ^~
+>> drivers/gpu/drm/xe/xe_device.c:997:22: error: use of undeclared identifier 'id'
+     997 |         for_each_gt(gt, xe, id)
+         |                             ^~
+>> drivers/gpu/drm/xe/xe_device.c:997:22: error: use of undeclared identifier 'id'
+     997 |         for_each_gt(gt, xe, id)
+         |                             ^~
+>> drivers/gpu/drm/xe/xe_device.c:997:14: error: use of undeclared identifier 'gt'
+     997 |         for_each_gt(gt, xe, id)
+         |                     ^~
+>> drivers/gpu/drm/xe/xe_device.c:997:22: error: use of undeclared identifier 'id'
+     997 |         for_each_gt(gt, xe, id)
+         |                             ^~
+   drivers/gpu/drm/xe/xe_device.c:998:18: error: use of undeclared identifier 'gt'
+     998 |                 xe_gt_shutdown(gt);
+         |                                ^~
+   6 errors generated.
 
 
-vim +102 include/linux/migrate.h
+vim +/id +997 drivers/gpu/drm/xe/xe_device.c
 
-    89	
-    90	static inline void putback_movable_pages(struct list_head *l) {}
-    91	static inline int migrate_pages(struct list_head *l, new_folio_t new,
-    92			free_folio_t free, unsigned long private,
-    93			enum migrate_mode mode, int reason, unsigned int *ret_succeeded)
-    94		{ return -ENOSYS; }
-    95	static inline struct folio *alloc_migration_target(struct folio *src,
-    96			unsigned long private)
-    97		{ return NULL; }
-  > 98	static inline int isolate_and_migrate_folios(struct folio **folios, unsigned int nr_folios,
-    99			new_folio_t get_new_folio, free_folio_t put_new_folio,
-   100			unsigned long private, enum migrate_mode mode,
-   101			unsigned int *nr_succeeded);
- > 102		{ return -EINVAL; }
-   103	static inline bool isolate_movable_page(struct page *page, isolate_mode_t mode)
-   104		{ return false; }
-   105	static inline bool isolate_folio_to_list(struct folio *folio, struct list_head *list)
-   106		{ return false; }
-   107	
+dd08ebf6c3525a Matthew Brost     2023-03-30   988  
+dd08ebf6c3525a Matthew Brost     2023-03-30   989  void xe_device_shutdown(struct xe_device *xe)
+dd08ebf6c3525a Matthew Brost     2023-03-30   990  {
+b11a020d914c3b Jouni Högander    2025-10-31   991  	drm_dbg(&xe->drm, "Shutting down device\n");
+b11a020d914c3b Jouni Högander    2025-10-31   992  
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   993  	xe_display_pm_shutdown(xe);
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   994  
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   995  	xe_irq_suspend(xe);
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   996  
+501d799a47e2b8 Maarten Lankhorst 2024-09-05  @997  	for_each_gt(gt, xe, id)
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   998  		xe_gt_shutdown(gt);
+501d799a47e2b8 Maarten Lankhorst 2024-09-05   999  
+501d799a47e2b8 Maarten Lankhorst 2024-09-05  1000  	xe_display_pm_shutdown_late(xe);
+b11a020d914c3b Jouni Högander    2025-10-31  1001  
+b11a020d914c3b Jouni Högander    2025-10-31  1002  	if (!xe_driver_flr_disabled(xe)) {
+501d799a47e2b8 Maarten Lankhorst 2024-09-05  1003  		/* BOOM! */
+501d799a47e2b8 Maarten Lankhorst 2024-09-05  1004  		__xe_driver_flr(xe);
+501d799a47e2b8 Maarten Lankhorst 2024-09-05  1005  	}
+dd08ebf6c3525a Matthew Brost     2023-03-30  1006  }
+dd08ebf6c3525a Matthew Brost     2023-03-30  1007  
+
+:::::: The code at line 997 was first introduced by commit
+:::::: 501d799a47e2b83b4e41d5306c2266ea5c100a08 drm/xe: Wire up device shutdown handler
+
+:::::: TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+:::::: CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
