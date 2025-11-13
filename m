@@ -1,156 +1,139 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDD12877F2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 20:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4935635CBDF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 20:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763065336; cv=none; b=EGfyFdkpGLRrRDk7hgX+UqL2tiMIJ6p69NWNkQP2Sh52pGVdc61E86n+Fp2OCYfhsVIv0LCcEHRVdVwKC5GYHVRIMs8inw457PZN9AWHhEe+02U5/22bAIx8pVISC1FGookHywzg/8DeMWi7X6a8uJEIv6uJWt/wHplgPbZfRFo=
+	t=1763066406; cv=none; b=KS4nk8CRgnlOETxw5eGr8Cr62eCVCFMRL3KsqjFSE474o/Zl1OTNt/c+mUNqJxbqgdy9XRd7/sY9XmBDBvOpT26FGT+cjlBRL2WbYhOYIWNOvb+5QMv2cjnwBPyxFPnfs9rQv3zKqgzfI/dRGtYN2/Q6ijpbRJOOz1uxkKHBS3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763065336; c=relaxed/simple;
-	bh=X/xbzx99++nKScG2x53OT0LFuJcCDM2WkhP7fOJy1Ao=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pnSHHqShprftuJbSaFuhybjFqtESIwcvj4Y17bnJYHPt55dnaJ/uv/TuNULOTPma2Y5899vrJ3SJ6AlmYy6QB9wvKpU3YKN1qCrXIKE9YQY6i95HaehTxkO0L30dtundGmwAtA2WoGv+Iy/OdQoCtuf9pqIHnWGfnyA5blgqnkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1VbNVHUk; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1763066406; c=relaxed/simple;
+	bh=sXCsBnadJSBj2rRtHMfKPdYhYQzNFmTpwDXYSbUNWHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ksyvi9gSqBSTH7BBZU7VRiILtT8vJt9ZNM3QuAYC4ef9CiQMcRIrJNVUwqZmQOB9uMSAgA6xS9pdY3jw/ZfYdbaJQDS6DE1PlHg9SOdNXkP9iEhbo1QS2zmkD5U1UmsOjwNZYHEnBgRZnV8TTqNkgmRJ451CwdGny8atWKBuOuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQkBqAsw; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1VbNVHUk"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4edb029249aso10642371cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 12:22:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763065333; x=1763670133; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5OCVJW2WuTBAhu8gY5ew+GqVDfnZOcs58cyMstOIiPM=;
-        b=1VbNVHUk2W8WoxGrAJnCYWsCai34iYBoTukqhm1o3zeCgE/lNT9ilOGF/SKOZZ4T3m
-         Espc/o9AYQZ1ucq6aYyb1iaHhRqnScna2ZTVhu2nu4XYaGjYwr817a2zDXBQW3IHEuGa
-         RpFi9ZybwZ++L0P8SiFQo5RO2XxTMdbmmZ+YbXAyI7DRtbtwpxTx6/FdrWIUA4vAnWAW
-         GZo5R8dHwCMFRViKulq8OoqoBuir45b2EtF2Y6C9/UT708CS7ENJ7U3VALZBzogK1LKs
-         GLDRBcm79FFBywIRkBXNqmWJ+gG/sRhurQr1LnmQE66Wqr1R4S56aLlnfOrbr5E1mqvb
-         gHLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763065333; x=1763670133;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5OCVJW2WuTBAhu8gY5ew+GqVDfnZOcs58cyMstOIiPM=;
-        b=RF6/B2OZOHDnjvUFv1SNSc6j9HRP40+MsA1yA5kP5/TmX+LoOqyjlA2a0nBIcrZe/O
-         cVDrFoEuvsDLvWYgpcuMKcLKEU+C1Mjb6OTHQ9xHZtzSWTEgS9G/oCDs5/8RPOdSN+Ev
-         M9F2+6FnQ2j2Mt8BB86fxFaUJtIJxC2pe1xR9tg4ryptHyWPWGZh8r2wHOiYRNgfuDd6
-         CfT6MG0JyJlho/XnFjj3EnA8DdZMllwEEW5loz+mMe/PUz2wPWKcGXrE/Nt9LRky6CWN
-         Bvf+dq8nUeSKo7jG3kMYARzw5LXFghW61O9P42vlqTDo9gYZNp8HGVrxDi+QeEpbQ26E
-         /qag==
-X-Gm-Message-State: AOJu0YzGHzLAIAiKbO+pFznmet/JIJPLOSZAW4Ay8jUnaVKi3M3RA553
-	fV5dJ8ZdrILcVciYy/57NH5NYT/q+s7AlyMUzqHlYM+1wQPkEh6W5Y0pfqx+3sjRBjFKib5/SXz
-	tj8NNUVC/kAhRCilbI2/LSge9Y8hgWQ0qB3nFyL2m
-X-Gm-Gg: ASbGncuNZXptRbtCAZQzim3F2+GWvz3DXBLmrlOAfhwClp75MjWcSi5okXDeBj/xqM9
-	OnvOR0oGiwSve2q4UkySyaGPM50cn2j4/OmjZtX8RopAtPBW318QRXprEy/jdRcXxL533KpHKlC
-	vAk1gfH/mM485rx/KnRpVWLmF26IaauxWVFhOiGVnbYYRFEvNJEgMUNjAnm5m5Q3TCZtLCRFT7U
-	4iJ5JxSdn16ZywRDiEWNk/Mi/BV/jRZRwBCuGfafbfvsA7PbVpHRKRMhU/vNWxtO0gdtU99Hev0
-	XKKgJI0=
-X-Google-Smtp-Source: AGHT+IHsckmzjBp+v59/YJNgQ0L572QM2SomSYpHjH3B/Dpl9W+4v+K63b2gUlFcwTrEyXIYnYqZQ+zhYS76OvENadA=
-X-Received: by 2002:a05:622a:13ca:b0:4e8:a269:ceab with SMTP id
- d75a77b69052e-4edf203cd73mr18281991cf.5.1763065333115; Thu, 13 Nov 2025
- 12:22:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQkBqAsw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763066405; x=1794602405;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sXCsBnadJSBj2rRtHMfKPdYhYQzNFmTpwDXYSbUNWHk=;
+  b=XQkBqAswv9Itud0/rhFCTOPtNiqKAqVoUNmDvjdOlqiGnTXEViDbZZ/7
+   Z09i5TgldJILyKUj79aaUyhpjSvVzou4lxulEzzCGrk7f6vp2Ao+3rMLI
+   l94Wk0NVsTaTIjWnmpkZH9c75UJ22CSDactNHRsyglskva35EM6IRH5iq
+   ZCz7Fsirtt1LaMKHXNVR9h1cAYAthJNziV4NYrknME0j6SQ96Qbtl/7iT
+   wuiTWNnzIcauq2h0oGaxAjzclAQ5/M6U2kQ5GjcLM1botoFzYhSIBywx4
+   2Bvc9KUcdRv2hws6e2w66bXDsoYZclTeVP+Lg9ohwuIqZF8NYuU2cfUmL
+   w==;
+X-CSE-ConnectionGUID: 1tfJsbx5TZumEBg3fFCj9w==
+X-CSE-MsgGUID: fhb5lMw8RWGtiJz6ktJw4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="52725471"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="52725471"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 12:40:04 -0800
+X-CSE-ConnectionGUID: 3t/TAMAFQv+RTsIJhvjxxw==
+X-CSE-MsgGUID: vIs/2JnhQoych8/bSwNWyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="220230110"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2025 12:40:03 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJe6r-0005qV-1K;
+	Thu, 13 Nov 2025 20:40:01 +0000
+Date: Fri, 14 Nov 2025 04:39:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:gr1 8/10] include/linux/find.h:541:38: error: passing
+ argument 2 of 'find_next_bit' makes integer from pointer without a cast
+Message-ID: <202511140432.BAPCDjEV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511140407.VnaDOCI3-lkp@intel.com>
-In-Reply-To: <202511140407.VnaDOCI3-lkp@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 13 Nov 2025 12:22:01 -0800
-X-Gm-Features: AWmQ_bk-OQusIX45sInYu8LSD7jzh5fbdqQUl7qLK9-UFTeQ-duLj04gPODt2-g
-Message-ID: <CANn89i+2Jv71p-fVgdKHUYyTSr7d567njPM1inxs=YR1ZgBj7Q@mail.gmail.com>
-Subject: Re: include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Jakub Kicinski <kuba@kernel.org>, =?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Nov 13, 2025 at 12:19=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   2ccec5944606ee1389abc7ee41986825c6ceb574
-> commit: c51da3f7a161c6822232be832abdffe47eb55b4c net: remove sock_i_uid()
-> date:   5 months ago
-> config: alpha-randconfig-r123-20251113 (https://download.01.org/0day-ci/a=
-rchive/20251114/202511140407.VnaDOCI3-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251114/202511140407.VnaDOCI3-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511140407.VnaDOCI3-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    net/llc/llc_proc.c:56:9: sparse: sparse: context imbalance in 'llc_get=
-_sk_idx' - wrong count at exit
->    net/llc/llc_proc.c:102:23: sparse: sparse: context imbalance in 'llc_s=
-eq_next' - unexpected unlock
->    net/llc/llc_proc.c:117:17: sparse: sparse: context imbalance in 'llc_s=
-eq_stop' - unexpected unlock
->    net/llc/llc_proc.c: note: in included file:
->    include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-> >> include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
->
-> vim +2098 include/net/sock.h
->
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  2094
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_u=
-id(const struct sock *sk)
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2096  {
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2097          /* Paired with WR=
-ITE_ONCE() in sockfs_setattr() */
-> e84a4927a404f3 Eric Dumazet   2025-06-20 @2098          return READ_ONCE(=
-sk->sk_uid);
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2099  }
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2100
->
-> :::::: The code at line 2098 was first introduced by commit
-> :::::: e84a4927a404f369c842c19de93b216627fcc690 net: annotate races aroun=
-d sk->sk_uid
->
-> :::::: TO: Eric Dumazet <edumazet@google.com>
-> :::::: CC: Jakub Kicinski <kuba@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://github.com/norov/linux gr1
+head:   e007560f02c959741536cbd5f8cd927bf0bf6b58
+commit: ca959c4d4cb8c7703e76042b9e281067e6a2c4ad [8/10] cpumask: add for_each_cpumask_and_wrap()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251114/202511140432.BAPCDjEV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511140432.BAPCDjEV-lkp@intel.com/reproduce)
 
-I gave a solution a while back, no answer, meaning that alpha is dead.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511140432.BAPCDjEV-lkp@intel.com/
 
-I would suggest kernel test robot stop bothering.
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/alpha/include/asm/rwonce.h b/arch/alpha/include/asm/rwonc=
-e.h
-index 35542bcf92b3a883df353784bcb2d243475ccd91..b6801cd2ace962e11624737ed33=
-4a5aeb30478b7
-100644
---- a/arch/alpha/include/asm/rwonce.h
-+++ b/arch/alpha/include/asm/rwonce.h
-@@ -22,10 +22,10 @@
-  */
- #define __READ_ONCE(x)                                                 \
- ({                                                                     \
--       __unqual_scalar_typeof(x) __x =3D                                 \
--               (*(volatile typeof(__x) *)(&(x)));                      \
-+       __auto_type __x =3D                                               \
-+               (*(const volatile __unqual_scalar_typeof(x) *)&(x));    \
-        mb();                                                           \
--       (typeof(x))__x;                                                 \
-+       __x;                                                            \
- })
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from arch/alpha/kernel/asm-offsets.c:11:
+   include/linux/find.h: In function '__for_each_and_wrap':
+>> include/linux/find.h:541:38: error: passing argument 2 of 'find_next_bit' makes integer from pointer without a cast [-Wint-conversion]
+     541 |         bit = find_next_bit(bitmap1, bitmap2, start, n);
+         |                                      ^~~~~~~
+         |                                      |
+         |                                      const long unsigned int *
+   include/linux/find.h:63:70: note: expected 'long unsigned int' but argument is of type 'const long unsigned int *'
+      63 | unsigned long find_next_bit(const unsigned long *addr, unsigned long size,
+         |                                                        ~~~~~~~~~~~~~~^~~~
+>> include/linux/find.h:541:15: error: too many arguments to function 'find_next_bit'; expected 3, have 4
+     541 |         bit = find_next_bit(bitmap1, bitmap2, start, n);
+         |               ^~~~~~~~~~~~~                          ~
+   include/linux/find.h:63:15: note: declared here
+      63 | unsigned long find_next_bit(const unsigned long *addr, unsigned long size,
+         |               ^~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/alpha/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
- #endif /* CONFIG_SMP */
+
+vim +/find_next_bit +541 include/linux/find.h
+
+   522	
+   523	static __always_inline
+   524	unsigned long __for_each_and_wrap(const unsigned long *bitmap1, const unsigned long *bitmap2,
+   525					  unsigned long size, unsigned long start, unsigned long n)
+   526	{
+   527		unsigned long bit;
+   528	
+   529		/* If not wrapped around */
+   530		if (n > start) {
+   531			/* and have a bit, just return it. */
+   532			bit = find_next_and_bit(bitmap1, bitmap2, size, n);
+   533			if (bit < size)
+   534				return bit;
+   535	
+   536			/* Otherwise, wrap around and ... */
+   537			n = 0;
+   538		}
+   539	
+   540		/* Search the other part. */
+ > 541		bit = find_next_bit(bitmap1, bitmap2, start, n);
+   542		return bit < start ? bit : size;
+   543	}
+   544	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
