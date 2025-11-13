@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBA229D281
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 05:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A193009F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 06:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763012854; cv=none; b=p4qdL9l22nwTktf8RP+7zIauWE3xxm0oUWxcPsHHBeulkBtO9PRka4H/msQESa+JEGkL5jnNqAfq+uzkmQhDl3af2dm8YEhvLrS+dp65DPHChzXtTX0TCVOgnp+M63dsxW1IT+WfyCcsebdL2AKOtICDjXd2QSGCw/y6sWYPpFY=
+	t=1763015974; cv=none; b=fEih2hnYCDYKWWlxEuxKykLWd/qbFiGGGXLlF32oo8/SHuL+/2Ef5eoafEKHaBRsVymJX9SM9oWJ7FUSuc6hV25ALkjealB+Ao7RpSX2cZO4zVoyQP5AQIFrDbMhZM8qoiY+g4qjAZH+wmTgUk4znmWpqtyN6rJoDk2YMR6nq94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763012854; c=relaxed/simple;
-	bh=tYTHNNf+YGbTSSvqqxsTBUg/KkDpiG6hdbKFlnGdIzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b2p/+8ghI92miK/cWjaEFE+lmmPs9V7QYc162tHn1iWbQg+C+xs297oBxHVI27666KSdUtOjFk8mBwoa0USUbaeb8MiPDfXkP5nF31q/C3h2OE77KQZi0t5cPEwNw8VzcbgHQlSp+U2GvDqL0aQziO7aWfWM/3YqCnGngFYPDuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gm2F9Djw; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1763015974; c=relaxed/simple;
+	bh=a1Uq1MUWWQNG3VkQgHPrsMsoUZD97gyuVOrw21MT5p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jTujvyn6AkG9iEMa3TZxr8Rvj0ova69UiPY72tDHtoQut7KMvpXGxuap/AC7HECml9gcAelb1ZV4VPSkHJsORXHVEaUF/o1HDRREZhAvPhQ/2LIKggiqvahdf8LFOFB8zmX9aoEk67Qs43db7VrPbFttg0QdCDSLeSKvS1rf4Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bIyNtXgT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gm2F9Djw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bIyNtXgT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763012851; x=1794548851;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tYTHNNf+YGbTSSvqqxsTBUg/KkDpiG6hdbKFlnGdIzE=;
-  b=gm2F9Djwvg4bPaEaByxaI8IiDyWT2gN7sQTMYLQXH2XsAuC7wq5pjj0O
-   MDinV1FGkj70CtDk0RPk93k3NMpBUohFY6tVJQmPD0menOsEwnKMTQ9c1
-   NxNc6Sq4clo9CtawtINdZ77K28T6ahSHY4GLXa/SAnygY+j8JK6B8nyLt
-   F+ZxjHjh6QRUW43iWupM8RIO7ATClu/BEMycoR9MPMXA+2Ob6p0av/DXy
-   UXO0MpZenFCpitAS2jGB3SMc01h57a70FN68CL/bj0Q80pnPHa6RXS1fj
-   kI6BoYgYSFPe3ZBJjXnoiPyb9T2mEhJHTSmYMadlm66S5FQc5I1Jan+h7
-   w==;
-X-CSE-ConnectionGUID: +2o/t4hcS1yPhcugauiUXQ==
-X-CSE-MsgGUID: 4/rSGg37Th6B+hG8MS8vNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65011339"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65011339"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 21:47:30 -0800
-X-CSE-ConnectionGUID: LZMRPt/QQRmtXvbcDjngVg==
-X-CSE-MsgGUID: uhQmO3RJRcaWuElWg0Lv/w==
+  t=1763015972; x=1794551972;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a1Uq1MUWWQNG3VkQgHPrsMsoUZD97gyuVOrw21MT5p4=;
+  b=bIyNtXgTMrbaiYv+8QXj7TdDEwjprUBWdcnR5O0LtSJ0PEO2OT/+AmdZ
+   A/KRSLSfGkKZNRvRvFHajzByEa5ipyXKnNlDP5gpM8YfGdq4bP2O30Cfa
+   K2x3e0UsG3hxfmBLcB3FIXvwMg6rzG7VQIMIWmnNDx73hxXeH28AAGVsA
+   hC51lRCriA/Vy7UcQnyIeeKDVjz9EP52mxYg8qDJAa6qTd57Rq8JupP6i
+   bvhFhZytI86m0sdHtJ4O5lneSclggbmTL0GLA+nqsCOF0RWy8CJTWX/pv
+   byhueBbYiO44pCbSphC5qFD7OqInvhyR9icucJP5+8ItTU+c+iBsw3jWY
+   Q==;
+X-CSE-ConnectionGUID: 8IOu16uDQQ22MIDV2CsBLw==
+X-CSE-MsgGUID: apBw89YlRZqfnuqMCOvRBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="65125411"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
+   d="scan'208";a="65125411"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 22:39:32 -0800
+X-CSE-ConnectionGUID: jUa2HLyRTYmTklxvZeRuBQ==
+X-CSE-MsgGUID: 9epFBuWUSAG75+jhAoyzXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="189689750"
+   d="scan'208";a="193677650"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Nov 2025 21:47:25 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 12 Nov 2025 22:39:30 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJQB1-0004wl-2L;
-	Thu, 13 Nov 2025 05:47:23 +0000
-Date: Thu, 13 Nov 2025 13:46:28 +0800
+	id 1vJQzQ-0004z1-2B;
+	Thu, 13 Nov 2025 06:39:28 +0000
+Date: Thu, 13 Nov 2025 14:38:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	linux-riscv@lists.infradead.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	devicetree@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
-	linux-kernel@vger.kernel.org, Mike Rapoport <rppt@kernel.org>,
-	Michal Hocko <mhocko@suse.com>, Conor Dooley <conor@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Rob Herring <robh+dt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>
-Subject: Re: [PATCH v3 06/22] mm: Always use page table accessor functions
-Message-ID: <202511131118.UUi1EVXL-lkp@intel.com>
-References: <20251113014656.2605447-7-samuel.holland@sifive.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, Martin KaFai Lau <martin.lau@kernel.org>,
+	Dust Li <dust.li@linux.alibaba.com>
+Subject: [linux-next:master 6896/8485] include/linux/bpf.h:2037:50: warning:
+ statement with no effect
+Message-ID: <202511131459.BdjDWNnG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,51 +62,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251113014656.2605447-7-samuel.holland@sifive.com>
 
-Hi Samuel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 24172e0d79900908cf5ebf366600616d29c9b417]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/mm-ptdump-replace-READ_ONCE-with-standard-page-table-accessors/20251113-095117
-base:   24172e0d79900908cf5ebf366600616d29c9b417
-patch link:    https://lore.kernel.org/r/20251113014656.2605447-7-samuel.holland%40sifive.com
-patch subject: [PATCH v3 06/22] mm: Always use page table accessor functions
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20251113/202511131118.UUi1EVXL-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131118.UUi1EVXL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
+commit: 15f295f55656658e65bdbc9b901d6b2e49d68d72 [6896/8485] net/smc: bpf: Introduce generic hook for handshake flow
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251113/202511131459.BdjDWNnG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131459.BdjDWNnG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131118.UUi1EVXL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511131459.BdjDWNnG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/madvise.c: In function 'guard_install_set_pte':
->> mm/madvise.c:1119:9: error: implicit declaration of function 'set_pte'; did you mean 'set_ptes'? [-Wimplicit-function-declaration]
-    1119 |         set_pte(ptep, make_pte_marker(PTE_MARKER_GUARD));
-         |         ^~~~~~~
-         |         set_ptes
+   In file included from include/linux/bpf_verifier.h:7,
+                    from net/smc/smc_hs_bpf.c:13:
+   net/smc/smc_hs_bpf.c: In function 'bpf_smc_hs_ctrl_init':
+>> include/linux/bpf.h:2037:50: warning: statement with no effect [-Wunused-value]
+    2037 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+         |                                                  ^~~~~~~~~~~~~~~~
+   net/smc/smc_hs_bpf.c:139:16: note: in expansion of macro 'register_bpf_struct_ops'
+     139 |         return register_bpf_struct_ops(&bpf_smc_hs_ctrl_ops, smc_hs_ctrl);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1119 mm/madvise.c
+vim +2037 include/linux/bpf.h
 
-  1112	
-  1113	static int guard_install_set_pte(unsigned long addr, unsigned long next,
-  1114					 pte_t *ptep, struct mm_walk *walk)
-  1115	{
-  1116		unsigned long *nr_pages = (unsigned long *)walk->private;
-  1117	
-  1118		/* Simply install a PTE marker, this causes segfault on access. */
-> 1119		set_pte(ptep, make_pte_marker(PTE_MARKER_GUARD));
-  1120		(*nr_pages)++;
-  1121	
-  1122		return 0;
-  1123	}
-  1124	
+c196906d50e360 Hou Tao          2021-10-25  2027  
+c196906d50e360 Hou Tao          2021-10-25  2028  int bpf_struct_ops_test_run(struct bpf_prog *prog, const union bpf_attr *kattr,
+c196906d50e360 Hou Tao          2021-10-25  2029  			    union bpf_attr __user *uattr);
+c196906d50e360 Hou Tao          2021-10-25  2030  #endif
+f6be98d1998541 Kui-Feng Lee     2024-01-19  2031  int bpf_struct_ops_desc_init(struct bpf_struct_ops_desc *st_ops_desc,
+f6be98d1998541 Kui-Feng Lee     2024-01-19  2032  			     struct btf *btf,
+f6be98d1998541 Kui-Feng Lee     2024-01-19  2033  			     struct bpf_verifier_log *log);
+1338b93346587a Kui-Feng Lee     2024-01-19  2034  void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map);
+1611603537a4b8 Kui-Feng Lee     2024-02-08  2035  void bpf_struct_ops_desc_release(struct bpf_struct_ops_desc *st_ops_desc);
+27ae7997a66174 Martin KaFai Lau 2020-01-08  2036  #else
+f6be98d1998541 Kui-Feng Lee     2024-01-19 @2037  #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+85d33df357b634 Martin KaFai Lau 2020-01-08  2038  static inline bool bpf_try_module_get(const void *data, struct module *owner)
+85d33df357b634 Martin KaFai Lau 2020-01-08  2039  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  2040  	return try_module_get(owner);
+85d33df357b634 Martin KaFai Lau 2020-01-08  2041  }
+85d33df357b634 Martin KaFai Lau 2020-01-08  2042  static inline void bpf_module_put(const void *data, struct module *owner)
+85d33df357b634 Martin KaFai Lau 2020-01-08  2043  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  2044  	module_put(owner);
+85d33df357b634 Martin KaFai Lau 2020-01-08  2045  }
+e42ac14180554f Martin KaFai Lau 2024-07-22  2046  static inline int bpf_struct_ops_supported(const struct bpf_struct_ops *st_ops, u32 moff)
+e42ac14180554f Martin KaFai Lau 2024-07-22  2047  {
+e42ac14180554f Martin KaFai Lau 2024-07-22  2048  	return -ENOTSUPP;
+e42ac14180554f Martin KaFai Lau 2024-07-22  2049  }
+85d33df357b634 Martin KaFai Lau 2020-01-08  2050  static inline int bpf_struct_ops_map_sys_lookup_elem(struct bpf_map *map,
+85d33df357b634 Martin KaFai Lau 2020-01-08  2051  						     void *key,
+85d33df357b634 Martin KaFai Lau 2020-01-08  2052  						     void *value)
+85d33df357b634 Martin KaFai Lau 2020-01-08  2053  {
+85d33df357b634 Martin KaFai Lau 2020-01-08  2054  	return -EINVAL;
+85d33df357b634 Martin KaFai Lau 2020-01-08  2055  }
+68b04864ca425d Kui-Feng Lee     2023-03-22  2056  static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
+68b04864ca425d Kui-Feng Lee     2023-03-22  2057  {
+68b04864ca425d Kui-Feng Lee     2023-03-22  2058  	return -EOPNOTSUPP;
+68b04864ca425d Kui-Feng Lee     2023-03-22  2059  }
+1338b93346587a Kui-Feng Lee     2024-01-19  2060  static inline void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map)
+1338b93346587a Kui-Feng Lee     2024-01-19  2061  {
+1338b93346587a Kui-Feng Lee     2024-01-19  2062  }
+68b04864ca425d Kui-Feng Lee     2023-03-22  2063  
+
+:::::: The code at line 2037 was first introduced by commit
+:::::: f6be98d19985411ca1f3d53413d94d5b7f41c200 bpf, net: switch to dynamic registration
+
+:::::: TO: Kui-Feng Lee <thinker.li@gmail.com>
+:::::: CC: Martin KaFai Lau <martin.lau@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
