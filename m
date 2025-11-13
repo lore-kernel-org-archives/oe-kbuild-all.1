@@ -1,58 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD64301004
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4EC30215A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 04:54:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763009666; cv=none; b=Czv5e0qSIw1yw1RZ4laBWYNJtUDWyo8uEV7U9aRfcpwyLAdTbWFsYlKqoKMl5gTwzIzXLRrStD4p3bLj/pEDXbySjAzwck9zahOxxk8UdyRNFd02GJT4L1rn5m+NVCo3ih9I6NC385PVu49LdDCQNTAAnp90Q1WpkI/zS9GJANU=
+	t=1763009668; cv=none; b=jJrijV2eJx3/hjYgKP2PKy15nVtXMta2MCIPNvFu56ReYkgk9f5g0dk+aUv6uPJC22KPGUgprGyMaa6HFvZVc4xoUCWM9WQC/J8Yvx6eO/QZtE1ohRSvNC6i+XYuzS5/7QNka3NHZ/M0s9ZPPG2a5T5vgyBhqye08/KVfi/gbMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763009666; c=relaxed/simple;
-	bh=kyBnFL+nuczIX9heHyOCBOUjRCVCmxubTn8n5WB2keo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eiLV8LdHjEf3wfa3y9AJgQh5v9AwUeu4zZS36uW2/UIlA+gErZo2guWdG1nRRTCWJo3m9SqBuP1Ct6NoCU2Eq25NC2iaMtbIpEDBm3JruOLAW2eqTDHa/Um0PYulkEAvVaNR/3V58yBn+dw5is8EVMjkmvfGfOtRiMtTRmO4ox8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kO8W1Kew; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1763009668; c=relaxed/simple;
+	bh=c000Mp0KufLdK+efL1V7k6e8Ls1vyJ/S+kmTktGDTxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvikimfwAtX4P/f8s/V4avTJ0dvYr8odYbt1+D6mFPNMmKKMxYEtP7HEhJb6jNJ4IsMWhkwc9Zv0DC+8xnG7/NF9Z9tCcXHtmy7IrDgsTwsMTpQFRqeqTO63YmDiUbskXJmLKvTBQUD9e3/ogDrNyWGDjTNN9NN4uw/pQWVW1SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eactovy9; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kO8W1Kew"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eactovy9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763009666; x=1794545666;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kyBnFL+nuczIX9heHyOCBOUjRCVCmxubTn8n5WB2keo=;
-  b=kO8W1Kew7YpD/oqx0ln0m/PIHR0iTnejC0MW8+JbP4yhxBs8Z3zbKlMr
-   shjX4NnjFnO45isCjTpp7qnH91O+vGdjpW7Lh1URqgJy8PTItMTe0E+sG
-   h6StukK7XD29ex7Zjx1v0V+oVB3oDuxs7exFO3b5z5mpnFuG8yvHtmFDx
-   xHpGyPpi38xoQFcFM7gM3k1m6PwdonEopP3MmL6S7Yr/i26zEWjjFxW+o
-   VMvWCfKUNsvAJjs902iyD9WahlgLEZP+QOt+AZUdruhr/IhFr3fQPl3vQ
-   cVqdZJhvtnK8aHftGTDwfjjkxdA0TTvnbxUmpfp8GrGLojv9DJ8pLdW47
-   g==;
-X-CSE-ConnectionGUID: GblIFLurTdmpw3KgiDC1Tg==
-X-CSE-MsgGUID: Hj0SMVBXToeafAxcNi8UAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82480163"
+  t=1763009667; x=1794545667;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c000Mp0KufLdK+efL1V7k6e8Ls1vyJ/S+kmTktGDTxA=;
+  b=eactovy9r90EEBEItrlvUlJY//ShslZy/vkP2y9uBRMRXYKTrV7PbaPo
+   8WoU1fGzx7sISYsJ55IyBE+UhqUcX3TbQR6XjISk0N79XPE8b9ZCzE2e0
+   u1H0ht2E4lm/Tgar1/8SbXbFdKCkwE8dWQb0mHSuOCtv0JYtDO2YFWvYM
+   Gudlp3fLCuVwczCoEcy4uzmd8RD8Xl5iE5zZjX8XK+Wag5y2XcuOMhhDN
+   TZGTFPX986/4wNwxJqWTjPtOtWIcSZuoNhDmqEg3VqcoPdJ4Xyf/L61E+
+   CUJ4q5xUQiGyubgXaMQVKzDzY/MNM+1NQKDAi2tLPbsUbrB5D5ltAUEm3
+   A==;
+X-CSE-ConnectionGUID: eH+DMfCmQIO5Jl9YiNT4tw==
+X-CSE-MsgGUID: Ncv31jJ6Tb2YXcdu7v5NWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82480167"
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="82480163"
+   d="scan'208";a="82480167"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:54:24 -0800
-X-CSE-ConnectionGUID: 75oCdA/6SlqNODnoi3e7Gg==
-X-CSE-MsgGUID: EftTGMf7RSqXQtC/n+XdsQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 20:54:26 -0800
+X-CSE-ConnectionGUID: gjl0XeHTT22N/5+EdfNq0A==
+X-CSE-MsgGUID: p2MImfxWRcmaOQ69F4l0EA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; 
-   d="scan'208";a="189415499"
+   d="scan'208";a="189415501"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 12 Nov 2025 20:54:22 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJPLf-0004ul-2G;
+	id 1vJPLf-0004uh-27;
 	Thu, 13 Nov 2025 04:54:19 +0000
-Date: Thu, 13 Nov 2025 12:53:20 +0800
+Date: Thu, 13 Nov 2025 12:53:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zhangjian <zhangjian496@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3163/3163] mm/gmem.c:190:26: error: no member
- named 'mems_allowed' in 'struct task_struct'
-Message-ID: <202511131248.lRKFr4Bu-lkp@intel.com>
+To: Bhargava Marreddy <bhargava.marreddy@broadcom.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
+	vikas.gupta@broadcom.com,
+	Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
+Subject: Re: [net-next 05/12] bng_en: Add TX support
+Message-ID: <202511131255.uExsPeUo-lkp@intel.com>
+References: <20251111205829.97579-6-bhargava.marreddy@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,85 +69,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251111205829.97579-6-bhargava.marreddy@broadcom.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d07bcf91fa24bfac8f6c62724829741c738bb85d
-commit: 380709c322aaa306b5ac3c278a0700043f7d33e2 [3163/3163] gmem: prepare config, boot parameter, vma flag and basic GMEM related structs
-config: arm64-randconfig-002-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131248.lRKFr4Bu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 996639d6ebb86ff15a8c99b67f1c2e2117636ae7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131248.lRKFr4Bu-lkp@intel.com/reproduce)
+Hi Bhargava,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhargava-Marreddy/bng_en-Query-PHY-and-report-link-status/20251112-050616
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251111205829.97579-6-bhargava.marreddy%40broadcom.com
+patch subject: [net-next 05/12] bng_en: Add TX support
+config: arc-randconfig-r122-20251113 (https://download.01.org/0day-ci/archive/20251113/202511131255.uExsPeUo-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251113/202511131255.uExsPeUo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511131248.lRKFr4Bu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511131255.uExsPeUo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/broadcom/bnge/bnge_txrx.c:717:11: sparse: sparse: symbol 'bnge_lhint_arr' was not declared. Should it be static?
+   drivers/net/ethernet/broadcom/bnge/bnge_txrx.c: note: in included file (through include/net/net_namespace.h, include/linux/netdevice.h):
+   include/linux/skbuff.h:2888:28: sparse: sparse: unsigned value that used to be signed checked against zero?
+   include/linux/skbuff.h:2888:28: sparse: signed value source
 
->> mm/gmem.c:190:26: error: no member named 'mems_allowed' in 'struct task_struct'
-     190 |                 node_set(nid, current->mems_allowed);
-         |                               ~~~~~~~  ^
-   include/linux/nodemask.h:128:50: note: expanded from macro 'node_set'
-     128 | #define node_set(node, dst) __node_set((node), &(dst))
-         |                                                  ^~~
-   1 error generated.
+vim +/bnge_lhint_arr +717 drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
-
-
-vim +190 mm/gmem.c
-
-   144	
-   145	int gm_as_attach(struct gm_as *as, struct gm_dev *dev,
-   146				bool activate, struct gm_context **out_ctx)
-   147	{
-   148		struct gm_context *ctx;
-   149		int nid;
-   150	
-   151		ctx = kmem_cache_alloc(gm_ctx_cache, GFP_KERNEL);
-   152		if (!ctx)
-   153			return -ENOMEM;
-   154	
-   155		ctx->as = as;
-   156		ctx->dev = dev;
-   157	
-   158		INIT_LIST_HEAD(&ctx->gm_dev_link);
-   159		INIT_LIST_HEAD(&ctx->gm_as_link);
-   160	
-   161		if (!list_empty(&as->gm_ctx_list)) {
-   162			struct list_head *old_node;
-   163			struct gm_context *old_ctx;
-   164	
-   165			old_node = as->gm_ctx_list.prev;
-   166			list_del_init(old_node);
-   167			old_ctx = list_entry(old_node, struct gm_context, gm_as_link);
-   168			kfree(old_ctx);
-   169		}
-   170	
-   171		list_add_tail(&dev->gm_ctx_list, &ctx->gm_dev_link);
-   172		list_add_tail(&ctx->gm_as_link, &as->gm_ctx_list);
-   173	
-   174		if (activate) {
-   175			/*
-   176			 * Here we should really have a callback function to perform the context switch
-   177			 * for the hardware. E.g. in x86 this function is effectively
-   178			 * flushing the CR3 value. Currently we do not care time-sliced context switch,
-   179			 * unless someone wants to support it.
-   180			 */
-   181			dev->current_ctx = ctx;
-   182		}
-   183		*out_ctx = ctx;
-   184	
-   185		/*
-   186		 * gm_as_attach will be used to attach device to process address space.
-   187		 * Handle this case and add hnodes registered by device to process mems_allowed.
-   188		 */
-   189		for_each_node_mask(nid, dev->registered_hnodes)
- > 190			node_set(nid, current->mems_allowed);
+   716	
+ > 717	const u16 bnge_lhint_arr[] = {
+   718		TX_BD_FLAGS_LHINT_512_AND_SMALLER,
+   719		TX_BD_FLAGS_LHINT_512_TO_1023,
+   720		TX_BD_FLAGS_LHINT_1024_TO_2047,
+   721		TX_BD_FLAGS_LHINT_1024_TO_2047,
+   722		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   723		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   724		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   725		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   726		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   727		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   728		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   729		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   730		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   731		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   732		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   733		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   734		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   735		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   736		TX_BD_FLAGS_LHINT_2048_AND_LARGER,
+   737	};
+   738	
 
 -- 
 0-DAY CI Kernel Test Service
