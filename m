@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EF8321448
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 20:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EA93090F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 22:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763151089; cv=none; b=LcE9yPepdPYoxWzyvBSEqNiqZrGmjGD/NVjXZoebPe9Ycdu84dVLD3cZc+goh4q4MGnOfxouyc1rQa1CUBzrIFO0HajwXnZ+2hEjoj5xLXrhLCU2BNjRtOPTtXMK6cLaHUxFWVGV02LQ2cNgwt6wG7eOeCC5f5ZZAKYJ0Ll3RPU=
+	t=1763159024; cv=none; b=Jb7R1WDEsPNih2JynMlDGUOoEwaURwJpVlWf+9NQrRe0t3LClNHSuYA4UufJFrtR8sz+RFI796dFy0hnE+prkvgFV5TDJx/PipdcjpwS0CGzczvJVKhi1kL6BdV8vlFmklMUL4fKjtmdDtt/uApw2ZzaLg3WdNU9HsM+Zcqa/jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763151089; c=relaxed/simple;
-	bh=4kMylI9i1P9ilzO8r3dD+sJCeetsnNpzoFvT260uf2A=;
+	s=arc-20240116; t=1763159024; c=relaxed/simple;
+	bh=c6fENqcDyteb8OfeyDMtWwmBmjclcuCusMm4K2AIU/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L2+GJledMrb3BP6gldUWEvP52cpKs8UxfjhUrlsRyKCBdgmnw0T1twaMNIDW64ObCFegalzTDA4MpQ54ALYr9iRB7OAV5nF6MNp7aITwQMjnublGiKY4cphXBznooh7w/Yj00MMM9QoQS0F+dmCu1/021EjikxVHTxDmHfb05sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpK0Oy81; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=tTmDNBy7I8RwRj0yfomnQWgJDFxelUtEjYhYSNNUGvsGZR7J2oeR1Q0jh3F6dlWJiMDQnzyaN4daYggqAmbuisRUMCyGe4DB3EQM0Zodj6DFaiFu5pcrJqY/+NEpJf8ktL13tXbvEehV7Q4FJcgokq0NuWE2o+epAQYZmRVW1NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyXvJRl1; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpK0Oy81"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyXvJRl1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763151086; x=1794687086;
+  t=1763159023; x=1794695023;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4kMylI9i1P9ilzO8r3dD+sJCeetsnNpzoFvT260uf2A=;
-  b=RpK0Oy81QPiyriqcmsRqGahJlPB6o1dNBXaYDJypqQXkI3SyaNK1VIHr
-   ewpdk/Bs6TucBJuPT739rt7xcjWE1OBMv7NSfKP5tjnCA9QBty72gAn9A
-   T7bQlwTJzJEOSIluiXM/suLdMV+UKQejt3RG86wWAlPnO4uaAIPdScKY9
-   8/jc/ztf23NClioNzEm64nCgX1KfHCul7diPLg0D8dXZmnOyXR/GyGp5Y
-   l8QYYsozwHFeqh8NrQjSdNy+fwcSv93uEa8Zki09qlYMMu8+7xb+h4tTu
-   EnORQNz/6HKacmEUHeRfdAXrcZQLUEa2Dx61tqBsMi7q/Xs/wmXCM+v09
+  bh=c6fENqcDyteb8OfeyDMtWwmBmjclcuCusMm4K2AIU/8=;
+  b=PyXvJRl17x+rZnskNKJBkcANMJCRzYqT78XaygK4r/x/KB2aauhQC6tF
+   nbo4NxlVl7w20q9ZtVmmMqFOJOJD1xOATzyLpQrOztR9LcZX4wb6P6h6/
+   VGgcZXwu2M4RJiQTpuEbRkwSwVpKrnzKG2jH8IRbrDpADxzLO7zWeejti
+   pdI5s4ny8BnCjhZiL18PAO410dh5YSeDMO8xftk/xlDvP4o3pWy9nFG3O
+   +I4Ssqrd7+wBPEHPffY1FxWtH/eE0mIUTtU2wVFn4eLJtD0ratPcFxfti
+   fgrdp0Mtgvase3X42ttAi2q/+9891rG0vneeBBIHY3zy1WoB2LVZxnWjT
    Q==;
-X-CSE-ConnectionGUID: 32dMnGj6R72/YncBlXGZqw==
-X-CSE-MsgGUID: vEPZ4Sp5SOaN/63YhTxZJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65285346"
-X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="65285346"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 12:11:26 -0800
-X-CSE-ConnectionGUID: R9YEZq5USZqBnxyeRgq+eQ==
-X-CSE-MsgGUID: IcG1PywYQiid6VqFXnWt1Q==
+X-CSE-ConnectionGUID: buZnmrxjSwGs9ke2azhOYQ==
+X-CSE-MsgGUID: a79VauhXSqerbvVSF/LVbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="90738187"
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
+   d="scan'208";a="90738187"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 14:23:42 -0800
+X-CSE-ConnectionGUID: R5zKaP4uQOCEpAnd+RrOzA==
+X-CSE-MsgGUID: HNDoznhWT2GPho9S6Nz2jw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="220502824"
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
+   d="scan'208";a="195033708"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Nov 2025 12:11:24 -0800
+  by orviesa005.jf.intel.com with ESMTP; 14 Nov 2025 14:23:40 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vK08g-00078t-0Y;
-	Fri, 14 Nov 2025 20:11:22 +0000
-Date: Sat, 15 Nov 2025 04:10:44 +0800
+	id 1vK2Cf-0007Ln-2d;
+	Fri, 14 Nov 2025 22:23:37 +0000
+Date: Sat, 15 Nov 2025 06:23:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org,
-	chang.seok.bae@intel.com
-Subject: Re: [PATCH 07/10] KVM: emulate: add AVX support to register fetch
- and writeback
-Message-ID: <202511150213.HaLLVfkt-lkp@intel.com>
-References: <20251114003633.60689-8-pbonzini@redhat.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, ville.syrjala@linux.intel.com,
+	uma.shankar@intel.com
+Subject: Re: [PATCH] drm/xe: use the same vga decode code as i915
+Message-ID: <202511150634.0W0ZmJta-lkp@intel.com>
+References: <20251113133815.696987-1-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,85 +64,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114003633.60689-8-pbonzini@redhat.com>
+In-Reply-To: <20251113133815.696987-1-jani.nikula@intel.com>
 
-Hi Paolo,
+Hi Jani,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on v6.18-rc5]
-[also build test ERROR on linus/master next-20251114]
-[cannot apply to kvm/queue kvm/next mst-vhost/linux-next kvm/linux-next]
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.18-rc5 next-20251114]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-emulate-add-MOVNTDQA/20251114-084216
-base:   v6.18-rc5
-patch link:    https://lore.kernel.org/r/20251114003633.60689-8-pbonzini%40redhat.com
-patch subject: [PATCH 07/10] KVM: emulate: add AVX support to register fetch and writeback
-config: i386-buildonly-randconfig-006-20251114 (https://download.01.org/0day-ci/archive/20251115/202511150213.HaLLVfkt-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-xe-use-the-same-vga-decode-code-as-i915/20251113-220145
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251113133815.696987-1-jani.nikula%40intel.com
+patch subject: [PATCH] drm/xe: use the same vga decode code as i915
+config: i386-randconfig-004-20251114 (https://download.01.org/0day-ci/archive/20251115/202511150634.0W0ZmJta-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150213.HaLLVfkt-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150634.0W0ZmJta-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150213.HaLLVfkt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511150634.0W0ZmJta-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/fpu.h: Assembler messages:
->> arch/x86/kvm/fpu.h:37: Error: bad register name `%ymm14'
->> arch/x86/kvm/fpu.h:36: Error: bad register name `%ymm13'
->> arch/x86/kvm/fpu.h:38: Error: bad register name `%ymm15'
->> arch/x86/kvm/fpu.h:35: Error: bad register name `%ymm12'
->> arch/x86/kvm/fpu.h:34: Error: bad register name `%ymm11'
->> arch/x86/kvm/fpu.h:33: Error: bad register name `%ymm10'
->> arch/x86/kvm/fpu.h:32: Error: bad register name `%ymm9'
->> arch/x86/kvm/fpu.h:31: Error: bad register name `%ymm8'
-   arch/x86/kvm/fpu.h:58: Error: bad register name `%ymm12'
-   arch/x86/kvm/fpu.h:59: Error: bad register name `%ymm13'
-   arch/x86/kvm/fpu.h:54: Error: bad register name `%ymm8'
-   arch/x86/kvm/fpu.h:55: Error: bad register name `%ymm9'
-   arch/x86/kvm/fpu.h:56: Error: bad register name `%ymm10'
-   arch/x86/kvm/fpu.h:57: Error: bad register name `%ymm11'
-   arch/x86/kvm/fpu.h:61: Error: bad register name `%ymm15'
-   arch/x86/kvm/fpu.h:60: Error: bad register name `%ymm14'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
-
-
-vim +37 arch/x86/kvm/fpu.h
-
-    19	
-    20	static inline void _kvm_read_avx_reg(int reg, avx256_t *data)
-    21	{
-    22		switch (reg) {
-    23		case 0:  asm("vmovdqa %%ymm0,  %0" : "=m"(*data)); break;
-    24		case 1:  asm("vmovdqa %%ymm1,  %0" : "=m"(*data)); break;
-    25		case 2:  asm("vmovdqa %%ymm2,  %0" : "=m"(*data)); break;
-    26		case 3:  asm("vmovdqa %%ymm3,  %0" : "=m"(*data)); break;
-    27		case 4:  asm("vmovdqa %%ymm4,  %0" : "=m"(*data)); break;
-    28		case 5:  asm("vmovdqa %%ymm5,  %0" : "=m"(*data)); break;
-    29		case 6:  asm("vmovdqa %%ymm6,  %0" : "=m"(*data)); break;
-    30		case 7:  asm("vmovdqa %%ymm7,  %0" : "=m"(*data)); break;
-  > 31		case 8:  asm("vmovdqa %%ymm8,  %0" : "=m"(*data)); break;
-  > 32		case 9:  asm("vmovdqa %%ymm9,  %0" : "=m"(*data)); break;
-  > 33		case 10: asm("vmovdqa %%ymm10, %0" : "=m"(*data)); break;
-  > 34		case 11: asm("vmovdqa %%ymm11, %0" : "=m"(*data)); break;
-  > 35		case 12: asm("vmovdqa %%ymm12, %0" : "=m"(*data)); break;
-  > 36		case 13: asm("vmovdqa %%ymm13, %0" : "=m"(*data)); break;
-  > 37		case 14: asm("vmovdqa %%ymm14, %0" : "=m"(*data)); break;
-  > 38		case 15: asm("vmovdqa %%ymm15, %0" : "=m"(*data)); break;
-    39		default: BUG();
-    40		}
-    41	}
-    42	
+>> ld: cannot find drivers/gpu/drm/xe/i915-display/intel_gmch.o: No such file or directory
 
 -- 
 0-DAY CI Kernel Test Service
