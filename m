@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FD331DDBB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 15:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B82F328B5E;
+	Fri, 14 Nov 2025 15:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763133899; cv=none; b=f7d2rkOzXcs7kczSMSgW/oq/xQCnAl+iYnYL61W9e9OkIePPe0eLu9VUdAh+1AO8elFTavTFJroI8exDKnYU3EZ51cu0un1Yc+doTeWdPhukGI63d5ihp9XXVu0XrpQ/RhUabgqoTtFtw8LVr69DANOUPtimeL1OXvtzyUr4u7c=
+	t=1763133901; cv=none; b=EpCQe12eioe6UngbzE/H8M6QL6xkK64feRExFIWs5KeS3hIVIcd3DSxK/2wfx7q8aV5Mdg89nZeyzSzmw1Jv+wed7CZbu4nu8FACFvfPb9286F36g9U6k0zxHlMyPXY28jboKX0cyVyqcJ1BEbk4F1G4KWxL81oE17NRaz8vEVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763133899; c=relaxed/simple;
-	bh=BiK+fqpRBTWp4mUrFhUYkAdEjCSI4//VP7gZQIis1tM=;
+	s=arc-20240116; t=1763133901; c=relaxed/simple;
+	bh=aizLmedT0fRTy5zVNG9dpD+vEzYlQhCVBL04khAlSb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VrY5eShPvSHlIvuJEVT1nXoVI12PlOHxhQ6eSCZcy+2ttf6WcCOdrRtQk0G5y0sg8heY+R+vP8W1Jjbrd+7DlnKiK9H0OyAeHjGkNBbqxTtA58f+VXEaol3RHQb07qQuU13PW3a50eKGWuIjvMct1i+rKn13HI8nHW5qnY7gQPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OnOk83ff; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfbsQngLKJ7F4kTm3CvbcDkds1prCvtstZTxIcjso7v9DMNBZJQvr4OncPvFHGcT9Bw7jq8zCjXHb02mCcvEbQog/FVuY5QF9Ypdz1yfAdi5PuB5SF7MKvxRRGoyrsqhY3ZmgP6+NjB60VAVM8Icx93o/y9ELp5dXHyDePeyvOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIxm9/gy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OnOk83ff"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIxm9/gy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763133897; x=1794669897;
+  t=1763133899; x=1794669899;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BiK+fqpRBTWp4mUrFhUYkAdEjCSI4//VP7gZQIis1tM=;
-  b=OnOk83ffVsoskeDbQCciNiDy9CShYWInEr8j7kOoVngf4REbrK2V6MEN
-   LRQoqhIIZ04iIXvtcSGQIuj5KoSh3jiMTZCfqb1TpkTi45jIFJbDHSZsZ
-   CzJJlicztKD/ya9VYtUKpi3fegOmAEUcfKuuxKq5jj799pDWxtGf6IUYv
-   MpWUxKTcjuH7YedpJ+xz69OtB0hdK9xIN6RoUkX7psRgXY0BhzYYSzQjV
-   iA1covohGbhSPgFI5+63kPi4LMFL8aZiabQXnbNOPMAIT2fUwttsDbzYV
-   xBI/L95SQSvvkTMs/tUM+BjHlzMtgWyUD8s5hIhy93HVF2CEizC/yWMkw
-   Q==;
-X-CSE-ConnectionGUID: K7zO9Kh+TieM2JY2ptMIvA==
-X-CSE-MsgGUID: mib5decnTUSX+8nsQNKQWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="82861592"
+  bh=aizLmedT0fRTy5zVNG9dpD+vEzYlQhCVBL04khAlSb4=;
+  b=BIxm9/gyqLc77UNeWBIGHwXkGwuYanDOcG7VmAhaM+OIuWPIAp5iTPqb
+   2F8GN/kCOmfNZVKuJFvOHvAl5TFLyGkjTCXloOGhfSazxNxKnXuvRWnlO
+   ZK9MHaYb74ZO9ccxadiEeRmfrFPtrizbnUYvz4gJqjxGXqc/FvmdQ6CGU
+   32nfK+cwMmBC8t6UAfBzWZQjm32VWwcxfmk8QH44ygHMKoHgv4IFwtQWu
+   5vsYFHSeEARadF6RbpGK51a5NL5uEfjEnbHyif5WzxKPKUE0YwWDg9Ac6
+   ONdCcQJug1Nz964WCa8RZkDxq9wOdEmE6vIMdpGrG0j10g+1RziCcz/JH
+   A==;
+X-CSE-ConnectionGUID: rjk0rOfgSFq+nGYUUUM2jA==
+X-CSE-MsgGUID: pBRKvxw3SQmGk4H4bym6RA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="82861606"
 X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="82861592"
+   d="scan'208";a="82861606"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 07:24:56 -0800
-X-CSE-ConnectionGUID: P4ubDkTKSKmCq1wPZrc8iA==
-X-CSE-MsgGUID: lj8S5HHjS6e9N05+APrXRw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 07:24:57 -0800
+X-CSE-ConnectionGUID: hfJjsgBhRaKfy7+Qo9s9Kg==
+X-CSE-MsgGUID: YaJ0me8VRVeNlnuDFRvNsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
-   d="scan'208";a="189990414"
+   d="scan'208";a="189990412"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 14 Nov 2025 07:24:50 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJvfL-0006i5-15;
+	id 1vJvfL-0006i3-12;
 	Fri, 14 Nov 2025 15:24:47 +0000
-Date: Fri, 14 Nov 2025 23:23:57 +0800
+Date: Fri, 14 Nov 2025 23:23:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Muchun Song <muchun.song@linux.dev>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -75,7 +75,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Leon Romanovsky <leon@kernel.org>, Zi Yan <ziy@nvidia.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>
 Subject: Re: [PATCH v2 1/4] mm: declare VMA flags by bit
-Message-ID: <202511142325.rDmlXFxr-lkp@intel.com>
+Message-ID: <202511142237.yj4hppoj-lkp@intel.com>
 References: <6289d60b6731ea7a111c87c87fb8486881151c25.1763126447.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -102,26 +102,23 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-declar
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/6289d60b6731ea7a111c87c87fb8486881151c25.1763126447.git.lorenzo.stoakes%40oracle.com
 patch subject: [PATCH v2 1/4] mm: declare VMA flags by bit
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251114/202511142325.rDmlXFxr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511142325.rDmlXFxr-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251114/202511142237.yj4hppoj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511142237.yj4hppoj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511142325.rDmlXFxr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511142237.yj4hppoj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/sched.h:46,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/mm.h: In function 'is_nommu_shared_mapping':
->> include/linux/mm.h:1734:39: error: 'VM_MAYOVERLAY' undeclared (first use in this function); did you mean 'VMA_MAYOVERLAY_BIT'?
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+>> include/linux/mm.h:1734:32: error: use of undeclared identifier 'VM_MAYOVERLAY'
     1734 |         return flags & (VM_MAYSHARE | VM_MAYOVERLAY);
          |                                       ^~~~~~~~~~~~~
-         |                                       VMA_MAYOVERLAY_BIT
-   include/linux/mm.h:1734:39: note: each undeclared identifier is reported only once for each function it appears in
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/arm/kernel/asm-offsets.s] Error 1
    make[3]: Target 'prepare' not remade because of errors.
    make[2]: *** [Makefile:1280: prepare0] Error 2
    make[2]: Target 'prepare' not remade because of errors.
@@ -131,7 +128,7 @@ All errors (new ones prefixed by >>):
    make: Target 'prepare' not remade because of errors.
 
 
-vim +1734 include/linux/mm.h
+vim +/VM_MAYOVERLAY +1734 include/linux/mm.h
 
 97a7e4733b9b22 Peter Xu          2021-03-12  1722  
 fc4f4be9b5271e David Hildenbrand 2023-01-02  1723  #ifndef CONFIG_MMU
