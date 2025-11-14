@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9342D2F39D1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 23:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FD32F9DA0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 23:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763162809; cv=none; b=YhLMwnXB2bAl1LNlSy1/tAlG759NvW3J59cOHTklD5WR0lJK7HgOmf+fZBFjY+UT21+XAZTkHzjZyPRue2Cjn07ybaulEUwMNCk+R0IXvkb9Ee5KDvP9tpQOgsBPoFK4/xNPHRii1EUFgmRQi1E0cTKdZAKFLNHYKu89tAKKAP0=
+	t=1763164733; cv=none; b=jFy3CVxFCM/OeCTrVzS7W9+Alg+pz9mCuhGb8uuqGIpBv5bakhJbULP+ixU5gNx891tjEBlprqtfIq3YiMipi716xC7AWAqLoKQewz5ykUGZ04fo28kOg4IGa/4DlxQtrwbrn3SkdqIyWNuxO2sk9nnLXV8MmeWEsQacVyxiBXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763162809; c=relaxed/simple;
-	bh=HrxSovaqQrYgBaCrYN8oJNiSWuHZcwdpC45wJq7Sszw=;
+	s=arc-20240116; t=1763164733; c=relaxed/simple;
+	bh=sufF3ol+x4WSPzvt4ZzmDkN21A3uCbqb43guJDbHRW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dedqv67k03Y1zu4qgd25/icvJqbUuMzVvzU0+35B4PZ+FbdiaL2wckCCNmz9jR6JMj6LaSbE5rOGiUnnTY+CPMKwQ3TQvwrcMteryuJedB7uiHictez9pmemvwhJ2zyrDijfI5qnxcTzK7TF/06ti//5bHeWhWesv1ItkF9T7PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NqipQMAZ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=VcQZr0jio3gwscQwxnZ79JOL3fpK38OSgzXfcZhshWv8/ivBYud+Mw3xcx0QZ+Hk1hOSl7B7smMES4iRrIXPxKLgiSH4RRBumPtblseQjpPvXhDRT8A3idGWh25gTlfSdg8nnTFEGzsGroLVbavzZY37UcsKR014S/I8yQx3qhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CrLnPtrH; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqipQMAZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CrLnPtrH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763162808; x=1794698808;
+  t=1763164731; x=1794700731;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HrxSovaqQrYgBaCrYN8oJNiSWuHZcwdpC45wJq7Sszw=;
-  b=NqipQMAZ0bIqN1woaXnam/KMkQWb+ft7pOblDCWAORoblimSzocBDRpe
-   71jfAUfr1AXlu/EY+zyBA2W8u530/tLYodJboG0sEfVjLDUClDxKo/bY0
-   0jlIOyd9ucqKNhM9CBUweOJU5TmUzsUfqIYD0scRNo88OTl9nYjlnv3d5
-   KQUDCM1ZBO729ReMydJGVTOPn5QKoD5jMBfigQt0skfeEdD2EdcZqw700
-   WRsz3ekHot8lMy4oZTVHEgpGEA3Twz/zignQZCD0aRn549yENPyJXFKqG
-   noaN21lm1ArB7fQDNFHwgsE2Pe7enwZX4V83VJH6UyNj3osfrl4E4Qf6k
-   g==;
-X-CSE-ConnectionGUID: Ai25cFy2R8KeYNbPEhegHg==
-X-CSE-MsgGUID: gOvcKluJSaGELlSw84xwrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="90741090"
+  bh=sufF3ol+x4WSPzvt4ZzmDkN21A3uCbqb43guJDbHRW8=;
+  b=CrLnPtrHqYA908OAD6/OAc0QfeuymQ8pd+AA9J0gtW2G2aKx/dOHIOPq
+   uyepuZsrIuf6XPT1TRl/fkNoeIKg1/9TplEXSS/pzOUloibX83wfGN5O/
+   GgZZ8ixcWEoLF6Dnr/SZ5vygzartZIMmgEERFb6Xxv8+nzk2OxBKvsdvw
+   Q7/eA348v2CeQWViW8u3m0WHJNGjK0wSZ7aLVC8DOpwC+uR4GHe5dme3r
+   N8sXMPneGgCfvnHe+XRTNyUgxRjHBEK1Z5hWqbeXRrni1WX5hCVx/dWvQ
+   mLynaAuFW/0QwbNsiq/T/noFftxEbOZD+Ci+sEDPpy03NKNXvVrY6TVAz
+   w==;
+X-CSE-ConnectionGUID: 6c0bCippQcOYd+OOwf3QgA==
+X-CSE-MsgGUID: 4k6+Sn/YQ1KYjE6uyS/kkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="64471497"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="90741090"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 15:26:47 -0800
-X-CSE-ConnectionGUID: m7PjwfGTQimrZRhuRxDUuQ==
-X-CSE-MsgGUID: jem/RcCCQxm/kacC6kb9qA==
+   d="scan'208";a="64471497"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 15:58:50 -0800
+X-CSE-ConnectionGUID: sFJ+U+MbSD+n2VgiRVd7Hw==
+X-CSE-MsgGUID: c+3hR4KGQKKcX3Sly92hXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="190673580"
+   d="scan'208";a="190332072"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Nov 2025 15:26:46 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Nov 2025 15:58:49 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vK3Bk-0007QR-0B;
-	Fri, 14 Nov 2025 23:26:44 +0000
-Date: Sat, 15 Nov 2025 07:26:19 +0800
+	id 1vK3gl-0007Sp-25;
+	Fri, 14 Nov 2025 23:58:47 +0000
+Date: Sat, 15 Nov 2025 07:58:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 2/9] lib/crypto/mldsa/crypto_mldsa.c:218:13:
- warning: 'dilithium_kernel_alg_exit' defined but not used
-Message-ID: <202511150746.J2odmFxR-lkp@intel.com>
+Subject: [hch-misc:nfs-delegation-lru 1/20] fs/nfs/fs_context.c:1038:45:
+ error: 'NFS4_CLIENT_ID_UNIQ_LEN' undeclared
+Message-ID: <202511150759.uPUjtzLL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,231 +62,509 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   a35497b5ca61a0cf5a501e71ef253219ef6c7641
-commit: dafb5e49cd9260d248d3aad602c3e8639de1702e [2/9] crypto: Add ML-DSA/Dilithium verify support
-config: arc-randconfig-002-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150746.J2odmFxR-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150746.J2odmFxR-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git nfs-delegation-lru
+head:   09afc7e968dff67a9a0c9c728b08b8478841357d
+commit: c65fef6305a69cce790947f7fbd549e305020669 [1/20] TEMP: NFS: add a clientid mount option
+config: arm-spear13xx_defconfig (https://download.01.org/0day-ci/archive/20251115/202511150759.uPUjtzLL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150759.uPUjtzLL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150746.J2odmFxR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511150759.uPUjtzLL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/crypto/mldsa/crypto_mldsa.c:218:13: warning: 'dilithium_kernel_alg_exit' defined but not used [-Wunused-function]
-     218 | static void dilithium_kernel_alg_exit(struct crypto_sig *tfm)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/crypto/mldsa/crypto_mldsa.c:213:12: warning: 'dilithium_kernel_alg_init' defined but not used [-Wunused-function]
-     213 | static int dilithium_kernel_alg_init(struct crypto_sig *tfm)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/crypto/mldsa/crypto_mldsa.c:198:21: warning: 'dilithium_kernel_max_size' defined but not used [-Wunused-function]
-     198 | static unsigned int dilithium_kernel_max_size(struct crypto_sig *tfm)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/crypto/mldsa/crypto_mldsa.c:123:12: warning: 'dilithium_kernel_set_pub_key_int' defined but not used [-Wunused-function]
-     123 | static int dilithium_kernel_set_pub_key_int(struct crypto_sig *tfm,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/crypto/mldsa/crypto_mldsa.c:48:12: warning: 'dilithium_kernel_verify' defined but not used [-Wunused-function]
-      48 | static int dilithium_kernel_verify(struct crypto_sig *tfm, const void *src,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
->> lib/crypto/mldsa/crypto_mldsa.c:39:12: warning: 'dilithium_kernel_sign' defined but not used [-Wunused-function]
-      39 | static int dilithium_kernel_sign(struct crypto_sig *tfm, const void *src,
-         |            ^~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/fs_context.c: In function 'nfs_fs_context_parse_param':
+>> fs/nfs/fs_context.c:1038:45: error: 'NFS4_CLIENT_ID_UNIQ_LEN' undeclared (first use in this function)
+    1038 |                     strlen(param->string) > NFS4_CLIENT_ID_UNIQ_LEN - 1)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/fs_context.c:1038:45: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/dilithium_kernel_alg_exit +218 lib/crypto/mldsa/crypto_mldsa.c
+vim +/NFS4_CLIENT_ID_UNIQ_LEN +1038 fs/nfs/fs_context.c
 
-    36	
-    37	/* src -> message */
-    38	/* dst -> signature */
-  > 39	static int dilithium_kernel_sign(struct crypto_sig *tfm, const void *src,
-    40					 unsigned int slen, void *dst,
-    41					 unsigned int dlen)
-    42	{
-    43		return -EOPNOTSUPP;
-    44	}
-    45	
-    46	/* src -> signature */
-    47	/* msg -> message */
-  > 48	static int dilithium_kernel_verify(struct crypto_sig *tfm, const void *src,
-    49					   unsigned int slen, const void *msg,
-    50					   unsigned int msg_len)
-    51	{
-    52		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-    53		struct dilithium_sig *sig;
-    54		size_t sig_len;
-    55		enum dilithium_type type;
-    56		int ret;
-    57	
-    58		if (unlikely(ctx->key_type != dilithium_kernel_key_pk))
-    59			return -EINVAL;
-    60	
-    61		type = dilithium_pk_type(&ctx->pk);
-    62		sig_len = dilithium_sig_size(type);
-    63		if (slen < sig_len)
-    64			return -EINVAL;
-    65	
-    66		sig = kmalloc(sizeof(struct dilithium_sig), GFP_KERNEL);
-    67		if (!sig)
-    68			return -ENOMEM;
-    69	
-    70		ret = dilithium_sig_load(sig, src, sig_len);
-    71		if (ret)
-    72			goto out;
-    73	
-    74		ret = dilithium_verify(sig, msg, msg_len, &ctx->pk);
-    75	
-    76	out:
-    77		kfree_sensitive(sig);
-    78		return ret;
-    79	}
-    80	
-    81	#ifdef CONFIG_CRYPTO_LIB_MLDSA_87
-    82	static unsigned int dilithium_kernel_87_key_size(struct crypto_sig *tfm)
-    83	{
-    84		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-    85	
-    86		switch (ctx->key_type) {
-    87		case dilithium_kernel_key_unset:
-    88		case dilithium_kernel_key_pk:
-    89		default:
-    90			return sizeof(struct dilithium_87_pk);
-    91		}
-    92	}
-    93	#endif
-    94	
-    95	#ifdef CONFIG_CRYPTO_LIB_MLDSA_65
-    96	static unsigned int dilithium_kernel_65_key_size(struct crypto_sig *tfm)
-    97	{
-    98		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-    99	
-   100		switch (ctx->key_type) {
-   101		case dilithium_kernel_key_unset:
-   102		case dilithium_kernel_key_pk:
-   103		default:
-   104			return sizeof(struct dilithium_65_pk);
-   105		}
-   106	}
-   107	#endif
-   108	
-   109	#ifdef CONFIG_CRYPTO_LIB_MLDSA_44
-   110	static unsigned int dilithium_kernel_44_key_size(struct crypto_sig *tfm)
-   111	{
-   112		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-   113	
-   114		switch (ctx->key_type) {
-   115		case dilithium_kernel_key_unset:
-   116		case dilithium_kernel_key_pk:
-   117		default:
-   118			return sizeof(struct dilithium_44_pk);
-   119		}
-   120	}
-   121	#endif
-   122	
- > 123	static int dilithium_kernel_set_pub_key_int(struct crypto_sig *tfm,
-   124						    const void *key,
-   125						    unsigned int keylen,
-   126						    enum dilithium_type type)
-   127	{
-   128		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-   129		int ret;
-   130	
-   131		ctx->key_type = dilithium_kernel_key_unset;
-   132	
-   133		ret = dilithium_pk_load(&ctx->pk, key, keylen);
-   134		if (!ret) {
-   135			if (dilithium_pk_type(&ctx->pk) != type)
-   136				ret = -EOPNOTSUPP;
-   137			else
-   138				ctx->key_type = dilithium_kernel_key_pk;
-   139		}
-   140	
-   141		return ret;
-   142	}
-   143	
-   144	#ifdef CONFIG_CRYPTO_LIB_MLDSA_44
-   145	static int dilithium_kernel_44_set_pub_key(struct crypto_sig *tfm,
-   146						   const void *key,
-   147						   unsigned int keylen)
-   148	{
-   149		return dilithium_kernel_set_pub_key_int(tfm, key, keylen, DILITHIUM_44);
-   150	}
-   151	#endif
-   152	
-   153	#ifdef CONFIG_CRYPTO_LIB_MLDSA_65
-   154	static int dilithium_kernel_65_set_pub_key(struct crypto_sig *tfm,
-   155						   const void *key,
-   156						   unsigned int keylen)
-   157	{
-   158		return dilithium_kernel_set_pub_key_int(tfm, key, keylen, DILITHIUM_65);
-   159	}
-   160	#endif
-   161	
-   162	#ifdef CONFIG_CRYPTO_LIB_MLDSA_87
-   163	static int dilithium_kernel_87_set_pub_key(struct crypto_sig *tfm,
-   164						   const void *key,
-   165						   unsigned int keylen)
-   166	{
-   167		return dilithium_kernel_set_pub_key_int(tfm, key, keylen, DILITHIUM_87);
-   168	}
-   169	#endif
-   170	
-   171	#ifdef CONFIG_CRYPTO_LIB_MLDSA_44
-   172	static int dilithium_kernel_44_set_priv_key(struct crypto_sig *tfm,
-   173						    const void *key,
-   174						    unsigned int keylen)
-   175	{
-   176		return -EOPNOTSUPP;
-   177	}
-   178	#endif
-   179	
-   180	#ifdef CONFIG_CRYPTO_LIB_MLDSA_65
-   181	static int dilithium_kernel_65_set_priv_key(struct crypto_sig *tfm,
-   182						    const void *key,
-   183						    unsigned int keylen)
-   184	{
-   185		return -EOPNOTSUPP;
-   186	}
-   187	#endif
-   188	
-   189	#ifdef CONFIG_CRYPTO_LIB_MLDSA_87
-   190	static int dilithium_kernel_87_set_priv_key(struct crypto_sig *tfm,
-   191						    const void *key,
-   192						    unsigned int keylen)
-   193	{
-   194		return -EOPNOTSUPP;
-   195	}
-   196	#endif
-   197	
- > 198	static unsigned int dilithium_kernel_max_size(struct crypto_sig *tfm)
-   199	{
-   200		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-   201		enum dilithium_type type;
-   202	
-   203		switch (ctx->key_type) {
-   204		case dilithium_kernel_key_pk:
-   205			type = dilithium_pk_type(&ctx->pk);
-   206			/* When PK is set, this is a safety valve, result is boolean */
-   207			return dilithium_sig_size(type);
-   208		default:
-   209			return 0;
-   210		}
-   211	}
-   212	
- > 213	static int dilithium_kernel_alg_init(struct crypto_sig *tfm)
-   214	{
-   215		return 0;
-   216	}
-   217	
- > 218	static void dilithium_kernel_alg_exit(struct crypto_sig *tfm)
-   219	{
-   220		struct dilithium_kernel_ctx *ctx = crypto_sig_ctx(tfm);
-   221	
-   222		ctx->key_type = dilithium_kernel_key_unset;
-   223	}
-   224	
+   585	
+   586	/*
+   587	 * Parse a single mount parameter.
+   588	 */
+   589	static int nfs_fs_context_parse_param(struct fs_context *fc,
+   590					      struct fs_parameter *param)
+   591	{
+   592		struct fs_parse_result result;
+   593		struct nfs_fs_context *ctx = nfs_fc2context(fc);
+   594		unsigned short protofamily, mountfamily;
+   595		unsigned int len;
+   596		int ret, opt;
+   597	
+   598		trace_nfs_mount_option(param);
+   599	
+   600		opt = fs_parse(fc, nfs_fs_parameters, param, &result);
+   601		if (opt < 0)
+   602			return (opt == -ENOPARAM && ctx->sloppy) ? 1 : opt;
+   603	
+   604		if (fc->security)
+   605			ctx->has_sec_mnt_opts = 1;
+   606	
+   607		switch (opt) {
+   608		case Opt_source:
+   609			if (fc->source)
+   610				return nfs_invalf(fc, "NFS: Multiple sources not supported");
+   611			fc->source = param->string;
+   612			param->string = NULL;
+   613			break;
+   614	
+   615			/*
+   616			 * boolean options:  foo/nofoo
+   617			 */
+   618		case Opt_soft:
+   619			ctx->flags |= NFS_MOUNT_SOFT;
+   620			ctx->flags &= ~NFS_MOUNT_SOFTERR;
+   621			break;
+   622		case Opt_softerr:
+   623			ctx->flags |= NFS_MOUNT_SOFTERR | NFS_MOUNT_SOFTREVAL;
+   624			ctx->flags &= ~NFS_MOUNT_SOFT;
+   625			break;
+   626		case Opt_hard:
+   627			ctx->flags &= ~(NFS_MOUNT_SOFT |
+   628					NFS_MOUNT_SOFTERR |
+   629					NFS_MOUNT_SOFTREVAL);
+   630			break;
+   631		case Opt_softreval:
+   632			if (result.negated)
+   633				ctx->flags &= ~NFS_MOUNT_SOFTREVAL;
+   634			else
+   635				ctx->flags |= NFS_MOUNT_SOFTREVAL;
+   636			break;
+   637		case Opt_posix:
+   638			if (result.negated)
+   639				ctx->flags &= ~NFS_MOUNT_POSIX;
+   640			else
+   641				ctx->flags |= NFS_MOUNT_POSIX;
+   642			break;
+   643		case Opt_cto:
+   644			if (result.negated)
+   645				ctx->flags |= NFS_MOUNT_NOCTO;
+   646			else
+   647				ctx->flags &= ~NFS_MOUNT_NOCTO;
+   648			break;
+   649		case Opt_trunkdiscovery:
+   650			if (result.negated)
+   651				ctx->flags &= ~NFS_MOUNT_TRUNK_DISCOVERY;
+   652			else
+   653				ctx->flags |= NFS_MOUNT_TRUNK_DISCOVERY;
+   654			break;
+   655		case Opt_alignwrite:
+   656			if (result.negated)
+   657				ctx->flags |= NFS_MOUNT_NO_ALIGNWRITE;
+   658			else
+   659				ctx->flags &= ~NFS_MOUNT_NO_ALIGNWRITE;
+   660			break;
+   661		case Opt_ac:
+   662			if (result.negated)
+   663				ctx->flags |= NFS_MOUNT_NOAC;
+   664			else
+   665				ctx->flags &= ~NFS_MOUNT_NOAC;
+   666			break;
+   667		case Opt_lock:
+   668			if (result.negated) {
+   669				ctx->lock_status = NFS_LOCK_NOLOCK;
+   670				ctx->flags |= NFS_MOUNT_NONLM;
+   671				ctx->flags |= (NFS_MOUNT_LOCAL_FLOCK | NFS_MOUNT_LOCAL_FCNTL);
+   672			} else {
+   673				ctx->lock_status = NFS_LOCK_LOCK;
+   674				ctx->flags &= ~NFS_MOUNT_NONLM;
+   675				ctx->flags &= ~(NFS_MOUNT_LOCAL_FLOCK | NFS_MOUNT_LOCAL_FCNTL);
+   676			}
+   677			break;
+   678		case Opt_udp:
+   679			ctx->flags &= ~NFS_MOUNT_TCP;
+   680			ctx->nfs_server.protocol = XPRT_TRANSPORT_UDP;
+   681			break;
+   682		case Opt_tcp:
+   683		case Opt_rdma:
+   684			ctx->flags |= NFS_MOUNT_TCP; /* for side protocols */
+   685			ret = xprt_find_transport_ident(param->key);
+   686			if (ret < 0)
+   687				goto out_bad_transport;
+   688			ctx->nfs_server.protocol = ret;
+   689			break;
+   690		case Opt_acl:
+   691			if (result.negated)
+   692				ctx->flags |= NFS_MOUNT_NOACL;
+   693			else
+   694				ctx->flags &= ~NFS_MOUNT_NOACL;
+   695			break;
+   696		case Opt_rdirplus:
+   697			if (result.negated) {
+   698				ctx->flags &= ~NFS_MOUNT_FORCE_RDIRPLUS;
+   699				ctx->flags |= NFS_MOUNT_NORDIRPLUS;
+   700			} else if (!param->string) {
+   701				ctx->flags &= ~(NFS_MOUNT_NORDIRPLUS | NFS_MOUNT_FORCE_RDIRPLUS);
+   702			} else {
+   703				switch (lookup_constant(nfs_rdirplus_tokens, param->string, -1)) {
+   704				case Opt_rdirplus_none:
+   705					ctx->flags &= ~NFS_MOUNT_FORCE_RDIRPLUS;
+   706					ctx->flags |= NFS_MOUNT_NORDIRPLUS;
+   707					break;
+   708				case Opt_rdirplus_force:
+   709					ctx->flags &= ~NFS_MOUNT_NORDIRPLUS;
+   710					ctx->flags |= NFS_MOUNT_FORCE_RDIRPLUS;
+   711					break;
+   712				default:
+   713					goto out_invalid_value;
+   714				}
+   715			}
+   716			break;
+   717		case Opt_sharecache:
+   718			if (result.negated)
+   719				ctx->flags |= NFS_MOUNT_UNSHARED;
+   720			else
+   721				ctx->flags &= ~NFS_MOUNT_UNSHARED;
+   722			break;
+   723		case Opt_resvport:
+   724			if (result.negated)
+   725				ctx->flags |= NFS_MOUNT_NORESVPORT;
+   726			else
+   727				ctx->flags &= ~NFS_MOUNT_NORESVPORT;
+   728			break;
+   729		case Opt_fscache_flag:
+   730			if (result.negated)
+   731				ctx->options &= ~NFS_OPTION_FSCACHE;
+   732			else
+   733				ctx->options |= NFS_OPTION_FSCACHE;
+   734			kfree(ctx->fscache_uniq);
+   735			ctx->fscache_uniq = NULL;
+   736			break;
+   737		case Opt_fscache:
+   738			trace_nfs_mount_assign(param->key, param->string);
+   739			ctx->options |= NFS_OPTION_FSCACHE;
+   740			kfree(ctx->fscache_uniq);
+   741			ctx->fscache_uniq = param->string;
+   742			param->string = NULL;
+   743			break;
+   744		case Opt_migration:
+   745			if (result.negated)
+   746				ctx->options &= ~NFS_OPTION_MIGRATION;
+   747			else
+   748				ctx->options |= NFS_OPTION_MIGRATION;
+   749			break;
+   750	
+   751			/*
+   752			 * options that take numeric values
+   753			 */
+   754		case Opt_port:
+   755			if (result.uint_32 > USHRT_MAX)
+   756				goto out_of_bounds;
+   757			ctx->nfs_server.port = result.uint_32;
+   758			break;
+   759		case Opt_rsize:
+   760			ctx->rsize = result.uint_32;
+   761			break;
+   762		case Opt_wsize:
+   763			ctx->wsize = result.uint_32;
+   764			break;
+   765		case Opt_bsize:
+   766			ctx->bsize = result.uint_32;
+   767			break;
+   768		case Opt_timeo:
+   769			if (result.uint_32 < 1 || result.uint_32 > INT_MAX)
+   770				goto out_of_bounds;
+   771			ctx->timeo = result.uint_32;
+   772			break;
+   773		case Opt_retrans:
+   774			if (result.uint_32 > INT_MAX)
+   775				goto out_of_bounds;
+   776			ctx->retrans = result.uint_32;
+   777			break;
+   778		case Opt_acregmin:
+   779			ctx->acregmin = result.uint_32;
+   780			break;
+   781		case Opt_acregmax:
+   782			ctx->acregmax = result.uint_32;
+   783			break;
+   784		case Opt_acdirmin:
+   785			ctx->acdirmin = result.uint_32;
+   786			break;
+   787		case Opt_acdirmax:
+   788			ctx->acdirmax = result.uint_32;
+   789			break;
+   790		case Opt_actimeo:
+   791			ctx->acregmin = result.uint_32;
+   792			ctx->acregmax = result.uint_32;
+   793			ctx->acdirmin = result.uint_32;
+   794			ctx->acdirmax = result.uint_32;
+   795			break;
+   796		case Opt_namelen:
+   797			ctx->namlen = result.uint_32;
+   798			break;
+   799		case Opt_mountport:
+   800			if (result.uint_32 > USHRT_MAX)
+   801				goto out_of_bounds;
+   802			ctx->mount_server.port = result.uint_32;
+   803			break;
+   804		case Opt_mountvers:
+   805			if (result.uint_32 < NFS_MNT_VERSION ||
+   806			    result.uint_32 > NFS_MNT3_VERSION)
+   807				goto out_of_bounds;
+   808			ctx->mount_server.version = result.uint_32;
+   809			break;
+   810		case Opt_minorversion:
+   811			if (result.uint_32 > NFS4_MAX_MINOR_VERSION)
+   812				goto out_of_bounds;
+   813			ctx->minorversion = result.uint_32;
+   814			break;
+   815	
+   816			/*
+   817			 * options that take text values
+   818			 */
+   819		case Opt_v:
+   820			ret = nfs_parse_version_string(fc, param->key + 1);
+   821			if (ret < 0)
+   822				return ret;
+   823			break;
+   824		case Opt_vers:
+   825			if (!param->string)
+   826				goto out_invalid_value;
+   827			trace_nfs_mount_assign(param->key, param->string);
+   828			ret = nfs_parse_version_string(fc, param->string);
+   829			if (ret < 0)
+   830				return ret;
+   831			break;
+   832		case Opt_sec:
+   833			ret = nfs_parse_security_flavors(fc, param);
+   834			if (ret < 0)
+   835				return ret;
+   836			break;
+   837		case Opt_xprtsec:
+   838			ret = nfs_parse_xprtsec_policy(fc, param);
+   839			if (ret < 0)
+   840				return ret;
+   841			break;
+   842		case Opt_cert_serial:
+   843			ret = nfs_tls_key_verify(result.int_32);
+   844			if (ret < 0)
+   845				return ret;
+   846			ctx->xprtsec.cert_serial = result.int_32;
+   847			break;
+   848		case Opt_privkey_serial:
+   849			ret = nfs_tls_key_verify(result.int_32);
+   850			if (ret < 0)
+   851				return ret;
+   852			ctx->xprtsec.privkey_serial = result.int_32;
+   853			break;
+   854	
+   855		case Opt_proto:
+   856			if (!param->string)
+   857				goto out_invalid_value;
+   858			trace_nfs_mount_assign(param->key, param->string);
+   859			protofamily = AF_INET;
+   860			switch (lookup_constant(nfs_xprt_protocol_tokens, param->string, -1)) {
+   861			case Opt_xprt_udp6:
+   862				protofamily = AF_INET6;
+   863				fallthrough;
+   864			case Opt_xprt_udp:
+   865				ctx->flags &= ~NFS_MOUNT_TCP;
+   866				ctx->nfs_server.protocol = XPRT_TRANSPORT_UDP;
+   867				break;
+   868			case Opt_xprt_tcp6:
+   869				protofamily = AF_INET6;
+   870				fallthrough;
+   871			case Opt_xprt_tcp:
+   872				ctx->flags |= NFS_MOUNT_TCP;
+   873				ctx->nfs_server.protocol = XPRT_TRANSPORT_TCP;
+   874				break;
+   875			case Opt_xprt_rdma6:
+   876				protofamily = AF_INET6;
+   877				fallthrough;
+   878			case Opt_xprt_rdma:
+   879				/* vector side protocols to TCP */
+   880				ctx->flags |= NFS_MOUNT_TCP;
+   881				ret = xprt_find_transport_ident(param->string);
+   882				if (ret < 0)
+   883					goto out_bad_transport;
+   884				ctx->nfs_server.protocol = ret;
+   885				break;
+   886			default:
+   887				goto out_bad_transport;
+   888			}
+   889	
+   890			ctx->protofamily = protofamily;
+   891			break;
+   892	
+   893		case Opt_mountproto:
+   894			if (!param->string)
+   895				goto out_invalid_value;
+   896			trace_nfs_mount_assign(param->key, param->string);
+   897			mountfamily = AF_INET;
+   898			switch (lookup_constant(nfs_xprt_protocol_tokens, param->string, -1)) {
+   899			case Opt_xprt_udp6:
+   900				mountfamily = AF_INET6;
+   901				fallthrough;
+   902			case Opt_xprt_udp:
+   903				ctx->mount_server.protocol = XPRT_TRANSPORT_UDP;
+   904				break;
+   905			case Opt_xprt_tcp6:
+   906				mountfamily = AF_INET6;
+   907				fallthrough;
+   908			case Opt_xprt_tcp:
+   909				ctx->mount_server.protocol = XPRT_TRANSPORT_TCP;
+   910				break;
+   911			case Opt_xprt_rdma: /* not used for side protocols */
+   912			default:
+   913				goto out_bad_transport;
+   914			}
+   915			ctx->mountfamily = mountfamily;
+   916			break;
+   917	
+   918		case Opt_addr:
+   919			trace_nfs_mount_assign(param->key, param->string);
+   920			len = rpc_pton(fc->net_ns, param->string, param->size,
+   921				       &ctx->nfs_server.address,
+   922				       sizeof(ctx->nfs_server._address));
+   923			if (len == 0)
+   924				goto out_invalid_address;
+   925			ctx->nfs_server.addrlen = len;
+   926			break;
+   927		case Opt_clientaddr:
+   928			trace_nfs_mount_assign(param->key, param->string);
+   929			kfree(ctx->client_address);
+   930			ctx->client_address = param->string;
+   931			param->string = NULL;
+   932			break;
+   933		case Opt_mounthost:
+   934			trace_nfs_mount_assign(param->key, param->string);
+   935			kfree(ctx->mount_server.hostname);
+   936			ctx->mount_server.hostname = param->string;
+   937			param->string = NULL;
+   938			break;
+   939		case Opt_mountaddr:
+   940			trace_nfs_mount_assign(param->key, param->string);
+   941			len = rpc_pton(fc->net_ns, param->string, param->size,
+   942				       &ctx->mount_server.address,
+   943				       sizeof(ctx->mount_server._address));
+   944			if (len == 0)
+   945				goto out_invalid_address;
+   946			ctx->mount_server.addrlen = len;
+   947			break;
+   948		case Opt_nconnect:
+   949			trace_nfs_mount_assign(param->key, param->string);
+   950			if (result.uint_32 < 1 || result.uint_32 > NFS_MAX_CONNECTIONS)
+   951				goto out_of_bounds;
+   952			ctx->nfs_server.nconnect = result.uint_32;
+   953			break;
+   954		case Opt_max_connect:
+   955			trace_nfs_mount_assign(param->key, param->string);
+   956			if (result.uint_32 < 1 || result.uint_32 > NFS_MAX_TRANSPORTS)
+   957				goto out_of_bounds;
+   958			ctx->nfs_server.max_connect = result.uint_32;
+   959			break;
+   960		case Opt_fatal_neterrors:
+   961			trace_nfs_mount_assign(param->key, param->string);
+   962			switch (result.uint_32) {
+   963			case Opt_fatal_neterrors_default:
+   964				if (fc->net_ns != &init_net)
+   965					ctx->flags |= NFS_MOUNT_NETUNREACH_FATAL;
+   966				else
+   967					ctx->flags &= ~NFS_MOUNT_NETUNREACH_FATAL;
+   968				break;
+   969			case Opt_fatal_neterrors_enetunreach:
+   970				ctx->flags |= NFS_MOUNT_NETUNREACH_FATAL;
+   971				break;
+   972			case Opt_fatal_neterrors_none:
+   973				ctx->flags &= ~NFS_MOUNT_NETUNREACH_FATAL;
+   974				break;
+   975			default:
+   976				goto out_invalid_value;
+   977			}
+   978			break;
+   979		case Opt_lookupcache:
+   980			trace_nfs_mount_assign(param->key, param->string);
+   981			switch (result.uint_32) {
+   982			case Opt_lookupcache_all:
+   983				ctx->flags &= ~(NFS_MOUNT_LOOKUP_CACHE_NONEG|NFS_MOUNT_LOOKUP_CACHE_NONE);
+   984				break;
+   985			case Opt_lookupcache_positive:
+   986				ctx->flags &= ~NFS_MOUNT_LOOKUP_CACHE_NONE;
+   987				ctx->flags |= NFS_MOUNT_LOOKUP_CACHE_NONEG;
+   988				break;
+   989			case Opt_lookupcache_none:
+   990				ctx->flags |= NFS_MOUNT_LOOKUP_CACHE_NONEG|NFS_MOUNT_LOOKUP_CACHE_NONE;
+   991				break;
+   992			default:
+   993				goto out_invalid_value;
+   994			}
+   995			break;
+   996		case Opt_local_lock:
+   997			trace_nfs_mount_assign(param->key, param->string);
+   998			switch (result.uint_32) {
+   999			case Opt_local_lock_all:
+  1000				ctx->flags |= (NFS_MOUNT_LOCAL_FLOCK |
+  1001					       NFS_MOUNT_LOCAL_FCNTL);
+  1002				break;
+  1003			case Opt_local_lock_flock:
+  1004				ctx->flags |= NFS_MOUNT_LOCAL_FLOCK;
+  1005				break;
+  1006			case Opt_local_lock_posix:
+  1007				ctx->flags |= NFS_MOUNT_LOCAL_FCNTL;
+  1008				break;
+  1009			case Opt_local_lock_none:
+  1010				ctx->flags &= ~(NFS_MOUNT_LOCAL_FLOCK |
+  1011						NFS_MOUNT_LOCAL_FCNTL);
+  1012				break;
+  1013			default:
+  1014				goto out_invalid_value;
+  1015			}
+  1016			break;
+  1017		case Opt_write:
+  1018			trace_nfs_mount_assign(param->key, param->string);
+  1019			switch (result.uint_32) {
+  1020			case Opt_write_lazy:
+  1021				ctx->flags &=
+  1022					~(NFS_MOUNT_WRITE_EAGER | NFS_MOUNT_WRITE_WAIT);
+  1023				break;
+  1024			case Opt_write_eager:
+  1025				ctx->flags |= NFS_MOUNT_WRITE_EAGER;
+  1026				ctx->flags &= ~NFS_MOUNT_WRITE_WAIT;
+  1027				break;
+  1028			case Opt_write_wait:
+  1029				ctx->flags |=
+  1030					NFS_MOUNT_WRITE_EAGER | NFS_MOUNT_WRITE_WAIT;
+  1031				break;
+  1032			default:
+  1033				goto out_invalid_value;
+  1034			}
+  1035			break;
+  1036		case Opt_clientid:
+  1037			if (!param->string || strlen(param->string) == 0 ||
+> 1038			    strlen(param->string) > NFS4_CLIENT_ID_UNIQ_LEN - 1)
+  1039				goto out_of_bounds;
+  1040			kfree(ctx->clientid);
+  1041			ctx->clientid = param->string;
+  1042			param->string = NULL;
+  1043			break;
+  1044	
+  1045			/*
+  1046			 * Special options
+  1047			 */
+  1048		case Opt_sloppy:
+  1049			ctx->sloppy = true;
+  1050			break;
+  1051		}
+  1052	
+  1053		return 0;
+  1054	
+  1055	out_invalid_value:
+  1056		return nfs_invalf(fc, "NFS: Bad mount option value specified");
+  1057	out_invalid_address:
+  1058		return nfs_invalf(fc, "NFS: Bad IP address specified");
+  1059	out_of_bounds:
+  1060		return nfs_invalf(fc, "NFS: Value for '%s' out of range", param->key);
+  1061	out_bad_transport:
+  1062		return nfs_invalf(fc, "NFS: Unrecognized transport protocol");
+  1063	}
+  1064	
 
 -- 
 0-DAY CI Kernel Test Service
