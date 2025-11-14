@@ -1,220 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26942F3C0A;
-	Fri, 14 Nov 2025 06:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289A92F3C28;
+	Fri, 14 Nov 2025 06:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763102825; cv=none; b=KVs/N64d1FgsWEFjB+91+y5NlPCqdURZZH4TbCmwA4gYMtYVr0RVs8xPaTcAZGjYklgnKS3WFT9wfeI7ALzB4frpfrMzsKoTRYxgpoBYX4Uid+T2X8D4DWCn2wMeUlnk5QF+Q6feUnawVxOm2KfEEhXLDKDmsTu8ul1WhlI0rVk=
+	t=1763102827; cv=none; b=G0I2L/WZL7AWxaVXJr8nQGIcLWoMKXMpM1wJ8P1bxaUf8/3iHxDHQTmOdhKqDHYnb3gAY53kdhhjYL6yoea6o9pXyQDz9EvRh7ykQT+V4uhebRM321ccZ5JG8NRKlIzkYery7FaYza7qwYXhZ+7AgxoYQg4QGKyfTmH51/xlUkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763102825; c=relaxed/simple;
-	bh=WvID/mrXFHc3SnDQsz76WhjlxnE2gWiAQy51XZNn5DU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dTZMkdH4DfJKdUoZuJJiGS9f0vyn/6cXdoe4i73H0j3pb9j/fyugF56DLxgozjoRkimvoCQ14VyftSowMxF/C0jCP02E42tjLKmWVZFwvECDMz92WBdcuyLHI3nqjDKnlu7g/z4EeD/abnjlnxIzfbRX4LsNDsysRdFXXp4J7wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DnScZJi3; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1763102827; c=relaxed/simple;
+	bh=c63TyLXwQfY+sk3K1HPrm/PP9kevMhREC0lGp84f11I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Lf8p26kcWRcZUNhrGwFwHx12MmWTbgL1sIL3E6+sytgp9k5Icuvv9208rJybcavPYohNpwHXEHogH4+3Eqad/pxZr6GEksGsJFpWwui0x3z7LPAXnZzdlsnQ1Gau8E2aRfTvVwaYaMy95KYxad8yXavhdHgerxOt870dGhGa520=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEExM848; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DnScZJi3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEExM848"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763102822; x=1794638822;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=WvID/mrXFHc3SnDQsz76WhjlxnE2gWiAQy51XZNn5DU=;
-  b=DnScZJi3Nz3F+EPCthy/oOZHcVFwAkrXdOWJYnbshovLn7cbrbKsYtP0
-   /mkkqFDawR4k7jiFuFXtBUMNoGQ4joBYnIh/mJUaFNmw1tKW9OTy3Hr6P
-   n/zcbgsAaYKR5R0PanQH9MoSAspnZKT8kJhCvJ+oJiD6LLlcbRDAopMXQ
-   cXc4zIWEWa2QRHLa2cGA4m0XzIV5WO++JBk6ZSJBaFYCT/FlyGmOvsFCq
-   IfPvHT+Oe+7ynbSvEx7yCXSyAh0XpW9a+BN4Uu3LeQT2j0U+k+QO7vtsz
-   t+obaKdSvaw3rqvZTVT03RA2ehEuoV7F+gblUbo4HonTQi5npvxbd4lCu
+  t=1763102825; x=1794638825;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c63TyLXwQfY+sk3K1HPrm/PP9kevMhREC0lGp84f11I=;
+  b=BEExM848P01XdoJfVaw0JoZyqUwXuGvRBPQGYnfC02pELURJS52qfML3
+   tUj5P6cjT4pEXlfhqroFMquk/xwKTSFujxuFxrWgBWY/gzw8yzjgTR6TG
+   wihtJLLKtgBM37KR120gMLnmcm8etWFVQrZego6vBoTyZ1fjAY+ndTCdu
+   VJ5MtaI8qNKttRVKGSQLoNWqHgzG6vaYsPDQT4s7IgpGvRzJNnKCydg7O
+   eY4x22aW1f2y/gYroHyXoi4UuaFd1VPGOL6Qzjq60N/RtqMWW0bRIvpRu
+   2ezem1oi826YG52nhB9bee8wyL+fcMsT9B9M8CG11CixRBP9cUWGVDel7
    w==;
-X-CSE-ConnectionGUID: iHunQP/mTtaXCsg6CY18jg==
-X-CSE-MsgGUID: QCSFyiDOSWWHXCCFb21EHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65227560"
+X-CSE-ConnectionGUID: GRZElhKmTvig+3y8BWlt4g==
+X-CSE-MsgGUID: yWLpRjNISm6TBgnzHax2UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="64400133"
 X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
-   d="scan'208";a="65227560"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:47:01 -0800
-X-CSE-ConnectionGUID: FwEMrvUERXu4G9aXYDZ25Q==
-X-CSE-MsgGUID: yaGYoQWZS0uedWVb7dxMsg==
+   d="scan'208";a="64400133"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:47:01 -0800
+X-CSE-ConnectionGUID: WqtCRE61R5m5ri9oFThYRQ==
+X-CSE-MsgGUID: 4GiGKfxxRvGpKJkyaAKSTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
-   d="scan'208";a="193824047"
+   d="scan'208";a="220359548"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Nov 2025 22:47:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2025 22:46:59 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJnaD-0006F1-0B;
+	id 1vJnaD-0006FB-0j;
 	Fri, 14 Nov 2025 06:46:57 +0000
-Date: Fri, 14 Nov 2025 14:45:58 +0800
+Date: Fri, 14 Nov 2025 14:46:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, johan@kernel.org,
-	Dave Penkler <dpenkler@gmail.com>
-Subject: Re: [PATCH V3 6/6] gpib: Destage gpib
-Message-ID: <202511140903.9SwzxDDp-lkp@intel.com>
-References: <20251113104543.5875-7-dpenkler@gmail.com>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 36/283] mm/hugetlb.c:4753:18: warning: implicit
+ conversion from 'unsigned long long' to 'unsigned long' changes value from
+ 17179869184 to 0
+Message-ID: <202511141140.LrrRrtIv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251113104543.5875-7-dpenkler@gmail.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.18-rc5 next-20251113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-Remove-gpib-build-from-staging/20251113-185632
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20251113104543.5875-7-dpenkler%40gmail.com
-patch subject: [PATCH V3 6/6] gpib: Destage gpib
-config: s390-randconfig-001-20251114 (https://download.01.org/0day-ci/archive/20251114/202511140903.9SwzxDDp-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511140903.9SwzxDDp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   1c571d1c4c7e042c3c313d1a2058a17848ccebac
+commit: 2f6ff71280ffddb27ad7174d24f573e2683870cd [36/283] mm: fix MAX_FOLIO_ORDER on powerpc configs with hugetlb
+config: powerpc-randconfig-002-20251114 (https://download.01.org/0day-ci/archive/20251114/202511141140.LrrRrtIv-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511141140.LrrRrtIv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511140903.9SwzxDDp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511141140.LrrRrtIv-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpib/eastwood/fluke_gpib.c: In function 'fluke_attach_impl':
->> drivers/gpib/eastwood/fluke_gpib.c:1002:23: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
-     nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
-                          ^~~~~~~
-                          iounmap
->> drivers/gpib/eastwood/fluke_gpib.c:1002:21: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
-                        ^
-   drivers/gpib/eastwood/fluke_gpib.c:1036:33: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
-                                    ^
-   cc1: some warnings being treated as errors
+>> mm/hugetlb.c:4753:18: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 17179869184 to 0 [-Wconstant-conversion]
+    4753 |         WARN_ON(order > MAX_FOLIO_ORDER);
+         |                         ^~~~~~~~~~~~~~~
+   include/linux/mm.h:2095:36: note: expanded from macro 'MAX_FOLIO_ORDER'
+    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
+         |                                 ~~~~~~~~~ ^~~~~~
+   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
+      56 | #define SZ_16G                          _AC(0x400000000, ULL)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~~~~~~
+   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
+      20 | #define __AC(X,Y)       (X##Y)
+         |                          ^~~~
+   <scratch space>:85:1: note: expanded from here
+      85 | 0x400000000ULL
+         | ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   1 warning generated.
+--
+>> mm/page_alloc.c:6910:54: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 17179869184 to 0 [-Wconstant-conversion]
+    6910 |         if (WARN_ON_ONCE((gfp_mask & __GFP_COMP) && order > MAX_FOLIO_ORDER))
+         |                                                             ^~~~~~~~~~~~~~~
+   include/linux/mm.h:2095:36: note: expanded from macro 'MAX_FOLIO_ORDER'
+    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
+         |                                 ~~~~~~~~~ ^~~~~~
+   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
+      56 | #define SZ_16G                          _AC(0x400000000, ULL)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~~~~~~
+   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
+      20 | #define __AC(X,Y)       (X##Y)
+         |                          ^~~~
+   <scratch space>:106:1: note: expanded from here
+     106 | 0x400000000ULL
+         | ^~~~~~~~~~~~~~
+   include/asm-generic/bug.h:111:25: note: expanded from macro 'WARN_ON_ONCE'
+     111 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   1 warning generated.
+--
+>> mm/util.c:1263:16: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 17179869184 to 0 [-Wconstant-conversion]
+    1263 |         if (ps->idx < MAX_FOLIO_NR_PAGES) {
+         |                       ^~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:2104:36: note: expanded from macro 'MAX_FOLIO_NR_PAGES'
+    2104 | #define MAX_FOLIO_NR_PAGES      (1UL << MAX_FOLIO_ORDER)
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/mm.h:2095:36: note: expanded from macro 'MAX_FOLIO_ORDER'
+    2095 | #define MAX_FOLIO_ORDER         get_order(SZ_16G)
+         |                                 ~~~~~~~~~ ^~~~~~
+   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
+      56 | #define SZ_16G                          _AC(0x400000000, ULL)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~~~~~~
+   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
+      20 | #define __AC(X,Y)       (X##Y)
+         |                          ^~~~
+   <scratch space>:39:1: note: expanded from here
+      39 | 0x400000000ULL
+         | ^~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +1002 drivers/gpib/eastwood/fluke_gpib.c
+vim +4753 mm/hugetlb.c
 
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   962  
-4800ec89999049 drivers/staging/gpib/eastwood/fluke_gpib.c Michael Rubin 2025-04-08   963  static int fluke_attach_impl(struct gpib_board *board, const struct gpib_board_config *config,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   964  			     unsigned int handshake_mode)
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   965  {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   966  	struct fluke_priv *e_priv;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   967  	struct nec7210_priv *nec_priv;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   968  	int isr_flags = 0;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   969  	int retval;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   970  	int irq;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   971  	struct resource *res;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   972  	dma_cap_mask_t dma_cap;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   973  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   974  	if (!fluke_gpib_pdev) {
-f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14   975  		dev_err(board->gpib_dev, "No fluke device was found, attach failed.\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   976  		return -ENODEV;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   977  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   978  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   979  	retval = fluke_generic_attach(board);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   980  	if (retval)
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   981  		return retval;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   982  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   983  	e_priv = board->private_data;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   984  	nec_priv = &e_priv->nec7210_priv;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   985  	nec_priv->offset = fluke_reg_offset;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   986  	board->dev = &fluke_gpib_pdev->dev;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   987  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   988  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 0);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   989  	if (!res) {
-f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14   990  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   991  		return -ENODEV;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   992  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   993  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   994  	if (request_mem_region(res->start,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   995  			       resource_size(res),
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   996  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   997  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   998  		return -ENXIO;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   999  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1000  	e_priv->gpib_iomem_res = res;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1001  
-baf8855c916007 drivers/staging/gpib/eastwood/fluke_gpib.c Arnd Bergmann 2024-12-13 @1002  	nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1003  				     resource_size(e_priv->gpib_iomem_res));
-baf8855c916007 drivers/staging/gpib/eastwood/fluke_gpib.c Arnd Bergmann 2024-12-13  1004  	if (!nec_priv->mmiobase) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1005  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1006  		return -ENOMEM;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1007  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1008  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1009  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 1);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1010  	if (!res) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1011  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for gpib dma port\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1012  		return -ENODEV;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1013  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1014  	if (request_mem_region(res->start,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1015  			       resource_size(res),
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1016  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1017  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1018  		return -ENXIO;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1019  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1020  	e_priv->dma_port_res = res;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1021  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1022  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 2);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1023  	if (!res) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1024  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for write transfer counter\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1025  		return -ENODEV;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1026  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1027  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1028  	if (request_mem_region(res->start,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1029  			       resource_size(res),
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1030  			       fluke_gpib_pdev->name) == NULL) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1031  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1032  		return -ENXIO;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1033  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1034  	e_priv->write_transfer_counter_res = res;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1035  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1036  	e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1037  						 resource_size(e_priv->write_transfer_counter_res));
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1038  	if (!e_priv->write_transfer_counter) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1039  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1040  		return -ENOMEM;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1041  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1042  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1043  	irq = platform_get_irq(fluke_gpib_pdev, 0);
-51ab134daf5b9b drivers/staging/gpib/eastwood/fluke_gpib.c Chen Ni       2025-04-07  1044  	if (irq < 0)
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1045  		return -EBUSY;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1046  	retval = request_irq(irq, fluke_gpib_interrupt, isr_flags, fluke_gpib_pdev->name, board);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1047  	if (retval) {
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1048  		dev_err(&fluke_gpib_pdev->dev,
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1049  			"cannot register interrupt handler err=%d\n",
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1050  			retval);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1051  		return retval;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1052  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1053  	e_priv->irq = irq;
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1054  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1055  	dma_cap_zero(dma_cap);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1056  	dma_cap_set(DMA_SLAVE, dma_cap);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1057  	e_priv->dma_channel = dma_request_channel(dma_cap, gpib_dma_channel_filter, NULL);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1058  	if (!e_priv->dma_channel) {
-f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14  1059  		dev_err(board->gpib_dev, "failed to allocate a dma channel.\n");
-073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1060  		/*
-073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1061  		 * we don't error out here because unaccel interface will still
-073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1062  		 * work without dma
-073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1063  		 */
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1064  	}
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1065  
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1066  	return fluke_init(e_priv, board, handshake_mode);
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1067  }
-55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1068  
+9fee021d15ddd8 Vaishali Thakkar     2016-05-19  4742  
+d00181b96eb86c Kirill A. Shutemov   2015-11-06  4743  void __init hugetlb_add_hstate(unsigned int order)
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4744  {
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4745  	struct hstate *h;
+8faa8b077b2cdc Andi Kleen           2008-07-23  4746  	unsigned long i;
+8faa8b077b2cdc Andi Kleen           2008-07-23  4747  
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4748  	if (size_to_hstate(PAGE_SIZE << order)) {
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4749  		return;
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4750  	}
+47d38344abd0c7 Aneesh Kumar K.V     2012-07-31  4751  	BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
+59838b2566f6d0 Frank van der Linden 2023-10-04  4752  	BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
+7b4f21f5e0386d David Hildenbrand    2025-09-01 @4753  	WARN_ON(order > MAX_FOLIO_ORDER);
+47d38344abd0c7 Aneesh Kumar K.V     2012-07-31  4754  	h = &hstates[hugetlb_max_hstate++];
+667574e873b5f7 Miaohe Lin           2024-07-12  4755  	__mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4756  	h->order = order;
+aca78307bfdaf3 Miaohe Lin           2021-02-24  4757  	h->mask = ~(huge_page_size(h) - 1);
+8faa8b077b2cdc Andi Kleen           2008-07-23  4758  	for (i = 0; i < MAX_NUMNODES; ++i)
+8faa8b077b2cdc Andi Kleen           2008-07-23  4759  		INIT_LIST_HEAD(&h->hugepage_freelists[i]);
+0edaecfab218d7 Aneesh Kumar K.V     2012-07-31  4760  	INIT_LIST_HEAD(&h->hugepage_activelist);
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4761  	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
+c2c3a60a857bfe Miaohe Lin           2022-09-01  4762  					huge_page_size(h)/SZ_1K);
+8faa8b077b2cdc Andi Kleen           2008-07-23  4763  
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4764  	parsed_hstate = h;
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4765  }
+a3437870160cf2 Nishanth Aravamudan  2008-07-23  4766  
+
+:::::: The code at line 4753 was first introduced by commit
+:::::: 7b4f21f5e0386dfe02c68c009294d8f26e3c1bad mm/hugetlb: check for unreasonable folio sizes when registering hstate
+
+:::::: TO: David Hildenbrand <david@redhat.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
