@@ -1,147 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09532F49F7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 06:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AE32F39CB;
+	Fri, 14 Nov 2025 06:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763102823; cv=none; b=QBybtY95zTdJdvto0NYEY0izN5Lzb2PVGRmoynXkJMRUXXmtxOBCqCiUSFSKuB+VPnHJn5fZISDSS/ARJpv/3GPtd4tnQBKh23D3ZESXQZu1KXk42SJ2MJesDrk5XFwgk2Nos5+fJ4qlMKo4W8Kf7Gg5m7Skfsy1ozuT+ohZKOA=
+	t=1763102824; cv=none; b=d4C0kcvidmLyA4uxNWOS90XL0Y9+WoYyIXQ44t/KlXhpIv9olys2zOXB0X3Upno+EYLtSlZJ9eyVN8tkMRHF+AD0E5jqrNfatmisHi9B0cG/yQzuX6nfF70cQ9ec2XIi7KkeKy26DMG/5FUWnasFW1/Ma0MGFZmZOe7jFALTMKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763102823; c=relaxed/simple;
-	bh=xAsK9ZjcUkGbdxhIeeQHzo6Is7AYo+pWouV43RfXFgw=;
+	s=arc-20240116; t=1763102824; c=relaxed/simple;
+	bh=nhNsDUBajFij1ewJsdsI7rLGlim1SzcIBjZT/q+THTM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fu8FqxMM8CzVwaLZDK+CjWC94XYpoStdOUZ0GhbcrquSekSIkyuI4E1h/r/ZDo8bnpEWnS3R0n2MBirnz1hjcm9UfHec6qu+u2rptyuIhBWBQgFp1RAusYocvJZI/YJUJhW38mfe/kPzeKBYfOck6bibxqfOA317McyD8qaLzNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATzIzQc3; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gflMdWX/22Bl646HjPl84PEeQqdOthxSvD5SIhIgu4AswoubJsJT22dEg0kRvn+orRhWFP/EgTbGU+MywCGWyIvfNsWJwv4xFimFJcn21TmzPK0OTtq7/5lcrHHwwYqXwZsIvjTe3aS9A4kbDFqRPnH9aZODhplsbnBHPiYlXKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kottX5MT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATzIzQc3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kottX5MT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763102821; x=1794638821;
+  t=1763102822; x=1794638822;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xAsK9ZjcUkGbdxhIeeQHzo6Is7AYo+pWouV43RfXFgw=;
-  b=ATzIzQc3AQqUNPJVQ0+hmNpTZW9h1PUvqe7gdDB7jRaws8fo5LVy62Yx
-   2ebfQobRfOn9uaBOfPap0ZG0bM5Zc2rKb1ZtFLqoMFt6SMYrKwd9wZxyy
-   ofgmPti+ELIZ+pURNmPhTB9IX6IilDo7u6G9JXb2X1Y4fGkhY2ku9XjV3
-   8UfSDTHcJCqTDPWFgwhsnJdR++5XJWFfq4AgLqL2ezS5ZmwgE4LtyZw9Y
-   m3J+k71zZVd2ihW+wXvppgB76Gy/kWsETZK2JGFnXohSkdhLXvPPAzXqR
-   ZA51pIvoJ4tBeIKvrkZzmHKJkR/7VwNzw71gwJyVdM7EkJuM7qDFHGvHF
-   g==;
-X-CSE-ConnectionGUID: S7gYwFoUR0aFZ7aQy2yy+A==
-X-CSE-MsgGUID: mOGsAQB0RC+3E16EoAkg5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65227549"
+   mime-version:in-reply-to;
+  bh=nhNsDUBajFij1ewJsdsI7rLGlim1SzcIBjZT/q+THTM=;
+  b=kottX5MTfAHLRhuk1tmk18cOof+oxsDIoJuYx0HbybkqQTjkbzT0jKZ8
+   T/Bk1WRL0cjoR0OQ20rrNdeKKEZBZlTknDbK1/FBDe0gpNli0yuCmegmK
+   wMeqJeWhCHBD/S8eb4ZYgC7uItowvPSEhBCl2O0a7utglyfBOQ/tF7113
+   xwDYH2svZeCPFgq6bZW6s5hEOPSF7TrdOGvjPXtNuZL/GK3j9wSeJYZVF
+   WueHmzkgJ7yudagmsEZ9VPVd94Py9gFhXg2P8u7Sqy+Vn6ynXPdO4RMEI
+   uvMc7ki9USAlnTpR4XnK5lAKO+BCIounCKuXRFp28uFKTMCUpHLVpqi6j
+   Q==;
+X-CSE-ConnectionGUID: 57Pacj7rSx6fa/qm5GT0tw==
+X-CSE-MsgGUID: Q/I1ZpfdQZqISau15G1uxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65227551"
 X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
-   d="scan'208";a="65227549"
+   d="scan'208";a="65227551"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:47:00 -0800
-X-CSE-ConnectionGUID: 2Evz/0gtTN2JHxx9p2aApA==
-X-CSE-MsgGUID: kpBniFlmRyGozVa20gp46g==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:47:01 -0800
+X-CSE-ConnectionGUID: UKKfYKbxQnaR7DbQ8q/Wkw==
+X-CSE-MsgGUID: FTefAIOcQQiZkxAkw52GMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
-   d="scan'208";a="193824046"
+   d="scan'208";a="193824048"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 13 Nov 2025 22:47:00 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vJnaD-0006F9-0f;
+	id 1vJnaD-0006F3-0H;
 	Fri, 14 Nov 2025 06:46:57 +0000
-Date: Fri, 14 Nov 2025 14:46:00 +0800
+Date: Fri, 14 Nov 2025 14:46:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 5/6] vduse: add vq group asid support
-Message-ID: <202511141031.9ZZcx4uZ-lkp@intel.com>
-References: <20251113115558.1277981-6-eperezma@redhat.com>
+To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, johan@kernel.org,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: Re: [PATCH V3 6/6] gpib: Destage gpib
+Message-ID: <202511141035.1unt5Lt7-lkp@intel.com>
+References: <20251113104543.5875-7-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251113115558.1277981-6-eperezma@redhat.com>
+In-Reply-To: <20251113104543.5875-7-dpenkler@gmail.com>
 
-Hi Eugenio,
+Hi Dave,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18-rc5 next-20251113]
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus linus/master v6.18-rc5 next-20251113]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugenio-P-rez/vduse-add-v1-API-definition/20251113-200303
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251113115558.1277981-6-eperezma%40redhat.com
-patch subject: [PATCH v9 5/6] vduse: add vq group asid support
-config: arc-randconfig-001-20251114 (https://download.01.org/0day-ci/archive/20251114/202511141031.9ZZcx4uZ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511141031.9ZZcx4uZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-Remove-gpib-build-from-staging/20251113-185632
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20251113104543.5875-7-dpenkler%40gmail.com
+patch subject: [PATCH V3 6/6] gpib: Destage gpib
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20251114/202511141035.1unt5Lt7-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511141035.1unt5Lt7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511141031.9ZZcx4uZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511141035.1unt5Lt7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_sync_single_for_device':
->> drivers/vdpa/vdpa_user/vduse_dev.c:910:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_sync_single_for_cpu':
-   drivers/vdpa/vdpa_user/vduse_dev.c:929:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_map_page':
-   drivers/vdpa/vdpa_user/vduse_dev.c:949:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_unmap_page':
-   drivers/vdpa/vdpa_user/vduse_dev.c:971:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_alloc_coherent':
-   drivers/vdpa/vdpa_user/vduse_dev.c:989:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_need_sync':
-   drivers/vdpa/vdpa_user/vduse_dev.c:1034:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
-   drivers/vdpa/vdpa_user/vduse_dev.c: In function 'vduse_dev_max_mapping_size':
-   drivers/vdpa/vdpa_user/vduse_dev.c:1061:20: warning: variable 'vdev' set but not used [-Wunused-but-set-variable]
-     struct vduse_dev *vdev;
-                       ^~~~
+>> drivers/gpib/common/iblib.c:165:12: warning: 'autospoll_thread' defined but not used [-Wunused-function]
+     165 | static int autospoll_thread(void *board_void)
+         |            ^~~~~~~~~~~~~~~~
 
 
-vim +/vdev +910 drivers/vdpa/vdpa_user/vduse_dev.c
+vim +/autospoll_thread +165 drivers/gpib/common/iblib.c
 
-c8a6153b6c59d9 Xie Yongji      2021-08-31  905  
-1c14b0e4ba9883 Jason Wang      2025-09-24  906  static void vduse_dev_sync_single_for_device(union virtio_map token,
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  907  					     dma_addr_t dma_addr, size_t size,
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  908  					     enum dma_data_direction dir)
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  909  {
-f98606c92d03d8 Eugenio Pérez   2025-11-13 @910  	struct vduse_dev *vdev;
-1e9ae6f6f2d50d Eugenio Pérez   2025-11-13  911  	struct vduse_as *as;
-f98606c92d03d8 Eugenio Pérez   2025-11-13  912  	struct vduse_iova_domain *domain;
-f98606c92d03d8 Eugenio Pérez   2025-11-13  913  
-f98606c92d03d8 Eugenio Pérez   2025-11-13  914  	if (!token.group)
-f98606c92d03d8 Eugenio Pérez   2025-11-13  915  		return;
-f98606c92d03d8 Eugenio Pérez   2025-11-13  916  
-f98606c92d03d8 Eugenio Pérez   2025-11-13  917  	vdev = token.group->dev;
-1e9ae6f6f2d50d Eugenio Pérez   2025-11-13  918  	rcu_read_lock();
-1e9ae6f6f2d50d Eugenio Pérez   2025-11-13  919  	as = rcu_dereference(token.group->as);
-1e9ae6f6f2d50d Eugenio Pérez   2025-11-13  920  	domain = as->domain;
-1e9ae6f6f2d50d Eugenio Pérez   2025-11-13  921  	rcu_read_unlock();
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  922  	vduse_domain_sync_single_for_device(domain, dma_addr, size, dir);
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  923  }
-d7b4e3287ca3a7 Maxime Coquelin 2024-02-19  924  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  164  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18 @165  static int autospoll_thread(void *board_void)
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  166  {
+840459da1574db drivers/staging/gpib/common/iblib.c Michael Rubin 2025-03-19  167  	struct gpib_board *board = board_void;
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  168  	int retval = 0;
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  169  
+a836d4ec8f83bb drivers/staging/gpib/common/iblib.c Dave Penkler  2024-11-04  170  	dev_dbg(board->gpib_dev, "entering autospoll thread\n");
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  171  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  172  	while (1) {
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  173  		wait_event_interruptible(board->wait,
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  174  					 kthread_should_stop() ||
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  175  					 autospoll_wait_should_wake_up(board));
+a836d4ec8f83bb drivers/staging/gpib/common/iblib.c Dave Penkler  2024-11-04  176  		dev_dbg(board->gpib_dev, "autospoll wait satisfied\n");
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  177  		if (kthread_should_stop())
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  178  			break;
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  179  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  180  		mutex_lock(&board->big_gpib_mutex);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  181  		/* make sure we are still good after we have lock */
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  182  		if (board->autospollers <= 0 || board->master == 0) {
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  183  			mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  184  			continue;
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  185  		}
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  186  		mutex_unlock(&board->big_gpib_mutex);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  187  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  188  		if (try_module_get(board->provider_module)) {
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  189  			retval = autopoll_all_devices(board);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  190  			module_put(board->provider_module);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  191  		} else {
+141765729ea7c8 drivers/staging/gpib/common/iblib.c Dave Penkler  2025-02-14  192  			dev_err(board->gpib_dev, "try_module_get() failed!\n");
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  193  		}
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  194  		if (retval <= 0) {
+141765729ea7c8 drivers/staging/gpib/common/iblib.c Dave Penkler  2025-02-14  195  			dev_err(board->gpib_dev, "stuck SRQ\n");
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  196  
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  197  			atomic_set(&board->stuck_srq, 1);	// XXX could be better
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  198  			set_bit(SRQI_NUM, &board->status);
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  199  		}
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  200  	}
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  201  	return retval;
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  202  }
+9dde4559e93955 drivers/staging/gpib/common/iblib.c Dave Penkler  2024-09-18  203  
 
 -- 
 0-DAY CI Kernel Test Service
