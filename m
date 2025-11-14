@@ -1,150 +1,214 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACBE2C11EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 04:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06602F3C30
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Nov 2025 06:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763095094; cv=none; b=Ty1eFEEO65A8MAerXO8IYtXSCMwEaagmXCLuikSGMHo4+r6VJJNjl/Z0Q9VozJx2YMvMAdf1nzi9jbBWqUWPl6yGvV9nxojkZuFM80pvebNdQfSNCMaOBnEOYnZVSdYu3Qx2+Hy9MyBiC+2L+jL8iltZRwjDsL0fdeYGEBDB1+w=
+	t=1763102822; cv=none; b=VSl9oFUP8C1iQsCMNH1/VA2cX4FK6Hr8TIKRk7OUeLrJ1J6IfytWughSlJjUgWyevducyfuLFN46AjR5r99GRvdSsTyDwf4iag96RJOFblgMzyh3skkjWv/+pIY7JDaAJRz2+sFnEfLp0Dgu6gvmxYC4Z6r63OmR9VJ93R5TLfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763095094; c=relaxed/simple;
-	bh=5on/wD4VanNwCM6L1DtiKjfJ2j+2aMTXS3iCpSJgpXo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HHTMyeR/ItkSE/Fn6UGJU4qiLshzn0ChpO5B7UsiVAAmE2nixCPW3XoB0B8dmA+LzGda9EER9nQOFjVq6gwbd0mfWfT2qpRb8oNdyyx2UuI4H5rGatabCKIcHVGgL11IKOcdtVe/HcF7soy70RNujcOqP3dWM1dQAvrbYPqTLrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jSXeW1/y; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763102822; c=relaxed/simple;
+	bh=3qh3oxsdu7hOpXKor939TGqvawVlWjjgtXczWTu6Fr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eUnCRLR5Dtg9eQDk6dFlH6a5j3eIA/rGHtTZHTQx84Ovix3REL4C3xreMAahln6dmXg+97gxsUzrtUhivJb83Vz/Q2TJq4a8R8ntPsReHXltCc7LF2ruJusyG8YPiGjaj8DCUa00uVDyUI49++9ZnI5SrDS3eMlRs6RPHTCBAyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJ9mXebm; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jSXeW1/y"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-640bd9039fbso2791834a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Nov 2025 20:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763095090; x=1763699890; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=75LsZlrkz19mYBMXdx3jHbjL15XI4sQkrG/ZqqsZljk=;
-        b=jSXeW1/yG27Anc5y9be+wTQr5H5zHtxcOrFEBitZuohUGj7O447vhPnskRC391b3z5
-         0EUUCgqabOdoY2/cuqKDrlWTanH6hW76f7DjXz5IWWp8CzgrPyAPFYbUCV56PBv1ezM4
-         jcmFy3IW+bHqDP86pVGnIWvq5zVtbioeGR7u23BQlBAPyVeqIcYcA4mTA3j1S81Up1r2
-         A+5LVBaj5zPgSs025+xpEEA+k8Ach3kmVMCeZ+PDXS3eXhxTnGgnI8HEZTfcjADz4vHC
-         2VMqzgOewMHfVcS1Cu/G9kO6nKt+DZU0LHFmilko1HA0sjE08dVGsy8DOBfeUWHhZLXv
-         x6+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763095090; x=1763699890;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=75LsZlrkz19mYBMXdx3jHbjL15XI4sQkrG/ZqqsZljk=;
-        b=L1T7oqU4d57BA2nTkFTArMht6AhIzlJ6GMfr6SKJcH5W6tuZ7P486uhlyZV+CixLfA
-         3MaBLZG0mQxXUUx02vW2vIld8wJCGBGi3eKygKfqf3s0OMrELC12YLy4rrpF6esmTfu8
-         wfLx7NHQY96GfgjT3vYlgjEkB3myrvOUJEmHstIdTV+c/gnGB671OaNbyGRdHLgVOdFj
-         mIqjZ8Uyj7MYzVQJ+mHIPPqcwqeMe3XVh3/LtJuXx9/X8lscPKETemrlU203CsQOR7k+
-         mH9l5DKICZRExTzUASVOJaSO1iDWrxVgJuF2DmkGPOVTJU0MRKF3nNWWZbLhBjoOb6AL
-         GV4w==
-X-Gm-Message-State: AOJu0Yyo+NoixaFYybJ4zkLPoERP6d/Ax9ZIcIzCkHToHz/oZk1Zxld3
-	7gpUGR+X29sAd5PcEtmRfW6xWxFg5guFjvurfyOqxrpiZCahQDfzyG8kibvmFBwL9Q8YLkjTHgz
-	TAVE4L/3YLAZs0z2ZK/jtSgCUZLdEOxJuo9Oz0na4mQ==
-X-Gm-Gg: ASbGnct4rbemcVjrPdqduX1OuN75Hkku1Pc7gpKziqaJghD2EDARLMN7v45jgYIdCUj
-	pX1kzDB17ocaKwjbWqxT6XwzQwaAKKVUQ4wwDUm5Mp8uJDpIS7crLkV0Hc6tZ0mw4NauCfctOkz
-	E7C6eqju6uE/KVuHoyIGTz+DBdyFHQBySq19yoNlxBL+JCzHsilJt50J0fx92JHIORzQ7TZKgqW
-	kOJ8/2BFr/ysZZ/4yfaJzShvkqCBuA05bNOdLGjuf0N2AfhQGL5yKbKcJqxcGOp8BTD
-X-Google-Smtp-Source: AGHT+IH5rJ8YaoOZJ/bljbGnJEtpsMqaJ/zjTHTHaUgm7y1k6s4PlCcpG4rSsf9/sg1rVEhMd6xOPfkaRP0BAtS2RLE=
-X-Received: by 2002:a05:6402:2115:b0:640:ef03:82c9 with SMTP id
- 4fb4d7f45d1cf-64350e1fa2cmr1323111a12.11.1763095089974; Thu, 13 Nov 2025
- 20:38:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJ9mXebm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763102820; x=1794638820;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3qh3oxsdu7hOpXKor939TGqvawVlWjjgtXczWTu6Fr8=;
+  b=iJ9mXebm7b275cibZewk+bcOZxszqSMory01ksUy/PrrJzGexmodt5Kq
+   Aa+EsIKScRoyHS/oJfZGiVtq11LeSIjp7ued1b3eajogklKv55LtzsXhr
+   CcY0GIT4YBFYwn0ELfkXjqfHgZ8F+bb5wDiNiYWBeqOgjmo+hchDaqEow
+   D5I0LCp6r7yZi0ECOT1Axv7BwdmvLBtTZpi/3WkYanqH7NA2jE1nGc9Ih
+   2JTCyTcdCC4Fp2Mm2+ULAsHHtaDcj78RWxb2QU24xZcqM30W+EH3sKlQz
+   lCKpC99p4x6Nprodkr6U1gX0ocj2B1u3++Oxb8lFQ9fxWNxqCKJfyO88E
+   A==;
+X-CSE-ConnectionGUID: kqh77l2HTcOQDtBFqbs5Rw==
+X-CSE-MsgGUID: VN1ED1tlRv2PWd0Gt8zCEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65227548"
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="65227548"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 22:47:00 -0800
+X-CSE-ConnectionGUID: iavhMOSiQpmNlQvV4LvuSA==
+X-CSE-MsgGUID: /dTJoD51RzWhUctoUCkhzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="193824045"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 13 Nov 2025 22:47:00 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vJnaD-0006FD-0n;
+	Fri, 14 Nov 2025 06:46:57 +0000
+Date: Fri, 14 Nov 2025 14:46:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-numa-sched-domain-ANBZ26672 3/3]
+ drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:487:13: warning: variable
+ 'test_mask' set but not used
+Message-ID: <202511141131.bXKpT9fi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511140809.4JN2GCxV-lkp@intel.com>
-In-Reply-To: <202511140809.4JN2GCxV-lkp@intel.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 13 Nov 2025 23:37:32 -0500
-X-Gm-Features: AWmQ_bmvVrEBXZ1NreajG0yZ7MNUMcDUJEYu2_AG45IpCCW1b9-zmyc88OFNQWY
-Message-ID: <CA+CK2bBR5qqRMNKVYezCn3RsHx4=YLGsPaCb5DhveEQi3k6N+Q@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 84/106] kernel/liveupdate/luo_session.c:101:3:
- sparse: sparse: symbol 'luo_session_global' was not declared. Should it be static?
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Nov 13, 2025 at 7:29=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-no=
-nmm-unstable
-> head:   c3e0350a1f9934c5e56d859a26bf37a15ab7bb25
-> commit: 877409d046405d44ba7e15e19345239c1affa4a5 [84/106] liveupdate: luo=
-_session: add sessions support
-> config: x86_64-randconfig-123-20251114 (https://download.01.org/0day-ci/a=
-rchive/20251114/202511140809.4JN2GCxV-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251114/202511140809.4JN2GCxV-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511140809.4JN2GCxV-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/liveupdate/luo_session.c:101:3: sparse: sparse: symbol 'luo_ses=
-sion_global' was not declared. Should it be static?
->
-> vim +/luo_session_global +101 kernel/liveupdate/luo_session.c
->
->     89
->     90  /**
->     91   * struct luo_session_global - Global container for managing LUO =
-sessions.
->     92   * @incoming:     The sessions passed from the previous kernel.
->     93   * @outgoing:     The sessions that are going to be passed to the=
- next kernel.
->     94   * @deserialized: The sessions have been deserialized once /dev/l=
-iveupdate
->     95   *                has been opened.
->     96   */
->     97  struct luo_session_global {
->     98          struct luo_session_head incoming;
->     99          struct luo_session_head outgoing;
->    100          bool deserialized;
->  > 101  } luo_session_global;
->    102
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-numa-sched-domain-ANBZ26672
+head:   bf45c63d740e8e294a0a11035769798525015c5c
+commit: 64dd2b7dd0383bf467423b91b0ed9d651a0977b1 [3/3] anolis: pinctrl: Zhaoxin: Add KH-50000 support
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251114/202511141131.bXKpT9fi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251114/202511141131.bXKpT9fi-lkp@intel.com/reproduce)
 
-Thank you, the fix is:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511141131.bXKpT9fi-lkp@intel.com/
 
-From 3c561cef2649c368b8aeb8e6e16fd096fd8634a7 Mon Sep 17 00:00:00 2001
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 13 Nov 2025 23:29:18 -0500
-Subject: [PATCH] Fixup: liveupdate: luo_session: add sessions support
+All warnings (new ones prefixed by >>):
 
----
- kernel/liveupdate/luo_session.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_set_gpio_mode_and_pull':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:123:13: warning: variable 'value_back' set but not used [-Wunused-but-set-variable]
+     123 |         u16 value_back = 0;
+         |             ^~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_get':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:249:13: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
+     249 |         int pin;
+         |             ^~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_set':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:270:13: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
+     270 |         int pin;
+         |             ^~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_ack':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:330:13: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
+     330 |         int base_offset = 0;
+         |             ^~~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_mask_unmask':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:363:13: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
+     363 |         int base_offset = 0;
+         |             ^~~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_type':
+>> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:487:13: warning: variable 'test_mask' set but not used [-Wunused-but-set-variable]
+     487 |         u16 test_mask;
+         |             ^~~~~~~~~
 
-diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_sessio=
-n.c
-index ec526de83987..e1a45af892eb 100644
---- a/kernel/liveupdate/luo_session.c
-+++ b/kernel/liveupdate/luo_session.c
-@@ -98,7 +98,9 @@ struct luo_session_global {
-  struct luo_session_head incoming;
-  struct luo_session_head outgoing;
-  bool deserialized;
--} luo_session_global;
-+};
-+
-+static struct luo_session_global luo_session_global;
 
- static struct luo_session *luo_session_alloc(const char *name)
- {
---=20
-2.52.0.rc1.455.g30608eb744-goog
+vim +/test_mask +487 drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c
+
+   471	
+   472	static int zhaoxin_gpio_irq_type(struct irq_data *d, unsigned int type)
+   473	{
+   474		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+   475		struct zhaoxin_pinctrl *pctrl = gpiochip_get_data(gc);
+   476		unsigned int gpio = irqd_to_hwirq(d);
+   477		const struct index_cal_array *trigger_cal;
+   478		unsigned int pin;
+   479		unsigned long flags;
+   480		u8 index;
+   481		int position, point;
+   482		u16 value;
+   483		bool isup = true;
+   484		bool high_bit = false;
+   485		u16 mask = 0;
+   486		int bits_num = 0;
+ > 487		u16 test_mask;
+   488	
+   489		trigger_cal = pctrl->pin_topologys->trigger_cal;
+   490		pin = zhaoxin_gpio_to_pin(pctrl, irqd_to_hwirq(d), NULL, NULL);
+   491		if (type & IRQ_TYPE_EDGE_FALLING)
+   492			isup = true;
+   493		else if (type & IRQ_TYPE_EDGE_RISING)
+   494			isup = true;
+   495		else if (type & IRQ_TYPE_LEVEL_LOW)
+   496			isup = true;
+   497		else if (type & IRQ_TYPE_LEVEL_HIGH)
+   498			isup = false;
+   499	
+   500		zhaoxin_gpio_set_gpio_mode_and_pull(pctrl, pin, isup);
+   501	
+   502		for (position = 0; position < trigger_cal->size; position++)
+   503			if (trigger_cal->cal_array[position] == gpio)
+   504				break;
+   505		mask = trigger_cal->mask;
+   506		bits_num = trigger_cal->bits_num;
+   507		index = trigger_cal->index + ALIGN(position + 1, 4) / 4 - 1;
+   508		point = position % 4;
+   509		if (point > 1)
+   510			high_bit = true;
+   511	
+   512		raw_spin_lock_irqsave(&pctrl->lock, flags);
+   513	
+   514		value = zx_pad_read16(pctrl, index);
+   515	
+   516		if ((type & IRQ_TYPE_EDGE_BOTH) == IRQ_TYPE_EDGE_BOTH) {
+   517			if (high_bit) {
+   518				point = point - 2;
+   519				position = 8;
+   520			} else
+   521				position = 0;
+   522			test_mask = (~(mask << (point * bits_num + position)));
+   523			value &= (~(mask << (point * bits_num + position)));
+   524			value |= TRIGGER_BOTH_EDGE << (point * bits_num + position);
+   525		} else if (type & IRQ_TYPE_EDGE_FALLING) {
+   526			if (high_bit) {
+   527				point = point - 2;
+   528				position = 8;
+   529			} else
+   530				position = 0;
+   531			test_mask = (~(mask << (point * bits_num + position)));
+   532			value &= (~(mask << (point * bits_num + position)));
+   533			value |= TRIGGER_FALL_EDGE << (point * bits_num + position);
+   534		} else if (type & IRQ_TYPE_EDGE_RISING) {
+   535			if (high_bit) {
+   536				point = point - 2;
+   537				position = 8;
+   538			} else
+   539				position = 0;
+   540			test_mask = (~(mask << (point * bits_num + position)));
+   541			value &= (~(mask << (point * bits_num + position)));
+   542			value |= TRIGGER_RISE_EDGE << (point * bits_num + position);
+   543		} else if (type & IRQ_TYPE_LEVEL_LOW) {
+   544			if (high_bit) {
+   545				point = point - 2;
+   546				position = 8;
+   547			} else
+   548				position = 0;
+   549			test_mask = (~(mask << (point * bits_num + position)));
+   550			value &= (~(mask << (point * bits_num + position)));
+   551			value |= TRIGGER_LOW_LEVEL << (point * bits_num + position);
+   552		} else if (type & IRQ_TYPE_LEVEL_HIGH) {
+   553			if (high_bit) {
+   554				point = point - 2;
+   555				position = 8;
+   556			} else
+   557				position = 0;
+   558			test_mask = (~(mask << (point * bits_num + position)));
+   559			value &= (~(mask << (point * bits_num + position)));
+   560			value |= TRIGGER_HIGH_LEVEL << (point * bits_num + position);
+   561		}
+   562	
+   563		zx_pad_write16(pctrl, index, value);
+   564	
+   565		if (type & IRQ_TYPE_EDGE_BOTH)
+   566			irq_set_handler_locked(d, handle_edge_irq);
+   567		else if (type & IRQ_TYPE_LEVEL_MASK)
+   568			irq_set_handler_locked(d, handle_level_irq);
+   569		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
+   570	
+   571		return 0;
+   572	}
+   573	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
