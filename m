@@ -1,213 +1,107 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010003.outbound.protection.outlook.com [52.101.61.3])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4D92116F6;
-	Sat, 15 Nov 2025 02:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763174247; cv=fail; b=u86WFgCW3zMR9YEObzGsj6ksESS2wb2iQkkUusKXZY7uov1x5FWFumOOlxdivK9pZkx/B0Sr1P+0rQOaDUYO+wZfZRbTBmzrFRf1wnWkXIo53acsHSJFlups1TyKDPBfGeJ0AAe5stXE/Ubt8dv/uV3BPRMbFkw0LOVobF131Ho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763174247; c=relaxed/simple;
-	bh=n+UDLJQ4dsWFMUJa2oojnlx0EwgE35DJcvJPFYa9njk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G5O+xpeyrCBsmkocNzC+62/7cRMhe4LK9GwoljPG4JDzioia3pLq/3xwkmwgT18GYblXdVlY3qH559swHdRPBACyIaO/wS8paw7/u2rI/6owpc1v+7xsnOXrTmTOhR/wQUTXXg34Rs9dgmIcB17FGJQ1xoAYwsr3ejdVUZcb5rc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GYVNgRk4; arc=fail smtp.client-ip=52.101.61.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059A321322F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 03:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763177898; cv=none; b=R4uFRMep7nr1rgNF7YgcIZBa4zvrl0oexez49lM+MSZfREG/qA4zgrcC845TffI2tSf8gQVwLbSDHeCzFrr8MX2kSpFlzERTJ5o/7SYmn3FygYHShTuleYUqQM/vhWH66CnjliLkJuJIIyk7y/bkPZQLNFjvxGbFnkqaTlV7oaY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763177898; c=relaxed/simple;
+	bh=D53rPtZZ2FPxgmUXdVyNZYbPI9YR1BagC18hr2AxP7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IiYDmcVX69arkkTGzh9m++SP+xpMWYYXnALsN2z9uftzHRa7YLlJ0FaAeWFqcR68rgW15YXWiMESJV6ZaYnE2nGgB6omMMlbN+fMI4XZVcuQXsg1MaQBpmcdf8KEZP/ai5eUTldcyNH2i0YggBdMYinhOo359IyVOwmAvISrto8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvdzwlF9; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GYVNgRk4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jSF1BrgVuaogOTPNUwN0MaEs2/YgBYhIWxbqAmgcd0i5s5a+chc7TRzOFf6p57BRFsCa9aJ5VrHdYtxNNP66rgpt0j4gNzoTZD8+aixp0D6baPBS+GLKJN1WN1Fu/pHKc2YSXmq7300ulsQ6IBkBJu9Z+OYnYduJejX1K5TRRcInfpnqFEH5LpFhlxWCT98LStspyb4Q91Wt/9pV98wLNBFAXNVFRNeVSy8Si3ghccq3EhOk0wE7hq59OrzYqceB8xvpB7UjPK/sdxtLjl+Tlkw6GPn879xCPr+QTK0msitzXHWVx4I2C+R8RoMCMcGVYu60mHUa6Pp9RPBFXj2sog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hjbOGOnaYFQpFrbIJzE8hDn3dyPnxqq+kUK+7o9PM9E=;
- b=FZEBthvfI8cDfpIbjndh/TAvt6Wce2hq3n1dzuMq9EpKnqoFB8LlyM+KAX2DR1C7LU1MBHdNJTLhoxD1PMrUTega8g8GOah4RmMn5CrxMNwAEiRCL4dP6/Pz+vR4FcMsOa6pWFq2e3XLuHhK1yswpz/LOz9pQTntg16tkphr1ORzA3IFD69mJW4QRnatCAARBTVhc/J8+ur1FoqZPjGuXhInxbGjWv4SPQQ+yO527O+YFBSXiZD5cwAl6cKpElW9PvhOelOxjHlEm5SlXCTOCd/i9X+qQqcCHGDcdJMVmH+AaXa31TCtQLwuBklHcFQ26zpacDdY7VC9wc33Rz5bFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjbOGOnaYFQpFrbIJzE8hDn3dyPnxqq+kUK+7o9PM9E=;
- b=GYVNgRk4EdNroBG5a++YKkNBrByvbCh68DMJ+1JKmd9LRrj/leg9GMO24reoCiJ4xpd1xHWvTSyY1nNyvgV6UJ/CiW/ILFJqqubbU+V5OdKVS4zHzYUbghXoAZ7Eh0exC2sUnD1uuMCO9mfvtBtD1zKebThNUY6KV1L9qFt/u8XkGMBZ/5WjgigNDGkqr09hkYAR9nps9rVqnT8zHjgOeEVU8KNbrO6cFgWRgoDUeqbrDDMCAB0n/DMMbETsQw7P0gUG0oxAswtpHg75ajRNO3GI5tYEjrC6TUTcK1OqxMhdAbCWMrxmcBus1pcK7S4sZ07FtEZSMTI2y4YugFFPkw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN5PR12MB9464.namprd12.prod.outlook.com (2603:10b6:408:2ab::10)
- by PH7PR12MB5656.namprd12.prod.outlook.com (2603:10b6:510:13b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Sat, 15 Nov
- 2025 02:36:09 +0000
-Received: from BN5PR12MB9464.namprd12.prod.outlook.com
- ([fe80::e83f:10b6:1259:d000]) by BN5PR12MB9464.namprd12.prod.outlook.com
- ([fe80::e83f:10b6:1259:d000%5]) with mapi id 15.20.9320.018; Sat, 15 Nov 2025
- 02:36:09 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?utf-8?q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-Date: Fri, 14 Nov 2025 21:36:07 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <60B3DC06-7135-4410-BBDD-9D7B914598CE@nvidia.com>
-In-Reply-To: <c1d57140-fc6f-460a-b017-6662778aeaf7@nvidia.com>
-References: <20251114012228.2634882-1-balbirs@nvidia.com>
- <202511151007.F1gixfc8-lkp@intel.com>
- <c1d57140-fc6f-460a-b017-6662778aeaf7@nvidia.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BL1PR13CA0003.namprd13.prod.outlook.com
- (2603:10b6:208:256::8) To BN5PR12MB9464.namprd12.prod.outlook.com
- (2603:10b6:408:2ab::10)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvdzwlF9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763177897; x=1794713897;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D53rPtZZ2FPxgmUXdVyNZYbPI9YR1BagC18hr2AxP7k=;
+  b=TvdzwlF9OuyixplCi0aIjXPvkcQk4LPk2fxY1nUhHiR6Q+JD/pyI7/Y/
+   DAuJWnoIloQ8ZLWs8Z1f7kD9vYsxRHE670SonjIz3r6Pl2ZddG2PKnIf+
+   scEC0qLlRqkTHTdi/cCn+ECnrZJBQrmexCqn3qUSHvfANPszwom+m+L/9
+   G+NwEtrqPJOEOdnZ1PyL9uLb3PU8lf3JWJYJiOPKHirOwN/7taWbqdXQc
+   KNDv9FFIT4KtxuDIkzJtOcyLYQds3nNMsm1CJq6iz9OC3AizVafVV7NNT
+   nKO72Ex8Uc/oHxWeOFvTMMfMCZ3/gui5vMZWpyrj5RQa3n2F1zU0+nsUc
+   g==;
+X-CSE-ConnectionGUID: Q4gpKGkeRJWHyBF75Ae9BQ==
+X-CSE-MsgGUID: Lf+uNZQWTgKQ2DbLXs2b0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65427400"
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
+   d="scan'208";a="65427400"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 19:38:16 -0800
+X-CSE-ConnectionGUID: qP+2f093R7eucdXAt9T/zQ==
+X-CSE-MsgGUID: hvYhct01SDmTwfzNASmM0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
+   d="scan'208";a="194073469"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Nov 2025 19:38:15 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vK776-0007hL-0e;
+	Sat, 15 Nov 2025 03:38:12 +0000
+Date: Sat, 15 Nov 2025 11:37:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prajna Rajendra Kumar <prajna.rajendrakumar@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:v3_20251107_prajna_rajendrakumar_add_support_for_microchip_corespi_controller
+ 1/3] drivers/spi/spi-mpfs.c:620:10: error: 'struct platform_driver' has no
+ member named 'remove_new'; did you mean 'remove'?
+Message-ID: <202511151147.b6CksogV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN5PR12MB9464:EE_|PH7PR12MB5656:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77563d6a-eed6-45b1-67f6-08de23efbc1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0uUwIuP2MEMJN/kUiGLpHXbfr23pBGEcnw6AYCMdVAEhjCFePUMg3y1TXpYC?=
- =?us-ascii?Q?okU3do/pb6JTG3n5gMCqBMs1CR1iXaXzOamlYAem7UDG/q/ay7AcanbcdXXQ?=
- =?us-ascii?Q?gmcB8y9xBHELILO6fwVy8gbKVTG3RWSYJbQjzK96TMDvJGbCQDTK536GthMe?=
- =?us-ascii?Q?CTx2MBv2kUrOZDNTYg6k+LV1J+pVLFYiL3x3m4iFgAEC7Th7UldapfJidabg?=
- =?us-ascii?Q?RubCCEz5OXPbEvNsh27Z7uU1zKHnhLyi4R/k4lIJttdtRzT5yv0DbkGxwnMd?=
- =?us-ascii?Q?enCrHfppTVIJ2jbSjsy4FyTO8EDj/SWl+k6sLjdQrO7znCmUsfYI+en6yWPH?=
- =?us-ascii?Q?eR1fuYzwOkRE7Lvg/7FVR4mIu4K4EkwUYLqfdtiQm0fA/QxShzOAf2E9Vpd/?=
- =?us-ascii?Q?Z/ZKt8yqSYLEpDjf+2OL3Q8vVtr+EAfURVB4275AqmnB1IriWT2H92LPPbIS?=
- =?us-ascii?Q?HhllljvzrGpOvaFIUncfC6Qbj48U8S6T4nyHUDS1FFVHHAJylnhBy6BDFm1l?=
- =?us-ascii?Q?4IfLzUsv3wRjwb+98jLzANy3vLSCB+KnxIbTI9OAIp2FIxO8fcDQd4U+mcAi?=
- =?us-ascii?Q?NoUsJJ9ucxuIs32RLtt4PyL8j2iJd6jJ2ZSQdJnBWFpJJ7LvtUV0FZHwEB4L?=
- =?us-ascii?Q?+nSNTR8+dclhYgO/wjQHtviuigTEluxrwSwF+6HHw8ZU33Ugje+ApMASIowV?=
- =?us-ascii?Q?h/eaARa85OcyzWHxVWNnBLTieRQ6QvXp0KDcGWWv0JKKkVuK4ptDi082T+Yu?=
- =?us-ascii?Q?u4zhvtj5a4YZs6jpEAFN66tNeWQWmpJvJulM4BLwnWgLZ6lSbURmANth0XXm?=
- =?us-ascii?Q?3d2PonrKGvSNRh/CrchzsZDJrF3ioT7HHZTz2Kr2w32dOTZo+Vsb3qlJPnqM?=
- =?us-ascii?Q?P1lochycpJ6+lfhAYow8qV57PLjQjis3YLqeT96gHqv8VA6uw3GXsG84kaSA?=
- =?us-ascii?Q?ZgPRwCNY+SuaW5jiLfZl28/1ELJfrNU47jmND2Hat/RpB63swNTzcBqOML7V?=
- =?us-ascii?Q?sTunFvGC7orI/30iWbyZ7EhKScTlI6LWVxMWzVfC6jQ9UFsVqW1wzoJJi9VI?=
- =?us-ascii?Q?8vFYNPNGYvllDY9mEvQosdU61YCFs7clJ8b1Oec3GTgo+7iigMvOyig7EIP9?=
- =?us-ascii?Q?hgx1wJwX4n33rFBJ/KdxQSmmjdeAHnomE1puWtGo13SIvi8DfarZ8ktYjNRO?=
- =?us-ascii?Q?slVHw+223bgfaD9ceG+/rsxkj2pVkJe1o7Tx5YGZgRgfLJ+hWTcB4Y20LVc4?=
- =?us-ascii?Q?DIxhI8LaywBYHA0QpCGQF5HWB2KHaXLevw7A2kUo3DrTHKWeU4SjA7lZzgaU?=
- =?us-ascii?Q?oMxi3Urrv4TYD+DJsV7TI+y6qoNlLxNHwSN9xtZrwilqAhmWjPhJMB23ev7N?=
- =?us-ascii?Q?2eERBByi7qStpm2xbTJR0SP3IxAatXZGrXODfZ4T2ohEWIQp//NlAV5jzTD/?=
- =?us-ascii?Q?sZfV3Up/hroCYt20rLt8DyhErwtZTjtqrw9N20BzWtNj2A5+37wCAg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN5PR12MB9464.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4usgqySU4PlJ/BrSKPFp54Ia+sLtgGBV0N80kgBbbZdsKOh+Bl4vp514R5uK?=
- =?us-ascii?Q?YsY/YMsLXB789ZOXCEB5C/KKEhg1ntiFD8jaKD4n/5oHuiT41GYj9Vr5Ztoq?=
- =?us-ascii?Q?z3rQHCtj/JIN++PeVeYQ1vr8iXSYt+JmRavJMb0bZFwccGyufjMzcAkYJcFG?=
- =?us-ascii?Q?qHzNbuVEfbpEOPWaRnnHokOuSRDhQRwhX0Pw3blEq3TGlsFD5mQsbJr3aLs3?=
- =?us-ascii?Q?D6TXtK2Z4Al68zaPwaI2jMoTqTlLzfKndePH+Cr89YlfwM66blfeQ1MXXvvC?=
- =?us-ascii?Q?ut4NVtCx40XuV8YuaDNoqZW3FaBO0RMgIntiBEwkaDK1U9Y/kv/1IzYT/1zE?=
- =?us-ascii?Q?OIAxZv2tpJqdMajg8IOdDepGdLeQIHolydvLNlmgwueR7ktBh4JInjPLAfqc?=
- =?us-ascii?Q?olpXzL5PlpmV8pntn6jfY1UKUs4OaEP9h1CWVxNrHIFnfLcpME2LOrKn0Sun?=
- =?us-ascii?Q?NtKX06fUWEGpfZaSmlRknA7mH+PvpVMvM0QlyJaTE6qDn36kTfraAQmfWLDV?=
- =?us-ascii?Q?iBazzVt6jBPamNnsaH6xE/1edM6CFtQGpgPnHavvP2kZj3zh6m48JaCiGqeM?=
- =?us-ascii?Q?Cpw0FrcohILgvEw+7hPixC/dRASg+i8W+i9hjejk28Ekdrf2UNw4wqyIgEHN?=
- =?us-ascii?Q?3sp1o+5Y+9SZjPeqZVlFACjiZipHTIySuoKxN4JFMPGbf7BW87c2dHcqnKdZ?=
- =?us-ascii?Q?ETGvYf4IM6NY0SpcbTH2FZnKD0btWamG1a+kJI9o6jX7MXa+LNGFHHpUhQNQ?=
- =?us-ascii?Q?AZoTKF2i1BJyiSDa3eNfUQpYu+0t+QaUqHrZ9x3BInPoOKdgPgEU2LtqtgUX?=
- =?us-ascii?Q?PT1i6mfcViZEm7bGRIZLjkPxLtGP8I907+ijImBvVmplOvP5dxk0S1QntiOu?=
- =?us-ascii?Q?7kRJze+zJ0MfJAOCiZph0aVPehipJZP4r29ZfUJrCoaGBAczgkgj0wZlWudt?=
- =?us-ascii?Q?q4BHR5SmDxzwesFEWNgTg+/i8rFiVYQCW6JH5vTOuKYGzfgm0n48Gj5TLvty?=
- =?us-ascii?Q?U65w0MexZc0rbPZ5bGHkCiE6LdV0o5VnLIYGGWqzuZVbGpSxqEWrM7vypbwM?=
- =?us-ascii?Q?ZPFqPkgwbJz4dE+72pmbejGiElMKlDXOzHffqJaS4Jtiucq5b4fjD1Ca21No?=
- =?us-ascii?Q?dcHFl3G1LMOw5bbw7+clq6wZMylfBO0qCreHhtFJXhWYtvmL9QDrQY84iKwq?=
- =?us-ascii?Q?iszlo2GwYuRo4VlHJKYrCbYfloAeIX5FLgHpn83I6zYd7v9xPjGxAh+I2fy1?=
- =?us-ascii?Q?TUW/zRYBewOQsbTUiYhZ4XEqrcXZ3GHAltRAf4FuG5KJH33y60BQMBE2Ws26?=
- =?us-ascii?Q?YZo6/7efMaJ5ldzE/kIcmQ9PfC9prJETZtQ6yO1uR/ozhnxpYXedv60PL0lt?=
- =?us-ascii?Q?bK4OjUJ0MCOIt5chCQs6GxjFpwryXyqqYq5LNlMEzTTO9QAK/vLv0K7eW6SR?=
- =?us-ascii?Q?zckTzbk7AyhMkn7fYOKyexbK6WR8VUQSu16+82Ve05GB2K/f63o7RqyJjsIy?=
- =?us-ascii?Q?vrS3bICQl4EFUQsg3RjUqpJaZHSqB0pKbHfMcc+tP0fChkYmiNoOeL5FtQ9a?=
- =?us-ascii?Q?Lf11OWFBQ+kDZfMHtSynje3ayo9L3wUTa9A+YSbO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77563d6a-eed6-45b1-67f6-08de23efbc1a
-X-MS-Exchange-CrossTenant-AuthSource: BN5PR12MB9464.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 02:36:09.4315
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ugtx59sw/tVzXsuHN3J1+Zx/83ljpWTqhhytvRUscY/NvdpiaBX9VRowXsLSRE+i
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5656
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 14 Nov 2025, at 21:33, Balbir Singh wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_20251107_prajna_rajendrakumar_add_support_for_microchip_corespi_controller
+head:   ea5be8ec5875769c21296de0acadc15966efff65
+commit: c96250b80edc6a7838029f4c5b404abc1566d088 [1/3] spi: microchip: rename driver file and internal identifiers
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20251115/202511151147.b6CksogV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151147.b6CksogV-lkp@intel.com/reproduce)
 
-> On 11/15/25 13:15, kernel test robot wrote:
->> Hi Balbir,
->>
->> kernel test robot noticed the following build warnings:
->>
->> [auto build test WARNING on akpm-mm/mm-everything]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm=
--huge_memory-c-introduce-folio_split_unmapped/20251114-093541
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm=
--everything
->> patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balb=
-irs%40nvidia.com
->> patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmappe=
-d
->> config: arm64-randconfig-002-20251115 (https://download.01.org/0day-ci=
-/archive/20251115/202511151007.F1gixfc8-lkp@intel.com/config)
->> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3=
-b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
->> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
-chive/20251115/202511151007.F1gixfc8-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202511151007.F1gixfc8-=
-lkp@intel.com/
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> mm/huge_memory.c:3751:6: warning: variable 'nr_shmem_dropped' set bu=
-t not used [-Wunused-but-set-variable]
->>     3751 |         int nr_shmem_dropped =3D 0;
->>          |             ^
->>    1 warning generated.
->>
->>
->> vim +/nr_shmem_dropped +3751 mm/huge_memory.c
->>
->
-> [...]
->
-> Thanks for the report, I'll send an updated version after I investigate=
- it
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511151147.b6CksogV-lkp@intel.com/
 
-nr_shmem_dropped is updated in __folio_freeze_and_split_unmapped() but
-is used in its caller. It needs to be passed into __folio_freeze_and_spli=
-t_unmapped().
+All errors (new ones prefixed by >>):
 
---
-Best Regards,
-Yan, Zi
+>> drivers/spi/spi-mpfs.c:620:10: error: 'struct platform_driver' has no member named 'remove_new'; did you mean 'remove'?
+     620 |         .remove_new = mpfs_spi_remove,
+         |          ^~~~~~~~~~
+         |          remove
+>> drivers/spi/spi-mpfs.c:620:23: error: initialization of 'const struct platform_device_id *' from incompatible pointer type 'void (*)(struct platform_device *)' [-Wincompatible-pointer-types]
+     620 |         .remove_new = mpfs_spi_remove,
+         |                       ^~~~~~~~~~~~~~~
+   drivers/spi/spi-mpfs.c:620:23: note: (near initialization for 'mpfs_spi_driver.id_table')
+   drivers/spi/spi-mpfs.c:590:13: note: 'mpfs_spi_remove' declared here
+     590 | static void mpfs_spi_remove(struct platform_device *pdev)
+         |             ^~~~~~~~~~~~~~~
+
+
+vim +620 drivers/spi/spi-mpfs.c
+
+   612	
+   613	static struct platform_driver mpfs_spi_driver = {
+   614		.probe = mpfs_spi_probe,
+   615		.driver = {
+   616			.name = "microchip-spi",
+   617			.pm = MICROCHIP_SPI_PM_OPS,
+   618			.of_match_table = of_match_ptr(mpfs_spi_dt_ids),
+   619		},
+ > 620		.remove_new = mpfs_spi_remove,
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
