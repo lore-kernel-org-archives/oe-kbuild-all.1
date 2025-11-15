@@ -1,179 +1,139 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AA8244186
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 23:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6FC1DB54C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 23:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763248821; cv=none; b=m5YUXR5nupQEPnZmTV82oqHvQDCff1JW8MkjW7jos8qruiUb6Gv8LzBbAJqUuRh2eNy5zRsU+ugh2KgqsSOAbN+Md/INUP5Cjeybpa5+gkASwqchgtA+y2ot7FQg0rMQsvazuSrzaz5Haii51eJVY/rQfHcWY1AKakfxZ6pC8w8=
+	t=1763250850; cv=none; b=LXFhB1U16LbXxD7hacBxIFMb37Gr6nntghjVzB7DpHKbSZXMT1NdXV7BsDCXwYYBWEIdVY1zSHY/Ct9xIPK4rwRRIl4jH3daoWVgC8NgmnS19ajQsWHaRhgHT9q/MC5EZbci/aw8QtXNUOHiizaEDqoqKBWyqeL+nh53IDRTAHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763248821; c=relaxed/simple;
-	bh=pum41SKQLkewMZV7DS9PT0wZ+5r+WBa5VedGl9TB3KI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i0fWa56gHgScWQMEgrqLKwT7HHryhN9XwId3WSscMxYCsnhk4zvDYWflJn67JEYhru4gB+yExrn7ciFFlmXPV2LqkgtEvl2KQPwD2EJoy+jlTmndVBNvUeaKhKSE7xNw8Fq37y6FVv3i8HK6GXRsprxjWnpB+jOhKwBRnZJGId4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=R6t8Xwr1; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763250850; c=relaxed/simple;
+	bh=D8WoOI+gppvZIMnVLNAEUdHzU6Alj036nY1pL0ZtroU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lCd4hm5VFz3ndk2g426mqgBwRVlDkHnnFEvWbGPNEEzTBf8A025/cD6zqqVxf5/M0Blb8gLIfjGX6ulHc/5BlSP2tlgET6TifFPe0n2XP/9dY9Bh008eViyYUBW3t/04Va0ZlooRCXmU0NtKX/jiczQ9jmB89WR4cUpXDZ5l5aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TwQ6nvw2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="R6t8Xwr1"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-640c6577120so5490710a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 15:20:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763248818; x=1763853618; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1nG48T3PKR9DL3eRjQ/rPhDhCItZZXCtoC3T/QZzPjg=;
-        b=R6t8Xwr1xn2l0sa4QqbOUWYcgXIkAQqaCcI1iaZu79mbdYMMvcluV4+GiGsYaXKzCU
-         LRqIc+jkX3+NbiuxtKNKuy8GBq3M28trl6ZuE4Ne5uUUgGSzNizXUjz3E7c99cgWIrNR
-         9UdTcnNDPk10ASdf4/00XstkTQI8R9F48Yrgl5F3zhF7jWb7TVhjrsXxGnQxfrQnJQJs
-         UjjVxcTo0motmo5dGpQqH213B2b1Zodb2CcWCILaVFzy0xAO6mbJZ+fd0EVY50W9Qet0
-         0miLLztJAf2UD2fRboJOGKy/Z7HE2yfG0s36Dmmg8hT18/FJ0XU+uNchvss8pqG0i9ex
-         oTbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763248818; x=1763853618;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1nG48T3PKR9DL3eRjQ/rPhDhCItZZXCtoC3T/QZzPjg=;
-        b=in5XKOa6hyJp1oSFxwnX3bN2bXewW2oMg+wBGx9RzjnOFIMdeJ/ZeA4Yw6H0IfpF8E
-         s899vYz6pcvklsHOnnfc9CYUvzmZ1L2REccxhNB0eolt9VVuXa9q9PTK8Ik2+1ibygZu
-         vrVJSmYNvzTmXkqnFZeeZoiVjyxUZ3qJ9aewKc2NNsGaXIgNAYiBFLxnm9UBIjYysjFw
-         JjwW3PtxIJms+u1GYh+sdjWsQk7L8bUGixz8fM5oQllsxfOjQK5l08vd2WfPiXEZmMaK
-         b1tFx0Wt9+XFuY0Ag3XuZABH952jAcr3vuMzHRw11DY7MClMNqE95Ryink1W+kjt27r3
-         RIVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrgdP05O2fCOxmmiX/goG1xCj3xgnXh2v4sD4tAxglCSKkhZTNu0dYaRbYMve4pzHF+kClMz/3T1g6iGgl@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQsY1vNx9YZdGBusxd/SD5OXvjxB90C2GmgQcEZ1luP9qFObLW
-	kcJ9bh/TGkOIT/Bw9ESJPHj4XtREJF5wrX/crlIU+7ceWwui+B4QjqzmNgOUWhXtYSE5duG1DB/
-	2ahLr57d+aA1nb3DvabNcTz+SCdmqJ1jnEa6m34Ul4g==
-X-Gm-Gg: ASbGnctGB4NC73aZxDft82TYlr18YNJOUTwzEVlTdcgTwd4pfxaRpvRVMeIyzVpPhvL
-	X0XTs8Awv1Ub03yEfxuFr9UIT8VA4nQspBj5DgcWybhpmjxJO/v3Y2nlfXMaZ7KsCEa4r8gBubH
-	zLJ6VpQNW+FXyc+30T/zLdfK9Jsm7KZhLwIEs9hneMh6PWnx1vyIxHCc86l1dmFsyudftJkIWdL
-	MqnttSo6fmDfas/p/+VMrTaVoyO77Q/v4OXp5rll+HJADLvoxeRReokRVLCKvcAbzYZ
-X-Google-Smtp-Source: AGHT+IGTBT8Fzma+3yYPpDFd+DD3iOx1Wb7+8bSARIoAOt6jXrmqBo207u3iTo22/gyCM7A/fxHKf2NFI2kGEtC+N6w=
-X-Received: by 2002:a05:6402:144d:b0:63c:533f:4b25 with SMTP id
- 4fb4d7f45d1cf-64350e2091cmr7747458a12.15.1763248817815; Sat, 15 Nov 2025
- 15:20:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TwQ6nvw2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763250849; x=1794786849;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D8WoOI+gppvZIMnVLNAEUdHzU6Alj036nY1pL0ZtroU=;
+  b=TwQ6nvw23pIMr9C7YvuBUTaP6HQpmZyBtEWq2kk0FclMC12ZRNni5VB7
+   MxDr+cqEJ7/4nXzN54keMDMbVdN2MViZgbOF6u7Y+sTJdTXU0owtcLqO8
+   XIa8wdMHnprpHsT5EdkF/GEjE8PrCJ1slwitQ0bZU/XCnZnFraBtvayz7
+   vWHmvDCkJjx9fBEUXSMFYcuGYD+m4BWRD9DEUskW4WIMxONIrQuJrJnOv
+   0puQbenM+J56Z8TDUuGu/oRWoaxAyYdcxJ3Z7U8MtEUUsF353ue4963sW
+   ydg0Kn4r3hL/OejZYvZKX68/VSgKWNkfic0/K9POP7FiNz2OMCNqLeJgx
+   A==;
+X-CSE-ConnectionGUID: cdGC7Mc5R7Kndkomm9AkDQ==
+X-CSE-MsgGUID: CbVIAPsFTB6Mt1E+RYs/FQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="76404765"
+X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
+   d="scan'208";a="76404765"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 15:54:08 -0800
+X-CSE-ConnectionGUID: r+ho4jq0R3K+dftKK4xIcA==
+X-CSE-MsgGUID: G1FD0U3pRbm7BmaR+zfg5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
+   d="scan'208";a="195067611"
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Nov 2025 15:54:06 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vKQ5j-0008Lj-1n;
+	Sat, 15 Nov 2025 23:54:03 +0000
+Date: Sun, 16 Nov 2025 07:53:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: quic_utiwari@quicinc.com, herbert@gondor.apana.org.au,
+	thara.gopinath@gmail.com, davem@davemloft.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_neersoni@quicinc.com
+Subject: Re: [PATCH v3] crypto: qce - Add runtime PM and interconnect
+ bandwidth scaling support
+Message-ID: <202511160711.Q6ytYvlG-lkp@intel.com>
+References: <20251115084851.2750446-1-quic_utiwari@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511160314.OK0OGRXl-lkp@intel.com>
-In-Reply-To: <202511160314.OK0OGRXl-lkp@intel.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 15 Nov 2025 18:19:41 -0500
-X-Gm-Features: AWmQ_bkBBHTdU9EPBD3bJZ0OQv8SlD-WQo6FALKyAXAkJ9Vd56KVKAMzZ43naZo
-Message-ID: <CA+CK2bBgXDhrHwTVgxrw7YTQ-0=LgW0t66CwPCgG=C85ftz4zw@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 82/133] include/linux/kexec_handover.h:108:7:
- warning: no previous prototype for function 'kho_alloc_preserve'
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Pratyush Yadav <pratyush@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251115084851.2750446-1-quic_utiwari@quicinc.com>
 
-On Sat, Nov 15, 2025 at 2:06=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-no=
-nmm-unstable
-> head:   4fc88c237bfe11bde443e104428aac56e63a997f
-> commit: 88316955b5b1b4cb0cb2fad416f7e8dde9b246a0 [82/133] kho: introduce =
-high-level memory allocation API
-> config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251116=
-/202511160314.OK0OGRXl-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0=
-bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251116/202511160314.OK0OGRXl-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511160314.OK0OGRXl-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from mm/mm_init.c:33:
-> >> include/linux/kexec_handover.h:108:7: warning: no previous prototype f=
-or function 'kho_alloc_preserve' [-Wmissing-prototypes]
->      108 | void *kho_alloc_preserve(size_t size)
->          |       ^
->    include/linux/kexec_handover.h:108:1: note: declare 'static' if the fu=
-nction is not intended to be used outside of this translation unit
->      108 | void *kho_alloc_preserve(size_t size)
->          | ^
->          | static
-> >> include/linux/kexec_handover.h:113:6: warning: no previous prototype f=
-or function 'kho_unpreserve_free' [-Wmissing-prototypes]
->      113 | void kho_unpreserve_free(void *mem) { }
->          |      ^
->    include/linux/kexec_handover.h:113:1: note: declare 'static' if the fu=
-nction is not intended to be used outside of this translation unit
->      113 | void kho_unpreserve_free(void *mem) { }
->          | ^
->          | static
-> >> include/linux/kexec_handover.h:114:6: warning: no previous prototype f=
-or function 'kho_restore_free' [-Wmissing-prototypes]
->      114 | void kho_restore_free(void *mem) { }
->          |      ^
->    include/linux/kexec_handover.h:114:1: note: declare 'static' if the fu=
-nction is not intended to be used outside of this translation unit
->      114 | void kho_restore_free(void *mem) { }
->          | ^
->          | static
->    3 warnings generated.
->
->
-> vim +/kho_alloc_preserve +108 include/linux/kexec_handover.h
->
->    107
->  > 108  void *kho_alloc_preserve(size_t size)
->    109  {
->    110          return ERR_PTR(-EOPNOTSUPP);
->    111  }
->    112
->  > 113  void kho_unpreserve_free(void *mem) { }
->  > 114  void kho_restore_free(void *mem) { }
->    115
->
+Hi,
 
-Sorry, missed "static inline"
+kernel test robot noticed the following build warnings:
 
-For, this another warnings:
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.18-rc5 next-20251114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.=
-h
-index 38a9487a1a00..dde952227b88 100644
---- a/include/linux/kexec_handover.h
-+++ b/include/linux/kexec_handover.h
-@@ -105,13 +105,13 @@ static inline int kho_unpreserve_vmalloc(struct
-kho_vmalloc *preservation)
-        return -EOPNOTSUPP;
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/quic_utiwari-quicinc-com/crypto-qce-Add-runtime-PM-and-interconnect-bandwidth-scaling-support/20251115-165032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20251115084851.2750446-1-quic_utiwari%40quicinc.com
+patch subject: [PATCH v3] crypto: qce - Add runtime PM and interconnect bandwidth scaling support
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20251116/202511160711.Q6ytYvlG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511160711.Q6ytYvlG-lkp@intel.com/reproduce)
 
--void *kho_alloc_preserve(size_t size)
-+static inline void *kho_alloc_preserve(size_t size)
- {
-        return ERR_PTR(-EOPNOTSUPP);
- }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511160711.Q6ytYvlG-lkp@intel.com/
 
--void kho_unpreserve_free(void *mem) { }
--void kho_restore_free(void *mem) { }
-+static inline void kho_unpreserve_free(void *mem) { }
-+static inline void kho_restore_free(void *mem) { }
+All warnings (new ones prefixed by >>):
 
- static inline struct folio *kho_restore_folio(phys_addr_t phys)
- {
+>> drivers/crypto/qce/core.c:295:12: warning: 'qce_runtime_resume' defined but not used [-Wunused-function]
+     295 | static int qce_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/crypto/qce/core.c:286:12: warning: 'qce_runtime_suspend' defined but not used [-Wunused-function]
+     286 | static int qce_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~
 
 
+vim +/qce_runtime_resume +295 drivers/crypto/qce/core.c
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   285	
+ > 286	static int qce_runtime_suspend(struct device *dev)
+   287	{
+   288		struct qce_device *qce = dev_get_drvdata(dev);
+   289	
+   290		icc_disable(qce->mem_path);
+   291	
+   292		return 0;
+   293	}
+   294	
+ > 295	static int qce_runtime_resume(struct device *dev)
+   296	{
+   297		struct qce_device *qce = dev_get_drvdata(dev);
+   298		int ret = 0;
+   299	
+   300		ret = icc_enable(qce->mem_path);
+   301		if (ret)
+   302			return ret;
+   303	
+   304		ret = icc_set_bw(qce->mem_path, QCE_DEFAULT_MEM_BANDWIDTH, QCE_DEFAULT_MEM_BANDWIDTH);
+   305		if (ret)
+   306			goto err_icc;
+   307	
+   308		return 0;
+   309	
+   310	err_icc:
+   311		icc_disable(qce->mem_path);
+   312		return ret;
+   313	}
+   314	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
