@@ -1,141 +1,221 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90034414
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 01:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763169845; cv=none; b=JkQPQ2oTvohDU8S6xiLI0YWEZNgAwhcV10nLKVHkNhQ7Enc4Gf6SRCH9hqaTCT5ywWpYx8flX6r7/uE+c6tZXdwgSgHYjxbxbuhCMF5pD6R/Vkl8FFdMom0P1a283GAdq+upvG9RBi32ILvKEEfH5du1/oHmJ0ojvZ3PhnohNuI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763169845; c=relaxed/simple;
-	bh=omtdT/qcogvxU/JhFpFk8/40cFSqPFCgKFnv01FUmmQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZhGmgkryXEHE4IJLH/kJdlO1vb5Fbhddz/wfapG88j30ZgtQyf+roigAgXpkmmO/vN0hrFEF38fGIQOeaaPjyqc77dmBMiKxs8qI4yzclnk7rk9cWL0VQnmGVIY3lTYWgdaqimrG4+IpUVj95hWVIjxhXLYomLeoQ933osqVbQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cGx39Ry8; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8BD2B9BA;
+	Sat, 15 Nov 2025 01:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763170466; cv=fail; b=CmjYDtWGDR3REAJrK+4U8s8CQAkT93wT+r3+K9igH4rt4iO/2DrYJOiIpD0YfcgwUQssu77XHO0+QP++wMcWvP73Ew0Q7csWIGHx/NldlwFrz8BYpx4OLpcNwEz+7/09mS7hiBcSiNap7/g0MLeZGCRw0r730jBQmO+N+CDVyEM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763170466; c=relaxed/simple;
+	bh=YO9ZCgjsrypdahDuwGuLXVcKcMiAPsg1vk2tvhvy+OM=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=n9boAFpoanT2MDq0oUweSdiKmphnEUfXalIMIbz2o04pTBkds0/WycW8MZxPC2APgXkISejmZh3rwo/0GC31pxck5CJFBsPfd214iP5Z9Q99pW5siofXiRxdMVfnnyfrmPK96GyYXmW7lrr0q/5q9t8Ok1ObQZ7oOKGlgLtSK/c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4EYuRqK; arc=fail smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGx39Ry8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4EYuRqK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763169843; x=1794705843;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=omtdT/qcogvxU/JhFpFk8/40cFSqPFCgKFnv01FUmmQ=;
-  b=cGx39Ry8NKyVoVxZYI2vRuFs84dHg+WiDjGz8RMUb/enusL58kVX50RY
-   xivi2sRFhVyi1RDPSoKDvkPx/OySC6b7jZFwpiYAXq3eoVhl1ESRUtKRX
-   G6XXhdrE4iyOBlSO0lqJHdGUcc+EGxHR2cJb/b87b39y9DlZXIIftEphs
-   J4dS2Mn9vgoiw1iv/UgS8ulsSGfA9Jm8qW6QkPqhzS2GdSp5QnUWMWL2v
-   0G1ci3cr82POUW/2B1C+nY7zgdIr78XpCiVjJFL+Feb340yvwmNskEGIo
-   njxXLkFO1EDCp8MWbx1HyMvldBninmPPGD3WIoqdPVlSUxBea0Mxt8N3x
-   A==;
-X-CSE-ConnectionGUID: usgopIjnRuO0ZyVhcOPTxQ==
-X-CSE-MsgGUID: O7lXOD4VTfuhIE0rccO3bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="75947590"
+  t=1763170464; x=1794706464;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=YO9ZCgjsrypdahDuwGuLXVcKcMiAPsg1vk2tvhvy+OM=;
+  b=O4EYuRqKoXn4gIeVPWxRqduZLYXwAZMpADwfrO+M/FEG5/itqMR3qmSr
+   5P0Q97DuMdueTWpDFAoAVYRdOaMNL0Xiv3ocqNeNkOgeJbY/SbGbIL7A3
+   /GuOhu+mFG1lN/+u3a7X7Hlo2h6Yh2aZbXVHt0Grl4ja5KY/EBlidg6L/
+   E1QSNX5vpaiFx8TITK6do4YzR31UBxuWVb8dz3t3GYOZbpSMA7DNEJEBr
+   LTe10JZbcZUASl+pvJqPGAexhACCZBKJ5MjW9eFA9h1cUyuoC+ZwI0p5I
+   gH+bhEciPNn9erdOEqvJjyaLrDer5nGNLGHyHfxq4+QdUrSHIflfLvIZJ
+   w==;
+X-CSE-ConnectionGUID: zI35+qYyRHKZvuiHb2MoKw==
+X-CSE-MsgGUID: xeKFt1CzRY6HN3Ww+vNqEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="75587745"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="75947590"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 17:24:02 -0800
-X-CSE-ConnectionGUID: A2yjUbOySvWhrPakZCPT7A==
-X-CSE-MsgGUID: 9S9cPstuR42sOEMu4s/mYw==
+   d="scan'208";a="75587745"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 17:34:24 -0800
+X-CSE-ConnectionGUID: Ok6YqD++Sfy7UJWzssUpsA==
+X-CSE-MsgGUID: gp9dRT9CQQiihvbpWe0+XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="190101738"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Nov 2025 17:24:00 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vK51B-0007b9-2D;
-	Sat, 15 Nov 2025 01:23:57 +0000
-Date: Sat, 15 Nov 2025 09:23:10 +0800
+   d="scan'208";a="194018297"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 17:34:24 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 14 Nov 2025 17:34:23 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 14 Nov 2025 17:34:23 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.44) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 14 Nov 2025 17:34:23 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZvRa0K1j4YHa7NapIMND3rs44Ia/hpkJMQ+kH4xOweXXC5GF2jyQNqGZn+e3ToDe8DEWezTWiUw9bqb9uPpzQGL0Uid3nSnrvc+HYOSJ+D+er1OgmaTuI1IvFXt+pXjplEbgKuVxTCXQDK5vroT1yCByr0sMJ7COmSVjcYeEwspk39p3YFwYxdFiB28+5bXh33lvFxoswKYs7jvUBICv0yGjiVTVIZj3BocZ6BxyZ7+QpIrBqQU5TdUmq0OZ91QCco4S3oECJD1XwaY9/5YSs+pZlHE3widUoOFG2safx7FHYqiIH7ZrgAuoCHZUPXNzHjAioJ3i+ys/zABRgyS3PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h1LKGK07nxSONYx52Iloyn7XHS4B71FzsTWfCXbqQz4=;
+ b=BeLllbnmbYskHkWXxZft4ZwRrQux5X0iAkX5OHLoa8N0LgrbiP5IvF+ZIfnccE3PjIruNkhfjONAobGwQB02RPodfoL2/w+Io6S72Rn9p4vtoKHOtDyLl70vFAA5HbhU/9qQzqp+CCFL7wiV8BRFvSfjpFdNh6cnyfxFVL9AF8bqLsS3dCFh/f2H7+qm2SYL90lrNcivoqem4XaDHOxSx1CS4W6mUVZSrxi+8/8DslCA5jjlx4YGhRaKeMSY12BplYk2bK7bBz5I8b7bdFks0Cjk00zwbr5hV3L1DxPbNvTRqcFaYqoWyamc/PkA/CmI6lCYhylmLN823zRmETuKFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB4172.namprd11.prod.outlook.com (2603:10b6:5:19f::15)
+ by DS0PR11MB7311.namprd11.prod.outlook.com (2603:10b6:8:11e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Sat, 15 Nov
+ 2025 01:34:19 +0000
+Received: from DM6PR11MB4172.namprd11.prod.outlook.com
+ ([fe80::f86d:a320:27b7:afcd]) by DM6PR11MB4172.namprd11.prod.outlook.com
+ ([fe80::f86d:a320:27b7:afcd%3]) with mapi id 15.20.9320.013; Sat, 15 Nov 2025
+ 01:34:19 +0000
+Date: Sat, 15 Nov 2025 09:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Chaitanya Kulkarni <kch@nvidia.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [brauner-github:vfs-6.19.iomap 39/44] fs/overlayfs/file.c:376:17:
- error: 'IOCB_DIO_CALLER_COMP' undeclared
-Message-ID: <202511150951.b1e7K2Po-lkp@intel.com>
+To: Alexandre Chartre <alexandre.chartre@oracle.com>,
+	<linux-kernel@vger.kernel.org>, <mingo@kernel.org>, <jpoimboe@kernel.org>,
+	<peterz@infradead.org>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<alexandre.chartre@oracle.com>
+Subject: Re: [PATCH v4 27/28] objtool: Improve the disassembly of the pv_ops
+ call
+Message-ID: <aRfYicXA4R3Gb04i@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251113164917.2563486-28-alexandre.chartre@oracle.com>
+X-ClientProxiedBy: SG2PR04CA0171.apcprd04.prod.outlook.com (2603:1096:4::33)
+ To DM6PR11MB4172.namprd11.prod.outlook.com (2603:10b6:5:19f::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4172:EE_|DS0PR11MB7311:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0856f23e-c526-4de9-f54e-08de23e717d9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zT3GMGpSHiCQu2/wbhJ5HD1RYlLxUcriBbv45nTfdQjbgUp2CKZcwZWCKxS/?=
+ =?us-ascii?Q?rEs4YWzjHh13/OanrEhcX/TLFvGzth6T1gwJREtWZ74OLzVG5uK7JdJtDeUW?=
+ =?us-ascii?Q?D9BkyEX7AQFkWxztitHxFXvARAOd6HNfnjCJijQrCCGcX99lBR0UMTewQc7M?=
+ =?us-ascii?Q?dwD0rItv/DiIhEV7Ec5Ol0LTZBXgeJLfZiRxYII5jK4U2hAofa7j1j6JKiSK?=
+ =?us-ascii?Q?SHbaQwcn6f4kZalIdQ90eOF/NG7TXb8+K+YF113PylQJ4JJkHRcommSTpU0Z?=
+ =?us-ascii?Q?Td2AUy9IXX4d1+Qp8HP/TdLvPtQq4HPNBQGwbwO3QBdFyl5wACDYqPtv8qoD?=
+ =?us-ascii?Q?s74zuPd0rcfxWOPxo7krrHSVjXQ1BH42eJF2fs/PT5MVDUzIn4lGgStkDb6n?=
+ =?us-ascii?Q?mGEAkqtvlHizQ0CzERZU4dDRsD+zXQqQ7gPf9m6XP12LyuGPrZIQ8pka8+L0?=
+ =?us-ascii?Q?qooh9PUJP2/OF6KNURYoFhwqZeGCqCJKkP13mGv+wq1shV3xoITS0/5mZvPn?=
+ =?us-ascii?Q?plJ32nkvfemwZIpeqCsBnJH/DcyAL+l6Q8aXkMk6rOlNKCsSJcAh4RNTx61z?=
+ =?us-ascii?Q?+VoSHRu2aZ3nsUk0SNraFaaq/j/LzaANwUFpCtIVc1z0S/2pKVkXfi6iiEBE?=
+ =?us-ascii?Q?Q552/vE6Q50ptCKv7L9rsWTr9Xa1W29oAOMz8Vdbnll7b/qNInBfBzH5iOmE?=
+ =?us-ascii?Q?42WuunDthHyYVp6gr/R+79t7w1GlKKyBEBQYHy1POTlLivEr72jDeQ3mq0k3?=
+ =?us-ascii?Q?amcz1X4cVcDZmxX76qp7SDgw4nvJJ3eiPlAJED9hWtQ/5BNV8f7pRWgWq8e0?=
+ =?us-ascii?Q?lbsZy1AeEHD7+WRbnWEqCCdYu1iDSjO2I1gOMJuZZP13XPslOQq8pvMUgwSy?=
+ =?us-ascii?Q?YmnX8E8tX6BYqUEFQ9z4NOeAq+BoJw/IhycX0dD2uX3gqJdwvtB/6/Sj4dyh?=
+ =?us-ascii?Q?ul40PJD7PmiSnzmfmZ8EB8mnobx9kufXQCjyem1T9yTUNPgrqho7l1Sq0G3p?=
+ =?us-ascii?Q?SGn7swFmz1A+vr9tdeLC72M4OSbKXehAAgMUX6M8uQR2NqTY9Ba+68lbpOU2?=
+ =?us-ascii?Q?CkrTDt6rkpQqjeqoAVCQUtXlW7bIjrkIsuVhirT2ewsW0ly1hKoxPZDQT0Lh?=
+ =?us-ascii?Q?vtE3SSNWTH+s+V/IYqG4BywcwJxv6UEhISN1o15lzFVQW5+9RS/1F0LkYdcf?=
+ =?us-ascii?Q?CVOy5LH17fuCElYQGNs+a4AWkvJaBSnCqv9LoAFc9noZZbNMEFnJb3CKdjH6?=
+ =?us-ascii?Q?OCLzBoWDkZjXW3VPdH6XwFiU773hlinmKMCP6ddZElM3vBF07NdhSzSGSIJe?=
+ =?us-ascii?Q?nQoIXoBAV8JoXTuggBRyH2cIChwTyGrQA++QDF70U5WS5vyXbfucxbBrxK/L?=
+ =?us-ascii?Q?XJGa1yL4RoFOFAimtUvqVyyM9gRRNj26YhcwG1+y/sHxRlr+WBgn2l3Gh8Wp?=
+ =?us-ascii?Q?aPITzdrcYS+l1/T68yTa6FMp2+Y5BPzRC23nTrpQlZ0+jVy6XbmFtg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4172.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3F3Yk1yeMt8BEwE5obRvJb4Hu8SyIo4pDOnOPwa/TMM4IjIvF4aSpLcbfH28?=
+ =?us-ascii?Q?nld0P8+sJ6Bekysss3zW9eBC7gLw+sI8hKkGg1S5fVGdBHZiWNAoZHfYS+LS?=
+ =?us-ascii?Q?NXr0KD1QxdKnYZlgUwI+qowtjQN5kEYmNUwncpJwNXvtyt4FqImicB4g7UxO?=
+ =?us-ascii?Q?/eexwx/VW7ZjRKWB9uI438yP3ZMUE3XI1QLZsrRVhCYooENSb8qlnW1+BbIH?=
+ =?us-ascii?Q?i9eGqwyI0INIagt68uuJvgZy9yMm+BytyRgBLDUtxi7PkfpRwcBinnprnsV8?=
+ =?us-ascii?Q?jpAIAlEb/pfC01fXmfSnuNLvY/tugf6JPN0VsaoWDgy9upfBVAZZSb3o0ixe?=
+ =?us-ascii?Q?F8IqDTCJboVEuSryohrhdsQVSDiP8mAdGOGNe8f6cQ2KUGTRI0tBiLSkW17p?=
+ =?us-ascii?Q?hoV8StxWME5WgxDBckQmJdrzT6AZrt9Mku8aW4d7GoDzEV8Sc+dhYdE7dxUU?=
+ =?us-ascii?Q?uFt3xdKWDUXgyb4HjjIoQuTXsd2LtXQ9IniK4o5pFdSO/r8pe5sVDsjj+Hq1?=
+ =?us-ascii?Q?J8/ueYKjcS98rqWEi5IUIfLKB+esVf+MMobHNEjQQ6+L6pWUN0ZMfUBeHn0Q?=
+ =?us-ascii?Q?BcxqhH7USGKjKyDI4emRBCxO5Flq3/UmQNH3YsiAnzWWnMj8cpL4X9Hm3Hx+?=
+ =?us-ascii?Q?KL1mS8TfCR0/+cbuPkhYEOnILcAXSHS1/c0sLij8Frb1PBOa8Ua/3fKrMlKY?=
+ =?us-ascii?Q?6LdOHF9BQeH7N6UwddEEBbS2C5s/pZgK/OyEhGmWa4KAP5pwaIN2QQ+zsVrk?=
+ =?us-ascii?Q?qD5fbQOBRmHPtvVeoWJWOjG8krXQuxYSpuqpIgz6LU0Qu1gb/tJzmT2CWfMZ?=
+ =?us-ascii?Q?KCYXQ6kcAkkw1cVCjg9ic6ewFUibEb5UwFUgTTcP2SMu1WgCBkflV536e59F?=
+ =?us-ascii?Q?IDUE/whfVjVR/0SHyes4F8AfqZ1Vvwr2OgPdltmK18WXY7tutO0W5H8mWND+?=
+ =?us-ascii?Q?tQ1sGerKb/aXBQsKE9ZQnq9sc182WVRxedbr1SIBJCIyNan2aDh5tSspuzC1?=
+ =?us-ascii?Q?e6hlnlpG3EBPlTCEi3xIPuzZaXg5/iQmOLeR4wsnclWD97how1og6PXPB/UW?=
+ =?us-ascii?Q?bEt3BUWftrmZc2sgEnkQuxOXmHF63SwV5geAfKbDtOj1HC4ccbOH8mT6Q4EX?=
+ =?us-ascii?Q?8izcvYyq2NojqDT4V6gWrK+lPy+UHlNPVy33KxLfsmUgD10OWi5hg4Qy/MXE?=
+ =?us-ascii?Q?/OXE31IXSKiVSV4bVHy2Vp0wwnZzQeSM/ddhuSdpbUZSAYdawfv8S5EWVDS5?=
+ =?us-ascii?Q?QjutL+jArto6feM6C0NoQ9jdEFzmwwnFYMbRhpP3ZwfQE+TqlgDrn+dNe6UW?=
+ =?us-ascii?Q?tDqq7n5saO6h6LuRBaxhuQRWiD4Gg3IntL6HIRlBfvaqdmtE7bWgckOmTooN?=
+ =?us-ascii?Q?xTOaMHfvoAqUNs5vnI/jqY/8lUZrnXCx8dNvr5R764siNhUI8LYrzu+sMp+5?=
+ =?us-ascii?Q?CE2wxv7mcYrJnTzKvcHJhiRMwbvQ+Il5Jp/bs69Zp7lslOiZCuks3E5qqJe7?=
+ =?us-ascii?Q?rKYLU+HYKG/WpLLefvGJK06zkayMxVO3z0uoiLa4tLIlYH4pL5UycBzbXX/F?=
+ =?us-ascii?Q?wDDf5jH6To1DNqnwuxJOgH0/yjUDKtU3G48vLDBD0jPl1J3y15S58pyTNiG5?=
+ =?us-ascii?Q?kA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0856f23e-c526-4de9-f54e-08de23e717d9
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4172.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 01:34:19.2969
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3aEhfhr9g2V6wsrZTwTRW7ido8ZOBAOgq7H3fjTZetQyg12XBrawJgX4ZCtUFHYJAKOhtMmwKQFc48ht02ItFQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7311
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/brauner/linux.git vfs-6.19.iomap
-head:   d9b964dbfd3e15635eae30da757e91c70f9d4628
-commit: 56749ed317e256c6dc3ca83e246fc17479366f83 [39/44] fs, iomap: remove IOCB_DIO_CALLER_COMP
-config: arc-randconfig-002-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150951.b1e7K2Po-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150951.b1e7K2Po-lkp@intel.com/reproduce)
+Hi Alexandre,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc5]
+[cannot apply to next-20251114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Chartre/objtool-Move-disassembly-functions-to-a-separated-file/20251114-020940
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251113164917.2563486-28-alexandre.chartre%40oracle.com
+patch subject: [PATCH v4 27/28] objtool: Improve the disassembly of the pv_ops call
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: loongarch-randconfig-001-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150854.iDlHBWI5-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150854.iDlHBWI5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150951.b1e7K2Po-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511150854.iDlHBWI5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/overlayfs/file.c: In function 'ovl_write_iter':
->> fs/overlayfs/file.c:376:17: error: 'IOCB_DIO_CALLER_COMP' undeclared (first use in this function)
-     376 |         ifl &= ~IOCB_DIO_CALLER_COMP;
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/file.c:376:17: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/IOCB_DIO_CALLER_COMP +376 fs/overlayfs/file.c
-
-16914e6fc7e174 Miklos Szeredi    2018-07-18  344  
-2a92e07edc5ede Miklos Szeredi    2018-07-18  345  static ssize_t ovl_write_iter(struct kiocb *iocb, struct iov_iter *iter)
-2a92e07edc5ede Miklos Szeredi    2018-07-18  346  {
-2a92e07edc5ede Miklos Szeredi    2018-07-18  347  	struct file *file = iocb->ki_filp;
-2a92e07edc5ede Miklos Szeredi    2018-07-18  348  	struct inode *inode = file_inode(file);
-d66907b51ba074 Amir Goldstein    2024-11-05  349  	struct file *realfile;
-2a92e07edc5ede Miklos Szeredi    2018-07-18  350  	ssize_t ret;
-c86243b090bc25 Vivek Goyal       2020-08-31  351  	int ifl = iocb->ki_flags;
-a6293b3e285cd0 Amir Goldstein    2023-11-22  352  	struct backing_file_ctx ctx = {
-a6293b3e285cd0 Amir Goldstein    2023-11-22  353  		.cred = ovl_creds(inode->i_sb),
-f03b296e8b516d Amir Goldstein    2024-10-14  354  		.end_write = ovl_file_end_write,
-a6293b3e285cd0 Amir Goldstein    2023-11-22  355  	};
-2a92e07edc5ede Miklos Szeredi    2018-07-18  356  
-2a92e07edc5ede Miklos Szeredi    2018-07-18  357  	if (!iov_iter_count(iter))
-2a92e07edc5ede Miklos Szeredi    2018-07-18  358  		return 0;
-2a92e07edc5ede Miklos Szeredi    2018-07-18  359  
-2a92e07edc5ede Miklos Szeredi    2018-07-18  360  	inode_lock(inode);
-2a92e07edc5ede Miklos Szeredi    2018-07-18  361  	/* Update mode */
-2878dffc7db0b5 Christian Brauner 2022-04-04  362  	ovl_copyattr(inode);
-2a92e07edc5ede Miklos Szeredi    2018-07-18  363  
-d66907b51ba074 Amir Goldstein    2024-11-05  364  	realfile = ovl_real_file(file);
-d66907b51ba074 Amir Goldstein    2024-11-05  365  	ret = PTR_ERR(realfile);
-d66907b51ba074 Amir Goldstein    2024-11-05  366  	if (IS_ERR(realfile))
-2a92e07edc5ede Miklos Szeredi    2018-07-18  367  		goto out_unlock;
-2a92e07edc5ede Miklos Szeredi    2018-07-18  368  
-c86243b090bc25 Vivek Goyal       2020-08-31  369  	if (!ovl_should_sync(OVL_FS(inode->i_sb)))
-c86243b090bc25 Vivek Goyal       2020-08-31  370  		ifl &= ~(IOCB_DSYNC | IOCB_SYNC);
-c86243b090bc25 Vivek Goyal       2020-08-31  371  
-2d1b3bbc3dd56f Jens Axboe        2023-09-25  372  	/*
-2d1b3bbc3dd56f Jens Axboe        2023-09-25  373  	 * Overlayfs doesn't support deferred completions, don't copy
-2d1b3bbc3dd56f Jens Axboe        2023-09-25  374  	 * this property in case it is set by the issuer.
-2d1b3bbc3dd56f Jens Axboe        2023-09-25  375  	 */
-2d1b3bbc3dd56f Jens Axboe        2023-09-25 @376  	ifl &= ~IOCB_DIO_CALLER_COMP;
-d66907b51ba074 Amir Goldstein    2024-11-05  377  	ret = backing_file_write_iter(realfile, iter, iocb, ifl, &ctx);
-2a92e07edc5ede Miklos Szeredi    2018-07-18  378  
-2a92e07edc5ede Miklos Szeredi    2018-07-18  379  out_unlock:
-2a92e07edc5ede Miklos Szeredi    2018-07-18  380  	inode_unlock(inode);
-2a92e07edc5ede Miklos Szeredi    2018-07-18  381  
-2a92e07edc5ede Miklos Szeredi    2018-07-18  382  	return ret;
-2a92e07edc5ede Miklos Szeredi    2018-07-18  383  }
-2a92e07edc5ede Miklos Szeredi    2018-07-18  384  
-
-:::::: The code at line 376 was first introduced by commit
-:::::: 2d1b3bbc3dd56fc8364350eb93e5d67a05cb2c23 ovl: disable IOCB_DIO_CALLER_COMP
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+>> disas.c:15:10: fatal error: 'asm/cpufeatures.h' file not found
+      15 | #include <asm/cpufeatures.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:85: tools/objtool/disas.o] Error 1 shuffle=3303159566
+   make[5]: Target '__build' not remade because of errors.
+   make[4]: *** [Makefile:87: tools/objtool/objtool-in.o] Error 2 shuffle=3303159566
+   make[4]: Target 'all' not remade because of errors.
+   make[3]: *** [Makefile:73: objtool] Error 2 shuffle=3303159566
+   make[2]: *** [Makefile:1449: tools/objtool] Error 2 shuffle=3303159566
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3303159566
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3303159566
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
