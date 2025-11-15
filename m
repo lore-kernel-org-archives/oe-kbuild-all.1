@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC54D16A956
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 00:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2467142048;
+	Sat, 15 Nov 2025 00:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763166597; cv=none; b=BYj8T8Rm9Y2TdQh5miAORJ6Jdo3TArldjJbiBG5gUGWUuGQU5/Y3OwQWZrtxLQGQKf0WeoMyN3b76EFCfOLsqkkddUeHzTO4fDNBLRLk9TxsA77Ia1BrTzZUx4u0yF1T2G0+gBNBnHce89fFLepZ/5W/DlbVSsVZJ/Cph/Dj2rk=
+	t=1763167923; cv=none; b=d4WH4lma0OaWqq2Yg/+Fv7CWWlis5As4/kL8Nc54ND/ZJf0H1U/O3g6kMOOF0CJ+oUX1zp6UJxnOle8odYXWOHXp0en0VxpTKNXJ1W0hCooP+8ouixNYfqE1V661sARNd8BytbSAyVc72FzxR+RzJR9uMBYfA8FdGFyWiKGoUJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763166597; c=relaxed/simple;
-	bh=AsH7LOrmQEGoGd7k3gf6XWW5EvJ1Z7ueJBcvTh67uRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GQkWRRwXXfQ08oF0GRTyiNrgqukhMs7Gg9bG7M3umDKhQAx3ivdNPrdxN/YXgFKOrIpIwCeLriElLF+iHtiTpPaRzY3UUZgdTHQp2LUXv3NcohWlwG3Xd/fmPkLYyG4hZ7a1N5PQwYcweDgliyrTrrq6IuHyVV8jxLakaagNQmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NfpHomzb; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1763167923; c=relaxed/simple;
+	bh=vczM4EmXtUbCfHooelDeHpgPNn3rTsFNVUclJSubvyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHkH6LAUSfEYZPVNjJkHYkMdP51CYIL9+WJ0JxqZxKLathLP57pPTWBMlG8NTC4b8i6PNmK/jU7LorPaPgSuE2kLNJvuFAZ+23z05FlcuR/betrFYc/pO/X9aF92e5dYfmixChIhBW8CM2NHgHSXQb7g9Sb4TIdPkYCcAe1qLDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mWyVWeTA; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NfpHomzb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mWyVWeTA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763166595; x=1794702595;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AsH7LOrmQEGoGd7k3gf6XWW5EvJ1Z7ueJBcvTh67uRQ=;
-  b=NfpHomzbS0E9NLx4493KkrpmaitMZ2se8sX4zKHgvR384OOLPedkVOVs
-   4kpcXRWQ1Kerso0Pi7sAq2FTOMWFK+4mRvdxmUPdiABMk6gIwG2DH2m/I
-   8j0u8am2pulqKCqGhxUCyWLCXLf5nGRjuVFNNA/KbN4ByVBjEkik50e+2
-   U257zlZavNtEyReFjZRAoNJyHVOhE0i9jWuvosgNfJ27bfTRBT72bDNfD
-   9OSslLu276N5fZTp8GHYBaTWr6Fs/ptAf69+Lj67QMdZwGkNFhif/DcEm
-   cWJnSoSB0+ZpcUZJkg2IlijIKU1++XjPvkHusKaWuqj24oXERukZlCjsn
-   A==;
-X-CSE-ConnectionGUID: 0YfoJQvRSiOhpeyRL4T0XA==
-X-CSE-MsgGUID: N+iKZXAZTk2JOri7dsu1AQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="82655666"
+  t=1763167922; x=1794703922;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vczM4EmXtUbCfHooelDeHpgPNn3rTsFNVUclJSubvyA=;
+  b=mWyVWeTAUahsYKNSAoDTZmuyaG01ZS8GM8czgRay2hPSTgGPjnZT27VQ
+   3RGWvbqWJSHmQsUdypGTvhtsgZkwb1mFf6TDlfY8+B9P19BIeuAlmvpoF
+   rd/gljnZg5cOjRwXvuCKWSQ5tFtaqzCnKhRbEQ/iHcNUxnSU2EKT+wA6y
+   p5C0huHoYWHIsO/AnhjaIx6DYGuDd2+HQbNVmo0bSWtAZbZE6IFI2BSLc
+   M1tXKtNX93/66+bVb+ow2j9wsWql6cgp9z4yqGIDBWROFPGBhyDC1lcG9
+   aYhCCZLWeJ5Yyw9tz5JErMR9V8SNx9cmlO2zCR8SLVFPurbGFHLNvCUPN
+   Q==;
+X-CSE-ConnectionGUID: zXhFUfEyTuCly+C9L+kfkA==
+X-CSE-MsgGUID: VyPX4uRbQx28LPdjHg/6Gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="76730937"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="82655666"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 16:29:55 -0800
-X-CSE-ConnectionGUID: BjkyWLhQQZG9MH9JGuK6HA==
-X-CSE-MsgGUID: HpXykXzhSkSRcJfcm47GZA==
+   d="scan'208";a="76730937"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 16:52:01 -0800
+X-CSE-ConnectionGUID: nhmJTMybRgykHV04alN3Xw==
+X-CSE-MsgGUID: 35aAR/X3ReWs6zsMfpLkBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="189173413"
+   d="scan'208";a="227249100"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 14 Nov 2025 16:29:54 -0800
+  by orviesa001.jf.intel.com with ESMTP; 14 Nov 2025 16:51:56 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vK4Aq-0007WB-04;
-	Sat, 15 Nov 2025 00:29:52 +0000
-Date: Sat, 15 Nov 2025 08:29:47 +0800
+	id 1vK4WA-0007YJ-0f;
+	Sat, 15 Nov 2025 00:51:54 +0000
+Date: Sat, 15 Nov 2025 08:51:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:nfs-delegation-lru 14/20] fs/nfs/delegation.c:861:6:
- warning: variable 'error' is used uninitialized whenever 'if' condition is
- false
-Message-ID: <202511150824.P0PWmqe4-lkp@intel.com>
+To: Qi Zheng <qi.zheng@linux.dev>, will@kernel.org, aneesh.kumar@kernel.org,
+	npiggin@gmail.com, peterz@infradead.org, dev.jain@arm.com,
+	akpm@linux-foundation.org, david@redhat.com, ioworker0@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-um@lists.infradead.org,
+	Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 7/7] mm: make PT_RECLAIM depend on
+ MMU_GATHER_RCU_TABLE_FREE && 64BIT
+Message-ID: <202511150845.XqOxPJxe-lkp@intel.com>
+References: <0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +70,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch@bytedance.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git nfs-delegation-lru
-head:   09afc7e968dff67a9a0c9c728b08b8478841357d
-commit: 5336c4abf5778ff0f1154efe26712d6315c32710 [14/20] NFS: take a delegation reference in nfs4_get_valid_delegation
-config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20251115/202511150824.P0PWmqe4-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150824.P0PWmqe4-lkp@intel.com/reproduce)
+Hi Qi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on deller-parisc/for-next]
+[also build test ERROR on uml/next tip/x86/core akpm-mm/mm-everything linus/master v6.18-rc5 next-20251114]
+[cannot apply to uml/fixes vgupta-arc/for-next vgupta-arc/for-curr]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/alpha-mm-enable-MMU_GATHER_RCU_TABLE_FREE/20251114-191543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
+patch link:    https://lore.kernel.org/r/0a4d1e6f0bf299cafd1fc624f965bd1ca542cea8.1763117269.git.zhengqi.arch%40bytedance.com
+patch subject: [PATCH 7/7] mm: make PT_RECLAIM depend on MMU_GATHER_RCU_TABLE_FREE && 64BIT
+config: arm64-randconfig-004-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150845.XqOxPJxe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150845.XqOxPJxe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150824.P0PWmqe4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511150845.XqOxPJxe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfs/delegation.c:861:6: warning: variable 'error' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     861 |         if (!nfs4_has_session(NFS_SERVER(inode)->nfs_client) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     862 |             !(delegation->type & FMODE_WRITE))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/delegation.c:865:9: note: uninitialized use occurs here
-     865 |         return error;
-         |                ^~~~~
-   fs/nfs/delegation.c:861:2: note: remove the 'if' if its condition is always true
-     861 |         if (!nfs4_has_session(NFS_SERVER(inode)->nfs_client) ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     862 |             !(delegation->type & FMODE_WRITE))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     863 |                 error = nfs4_inode_return_delegation(inode);
-   fs/nfs/delegation.c:855:11: note: initialize the variable 'error' to silence this warning
-     855 |         int error;
-         |                  ^
-         |                   = 0
-   1 warning generated.
+   In file included from mm/pt_reclaim.c:3:
+   mm/pt_reclaim.c: In function 'free_pte':
+>> include/asm-generic/tlb.h:731:3: error: implicit declaration of function '__pte_free_tlb'; did you mean 'pte_free_tlb'? [-Werror=implicit-function-declaration]
+      __pte_free_tlb(tlb, ptep, address);  \
+      ^~~~~~~~~~~~~~
+   mm/pt_reclaim.c:31:2: note: in expansion of macro 'pte_free_tlb'
+     pte_free_tlb(tlb, pmd_pgtable(pmdval), addr);
+     ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +861 fs/nfs/delegation.c
+vim +731 include/asm-generic/tlb.h
 
-   843	
-   844	/**
-   845	 * nfs4_inode_make_writeable
-   846	 * @inode: pointer to inode
-   847	 *
-   848	 * Make the inode writeable by returning the delegation if necessary
-   849	 *
-   850	 * Returns zero on success, or a negative errno value.
-   851	 */
-   852	int nfs4_inode_make_writeable(struct inode *inode)
-   853	{
-   854		struct nfs_delegation *delegation;
-   855		int error;
-   856	
-   857		delegation = nfs4_get_valid_delegation(inode, 0);
-   858		if (!delegation)
-   859			return 0;
-   860	
- > 861		if (!nfs4_has_session(NFS_SERVER(inode)->nfs_client) ||
-   862		    !(delegation->type & FMODE_WRITE))
-   863			error = nfs4_inode_return_delegation(inode);
-   864		nfs_put_delegation(delegation);
-   865		return error;
-   866	}
-   867	
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  701  
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  702  #define tlb_remove_pud_tlb_entry(tlb, pudp, address)			\
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  703  	do {								\
+2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  704) 		tlb_flush_pud_range(tlb, address, HPAGE_PUD_SIZE);	\
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  705  		__tlb_remove_pud_tlb_entry(tlb, pudp, address);		\
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  706  	} while (0)
+a00cc7d9dd93d6 Matthew Wilcox         2017-02-24  707  
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  708  /*
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  709   * For things like page tables caches (ie caching addresses "inside" the
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  710   * page tables, like x86 does), for legacy reasons, flushing an
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  711   * individual page had better flush the page table caches behind it. This
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  712   * is definitely how x86 works, for example. And if you have an
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  713   * architected non-legacy page table cache (which I'm not aware of
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  714   * anybody actually doing), you're going to have some architecturally
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  715   * explicit flushing for that, likely *separate* from a regular TLB entry
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  716   * flush, and thus you'd need more than just some range expansion..
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  717   *
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  718   * So if we ever find an architecture
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  719   * that would want something that odd, I think it is up to that
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  720   * architecture to do its own odd thing, not cause pain for others
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  721   * http://lkml.kernel.org/r/CA+55aFzBggoXtNXQeng5d_mRoDnaMBE5Y+URs+PHR67nUpMtaw@mail.gmail.com
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  722   *
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  723   * For now w.r.t page table cache, mark the range_size as PAGE_SIZE
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  724   */
+b5bc66b7131087 Aneesh Kumar K.V       2016-12-12  725  
+a90744bac57c3c Nicholas Piggin        2018-07-13  726  #ifndef pte_free_tlb
+9e1b32caa525cb Benjamin Herrenschmidt 2009-07-22  727  #define pte_free_tlb(tlb, ptep, address)			\
+^1da177e4c3f41 Linus Torvalds         2005-04-16  728  	do {							\
+2631ed00b04988 Peter Zijlstra (Intel  2020-06-25  729) 		tlb_flush_pmd_range(tlb, address, PAGE_SIZE);	\
+22a61c3c4f1379 Peter Zijlstra         2018-08-23  730  		tlb->freed_tables = 1;				\
+9e1b32caa525cb Benjamin Herrenschmidt 2009-07-22 @731  		__pte_free_tlb(tlb, ptep, address);		\
+^1da177e4c3f41 Linus Torvalds         2005-04-16  732  	} while (0)
+a90744bac57c3c Nicholas Piggin        2018-07-13  733  #endif
+^1da177e4c3f41 Linus Torvalds         2005-04-16  734  
 
 -- 
 0-DAY CI Kernel Test Service
