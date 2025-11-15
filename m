@@ -1,59 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CF2298CAF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 15:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03DE1B78F3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 15:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763218820; cv=none; b=MoPS7wqdrfSLvcgQ2Vmpz9Q9uZUmTZy6iHTsCjHR/02B2rCiuWB5HKiSGY4PaI9yP6n9YtnzUq2sxDZZeAu7AiIWTl9rBmScdWf5jp1iCvIcaDPis7umdLAnS0YMovygLy5m2rhSmEUYNkd9eTG2bkHT6LPXJaY+7UB2Q8AE2c0=
+	t=1763218821; cv=none; b=PDu1oRlSrkE259wJyuDz/DEAbJQqm+eAjZQJT/nGTQeZemXljQElx1EaONS4qqAdh0X3iV19oH4TUhxpl5UKaAgK5jayN6MtAGMkAGg+4L/LCSRZqnemU4IyohoUpmlxqOH7od2Xb4E1RrH7WKWwqJSsH+AZKRvhz3kQ4WYyPCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763218820; c=relaxed/simple;
-	bh=lE0aak0pWYyWG+KifPC+rehvXJ6fTE7oYiLAWTS/zj4=;
+	s=arc-20240116; t=1763218821; c=relaxed/simple;
+	bh=ndcPSZW3JOVHmw7oovdYbGWmn8uW+fs4og7Ao3WKs/4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OX3uCPLi4dDUg5NJt8YAia/T8c9jOXLVP9dtdN7xoQ5t8/U9Il19LYaXI4KMv3wN8kptssC80JU35abPxVUw6NykqkuEuJh8FblTZnyZPUF1GpOd14VmqYkTHkzRPQJna3Lf/jTJNeCiuNn3vsd+SM++Bd6Hv2/66p5v9T3FRtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jMZ/IpEK; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=jtYQ8zzuhg9O+r5o8gBcET8Ko70TmdObZdELZMrH8wuTDkhOtaZxgnMTdigSoIMv4D877DFaLoOOomE1dTvAZBLvET7NucYLqoXhCkuu1KcYfUkf5PuKG4T7IU5376NKS8K7WeDSqDyHAfVVh/D3ninKGpuPovukeDtzlY198b4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpONeVA/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jMZ/IpEK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpONeVA/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763218819; x=1794754819;
+  t=1763218820; x=1794754820;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lE0aak0pWYyWG+KifPC+rehvXJ6fTE7oYiLAWTS/zj4=;
-  b=jMZ/IpEK4fY6Foug8xGVxIXJ4Yj1mqtsYFclN180hFo8DkF2t4IJ/6bE
-   bccIa8MdDAWYrJD4+1G3VpboAVg7J8Zlt23CXWn4NwwVRc5Is3hvRaVBd
-   o1DswPUBMOa59No6vsMGTGAi4GS99WUvQ6x1A+oME/2GZmW/fSd4FC95G
-   DT+NOX6T9+e5xHKfEoknME0XUlh6P20eRGE1du0Kp0KIRGkz+3kt6bkfN
-   tHUy+D7p/z4znwLmuZzBHtSSHILJ+pT3fH107vjQkCjToiS40NfKKAgDb
-   yRlckwZgXRTszyxDXcttgZPS9oYfYUNbhtMmur/7qNngwLD+sBYudYMke
-   A==;
-X-CSE-ConnectionGUID: TkOtGkHcRQqFD5HhNZx4pQ==
-X-CSE-MsgGUID: er9cBHroQbyXZcJaeXXOKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="82916814"
+  bh=ndcPSZW3JOVHmw7oovdYbGWmn8uW+fs4og7Ao3WKs/4=;
+  b=bpONeVA/rtYhrHxqnCCO6CglQh8+38D5+Yrg6cF620CzcAhBIB8IDV6T
+   8U1vYEezHZgcPgiGC7dS3WZI+23W1CO/GWOsJAqeXduEB3i76XR5YZOnx
+   zfHIRlsHYMzjazR6cQ1yt9aUEPVjN4hjEJPb+e/tZK7hqtw5JmOUNDvXh
+   1vb3LUeE3P8/tUro9fbTIefNjdeU+z6pRobHTmkTgSjlMCQFOgtBpEh3Q
+   6EKCRe5lHb07Dcqu8+KetxJ6k2X2FLG33IeoUDhVstRSqsa2c+iSBMPtK
+   o/+4Jsi7zR64EwCmHvwElbchVR2yagbxhX3vVlFSGERNCtOZIh77hI9kJ
+   Q==;
+X-CSE-ConnectionGUID: TLVj5PtdQy2r+xeEcV38Yw==
+X-CSE-MsgGUID: OPy4CU5eSQaZp9XG8T490Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="82916821"
 X-IronPort-AV: E=Sophos;i="6.19,307,1754982000"; 
-   d="scan'208";a="82916814"
+   d="scan'208";a="82916821"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 07:00:16 -0800
-X-CSE-ConnectionGUID: uUcB55A2TsmSEZ67mcAFzQ==
-X-CSE-MsgGUID: WRa0B01VRqyfVEICJ4Ww0A==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 07:00:19 -0800
+X-CSE-ConnectionGUID: bV69B+1GRr+QOuViJSOWHQ==
+X-CSE-MsgGUID: 7ORA28maSR2i67CxfehwsA==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 15 Nov 2025 07:00:14 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKHl6-00082l-08;
+	id 1vKHl6-00082o-1s;
 	Sat, 15 Nov 2025 15:00:12 +0000
-Date: Sat, 15 Nov 2025 22:59:18 +0800
+Date: Sat, 15 Nov 2025 22:59:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>, Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, tzungbi@kernel.org
-Subject: Re: [PATCH] lkdtm: Add lockdep related crash tests
-Message-ID: <202511152240.uaKhTU6M-lkp@intel.com>
-References: <20251114062535.1827309-1-tzungbi@kernel.org>
+To: Bhargava Marreddy <bhargava.marreddy@broadcom.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
+	vikas.gupta@broadcom.com,
+	Bhargava Marreddy <bhargava.marreddy@broadcom.com>,
+	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
+Subject: Re: [v2, net-next 08/12] bng_en: Add support for TPA events
+Message-ID: <202511152221.4M9h7dkH-lkp@intel.com>
+References: <20251114195312.22863-9-bhargava.marreddy@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +67,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114062535.1827309-1-tzungbi@kernel.org>
+In-Reply-To: <20251114195312.22863-9-bhargava.marreddy@broadcom.com>
 
-Hi Tzung-Bi,
+Hi Bhargava,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus kees/for-next/pstore kees/for-next/kspp soc/for-next linus/master v6.18-rc5 next-20251114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/lkdtm-Add-lockdep-related-crash-tests/20251114-142702
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20251114062535.1827309-1-tzungbi%40kernel.org
-patch subject: [PATCH] lkdtm: Add lockdep related crash tests
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20251115/202511152240.uaKhTU6M-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511152240.uaKhTU6M-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bhargava-Marreddy/bng_en-Query-PHY-and-report-link-status/20251115-040224
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251114195312.22863-9-bhargava.marreddy%40broadcom.com
+patch subject: [v2, net-next 08/12] bng_en: Add support for TPA events
+config: parisc-randconfig-001-20251115 (https://download.01.org/0day-ci/archive/20251115/202511152221.4M9h7dkH-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511152221.4M9h7dkH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511152240.uaKhTU6M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511152221.4M9h7dkH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/misc/lkdtm/lockdep.c: In function 'lkdtm_LOCKDEP_CIRCULAR_LOCK':
->> drivers/misc/lkdtm/lockdep.c:21:48: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-      21 |                 scoped_guard(spinlock, &lock_B);
-         |                                                ^
-   drivers/misc/lkdtm/lockdep.c:23:48: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-      23 |                 scoped_guard(spinlock, &lock_A);
-         |                                                ^
-   drivers/misc/lkdtm/lockdep.c: In function 'lkdtm_LOCKDEP_INCONSISTENT_LOCK':
-   drivers/misc/lkdtm/lockdep.c:37:40: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-      37 |         scoped_guard(spinlock, &lock_A);
-         |                                        ^
-   drivers/misc/lkdtm/lockdep.c:40:40: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-      40 |         scoped_guard(spinlock, &lock_A);
-         |                                        ^
+   drivers/net/ethernet/broadcom/bnge/bnge_txrx.c: In function 'bnge_tpa_end':
+>> drivers/net/ethernet/broadcom/bnge/bnge_txrx.c:548:7: warning: variable 'gro' set but not used [-Wunused-but-set-variable]
+     bool gro;
+          ^~~
 
 
-vim +/else +21 drivers/misc/lkdtm/lockdep.c
+vim +/gro +548 drivers/net/ethernet/broadcom/bnge/bnge_txrx.c
 
-    16	
-    17	/* For "WARNING: possible circular locking dependency detected". */
-    18	static void lkdtm_LOCKDEP_CIRCULAR_LOCK(void)
-    19	{
-    20		scoped_guard(spinlock, &lock_A)
-  > 21			scoped_guard(spinlock, &lock_B);
-    22		scoped_guard(spinlock, &lock_B)
-    23			scoped_guard(spinlock, &lock_A);
-    24	}
-    25	
+   530	
+   531	static inline struct sk_buff *bnge_tpa_end(struct bnge_net *bn,
+   532						   struct bnge_cp_ring_info *cpr,
+   533						   u32 *raw_cons,
+   534						   struct rx_tpa_end_cmp *tpa_end,
+   535						   struct rx_tpa_end_cmp_ext *tpa_end1,
+   536						   u8 *event)
+   537	{
+   538		struct bnge_napi *bnapi = cpr->bnapi;
+   539		struct bnge_rx_ring_info *rxr = bnapi->rx_ring;
+   540		struct net_device *dev = bn->netdev;
+   541		struct bnge_tpa_info *tpa_info;
+   542		u8 *data_ptr, agg_bufs;
+   543		struct sk_buff *skb;
+   544		u16 idx = 0, agg_id;
+   545		dma_addr_t mapping;
+   546		unsigned int len;
+   547		void *data;
+ > 548		bool gro;
+   549	
+   550		agg_id = TPA_END_AGG_ID(tpa_end);
+   551		agg_id = bnge_lookup_agg_idx(rxr, agg_id);
+   552		agg_bufs = TPA_END_AGG_BUFS(tpa_end1);
+   553		tpa_info = &rxr->rx_tpa[agg_id];
+   554		if (unlikely(agg_bufs != tpa_info->agg_count)) {
+   555			netdev_warn(bn->netdev, "TPA end agg_buf %d != expected agg_bufs %d\n",
+   556				    agg_bufs, tpa_info->agg_count);
+   557			agg_bufs = tpa_info->agg_count;
+   558		}
+   559		tpa_info->agg_count = 0;
+   560		*event |= BNGE_AGG_EVENT;
+   561		bnge_free_agg_idx(rxr, agg_id);
+   562		idx = agg_id;
+   563		gro = !!(bn->priv_flags & BNGE_NET_EN_GRO);
+   564		data = tpa_info->data;
+   565		data_ptr = tpa_info->data_ptr;
+   566		prefetch(data_ptr);
+   567		len = tpa_info->len;
+   568		mapping = tpa_info->mapping;
+   569	
+   570		if (unlikely(agg_bufs > MAX_SKB_FRAGS || TPA_END_ERRORS(tpa_end1))) {
+   571			bnge_abort_tpa(cpr, idx, agg_bufs);
+   572			if (agg_bufs > MAX_SKB_FRAGS)
+   573				netdev_warn(bn->netdev, "TPA frags %d exceeded MAX_SKB_FRAGS %d\n",
+   574					    agg_bufs, (int)MAX_SKB_FRAGS);
+   575			return NULL;
+   576		}
+   577	
+   578		if (len <= bn->rx_copybreak) {
+   579			skb = bnge_copy_skb(bnapi, data_ptr, len, mapping);
+   580			if (!skb) {
+   581				bnge_abort_tpa(cpr, idx, agg_bufs);
+   582				return NULL;
+   583			}
+   584		} else {
+   585			u8 *new_data;
+   586			dma_addr_t new_mapping;
+   587	
+   588			new_data = __bnge_alloc_rx_frag(bn, &new_mapping, rxr,
+   589							GFP_ATOMIC);
+   590			if (!new_data) {
+   591				bnge_abort_tpa(cpr, idx, agg_bufs);
+   592				return NULL;
+   593			}
+   594	
+   595			tpa_info->data = new_data;
+   596			tpa_info->data_ptr = new_data + bn->rx_offset;
+   597			tpa_info->mapping = new_mapping;
+   598	
+   599			skb = napi_build_skb(data, bn->rx_buf_size);
+   600			dma_sync_single_for_cpu(bn->bd->dev, mapping,
+   601						bn->rx_buf_use_size, bn->rx_dir);
+   602	
+   603			if (!skb) {
+   604				page_pool_free_va(rxr->head_pool, data, true);
+   605				bnge_abort_tpa(cpr, idx, agg_bufs);
+   606				return NULL;
+   607			}
+   608			skb_mark_for_recycle(skb);
+   609			skb_reserve(skb, bn->rx_offset);
+   610			skb_put(skb, len);
+   611		}
+   612	
+   613		if (agg_bufs) {
+   614			skb = bnge_rx_agg_netmems_skb(bn, cpr, skb, idx, agg_bufs,
+   615						      true);
+   616			/* Page reuse already handled by bnge_rx_agg_netmems_skb(). */
+   617			if (!skb)
+   618				return NULL;
+   619		}
+   620	
+   621		skb->protocol = eth_type_trans(skb, dev);
+   622	
+   623		if (tpa_info->hash_type != PKT_HASH_TYPE_NONE)
+   624			skb_set_hash(skb, tpa_info->rss_hash, tpa_info->hash_type);
+   625	
+   626		if (tpa_info->vlan_valid &&
+   627		    (dev->features & BNGE_HW_FEATURE_VLAN_ALL_RX)) {
+   628			__be16 vlan_proto = htons(tpa_info->metadata >>
+   629						  RX_CMP_FLAGS2_METADATA_TPID_SFT);
+   630			u16 vtag = tpa_info->metadata & RX_CMP_FLAGS2_METADATA_TCI_MASK;
+   631	
+   632			if (eth_type_vlan(vlan_proto)) {
+   633				__vlan_hwaccel_put_tag(skb, vlan_proto, vtag);
+   634			} else {
+   635				dev_kfree_skb(skb);
+   636				return NULL;
+   637			}
+   638		}
+   639	
+   640		skb_checksum_none_assert(skb);
+   641		if (likely(tpa_info->flags2 & RX_TPA_START_CMP_FLAGS2_L4_CS_CALC)) {
+   642			skb->ip_summed = CHECKSUM_UNNECESSARY;
+   643			skb->csum_level =
+   644				(tpa_info->flags2 & RX_CMP_FLAGS2_T_L4_CS_CALC) >> 3;
+   645		}
+   646	
 
 -- 
 0-DAY CI Kernel Test Service
