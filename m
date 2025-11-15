@@ -1,59 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E998F49
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 02:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A1C75809;
+	Sat, 15 Nov 2025 02:15:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763172311; cv=none; b=fxXnLOR6r5G9YMk1nemPFzW1ghVXMgQMVTdsB5dGrSgz/H0wzmFKtSvODCj1K5yXnOAUCFCDh9ddeOfpxzkb8T9F/cxAcwpY/PH+FCJ8oV9ZwTJH0i2zQnR9FaTiCGJsZ0oct4nX27JwbHQZ2W38UCef5bUlLIB5j7RhWLXg7mI=
+	t=1763172916; cv=none; b=IhAulKG7VN7mLwGqdN/l/U1ejN7UUBp9D89PKi2HSC0gM7rU/C1Ld3X2H2iQgPbLMqPZ33RX8XiDCbjkIen0DipJ8e8y9P3cgnGPxlIUhM6M9OiwBy9Al+C86UaRawWT1PYJJwY5W6acYTvCuKPZazv0fp61Zdghyl8wmjIIDgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763172311; c=relaxed/simple;
-	bh=/2JOOwdY4oZyR9ZYAR294dXYQiG6hXGudvjPubw1sHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q72pwmx8kkEHOwharl2mOq0skZfx+L3Tl4639D4mvuTe+MN02/MQmG2RKQj+4QOQqpkbu32OB/jVBKTBAKGNSDEcPz62e0vgRJ3KuRKiWnTnbDnx0dDaOTCbDTBknwjhQtuTRHh1Jm7uMrRtDMzye6mMxsRBG96v2GB/FxH3eAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4dbGW/L; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1763172916; c=relaxed/simple;
+	bh=fGFz8KquUr9jWQ4PCrcIGmqO/oRWoxlOLT9O5ngcD/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bjfYQfOMzKDFjhyHW1asgr+wRrS7lLjhFRPWpYaTunh1S8lkdKHZPmHKjUnD/WT9OSJtcS4+kyQAtZyv692ZY57e05fAAaUBAsgc2Q/KCWaMThPRrGVtKWBHJgznqmPbUNMjKJZi/TfR7SI5ELXkgOihdJ1g7PuwdXsMGilAs1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YnCPLMb7; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4dbGW/L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YnCPLMb7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763172309; x=1794708309;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/2JOOwdY4oZyR9ZYAR294dXYQiG6hXGudvjPubw1sHM=;
-  b=R4dbGW/L3fES7ylrmkFgh5D/q18WHM/ZHzqyv0snsJtY2EUMD1hh9W61
-   K4Qdw5w8Eynd4qvidtwgKORg5a2f7l3VIhKReUmwyyqwaVLe0iPyCBztv
-   zN1NWTzBOlSxATBPgeA7EKe+5fBruZVrtOA2bsVCE8EtdkifbpI/5YFrL
-   Eo4a95Vu1OaDWO4SivlditxqTJ9wWTe8kFGUezkDWqGXXqb3WpxLQ5A0s
-   rADrtAWl+ZjIj8lBfm6R0cgzvijcLODAD2cuKjikfkSuQswkMXAJEwbcL
-   /s4L7oFa8HpRIF9M4l2F5urWNvrA+PP1QSB2JQ/ce9CugR4a47+D2EsQH
+  t=1763172915; x=1794708915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fGFz8KquUr9jWQ4PCrcIGmqO/oRWoxlOLT9O5ngcD/A=;
+  b=YnCPLMb7biYmRV6YnDYvLOMpxzSaDWGvTX2/EIZVBfYdt+6FlmvAPODq
+   wylIzFcpqrbOix4TSnnUv98MkmXylsUNe9cB6+6+5oGkNAKqJ4hJ7Gyt4
+   bBTnF4sAqROITCLv561fsRmLde/PD5D8z/HlJ4YjPLmP8opOlZOZ9fJqV
+   1jopRCIhMJi5q69vPz1/08Ed8yKweNjUdywORFg5alL5ZUJrARPiex063
+   x76msGQFcpjR+yIC9YZcL2Akxm7GS1K3nDH5/R+FmMjKAdA3v4PXw2QCu
+   HyNHT5PynPovH7TOLxEyZd/KfhDsgnIbkUiK+TZ8j2hOKBPPvDozcZ+uT
    g==;
-X-CSE-ConnectionGUID: WtJ4dCimS5GGDCYpJf3jhw==
-X-CSE-MsgGUID: RjprkSV0Rcmivprz9qjRvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="76371818"
+X-CSE-ConnectionGUID: bc3oheO+S5iiyRSs1fTZOQ==
+X-CSE-MsgGUID: 0iNMAGowTRWHisKEO8QAsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65301088"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="76371818"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 18:05:07 -0800
-X-CSE-ConnectionGUID: foDooTfzTEKbtNJpYbNpzA==
-X-CSE-MsgGUID: +3U5XST0QZO91dkA5GMmJQ==
+   d="scan'208";a="65301088"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 18:15:14 -0800
+X-CSE-ConnectionGUID: rFi/DoFJRDmKn3VYj9QzCg==
+X-CSE-MsgGUID: jDK/OEUFRFy+dZH4vzUDtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="189187262"
+   d="scan'208";a="189574133"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 14 Nov 2025 18:05:05 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Nov 2025 18:15:07 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vK5ex-0007dp-2M;
-	Sat, 15 Nov 2025 02:05:03 +0000
-Date: Sat, 15 Nov 2025 10:04:43 +0800
+	id 1vK5oe-0007eJ-2j;
+	Sat, 15 Nov 2025 02:15:04 +0000
+Date: Sat, 15 Nov 2025 10:15:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:iomap-ioerr-reporting 92/104]
- fs/fuse/fuse_trace.h:195:3: error: no member named 'i_disk_size' in 'struct
- fuse_inode'
-Message-ID: <202511150921.0YfjvFvL-lkp@intel.com>
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Balbir Singh <balbirs@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Francois Dugast <francois.dugast@intel.com>
+Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
+Message-ID: <202511151007.F1gixfc8-lkp@intel.com>
+References: <20251114012228.2634882-1-balbirs@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,359 +84,183 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251114012228.2634882-1-balbirs@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git iomap-ioerr-reporting
-head:   fcfa2d1ca43ca32450cc8f8577771778de9a4da3
-commit: a4807f31ce423b62a3a49487b5dced5dab433a9d [92/104] fuse: track on-disk file size for iomap files
-config: x86_64-randconfig-073-20251114 (https://download.01.org/0day-ci/archive/20251115/202511150921.0YfjvFvL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511150921.0YfjvFvL-lkp@intel.com/reproduce)
+Hi Balbir,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
+patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
+config: arm64-randconfig-002-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151007.F1gixfc8-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151007.F1gixfc8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511150921.0YfjvFvL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511151007.F1gixfc8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/fuse/trace.c:15:
-   In file included from fs/fuse/fuse_trace.h:1637:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:468:
->> fs/fuse/fuse_trace.h:195:3: error: no member named 'i_disk_size' in 'struct fuse_inode'
-     183 |         TP_STRUCT__entry(
-         |         ~~~~~~~~~~~~~~~~~
-     184 |                 FUSE_INODE_FIELDS
-         |                 ~~~~~~~~~~~~~~~~~
-     185 |                 __field(unsigned int,           old_iflags)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     186 |                 __field(unsigned int,           new_iflags)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     187 |         ),
-         |         ~~
-     188 | 
-     189 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     190 |                 FUSE_INODE_ASSIGN(inode, fi, fm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     191 |                 __entry->old_iflags     =       old_iflags;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     192 |                 __entry->new_iflags     =       inode->i_flags;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     193 |         ),
-         |         ~~
-     194 | 
-     195 |         TP_printk(FUSE_INODE_FMT " old_iflags 0x%x iflags 0x%x",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     196 |                   FUSE_INODE_PRINTK_ARGS,
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~
-     197 |                   __entry->old_iflags,
-         |                   ~~~~~~~~~~~~~~~~~~~~
-     198 |                   __entry->new_iflags)
-         |                   ~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_trace.h:101:14: note: expanded from macro 'FUSE_INODE_ASSIGN'
-     101 |                                                         (fi)->i_disk_size : 0
-         |                                                               ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^
-   include/trace/trace_events.h:435:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     433 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
-         |                                                                         ~
-     434 | __DECLARE_EVENT_CLASS(call, PARAMS(proto), PARAMS(args), PARAMS(tstruct), \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^
-   include/trace/trace_events.h:427:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from fs/fuse/trace.c:15:
-   In file included from fs/fuse/fuse_trace.h:1637:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:468:
-   fs/fuse/fuse_trace.h:226:3: error: no member named 'i_disk_size' in 'struct fuse_inode'
-     212 |                 __field(umode_t,                mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     213 |                 __field(uint32_t,               valid)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     214 |                 __field(umode_t,                new_mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     215 |                 __field(uint64_t,               new_size)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     216 |         ),
-         |         ~~
-     217 | 
-     218 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     219 |                 FUSE_INODE_ASSIGN(inode, fi, fm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     220 |                 __entry->mode           =       inode->i_mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     221 |                 __entry->valid          =       inarg->valid;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     222 |                 __entry->new_mode       =       inarg->mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     223 |                 __entry->new_size       =       inarg->size;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     224 |         ),
-         |         ~~
-     225 | 
-     226 |         TP_printk(FUSE_INODE_FMT " mode 0%o valid 0x%x new_mode 0%o new_size 0x%llx",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     227 |                   FUSE_INODE_PRINTK_ARGS,
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_trace.h:101:14: note: expanded from macro 'FUSE_INODE_ASSIGN'
-     101 |                                                         (fi)->i_disk_size : 0
-         |                                                               ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      41 |                              PARAMS(proto),                    \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      42 |                              PARAMS(args),                     \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      43 |                              PARAMS(tstruct),                  \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      44 |                              PARAMS(assign),                   \
-         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      45 |                              PARAMS(print));                   \
-         |                              ~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/trace_events.h:435:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     433 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
-         |                                                                         ~
-     434 | __DECLARE_EVENT_CLASS(call, PARAMS(proto), PARAMS(args), PARAMS(tstruct), \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^
-   include/trace/trace_events.h:427:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from fs/fuse/trace.c:15:
-   In file included from fs/fuse/fuse_trace.h:1637:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:468:
-   fs/fuse/fuse_trace.h:255:3: error: no member named 'i_disk_size' in 'struct fuse_inode'
-     241 |                 __field(umode_t,                mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     242 |                 __field(uint32_t,               valid)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     243 |                 __field(umode_t,                new_mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     244 |                 __field(uint64_t,               new_size)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     245 |         ),
-         |         ~~
-     246 | 
-     247 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     248 |                 FUSE_INODE_ASSIGN(inode, fi, fm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |                 __entry->mode           =       inode->i_mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     250 |                 __entry->valid          =       inarg->ia_valid;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     251 |                 __entry->new_mode       =       inarg->ia_mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     252 |                 __entry->new_size       =       inarg->ia_size;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     253 |         ),
-         |         ~~
-     254 | 
-     255 |         TP_printk(FUSE_INODE_FMT " mode 0%o valid 0x%x new_mode 0%o new_size 0x%llx",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     256 |                   FUSE_INODE_PRINTK_ARGS,
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_trace.h:101:14: note: expanded from macro 'FUSE_INODE_ASSIGN'
-     101 |                                                         (fi)->i_disk_size : 0
-         |                                                               ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      41 |                              PARAMS(proto),                    \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      42 |                              PARAMS(args),                     \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      43 |                              PARAMS(tstruct),                  \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      44 |                              PARAMS(assign),                   \
-         |                              ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      45 |                              PARAMS(print));                   \
-         |                              ~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/trace_events.h:435:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     433 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
-         |                                                                         ~
-     434 | __DECLARE_EVENT_CLASS(call, PARAMS(proto), PARAMS(args), PARAMS(tstruct), \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^
-   include/trace/trace_events.h:427:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from fs/fuse/trace.c:15:
-   In file included from fs/fuse/fuse_trace.h:1637:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
->> fs/fuse/fuse_trace.h:195:3: error: no member named 'i_disk_size' in 'struct fuse_inode'
-     183 |         TP_STRUCT__entry(
-         |         ~~~~~~~~~~~~~~~~~
-     184 |                 FUSE_INODE_FIELDS
-         |                 ~~~~~~~~~~~~~~~~~
-     185 |                 __field(unsigned int,           old_iflags)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     186 |                 __field(unsigned int,           new_iflags)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     187 |         ),
-         |         ~~
-     188 | 
-     189 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     190 |                 FUSE_INODE_ASSIGN(inode, fi, fm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     191 |                 __entry->old_iflags     =       old_iflags;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     192 |                 __entry->new_iflags     =       inode->i_flags;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     193 |         ),
-         |         ~~
-     194 | 
-     195 |         TP_printk(FUSE_INODE_FMT " old_iflags 0x%x iflags 0x%x",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     196 |                   FUSE_INODE_PRINTK_ARGS,
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~
-     197 |                   __entry->old_iflags,
-         |                   ~~~~~~~~~~~~~~~~~~~~
-     198 |                   __entry->new_iflags)
-         |                   ~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_trace.h:101:14: note: expanded from macro 'FUSE_INODE_ASSIGN'
-     101 |                                                         (fi)->i_disk_size : 0
-         |                                                               ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^
-   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      65 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
-         |                                                                         ~
-      66 | __DECLARE_EVENT_CLASS(call, PARAMS(proto), PARAMS(args), PARAMS(tstruct), \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:139:25: note: expanded from macro 'PARAMS'
-     139 | #define PARAMS(args...) args
-         |                         ^
-   include/trace/perf.h:51:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from fs/fuse/trace.c:15:
-   In file included from fs/fuse/fuse_trace.h:1637:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
-   fs/fuse/fuse_trace.h:226:3: error: no member named 'i_disk_size' in 'struct fuse_inode'
-     212 |                 __field(umode_t,                mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     213 |                 __field(uint32_t,               valid)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     214 |                 __field(umode_t,                new_mode)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     215 |                 __field(uint64_t,               new_size)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     216 |         ),
-         |         ~~
-     217 | 
-     218 |         TP_fast_assign(
-         |         ~~~~~~~~~~~~~~~
-     219 |                 FUSE_INODE_ASSIGN(inode, fi, fm);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     220 |                 __entry->mode           =       inode->i_mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     221 |                 __entry->valid          =       inarg->valid;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     222 |                 __entry->new_mode       =       inarg->mode;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     223 |                 __entry->new_size       =       inarg->size;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     224 |         ),
-         |         ~~
-     225 | 
-     226 |         TP_printk(FUSE_INODE_FMT " mode 0%o valid 0x%x new_mode 0%o new_size 0x%llx",
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     227 |                   FUSE_INODE_PRINTK_ARGS,
-         |                   ~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/fuse_trace.h:101:14: note: expanded from macro 'FUSE_INODE_ASSIGN'
-     101 |                                                         (fi)->i_disk_size : 0
-         |                                                               ^
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^
-   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      41 |                              PARAMS(proto),                    \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      42 |                              PARAMS(args),                     \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      43 |                              PARAMS(tstruct),                  \
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/huge_memory.c:3751:6: warning: variable 'nr_shmem_dropped' set but not used [-Wunused-but-set-variable]
+    3751 |         int nr_shmem_dropped = 0;
+         |             ^
+   1 warning generated.
 
 
-vim +195 fs/fuse/fuse_trace.h
+vim +/nr_shmem_dropped +3751 mm/huge_memory.c
 
-396b209e405a571 Josef Bacik     2024-07-03  182  
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  183  DECLARE_EVENT_CLASS(fuse_fileattr_class,
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  184  	TP_PROTO(const struct inode *inode, unsigned int old_iflags),
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  185  
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  186  	TP_ARGS(inode, old_iflags),
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  187  
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  188  	TP_STRUCT__entry(
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  189  		FUSE_INODE_FIELDS
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  190  		__field(unsigned int,		old_iflags)
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  191  		__field(unsigned int,		new_iflags)
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  192  	),
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  193  
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  194  	TP_fast_assign(
-7c57f211f99a4cd Darrick J. Wong 2025-09-12 @195  		FUSE_INODE_ASSIGN(inode, fi, fm);
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  196  		__entry->old_iflags	=	old_iflags;
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  197  		__entry->new_iflags	=	inode->i_flags;
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  198  	),
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  199  
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  200  	TP_printk(FUSE_INODE_FMT " old_iflags 0x%x iflags 0x%x",
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  201  		  FUSE_INODE_PRINTK_ARGS,
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  202  		  __entry->old_iflags,
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  203  		  __entry->new_iflags)
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  204  );
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  205  #define DEFINE_FUSE_FILEATTR_EVENT(name)	\
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  206  DEFINE_EVENT(fuse_fileattr_class, name,		\
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  207  	TP_PROTO(const struct inode *inode, unsigned int old_iflags), \
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  208  	TP_ARGS(inode, old_iflags))
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  209  DEFINE_FUSE_FILEATTR_EVENT(fuse_fileattr_update_inode);
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  210  DEFINE_FUSE_FILEATTR_EVENT(fuse_fileattr_init);
-7c57f211f99a4cd Darrick J. Wong 2025-09-12  211  
-
-:::::: The code at line 195 was first introduced by commit
-:::::: 7c57f211f99a4cd04afd78b6759d97f87d1e07bb fuse_trace: allow local filesystems to set some VFS iflags
-
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
+  3741	
+  3742	static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int new_order,
+  3743						     struct page *split_at, struct xa_state *xas,
+  3744						     struct address_space *mapping, bool do_lru,
+  3745						     struct list_head *list, enum split_type split_type,
+  3746						     pgoff_t end, int extra_pins)
+  3747	{
+  3748		struct folio *end_folio = folio_next(folio);
+  3749		struct folio *new_folio, *next;
+  3750		int old_order = folio_order(folio);
+> 3751		int nr_shmem_dropped = 0;
+  3752		int ret = 0;
+  3753		struct deferred_split *ds_queue;
+  3754	
+  3755		/* Prevent deferred_split_scan() touching ->_refcount */
+  3756		ds_queue = folio_split_queue_lock(folio);
+  3757		if (folio_ref_freeze(folio, 1 + extra_pins)) {
+  3758			struct swap_cluster_info *ci = NULL;
+  3759			struct lruvec *lruvec;
+  3760			int expected_refs;
+  3761	
+  3762			if (old_order > 1) {
+  3763				if (!list_empty(&folio->_deferred_list)) {
+  3764					ds_queue->split_queue_len--;
+  3765					/*
+  3766					 * Reinitialize page_deferred_list after removing the
+  3767					 * page from the split_queue, otherwise a subsequent
+  3768					 * split will see list corruption when checking the
+  3769					 * page_deferred_list.
+  3770					 */
+  3771					list_del_init(&folio->_deferred_list);
+  3772				}
+  3773				if (folio_test_partially_mapped(folio)) {
+  3774					folio_clear_partially_mapped(folio);
+  3775					mod_mthp_stat(old_order,
+  3776						MTHP_STAT_NR_ANON_PARTIALLY_MAPPED, -1);
+  3777				}
+  3778			}
+  3779			split_queue_unlock(ds_queue);
+  3780			if (mapping) {
+  3781				int nr = folio_nr_pages(folio);
+  3782	
+  3783				if (folio_test_pmd_mappable(folio) &&
+  3784				    new_order < HPAGE_PMD_ORDER) {
+  3785					if (folio_test_swapbacked(folio)) {
+  3786						__lruvec_stat_mod_folio(folio,
+  3787								NR_SHMEM_THPS, -nr);
+  3788					} else {
+  3789						__lruvec_stat_mod_folio(folio,
+  3790								NR_FILE_THPS, -nr);
+  3791						filemap_nr_thps_dec(mapping);
+  3792					}
+  3793				}
+  3794			}
+  3795	
+  3796			if (folio_test_swapcache(folio)) {
+  3797				if (mapping) {
+  3798					VM_WARN_ON_ONCE_FOLIO(mapping, folio);
+  3799					return -EINVAL;
+  3800				}
+  3801	
+  3802				ci = swap_cluster_get_and_lock(folio);
+  3803			}
+  3804	
+  3805			/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
+  3806			if (do_lru)
+  3807				lruvec = folio_lruvec_lock(folio);
+  3808	
+  3809			ret = __split_unmapped_folio(folio, new_order, split_at, xas,
+  3810						     mapping, split_type);
+  3811	
+  3812			/*
+  3813			 * Unfreeze after-split folios and put them back to the right
+  3814			 * list. @folio should be kept frozon until page cache
+  3815			 * entries are updated with all the other after-split folios
+  3816			 * to prevent others seeing stale page cache entries.
+  3817			 * As a result, new_folio starts from the next folio of
+  3818			 * @folio.
+  3819			 */
+  3820			for (new_folio = folio_next(folio); new_folio != end_folio;
+  3821			     new_folio = next) {
+  3822				unsigned long nr_pages = folio_nr_pages(new_folio);
+  3823	
+  3824				next = folio_next(new_folio);
+  3825	
+  3826				zone_device_private_split_cb(folio, new_folio);
+  3827	
+  3828				expected_refs = folio_expected_ref_count(new_folio) + 1;
+  3829				folio_ref_unfreeze(new_folio, expected_refs);
+  3830	
+  3831				if (do_lru)
+  3832					lru_add_split_folio(folio, new_folio, lruvec, list);
+  3833	
+  3834				/*
+  3835				 * Anonymous folio with swap cache.
+  3836				 * NOTE: shmem in swap cache is not supported yet.
+  3837				 */
+  3838				if (ci) {
+  3839					__swap_cache_replace_folio(ci, folio, new_folio);
+  3840					continue;
+  3841				}
+  3842	
+  3843				/* Anonymous folio without swap cache */
+  3844				if (!mapping)
+  3845					continue;
+  3846	
+  3847				/* Add the new folio to the page cache. */
+  3848				if (new_folio->index < end) {
+  3849					__xa_store(&mapping->i_pages, new_folio->index,
+  3850						   new_folio, 0);
+  3851					continue;
+  3852				}
+  3853	
+  3854				/* Drop folio beyond EOF: ->index >= end */
+  3855				if (shmem_mapping(mapping))
+  3856					nr_shmem_dropped += nr_pages;
+  3857				else if (folio_test_clear_dirty(new_folio))
+  3858					folio_account_cleaned(
+  3859						new_folio, inode_to_wb(mapping->host));
+  3860				__filemap_remove_folio(new_folio, NULL);
+  3861				folio_put_refs(new_folio, nr_pages);
+  3862			}
+  3863	
+  3864			zone_device_private_split_cb(folio, NULL);
+  3865			/*
+  3866			 * Unfreeze @folio only after all page cache entries, which
+  3867			 * used to point to it, have been updated with new folios.
+  3868			 * Otherwise, a parallel folio_try_get() can grab @folio
+  3869			 * and its caller can see stale page cache entries.
+  3870			 */
+  3871			expected_refs = folio_expected_ref_count(folio) + 1;
+  3872			folio_ref_unfreeze(folio, expected_refs);
+  3873	
+  3874			if (do_lru)
+  3875				unlock_page_lruvec(lruvec);
+  3876	
+  3877			if (ci)
+  3878				swap_cluster_unlock(ci);
+  3879		} else {
+  3880			split_queue_unlock(ds_queue);
+  3881			return -EAGAIN;
+  3882		}
+  3883	
+  3884		return ret;
+  3885	}
+  3886	
 
 -- 
 0-DAY CI Kernel Test Service
