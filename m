@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFBA2749E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 09:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EBF26E179
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 10:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763200311; cv=none; b=hV4hD3cVObF9fHx1uG0nILZPP8v/pcyKV4v3Vr51kFEZzFJK5Wl7pGfRjd8wWt1wp608O8cgKT0br19fFbXGC+OV5BNkPRWVl1DUUKAMOVshV68OFygRs0HNnobgg9ibGtupFpyJAxQUPHkFczF+Fi/9jkNfZxdjkezITz53cPk=
+	t=1763202773; cv=none; b=H0rxIuMBo1Hl3bQOaa2nwnMph0zjCyo6osTwmpqzKfofBEL1oEt3+BlIoHr9KVvwiucrjV/h4EmjNqrRJVP3EfZTSvaRlffb1h/WMIErPs/TzMZJesmfeMsViNaHyXgwHWAsOs5fgUYSGHRIB9PMHOn6V017R0bdqaTT+3XxsUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763200311; c=relaxed/simple;
-	bh=TNO/pWSCuytWRdiYa0o5CX+QYwHxTJhHAX8l7vDVP4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZKC6YTfFfQAFRIJW0ciXtNPH7AcjMzqWQc74mkcf050lY3qOots2tQ1emUIoj8ZHLqqnxYTjc3noEr4b5la/vw/BJgqxvBscTmR5PAcsdsvtoY7WwYOGFDMvGF2sBn2QY5nEXhtJ2rxl03qRJm/EvlAJV/FgDm8j7ISgPfqv80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIIiBesh; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1763202773; c=relaxed/simple;
+	bh=elANGExcynx3LW8roGgSRsUVVNTgUlJ2FrABMmDBvX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Uhdv7LXI/oYjbh+uXGEdNkKeHD6N0i28TbQdKHvDrACCiwv7fCXsHqU98Ha9hB0+EoGlfGMfp7Fvk5khfRrayBIKm+8ZyjSjgkcfq2F1gc4L1RZ5NL5TrcXMdds1d9Qk5ohl084p966aKcsp6FZBh8HyRhvykzCRtPr/I6NXxGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zl+jzoj7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIIiBesh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zl+jzoj7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763200310; x=1794736310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TNO/pWSCuytWRdiYa0o5CX+QYwHxTJhHAX8l7vDVP4A=;
-  b=MIIiBeshl+oLtYh4QW+c9+4Ekpop5dVsjoUVe5M67pMIdouRfcUUZfOF
-   jCI7kPrYL/+PrrbBhKLMfw8Vep3Qn1yuvF2QDK63gvIKKga2iDtF2H9ut
-   KF8boEaKU+Bwc+JfTarEyhKyf8QON92mfotA1XqV0scahHjH115Hkpu71
-   qbo1QJnI0Nn/P132OlbkinHoS50j8E0j+Q+/zAnppxV8eypoorG+0m335
-   djCwWzq/A9kqkS1JO4xA9DGj4ULTQ2N91R9+nWEG0Ym5daC6145JPaej3
-   MEl24rZRepeavh447YdXmKcQpxKzLolWUNmDba1EE8RpAWzpQrFZ1ACrI
-   Q==;
-X-CSE-ConnectionGUID: yQoIywblTyebt3duGhBSLA==
-X-CSE-MsgGUID: dA1ICoViTSmmB9EvUbXILg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="65375972"
+  t=1763202772; x=1794738772;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=elANGExcynx3LW8roGgSRsUVVNTgUlJ2FrABMmDBvX4=;
+  b=Zl+jzoj74OFRxcRQe09lydTTPLxU7hFLULulfrGQDe9et15DRRcaANC/
+   LbNgw8QO6udHjTIRVqNUQ9C4d7Ko2anlrmOLSws83gvJih0f9rf402WGU
+   gCvT4YF9+Fshae37nGar0Vh6fv/KxapFo9lAOQDA/GG2xbtifkxVxiMKs
+   dmLqYmyVyYAFuC40gHFNx6UzFVC3th+eQcPqZgEoiXT3c0/JXAzhittDU
+   vAKPGE6xwR0M1M2IhAYjQ1zfR4jfuar66rqAz9RNVOgXYmIO4gl4I3ncV
+   EBDV/4qjvIsjNl77qssHg01RFvwsWTXhws1Vuu21596poevS/pbMUOAtz
+   g==;
+X-CSE-ConnectionGUID: yQdukRzzRLKR37d5gQOf1w==
+X-CSE-MsgGUID: /cBltM1zRi+RMdkNnU5dRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="68906035"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="65375972"
+   d="scan'208";a="68906035"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 01:51:49 -0800
-X-CSE-ConnectionGUID: uG+q97uVRgSsI6liqwQZeQ==
-X-CSE-MsgGUID: YObL3VYdSOSw5BYe6PTfJg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 02:32:51 -0800
+X-CSE-ConnectionGUID: hWYPFlo6Rh+TVSS8duSSmQ==
+X-CSE-MsgGUID: gmXHzGY7TZ+CpPU1N548fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="194443766"
+   d="scan'208";a="194448831"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Nov 2025 01:51:46 -0800
+  by orviesa004.jf.intel.com with ESMTP; 15 Nov 2025 02:32:49 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKCwZ-0007rX-1a;
-	Sat, 15 Nov 2025 09:51:43 +0000
-Date: Sat, 15 Nov 2025 17:51:28 +0800
+	id 1vKDaJ-0007tD-0Z;
+	Sat, 15 Nov 2025 10:32:47 +0000
+Date: Sat, 15 Nov 2025 18:32:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ath10k@lists.infradead.org,
-	ath11k@lists.infradead.org, devicetree@vger.kernel.org,
-	ath12k@lists.infradead.org,
-	Miaoqing Pan <miaoqing.pan@oss.qualcomm.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] wifi: ath: Use static calibration variant table for
- devicetree platforms
-Message-ID: <202511151754.ggEBSIV4-lkp@intel.com>
-References: <20251114-ath-variant-tbl-v1-1-a9adfc49e3f3@oss.qualcomm.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
+Subject: [tip:objtool/core 5/5] drivers/tty/serial/icom.o: warning: objtool:
+ startup() function name creates ambiguity with -ffunction-sections
+Message-ID: <202511151839.A810rWWM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,92 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114-ath-variant-tbl-v1-1-a9adfc49e3f3@oss.qualcomm.com>
 
-Hi Manivannan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/wifi-ath-Use-static-calibration-variant-table-for-devicetree-platforms/20251114-183506
-base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-patch link:    https://lore.kernel.org/r/20251114-ath-variant-tbl-v1-1-a9adfc49e3f3%40oss.qualcomm.com
-patch subject: [PATCH 1/2] wifi: ath: Use static calibration variant table for devicetree platforms
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251115/202511151754.ggEBSIV4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151754.ggEBSIV4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
+head:   9c7dc1dd897a1cdcade9566ea4664b03fbabf4a4
+commit: 9c7dc1dd897a1cdcade9566ea4664b03fbabf4a4 [5/5] objtool: Warn on functions with ambiguous -ffunction-sections section names
+config: powerpc-randconfig-r123-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151839.A810rWWM-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151839.A810rWWM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511151754.ggEBSIV4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511151839.A810rWWM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/wireless/ath/ath10k/core.h:26,
-                    from drivers/net/wireless/ath/ath10k/core.c:21:
-   In function 'ath_get_calib_variant',
-       inlined from 'ath10k_core_check_dt' at drivers/net/wireless/ath/ath10k/core.c:1164:12:
->> drivers/net/wireless/ath/ath10k/../ath.h:431:36: warning: argument 2 null where non-null expected [-Wnonnull]
-     431 |         while ((entry->machine) && strcmp(entry->machine, model))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/tsc.h:11,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/net/wireless/ath/ath10k/core.c:11:
-   include/linux/string.h: In function 'ath10k_core_check_dt':
-   include/linux/string.h:161:12: note: in a call to function 'strcmp' declared 'nonnull'
-     161 | extern int strcmp(const char *,const char *);
-         |            ^~~~~~
---
-   In file included from drivers/net/wireless/ath/ath11k/core.c:23:
-   In function 'ath_get_calib_variant',
-       inlined from 'ath11k_core_check_dt' at drivers/net/wireless/ath/ath11k/core.c:1367:12:
->> drivers/net/wireless/ath/ath11k/../ath.h:431:36: warning: argument 2 null where non-null expected [-Wnonnull]
-     431 |         while ((entry->machine) && strcmp(entry->machine, model))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/tsc.h:11,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/net/wireless/ath/ath11k/core.c:9:
-   include/linux/string.h: In function 'ath11k_core_check_dt':
-   include/linux/string.h:161:12: note: in a call to function 'strcmp' declared 'nonnull'
-     161 | extern int strcmp(const char *,const char *);
-         |            ^~~~~~
-
-
-vim +431 drivers/net/wireless/ath/ath10k/../ath.h
-
-   424	
-   425	static inline const char *ath_get_calib_variant(void)
-   426	{
-   427		const struct __ath_calib_variant_table *entry = ath_calib_variant_table;
-   428		struct device_node *root __free(device_node) = of_find_node_by_path("/");
-   429		const char *model = of_get_property(root, "model", NULL);
-   430	
- > 431		while ((entry->machine) && strcmp(entry->machine, model))
-   432			entry++;
-   433	
-   434		return entry->machine ? entry->variant : NULL;
-   435	}
-   436	
+>> drivers/tty/serial/icom.o: warning: objtool: startup() function name creates ambiguity with -ffunction-sections
 
 -- 
 0-DAY CI Kernel Test Service
