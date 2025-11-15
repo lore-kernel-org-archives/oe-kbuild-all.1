@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F845199FBA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 07:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEBD18EB0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Nov 2025 07:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763190215; cv=none; b=AExZUDe78aZhd6XMuoQazmak9PaXQBVY8+q3WA7kei29nzwDJujaqVMg5Q4u7FnUFbpEGADxbcM4m+cN340SbXSEB7rOLJ2UfYU6at5m7RZHMaH5sq0CMmdLK70DO7iYmZePyPfsu2U+NG56Xg+Lhss9BZo76FSRRFAzbkxox+Q=
+	t=1763193398; cv=none; b=bB2ZQOa1W7TZw+ujyg3t0/tVVSIb/slmCubGk7myMbR2Y02ZliZsiIyb1nVu2QhL1AGdVNNJ2uvSYYDdfS2V+7flw7WI2BIZLshPD0Id2JjkcrViNhRTmm/TlOAW184LrF3qszs81Vk8EqDmHmeHP3qAM9GrPQ3L28XL/Cqjy7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763190215; c=relaxed/simple;
-	bh=8DpZWFK0S3H2zb8eZabNtksiwnx/vJRbWss0ymp60v4=;
+	s=arc-20240116; t=1763193398; c=relaxed/simple;
+	bh=u7hKesHHXx7a1ZXJcQfEOLnqNr3KyWd2jl1OM+yTnNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HCmtmIXzAxHAH27JPNFxVLspFEeMJV2OlL6VWISZhhdjCG/v3YxTCPkz5yTtBOeVdoA2pauVw8jojENFirNiTi1X5cIsWu/jT8EJq+G24Pyfow9Sobwi1BXf9kdHxX2oHeCMAtP/3st5qgaomQM1O1vyJtiqrmVXvSkjg8h46FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NZEV2C+4; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ZulCj3EpLdr8Y73sJ7D3lqYDzyqJTcMJH8FVeDZUHnfWSfY8PjA9ITRlMBp+eYNLtqinRyjf2SeL1HACXCLoQpd2DixYLo4iRPw60yI4gYP5LYry/Nk1Ief/mMk2/VIicdc8qK2O5bd6/uYfuSzH1iJuiTfZnCRkbqSzMx1O4Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=foXcII9g; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NZEV2C+4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="foXcII9g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763190213; x=1794726213;
+  t=1763193397; x=1794729397;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8DpZWFK0S3H2zb8eZabNtksiwnx/vJRbWss0ymp60v4=;
-  b=NZEV2C+4/UX3f1mvG+mGtD47ABIW/dNfOJb7jyHNm5U74SHJxWDQRPVD
-   mlyIAv/bsXhtbIraCUlaU9RwReRdR+XYrSicRvsrd4/O+2ZRWHRRYSxVA
-   vepnR/7GVH0D+AdkPSTl+kiuKhmwdxiHLKB7BqjCzRBO0jPl6cZBOt0pS
-   188BsLGDXMQraieZOD62WCioDqUKz4AuLQMw2h43oJbRrsyojYHSBzNrx
-   5guRmmq1g6XSeeigo/J3m0TXZbjA2G65xIPuP98ifCUtsDzbk0WKypvRw
-   lybJlVUlo9R9umO+0GN6yWm9JwuOjA2ROpbAMeXpnEOzFdVSCulzznCkJ
+  bh=u7hKesHHXx7a1ZXJcQfEOLnqNr3KyWd2jl1OM+yTnNo=;
+  b=foXcII9gb+zHyX8KVzP9BAqNk3jhDhiYVqN1z2xuRCrD3cxWx54Fv07t
+   6vj7aj+ISCc1+GrDcYRhZploII316uiVOY5WJvzWmYqwuJF8DoDbSqyLy
+   Tht2SorcCP6XhM8jZriIyjt5r2+LetDuZEUV9nF4nVAVR0+Cr259vcLUw
+   DuK7vk3qeh6PwSWIBXjv2bkP3tjZNPGw7KRUIZPqZYMxob/vSavAaCjsX
+   21Cp5Taq7vr4vpkgUnb4t2fGhSfSUMBfnQEEKf7sWkZqLC1UPqj9SoKDN
+   aoJDk7YzjPkDgJ1Iyxk2BC6eydw11cgTHAjKc2V7X/OK7XpixJmY6o+47
    g==;
-X-CSE-ConnectionGUID: RpxMWqPFTaeMKSHq1a11/g==
-X-CSE-MsgGUID: idKVpqowRMqBET1tb0VoMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="64280418"
+X-CSE-ConnectionGUID: qqSjIkIBQvaqIxVbOn8tAg==
+X-CSE-MsgGUID: CBqQ145uSXime+ya8QvGZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="69125386"
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="64280418"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 23:03:33 -0800
-X-CSE-ConnectionGUID: L7sqwuGiSH+sfy7WCS7y9Q==
-X-CSE-MsgGUID: w+TzgPbaRFeDnKKqJPJ+RA==
+   d="scan'208";a="69125386"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 23:56:36 -0800
+X-CSE-ConnectionGUID: j/jfW/7pQMOWhke/nam3sQ==
+X-CSE-MsgGUID: Ab9MPtSISfGMlJsw2cEfDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; 
-   d="scan'208";a="195122207"
+   d="scan'208";a="190437270"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Nov 2025 23:03:32 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Nov 2025 23:56:35 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKAJl-0007lv-0C;
-	Sat, 15 Nov 2025 07:03:29 +0000
-Date: Sat, 15 Nov 2025 15:03:19 +0800
+	id 1vKB97-0007nf-0b;
+	Sat, 15 Nov 2025 07:56:33 +0000
+Date: Sat, 15 Nov 2025 15:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:old-ucode-platform 2/7]
- include/linux/../../arch/x86/include/asm/intel-family.h:5:10: fatal error:
- asm/vfm.h: No such file or directory
-Message-ID: <202511151519.QIYTMv1j-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/1] drivers/block/loop.c:1989:6:
+ warning: no previous prototype for 'loop_process_cmd_list'
+Message-ID: <202511151506.DjEXyEcE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +62,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git old-ucode-platform
-head:   19fb9a6d870e83926b240ba86a3e35870fa2e578
-commit: a2e925d5405ec14de4721ada7fdbd066aa33028c [2/7] x86/cpu: Add missing #include
-config: powerpc-randconfig-r072-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151519.QIYTMv1j-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151519.QIYTMv1j-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   3af14d2057f2f3df97472cef6b293113b020d1e6
+commit: aa8a9034d8a0e18d37fff6c6053f470be77637ae [1/1] ANDROID: loop: export loop_process_cmd_list
+config: arm64-randconfig-003-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151506.DjEXyEcE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251115/202511151506.DjEXyEcE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511151519.QIYTMv1j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511151506.DjEXyEcE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/peci-cpu.h:33,
-                    from drivers/peci/device.c:6:
->> include/linux/../../arch/x86/include/asm/intel-family.h:5:10: fatal error: asm/vfm.h: No such file or directory
-       5 | #include <asm/vfm.h>
-         |          ^~~~~~~~~~~
-   compilation terminated.
+>> drivers/block/loop.c:1989:6: warning: no previous prototype for 'loop_process_cmd_list' [-Wmissing-prototypes]
+    1989 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +5 include/linux/../../arch/x86/include/asm/intel-family.h
+vim +/loop_process_cmd_list +1989 drivers/block/loop.c
 
-     4	
-   > 5	#include <asm/vfm.h>
-     6	
+  1988	
+> 1989	void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
+  1990	{
+  1991		struct loop_device *lo = disk->private_data;
+  1992		loop_process_work(NULL, cmd_list, lo);
+  1993	}
+  1994	EXPORT_SYMBOL_GPL(loop_process_cmd_list);
+  1995	
 
 -- 
 0-DAY CI Kernel Test Service
