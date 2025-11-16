@@ -1,297 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mail-m15592.qiye.163.com (mail-m15592.qiye.163.com [101.71.155.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F34F8634C;
-	Sun, 16 Nov 2025 08:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8D1EAF9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Nov 2025 09:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763281049; cv=none; b=Hm7XdlqKTBSB9OB94DJ8U+2S8YNjZ3GhHkRv4jK5zPd7HM9RVBbT/34aY/8ijbtEZ5Itdbwq9NOLgmv9yOfU8/yA9YGzhH4ns7hyZ7JROB+wsOd/4SriQEFyOXW/Cs760Bc/G3Mv3vubop3csZZhIZeP3d7uLFxMwVtXCnTOrSg=
+	t=1763284667; cv=none; b=N69OYylG3tMyMJCq7fvHh8tg3ebbnl/FLhc+a8Ei6Isgd2BIklC4YaQDk41APIeQcdRIp6KP2UdjkJJRD9o5koLFw13NA1gfWrKtnFvBAzmzIS9PkYWMF8n+TvVXS9TFmLuUahstjhPR2aCdU5Uh2BnGBisUtsqYvTEGQodvDP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763281049; c=relaxed/simple;
-	bh=JX0iwPY3B8f53h18SuWzlM68IcEeYuWN+SQJOegTfF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rwZvqhiaQTSoH+sjPtDgonBRjEcKwdSY61MXtHB3CbAwQDT8MeiNQfs6It7zCm7zp9NLQM3DS6iiHihibn3DYZpRN6aq2z8FVGjOK57Rgodd3Tq2j7MkrQhsWF8vmrPGVYZmyvBf/Y+qdRlWeJ6nX24DXgVVbjraElLk4ecCFlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evt5yK63; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763284667; c=relaxed/simple;
+	bh=KFOOqqonmQshkmSToomFHPisuar2VI2j8xAV9tpr9ho=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gVPfTvo9dfxD10GzWf1WfMJXjII7SYtv+g+MyCuVb/GqoV+lfh76bgg7M1LEoJtK9BFrJCSUe26xZ6Q0/wG0TTtEyHuBjmegk+D91JVYAYpwcR60fvGuI/j+NVIMiGO4eu9u++CsAYfI3VWCewshtx+gaVoFezXFVTkTKW9vJX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=iKmH86oV; arc=none smtp.client-ip=101.71.155.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evt5yK63"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763281047; x=1794817047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JX0iwPY3B8f53h18SuWzlM68IcEeYuWN+SQJOegTfF8=;
-  b=evt5yK63x2nX0fSvZKZw4kIVQo9Krdyf+UYzlsWHHwPBhkNNRhUpX315
-   R8uVAxJY9rGu4APKy2e2hK6Eg7rgp7fUe9p8gXcpn2m8pajRoa55zuKw/
-   h6H51Inuj5wQqmy80M/4hycYSBI6SWVQtUXYtzOSoCsd5A8Bt04IIIZcB
-   Y8hw0IE8ChBmXG1BVUOH8hAqk3S7+KhiUN6/4ZlYGjHUPfqB1PCcze10D
-   WYedyMZkZqt30phm2AfcgnUmbDgk2EvDLrtM/adRMIQY19QMioroM3HCX
-   fIXf0OGvIfzie3V9/wqN3/iFlFV+xhpilD4oMVpIkeOhb5On5M1MyvYIt
-   g==;
-X-CSE-ConnectionGUID: D8AAQTTVTpmcyJhxFMEmuQ==
-X-CSE-MsgGUID: E1kkfXtrRciv12RdUGUBdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="76771971"
-X-IronPort-AV: E=Sophos;i="6.19,309,1754982000"; 
-   d="scan'208";a="76771971"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 00:17:27 -0800
-X-CSE-ConnectionGUID: IekSeUZmQkCthgKLsoSjpQ==
-X-CSE-MsgGUID: pppzODKLSqqXSa/KY7jhpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,309,1754982000"; 
-   d="scan'208";a="220832343"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Nov 2025 00:17:24 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vKXwn-0008ch-2R;
-	Sun, 16 Nov 2025 08:17:21 +0000
-Date: Sun, 16 Nov 2025 16:17:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anirudh Rayabharam <anirudh@anirudhrb.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	anirudh@anirudhrb.com, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
-Message-ID: <202511161617.KcDzR4sA-lkp@intel.com>
-References: <20251114095853.3482596-1-anirudh@anirudhrb.com>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="iKmH86oV"
+Received: from localhost.localdomain (unknown [1.203.157.252])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 29ba56936;
+	Sun, 16 Nov 2025 17:17:39 +0800 (GMT+08:00)
+From: ke zijie <kezijie@leap-io-kernel.com>
+To: lkp@intel.com
+Cc: alexs@kernel.org,
+	doubled@leap-io-kernel.com,
+	linux-doc@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	ke zijie <kezijie@leap-io-kernel.com>
+Subject: [PATCH] docs: zh_CN: scsi: fix broken references in scsi-parameters.rst
+Date: Sun, 16 Nov 2025 17:16:56 +0800
+Message-Id: <20251116091656.1788887-1-kezijie@leap-io-kernel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202511130315.WOiKJQTu-lkp@intel.com>
+References: <202511130315.WOiKJQTu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251114095853.3482596-1-anirudh@anirudhrb.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a8bf4abf709d8kunm0fae0246329af04
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDQ0JNVkgYGklMTEkdHh9KHlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUlLSFVKTkxVSU5JWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=iKmH86oVxhdarER8UNeroYh2+GusAGEsHUqN6ok/+XCfnUvkFlXpbohZTIu5wm3LDbtDld3IeXzeIDflcFDxVR7IyqDor7azdpyOEGe6jOf/nzTYkQG4tmexi2YawTY8SAa5JJkoJL/h3t42ZVQ50IXqJFTFz+Dqc8sG867lihJWsZlR9qpIdCNt7QdoGVlFJYxp1UtDIapd7rtZSXNNTOToN5ltMu4gyuG0TslVkCsNf8UJw1NVqXJpJJBIsysWG9SYPRzlHaiigo37sdVyE2S/OloH1oMxpI7FgUiFRvMTz9j0TMSZ2l48ERz08ZLz1EtwJJ3JZAly5C9ywb3O+Q==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Kk6pZ2Auo5LbAzp2gZb/w4HYA9Nswbh9mg5IA/Vd2KI=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Anirudh,
+0day CI reported several broken references under
+Documentation/translations/zh_CN/scsi/scsi-parameters.rst.
+These files do not exist under the translations directory.
+The correct references are the original English documents under
+Documentation/scsi/.
 
-kernel test robot noticed the following build errors:
+This patch updates all broken paths accordingly.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc5]
-[cannot apply to next-20251114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202511130315.WOiKJQTu-lkp@intel.com/
+Signed-off-by: ke zijie <kezijie@leap-io-kernel.com>
+---
+ .../translations/zh_CN/scsi/scsi-parameters.rst  | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Rayabharam/Drivers-hv-ioctl-for-self-targeted-passthrough-hvcalls/20251114-182039
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251114095853.3482596-1-anirudh%40anirudhrb.com
-patch subject: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
-config: x86_64-buildonly-randconfig-005-20251116 (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/reproduce)
+diff --git a/Documentation/translations/zh_CN/scsi/scsi-parameters.rst b/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
+index 53cdc3094a9a..ace777e070ea 100644
+--- a/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
++++ b/Documentation/translations/zh_CN/scsi/scsi-parameters.rst
+@@ -31,16 +31,16 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/advansys.c 文件头部。
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511161617.KcDzR4sA-lkp@intel.com/
+ 	aha152x=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aha152x.rst。
++			请查阅 Documentation/scsi/aha152x.rst。
 
-All errors (new ones prefixed by >>):
+ 	aha1542=	[HW,SCSI]
+ 			格式：<portbase>[,<buson>,<busoff>[,<dmaspeed>]]
 
->> drivers/hv/mshv_root_main.c:125:2: error: use of undeclared identifier 'HVCALL_GET_PARTITION_PROPERTY_EX'
-     125 |         HVCALL_GET_PARTITION_PROPERTY_EX,
-         |         ^
->> drivers/hv/mshv_root_main.c:175:18: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
-     175 |         for (i = 0; i < ARRAY_SIZE(mshv_passthru_hvcalls); ++i)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   drivers/hv/mshv_root_main.c:179:11: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
-     179 |         if (i >= ARRAY_SIZE(mshv_passthru_hvcalls))
-         |         ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   drivers/hv/mshv_root_main.c:179:11: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
-     179 |         if (i >= ARRAY_SIZE(mshv_passthru_hvcalls))
-         |         ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
-   drivers/hv/mshv_root_main.c:179:11: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
-     179 |         if (i >= ARRAY_SIZE(mshv_passthru_hvcalls))
-         |         ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                                     ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   5 errors generated.
+ 	aic7xxx=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aic7xxx.rst。
++			请查阅 Documentation/scsi/aic7xxx.rst。
 
+ 	aic79xx=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/aic79xx.rst。
++			请查阅 Documentation/scsi/aic79xx.rst。
 
-vim +/HVCALL_GET_PARTITION_PROPERTY_EX +125 drivers/hv/mshv_root_main.c
+ 	atascsi=	[HW,SCSI]
+ 			请查阅 drivers/scsi/atari_scsi.c。
+@@ -69,19 +69,19 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/NCR_D700.c 文件头部。
 
-   117	
-   118	/*
-   119	 * Only allow hypercalls that have a u64 partition id as the first member of
-   120	 * the input structure.
-   121	 * These are sorted by value.
-   122	 */
-   123	static u16 mshv_passthru_hvcalls[] = {
-   124		HVCALL_GET_PARTITION_PROPERTY,
- > 125		HVCALL_GET_PARTITION_PROPERTY_EX,
-   126		HVCALL_SET_PARTITION_PROPERTY,
-   127		HVCALL_INSTALL_INTERCEPT,
-   128		HVCALL_GET_VP_REGISTERS,
-   129		HVCALL_SET_VP_REGISTERS,
-   130		HVCALL_TRANSLATE_VIRTUAL_ADDRESS,
-   131		HVCALL_CLEAR_VIRTUAL_INTERRUPT,
-   132		HVCALL_REGISTER_INTERCEPT_RESULT,
-   133		HVCALL_ASSERT_VIRTUAL_INTERRUPT,
-   134		HVCALL_GET_GPA_PAGES_ACCESS_STATES,
-   135		HVCALL_SIGNAL_EVENT_DIRECT,
-   136		HVCALL_POST_MESSAGE_DIRECT,
-   137		HVCALL_GET_VP_CPUID_VALUES,
-   138	};
-   139	
-   140	static bool mshv_hvcall_is_async(u16 code)
-   141	{
-   142		switch (code) {
-   143		case HVCALL_SET_PARTITION_PROPERTY:
-   144			return true;
-   145		default:
-   146			break;
-   147		}
-   148		return false;
-   149	}
-   150	
-   151	static int mshv_ioctl_passthru_hvcall(struct mshv_partition *partition,
-   152					      bool partition_locked,
-   153					      void __user *user_args)
-   154	{
-   155		u64 status;
-   156		int ret = 0, i;
-   157		bool is_async;
-   158		struct mshv_root_hvcall args;
-   159		struct page *page;
-   160		unsigned int pages_order;
-   161		void *input_pg = NULL;
-   162		void *output_pg = NULL;
-   163		u64 pt_id = partition ? partition->pt_id : HV_PARTITION_ID_SELF;
-   164	
-   165		if (copy_from_user(&args, user_args, sizeof(args)))
-   166			return -EFAULT;
-   167	
-   168		if (args.status || !args.in_ptr || args.in_sz < sizeof(u64) ||
-   169		    mshv_field_nonzero(args, rsvd) || args.in_sz > HV_HYP_PAGE_SIZE)
-   170			return -EINVAL;
-   171	
-   172		if (args.out_ptr && (!args.out_sz || args.out_sz > HV_HYP_PAGE_SIZE))
-   173			return -EINVAL;
-   174	
- > 175		for (i = 0; i < ARRAY_SIZE(mshv_passthru_hvcalls); ++i)
-   176			if (args.code == mshv_passthru_hvcalls[i])
-   177				break;
-   178	
-   179		if (i >= ARRAY_SIZE(mshv_passthru_hvcalls))
-   180			return -EINVAL;
-   181	
-   182		is_async = mshv_hvcall_is_async(args.code);
-   183		if (is_async) {
-   184			/* async hypercalls can only be called from partition fd */
-   185			if (!partition || !partition_locked)
-   186				return -EINVAL;
-   187			ret = mshv_init_async_handler(partition);
-   188			if (ret)
-   189				return ret;
-   190		}
-   191	
-   192		pages_order = args.out_ptr ? 1 : 0;
-   193		page = alloc_pages(GFP_KERNEL, pages_order);
-   194		if (!page)
-   195			return -ENOMEM;
-   196		input_pg = page_address(page);
-   197	
-   198		if (args.out_ptr)
-   199			output_pg = (char *)input_pg + PAGE_SIZE;
-   200		else
-   201			output_pg = NULL;
-   202	
-   203		if (copy_from_user(input_pg, (void __user *)args.in_ptr,
-   204				   args.in_sz)) {
-   205			ret = -EFAULT;
-   206			goto free_pages_out;
-   207		}
-   208	
-   209		/*
-   210		 * NOTE: This only works because all the allowed hypercalls' input
-   211		 * structs begin with a u64 partition_id field.
-   212		 */
-   213		*(u64 *)input_pg = pt_id;
-   214	
-   215		if (args.reps)
-   216			status = hv_do_rep_hypercall(args.code, args.reps, 0,
-   217						     input_pg, output_pg);
-   218		else
-   219			status = hv_do_hypercall(args.code, input_pg, output_pg);
-   220	
-   221		if (hv_result(status) == HV_STATUS_CALL_PENDING) {
-   222			if (is_async) {
-   223				mshv_async_hvcall_handler(partition, &status);
-   224			} else { /* Paranoia check. This shouldn't happen! */
-   225				ret = -EBADFD;
-   226				goto free_pages_out;
-   227			}
-   228		}
-   229	
-   230		if (hv_result(status) == HV_STATUS_INSUFFICIENT_MEMORY) {
-   231			ret = hv_call_deposit_pages(NUMA_NO_NODE, pt_id, 1);
-   232			if (!ret)
-   233				ret = -EAGAIN;
-   234		} else if (!hv_result_success(status)) {
-   235			ret = hv_result_to_errno(status);
-   236		}
-   237	
-   238		/*
-   239		 * Always return the status and output data regardless of result.
-   240		 * The VMM may need it to determine how to proceed. E.g. the status may
-   241		 * contain the number of reps completed if a rep hypercall partially
-   242		 * succeeded.
-   243		 */
-   244		args.status = hv_result(status);
-   245		args.reps = args.reps ? hv_repcomp(status) : 0;
-   246		if (copy_to_user(user_args, &args, sizeof(args)))
-   247			ret = -EFAULT;
-   248	
-   249		if (output_pg &&
-   250		    copy_to_user((void __user *)args.out_ptr, output_pg, args.out_sz))
-   251			ret = -EFAULT;
-   252	
-   253	free_pages_out:
-   254		free_pages((unsigned long)input_pg, pages_order);
-   255	
-   256		return ret;
-   257	}
-   258	
+ 	ncr5380=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ 	ncr53c400=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
+
+ 	ncr53c400a=	[HW,SCSI]
+-			请查阅 Documentation/translations/zh_CN/scsi/g_NCR5380.rst。
++			请查阅 Documentation/scsi/g_NCR5380.rst。
+
+ 	ncr53c8xx=	[HW,SCSI]
+
+ 	osst=		[HW,SCSI] SCSI磁带驱动
+ 			格式：<buffer_size>,<write_threshold>
+-			另请查阅 Documentation/translations/zh_CN/scsi/st.rst。
++			另请查阅 Documentation/scsi/st.rst。
+
+ 	scsi_debug_*=	[SCSI]
+ 			请查阅 drivers/scsi/scsi_debug.c。
+@@ -112,7 +112,7 @@ SCSI内核参数
+ 			请查阅 drivers/scsi/sim710.c 文件头部。
+
+ 	st=		[HW,SCSI] SCSI磁带参数（缓冲区大小等）
+-			请查阅 Documentation/translations/zh_CN/scsi/st.rst。
++			请查阅 Documentation/scsi/st.rst。
+
+ 	wd33c93=	[HW,SCSI]
+ 			请查阅 drivers/scsi/wd33c93.c 文件头部。
+--
+2.25.1
+
