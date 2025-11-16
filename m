@@ -1,170 +1,161 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364D02C190;
-	Sun, 16 Nov 2025 04:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328C621ABDC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Nov 2025 04:21:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763266867; cv=none; b=N87+oDSY7G4IjPqdZINkWmyKwXSxy/g806PH+5/U3B08lJS82RT3GsLMmuZrxIIzpGh/iQzYTSfw+cWaIC/pT/KzoSkM6nn9HNvozI3jU+tktA2LViVmUnMW0tUer8x2loeEYl2RxmeChXfmO+1xSzBn9bbgDweQKq6NDy8v76A=
+	t=1763266871; cv=none; b=HAtgS6z4xpWgjvnHgRyvxLvV3Yi2G+qzMsZOqnjpE+zfXotAP56PiRwa/Tq5DgBWujS9zrvg8sQ9ER5s+maCjAlCj4pML8UYoXbc2xfs+O/feshLfETvaKcFGOzvCtBZWqQZmxSqx5Unps1JpFnxo2ToTiBuR0x4Fq1GUDNwa1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763266867; c=relaxed/simple;
-	bh=I2mT8fMoXkxXi8uWcpJOeMJBzJQv1W1eTjQ6T9aL+K4=;
+	s=arc-20240116; t=1763266871; c=relaxed/simple;
+	bh=TnANSApNfiRuzxl5SSErnCUG6/kAMhCPOvrkIbicijI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fFBpeLxAuiha4buY7mri3jmGJ3HgeVxfvDLI6H8uAJiCI7mUHqetgxT7S1jPX5KhWqAYTq7oY54WBRaw0fHcfmBvYDZ/cnvrXhf/FIN6g9xDKlXDG0hyK66IFb3AR3I9Gf2qQOoEc7SXTLElQptS0X1jDAf5gvHh+mMqS9HG7Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGXZCLhI; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=RsTCsaqaZt7qIvjJEAjqAoJaHVmAv9nHNDCx7s+VqgF6mdZq1F4YGPoQp4G5QALJZamTpS9r1eoZuziPgGWdMQ0tixIbWYoqCdJH6kESKpZklzXwOvqd9qCMP2Qe47YahaK+TfKxVTix0gY23VwQoXP+Jq1TLBsW9y+IUXEZGkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrr5iJNJ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGXZCLhI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrr5iJNJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763266866; x=1794802866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I2mT8fMoXkxXi8uWcpJOeMJBzJQv1W1eTjQ6T9aL+K4=;
-  b=MGXZCLhIb99rvVU1lKt9CHAklIVq2lVtcrm2IoqYLpeN7RWA7D8FX2SS
-   HVSfw4i6frqPu8kOS9eE2QbhFagYZlthMGZqtOIh6KGW/m+WI3yTAG5G5
-   CjkDs9hTlu94YMEVocPYam6WPniGFf2KlZy0Kipa9Mn4IofM14rEVRaVk
-   g+dRGALe9zTHYYDjSHiQpLBzQoygPKVvA81Svyr7LXZrLHRPak1CaNyaX
-   71SPTEcGyHEr+Utf3L4ISIqZEg58UcUmAghMIY37FBL8jh2nt29FiLE8N
-   gmfHDyAeHz8FI50lSk+QUaJ/sw7/SY7EleVbfESQjUDhzH9xqBOA0Ex3e
-   A==;
-X-CSE-ConnectionGUID: hhgwOl0ASpeCC+D2tIWEtQ==
-X-CSE-MsgGUID: O2Tiqr1wRAu44cEVUVxJKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="68928584"
+  t=1763266868; x=1794802868;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TnANSApNfiRuzxl5SSErnCUG6/kAMhCPOvrkIbicijI=;
+  b=mrr5iJNJK5SxiHXHvI1q+FT26fzMYPumzSFcz2DYP0ThkWgHf6t4cQg/
+   V9UpKuATXD5yRzIzef4Me0dzhv88iydpF7GyL2WZ7Ermn75ywmuyD9ixt
+   rkcuHEvGZ3eHqmFyrrZhwQzMh5Vw1JgiOWFm3jiWhJQVhC3nFvKKBVgNM
+   +4SkzKkdkrqH/dFW0Og6ioeJAXg4TUjyeIK5gTSfSO8WVz+LwbEgAy3Gk
+   GolS5CgDNQ3o9zR1IdeY3fSoPeMS3d88qfZj2Uj0t30VMtrHvyzybrVGU
+   xlnLG4It8hfny0xVqKut2DhY1Un+LKkIEE6RBQDo6r1Hv0HVVcCz+gWQy
+   w==;
+X-CSE-ConnectionGUID: LsckuBEwRbG+c71Pid+2og==
+X-CSE-MsgGUID: kWOIhgu1TNujvgPvvgV2AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11614"; a="68928582"
 X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
-   d="scan'208";a="68928584"
+   d="scan'208";a="68928582"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2025 20:21:05 -0800
-X-CSE-ConnectionGUID: Q0Rs5scxRn6TC2+Bc2wCiQ==
-X-CSE-MsgGUID: V1vHxlV2QIKZCv+ggho0gA==
+X-CSE-ConnectionGUID: /DFpGrdiT8a0l8C42Vpq9Q==
+X-CSE-MsgGUID: CiwWrOfASTCLE8t925dahA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,308,1754982000"; 
-   d="scan'208";a="195281272"
+   d="scan'208";a="195281271"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 15 Nov 2025 20:21:03 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKUG5-0008V3-1W;
+	id 1vKUG5-0008V1-1S;
 	Sun, 16 Nov 2025 04:21:01 +0000
-Date: Sun, 16 Nov 2025 12:20:23 +0800
+Date: Sun, 16 Nov 2025 12:20:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:string-helper-2025-11-13 120/145]
- drivers/gpu/drm/panel/panel-sony-acx565akm.c:562:3: error: call to
- undeclared function 'str_enabled_disabled'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202511161228.QJ6IRBJQ-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v3 11/14]
+ drivers/gpu/drm/i915/intel_memory_region.c:273:61: warning: '%u' directive
+ output may be truncated writing between 1 and 5 bytes into a region of size
+ between 3 and 11
+Message-ID: <202511161244.qmSoMIkT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/morimoto/linux string-helper-2025-11-13
-head:   3ba5ad9182bc6de3e8699129d61a66cbc8d480a9
-commit: 57dce640516332444cd0930a853c65c9fe36e2ee [120/145] drm/panel: sony-acx565akm: use string choices helper
-config: powerpc-randconfig-002-20251116 (https://download.01.org/0day-ci/archive/20251116/202511161228.QJ6IRBJQ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511161228.QJ6IRBJQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
+head:   df5520ea7e635c1cf8dd6620c2ece567ada21c26
+commit: 7a98647d5f5badfa99588a7f64cd39be668fc283 [11/14] x86: Use PIE codegen for the core kernel
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251116/202511161244.qmSoMIkT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511161244.qmSoMIkT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511161228.QJ6IRBJQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511161244.qmSoMIkT-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/panel/panel-sony-acx565akm.c:562:3: error: call to undeclared function 'str_enabled_disabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     562 |                 str_enabled_disabled(lcd->enabled), status);
-         |                 ^
->> drivers/gpu/drm/panel/panel-sony-acx565akm.c:562:3: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-     561 |                 "LCD panel %s by bootloader (status 0x%04x)\n",
-         |                            ~~
-         |                            %d
-     562 |                 str_enabled_disabled(lcd->enabled), status);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
-     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
-     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
-         |                                                 ~~~    ^~~~~~~~~~~
-   1 warning and 1 error generated.
+   drivers/gpu/drm/i915/intel_memory_region.c: In function 'intel_memory_region_create':
+>> drivers/gpu/drm/i915/intel_memory_region.c:273:61: warning: '%u' directive output may be truncated writing between 1 and 5 bytes into a region of size between 3 and 11 [-Wformat-truncation=]
+     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+         |                                                             ^~
+   drivers/gpu/drm/i915/intel_memory_region.c:273:58: note: directive argument in the range [0, 65535]
+     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+         |                                                          ^~~~~~
+   drivers/gpu/drm/i915/intel_memory_region.c:273:9: note: 'snprintf' output between 7 and 19 bytes into a destination of size 16
+     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     274 |                  intel_memory_type_str(type), instance);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/str_enabled_disabled +562 drivers/gpu/drm/panel/panel-sony-acx565akm.c
+vim +273 drivers/gpu/drm/i915/intel_memory_region.c
 
-   538	
-   539	/* -----------------------------------------------------------------------------
-   540	 * Probe, Detect and Remove
-   541	 */
-   542	
-   543	static int acx565akm_detect(struct acx565akm_panel *lcd)
-   544	{
-   545		__be32 value;
-   546		u32 status;
-   547		int ret = 0;
-   548	
-   549		/*
-   550		 * After being taken out of reset the panel needs 5ms before the first
-   551		 * command can be sent.
-   552		 */
-   553		gpiod_set_value(lcd->reset_gpio, 1);
-   554		usleep_range(5000, 10000);
-   555	
-   556		acx565akm_read(lcd, MIPI_DCS_GET_DISPLAY_STATUS, (u8 *)&value, 4);
-   557		status = __be32_to_cpu(value);
-   558		lcd->enabled = (status & (1 << 17)) && (status & (1 << 10));
-   559	
-   560		dev_dbg(&lcd->spi->dev,
-   561			"LCD panel %s by bootloader (status 0x%04x)\n",
- > 562			str_enabled_disabled(lcd->enabled), status);
-   563	
-   564		acx565akm_read(lcd, MIPI_DCS_GET_DISPLAY_ID, lcd->display_id, 3);
-   565		dev_dbg(&lcd->spi->dev, "MIPI display ID: %3phN\n", lcd->display_id);
-   566	
-   567		switch (lcd->display_id[0]) {
-   568		case 0x10:
-   569			lcd->model = MIPID_VER_ACX565AKM;
-   570			lcd->name = "acx565akm";
-   571			lcd->has_bc = 1;
-   572			lcd->has_cabc = 1;
-   573			break;
-   574		case 0x29:
-   575			lcd->model = MIPID_VER_L4F00311;
-   576			lcd->name = "l4f00311";
-   577			break;
-   578		case 0x45:
-   579			lcd->model = MIPID_VER_LPH8923;
-   580			lcd->name = "lph8923";
-   581			break;
-   582		case 0x83:
-   583			lcd->model = MIPID_VER_LS041Y3;
-   584			lcd->name = "ls041y3";
-   585			break;
-   586		default:
-   587			lcd->name = "unknown";
-   588			dev_err(&lcd->spi->dev, "unknown display ID\n");
-   589			ret = -ENODEV;
-   590			goto done;
-   591		}
-   592	
-   593		lcd->revision = lcd->display_id[1];
-   594	
-   595		dev_info(&lcd->spi->dev, "%s rev %02x panel detected\n",
-   596			 lcd->name, lcd->revision);
-   597	
-   598	done:
-   599		if (!lcd->enabled)
-   600			gpiod_set_value(lcd->reset_gpio, 0);
-   601	
-   602		return ret;
-   603	}
-   604	
+3b38d35157530c Tvrtko Ursulin     2023-11-07  245  
+232a6ebae41919 Matthew Auld       2019-10-08  246  struct intel_memory_region *
+232a6ebae41919 Matthew Auld       2019-10-08  247  intel_memory_region_create(struct drm_i915_private *i915,
+232a6ebae41919 Matthew Auld       2019-10-08  248  			   resource_size_t start,
+232a6ebae41919 Matthew Auld       2019-10-08  249  			   resource_size_t size,
+232a6ebae41919 Matthew Auld       2019-10-08  250  			   resource_size_t min_page_size,
+232a6ebae41919 Matthew Auld       2019-10-08  251  			   resource_size_t io_start,
+235582ca96214b Matthew Auld       2022-02-25  252  			   resource_size_t io_size,
+d148738923fdb5 Thomas Hellström   2021-06-02  253  			   u16 type,
+d148738923fdb5 Thomas Hellström   2021-06-02  254  			   u16 instance,
+232a6ebae41919 Matthew Auld       2019-10-08  255  			   const struct intel_memory_region_ops *ops)
+232a6ebae41919 Matthew Auld       2019-10-08  256  {
+232a6ebae41919 Matthew Auld       2019-10-08  257  	struct intel_memory_region *mem;
+232a6ebae41919 Matthew Auld       2019-10-08  258  	int err;
+232a6ebae41919 Matthew Auld       2019-10-08  259  
+232a6ebae41919 Matthew Auld       2019-10-08  260  	mem = kzalloc(sizeof(*mem), GFP_KERNEL);
+232a6ebae41919 Matthew Auld       2019-10-08  261  	if (!mem)
+232a6ebae41919 Matthew Auld       2019-10-08  262  		return ERR_PTR(-ENOMEM);
+232a6ebae41919 Matthew Auld       2019-10-08  263  
+232a6ebae41919 Matthew Auld       2019-10-08  264  	mem->i915 = i915;
+e54051782e5d78 Jani Nikula        2023-01-16  265  	mem->region = DEFINE_RES_MEM(start, size);
+3c0fa9f4ec220d Ville Syrjälä      2024-02-03  266  	mem->io = DEFINE_RES_MEM(io_start, io_size);
+232a6ebae41919 Matthew Auld       2019-10-08  267  	mem->min_page_size = min_page_size;
+232a6ebae41919 Matthew Auld       2019-10-08  268  	mem->ops = ops;
+38f1cb68582cee Lukasz Fiedorowicz 2019-12-27  269  	mem->total = size;
+d148738923fdb5 Thomas Hellström   2021-06-02  270  	mem->type = type;
+d148738923fdb5 Thomas Hellström   2021-06-02  271  	mem->instance = instance;
+232a6ebae41919 Matthew Auld       2019-10-08  272  
+3b38d35157530c Tvrtko Ursulin     2023-11-07 @273  	snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+9e2434f32d2894 Ville Syrjälä      2025-03-13  274  		 intel_memory_type_str(type), instance);
+3b38d35157530c Tvrtko Ursulin     2023-11-07  275  
+7c98501acb9431 Matthew Auld       2019-10-08  276  	mutex_init(&mem->objects.lock);
+7c98501acb9431 Matthew Auld       2019-10-08  277  	INIT_LIST_HEAD(&mem->objects.list);
+232a6ebae41919 Matthew Auld       2019-10-08  278  
+232a6ebae41919 Matthew Auld       2019-10-08  279  	if (ops->init) {
+232a6ebae41919 Matthew Auld       2019-10-08  280  		err = ops->init(mem);
+232a6ebae41919 Matthew Auld       2019-10-08  281  		if (err)
+232a6ebae41919 Matthew Auld       2019-10-08  282  			goto err_free;
+232a6ebae41919 Matthew Auld       2019-10-08  283  	}
+232a6ebae41919 Matthew Auld       2019-10-08  284  
+2e21de9028270a Chris Wilson       2021-12-09  285  	err = intel_memory_region_memtest(mem, (void *)_RET_IP_);
+2e21de9028270a Chris Wilson       2021-12-09  286  	if (err)
+2e21de9028270a Chris Wilson       2021-12-09  287  		goto err_release;
+2e21de9028270a Chris Wilson       2021-12-09  288  
+232a6ebae41919 Matthew Auld       2019-10-08  289  	return mem;
+232a6ebae41919 Matthew Auld       2019-10-08  290  
+2e21de9028270a Chris Wilson       2021-12-09  291  err_release:
+2e21de9028270a Chris Wilson       2021-12-09  292  	if (mem->ops->release)
+2e21de9028270a Chris Wilson       2021-12-09  293  		mem->ops->release(mem);
+232a6ebae41919 Matthew Auld       2019-10-08  294  err_free:
+232a6ebae41919 Matthew Auld       2019-10-08  295  	kfree(mem);
+232a6ebae41919 Matthew Auld       2019-10-08  296  	return ERR_PTR(err);
+232a6ebae41919 Matthew Auld       2019-10-08  297  }
+232a6ebae41919 Matthew Auld       2019-10-08  298  
+
+:::::: The code at line 273 was first introduced by commit
+:::::: 3b38d35157530c12c84fc02cccd469b9a0a00ae7 drm/i915: Add stable memory region names
+
+:::::: TO: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+:::::: CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
