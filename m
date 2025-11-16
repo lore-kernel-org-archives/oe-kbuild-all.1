@@ -1,64 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C7028726D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Nov 2025 22:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00FA30ACEB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Nov 2025 22:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763332754; cv=none; b=K+6raDiTLPVGJLuCXtEC5KNbDxnZOiI3RF1K1ZBeRTrRl0M+xzlXVEHAwNkUpabvmHD4iPAdV8EFm4X4B/8yfXA1zxUgVZtxyPs73t6BIQ0K+SIRqyZjOoqNH1ArLBnthPJTfFDVVOSfqeCl2qwy7gxuDL1WsYjn0ohTQD/RJCw=
+	t=1763332755; cv=none; b=hOkKdbtCDRYwOUkqGyK5k8PLigtm8AewA5MPieTnlkTvnaJp/X57ntRIacOfWJpR/+P2ZnUU7uxzb5UN7J/rTTHFueXholHhCkgy+GgRutqrM6QD33x6gR0qacsAjaB8vObHt/hGtExEVePCGL96WNecxOi6pmzA4hqfuu+h5Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763332754; c=relaxed/simple;
-	bh=02EvVrOPvHK3ycSr4xdL6Ct7ZgclQPlSgosQiWeSxpM=;
+	s=arc-20240116; t=1763332755; c=relaxed/simple;
+	bh=axivBqRhfsA8y2ZQJpQxZddTtACDe6CgCnQ3nRedy3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TznNPkcRkFv/Kan4sz5Q2AIyMbdLU8Y6eIJSX6nBQWjxqTacXmkuOFpyDp9aMNRppTsriy1k+uHBieNHUdRNhyH1wTzCwXWtMWdv8T1BqxWnpeUU7iOscNJD0WyKVzDquLdPgjO3k58VHnAHNftFplAICwk+zXv1j0eHaP3NBdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXK6kOpd; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=PJEGqYeGrF0R+XGAUdmZ1fWhmU94OCnwZCst2ILgiD8CQ4fG1D1G19YfT320LsurOyRiR45OPdJT5rwuiHrA/S3cKFzjIbhHGZRvRBPF8uqDNTzFLQubAmUtiYir19V8851n0OxeoQ6lgnP/ZT5bGeN0eD73/xLs5bKXEiUX6Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tz8+GG+W; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXK6kOpd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tz8+GG+W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763332753; x=1794868753;
+  t=1763332754; x=1794868754;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=02EvVrOPvHK3ycSr4xdL6Ct7ZgclQPlSgosQiWeSxpM=;
-  b=kXK6kOpdGMSOhcB2BHEcYLBLnsBF+4Tu5F6tI7hNKWFIN17D8jc6HTVr
-   TzJGGk0mBn+iUI3BFyCaEZ9Xk9rd9k/0teCzoNDGgS1XV3DACGHA1xEdc
-   oewt8zIkrHYcv/0s062PhVvvJMq0CXzXJpJEA66Ibq09AkCfUU6Wq1i/y
-   BcAj43G2DBFYCxZfLj58Wria9wR4+HUAFTcKVZPQm54dtVkn+QmYp8pJR
-   aQyRd8ty8nxofNTdoxTtZPMAdK0SeAyxcTh6lQl3lZMLFuFXwUUU8ud7v
-   nI8gk3JvTbg9DLl0eB0FqZMI5WSaIBoqlL4HU+UHev7tapa4I6/aM2Sal
-   w==;
-X-CSE-ConnectionGUID: bDM9Mg1zSpeKbrJu3StS2Q==
-X-CSE-MsgGUID: sfGTAjwCSI+Vx8TsBK4pQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65270401"
+  bh=axivBqRhfsA8y2ZQJpQxZddTtACDe6CgCnQ3nRedy3c=;
+  b=Tz8+GG+WqZlaDixKcnaz6REF9BLclHBTh3sBUUxKH/8Tiw+x+d/4waPM
+   PQaSgngZvCFzKNozfySj6nO84Tpv/cSSvmVMOwcxEKuNP9XQp+1X4ZZv9
+   yPCpbnPDIel/ADE9jgKCzwVSxtRRebEH6gXpx62D3qqAdJzn8SmRUNDxX
+   IgQAzNQn0Qe0DwFnTjAAWe2oocARIoDq9953WoCvw8dBCRSiSFzvByfLf
+   o7vWkdwRDhfMRX532fHV5tvPqauXjmzWfwtZWp2O2JwdO2xXRMQePWWWo
+   54v43UK5v7sOLglUhtfTnzLNKgAe8hcZFytJ8Ji/MS26W9kEwFCGyKB1v
+   g==;
+X-CSE-ConnectionGUID: 1oUVSpIDTbq4+lMP27GhVw==
+X-CSE-MsgGUID: YNvdyjd5QYScImcPKYOOOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="75654078"
 X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="65270401"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 14:39:12 -0800
-X-CSE-ConnectionGUID: vdRJyfc7RWCVKcuvKEZ6eQ==
-X-CSE-MsgGUID: uyuqrEC1RAig1JK2VQ0bPw==
+   d="scan'208";a="75654078"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 14:39:13 -0800
+X-CSE-ConnectionGUID: nPGUdiYcQvOTOddza7SVMA==
+X-CSE-MsgGUID: JCCZNBKkRAaEd7ykp321+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="194618049"
+   d="scan'208";a="195434281"
 Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2025 14:39:08 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Nov 2025 14:39:09 -0800
 Received: from kbuild by 7b01c990427b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKlOk-00097n-1V;
+	id 1vKlOk-00097p-1a;
 	Sun, 16 Nov 2025 22:39:06 +0000
-Date: Mon, 17 Nov 2025 06:38:24 +0800
+Date: Mon, 17 Nov 2025 06:38:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>, vkoul@kernel.org, kishon@kernel.org,
-	andriy.shevchenko@linux.intel.com, mchehab+huawei@kernel.org,
-	mani@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] phy: HiSilicon: Fix error handling in
- hi3670_pcie_get_resources_from_pcie
-Message-ID: <202511170524.sEQYJ4MB-lkp@intel.com>
-References: <20251116073231.22676-1-make24@iscas.ac.cn>
+To: Jiaqi Yan <jiaqiyan@google.com>, nao.horiguchi@gmail.com,
+	linmiaohe@huawei.com, ziy@nvidia.com
+Cc: oe-kbuild-all@lists.linux.dev, david@redhat.com,
+	lorenzo.stoakes@oracle.com, william.roche@oracle.com,
+	harry.yoo@oracle.com, tony.luck@intel.com,
+	wangkefeng.wang@huawei.com, willy@infradead.org,
+	jane.chu@oracle.com, akpm@linux-foundation.org, osalvador@suse.de,
+	muchun.song@linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Jiaqi Yan <jiaqiyan@google.com>
+Subject: Re: [PATCH v1 1/2] mm/huge_memory: introduce
+ uniform_split_unmapped_folio_to_zero_order
+Message-ID: <202511170614.JnCyqo45-lkp@intel.com>
+References: <20251116014721.1561456-2-jiaqiyan@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +71,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251116073231.22676-1-make24@iscas.ac.cn>
+In-Reply-To: <20251116014721.1561456-2-jiaqiyan@google.com>
 
-Hi Ma,
+Hi Jiaqi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.18-rc5 next-20251114]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc5]
+[cannot apply to akpm-mm/mm-everything next-20251114]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/phy-HiSilicon-Fix-error-handling-in-hi3670_pcie_get_resources_from_pcie/20251116-153458
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251116073231.22676-1-make24%40iscas.ac.cn
-patch subject: [PATCH] phy: HiSilicon: Fix error handling in hi3670_pcie_get_resources_from_pcie
-config: m68k-randconfig-r072-20251117 (https://download.01.org/0day-ci/archive/20251117/202511170524.sEQYJ4MB-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511170524.sEQYJ4MB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiaqi-Yan/mm-huge_memory-introduce-uniform_split_unmapped_folio_to_zero_order/20251116-094846
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251116014721.1561456-2-jiaqiyan%40google.com
+patch subject: [PATCH v1 1/2] mm/huge_memory: introduce uniform_split_unmapped_folio_to_zero_order
+config: arc-randconfig-001-20251117 (https://download.01.org/0day-ci/archive/20251117/202511170614.JnCyqo45-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511170614.JnCyqo45-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511170524.sEQYJ4MB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511170614.JnCyqo45-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/phy/hisilicon/phy-hi3670-pcie.c: In function 'hi3670_pcie_get_resources_from_pcie':
->> drivers/phy/hisilicon/phy-hi3670-pcie.c:564:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     564 |  int ret = 0;
-         |      ^~~
+   In file included from include/linux/mm.h:6,
+                    from arch/arc/kernel/asm-offsets.c:8:
+   include/linux/huge_mm.h: In function 'uniform_split_unmapped_folio_to_zero_order':
+>> include/linux/huge_mm.h:575:33: error: 'page' undeclared (first use in this function)
+     575 |         VM_WARN_ON_ONCE_PAGE(1, page);
+         |                                 ^~~~
+   include/linux/mmdebug.h:55:27: note: in definition of macro 'VM_WARN_ON_ONCE_PAGE'
+      55 |                 dump_page(page, "VM_WARN_ON_ONCE_PAGE(" __stringify(cond)")");\
+         |                           ^~~~
+   include/linux/huge_mm.h:575:33: note: each undeclared identifier is reported only once for each function it appears in
+     575 |         VM_WARN_ON_ONCE_PAGE(1, page);
+         |                                 ^~~~
+   include/linux/mmdebug.h:55:27: note: in definition of macro 'VM_WARN_ON_ONCE_PAGE'
+      55 |                 dump_page(page, "VM_WARN_ON_ONCE_PAGE(" __stringify(cond)")");\
+         |                           ^~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/arc/kernel/asm-offsets.s] Error 1 shuffle=3849756084
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3849756084
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3849756084
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3849756084
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/ret +564 drivers/phy/hisilicon/phy-hi3670-pcie.c
+vim +/page +575 include/linux/huge_mm.h
 
-   558	
-   559	static int hi3670_pcie_get_resources_from_pcie(struct hi3670_pcie_phy *phy)
-   560	{
-   561		struct device_node *pcie_port;
-   562		struct device *dev = phy->dev;
-   563		struct device *pcie_dev = NULL;
- > 564		int ret = 0;
-   565	
-   566		pcie_port = of_get_child_by_name(dev->parent->of_node, "pcie");
-   567		if (!pcie_port) {
-   568			dev_err(dev, "no pcie node found in %s\n",
-   569				dev->parent->of_node->full_name);
-   570			return -ENODEV;
-   571		}
-   572	
-   573		pcie_dev = bus_find_device_by_of_node(&platform_bus_type, pcie_port);
-   574		if (!pcie_dev) {
-   575			dev_err(dev, "Didn't find pcie device\n");
-   576			ret = -ENODEV;
-   577			goto out_put_node;
-   578		}
-   579	
-   580		/*
-   581		 * We might just use NULL instead of the APB name, as the
-   582		 * pcie-kirin currently registers directly just one regmap (although
-   583		 * the DWC driver register other regmaps).
-   584		 *
-   585		 * Yet, it sounds safer to warrant that it will be accessing the
-   586		 * right regmap. So, let's use the named version.
-   587		 */
-   588		phy->apb = dev_get_regmap(pcie_dev, "kirin_pcie_apb");
-   589		if (!phy->apb) {
-   590			dev_err(dev, "Failed to get APB regmap\n");
-   591			ret = -ENODEV;
-   592			goto out_put_device;
-   593		}
-   594	
-   595	out_put_device:
-   596		put_device(pcie_dev);
-   597	out_put_node:
-   598		of_node_put(pcie_port);
-   599		return 0;
-   600	}
-   601	
+   567	
+   568	static inline bool
+   569	can_split_folio(struct folio *folio, int caller_pins, int *pextra_pins)
+   570	{
+   571		return false;
+   572	}
+   573	static inline int uniform_split_unmapped_folio_to_zero_order(struct folio *folio)
+   574	{
+ > 575		VM_WARN_ON_ONCE_PAGE(1, page);
+   576		return -EINVAL;
+   577	}
+   578	static inline int
+   579	split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
+   580			unsigned int new_order)
+   581	{
+   582		VM_WARN_ON_ONCE_PAGE(1, page);
+   583		return -EINVAL;
+   584	}
+   585	static inline int split_huge_page(struct page *page)
+   586	{
+   587		VM_WARN_ON_ONCE_PAGE(1, page);
+   588		return -EINVAL;
+   589	}
+   590	
 
 -- 
 0-DAY CI Kernel Test Service
