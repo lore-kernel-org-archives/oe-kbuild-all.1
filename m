@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EB634B1AF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 20:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D877D3093AE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 20:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763412297; cv=none; b=TCs+k9kbUfode6cuPcOsOe8FZ0Wy/vxjxTRdFg3fH5/uRqp+721TAHaHxwR2l53u8HCm90hgAHR+OD+PHmORHf0TzOw6LN1+bP6gJg6FaQcyYOE4Dn9N5RfrsvC5W/F6imOPhLGo8TuqGlvqE6sQSPVqldthxfR7BMypBWyxG74=
+	t=1763412953; cv=none; b=bBDvcTg/aY4kNRosU5dnn/WuaWE1F8VYEXKoxVR8HkSbQDqwIPkXe3kwq1AXz4uZ9290oM0X9clZ9b0YIAWjBoBmbI8EKAVOVnXw8KZwwP4m8mSYYxeg6XKD2D5NZUOYPTCo8x8a2ijz1N0UWhfe28pHab+39jCl54++rf7B4T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763412297; c=relaxed/simple;
-	bh=Cz81KbW3O3iCjIt1gMq6wc017QE7/h+YurErZx0NnmQ=;
+	s=arc-20240116; t=1763412953; c=relaxed/simple;
+	bh=A1fgrstrIRQY7NJsz2A67EleNBalW9/LCYdOV3szxzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oaJwXpaCrPZFsC7j9iYNZLSq6xW4z/8Ni/Vzk5IGgcujj7MjCLhiZyG67Ng6SIH9srXAgD5gqCGE1b89a4uTGGHO/wjR/HSSTX/Rx1NKyT//EXf+7yUMWpSkkTwh8m0RNelopQ55QwBoFpuarH2Q7YwuctjTXxd049ATlf6BX3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSdOqHjG; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=IX/2yicoA2zBYUUg9Wd+3HGxMapfUAZmnYOMNfRKrLofsO1PE6HH9dwvR6LdgYHfZBWpWstHluzYG9nT0gLbAR2Yo9KwN00YgIsr+5X++Hrp3vniqzDG8B40N+WnE1I7b5dMNL9MylUhSMmvKORUeRQ9P9+1pM6GkJGfqcmcmzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDWAsF8z; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSdOqHjG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDWAsF8z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763412293; x=1794948293;
+  t=1763412952; x=1794948952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cz81KbW3O3iCjIt1gMq6wc017QE7/h+YurErZx0NnmQ=;
-  b=DSdOqHjGrsA91gFzofgtzqzqS993CGDYw15itd24Kft2wkFxsojn91kG
-   3mLGzmNjRejSKRk3m2hTzvlKQNvhFO39+ITwrWStW3UEDj/3GSGJPhEBX
-   b6pjNzyEeLNnoT0E+rNmprdJyoyR2iaiDso/NTKSNx8HLIzxlJ7Mb+ELr
-   7PdbEKXwG8u37HD1amzLjVc8n3huuPGapitgj067+P5niL2qdc49TKga/
-   p/RscGdIAksWpGNFIZq0lUuq8ZcDMs63Md+bT/9ruEffrORJtV/0vEx+/
-   vhSLXXMagB42ucQB2Je423C5ddPhkvK2WAtCf6Z5IgpKzr4URpPfP/O7b
+  bh=A1fgrstrIRQY7NJsz2A67EleNBalW9/LCYdOV3szxzs=;
+  b=ZDWAsF8zZhaSgZEjqy1t15Bmsn+bTBUHI3eG++a/NPyGkFYjED9C8gAG
+   KsturXwqd3oOSsF/vKrZW4iAJvnCHQR5fIC/ItQgA/K6WyHNydtwm68Hh
+   IFEfUyK+pAongtgzeHtVDDB9IEBWEybfueqZGRpy2YIX+RjuoRYSTDbif
+   /Ytpf0xC/qSHG/MVwQ88+nfHxBctZ5S30d6Hu73VdTJ5Yj7ckB9rlMacZ
+   IiQ8SccH/oJ2hzvMV5n7A9JsA1IwjmhjD7d0fa5nt6cqtSBhaX24G65Xr
+   F25uS8qLAjuuYdiLclRBzsm4Ibr3hgmUkKm577leD4Ujc4O2dbgxDzG4o
    A==;
-X-CSE-ConnectionGUID: d54JqjBDTxSP+QnL+Vzkdw==
-X-CSE-MsgGUID: Q0ssJJD4TeKXKer5HBP5+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76884539"
+X-CSE-ConnectionGUID: W1ZFxZquTceUHilYJPXlqw==
+X-CSE-MsgGUID: pCBYPXeqTtOYZxnc6VXwGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="75744595"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="76884539"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 12:44:50 -0800
-X-CSE-ConnectionGUID: abhtl5ZRRCyvXH9w+SScZw==
-X-CSE-MsgGUID: nPRLN5GlQq6wEx2W59HD/g==
+   d="scan'208";a="75744595"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 12:55:51 -0800
+X-CSE-ConnectionGUID: FbUpOaZsRkmS5BOL4QbRZg==
+X-CSE-MsgGUID: h3uajQhkTYKV6Me5qwfQGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="189849389"
+   d="scan'208";a="189825886"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Nov 2025 12:44:50 -0800
+  by orviesa006.jf.intel.com with ESMTP; 17 Nov 2025 12:55:51 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL65e-000137-2O;
-	Mon, 17 Nov 2025 20:44:46 +0000
-Date: Tue, 18 Nov 2025 04:44:22 +0800
+	id 1vL6GK-00013s-0x;
+	Mon, 17 Nov 2025 20:55:48 +0000
+Date: Tue, 18 Nov 2025 04:55:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3214/3214]
- drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:20: error: incomplete
- definition of type 'struct acpi_device'
-Message-ID: <202511180448.bJpcAwU9-lkp@intel.com>
+Subject: [dhowells-fs:keys-pqc 6/9]
+ lib/crypto/tests/mldsa_kunit.c:84:undefined reference to `mldsa_87_verify'
+Message-ID: <202511180425.HmUlC007-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,126 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi LeoLiu-oc,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   17cadcdf512f891675c3c9df62bcf05511293ae9
-commit: 5d01c9ec4f3b95b0629a38d936f69bc05e494cc9 [3214/3214] pinctrl: Zhaoxin: Add KH-50000 support
-config: x86_64-buildonly-randconfig-004-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180448.bJpcAwU9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180448.bJpcAwU9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
+head:   e298b80f8063fcbc335870ff3f1d59dae4d5116a
+commit: 063e7379ca52344edf2253e59d40970d3f528803 [6/9] crypto: Add ML-DSA-87 pure rejection test vectors as a kunit test
+config: sparc-randconfig-r072-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180425.HmUlC007-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180425.HmUlC007-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180448.bJpcAwU9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180425.HmUlC007-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:123:6: warning: variable 'value_back' set but not used [-Wunused-but-set-variable]
-     123 |         u16 value_back = 0;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:249:6: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
-     249 |         int pin;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:270:6: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
-     270 |         int pin;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:330:6: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
-     330 |         int base_offset = 0;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:363:6: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
-     363 |         int base_offset = 0;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:487:6: warning: variable 'test_mask' set but not used [-Wunused-but-set-variable]
-     487 |         u16 test_mask;
-         |             ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:20: error: incomplete definition of type 'struct acpi_device'
-     779 |                         if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
-         |                                     ~~~~^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
-   include/linux/acpi.h:798:8: note: forward declaration of 'struct acpi_device'
-     798 | struct acpi_device;
-         |        ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:20: error: incomplete definition of type 'struct acpi_device'
-     779 |                         if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
-         |                                     ~~~~^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
-   include/linux/acpi.h:798:8: note: forward declaration of 'struct acpi_device'
-     798 | struct acpi_device;
-         |        ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:20: error: incomplete definition of type 'struct acpi_device'
-     779 |                         if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
-         |                                     ~~~~^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                                               ^~~~
-   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                                                      ^~~~
-   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   include/linux/acpi.h:798:8: note: forward declaration of 'struct acpi_device'
-     798 | struct acpi_device;
-         |        ^
-   6 warnings and 3 errors generated.
+   sparc-linux-ld: lib/crypto/tests/mldsa_kunit.o: in function `dilithium_87_kunit_test':
+>> lib/crypto/tests/mldsa_kunit.c:84:(.text+0x48): undefined reference to `mldsa_87_verify'
+   sparc-linux-ld: lib/crypto/tests/mldsa_kunit.o: in function `dilithium_65_kunit_test':
+   lib/crypto/tests/mldsa_kunit.c:68:(.text+0x134): undefined reference to `mldsa_65_verify'
+   sparc-linux-ld: lib/crypto/tests/mldsa_kunit.o: in function `dilithium_44_kunit_test':
+   lib/crypto/tests/mldsa_kunit.c:52:(.text+0x204): undefined reference to `mldsa_44_verify'
 
 
-vim +779 drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c
+vim +84 lib/crypto/tests/mldsa_kunit.c
 
-996e18349e58a3 leoliu-oc 2024-02-04  765  
-996e18349e58a3 leoliu-oc 2024-02-04  766  const struct zhaoxin_pinctrl_soc_data *zhaoxin_pinctrl_get_soc_data(struct platform_device *pdev)
-996e18349e58a3 leoliu-oc 2024-02-04  767  {
-996e18349e58a3 leoliu-oc 2024-02-04  768  	const struct zhaoxin_pinctrl_soc_data *data = NULL;
-996e18349e58a3 leoliu-oc 2024-02-04  769  	const struct zhaoxin_pinctrl_soc_data **table;
-996e18349e58a3 leoliu-oc 2024-02-04  770  	struct acpi_device *adev;
-996e18349e58a3 leoliu-oc 2024-02-04  771  	unsigned int i;
-996e18349e58a3 leoliu-oc 2024-02-04  772  
-996e18349e58a3 leoliu-oc 2024-02-04  773  	adev = ACPI_COMPANION(&pdev->dev);
-996e18349e58a3 leoliu-oc 2024-02-04  774  	if (adev) {
-996e18349e58a3 leoliu-oc 2024-02-04  775  		const void *match = device_get_match_data(&pdev->dev);
-996e18349e58a3 leoliu-oc 2024-02-04  776  
-996e18349e58a3 leoliu-oc 2024-02-04  777  		table = (const struct zhaoxin_pinctrl_soc_data **)match;
-996e18349e58a3 leoliu-oc 2024-02-04  778  		for (i = 0; table[i]; i++) {
-996e18349e58a3 leoliu-oc 2024-02-04 @779  			if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
-996e18349e58a3 leoliu-oc 2024-02-04  780  				data = table[i];
-996e18349e58a3 leoliu-oc 2024-02-04  781  				break;
-996e18349e58a3 leoliu-oc 2024-02-04  782  			}
-996e18349e58a3 leoliu-oc 2024-02-04  783  		}
-996e18349e58a3 leoliu-oc 2024-02-04  784  	} else {
-996e18349e58a3 leoliu-oc 2024-02-04  785  		const struct platform_device_id *id;
-996e18349e58a3 leoliu-oc 2024-02-04  786  
-996e18349e58a3 leoliu-oc 2024-02-04  787  		id = platform_get_device_id(pdev);
-996e18349e58a3 leoliu-oc 2024-02-04  788  		if (!id)
-996e18349e58a3 leoliu-oc 2024-02-04  789  			return ERR_PTR(-ENODEV);
-996e18349e58a3 leoliu-oc 2024-02-04  790  
-996e18349e58a3 leoliu-oc 2024-02-04  791  		table = (const struct zhaoxin_pinctrl_soc_data **)id->driver_data;
-996e18349e58a3 leoliu-oc 2024-02-04  792  		data = table[pdev->id];
-996e18349e58a3 leoliu-oc 2024-02-04  793  	}
-996e18349e58a3 leoliu-oc 2024-02-04  794  
-996e18349e58a3 leoliu-oc 2024-02-04  795  	return data ?: ERR_PTR(-ENODATA);
-996e18349e58a3 leoliu-oc 2024-02-04  796  }
-996e18349e58a3 leoliu-oc 2024-02-04  797  EXPORT_SYMBOL_GPL(zhaoxin_pinctrl_get_soc_data);
-996e18349e58a3 leoliu-oc 2024-02-04  798  
-
-:::::: The code at line 779 was first introduced by commit
-:::::: 996e18349e58a3ace519f9c0f32f4e62fc46ec2c Add support Zhaoxin GPIO pinctrl
-
-:::::: TO: leoliu-oc <leoliu-oc@zhaoxin.com>
-:::::: CC: leoliu-oc <leoliu-oc@zhaoxin.com>
+    76	
+    77	static void dilithium_87_kunit_test(struct kunit *test)
+    78	{
+    79		const struct dilithium_testvector *tc = dilithium_87_testvectors;
+    80		int count = ARRAY_SIZE(dilithium_87_testvectors);
+    81		int ret;
+    82	
+    83		for (int index = 0; index < count; index++) {
+  > 84			ret = mldsa_87_verify(tc->pk, tc->pk_len,
+    85					      tc->msg, tc->msg_len,
+    86					      tc->sig, tc->sig_len);
+    87			KUNIT_ASSERT_EQ_MSG(test, ret, 0, "Verify failed");
+    88		}
+    89	
+    90		KUNIT_SUCCEED(test);
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
