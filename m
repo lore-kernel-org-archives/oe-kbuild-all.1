@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570EE74BE1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 07:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7AC1EF38E;
+	Mon, 17 Nov 2025 08:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763365950; cv=none; b=YxxDMXEtsSuJ66mn4tvWmyHf+T0n/kmEX+Ad6SRqeRN9bsdKviWSrpZ6hkiDRvdBlg5F44i74c/tcYEcJdwgGaiqeVdkvdWVIY5MK3sATtl7lKzYgdLso96h2J4g7//ZHjFkVlfARyciXQdjkj8ftyujga+SkJeAJTTmSOGp8Gg=
+	t=1763366552; cv=none; b=kbVT1VdJ16XcRvx4K6sIoFrpCKaSfqNBgwn3dBKn1ENtqC2MZtw1sosjyp532haeHSsPpySMDcjXl2c8bmLrtCVVUC0UblLkysAX1sMRNuWAHSF6gQhrKHMTuUCD41BKqZLovNVe3HmxbCFfIocJgsOsu4yCCvKZLkFp+CrlSFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763365950; c=relaxed/simple;
-	bh=2CjHqgbXATi/RP24TaVLQUa+2vBJRu6Jpa8AEXhgOuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Jrew7hl818yEQx/7MP6Li3CcwL6L6NIfGlt0/Awan6wkGYx6jainIDNwahI+RV4jXDgfFDkFph/IOClo2SGpFA1U7YYTp27OOf7HWWoZm7w+Io29BLuvGuoyO6h1bguMl9BfvNgb5U19YAOIkh5g4xvi6tOAXKo8gDVx+lsom98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hb/sCFdI; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1763366552; c=relaxed/simple;
+	bh=gPuHKDtp3UF3TCByRPW4KcUQhNnntHDca6imhl7OHAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bV7PQXLtZWAEApR5RQ2V6Vuh4dOzGyKCAOdkms135zIJyXoIkWhA5V2G5xpccMePqFvsiKWX0cWdcbeJ01seuWEz9bVUNgDKXK7LxkDYXXVW05axZtFNG3BtwNZe4/pDBGo+Lqcqf8vAfxwNVQwW+oAeBhZQObF/WV9taaFK9tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PsY8QV7Y; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hb/sCFdI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PsY8QV7Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763365948; x=1794901948;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2CjHqgbXATi/RP24TaVLQUa+2vBJRu6Jpa8AEXhgOuc=;
-  b=hb/sCFdIXQtgExxgj5QKIHo3y1d2hPX8w7nq2m26AQWjjUSsXqihE13D
-   Q2cjKqlW3reWibO1Qq9VOXhmmP4U7+/hFrB0NpkCShhOWXoOXOk4YHBn9
-   ALxs/8Cj3ez/gOiNnyQT2ARspHHXp7Jmd608wo8OnOKKfeY41EmCvYNY8
-   zF7Zh6Fyzmu5ywgC32eHcln+mQJ/gQYDWHrVqZqZ8IuB4XgiUuJPgblAj
-   3xdcN/JJ1BdAL3XtOFVxjNuPEuxG9JdCA2/woNrMpF//C1sxtNAGLqUUO
-   c3i+4Qvblm5bHoyGz9EyoUxuFviJqe3RxXJWG/j5XN+68NYZxxwHgn7AB
-   A==;
-X-CSE-ConnectionGUID: 5IC53ygiTh+3IMo4YRuhag==
-X-CSE-MsgGUID: J5YlVQZ9SpaP3xgmD077RQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="76707739"
+  t=1763366551; x=1794902551;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gPuHKDtp3UF3TCByRPW4KcUQhNnntHDca6imhl7OHAM=;
+  b=PsY8QV7YWO1zqjsaY1M+UemEsA1edXNcNAuv2fy7BUK3v/5ePm7RGdx7
+   WE6MgyVB2mpMJpeNvCD8BRUK+LUYCvtEvaaXyBxtNMicwEExYsyVsOr/E
+   eKlPGI5VVyCvYFn9UxZn8ntS5F1zzaaz3Hexvvrwqxcy72NiRvpKa8Y3/
+   Fh8LrnRNc5snpcNyJJqIl5TC/psHkh23ibwibJDxwQVpE5KDWfy3SV/7t
+   RjTFqNtYa6rugtAVd7xvzNoTh8FNe8DM+7UdINjvUKzJ2QV+rIyF0Qlm/
+   nS6nOQ29c3i8GPZnr+Zzg+Qx090OsTSreTvGnevEvEAmdFk8iCkT2/LYq
+   w==;
+X-CSE-ConnectionGUID: BNv6zVY5RwimRjYBEAhzDw==
+X-CSE-MsgGUID: GMUQ2QMSQF2DOEfakXYj2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65294433"
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="76707739"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 23:52:28 -0800
-X-CSE-ConnectionGUID: de53y+JzTgaIk7GPxHcUhw==
-X-CSE-MsgGUID: mEtL2zqhRKGLiWSpDYHMYA==
+   d="scan'208";a="65294433"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 00:02:31 -0800
+X-CSE-ConnectionGUID: hfQa5AALRjSxCDd4OjtpKw==
+X-CSE-MsgGUID: 3EWV0LRhRsKGFodZT9AyCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="190618082"
+   d="scan'208";a="191170587"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Nov 2025 23:52:26 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 17 Nov 2025 00:02:27 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKu2C-0000HV-22;
-	Mon, 17 Nov 2025 07:52:24 +0000
-Date: Mon, 17 Nov 2025 15:51:25 +0800
+	id 1vKuBt-0000I3-1N;
+	Mon, 17 Nov 2025 08:02:25 +0000
+Date: Mon, 17 Nov 2025 16:02:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3198/3198] mm/memory.c:2805: warning: Function
- parameter or member 'page_shift' not described in '__remap_pfn_range'
-Message-ID: <202511171556.lxjrabpR-lkp@intel.com>
+To: cx19970 <cx19970@qq.com>, mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, linux-kernel@vger.kernel.org,
+	cx19970 <cx19970@qq.com>
+Subject: Re: [PATCH] BUG: sysrq: Reset the watchdog during the polling of
+ sysrq-t processing tasks
+Message-ID: <202511171548.yY6PHme5-lkp@intel.com>
+References: <tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,62 +67,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07@qq.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ebdf6593446d169605a079430b44abc212c60eb6
-commit: 9058fc5efa4aa44340385ca69fb4ef016931af50 [3198/3198] !18961  mm: add huge pfnmap support for remap_pfn_range()
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511171556.lxjrabpR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511171556.lxjrabpR-lkp@intel.com/reproduce)
+Hi cx19970,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v6.18-rc6 next-20251114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/cx19970/BUG-sysrq-Reset-the-watchdog-during-the-polling-of-sysrq-t-processing-tasks/20251117-130012
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07%40qq.com
+patch subject: [PATCH] BUG: sysrq: Reset the watchdog during the polling of sysrq-t processing tasks
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511171548.yY6PHme5-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511171548.yY6PHme5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511171556.lxjrabpR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511171548.yY6PHme5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memory.c:2805: warning: Function parameter or member 'page_shift' not described in '__remap_pfn_range'
->> mm/memory.c:2805: warning: expecting prototype for remap_pfn_range(). Prototype was for __remap_pfn_range() instead
+>> kernel/sched/fair.c:13940:3: error: call to undeclared function 'touch_nmi_watchdog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    13940 |                 touch_nmi_watchdog();
+          |                 ^
+>> kernel/sched/fair.c:13941:3: error: call to undeclared function 'touch_all_softlockup_watchdogs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    13941 |                 touch_all_softlockup_watchdogs();
+          |                 ^
+   2 errors generated.
+--
+   In file included from kernel/sched/build_policy.c:52:
+>> kernel/sched/rt.c:2941:3: error: call to undeclared function 'touch_nmi_watchdog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2941 |                 touch_nmi_watchdog();
+         |                 ^
+>> kernel/sched/rt.c:2942:3: error: call to undeclared function 'touch_all_softlockup_watchdogs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2942 |                 touch_all_softlockup_watchdogs();
+         |                 ^
+   2 errors generated.
 
 
-vim +2805 mm/memory.c
+vim +/touch_nmi_watchdog +13940 kernel/sched/fair.c
 
-923e224a12462d Yin Tirui                     2025-11-13  2789  
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2790  /**
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2791   * remap_pfn_range - remap kernel memory to userspace
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2792   * @vma: user vma to map to
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2793   * @addr: target page aligned user address to start at
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2794   * @pfn: page frame number of kernel physical memory address
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2795   * @size: size of mapping area
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2796   * @prot: page protection flags for this mapping
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2797   *
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2798   * Note: this is only safe if the mm semaphore is held when called.
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2799   *
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2800   * Return: %0 on success, negative error code otherwise.
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2801   */
-923e224a12462d Yin Tirui                     2025-11-13  2802  int __remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
-923e224a12462d Yin Tirui                     2025-11-13  2803  		    unsigned long pfn, unsigned long size, pgprot_t prot,
-923e224a12462d Yin Tirui                     2025-11-13  2804  			unsigned int page_shift)
-74ffa5a3e68504 Christoph Hellwig             2021-04-29 @2805  {
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2806  	int err;
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2807  
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2808  	err = track_pfn_remap(vma, &prot, pfn, addr, PAGE_ALIGN(size));
-2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  2809  	if (err)
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2810  		return -EINVAL;
-2ab640379a0ab4 venkatesh.pallipadi@intel.com 2008-12-18  2811  
-923e224a12462d Yin Tirui                     2025-11-13  2812  	err = __remap_pfn_range_notrack(vma, addr, pfn, size, prot, page_shift);
-74ffa5a3e68504 Christoph Hellwig             2021-04-29  2813  	if (err)
-68f48381d7fdd1 Suren Baghdasaryan            2023-01-26  2814  		untrack_pfn(vma, pfn, PAGE_ALIGN(size), true);
-^1da177e4c3f41 Linus Torvalds                2005-04-16  2815  	return err;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  2816  }
-923e224a12462d Yin Tirui                     2025-11-13  2817  
-
-:::::: The code at line 2805 was first introduced by commit
-:::::: 74ffa5a3e68504dd289135b1cf0422c19ffb3f2e mm: add remap_pfn_range_notrack
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+ 13933	
+ 13934	void print_cfs_stats(struct seq_file *m, int cpu)
+ 13935	{
+ 13936		struct cfs_rq *cfs_rq, *pos;
+ 13937	
+ 13938		rcu_read_lock();
+ 13939		for_each_leaf_cfs_rq_safe(cpu_rq(cpu), cfs_rq, pos) {
+ 13940			touch_nmi_watchdog();
+ 13941			touch_all_softlockup_watchdogs();
+ 13942			print_cfs_rq(m, cpu, cfs_rq);
+ 13943		}
+ 13944		rcu_read_unlock();
+ 13945	}
+ 13946	
 
 -- 
 0-DAY CI Kernel Test Service
