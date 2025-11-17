@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBDA2EC541;
-	Mon, 17 Nov 2025 18:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D00D30C359
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 18:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403580; cv=none; b=njAa93QahJV2szEvHNdwD7er3kg8xKe7y9Q+lM9Cc4JjnbFpn7R2YH+WJCoPXhoJ+SKkAyvPnvv7nG39QnZaEmvyOv+ex3kWAG75uFH1vYhgKlFIgf1a6Ivfk/fxj2/T34k6bsDmsO5Bx2kw9MsjzCh95tp2jHC94BIyXfr/mxU=
+	t=1763403582; cv=none; b=RbibtfRvExK1bbJi4bcLhh9JAsY6axSeg9CNiILnKDIPFnYiPPRzq+Ow/8NoWiSzGXpcY8Y2jOrybgVNhbMtySAgky0xwQVac/CnkDbwbOSaQk/4Be8eKu3jpz28cpmyhGnxC55Q4OgMEi3IaP/0pkR+NFwPzu30pjX+pZgIZms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403580; c=relaxed/simple;
-	bh=DtGmD+7V6LQOQU0I4l9/aauwsK8ZhFi4hC3prTi3cu8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f20HyBPyqswQN6eUYgS/E1dETM2eyphdvLwQbmMxGfTTbyTMFAB8oNQVj43xFxwRotaP3fvuphsiiMS37l6O86mMDLNKZ6NonR313OMgsQ8U4QqRKFqqKpDZ0yBDDe/EyqAX4aoC35TS2Sp9wZnT0T7GaXautW9KpklMl1uYPWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrVs/Ct3; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1763403582; c=relaxed/simple;
+	bh=Rt0FcpkBwrKDPv+RAlnoaXSMHwdO4ZUMq9JaQBbMZSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gPO771FaXBmSZEdsrymS0B9wGagqZ6Qd4wL93Oj5r64Azv2WUnm79fI6scszrNQAX7eTYgeQ9z3ZabViookPJk6W3PVnOnR2BYBB58c4iPX05/NLi9SBpshlo0O1IGveZIc706u6NxdbzVWQ8NY6RSsU14DvjJC1SM/RDd17weU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E4s+F1qH; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrVs/Ct3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E4s+F1qH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763403578; x=1794939578;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DtGmD+7V6LQOQU0I4l9/aauwsK8ZhFi4hC3prTi3cu8=;
-  b=jrVs/Ct3+06Au3rnCLCJMZCAs4tX3YQ+RokjJPSjKMl4ccql4Uno3bgh
-   4el1jW9GZeM1meAY/v8yUFda1/PeDhQRV/zcFLAZk8WeEoA091GU/p35U
-   2GO+DwYpFqOqxBxXp7U1u/8H34UoWe7UzgtUh4dpr00QR84g5TjbFHGbs
-   SX/VqS9qaG6xrUUKjNxiThmPke39OaxxzWSP3xPK+E8yNMf6yyxXX+h92
-   DgaWtD53izSi1etFMGZe/jm81NvGeMH1J/bzHXH+d0NH/Gx+qBxHOYmfM
-   Gei/EgmjqN1e4p6K5zkVMlmbS1fUzF+5mSl77HsadaX7YDhfvPryLXLxI
-   A==;
-X-CSE-ConnectionGUID: 71mynBPsTxmKXE23ckpCHQ==
-X-CSE-MsgGUID: VBUspTKbTyycKRjiraxq/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65451814"
+  t=1763403580; x=1794939580;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Rt0FcpkBwrKDPv+RAlnoaXSMHwdO4ZUMq9JaQBbMZSE=;
+  b=E4s+F1qHigzxb08p5U6UZYbgSONcTZQf7PUjS+pNvazFX3RMBMtLLCkb
+   LUYx7GnWJ7YRvKUQdKXlZNdz+YmrpIvmMd2j9lI1/N0OI52ETvQt5zsjg
+   xIRw7DgSSWoFEN6RUrIRxVofMka4xhamJKNvt9zJPDzb6Q1NCEbcTodF2
+   UPKCSIcqkmMieMJB9NKqXscGDwjmrdIsdSPJDmK0ToswWZ4vF752tzV0w
+   TrJ6shtC/szPsFB3+YpITfTFKSrDrWtBMVcl8A6QV05SlNwxIJ/e4V7Zn
+   SKr56iQiJddo4YRDIJ5VpNqQBk5dlKjEzXTWhDjw82Az1tlQphSzOdxBs
+   w==;
+X-CSE-ConnectionGUID: VmDPPkO5QSSGGi5OfjJ8Sg==
+X-CSE-MsgGUID: MOtg50L8RyuzCbMb/1w47A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65451816"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="65451814"
+   d="scan'208";a="65451816"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 10:19:37 -0800
-X-CSE-ConnectionGUID: m2p8M+VSTX+yOFwMnllqog==
-X-CSE-MsgGUID: luTljIkeSFeGh0rYmbYTaQ==
+X-CSE-ConnectionGUID: C5g/bgwjT9SJzucdTZHV9Q==
+X-CSE-MsgGUID: T0bdGmprRuW8P2kW+VlRPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="190545918"
+   d="scan'208";a="190545919"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 17 Nov 2025 10:19:35 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL3p6-0000vT-1y;
+	id 1vL3p6-0000vV-23;
 	Mon, 17 Nov 2025 18:19:32 +0000
-Date: Tue, 18 Nov 2025 02:18:32 +0800
+Date: Tue, 18 Nov 2025 02:18:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Edward Srouji <edwards@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH rdma-next 9/9] RDMA/core: Add command to set pinned FRMR
- handles
-Message-ID: <202511180120.k49Kg82B-lkp@intel.com>
-References: <20251116-frmr_pools-v1-9-5eb3c8f5c9c4@nvidia.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [brgl:gpio/for-next 3/11] drivers/gpio/gpiolib-shared.c:62:1:
+ warning: 'gpio_shared_find_entry' defined but not used
+Message-ID: <202511180232.EItKeYjY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +62,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251116-frmr_pools-v1-9-5eb3c8f5c9c4@nvidia.com>
 
-Hi Edward,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d056bc45b62b5981ebcd18c4303a915490b8ebe9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Srouji/IB-core-Introduce-FRMR-pools/20251117-031555
-base:   d056bc45b62b5981ebcd18c4303a915490b8ebe9
-patch link:    https://lore.kernel.org/r/20251116-frmr_pools-v1-9-5eb3c8f5c9c4%40nvidia.com
-patch subject: [PATCH rdma-next 9/9] RDMA/core: Add command to set pinned FRMR handles
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251118/202511180120.k49Kg82B-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180120.k49Kg82B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   67f9b828d4e5e47caf3472a399c25c3c0ddc824a
+commit: a060b8c511abb0997381b397e52149a5e3e5259a [3/11] gpiolib: implement low-level, shared GPIO support
+config: s390-randconfig-r073-20251117 (https://download.01.org/0day-ci/archive/20251118/202511180232.EItKeYjY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180232.EItKeYjY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180120.k49Kg82B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180232.EItKeYjY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/core/nldev.c:2943:12: warning: stack frame size (2112) exceeds limit (2048) in 'nldev_frmr_pools_set_doit' [-Wframe-larger-than]
-    2943 | static int nldev_frmr_pools_set_doit(struct sk_buff *skb, struct nlmsghdr *nlh,
-         |            ^
-   1 warning generated.
+>> drivers/gpio/gpiolib-shared.c:62:1: warning: 'gpio_shared_find_entry' defined but not used [-Wunused-function]
+    gpio_shared_find_entry(struct fwnode_handle *controller_node,
+    ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/nldev_frmr_pools_set_doit +2943 drivers/infiniband/core/nldev.c
+vim +/gpio_shared_find_entry +62 drivers/gpio/gpiolib-shared.c
 
-362ddee594f2a3 Michael Guralnik 2025-11-16  2942  
-79939baf7a9de1 Michael Guralnik 2025-11-16 @2943  static int nldev_frmr_pools_set_doit(struct sk_buff *skb, struct nlmsghdr *nlh,
-79939baf7a9de1 Michael Guralnik 2025-11-16  2944  				     struct netlink_ext_ack *extack)
-79939baf7a9de1 Michael Guralnik 2025-11-16  2945  {
-79939baf7a9de1 Michael Guralnik 2025-11-16  2946  	struct nlattr *tb[RDMA_NLDEV_ATTR_MAX];
-79939baf7a9de1 Michael Guralnik 2025-11-16  2947  	struct ib_device *device;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2948  	u32 aging_period;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2949  	int err;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2950  
-79939baf7a9de1 Michael Guralnik 2025-11-16  2951  	err = nlmsg_parse(nlh, 0, tb, RDMA_NLDEV_ATTR_MAX - 1, nldev_policy,
-79939baf7a9de1 Michael Guralnik 2025-11-16  2952  			  extack);
-79939baf7a9de1 Michael Guralnik 2025-11-16  2953  	if (err)
-79939baf7a9de1 Michael Guralnik 2025-11-16  2954  		return err;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2955  
-79939baf7a9de1 Michael Guralnik 2025-11-16  2956  	if (!tb[RDMA_NLDEV_ATTR_DEV_INDEX])
-79939baf7a9de1 Michael Guralnik 2025-11-16  2957  		return -EINVAL;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2958  
-79939baf7a9de1 Michael Guralnik 2025-11-16  2959  	device = ib_device_get_by_index(
-79939baf7a9de1 Michael Guralnik 2025-11-16  2960  		sock_net(skb->sk), nla_get_u32(tb[RDMA_NLDEV_ATTR_DEV_INDEX]));
-79939baf7a9de1 Michael Guralnik 2025-11-16  2961  	if (!device)
-79939baf7a9de1 Michael Guralnik 2025-11-16  2962  		return -EINVAL;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2963  
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2964  	if (tb[RDMA_NLDEV_ATTR_FRMR_POOLS_AGING_PERIOD]) {
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2965  		aging_period = nla_get_u32(
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2966  			tb[RDMA_NLDEV_ATTR_FRMR_POOLS_AGING_PERIOD]);
-79939baf7a9de1 Michael Guralnik 2025-11-16  2967  		err = ib_frmr_pools_set_aging_period(device, aging_period);
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2968  		goto done;
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2969  	}
-79939baf7a9de1 Michael Guralnik 2025-11-16  2970  
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2971  	if (tb[RDMA_NLDEV_ATTR_FRMR_POOL_PINNED_HANDLES])
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2972  		err = nldev_frmr_pools_set_pinned(device, tb, extack);
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2973  
-9ad54ccf068d69 Michael Guralnik 2025-11-16  2974  done:
-79939baf7a9de1 Michael Guralnik 2025-11-16  2975  	ib_device_put(device);
-79939baf7a9de1 Michael Guralnik 2025-11-16  2976  	return err;
-79939baf7a9de1 Michael Guralnik 2025-11-16  2977  }
-79939baf7a9de1 Michael Guralnik 2025-11-16  2978  
+    60	
+    61	static struct gpio_shared_entry *
+  > 62	gpio_shared_find_entry(struct fwnode_handle *controller_node,
+    63			       unsigned int offset)
+    64	{
+    65		struct gpio_shared_entry *entry;
+    66	
+    67		list_for_each_entry(entry, &gpio_shared_list, list) {
+    68			if (entry->fwnode == controller_node && entry->offset == offset)
+    69				return entry;
+    70		}
+    71	
+    72		return NULL;
+    73	}
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
