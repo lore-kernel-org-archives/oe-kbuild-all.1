@@ -1,156 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00FA30ACEB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Nov 2025 22:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C0D1A3179
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 01:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763332755; cv=none; b=hOkKdbtCDRYwOUkqGyK5k8PLigtm8AewA5MPieTnlkTvnaJp/X57ntRIacOfWJpR/+P2ZnUU7uxzb5UN7J/rTTHFueXholHhCkgy+GgRutqrM6QD33x6gR0qacsAjaB8vObHt/hGtExEVePCGL96WNecxOi6pmzA4hqfuu+h5Y8=
+	t=1763342609; cv=none; b=tM6HZtZR/5A6oUpixqVbKXKLfA9Qn53eDmV4/XEsomBNu1aOWoR4p3wKWI24Nju+CYFIYaf25MQzywH2zD0D/Hn5rFTwcruuN+Q0ZUZ62YwtVJhBOXhTmgsI45qlpmCXYNzb6GhOO7miMr5W3nwucnBtpz4YJthdx12lmroScaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763332755; c=relaxed/simple;
-	bh=axivBqRhfsA8y2ZQJpQxZddTtACDe6CgCnQ3nRedy3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PJEGqYeGrF0R+XGAUdmZ1fWhmU94OCnwZCst2ILgiD8CQ4fG1D1G19YfT320LsurOyRiR45OPdJT5rwuiHrA/S3cKFzjIbhHGZRvRBPF8uqDNTzFLQubAmUtiYir19V8851n0OxeoQ6lgnP/ZT5bGeN0eD73/xLs5bKXEiUX6Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tz8+GG+W; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763342609; c=relaxed/simple;
+	bh=xZDzhTjAYLW+IRAtCMoFvZqUrGS97/fpixDrAv4/IGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C/8HEfdnZrR500sZV5Cwrc3RSnw1kmdTGLx9eAuRA6SbOfd96tCRLXWA3MD5nGQpyCoOXogi5ejyUmduwhxaYdS2Q7Iwln0RwuP1WhyVKOw1+dJzzTURJmTXsVtUTyS+b4gmqPURnHBLlUfz+k6+6fsrp8Hw5L3gpiTHy0+DG34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZREGbiER; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytV265C/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZREGbiER; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytV265C/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tz8+GG+W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763332754; x=1794868754;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=axivBqRhfsA8y2ZQJpQxZddTtACDe6CgCnQ3nRedy3c=;
-  b=Tz8+GG+WqZlaDixKcnaz6REF9BLclHBTh3sBUUxKH/8Tiw+x+d/4waPM
-   PQaSgngZvCFzKNozfySj6nO84Tpv/cSSvmVMOwcxEKuNP9XQp+1X4ZZv9
-   yPCpbnPDIel/ADE9jgKCzwVSxtRRebEH6gXpx62D3qqAdJzn8SmRUNDxX
-   IgQAzNQn0Qe0DwFnTjAAWe2oocARIoDq9953WoCvw8dBCRSiSFzvByfLf
-   o7vWkdwRDhfMRX532fHV5tvPqauXjmzWfwtZWp2O2JwdO2xXRMQePWWWo
-   54v43UK5v7sOLglUhtfTnzLNKgAe8hcZFytJ8Ji/MS26W9kEwFCGyKB1v
-   g==;
-X-CSE-ConnectionGUID: 1oUVSpIDTbq4+lMP27GhVw==
-X-CSE-MsgGUID: YNvdyjd5QYScImcPKYOOOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="75654078"
-X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="75654078"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 14:39:13 -0800
-X-CSE-ConnectionGUID: nPGUdiYcQvOTOddza7SVMA==
-X-CSE-MsgGUID: JCCZNBKkRAaEd7ykp321+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
-   d="scan'208";a="195434281"
-Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 Nov 2025 14:39:09 -0800
-Received: from kbuild by 7b01c990427b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vKlOk-00097p-1a;
-	Sun, 16 Nov 2025 22:39:06 +0000
-Date: Mon, 17 Nov 2025 06:38:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiaqi Yan <jiaqiyan@google.com>, nao.horiguchi@gmail.com,
-	linmiaohe@huawei.com, ziy@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev, david@redhat.com,
-	lorenzo.stoakes@oracle.com, william.roche@oracle.com,
-	harry.yoo@oracle.com, tony.luck@intel.com,
-	wangkefeng.wang@huawei.com, willy@infradead.org,
-	jane.chu@oracle.com, akpm@linux-foundation.org, osalvador@suse.de,
-	muchun.song@linux.dev, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Jiaqi Yan <jiaqiyan@google.com>
-Subject: Re: [PATCH v1 1/2] mm/huge_memory: introduce
- uniform_split_unmapped_folio_to_zero_order
-Message-ID: <202511170614.JnCyqo45-lkp@intel.com>
-References: <20251116014721.1561456-2-jiaqiyan@google.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZREGbiER";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytV265C/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZREGbiER";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytV265C/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 551AE211D6;
+	Mon, 17 Nov 2025 01:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763342598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KazmAWzPAL+3/L4qoorGJOI/H6LrcXlQ9E9cPS/bQ/A=;
+	b=ZREGbiERuyGu1s7drRt7eY1q4MPL8xE543tg4S8Zuy1VC3t+O4CNT5PmVutyfML8kBca+t
+	nkA6MP25ThQRV2QBLI4wBT5xlZt0Yrc4adjBLtv+zbOdVjTFRU3zYv/EvHNXzKRKnTSctJ
+	5QAgS1JmZMhrKEbDO61gJ/ppiu1vGC0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763342598;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KazmAWzPAL+3/L4qoorGJOI/H6LrcXlQ9E9cPS/bQ/A=;
+	b=ytV265C/wfMtyiHVSpAPzvw3IBrf69EBKLSXzrp4bZUip8WO+JlHfdKBpE39Y0SXuEs7ls
+	YVdXg4GSmgbKxvAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZREGbiER;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="ytV265C/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1763342598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KazmAWzPAL+3/L4qoorGJOI/H6LrcXlQ9E9cPS/bQ/A=;
+	b=ZREGbiERuyGu1s7drRt7eY1q4MPL8xE543tg4S8Zuy1VC3t+O4CNT5PmVutyfML8kBca+t
+	nkA6MP25ThQRV2QBLI4wBT5xlZt0Yrc4adjBLtv+zbOdVjTFRU3zYv/EvHNXzKRKnTSctJ
+	5QAgS1JmZMhrKEbDO61gJ/ppiu1vGC0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1763342598;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KazmAWzPAL+3/L4qoorGJOI/H6LrcXlQ9E9cPS/bQ/A=;
+	b=ytV265C/wfMtyiHVSpAPzvw3IBrf69EBKLSXzrp4bZUip8WO+JlHfdKBpE39Y0SXuEs7ls
+	YVdXg4GSmgbKxvAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B3CA3EA61;
+	Mon, 17 Nov 2025 01:23:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1EpUMQR5GmkDWQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Mon, 17 Nov 2025 01:23:16 +0000
+Date: Mon, 17 Nov 2025 12:23:05 +1100
+From: David Disseldorp <ddiss@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/3] scripts: headers_install: filter ignored
+ configs via sed
+Message-ID: <20251117122306.1db6c625.ddiss@suse.de>
+In-Reply-To: <202511141203.lxo6340i-lkp@intel.com>
+References: <20251111132021.22809-3-ddiss@suse.de>
+	<202511141203.lxo6340i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251116014721.1561456-2-jiaqiyan@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 551AE211D6
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Hi Jiaqi,
+On Fri, 14 Nov 2025 14:47:35 +0800, kernel test robot wrote:
+...
+> >> error: arch/arc/include/uapi/asm/swab.h leak CONFIG_ARC_HAS_SWAPE to user-space  
 
-kernel test robot noticed the following build errors:
+Thanks for the report. I'm unfortunately unable to reproduce this. Can
+you provide version details for the shell and sed versions on the test
+system? I didn't find them in the links above.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc5]
-[cannot apply to akpm-mm/mm-everything next-20251114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiaqi-Yan/mm-huge_memory-introduce-uniform_split_unmapped_folio_to_zero_order/20251116-094846
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251116014721.1561456-2-jiaqiyan%40google.com
-patch subject: [PATCH v1 1/2] mm/huge_memory: introduce uniform_split_unmapped_folio_to_zero_order
-config: arc-randconfig-001-20251117 (https://download.01.org/0day-ci/archive/20251117/202511170614.JnCyqo45-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511170614.JnCyqo45-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511170614.JnCyqo45-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/mm.h:6,
-                    from arch/arc/kernel/asm-offsets.c:8:
-   include/linux/huge_mm.h: In function 'uniform_split_unmapped_folio_to_zero_order':
->> include/linux/huge_mm.h:575:33: error: 'page' undeclared (first use in this function)
-     575 |         VM_WARN_ON_ONCE_PAGE(1, page);
-         |                                 ^~~~
-   include/linux/mmdebug.h:55:27: note: in definition of macro 'VM_WARN_ON_ONCE_PAGE'
-      55 |                 dump_page(page, "VM_WARN_ON_ONCE_PAGE(" __stringify(cond)")");\
-         |                           ^~~~
-   include/linux/huge_mm.h:575:33: note: each undeclared identifier is reported only once for each function it appears in
-     575 |         VM_WARN_ON_ONCE_PAGE(1, page);
-         |                                 ^~~~
-   include/linux/mmdebug.h:55:27: note: in definition of macro 'VM_WARN_ON_ONCE_PAGE'
-      55 |                 dump_page(page, "VM_WARN_ON_ONCE_PAGE(" __stringify(cond)")");\
-         |                           ^~~~
-   make[3]: *** [scripts/Makefile.build:182: arch/arc/kernel/asm-offsets.s] Error 1 shuffle=3849756084
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=3849756084
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3849756084
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3849756084
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/page +575 include/linux/huge_mm.h
-
-   567	
-   568	static inline bool
-   569	can_split_folio(struct folio *folio, int caller_pins, int *pextra_pins)
-   570	{
-   571		return false;
-   572	}
-   573	static inline int uniform_split_unmapped_folio_to_zero_order(struct folio *folio)
-   574	{
- > 575		VM_WARN_ON_ONCE_PAGE(1, page);
-   576		return -EINVAL;
-   577	}
-   578	static inline int
-   579	split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
-   580			unsigned int new_order)
-   581	{
-   582		VM_WARN_ON_ONCE_PAGE(1, page);
-   583		return -EINVAL;
-   584	}
-   585	static inline int split_huge_page(struct page *page)
-   586	{
-   587		VM_WARN_ON_ONCE_PAGE(1, page);
-   588		return -EINVAL;
-   589	}
-   590	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Also, the shell "set -x" output for the failing headers_install.sh
+invocation would be helpful.
+E.g.
+  bash -x ./scripts/headers_install.sh \
+    arch/arc/include/uapi/asm/swab.h /tmp/debug_swab.h
