@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681AF17B50F;
-	Mon, 17 Nov 2025 14:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F5D335072
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 14:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763388490; cv=none; b=kfRvngYCEUfilbYsM6qX7zWxJuei4wtxBrPyL2I7AMFsUpcgqJbMzp6lachfFsqmBNst4ZScdOWEwRKChfFNSxJzsNjyDR7Yz1rPdUqcBYo2elDCgnG9iyJ4BJfBTyRMJhWcBL/OTgdj8bv2GmM2a2mXdJ+/elKlL9PZFyrpW5c=
+	t=1763389811; cv=none; b=GPaNGbY0wFsKGlPxnlguxfgw6FxjRHTI92zW7udSFuh/oznZkEPGLpXgEjJpiIBeYlI9454pz7w0Ri8jLLC0pGMRDVDdxeud7fXB+VY1WvZG28iaXpc9mzomOAhxuCFLQqsZ6Fec143eqCYw0iWaAHOzNGNx/qtKma/43eQ0zMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763388490; c=relaxed/simple;
-	bh=M26THjNlfMkmKsBJemZjpNdpo8Lu0cMCPqCNMjiXeRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C/MDxbdRmSa0IWw/Y81cv5+SLZ1oum0BcLoOEuNUSbxlHhMEJJSaCF/u2GCHPVJP0X/Jkq3qniYvQeym3gYRs5bHZm/jAAHWN9x3O24l+iR1cCpWul4mP2JNILoUumc8MJdKgOmA3OGhiyPdp2O9nPaFsMaWQnEiU04ijJiRvvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxgnXrRQ; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1763389811; c=relaxed/simple;
+	bh=PTbbaJoSZw2Ty/iJGv67pSMKbEpK04mxLQb2w4oEG3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kv41a9HSb1rw7h594MsVqv67KRnFgxTYHs4j8HcUL36MEu0cCUWYim1FQ91EGN8aHFqHX7jVaYyx7lPlyrvpwNIbiiYdk9ZUdsufka+VWsE1Ewh3HDRPqPLf3OwbGqbFy/nYXavYODHGB4pvdz7zssGniJ2KKkcqmMg73zn5X+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ErkA6k3V; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxgnXrRQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ErkA6k3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763388488; x=1794924488;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M26THjNlfMkmKsBJemZjpNdpo8Lu0cMCPqCNMjiXeRk=;
-  b=YxgnXrRQhFySOT/DD3g26fmMlttjs++ygrx8R6k4SaS7ynj9fBvhYq1G
-   /5PYI4WBOfffa5b0YxngsJGknrBgQU/5RmNvkSiHlQd6DfwT/Ik1Po/vV
-   iB2f19bSxUr0Ki2Jswk/rg6QiCiZUXhfM9bLlA401yC8K4vQZcUXadOuI
-   NNGuhZ8ZbEv6wh8sG1XB121wzBwPwtVN24EFTsl731eQNVoXZZGaC7Gw2
-   JUlmcaaP/Zknbs4bngHyA3W8LcFSvKk1VYtGaZ801qavopEqGjDO6hhrU
-   x20q7gJcguVGOpiXhN4SLdiJhJSKnUN+ysIdD0CBuif2W6v1Boue6ELhC
-   w==;
-X-CSE-ConnectionGUID: HBjqKbdJRjG7JyYABc+QBw==
-X-CSE-MsgGUID: LR/KvI4cSc6714Sitjujgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65322070"
+  t=1763389810; x=1794925810;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PTbbaJoSZw2Ty/iJGv67pSMKbEpK04mxLQb2w4oEG3c=;
+  b=ErkA6k3VTwujepUlrPAXBLIw7EjVXQytmSu+nY+IYVnro/a6d9WoNAYQ
+   agK6iLpheLQRoNzvHuA0i8kpzdsKZEjJO8IEJzBRSpmH3stc4i47fgRwa
+   EOW1cpeDdW6B/mpjl8/3RIdubzXKLuBlyG//doPuISRQhgVXGrPkGaNll
+   2+5roMzTqMg0N3YUKtuW37GyWHyrYUF0kE/APhxzffonaGoVrt23q20eJ
+   G0JHSqHxYCuLTK9Vufdi52tcWTyXXkeZdYPFZ23iqmnNxMkIa7HHgofmz
+   nzfeC3mEYZrLUaaQsmEss22VEOzQAsgwUOjyYrB2x/kr06QhyeZYCpa8d
+   Q==;
+X-CSE-ConnectionGUID: 5IVZFpGpRpaYs5bAnx6PyQ==
+X-CSE-MsgGUID: dQREXlVdRwSbecntGhekDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="90866826"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="65322070"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 06:08:08 -0800
-X-CSE-ConnectionGUID: jG+3AP1pSB6SC8XgN/SNxA==
-X-CSE-MsgGUID: oQ5qCuP6RLeT91PmOAQ5zA==
+   d="scan'208";a="90866826"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 06:30:09 -0800
+X-CSE-ConnectionGUID: sWs9Nb5rRjKt3GCAR+eukQ==
+X-CSE-MsgGUID: 20lk6izOTvur9YCCf4rLmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="221353846"
+   d="scan'208";a="195404100"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2025 06:08:05 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 17 Nov 2025 06:30:08 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKztj-0000dT-0Z;
-	Mon, 17 Nov 2025 14:08:03 +0000
-Date: Mon, 17 Nov 2025 22:07:30 +0800
+	id 1vL0F3-0000fL-2b;
+	Mon, 17 Nov 2025 14:30:05 +0000
+Date: Mon, 17 Nov 2025 22:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ye Bin <yebin@huaweicloud.com>, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, yebin10@huawei.com
-Subject: Re: [PATCH v2 2/3] sysctl: add support for drop_caches for
- individual filesystem
-Message-ID: <202511172149.q8geOAvk-lkp@intel.com>
-References: <20251117112735.4170831-3-yebin@huaweicloud.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8868/9360] arch/m68k/include/asm/page.h:20:27:
+ error: lvalue required as unary '&' operand
+Message-ID: <202511172257.CjElDcRX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,116 +63,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117112735.4170831-3-yebin@huaweicloud.com>
 
-Hi Ye,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on viro-vfs/for-next]
-[also build test ERROR on linus/master brauner-vfs/vfs.all v6.18-rc6 next-20251117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/vfs-introduce-reclaim_icache_sb-and-reclaim_dcache_sb-helper/20251117-193502
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-next
-patch link:    https://lore.kernel.org/r/20251117112735.4170831-3-yebin%40huaweicloud.com
-patch subject: [PATCH v2 2/3] sysctl: add support for drop_caches for individual filesystem
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511172149.q8geOAvk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172149.q8geOAvk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0c1c7a6a83feaf2cf182c52983ffe330ffb50280
+commit: f54f0efb9d91fa2eee95a7eb29d0051f2176df47 [8868/9360] mm/damon/vaddr: cleanup using pmd_trans_huge_lock()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251117/202511172257.CjElDcRX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172257.CjElDcRX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511172149.q8geOAvk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511172257.CjElDcRX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/drop_caches.c:108:8: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     108 |                                                  current_pt_regs(),
-         |                                                  ^
-   include/linux/ptrace.h:389:27: note: expanded from macro 'current_pt_regs'
-     389 | #define current_pt_regs() task_pt_regs(current)
+   In file included from arch/m68k/include/asm/thread_info.h:6,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from include/linux/highmem.h:5,
+                    from mm/damon/vaddr.c:10:
+   mm/damon/vaddr.c: In function 'damon_mkold_pmd_entry':
+>> arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&' operand
+      20 | #define pmd_val(x)      ((&x)->pmd)
          |                           ^
-   arch/x86/include/asm/processor.h:650:39: note: expanded from macro 'task_pt_regs'
-     650 |         unsigned long __ptr = (unsigned long)task_stack_page(task);     \
-         |                                              ^
-   fs/drop_caches.c:119:37: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     119 |                 syscall_set_return_value(current, current_pt_regs(), 0,
-         |                                                   ^
-   include/linux/ptrace.h:389:27: note: expanded from macro 'current_pt_regs'
-     389 | #define current_pt_regs() task_pt_regs(current)
-         |                           ^
-   arch/x86/include/asm/processor.h:650:39: note: expanded from macro 'task_pt_regs'
-     650 |         unsigned long __ptr = (unsigned long)task_stack_page(task);     \
-         |                                              ^
-   2 errors generated.
+   arch/m68k/include/asm/motorola_pgtable.h:116:34: note: in expansion of macro 'pmd_val'
+     116 | #define pmd_present(pmd)        (pmd_val(pmd) & _PAGE_TABLE)
+         |                                  ^~~~~~~
+   mm/damon/vaddr.c:314:21: note: in expansion of macro 'pmd_present'
+     314 |                 if (pmd_present(pmdp_get(pmd)))
+         |                     ^~~~~~~~~~~
 
 
-vim +/task_stack_page +108 fs/drop_caches.c
+vim +20 arch/m68k/include/asm/page.h
 
-    91	
-    92	static void drop_fs_caches(struct callback_head *twork)
-    93	{
-    94		int ret;
-    95		struct super_block *sb;
-    96		static bool suppress;
-    97		struct drop_fs_caches_work *work = container_of(twork,
-    98				struct drop_fs_caches_work, task_work);
-    99		unsigned int ctl = work->ctl;
-   100		dev_t dev = work->dev;
-   101	
-   102		if (work->path) {
-   103			struct path path;
-   104	
-   105			ret = kern_path(work->path, LOOKUP_FOLLOW, &path);
-   106			if (ret) {
-   107				syscall_set_return_value(current,
- > 108							 current_pt_regs(),
-   109							 0, ret);
-   110				goto out;
-   111			}
-   112			dev = path.dentry->d_sb->s_dev;
-   113			/* Make this file's dentry and inode recyclable */
-   114			path_put(&path);
-   115		}
-   116	
-   117		sb = user_get_super(dev, false);
-   118		if (!sb) {
-   119			syscall_set_return_value(current, current_pt_regs(), 0,
-   120						 -EINVAL);
-   121			goto out;
-   122		}
-   123	
-   124		if (ctl & BIT(0)) {
-   125			lru_add_drain_all();
-   126			drop_pagecache_sb(sb, NULL);
-   127			count_vm_event(DROP_PAGECACHE);
-   128		}
-   129	
-   130		if (ctl & BIT(1)) {
-   131			reclaim_dcache_sb(sb);
-   132			reclaim_icache_sb(sb);
-   133			count_vm_event(DROP_SLAB);
-   134		}
-   135	
-   136		if (!READ_ONCE(suppress)) {
-   137			pr_info("%s (%d): %s: %d %u:%u\n", current->comm,
-   138				task_pid_nr(current), __func__, ctl,
-   139				MAJOR(sb->s_dev), MINOR(sb->s_dev));
-   140	
-   141			if (ctl & BIT(2))
-   142				WRITE_ONCE(suppress, true);
-   143		}
-   144	
-   145		drop_super(sb);
-   146	out:
-   147		kfree(work->path);
-   148		kfree(work);
-   149	}
-   150	
+138ff3462f53a7 Greg Ungerer   2010-09-07  14  
+138ff3462f53a7 Greg Ungerer   2010-09-07  15  /*
+138ff3462f53a7 Greg Ungerer   2010-09-07  16   * These are used to make use of C type-checking..
+138ff3462f53a7 Greg Ungerer   2010-09-07  17   */
+60e50f34b13e9e Mike Rapoport  2019-12-04  18  #if !defined(CONFIG_MMU) || CONFIG_PGTABLE_LEVELS == 3
+ef22d8abd876e8 Peter Zijlstra 2020-01-31  19  typedef struct { unsigned long pmd; } pmd_t;
+ef22d8abd876e8 Peter Zijlstra 2020-01-31 @20  #define pmd_val(x)	((&x)->pmd)
+ef22d8abd876e8 Peter Zijlstra 2020-01-31  21  #define __pmd(x)	((pmd_t) { (x) } )
+60e50f34b13e9e Mike Rapoport  2019-12-04  22  #endif
+60e50f34b13e9e Mike Rapoport  2019-12-04  23  
+
+:::::: The code at line 20 was first introduced by commit
+:::::: ef22d8abd876e805b604e8f655127de2beee2869 m68k: mm: Restructure Motorola MMU page-table layout
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
 
 -- 
 0-DAY CI Kernel Test Service
