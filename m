@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FED231A23
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 13:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681AF17B50F;
+	Mon, 17 Nov 2025 14:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763387888; cv=none; b=sSKdOXpIsuLbN7Zx/RZJcm1Zh1DoPpGaG6qNyF1vr5yGYBVtiUUglvugbE3RmxU8OQ9ESYUvtHy0WFU0UiJ8HpXLOs5PcLh71BiTK9U8/oyyPlDixmPW3zT7zgCIH1QKXtlLKCZyf2y0x2le+jq6JYqLS1hdhJ7DU5PmnPxR30E=
+	t=1763388490; cv=none; b=kfRvngYCEUfilbYsM6qX7zWxJuei4wtxBrPyL2I7AMFsUpcgqJbMzp6lachfFsqmBNst4ZScdOWEwRKChfFNSxJzsNjyDR7Yz1rPdUqcBYo2elDCgnG9iyJ4BJfBTyRMJhWcBL/OTgdj8bv2GmM2a2mXdJ+/elKlL9PZFyrpW5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763387888; c=relaxed/simple;
-	bh=aOOep/LMZyjCFb+0figw9x6/fU0tp4jqTN9xUA9l1RY=;
+	s=arc-20240116; t=1763388490; c=relaxed/simple;
+	bh=M26THjNlfMkmKsBJemZjpNdpo8Lu0cMCPqCNMjiXeRk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7BQdvWKDEUSffVSX0iux2VVJ+XWsIMuQDhH7LZTRpH36p2DKFNILXZpsoSoi5JQ99yB1BJu0900urXnLDxCKP9L4epr9sHTZXJG/6FKSl3Fa0YtgSF7mO1xa4eourXSnrxjXO4sedOiflUubTeMO479/VKTrEY3hpRLj+TWioE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nR7o+vQS; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=C/MDxbdRmSa0IWw/Y81cv5+SLZ1oum0BcLoOEuNUSbxlHhMEJJSaCF/u2GCHPVJP0X/Jkq3qniYvQeym3gYRs5bHZm/jAAHWN9x3O24l+iR1cCpWul4mP2JNILoUumc8MJdKgOmA3OGhiyPdp2O9nPaFsMaWQnEiU04ijJiRvvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxgnXrRQ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nR7o+vQS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxgnXrRQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763387887; x=1794923887;
+  t=1763388488; x=1794924488;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aOOep/LMZyjCFb+0figw9x6/fU0tp4jqTN9xUA9l1RY=;
-  b=nR7o+vQSL/4iihVMG4+mtmM6f087KkQ0eko1Popij5LLyE84Oer1B76b
-   bgeu167rkqjj3vJl0yFKNAuiobPpl73mzwZ7+paOrtA5Aiu30LwXW5iwU
-   pKL4nHBnFdDMIHwqrVAdb4jrZvLoGphnt2nyDPb8Pk1VroenZgGt6RRLb
-   NY8vf1TRUho6ZMeY/RHvXzSaw6h3jGkIfwjLBAalwOU+YqanyjE+PUa8p
-   aoNS6ZWLHOumoSb0JTIuEsCXHLXReQQLkUvKBngOmQpryrgIhS+0BkGWi
-   M97rIyepxEY3xPMBrpeZdNMmoopU814jaEZXHMbA9cLz4UpVqItNL2VAP
+  bh=M26THjNlfMkmKsBJemZjpNdpo8Lu0cMCPqCNMjiXeRk=;
+  b=YxgnXrRQhFySOT/DD3g26fmMlttjs++ygrx8R6k4SaS7ynj9fBvhYq1G
+   /5PYI4WBOfffa5b0YxngsJGknrBgQU/5RmNvkSiHlQd6DfwT/Ik1Po/vV
+   iB2f19bSxUr0Ki2Jswk/rg6QiCiZUXhfM9bLlA401yC8K4vQZcUXadOuI
+   NNGuhZ8ZbEv6wh8sG1XB121wzBwPwtVN24EFTsl731eQNVoXZZGaC7Gw2
+   JUlmcaaP/Zknbs4bngHyA3W8LcFSvKk1VYtGaZ801qavopEqGjDO6hhrU
+   x20q7gJcguVGOpiXhN4SLdiJhJSKnUN+ysIdD0CBuif2W6v1Boue6ELhC
    w==;
-X-CSE-ConnectionGUID: AcTiQkp2Rqqjmjf02/6Fcw==
-X-CSE-MsgGUID: O/ck82YqTL66IZT9Q08z3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="88034660"
+X-CSE-ConnectionGUID: HBjqKbdJRjG7JyYABc+QBw==
+X-CSE-MsgGUID: LR/KvI4cSc6714Sitjujgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65322070"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="88034660"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 05:58:06 -0800
-X-CSE-ConnectionGUID: poikwz5BTcuAOY6uTKtFlw==
-X-CSE-MsgGUID: GFanoOrsSq6EKzc2fr1N6w==
+   d="scan'208";a="65322070"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 06:08:08 -0800
+X-CSE-ConnectionGUID: jG+3AP1pSB6SC8XgN/SNxA==
+X-CSE-MsgGUID: oQ5qCuP6RLeT91PmOAQ5zA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="221353846"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Nov 2025 05:58:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2025 06:08:05 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKzk2-0000ch-0F;
-	Mon, 17 Nov 2025 13:58:02 +0000
-Date: Mon, 17 Nov 2025 21:57:12 +0800
+	id 1vKztj-0000dT-0Z;
+	Mon, 17 Nov 2025 14:08:03 +0000
+Date: Mon, 17 Nov 2025 22:07:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ye Bin <yebin@huaweicloud.com>, viro@zeniv.linux.org.uk,
 	brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	yebin10@huawei.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, yebin10@huawei.com
 Subject: Re: [PATCH v2 2/3] sysctl: add support for drop_caches for
  individual filesystem
-Message-ID: <202511172139.326qNHOk-lkp@intel.com>
+Message-ID: <202511172149.q8geOAvk-lkp@intel.com>
 References: <20251117112735.4170831-3-yebin@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,25 +81,39 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Bin/vfs-introduce-recl
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git for-next
 patch link:    https://lore.kernel.org/r/20251117112735.4170831-3-yebin%40huaweicloud.com
 patch subject: [PATCH v2 2/3] sysctl: add support for drop_caches for individual filesystem
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511172139.326qNHOk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172139.326qNHOk-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511172149.q8geOAvk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172149.q8geOAvk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511172139.326qNHOk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511172149.q8geOAvk-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/drop_caches.c: In function 'drop_fs_caches':
->> fs/drop_caches.c:107:25: error: implicit declaration of function 'syscall_set_return_value'; did you mean 'syscall_get_return_value'? [-Wimplicit-function-declaration]
-     107 |                         syscall_set_return_value(current,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                         syscall_get_return_value
+>> fs/drop_caches.c:108:8: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     108 |                                                  current_pt_regs(),
+         |                                                  ^
+   include/linux/ptrace.h:389:27: note: expanded from macro 'current_pt_regs'
+     389 | #define current_pt_regs() task_pt_regs(current)
+         |                           ^
+   arch/x86/include/asm/processor.h:650:39: note: expanded from macro 'task_pt_regs'
+     650 |         unsigned long __ptr = (unsigned long)task_stack_page(task);     \
+         |                                              ^
+   fs/drop_caches.c:119:37: error: call to undeclared function 'task_stack_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     119 |                 syscall_set_return_value(current, current_pt_regs(), 0,
+         |                                                   ^
+   include/linux/ptrace.h:389:27: note: expanded from macro 'current_pt_regs'
+     389 | #define current_pt_regs() task_pt_regs(current)
+         |                           ^
+   arch/x86/include/asm/processor.h:650:39: note: expanded from macro 'task_pt_regs'
+     650 |         unsigned long __ptr = (unsigned long)task_stack_page(task);     \
+         |                                              ^
+   2 errors generated.
 
 
-vim +107 fs/drop_caches.c
+vim +/task_stack_page +108 fs/drop_caches.c
 
     91	
     92	static void drop_fs_caches(struct callback_head *twork)
@@ -115,8 +131,8 @@ vim +107 fs/drop_caches.c
    104	
    105			ret = kern_path(work->path, LOOKUP_FOLLOW, &path);
    106			if (ret) {
- > 107				syscall_set_return_value(current,
-   108							 current_pt_regs(),
+   107				syscall_set_return_value(current,
+ > 108							 current_pt_regs(),
    109							 0, ret);
    110				goto out;
    111			}
