@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17AA320CA7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 20:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4295D23BD05
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 21:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763412957; cv=none; b=hyI8nPYTiqqyvkQm7XB5EmpintFRrz5eW+Zr3MGhloqMj2J2oHXJ+nxVcAbZTceZkJzXlhp4eni1FB/Qc6bY+ChzR2O5dW6qLCs1BOP6mLtNlP3L21cFhW1xoYXeuJNAxxkUKKn82VwJ0rTjwnhwa5jOMmdcuEFQAOv1BXUucR4=
+	t=1763415421; cv=none; b=X7FxdHAvjadJ+3u0skmUPUdizfDY07HjByMEv9RHJsq+R1ns/Y6Z6Mgy+f/m15lnQAZAoGg42lYlgsUEPOVsu/kkeY96a4BFCODkrMUab4GG5gn5/A0zc1+Kbb85K+bNfZY1/3FsfTsNSDS2UbPyFAJYe76h39LI+w57Iho9G+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763412957; c=relaxed/simple;
-	bh=m5P0OzHBclwYQ7+YAhGBJVg7rUnhxb+qErrdS2VpHEY=;
+	s=arc-20240116; t=1763415421; c=relaxed/simple;
+	bh=6CE0XwuC0D25DC3weDTCkqDiTsmuX4PsYo/1eVQJM4g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n0XvSAg2ihdLp6J9SVW0tBSv79jJ0tCb9zcuW5V9LEjPJz8hJvPHa3RJZXu7qytJGAelHtETRA16nRkYgorZjZ+KMfpJvZJQMW0qCPq8AoSftjGADbMxe81zyI/VhyPwS3rOC+tRX9o7KFzL57uRb1gkd2c3SWqYtZSr+dhwqK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMspME9s; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeXT9VAJHHN5vqVNCRTQ7w80cm00ozK3Wgxx4dGYIncrs4sfo3Mogz+Hg1qDyADZkxt8ARo5K1+DL6LUebIBzRLzrTvjD5bZvEX2IKWB0g/RfikCugk3YMfi1eg+Y0evfC1AZD+Ma0rvNGA76mPTRrCrhB1at6D2OmHMy7FyNq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IXBxU2E6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMspME9s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IXBxU2E6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763412956; x=1794948956;
+  t=1763415418; x=1794951418;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=m5P0OzHBclwYQ7+YAhGBJVg7rUnhxb+qErrdS2VpHEY=;
-  b=VMspME9sA3me6fnNZ323mh2XowVZK60ANyx+CnHmbdrnG/m96Hr3dI6k
-   WyqWFgTDOXMjVmJUh0zzvjBhFwA/Kk/odnQKMZr3A8/HgHIwLevOOn1Fb
-   txPPkEWTfJvd6b4ijl/ugeZmaveFjyNmezjJx2oC98B+kzDgkuqQFtShd
-   i/8IFc0xiohcQq0qmYlwSfmZri3hoHXqhyVbSWRJc+oB4xqjEv755m2/B
-   L0rqLNDPqiKH9X4eWj2mB0+FPdglaYiT/GFxLIgMD0kryAUUEKlqB/Ef5
-   OMs4ryL6lvSLJ4kj9lwwbOHEhTJIXaHY8pp/5RsSpkLs8aE3uTMwIOYOZ
-   w==;
-X-CSE-ConnectionGUID: L5WahTayRVOHVaUe76kUFw==
-X-CSE-MsgGUID: cP+6NreLR8q3sODBY0g/0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76885641"
+  bh=6CE0XwuC0D25DC3weDTCkqDiTsmuX4PsYo/1eVQJM4g=;
+  b=IXBxU2E64K6ryzqAM0GHRp5Ym8vVwcbLZSwm0MnvAoI2TB+v3kLMy9T4
+   +bs8bEPZ2ytTLP/64VNKVY8ptgaIULB2gz9NFk4mKxj1UExotpmGlHKyB
+   52jgYem3EHi4dVvxc1U5lQIf+NoWtX7Uz5pbS22Gwlb6fccRAvsDlHjEE
+   s0310fUcQ710Xp3IjobEWuXd7XfZwfv4qc8iip7enr2feY9dve3RvHroF
+   SbSOY4UX4nvoVDAiekS819+HKgnw0JHH3q4ug11YR9oa4//1Uz/TaSZmE
+   gid59y9O1lmEUL8i3MXvO8P0VLORsO+Gh7ZF90MQHEXHXeh3S0F7YlRuT
+   g==;
+X-CSE-ConnectionGUID: I+QkFxwLRq6K0PtzYKG1rg==
+X-CSE-MsgGUID: X3M7EJJDSbuALOlt1Dc80w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65360957"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="76885641"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 12:55:56 -0800
-X-CSE-ConnectionGUID: N2g+eL86QUqQwnn58rmTcA==
-X-CSE-MsgGUID: n0nqUYAJTJemV62oGRF00g==
+   d="scan'208";a="65360957"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 13:36:57 -0800
+X-CSE-ConnectionGUID: WSUCsyKHTHqrhuC/w77TjQ==
+X-CSE-MsgGUID: o64Un8tXRdu8TjTmrq0Dlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="195692589"
+   d="scan'208";a="191006778"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2025 12:55:51 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2025 13:36:54 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL6GK-00013n-0m;
-	Mon, 17 Nov 2025 20:55:48 +0000
-Date: Tue, 18 Nov 2025 04:55:06 +0800
+	id 1vL6u3-00015P-2d;
+	Mon, 17 Nov 2025 21:36:51 +0000
+Date: Tue, 18 Nov 2025 05:36:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, ast@kernel.org,
-	rostedt@goodmis.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net,
-	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, mhiramat@kernel.org, mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com, jiang.biao@linux.dev,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 5/6] bpf: specify the old and new poke_type
- for bpf_arch_text_poke
-Message-ID: <202511180431.JVOEm6SO-lkp@intel.com>
-References: <20251117034906.32036-6-dongml2@chinatelecom.cn>
+To: 2724853925@qq.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	2724853925@qq.com
+Subject: Re: [PATCH] input: touchscreen: Add ilitek touchscreen driver support
+Message-ID: <202511180542.hR4anHLj-lkp@intel.com>
+References: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,105 +65,422 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117034906.32036-6-dongml2@chinatelecom.cn>
+In-Reply-To: <tencent_995E6FC62EDBC1EED14E6052847F270F6406@qq.com>
 
-Hi Menglong,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus linus/master v6.18-rc6 next-20251117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/ftrace-introduce-FTRACE_OPS_FL_JMP/20251117-115243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251117034906.32036-6-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next v2 5/6] bpf: specify the old and new poke_type for bpf_arch_text_poke
-config: powerpc64-randconfig-002-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180431.JVOEm6SO-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180431.JVOEm6SO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/2724853925-qq-com/input-touchscreen-Add-ilitek-touchscreen-driver-support/20251116-215220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/tencent_995E6FC62EDBC1EED14E6052847F270F6406%40qq.com
+patch subject: [PATCH] input: touchscreen: Add ilitek touchscreen driver support
+config: riscv-randconfig-r133-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180542.hR4anHLj-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180542.hR4anHLj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180431.JVOEm6SO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180542.hR4anHLj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:93:38: sparse:     got char const *buf
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:239:45: sparse:     got unsigned char [usertype] *
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse:     expected void [noderef] __user *to
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:268:35: sparse:     got unsigned char [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse:     expected void [noderef] __user *to
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:279:35: sparse:     got unsigned char [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse:     expected void [noderef] __user *to
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:286:35: sparse:     got unsigned char [usertype] *
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __user *__p @@     got signed int [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse:     expected void [noderef] __user *__p
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:307:21: sparse:     got signed int [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:312:45: sparse:     got unsigned char [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:324:45: sparse:     got unsigned char [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:340:45: sparse:     got unsigned char [usertype] *
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse:     expected void [noderef] __user *to
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:365:35: sparse:     got unsigned char [usertype] *
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got char *buf @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse:     expected void [noderef] __user *to
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:416:26: sparse:     got char *buf
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *read )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse:     expected int ( *read )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:444:17: sparse:     got int ( * )( ... )
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse:     expected int ( *write )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:445:18: sparse:     got int ( * )( ... )
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_read )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse:     expected int ( *proc_read )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:457:22: sparse:     got int ( * )( ... )
+>> drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse:     expected int ( *proc_write )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:458:23: sparse:     got int ( * )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:571:37: sparse:     got char const *buf
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse:     expected int ( *proc_write )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:610:23: sparse:     got int ( * )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:622:33: sparse:     got char const *buf
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse:     expected int ( *proc_write )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:684:23: sparse:     got int ( * )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char const *buf @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse:     expected void const [noderef] __user *from
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:693:36: sparse:     got char const *buf
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *proc_write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse:     expected int ( *proc_write )( ... )
+   drivers/input/touchscreen/ilitek/ilitek_tool.c:731:23: sparse:     got int ( * )( ... )
+--
+>> drivers/input/touchscreen/ilitek/ilitek_main.c:971:5: sparse: sparse: symbol 'event_spacing' was not declared. Should it be static?
+>> drivers/input/touchscreen/ilitek/ilitek_main.c:981:15: sparse: sparse: symbol 'start_event_time_jiffies' was not declared. Should it be static?
+>> drivers/input/touchscreen/ilitek/ilitek_main.c:1398:31: sparse: sparse: symbol 'update_cb' was not declared. Should it be static?
+>> drivers/input/touchscreen/ilitek/ilitek_main.c:2060:27: sparse: sparse: symbol 'dev_cb' was not declared. Should it be static?
+--
+>> drivers/input/touchscreen/ilitek/ilitek_protocol.c:37:21: sparse: sparse: symbol 'protocol_maps' was not declared. Should it be static?
 
-   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_arch_text_poke':
->> arch/powerpc/net/bpf_jit_comp.c:1135:7: error: 'poke_type' undeclared (first use in this function); did you mean 'probe_type'?
-      if (poke_type != BPF_MOD_JUMP) {
-          ^~~~~~~~~
-          probe_type
-   arch/powerpc/net/bpf_jit_comp.c:1135:7: note: each undeclared identifier is reported only once for each function it appears in
+vim +93 drivers/input/touchscreen/ilitek/ilitek_tool.c
 
-
-vim +1135 arch/powerpc/net/bpf_jit_comp.c
-
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1070  
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1071  /*
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1072   * A 3-step process for bpf prog entry:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1073   * 1. At bpf prog entry, a single nop/b:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1074   * bpf_func:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1075   *	[nop|b]	ool_stub
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1076   * 2. Out-of-line stub:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1077   * ool_stub:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1078   *	mflr	r0
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1079   *	[b|bl]	<bpf_prog>/<long_branch_stub>
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1080   *	mtlr	r0 // CONFIG_PPC_FTRACE_OUT_OF_LINE only
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1081   *	b	bpf_func + 4
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1082   * 3. Long branch stub:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1083   * long_branch_stub:
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1084   *	.long	<branch_addr>/<dummy_tramp>
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1085   *	mflr	r11
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1086   *	bcl	20,31,$+4
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1087   *	mflr	r12
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1088   *	ld	r12, -16(r12)
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1089   *	mtctr	r12
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1090   *	mtlr	r11 // needed to retain ftrace ABI
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1091   *	bctr
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1092   *
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1093   * dummy_tramp is used to reduce synchronization requirements.
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1094   *
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1095   * When attaching a bpf trampoline to a bpf prog, we do not need any
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1096   * synchronization here since we always have a valid branch target regardless
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1097   * of the order in which the above stores are seen. dummy_tramp ensures that
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1098   * the long_branch stub goes to a valid destination on other cpus, even when
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1099   * the branch to the long_branch stub is seen before the updated trampoline
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1100   * address.
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1101   *
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1102   * However, when detaching a bpf trampoline from a bpf prog, or if changing
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1103   * the bpf trampoline address, we need synchronization to ensure that other
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1104   * cpus can no longer branch into the older trampoline so that it can be
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1105   * safely freed. bpf_tramp_image_put() uses rcu_tasks to ensure all cpus
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1106   * make forward progress, but we still need to ensure that other cpus
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1107   * execute isync (or some CSI) so that they don't go back into the
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1108   * trampoline again.
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1109   */
-7cc5910294285d Menglong Dong 2025-11-17  1110  int bpf_arch_text_poke(void *ip, enum bpf_text_poke_type old_t,
-7cc5910294285d Menglong Dong 2025-11-17  1111  		       enum bpf_text_poke_type new_t, void *old_addr,
-7cc5910294285d Menglong Dong 2025-11-17  1112  		       void *new_addr)
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1113  {
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1114  	unsigned long bpf_func, bpf_func_end, size, offset;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1115  	ppc_inst_t old_inst, new_inst;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1116  	int ret = 0, branch_flags;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1117  	char name[KSYM_NAME_LEN];
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1118  
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1119  	if (IS_ENABLED(CONFIG_PPC32))
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1120  		return -EOPNOTSUPP;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1121  
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1122  	bpf_func = (unsigned long)ip;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1123  
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1124  	/* We currently only support poking bpf programs */
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1125  	if (!__bpf_address_lookup(bpf_func, &size, &offset, name)) {
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1126  		pr_err("%s (0x%lx): kernel/modules are not supported\n", __func__, bpf_func);
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1127  		return -EOPNOTSUPP;
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1128  	}
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1129  
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1130  	/*
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1131  	 * If we are not poking at bpf prog entry, then we are simply patching in/out
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1132  	 * an unconditional branch instruction at im->ip_after_call
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1133  	 */
-d243b62b7bd3d5 Naveen N Rao  2024-10-30  1134  	if (offset) {
-d243b62b7bd3d5 Naveen N Rao  2024-10-30 @1135  		if (poke_type != BPF_MOD_JUMP) {
+    78	
+    79	static ssize_t ilitek_file_write(struct file *filp,
+    80					 const char *buf, size_t size, loff_t *f_pos)
+    81	{
+    82		s32 ret = 0, count = 0;
+    83		u8 buffer[512];
+    84		u32 *data;
+    85		char *token = NULL, *cur = NULL;
+    86	
+    87		if (size > sizeof(buffer)) {
+    88			TP_ERR(NULL, "invalid buf len: %zu > %zu too large\n",
+    89				size, sizeof(buffer));
+    90			return -EINVAL;
+    91		}
+    92	
+  > 93		ret = copy_from_user(buffer, buf, size);
+    94		if (ret < 0) {
+    95			TP_ERR(NULL, "copy data from user space, failed");
+    96			return -1;
+    97		}
+    98	
+    99		token = cur = buffer;
+   100	
+   101		data = kcalloc(size, sizeof(u32), GFP_KERNEL);
+   102	
+   103		while ((token = strsep(&cur, ",")) != NULL) {
+   104			//data[count] = str2hex(token);
+   105			sscanf(token, "%x", &data[count]);
+   106			TP_MSG(NULL, "data[%d] = %x\n", count, data[count]);
+   107			count++;
+   108		}
+   109	
+   110		if (buffer[size - 2] == 'I' && (size == 20 || size == 52) && buffer[0] == 0x77 && buffer[1] == 0x77) {
+   111	
+   112			TP_MSG(NULL, "IOCTL_WRITE CMD = %d\n", buffer[2]);
+   113			switch (buffer[2]) {
+   114			case 13:
+   115				//ilitek_irq_enable();
+   116				TP_MSG(NULL, "ilitek_irq_enable. do nothing\n");
+   117				break;
+   118			case 12:
+   119				//ilitek_irq_disable();
+   120				TP_MSG(NULL, "ilitek_irq_disable. do nothing\n");
+   121				break;
+   122			case 19:
+   123				ilitek_reset(ts->dev->reset_time);
+   124				break;
+   125	#ifdef ILITEK_TUNING_MESSAGE
+   126			case 21:
+   127				TP_MSG(NULL, "ilitek The ilitek_debug_flag = %d.\n", buffer[3]);
+   128				if (buffer[3] == 0) {
+   129					ilitek_debug_flag = false;
+   130				} else if (buffer[3] == 1) {
+   131					ilitek_debug_flag = true;
+   132				}
+   133				break;
+   134	#endif
+   135			case 15:
+   136				if (buffer[3] == 0)
+   137					ilitek_irq_disable();
+   138				else
+   139					ilitek_irq_enable();
+   140	
+   141				break;
+   142			case 16:
+   143				ts->operation_protection = buffer[3];
+   144				TP_MSG(NULL, "ts->operation_protection = %d\n", ts->operation_protection);
+   145				break;
+   146			case 18:
+   147				ilitek_irq_disable();
+   148				mutex_lock(&ts->ilitek_mutex);
+   149				ret = ilitek_write(&buffer[3], 33);
+   150				mutex_unlock(&ts->ilitek_mutex);
+   151				ilitek_irq_enable();
+   152				if (ret < 0)
+   153					TP_ERR(NULL, "i2c write error, ret %d\n", ret);
+   154	
+   155				return ret;
+   156				break;
+   157			default:
+   158				return -1;
+   159			}
+   160		}
+   161	
+   162		if (buffer[size - 2] == 'W') {
+   163			ilitek_irq_disable();
+   164			mutex_lock(&ts->ilitek_mutex);
+   165			ret = ilitek_write(buffer, size - 2);
+   166			mutex_unlock(&ts->ilitek_mutex);
+   167			ilitek_irq_enable();
+   168			if (ret < 0) {
+   169				TP_ERR(NULL, "i2c write error, ret %d\n", ret);
+   170				return ret;
+   171			}
+   172		} else if (!strncmp(buffer, "unhandle_irq", strlen("unhandle_irq"))) {
+   173			ts->unhandle_irq = !ts->unhandle_irq;
+   174			TP_MSG(NULL, "ts->unhandle_irq = %d.\n", ts->unhandle_irq);
+   175		} else if (!strncmp(buffer, "dbg_pkt", strlen("dbg_pkt"))) {
+   176			set_log_level(log_level_pkt);
+   177			TP_MSG(NULL, "ilitek_log_level_value = %d.\n", log_level_pkt);
+   178		} else if (!strncmp(buffer, "dbg_debug", strlen("dbg_debug"))) {
+   179			set_log_level(log_level_dbg);
+   180			TP_MSG(NULL, "ilitek_log_level_value = %d.\n", log_level_dbg);
+   181		} else if (!strncmp(buffer, "dbg_info", strlen("dbg_info"))) {
+   182			set_log_level(log_level_msg);
+   183			TP_MSG(NULL, "ilitek_log_level_value = %d.\n", log_level_msg);
+   184		} else if (!strncmp(buffer, "dbg_err", strlen("dbg_err"))) {
+   185			set_log_level(log_level_err);
+   186			TP_MSG(NULL, "ilitek_log_level_value = %d.\n", log_level_err);
+   187		} else if (!strncmp(buffer, "dbg_num", strlen("dbg_num"))) {
+   188			TP_MSG(NULL, "ilitek_log_level_value = %d.\n", tp_log_level);
+   189		}
+   190	#ifdef ILITEK_TUNING_MESSAGE
+   191		else if (!strncmp(buffer, "truning_dbg_flag", strlen("truning_dbg_flag"))) {
+   192			ilitek_debug_flag = !ilitek_debug_flag;
+   193			TP_MSG(NULL, " %s debug_flag message(%X).\n", ilitek_debug_flag ? "Enabled" : "Disabled", ilitek_debug_flag);
+   194		}
+   195	#endif
+   196		else if (!strncmp(buffer, "irq_status", strlen("irq_status"))) {
+   197			TP_MSG(NULL, "gpio_get_value(i2c.irq_gpio) = %d.\n", gpio_get_value(ts->irq_gpio));
+   198		} else if (!strncmp(buffer, "enable", strlen("enable"))) {
+   199			ilitek_irq_enable();
+   200			TP_MSG(NULL, "irq enable\n");
+   201		} else if (!strncmp(buffer, "disable", strlen("disable"))) {
+   202			ilitek_irq_disable();
+   203			TP_MSG(NULL, "irq disable\n");
+   204		} else if (!strncmp(buffer, "info", strlen("info"))) {
+   205			ilitek_irq_disable();
+   206			mutex_lock(&ts->ilitek_mutex);
+   207			api_update_ts_info(ts->dev);
+   208			mutex_unlock(&ts->ilitek_mutex);
+   209			ilitek_irq_enable();
+   210		} else if (!strncmp(buffer, "reset", strlen("reset"))) {
+   211			ilitek_reset(ts->dev->reset_time);
+   212		}
+   213	
+   214		TP_DBG(NULL, "ilitek return count = %zu\n", size);
+   215		kfree(data);
+   216		return size;
+   217	}
+   218	
+   219	static FOPS_IOCTL_FUNC(ilitek_file_ioctl, uint32_t cmd, unsigned long arg)
+   220	{
+   221		static u8 *buffer;
+   222		static unsigned long len;
+   223		s32 ret = 0;
+   224		int tmp;
+   225	
+   226		buffer = kmalloc(ILITEK_IOCTL_MAX_TRANSFER, GFP_KERNEL);
+   227		memset(buffer, 0, ILITEK_IOCTL_MAX_TRANSFER);
+   228	
+   229		switch (cmd) {
+   230		case ILITEK_IOCTL_I2C_WRITE_DATA:
+   231		case ILITEK_IOCTL_I2C_WRITE_DATA_COMPAT:
+   232			if (len > ILITEK_IOCTL_MAX_TRANSFER) {
+   233				TP_ERR(NULL, "invalid write len: %lu > %lu too large\n",
+   234					len, ILITEK_IOCTL_MAX_TRANSFER);
+   235				ret = -EINVAL;
+   236				break;
+   237			}
+   238	
+ > 239			if (copy_from_user(buffer, (u8 *)arg, len)) {
+   240				TP_ERR(NULL, "copy data from user space, failed\n");
+   241				ret = -EFAULT;
+   242				break;
+   243			}
+   244	
+   245			mutex_lock(&ts->ilitek_mutex);
+   246			ret = ilitek_write_and_read(buffer, len, 0, NULL, 0);
+   247			mutex_unlock(&ts->ilitek_mutex);
+   248			if (ret < 0)
+   249				TP_ERR(NULL, "i2c write failed, cmd: %x\n", buffer[0]);
+   250			break;
+   251		case ILITEK_IOCTL_I2C_READ_DATA:
+   252		case ILITEK_IOCTL_I2C_READ_DATA_COMPAT:
+   253			if (len > ILITEK_IOCTL_MAX_TRANSFER) {
+   254				TP_ERR(NULL, "invalid read len: %lu > %lu too large\n",
+   255					len, ILITEK_IOCTL_MAX_TRANSFER);
+   256				ret = -EINVAL;
+   257				break;
+   258			}
+   259	
+   260			mutex_lock(&ts->ilitek_mutex);
+   261			ret = ilitek_write_and_read(NULL, 0, 0, buffer, len);
+   262			mutex_unlock(&ts->ilitek_mutex);
+   263			if (ret < 0) {
+   264				TP_ERR(NULL, "i2c read failed, buf: %x\n", buffer[0]);
+   265				break;
+   266			}
+   267	
+ > 268			if (copy_to_user((u8 *)arg, buffer, len)) {
+   269				ret = -EFAULT;
+   270				TP_ERR(NULL, "copy data to user space, failed\n");
+   271			}
+   272			break;
+   273		case ILITEK_IOCTL_I2C_WRITE_LENGTH:
+   274		case ILITEK_IOCTL_I2C_READ_LENGTH:
+   275			len = arg;
+   276			break;
+   277		case ILITEK_IOCTL_DRIVER_INFORMATION:
+   278			memcpy(buffer, driver_ver, 7);
+   279			if (copy_to_user((u8 *)arg, buffer, 7))
+   280				ret = -EFAULT;
+   281			break;
+   282		case ILITEK_IOCTL_I2C_UPDATE:
+   283			break;
+   284		case ILITEK_IOCTL_I2C_INT_FLAG:
+   285			buffer[0] = !(gpio_get_value(ts->irq_gpio));
+   286			if (copy_to_user((u8 *)arg, buffer, 1)) {
+   287				TP_ERR(NULL, "copy data to user space, failed\n");
+   288				ret = -EFAULT;
+   289				break;
+   290			}
+   291			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_FLAG = %d.\n", buffer[0]);
+   292			break;
+   293		case ILITEK_IOCTL_START_READ_DATA:
+   294			ilitek_irq_enable();
+   295			ts->unhandle_irq = false;
+   296			TP_MSG(NULL, "enable_irq and ts->unhandle_irq = false.\n");
+   297			break;
+   298		case ILITEK_IOCTL_STOP_READ_DATA:
+   299			ilitek_irq_disable();
+   300			ts->unhandle_irq = true;
+   301			TP_MSG(NULL, "disable_irq and ts->unhandle_irq = true.\n");
+   302			break;
+   303		case ILITEK_IOCTL_RESET:
+   304			ilitek_reset(ts->dev->reset_time);
+   305			break;
+   306		case ILITEK_IOCTL_INT_STATUS:
+   307			if (put_user(gpio_get_value(ts->irq_gpio), (s32 *)arg))
+   308				ret = -EFAULT;
+   309			break;
+   310	#ifdef ILITEK_TUNING_MESSAGE
+   311		case ILITEK_IOCTL_DEBUG_SWITCH:
+   312			if (copy_from_user(buffer, (u8 *)arg, 1)) {
+   313				ret = -EFAULT;
+   314				break;
+   315			}
+   316			TP_MSG(NULL, "ilitek The debug_flag = %d.\n", buffer[0]);
+   317			if (buffer[0] == 0)
+   318				ilitek_debug_flag = false;
+   319			else if (buffer[0] == 1)
+   320				ilitek_debug_flag = true;
+   321			break;
+   322	#endif
+   323		case ILITEK_IOCTL_I2C_SWITCH_IRQ:
+   324			if (copy_from_user(buffer, (u8 *)arg, 1)) {
+   325				ret = -EFAULT;
+   326				break;
+   327			}
+   328	
+   329			if (buffer[0] == 0)
+   330				ilitek_irq_disable();
+   331			else
+   332				ilitek_irq_enable();
+   333	
+   334			break;
+   335		case ILITEK_IOCTL_UPDATE_FLAG:
+   336			ts->operation_protection = arg;
+   337			TP_MSG(NULL, "operation_protection = %d\n", ts->operation_protection);
+   338			break;
+   339		case ILITEK_IOCTL_I2C_UPDATE_FW:
+   340			if (copy_from_user(buffer, (u8 *)arg, 35)) {
+   341				TP_ERR(NULL, "copy data from user space, failed\n");
+   342				ret = -EFAULT;
+   343				break;
+   344			}
+   345	
+   346			ilitek_irq_disable();
+   347			mutex_lock(&ts->ilitek_mutex);
+   348			ret = ilitek_write_and_read(buffer, buffer[34], 0, NULL, 0);
+   349			mutex_unlock(&ts->ilitek_mutex);
+   350			ilitek_irq_enable();
+   351	
+   352			if (ret < 0)
+   353				TP_ERR(NULL, "i2c write, failed\n");
+   354	
+   355			break;
+   356		case ILITEK_IOCTL_I2C_INT_CLR:
+   357			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_CLR, set get_INT false\n");
+   358			atomic_set(&ts->get_INT, 0);
+   359			break;
+   360		case ILITEK_IOCTL_I2C_INT_POLL:
+   361		case ILITEK_IOCTL_I2C_INT_POLL_COMPAT:
+   362			tmp = atomic_read(&ts->get_INT);
+   363			TP_DBG(NULL, "ILITEK_IOCTL_I2C_INT_POLL, get_INT: %d\n", tmp);
+   364	
+   365			if (copy_to_user((u8 *)arg, &tmp, 1)) {
+   366				TP_ERR(NULL, "copy data to user space, failed\n");
+   367				ret = -EFAULT;
+   368			}
+   369			break;
+   370		case ILITEK_IOCTL_I2C_ISR_TYPE:
+   371			TP_MSG(NULL, "ILITEK_IOCTL_I2C_ISR_TYPE, set ISR type: %lu\n", arg);
+   372			ts->irq_handle_type = (arg >> 16);
+   373			ts->irq_read_len = arg & 0xFFFF;
+   374			break;
+   375		case ILITEK_IOCTL_I2C_NETLINK:
+   376			TP_MSG(NULL, "ILITEK_IOCTL_I2C_NETLINK, set netlink: %s with ETH: %hhu\n",
+   377				(arg >> 8) ? "ON" : "OFF", (u8)(arg & 0xFF));
+   378	
+   379			if (arg >> 8)
+   380				ret = ilitek_netlink_init(arg & 0xFF);
+   381			else
+   382				ilitek_netlink_exit();
+   383	
+   384			break;
+   385		default:
+   386			TP_ERR(NULL, "unrecognized ioctl cmd: 0x%04x\n", cmd);
+   387			ret = -EINVAL;
+   388			break;
+   389		}
+   390	
+   391		kfree(buffer);
+   392		return (ret < 0) ? ret : 0;
+   393	}
+   394	
 
 -- 
 0-DAY CI Kernel Test Service
