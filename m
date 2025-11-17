@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2E3191F91
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 20:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7717233F393
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 20:23:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763409767; cv=none; b=k4NtaSlZpjpZLqjEA2k7vgFX7ffdj4qT1OEhgI7DnVwcd9rrjxpgVEGccDvkPWpDJeJSuEQvEyJUa8rTOhVE94/73F+zZqDkx95+UEVpxdBV76eXUUWgvJ+3uChPOnpotw2Ux6QQEysPsyIAK1JTv4aWt1t0+/XctNIP5pTm7B4=
+	t=1763411047; cv=none; b=V5izCo72s9KcgMhq1qRQZNAh5X+04JaWx4x5BY30ZaX9GyJw+m+LU3EE+FItnOVpukpVJN/B58Df2G/NfqzxOgmw0eHymWyn1br56uySTr4QBFF9I3ME1nX24VpfGKeV6Z04BvRtKemPvHR7Nnq7WF6nLgI8Pki1bUXMmgh9cbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763409767; c=relaxed/simple;
-	bh=uisV2tJmvSWOvNeV5NOzQ5+mN/fx29tsHorK+E/7A2U=;
+	s=arc-20240116; t=1763411047; c=relaxed/simple;
+	bh=vRR2yFYXXVMLF4amAkJozJ5fShMDPLpkCS8laVtx1g4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=adRLSG5w+yl/uTGrtzaeL1+aofQY6rRsmL6Y4yJoHVVA7NRIazatIVdbb8/o6w97Ffvkq+BA2mbCZCcr5bkt65S+bVJ8kOgHgMTwFW67kLfI9pz7ekCJX77UG6YK2VUYaxcJaAGDMZ26FSXId3WcOoYuUqLMZsz/8JoPpD8WwnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fpz/gK8L; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=nTN5TE8ShukUEWFF97JGzsbRPUWO9zbl2Kc/M71VoU0o+wOVBrq9sGBowJZ+qGAfGEVdrkD7qQJ2Jj599tXObzRcQVGWAA2xXy21ImS2kygxTxSbBZp7+M9YPR88plGK0aZJv/T/YM36aK1gHUL/pcpioMJtD9J1XVbuuwQ5qCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I6PuF4zz; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fpz/gK8L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6PuF4zz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763409766; x=1794945766;
+  t=1763411033; x=1794947033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uisV2tJmvSWOvNeV5NOzQ5+mN/fx29tsHorK+E/7A2U=;
-  b=Fpz/gK8Lo0jk3rtsX+Mo/zG75Guy6C9MdJpTLlIwtoxZV0h8qpfl9Q5G
-   C9one47iczEgRFeuf7SraA17VF6B+3dCTOCr56FK1POeeRfo6gi7T8Q6V
-   8VQ6lRSWXSKqRPeXHqaIxw0HNijurxvLIKy92qEf1JTiZHSTS1dEkaZ3d
-   cWdzhc+e21pfzASPTeccmYXA/LJ1QdJb2Jt9K4AQohxVdGMvoooyL6K9B
-   VWUiwcR7F9q8i2CUZJUkIdtuvg9qc2thV8ppwaYBIsKm68XjSIgEWojGc
-   raxApT9lfYpewd4FN9inweprQlcfVB0JVekBfeqpYV5gmO/idkwidwP4a
+  bh=vRR2yFYXXVMLF4amAkJozJ5fShMDPLpkCS8laVtx1g4=;
+  b=I6PuF4zzUIZ5F6+H46F+tkLXbIZT5BqDyM0xoOS3b6mtHJ4x0MkhbON8
+   g5Jgv5MaG8WORUnp581zcLU65XaR8BTHmpzsgpiDJ2APz0sFRjNpHwzKk
+   SNUvyhOgM2NFdX+nxC6hg26cVz/Jeu8KbchkQGPjEk5zD3Fa5i3b8x9tq
+   fESzCR88FnbrZlytdV1cnMwu7cJBfm0mFVzKMvTRTwtOpaEh3ynGU97KR
+   Jv7ujQr6tyggQ29RM2yDyWn0/FYdcovoJv1ztPz2psLrmpb2HOamKxKzU
+   Q7OFYi54i7rRLFRJv8t/dKrKdt3ngLbX1sZu/lYRd84bzyF7di3NnadpF
    w==;
-X-CSE-ConnectionGUID: SCzCp0JMRk2LCG6I+2Tx+g==
-X-CSE-MsgGUID: p5DN7phETBmxbUpi0ZmdFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="68026474"
+X-CSE-ConnectionGUID: rC+ZMIIzQBWMUQtQxGwqPg==
+X-CSE-MsgGUID: CagWfJYeRWeA41JKK2eoMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76775663"
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="68026474"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 12:02:46 -0800
-X-CSE-ConnectionGUID: WKZZ4D5eSVid9TVrkiQCRg==
-X-CSE-MsgGUID: yiP/n5e0Ste0QB83ogB6iQ==
+   d="scan'208";a="76775663"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 12:23:47 -0800
+X-CSE-ConnectionGUID: gGlNV5wPTKaoutGjbV4Kxw==
+X-CSE-MsgGUID: lbVrNT7pRd6wRzxZwF3UOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
-   d="scan'208";a="190991500"
+   d="scan'208";a="195479488"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2025 12:02:45 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 17 Nov 2025 12:23:47 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL5Qx-00010p-02;
-	Mon, 17 Nov 2025 20:02:43 +0000
-Date: Tue, 18 Nov 2025 04:02:04 +0800
+	id 1vL5lI-00011t-1s;
+	Mon, 17 Nov 2025 20:23:44 +0000
+Date: Tue, 18 Nov 2025 04:23:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 4/9]
- lib/crypto/tests/mldsa_kunit.c:46:undefined reference to `mldsa_44_verify'
-Message-ID: <202511180300.eSkd6nJW-lkp@intel.com>
+Subject: [dhowells-fs:keys-pqc 5/9]
+ lib/crypto/tests/mldsa_kunit.c:65:undefined reference to `mldsa_65_verify'
+Message-ID: <202511180426.egt704uW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +64,43 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
 head:   e298b80f8063fcbc335870ff3f1d59dae4d5116a
-commit: 2c8549faf59c9e75793de9307da5ef4755daff1a [4/9] crypto: Add ML-DSA-44 pure rejection test vectors as a kunit test
-config: sparc-randconfig-r072-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180300.eSkd6nJW-lkp@intel.com/config)
+commit: 07d3d88631ed18eaf8c87bb7b310c2673be68be3 [5/9] crypto: Add ML-DSA-65 pure rejection test vectors as a kunit test
+config: sparc-randconfig-r072-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180426.egt704uW-lkp@intel.com/config)
 compiler: sparc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180300.eSkd6nJW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180426.egt704uW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180300.eSkd6nJW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180426.egt704uW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
+   sparc-linux-ld: lib/crypto/tests/mldsa_kunit.o: in function `dilithium_65_kunit_test':
+>> lib/crypto/tests/mldsa_kunit.c:65:(.text+0x40): undefined reference to `mldsa_65_verify'
    sparc-linux-ld: lib/crypto/tests/mldsa_kunit.o: in function `dilithium_44_kunit_test':
->> lib/crypto/tests/mldsa_kunit.c:46:(.text+0x24): undefined reference to `mldsa_44_verify'
+   lib/crypto/tests/mldsa_kunit.c:49:(.text+0x110): undefined reference to `mldsa_44_verify'
 
 
-vim +46 lib/crypto/tests/mldsa_kunit.c
+vim +65 lib/crypto/tests/mldsa_kunit.c
 
-    38	
-    39	static void dilithium_44_kunit_test(struct kunit *test)
-    40	{
-    41		const struct dilithium_testvector *tc = dilithium_44_testvectors;
-    42		int count = ARRAY_SIZE(dilithium_44_testvectors);
-    43		int ret;
-    44	
-    45		for (int index = 0; index < count; index++) {
-  > 46			ret = mldsa_44_verify(tc->pk, tc->pk_len,
-    47					      tc->msg, tc->msg_len,
-    48					      tc->sig, tc->sig_len);
-    49			KUNIT_ASSERT_EQ_MSG(test, ret, 0, "Verify failed");
-    50		}
-    51	
-    52		KUNIT_SUCCEED(test);
-    53	}
-    54	
+    57	
+    58	static void dilithium_65_kunit_test(struct kunit *test)
+    59	{
+    60		const struct dilithium_testvector *tc = dilithium_65_testvectors;
+    61		int count = ARRAY_SIZE(dilithium_65_testvectors);
+    62		int ret;
+    63	
+    64		for (int index = 0; index < count; index++) {
+  > 65			ret = mldsa_65_verify(tc->pk, tc->pk_len,
+    66					      tc->msg, tc->msg_len,
+    67					      tc->sig, tc->sig_len);
+    68			KUNIT_ASSERT_EQ_MSG(test, ret, 0, "Verify failed");
+    69		}
+    70	
+    71		KUNIT_SUCCEED(test);
+    72	}
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
