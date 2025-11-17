@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7AC1EF38E;
-	Mon, 17 Nov 2025 08:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5879731AF1E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 08:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763366552; cv=none; b=kbVT1VdJ16XcRvx4K6sIoFrpCKaSfqNBgwn3dBKn1ENtqC2MZtw1sosjyp532haeHSsPpySMDcjXl2c8bmLrtCVVUC0UblLkysAX1sMRNuWAHSF6gQhrKHMTuUCD41BKqZLovNVe3HmxbCFfIocJgsOsu4yCCvKZLkFp+CrlSFE=
+	t=1763367880; cv=none; b=th1Yvy/E2SXs520tZ0GWwOhBAG8L7DUBziAVo4cytMb5kWsat5qOe3X3Os97oHkccFDdY3d9E4H110qkwvX3UCJo/myw0QOz7ZeFAdYB24w4afnvDaiaiQrpovanEZ7aF15tO3ByecC1eSpnR36OANvhiZ6JmunabeV4PFVh8Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763366552; c=relaxed/simple;
-	bh=gPuHKDtp3UF3TCByRPW4KcUQhNnntHDca6imhl7OHAM=;
+	s=arc-20240116; t=1763367880; c=relaxed/simple;
+	bh=TQXycHqSL6n0JiU8w2DSD4c8pWvEIcHv4C500Nkfg4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bV7PQXLtZWAEApR5RQ2V6Vuh4dOzGyKCAOdkms135zIJyXoIkWhA5V2G5xpccMePqFvsiKWX0cWdcbeJ01seuWEz9bVUNgDKXK7LxkDYXXVW05axZtFNG3BtwNZe4/pDBGo+Lqcqf8vAfxwNVQwW+oAeBhZQObF/WV9taaFK9tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PsY8QV7Y; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nw4NNnMy2iqhCcJnc9dRSYj/c8AdVaTHeevdi957ExCM29+MyeEvpsI3YrJbL6EDqLPOnU4JcPmh9bzH8pN3RJG4Y4AOAj9EqpYE5SmEgiF/ExpLQZu5dLtSRUh7Ce58M4YtT5sLhH5LZDdcn87h1W2mAbhEaoHVv6bIJpZv3Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zes+dOei; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PsY8QV7Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zes+dOei"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763366551; x=1794902551;
+  t=1763367878; x=1794903878;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gPuHKDtp3UF3TCByRPW4KcUQhNnntHDca6imhl7OHAM=;
-  b=PsY8QV7YWO1zqjsaY1M+UemEsA1edXNcNAuv2fy7BUK3v/5ePm7RGdx7
-   WE6MgyVB2mpMJpeNvCD8BRUK+LUYCvtEvaaXyBxtNMicwEExYsyVsOr/E
-   eKlPGI5VVyCvYFn9UxZn8ntS5F1zzaaz3Hexvvrwqxcy72NiRvpKa8Y3/
-   Fh8LrnRNc5snpcNyJJqIl5TC/psHkh23ibwibJDxwQVpE5KDWfy3SV/7t
-   RjTFqNtYa6rugtAVd7xvzNoTh8FNe8DM+7UdINjvUKzJ2QV+rIyF0Qlm/
-   nS6nOQ29c3i8GPZnr+Zzg+Qx090OsTSreTvGnevEvEAmdFk8iCkT2/LYq
-   w==;
-X-CSE-ConnectionGUID: BNv6zVY5RwimRjYBEAhzDw==
-X-CSE-MsgGUID: GMUQ2QMSQF2DOEfakXYj2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65294433"
+  bh=TQXycHqSL6n0JiU8w2DSD4c8pWvEIcHv4C500Nkfg4Y=;
+  b=Zes+dOeiv4VWl6RI5LFNZpkjdMJNnHLwjxTcZasr9A118lDX5OJeHkTh
+   xnMoCeqwyYF1pfkrOSy0ETVkyXbDN0Ix6FcjCsquMvAN0p8dYE6iIM7wl
+   BjRmgnhBTFDgGjYRzqhXT6HbJXR9uNUqAQc3pjdYpZz3WpYdAZrseemHq
+   aGBgqpRpUjxnumxwUG0Oy77MF7rY926vLZcApqSzR/G4GkPqRn1ZUJmQM
+   0NYkZDv1/aAO9qUrqmzdgTRmLSDxXICbj1FTfU29kGRXrPSE6kYFAqjcl
+   C/e0cd9ZZN54PiCuGiKCcktD72Ll7F0ahfK9AREWkasfDX8RXoBYLbUp2
+   g==;
+X-CSE-ConnectionGUID: yzizEqsvT0SBygDSkmbPMA==
+X-CSE-MsgGUID: P4/ArjPUQIyHYssLKUA1BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65397101"
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="65294433"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 00:02:31 -0800
-X-CSE-ConnectionGUID: hfQa5AALRjSxCDd4OjtpKw==
-X-CSE-MsgGUID: 3EWV0LRhRsKGFodZT9AyCQ==
+   d="scan'208";a="65397101"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 00:24:30 -0800
+X-CSE-ConnectionGUID: c9glhzGwQYuv/RYm2wflTw==
+X-CSE-MsgGUID: aoQUlQ2sRDOdCer+E0IhDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; 
-   d="scan'208";a="191170587"
+   d="scan'208";a="190549375"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Nov 2025 00:02:27 -0800
+  by orviesa008.jf.intel.com with ESMTP; 17 Nov 2025 00:24:30 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vKuBt-0000I3-1N;
-	Mon, 17 Nov 2025 08:02:25 +0000
-Date: Mon, 17 Nov 2025 16:02:24 +0800
+	id 1vKuXD-0000JX-0x;
+	Mon, 17 Nov 2025 08:24:27 +0000
+Date: Mon, 17 Nov 2025 16:24:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cx19970 <cx19970@qq.com>, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, linux-kernel@vger.kernel.org,
-	cx19970 <cx19970@qq.com>
-Subject: Re: [PATCH] BUG: sysrq: Reset the watchdog during the polling of
- sysrq-t processing tasks
-Message-ID: <202511171548.yY6PHme5-lkp@intel.com>
-References: <tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07@qq.com>
+To: Deepak Gupta via B4 Relay <devnull+debug.rivosinc.com@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v23 25/28] riscv: create a config for shadow stack and
+ landing pad instr support
+Message-ID: <202511171618.ISGQXA1I-lkp@intel.com>
+References: <20251112-v5_user_cfi_series-v23-25-b55691eacf4f@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,67 +63,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07@qq.com>
+In-Reply-To: <20251112-v5_user_cfi_series-v23-25-b55691eacf4f@rivosinc.com>
 
-Hi cx19970,
+Hi Deepak,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on linus/master v6.18-rc6 next-20251114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/cx19970/BUG-sysrq-Reset-the-watchdog-during-the-polling-of-sysrq-t-processing-tasks/20251117-130012
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/tencent_B7DDA306E3B6A8CDF3195E4C083C9BD37E07%40qq.com
-patch subject: [PATCH] BUG: sysrq: Reset the watchdog during the polling of sysrq-t processing tasks
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251117/202511171548.yY6PHme5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511171548.yY6PHme5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Deepak-Gupta-via-B4-Relay/mm-VM_SHADOW_STACK-definition-for-riscv/20251113-084937
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251112-v5_user_cfi_series-v23-25-b55691eacf4f%40rivosinc.com
+patch subject: [PATCH v23 25/28] riscv: create a config for shadow stack and landing pad instr support
+config: riscv-randconfig-002-20251117 (https://download.01.org/0day-ci/archive/20251117/202511171618.ISGQXA1I-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511171618.ISGQXA1I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511171548.yY6PHme5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511171618.ISGQXA1I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:13940:3: error: call to undeclared function 'touch_nmi_watchdog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    13940 |                 touch_nmi_watchdog();
-          |                 ^
->> kernel/sched/fair.c:13941:3: error: call to undeclared function 'touch_all_softlockup_watchdogs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    13941 |                 touch_all_softlockup_watchdogs();
-          |                 ^
-   2 errors generated.
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/vgettimeofday.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/vgettimeofday.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
 --
-   In file included from kernel/sched/build_policy.c:52:
->> kernel/sched/rt.c:2941:3: error: call to undeclared function 'touch_nmi_watchdog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2941 |                 touch_nmi_watchdog();
-         |                 ^
->> kernel/sched/rt.c:2942:3: error: call to undeclared function 'touch_all_softlockup_watchdogs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2942 |                 touch_all_softlockup_watchdogs();
-         |                 ^
-   2 errors generated.
-
-
-vim +/touch_nmi_watchdog +13940 kernel/sched/fair.c
-
- 13933	
- 13934	void print_cfs_stats(struct seq_file *m, int cpu)
- 13935	{
- 13936		struct cfs_rq *cfs_rq, *pos;
- 13937	
- 13938		rcu_read_lock();
- 13939		for_each_leaf_cfs_rq_safe(cpu_rq(cpu), cfs_rq, pos) {
- 13940			touch_nmi_watchdog();
- 13941			touch_all_softlockup_watchdogs();
- 13942			print_cfs_rq(m, cpu, cfs_rq);
- 13943		}
- 13944		rcu_read_unlock();
- 13945	}
- 13946	
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/getrandom.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/getrandom.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+--
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+--
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/vgettimeofday.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/vgettimeofday.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/getrandom.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+>> objcopy: warning: arch/riscv/kernel/vdso_cfi/getrandom.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/rt_sigreturn.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/vgettimeofday.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/getcpu.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/flush_icache.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/sys_hwprobe.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/getrandom.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/note.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-ld: warning: arch/riscv/kernel/vdso_cfi/vgetrandom-chacha.o: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-objcopy: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg.tmp: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-objcopy: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg.tmp: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-objcopy: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg.tmp: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-objcopy: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg.tmp: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-objcopy: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg.tmp: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-nm: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-nm: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-nm: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-nm: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
+   riscv64-linux-nm: warning: arch/riscv/kernel/vdso_cfi/vdso-cfi.so.dbg: unsupported GNU_PROPERTY_TYPE (5) type: 0xc0000000
 
 -- 
 0-DAY CI Kernel Test Service
