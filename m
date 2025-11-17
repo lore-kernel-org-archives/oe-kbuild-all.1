@@ -1,94 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D63C2868B4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 15:45:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B0715855E;
+	Mon, 17 Nov 2025 15:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763394345; cv=none; b=FWp0JDowPP4IN1yc+EtU090fEmFmHV4Cl5tHGMdaCUHbGe+mDbm/YfzyOJ1WNH8s9nCFB1rzEfJkcHg76iNTHsXEnLN34zdFb/DQkpxPJPwhJSudUodjZ7ZgZ+T80a/Gf3e7qdgl4UL7mT+hBPm/T1v8B2mb4/VOfTj56dW2nZk=
+	t=1763394800; cv=none; b=KSK4nYXb38CMNXSqYbqjA+f33qUW7LHp33eNIKX+YxdjcfVrOgtn/YBeE7ZKojNOz0kQPyheT7SIk1xs2LAo/W9ISYaXLdmtZU3bptjh+k9tiApivuZ5F39ftd01HS03tGOprx+wBjMTuwFM0+dF4lWclIoYdnFqwd2TeckOOd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763394345; c=relaxed/simple;
-	bh=tj/kdr8wlxOfWSKm75R1BNNXJbnbmo771IOdR00jaco=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g9osVXDFdyHJ1xizCJqe2t7fitvZjgCeydU+C1PMAKwzyfSiTu393xkYTynopMyKPYolwbtMyC198ze14pq4BAqGnjy7fOPmknEy5Q7YvAoYp4item1Zt2FcV6TzI+ZR6mLKcotcp94kJopCe8gZ34lbvgSrw6cjsPoLj3j/YRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLnlna23; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763394800; c=relaxed/simple;
+	bh=WrpVZWLvf9yKHVXda3GnKIbGptsEeVba7Z9By/Qmn2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=emyL5UBayPM4hHdRrAAsDSdM1gLlY9S6ZrXo8SS3HmqBpHdAtuhuaxHTIQO7Esxw53bT3vzSwezksOnbIW+502ET4bTdCePYzyUDgEq7faA49jwgiKkbM0E05ck0lNC/G883fe7APFbJ98XSkJNucpdp7qyo44Tn9RFG3PHrQnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuS/rpkl; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLnlna23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8E4EC19423;
-	Mon, 17 Nov 2025 15:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763394345;
-	bh=tj/kdr8wlxOfWSKm75R1BNNXJbnbmo771IOdR00jaco=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aLnlna23QmguzEOWiKyg2KqCqmDk+FtWeTCjEBhwlAkH3Yc57igyJLWRG8xWPb45z
-	 eOyyfDa6qENLdeCm1yl4vzvFN3/cdATdy5dHYOovQrW0L2NJIdjqVthayQJSQzJeJq
-	 b41Ca1Ua+IPapZBX4+v2nhAeBiXnt50QBvs66gYFswEzI4e2jXubzR7OUurh7Fi3Df
-	 +FuL7KEgh2j9lUl39isgKIM3Bnb0jRRaL987kSydNoRHRC5/MMlFGAILA8n+TN0e6h
-	 N1rhIjIsATNbSkjUsphnZd/x8kSEVUBK7aEoewAssjF6X9FSLi4jj7AXcB57C7oDhM
-	 OwQ2lySAGspVg==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 8868/9360] arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&' operand
-Date: Mon, 17 Nov 2025 07:45:35 -0800
-Message-ID: <20251117154536.11143-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202511172257.CjElDcRX-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuS/rpkl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763394800; x=1794930800;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WrpVZWLvf9yKHVXda3GnKIbGptsEeVba7Z9By/Qmn2Y=;
+  b=OuS/rpklLwFRTljGUnliTAjkRrTpFkxIz57NjNZlq6OQy/4h9LkCA74b
+   zM3hgrokcLGG4QSm2QCqnJsg6THTzopSL0UsK1DlV0m5J743j8cDUldeT
+   TtZab2i1oOool40fzi+aZzJLhpWQEXAjjzzkusWvXbNYOpeWgRl2moChf
+   9z84hZAfONPKvnv99EOOjsLf0m4FIhSY0kuNoiYLnkvzft3ubcMuRj1KV
+   Kf2P6wE8M4ot7NVX1ciJQajvzt6PJWPyV/hRtSZGcPJWurEOMhSAR5zxi
+   MKaWgMdQhLuujP8Dj6i3WA1NLtUc/ZhOJ4N38fBd/OocbARezHB/zODly
+   A==;
+X-CSE-ConnectionGUID: pgzS+u1vRzC96uRNaESv7g==
+X-CSE-MsgGUID: yZQCkHO/SrOonZ9OJxcsZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="69017578"
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="69017578"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 07:53:19 -0800
+X-CSE-ConnectionGUID: BW2/G3/gTEeIutSEbKtEcA==
+X-CSE-MsgGUID: ZEUUF18OQluQzvZwRPW5nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="195619679"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 17 Nov 2025 07:53:18 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vL1XX-0000l1-0i;
+	Mon, 17 Nov 2025 15:53:15 +0000
+Date: Mon, 17 Nov 2025 23:52:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [cel:nfsv3-xdrgen 41/55] fs/nfsd/nfs3xdr_gen.c:194:2: warning:
+ switch condition has boolean value
+Message-ID: <202511172336.Y75zj4v6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 17 Nov 2025 22:29:37 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsv3-xdrgen
+head:   6158ace3b663c4e9ab201f2cc644f4290fa30905
+commit: 2b5b97ec0f7a484e81bedf71e223f38b0feb98ca [41/55] Documentation: Add the RPC language description of NFSv3
+config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20251117/202511172336.Y75zj4v6-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172336.Y75zj4v6-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   0c1c7a6a83feaf2cf182c52983ffe330ffb50280
-> commit: f54f0efb9d91fa2eee95a7eb29d0051f2176df47 [8868/9360] mm/damon/vaddr: cleanup using pmd_trans_huge_lock()
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251117/202511172257.CjElDcRX-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251117/202511172257.CjElDcRX-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511172257.CjElDcRX-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/m68k/include/asm/thread_info.h:6,
->                     from include/linux/thread_info.h:60,
->                     from include/asm-generic/preempt.h:5,
->                     from ./arch/m68k/include/generated/asm/preempt.h:1,
->                     from include/linux/preempt.h:79,
->                     from include/linux/spinlock.h:56,
->                     from include/linux/wait.h:9,
->                     from include/linux/wait_bit.h:8,
->                     from include/linux/fs.h:7,
->                     from include/linux/highmem.h:5,
->                     from mm/damon/vaddr.c:10:
->    mm/damon/vaddr.c: In function 'damon_mkold_pmd_entry':
-> >> arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&' operand
->       20 | #define pmd_val(x)      ((&x)->pmd)
->          |                           ^
->    arch/m68k/include/asm/motorola_pgtable.h:116:34: note: in expansion of macro 'pmd_val'
->      116 | #define pmd_present(pmd)        (pmd_val(pmd) & _PAGE_TABLE)
->          |                                  ^~~~~~~
->    mm/damon/vaddr.c:314:21: note: in expansion of macro 'pmd_present'
->      314 |                 if (pmd_present(pmdp_get(pmd)))
->          |                     ^~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511172336.Y75zj4v6-lkp@intel.com/
 
-Thank you for the report!  I just sent a fix:
-https://lore.kernel.org/20251117154415.11041-1-sj@kernel.org
+All warnings (new ones prefixed by >>):
+
+>> fs/nfsd/nfs3xdr_gen.c:194:2: warning: switch condition has boolean value [-Wswitch-bool]
+     194 |         switch (ptr->attributes_follow) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:220:2: warning: switch condition has boolean value [-Wswitch-bool]
+     220 |         switch (ptr->attributes_follow) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:244:2: warning: switch condition has boolean value [-Wswitch-bool]
+     244 |         switch (ptr->handle_follows) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:269:2: warning: switch condition has boolean value [-Wswitch-bool]
+     269 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:285:2: warning: switch condition has boolean value [-Wswitch-bool]
+     285 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:301:2: warning: switch condition has boolean value [-Wswitch-bool]
+     301 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:317:2: warning: switch condition has boolean value [-Wswitch-bool]
+     317 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:425:2: warning: switch condition has boolean value [-Wswitch-bool]
+     425 |         switch (ptr->check) {
+         |         ^       ~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2080:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2080 |         switch (ptr->attributes_follow) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2106:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2106 |         switch (ptr->attributes_follow) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2130:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2130 |         switch (ptr->handle_follows) {
+         |         ^       ~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2150:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2150 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2166:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2166 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2182:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2182 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2198:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2198 |         switch (ptr->set_it) {
+         |         ^       ~~~~~~~~~~~
+   fs/nfsd/nfs3xdr_gen.c:2306:2: warning: switch condition has boolean value [-Wswitch-bool]
+    2306 |         switch (ptr->check) {
+         |         ^       ~~~~~~~~~~
+   16 warnings generated.
 
 
-Thanks,
-SJ
+vim +194 fs/nfsd/nfs3xdr_gen.c
 
-[...]
+   188	
+   189	static bool __maybe_unused
+   190	xdrgen_decode_post_op_attr(struct xdr_stream *xdr, struct post_op_attr *ptr)
+   191	{
+   192		if (!xdrgen_decode_bool(xdr, &ptr->attributes_follow))
+   193			return false;
+ > 194		switch (ptr->attributes_follow) {
+   195		case TRUE:
+   196			if (!xdrgen_decode_fattr3(xdr, &ptr->u.attributes))
+   197				return false;
+   198			break;
+   199		}
+   200		return true;
+   201	}
+   202	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
