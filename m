@@ -1,108 +1,127 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDFBB2C237C;
-	Mon, 17 Nov 2025 17:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763401296; cv=none; b=HrPL4na7IrtxeEsNM+hfNDWGw2vg9vf2PGua9Yjkq2Yi4iCPdeCecV7LXhsekhowyHyJ9EhYdSBVuKXxXbnyAkbd9i5rrqtB92N3OjxOROmt3TQZu2XCT1oeCt3gf1Z2X5f4UUfw4o6el719ziyt/DTRRpbSEkd9M3eb7wHQlLI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763401296; c=relaxed/simple;
-	bh=oANOt64uco5yiTYGF8tU+dJ4GQibeYjCnt1kkfIdqYk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tg5M1/xArxOVZLdfX6+856q/43cGq7Eb9dl4Q6aQJWeG4nR406JXtcn3kjXNWIGqeLGKxMz2fOAg0Gs3l4PBDmpoI9kid8Ijq7oQpYv5kYEOQ4iOoAcisrF6KMiHlg2vUy9EfYLdDTLb12bGUB142ZGVgtvtft192KRmSBU+BnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=XJ5nLYrk; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4740B2C0F89;
+	Mon, 17 Nov 2025 17:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763402283; cv=pass; b=QpNDuZS5s6DuKDyMYqphVFvSYcA/KQv2cU5KkqpLl6YRkTwjkn6sgWurYwJCUTlUPeeIMNTVTeAhlHChDdCMlqBg5mNeweHYbmnStJwwa8+J96AQK9dUGRifOJlrdlwt6fVuO1j7KFWFHAZ8m/Zc/awTmxjiT6TNCfm2WD5BHQ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763402283; c=relaxed/simple;
+	bh=2rNH0yyQwPxiUnte3OgDSEm+m3RdQSUEqi6Z6iLPXfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNH3EUlNwSh+J6E7NVOu8wCAQBO7i9tRhKK8AlQuFsFLXq2cg19Cg75kkTvxdD6OHODc7G0G1mUOLK0b4OggG8dMSdfDiMEgsovxOpcsid3x09Ik6vQKErF75yklW7Ojq4QNo5+GTd93YeKZXsIH4HYKLWlYNIsR+L/mNrW3C9M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com; spf=pass smtp.mailfrom=anirudhrb.com; dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b=Hi8HR6gs; arc=pass smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anirudhrb.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XJ5nLYrk"
-Received: from [100.64.192.165] (unknown [20.29.225.195])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CAFB62119CCB;
-	Mon, 17 Nov 2025 09:41:32 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CAFB62119CCB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1763401293;
-	bh=R+qrQ4lprMLFXNOJBsltyEBTs+EtrTEmRmeXfss7c+M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XJ5nLYrkz+icoe3dO5U4S/M0lE//gNZxjb/wv+/sZuhl5cQLxMbKcZy43scAHHBXp
-	 fM5PpixRzXB3eKkel+cO+3er41aOktqXGA6LtWQB0IkEPbHswZP2kcvEmGJ89wMQLW
-	 UGnQbjlPex8gMTM+zbSwkONkR+3IESf5l80qAQP8=
-Message-ID: <522f1bc2-417f-434a-92f9-7b417744cef4@linux.microsoft.com>
-Date: Mon, 17 Nov 2025 09:41:19 -0800
+	dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b="Hi8HR6gs"
+ARC-Seal: i=1; a=rsa-sha256; t=1763402278; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fW1KtFHpGqgX6RDESPkICQhiCh9G3/yo4r/5y0vrkOTMex5ALVg3g/fMtVLVuICP3i4Ul6cHFzD+6OTBPKl5RxZWgPDPrDM2TQFpZDWHA7MxB0wyq8ww/YMVyOxfAO7TjMp2VlMZQKakDupWxHjV9+ydeI8NVwQX/NxzyLsxduk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1763402278; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Mtj/y1tj4Qb6xMK6ny1DnT4aSEezLdSFUIrKSEg5pAk=; 
+	b=UTJsRkMdK6SN+lBzntZl98xpEXew4eidh25/O+ONsTTTtH2h/A4hl4gkqW50QLLzYnyBDoOe8I2h6Vf0uz2KzQ817LJxsF8HYnkoAeXr5UDipwcQf54DZmr8dcu5ki1E4DxgC5j2n2WD25DN9uKifuS4QLZBitqOCVFGKVGWziI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=anirudhrb.com;
+	spf=pass  smtp.mailfrom=anirudh@anirudhrb.com;
+	dmarc=pass header.from=<anirudh@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763402278;
+	s=zoho; d=anirudhrb.com; i=anirudh@anirudhrb.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=Mtj/y1tj4Qb6xMK6ny1DnT4aSEezLdSFUIrKSEg5pAk=;
+	b=Hi8HR6gsKUw7Nb/f4UccZ1opfSR7mbMZJzFhjrCHmGAqyn02ePtYVnRPUqUqFRA9
+	+6s4o474aJbtaPKG0Z+7P5kByh+aovAz9isAXckXnOxwmi1NEfTDjn5hhvc0FbreQO1
+	9MTdgMiG0OFikAN74G36S7hoslEWHmtex2jqIrGY=
+Received: by mx.zohomail.com with SMTPS id 1763402276135717.0723309216664;
+	Mon, 17 Nov 2025 09:57:56 -0800 (PST)
+Date: Mon, 17 Nov 2025 17:57:50 +0000
+From: Anirudh Rayabharam <anirudh@anirudhrb.com>
+To: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>, kernel test robot <lkp@intel.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
+Message-ID: <aRtiHkEYMi_eqTvQ@anirudh-surface.localdomain>
+References: <20251114095853.3482596-1-anirudh@anirudhrb.com>
+ <202511161617.KcDzR4sA-lkp@intel.com>
+ <20251117173428.GB2380208@liuwe-devbox-debian-v2.local>
+ <522f1bc2-417f-434a-92f9-7b417744cef4@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
-To: Wei Liu <wei.liu@kernel.org>, kernel test robot <lkp@intel.com>
-Cc: Anirudh Rayabharam <anirudh@anirudhrb.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Dexuan Cui <decui@microsoft.com>,
- Long Li <longli@microsoft.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251114095853.3482596-1-anirudh@anirudhrb.com>
- <202511161617.KcDzR4sA-lkp@intel.com>
- <20251117173428.GB2380208@liuwe-devbox-debian-v2.local>
-Content-Language: en-US
-From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-In-Reply-To: <20251117173428.GB2380208@liuwe-devbox-debian-v2.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <522f1bc2-417f-434a-92f9-7b417744cef4@linux.microsoft.com>
+X-ZohoMailClient: External
 
-On 11/17/2025 9:34 AM, Wei Liu wrote:
-> +Nuno
+On Mon, Nov 17, 2025 at 09:41:19AM -0800, Nuno Das Neves wrote:
+> On 11/17/2025 9:34 AM, Wei Liu wrote:
+> > +Nuno
+> > 
+> > On Sun, Nov 16, 2025 at 04:17:08PM +0800, kernel test robot wrote:
+> >> Hi Anirudh,
+> >>
+> >> kernel test robot noticed the following build errors:
+> >>
+> >> [auto build test ERROR on linus/master]
+> >> [also build test ERROR on v6.18-rc5]
+> >> [cannot apply to next-20251114]
+> >> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> >> And when submitting patch, we suggest to use '--base' as documented in
+> >> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >>
+> >> url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Rayabharam/Drivers-hv-ioctl-for-self-targeted-passthrough-hvcalls/20251114-182039
+> >> base:   linus/master
+> >> patch link:    https://lore.kernel.org/r/20251114095853.3482596-1-anirudh%40anirudhrb.com
+> >> patch subject: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
+> >> config: x86_64-buildonly-randconfig-005-20251116 (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/config)
+> >> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> >> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202511161617.KcDzR4sA-lkp@intel.com/
+> >>
+> >> All errors (new ones prefixed by >>):
+> >>
+> >>>> drivers/hv/mshv_root_main.c:125:2: error: use of undeclared identifier 'HVCALL_GET_PARTITION_PROPERTY_EX'
+> >>      125 |         HVCALL_GET_PARTITION_PROPERTY_EX,
+> >>          |         ^
+> > 
+> > Anirudh, please check this.
+> > 
+> This is introduced in hyperv-next, in:
+> 59aeea195948 mshv: Add the HVCALL_GET_PARTITION_PROPERTY_EX hypercall
 > 
-> On Sun, Nov 16, 2025 at 04:17:08PM +0800, kernel test robot wrote:
->> Hi Anirudh,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on linus/master]
->> [also build test ERROR on v6.18-rc5]
->> [cannot apply to next-20251114]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Rayabharam/Drivers-hv-ioctl-for-self-targeted-passthrough-hvcalls/20251114-182039
->> base:   linus/master
->> patch link:    https://lore.kernel.org/r/20251114095853.3482596-1-anirudh%40anirudhrb.com
->> patch subject: [PATCH] Drivers: hv: ioctl for self targeted passthrough hvcalls
->> config: x86_64-buildonly-randconfig-005-20251116 (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/config)
->> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251116/202511161617.KcDzR4sA-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202511161617.KcDzR4sA-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> drivers/hv/mshv_root_main.c:125:2: error: use of undeclared identifier 'HVCALL_GET_PARTITION_PROPERTY_EX'
->>      125 |         HVCALL_GET_PARTITION_PROPERTY_EX,
->>          |         ^
+> But the bot applies the patch to linus/master, that is probably why.
+
+Right. In the v2 of this patch, I used the --base argument to git
+format-patch as suggested by the tool above. That should help it apply
+the patch in the right tree. Let's see if it still complains.
+
+Anirudh
+
 > 
-> Anirudh, please check this.
+> >>>> drivers/hv/mshv_root_main.c:175:18: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
+> >>      175 |         for (i = 0; i < ARRAY_SIZE(mshv_passthru_hvcalls); ++i)
+> >>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > This is from the original patch. Perhaps adding the explicit declaration
+> > of the array size would help.
+> > 
 > 
-This is introduced in hyperv-next, in:
-59aeea195948 mshv: Add the HVCALL_GET_PARTITION_PROPERTY_EX hypercall
-
-But the bot applies the patch to linus/master, that is probably why.
-
->>>> drivers/hv/mshv_root_main.c:175:18: error: invalid application of 'sizeof' to an incomplete type 'u16[]' (aka 'unsigned short[]')
->>      175 |         for (i = 0; i < ARRAY_SIZE(mshv_passthru_hvcalls); ++i)
->>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> I think this is just due to the earlier error...
 > 
-> This is from the original patch. Perhaps adding the explicit declaration
-> of the array size would help.
+> Nuno
 > 
-
-I think this is just due to the earlier error...
-
-Nuno
-
-> Wei
-
+> > Wei
+> 
