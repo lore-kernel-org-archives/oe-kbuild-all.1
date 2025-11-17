@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A58591946DF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 23:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39067302145
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 23:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763423530; cv=none; b=nCLtWLOEcPmYWz5Tx9ucJEOCnH1JLC01xZsjI6B1Tl/pBH4YMJI1D+uqgPn6qdI+/8WAbi7/qnOVwc4KWlVL7OFxQs3+7ifvaq6erNUAxwYBIr4LotwwJKVh5LSr4clivpyYgSaPInGTd7a1OsrhUhb1DUCb4q1ro3Am8m4TuOU=
+	t=1763423547; cv=none; b=TcmBtYQqYkuRqqMsVLlHTj1ylLH8C7FlbHAZLl3r0sP6dBcZKjf4I0oe4dakJxvorrGFXfzahayzXNz2sDmYdFuIWqfXnlR1UCFrH9xJcOGX5lvd50WqzIjjKd6JR7C78HNfYKKx2CxbMie1kBuBiCrl7Ba7ohmZv4oZ0nWmYiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763423530; c=relaxed/simple;
-	bh=Ptj9uMrCai+MpEpOx3zydYVGHiF/1eqne5Q2O4zc9+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JTw+/WF1cszUmSTGxJeZ265GQPlFD3Wo71J+Jlpv9VyqxINiEgAaeQ8AhwoYL+JU5ifVaKo2OtmJhHIgyPQU88fiPiHtMTvIxMOQ3WWge7Dkp7WJHmg/RLjWDOXcbvVgcTGHJaT8uQoqVYYiqd/IPBTto0YRGFG6F69W/6iPO2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWsqvIZ8; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1763423547; c=relaxed/simple;
+	bh=5/9ZzKmjLweeA38iqstqFd7qFRxWZyVJzBW331JQpQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RmQW/FSa8Oowy1/rnDGCXpQGmqjNz2qMakzdnhsPXPTVJLZPbBcn5OLCznBbYB2jN/DkdgmcZGnahVAa872nOcKvYkUUJoJq2/sJzk8eXlQxvh+KP+DPnQOnay+VzQoaitWHv8JQMcJiMCRQryqIa3mWqBGO3daajRUTYnT7u5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QStP5Nah; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWsqvIZ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QStP5Nah"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763423528; x=1794959528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ptj9uMrCai+MpEpOx3zydYVGHiF/1eqne5Q2O4zc9+Y=;
-  b=hWsqvIZ8SckGKmWlFE7Tk0mQvKZRsvBkL7x7M6Uhxm21X4Hf8KSgQjK6
-   a9td7fZuwqR7ox/XUEszd79Ndw5M9iFQ4usewAALvcXhw/3FDlTdZojyH
-   BJVnm/afw5m8TRnCFByYbyWagYA0nMkVav7OeuxtQAGy9ErSnlq2vrMmG
-   XEoHzhKXv/IWDJuqElVX9CfRE8plypCuPXMHTjwhIKw2qLyvF5NU9XSZA
-   9OOrGEFJVypW+W8TPGUFTmU393viYqUwuYCzdxe4BEjD5OXFj5sInYBXi
-   zxVqN76dakkjr4t83lX3kugYfUie27IbfKtxD1ttLpIqEMY8RGvPrRNiA
-   g==;
-X-CSE-ConnectionGUID: X45RiVTQTriyOzSYRHtrjQ==
-X-CSE-MsgGUID: y8sOZU0JSK2cyD6ufe++9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="64635178"
+  t=1763423546; x=1794959546;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5/9ZzKmjLweeA38iqstqFd7qFRxWZyVJzBW331JQpQ4=;
+  b=QStP5NahAHGs1K3tUHN2eK5P9t8OcrNr3/JMUonbLn8VfVv+QO1DOImx
+   j/CyWE1C/8e41yRNoC6EI2rcuKTSIEHxi7qqQbQf8PEZj43xYXcyM3+53
+   28ARko/2FX4z3UvPcPmGtpfaysfF9Uz/7nZQSlmsXdgu/mM1ac6pFlMAH
+   JrfWhzXaw66WuzAE9d0OhH1GvP3VmIBODmorXBOSHXypfN/JXsA7AG+rI
+   45B0swWWNAG/Ii2IjkeGf7j+2U63imZ2HK1zvsMn1lEHzHtid59ev09fq
+   ByH668+1DyJ2d2P1jNh0w+krf+DpzqSE8pVizzoRnimP6pU+d/Q1RlFKo
+   w==;
+X-CSE-ConnectionGUID: aYht2Z+zRQWqFI1FTEI7qg==
+X-CSE-MsgGUID: CbdpfdTQRSe+XFmu8/TEhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="64635190"
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="64635178"
+   d="scan'208";a="64635190"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 15:52:07 -0800
-X-CSE-ConnectionGUID: 4gdIC3dJQCC3WrYLvwtSng==
-X-CSE-MsgGUID: EX1hcrLCSDaGj07Wa6RA2A==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 15:52:20 -0800
+X-CSE-ConnectionGUID: B7bQ6hbSTbiJpeSGv5mwnA==
+X-CSE-MsgGUID: 8iDxqdBESAqGIb5qImQBgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="221501632"
+   d="scan'208";a="221501639"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2025 15:52:06 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2025 15:52:08 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL90t-0001A5-1Y;
+	id 1vL90t-0001A3-1U;
 	Mon, 17 Nov 2025 23:52:03 +0000
-Date: Tue, 18 Nov 2025 07:51:47 +0800
+Date: Tue, 18 Nov 2025 07:51:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 845/928]
- fs/bcachefs/data/reconcile.c:1369:17: sparse: sparse: incorrect type in
- argument 3 (different base types)
-Message-ID: <202511180706.v3Q8hyOZ-lkp@intel.com>
+To: azey <me@azey.net>, "David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH] net/ipv6: allow device-only routes via the multipath API
+Message-ID: <202511180742.7iC868V8-lkp@intel.com>
+References: <a6vmtv3ylu224fnj5awi6xrgnjoib5r2jm3kny672hemsk5ifi@ychcxqnmy5us>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,181 +66,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a6vmtv3ylu224fnj5awi6xrgnjoib5r2jm3kny672hemsk5ifi@ychcxqnmy5us>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   ed77c4321ba4c4b1ecee84bf4d12d98cd4c4949f
-commit: 463dd6744558757e5667fae2d5da73c918424f1b [845/928] bcachefs: REBALANCE_SCAN_pending
-config: m68k-randconfig-r112-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180706.v3Q8hyOZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180706.v3Q8hyOZ-lkp@intel.com/reproduce)
+Hi azey,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main klassert-ipsec/master linus/master v6.18-rc6 next-20251117]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/azey/net-ipv6-allow-device-only-routes-via-the-multipath-API/20251117-023331
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/a6vmtv3ylu224fnj5awi6xrgnjoib5r2jm3kny672hemsk5ifi%40ychcxqnmy5us
+patch subject: [PATCH] net/ipv6: allow device-only routes via the multipath API
+config: i386-randconfig-141-20251117 (https://download.01.org/0day-ci/archive/20251118/202511180742.7iC868V8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180742.7iC868V8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180706.v3Q8hyOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180742.7iC868V8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bcachefs/data/reconcile.c:1369:17: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] cookie @@     got restricted __le64 [addressable] [usertype] cookie @@
-   fs/bcachefs/data/reconcile.c:1369:17: sparse:     expected unsigned long long [usertype] cookie
-   fs/bcachefs/data/reconcile.c:1369:17: sparse:     got restricted __le64 [addressable] [usertype] cookie
->> fs/bcachefs/data/reconcile.c:1369:17: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long long [usertype] cookie @@     got restricted __le64 [addressable] [usertype] cookie @@
-   fs/bcachefs/data/reconcile.c:1369:17: sparse:     expected unsigned long long [usertype] cookie
-   fs/bcachefs/data/reconcile.c:1369:17: sparse:     got restricted __le64 [addressable] [usertype] cookie
-   fs/bcachefs/data/reconcile.c: note: in included file (through include/linux/bitops.h, include/linux/radix-tree.h, include/linux/backing-dev-defs.h, ...):
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
-   arch/m68k/include/asm/bitops.h:527:27: sparse: sparse: not addressable
+All warnings (new ones prefixed by >>):
 
-vim +1369 fs/bcachefs/data/reconcile.c
+   net/ipv6/route.c: In function 'rtm_to_fib6_multipath_config':
+>> net/ipv6/route.c:5122:22: warning: variable 'has_gateway' set but not used [-Wunused-but-set-variable]
+    5122 |                 bool has_gateway = cfg->fc_flags & RTF_GATEWAY;
+         |                      ^~~~~~~~~~~
 
-  1294	
-  1295	static int do_rebalance(struct moving_context *ctxt)
-  1296	{
-  1297		struct btree_trans *trans = ctxt->trans;
-  1298		struct bch_fs *c = trans->c;
-  1299		struct bch_fs_rebalance *r = &c->rebalance;
-  1300		u64 sectors_scanned = 0;
-  1301		u32 kick = r->kick;
-  1302		int ret = 0;
-  1303	
-  1304		CLASS(darray_rebalance_work, work)();
-  1305		try(darray_make_room(&work, REBALANCE_WORK_BUF_NR));
-  1306	
-  1307		bch2_move_stats_init(&r->work_stats, "rebalance_work");
-  1308	
-  1309		CLASS(per_snapshot_io_opts, snapshot_io_opts)(c);
-  1310	
-  1311		static enum btree_id scan_btrees[] = {
-  1312			BTREE_ID_reconcile_scan,
-  1313			BTREE_ID_reconcile_hipri,
-  1314			BTREE_ID_reconcile_work,
-  1315			BTREE_ID_reconcile_pending,
-  1316		};
-  1317		unsigned i = 0;
-  1318		struct bpos work_pos = POS_MIN;
-  1319	
-  1320		struct bkey_i_cookie pending_cookie;
-  1321		bkey_init(&pending_cookie.k);
-  1322	
-  1323		while (!bch2_move_ratelimit(ctxt)) {
-  1324			if (!bch2_rebalance_enabled(c)) {
-  1325				bch2_moving_ctxt_flush_all(ctxt);
-  1326				kthread_wait_freezable(bch2_rebalance_enabled(c) ||
-  1327						       kthread_should_stop());
-  1328				if (kthread_should_stop())
-  1329					break;
-  1330			}
-  1331	
-  1332			if (kick != r->kick) {
-  1333				kick		= r->kick;
-  1334				i		= 0;
-  1335				work_pos	= POS_MIN;
-  1336				work.nr		= 0;
-  1337			}
-  1338	
-  1339			struct bkey_i *k = next_rebalance_entry(trans, &work, scan_btrees[i], &work_pos);
-  1340			if (!k) {
-  1341				if (++i == ARRAY_SIZE(scan_btrees))
-  1342					break;
-  1343	
-  1344				work_pos = POS_MIN;
-  1345	
-  1346				if (scan_btrees[i] == BTREE_ID_reconcile_pending &&
-  1347				    bkey_deleted(&pending_cookie.k))
-  1348					break;
-  1349				continue;
-  1350			}
-  1351	
-  1352			if (k->k.type == KEY_TYPE_cookie &&
-  1353			    rebalance_scan_decode(c, k->k.p.offset).type == REBALANCE_SCAN_pending)
-  1354				bkey_copy(&pending_cookie.k_i, k);
-  1355	
-  1356			ret = k->k.type == KEY_TYPE_cookie
-  1357				? do_rebalance_scan(ctxt, &snapshot_io_opts,
-  1358						    k->k.p,
-  1359						    le64_to_cpu(bkey_i_to_cookie(k)->v.cookie),
-  1360						    &sectors_scanned)
-  1361				: lockrestart_do(trans,
-  1362					do_rebalance_extent(ctxt, &snapshot_io_opts,
-  1363							    rb_work_to_data_pos(k->k.p)));
-  1364			if (ret)
-  1365				break;
-  1366		}
-  1367	
-  1368		if (!ret && !bkey_deleted(&pending_cookie.k))
-> 1369			try(bch2_clear_rebalance_needs_scan(trans,
-  1370					pending_cookie.k.p, pending_cookie.v.cookie));
-  1371	
-  1372		bch2_move_stats_exit(&r->work_stats, c);
-  1373	
-  1374		if (!ret &&
-  1375		    !kthread_should_stop() &&
-  1376		    !atomic64_read(&r->work_stats.sectors_seen) &&
-  1377		    !sectors_scanned &&
-  1378		    kick == r->kick) {
-  1379			bch2_moving_ctxt_flush_all(ctxt);
-  1380			bch2_trans_unlock_long(trans);
-  1381			rebalance_wait(c);
-  1382		}
-  1383	
-  1384		if (!bch2_err_matches(ret, EROFS))
-  1385			bch_err_fn(c, ret);
-  1386		return ret;
-  1387	}
-  1388	
+
+vim +/has_gateway +5122 net/ipv6/route.c
+
+86872cb57925c4 Thomas Graf       2006-08-22  5105  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5106  static int rtm_to_fib6_multipath_config(struct fib6_config *cfg,
+bd11ff421d36ab Kuniyuki Iwashima 2025-04-17  5107  					struct netlink_ext_ack *extack,
+bd11ff421d36ab Kuniyuki Iwashima 2025-04-17  5108  					bool newroute)
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5109  {
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5110  	struct rtnexthop *rtnh;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5111  	int remaining;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5112  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5113  	remaining = cfg->fc_mp_len;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5114  	rtnh = (struct rtnexthop *)cfg->fc_mp;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5115  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5116  	if (!rtnh_ok(rtnh, remaining)) {
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5117  		NL_SET_ERR_MSG(extack, "Invalid nexthop configuration - no valid nexthops");
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5118  		return -EINVAL;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5119  	}
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5120  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5121  	do {
+e6f497955fb6a0 Kuniyuki Iwashima 2025-04-17 @5122  		bool has_gateway = cfg->fc_flags & RTF_GATEWAY;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5123  		int attrlen = rtnh_attrlen(rtnh);
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5124  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5125  		if (attrlen > 0) {
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5126  			struct nlattr *nla, *attrs;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5127  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5128  			attrs = rtnh_attrs(rtnh);
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5129  			nla = nla_find(attrs, attrlen, RTA_GATEWAY);
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5130  			if (nla) {
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5131  				if (nla_len(nla) < sizeof(cfg->fc_gateway)) {
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5132  					NL_SET_ERR_MSG(extack,
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5133  						       "Invalid IPv6 address in RTA_GATEWAY");
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5134  					return -EINVAL;
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5135  				}
+e6f497955fb6a0 Kuniyuki Iwashima 2025-04-17  5136  
+e6f497955fb6a0 Kuniyuki Iwashima 2025-04-17  5137  				has_gateway = true;
+e6f497955fb6a0 Kuniyuki Iwashima 2025-04-17  5138  			}
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5139  		}
+e6f497955fb6a0 Kuniyuki Iwashima 2025-04-17  5140  
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5141  		rtnh = rtnh_next(rtnh, &remaining);
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5142  	} while (rtnh_ok(rtnh, remaining));
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5143  
+f0a56c17e64bb5 Kuniyuki Iwashima 2025-05-15  5144  	return lwtunnel_valid_encap_type_attr(cfg->fc_mp, cfg->fc_mp_len, extack);
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5145  }
+4cb4861d8c3b3b Kuniyuki Iwashima 2025-04-17  5146  
 
 -- 
 0-DAY CI Kernel Test Service
