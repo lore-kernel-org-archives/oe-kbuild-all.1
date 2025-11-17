@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D959309F09
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 22:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC08827E060
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 22:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763417280; cv=none; b=mHiGn6VFhG2SJB4tJSWIFSMuTWxh7yZKizsOmzHkm4E3HdKi+CD+xiUaN0hcZCN0+dEuQvCATgSPWkYdISxguMgnAKykphZoEiDVOfeWAYQ9TTppYUvE2pw+IWi1i718i0xYJpqgTmSlkA+3mjderWO9rwcmCC+0ZKGevaJ+J+M=
+	t=1763419811; cv=none; b=h6RNUsdJzaG0cAkPsa4ag0MMUPhn07jpuaar91xKmQmcgqee12krhsQQ5ftIpFRAzsthlG+KIAbraScLkRr3OPgf65/tahfNERRWaShtatPSYtPgDguM+FoETUThesgbpBY1Uc2vhgLBRQLoQkAlVptrNi+HhyGhsIx75tvWDd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763417280; c=relaxed/simple;
-	bh=G1Oryl7+hU+iNmyG3pHK60Ymz9btm4AWfXjgbuVz+EE=;
+	s=arc-20240116; t=1763419811; c=relaxed/simple;
+	bh=DJmzreIoe9onx7CmdB3QAZebla9teeWe9EEPvW7EWbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TEwBmujqYLOHtaDCpWUtFONPfA4HV1TkZGIHHveKoGkvqZRV2Lug3P1d+3ksekDcmhldGo1QpGyyFv4/CjMV3JOplUOnRIBAPuV6LhygJuxf54GpTKjSAJENQbhaNszHy+jEaIGxjCnlDv/1gGv20sYZFTMCg4vXufdp45M3/eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guO+WwhO; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=SeqmMQHBOjdmwUr2CQ2qqkB8JosBYJHoZuWqwlX/QFfDvag1jlcyreEy+VcC7roH+5iJuX14qEF18w/xhs35KzkcMAtYWmqjpxgySPzxzos5fPNgWZ+pwU/87Zr7ejzwLzBIez8Yz2bGQQYWDFl7Ltgjlm2xqeeMMJFylcRhazA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSBMoNYz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guO+WwhO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSBMoNYz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763417278; x=1794953278;
+  t=1763419809; x=1794955809;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G1Oryl7+hU+iNmyG3pHK60Ymz9btm4AWfXjgbuVz+EE=;
-  b=guO+WwhOqe96RJDt8srdegUoBEh00m2tsSQBeg2LJD9QM0i7XPDZOe4G
-   VXvKeNUMCKRT8klfE4qtirjgowNl9LBygIggVWWYauvgrhDCIQTLccdbm
-   DJ5AyPV4smTB9IrPBNZd2/uJ2KFW3rLuG8v2i4kInkjdUz5ZKpzmVskFb
-   +7TYYZEmr9IUAYvQXvCr+SMTWkp1vqv8hGU+Dp/rjn1LxXmhagz1n6mDp
-   DAuRHbL4eQjdVD5wmSaTyloQHa9e7S+bkrp09G8V8vnyPB7ptfg5mpfo8
-   0nAmHam6kSfv2lNQ1h4NhnpQTXLike+O4rauwTynTUoSryRnEvS4WuO8N
+  bh=DJmzreIoe9onx7CmdB3QAZebla9teeWe9EEPvW7EWbY=;
+  b=GSBMoNYzSFK8RtkCnP2d96iFr62N+xqcQ/bY+xnNtq045nOWpIRYr+ZY
+   dkvi5sQiV/X5jLAXZoqWW4cFSh9ddNnPzcYRmM0y7brCYiXZCHcK9UjFj
+   yjTWhZCCmd3hrPRgBTiTO2RyCgbA834RbGNfilb95C83FhOFJtUTmYQTu
+   +JFpPGeixOprVUBepvuPecyISBhgf0fz5zLTPEhcKRjNWiX9DuYTtfgwY
+   jcvfpOzX1sjQ2tTGiAAtNgHVNMxb02VV0ld2lLVKyPB3Th/OrER43pMx5
+   Ef/eKhT5SW3qgZjMQ+9IJqRwroy8Kgg4p2mFpW/5YIGZ0Hj6r+Lr8L85r
    A==;
-X-CSE-ConnectionGUID: A4v5g6NCTtGaaYETHromoQ==
-X-CSE-MsgGUID: 784isvcFT5iGVXa8viH7iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="64629398"
+X-CSE-ConnectionGUID: OTORDVi0T/KPjvfTTpV5aw==
+X-CSE-MsgGUID: 24LTLBrAQI2azWdLPdafTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76533886"
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="64629398"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 14:07:57 -0800
-X-CSE-ConnectionGUID: 9kTomsTrSXCOhaIVG1ZBOA==
-X-CSE-MsgGUID: i/Vo3RPvSeKQaKOcOiSxzQ==
+   d="scan'208";a="76533886"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 14:50:01 -0800
+X-CSE-ConnectionGUID: EwukxIgNTIS69cX/I/a8KQ==
+X-CSE-MsgGUID: 880OcxbuS3KqB+SryyC5Yw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="213958311"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2025 14:07:56 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 17 Nov 2025 14:50:00 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL7O6-00016B-1S;
-	Mon, 17 Nov 2025 22:07:54 +0000
-Date: Tue, 18 Nov 2025 06:07:29 +0800
+	id 1vL82n-00017h-3A;
+	Mon, 17 Nov 2025 22:49:57 +0000
+Date: Tue, 18 Nov 2025 06:49:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-09 1/1]
- include/trace/stages/init.h:2:23: warning: 'str__gunyah__trace_system_name'
- defined but not used
-Message-ID: <202511180546.cwu0fKNX-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 20/20] mm/unevictable.c:160:6:
+ warning: no previous prototype for 'del_unevict_task'
+Message-ID: <202511180635.ECUZR7u6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,246 +60,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Prakruthi,
+Hi Xin,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
-head:   e1b7f2c3c5bdb42b8083b0199de89b1b155e9daf
-commit: b41a7537a4c154acbb8680000c77553d8cb0ff72 [1/1] ANDROID: gunyah: vcpu_mgr: Add trace_hooks in the gunyah_vcpu driver
-config: arm-randconfig-003-20251117 (https://download.01.org/0day-ci/archive/20251118/202511180546.cwu0fKNX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180546.cwu0fKNX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   9d34d6ebdb86ead0a87c19b7054416f8da8a0b77
+commit: b9a2e0d8ac85271df6a10641da7513f8e44611d8 [20/20] anolis: mm: unevictable: adjust three key functions
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251118/202511180635.ECUZR7u6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180635.ECUZR7u6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180546.cwu0fKNX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180635.ECUZR7u6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/fpsimd.h:20,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/stages/init.h:2:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/timer.h:18,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/psci.h:25,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/reboot.h:18,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/stages/init.h:2:23: warning: 'str__reboot__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/remoteproc.h:26,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/stages/init.h:2:23: warning: 'str__remoteproc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/gunyah.h:20,
-                    from drivers/android/vendor_hooks.c:42:
->> include/trace/stages/init.h:2:23: warning: 'str__gunyah__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/gic_v3.h:30,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/stages/init.h:2:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/gic.h:20,
-                    from drivers/android/vendor_hooks.c:40:
-   include/trace/stages/init.h:2:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/syscall_check.h:36,
-                    from drivers/android/vendor_hooks.c:39:
-   include/trace/stages/init.h:2:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/selinux.h:20,
-                    from drivers/android/vendor_hooks.c:38:
-   include/trace/stages/init.h:2:23: warning: 'str__selinux__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:109,
-                    from include/trace/hooks/creds.h:33,
-                    from drivers/android/vendor_hooks.c:37:
-   include/trace/stages/init.h:2:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+>> mm/unevictable.c:160:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
+     160 | void del_unevict_task(struct task_struct *tsk)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/str__gunyah__trace_system_name +2 include/trace/stages/init.h
+vim +/del_unevict_task +160 mm/unevictable.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   4) 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   5) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   6) 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   7) #define TRACE_MAKE_SYSTEM_STR()				\
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   8) 	static const char TRACE_SYSTEM_STRING[] =	\
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03   9) 		__stringify(TRACE_SYSTEM)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  10) 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @11) TRACE_MAKE_SYSTEM_STR();
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  12) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+   159	
+ > 160	void del_unevict_task(struct task_struct *tsk)
+   161	{
+   162		struct evict_pid_entry *result;
+   163	
+   164		if (!tsk) {
+   165			struct evict_pid_entry *pid_entry, *tmp;
+   166	
+   167			mutex_lock(&pid_mutex);
+   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   169				rcu_read_lock();
+   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   171						&init_pid_ns);
+   172				rcu_read_unlock();
+   173				if (!tsk) {
+   174					list_del(&pid_entry->list);
+   175					__remove_entry(pid_entry);
+   176					kfree(pid_entry);
+   177				}
+   178			}
+   179			mutex_unlock(&pid_mutex);
+   180			return;
+   181		}
+   182	
+   183		mutex_lock(&pid_mutex);
+   184		result = lookup_unevict_entry(tsk);
+   185		if (result) {
+   186			list_del(&result->list);
+   187			__remove_entry(result);
+   188			mutex_unlock(&pid_mutex);
+   189			__evict_pid(result);
+   190			kfree(result);
+   191		} else
+   192			mutex_unlock(&pid_mutex);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
