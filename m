@@ -1,56 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC08827E060
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Nov 2025 22:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11D534B677;
+	Mon, 17 Nov 2025 22:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763419811; cv=none; b=h6RNUsdJzaG0cAkPsa4ag0MMUPhn07jpuaar91xKmQmcgqee12krhsQQ5ftIpFRAzsthlG+KIAbraScLkRr3OPgf65/tahfNERRWaShtatPSYtPgDguM+FoETUThesgbpBY1Uc2vhgLBRQLoQkAlVptrNi+HhyGhsIx75tvWDd8=
+	t=1763419813; cv=none; b=EjZnLVCvwvD7Ay12EGgVzrsTKhBMdMEZedazwu3qTCqRUyHTqhRszMzr19ozAzzfyU1NCrJQhM4WjQabAcvt/nBo33Q/QRj2ZyFYemXOixTzO73vx/9VBhR1iQLbfc4QpLHww8/v7NaE4z+4DZGee0EZBGsGe3DNLLJRqM+EcFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763419811; c=relaxed/simple;
-	bh=DJmzreIoe9onx7CmdB3QAZebla9teeWe9EEPvW7EWbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SeqmMQHBOjdmwUr2CQ2qqkB8JosBYJHoZuWqwlX/QFfDvag1jlcyreEy+VcC7roH+5iJuX14qEF18w/xhs35KzkcMAtYWmqjpxgySPzxzos5fPNgWZ+pwU/87Zr7ejzwLzBIez8Yz2bGQQYWDFl7Ltgjlm2xqeeMMJFylcRhazA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSBMoNYz; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1763419813; c=relaxed/simple;
+	bh=ho1p3QGA7T1hhyD52Dd36WHe1Q9s1Ct6l/6u2zLQ20A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eocQxp4ZjP6UrD0mNhqBPhrMBGLtp5qFUdTI6Yj28tNGbsGpCUW3Ew0Q5Fa6cNHwy9pD1J8MQ4cLmpH2+dRExcd7dDdHh/QKytwb74pdKKxvB6eC9Gk0pPNXWWAr8b8VlrHFmGvtORNsEoOO+FBPxdtc6Pq5sNHsxD6Rbhhwfr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKD/jFOU; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSBMoNYz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKD/jFOU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763419809; x=1794955809;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DJmzreIoe9onx7CmdB3QAZebla9teeWe9EEPvW7EWbY=;
-  b=GSBMoNYzSFK8RtkCnP2d96iFr62N+xqcQ/bY+xnNtq045nOWpIRYr+ZY
-   dkvi5sQiV/X5jLAXZoqWW4cFSh9ddNnPzcYRmM0y7brCYiXZCHcK9UjFj
-   yjTWhZCCmd3hrPRgBTiTO2RyCgbA834RbGNfilb95C83FhOFJtUTmYQTu
-   +JFpPGeixOprVUBepvuPecyISBhgf0fz5zLTPEhcKRjNWiX9DuYTtfgwY
-   jcvfpOzX1sjQ2tTGiAAtNgHVNMxb02VV0ld2lLVKyPB3Th/OrER43pMx5
-   Ef/eKhT5SW3qgZjMQ+9IJqRwroy8Kgg4p2mFpW/5YIGZ0Hj6r+Lr8L85r
-   A==;
-X-CSE-ConnectionGUID: OTORDVi0T/KPjvfTTpV5aw==
-X-CSE-MsgGUID: 24LTLBrAQI2azWdLPdafTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76533886"
+  t=1763419811; x=1794955811;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ho1p3QGA7T1hhyD52Dd36WHe1Q9s1Ct6l/6u2zLQ20A=;
+  b=XKD/jFOUj6M5sbv1Z6cpP6F2tCM2OqpTgaQhu9tFdLxaZan1mqj6WN9U
+   LvTnJNZaQDJzpMQH8JkeO1+1yU3742BfJMz6Nh6ZCb3S3Tjn3TmVsMmAd
+   wYebmzwWyPcm4rdPqbGgqPsof+Ul8WeiMMgVfTCBMPXsVkukqvKI7QLmr
+   TZLcocPrGPCsGURETQyd5DSnP0mG3ga0xBtHHKIbIoYE4jnjmHjaICqxU
+   3hPgduq+Z1REBo1atW943bcYTbtXepFmCfLbDMcDyX5Z0SpniGxE0eR3J
+   xKdxP6ZP62GHAg5cFspcwCdYFRNczE0PtuuSoQpNmZqPkvzfR0qo71vWq
+   g==;
+X-CSE-ConnectionGUID: g1X299gyRXmOKzOefhDT+A==
+X-CSE-MsgGUID: lI7275RGRvCPsWNN5FUKFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76533890"
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="76533886"
+   d="scan'208";a="76533890"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 14:50:01 -0800
-X-CSE-ConnectionGUID: EwukxIgNTIS69cX/I/a8KQ==
-X-CSE-MsgGUID: 880OcxbuS3KqB+SryyC5Yw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 14:50:05 -0800
+X-CSE-ConnectionGUID: xK3yYl6ATSG32EPXWS2EjQ==
+X-CSE-MsgGUID: WhMk9VMjQ+eqOU4N8nUaFw==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Nov 2025 14:50:00 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 17 Nov 2025 14:50:01 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vL82n-00017h-3A;
+	id 1vL82n-00017f-37;
 	Mon, 17 Nov 2025 22:49:57 +0000
-Date: Tue, 18 Nov 2025 06:49:41 +0800
+Date: Tue, 18 Nov 2025 06:49:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 20/20] mm/unevictable.c:160:6:
- warning: no previous prototype for 'del_unevict_task'
-Message-ID: <202511180635.ECUZR7u6-lkp@intel.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, ast@kernel.org,
+	rostedt@goodmis.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+	yonghong.song@linux.dev, kpsingh@kernel.org, sdf@fomichev.me,
+	haoluo@google.com, jolsa@kernel.org, mhiramat@kernel.org,
+	mark.rutland@arm.com, mathieu.desnoyers@efficios.com,
+	jiang.biao@linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 6/6] bpf: implement "jmp" mode for trampoline
+Message-ID: <202511180613.Om7k1nP1-lkp@intel.com>
+References: <20251117034906.32036-7-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,68 +68,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251117034906.32036-7-dongml2@chinatelecom.cn>
 
-Hi Xin,
+Hi Menglong,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   9d34d6ebdb86ead0a87c19b7054416f8da8a0b77
-commit: b9a2e0d8ac85271df6a10641da7513f8e44611d8 [20/20] anolis: mm: unevictable: adjust three key functions
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251118/202511180635.ECUZR7u6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180635.ECUZR7u6-lkp@intel.com/reproduce)
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/ftrace-introduce-FTRACE_OPS_FL_JMP/20251117-115243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251117034906.32036-7-dongml2%40chinatelecom.cn
+patch subject: [PATCH bpf-next v2 6/6] bpf: implement "jmp" mode for trampoline
+config: arm64-randconfig-002-20251118 (https://download.01.org/0day-ci/archive/20251118/202511180613.Om7k1nP1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180613.Om7k1nP1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180635.ECUZR7u6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511180613.Om7k1nP1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/unevictable.c:160:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
-     160 | void del_unevict_task(struct task_struct *tsk)
-         |      ^~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:500:11: error: incomplete definition of type 'struct ftrace_ops'
+     500 |                 tr->fops->flags |= FTRACE_OPS_FL_JMP;
+         |                 ~~~~~~~~^
+   include/linux/ftrace.h:40:8: note: forward declaration of 'struct ftrace_ops'
+      40 | struct ftrace_ops;
+         |        ^
+>> kernel/bpf/trampoline.c:500:22: error: use of undeclared identifier 'FTRACE_OPS_FL_JMP'
+     500 |                 tr->fops->flags |= FTRACE_OPS_FL_JMP;
+         |                                    ^~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:502:11: error: incomplete definition of type 'struct ftrace_ops'
+     502 |                 tr->fops->flags &= ~FTRACE_OPS_FL_JMP;
+         |                 ~~~~~~~~^
+   include/linux/ftrace.h:40:8: note: forward declaration of 'struct ftrace_ops'
+      40 | struct ftrace_ops;
+         |        ^
+   kernel/bpf/trampoline.c:502:23: error: use of undeclared identifier 'FTRACE_OPS_FL_JMP'
+     502 |                 tr->fops->flags &= ~FTRACE_OPS_FL_JMP;
+         |                                     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:534:12: error: incomplete definition of type 'struct ftrace_ops'
+     534 |                         tr->fops->flags |= FTRACE_OPS_FL_JMP;
+         |                         ~~~~~~~~^
+   include/linux/ftrace.h:40:8: note: forward declaration of 'struct ftrace_ops'
+      40 | struct ftrace_ops;
+         |        ^
+   kernel/bpf/trampoline.c:534:23: error: use of undeclared identifier 'FTRACE_OPS_FL_JMP'
+     534 |                         tr->fops->flags |= FTRACE_OPS_FL_JMP;
+         |                                            ^~~~~~~~~~~~~~~~~
+   kernel/bpf/trampoline.c:536:12: error: incomplete definition of type 'struct ftrace_ops'
+     536 |                         tr->fops->flags &= ~FTRACE_OPS_FL_JMP;
+         |                         ~~~~~~~~^
+   include/linux/ftrace.h:40:8: note: forward declaration of 'struct ftrace_ops'
+      40 | struct ftrace_ops;
+         |        ^
+   kernel/bpf/trampoline.c:536:24: error: use of undeclared identifier 'FTRACE_OPS_FL_JMP'
+     536 |                         tr->fops->flags &= ~FTRACE_OPS_FL_JMP;
+         |                                             ^~~~~~~~~~~~~~~~~
+   8 errors generated.
 
 
-vim +/del_unevict_task +160 mm/unevictable.c
+vim +/FTRACE_OPS_FL_JMP +500 kernel/bpf/trampoline.c
 
-   159	
- > 160	void del_unevict_task(struct task_struct *tsk)
-   161	{
-   162		struct evict_pid_entry *result;
-   163	
-   164		if (!tsk) {
-   165			struct evict_pid_entry *pid_entry, *tmp;
-   166	
-   167			mutex_lock(&pid_mutex);
-   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
-   169				rcu_read_lock();
-   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
-   171						&init_pid_ns);
-   172				rcu_read_unlock();
-   173				if (!tsk) {
-   174					list_del(&pid_entry->list);
-   175					__remove_entry(pid_entry);
-   176					kfree(pid_entry);
-   177				}
-   178			}
-   179			mutex_unlock(&pid_mutex);
-   180			return;
-   181		}
-   182	
-   183		mutex_lock(&pid_mutex);
-   184		result = lookup_unevict_entry(tsk);
-   185		if (result) {
-   186			list_del(&result->list);
-   187			__remove_entry(result);
-   188			mutex_unlock(&pid_mutex);
-   189			__evict_pid(result);
-   190			kfree(result);
-   191		} else
-   192			mutex_unlock(&pid_mutex);
-   193	}
-   194	
+   470	
+   471		size = arch_bpf_trampoline_size(&tr->func.model, tr->flags,
+   472						tlinks, tr->func.addr);
+   473		if (size < 0) {
+   474			err = size;
+   475			goto out;
+   476		}
+   477	
+   478		if (size > PAGE_SIZE) {
+   479			err = -E2BIG;
+   480			goto out;
+   481		}
+   482	
+   483		im = bpf_tramp_image_alloc(tr->key, size);
+   484		if (IS_ERR(im)) {
+   485			err = PTR_ERR(im);
+   486			goto out;
+   487		}
+   488	
+   489		err = arch_prepare_bpf_trampoline(im, im->image, im->image + size,
+   490						  &tr->func.model, tr->flags, tlinks,
+   491						  tr->func.addr);
+   492		if (err < 0)
+   493			goto out_free;
+   494	
+   495		err = arch_protect_bpf_trampoline(im->image, im->size);
+   496		if (err)
+   497			goto out_free;
+   498	
+   499		if (bpf_trampoline_use_jmp(tr->flags))
+ > 500			tr->fops->flags |= FTRACE_OPS_FL_JMP;
+   501		else
+   502			tr->fops->flags &= ~FTRACE_OPS_FL_JMP;
+   503	
+   504		WARN_ON(tr->cur_image && total == 0);
+   505		if (tr->cur_image)
+   506			/* progs already running at this address */
+   507			err = modify_fentry(tr, orig_flags, tr->cur_image->image,
+   508					    im->image, lock_direct_mutex);
+   509		else
+   510			/* first time registering */
+   511			err = register_fentry(tr, im->image);
+   512	
 
 -- 
 0-DAY CI Kernel Test Service
