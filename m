@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD08E34A76F;
-	Tue, 18 Nov 2025 10:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83516184540
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 11:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763461402; cv=none; b=kzFuAPfO4Hq/+PQkGOHj3Kem00Ejpj/GKxfIwPEgma7OL71uJDyNlH+UiLecEANUMN6eoU7V7FcM1oQllHtbFGT3sMbMXpfIOb9u8/rBf8LnyYn/Qq2Jv9Q/YojReMg6lRG/CW6SAiCPfqArQNxfOLJsAvqv5HsuDpsliscwAqY=
+	t=1763464527; cv=none; b=KmbkgL3cneLflKk88GQL+5yHBtlDb/Q9z5YrBn9HBR9gv8/2wmd8N8o/DTFqefcBabzMLrGTgIwL7P2zg4dxwDGa6NK+NrCNq77K+EsJ3CqddDnSpb4QtN6r3HDdQtsrWJk6mSJlItzUn7z8+eXekzWDiS3BTORsOhsQ00+nnhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763461402; c=relaxed/simple;
-	bh=PLikIlX78X/3R3HeImgh6vrpIPfNlF4ctV3dPZO3h+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJweuS6wiie3xwE2mbWw0mAlUy7dWsh+gpt2GyOr5poAXuOjA49nnXn6IuT+rrwvWnN1IsnIGc3GsvD++VmRuKE6+bvMKVgIgJRyLb4/8UjQtMOd1bu0xnFlsCZYO2EOXDnIMShfJm6rklZqpCIpth1N4VMn/9cZiWO79NsjBns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gyQLSvBG; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1763464527; c=relaxed/simple;
+	bh=hkQi0176mtPTTL8ri6FvVDIkYGTbPHOwRM4+qaZdUkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T9clkuLV3DWAKda9JsJSHuxxnEp4ZfF8IlAWopFWkc41YEddVrUKCVLtmJjuI0JIwkPp43R8XCMdgaxineVCGnRWNUOiwkxHFA3bVw31X5fyoueln2+kw3oKV65JxOnTXx83jupVfnzoRcxKvYKGi4fY2CPqhWql8CyI5V9puA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuCEjCH+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gyQLSvBG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuCEjCH+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763461396; x=1794997396;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PLikIlX78X/3R3HeImgh6vrpIPfNlF4ctV3dPZO3h+I=;
-  b=gyQLSvBGkzOCnOJVGMwY7Kf9w+1WNnUvr/89lsNNux9x6MQOYyjjRSoe
-   op/levXwWBah3RoL3dv12yWlh3JN7mmwYzAzOlWdKh6DWfakRgBneia8U
-   r5PsNJMVdKSVbBwp4RmQYH89oeJ6O75XBdoYyFGvX7QdBcS4MNNqulx61
-   sdzLvStfxL57KHyh4cVXZDldEabPHb2amqYUqOhYxg3CGGIx1v7C6SZ+Z
-   xFcxXStcmqd6sDpHWdYy/GPO4eGQSc88J1ULL6nM9lFkvw+0Ia2yesnQi
-   FInEbV7Zx0JB541jqO40dEHYEY1EE+s/bRAQkwuBVY75uofdYAA2nQ+zH
+  t=1763464525; x=1795000525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hkQi0176mtPTTL8ri6FvVDIkYGTbPHOwRM4+qaZdUkk=;
+  b=EuCEjCH+EOAxZUQOf0NzkJmocomGABHM3yhns1oyDjDi6ftGR1DPCh2z
+   /Tu0PuVUkM1p5bibClx8UND2Kq+N1mkzlZElHokUQ8PzBVZMMW/WEe5XB
+   4SCmCnqos0prWALUGP62DWAH7knjlydSdbxm29dIQN03LD6ICZvFmgWhI
+   FCB/oGY9uYaJK032uyd9NLmmrCunxeWU0ujLE8TSjd8YW4cjbWXXLaNxJ
+   EZsBW01Eu2U4DI86UsBlx6AW+UdYoC6bHGUGDLf2JylxHMjRPx+JT18aQ
+   1BFRgubBYLNAAcFyT570FrwsVtrz3DmlC3pVihSL98niCDvdTUkHB7bOl
    w==;
-X-CSE-ConnectionGUID: 3OAtOLApRo+FLtK0ZABdGA==
-X-CSE-MsgGUID: geHu5YvZTfSFQdwaSMSkjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65520827"
+X-CSE-ConnectionGUID: ZuPClO6aT1OpP2iM4UTYiQ==
+X-CSE-MsgGUID: j/oT34NdT3+P71yP5BPl3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65363969"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="65520827"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 02:23:14 -0800
-X-CSE-ConnectionGUID: MaCUlIjTTtet2WLVQ5VOog==
-X-CSE-MsgGUID: hnn2AZAbTJeKy0MVbUF6Ng==
+   d="scan'208";a="65363969"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 03:15:18 -0800
+X-CSE-ConnectionGUID: hPcatblmQVeWyDzXgS7OQg==
+X-CSE-MsgGUID: 4A3b3Z/8QCOcHYMjIHBChQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190516353"
+   d="scan'208";a="194844436"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2025 02:23:13 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2025 03:15:17 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLIre-0001c3-2h;
-	Tue, 18 Nov 2025 10:23:10 +0000
-Date: Tue, 18 Nov 2025 18:22:35 +0800
+	id 1vLJg3-0001dz-0c;
+	Tue, 18 Nov 2025 11:15:15 +0000
+Date: Tue, 18 Nov 2025 19:14:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaitanya Kulkarni <ckulkarnilinux@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] block: change __blkdev_issue_discard() return type
- to void
-Message-ID: <202511181802.T5QRN7xv-lkp@intel.com>
-References: <20251118074243.636812-1-ckulkarnilinux@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 1/1]
+ include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address
+ space '__iomem' of expression
+Message-ID: <202511181938.ctSYELwA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251118074243.636812-1-ckulkarnilinux@gmail.com>
 
-Hi Chaitanya,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe/for-next]
-[also build test WARNING on device-mapper-dm/for-next jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev xfs-linux/for-next linus/master v6.18-rc6 next-20251118]
-[cannot apply to linux-nvme/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaitanya-Kulkarni/block-change-__blkdev_issue_discard-return-type-to-void/20251118-154435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251118074243.636812-1-ckulkarnilinux%40gmail.com
-patch subject: [RFC PATCH] block: change __blkdev_issue_discard() return type to void
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251118/202511181802.T5QRN7xv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181802.T5QRN7xv-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   9e265862b98f47e02ce26ff6430b7acbe9dcba56
+commit: 41300cf10472d6ea4684acef55b350cb6bb8c292 [1/1] BACKPORT: FROMLIST: tracing: Add register read/write tracing support
+config: arm64-randconfig-r131-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181938.ctSYELwA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181938.ctSYELwA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511181802.T5QRN7xv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511181938.ctSYELwA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/trace_readwrite.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
+   lib/trace_readwrite.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
 
->> block/blk-lib.c:93:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      93 |         if (bio) {
-         |             ^~~
-   block/blk-lib.c:101:9: note: uninitialized use occurs here
-     101 |         return ret;
-         |                ^~~
-   block/blk-lib.c:93:2: note: remove the 'if' if its condition is always true
-      93 |         if (bio) {
-         |         ^~~~~~~~
-   block/blk-lib.c:89:9: note: initialize the variable 'ret' to silence this warning
-      89 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+vim +/__iomem +13 include/trace/events/rwmmio.h
 
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  12  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14 @13  TRACE_EVENT(rwmmio_write,
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  14  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  15  	TP_PROTO(unsigned long caller, u64 val, u8 width, volatile void __iomem *addr),
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  16  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  17  	TP_ARGS(caller, val, width, addr),
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  18  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  19  	TP_STRUCT__entry(
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  20  		__field(u64, caller)
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  21  		__field(u64, val)
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  22  		__field(u64, addr)
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  23  		__field(u8, width)
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  24  	),
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  25  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  26  	TP_fast_assign(
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  27  		__entry->caller = caller;
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  28  		__entry->val = val;
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  29  		__entry->addr = (unsigned long)(void *)addr;
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  30  		__entry->width = width;
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  31  	),
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  32  
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  33  	TP_printk("%pS width=%d val=%#llx addr=%#llx",
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  34  		(void *)(unsigned long)__entry->caller, __entry->width,
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  35  		__entry->val, __entry->addr)
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  36  );
+c7b6c40553f8ae Vamsi Krishna Lanka 2022-01-14  37  
 
-vim +93 block/blk-lib.c
+:::::: The code at line 13 was first introduced by commit
+:::::: c7b6c40553f8ae90617595cc851e19520fbd945b FROMLIST: tracing: Add register read/write tracing support
 
-    73	
-    74	/**
-    75	 * blkdev_issue_discard - queue a discard
-    76	 * @bdev:	blockdev to issue discard for
-    77	 * @sector:	start sector
-    78	 * @nr_sects:	number of sectors to discard
-    79	 * @gfp_mask:	memory allocation flags (for bio_alloc)
-    80	 *
-    81	 * Description:
-    82	 *    Issue a discard request for the sectors in question.
-    83	 */
-    84	int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
-    85			sector_t nr_sects, gfp_t gfp_mask)
-    86	{
-    87		struct bio *bio = NULL;
-    88		struct blk_plug plug;
-    89		int ret;
-    90	
-    91		blk_start_plug(&plug);
-    92		__blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask, &bio);
-  > 93		if (bio) {
-    94			ret = submit_bio_wait(bio);
-    95			if (ret == -EOPNOTSUPP)
-    96				ret = 0;
-    97			bio_put(bio);
-    98		}
-    99		blk_finish_plug(&plug);
-   100	
-   101		return ret;
-   102	}
-   103	EXPORT_SYMBOL(blkdev_issue_discard);
-   104	
+:::::: TO: Vamsi Krishna Lanka <quic_vamslank@quicinc.com>
+:::::: CC: Todd Kjos <tkjos@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
