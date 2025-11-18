@@ -1,270 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C37C2F744D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 22:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D8E30FC3D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 22:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763504486; cv=none; b=oZxL7a61UE+j+IN9jpxnRvWNgr3CDCBXy1f7f6/c30f15QILCe/UGeNlp3ehNryag0UsqXO8zddoLClXz9YDfEKM3eGSOwyTHWdeMqKO5VPxBratES44XGkAi5/X/DAzcoqYRyDFA620frb102PtqZP6oRcTRt818BPuIz4qnmA=
+	t=1763504647; cv=none; b=JpbkDE8X/JBvMdUfOLfhBq2igZ6HgfEcQXvpOmsJ64dkTUrjGGYB8z6l8wS12OVBm7RnlnJTEsOrWtGYSAUrvKE2J+Md7t8ii0ZKSGIvSxGdmk1NrVo0htXk3Yp6Mt2SRpRKso6QOyWbWPRvybSu8GyUhajzf8r64XxEI4M2r58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763504486; c=relaxed/simple;
-	bh=57GA4f0Hpjh5YaWuAQwCXLV3s3PhLoZmtWWecJaX5T0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RYt0khBgTnnpo5iOgS1yh4XYOUOvg3r8HzT6odnmCKsPDQfHIgYifTeT2aNIECjfQ/JegItNtE4jhNY69YE+qSqq/NmftTTCUiJNoi8Msysn11346+KXx9+d9h1JMbSHshVbxFH2OuLX8pys+uwVQuRkD7Y7wyIzMFFh+RCVzsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZzVMsCf; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763504647; c=relaxed/simple;
+	bh=svpK52mxw2R/BGvQibMTyc4I8dCzRhhBHywfqdbMC2M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=RGZaRsU2+oxcQ28x7ex/i8dDNcIyi1gGtudVc+y9x/itEl8diMLoM8QtUgISJyGtwOTlNTMgkt11JalqbsxejmvYWdpD1guvyjGdAkJop0shR1ThRBASSfiOSuShpw/mHxHTwe/02a/u/fo1jYK3ezcH0xD8IDxUTNMKFXlJt/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=O7Hdl9mB; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZzVMsCf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763504484; x=1795040484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=57GA4f0Hpjh5YaWuAQwCXLV3s3PhLoZmtWWecJaX5T0=;
-  b=YZzVMsCfDlnK2AaDm2O579/RdbGWSjETc739U4Nkxl/TpGFQ60CSsDnm
-   IMbNB/cPGYEF5Q/BIfb7P5mQh6R0bBT0uUtpeIshk6ZM3EVxkIq62wXp/
-   bMYFncNFhvYBrCpJfDF6p6hdYt4/XawvCLmx5gl0dZrBC2ZWEoKCbAAF+
-   WTNU4lkvqCLUgAzCr6gtTXPHhq5HoBpboQZlpF1I/HbbR58p+DnQW6Hs8
-   O2oLCjWOQ+paABSyzjTOTYUSFQ5Mrqdb/PUjymKeLtBII0WiPD7EBa8Ht
-   xHuRAOl9/r2OIlodeb1eS8VoqW17xwmmUavZEZ+DU62mf/G9feuMP7l/C
-   g==;
-X-CSE-ConnectionGUID: R1CjpbwaRkSCBdYtPegUbg==
-X-CSE-MsgGUID: f0Y0r2d3Q32b3MwF9kicVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65420018"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="65420018"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 14:21:23 -0800
-X-CSE-ConnectionGUID: zP+Z4FaJQWmv9QxKZksrDg==
-X-CSE-MsgGUID: 3DYWs4XVSdSIld5Dz87vcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190154397"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 14:21:22 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLU4e-0002EX-0y;
-	Tue, 18 Nov 2025 22:21:20 +0000
-Date: Wed, 19 Nov 2025 06:21:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3269/3269]
- drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:450:39: error: dereferencing
- pointer to incomplete type 'struct ieee_pfc'
-Message-ID: <202511190613.H4utOQmR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="O7Hdl9mB"
+Received: from [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e] (2a02-1812-110a-5400-17f3-a8ff-d314-780e.ip6.access.telenet.be [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 90C996A158E;
+	Tue, 18 Nov 2025 23:24:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1763504641;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=svpK52mxw2R/BGvQibMTyc4I8dCzRhhBHywfqdbMC2M=;
+	b=O7Hdl9mBz/1QBSmYAGWqwwsxVsMNMmczdNYv77u01hwqGKSWy3QBCPpg5mSBT90M8194xH
+	R7BiLtAirzVOio42wiV+iEc7aKWRZje50b7LOVRNwhVLbDvIQHng193c4nK/gJwUPtxgGP
+	IvrERB2g/+VYC7f3cdOzvnNlu7XXHWphjTUbHJNNB6wTNWzTkSgFVCyLs9cdecx/sewLNN
+	wQFDf62Ba/OF1KIl8kU/dXU0A74N0WYQ/wffjpE+YKUPrH6NerooLxLoDwVAYhEfIGfP6O
+	wFK1CbV6ozekQgOg7R3mGd88dEW+UOW1IdoSfn8+mNd8vMohE4i8iVsSHL+U5A==
+Message-ID: <0aadc274251ac1627c4b10e96cdc21bbbbe1bb57.camel@svanheule.net>
+Subject: Re: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO support
+From: Sander Vanheule <sander@svanheule.net>
+To: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek	 <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski	 <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus
+ Walleij	 <linus.walleij@linaro.org>, Michael Walle <mwalle@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Date: Tue, 18 Nov 2025 23:24:01 +0100
+In-Reply-To: <202511190436.9oQLbI8A-lkp@intel.com>
+References: <20251117215138.4353-5-sander@svanheule.net>
+	 <202511190436.9oQLbI8A-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   b4a3c05741e1650e8bb8399196fb5d7a318a4698
-commit: 2048b5b7f264f56a4d9e73079e790e13c8596aaf [3269/3269] net: wangxun: txgbe: add support for wangxun 10G/25G/40G
-config: arm64-randconfig-002-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190613.H4utOQmR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190613.H4utOQmR-lkp@intel.com/reproduce)
+On Wed, 2025-11-19 at 05:19 +0800, kernel test robot wrote:
+> Hi Sander,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on lee-mfd/for-mfd-next]
+> [also build test ERROR on lee-mfd/for-mfd-fixes lee-leds/for-leds-next li=
+nusw-
+> pinctrl/devel linusw-pinctrl/for-next linus/master v6.18-rc6 next-2025111=
+8]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/dt-binding=
+s-leds-Binding-for-RTL8231-scan-matrix/20251118-055707
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
+.git=C2=A0for-mfd-next
+> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20251117215138.43=
+53-5-sander%40svanheule.net
+> patch subject: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO s=
+upport
+> config: nios2-allmodconfig
+> (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-l=
+kp@intel.com/co
+> nfig)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-l=
+kp@intel.com/re
+> produce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202511190436.9oQLbI8A-lkp=
+@intel.com/
+>=20
+> All error/warnings (new ones prefixed by >>):
+>=20
+> > > drivers/pinctrl/pinctrl-rtl8231.c:28:27: error: expected identifier o=
+r '(' before
+> > > ':' token
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 28 | enum rtl8231_pin_function : uintptr_t=
+ {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190613.H4utOQmR-lkp@intel.com/
+This isn't supported yet pre-C23 and before GCC 13. I will look to ensure t=
+he a properly
+sized integer is stored into the pinfunction's data pointer.
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_xsk.h:7,
-                    from drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:28:
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     u32 cur_diff = 0;
-         ^~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_update_xoff_received':
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:450:39: error: dereferencing pointer to incomplete type 'struct ieee_pfc'
-      pfc_en |= !!(adapter->txgbe_ieee_pfc->pfc_en);
-                                          ^~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_tx_timeout':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:582:7: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
-     bool real_tx_hang = false;
-          ^~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_do_lan_reset':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2618:21: warning: variable 'tx_ring' set but not used [-Wunused-but-set-variable]
-     struct txgbe_ring *tx_ring;
-                        ^~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4515:5: warning: no previous prototype for 'txgbe_dcb_hw_ets' [-Wmissing-prototypes]
-    s32 txgbe_dcb_hw_ets(struct txgbe_hw *hw, struct ieee_ets *ets, int max_frame)
-        ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_dcb_hw_ets':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:15: error: 'IEEE_8021QAZ_MAX_TCS' undeclared (first use in this function)
-     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
-                  ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:15: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4526:14: error: dereferencing pointer to incomplete type 'struct ieee_ets'
-      switch (ets->tc_tsa[i]) {
-                 ^~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4527:8: error: 'IEEE_8021QAZ_TSA_STRICT' undeclared (first use in this function)
-      case IEEE_8021QAZ_TSA_STRICT:
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4530:8: error: 'IEEE_8021QAZ_TSA_ETS' undeclared (first use in this function)
-      case IEEE_8021QAZ_TSA_ETS:
-           ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4522:7: warning: unused variable 'bwg_id' [-Wunused-variable]
-     __u8 bwg_id[IEEE_8021QAZ_MAX_TCS] = {0, 1, 2, 3, 4, 5, 6, 7};
-          ^~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4518:7: warning: unused variable 'prio_type' [-Wunused-variable]
-     __u8 prio_type[IEEE_8021QAZ_MAX_TCS];
-          ^~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:38: warning: unused variable 'max' [-Wunused-variable]
-     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
-                                         ^~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:8: warning: unused variable 'refill' [-Wunused-variable]
-     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
-           ^~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_configure_dcb':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4591:26: error: 'DCB_CAP_DCBX_VER_IEEE' undeclared (first use in this function)
-     if (adapter->dcbx_cap & DCB_CAP_DCBX_VER_IEEE) {
-                             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6915:6: warning: no previous prototype for 'txgbe_irq_rearm_queues' [-Wmissing-prototypes]
-    void txgbe_irq_rearm_queues(struct txgbe_adapter *adapter,
-         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_update_default_up':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:9: error: variable 'app' has initializer but incomplete type
-     struct dcb_app app = {
-            ^~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:11: error: 'struct dcb_app' has no member named 'selector'
-             .selector = DCB_APP_IDTYPE_ETHTYPE,
-              ^~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: error: 'DCB_APP_IDTYPE_ETHTYPE' undeclared (first use in this function); did you mean 'ENCAP_TYPE_ETHER'?
-             .selector = DCB_APP_IDTYPE_ETHTYPE,
-                         ^~~~~~~~~~~~~~~~~~~~~~
-                         ENCAP_TYPE_ETHER
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: warning: excess elements in struct initializer
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: note: (near initialization for 'app')
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:11: error: 'struct dcb_app' has no member named 'protocol'
-             .protocol = 0,
-              ^~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:22: warning: excess elements in struct initializer
-             .protocol = 0,
-                         ^
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:22: note: (near initialization for 'app')
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:17: error: storage size of 'app' isn't known
-     struct dcb_app app = {
-                    ^~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7094:7: error: implicit declaration of function 'dcb_getapp'; did you mean 'wb_get'? [-Werror=implicit-function-declaration]
-     up = dcb_getapp(netdev, &app);
-          ^~~~~~~~~~
-          wb_get
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:17: warning: unused variable 'app' [-Wunused-variable]
-     struct dcb_app app = {
-                    ^~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_set_prio_tc_map':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9722:27: error: 'DCB_CAP_DCBX_VER_CEE' undeclared (first use in this function)
-      if (adapter->dcbx_cap & DCB_CAP_DCBX_VER_CEE)
-                              ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:10239:22: error: 'txgbe_fcoe_get_wwn' undeclared here (not in a function); did you mean 'txgbe_fcoe_enable'?
-     .ndo_fcoe_get_wwn = txgbe_fcoe_get_wwn,
-                         ^~~~~~~~~~~~~~~~~~
-                         txgbe_fcoe_enable
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_remove':
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:10826:2: error: implicit declaration of function 'txgbe_fcoe_ddp_disable'; did you mean 'txgbe_fcoe_disable'? [-Werror=implicit-function-declaration]
-     txgbe_fcoe_ddp_disable(adapter);
-     ^~~~~~~~~~~~~~~~~~~~~~
-     txgbe_fcoe_disable
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_dcb_hw_ets':
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4546:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:4:
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     u32 cur_diff = 0;
-         ^~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c: At top level:
->> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:748:5: warning: no previous prototype for 'txgbe_fcoe_ddp_enable' [-Wmissing-prototypes]
-    int txgbe_fcoe_ddp_enable(struct txgbe_adapter *adapter)
-        ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:767:6: warning: no previous prototype for 'txgbe_fcoe_ddp_disable' [-Wmissing-prototypes]
-    void txgbe_fcoe_ddp_disable(struct txgbe_adapter *adapter)
-         ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:899:5: warning: no previous prototype for 'txgbe_fcoe_get_wwn' [-Wmissing-prototypes]
-    int txgbe_fcoe_get_wwn(struct net_device *netdev, u64 *wwn, int type)
-        ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:936:4: warning: no previous prototype for 'txgbe_fcoe_get_tc' [-Wmissing-prototypes]
-    u8 txgbe_fcoe_get_tc(struct txgbe_adapter *adapter)
-       ^~~~~~~~~~~~~~~~~
---
-   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c:4:
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
-   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
-     u32 cur_diff = 0;
-         ^~~~~~~~
-   drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c: In function 'txgbe_cache_ring_dcb_vmdq':
->> drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c:63:16: error: implicit declaration of function 'txgbe_fcoe_get_tc'; did you mean 'txgbe_fcoe_enable'? [-Werror=implicit-function-declaration]
-      u8 fcoe_tc = txgbe_fcoe_get_tc(adapter);
-                   ^~~~~~~~~~~~~~~~~
-                   txgbe_fcoe_enable
-   cc1: some warnings being treated as errors
-
-
-vim +450 drivers/net/ethernet/wangxun/txgbe/txgbe_main.c
-
-   439	
-   440	static void txgbe_update_xoff_received(struct txgbe_adapter *adapter)
-   441	{
-   442		struct txgbe_hw *hw = &adapter->hw;
-   443		struct txgbe_hw_stats *hwstats = &adapter->stats;
-   444		u32 xoff[8] = {0};
-   445		int tc;
-   446		int i;
-   447		bool pfc_en = adapter->dcb_cfg.pfc_mode_enable;
-   448	
-   449		if (adapter->txgbe_ieee_pfc)
- > 450			pfc_en |= !!(adapter->txgbe_ieee_pfc->pfc_en);
-   451	
-   452		if (!(adapter->flags & TXGBE_FLAG_DCB_ENABLED) || !pfc_en) {
-   453			txgbe_update_xoff_rx_lfc(adapter);
-   454			return;
-   455		}
-   456	
-   457		/* update stats for each tc, only valid with PFC enabled */
-   458		for (i = 0; i < MAX_TX_PACKET_BUFFERS; i++) {
-   459			u32 pxoffrxc;
-   460	
-   461			wr32m(hw, TXGBE_MMC_CONTROL, TXGBE_MMC_CONTROL_UP, i << 16);
-   462			pxoffrxc = rd32(hw, TXGBE_MAC_PXOFFRXC);
-   463			hwstats->pxoffrxc[i] += pxoffrxc;
-   464			/* Get the TC for given UP */
-   465			tc = netdev_get_prio_tc_map(adapter->netdev, i);
-   466			xoff[tc] += pxoffrxc;
-   467		}
-   468	
-   469		/* disarm tx queues that have received xoff frames */
-   470		for (i = 0; i < adapter->num_tx_queues; i++) {
-   471			struct txgbe_ring *tx_ring = adapter->tx_ring[i];
-   472	
-   473			tc = tx_ring->dcb_tc;
-   474			if (tc <= 7 && xoff[tc])
-   475				clear_bit(__TXGBE_HANG_CHECK_ARMED, &tx_ring->state);
-   476		}
-   477		for (i = 0; i < adapter->num_xdp_queues; i++) {
-   478			struct txgbe_ring *xdp_ring = adapter->xdp_ring[i];
-   479	
-   480			tc = xdp_ring->dcb_tc;
-   481			if (tc <= 7 && xoff[tc])
-   482				clear_bit(__TXGBE_HANG_CHECK_ARMED, &xdp_ring->state);
-   483			}
-   484	}
-   485	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Sander
