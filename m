@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA57F2C21CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 21:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C37C2F744D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 22:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763500823; cv=none; b=nSGLRTog23luL7VV4H7cff+f/uuAtOH/A1yUfI+0ZV3uq0owmnu6XIK+KrTxG8Ou7dlBRKlcxdCftTkKZ0+zjixXwe+Kq/z09kqo37P1NOcVuhB4LgSqNV4L8xuLpQoSM/bAHOlJF6pgZiR+d1LjqKXd0W5rsUFVVF0SsV2DZp4=
+	t=1763504486; cv=none; b=oZxL7a61UE+j+IN9jpxnRvWNgr3CDCBXy1f7f6/c30f15QILCe/UGeNlp3ehNryag0UsqXO8zddoLClXz9YDfEKM3eGSOwyTHWdeMqKO5VPxBratES44XGkAi5/X/DAzcoqYRyDFA620frb102PtqZP6oRcTRt818BPuIz4qnmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763500823; c=relaxed/simple;
-	bh=VqGn7LTh0bOTjUym75ZI1oQbaGNsn0SiTHUaNWoMB3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENE6VbUUiI1fUWLF65zXG5ZaRB3QF0LD0bxDToVpKCXRKmGv2eKpUrrSpvmZxnMUHHffJLaLC329zju0mtDQNilYavwO4z37nplQDxB2LS5qLCIsIfAnl8JO4fRQDNHkHn/R5LnNeIlkTc4AKbygszutsHS5+BHllG6IA8k+qvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itAJ+4IN; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1763504486; c=relaxed/simple;
+	bh=57GA4f0Hpjh5YaWuAQwCXLV3s3PhLoZmtWWecJaX5T0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RYt0khBgTnnpo5iOgS1yh4XYOUOvg3r8HzT6odnmCKsPDQfHIgYifTeT2aNIECjfQ/JegItNtE4jhNY69YE+qSqq/NmftTTCUiJNoi8Msysn11346+KXx9+d9h1JMbSHshVbxFH2OuLX8pys+uwVQuRkD7Y7wyIzMFFh+RCVzsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZzVMsCf; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itAJ+4IN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZzVMsCf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763500820; x=1795036820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VqGn7LTh0bOTjUym75ZI1oQbaGNsn0SiTHUaNWoMB3Q=;
-  b=itAJ+4INndCmerussJceItgKCebMaYzXqlBTi7us8hqj/tWf3ZSYzc2g
-   7twjVlDPxfzjnR9Pc5lsJWLZm/+wMrEoqllIuQR/5bmzgzaAZ3AQhQsNJ
-   3Fo7E6AoZ2bnqLSdCBP7qKqee9Y6JXeJDFoJsaPhlBrmV1KQz+khgGrAc
-   zHTLKvdGyToKwe2c+RQUooZKQlWN8eM/Wf4IPd0NATzAUQXfzqLLlbwCI
-   aLzm0Na/cG6JFjECUYYcox1+S6M24YKvzdBNOY/ZWzJR1No7fNohqzhZZ
-   WC+PAdoIQe3SQnT0gQdtMwjY/wMLuP1CUXSIqSdN/+YzKtTMxC2TM8Blj
-   w==;
-X-CSE-ConnectionGUID: dInSnoOkRm+Z2+KR9G/yWg==
-X-CSE-MsgGUID: HRKLkm1jTHuvbvwg2JlAJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65571769"
+  t=1763504484; x=1795040484;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=57GA4f0Hpjh5YaWuAQwCXLV3s3PhLoZmtWWecJaX5T0=;
+  b=YZzVMsCfDlnK2AaDm2O579/RdbGWSjETc739U4Nkxl/TpGFQ60CSsDnm
+   IMbNB/cPGYEF5Q/BIfb7P5mQh6R0bBT0uUtpeIshk6ZM3EVxkIq62wXp/
+   bMYFncNFhvYBrCpJfDF6p6hdYt4/XawvCLmx5gl0dZrBC2ZWEoKCbAAF+
+   WTNU4lkvqCLUgAzCr6gtTXPHhq5HoBpboQZlpF1I/HbbR58p+DnQW6Hs8
+   O2oLCjWOQ+paABSyzjTOTYUSFQ5Mrqdb/PUjymKeLtBII0WiPD7EBa8Ht
+   xHuRAOl9/r2OIlodeb1eS8VoqW17xwmmUavZEZ+DU62mf/G9feuMP7l/C
+   g==;
+X-CSE-ConnectionGUID: R1CjpbwaRkSCBdYtPegUbg==
+X-CSE-MsgGUID: f0Y0r2d3Q32b3MwF9kicVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65420018"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="65571769"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 13:20:20 -0800
-X-CSE-ConnectionGUID: c91w2+FdTC2ZfQyzIIVBBA==
-X-CSE-MsgGUID: tTI0efh4TbKfH/AKLAI6zw==
+   d="scan'208";a="65420018"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 14:21:23 -0800
+X-CSE-ConnectionGUID: zP+Z4FaJQWmv9QxKZksrDg==
+X-CSE-MsgGUID: 3DYWs4XVSdSIld5Dz87vcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190668720"
+   d="scan'208";a="190154397"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2025 13:20:17 -0800
+  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 14:21:22 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLT7W-0002BT-2H;
-	Tue, 18 Nov 2025 21:20:14 +0000
-Date: Wed, 19 Nov 2025 05:19:28 +0800
+	id 1vLU4e-0002EX-0y;
+	Tue, 18 Nov 2025 22:21:20 +0000
+Date: Wed, 19 Nov 2025 06:21:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sander Vanheule <sander@svanheule.net>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Sander Vanheule <sander@svanheule.net>
-Subject: Re: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO support
-Message-ID: <202511190436.9oQLbI8A-lkp@intel.com>
-References: <20251117215138.4353-5-sander@svanheule.net>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3269/3269]
+ drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:450:39: error: dereferencing
+ pointer to incomplete type 'struct ieee_pfc'
+Message-ID: <202511190613.H4utOQmR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,274 +62,208 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117215138.4353-5-sander@svanheule.net>
 
-Hi Sander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on lee-mfd/for-mfd-fixes lee-leds/for-leds-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.18-rc6 next-20251118]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/dt-bindings-leds-Binding-for-RTL8231-scan-matrix/20251118-055707
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20251117215138.4353-5-sander%40svanheule.net
-patch subject: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO support
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b4a3c05741e1650e8bb8399196fb5d7a318a4698
+commit: 2048b5b7f264f56a4d9e73079e790e13c8596aaf [3269/3269] net: wangxun: txgbe: add support for wangxun 10G/25G/40G
+config: arm64-randconfig-002-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190613.H4utOQmR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190613.H4utOQmR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190436.9oQLbI8A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511190613.H4utOQmR-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-rtl8231.c:28:27: error: expected identifier or '(' before ':' token
-      28 | enum rtl8231_pin_function : uintptr_t {
-         |                           ^
->> drivers/pinctrl/pinctrl-rtl8231.c:35:35: error: field 'flag' has incomplete type
-      35 |         enum rtl8231_pin_function flag;
-         |                                   ^~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:46:34: error: 'RTL8231_PIN_FUNCTION_GPIO' undeclared here (not in a function); did you mean 'RTL8231_PIN_MODE_GPIO'?
-      46 |         RTL8231_FUNCTION("gpio", RTL8231_PIN_FUNCTION_GPIO),
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-rtl8231.c:41:26: note: in definition of macro 'RTL8231_FUNCTION'
-      41 |                 .flag = (_flag),        \
-         |                          ^~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:47:33: error: 'RTL8231_PIN_FUNCTION_LED' undeclared here (not in a function); did you mean 'RTL8231_FUNCTION'?
-      47 |         RTL8231_FUNCTION("led", RTL8231_PIN_FUNCTION_LED),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-rtl8231.c:41:26: note: in definition of macro 'RTL8231_FUNCTION'
-      41 |                 .flag = (_flag),        \
-         |                          ^~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:48:33: error: 'RTL8231_PIN_FUNCTION_PWM' undeclared here (not in a function); did you mean 'RTL8231_FUNCTION'?
-      48 |         RTL8231_FUNCTION("pwm", RTL8231_PIN_FUNCTION_PWM),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-rtl8231.c:41:26: note: in definition of macro 'RTL8231_FUNCTION'
-      41 |                 .flag = (_flag),        \
-         |                          ^~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:52:35: warning: 'functions' is narrower than values of its type
-      52 |         enum rtl8231_pin_function functions:8;
-         |                                   ^~~~~~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:52:35: error: field 'functions' has incomplete type
-   drivers/pinctrl/pinctrl-rtl8231.c: In function 'rtl8231_set_mux':
->> drivers/pinctrl/pinctrl-rtl8231.c:200:14: error: variable 'func_flag' has initializer but incomplete type
-     200 |         enum rtl8231_pin_function func_flag = (uintptr_t) func->data;
-         |              ^~~~~~~~~~~~~~~~~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:200:35: error: storage size of 'func_flag' isn't known
-     200 |         enum rtl8231_pin_function func_flag = (uintptr_t) func->data;
-         |                                   ^~~~~~~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:200:35: warning: unused variable 'func_flag' [-Wunused-variable]
-   drivers/pinctrl/pinctrl-rtl8231.c: In function 'rtl8231_pinctrl_init_functions':
->> drivers/pinctrl/pinctrl-rtl8231.c:325:35: error: storage size of 'flag' isn't known
-     325 |         enum rtl8231_pin_function flag;
-         |                                   ^~~~
->> drivers/pinctrl/pinctrl-rtl8231.c:325:35: warning: unused variable 'flag' [-Wunused-variable]
-   drivers/pinctrl/pinctrl-rtl8231.c: In function 'rtl8231_set_mux':
->> drivers/pinctrl/pinctrl-rtl8231.c:214:1: warning: control reaches end of non-void function [-Wreturn-type]
-     214 | }
-         | ^
+   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_xsk.h:7,
+                    from drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:28:
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     u32 cur_diff = 0;
+         ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_update_xoff_received':
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:450:39: error: dereferencing pointer to incomplete type 'struct ieee_pfc'
+      pfc_en |= !!(adapter->txgbe_ieee_pfc->pfc_en);
+                                          ^~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_tx_timeout':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:582:7: warning: variable 'real_tx_hang' set but not used [-Wunused-but-set-variable]
+     bool real_tx_hang = false;
+          ^~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_do_lan_reset':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2618:21: warning: variable 'tx_ring' set but not used [-Wunused-but-set-variable]
+     struct txgbe_ring *tx_ring;
+                        ^~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4515:5: warning: no previous prototype for 'txgbe_dcb_hw_ets' [-Wmissing-prototypes]
+    s32 txgbe_dcb_hw_ets(struct txgbe_hw *hw, struct ieee_ets *ets, int max_frame)
+        ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_dcb_hw_ets':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:15: error: 'IEEE_8021QAZ_MAX_TCS' undeclared (first use in this function)
+     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
+                  ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:15: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4526:14: error: dereferencing pointer to incomplete type 'struct ieee_ets'
+      switch (ets->tc_tsa[i]) {
+                 ^~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4527:8: error: 'IEEE_8021QAZ_TSA_STRICT' undeclared (first use in this function)
+      case IEEE_8021QAZ_TSA_STRICT:
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4530:8: error: 'IEEE_8021QAZ_TSA_ETS' undeclared (first use in this function)
+      case IEEE_8021QAZ_TSA_ETS:
+           ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4522:7: warning: unused variable 'bwg_id' [-Wunused-variable]
+     __u8 bwg_id[IEEE_8021QAZ_MAX_TCS] = {0, 1, 2, 3, 4, 5, 6, 7};
+          ^~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4518:7: warning: unused variable 'prio_type' [-Wunused-variable]
+     __u8 prio_type[IEEE_8021QAZ_MAX_TCS];
+          ^~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:38: warning: unused variable 'max' [-Wunused-variable]
+     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
+                                         ^~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4517:8: warning: unused variable 'refill' [-Wunused-variable]
+     __u16 refill[IEEE_8021QAZ_MAX_TCS], max[IEEE_8021QAZ_MAX_TCS];
+           ^~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_configure_dcb':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4591:26: error: 'DCB_CAP_DCBX_VER_IEEE' undeclared (first use in this function)
+     if (adapter->dcbx_cap & DCB_CAP_DCBX_VER_IEEE) {
+                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6915:6: warning: no previous prototype for 'txgbe_irq_rearm_queues' [-Wmissing-prototypes]
+    void txgbe_irq_rearm_queues(struct txgbe_adapter *adapter,
+         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_update_default_up':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:9: error: variable 'app' has initializer but incomplete type
+     struct dcb_app app = {
+            ^~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:11: error: 'struct dcb_app' has no member named 'selector'
+             .selector = DCB_APP_IDTYPE_ETHTYPE,
+              ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: error: 'DCB_APP_IDTYPE_ETHTYPE' undeclared (first use in this function); did you mean 'ENCAP_TYPE_ETHER'?
+             .selector = DCB_APP_IDTYPE_ETHTYPE,
+                         ^~~~~~~~~~~~~~~~~~~~~~
+                         ENCAP_TYPE_ETHER
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: warning: excess elements in struct initializer
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7091:22: note: (near initialization for 'app')
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:11: error: 'struct dcb_app' has no member named 'protocol'
+             .protocol = 0,
+              ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:22: warning: excess elements in struct initializer
+             .protocol = 0,
+                         ^
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7092:22: note: (near initialization for 'app')
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:17: error: storage size of 'app' isn't known
+     struct dcb_app app = {
+                    ^~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7094:7: error: implicit declaration of function 'dcb_getapp'; did you mean 'wb_get'? [-Werror=implicit-function-declaration]
+     up = dcb_getapp(netdev, &app);
+          ^~~~~~~~~~
+          wb_get
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7090:17: warning: unused variable 'app' [-Wunused-variable]
+     struct dcb_app app = {
+                    ^~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_set_prio_tc_map':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9722:27: error: 'DCB_CAP_DCBX_VER_CEE' undeclared (first use in this function)
+      if (adapter->dcbx_cap & DCB_CAP_DCBX_VER_CEE)
+                              ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: At top level:
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:10239:22: error: 'txgbe_fcoe_get_wwn' undeclared here (not in a function); did you mean 'txgbe_fcoe_enable'?
+     .ndo_fcoe_get_wwn = txgbe_fcoe_get_wwn,
+                         ^~~~~~~~~~~~~~~~~~
+                         txgbe_fcoe_enable
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_remove':
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:10826:2: error: implicit declaration of function 'txgbe_fcoe_ddp_disable'; did you mean 'txgbe_fcoe_disable'? [-Werror=implicit-function-declaration]
+     txgbe_fcoe_ddp_disable(adapter);
+     ^~~~~~~~~~~~~~~~~~~~~~
+     txgbe_fcoe_disable
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c: In function 'txgbe_dcb_hw_ets':
+   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4546:1: warning: control reaches end of non-void function [-Wreturn-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:4:
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     u32 cur_diff = 0;
+         ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c: At top level:
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:748:5: warning: no previous prototype for 'txgbe_fcoe_ddp_enable' [-Wmissing-prototypes]
+    int txgbe_fcoe_ddp_enable(struct txgbe_adapter *adapter)
+        ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:767:6: warning: no previous prototype for 'txgbe_fcoe_ddp_disable' [-Wmissing-prototypes]
+    void txgbe_fcoe_ddp_disable(struct txgbe_adapter *adapter)
+         ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:899:5: warning: no previous prototype for 'txgbe_fcoe_get_wwn' [-Wmissing-prototypes]
+    int txgbe_fcoe_get_wwn(struct net_device *netdev, u64 *wwn, int type)
+        ^~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_fcoe.c:936:4: warning: no previous prototype for 'txgbe_fcoe_get_tc' [-Wmissing-prototypes]
+    u8 txgbe_fcoe_get_tc(struct txgbe_adapter *adapter)
+       ^~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c:4:
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h: In function 'txgbe_misc_isb':
+   drivers/net/ethernet/wangxun/txgbe/txgbe.h:987:6: warning: variable 'cur_diff' set but not used [-Wunused-but-set-variable]
+     u32 cur_diff = 0;
+         ^~~~~~~~
+   drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c: In function 'txgbe_cache_ring_dcb_vmdq':
+>> drivers/net/ethernet/wangxun/txgbe/txgbe_lib.c:63:16: error: implicit declaration of function 'txgbe_fcoe_get_tc'; did you mean 'txgbe_fcoe_enable'? [-Werror=implicit-function-declaration]
+      u8 fcoe_tc = txgbe_fcoe_get_tc(adapter);
+                   ^~~~~~~~~~~~~~~~~
+                   txgbe_fcoe_enable
+   cc1: some warnings being treated as errors
 
 
-vim +28 drivers/pinctrl/pinctrl-rtl8231.c
+vim +450 drivers/net/ethernet/wangxun/txgbe/txgbe_main.c
 
-    24	
-    25	/*
-    26	 * Pin controller functionality
-    27	 */
-  > 28	enum rtl8231_pin_function : uintptr_t {
-    29		RTL8231_PIN_FUNCTION_GPIO = BIT(0),
-    30		RTL8231_PIN_FUNCTION_LED = BIT(1),
-    31		RTL8231_PIN_FUNCTION_PWM = BIT(2),
-    32	};
-    33	
-    34	struct rtl8231_function_info {
-  > 35		enum rtl8231_pin_function flag;
-    36		const char *name;
-    37	};
-    38	
-    39	#define RTL8231_FUNCTION(_name, _flag)	\
-    40	((struct rtl8231_function_info) {	\
-    41			.flag = (_flag),	\
-    42			.name = (_name),	\
-    43		})
-    44	
-    45	static const struct rtl8231_function_info rtl8231_pin_functions[] = {
-  > 46		RTL8231_FUNCTION("gpio", RTL8231_PIN_FUNCTION_GPIO),
-  > 47		RTL8231_FUNCTION("led", RTL8231_PIN_FUNCTION_LED),
-  > 48		RTL8231_FUNCTION("pwm", RTL8231_PIN_FUNCTION_PWM),
-    49	};
-    50	
-    51	struct rtl8231_pin_desc {
-  > 52		enum rtl8231_pin_function functions:8;
-    53		u8 reg;
-    54		u8 offset;
-    55		u8 gpio_function_value;
-    56	};
-    57	
-    58	#define RTL8231_PIN_DESC(_num, _func, _reg, _fld, _val)			\
-    59		[(_num)] = ((struct rtl8231_pin_desc) {				\
-    60			.functions = RTL8231_PIN_FUNCTION_GPIO | (_func),	\
-    61			.reg = (_reg),						\
-    62			.offset = (_fld),					\
-    63			.gpio_function_value = (_val),				\
-    64		})
-    65	#define RTL8231_GPIO_PIN_DESC(_num, _reg, _fld)			\
-    66		RTL8231_PIN_DESC(_num, 0, _reg, _fld, RTL8231_PIN_MODE_GPIO)
-    67	#define RTL8231_LED_PIN_DESC(_num, _reg, _fld)			\
-    68		RTL8231_PIN_DESC(_num, RTL8231_PIN_FUNCTION_LED, _reg, _fld, RTL8231_PIN_MODE_GPIO)
-    69	#define RTL8231_PWM_PIN_DESC(_num, _reg, _fld)			\
-    70		RTL8231_PIN_DESC(_num, RTL8231_PIN_FUNCTION_PWM, _reg, _fld, 0)
-    71	
-    72	/*
-    73	 * All pins have a GPIO/LED mux bit, but the bits for pins 35/36 are read-only. Use this bit
-    74	 * for the GPIO-only pin instead of a placeholder, so the rest of the logic can stay generic.
-    75	 */
-    76	static const struct rtl8231_pin_desc rtl8231_pin_data[RTL8231_NUM_GPIOS] = {
-    77		RTL8231_LED_PIN_DESC(0, RTL8231_REG_PIN_MODE0, 0),
-    78		RTL8231_LED_PIN_DESC(1, RTL8231_REG_PIN_MODE0, 1),
-    79		RTL8231_LED_PIN_DESC(2, RTL8231_REG_PIN_MODE0, 2),
-    80		RTL8231_LED_PIN_DESC(3, RTL8231_REG_PIN_MODE0, 3),
-    81		RTL8231_LED_PIN_DESC(4, RTL8231_REG_PIN_MODE0, 4),
-    82		RTL8231_LED_PIN_DESC(5, RTL8231_REG_PIN_MODE0, 5),
-    83		RTL8231_LED_PIN_DESC(6, RTL8231_REG_PIN_MODE0, 6),
-    84		RTL8231_LED_PIN_DESC(7, RTL8231_REG_PIN_MODE0, 7),
-    85		RTL8231_LED_PIN_DESC(8, RTL8231_REG_PIN_MODE0, 8),
-    86		RTL8231_LED_PIN_DESC(9, RTL8231_REG_PIN_MODE0, 9),
-    87		RTL8231_LED_PIN_DESC(10, RTL8231_REG_PIN_MODE0, 10),
-    88		RTL8231_LED_PIN_DESC(11, RTL8231_REG_PIN_MODE0, 11),
-    89		RTL8231_LED_PIN_DESC(12, RTL8231_REG_PIN_MODE0, 12),
-    90		RTL8231_LED_PIN_DESC(13, RTL8231_REG_PIN_MODE0, 13),
-    91		RTL8231_LED_PIN_DESC(14, RTL8231_REG_PIN_MODE0, 14),
-    92		RTL8231_LED_PIN_DESC(15, RTL8231_REG_PIN_MODE0, 15),
-    93		RTL8231_LED_PIN_DESC(16, RTL8231_REG_PIN_MODE1, 0),
-    94		RTL8231_LED_PIN_DESC(17, RTL8231_REG_PIN_MODE1, 1),
-    95		RTL8231_LED_PIN_DESC(18, RTL8231_REG_PIN_MODE1, 2),
-    96		RTL8231_LED_PIN_DESC(19, RTL8231_REG_PIN_MODE1, 3),
-    97		RTL8231_LED_PIN_DESC(20, RTL8231_REG_PIN_MODE1, 4),
-    98		RTL8231_LED_PIN_DESC(21, RTL8231_REG_PIN_MODE1, 5),
-    99		RTL8231_LED_PIN_DESC(22, RTL8231_REG_PIN_MODE1, 6),
-   100		RTL8231_LED_PIN_DESC(23, RTL8231_REG_PIN_MODE1, 7),
-   101		RTL8231_LED_PIN_DESC(24, RTL8231_REG_PIN_MODE1, 8),
-   102		RTL8231_LED_PIN_DESC(25, RTL8231_REG_PIN_MODE1, 9),
-   103		RTL8231_LED_PIN_DESC(26, RTL8231_REG_PIN_MODE1, 10),
-   104		RTL8231_LED_PIN_DESC(27, RTL8231_REG_PIN_MODE1, 11),
-   105		RTL8231_LED_PIN_DESC(28, RTL8231_REG_PIN_MODE1, 12),
-   106		RTL8231_LED_PIN_DESC(29, RTL8231_REG_PIN_MODE1, 13),
-   107		RTL8231_LED_PIN_DESC(30, RTL8231_REG_PIN_MODE1, 14),
-   108		RTL8231_LED_PIN_DESC(31, RTL8231_REG_PIN_MODE1, 15),
-   109		RTL8231_LED_PIN_DESC(32, RTL8231_REG_PIN_HI_CFG, 0),
-   110		RTL8231_LED_PIN_DESC(33, RTL8231_REG_PIN_HI_CFG, 1),
-   111		RTL8231_LED_PIN_DESC(34, RTL8231_REG_PIN_HI_CFG, 2),
-   112		RTL8231_PWM_PIN_DESC(35, RTL8231_REG_FUNC1, 3),
-   113		RTL8231_GPIO_PIN_DESC(36, RTL8231_REG_PIN_HI_CFG, 4),
-   114	};
-   115	static const unsigned int PWM_PIN = 35;
-   116	
-   117	#define RTL8231_PIN(_num)					\
-   118		((struct pinctrl_pin_desc) {				\
-   119			.number = (_num),				\
-   120			.name = "gpio" #_num,				\
-   121			.drv_data = (void *) &rtl8231_pin_data[(_num)]	\
-   122		})
-   123	
-   124	static const struct pinctrl_pin_desc rtl8231_pins[RTL8231_NUM_GPIOS] = {
-   125		RTL8231_PIN(0),
-   126		RTL8231_PIN(1),
-   127		RTL8231_PIN(2),
-   128		RTL8231_PIN(3),
-   129		RTL8231_PIN(4),
-   130		RTL8231_PIN(5),
-   131		RTL8231_PIN(6),
-   132		RTL8231_PIN(7),
-   133		RTL8231_PIN(8),
-   134		RTL8231_PIN(9),
-   135		RTL8231_PIN(10),
-   136		RTL8231_PIN(11),
-   137		RTL8231_PIN(12),
-   138		RTL8231_PIN(13),
-   139		RTL8231_PIN(14),
-   140		RTL8231_PIN(15),
-   141		RTL8231_PIN(16),
-   142		RTL8231_PIN(17),
-   143		RTL8231_PIN(18),
-   144		RTL8231_PIN(19),
-   145		RTL8231_PIN(20),
-   146		RTL8231_PIN(21),
-   147		RTL8231_PIN(22),
-   148		RTL8231_PIN(23),
-   149		RTL8231_PIN(24),
-   150		RTL8231_PIN(25),
-   151		RTL8231_PIN(26),
-   152		RTL8231_PIN(27),
-   153		RTL8231_PIN(28),
-   154		RTL8231_PIN(29),
-   155		RTL8231_PIN(30),
-   156		RTL8231_PIN(31),
-   157		RTL8231_PIN(32),
-   158		RTL8231_PIN(33),
-   159		RTL8231_PIN(34),
-   160		RTL8231_PIN(35),
-   161		RTL8231_PIN(36),
-   162	};
-   163	
-   164	static int rtl8231_get_groups_count(struct pinctrl_dev *pctldev)
-   165	{
-   166		return ARRAY_SIZE(rtl8231_pins);
-   167	}
-   168	
-   169	static const char *rtl8231_get_group_name(struct pinctrl_dev *pctldev, unsigned int selector)
-   170	{
-   171		return rtl8231_pins[selector].name;
-   172	}
-   173	
-   174	static int rtl8231_get_group_pins(struct pinctrl_dev *pctldev, unsigned int selector,
-   175		const unsigned int **pins, unsigned int *num_pins)
-   176	{
-   177		if (selector >= ARRAY_SIZE(rtl8231_pins))
-   178			return -EINVAL;
-   179	
-   180		*pins = &rtl8231_pins[selector].number;
-   181		*num_pins = 1;
-   182	
-   183		return 0;
-   184	}
-   185	
-   186	static const struct pinctrl_ops rtl8231_pinctrl_ops = {
-   187		.get_groups_count = rtl8231_get_groups_count,
-   188		.get_group_name = rtl8231_get_group_name,
-   189		.get_group_pins = rtl8231_get_group_pins,
-   190		.dt_node_to_map = pinconf_generic_dt_node_to_map_all,
-   191		.dt_free_map = pinconf_generic_dt_free_map,
-   192	};
-   193	
-   194	static int rtl8231_set_mux(struct pinctrl_dev *pctldev, unsigned int func_selector,
-   195		unsigned int group_selector)
-   196	{
-   197		const struct function_desc *func = pinmux_generic_get_function(pctldev, func_selector);
-   198		const struct rtl8231_pin_desc *desc = rtl8231_pins[group_selector].drv_data;
-   199		const struct rtl8231_pin_ctrl *ctrl = pinctrl_dev_get_drvdata(pctldev);
- > 200		enum rtl8231_pin_function func_flag = (uintptr_t) func->data;
-   201		unsigned int function_mask;
-   202		unsigned int gpio_function;
-   203	
-   204		if (!(desc->functions & func_flag))
-   205			return -EINVAL;
-   206	
-   207		function_mask = BIT(desc->offset);
-   208		gpio_function = desc->gpio_function_value << desc->offset;
-   209	
-   210		if (func_flag == RTL8231_PIN_FUNCTION_GPIO)
-   211			return regmap_update_bits(ctrl->map, desc->reg, function_mask, gpio_function);
-   212		else
-   213			return regmap_update_bits(ctrl->map, desc->reg, function_mask, ~gpio_function);
- > 214	}
-   215	
+   439	
+   440	static void txgbe_update_xoff_received(struct txgbe_adapter *adapter)
+   441	{
+   442		struct txgbe_hw *hw = &adapter->hw;
+   443		struct txgbe_hw_stats *hwstats = &adapter->stats;
+   444		u32 xoff[8] = {0};
+   445		int tc;
+   446		int i;
+   447		bool pfc_en = adapter->dcb_cfg.pfc_mode_enable;
+   448	
+   449		if (adapter->txgbe_ieee_pfc)
+ > 450			pfc_en |= !!(adapter->txgbe_ieee_pfc->pfc_en);
+   451	
+   452		if (!(adapter->flags & TXGBE_FLAG_DCB_ENABLED) || !pfc_en) {
+   453			txgbe_update_xoff_rx_lfc(adapter);
+   454			return;
+   455		}
+   456	
+   457		/* update stats for each tc, only valid with PFC enabled */
+   458		for (i = 0; i < MAX_TX_PACKET_BUFFERS; i++) {
+   459			u32 pxoffrxc;
+   460	
+   461			wr32m(hw, TXGBE_MMC_CONTROL, TXGBE_MMC_CONTROL_UP, i << 16);
+   462			pxoffrxc = rd32(hw, TXGBE_MAC_PXOFFRXC);
+   463			hwstats->pxoffrxc[i] += pxoffrxc;
+   464			/* Get the TC for given UP */
+   465			tc = netdev_get_prio_tc_map(adapter->netdev, i);
+   466			xoff[tc] += pxoffrxc;
+   467		}
+   468	
+   469		/* disarm tx queues that have received xoff frames */
+   470		for (i = 0; i < adapter->num_tx_queues; i++) {
+   471			struct txgbe_ring *tx_ring = adapter->tx_ring[i];
+   472	
+   473			tc = tx_ring->dcb_tc;
+   474			if (tc <= 7 && xoff[tc])
+   475				clear_bit(__TXGBE_HANG_CHECK_ARMED, &tx_ring->state);
+   476		}
+   477		for (i = 0; i < adapter->num_xdp_queues; i++) {
+   478			struct txgbe_ring *xdp_ring = adapter->xdp_ring[i];
+   479	
+   480			tc = xdp_ring->dcb_tc;
+   481			if (tc <= 7 && xoff[tc])
+   482				clear_bit(__TXGBE_HANG_CHECK_ARMED, &xdp_ring->state);
+   483			}
+   484	}
+   485	
 
 -- 
 0-DAY CI Kernel Test Service
