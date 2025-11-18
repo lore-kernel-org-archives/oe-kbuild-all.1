@@ -1,60 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF7C2F8BC8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 10:12:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6357D3376B9;
+	Tue, 18 Nov 2025 10:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763460735; cv=none; b=SQNiBSrU88YdPmH93Eao4JYlTud9p8G+jNVvceZGKGgVg9ifGPartzfpegQm8fRPbjgWKZzPWWw6ha3H8AEBlFbMF/KRUNy3c5Y1CuPQ8KE2O2QaSkbAusM6fK+Ch3+cMxCyJtkzbmDOt2r85xNmcxxfqGhPvSiG/b2UHuNf28Q=
+	t=1763460737; cv=none; b=tgU+QsZjG9CUTlCLS+DtghUfm7gtzkbCv6yCBpSvc/qwbY/d+doHcYOSOwUWxFWilbSuPxpa2gAfIsxR04RJIAQoneI//eh2YuoAaX9khQp4DeS9yy08oNQ9epMvcT8JXLcnRaSut70PDI0a9SAFcmFtmmJWUjVe2mssDvhaGU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763460735; c=relaxed/simple;
-	bh=ECOE/4jwGufQxptaxiQrXkL72HPwp97OHHlX5PwS8sc=;
+	s=arc-20240116; t=1763460737; c=relaxed/simple;
+	bh=nl7pmGt8CjVlZAWWmPXGrOGwVFNg8prR1eUshaeTMmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ReIR2C8fgUtoD3QMfWyIF3pk9d1cScSHrGu7oYzsKXoLKCY1IEiBO6GXTQ2YvLIEO3TjUV88/glOlfpl1B9SIn6aPzqS1wrF8QRO2UP0tD35lRBD+1XoItT3W9Te2OhIHYWgEAq1d7B1ikDIVWKfcxOql7hUG6zri9sCDsvJp1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWrEPiI/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEpc5rdgMBVdL3Dn8SkFIFCg3qV/khhtVq8F6+Zy9zLeob/C2xXBz+Em5ncV42dwag2Whj85R22V//NTCVneTTEH56GjcCJlbzckOQpDXCIl4eaETCInKJI07m18cuF2ELTndUSTv8vwMhuJvVrITt95OCbPHi7Gz/HWYlUIhLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Br/migN1; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWrEPiI/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Br/migN1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763460733; x=1794996733;
+  t=1763460735; x=1794996735;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ECOE/4jwGufQxptaxiQrXkL72HPwp97OHHlX5PwS8sc=;
-  b=QWrEPiI/zm6Gw6baHp2X62SXxAnevO0exZl2hD0Cf5JELVmwKhvnfVNi
-   DxH3HCdaJvvHjTChTrJbNPC+J2E2htNabdvDtk0BRD5pikfGIGGZSNTq3
-   v8yxs3EMut8TdGx4KJKR3w0IqFzEXFkzDybit8mbUKqOBEgxOomm3ouRL
-   GfOgIJdbmsiVixdLi4B01I5Z+curwNXtjbEMqlzXnrmO03++owiiRcdKc
-   Dtki3MV7ocsRwp5pkU21Mx165C0aR9mkJu44EQ5edd2TVaVxWyPfhig7i
-   JCArx2XEbIUI5m0MfsLPqVRcSgWeeJZ1TwsTfTI+LJepqOAF7YYJa5YVN
-   g==;
-X-CSE-ConnectionGUID: /nbkambcRmKTmy4wgqdDYw==
-X-CSE-MsgGUID: bRMQc5DEQ9+XNiTs0ilWtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65358549"
+  bh=nl7pmGt8CjVlZAWWmPXGrOGwVFNg8prR1eUshaeTMmo=;
+  b=Br/migN1+AwyfqfcfSiYp2ljSktBS16oeNFM9DF1/+tD6SYZxdoM/ll6
+   61okvpsjjoZ0qLmPbFO9LNzEiuB/bRogEgBwYwDtkAC3/EGL3Bvk9lgb2
+   rAoQVhVU5U/OQSM/QRBXmjphpAOCvBhjX1pCpnvnJrpgJ0LkXdUz9nKcH
+   ZjEjxVHFkGuTKFkRiwdQE0WMVYYU6lAmkJrPSGelJKxSXrrez+5alVoAs
+   fZgSvbexOs55DFu6gA324UedzBS1WHD7lj823W+6TucVORDvkaxmfJCqW
+   hJQD+FHcV2sh3+c7EhvgkgH+zhXPsweWhKkDgq7vZdZ0pju6tYNhnKbCw
+   w==;
+X-CSE-ConnectionGUID: Kz1Fj0enTXmVkbNVwIPgcA==
+X-CSE-MsgGUID: o3TZSXymRbeKob95ANRIdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65358559"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="65358549"
+   d="scan'208";a="65358559"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 02:12:12 -0800
-X-CSE-ConnectionGUID: r6uiMCkJTi6SZ3aVufOraw==
-X-CSE-MsgGUID: IfcDk26TTJKAWDFZ8M9mkg==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 02:12:14 -0800
+X-CSE-ConnectionGUID: xPGIwTZrQQqn+TtBb2ocTw==
+X-CSE-MsgGUID: aDzpKKoYR7uBPxdb2THN0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="191157956"
+   d="scan'208";a="191157958"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 18 Nov 2025 02:12:12 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLIgz-0001bD-2Q;
+	id 1vLIgz-0001bI-2b;
 	Tue, 18 Nov 2025 10:12:09 +0000
-Date: Tue, 18 Nov 2025 18:11:57 +0800
+Date: Tue, 18 Nov 2025 18:12:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Hodges <git@danielhodges.dev>
-Subject: Re: [PATCH bpf-next 1/4] bpf: Add SHA hash kfuncs for cryptographic
- hashing
-Message-ID: <202511181714.PFZYXnZk-lkp@intel.com>
-References: <20251117211413.1394-2-git@danielhodges.dev>
+To: Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, alexei.starovoitov@gmail.com,
+	andrii@kernel.org, daniel@iogearbox.net, memxor@gmail.com,
+	ameryhung@gmail.com, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next v1 1/1] bpf: Annotate rqspinlock lock acquiring
+ functions with __must_check
+Message-ID: <202511181716.vzqU1M8A-lkp@intel.com>
+References: <20251117191515.2934026-1-ameryhung@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +66,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117211413.1394-2-git@danielhodges.dev>
+In-Reply-To: <20251117191515.2934026-1-ameryhung@gmail.com>
 
-Hi Daniel,
+Hi Amery,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Hodges/bpf-Add-SHA-hash-kfuncs-for-cryptographic-hashing/20251118-051958
+url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/bpf-Annotate-rqspinlock-lock-acquiring-functions-with-__must_check/20251118-031838
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251117211413.1394-2-git%40danielhodges.dev
-patch subject: [PATCH bpf-next 1/4] bpf: Add SHA hash kfuncs for cryptographic hashing
-config: m68k-hp300_defconfig (https://download.01.org/0day-ci/archive/20251118/202511181714.PFZYXnZk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181714.PFZYXnZk-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20251117191515.2934026-1-ameryhung%40gmail.com
+patch subject: [PATCH bpf-next v1 1/1] bpf: Annotate rqspinlock lock acquiring functions with __must_check
+config: i386-randconfig-002-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181716.vzqU1M8A-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181716.vzqU1M8A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511181714.PFZYXnZk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511181716.vzqU1M8A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   m68k-linux-ld: kernel/bpf/crypto.o: in function `bpf_sha384_hash':
->> crypto.c:(.text+0x5d6): undefined reference to `sha384'
-   m68k-linux-ld: kernel/bpf/crypto.o: in function `bpf_sha512_hash':
->> crypto.c:(.text+0x65e): undefined reference to `sha512'
+>> kernel/locking/locktorture.c:372:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+     372 |         raw_res_spin_lock(&rqspinlock);
+         |         ^~~~~~~~~~~~~~~~~ ~~~~~~~~~~~
+   kernel/locking/locktorture.c:396:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+     396 |         raw_res_spin_lock_irqsave(&rqspinlock, flags);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rqspinlock.h:255:48: note: expanded from macro 'raw_res_spin_lock_irqsave'
+     255 | #define raw_res_spin_lock_irqsave(lock, flags) __raw_res_spin_lock_irqsave(lock, &flags)
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/warn_unused_result +372 kernel/locking/locktorture.c
+
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  369  
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  370  static int torture_raw_res_spin_write_lock(int tid __maybe_unused)
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  371  {
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15 @372  	raw_res_spin_lock(&rqspinlock);
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  373  	return 0;
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  374  }
+a6884f6f1dd565 Kumar Kartikeya Dwivedi 2025-03-15  375  
 
 -- 
 0-DAY CI Kernel Test Service
