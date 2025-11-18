@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44DE3148A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 11:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEE13502A7;
+	Tue, 18 Nov 2025 11:46:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763465122; cv=none; b=VQS0ldAJnMezU/ZdqQNd/KUUbYhljnSrOhmnTnIx31jK29yITauq8v+M//DM7na8Hbt7ezKDpELViEpvc5uaI+7Ly4tuHS9zI3cMZ3hynARxc955AUebYhzbNCPE8wwK2RkKzceagGwrHvrihdmH08j80sGHkcnoCUaRWUbDkzE=
+	t=1763466384; cv=none; b=Dpl1DZa+HNp16tLdNsDrhIUs3z3ZT9ElV0DIETnreP2hZwyz1X4+svmqGieGXBnGIccsXG2m6tfBURdLaZH8RN34B8w5iYHcdJy31VfFKZB+xiIa7a6Mj88UIFilfrUGIzkrY/CdoILUg7F+th+tSJwxdB3Wq50GX8HfKIpmMBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763465122; c=relaxed/simple;
-	bh=DWBN1L3I6POnCTToG/ZCn3EPFg6qcUuO1AIjY0RY8sU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OwN2UXzVmoZ3uPhCP0xUBsXZHG/Govx/SGby81gMog1Be0LUnUmTrxqjfLFEd11ZtP9Z8kEK24X9ml0M68K+Jd/iSbm/93b1GVPYquoYvd/4CvLFFzEeMQyYK0vwaW80nO93Uz/n7OpQLgBzi4sjvoEWaLHT6+3YTopJnZdbg0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WisRr4YE; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1763466384; c=relaxed/simple;
+	bh=mi18b4bWduUyDvgCE4BQ9rJr9tFYwFnYee+gh9xR3LE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZVGDvpFbS0oC6LjoY3FLltOLd3wyyhe7alhVYhL4fvi52sGlhQ7ZvyAqG6hgnTXuJ2BCOW2KMS+fZQFaQHe39hAhosIYlcrlZ4/It2aA0v8uu6ixOXtRPdCq+9O01DqgNyuAkWeGXf5aCeb562nMa4EPPUyYX7BHO0OzVqU0jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=htV20dF1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WisRr4YE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htV20dF1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763465121; x=1795001121;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWBN1L3I6POnCTToG/ZCn3EPFg6qcUuO1AIjY0RY8sU=;
-  b=WisRr4YE8l/xBBClD98Q8k9MVWAVg8zbycq/nlSgTkUHet+zQurM3wkx
-   f/RfS6x+4GMVHgWAbDBYFe2ARajU4KIYrw2Vuxhfuq5JOtSVxuy2gqsUx
-   Q5GlpzxbilbKWb3scohBGdD2zp4tfP4PMZsS5nOb4luQlBJJEdmjOHZcT
-   P+/Gwb1PhjtqRbD3fW1i3jIYfM102AbstWYU8tu4aLFgEqIK4PROB1rc7
-   CoGXNyIBHF/qxbopEWlIZDXLZUvhUwj/TWwbAptu066UZ12Vc0zEhx4UD
-   Y8hlhV9O76Cli8Rk7eiOxfOzDtby/Hm+urHtW+IhAsR0QVMycBWjHvpWZ
-   A==;
-X-CSE-ConnectionGUID: +0jZ1G+jRd+Z3HoILcu3ww==
-X-CSE-MsgGUID: y50V1Z4rQiOzdphknIdwIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76836244"
+  t=1763466382; x=1795002382;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mi18b4bWduUyDvgCE4BQ9rJr9tFYwFnYee+gh9xR3LE=;
+  b=htV20dF1VXVAnafWYgiRWnKbOY0ZxAaRs65wUqTlEpRWDdEMgwgLbO/V
+   UXl99Andbe7uyR9mj4YqhssEMTlxhNidXHlWIc5JNdQxe7/y7x4i8oeFE
+   l5c7TKdwiz+w5ClXCsx6Xcg4BTyqhFX5P/XK02IvgdezdhwNvXybUguIg
+   AFbL5CBA7SJ7uVPHk3N6biB6ITCgZZRYFvyoIGU30+wiRsn5uPK2DWBNA
+   epdauwkWS2KQU7TugdBV4bY6jt8nbLOooGfucTtk61XXPPiPMmbT4O9uu
+   y+iF3IamgjHMdIa+t2y/OtMlTtH4bFto5HD36bfTrYmLcU5gyFU/Pjioq
+   Q==;
+X-CSE-ConnectionGUID: nQveKiDrTKqg2I+biGWnmw==
+X-CSE-MsgGUID: PKJyynf+RkWNcn0CAwjnMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="53054781"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="76836244"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 03:25:20 -0800
-X-CSE-ConnectionGUID: inzGqWIPTtWw7ut6Zsk76Q==
-X-CSE-MsgGUID: 3UTtdkRXSSadG3OE3H4WfQ==
+   d="scan'208";a="53054781"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 03:46:22 -0800
+X-CSE-ConnectionGUID: FzSVmoWYQrqyuyCLvu8aIQ==
+X-CSE-MsgGUID: HLttOJ3tS0W3rUMnhfGAJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190024553"
+   d="scan'208";a="190407906"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 03:25:19 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 18 Nov 2025 03:46:20 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLJpk-0001em-2f;
-	Tue, 18 Nov 2025 11:25:16 +0000
-Date: Tue, 18 Nov 2025 19:25:06 +0800
+	id 1vLKA6-0001fv-2B;
+	Tue, 18 Nov 2025 11:46:18 +0000
+Date: Tue, 18 Nov 2025 19:45:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, tianzhensong <tianzhensong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3214/3214] net/ipv4/tcp_input.c:7198:25: error:
- 'struct tcp_options_received' has no member named 'ums_ok'; did you mean
- 'smc_ok'?
-Message-ID: <202511181912.iiOiNVW1-lkp@intel.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 8/9] x86/hyperv/vtl: Mark the wakeup mailbox page as
+ private
+Message-ID: <202511181954.UMxCeTV1-lkp@intel.com>
+References: <20251117-rneri-wakeup-mailbox-v7-8-4a8b82ab7c2c@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +63,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251117-rneri-wakeup-mailbox-v7-8-4a8b82ab7c2c@linux.intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   72220f090cf216491c25f4fe87c974ea97eb4e19
-commit: 62eb2012d814e530839ba9ccf4146712701f486a [3214/3214] net: Add a new protocol family AF_UB
-config: x86_64-randconfig-r111-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181912.iiOiNVW1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181912.iiOiNVW1-lkp@intel.com/reproduce)
+Hi Ricardo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6f85aad74a70d17919a64ecd93037aa51c08698d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-Neri/x86-acpi-Add-functions-to-setup-and-access-the-wakeup-mailbox/20251118-011935
+base:   6f85aad74a70d17919a64ecd93037aa51c08698d
+patch link:    https://lore.kernel.org/r/20251117-rneri-wakeup-mailbox-v7-8-4a8b82ab7c2c%40linux.intel.com
+patch subject: [PATCH v7 8/9] x86/hyperv/vtl: Mark the wakeup mailbox page as private
+config: x86_64-buildonly-randconfig-001-20251118 (https://download.01.org/0day-ci/archive/20251118/202511181954.UMxCeTV1-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511181954.UMxCeTV1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511181912.iiOiNVW1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511181954.UMxCeTV1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/ipv4/tcp_input.c: In function 'tcp_conn_request':
->> net/ipv4/tcp_input.c:7198:25: error: 'struct tcp_options_received' has no member named 'ums_ok'; did you mean 'smc_ok'?
-    7198 |                 tmp_opt.ums_ok = 0;
-         |                         ^~~~~~
-         |                         smc_ok
+   In file included from arch/x86/hyperv/hv_vtl.c:9:
+   In file included from arch/x86/include/asm/acpi.h:11:
+   In file included from arch/x86/include/asm/numa.h:8:
+>> arch/x86/include/asm/topology.h:159:47: warning: declaration of 'struct cpuinfo_x86' will not be visible outside of this function [-Wvisibility]
+     159 | const char *get_topology_cpu_type_name(struct cpuinfo_x86 *c);
+         |                                               ^
+   arch/x86/include/asm/topology.h:160:57: warning: declaration of 'struct cpuinfo_x86' will not be visible outside of this function [-Wvisibility]
+     160 | enum x86_topology_cpu_type get_topology_cpu_type(struct cpuinfo_x86 *c);
+         |                                                         ^
+   2 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
+vim +159 arch/x86/include/asm/topology.h
 
-vim +7198 net/ipv4/tcp_input.c
-
-  7184	
-  7185		tcp_clear_options(&tmp_opt);
-  7186		tmp_opt.mss_clamp = af_ops->mss_clamp;
-  7187		tmp_opt.user_mss  = tp->rx_opt.user_mss;
-  7188		tcp_parse_options(sock_net(sk), skb, &tmp_opt, 0,
-  7189				  want_cookie ? NULL : &foc);
-  7190	
-  7191		if (want_cookie && !tmp_opt.saw_tstamp)
-  7192			tcp_clear_options(&tmp_opt);
-  7193	
-  7194		if (IS_ENABLED(CONFIG_SMC) && want_cookie)
-  7195			tmp_opt.smc_ok = 0;
-  7196	
-  7197		if (IS_ENABLED(CONFIG_UB_UMS) && want_cookie)
-> 7198			tmp_opt.ums_ok = 0;
+090610ba704a66 Thomas Gleixner 2024-02-13  158  
+45239ba39a5279 Pawan Gupta     2024-10-25 @159  const char *get_topology_cpu_type_name(struct cpuinfo_x86 *c);
+45239ba39a5279 Pawan Gupta     2024-10-25  160  enum x86_topology_cpu_type get_topology_cpu_type(struct cpuinfo_x86 *c);
+45239ba39a5279 Pawan Gupta     2024-10-25  161  
 
 -- 
 0-DAY CI Kernel Test Service
