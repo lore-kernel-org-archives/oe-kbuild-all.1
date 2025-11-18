@@ -1,250 +1,197 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF87027978C;
-	Tue, 18 Nov 2025 01:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763430382; cv=none; b=uiniEQJ6vblcOKzu9JgBN4eQWWPJyrxWhmmSDCtR6GiVsXNerYyYVp3df8DGt0I6ULO8hIzNvaTpeQqFu/rFS/Bpv+bQ5x4//uK88jgd3/hHXD/bH7X15z/skXQcQbTHM3ay0Y/onQUrrYxZWhdNfqfDeqIEIOnvkjF4jaSrWD0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763430382; c=relaxed/simple;
-	bh=TqWCRMS2GM0j0BDVO9YWflwsDojtHYPkC0rKz0Lx+Ng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KvCclipze0/xuRJ6/KfSaBMUBAHAfiXEGrKr11b2AmM3YVSy/pjUqRKOP1Y8T/QXEh794GMVehodst68MWknM1gMYLsX8si8wy/WK2bx8EZpXHXIKaU1CTG4W+ytYOdco98IX/gRXAD6i1TPvOcB7ORJDmGCoTk3pVjwkHY6HlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zw7uG/HL; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1432676DE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 01:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763430414; cv=fail; b=HE7DY7AjFqn8dFZmf9/AXo82v5TgrX7jMZXh/AIF/Y9jKLmBSHuT6SpD8K/fKbwPypE5JK2dXe/UpUZ4FU/xw0nY+ZMcsWOXv3uLDnMptxKOVKPKREE2t33DptGaS8FBYlWSbsZ70y60mRkxee2jy0H2lZFs6h6pOI8qQWxR6R0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763430414; c=relaxed/simple;
+	bh=hFIb8qyvD/jpZmtjW6CRGj2Y1TVzmOgV05NaN3Jctnk=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=PQhGZVsCe86ke2nqUGxVNJnHVEsS83jkNo4/DFQ4z8ggkVRyWrbgvpeZscqWw4onAGSLJc0J4kmtnZ01tK1xE1LkfxqQRCi6clOXY64RyBgoyWUDD+pP7k95eXhrxg3uSyH1Jav72/d0yJUbKl+AuzXif34pbJhDOIkrvgxMJDQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jO+UNooL; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zw7uG/HL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jO+UNooL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763430380; x=1794966380;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TqWCRMS2GM0j0BDVO9YWflwsDojtHYPkC0rKz0Lx+Ng=;
-  b=Zw7uG/HLyRFGIomOYGrE4O5VrGQLtallbzJuXr+5lKwv7B+qiHJUG3PD
-   hjBQjIDm7FOQ4sS6rRfcyppc7zh+I6RCgpHTKME25jUAolvnxn9+pHVrA
-   RcMjwIGXJWnA6DG1NxzkDiEhthse0kIxZPquRFPlvDehP4v0/lclkgQCc
-   eI3WiIHaZxHZANPKMlAzFiiGWpI79sFScizSbX2qDrLYsDb3NLmK5wTFX
-   nQ/8oKJVzOt0Myhdqs1cVRJiyPem/BCGY1RmzrNA/3105pWab5xK7vBzl
-   oABsy819vZP5CZKhOTWNMMwZzNk7KHiH0imrPajQ6gc0JgXcWeHZu9/i4
-   Q==;
-X-CSE-ConnectionGUID: UhmBj4fMQ6SwyFxaCyazLw==
-X-CSE-MsgGUID: 6IuDcWZNTtixj5KUkMzMTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65597301"
+  t=1763430413; x=1794966413;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hFIb8qyvD/jpZmtjW6CRGj2Y1TVzmOgV05NaN3Jctnk=;
+  b=jO+UNooL0CrR7jfSmB/e7At2Eq86xI/dJesLXZl4HIe7SQc0oUW3FJnW
+   xi7PCbdLdzjWJ2SBjbN7Lmw9eyVD1uf2sK0cyYojrpnEgbi+DVurHp/8q
+   zwtiqDoUoa0TtCiA9GsS/qMhSndZ9aJlP/31dX/IP0dqa74LWzLp4D9wD
+   U/EJRldypfjSIMpGAPAvIQP+a88RzcvIfZOWkhqAQ4jcKvO1Jgmpy3SS0
+   X4xBxs/u0Son1Ns9q2gBDLpgIU2QyAf24bpg4trnJRaSIRJojgzYKq/LE
+   hwTerQgqpmVgiTP5iTf4jtXSPujWl1HpCE8Olwf1UelmEBipjFvMhJSyR
+   A==;
+X-CSE-ConnectionGUID: YWX5isYyT3W+GzsEF2eMjQ==
+X-CSE-MsgGUID: uYfC+GphRFi5HpB6W9417w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="90917666"
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="65597301"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 17:46:16 -0800
-X-CSE-ConnectionGUID: iUTn0HfHSH+9QLdbilzE9g==
-X-CSE-MsgGUID: ejHM5zlVS1qUcLwrRFZ2RA==
+   d="scan'208";a="90917666"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 17:46:52 -0800
+X-CSE-ConnectionGUID: bLkIMkjOROKavdtsV/gy2Q==
+X-CSE-MsgGUID: cbFBJb6KRCek73iELQH3bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,313,1754982000"; 
-   d="scan'208";a="190848721"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Nov 2025 17:46:15 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLAnN-0001EL-2F;
-	Tue, 18 Nov 2025 01:46:13 +0000
-Date: Tue, 18 Nov 2025 09:46:02 +0800
+   d="scan'208";a="195541547"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 17:46:52 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 17:46:51 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 17:46:51 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.60) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 17:46:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a/KbFeE1zH0hskgK8QX5rC4AMNg2eCe1M+3WlPQ8xDVIhvE3eJQkutzMtMYiIhFXxss+I04P8jH2HuXQM5GlJtJkcEE1cBND7By+2/ksvw3Qg3n8l6GO+2Me5Ars7XSWvIPTPPDCkVRPiJLkgbCxHMFxLmQHiXOFiBdqAvH6dD2wcPSUBXSzpnJlwB0duqLWs9IUASmJqanm9F+V6EMZBEk9/pfoyB2Od0z7BpYLpMB597fWE2QHmzN5vr9Z3NU1KF69CL9VNduqZgFIEFUrULzJnLN+qBDzcpFUfns2CMDEgjtrE+x3QzPyKtLQnj0bBQBm/Ujy4VhjdWWWp5P5dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NoTv/b+Yr3SgVg1W0sT9ukMlH5F8D0+O8jwoa2722ok=;
+ b=J33gssAEIkNgHnD8VCY0RmKiBdaw5oonHftrYD8bg6Dsu4aVNIr8a4Lr1DH+i15jRJVndW9fvbCzwCC4Yp/LBsftNGKp2qKzNGhzwtRdc1WUqVgMaPptG5GEtJL+BHzcbW6wwb3X9uHbNv6cz5/FyJHotb4PLZd4Y1MgpOs6UG1usj24Zqi0pCATwl0eYdv6wbGHOgmVkgy0wrD/wXZkcneTJbHG52eSRIOfpqRgDM3h7xNdFMwCkBirBKfPVEBojbNB8gmgL4dI9tdIzJFMZq9BzPNfusw3QV3LR1GBTHEpNp1+hJLD02FKSYjpxvOkJahncz/IAA/nrxL9qgVisA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+ by SN7PR11MB8261.namprd11.prod.outlook.com (2603:10b6:806:26f::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.20; Tue, 18 Nov
+ 2025 01:46:43 +0000
+Received: from BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::3876:1eb1:8e84:84e7]) by BY5PR11MB4165.namprd11.prod.outlook.com
+ ([fe80::3876:1eb1:8e84:84e7%6]) with mapi id 15.20.9320.018; Tue, 18 Nov 2025
+ 01:46:43 +0000
+Date: Tue, 18 Nov 2025 09:46:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/5] sched/core: Track blocked tasks retained on rq
- for proxy
-Message-ID: <202511180828.6BVP2q32-lkp@intel.com>
-References: <20251117185550.365156-4-kprateek.nayak@amd.com>
+To: Encrow Thorne <jyc0019@gmail.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [clk:clk-cleanup 3/3] checkpatch: WARNING:BAD_SIGN_OFF: Non-standard
+ signature: 'Reviewd-by:' - perhaps 'Reviewed-by:'?
+Message-ID: <aRvP/FHy12+Z+gsd@rli9-mobl>
+Content-Type: multipart/mixed; boundary="/FOwviHrpHacfLpD"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0157.apcprd04.prod.outlook.com (2603:1096:4::19)
+ To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|SN7PR11MB8261:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d3ab67b-d018-432c-3eca-08de2644536c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|4053099003;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?eeTJCuXyJF2t1YsItgQcXwxkptqvRV5LJHe5iiT4SRkXVHRr5HDn+WmmpX3c?=
+ =?us-ascii?Q?HHSvity4Bj6Hg5Jt0J8mNsmZfXSI+6dLaXyjL3K9EL84is3s3G5SPQ39UOT9?=
+ =?us-ascii?Q?MjOf6GUXbmQ3uFy/IiFAG54lLC7O/lnX1iJrIqQ+YNSCHwlQoloP/qkMPmxf?=
+ =?us-ascii?Q?mWuCsTkXr0iAtGMG2TTvAmsnDv3sXsTouWqXPY9h6y2S/j0EJcRMNpxGMYwM?=
+ =?us-ascii?Q?5el9v+A2CraBt67Y041Shk+YnisNiOg2YWsTX2I2AvLp6ijnSWvBVy0GRDta?=
+ =?us-ascii?Q?1cuJBq3GSszSpH453C99/ovGJlp95QbWgS/8YnMzV5GliqZk+a3QB3zBU3if?=
+ =?us-ascii?Q?eprILxCX0ZzcSm+gEcNkl093wXjLeY4vcyhPO+uaxnDNEYrpF+OaBbwtRVoz?=
+ =?us-ascii?Q?lqpHHdtQqNQpwQD5wG5jZeYusdAn8YpESZZ+Hyu50z+LAIG40xAY20lJUnws?=
+ =?us-ascii?Q?SyTrRXb5tvBI5eka5El+cYJhxbkl3+NOBvUoMW7lFUQ8gSlgNhZe2q7i1LOP?=
+ =?us-ascii?Q?GeGUU1A9KtfGBHl3KqizaB58weFbyBWKy9TCN/PwGw439qTT3Iuu4rc1UXA/?=
+ =?us-ascii?Q?0OZGVN79+3HbvEmQ8vkxqLc0tfWx72J/OoNGhXDTUp6nzpgLKiC2c0HOPtPd?=
+ =?us-ascii?Q?lA0rqNqGaAKQyYuD8WJUdxQX21sfYR6NWFnJ2GnZtQTdruvGXynVo5Vf4tMz?=
+ =?us-ascii?Q?pTuTOTc+aZmodvTEUS3Hfev/MNriTb6vZrQAuI+EjX+tjwI6t/4iGVuTVWOy?=
+ =?us-ascii?Q?zHtcMJMQLexxnkslu85yKfTfsma327CU62CcXoRAE9kQcMUrXQWXpUPJ3cWj?=
+ =?us-ascii?Q?8HTRsFRAY3oARdnJM+sHnb1/RzDPvO57wL68HZlV7DWPvPkzNKDY6gMfkQQm?=
+ =?us-ascii?Q?kLz1HcW0t7meB7eVZuMRyLwZeT5FeAkAPDFe8xQk28HMFDsKq+Yh8HQYzEzh?=
+ =?us-ascii?Q?XUVQmHwpv+olGquKSQeFXPdn8lYu27zE2IKEvjc9QH8CdQ/LU0/hx1V73D2J?=
+ =?us-ascii?Q?kzRsRoQG0pXvb3R+8pc6/ww36vp0T6QwEuLvgh9BiHDoJc5Fw6JXjfNx2kFf?=
+ =?us-ascii?Q?DA13kT3gq7CGhEWDOSJAg/rjte3XSLp+KB6gAJLiEbhhUTtcEj67uXMW/qsM?=
+ =?us-ascii?Q?BTaDWpOsQrwe2rZdztZWV8AKYOro/Tm5w63i7PMy7D9OZgWTPBGbqXPzDaTm?=
+ =?us-ascii?Q?bJHjCLn6OsD7Wt2Gm9L333rtBxqjBA4O+Gdp9CSSG/QLs+222Zzy8UT7zhSd?=
+ =?us-ascii?Q?GXh+kfnGFs9bMXsaoVQyeFL6MS2DmHBw5CpuRKESw39zUDTqWzhTc+d34Um4?=
+ =?us-ascii?Q?wG9aOwIy8tspYuyy2ZzBcB5K37R7ISMqE0FNTJVl47j3H4ljNhTYFWgmzRVS?=
+ =?us-ascii?Q?yxT443cVryyAanscd7cy9zP3/AnOLLLrgFm+60hdd6MMP3otkCqTAu0ajc69?=
+ =?us-ascii?Q?i2Naxp8EhB2ySJcN/u/+kU5nwGTfsr7cMLRdIUhv85nxK28IIBj8JQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(4053099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IO8xJAVTUK0HF5fGgOgP74q2hKJyfPaoRl0iKrjeoiB8xR46u2VirIqs+3V7?=
+ =?us-ascii?Q?wMmATaut4X5WeEfl6q47zZlZpT8vguaXYjr4t/s8n8rwyPhP1Oe0u6x7AO0l?=
+ =?us-ascii?Q?shPddy8mD7C0xPYagHX6y6OV3wLoAqx1y/eqtZvApn6hlvq71d5tIm7+LNOt?=
+ =?us-ascii?Q?s2TeWRqGTUBrt/++U4yU7xmyecMC0PSxg48mtl8wvI74mSAA/oLM9IGajvzj?=
+ =?us-ascii?Q?j6+rMQ24wHiEI7PyolsiIy26F0lOu4Mki/b4hhpEmhdFwJIl2x+Dt1fSJqHg?=
+ =?us-ascii?Q?Awr9EIVMlXCff8/HG5bXZk6pokQ+lEaXv2srUjpkm4LLcZ7IPixA0U6TzvEg?=
+ =?us-ascii?Q?QL9ZStrnAxHwrPvKCRPYiWmfeQtI9j69ZQnS+foHEyWTknD00Q+oWTbfXeW+?=
+ =?us-ascii?Q?6+KO6FqIl2ILN5Ldsu/fm4IC4pY2mafP6Lv047ML2meUuf66wGwucmuKavju?=
+ =?us-ascii?Q?yXSwjmDpsRsRueld++VZNu41kiNY/sHM0wMXi+iscN5fjeKEnZ7cZ0e+mQ7F?=
+ =?us-ascii?Q?TrcCjRUm7hH5XatNG9C1cyaKE4+x6zLNmQC2GulxhtR0kjO6DW+1iDkJfczH?=
+ =?us-ascii?Q?UyapfwB1CnGCwsSx0Nh2Eev7fKpnWsKRTS/z675FE//1wQCSa4lbzKxB3dnF?=
+ =?us-ascii?Q?YSKMWqM4N/BbEFiFnxzeJ16tPac8ct5UjK9mJuw7PESPhKVmaWmoDw38bVyM?=
+ =?us-ascii?Q?MWmg4dzfFhunS4Ftih5xbLgbnnVkiDMZo67hQzTlXEjcryfTQpfo0vF5v4VM?=
+ =?us-ascii?Q?t/1nXZBhu3nHHf3geSQ74z57w9bSSXc9uSgSRmlmQ6iRHT08E1wD3vFnDLEm?=
+ =?us-ascii?Q?SIXGxn71QjKtWWky++xHUAamJglfkk1vhcnxgOULoqMYCXoJvkWDOkFfSQCU?=
+ =?us-ascii?Q?A3EUo82btSnwYQUCw7XELX1b56a1mJ7iO2L6XlaY9rX9upj1AANazZHeQqKq?=
+ =?us-ascii?Q?+JjORHZ1nWvUGNAaTcjugjnxkGb/863j9PQnqXXyeCb1pCbIDuVaSVr5hv0P?=
+ =?us-ascii?Q?b9/XjhOZc5T5/mx5If80TlCJhNTADHUcRxltkdtSrWG1uCpb4zXXf0KPII1x?=
+ =?us-ascii?Q?/iYpiFO/8PwJoY5shz4+0XtPvVUYC0L/HFUYHvWcdYwKQc/oZaT/ufTqso9V?=
+ =?us-ascii?Q?PzCd0UptAu6ZMLo26SP8QVu41OBBH/OCYC/FYk8e+O8eLlc9a46A+6DfA1Gg?=
+ =?us-ascii?Q?2oHaDK0wu8WgFdbWmwwVBqiMxqPmVpVOCtbcKRRr2fL/+Y5HYc15JVVlir6m?=
+ =?us-ascii?Q?fqJsYDCcW56QAEJHPRCuI+iaLAf/Pu/yQxSVaYGCv1TQ0SAGcEYF5wZr2ugK?=
+ =?us-ascii?Q?awDlx4gq0o/y/D+61qX5q1i6Go+wj4OyGcOw8np3rcjMCIqHrpUvuCB1OIVX?=
+ =?us-ascii?Q?A/DfC1pyZg7utJBggjMlRd/Rm1jaqZaD9L5+glYXkCoUJI7I8u633z2FvSWG?=
+ =?us-ascii?Q?sdbPIuS0TYj9RxXJzETwbWGFh3wEdICCyzHKivz2Z6XIdMZ+W6f0XJcgL0vT?=
+ =?us-ascii?Q?zHbkkOeroU8ZYsH0jmAbewSEgx1r4LzbewvYJ+ZAifn6DuINo5ULs+id0R2K?=
+ =?us-ascii?Q?IazcXj0c3ALm9p2e8sBxqBIgwXO+NwvYPoGIOYuwELwlGSoMIKOlrgz9cJLN?=
+ =?us-ascii?Q?MQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d3ab67b-d018-432c-3eca-08de2644536c
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 01:46:43.3934
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I2sdvnemR785cHJvyP2wJXQb90opx7VOg1XNxEDm7xFhKHcbYdpz60RY47+2ycrb7w5q+J0qFFoLmot1Jw5f4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8261
+X-OriginatorOrg: intel.com
+
+--/FOwviHrpHacfLpD
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20251117185550.365156-4-kprateek.nayak@amd.com>
 
-Hi Prateek,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-cleanup
+head:   2e12d91cbf3d0105fc58d07b8a0548ebd7bb619b
+commit: 2e12d91cbf3d0105fc58d07b8a0548ebd7bb619b [3/3] clk: spacemit: fix comment typo
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+reproduce: (attached as reproduce)
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+# many are suggestions rather than must-fix
 
-[auto build test ERROR on 33cf66d88306663d16e4759e9d24766b0aaa2e17]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/K-Prateek-Nayak/sched-psi-Make-psi-stubs-consistent-for-CONFIG_PSI/20251118-030832
-base:   33cf66d88306663d16e4759e9d24766b0aaa2e17
-patch link:    https://lore.kernel.org/r/20251117185550.365156-4-kprateek.nayak%40amd.com
-patch subject: [RFC PATCH 3/5] sched/core: Track blocked tasks retained on rq for proxy
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251118/202511180828.6BVP2q32-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251118/202511180828.6BVP2q32-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511180828.6BVP2q32-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/sched/core.c:6681:37: error: parameter 'p' was not declared, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-    6681 | static inline void clear_task_proxy(p) { }
-         |                                     ^
->> kernel/sched/core.c:6681:20: error: a function definition without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-    6681 | static inline void clear_task_proxy(p) { }
-         |                    ^
->> kernel/sched/core.c:6681:20: error: conflicting types for 'clear_task_proxy'
-   kernel/sched/core.c:3663:20: note: previous declaration is here
-    3663 | static inline void clear_task_proxy(struct task_struct *p);
-         |                    ^
->> kernel/sched/core.c:6681:20: error: a function definition without a prototype is deprecated in all versions of C and is not supported in C23 [-Werror,-Wdeprecated-non-prototype]
-    6681 | static inline void clear_task_proxy(p) { }
-         |                    ^
-   kernel/sched/core.c:7764:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-    7764 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
-         |                                        ^             ~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:7739:1: note: array 'preempt_modes' declared here
-    7739 | const char *preempt_modes[] = {
-         | ^
-   1 warning and 4 errors generated.
-
-
-vim +6681 kernel/sched/core.c
-
-  6557	
-  6558	/*
-  6559	 * Find runnable lock owner to proxy for mutex blocked donor
-  6560	 *
-  6561	 * Follow the blocked-on relation:
-  6562	 *   task->blocked_on -> mutex->owner -> task...
-  6563	 *
-  6564	 * Lock order:
-  6565	 *
-  6566	 *   p->pi_lock
-  6567	 *     rq->lock
-  6568	 *       mutex->wait_lock
-  6569	 *
-  6570	 * Returns the task that is going to be used as execution context (the one
-  6571	 * that is actually going to be run on cpu_of(rq)).
-  6572	 */
-  6573	static struct task_struct *
-  6574	find_proxy_task(struct rq *rq, struct task_struct *donor, struct rq_flags *rf)
-  6575	{
-  6576		struct task_struct *owner = NULL;
-  6577		int this_cpu = cpu_of(rq);
-  6578		struct task_struct *p;
-  6579		struct mutex *mutex;
-  6580	
-  6581		/* Follow blocked_on chain. */
-  6582		for (p = donor; task_is_blocked(p); p = owner) {
-  6583			mutex = p->blocked_on;
-  6584			/* Something changed in the chain, so pick again */
-  6585			if (!mutex)
-  6586				return NULL;
-  6587			/*
-  6588			 * By taking mutex->wait_lock we hold off concurrent mutex_unlock()
-  6589			 * and ensure @owner sticks around.
-  6590			 */
-  6591			guard(raw_spinlock)(&mutex->wait_lock);
-  6592	
-  6593			/* Check again that p is blocked with wait_lock held */
-  6594			if (mutex != __get_task_blocked_on(p)) {
-  6595				/*
-  6596				 * Something changed in the blocked_on chain and
-  6597				 * we don't know if only at this level. So, let's
-  6598				 * just bail out completely and let __schedule()
-  6599				 * figure things out (pick_again loop).
-  6600				 */
-  6601				return NULL;
-  6602			}
-  6603	
-  6604			owner = __mutex_owner(mutex);
-  6605			if (!owner) {
-  6606				__clear_task_blocked_on(p, mutex);
-  6607				return p;
-  6608			}
-  6609	
-  6610			if (!READ_ONCE(owner->on_rq) || owner->se.sched_delayed) {
-  6611				/* XXX Don't handle blocked owners/delayed dequeue yet */
-  6612				return proxy_deactivate(rq, donor);
-  6613			}
-  6614	
-  6615			if (task_cpu(owner) != this_cpu) {
-  6616				/* XXX Don't handle migrations yet */
-  6617				return proxy_deactivate(rq, donor);
-  6618			}
-  6619	
-  6620			if (task_on_rq_migrating(owner)) {
-  6621				/*
-  6622				 * One of the chain of mutex owners is currently migrating to this
-  6623				 * CPU, but has not yet been enqueued because we are holding the
-  6624				 * rq lock. As a simple solution, just schedule rq->idle to give
-  6625				 * the migration a chance to complete. Much like the migrate_task
-  6626				 * case we should end up back in find_proxy_task(), this time
-  6627				 * hopefully with all relevant tasks already enqueued.
-  6628				 */
-  6629				return proxy_resched_idle(rq);
-  6630			}
-  6631	
-  6632			/*
-  6633			 * Its possible to race where after we check owner->on_rq
-  6634			 * but before we check (owner_cpu != this_cpu) that the
-  6635			 * task on another cpu was migrated back to this cpu. In
-  6636			 * that case it could slip by our  checks. So double check
-  6637			 * we are still on this cpu and not migrating. If we get
-  6638			 * inconsistent results, try again.
-  6639			 */
-  6640			if (!task_on_rq_queued(owner) || task_cpu(owner) != this_cpu)
-  6641				return NULL;
-  6642	
-  6643			if (owner == p) {
-  6644				/*
-  6645				 * It's possible we interleave with mutex_unlock like:
-  6646				 *
-  6647				 *				lock(&rq->lock);
-  6648				 *				  find_proxy_task()
-  6649				 * mutex_unlock()
-  6650				 *   lock(&wait_lock);
-  6651				 *   donor(owner) = current->blocked_donor;
-  6652				 *   unlock(&wait_lock);
-  6653				 *
-  6654				 *   wake_up_q();
-  6655				 *     ...
-  6656				 *       ttwu_runnable()
-  6657				 *         __task_rq_lock()
-  6658				 *				  lock(&wait_lock);
-  6659				 *				  owner == p
-  6660				 *
-  6661				 * Which leaves us to finish the ttwu_runnable() and make it go.
-  6662				 *
-  6663				 * So schedule rq->idle so that ttwu_runnable() can get the rq
-  6664				 * lock and mark owner as running.
-  6665				 */
-  6666				return proxy_resched_idle(rq);
-  6667			}
-  6668			/*
-  6669			 * OK, now we're absolutely sure @owner is on this
-  6670			 * rq, therefore holding @rq->lock is sufficient to
-  6671			 * guarantee its existence, as per ttwu_remote().
-  6672			 */
-  6673		}
-  6674	
-  6675		WARN_ON_ONCE(owner && !owner->on_rq);
-  6676		return owner;
-  6677	}
-  6678	#else /* SCHED_PROXY_EXEC */
-  6679	bool is_proxy_task(struct task_struct *p) { return false; }
-  6680	static inline void set_task_proxy(struct task_struct *p) { }
-> 6681	static inline void clear_task_proxy(p) { }
-  6682	static struct task_struct *
-  6683	find_proxy_task(struct rq *rq, struct task_struct *donor, struct rq_flags *rf)
-  6684	{
-  6685		WARN_ONCE(1, "This should never be called in the !SCHED_PROXY_EXEC case\n");
-  6686		return donor;
-  6687	}
-  6688	#endif /* SCHED_PROXY_EXEC */
-  6689	
+WARNING:BAD_SIGN_OFF: Non-standard signature: 'Reviewd-by:' - perhaps 'Reviewed-by:'?
+#8: 
+Reviewd-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+--/FOwviHrpHacfLpD
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: attachment; filename="reproduce"
+
+reproduce:
+        scripts/checkpatch.pl -q --strict --no-summary --show-types -g 2e12d91cbf3d0105fc58d07b8a0548ebd7bb619b
+
+--/FOwviHrpHacfLpD--
