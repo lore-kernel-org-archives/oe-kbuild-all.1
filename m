@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C2030275C;
-	Tue, 18 Nov 2025 20:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931E32F261F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 20:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763498898; cv=none; b=J/CVg1K/yKxN5gh6AnhThG0RclQT3QIvv6d6xtAGDZkPcflYalTdGjkkZRajtUwOWJBO73Szpzv8OWvtHQQr7uh8Un1OM/XckGf0OAHnZy7thpo6VJDT7yQX6zhs0mA5W6zivL1vIWuCCy5vwQgwDE18cAli2TJQ7a3Ty2sGvEk=
+	t=1763499561; cv=none; b=CkFgArJxRCGTeGJhKLEMcg/yQvcO5wq/gia/nzDaYeQSDiLxhkI3kBVUoEwtH8X/mGEHlPbw5+sH/JLyrjpJCwPNmeUeGEiI+f63BJ8t+av4JgJ/ObquDzMRsi8ENbU+0xrIVMLZUp9GsraXW1p9n2j61JJOwmvCW45yiT7n5sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763498898; c=relaxed/simple;
-	bh=zjviLzNJhgWtvZ9qNkwMTBL6D2BGi1CiOvJ6I070N5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tUHMXWqe0MzvutHHqQV8vEi2noD2YOqtAFpXnvdUPbOHPEh1Jr4ivAWuW36xZl+kqJmkvM2eoSBp7bOkaZqN++uKUrOrTYnMow+mtegxXzSXz6U2fA5IbbGx2u9oCwwR/f0Y8kMalA6+Zc9ZAfV5oYH/79+pdTc3qMfet4MfFKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iShsArIV; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1763499561; c=relaxed/simple;
+	bh=3zQCW8ZIU1UAuqJ1Go8GzUkKCYL0NDu6tWeWbYWHoNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=emnPNSgwsTkwYvnF3qz7Beo38QiPWe/xYOEIqsMaezgJFtRvpWvTRqIbS8xQ6L5AHevIlG7gL5lZkn/f8oasky6WairR7dYXFWj20ZdrLwUDk4hSoDsqqaROsfy3/02Jrj3CWve80iacmGc/6PNu0pWeYn7XSZ1VdFBdJgfssLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVvBsG4D; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iShsArIV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVvBsG4D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763498896; x=1795034896;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zjviLzNJhgWtvZ9qNkwMTBL6D2BGi1CiOvJ6I070N5Y=;
-  b=iShsArIVK3qHRLViq4LD16TJzDzOuGH4OCvoNIExKDkeRADspOMUUhCR
-   wwvXoIrt0APcjKUe1Grc+Zr4hZXBNL+znH87SK9sUlw3IeY99CmM75ql2
-   LDNiJgGCyhJSUR72UZ6esEdi1BAtulVK0jfZpext2RrM1ECcwHoFpcz8g
-   AaAlPGNncQOdokCRQvli0IV4zLG71Fuq9wBUJNDPE+1RtbDNaU7S1i+Vr
-   sJVYkdkwgoUr8QyetpWfmnlZ+U9wMm7bJjXfc1kErjbTXpBPLd+vAme+V
-   /7E0IIGzWQmfdVD35NN63z8hrAd/EBYmXQ8abL8pcXu0i/FxrJCMYgUlf
-   g==;
-X-CSE-ConnectionGUID: G4xEGYUOTpu7BQjh0Oq1mg==
-X-CSE-MsgGUID: XVjH3uHrQnGKts2I7nCxVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88186444"
+  t=1763499558; x=1795035558;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3zQCW8ZIU1UAuqJ1Go8GzUkKCYL0NDu6tWeWbYWHoNU=;
+  b=TVvBsG4DXFHCL/+e6HOvu8vIW57rKZxYlisUNyPracRoEDkUBHagu5yL
+   GQDQ0gukZhoiST6pAo+fp1EFN03CuXd+PGLBVDfmgK1WXs0xMEm7me49o
+   y69QznzmAAhcuZFiCgHi8iE5TPOqv9kLncNnT6j0DlxWQXv8N/gkReK3K
+   CITTqrzQIP4tJMngPDeYIOvSnR9VA+gyKJdgcNvDsmlMapPA0vcWZGIxm
+   2tQp5jOEkTaIByxeRdX7wxj5+Eo06KvP8OMwUGTvHJP+4hEocpZyUEyi7
+   muDjjuC5Wy73JHhGpCvIjNEM1OpGBYHqzUmav7en35+DVx3V4qQBFJO+e
+   A==;
+X-CSE-ConnectionGUID: ijnOfNyOROGHL4akuYrpyQ==
+X-CSE-MsgGUID: X9iMdrYjTeqK2662xx+Bvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65694820"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="88186444"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 12:48:16 -0800
-X-CSE-ConnectionGUID: OeBNf/Y5RGOQnuNl4Yrg/A==
-X-CSE-MsgGUID: xoQdfvbHQBSZ+giBiy58/A==
+   d="scan'208";a="65694820"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 12:59:18 -0800
+X-CSE-ConnectionGUID: 1xFcZ9plQM+8vetMsIzOZQ==
+X-CSE-MsgGUID: FRBlNxw5TDOthqk+eozlrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="190136898"
+   d="scan'208";a="191106083"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 12:48:14 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2025 12:59:14 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLScV-00029j-2f;
-	Tue, 18 Nov 2025 20:48:11 +0000
-Date: Wed, 19 Nov 2025 04:47:58 +0800
+	id 1vLSnA-00029z-1m;
+	Tue, 18 Nov 2025 20:59:12 +0000
+Date: Wed, 19 Nov 2025 04:58:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:work.fd.prepare 32/43]
- fs/notify/fanotify/fanotify_user.c:1754:4: error: cannot jump from this goto
- statement to its label
-Message-ID: <202511190445.EU6ziOp5-lkp@intel.com>
+To: Lakshay Piplani <lakshay.piplani@nxp.com>,
+	alexandre.belloni@bootlin.com, linux-rtc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pankit.garg@nxp.com,
+	vikash.bansal@nxp.com, priyanka.jain@nxp.com,
+	shashank.rebbapragada@nxp.com,
+	Lakshay Piplani <lakshay.piplani@nxp.com>,
+	Daniel Aguirre <daniel.aguirre@nxp.com>
+Subject: Re: [PATCH v6 2/2] rtc: Add NXP PCF85053 driver support
+Message-ID: <202511190432.xfs91BVq-lkp@intel.com>
+References: <20251113054243.4045820-2-lakshay.piplani@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,233 +69,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251113054243.4045820-2-lakshay.piplani@nxp.com>
 
-tree:   https://github.com/brauner/linux.git work.fd.prepare
-head:   7eb06f9f7a76175a82d3c6b9d94219d7b64b6bce
-commit: c864ed37933e9ae9b91669588b41795afe7d39dd [32/43] fs: fanotify
-config: arm-randconfig-003-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190445.EU6ziOp5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190445.EU6ziOp5-lkp@intel.com/reproduce)
+Hi Lakshay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on linus/master v6.18-rc6 next-20251118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/rtc-Add-NXP-PCF85053-driver-support/20251113-134432
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20251113054243.4045820-2-lakshay.piplani%40nxp.com
+patch subject: [PATCH v6 2/2] rtc: Add NXP PCF85053 driver support
+config: sparc64-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190432.xfs91BVq-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190432.xfs91BVq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190445.EU6ziOp5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511190432.xfs91BVq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/notify/fanotify/fanotify_user.c:1754:4: error: cannot jump from this goto statement to its label
-    1754 |                         goto out_destroy_group;
-         |                         ^
-   fs/notify/fanotify/fanotify_user.c:1757:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1757 |         FD_PREPARE(fdprep, f_flags,
-         |                    ^
-   fs/notify/fanotify/fanotify_user.c:1741:3: error: cannot jump from this goto statement to its label
-    1741 |                 goto out_destroy_group;
-         |                 ^
-   fs/notify/fanotify/fanotify_user.c:1757:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1757 |         FD_PREPARE(fdprep, f_flags,
-         |                    ^
-   fs/notify/fanotify/fanotify_user.c:1720:3: error: cannot jump from this goto statement to its label
-    1720 |                 goto out_destroy_group;
-         |                 ^
-   fs/notify/fanotify/fanotify_user.c:1757:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1757 |         FD_PREPARE(fdprep, f_flags,
-         |                    ^
-   fs/notify/fanotify/fanotify_user.c:1714:3: error: cannot jump from this goto statement to its label
-    1714 |                 goto out_destroy_group;
-         |                 ^
-   fs/notify/fanotify/fanotify_user.c:1757:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1757 |         FD_PREPARE(fdprep, f_flags,
-         |                    ^
-   fs/notify/fanotify/fanotify_user.c:1704:3: error: cannot jump from this goto statement to its label
-    1704 |                 goto out_destroy_group;
-         |                 ^
-   fs/notify/fanotify/fanotify_user.c:1757:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1757 |         FD_PREPARE(fdprep, f_flags,
-         |                    ^
-   5 errors generated.
+   drivers/rtc/rtc-pcf85053.c: In function 'pcf85053_probe':
+>> drivers/rtc/rtc-pcf85053.c:616:14: error: implicit declaration of function 'i2c_check_functionality' [-Wimplicit-function-declaration]
+     616 |         if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-pcf85053.c: At top level:
+>> drivers/rtc/rtc-pcf85053.c:729:1: warning: data definition has no type or storage class
+     729 | module_i2c_driver(pcf85053_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/rtc/rtc-pcf85053.c:729:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Wimplicit-int]
+>> drivers/rtc/rtc-pcf85053.c:729:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/rtc/rtc-pcf85053.c:720:26: warning: 'pcf85053_driver' defined but not used [-Wunused-variable]
+     720 | static struct i2c_driver pcf85053_driver = {
+         |                          ^~~~~~~~~~~~~~~
 
 
-vim +1754 fs/notify/fanotify/fanotify_user.c
+vim +/i2c_check_functionality +616 drivers/rtc/rtc-pcf85053.c
 
-94e00d28a680df Amir Goldstein      2021-03-04  1599  
-52c923dd079df4 Eric Paris          2009-12-17  1600  /* fanotify syscalls */
-08ae89380a8210 Eric Paris          2010-05-27  1601  SYSCALL_DEFINE2(fanotify_init, unsigned int, flags, unsigned int, event_f_flags)
-11637e4b7dc098 Eric Paris          2009-12-17  1602  {
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1603  	struct user_namespace *user_ns = current_user_ns();
-52c923dd079df4 Eric Paris          2009-12-17  1604  	struct fsnotify_group *group;
-52c923dd079df4 Eric Paris          2009-12-17  1605  	int f_flags, fd;
-83b7a59896dd24 Amir Goldstein      2020-07-16  1606  	unsigned int fid_mode = flags & FANOTIFY_FID_BITS;
-83b7a59896dd24 Amir Goldstein      2020-07-16  1607  	unsigned int class = flags & FANOTIFY_CLASS_BITS;
-a8b98c808eab3e Amir Goldstein      2021-05-24  1608  	unsigned int internal_flags = 0;
-52c923dd079df4 Eric Paris          2009-12-17  1609  
-96a71f21ef1fcc Amir Goldstein      2018-09-21  1610  	pr_debug("%s: flags=%x event_f_flags=%x\n",
-08ae89380a8210 Eric Paris          2010-05-27  1611  		 __func__, flags, event_f_flags);
-52c923dd079df4 Eric Paris          2009-12-17  1612  
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1613  	if (!capable(CAP_SYS_ADMIN)) {
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1614  		/*
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1615  		 * An unprivileged user can setup an fanotify group with
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1616  		 * limited functionality - an unprivileged group is limited to
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1617  		 * notification events with file handles or mount ids and it
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1618  		 * cannot use unlimited queue/marks.
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1619  		 */
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1620  		if ((flags & FANOTIFY_ADMIN_INIT_FLAGS) ||
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1621  		    !(flags & (FANOTIFY_FID_BITS | FAN_REPORT_MNT)))
-a2f13ad0ba5d94 Andreas Gruenbacher 2010-08-24  1622  			return -EPERM;
-a8b98c808eab3e Amir Goldstein      2021-05-24  1623  
-a8b98c808eab3e Amir Goldstein      2021-05-24  1624  		/*
-a8b98c808eab3e Amir Goldstein      2021-05-24  1625  		 * Setting the internal flag FANOTIFY_UNPRIV on the group
-a8b98c808eab3e Amir Goldstein      2021-05-24  1626  		 * prevents setting mount/filesystem marks on this group and
-a8b98c808eab3e Amir Goldstein      2021-05-24  1627  		 * prevents reporting pid and open fd in events.
-a8b98c808eab3e Amir Goldstein      2021-05-24  1628  		 */
-a8b98c808eab3e Amir Goldstein      2021-05-24  1629  		internal_flags |= FANOTIFY_UNPRIV;
-7cea2a3c505e87 Amir Goldstein      2021-03-04  1630  	}
-52c923dd079df4 Eric Paris          2009-12-17  1631  
-de8cd83e91bc3e Steve Grubb         2017-10-02  1632  #ifdef CONFIG_AUDITSYSCALL
-23c9deeb3285d3 Amir Goldstein      2018-10-04  1633  	if (flags & ~(FANOTIFY_INIT_FLAGS | FAN_ENABLE_AUDIT))
-de8cd83e91bc3e Steve Grubb         2017-10-02  1634  #else
-23c9deeb3285d3 Amir Goldstein      2018-10-04  1635  	if (flags & ~FANOTIFY_INIT_FLAGS)
-de8cd83e91bc3e Steve Grubb         2017-10-02  1636  #endif
-52c923dd079df4 Eric Paris          2009-12-17  1637  		return -EINVAL;
-52c923dd079df4 Eric Paris          2009-12-17  1638  
-af579beb666aef Matthew Bobrowski   2021-08-08  1639  	/*
-af579beb666aef Matthew Bobrowski   2021-08-08  1640  	 * A pidfd can only be returned for a thread-group leader; thus
-af579beb666aef Matthew Bobrowski   2021-08-08  1641  	 * FAN_REPORT_PIDFD and FAN_REPORT_TID need to remain mutually
-af579beb666aef Matthew Bobrowski   2021-08-08  1642  	 * exclusive.
-af579beb666aef Matthew Bobrowski   2021-08-08  1643  	 */
-af579beb666aef Matthew Bobrowski   2021-08-08  1644  	if ((flags & FAN_REPORT_PIDFD) && (flags & FAN_REPORT_TID))
-af579beb666aef Matthew Bobrowski   2021-08-08  1645  		return -EINVAL;
-af579beb666aef Matthew Bobrowski   2021-08-08  1646  
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1647  	/* Don't allow mixing mnt events with inode events for now */
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1648  	if (flags & FAN_REPORT_MNT) {
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1649  		if (class != FAN_CLASS_NOTIF)
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1650  			return -EINVAL;
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1651  		if (flags & (FANOTIFY_FID_BITS | FAN_REPORT_FD_ERROR))
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1652  			return -EINVAL;
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1653  	}
-0f46d81f2bce97 Miklos Szeredi      2025-01-29  1654  
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1655  	if (event_f_flags & ~FANOTIFY_INIT_ALL_EVENT_F_BITS)
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1656  		return -EINVAL;
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1657  
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1658  	switch (event_f_flags & O_ACCMODE) {
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1659  	case O_RDONLY:
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1660  	case O_RDWR:
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1661  	case O_WRONLY:
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1662  		break;
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1663  	default:
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1664  		return -EINVAL;
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1665  	}
-48149e9d3a7e92 Heinrich Schuchardt 2014-06-04  1666  
-83b7a59896dd24 Amir Goldstein      2020-07-16  1667  	if (fid_mode && class != FAN_CLASS_NOTIF)
-a8b13aa20afb69 Amir Goldstein      2019-01-10  1668  		return -EINVAL;
-a8b13aa20afb69 Amir Goldstein      2019-01-10  1669  
-929943b38daf81 Amir Goldstein      2020-07-16  1670  	/*
-929943b38daf81 Amir Goldstein      2020-07-16  1671  	 * Child name is reported with parent fid so requires dir fid.
-691d976352c73f Amir Goldstein      2020-07-16  1672  	 * We can report both child fid and dir fid with or without name.
-929943b38daf81 Amir Goldstein      2020-07-16  1673  	 */
-691d976352c73f Amir Goldstein      2020-07-16  1674  	if ((fid_mode & FAN_REPORT_NAME) && !(fid_mode & FAN_REPORT_DIR_FID))
-83b7a59896dd24 Amir Goldstein      2020-07-16  1675  		return -EINVAL;
-83b7a59896dd24 Amir Goldstein      2020-07-16  1676  
-d61fd650e9d206 Amir Goldstein      2021-11-29  1677  	/*
-d61fd650e9d206 Amir Goldstein      2021-11-29  1678  	 * FAN_REPORT_TARGET_FID requires FAN_REPORT_NAME and FAN_REPORT_FID
-d61fd650e9d206 Amir Goldstein      2021-11-29  1679  	 * and is used as an indication to report both dir and child fid on all
-d61fd650e9d206 Amir Goldstein      2021-11-29  1680  	 * dirent events.
-d61fd650e9d206 Amir Goldstein      2021-11-29  1681  	 */
-d61fd650e9d206 Amir Goldstein      2021-11-29  1682  	if ((fid_mode & FAN_REPORT_TARGET_FID) &&
-d61fd650e9d206 Amir Goldstein      2021-11-29  1683  	    (!(fid_mode & FAN_REPORT_NAME) || !(fid_mode & FAN_REPORT_FID)))
-d61fd650e9d206 Amir Goldstein      2021-11-29  1684  		return -EINVAL;
-d61fd650e9d206 Amir Goldstein      2021-11-29  1685  
-ebe559609d7829 Al Viro             2024-11-15  1686  	f_flags = O_RDWR;
-52c923dd079df4 Eric Paris          2009-12-17  1687  	if (flags & FAN_CLOEXEC)
-52c923dd079df4 Eric Paris          2009-12-17  1688  		f_flags |= O_CLOEXEC;
-52c923dd079df4 Eric Paris          2009-12-17  1689  	if (flags & FAN_NONBLOCK)
-52c923dd079df4 Eric Paris          2009-12-17  1690  		f_flags |= O_NONBLOCK;
-52c923dd079df4 Eric Paris          2009-12-17  1691  
-52c923dd079df4 Eric Paris          2009-12-17  1692  	/* fsnotify_alloc_group takes a ref.  Dropped in fanotify_release */
-867a448d587e7f Amir Goldstein      2022-04-22  1693  	group = fsnotify_alloc_group(&fanotify_fsnotify_ops,
-cad3f4a22cfa40 Lizhi Xu            2024-09-27  1694  				     FSNOTIFY_GROUP_USER);
-26379198937fcc Eric Paris          2010-11-23  1695  	if (IS_ERR(group)) {
-52c923dd079df4 Eric Paris          2009-12-17  1696  		return PTR_ERR(group);
-26379198937fcc Eric Paris          2010-11-23  1697  	}
-52c923dd079df4 Eric Paris          2009-12-17  1698  
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1699  	/* Enforce groups limits per user in all containing user ns */
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1700  	group->fanotify_data.ucounts = inc_ucount(user_ns, current_euid(),
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1701  						  UCOUNT_FANOTIFY_GROUPS);
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1702  	if (!group->fanotify_data.ucounts) {
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1703  		fd = -EMFILE;
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1704  		goto out_destroy_group;
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1705  	}
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1706  
-a8b98c808eab3e Amir Goldstein      2021-05-24  1707  	group->fanotify_data.flags = flags | internal_flags;
-d46eb14b735b11 Shakeel Butt        2018-08-17  1708  	group->memcg = get_mem_cgroup_from_mm(current->mm);
-58f5fbeb367ff6 Amir Goldstein      2025-05-16  1709  	group->user_ns = get_user_ns(user_ns);
-4afeff8505cb8a Eric Paris          2010-10-28  1710  
-94e00d28a680df Amir Goldstein      2021-03-04  1711  	group->fanotify_data.merge_hash = fanotify_alloc_merge_hash();
-94e00d28a680df Amir Goldstein      2021-03-04  1712  	if (!group->fanotify_data.merge_hash) {
-94e00d28a680df Amir Goldstein      2021-03-04  1713  		fd = -ENOMEM;
-94e00d28a680df Amir Goldstein      2021-03-04  1714  		goto out_destroy_group;
-94e00d28a680df Amir Goldstein      2021-03-04  1715  	}
-94e00d28a680df Amir Goldstein      2021-03-04  1716  
-b8a6c3a2f0ae4d Amir Goldstein      2020-07-08  1717  	group->overflow_event = fanotify_alloc_overflow_event();
-b8a6c3a2f0ae4d Amir Goldstein      2020-07-08  1718  	if (unlikely(!group->overflow_event)) {
-ff57cd5863cf30 Jan Kara            2014-02-21  1719  		fd = -ENOMEM;
-ff57cd5863cf30 Jan Kara            2014-02-21  1720  		goto out_destroy_group;
-ff57cd5863cf30 Jan Kara            2014-02-21  1721  	}
-ff57cd5863cf30 Jan Kara            2014-02-21  1722  
-1e2ee49f7f1b79 Will Woods          2014-05-06  1723  	if (force_o_largefile())
-1e2ee49f7f1b79 Will Woods          2014-05-06  1724  		event_f_flags |= O_LARGEFILE;
-80af2588676483 Eric Paris          2010-07-28  1725  	group->fanotify_data.f_flags = event_f_flags;
-9e66e4233db9c7 Eric Paris          2009-12-17  1726  	init_waitqueue_head(&group->fanotify_data.access_waitq);
-9e66e4233db9c7 Eric Paris          2009-12-17  1727  	INIT_LIST_HEAD(&group->fanotify_data.access_list);
-b8cf8fda522d5a Miklos Szeredi      2025-09-09  1728  	INIT_LIST_HEAD(&group->fanotify_data.perm_grp_list);
-83b7a59896dd24 Amir Goldstein      2020-07-16  1729  	switch (class) {
-4231a23530a30e Eric Paris          2010-10-28  1730  	case FAN_CLASS_NOTIF:
-477cf917dd0285 Amir Goldstein      2024-03-17  1731  		group->priority = FSNOTIFY_PRIO_NORMAL;
-4231a23530a30e Eric Paris          2010-10-28  1732  		break;
-4231a23530a30e Eric Paris          2010-10-28  1733  	case FAN_CLASS_CONTENT:
-477cf917dd0285 Amir Goldstein      2024-03-17  1734  		group->priority = FSNOTIFY_PRIO_CONTENT;
-4231a23530a30e Eric Paris          2010-10-28  1735  		break;
-4231a23530a30e Eric Paris          2010-10-28  1736  	case FAN_CLASS_PRE_CONTENT:
-477cf917dd0285 Amir Goldstein      2024-03-17  1737  		group->priority = FSNOTIFY_PRIO_PRE_CONTENT;
-4231a23530a30e Eric Paris          2010-10-28  1738  		break;
-4231a23530a30e Eric Paris          2010-10-28  1739  	default:
-4231a23530a30e Eric Paris          2010-10-28  1740  		fd = -EINVAL;
-d8153d4d8b7b61 Lino Sanfilippo     2011-06-14  1741  		goto out_destroy_group;
-4231a23530a30e Eric Paris          2010-10-28  1742  	}
-cb2d429faf2cae Eric Paris          2009-12-17  1743  
-90d1238047a647 Amir Goldstein      2025-05-16  1744  	BUILD_BUG_ON(!(FANOTIFY_ADMIN_INIT_FLAGS & FAN_UNLIMITED_QUEUE));
-5dd03f55fd2f21 Eric Paris          2010-10-28  1745  	if (flags & FAN_UNLIMITED_QUEUE) {
-5dd03f55fd2f21 Eric Paris          2010-10-28  1746  		group->max_events = UINT_MAX;
-5dd03f55fd2f21 Eric Paris          2010-10-28  1747  	} else {
-5b8fea65d197f4 Amir Goldstein      2021-03-04  1748  		group->max_events = fanotify_max_queued_events;
-5dd03f55fd2f21 Eric Paris          2010-10-28  1749  	}
-2529a0df0f64da Eric Paris          2010-10-28  1750  
-de8cd83e91bc3e Steve Grubb         2017-10-02  1751  	if (flags & FAN_ENABLE_AUDIT) {
-de8cd83e91bc3e Steve Grubb         2017-10-02  1752  		fd = -EPERM;
-de8cd83e91bc3e Steve Grubb         2017-10-02  1753  		if (!capable(CAP_AUDIT_WRITE))
-de8cd83e91bc3e Steve Grubb         2017-10-02 @1754  			goto out_destroy_group;
-de8cd83e91bc3e Steve Grubb         2017-10-02  1755  	}
-de8cd83e91bc3e Steve Grubb         2017-10-02  1756  
-c864ed37933e9a Christian Brauner   2025-11-18  1757  	FD_PREPARE(fdprep, f_flags,
-c864ed37933e9a Christian Brauner   2025-11-18  1758  		   anon_inode_getfile_fmode("[fanotify]", &fanotify_fops, group,
-c864ed37933e9a Christian Brauner   2025-11-18  1759  					    f_flags, FMODE_NONOTIFY));
-c864ed37933e9a Christian Brauner   2025-11-18  1760  	if (!fd_prepare_failed(fdprep))
-c864ed37933e9a Christian Brauner   2025-11-18  1761  		return fd_publish(fdprep);
-52c923dd079df4 Eric Paris          2009-12-17  1762  
-c864ed37933e9a Christian Brauner   2025-11-18  1763  	fd = fd_prepare_error(fdprep);
-52c923dd079df4 Eric Paris          2009-12-17  1764  
-d8153d4d8b7b61 Lino Sanfilippo     2011-06-14  1765  out_destroy_group:
-d8153d4d8b7b61 Lino Sanfilippo     2011-06-14  1766  	fsnotify_destroy_group(group);
-52c923dd079df4 Eric Paris          2009-12-17  1767  	return fd;
-11637e4b7dc098 Eric Paris          2009-12-17  1768  }
-bbaa4168b2d2d8 Eric Paris          2009-12-17  1769  
-
-:::::: The code at line 1754 was first introduced by commit
-:::::: de8cd83e91bc3ee212b3e6ec6e4283af9e4ab269 audit: Record fanotify access control decisions
-
-:::::: TO: Steve Grubb <sgrubb@redhat.com>
-:::::: CC: Jan Kara <jack@suse.cz>
+   608	
+   609	static int pcf85053_probe(struct i2c_client *client)
+   610	{
+   611		struct pcf85053 *pcf85053;
+   612		const struct pcf85053_config *config;
+   613		const char *iface = NULL;
+   614		int err;
+   615	
+ > 616		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C |
+   617					     I2C_FUNC_SMBUS_BYTE |
+   618					     I2C_FUNC_SMBUS_BLOCK_DATA))
+   619			return -ENODEV;
+   620	
+   621		pcf85053 = devm_kzalloc(&client->dev, sizeof(struct pcf85053),
+   622					GFP_KERNEL);
+   623		if (!pcf85053)
+   624			return -ENOMEM;
+   625	
+   626		config = i2c_get_match_data(client);
+   627		if (!config)
+   628			return -ENODEV;
+   629	
+   630		pcf85053->regmap = devm_regmap_init_i2c(client, &config->regmap);
+   631		if (IS_ERR(pcf85053->regmap))
+   632			return PTR_ERR(pcf85053->regmap);
+   633	
+   634		i2c_set_clientdata(client, pcf85053);
+   635	
+   636		pcf85053->client = client;
+   637		device_set_wakeup_capable(&client->dev, 1);
+   638	
+   639		pcf85053->is_primary = true;
+   640	
+   641		if (of_property_read_string(client->dev.of_node, "nxp,interface", &iface))
+   642			return dev_err_probe(&client->dev, -EINVAL,
+   643					     "Missing mandatory property: nxp,interface\n");
+   644		if (!strcmp(iface, "primary"))
+   645			pcf85053->is_primary = true;
+   646		else if (!strcmp(iface, "secondary"))
+   647			pcf85053->is_primary = false;
+   648		else
+   649			return dev_err_probe(&client->dev, -EINVAL,
+   650					     "Invalid value for nxp,interface: %s\n", iface);
+   651	
+   652		if (pcf85053->is_primary) {
+   653			unsigned int ctrl;
+   654			int err;
+   655	
+   656			err = regmap_read(pcf85053->regmap, PCF85053_REG_CTRL, &ctrl);
+   657			if (err)
+   658				return err;
+   659	
+   660			if (of_property_read_bool(client->dev.of_node, "nxp,write-access")) {
+   661				if (!(ctrl & PCF85053_BIT_TWO)) {
+   662					err = regmap_update_bits(pcf85053->regmap, PCF85053_REG_CTRL,
+   663								 PCF85053_BIT_TWO, PCF85053_BIT_TWO);
+   664					if (err)
+   665						return err;
+   666				}
+   667				dev_dbg(&client->dev, "Ownership set: TWO=1 (primary writes)\n");
+   668			} else {
+   669				/* TWO (Time Write Ownership) bit defaults to 0 (Secondary) */
+   670				dev_dbg(&client->dev, "Default ownership set: TWO=0 (secondary writes)\n");
+   671			}
+   672		}
+   673	
+   674		pcf85053->rtc = devm_rtc_allocate_device(&client->dev);
+   675		if (IS_ERR(pcf85053->rtc))
+   676			return PTR_ERR(pcf85053->rtc);
+   677	
+   678		pcf85053->rtc->ops = &pcf85053_rtc_ops;
+   679		pcf85053->rtc->range_min = RTC_TIMESTAMP_BEGIN_2000;
+   680		pcf85053->rtc->range_max = RTC_TIMESTAMP_END_2099;
+   681		clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, pcf85053->rtc->features);
+   682		clear_bit(RTC_FEATURE_ALARM, pcf85053->rtc->features);
+   683	
+   684		if (config->has_alarms && client->irq > 0) {
+   685			err = devm_request_threaded_irq(&client->dev, client->irq,
+   686							NULL, pcf85053_irq,
+   687							IRQF_ONESHOT | IRQF_TRIGGER_FALLING,
+   688							"pcf85053", client);
+   689			if (err) {
+   690				dev_err(&client->dev, "unable to request IRQ %d\n", client->irq);
+   691			} else {
+   692				set_bit(RTC_FEATURE_ALARM, pcf85053->rtc->features);
+   693				device_init_wakeup(&client->dev, true);
+   694				err = dev_pm_set_wake_irq(&client->dev, client->irq);
+   695				if (err)
+   696					dev_err(&client->dev, "failed to enable irq wake\n");
+   697			}
+   698		}
+   699	
+   700	#ifdef CONFIG_COMMON_CLK
+   701		/* register clk in common clk framework */
+   702		pcf85053_clkout_register_clk(pcf85053);
+   703	#endif
+   704	
+   705		return devm_rtc_register_device(pcf85053->rtc);
+   706	}
+   707	
+   708	static const struct i2c_device_id pcf85053_id[] = {
+   709		{ "pcf85053", .driver_data = (kernel_ulong_t)&config_pcf85053 },
+   710		{ }
+   711	};
+   712	MODULE_DEVICE_TABLE(i2c, pcf85053_id);
+   713	
+   714	static const struct of_device_id pcf85053_of_match[] = {
+   715		{ .compatible = "nxp,pcf85053", .data = &config_pcf85053 },
+   716		{}
+   717	};
+   718	MODULE_DEVICE_TABLE(of, pcf85053_of_match);
+   719	
+ > 720	static struct i2c_driver pcf85053_driver = {
+   721		.driver		= {
+   722			.name	= "rtc-pcf85053",
+   723			.of_match_table = of_match_ptr(pcf85053_of_match),
+   724		},
+   725		.probe		= pcf85053_probe,
+   726		.id_table	= pcf85053_id,
+   727	};
+   728	
+ > 729	module_i2c_driver(pcf85053_driver);
+   730	
 
 -- 
 0-DAY CI Kernel Test Service
