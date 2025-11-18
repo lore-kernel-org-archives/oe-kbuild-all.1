@@ -1,119 +1,91 @@
-Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D8E30FC3D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 22:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE43370304
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 23:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763504647; cv=none; b=JpbkDE8X/JBvMdUfOLfhBq2igZ6HgfEcQXvpOmsJ64dkTUrjGGYB8z6l8wS12OVBm7RnlnJTEsOrWtGYSAUrvKE2J+Md7t8ii0ZKSGIvSxGdmk1NrVo0htXk3Yp6Mt2SRpRKso6QOyWbWPRvybSu8GyUhajzf8r64XxEI4M2r58=
+	t=1763506948; cv=none; b=JNnbtraTz6dj7lUGF4q34cER1Y2ufuB+0wkiBTohtFqcu/yEAe+nwAZNO5aL0j6m8ESzORvFdftDDGhlELccGgC1zXox+rurzSxvZc0w30DtOZrAshScK8bRaRzELosivhF+LpDM8U+nP7P/m6NLJBuNT3KMEURBL/bN7bbxzJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763504647; c=relaxed/simple;
-	bh=svpK52mxw2R/BGvQibMTyc4I8dCzRhhBHywfqdbMC2M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RGZaRsU2+oxcQ28x7ex/i8dDNcIyi1gGtudVc+y9x/itEl8diMLoM8QtUgISJyGtwOTlNTMgkt11JalqbsxejmvYWdpD1guvyjGdAkJop0shR1ThRBASSfiOSuShpw/mHxHTwe/02a/u/fo1jYK3ezcH0xD8IDxUTNMKFXlJt/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=O7Hdl9mB; arc=none smtp.client-ip=84.16.241.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
+	s=arc-20240116; t=1763506948; c=relaxed/simple;
+	bh=vmDqkWD4nsHgWQHgQBC+ecs1fTr6KIRIDElabV8tbf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EbVNuj6cH4i5UvlwiI0pINpoacWiiRxQhVYyL5mRAVU+8PIB25P3J7LMFfJPmenwhSsOsPpkm/xAe7vLG+1YglxWehI4uTMD9HupSUkl+6fFC/qgG+h7+Ia5cp9w4NRCrLy2lSjzh6kj1QuLi/YkZpg0GP/RrdtFI8YWTaodjOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmiu8oZG; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="O7Hdl9mB"
-Received: from [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e] (2a02-1812-110a-5400-17f3-a8ff-d314-780e.ip6.access.telenet.be [IPv6:2a02:1812:110a:5400:17f3:a8ff:d314:780e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sander@svanheule.net)
-	by polaris.svanheule.net (Postfix) with ESMTPSA id 90C996A158E;
-	Tue, 18 Nov 2025 23:24:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
-	s=mail1707; t=1763504641;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=svpK52mxw2R/BGvQibMTyc4I8dCzRhhBHywfqdbMC2M=;
-	b=O7Hdl9mBz/1QBSmYAGWqwwsxVsMNMmczdNYv77u01hwqGKSWy3QBCPpg5mSBT90M8194xH
-	R7BiLtAirzVOio42wiV+iEc7aKWRZje50b7LOVRNwhVLbDvIQHng193c4nK/gJwUPtxgGP
-	IvrERB2g/+VYC7f3cdOzvnNlu7XXHWphjTUbHJNNB6wTNWzTkSgFVCyLs9cdecx/sewLNN
-	wQFDf62Ba/OF1KIl8kU/dXU0A74N0WYQ/wffjpE+YKUPrH6NerooLxLoDwVAYhEfIGfP6O
-	wFK1CbV6ozekQgOg7R3mGd88dEW+UOW1IdoSfn8+mNd8vMohE4i8iVsSHL+U5A==
-Message-ID: <0aadc274251ac1627c4b10e96cdc21bbbbe1bb57.camel@svanheule.net>
-Subject: Re: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO support
-From: Sander Vanheule <sander@svanheule.net>
-To: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, Pavel
- Machek	 <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski	 <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Linus
- Walleij	 <linus.walleij@linaro.org>, Michael Walle <mwalle@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Date: Tue, 18 Nov 2025 23:24:01 +0100
-In-Reply-To: <202511190436.9oQLbI8A-lkp@intel.com>
-References: <20251117215138.4353-5-sander@svanheule.net>
-	 <202511190436.9oQLbI8A-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmiu8oZG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763506947; x=1795042947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vmDqkWD4nsHgWQHgQBC+ecs1fTr6KIRIDElabV8tbf8=;
+  b=dmiu8oZGKBtI5osgvtLeXV9X7W1B5vNthh8La3pepPmqoXB8PBhKt4/g
+   8TERqLfW43kI+/o3PHc32nrY3tgJGsyBpdcBswq5dxQzZrlesWrzRCTkw
+   DYoaKpfm50lo3YiBt6enrBDt/v/03h0XtrpxnW7Hz+TCc0Z14Z9qtEJw+
+   8WMxIcoudR98bxGaAP/k7bQYLC+1b7hNPfYsvyVhEiB7RqTi3AdnrlklW
+   Lbr2fMH0XRaBptyNvzzEvJgXTgNqE77QvELjnNKCWTCpkt2qXzFHg02ht
+   dCvbOvoAaBd/wjFarZoZ/1v4Nk3xMZ6duASJQZci29ZeepVYjV/EU2Y/D
+   w==;
+X-CSE-ConnectionGUID: 5BbWdOafSPacI5NTXRVPDA==
+X-CSE-MsgGUID: b10JWwzMSJu3DZ0mcly3+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65245123"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="65245123"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 15:02:27 -0800
+X-CSE-ConnectionGUID: aZ7mAEmsR7eResgRglIqSA==
+X-CSE-MsgGUID: V7OI+WzhSnCwZR7RtKkJ3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+   d="scan'208";a="195004771"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2025 15:02:25 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLUiN-0002FO-20;
+	Tue, 18 Nov 2025 23:02:23 +0000
+Date: Wed, 19 Nov 2025 07:01:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:renesas-lts/v6.18-rc6-2025-11-18-x5h-ironhide 18/29]
+ drivers/mfd/rcar-mfis.c:64:18: sparse: sparse: symbol 'mfis_gen5_info' was
+ not declared. Should it be static?
+Message-ID: <202511190618.3g1UGqbz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2025-11-19 at 05:19 +0800, kernel test robot wrote:
-> Hi Sander,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on lee-mfd/for-mfd-next]
-> [also build test ERROR on lee-mfd/for-mfd-fixes lee-leds/for-leds-next li=
-nusw-
-> pinctrl/devel linusw-pinctrl/for-next linus/master v6.18-rc6 next-2025111=
-8]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Sander-Vanheule/dt-binding=
-s-leds-Binding-for-RTL8231-scan-matrix/20251118-055707
-> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
-.git=C2=A0for-mfd-next
-> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20251117215138.43=
-53-5-sander%40svanheule.net
-> patch subject: [PATCH v7 4/6] pinctrl: Add RTL8231 pin control and GPIO s=
-upport
-> config: nios2-allmodconfig
-> (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-l=
-kp@intel.com/co
-> nfig)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20251119/202511190436.9oQLbI8A-l=
-kp@intel.com/re
-> produce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202511190436.9oQLbI8A-lkp=
-@intel.com/
->=20
-> All error/warnings (new ones prefixed by >>):
->=20
-> > > drivers/pinctrl/pinctrl-rtl8231.c:28:27: error: expected identifier o=
-r '(' before
-> > > ':' token
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 28 | enum rtl8231_pin_function : uintptr_t=
- {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc6-2025-11-18-x5h-ironhide
+head:   a621150dca9da7531945716ec4a387aad5e56774
+commit: 15da84d92b11b88d272db64482b514c8d4433c16 [18/29] mfd: renesas: Support MFIS driver
+config: sh-randconfig-r112-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190618.3g1UGqbz-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190618.3g1UGqbz-lkp@intel.com/reproduce)
 
-This isn't supported yet pre-C23 and before GCC 13. I will look to ensure t=
-he a properly
-sized integer is stored into the pinfunction's data pointer.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511190618.3g1UGqbz-lkp@intel.com/
 
-Best,
-Sander
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mfd/rcar-mfis.c:64:18: sparse: sparse: symbol 'mfis_gen5_info' was not declared. Should it be static?
+
+vim +/mfis_gen5_info +64 drivers/mfd/rcar-mfis.c
+
+    63	
+  > 64	struct mfis_info mfis_gen5_info = {
+    65		.wp	= mfis_gen5_write_protect,
+    66	};
+    67	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
