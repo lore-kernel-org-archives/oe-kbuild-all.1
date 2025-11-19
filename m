@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C04357A38
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CAC3587AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763554368; cv=none; b=JwJ6kM+FK+nM6SbRxIWGjlZFF47B+X/h9hKbNlFPvpdZ36gaAd9tSyU+KZbsEtPOY4XBnLj5kPCtsmi5nBYqT6dXMplVyJcJKs5EYL0nqV3+fAhaI7VUPyDYIbCAT4Gq/RK6d31O7sI4J4v8DaUIfINRU1CgEqXU2QZw9XPnWZI=
+	t=1763554451; cv=none; b=Cv+t9jpHfj/5dCcS0uoqro0wY+UeXZIFXtAQ4vfZLEl8CZ8+5TxeshwZ+rKCCxcLrCsjIEhg1c7dvT6J94yLeymmy3nXBKHsHrZNLPrYZLlEW6TKWb5y3cR2tczeL2Kjftz4b8hqZODHmh4fh8TIIgY6qtaQiHQebvbNNKzzKTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763554368; c=relaxed/simple;
-	bh=cepeMUzN314aypj+77UHm8Lx1ORDn39tPxaieZyc4YI=;
+	s=arc-20240116; t=1763554451; c=relaxed/simple;
+	bh=u6JRcyowVqocvgdM44XVbi9CoQr4x8Fe/s0T9I1pHcY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oLfHtFmHupGwnSIE2ulNQw+sdH8iChOAvj6JpKH5skHYIB2v64ehYfuAEeocOwYcKEsnKJEYYiUHqSsHnsWZ2x3wjJYH+YvagiqgKy9zGQ06vDoPBWnNMux0n66HR+NKwxT562TlQtJ9G7jyTCSLLWihlI3VxjKZFF0yIPokgos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9e2cQIt; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=lzCUPvlP27fVnqkIiZGm2zN9SXKbHEvXlyF5p8VmKtBrK8qhYMgqx7epVsfcODjcYaszoh616Kw2L+3U2GpiIfGXZ4jqoKVK7BK8/5L90RM9MrGgQMHqxu4ZrvDQAgH9B5MxwvU6OKJ3z3wOO2T/Cwg0WMDsEZIpLfwRQNXTxtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cYrtOY+v; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9e2cQIt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763554365; x=1795090365;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cepeMUzN314aypj+77UHm8Lx1ORDn39tPxaieZyc4YI=;
-  b=R9e2cQItWuMKoUnS/pTMg3GPr9HmBsksWUb/ieDLogzcKn5vTpVUG65S
-   +o+n3dIChEFEQR7Ljw2OoThTxAxLN9Vxgdy0D3m9D25b9n5Kpy8m7QJP4
-   FinIBtQUq1s/qh8yCdwrvGmzmDsPUnXpSN0yagblBjjBDVrNOQgPphXRJ
-   hyoXOuRuNAEboK19Z5IJ9ioFr/MfCtmVi2xVcMYJQhqWyM2r0ZekiitVv
-   fINBl8DE+hXBMlR+AD8CEsGLcLE48R21Xbqaq9R1N5ScD8o5pI/2g5G63
-   woEq1RoMVMi6puVUKhg1QOd1Ue2exJaJTiU4Y41aje6AS4ZsYIffmjaNs
-   w==;
-X-CSE-ConnectionGUID: EOs1SdDHQTqBB7+ZxqOnwg==
-X-CSE-MsgGUID: CyMovcLtR2ysz9v6njWFCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="75917377"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="75917377"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 04:12:44 -0800
-X-CSE-ConnectionGUID: lHxnkPc8SLejhdz2NxkJrA==
-X-CSE-MsgGUID: L6iepiNNRNy6BLfq4SdEnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190306873"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Nov 2025 04:12:43 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLh3B-0002rl-0b;
-	Wed, 19 Nov 2025 12:12:41 +0000
-Date: Wed, 19 Nov 2025 20:12:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3278/3278] include/linux/xsched.h:309:28: error:
- array type has incomplete element type 'struct cgroup_file'
-Message-ID: <202511192040.YIPXCVFH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cYrtOY+v"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4777771ed1aso46507295e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:14:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763554447; x=1764159247; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vAUQqCxumRQ+S977f7VzgntD6gNrDFR/u6H2gkxTfjY=;
+        b=cYrtOY+vLPlIpnkqtEsrGBU8C0ys19tQB5sHjI80mhpEml+naSJ3HiBGLywenOjoyx
+         FPdfswr2pcL+SUjq8RsMbCfHdoTrXcuHebs+iiJwOjnscOit+RgbGCRvM/2V3URxmoJH
+         zvsb0u+jk74w9omviDZH/RE0gH+/LdNyqwkUoVOrpZQ3ulz2p3fNp/9fpB6iRrSNNYS0
+         SblQi4stIz5f3Mo8HzuDADUAGwiww3LKh2NakfTLv5LuUvRSK8kkVgzYVGMJIItTsfjG
+         bluLLYDQJUwVDAOPcvKes+2EBCoJa0AufnYpgYv22IViEYegmAHtuofWNpZ4DiJvnSHu
+         K70g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763554447; x=1764159247;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vAUQqCxumRQ+S977f7VzgntD6gNrDFR/u6H2gkxTfjY=;
+        b=KphZ5HoRjsSwVexTzPS6bde6dIuxCBvgD5UvRfDGvhLuomwWJsZHAJb+f0EQbIXJSF
+         q8WxafnlBKEG+TuyBj1scsdKXY5uIffdTEYABHXM9B8CZJW5O812kHzl0aj2dJyENFM1
+         pAd7pWckLVNzujNDPSkgRIFb0ARWfIw4ISXW1A2lRTalFMm7QpBK+a4/WxZ87GLoc49T
+         bnyszzL14LnDdX+L2qlk9ZrOUI4Gk0V3difcyv+nwYqOMimvjqF5fHr65dry1QpjbHAL
+         q3EozfDTj8m1fxQEYX31jXAfcy/YyrJOxoxONHBeaqSpPKJ5jNKvvZvI1Pukq7vGJzQs
+         t2hg==
+X-Forwarded-Encrypted: i=1; AJvYcCWX3zz89eOC6KyOFhrwQZE3/uLdu4nDvrKxrFQifPQPW0PbCnUVJj+t3f38+V59HrRrGhohv9CnPPHXPd8J@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDlvnCE7g6eDAzPU3Xf7jsssQeNlcenXeEZjEOL2D4QAnx0p8k
+	22aZWCKAaF/QckwOoJf0QBiGDK1LBp/lsj/AXtrpdMe/0TbpS2PWm6w8jQ/D8FJeE44=
+X-Gm-Gg: ASbGncuP/v2BGKRZ55upU4LPJjItmFQvDlbibWcLNJhlAlt0dZVUaY/diJ4b4MoqY5/
+	/DdJBAf89HgfjfLUfojoTpLrt0QZ3v34BbxYqa/MWKibf+YIQD3vffyzpJiUj7DEYIfViq0DPFm
+	ZrR9j7mljyEDksPHzyw0pYroANG3LmsQCEUQgVJRrCaFJage7wFeGoiwBghXtaFguCknPIPHgOi
+	nMTmj3EhacRIPWsOo68MVpAekw2hEDIa7sWCMfmkJiuNEnh5G8E6QLkHRVgdgAw95daOfUAx9aQ
+	GLdErMdUwayaNa0MO2/kHZTDOitd5WcJik1fiNnSUhGi2ptdnepmBvW90LlPD4ck0KUd0mNQ9cW
+	xW0Phi+Ql+JsIYUWZuEOFDpokBFq1f4VxvfVH/8dmEKQqo7U8+JoCCxyAAI9dcpJbQOBJtKmO/g
+	Oh5u2kYe4dnLmIZ1htF12Ssw+0xGE=
+X-Google-Smtp-Source: AGHT+IEYacgEwKb0LeR0JgEJABuusiKsbIIkQxyEko6LzSSz8Bj8aVFgS/T0iuZtrTAC/Dc38NJR4A==
+X-Received: by 2002:a05:600c:5252:b0:46e:506b:20c5 with SMTP id 5b1f17b1804b1-477b19e236amr19970065e9.26.1763554446773;
+        Wed, 19 Nov 2025 04:14:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a96aafb3sm41205465e9.0.2025.11.19.04.14.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 04:14:06 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:14:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [brauner-github:work.ovl.cred.guard.prepare 29/53]
+ fs/overlayfs/readdir.c:871 ovl_iterate_merged() error: uninitialized symbol
+ 'err'.
+Message-ID: <202511150158.sb6MRtZf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +77,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   dfb9bd9242c2350c127d51a126976ed386e9cc48
-commit: aafde051ac61687823976cc892fb3c416101d694 [3278/3278] xsched: Add support for CFS quota for cgroups
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511192040.YIPXCVFH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192040.YIPXCVFH-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.ovl.cred.guard.prepare
+head:   6adfde0460758ff27a5d5cfd05c0cfada7070e1a
+commit: 723ebc8013726565be4117240fbda90c25d3e4b5 [29/53] ovl: refactor ovl_iterate() and port to cred guard
+config: mips-randconfig-r072-20251114 (https://download.01.org/0day-ci/archive/20251115/202511150158.sb6MRtZf-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511192040.YIPXCVFH-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511150158.sb6MRtZf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+fs/overlayfs/readdir.c:871 ovl_iterate_merged() error: uninitialized symbol 'err'.
 
-   In file included from kernel/xsched/vstream.c:23:
-   include/linux/xsched.h:276:36: error: field 'css' has incomplete type
-     276 |         struct cgroup_subsys_state css;
-         |                                    ^~~
->> include/linux/xsched.h:309:28: error: array type has incomplete element type 'struct cgroup_file'
-     309 |         struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
-         |                            ^~~~~~~~
+Old smatch warnings:
+fs/overlayfs/readdir.c:1022 ovl_dir_fsync() warn: 'realfile' is an error pointer or valid
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
-   Depends on [n]: CGROUPS [=n]
-   Selected by [y]:
-   - ARM64 [=y]
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
+vim +/err +871 fs/overlayfs/readdir.c
 
+723ebc80137265 Amir Goldstein    2025-11-13  835  static int ovl_iterate_merged(struct file *file, struct dir_context *ctx)
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  836  {
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  837  	struct ovl_dir_file *od = file->private_data;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  838  	struct dentry *dentry = file->f_path.dentry;
+4330397e4e8a66 hujianyang        2014-12-11  839  	struct ovl_cache_entry *p;
+b5efccbe0a12a9 Amir Goldstein    2017-05-11  840  	int err;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  841  
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  842  	if (!od->cache) {
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  843  		struct ovl_dir_cache *cache;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  844  
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  845  		cache = ovl_cache_get(dentry);
+48bd024b8a40d7 Miklos Szeredi    2020-06-02  846  		err = PTR_ERR(cache);
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  847  		if (IS_ERR(cache))
+723ebc80137265 Amir Goldstein    2025-11-13  848  			return err;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  849  
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  850  		od->cache = cache;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  851  		ovl_seek_cursor(od, ctx->pos);
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  852  	}
 
-vim +309 include/linux/xsched.h
+If od->cache is true
 
-   272	
-   273	/* Xsched scheduling control group */
-   274	struct xsched_group {
-   275		/* Cgroups controller structure */
-   276		struct cgroup_subsys_state css;
-   277	
-   278		/* Control group settings: */
-   279		int sched_class;
-   280		int prio;
-   281	
-   282		/* Bandwidth setting: shares value set by user */
-   283		u64 shares_cfg;
-   284		u64 shares_cfg_red;
-   285		u32 weight;
-   286		u64 children_shares_sum;
-   287	
-   288		/* Bandwidth setting: maximal quota in period */
-   289		s64 quota;
-   290		/* record the runtime of operators during the period */
-   291		s64 runtime;
-   292		s64 period;
-   293		struct hrtimer quota_timeout;
-   294		struct work_struct refill_work;
-   295	
-   296		struct xsched_group_xcu_priv perxcu_priv[XSCHED_NR_CUS];
-   297	
-   298		/* Groups hierarchcy */
-   299		struct xsched_group *parent;
-   300		struct list_head children_groups;
-   301		struct list_head group_node;
-   302	
-   303		spinlock_t lock;
-   304	
-   305		/* for XSE to move in perxcu */
-   306		struct list_head members;
-   307	
-   308		/* to control the xcu.{period, quota, shares} files shown or not */
- > 309		struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
-   310		struct work_struct file_show_work;
-   311	};
-   312	
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  853  
+4330397e4e8a66 hujianyang        2014-12-11  854  	while (od->cursor != &od->cache->entries) {
+4330397e4e8a66 hujianyang        2014-12-11  855  		p = list_entry(od->cursor, struct ovl_cache_entry, l_node);
+b5efccbe0a12a9 Amir Goldstein    2017-05-11  856  		if (!p->is_whiteout) {
+bc8df7a3dc0359 Alexander Larsson 2023-08-23  857  			if (!p->ino || p->check_xwhiteout) {
+
+And these conditions are always false
+
+bc8df7a3dc0359 Alexander Larsson 2023-08-23  858  				err = ovl_cache_update(&file->f_path, p, !p->ino);
+b5efccbe0a12a9 Amir Goldstein    2017-05-11  859  				if (err)
+723ebc80137265 Amir Goldstein    2025-11-13  860  					return err;
+b5efccbe0a12a9 Amir Goldstein    2017-05-11  861  			}
+9011c2791e63fc Amir Goldstein    2021-04-26  862  		}
+bc8df7a3dc0359 Alexander Larsson 2023-08-23  863  		/* ovl_cache_update() sets is_whiteout on stale entry */
+9011c2791e63fc Amir Goldstein    2021-04-26  864  		if (!p->is_whiteout) {
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  865  			if (!dir_emit(ctx, p->name, p->len, p->ino, p->type))
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  866  				break;
+b5efccbe0a12a9 Amir Goldstein    2017-05-11  867  		}
+4330397e4e8a66 hujianyang        2014-12-11  868  		od->cursor = p->l_node.next;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  869  		ctx->pos++;
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  870  	}
+48bd024b8a40d7 Miklos Szeredi    2020-06-02 @871  	return err;
+
+Then err could be uninitialized.
+
+e9be9d5e76e348 Miklos Szeredi    2014-10-24  872  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
