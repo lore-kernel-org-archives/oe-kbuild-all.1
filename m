@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE43370304
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Nov 2025 23:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA0121D3F8;
+	Wed, 19 Nov 2025 00:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763506948; cv=none; b=JNnbtraTz6dj7lUGF4q34cER1Y2ufuB+0wkiBTohtFqcu/yEAe+nwAZNO5aL0j6m8ESzORvFdftDDGhlELccGgC1zXox+rurzSxvZc0w30DtOZrAshScK8bRaRzELosivhF+LpDM8U+nP7P/m6NLJBuNT3KMEURBL/bN7bbxzJk=
+	t=1763513741; cv=none; b=MeFoJrpCT0TzKx9OPKjLUs1AEevqVG/c3x77Jrdr4NtndnlcwS5m/rtRuUlNPOGkbNZ5Uto9lQdhKkVkUrVxo6TjbYZhlB6KwIyPi0OSxpjd1sm/YwY/8me0b1zDh+dC6oWt7ipzOQFeCewUAXCN7Xi6j+Q1LbA4OLmbeLJevoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763506948; c=relaxed/simple;
-	bh=vmDqkWD4nsHgWQHgQBC+ecs1fTr6KIRIDElabV8tbf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EbVNuj6cH4i5UvlwiI0pINpoacWiiRxQhVYyL5mRAVU+8PIB25P3J7LMFfJPmenwhSsOsPpkm/xAe7vLG+1YglxWehI4uTMD9HupSUkl+6fFC/qgG+h7+Ia5cp9w4NRCrLy2lSjzh6kj1QuLi/YkZpg0GP/RrdtFI8YWTaodjOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmiu8oZG; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1763513741; c=relaxed/simple;
+	bh=u0Qq0YbxbHCN1eZRe+dJ2fIaduGkFYl26dgK+ZBByYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PgFSgIU/+yH44D5So4Yv69r3OWUxuEPe1jvt+TVo/ALx2CrCDsbL3Wrqh9lpwxSObBPcGTNTQvio8JwSpO3w7BxKANZGxZ+WuQj5uNdhFe+2FpnwuGqz276lbtXrSD1MVSUa1G7Zzto3pnFwqK9oELb9In5A5s1eABQ0KmC46ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFnsuAd8; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmiu8oZG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFnsuAd8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763506947; x=1795042947;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vmDqkWD4nsHgWQHgQBC+ecs1fTr6KIRIDElabV8tbf8=;
-  b=dmiu8oZGKBtI5osgvtLeXV9X7W1B5vNthh8La3pepPmqoXB8PBhKt4/g
-   8TERqLfW43kI+/o3PHc32nrY3tgJGsyBpdcBswq5dxQzZrlesWrzRCTkw
-   DYoaKpfm50lo3YiBt6enrBDt/v/03h0XtrpxnW7Hz+TCc0Z14Z9qtEJw+
-   8WMxIcoudR98bxGaAP/k7bQYLC+1b7hNPfYsvyVhEiB7RqTi3AdnrlklW
-   Lbr2fMH0XRaBptyNvzzEvJgXTgNqE77QvELjnNKCWTCpkt2qXzFHg02ht
-   dCvbOvoAaBd/wjFarZoZ/1v4Nk3xMZ6duASJQZci29ZeepVYjV/EU2Y/D
-   w==;
-X-CSE-ConnectionGUID: 5BbWdOafSPacI5NTXRVPDA==
-X-CSE-MsgGUID: b10JWwzMSJu3DZ0mcly3+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65245123"
+  t=1763513739; x=1795049739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u0Qq0YbxbHCN1eZRe+dJ2fIaduGkFYl26dgK+ZBByYI=;
+  b=fFnsuAd8bb8BlZvj7PhkJCtzJ4rnoHM6nKGJ/8N+q9Y3MdteUlknr1Rw
+   x0uFaR7pmxq+j307+BVEIVxcCttyz8yNIOTvkTXuZmAYx4v1FjP+MBkMt
+   Q2aggFmskiKr/qN7OnsD4xQrwSAUAbJ5wHR02EfDB0ieAQexiliK/XdtD
+   mCXYn2YLEOZEsUoMul7cNVIDbHmc8at+y12qyiQUcOgKvQFKiztm9G9Zp
+   Ck+R7SS9fPygliX25P/9xCX0Pd/RgPOCIAoBRsAJKkODsrXkBMHkCa/Z9
+   PBgWDTgBDcVWavmXU9Wo+4ujiZUldORhZ7zRSgUltiQV00qojOC4yaKq+
+   A==;
+X-CSE-ConnectionGUID: GVd+fMscSW2EpKUcc7oQoQ==
+X-CSE-MsgGUID: KPwc2HnLTym+Op29j0pTnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88201037"
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="65245123"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 15:02:27 -0800
-X-CSE-ConnectionGUID: aZ7mAEmsR7eResgRglIqSA==
-X-CSE-MsgGUID: V7OI+WzhSnCwZR7RtKkJ3Q==
+   d="scan'208";a="88201037"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 16:55:39 -0800
+X-CSE-ConnectionGUID: 5c+6PfFLSim5pSaSYdRr+w==
+X-CSE-MsgGUID: L29TR0mCSRSMOk1MDcaW8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
-   d="scan'208";a="195004771"
+   d="scan'208";a="221547609"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Nov 2025 15:02:25 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Nov 2025 16:55:36 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLUiN-0002FO-20;
-	Tue, 18 Nov 2025 23:02:23 +0000
-Date: Wed, 19 Nov 2025 07:01:58 +0800
+	id 1vLWTt-0002JX-30;
+	Wed, 19 Nov 2025 00:55:33 +0000
+Date: Wed, 19 Nov 2025 08:54:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:renesas-lts/v6.18-rc6-2025-11-18-x5h-ironhide 18/29]
- drivers/mfd/rcar-mfis.c:64:18: sparse: sparse: symbol 'mfis_gen5_info' was
- not declared. Should it be static?
-Message-ID: <202511190618.3g1UGqbz-lkp@intel.com>
+To: 429368636@qq.com, lee@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pavel@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-gpio@vger.kernel.org, zhangxinyu <gavin.zhang@faiot.com>
+Subject: Re: [PATCH] leds: add aw91xxx driver
+Message-ID: <202511190823.KypHuQek-lkp@intel.com>
+References: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,29 +65,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908@qq.com>
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc6-2025-11-18-x5h-ironhide
-head:   a621150dca9da7531945716ec4a387aad5e56774
-commit: 15da84d92b11b88d272db64482b514c8d4433c16 [18/29] mfd: renesas: Support MFIS driver
-config: sh-randconfig-r112-20251119 (https://download.01.org/0day-ci/archive/20251119/202511190618.3g1UGqbz-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190618.3g1UGqbz-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.18-rc6 next-20251118]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/429368636-qq-com/leds-add-aw91xxx-driver/20251117-175335
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/tencent_1B2BC712D34FBE7DEB01320E665BEB2D8908%40qq.com
+patch subject: [PATCH] leds: add aw91xxx driver
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251119/202511190823.KypHuQek-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511190823.KypHuQek-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511190618.3g1UGqbz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511190823.KypHuQek-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/rcar-mfis.c:64:18: sparse: sparse: symbol 'mfis_gen5_info' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/mfis_gen5_info +64 drivers/mfd/rcar-mfis.c
+>> drivers/leds/leds-aw91xxx.c:653:23: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     653 |         if (sscanf(buf, "%x %x", &databuf[0]) == 1)
+         |                             ~^
+>> drivers/leds/leds-aw91xxx.c:1309:13: warning: no previous prototype for function 'aw91xxx_irq_func' [-Wmissing-prototypes]
+    1309 | irqreturn_t aw91xxx_irq_func(int irq, void *key_data)
+         |             ^
+   drivers/leds/leds-aw91xxx.c:1309:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1309 | irqreturn_t aw91xxx_irq_func(int irq, void *key_data)
+         | ^
+         | static 
+>> drivers/leds/leds-aw91xxx.c:1395:6: warning: no previous prototype for function 'aw91xxx_int_work' [-Wmissing-prototypes]
+    1395 | void aw91xxx_int_work(struct work_struct *work)
+         |      ^
+   drivers/leds/leds-aw91xxx.c:1395:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1395 | void aw91xxx_int_work(struct work_struct *work)
+         | ^
+         | static 
+   drivers/leds/leds-aw91xxx.c:1425:6: warning: variable 'key_num' set but not used [-Wunused-but-set-variable]
+    1425 |         int key_num = 0;
+         |             ^
+   4 warnings generated.
 
-    63	
-  > 64	struct mfis_info mfis_gen5_info = {
-    65		.wp	= mfis_gen5_write_protect,
-    66	};
-    67	
+
+vim +653 drivers/leds/leds-aw91xxx.c
+
+   645	
+   646	static ssize_t
+   647	blink_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t len)
+   648	{
+   649		unsigned int databuf[2];
+   650		struct led_classdev *led_cdev = dev_get_drvdata(dev);
+   651		struct aw91xxx *aw91xxx = container_of(led_cdev, struct aw91xxx, cdev);
+   652	
+ > 653		if (sscanf(buf, "%x %x", &databuf[0]) == 1)
+   654			aw91xxx_led_blink(aw91xxx, databuf[0], 3);
+   655	
+   656		return len;
+   657	}
+   658	
 
 -- 
 0-DAY CI Kernel Test Service
