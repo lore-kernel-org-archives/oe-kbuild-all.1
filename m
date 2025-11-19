@@ -1,74 +1,70 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1AD2BE04C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C888E350A0C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763556234; cv=none; b=STjpjpG0fNcxNtB8svAuGoQpFxwKQ8uU7GDfZMAGvEkN210MBm1k+bjJLw9h8g5MUCK+qCX3ShjhRLUxLr/pfVJu6ZpXoSMvSykXjiYR8FpUUdluhvpF48UODgWDICWbLv2rHaS32p35K4UWaod3Y3xuZF20WT34DcLUdUTFC1k=
+	t=1763556284; cv=none; b=RSjUddl2yF3RuLnA56F9B6OEcnqynYUEy2ggz/tzzbh+VZo4I831lvdLLupZRqHlpwpLvYOtfAu3v0N4zJiIbUKFfVI2KIpRnenp+PyneObdiT2q9ag3nwYewZ78XtQ051MFSohQXXZF+kCYfvVZRYWGgpVR4jI4A1ieOiVqN5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763556234; c=relaxed/simple;
-	bh=2X5nrygNSf4BsWubQXup2VVbA7X2z3FzeZPjla4j8VM=;
+	s=arc-20240116; t=1763556284; c=relaxed/simple;
+	bh=znvLF7equBBCsQNo3Wvx+9eMsLHSab8JSQ/D1BcsOZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QSOfeTpZUEZq6Z4nnTG3dMgplfICrr3IMB+Hd4BFKLvkdkQV+WH5qb3YapaikkbOGxFlxJkOrTG06k7j5ph5tkoGkLGaQhvk95Vukm5Fe5qL0JTDSSrKfGFtUn5ERDqZ0BU4JOkG9SthvaQGm0Su/vx6W/TF8T6LNvZhM79mgp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X8ImZ5Ra; arc=none smtp.client-ip=209.85.128.52
+	 Content-Disposition:In-Reply-To; b=T25Pji1JdXFkl8y7K5UH1pz08Lu8tBGf2rNAuKZcTvQrIauyKlSTsY5WWa5Ur3uqIfBqscHrmCd1GLTe9/gZTbyBpXfWFlff141xKORR3k9hLxqCll8KyvI0F0MxDPN60/RbyJMN4szTJUHcsbtDLEMWtSzC8ACpSpDCcnaVaZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AINbB9xJ; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X8ImZ5Ra"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477a219db05so24148465e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:43:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AINbB9xJ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so44905425e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:44:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763556227; x=1764161027; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1763556281; x=1764161081; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZeXvl/SGNXep+Czh+cODxrl1kSkPMoLzuEu7dTGZO+o=;
-        b=X8ImZ5RaZAIsNhGw6uy4RqABnizhF6xOycnYslbEnCjp8vjouIzgqLoHLZoIwyPOC/
-         0KvTk28YL70ssgKGFhmDsx52e2nvYbjuNWhFskr0QI42ehUAtftTjaSN/YX98L0YFSQm
-         d5vEl6aA9z4SvdBl9gRjEZAUFWVkIDaE2tW+g89l/Gp221EippwCq3/8OoYBGA8V2M3i
-         rZB2e3b5GHsRNRXjtGRJXLwgB9CKBUJh++I6/PiZDvzMhWZE1Aq/CspICTkVQJ4xK2/V
-         pd3vsux8G2o9LbdvhU878iAglrFWHt84ojgyyN0ga31AfJaa0nho+D6depkdDL93m0ke
-         9yEQ==
+        bh=vb/WHH6MVNHpgD8HWp2QmtT5QxY0dMuZGyv+c8piIz4=;
+        b=AINbB9xJKTELXf8K4RIXoS+uC0S+gRD3a0PkaF77ajt7KVXTW1r6nZejZZxwQ5YnwQ
+         gpYb16o08R9mrL7ul62czbJtCLqAbe+BRbNrxELV2J+pfWpxq7Xp/pKaZMlO3s8E/vBQ
+         ep6Bz5MwVeVdzmDS1+19NpkXfXq5CDItmhxLDW3Jv6kbw1mEP5JKdxJFoxBici2rYRWZ
+         dQZ9iN/ysEPT4B6oP8M8taFDSAJZmGPBG3OrxwigSWrYjVU+ypqX++X4pHYLc1dN6J0f
+         VvVkzdfm5x1pbaTtIt/ieRHN1HTzxJWQpIdnX4gWQVljfeCfeuiaO0XV6NEUPX+PV5C6
+         C76g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763556227; x=1764161027;
+        d=1e100.net; s=20230601; t=1763556281; x=1764161081;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZeXvl/SGNXep+Czh+cODxrl1kSkPMoLzuEu7dTGZO+o=;
-        b=CO8TbnVRmoMDpX9uqxK/8d3xj4hFJDIYvUg963mZ/X/d0drHRq9s/uOYhvIOsQvv+o
-         vaSlPagTf/2TSdoK1yjZERPkeODRSJ46BR8iEmAwHrxt5Lah1kJ1ko6Yc37F4zxpxvOL
-         GaBWktA2jHtpgGiuAT8mg4jFvqb1Hq+Xa7qhh5A1k751hQ39J/URxNypwQFc/aG0oxVV
-         xdhCKVvCzThfWIfJ04jAfc9IErKnPkyupTH+vKFD7/UWJEevVNVESmKqihkyhRuYo3SZ
-         uuc8tkE5Kvnnaiyop4CywR0k0xIn6q6XJje1p6YR/ErpEBSp1ZY01zrxYzzT2mUOts+q
-         hzww==
-X-Forwarded-Encrypted: i=1; AJvYcCWyaUsJj2TXZFVq+qiEALrtlmYW8Qge/owVjwS+lUL09JBDaDiqjeLHurJCwaSLv4k3Dbca/nOHtflkylA+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwY7RHkfuEEmeHtqbnpPIGB7l32UddzjuxDOQ0effU8B4tQjBnV
-	Zd+TSiBcw1yZw+SKaeCe1aFrgFkqccsuZQDYlBV9dBIX/pp8z39QlY0IiCLHuMbe0hw=
-X-Gm-Gg: ASbGncv4/daNpFOjBCECgHqpltATcTPuQTvzONs6QuAmNefp4O9adTz2PrZc8Uhyf4n
-	HNe1s5YIZUdTJUIw2MmX50vVsNNN+5TTIvIUt4P3qyhVDhkPv0mi8/iclJI7AaXoEby/hIQFY3L
-	tUe+9nG6KXyi2AZyVjgVrqNFcrJZI/lHcUii4EwozMTmZZWH25IJqXGlOUie+dTvKkvPPXDYmtT
-	sCnyuZmo2whGcaLfSV4ScfueyMMAspNXjL3bZr2QN0gAwLDl0WYqYuIim7m2Gl51bzXh6Lty6lC
-	SzEQiuquA/Bb/sewYkEQ62g9lWdcWkCXKSwiZp7OdLELJCrCtC7mPBFK0ur3m15TJvzKzjs0DnH
-	GVQDnNujUAthC9FUpM0YmDTaqdz+bY8k2BJeK5AfVRZYSN5KXFmlNfwyAZmYcg/74EPxnlUypx6
-	0pyoB16zGNSKMhodbn4mx6TOzn+38=
-X-Google-Smtp-Source: AGHT+IHgmGvp6BMRxfFCZlRzKEvbl02rgcYBhM/ElWmAs7bH1NOL4MMwnMfIzTNNGzYosZjD5Khu7A==
-X-Received: by 2002:a05:600c:4f07:b0:477:63b5:6f3a with SMTP id 5b1f17b1804b1-4778fead9a4mr187656715e9.27.1763556226881;
-        Wed, 19 Nov 2025 04:43:46 -0800 (PST)
+        bh=vb/WHH6MVNHpgD8HWp2QmtT5QxY0dMuZGyv+c8piIz4=;
+        b=WTd3HX4L8TxuZamo4auoe3UxOZt4o8evfDsE/BkQD6vFWnKvfslbzCGzNpzGTgiErq
+         4+3Y/WL5ASw5i74Vjz7QCToOOUni/yPGeANRe1e+UisEZRuCojkmHL75eM6bhmCB+5N0
+         OPdCuTvsWCiUtyILS/EgpLTnCwqj9BqH8/0nGa4GKo/lSLFL2z/IyEjR4m4izdWQJdl8
+         fxUICH8JskCdsLPbuZwXJ5lYttRjo13+Xg8RywHgPQI22JO2eQl+QYv0R/dvvCkVgFff
+         SF4cAN8WujQc4Rqy0YGpCQzuH+xwF1GA2eH+T/Ob7N/puap/DNgbHlOudLaVBU989SzG
+         d/dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWEAof/+6caF9aT7tfRBqRAyLjMAT4T7qW6QfBMiDkArx3SrJBYEhGoma8PdbmZvqOGZ41h4ht2A27V1X2c@lists.linux.dev
+X-Gm-Message-State: AOJu0Yydl+nT51KX96lh44VkcFKn4nJFJumW6kcfcUA3NvERcaOvKgOW
+	kuBNXZSPPKVRIvD0vZvQKWcy8Rg+goj5ElSR9sYL4TotzolbB6+dc0mtDyMltfpD5KE=
+X-Gm-Gg: ASbGncsY4qZ8wWbkT2WGlw5Sx7Crg2jhdsBrmEGxRfLLylRdFIJt/mUbjDLfPAJ9nML
+	lQx/u+reQ1oHBgQbvYwvZi+066zQwug7y3F+svCbkl3VO9Tc7qwH9Sy35vgEPQTiHLL0hRO3IDA
+	j4gWlYThkDKh2IGGrG8Zido9MIrNlFVoFpu6cve6co+/YcVUNlYiaHbBlERCOeLlpQPsBscEM4L
+	3v80wEzymsdY3U7QPdkipnICBfqgHcjJU8KJZx2rVggIZiTzYEXRs4cneyvYoc3zMkcMKhlxXXG
+	QEpcEe4mOntz806BTNF+DH4p1V9IiF8Gz+dJu2EIcft7yIq53PmrQgKG5GU8VvYt1M3Y7lF2P82
+	x8O5RH8SPGMx67NEY/ysOkdYsFV7H3aiONNSXuNZqqrQAJKAFnTUzl/77uZpVrs+9X3/Qlu+zQV
+	ATgz4DpxoZNJwO5MT4CKQvJorcRsA=
+X-Google-Smtp-Source: AGHT+IH+SRQgfI4whxa9IoNU0Rarp9jo3DPA5bGSZXLbpbdHgT7D/SNsZlFT/IKmF36TzB+D3qSx9g==
+X-Received: by 2002:a05:600c:3b87:b0:477:a0dd:b2af with SMTP id 5b1f17b1804b1-477b19ed467mr21820495e9.33.1763556280815;
+        Wed, 19 Nov 2025 04:44:40 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a9d198a0sm41815345e9.1.2025.11.19.04.43.46
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a9deeb96sm40177305e9.4.2025.11.19.04.44.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:43:46 -0800 (PST)
-Date: Wed, 19 Nov 2025 15:43:43 +0300
+        Wed, 19 Nov 2025 04:44:40 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:44:36 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Peter Ziljstra <peterz@infradead.org>
-Subject: Re: [PATCH] sched/psi: Streamline the flow in psi_group_change
-Message-ID: <202511161642.NB7XYtH9-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 04/11] memory-tiers: Introduce SysRAM and Specific
+ Purpose Memory Nodes
+Message-ID: <202511161706.ZqNHM1XU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,120 +73,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251113122254.40445-1-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251112192936.2574429-5-gourry@gourry.net>
 
-Hi Tvrtko,
+Hi Gregory,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/sched-psi-Streamline-the-flow-in-psi_group_change/20251113-203009
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20251113122254.40445-1-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH] sched/psi: Streamline the flow in psi_group_change
-config: sh-randconfig-r071-20251115 (https://download.01.org/0day-ci/archive/20251116/202511161642.NB7XYtH9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-constify-oom_control-scan_control-and-alloc_context-nodemask/20251113-033247
+base:   24172e0d79900908cf5ebf366600616d29c9b417
+patch link:    https://lore.kernel.org/r/20251112192936.2574429-5-gourry%40gourry.net
+patch subject: [RFC PATCH v2 04/11] memory-tiers: Introduce SysRAM and Specific Purpose Memory Nodes
+config: x86_64-randconfig-161-20251116 (https://download.01.org/0day-ci/archive/20251116/202511161706.ZqNHM1XU-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511161642.NB7XYtH9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511161706.ZqNHM1XU-lkp@intel.com/
 
 smatch warnings:
-kernel/sched/psi.c:855 psi_group_change() error: uninitialized symbol 'state_mask'.
+mm/memory-tiers.c:737 mt_set_node_type() error: uninitialized symbol 'err'.
 
-vim +/state_mask +855 kernel/sched/psi.c
+vim +/err +737 mm/memory-tiers.c
 
-36b238d5717279 Johannes Weiner    2020-03-16  796  static void psi_group_change(struct psi_group *group, int cpu,
-3840cbe24cf060 Johannes Weiner    2024-10-03  797  			     unsigned int clear, unsigned int set,
-570c8efd5eb79c Peter Zijlstra     2025-05-23  798  			     u64 now, bool wake_clock)
-eb414681d5a07d Johannes Weiner    2018-10-26  799  {
-eb414681d5a07d Johannes Weiner    2018-10-26  800  	struct psi_group_cpu *groupc;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  801  	unsigned long t, m;
-71dbdde7914d32 Johannes Weiner    2022-08-26  802  	u32 state_mask;
-eb414681d5a07d Johannes Weiner    2018-10-26  803  
-ddae0ca2a8fe12 John Stultz        2024-06-18  804  	lockdep_assert_rq_held(cpu_rq(cpu));
-eb414681d5a07d Johannes Weiner    2018-10-26  805  	groupc = per_cpu_ptr(group->pcpu, cpu);
-eb414681d5a07d Johannes Weiner    2018-10-26  806  
-71dbdde7914d32 Johannes Weiner    2022-08-26  807  	/*
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  808  	 * TSK_ONCPU does not have a corresponding task count - it's just a
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  809  	 * boolean flag directly encoded in the state mask. Clear, set, or carry
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  810  	 * the current state if no changes are requested.
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  811  	 *
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  812  	 * The rest of the state mask is calculated based on the task counts.
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  813  	 * Update those first, then construct the mask.
-71dbdde7914d32 Johannes Weiner    2022-08-26  814  	 */
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  815  	m = clear;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  816  	for_each_set_bit(t, &m, ARRAY_SIZE(groupc->tasks)) {
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  817  		if (likely(groupc->tasks[t])) {
-9d10a13d1e4c34 Charan Teja Reddy  2021-04-16  818  			groupc->tasks[t]--;
-9d10a13d1e4c34 Charan Teja Reddy  2021-04-16  819  		} else if (!psi_bug) {
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  820  			printk_deferred(KERN_ERR "psi: task underflow! cpu=%d t=%lu tasks=[%u %u %u %u] clear=%x set=%x\n",
-eb414681d5a07d Johannes Weiner    2018-10-26  821  					cpu, t, groupc->tasks[0],
-eb414681d5a07d Johannes Weiner    2018-10-26  822  					groupc->tasks[1], groupc->tasks[2],
-71dbdde7914d32 Johannes Weiner    2022-08-26  823  					groupc->tasks[3], clear, set);
-eb414681d5a07d Johannes Weiner    2018-10-26  824  			psi_bug = 1;
-eb414681d5a07d Johannes Weiner    2018-10-26  825  		}
-eb414681d5a07d Johannes Weiner    2018-10-26  826  	}
-eb414681d5a07d Johannes Weiner    2018-10-26  827  
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  828  	m = set;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  829  	for_each_set_bit(t, &m, ARRAY_SIZE(groupc->tasks))
-eb414681d5a07d Johannes Weiner    2018-10-26  830  		groupc->tasks[t]++;
-eb414681d5a07d Johannes Weiner    2018-10-26  831  
-34f26a15611afb Chengming Zhou     2022-09-07  832  	if (!group->enabled) {
-34f26a15611afb Chengming Zhou     2022-09-07  833  		/*
-34f26a15611afb Chengming Zhou     2022-09-07  834  		 * On the first group change after disabling PSI, conclude
-34f26a15611afb Chengming Zhou     2022-09-07  835  		 * the current state and flush its time. This is unlikely
-34f26a15611afb Chengming Zhou     2022-09-07  836  		 * to matter to the user, but aggregation (get_recent_times)
-34f26a15611afb Chengming Zhou     2022-09-07  837  		 * may have already incorporated the live state into times_prev;
-34f26a15611afb Chengming Zhou     2022-09-07  838  		 * avoid a delta sample underflow when PSI is later re-enabled.
-34f26a15611afb Chengming Zhou     2022-09-07  839  		 */
-34f26a15611afb Chengming Zhou     2022-09-07  840  		if (unlikely(groupc->state_mask & (1 << PSI_NONIDLE)))
-34f26a15611afb Chengming Zhou     2022-09-07  841  			record_times(groupc, now);
-34f26a15611afb Chengming Zhou     2022-09-07  842  
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  843  		if (unlikely(clear & TSK_ONCPU))
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  844  			state_mask = 0;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  845  		else if (unlikely(set & TSK_ONCPU))
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  846  			state_mask = PSI_ONCPU;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  847  		else
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  848  			state_mask = groupc->state_mask & PSI_ONCPU;
-c6ccdabec91131 Tvrtko Ursulin     2025-11-13  849  
-34f26a15611afb Chengming Zhou     2022-09-07  850  		groupc->state_mask = state_mask;
-34f26a15611afb Chengming Zhou     2022-09-07  851  
-34f26a15611afb Chengming Zhou     2022-09-07  852  		return;
+6fee6292300e00 Gregory Price        2025-11-12  728  int mt_set_node_type(int node, int type)
+6fee6292300e00 Gregory Price        2025-11-12  729  {
+6fee6292300e00 Gregory Price        2025-11-12  730  	int err;
+6fee6292300e00 Gregory Price        2025-11-12  731  
+6fee6292300e00 Gregory Price        2025-11-12  732  	mutex_lock(&memory_tier_lock);
+6fee6292300e00 Gregory Price        2025-11-12  733  	if (type == MT_NODE_TYPE_SYSRAM)
+6fee6292300e00 Gregory Price        2025-11-12  734  		err = node_isset(node, mt_spm_nodelist) ? -EBUSY : 0;
+6fee6292300e00 Gregory Price        2025-11-12  735  	else if (type == MT_NODE_TYPE_SPM)
+6fee6292300e00 Gregory Price        2025-11-12  736  		err = node_isset(node, mt_sysram_nodelist) ? -EBUSY : 0;
 
-we return on this path where state_mask is set.
+err not initialized on else path.
 
-34f26a15611afb Chengming Zhou     2022-09-07  853  	}
-34f26a15611afb Chengming Zhou     2022-09-07  854  
-0ec208ce983492 Tvrtko Ursulin     2024-06-25 @855  	state_mask = test_states(groupc->tasks, state_mask);
-                                                                                                ^^^^^^^^^^
-state_mask is totally uninitialized here.
+6fee6292300e00 Gregory Price        2025-11-12 @737  	if (err)
+                                                            ^^^
 
-7fae6c8171d20a Chengming Zhou     2021-03-03  856  
-7fae6c8171d20a Chengming Zhou     2021-03-03  857  	/*
-7fae6c8171d20a Chengming Zhou     2021-03-03  858  	 * Since we care about lost potential, a memstall is FULL
-7fae6c8171d20a Chengming Zhou     2021-03-03  859  	 * when there are no other working tasks, but also when
-7fae6c8171d20a Chengming Zhou     2021-03-03  860  	 * the CPU is actively reclaiming and nothing productive
-7fae6c8171d20a Chengming Zhou     2021-03-03  861  	 * could run even if it were runnable. So when the current
-7fae6c8171d20a Chengming Zhou     2021-03-03  862  	 * task in a cgroup is in_memstall, the corresponding groupc
-7fae6c8171d20a Chengming Zhou     2021-03-03  863  	 * on that cpu is in PSI_MEM_FULL state.
-7fae6c8171d20a Chengming Zhou     2021-03-03  864  	 */
-71dbdde7914d32 Johannes Weiner    2022-08-26  865  	if (unlikely((state_mask & PSI_ONCPU) && cpu_curr(cpu)->in_memstall))
-7fae6c8171d20a Chengming Zhou     2021-03-03  866  		state_mask |= (1 << PSI_MEM_FULL);
-7fae6c8171d20a Chengming Zhou     2021-03-03  867  
-34f26a15611afb Chengming Zhou     2022-09-07  868  	record_times(groupc, now);
-34f26a15611afb Chengming Zhou     2022-09-07  869  
-33b2d6302abc4c Suren Baghdasaryan 2019-05-14  870  	groupc->state_mask = state_mask;
-33b2d6302abc4c Suren Baghdasaryan 2019-05-14  871  
-65457b74aa9437 Domenico Cerasuolo 2023-03-30  872  	if (state_mask & group->rtpoll_states)
-65457b74aa9437 Domenico Cerasuolo 2023-03-30  873  		psi_schedule_rtpoll_work(group, 1, false);
-36b238d5717279 Johannes Weiner    2020-03-16  874  
-36b238d5717279 Johannes Weiner    2020-03-16  875  	if (wake_clock && !delayed_work_pending(&group->avgs_work))
-36b238d5717279 Johannes Weiner    2020-03-16  876  		schedule_delayed_work(&group->avgs_work, PSI_FREQ);
-eb414681d5a07d Johannes Weiner    2018-10-26  877  }
+6fee6292300e00 Gregory Price        2025-11-12  738  		goto out;
+6fee6292300e00 Gregory Price        2025-11-12  739  
+6fee6292300e00 Gregory Price        2025-11-12  740  	if (type == MT_NODE_TYPE_SYSRAM)
+6fee6292300e00 Gregory Price        2025-11-12  741  		node_set(node, mt_sysram_nodelist);
+6fee6292300e00 Gregory Price        2025-11-12  742  	else if (type == MT_NODE_TYPE_SPM)
+6fee6292300e00 Gregory Price        2025-11-12  743  		node_set(node, mt_spm_nodelist);
+6fee6292300e00 Gregory Price        2025-11-12  744  	else
+6fee6292300e00 Gregory Price        2025-11-12  745  		err = -ENODEV;
+6fee6292300e00 Gregory Price        2025-11-12  746  out:
+6fee6292300e00 Gregory Price        2025-11-12  747  	mutex_unlock(&memory_tier_lock);
+6fee6292300e00 Gregory Price        2025-11-12  748  	return err;
+6fee6292300e00 Gregory Price        2025-11-12  749  }
 
 -- 
 0-DAY CI Kernel Test Service
