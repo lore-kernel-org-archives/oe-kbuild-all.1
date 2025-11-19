@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893A51509AB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 03:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CED611CAF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 03:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763522753; cv=none; b=c5Yn8Qfa7xZ1q8McOtpN78McA82HLNykokv5aAoRzQU9yQKiQNCRIl0M/MsufPa5n1zPk04ydtdnmGkjl+FXRJXXYYNYwg0RxCMN75elcor1kIRmFwDnXjnyNDPAv7YcszO3DavU2wjF9zy3K6vN/Dqfnq8C098HdLqVfLAOIkI=
+	t=1763522754; cv=none; b=cCS2upDBt87baGR11p2Euk7vOOJZdNPiJqxuluICkVKtrj2VVRSFwQxLkcKZwZCSyHB7+IicUTcALdq7FWc0dVa4iQQCG21Gb9DS2ISkI7Fjb0qwD4i2ajHiEbt+XSobUHYQixJw24D9kirVJLIBXDgvG4oDgYyog7aJUJk6RqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763522753; c=relaxed/simple;
-	bh=Awz63aDJvy1bG4l6wa7h57wgJ7ueWaU+5VcRubnw7QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q6sgka4BHxpe3vLBEL/dCX4kI0IBpcX8Rqib7COwutkI8I7SNk8vxjQVD8/uco8VpybhAlzo2lgA21u1o8FRGxePYiNUpOvZ1QZAu0FVgHGxFMn88Ki5Cf1ep/4h5jHe+l9/XnKyHpQYn30bxuRTVlRTEN4LhL6rMX7imfrJP5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5bJ7mtU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1763522754; c=relaxed/simple;
+	bh=BPf5i/Lp7nFs9XoGqVWZrlvAQlPia3cBuSHUPFmcbYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=isd788E4FE9sCTkAmtIggmD3OLPpHXMEGn6WxfmhcSup2srYq96Sc6B4ou7CNQqpRlAQpHJ+t5aCK363wLvk6jHqieeSsbyRNGMg316GMGa3uG78c52t1qBJhIvziYsgzKvmjfc7GKtAGHynQSXyOSt0hMS1IAiEnfDH6MK4KC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7YbTrfa; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5bJ7mtU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7YbTrfa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763522751; x=1795058751;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Awz63aDJvy1bG4l6wa7h57wgJ7ueWaU+5VcRubnw7QU=;
-  b=T5bJ7mtUPzkV3zUsD9rM25ooPeJAHfLwJGh7uRdaYGfmtaHgmP4KGart
-   HjGSjV1xteKgkJSZeMLcBuiALNExptHMU/7kDBnC4sholsIZ5kJBvxLWI
-   7SG2MOHT9kM+NgJogWSAUuEPws6zvlQHyqsplsg5dpKFKqDSRE4ZcmhXW
-   082gyVuVxzafaijHTSd0S+JjgfnG8ji0OL/P23RoeO1qgImftnIavKLab
-   G2/lYkur+U/ERTpZ+OOtc4jIVWq8irW4rv6kh8FCdTZpSZ4W0os60Hh4P
-   M29bW+Ih1A+7nnQnDYjGRuSSapWCCtCrEe4WyNRSFx4t/H7qEDdQW0DC8
+  t=1763522752; x=1795058752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BPf5i/Lp7nFs9XoGqVWZrlvAQlPia3cBuSHUPFmcbYE=;
+  b=I7YbTrfaTgug6VH58mp1tx6TyTcixT5haiTHTb9mMrzwde1Zp9cP51o2
+   U+rbd4iKv2B1XDYCLO8MEgv0bkZXWHVkFz/5qOJFc/kQ/DblRIz//TUTx
+   XX45i5xQLaHNEJT3tKdkC3EAcuu1NHdMWEfzpB5qLGGvLpecqwFWxh1xW
+   LtqBv3zlTAUYJdN2B/Dmd5pAKWYh11qiG4vhzrpn+YtmMsz5SCikLEM9Y
+   peRq5+UGmAN1bTi2nhKkpvKXe5A/U4427NESMYKqT+/2hmAp2ow3G9mVT
+   LrT++ZWo9k+8R4oH6YBF4iTum4ePGN7iadBlg7SrMe2Cpxfq4884AxYC8
    Q==;
-X-CSE-ConnectionGUID: CXaMlBd0R5aA6ik4BWy4rQ==
-X-CSE-MsgGUID: TO+j3EsuSU+Dd+JWAuYcww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="83182960"
+X-CSE-ConnectionGUID: m/vMIiekQDaHf49aEXTQBw==
+X-CSE-MsgGUID: vTNiflLKTVKj7rIeUfWmQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="68163320"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="83182960"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 19:25:51 -0800
-X-CSE-ConnectionGUID: gOYnvNhhRvaWSaQ0VxQlvw==
-X-CSE-MsgGUID: 4cxScp2HSUis2Lp2jSWFCg==
+   d="scan'208";a="68163320"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 19:25:52 -0800
+X-CSE-ConnectionGUID: iR9mrOyrQt2CN3zMzi8uRg==
+X-CSE-MsgGUID: M19PcOcSTYOL1ZF5Xb2b0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190204144"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 19:25:50 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2025 19:25:50 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLYpH-0002On-2U;
+	id 1vLYpH-0002Ol-2Q;
 	Wed, 19 Nov 2025 03:25:47 +0000
-Date: Wed, 19 Nov 2025 11:25:08 +0800
+Date: Wed, 19 Nov 2025 11:25:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 928/938]
- fs/bcachefs/data/compress.c:91:13: warning: 'bio_phys_contig' defined but
- not used
-Message-ID: <202511191104.SG9I2ACt-lkp@intel.com>
+To: Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrey.bokhanko@huawei.com,
+	edumazet@google.com,
+	Dmitry Skorodumov <skorodumov.dmitry@huawei.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next 04/13] ipvlan: Support IPv6 in macnat mode.
+Message-ID: <202511191026.AhVx4Zqc-lkp@intel.com>
+References: <20251118100046.2944392-5-skorodumov.dmitry@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +65,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251118100046.2944392-5-skorodumov.dmitry@huawei.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   d04553e82dc579b00db91a9bf53d148425c00f7e
-commit: 9d8c0abd05770eb55042839e565e3cf44302af44 [928/938] bcachefs: kill off bvec.bv_page uses
-config: arm-randconfig-004-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191104.SG9I2ACt-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191104.SG9I2ACt-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Skorodumov/ipvlan-Support-MACNAT-mode/20251118-180814
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251118100046.2944392-5-skorodumov.dmitry%40huawei.com
+patch subject: [PATCH net-next 04/13] ipvlan: Support IPv6 in macnat mode.
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20251119/202511191026.AhVx4Zqc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191026.AhVx4Zqc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511191104.SG9I2ACt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191026.AhVx4Zqc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/data/compress.c:91:13: warning: 'bio_phys_contig' defined but not used [-Wunused-function]
-      91 | static bool bio_phys_contig(struct bio *bio, struct bvec_iter start)
-         |             ^~~~~~~~~~~~~~~
+   drivers/net/ipvlan/ipvlan_core.c: In function 'ipvlan_macnat_xmit_phydev':
+>> drivers/net/ipvlan/ipvlan_core.c:343:25: warning: variable 'orig_skb' set but not used [-Wunused-but-set-variable]
+     343 |         struct sk_buff *orig_skb = skb;
+         |                         ^~~~~~~~
 
 
-vim +/bio_phys_contig +91 fs/bcachefs/data/compress.c
+vim +/orig_skb +343 drivers/net/ipvlan/ipvlan_core.c
 
-2fa23a10a54b61f fs/bcachefs/data/compress.c Kent Overstreet 2025-10-30   90  
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  @91  static bool bio_phys_contig(struct bio *bio, struct bvec_iter start)
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   92  {
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   93  	struct bio_vec bv;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   94  	struct bvec_iter iter;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   95  	void *expected_start = NULL;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   96  
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06   97  	__bio_for_each_bvec(bv, bio, iter, start) {
-9d8c0abd05770eb fs/bcachefs/data/compress.c Kent Overstreet 2025-11-17   98  		void *bv_addr = bvec_virt(&bv);
-9d8c0abd05770eb fs/bcachefs/data/compress.c Kent Overstreet 2025-11-17   99  
-9d8c0abd05770eb fs/bcachefs/data/compress.c Kent Overstreet 2025-11-17  100  		if (expected_start && expected_start != bv_addr)
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  101  			return false;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  102  
-9d8c0abd05770eb fs/bcachefs/data/compress.c Kent Overstreet 2025-11-17  103  		expected_start = bv_addr + bv.bv_len;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  104  	}
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  105  
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  106  	return true;
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  107  }
-c4dd7871ef71a73 fs/bcachefs/compress.c      Kent Overstreet 2020-05-06  108  
-
-:::::: The code at line 91 was first introduced by commit
-:::::: c4dd7871ef71a7327b6b3834e2cdf6777e03eb0a bcachefs: Some compression improvements
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  337  
+26dcd46025738d Dmitry Skorodumov 2025-11-18  338  static int ipvlan_macnat_xmit_phydev(struct ipvl_port *port,
+26dcd46025738d Dmitry Skorodumov 2025-11-18  339  				     struct sk_buff *skb,
+26dcd46025738d Dmitry Skorodumov 2025-11-18  340  				     bool lyr3h_valid,
+26dcd46025738d Dmitry Skorodumov 2025-11-18  341  				     void *lyr3h, int addr_type)
+26dcd46025738d Dmitry Skorodumov 2025-11-18  342  {
+26dcd46025738d Dmitry Skorodumov 2025-11-18 @343  	struct sk_buff *orig_skb = skb;
+26dcd46025738d Dmitry Skorodumov 2025-11-18  344  
+26dcd46025738d Dmitry Skorodumov 2025-11-18  345  	skb = skb_unshare(skb, GFP_ATOMIC);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  346  	if (!skb)
+26dcd46025738d Dmitry Skorodumov 2025-11-18  347  		return NET_XMIT_DROP;
+26dcd46025738d Dmitry Skorodumov 2025-11-18  348  
+26dcd46025738d Dmitry Skorodumov 2025-11-18  349  	/* Use eth-addr of main as source. */
+26dcd46025738d Dmitry Skorodumov 2025-11-18  350  	skb_reset_mac_header(skb);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  351  	ether_addr_copy(skb_eth_hdr(skb)->h_source, port->dev->dev_addr);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  352  
+26dcd46025738d Dmitry Skorodumov 2025-11-18  353  	if (!lyr3h_valid) {
+26dcd46025738d Dmitry Skorodumov 2025-11-18  354  		lyr3h = ipvlan_get_L3_hdr(port, skb, &addr_type);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  355  		orig_skb = skb; /* no need to reparse */
+26dcd46025738d Dmitry Skorodumov 2025-11-18  356  	}
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  357  	if (!lyr3h)
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  358  		addr_type = -1;
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  359  	else if (addr_type == IPVL_ARP)
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  360  		ipvlan_macnat_patch_tx_arp(port, skb);
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  361  	else if (addr_type == IPVL_ICMPV6 || addr_type == IPVL_IPV6)
+e9103e24d10046 Dmitry Skorodumov 2025-11-18  362  		ipvlan_macnat_patch_tx_ipv6(port, skb);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  363  
+26dcd46025738d Dmitry Skorodumov 2025-11-18  364  	skb->dev = port->dev;
+26dcd46025738d Dmitry Skorodumov 2025-11-18  365  	return dev_queue_xmit(skb);
+26dcd46025738d Dmitry Skorodumov 2025-11-18  366  }
+26dcd46025738d Dmitry Skorodumov 2025-11-18  367  
 
 -- 
 0-DAY CI Kernel Test Service
