@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849922D4806
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 21:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7103625C6EE;
+	Wed, 19 Nov 2025 21:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763586405; cv=none; b=DNSet6tXZf7We4miqWn8BeW1qhrOWd6qyWrw6PhRQo37w4kSHOFUOe49uHA8zTa6ehPXL8odL6lMQ/P7uHdeHxezTqQZWyDd4uLLiRmZuIczB0VhCKxwATxiXfB/5w1dRh5jpjywzuIV5C34ulIiSGcKc+n3/ed4dwIFa8DSZuc=
+	t=1763587605; cv=none; b=uLQPDwthFSGdqfJkHIfNtVsctgoQ3lHGIWg0ch9RRJ4W/Ph1puP21ngFfuTMEx/zeaZ36dRdSS8onfY/iN/F1YWvGiFJRGWyejtEh/AjNfUEzkpBJ3KGAGGzFORmoqb8h52bSIpikoI1AOHY+pIcmCUsLshllFqsMn8tlzraxAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763586405; c=relaxed/simple;
-	bh=wiW5Im+cSKrUpLwuFCugXLBn/QZFp+ixz0v54vet2DI=;
+	s=arc-20240116; t=1763587605; c=relaxed/simple;
+	bh=VXpb8c6Eyu0LfzAhaSbbq/3u6RZ8AeVIN2gukefPNcU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=szmml1wgGf5hyr/qC45dJx/+I5mgO4sAnCkFRtxinBBgXQQtizE2B/Io5Mm7WXmimDfInQ9LYw2eb8lczEu9uJfZj3WF+AEo2aZNPJ0RgBVmQJe46a0T2KkW8s/oNa007dUDZS6R05E9epxl9iuxo3gCYff3MpCg4Ix9oM8bLRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFpKbeTr; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=I9QzxC7+WdcnrZSiU2vqEJ069NP4YlO0pXpRXG5H0TWHu1mKbDmIay7WKoF2j/riklrWIUT8y/HHuEheXHVdsLDboBNNISjHvJ8kwKWa0oXwdT2daaI6e+qhTK4U4KnQOJ8WwmqX2RTqaa6eiX2jv/s1aaMkOjg7kn/bYKSv9PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoOglBXt; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFpKbeTr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoOglBXt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763586403; x=1795122403;
+  t=1763587604; x=1795123604;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wiW5Im+cSKrUpLwuFCugXLBn/QZFp+ixz0v54vet2DI=;
-  b=hFpKbeTr1y2frtjelZUGB191huWQo2eqvNV6a9FAhoTWVPcEupnY35Yf
-   cqa6rnovMKllm4Nk4rZN8IFXfazVlylYGo5vCKBy03LrKeyjaTFbj/Dnx
-   fsQHnkbdtK9DnsYYxTYLP8TI2+z2huHkn+c+2j/QwCFNkjgzH+t2do35F
-   M+OFzD5Uu/KAoo60f45AoxUBLz4PnkkfnoE1EURe2OAp5R6HnmA/c0xkx
-   SGa8ySkt4YKJgwRHoPMOVK+3dJpDjRyHgS1ZIpWKBQlcQXHpEpNoPrQyF
-   EF9BqX3h/3RBDCMqIP8LRDEdvIJLnM4rfwGjZL+c/XPB9T6iwxRLGixvU
+  bh=VXpb8c6Eyu0LfzAhaSbbq/3u6RZ8AeVIN2gukefPNcU=;
+  b=hoOglBXtGOkmRXpfMrR0iffGYSDdUxxlUTB1VUjbDnpBGuW6ZpHi9AaV
+   V2L5lSwSKNYkJhYUFOFjT3bLYiMluTDfR+NBNvncnwGVepI+qTmRHMjos
+   o5BjH9EjCwWGqiTYiblc5aoF9u88zCOYzHYf+J1mLVA5ju1QDWB2uJHzE
+   ck5E6JqlHxfs8YvU3AfJ5GUngulkO9OWwQXrPw/xq2eAcomlmGCJ02nyW
+   b4gYKBY93Z9oUAeXHKrEsSJgHHfo2QuEPtSz5KCvjyd0klpBuguXQD2oM
+   vuua7jmbAIsGitVW3ZHIL+zqMiQ6i2ejrdmF2eGb2/chRsWtURsHf+jDE
    A==;
-X-CSE-ConnectionGUID: /y5dK15rS1GrZO/GxnGaGQ==
-X-CSE-MsgGUID: cHSKb2vkTCKmy+aQlwKsDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65522706"
+X-CSE-ConnectionGUID: U74kVOmwSYSHZI9NAR127Q==
+X-CSE-MsgGUID: BvEbItiDRRGXhQrun0N9NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="88302639"
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="65522706"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 13:06:41 -0800
-X-CSE-ConnectionGUID: hIx+6T2aTfSWiTVBNXtbqg==
-X-CSE-MsgGUID: d/NUu+AkSNu9XwHBNLowfg==
+   d="scan'208";a="88302639"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 13:26:44 -0800
+X-CSE-ConnectionGUID: jeeDDt4ZQMux4XyBKTBL3g==
+X-CSE-MsgGUID: VR3E+WemQ9aDrw18UJDh4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="196121227"
+   d="scan'208";a="191198315"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2025 13:06:39 -0800
+  by orviesa007.jf.intel.com with ESMTP; 19 Nov 2025 13:26:42 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLpNt-0003KT-2H;
-	Wed, 19 Nov 2025 21:06:37 +0000
-Date: Thu, 20 Nov 2025 05:05:55 +0800
+	id 1vLphH-0003L5-0P;
+	Wed, 19 Nov 2025 21:26:39 +0000
+Date: Thu, 20 Nov 2025 05:26:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: [pci:pwrctrl-tc9563 5/5] undefined reference to
- `i2c_unregister_device'
-Message-ID: <202511200555.M4TX84jK-lkp@intel.com>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 169/175] ld.lld: error: undefined symbol:
+ shmem_uncharge
+Message-ID: <202511200534.o4hsMNEt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,31 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git pwrctrl-tc9563
-head:   72359837ad0d3f2cbc1364d1cba84357d6d38615
-commit: 72359837ad0d3f2cbc1364d1cba84357d6d38615 [5/5] PCI: pwrctrl: Add power control driver for TC9563
-config: alpha-randconfig-r054-20251120 (https://download.01.org/0day-ci/archive/20251120/202511200555.M4TX84jK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200555.M4TX84jK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   102494e6776f316b6cf2924976681d790f278cf1
+commit: 9a655bd0773b41af6d8515502de102544f3ec4c1 [169/175] mm-huge_memoryc-introduce-folio_split_unmapped-v2
+config: i386-buildonly-randconfig-002-20251119 (https://download.01.org/0day-ci/archive/20251120/202511200534.o4hsMNEt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200534.o4hsMNEt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511200555.M4TX84jK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511200534.o4hsMNEt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   alpha-linux-ld: alpha-linux-ld: DWARF error: could not find abbrev number 14070
-   drivers/pci/pwrctrl/pci-pwrctrl-tc9563.o: in function `tc9563_pwrctrl_remove':
->> (.text+0x4c): undefined reference to `i2c_unregister_device'
->> alpha-linux-ld: (.text+0x50): undefined reference to `i2c_unregister_device'
->> alpha-linux-ld: (.text+0x60): undefined reference to `i2c_put_adapter'
-   alpha-linux-ld: (.text+0x64): undefined reference to `i2c_put_adapter'
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/pci/pwrctrl/pci-pwrctrl-tc9563.c:351:2-3: Unneeded semicolon
-   drivers/pci/pwrctrl/pci-pwrctrl-tc9563.c:414:2-3: Unneeded semicolon
-   drivers/pci/pwrctrl/pci-pwrctrl-tc9563.c:316:2-3: Unneeded semicolon
+>> ld.lld: error: undefined symbol: shmem_uncharge
+   >>> referenced by huge_memory.c:4053 (mm/huge_memory.c:4053)
+   >>>               mm/huge_memory.o:(__folio_split) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
