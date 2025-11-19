@@ -1,92 +1,67 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0438935A12E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B6235581F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763555587; cv=none; b=iRNdsH2awUq8i4QaDmwoEGTzTcrDpi82Z7++Otl7ldOnZnor+zn5Td/iZSfXDhNWMpHcAFtOulgSdi5IWIx2T1BiSwaHFASJS6aaYIdMmlJuhmesJWKthTs8mXPYgER02kBNZxsvTIp6VnPeYXPF44/iGsdQm77tKSWHCR23rpE=
+	t=1763555691; cv=none; b=eI8d1juhZr+bhNLJpKpMxgkIu1BxlnzogBwc7NuMlx872yRfCzKFOfd0YHL3nfmoVGTmxw3llNyQsHQOWHlhlMOTS0w1cJSzBMOe3sd9X6mfV0LAQbGuAtwX35IznhrjooiFbiVOn368vgkTgqkGCnC90ZaD6tLr5udZdYhxaB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763555587; c=relaxed/simple;
-	bh=h5hE7JIAPU5pXe6K4zFsETPItlQfALgrvHbOOEg4bic=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=dfO5fZrAj5O8h6Sx68kVPTptbosUsqo6ClzZPdO3wCoq5moV/ZbsAzGka8z3nCSRx9I4ufqbINlNhmjhmpWSLAMEdFtpmzcCj1R6jwmGuEjQWsgNPBFkfaLiAruKf5BTjfR3oFRDiL6bCIYMAuWhKhAWbjxyzRo75QwlvdXCh2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rusD6656; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763555691; c=relaxed/simple;
+	bh=iP0th/Ivf2/tis71kTz1hzdFd59Z0ymqvykIAn3v5nc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sZFjfgF4B23m5xhvFQ6V/CSE6Kz5dHJLc2KuF3Vrg+z4nNf8PTgGoS/9ig8arLP57wbyXdEYcAnqVW9l5sHNRnIASBfIX+ozG1ELeDq65m6FPht80UN4Va7Y9h//rHm8AU5gj7iXMVQ71WiQ9jCv77K1uu8KYIR0+LKEHIksdNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKsD/rkb; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rusD6656"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so3442219f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:33:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763555582; x=1764160382; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
-        b=rusD6656EfPX/UPHdTgaD53cNcrjek3aO/vNXS/1f7mI9+p0b2H5MSUI4bdiqL3W+F
-         /katDl2jdhdqAASBpbYfj0dJjLlom82YQ1OSOCo8ReM2Spz27eVeA0SJCSSyF5bdBj9H
-         9hqx97a8rE/HMxBuV7DqNn4ikQwlFZn+I/UTWxF/5UlUn8wWZ/4FVi56Lfl/dHvgxJtk
-         KK8TyyvKXKIaifgTxG+IIOrYPgO3c/wWevN7SG/IfPrk2DC8KcCb+WZvkXLqN3LEWBPr
-         OHv/FB90PBQUt2JHqO2fLAR5z6ZabAwQYCOXakXiJ0z8myka826/EidkcFOs50U1RNgW
-         Z1ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763555582; x=1764160382;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
-        b=eD8oBwgeO4fHsOJzPaVXZz1+us8b7X8bI7xaiwfhChSPTGunK3znpXzQH09TtcfJab
-         31vt6mxDamv3l4HVsmjLQGFCUelYK1muo5757YMkyre03LGG0fiGgOSOFYBZkREKm1tD
-         5Wv+706MC6wJ5bfMzE87uDyfErScV83svsuXfPtG7u8/bE2O7hzZQWgSxgMiTapBhX/1
-         mi9tsohWy5Qg0poc4K+6ih08FObI3kfQl/BKv/O9MItjlS15EBGg2CzCnuEjCzv6981/
-         L+XXr2c0oi56t32i1BZF0lUfTSP1WebXDlEuApmo13PM2aQRr9exOMpOauK/CEdLujsO
-         vKPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWRfDP9votVz+lwnxQGzlQpRuzWtuNhpEoJrmZ9SmtXSldiveBc9JGUUy3MRmsjDOxQjh/F0K3HKG95mEOX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2NXrR5J8pKwY7N9f5S3EvT+UG+P9dHbKy9CPYs54zy0V4N7G2
-	hhEENOnLNDzG4D0ejL5ZDQBVdmODq6KTlazWq0GNGo3b1taRbBk1Rv086iLkT67fWnA=
-X-Gm-Gg: ASbGncueA0WbekPm9/a0xYZbyOkPUb0b3TlLdjZASnafewrJC+qAnO9qpETDJfcmK89
-	4kBcFHtF58xcAheui7vnCwNpzSzoVULjWJZvBeTGeCxT2VmYJS+Wdk4zYCpFS7fy/lTZQmu5Nfs
-	+BGYX2RyKY/C2PVkpLScyn1S3+I/OV2OIA3LQ69vW6x2+bfS8r3DxssUzOSzv5hv+unrM7toSdp
-	snczuSwJq2gO7gwIo0g7lO0vz6k+cdthJj0W6I4pFK3nUvUmXKj9DEVs5iswns0pExV5jA0W0ya
-	UOs8C0VgDY9JzbKiZCRN4QqETlzScW2n9gqcsbm0T9/9JwI9tqpfFFCidRkphQQ7MLEtid6XU0J
-	jw5GiNTpZB4tC/qPjy26eq66OyLCQbgxdasUzlULIBZExisFsPq6wRdXmR24SZob9Ee+YH7XpSr
-	zVdzli+kUd7IIq7LXK9UHU+Sqjsrs=
-X-Google-Smtp-Source: AGHT+IGX99Lme1dSXVbOZlFEGGelrzxBBzInRwek/nqf1UQyJWFcp3FI0tP47t+mBlkjZGEp/hXjJg==
-X-Received: by 2002:a5d:5d0a:0:b0:42b:3062:c647 with SMTP id ffacd0b85a97d-42cb1f387bemr2370775f8f.21.1763555581987;
-        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42c961f6e64sm24385786f8f.27.2025.11.19.04.33.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
-Date: Wed, 19 Nov 2025 15:32:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Balbir Singh <balbirs@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-Message-ID: <202511151216.rhK2ItOb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKsD/rkb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763555690; x=1795091690;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iP0th/Ivf2/tis71kTz1hzdFd59Z0ymqvykIAn3v5nc=;
+  b=CKsD/rkb9A/1v9/YuyUdhSqtVKQkDtX2jvM4CkD61WzQ27ENX1Z3tObo
+   qG37hlxX6ngTr2z897t8K2VfKvNxDHZPyt+ORVLnhWHHHOyfyMn0n6NnZ
+   BI8aFKBo9Dw016jtG1McNxyQNup9zaBal8y1tCawNsWU4YEVPKdbiy0bn
+   DrCW5eFCfyGQ8LzXNb7P9QOi2sKyMXcu1bImZQT7hSBkXajul8TBhz6hb
+   ucdboks7DuCDyES4fZwgqaZO++04WcC3UYxr2+lQHUOHLMLUa24uYwM0p
+   kFRQF8Z72JFvl55nVzcWWDO0qClPwTLwnSPd6B7w9xK4hM/2LSSVk30Jx
+   g==;
+X-CSE-ConnectionGUID: eiwShCt/S3qAbDhc5Z2bpQ==
+X-CSE-MsgGUID: nTHEuVS6Sce2tcnGRpetqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65751407"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="65751407"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 04:34:50 -0800
+X-CSE-ConnectionGUID: qs2UXLbDThSnvllpcN/qSw==
+X-CSE-MsgGUID: ywjHJ6cRR7iqsdsNPUL14g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="228385527"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 Nov 2025 04:34:46 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLhOU-0002sV-37;
+	Wed, 19 Nov 2025 12:34:42 +0000
+Date: Wed, 19 Nov 2025 20:34:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hao-Wen Ting <haowen.ting@realtek.com>, daniel.lezcano@linaro.org,
+	tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, jinn.cheng@realtek.com,
+	edwardwu@realtek.com, phelic@realtek.com,
+	shawn.huang724@realtek.com, haowen.ting@realtek.com,
+	cy.huang@realtek.com, james.tai@realtek.com, cylee12@realtek.com,
+	phinex@realtek.com, conor+dt@kernel.org, krzk+dt@kernel.org,
+	robh@kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stanley_chang@realtek.com
+Subject: Re: [PATCH v3 2/2] clocksource: Add Realtek systimer as tick
+ broadcast driver
+Message-ID: <202511192029.jlDLXPI0-lkp@intel.com>
+References: <20251117073408.428190-3-haowen.ting@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -95,229 +70,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251114012228.2634882-1-balbirs@nvidia.com>
+In-Reply-To: <20251117073408.428190-3-haowen.ting@realtek.com>
 
-Hi Balbir,
+Hi Hao-Wen,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
-patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151216.rhK2ItOb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+[auto build test ERROR on 948b99877bf5a1cd58bee930e455b7574daba5c3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hao-Wen-Ting/dt-bindings-timer-Add-Realtek-SYSTIMER/20251117-153806
+base:   948b99877bf5a1cd58bee930e455b7574daba5c3
+patch link:    https://lore.kernel.org/r/20251117073408.428190-3-haowen.ting%40realtek.com
+patch subject: [PATCH v3 2/2] clocksource: Add Realtek systimer as tick broadcast driver
+config: arm-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192029.jlDLXPI0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192029.jlDLXPI0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511151216.rhK2ItOb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511192029.jlDLXPI0-lkp@intel.com/
 
-smatch warnings:
-mm/huge_memory.c:4044 __folio_split() error: uninitialized symbol 'end'.
-mm/huge_memory.c:4052 __folio_split() error: we previously assumed 'mapping' could be null (see line 4046)
+All errors (new ones prefixed by >>):
 
-vim +/end +4044 mm/huge_memory.c
+   arm-linux-gnueabi-ld: drivers/clocksource/timer-realtek.o: in function `rtk_syst_clkevt_next_ktime':
+>> drivers/clocksource/timer-realtek.c:79: undefined reference to `__aeabi_ldivmod'
+>> arm-linux-gnueabi-ld: drivers/clocksource/timer-realtek.c:86: undefined reference to `__aeabi_ldivmod'
 
-6384dd1d18de7b Zi Yan                  2025-03-07  3908  static int __folio_split(struct folio *folio, unsigned int new_order,
-58729c04cf1092 Zi Yan                  2025-03-07  3909  		struct page *split_at, struct page *lock_at,
-f6b1f167ffe29f Balbir Singh            2025-11-14  3910  		struct list_head *list, enum split_type split_type)
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3911  {
-58729c04cf1092 Zi Yan                  2025-03-07  3912  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
-6c7de9c83be68b Zi Yan                  2025-07-18  3913  	struct folio *end_folio = folio_next(folio);
-5d65c8d758f259 Barry Song              2024-08-24  3914  	bool is_anon = folio_test_anon(folio);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3915  	struct address_space *mapping = NULL;
-5d65c8d758f259 Barry Song              2024-08-24  3916  	struct anon_vma *anon_vma = NULL;
-8ec26327c18e1d Wei Yang                2025-10-10  3917  	int old_order = folio_order(folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  3918  	struct folio *new_folio, *next;
-391dc7f40590d7 Zi Yan                  2025-07-18  3919  	int nr_shmem_dropped = 0;
-391dc7f40590d7 Zi Yan                  2025-07-18  3920  	int remap_flags = 0;
-504e070dc08f75 Yang Shi                2021-06-15  3921  	int extra_pins, ret;
-006d3ff27e884f Hugh Dickins            2018-11-30  3922  	pgoff_t end;
-478d134e9506c7 Xu Yu                   2022-04-28  3923  	bool is_hzp;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3924  
-714b056c832106 Zi Yan                  2025-07-17  3925  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-714b056c832106 Zi Yan                  2025-07-17  3926  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3927  
-58729c04cf1092 Zi Yan                  2025-03-07  3928  	if (folio != page_folio(split_at) || folio != page_folio(lock_at))
-1412ecb3d256e5 Zi Yan                  2024-03-07  3929  		return -EINVAL;
-1412ecb3d256e5 Zi Yan                  2024-03-07  3930  
-8ec26327c18e1d Wei Yang                2025-10-10  3931  	if (new_order >= old_order)
-c010d47f107f60 Zi Yan                  2024-02-26  3932  		return -EINVAL;
-58729c04cf1092 Zi Yan                  2025-03-07  3933  
-aa27253af32c74 Wei Yang                2025-11-06  3934  	if (!folio_split_supported(folio, new_order, split_type, /* warn = */ true))
-6a50c9b512f773 Ran Xiaokai             2024-06-07  3935  		return -EINVAL;
-c010d47f107f60 Zi Yan                  2024-02-26  3936  
-5beaee54a324ba Matthew Wilcox (Oracle  2024-03-26  3937) 	is_hzp = is_huge_zero_folio(folio);
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3938  	if (is_hzp) {
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3939  		pr_warn_ratelimited("Called split_huge_page for huge zero page\n");
-478d134e9506c7 Xu Yu                   2022-04-28  3940  		return -EBUSY;
-4737edbbdd4958 Naoya Horiguchi         2023-04-06  3941  	}
-478d134e9506c7 Xu Yu                   2022-04-28  3942  
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3943) 	if (folio_test_writeback(folio))
-59807685a7e77e Ying Huang              2017-09-06  3944  		return -EBUSY;
-59807685a7e77e Ying Huang              2017-09-06  3945  
-5d65c8d758f259 Barry Song              2024-08-24  3946  	if (is_anon) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3947  		/*
-c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  3948  		 * The caller does not necessarily hold an mmap_lock that would
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3949  		 * prevent the anon_vma disappearing so we first we take a
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3950  		 * reference to it and then lock the anon_vma for write. This
-2f031c6f042cb8 Matthew Wilcox (Oracle  2022-01-29  3951) 		 * is similar to folio_lock_anon_vma_read except the write lock
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3952  		 * is taken to serialise against parallel split or collapse
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3953  		 * operations.
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3954  		 */
-29eea9b5a9c9ec Matthew Wilcox (Oracle  2022-09-02  3955) 		anon_vma = folio_get_anon_vma(folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3956  		if (!anon_vma) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3957  			ret = -EBUSY;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3958  			goto out;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3959  		}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3960  		anon_vma_lock_write(anon_vma);
-3d4c0d98eb8572 Balbir Singh            2025-10-01  3961  		mapping = NULL;
 
-end is not initialized for anonymous folios.
+vim +79 drivers/clocksource/timer-realtek.c
 
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3962  	} else {
-e220917fa50774 Luis Chamberlain        2024-08-22  3963  		unsigned int min_order;
-6a3edd29395631 Yin Fengwei             2022-08-10  3964  		gfp_t gfp;
-6a3edd29395631 Yin Fengwei             2022-08-10  3965  
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3966) 		mapping = folio->mapping;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3967  
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3968  		/* Truncated ? */
-6384dd1d18de7b Zi Yan                  2025-03-07  3969  		/*
-6384dd1d18de7b Zi Yan                  2025-03-07  3970  		 * TODO: add support for large shmem folio in swap cache.
-6384dd1d18de7b Zi Yan                  2025-03-07  3971  		 * When shmem is in swap cache, mapping is NULL and
-6384dd1d18de7b Zi Yan                  2025-03-07  3972  		 * folio_test_swapcache() is true.
-6384dd1d18de7b Zi Yan                  2025-03-07  3973  		 */
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3974  		if (!mapping) {
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3975  			ret = -EBUSY;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3976  			goto out;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3977  		}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  3978  
-e220917fa50774 Luis Chamberlain        2024-08-22  3979  		min_order = mapping_min_folio_order(folio->mapping);
-e220917fa50774 Luis Chamberlain        2024-08-22  3980  		if (new_order < min_order) {
-e220917fa50774 Luis Chamberlain        2024-08-22  3981  			ret = -EINVAL;
-e220917fa50774 Luis Chamberlain        2024-08-22  3982  			goto out;
-e220917fa50774 Luis Chamberlain        2024-08-22  3983  		}
-e220917fa50774 Luis Chamberlain        2024-08-22  3984  
-6a3edd29395631 Yin Fengwei             2022-08-10  3985  		gfp = current_gfp_context(mapping_gfp_mask(mapping) &
-6a3edd29395631 Yin Fengwei             2022-08-10  3986  							GFP_RECLAIM_MASK);
-6a3edd29395631 Yin Fengwei             2022-08-10  3987  
-0201ebf274a306 David Howells           2023-06-28  3988  		if (!filemap_release_folio(folio, gfp)) {
-6a3edd29395631 Yin Fengwei             2022-08-10  3989  			ret = -EBUSY;
-6a3edd29395631 Yin Fengwei             2022-08-10  3990  			goto out;
-6a3edd29395631 Yin Fengwei             2022-08-10  3991  		}
-6a3edd29395631 Yin Fengwei             2022-08-10  3992  
-3c844d850e4486 Wei Yang                2025-11-06  3993  		if (split_type == SPLIT_TYPE_UNIFORM) {
-58729c04cf1092 Zi Yan                  2025-03-07  3994  			xas_set_order(&xas, folio->index, new_order);
-8ec26327c18e1d Wei Yang                2025-10-10  3995  			xas_split_alloc(&xas, folio, old_order, gfp);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3996) 			if (xas_error(&xas)) {
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3997) 				ret = xas_error(&xas);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3998) 				goto out;
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3999) 			}
-58729c04cf1092 Zi Yan                  2025-03-07  4000  		}
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4001) 
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4002  		anon_vma = NULL;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4003  		i_mmap_lock_read(mapping);
-006d3ff27e884f Hugh Dickins            2018-11-30  4004  
-006d3ff27e884f Hugh Dickins            2018-11-30  4005  		/*
-58729c04cf1092 Zi Yan                  2025-03-07  4006  		 *__split_unmapped_folio() may need to trim off pages beyond
-58729c04cf1092 Zi Yan                  2025-03-07  4007  		 * EOF: but on 32-bit, i_size_read() takes an irq-unsafe
-58729c04cf1092 Zi Yan                  2025-03-07  4008  		 * seqlock, which cannot be nested inside the page tree lock.
-58729c04cf1092 Zi Yan                  2025-03-07  4009  		 * So note end now: i_size itself may be changed at any moment,
-58729c04cf1092 Zi Yan                  2025-03-07  4010  		 * but folio lock is good enough to serialize the trimming.
-006d3ff27e884f Hugh Dickins            2018-11-30  4011  		 */
-006d3ff27e884f Hugh Dickins            2018-11-30  4012  		end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
-d144bf6205342a Hugh Dickins            2021-09-02  4013  		if (shmem_mapping(mapping))
-d144bf6205342a Hugh Dickins            2021-09-02  4014  			end = shmem_fallocend(mapping->host, end);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4015  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4016  
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4017  	/*
-684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4018) 	 * Racy check if we can split the page, before unmap_folio() will
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4019  	 * split PMDs
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4020  	 */
-8710f6ed34e7bc David Hildenbrand       2024-08-02  4021  	if (!can_split_folio(folio, 1, &extra_pins)) {
-fd4a7ac32918d3 Baolin Wang             2022-10-24  4022  		ret = -EAGAIN;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4023  		goto out_unlock;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4024  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4025  
-684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4026) 	unmap_folio(folio);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4027  
-b6769834aac1d4 Alex Shi                2020-12-15  4028  	/* block interrupt reentry in xa_lock and spinlock */
-b6769834aac1d4 Alex Shi                2020-12-15  4029  	local_irq_disable();
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4030  	if (mapping) {
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4031  		/*
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4032) 		 * Check if the folio is present in page cache.
-3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4033) 		 * We assume all tail are present too, if folio is there.
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4034  		 */
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4035) 		xas_lock(&xas);
-6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4036) 		xas_reset(&xas);
-391dc7f40590d7 Zi Yan                  2025-07-18  4037  		if (xas_load(&xas) != folio) {
-391dc7f40590d7 Zi Yan                  2025-07-18  4038  			ret = -EAGAIN;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4039  			goto fail;
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4040  		}
-391dc7f40590d7 Zi Yan                  2025-07-18  4041  	}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4042  
-f6b1f167ffe29f Balbir Singh            2025-11-14  4043  	ret = __folio_freeze_and_split_unmapped(folio, new_order, split_at, &xas, mapping,
-f6b1f167ffe29f Balbir Singh            2025-11-14 @4044  						true, list, split_type, end, extra_pins);
-                                                                                                                                ^^^
-Passing uninitialized variables isn't allowed unless the function is
-inlined.  It triggers a UBSan warning at runtime as well.
-
-391dc7f40590d7 Zi Yan                  2025-07-18  4045  fail:
-6c7de9c83be68b Zi Yan                  2025-07-18 @4046  	if (mapping)
-6c7de9c83be68b Zi Yan                  2025-07-18  4047  		xas_unlock(&xas);
-6c7de9c83be68b Zi Yan                  2025-07-18  4048  
-6c7de9c83be68b Zi Yan                  2025-07-18  4049  	local_irq_enable();
-6c7de9c83be68b Zi Yan                  2025-07-18  4050  
-391dc7f40590d7 Zi Yan                  2025-07-18  4051  	if (nr_shmem_dropped)
-391dc7f40590d7 Zi Yan                  2025-07-18 @4052  		shmem_uncharge(mapping->host, nr_shmem_dropped);
-
-Smatch complains that mapping can be NULL, but this is false positive
-because nr_shmem_dropped is always zero.
-
-6c7de9c83be68b Zi Yan                  2025-07-18  4053  
-958fea4c1e2eb6 Balbir Singh            2025-10-01  4054  	if (!ret && is_anon && !folio_is_device_private(folio))
-391dc7f40590d7 Zi Yan                  2025-07-18  4055  		remap_flags = RMP_USE_SHARED_ZEROPAGE;
-958fea4c1e2eb6 Balbir Singh            2025-10-01  4056  
-8ec26327c18e1d Wei Yang                2025-10-10  4057  	remap_page(folio, 1 << old_order, remap_flags);
-6c7de9c83be68b Zi Yan                  2025-07-18  4058  
-6c7de9c83be68b Zi Yan                  2025-07-18  4059  	/*
-6c7de9c83be68b Zi Yan                  2025-07-18  4060  	 * Unlock all after-split folios except the one containing
-6c7de9c83be68b Zi Yan                  2025-07-18  4061  	 * @lock_at page. If @folio is not split, it will be kept locked.
-6c7de9c83be68b Zi Yan                  2025-07-18  4062  	 */
-391dc7f40590d7 Zi Yan                  2025-07-18  4063  	for (new_folio = folio; new_folio != end_folio; new_folio = next) {
-6c7de9c83be68b Zi Yan                  2025-07-18  4064  		next = folio_next(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4065  		if (new_folio == page_folio(lock_at))
-6c7de9c83be68b Zi Yan                  2025-07-18  4066  			continue;
-6c7de9c83be68b Zi Yan                  2025-07-18  4067  
-6c7de9c83be68b Zi Yan                  2025-07-18  4068  		folio_unlock(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4069  		/*
-6c7de9c83be68b Zi Yan                  2025-07-18  4070  		 * Subpages may be freed if there wasn't any mapping
-6c7de9c83be68b Zi Yan                  2025-07-18  4071  		 * like if add_to_swap() is running on a lru page that
-6c7de9c83be68b Zi Yan                  2025-07-18  4072  		 * had its mapping zapped. And freeing these pages
-6c7de9c83be68b Zi Yan                  2025-07-18  4073  		 * requires taking the lru_lock so we do the put_page
-6c7de9c83be68b Zi Yan                  2025-07-18  4074  		 * of the tail pages after the split is complete.
-6c7de9c83be68b Zi Yan                  2025-07-18  4075  		 */
-6c7de9c83be68b Zi Yan                  2025-07-18  4076  		free_folio_and_swap_cache(new_folio);
-6c7de9c83be68b Zi Yan                  2025-07-18  4077  	}
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4078  
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4079  out_unlock:
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4080  	if (anon_vma) {
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4081  		anon_vma_unlock_write(anon_vma);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4082  		put_anon_vma(anon_vma);
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4083  	}
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4084  	if (mapping)
-baa355fd331424 Kirill A. Shutemov      2016-07-26  4085  		i_mmap_unlock_read(mapping);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4086  out:
-69a37a8ba1b408 Matthew Wilcox (Oracle  2022-06-08  4087) 	xas_destroy(&xas);
-8ec26327c18e1d Wei Yang                2025-10-10  4088  	if (old_order == HPAGE_PMD_ORDER)
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4089  		count_vm_event(!ret ? THP_SPLIT_PAGE : THP_SPLIT_PAGE_FAILED);
-8ec26327c18e1d Wei Yang                2025-10-10  4090  	count_mthp_stat(old_order, !ret ? MTHP_STAT_SPLIT : MTHP_STAT_SPLIT_FAILED);
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4091  	return ret;
-e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4092  }
+    71	
+    72	static int rtk_syst_clkevt_next_ktime(ktime_t expires,
+    73					      struct clock_event_device *clkevt)
+    74	{
+    75		u64 cmp_val;
+    76		unsigned long flags;
+    77		ktime_t now = ktime_get();
+    78		s64 delta_ns = ktime_to_ns(ktime_sub(expires, now));
+  > 79		u64 delta_us = delta_ns / 1000;
+    80	
+    81		pr_debug("delta_ns = %lld, clkevt.min_delta_ns = %llu\n",
+    82			 delta_ns, clkevt->min_delta_ns);
+    83	
+    84		if (delta_ns <= (s64)clkevt->min_delta_ns) {
+    85			delta_ns = clkevt->min_delta_ns;
+  > 86			delta_us = delta_ns / 1000;
+    87			pr_debug("Clamping delta_ns to min_delta_ns\n");
+    88		}
+    89	
+    90		rtk_cmp_en_write(DSBL);
+    91		local_irq_save(flags);
+    92		cmp_val = rtk_ts64_read();
+    93	
+    94		/* Set CMP value to current timestamp plus delta_us */
+    95		rtk_cmp_value_write(cmp_val + delta_us);
+    96		rtk_cmp_en_write(ENBL);
+    97		local_irq_restore(flags);
+    98		return 0;
+    99	}
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
