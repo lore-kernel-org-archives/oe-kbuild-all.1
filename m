@@ -1,66 +1,58 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7419351FC9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C04357A38
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763553952; cv=none; b=ADzCa2fjvI6re0mrMP9nxVoDcsS10bfhsOIoUSBJeNF1w0BaV1v1d8DAt26ituxvTkys9O6ngrT/8HmQmphSjDjHVxDkXA05HWxbD2Pxcc0gEYWCfVmhO/23Wnyo101CvwlvO4NCiKHnAgG780LKG2NVpCWBCEyeBgVwfEMkRho=
+	t=1763554368; cv=none; b=JwJ6kM+FK+nM6SbRxIWGjlZFF47B+X/h9hKbNlFPvpdZ36gaAd9tSyU+KZbsEtPOY4XBnLj5kPCtsmi5nBYqT6dXMplVyJcJKs5EYL0nqV3+fAhaI7VUPyDYIbCAT4Gq/RK6d31O7sI4J4v8DaUIfINRU1CgEqXU2QZw9XPnWZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763553952; c=relaxed/simple;
-	bh=YQIXocJWLjE23UmwGMTTDN9vBUMzKcjTEMaqbrtGYns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MaHmzYdxm6UfstxeAi5lzItG/FeNdLd5AGKGK09223cdjqkl4PMVULH2B3DrK29wStDMdo6uYSeYPZ7e/f3CtIdBxFXTSKccCIIWgwRCmoMCYIV8HgiKlWnR01y9shAXVkUddlO25j85W+vqXeJLpdGmT+bmhZRqx0YFuERce4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=E8Phpejb; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1763554368; c=relaxed/simple;
+	bh=cepeMUzN314aypj+77UHm8Lx1ORDn39tPxaieZyc4YI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oLfHtFmHupGwnSIE2ulNQw+sdH8iChOAvj6JpKH5skHYIB2v64ehYfuAEeocOwYcKEsnKJEYYiUHqSsHnsWZ2x3wjJYH+YvagiqgKy9zGQ06vDoPBWnNMux0n66HR+NKwxT562TlQtJ9G7jyTCSLLWihlI3VxjKZFF0yIPokgos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9e2cQIt; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="E8Phpejb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=kJLLRtLaE+q5AKVpSbDI+hx+g5sauSVCf6YEjCe8MqQ=; b=E8PhpejbjTgZ3YcqJ9E5C197aD
-	jMHw+S3SvTuSzt5qiprDdr7hfUXJnvgi2ApPK9KgEbt+ZJYgL3Tj/hvQ1/AkXa5xUOGCvgYVYdPP2
-	VgPB9OQJurr6cDq60MUGemrCoKDniVxgy6Ca00kZJOwastj+ScE6m0xJ87mdkAUTHv3EswvQevtOL
-	FLdA6aKpe4MK7FkiYBvT5AFCdAIh+/KQehRPjhfETncMzEO/mYejBi44EMpaKv+A0MbGo6oQ40BbS
-	N6TjqvVfa09C7PyNsYrjRIbFFy0HdXQIIgXKFLqMTc7TArLbi3cCj644Tf05FSck3R+C1Ns4pyviB
-	aKDk22MA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:40040)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vLgwT-000000004fK-1uiB;
-	Wed, 19 Nov 2025 12:05:45 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vLgwR-000000003OW-1nrT;
-	Wed, 19 Nov 2025 12:05:43 +0000
-Date: Wed, 19 Nov 2025 12:05:43 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 14/15] net: dsa: sja1105: replace mdiobus-pcs
- with xpcs-plat driver
-Message-ID: <aR2yl-ZZ-QGnnmTV@shell.armlinux.org.uk>
-References: <20251118190530.580267-15-vladimir.oltean@nxp.com>
- <20251118190530.580267-15-vladimir.oltean@nxp.com>
- <202511191835.rwfD48SW-lkp@intel.com>
- <202511191835.rwfD48SW-lkp@intel.com>
- <20251119120111.voyy7rmy4mk444wo@skbuf>
- <aR2yEf04Pv-CZi1U@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9e2cQIt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763554365; x=1795090365;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cepeMUzN314aypj+77UHm8Lx1ORDn39tPxaieZyc4YI=;
+  b=R9e2cQItWuMKoUnS/pTMg3GPr9HmBsksWUb/ieDLogzcKn5vTpVUG65S
+   +o+n3dIChEFEQR7Ljw2OoThTxAxLN9Vxgdy0D3m9D25b9n5Kpy8m7QJP4
+   FinIBtQUq1s/qh8yCdwrvGmzmDsPUnXpSN0yagblBjjBDVrNOQgPphXRJ
+   hyoXOuRuNAEboK19Z5IJ9ioFr/MfCtmVi2xVcMYJQhqWyM2r0ZekiitVv
+   fINBl8DE+hXBMlR+AD8CEsGLcLE48R21Xbqaq9R1N5ScD8o5pI/2g5G63
+   woEq1RoMVMi6puVUKhg1QOd1Ue2exJaJTiU4Y41aje6AS4ZsYIffmjaNs
+   w==;
+X-CSE-ConnectionGUID: EOs1SdDHQTqBB7+ZxqOnwg==
+X-CSE-MsgGUID: CyMovcLtR2ysz9v6njWFCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="75917377"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="75917377"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 04:12:44 -0800
+X-CSE-ConnectionGUID: lHxnkPc8SLejhdz2NxkJrA==
+X-CSE-MsgGUID: L6iepiNNRNy6BLfq4SdEnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="190306873"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 19 Nov 2025 04:12:43 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLh3B-0002rl-0b;
+	Wed, 19 Nov 2025 12:12:41 +0000
+Date: Wed, 19 Nov 2025 20:12:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3278/3278] include/linux/xsched.h:309:28: error:
+ array type has incomplete element type 'struct cgroup_file'
+Message-ID: <202511192040.YIPXCVFH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,35 +61,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aR2yEf04Pv-CZi1U@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Nov 19, 2025 at 12:03:29PM +0000, Russell King (Oracle) wrote:
-> On Wed, Nov 19, 2025 at 02:01:11PM +0200, Vladimir Oltean wrote:
-> > I do wonder how to print resource_size_t (typedef to phys_addr_t, which
-> > is typedeffed to u64 or u32 depending on CONFIG_PHYS_ADDR_T_64BIT).
-> 
-> From the now hard to find Documentation/core-api/printk-formats.rst:
-> 
-> Physical address types phys_addr_t
-> ----------------------------------
-> 
-> ::
-> 
->         %pa[p]  0x01234567 or 0x0123456789abcdef
-> 
-> For printing a phys_addr_t type (and its derivatives, such as
-> resource_size_t) which can vary based on build options, regardless of the
-> width of the CPU data path.
-> 
-> Passed by reference.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   dfb9bd9242c2350c127d51a126976ed386e9cc48
+commit: aafde051ac61687823976cc892fb3c416101d694 [3278/3278] xsched: Add support for CFS quota for cgroups
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511192040.YIPXCVFH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192040.YIPXCVFH-lkp@intel.com/reproduce)
 
-Hmm, but I guess you don't want the 0x prefix. Maybe print it to a
-separate buffer and then lop off the first two characters?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511192040.YIPXCVFH-lkp@intel.com/
 
-Another solution would be to always cast it to a u64 and use %llx as
-suggested in the "Integer types" section.
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/xsched/vstream.c:23:
+   include/linux/xsched.h:276:36: error: field 'css' has incomplete type
+     276 |         struct cgroup_subsys_state css;
+         |                                    ^~~
+>> include/linux/xsched.h:309:28: error: array type has incomplete element type 'struct cgroup_file'
+     309 |         struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
+         |                            ^~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
+   Depends on [n]: CGROUPS [=n]
+   Selected by [y]:
+   - ARM64 [=y]
+   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
+   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+   Selected by [y]:
+   - ARM64 [=y]
+
+
+vim +309 include/linux/xsched.h
+
+   272	
+   273	/* Xsched scheduling control group */
+   274	struct xsched_group {
+   275		/* Cgroups controller structure */
+   276		struct cgroup_subsys_state css;
+   277	
+   278		/* Control group settings: */
+   279		int sched_class;
+   280		int prio;
+   281	
+   282		/* Bandwidth setting: shares value set by user */
+   283		u64 shares_cfg;
+   284		u64 shares_cfg_red;
+   285		u32 weight;
+   286		u64 children_shares_sum;
+   287	
+   288		/* Bandwidth setting: maximal quota in period */
+   289		s64 quota;
+   290		/* record the runtime of operators during the period */
+   291		s64 runtime;
+   292		s64 period;
+   293		struct hrtimer quota_timeout;
+   294		struct work_struct refill_work;
+   295	
+   296		struct xsched_group_xcu_priv perxcu_priv[XSCHED_NR_CUS];
+   297	
+   298		/* Groups hierarchcy */
+   299		struct xsched_group *parent;
+   300		struct list_head children_groups;
+   301		struct list_head group_node;
+   302	
+   303		spinlock_t lock;
+   304	
+   305		/* for XSE to move in perxcu */
+   306		struct list_head members;
+   307	
+   308		/* to control the xcu.{period, quota, shares} files shown or not */
+ > 309		struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
+   310		struct work_struct file_show_work;
+   311	};
+   312	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
