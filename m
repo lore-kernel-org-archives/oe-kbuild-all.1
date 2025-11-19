@@ -1,57 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A262E8B8D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 13:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB30834AAF7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 13:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763559476; cv=none; b=ii8GMjn2vB1STb6yAoHYCJ+oQWlZVKnClsaCquHVVw8Qheg5p/PXW1wSg7pjmA8E0t2sTxdvswnRT2M3FYSnt6tx2wOrXd5o9JNhSPH8ChYvS9w6Kzm4Vj0GgCnX1Uzc8idqFREtC/Xo7AgOj9TWgvIafZwiT7EYVaOOtuyE0MI=
+	t=1763559555; cv=none; b=YSkyLzSMnHVS2wv1ZOk843g1Ou3nQmn2p1Q8hboX6WLrDfhgTJGM5Z6Pd5TI624X4jpxzSBBZPBB7SDje6c9kkHzYGP4j7nMhyijSLa10wSuicZkuP/5GVMM0TH+LFjiOZiXazw4T5yqHp6MoaCDtEdX/Qpp5OPSqvNEJvorJ+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763559476; c=relaxed/simple;
-	bh=3qEcXvmQ26Sw5i3VyNucdGE8RNkfVJYQpWde9qcDMdw=;
+	s=arc-20240116; t=1763559555; c=relaxed/simple;
+	bh=FXe73Ep9sD5rBsT34++3bbbhdAQxQqAf05cgTTcvnL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n2w/ZrIkuhPurAVGj1x7WDBYAHFEpbUsYrwj1L9z0PDmKXrr0zlwMxfe9MZFgkbV/pRd5Uht7QKirK+LOZs0Gsd3cHsiwZIHgtoGfMMHldn83togMAEi7ejq7VxH+3Cut74oE+veNYQwM74BHg5g6c9i2Q6CBev3cM1AnM8U1c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXEauI0k; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=YfvshTPBmsVf+sXgVlrdl0nxKHeazigXTr4p9IPeT1vTLYHWTlbRepcgVaAZvmPhUkWRtaFqLvcniwhsIFc9BmSVFNFXmkjWwIW5Vv8N6luyBnP8aQW+mSO5J0omJRzAYRcDhq6qRCcWRSKHNjV8qYiqvUByhsiRrgyOzo5aMns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GI/wLjj9; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXEauI0k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763559475; x=1795095475;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3qEcXvmQ26Sw5i3VyNucdGE8RNkfVJYQpWde9qcDMdw=;
-  b=GXEauI0kAVXtkJ5DmmMuFevpP018vkkmCcNl1+DdMSjktTMofsPwpWMY
-   zvGT8xoNo69aVMJJU60kFdlL+20xceSo8UwmpDoDRojLCgejH5BfnJhLl
-   tdG82kQVVFBqU5hFqO+9UXlLoiWnrV5QH0oqIsYRuo5Dx2e98CBoMvKAn
-   HcXScSr0pAUUyE+a62afpXFCb2yzsgX/oIIS3Oeu1vk85dY0wyz9c9Sxz
-   sdbZImWbwmbISGQxnErulPouIq3PD0GbmWtcp6G1Yee+ICfDqzHJCinsp
-   g0U13HdfAypI32pqlhNTFvEmQpMOiG0eWDOK+Zug3iZ6m2gNypKcvUFjo
-   Q==;
-X-CSE-ConnectionGUID: 3vZBN6uZTli0VEuCRajAPA==
-X-CSE-MsgGUID: 734hfgJBQzGsFB3hUBf5Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76704928"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="76704928"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 05:37:53 -0800
-X-CSE-ConnectionGUID: 4dg7A1DASgK3rSZZBERFBw==
-X-CSE-MsgGUID: B2O1QVptS/qv+fJaBL8K7Q==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Nov 2025 05:37:51 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLiNZ-0002vr-1e;
-	Wed, 19 Nov 2025 13:37:49 +0000
-Date: Wed, 19 Nov 2025 21:37:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1935/1935] mm/share_pool.c:1043:2:
- error: implicit declaration of function 'sysctl_compaction_handler'; did you
- mean 'compaction_failed'?
-Message-ID: <202511192140.dgf3lMX3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GI/wLjj9"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b387483bbso5411304f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 05:39:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763559552; x=1764164352; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
+        b=GI/wLjj9Ku3Br3WsEgwFtC6hmS1HnY025Nx4IcVnQUntvwRcFjfKIjalWTE+B/aByr
+         YVtuGFULIB/NHs72snHpE+FRmnIyZjDE27Yysf9WCq3dUNfYityHqyqeZ3pYYe4fReg2
+         iQrD7c2MUZ0HvmmdvGj0oY4uYo7KqYEmdSmjBz8qRGtIjPTT3k0ktozlDEu3ofDXM1cp
+         c5vKXLOLFGp9ciaErjv5xhhXgsJ6yb/XuXxhoiuqIKhISV0n/yAMsMVZaD5dxjGQJfaC
+         IRHFIfAkPAF73O31myzi1klcXWzHu8vbyPvv+rkxSg/NuWbeBkio0WOM9RHps/1FIQQg
+         5LwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763559552; x=1764164352;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
+        b=sQcs+3fm5BHKMxCuU4x7vW1fi4fdulq7oYkG+oyKLgKsHOjVa3AwLAsUMDUc9RdG4c
+         8CbfqoqX/nUL+BK9ncnrCDye0QBDwRJOZ9ln2Sv7imedXSLZfeEMfJVZTACtOISqBX6S
+         pXL456vrrs6ZFYuzxtVEaKsvWwsBykltkuwQz5w4yNLoCrf8IvQdMxYLlum60i+IGzUt
+         G9I5QcrEQF4NKjGTNcpPVSClUMXvqRRKg55K1EH6QwaW7RnooNhVd7dqu9/PGOScIMn1
+         hr8cCb8LfaKb7c5nHhWibXL28ETr9G12OPwGQhRBqsPDLQWfnAmxiQicFpD4ccR6nbyd
+         dXAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUe2oILdk0d3M+OyQMTnLdySqwzMdpP3vDVLoKxEOqB0K4wqhoG7pP6KJ2Y1n7rwwN1HoQKrW8kUa+ThYDg@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPsBGIyFV38jdNX7z3jdJZcNPe1WcGvMtJWE0gqbkED9mBpkxZ
+	f8r4giUmxoASdbqWYmvANBi6fyJGsbXPQSq8cSRZbIQc11Oxha2kPLJfV2EQU2aZkwQ=
+X-Gm-Gg: ASbGnct07SADx7xFCDsDykasa01J7OBGvk/uUUqmYD90gW82tHuNuoasBkxHUeFR24y
+	o2nKkFOF6b16f6atDJNmKC50uF1IuAsOTBfEL89lvYDG5CDl3Uxd0sjVmRVajBx1c9Tfdja402T
+	V5HtRdcBjJYNrOThrZWXkDGvKCS369dbdiejK8+Enpk9l4PU7ltRWcukZWImb603aJINd15cwC7
+	DhE3pYzRZs5nI9QG8VS75l1K4tDOh6XLpjpKjFyEeKgM5gPIGOZ0Gm5L+cf3op+7asPmcKxvWdz
+	QIBzyRwC2TAFBgelyYpwBixZ9bU50DftV+fxGONcA7qjUcBMBnh5GsXdE6v/DK+xXfjlESGsywP
+	tiSsLXpDsBa0D8AOYBzrgOIOKvjDfAhoK7R/akz7UB2pucRaGAfwm+SL3lOcpqymLhC0ZFM4akR
+	qIF6TrwzrmYk90MGpT
+X-Google-Smtp-Source: AGHT+IFywsvJ/Kkcb7CQTl669p0Qc8+79pdM+TJngb4nmXeXInYt0w/EpAge1FlITmi/iKuYtFhIyg==
+X-Received: by 2002:a5d:64e9:0:b0:42b:4139:579f with SMTP id ffacd0b85a97d-42b593424d1mr22618315f8f.25.1763559551955;
+        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e846afsm37165279f8f.13.2025.11.19.05.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
+Date: Wed, 19 Nov 2025 16:39:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Paolo Abeni <pabeni@redhat.com>
+Subject: [linux-next:master 9725/10183]
+ drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing
+ array offset 'i' after use.
+Message-ID: <202511192128.aqouWvbT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,139 +77,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhou,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6c5657aecca1857be6ea39f789159c9acfde2f9e
-commit: d45b33b72c530e64219ad997947a33f6e07d339c [1935/1935] share pool: Try to compact when memory is insufficient
-config: arm64-randconfig-r132-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192140.dgf3lMX3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192140.dgf3lMX3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fe4d0dea039f2befb93f27569593ec209843b0f5
+commit: 896f1a2493b59beb2b5ccdf990503dbb16cb2256 [9725/10183] net: qlogic/qede: fix potential out-of-bounds read in qede_tpa_cont() and qede_tpa_end()
+config: xtensa-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192128.aqouWvbT-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511192140.dgf3lMX3-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511192128.aqouWvbT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing array offset 'i' after use.
+drivers/net/ethernet/qlogic/qede/qede_fp.c:964 qede_tpa_cont() error: testing array offset 'i' after use.
 
-   mm/share_pool.c:59:5: sparse: sparse: symbol 'enable_mdc_default_group' was not declared. Should it be static?
-   mm/share_pool.c:1043:9: sparse: sparse: undefined identifier 'sysctl_compaction_handler'
-   mm/share_pool.c:1772:21: sparse: sparse: undefined identifier 'huge_ptep_get'
-   mm/share_pool.c:1772:34: sparse: sparse: invalid initializer
-   mm/share_pool.c:2524:30: sparse: sparse: undefined identifier 'huge_pte_none'
-   mm/share_pool.c:2537:23: sparse: sparse: undefined identifier 'huge_add_to_page_cache'
-   mm/share_pool.c:2553:14: sparse: sparse: undefined identifier 'huge_pte_none'
-   mm/share_pool.c:2559:9: sparse: sparse: undefined identifier 'set_huge_pte_at'
-   mm/share_pool.c:2561:9: sparse: sparse: undefined identifier 'hugetlb_count_add'
-   mm/share_pool.c:2597:24: sparse: sparse: undefined identifier 'hugetlb_alloc_hugepage'
-   mm/share_pool.c: In function 'sp_compact_nodes':
->> mm/share_pool.c:1043:2: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'compaction_failed'? [-Werror=implicit-function-declaration]
-     sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~
-     compaction_failed
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1772:14: error: implicit declaration of function 'huge_ptep_get'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-     pte_t pte = huge_ptep_get(ptep);
-                 ^~~~~~~~~~~~~
-                 huge_pte_lock
-   mm/share_pool.c:1772:14: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
-   mm/share_pool.c:2524:9: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-       if (!huge_pte_none(huge_ptep_get(ptep))) {
-            ^~~~~~~~~~~~~
-            huge_pte_lock
-   mm/share_pool.c:2537:9: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-      err = huge_add_to_page_cache(page, mapping, idx);
-            ^~~~~~~~~~~~~~~~~~~~~~
-            add_to_page_cache
-   mm/share_pool.c:2559:2: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-     set_huge_pte_at(mm, haddr, ptep, new_pte);
-     ^~~~~~~~~~~~~~~
-     set_huge_swap_pte_at
-   mm/share_pool.c:2561:2: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-     hugetlb_count_add(pages_per_huge_page(h), mm);
-     ^~~~~~~~~~~~~~~~~
-     hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2597:10: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-      return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-             ^~~~~~~~~~~~~~~~~~~~~~
-             vmalloc_hugepage
-   mm/share_pool.c:2597:47: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-      return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-                                                  ^~~~~~~~~~~~~~~~~~
-                                                  HUGETLB_ANON_FILE
-   mm/share_pool.c:2597:47: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2600:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
---
-   mm/share_pool.c: In function 'sp_compact_nodes':
->> mm/share_pool.c:1043:2: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'compaction_failed'? [-Werror=implicit-function-declaration]
-     sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~
-     compaction_failed
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
-   mm/share_pool.c:1772:14: error: implicit declaration of function 'huge_ptep_get'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-     pte_t pte = huge_ptep_get(ptep);
-                 ^~~~~~~~~~~~~
-                 huge_pte_lock
-   mm/share_pool.c:1772:14: error: invalid initializer
-   mm/share_pool.c: In function 'sharepool_no_page':
-   mm/share_pool.c:2524:9: error: implicit declaration of function 'huge_pte_none'; did you mean 'huge_pte_lock'? [-Werror=implicit-function-declaration]
-       if (!huge_pte_none(huge_ptep_get(ptep))) {
-            ^~~~~~~~~~~~~
-            huge_pte_lock
-   mm/share_pool.c:2537:9: error: implicit declaration of function 'huge_add_to_page_cache'; did you mean 'add_to_page_cache'? [-Werror=implicit-function-declaration]
-      err = huge_add_to_page_cache(page, mapping, idx);
-            ^~~~~~~~~~~~~~~~~~~~~~
-            add_to_page_cache
-   mm/share_pool.c:2559:2: error: implicit declaration of function 'set_huge_pte_at'; did you mean 'set_huge_swap_pte_at'? [-Werror=implicit-function-declaration]
-     set_huge_pte_at(mm, haddr, ptep, new_pte);
-     ^~~~~~~~~~~~~~~
-     set_huge_swap_pte_at
-   mm/share_pool.c:2561:2: error: implicit declaration of function 'hugetlb_count_add'; did you mean 'hugetlb_count_sub'? [-Werror=implicit-function-declaration]
-     hugetlb_count_add(pages_per_huge_page(h), mm);
-     ^~~~~~~~~~~~~~~~~
-     hugetlb_count_sub
-   mm/share_pool.c: In function 'sp_alloc_pages':
-   mm/share_pool.c:2597:10: error: implicit declaration of function 'hugetlb_alloc_hugepage'; did you mean 'vmalloc_hugepage'? [-Werror=implicit-function-declaration]
-      return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-             ^~~~~~~~~~~~~~~~~~~~~~
-             vmalloc_hugepage
-   mm/share_pool.c:2597:47: error: 'HUGETLB_ALLOC_NONE' undeclared (first use in this function); did you mean 'HUGETLB_ANON_FILE'?
-      return hugetlb_alloc_hugepage(NUMA_NO_NODE, HUGETLB_ALLOC_NONE);
-                                                  ^~~~~~~~~~~~~~~~~~
-                                                  HUGETLB_ANON_FILE
-   mm/share_pool.c:2597:47: note: each undeclared identifier is reported only once for each function it appears in
-   mm/share_pool.c:2600:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
+Old smatch warnings:
+arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
-   Selected by [y]:
-   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+vim +/i +989 drivers/net/ethernet/qlogic/qede/qede_fp.c
 
+cdda926d409869 Mintz, Yuval   2017-01-01   958  static inline void qede_tpa_cont(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   959  				 struct qede_rx_queue *rxq,
+cdda926d409869 Mintz, Yuval   2017-01-01   960  				 struct eth_fast_path_rx_tpa_cont_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   961  {
+cdda926d409869 Mintz, Yuval   2017-01-01   962  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   963  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @964  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This needs to be done the other way to avoid an off-by-one access.
 
-vim +1043 mm/share_pool.c
+	i < ARRAY_SIZE(cqe->len_list) && cqe->len_list[i]
 
-  1039	
-  1040	static unsigned long last_jiffies;
-  1041	static void sp_compact_nodes(struct work_struct *work)
-  1042	{
-> 1043		sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-  1044	
-  1045		kfree(work);
-  1046	}
-  1047	
+cdda926d409869 Mintz, Yuval   2017-01-01   965  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   966  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   967  
+cdda926d409869 Mintz, Yuval   2017-01-01   968  	if (unlikely(i > 1))
+cdda926d409869 Mintz, Yuval   2017-01-01   969  		DP_ERR(edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   970  		       "Strange - TPA cont with more than a single len_list entry\n");
+cdda926d409869 Mintz, Yuval   2017-01-01   971  }
+cdda926d409869 Mintz, Yuval   2017-01-01   972  
+10a0176e4e6eb6 Mintz, Yuval   2017-04-07   973  static int qede_tpa_end(struct qede_dev *edev,
+cdda926d409869 Mintz, Yuval   2017-01-01   974  			struct qede_fastpath *fp,
+cdda926d409869 Mintz, Yuval   2017-01-01   975  			struct eth_fast_path_rx_tpa_end_cqe *cqe)
+cdda926d409869 Mintz, Yuval   2017-01-01   976  {
+cdda926d409869 Mintz, Yuval   2017-01-01   977  	struct qede_rx_queue *rxq = fp->rxq;
+cdda926d409869 Mintz, Yuval   2017-01-01   978  	struct qede_agg_info *tpa_info;
+cdda926d409869 Mintz, Yuval   2017-01-01   979  	struct sk_buff *skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   980  	int i;
+cdda926d409869 Mintz, Yuval   2017-01-01   981  
+cdda926d409869 Mintz, Yuval   2017-01-01   982  	tpa_info = &rxq->tpa_info[cqe->tpa_agg_index];
+cdda926d409869 Mintz, Yuval   2017-01-01   983  	skb = tpa_info->skb;
+cdda926d409869 Mintz, Yuval   2017-01-01   984  
+8a8633978b842c Manish Chopra  2018-05-17   985  	if (tpa_info->buffer.page_offset == PAGE_SIZE)
+8a8633978b842c Manish Chopra  2018-05-17   986  		dma_unmap_page(rxq->dev, tpa_info->buffer.mapping,
+8a8633978b842c Manish Chopra  2018-05-17   987  			       PAGE_SIZE, rxq->data_direction);
+8a8633978b842c Manish Chopra  2018-05-17   988  
+896f1a2493b59b Pavel Zhigulin 2025-11-13  @989  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Same.
+
+cdda926d409869 Mintz, Yuval   2017-01-01   990  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
+cdda926d409869 Mintz, Yuval   2017-01-01   991  				   le16_to_cpu(cqe->len_list[i]));
+cdda926d409869 Mintz, Yuval   2017-01-01   992  	if (unlikely(i > 1))
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
