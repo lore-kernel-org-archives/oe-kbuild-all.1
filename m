@@ -1,68 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814C62D9EF2;
-	Wed, 19 Nov 2025 03:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B1F2E5B2E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 03:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763521436; cv=none; b=jU/dlClPQ4uX0rXwXFsoak7BwOWIgcb+TvPhfM34zNKhKh0J505CzrTydKMdfC49Mh4UP1gy/UwFF5dvZaEpciMX7MlLqAff1sZiYKHhVMwvCE4caCZH69nfTGy7GWC2M0FM5nXyOAuERwlgivNVDnSLhrTFHL/QoIaP4NF8AwE=
+	t=1763522095; cv=none; b=AefT6DzkL/OLUyHAEgLMPY5buI8ISPgH4y5jRU0M6nrTfCmhPC7Zmp6lgQxBKtB2fx6s/ZJDFquYjvV/JhAR4ljBZk/MfCd+E76+KYGwfa4jq7OQICUuljsarlm4OA7pCCWcA++oK/WNrugGGCPnIhiQT29O71VU3LtbvZyOg00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763521436; c=relaxed/simple;
-	bh=pXsZhuxxB+kI3KzL5qT6v5f2HxideVTv+RifgqSeoW0=;
+	s=arc-20240116; t=1763522095; c=relaxed/simple;
+	bh=/ccyBx+YhFT29oQ7gLE2zB60k1DOJq5+Z2PCcK4u/U0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=blfapRaS/wWy1XwHOGUl/XYl1VdnKoSe1pj6s2pWIuZueLxl4jFFDgwYNt/rLPKYT/TzlxN2qGNkPnvV7ubik9u5GHw6aKsaZc4ESUbGnMMQihRYNGuXKhWCLnbROqicy5poXD/yE9DBeKxz65NF9i590x2sInlcrPwjDz9zuos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NL5GiA/j; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=JLO7Vrhx3ZH5tRROQ9JpgzRtONw/jsMV/bbQ45auggAccqD6bk5CNJrj8WrhwsdlPMgSWYGG4JkBKMbhN8NSGIEjOWFENymPAomnChCYruoUgmnYH/103fJPuT2bI0VF7nwLpwrchXFagn0TRGxtqgtRqG5c3nee04jAZaJcP54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWyVOyGe; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NL5GiA/j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWyVOyGe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763521435; x=1795057435;
+  t=1763522094; x=1795058094;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pXsZhuxxB+kI3KzL5qT6v5f2HxideVTv+RifgqSeoW0=;
-  b=NL5GiA/jL0dBodDOKBDXEqb7M3ZohDxuUgjSevz8Sq+qzrPnG72J8Q6N
-   4Tl6RZn5HMDHJQsifZNnJdGaod2EWnR5e2EqiK8iKPGWwklxe7vcY0apy
-   QcHYKTTMo+xV43UwBNlUAHgNcFK2eLpbLKRpeZTq5b6EQH2VeVyB4KfEW
-   3pvpRpenGXxc/z1K54GYduFnAfdnvcA7ELCnLBWWDV20JO6E6ND2Gfemc
-   l5pyAPQnNfJK4NQEn+ePPKm4D9IDC4uFZNPp63CE5PeceS7OOX2rVB0s7
-   hO5J28RldvW9ZGURTHvu872O4qQxBq8jhy3XxdYZa7B0BX7mp3c9fAf+c
-   Q==;
-X-CSE-ConnectionGUID: UnN7jZWTRxKCu4M+Vgog5g==
-X-CSE-MsgGUID: SPs12Vb+QJKwiTblKLGbPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="83181393"
+  bh=/ccyBx+YhFT29oQ7gLE2zB60k1DOJq5+Z2PCcK4u/U0=;
+  b=dWyVOyGeVfUfURXfxaOdj6EW5EQjBO5Rrmv7y6zSYPqQPcbF9HVIigyk
+   EntFy0hSWlp3fhRZ00Hq2Rlxj3uWbAbLS/K4phtq7GJlYnsTNVrGVhdmV
+   bRD8FFlTznkN6yJ1MReZhtwqSjpY5QL0U+29cV42twbETUSGrx9tgRcwj
+   nNEPXE6NJqTkAzzw08B7O2wElA08uxCdpV8TDUDsdHAF/rxIRxtYvFBAT
+   9aNs8SWAuED6bU1AXlgot/UIVjsbnlzCNwX593LNXA6W3VehgEJhYgRbA
+   ECzS9eMxMBj3jeyU1K/Zk+tSNA4G4InuvNVcWwMvIuhLVaB4hc+KOEuP/
+   g==;
+X-CSE-ConnectionGUID: zwSjoqThRMiMVa7o/KgG9w==
+X-CSE-MsgGUID: Mvy11qNXTo+IVmnl/kynzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76166942"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="83181393"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 19:03:54 -0800
-X-CSE-ConnectionGUID: svX445uPT3aJVISNNc1eYg==
-X-CSE-MsgGUID: ux192vFhRle5ZCI9piTKCA==
+   d="scan'208";a="76166942"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2025 19:14:53 -0800
+X-CSE-ConnectionGUID: nWNx85HhR82WCNMjIbSNpQ==
+X-CSE-MsgGUID: nkNp4cycQseSePuC18IcQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190200915"
+   d="scan'208";a="190730543"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2025 19:03:48 -0800
+  by orviesa009.jf.intel.com with ESMTP; 18 Nov 2025 19:14:50 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLYTy-0002Nn-09;
-	Wed, 19 Nov 2025 03:03:46 +0000
-Date: Wed, 19 Nov 2025 11:03:33 +0800
+	id 1vLYec-0002ON-2s;
+	Wed, 19 Nov 2025 03:14:46 +0000
+Date: Wed, 19 Nov 2025 11:14:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, robin.murphy@arm.com,
-	joro@8bytes.org, afael@kernel.org, bhelgaas@google.com,
-	alex@shazbot.org, jgg@nvidia.com, kevin.tian@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, will@kernel.org, lenb@kernel.org,
-	baolu.lu@linux.intel.com, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, patches@lists.linux.dev,
-	pjaroszynski@nvidia.com, vsethi@nvidia.com, helgaas@kernel.org,
-	etzhao1900@gmail.com
-Subject: Re: [PATCH v6 5/5] PCI: Suspend iommu function prior to resetting a
- device
-Message-ID: <202511191219.qIkZ1n2P-lkp@intel.com>
-References: <9f6caaedc278fe057aacb813d94f44a93d8cab3c.1763512374.git.nicolinc@nvidia.com>
+To: Kory Maincent <kory.maincent@bootlin.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bajjuri Praneeth <praneeth@ti.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	"Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
+	stable@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Jyri Sarha <jyri.sarha@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed
+ probe
+Message-ID: <202511191045.bW4DdgHX-lkp@intel.com>
+References: <20251118133850.125561-1-kory.maincent@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,183 +75,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f6caaedc278fe057aacb813d94f44a93d8cab3c.1763512374.git.nicolinc@nvidia.com>
+In-Reply-To: <20251118133850.125561-1-kory.maincent@bootlin.com>
 
-Hi Nicolin,
+Hi Kory,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20251118]
-[cannot apply to pci/next pci/for-linus awilliam-vfio/next awilliam-vfio/for-linus rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.18-rc6 v6.18-rc5 v6.18-rc4 v6.18-rc6]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.18-rc6 next-20251118]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolin-Chen/iommu-Lock-group-mutex-in-iommu_deferred_attach/20251119-085721
-base:   next-20251118
-patch link:    https://lore.kernel.org/r/9f6caaedc278fe057aacb813d94f44a93d8cab3c.1763512374.git.nicolinc%40nvidia.com
-patch subject: [PATCH v6 5/5] PCI: Suspend iommu function prior to resetting a device
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511191219.qIkZ1n2P-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191219.qIkZ1n2P-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kory-Maincent/drm-tilcdc-Fix-removal-actions-in-case-of-failed-probe/20251118-214022
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251118133850.125561-1-kory.maincent%40bootlin.com
+patch subject: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed probe
+config: arm-randconfig-004-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191045.bW4DdgHX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191045.bW4DdgHX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511191219.qIkZ1n2P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191045.bW4DdgHX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/pci.c: In function 'pcie_flr':
->> drivers/pci/pci.c:4341:43: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4341 |         ret = pci_dev_reset_iommu_prepare(dev);
-         |                                           ^~~
-         |                                           |
-         |                                           struct pci_dev *
-   In file included from drivers/pci/pci.c:16:
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
->> drivers/pci/pci.c:4361:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4361 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c: In function 'pci_af_flr':
-   drivers/pci/pci.c:4418:43: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4418 |         ret = pci_dev_reset_iommu_prepare(dev);
-         |                                           ^~~
-         |                                           |
-         |                                           struct pci_dev *
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c:4439:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4439 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c: In function 'pci_pm_reset':
-   drivers/pci/pci.c:4476:43: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4476 |         ret = pci_dev_reset_iommu_prepare(dev);
-         |                                           ^~~
-         |                                           |
-         |                                           struct pci_dev *
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c:4493:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4493 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c: In function 'pci_reset_bus_function':
-   drivers/pci/pci.c:4922:42: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4922 |         rc = pci_dev_reset_iommu_prepare(dev);
-         |                                          ^~~
-         |                                          |
-         |                                          struct pci_dev *
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c:4934:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4934 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c: In function 'cxl_reset_bus_function':
-   drivers/pci/pci.c:4959:42: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4959 |         rc = pci_dev_reset_iommu_prepare(dev);
-         |                                          ^~~
-         |                                          |
-         |                                          struct pci_dev *
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
-   drivers/pci/pci.c:4979:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4979 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
---
-   drivers/pci/quirks.c: In function '__pci_dev_specific_reset':
->> drivers/pci/quirks.c:4237:43: error: passing argument 1 of 'pci_dev_reset_iommu_prepare' from incompatible pointer type [-Wincompatible-pointer-types]
-    4237 |         ret = pci_dev_reset_iommu_prepare(dev);
-         |                                           ^~~
-         |                                           |
-         |                                           struct pci_dev *
-   In file included from drivers/pci/quirks.c:24:
-   include/linux/iommu.h:1519:62: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1519 | static inline int pci_dev_reset_iommu_prepare(struct device *dev)
-         |                                               ~~~~~~~~~~~~~~~^~~
->> drivers/pci/quirks.c:4244:34: error: passing argument 1 of 'pci_dev_reset_iommu_done' from incompatible pointer type [-Wincompatible-pointer-types]
-    4244 |         pci_dev_reset_iommu_done(dev);
-         |                                  ^~~
-         |                                  |
-         |                                  struct pci_dev *
-   include/linux/iommu.h:1524:60: note: expected 'struct device *' but argument is of type 'struct pci_dev *'
-    1524 | static inline void pci_dev_reset_iommu_done(struct device *dev)
-         |                                             ~~~~~~~~~~~~~~~^~~
+   drivers/gpu/drm/tilcdc/tilcdc_drv.c: In function 'tilcdc_init':
+>> drivers/gpu/drm/tilcdc/tilcdc_drv.c:391:1: warning: label 'destroy_crtc' defined but not used [-Wunused-label]
+     391 | destroy_crtc:
+         | ^~~~~~~~~~~~
 
 
-vim +/pci_dev_reset_iommu_prepare +4341 drivers/pci/pci.c
+vim +/destroy_crtc +391 drivers/gpu/drm/tilcdc/tilcdc_drv.c
 
-  4325	
-  4326	/**
-  4327	 * pcie_flr - initiate a PCIe function level reset
-  4328	 * @dev: device to reset
-  4329	 *
-  4330	 * Initiate a function level reset unconditionally on @dev without
-  4331	 * checking any flags and DEVCAP
-  4332	 */
-  4333	int pcie_flr(struct pci_dev *dev)
-  4334	{
-  4335		int ret;
-  4336	
-  4337		if (!pci_wait_for_pending_transaction(dev))
-  4338			pci_err(dev, "timed out waiting for pending transaction; performing function level reset anyway\n");
-  4339	
-  4340		/* Have to call it after waiting for pending DMA transaction */
-> 4341		ret = pci_dev_reset_iommu_prepare(dev);
-  4342		if (ret) {
-  4343			pci_err(dev, "failed to stop IOMMU for a PCI reset: %d\n", ret);
-  4344			return ret;
-  4345		}
-  4346	
-  4347		pcie_capability_set_word(dev, PCI_EXP_DEVCTL, PCI_EXP_DEVCTL_BCR_FLR);
-  4348	
-  4349		if (dev->imm_ready)
-  4350			goto done;
-  4351	
-  4352		/*
-  4353		 * Per PCIe r4.0, sec 6.6.2, a device must complete an FLR within
-  4354		 * 100ms, but may silently discard requests while the FLR is in
-  4355		 * progress.  Wait 100ms before trying to access the device.
-  4356		 */
-  4357		msleep(100);
-  4358	
-  4359		ret = pci_dev_wait(dev, "FLR", PCIE_RESET_READY_POLL_MS);
-  4360	done:
-> 4361		pci_dev_reset_iommu_done(dev);
-  4362		return ret;
-  4363	}
-  4364	EXPORT_SYMBOL_GPL(pcie_flr);
-  4365	
+   329	
+   330		if (priv->is_componentized) {
+   331			ret = component_bind_all(dev, ddev);
+   332			if (ret < 0)
+   333				goto unregister_cpufreq_notif;
+   334	
+   335			ret = tilcdc_add_component_encoder(ddev);
+   336			if (ret < 0)
+   337				goto unbind_component;
+   338		} else {
+   339			ret = tilcdc_attach_external_device(ddev);
+   340			if (ret)
+   341				goto unregister_cpufreq_notif;
+   342		}
+   343	
+   344		if (!priv->external_connector &&
+   345		    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
+   346			dev_err(dev, "no encoders/connectors found\n");
+   347			ret = -EPROBE_DEFER;
+   348			goto unbind_component;
+   349		}
+   350	
+   351		ret = drm_vblank_init(ddev, 1);
+   352		if (ret < 0) {
+   353			dev_err(dev, "failed to initialize vblank\n");
+   354			goto unbind_component;
+   355		}
+   356	
+   357		ret = platform_get_irq(pdev, 0);
+   358		if (ret < 0)
+   359			goto unbind_component;
+   360		priv->irq = ret;
+   361	
+   362		ret = tilcdc_irq_install(ddev, priv->irq);
+   363		if (ret < 0) {
+   364			dev_err(dev, "failed to install IRQ handler\n");
+   365			goto unbind_component;
+   366		}
+   367	
+   368		drm_mode_config_reset(ddev);
+   369	
+   370		drm_kms_helper_poll_init(ddev);
+   371	
+   372		ret = drm_dev_register(ddev, 0);
+   373		if (ret)
+   374			goto stop_poll;
+   375	
+   376		drm_client_setup_with_color_mode(ddev, bpp);
+   377	
+   378		return 0;
+   379	
+   380	stop_poll:
+   381		drm_kms_helper_poll_fini(ddev);
+   382		tilcdc_irq_uninstall(ddev);
+   383	unbind_component:
+   384		if (priv->is_componentized)
+   385			component_unbind_all(dev, ddev);
+   386	unregister_cpufreq_notif:
+   387	#ifdef CONFIG_CPU_FREQ
+   388		cpufreq_unregister_notifier(&priv->freq_transition,
+   389					    CPUFREQ_TRANSITION_NOTIFIER);
+   390	#endif
+ > 391	destroy_crtc:
+   392		tilcdc_crtc_destroy(priv->crtc);
+   393	disable_pm:
+   394		pm_runtime_disable(dev);
+   395		clk_put(priv->clk);
+   396	free_wq:
+   397		destroy_workqueue(priv->wq);
+   398	put_drm:
+   399		platform_set_drvdata(pdev, NULL);
+   400		ddev->dev_private = NULL;
+   401		drm_dev_put(ddev);
+   402	
+   403		return ret;
+   404	}
+   405	
 
 -- 
 0-DAY CI Kernel Test Service
