@@ -1,191 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181D32DE711
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 10:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763549340; cv=fail; b=q140iGXjVVbrG2r/9HoMCGft7wz+TPX3pmHoZz9Q8UxdHasL86TcLlwWCKW3Ekbvg5Y66BTE7caYIiSgBZ+j/4quJaapCdnbiLB0DFUNXt/gkXOH69dEDvxYJjTROK5vrTjmwBghGinGSJvtVXxGASGaygllg2HQ61/Ka0pSrJI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763549340; c=relaxed/simple;
-	bh=o8SOSls26FBAAj7nt10tSTTrT39weaAArJMPNdB2RAw=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=h3yTUlKOhyq9cRgCiVYihgkUAkZw6FFu1j2X9OAwk/woKx9YCZzwWIKwwyz+1OMs1/6NWX5BrgKyy74I8lmQIdMbaedyi2y84yU1GhMuJwwWvTijKi7A2ugXikpc/6bjGbfRjZfUTWhJDhofhA8x6Ti0mrAz5Wj78j4P4fBLRHg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IDmpsVwd; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DE02848B2;
+	Wed, 19 Nov 2025 11:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763550519; cv=none; b=NbywpyBmh8+CjyoEEZuyk5xpXsZdhBaQuO0LUmPJVQWGZqDu87OjubNV1h6ve67qkjhIH2PiBbEfm7LK5b5rXObYqXc48IbiJGuOO2Zg3FhdL41aH5S7qUvr5laYbQb7GRYSnqBwGppauHOwBjb1C24Glz4tkFDU+hnrBUJ7pvY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763550519; c=relaxed/simple;
+	bh=jJEmVum0dDiCNvr6c3MECCPWN3vcD0YuwGWwYkc+wlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YLtddmOXsOuZs1c4x0rgHPLrD2zy3we7VuNY4IbLyFVmdu6S8c9YBzKTk/whPfJDPQq2kN+sw4Xv49U7+Kv4hUxL4BPsYtLaIkziUCE7hVCGbnn9ar2xeDRUgPflWogSObj6r6FynG4EQefZhO8KonEQ2Ae2Gf1G5LqeDZ45b4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEFCsIkC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IDmpsVwd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEFCsIkC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763549338; x=1795085338;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o8SOSls26FBAAj7nt10tSTTrT39weaAArJMPNdB2RAw=;
-  b=IDmpsVwdGTIpEEiy/kS1oTqWlB9800sj/NufAlEIxsnNpoBboz36QyWK
-   bUIan+3Febqos7ByUmaUFnzgzM1gd2qoAC2I2jke1O7ptJkfUHwrU3OR4
-   cmtFmOtj6bTylNZMJb5Y+HFZyh5CTyZboCyFyiS84NKUsGB+Ol7ohhTjc
-   NfK8djJmexQCaYMKZ5nIYMB6Ae6ScZnoQ+kPdYswzbHLECF0AhNZyO3er
-   YXpysbGXByutxZYHgyAayNwEB+N1Er2HjTAEhcOs2y5tC2UR2jyXZJt25
-   YdCbZKD+wHAOQw9s4g6uj11EE9fCzRcUvJcPdfWE8lwd6ifWR+o20UKYo
-   g==;
-X-CSE-ConnectionGUID: dTaHPrDFQXec2x5q+7pUEA==
-X-CSE-MsgGUID: QrvDXhyGQbC5uoxzM/wZfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76691416"
+  t=1763550518; x=1795086518;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jJEmVum0dDiCNvr6c3MECCPWN3vcD0YuwGWwYkc+wlg=;
+  b=ZEFCsIkC/DCtF7xjscpGD+vs3C6qSFo6i6OA0bwFgM1Yrg3YulvFrtLp
+   k6lWu81rWERe/EyXxe6tohd5a7tBmt2omM2YCWAys4yd8srev/u9plRx0
+   hlEnNMmlF/TIx4ufD+PzOOrMoTBqkIHWVK4k0PD8RSkdfhusuvqc2ie0x
+   aZKVwkPLzSKidbmHxM/XfGPd2jEseM+1mNSIvV3ATknoOlIqRIgZtakni
+   P80ckNvvU3Wbn8SlZlMDM4LfJ9irJXCudKR1b2/4dDqCMt4eOOSIiyGxi
+   wlW78cI8Ls1skr44LIulLw7D+h3yFx9A/6J4MLhgoGqhTq4HWotVn8W9P
+   A==;
+X-CSE-ConnectionGUID: DJh94awSTAaAbgXgVXFARg==
+X-CSE-MsgGUID: 9NTlDNw9QySMxKEf1P82RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65485170"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="76691416"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:48:57 -0800
-X-CSE-ConnectionGUID: 8Tss4agzSNiIhCLIukgh7A==
-X-CSE-MsgGUID: /ZWuWfDHTfCAjrySx6qSow==
+   d="scan'208";a="65485170"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 03:08:37 -0800
+X-CSE-ConnectionGUID: 2OnT7ekkT72t5q6W193GCw==
+X-CSE-MsgGUID: aws9RjHuSZemLDy91cbIFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190819701"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:48:57 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 02:48:56 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 19 Nov 2025 02:48:56 -0800
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.25) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 02:48:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NyZYMu12Boh7YTbLL/UnIC6mz+QRXTnXTcVy4E4HHz21kz63HYaUqtp+Uw6oEUP/D1mty09EbnchSTRxZ7I8phRYYQQsGTHRX3yIm2tVuPqcXFiUXC/cfxilSKE4tBMSg4aqlFpDY4AamlqG7G0UAArk5V6FxCLh9E79KULa+W20slbz6dlP/RC9CB9dwuQ4pPlbKQOeQ5+/oHbQ5curVFE+kTib3BVf0bCpoqDoqQVaZo/nfIjgo8cbvdBX7byPiAI8eNwlq3AJIqcQOfqhFphlKv8u96GhVGILwhTBVzb8V1yh9dcmJgsu+kFFJrRifl5f0Y60FUWW8KIv0PhfiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=74wxVaiWNfYivPiAh+58YxhNC6ZfWo38BXKOTb+Bx+o=;
- b=pZfMARWJ0t7YGnlGyAAtDvoxb+YGMz7gwytmhbB3+yXcHRbqMcYPQfOgCM+Orvyf3KVr6ia55bZBxGowqU7b0NGoZeNFMs3dKGFrE1znFnYgKRBM93KpQe2r5rsWYWrbW1xfECHBDaq3zvXa+rpCdv1vGD0Yg8lMX3RdxdwTVs8U7MVdQQb0T7QWTwGsQsfmld0J8Mnh8A6cxbnxEs64Aj0YgBEz6S6uCPuffkas0iHRrmsUDBA+1kLvfneELLeerm5t0Fzl27yxNdvaKAld6TqQ/M5VS04heMTDQ8bQceGXHLeSOvGvZW6deB0lIqc2En+//EJWRLHFqVVtM9tZBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by DM4PR11MB7205.namprd11.prod.outlook.com (2603:10b6:8:113::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.20; Wed, 19 Nov
- 2025 10:48:53 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::3876:1eb1:8e84:84e7]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::3876:1eb1:8e84:84e7%6]) with mapi id 15.20.9320.018; Wed, 19 Nov 2025
- 10:48:53 +0000
-Date: Wed, 19 Nov 2025 18:48:46 +0800
+   d="scan'208";a="195976270"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2025 03:08:36 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLg38-0002nh-05;
+	Wed, 19 Nov 2025 11:08:34 +0000
+Date: Wed, 19 Nov 2025 19:08:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [jpoimboe:objtool-split-fix 3/3] kernel/rcu/rcutorture.o: error:
- objtool: rcu_torture_cleanup+0x5fd: sibling call from callable instruction
- with modified stack frame
-Message-ID: <aR2gjonNqSIPTKS8@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0156.apcprd04.prod.outlook.com (2603:1096:4::18)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/irq_no_destmap 15/15] arch/x86/kvm/x86.c:6737:22:
+ error: use of undeclared identifier 'MAX_NR_RESERVED_IOAPIC_PINS'
+Message-ID: <202511191945.u0PgkMti-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DM4PR11MB7205:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78f3382f-f55d-4ba9-0c80-08de27593b45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GRDRcXy7Sg1BqfMQXByL+9TosFPIhNuSBb0saPkMe8G1K6gkkChGyDqyUTp2?=
- =?us-ascii?Q?i+gLMfQC49lDlgZDOZq8rjZwcn2wS/UW96RqjQcvFfMK82tHEDWALG6Qyt08?=
- =?us-ascii?Q?dGF/MFCaHiT+b/TDg19a6QSMry2646CCweV6EZBQfPrx4LUdUND4IMU/sDWW?=
- =?us-ascii?Q?2sUuGtaSCDH+hj8qm5NS7lQ7a8vdEg+tAGLktDj9elDHbtQy3JpuyBqhs5PW?=
- =?us-ascii?Q?jsJmSorwjPQkYRArIHpw59s4erXfofEU1ZWbbbOz85oes/MRgCbVbMLPrcDU?=
- =?us-ascii?Q?WoxbqPt5R8iAWlLte33BiEAg3zYWLZoTRhho8foHHiKhO8yT3ZHh7UeY82hA?=
- =?us-ascii?Q?PPTjSDDJQPJTRb4mgYUFZ0phlEFQcgi9qP4oIYDW0XiH3Lfjh8PFk5XHz/sb?=
- =?us-ascii?Q?J6ky3DqL795Ez+RihzwoA1LRzP9nNHBkdUxPorF/sNQAiHYiP/I+8qi+avA2?=
- =?us-ascii?Q?wWEHthLBjFeOr3ud742pYRZ0Cat541HeGZYVCgEudbkbGBgdrGaaC7lJA5A3?=
- =?us-ascii?Q?6YqQ8REMtNhUxFgsjs0NSbR+o8X1Ejhz/gJt0RQ5VVYz1fQSlljutbcohtXI?=
- =?us-ascii?Q?RMFz5ugU61htKrr3TSDsqqgJ3zGC5DXDwS1Hx1+tGcX280A+RzhT7utR78gj?=
- =?us-ascii?Q?Oxhra/jmHZtaPCikg5oCNL7nH3SHZgH5tbiTa3qhD9YCPePw3d+dH40oCJun?=
- =?us-ascii?Q?Yik0FqidE8REi5DtoOC2YPeD7vC7P9FQtdmRMGXeubSSV0uul5+IU4I4BV70?=
- =?us-ascii?Q?VGjs995QeTd9ESVZaeJOfh8pNN6TaAy9kay82KKciAX2KWx9MWB1dO83d7cr?=
- =?us-ascii?Q?cfZH8bhJC0Gc07MLFVA2qHe9pcplsxk2nk+2FztOSZ2kg59CrKRiuh6dO3rs?=
- =?us-ascii?Q?oAhq/wnWbyqrjfuCSe8qnsxjG9TqTB/N0vwKmshwZ3jAbWaio0A2LwhXXgQY?=
- =?us-ascii?Q?VRD0cRC71evDS1/R0LsNngBU0RNcfjWYIRtaZ2JbBGNeY4CQhn96XKVMEiNG?=
- =?us-ascii?Q?xU8mQez+DG/YjvfDG2PN/Q8SQ8i6/sR0GRf8+n24iFj9Gygf5IfgXfBNaJO/?=
- =?us-ascii?Q?mRYidB63jmDXyN31tTbBhvu78/7wzcvri5dRWpMdFdDUHirAaGjXRfCqnnIS?=
- =?us-ascii?Q?DCLSITASjbjK0gdo4OiW8lO0jhx0YO6bQI0Z9qm4tMo4HVL9Mw2piF2isGYE?=
- =?us-ascii?Q?bnvl3xpw03m/4LlXsTprNx209jUFTWGdd/5C4LSsx3GokSmLFJ7zd2kQyaDc?=
- =?us-ascii?Q?j6WPjk7wgC20SMCXhcCR2cvKsAfnKDEJ+aooU7iGb1zZjgl8s+yXRPtwgGGn?=
- =?us-ascii?Q?cJkUP1aRXHsyzZPpAG1P+ZKzS+928dCiQpMozpLng/qnKLIESlpFglMNkdw0?=
- =?us-ascii?Q?trN+Pq5dGXThrkErTEtzCYgfirGJl31q30OLCMtis685l1roT3OYhBNudZsO?=
- =?us-ascii?Q?aiMlviLE62FKJKAnzlYTXLDJO+9nF4EpOlUPoruAfqqB9Ohq6wLuFA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HbnJR+vio960DSj4TbvQhFqy6QZ1n2UvKS0XSqdLTKLxv66ymmMOOzMguulk?=
- =?us-ascii?Q?SBwY46LPn8XzWh6riPjhlMpiMtI8ugWX7fvRqBlAW6Ewkrt6mLPX9k80nAHU?=
- =?us-ascii?Q?bdXrY3gcOSh03OWCij0db1Fh/SlmshQM1KNog7GZCB8aE3O8l+teOcJC+R1M?=
- =?us-ascii?Q?TuRQ8lcS4naKBruM17oVoBZlljpVWPnVFFTHYLAQF0Pn7P1DLGq+YwQjAKRr?=
- =?us-ascii?Q?AroiFmoBmQTyFJ1v4nKj3OMz99a2HcHHDsdqJc+7KaM2SFlblmpksLCWTRCy?=
- =?us-ascii?Q?cU+ikdmXFhZJhL7Wgk5f/+iLUexr0JlP3QLnp4t0icji3lOBvFbX1sBi82Jd?=
- =?us-ascii?Q?BjiTApleJjPy13q154hqBmzgJZrBNmQtzuc/fW9LyrSekrpvTQA1iFIE5kQ/?=
- =?us-ascii?Q?Wib6HF7FBzL11c4TWOwEiwssNhlk37nfWb/2+9Tzr+Shl9wzq75epSIYnYxL?=
- =?us-ascii?Q?ensZRdHSXOrD9pHPnKudy4DqMeVg1CHbH3d34lo3cbPvymGm+f8mJtIrX2tj?=
- =?us-ascii?Q?SZRaWaiNJIwBFdWohvXYVSG7u/IvNduUOHWzokUc636ExVW9cTGU7EhyYad8?=
- =?us-ascii?Q?L5IknbBpLgyBi4tVh+QIG28ejhIPUcWKiyQ30VbmsEojmLk0OyKG+3MhiSk4?=
- =?us-ascii?Q?XHsf8wiTuK3f9Z2jWud5VEFzk8uUlyeQQ5tuY/vyOU5nJ0QDR0LMZFR/fWFR?=
- =?us-ascii?Q?7OSpLPVB6Bc9wsfWyDZy548ckEn3NITxVdJgLrE1FqbjyQBvsmimTGRs9JaS?=
- =?us-ascii?Q?EsN4Wjmm043VcU7iD1QJI1w50U8XWVRjHo7HcnT4maIDMR7nf0hHBUH7Ty8V?=
- =?us-ascii?Q?smZEL1Is3JTWOZA9TPFqzHaP/mHba3qCPsjSoMviGIUXo6sSIPDkfYA1hEqM?=
- =?us-ascii?Q?kar4Qy1ERD3epHUCsU/mDrLVzYuQoJGJFDT/pO5Biq1jSIxknrelIkCXpuea?=
- =?us-ascii?Q?GH27znf6clOZvW/oUXBCod9B+U+qNbe9HBNU2EwJNNyp7grzf/bajK53sQxz?=
- =?us-ascii?Q?ZzjYuy+OeZaaFwa58L+WVLzREa8XPj9PTF8V+YY7Aby2PG1oRr+qaikW1ZA9?=
- =?us-ascii?Q?IRUy4MMAxXXDw8oVVl3XbUDrGRYfwzRibmMa0MBhR0haMUo5K5xyjqXZFIr2?=
- =?us-ascii?Q?gmlDN3AF6Ok7YL0p8WnZV61CaUwOVqZ7mZ+7WCxfhdOT1PQebUM6ZneKiBVk?=
- =?us-ascii?Q?o+tmo3+oXsDVYjk+2dIS29pnu+s6WmsQ7pp3BzjWRIsgLRREt1D1EjdxV0Bg?=
- =?us-ascii?Q?yvXrhj1M+T59qlub9OiP89t8z6RS7JlHAVA65CrMcbJdfd5eRKb3t6nuvyPR?=
- =?us-ascii?Q?HtMT/HIVL4Mo4+FlhozNM1oZ4wdCKxOZAKG6+cb/kBLNjJlKQveZG9WBbE5I?=
- =?us-ascii?Q?QvHyHnxGG4CeDJfaS+uiwfh9A2MXQb/brFja0oVZguwxZ3T0amsIiXmDn/P2?=
- =?us-ascii?Q?BOtzLDw+fPi5W0Z5yWGLkm+IhyBeQW5iMCzp2tIzG2k0LpvRcPH/KkQl3NY3?=
- =?us-ascii?Q?TClvfqi0hc/Bqc6aC4cPTCSnGJbx737tmu1hZZLyNtjto9TsaZ0KdPzFGSy1?=
- =?us-ascii?Q?e9JMP+qKiAnoBjQ3Ahxm8WjJZ+mWApdst4MeCTO6atyD322H7i5Mschfnu6P?=
- =?us-ascii?Q?4w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78f3382f-f55d-4ba9-0c80-08de27593b45
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 10:48:53.4102
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LJpgITXpo6GdXU5kkYwyt1Cn3zbwwlA/RrPbJ8w/xH9ZRs9/10Xf2flbJVX3ngE1qnLPt4YXYBxBnGWmq9Oybw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7205
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-split-fix
-head:   c1d09d3861a169dca34ea869269fd4957a8224aa
-commit: c1d09d3861a169dca34ea869269fd4957a8224aa [3/3] Revert "objtool: Fix GCC 8 cold subfunction detection for aliased functions"
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: x86_64-randconfig-075-20251114 (https://download.01.org/0day-ci/archive/20251119/202511191353.2CpYl75R-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191353.2CpYl75R-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/irq_no_destmap
+head:   3cfcdb969c5e028836857656081f6e1b537f12e6
+commit: 3cfcdb969c5e028836857656081f6e1b537f12e6 [15/15] KVM: x86: Bury ioapic.h definitions behind CONFIG_KVM_IOAPIC
+config: x86_64-randconfig-075-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191945.u0PgkMti-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191945.u0PgkMti-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511191353.2CpYl75R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191945.u0PgkMti-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/rcu/rcutorture.o: error: objtool: rcu_torture_cleanup+0x5fd: sibling call from callable instruction with modified stack frame
+>> arch/x86/kvm/x86.c:6737:22: error: use of undeclared identifier 'MAX_NR_RESERVED_IOAPIC_PINS'
+    6737 |                 if (cap->args[0] > MAX_NR_RESERVED_IOAPIC_PINS)
+         |                                    ^
+   1 error generated.
+
+
+vim +/MAX_NR_RESERVED_IOAPIC_PINS +6737 arch/x86/kvm/x86.c
+
+5bb064dcdeb7ab drivers/kvm/x86.c  Zhang Xiantao       2007-11-18  6715  
+e5d83c74a5800c arch/x86/kvm/x86.c Paolo Bonzini       2017-02-16  6716  int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6717  			    struct kvm_enable_cap *cap)
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6718  {
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6719  	int r;
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6720  
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6721  	if (cap->flags)
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6722  		return -EINVAL;
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6723  
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6724  	switch (cap->cap) {
+6d8491910fcd33 arch/x86/kvm/x86.c Oliver Upton        2022-03-01  6725  	case KVM_CAP_DISABLE_QUIRKS2:
+6d8491910fcd33 arch/x86/kvm/x86.c Oliver Upton        2022-03-01  6726  		r = -EINVAL;
+bd7d5362b4c4ac arch/x86/kvm/x86.c Yan Zhao            2025-02-24  6727  		if (cap->args[0] & ~kvm_caps.supported_quirks)
+6d8491910fcd33 arch/x86/kvm/x86.c Oliver Upton        2022-03-01  6728  			break;
+6d8491910fcd33 arch/x86/kvm/x86.c Oliver Upton        2022-03-01  6729  		fallthrough;
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6730  	case KVM_CAP_DISABLE_QUIRKS:
+bd7d5362b4c4ac arch/x86/kvm/x86.c Yan Zhao            2025-02-24  6731  		kvm->arch.disabled_quirks |= cap->args[0] & kvm_caps.supported_quirks;
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6732  		r = 0;
+90de4a1875180f arch/x86/kvm/x86.c Nadav Amit          2015-04-13  6733  		break;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6734  	case KVM_CAP_SPLIT_IRQCHIP: {
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6735  		mutex_lock(&kvm->lock);
+b053b2aef25d00 arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6736  		r = -EINVAL;
+b053b2aef25d00 arch/x86/kvm/x86.c Steve Rutherford    2015-07-29 @6737  		if (cap->args[0] > MAX_NR_RESERVED_IOAPIC_PINS)
+b053b2aef25d00 arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6738  			goto split_irqchip_unlock;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6739  		r = -EEXIST;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6740  		if (irqchip_in_kernel(kvm))
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6741  			goto split_irqchip_unlock;
+557abc40d12135 arch/x86/kvm/x86.c Paolo Bonzini       2016-06-13  6742  		if (kvm->created_vcpus)
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6743  			goto split_irqchip_unlock;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6744  		/* Pairs with irqchip_in_kernel. */
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6745  		smp_wmb();
+49776faf93f807 arch/x86/kvm/x86.c Radim Krčmář        2016-12-16  6746  		kvm->arch.irqchip_mode = KVM_IRQCHIP_SPLIT;
+b053b2aef25d00 arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6747  		kvm->arch.nr_reserved_ioapic_pins = cap->args[0];
+320af55a930f30 arch/x86/kvm/x86.c Sean Christopherson 2022-03-11  6748  		kvm_clear_apicv_inhibit(kvm, APICV_INHIBIT_REASON_ABSENT);
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6749  		r = 0;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6750  split_irqchip_unlock:
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6751  		mutex_unlock(&kvm->lock);
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6752  		break;
+49df6397edfc5a arch/x86/kvm/x86.c Steve Rutherford    2015-07-29  6753  	}
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6754  	case KVM_CAP_X2APIC_API:
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6755  		r = -EINVAL;
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6756  		if (cap->args[0] & ~KVM_X2APIC_API_VALID_FLAGS)
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6757  			break;
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6758  
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6759  		if (cap->args[0] & KVM_X2APIC_API_USE_32BIT_IDS)
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6760  			kvm->arch.x2apic_format = true;
+c519265f2aa348 arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6761  		if (cap->args[0] & KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK)
+c519265f2aa348 arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6762  			kvm->arch.x2apic_broadcast_quirk_disabled = true;
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6763  
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6764  		r = 0;
+3713131345fbea arch/x86/kvm/x86.c Radim Krčmář        2016-07-12  6765  		break;
+4d5422cea3b61f arch/x86/kvm/x86.c Wanpeng Li          2018-03-12  6766  	case KVM_CAP_X86_DISABLE_EXITS:
+4d5422cea3b61f arch/x86/kvm/x86.c Wanpeng Li          2018-03-12  6767  		r = -EINVAL;
+c829ccd4d9dc4a arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  6768  		if (cap->args[0] & ~kvm_get_allowed_disable_exits())
+4d5422cea3b61f arch/x86/kvm/x86.c Wanpeng Li          2018-03-12  6769  			break;
+4d5422cea3b61f arch/x86/kvm/x86.c Wanpeng Li          2018-03-12  6770  
+04cd8f8628d88d arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  6771  		mutex_lock(&kvm->lock);
+04cd8f8628d88d arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  6772  		if (kvm->created_vcpus)
+04cd8f8628d88d arch/x86/kvm/x86.c Sean Christopherson 2024-11-27  6773  			goto disable_exits_unlock;
+6f0f2d5ef895d6 arch/x86/kvm/x86.c Tom Lendacky        2023-02-09  6774  
+
+:::::: The code at line 6737 was first introduced by commit
+:::::: b053b2aef25d00773fa6762dcd4b7f5c9c42d171 KVM: x86: Add EOI exit bitmap inference
+
+:::::: TO: Steve Rutherford <srutherford@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
