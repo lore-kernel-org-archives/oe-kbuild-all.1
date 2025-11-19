@@ -1,72 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F9B361DBC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF43359703
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763555772; cv=none; b=EE+tucfXxbMn9aY6YF2g+cS+qXB0/rNo91jIAWEYcPt62aQksef8sHRDh7QKJgZZFeE04cQ5sNvj2QBP27xMYyIpZq0OMtd0Twlr5LdE+eTfHTIHvCShk8KCAsTj3AvdbjdmiZChzOigr2/XLgmc+zgvTnjBH35fnhIKLFxt0Nw=
+	t=1763555838; cv=none; b=pTsuy0WKmksgi2Ck4h79NizLU/gNgsPtQwGuBK+OKbStEXakShyiAH6n5TjvqW8L21QTOYsRp5CQmeDGSZ+AO1DZJSJqIoxx0rtChgekOJqY1sEvXeaw/wCgJ8GPhVj8Zm2ZugTaRxCEaSPA29ri/o4o6h4kcillkx7pmnqGvdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763555772; c=relaxed/simple;
-	bh=EnMfEZ4QkIAdynBjiahHjs3Z6HB/axdMWtZKOM/vCas=;
+	s=arc-20240116; t=1763555838; c=relaxed/simple;
+	bh=cvBlKjUi3la4FRQ842NLzR324mE7CJQHgUXi3+al4ow=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AMUXB9Cae6B1WS2jaFFufshirh7BS3GKCMpiO1AswB9TGEEtO54Y6N/0Ux0CDKc7lGfE9JqtB53VbzS8VisxRfAUARINWqmonEazWEDzOPj6sS6Jkaw9hFDZgzEMa4w0VQJ7u6bh3TsHEEAsBX3oZ94iSp1pcrXXOO6vplvNphc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVxdLG4y; arc=none smtp.client-ip=209.85.128.51
+	 Content-Disposition:In-Reply-To; b=ftpHQSqvpW3fLlpqMfvfYEKSiJbp5ajxrY3M0/JH4nhlqSodWah7+05GIJxkp58cHUiM9iY1hrR8Me9udg0JFMRDozEw+s330a72bkqbXD5b1ySRnKtjvQ/IOZvT1T2tfA9ZGdGUS1xBMp15jlIxxchTDJ0LYwrk7jkRRE62dCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X2DHhvec; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVxdLG4y"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4775e891b5eso34936455e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:36:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X2DHhvec"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42bb288c1bfso2920126f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:37:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763555765; x=1764160565; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=12KHTdCj9uQ2KXxVz6vWKPRafgjTPXAyRlFxqpBHLk0=;
-        b=tVxdLG4yLcCW5O4pS+P+g2h2Efj1IApFDer0Mn/5dMF3cax1YpSXvrpJFdxPeJ7bok
-         4MYRqcikPL3mdgEQdoDUhQIkfdjG08qEJv5hbGQI0HtVwl6769AisyaEWEqm6jI5v6Vm
-         GLgid8z4fGu1BLRTGRvEZg+HEWNwdYbV4zM0vJ4ob3FPKuIP1UPovHVHj4mc22tVy58d
-         2YHmGo+8QNGtLtW4E21IIvjIXp0QJg9NdVAI7Emt8DzM252w0cFZ8UuVPYVJhF36iyK2
-         vBwaDOJsMADHUESc60OW2pyieUi4rjm2F3mmNp/sx0dXJPCfNjcEAPtylwRHHvigINdT
-         4aOw==
+        d=linaro.org; s=google; t=1763555833; x=1764160633; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UbNuZv/5Za3Oc7Abgb1kuQDSQgL1n6Sh6FodFTL94fI=;
+        b=X2DHhvecPwP9h8E6JVs5Zk06s6j6SMkv7xlVDbfud+BEdcdjIkCMAvk5u0E6BeNn5A
+         st3YKoAHItJ9iXQQTKV4Kc3T2W/w9SaM1vpY54PWtH+U9A/GDAvNGG+QuOXE3oxCFn15
+         V9GXOSgBEhLHHQQ434T9fXhOQEapBMFIQoEJEtYbfom+R6vEpfYE+DpM/LgzeoIhgeKs
+         SYGD6LYZrmiFqyYsWWOMSoW70Z5rOr72ZdKVIviSrpQgQxTBdOZmNMBhUY/l/wR+k6oV
+         Ow7gnShJB7JJx9pkZJvVsRaIPWUbvf5aHQyhaMfL7MygzOePYb9jEym1Rkv0gYoIa5Cw
+         +00g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763555765; x=1764160565;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=12KHTdCj9uQ2KXxVz6vWKPRafgjTPXAyRlFxqpBHLk0=;
-        b=c3mx5cf9cfH3TkWmXasvLUpqeWrlpG/Aj0dVRqQvjsKKPjKcC/y1g4ml1XqGUdMBye
-         RgUM8Vv8JTiqK73w1ox30fD/F1UH6szyDYC74OQovYwjbGHP1+0VVmUCtR7VsyKD3Fb5
-         itYEnhZAP1e72005iFKyFC0o8zBc72/Q7xCOfK9SB5NLEsULMEhVibLqPuQZvd3RS7lJ
-         QYAmY3olMO+BcFaSKBnG4KJCq5A2fLKdEwc5fdrWODJbkC6SdDG4Pni2HrNeCllVKT/2
-         gXndMsBLg7N0dFJaXoN+9SclwVxDGqlKJtdTm3/qcpshRZketP1b6pqjDY7+u/Si4GFJ
-         7xIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjPP5dlBemAK+RLb4Zjtp4CtSlZn0tvb4r5wmkQiLK0XNIkHoU+iAU9V8zaJcPylcQEdBw1WBZyvJhXb75@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5jl74UZNLzxJy9ha3ttZGh16cpfZvegQARnnkcHEfQ8O/o4Rt
-	r0J55k7KaYPJm/7C4BSVGqBeupG9h96H8ecYBC4L1VMIcPOrC+uGk6M8+2CXfXICPMKq9hDNA5C
-	lONRK
-X-Gm-Gg: ASbGncuYWS5rLcoM5Us61Ob7YtusZECkZfdaG0HE527e+sIBXO/lWNNuVYfgD3/P+xu
-	NEGkcq2AEahjwOKSFVBfl0NMoQ1Qen4zB9aaxJ3iOp0mmBHDSzk4Cq+Up0gUkEPOoET5i81ZTqt
-	AGsx09Vfx6AAzjFEUoXxOVfW2QgwSPuG+IMWEfO8RJK4GvFHKGzhDYaAShShGZFNI8WUcGWIeQt
-	Ye4USLE+ItTV0TfngF7XwxZnbrsHGvp+N7UnGV5FpTiLaPtGekVMoKee2ZRr9nNlnmQ3g8WTKd+
-	lRnWfWrqr2fHQz8J/CAogP+5Wem0iiDxfvhLjFC9uu1l3KXj/vDRiTv8Q7jfiaABLEYQc7bTkfV
-	d0NIY4JsSDgmzIcJorZvCRBPH7T4qG5hyvD0/S37xN16rh+ezQgihXjgtLEJ61DCnet/fNKHUHY
-	DBZKFGqXg/X2muYCo5cuNTVUBBoXWF4F6qOedoAg==
-X-Google-Smtp-Source: AGHT+IFWB53ZXOS4PvwKC7P6NjsFE5FiZi+2vXWb0i5n9X/h6mk/TDgvGSLdIXDkxsKDnEKsOWeDPg==
-X-Received: by 2002:a05:600c:8b22:b0:477:7a1a:4b81 with SMTP id 5b1f17b1804b1-4778fe57115mr186037325e9.9.1763555764772;
-        Wed, 19 Nov 2025 04:36:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763555833; x=1764160633;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UbNuZv/5Za3Oc7Abgb1kuQDSQgL1n6Sh6FodFTL94fI=;
+        b=Hr7zp+/43BIlJaxvr4Nk6wtut02vkKuFn0a/Fk9IV6Ys51eGiyMaGVR8L0wpfW/Pcr
+         nIej8POwNRWp3l0cZE6CnM+bbCa1FuwPfki7jLjp0a7aRgegzN3JYJdgFmeyIdovUB+b
+         V/SCh2xWMXJxU1Pb9C87gtcVPX2lhtxMvUnaYBgZQIMqnJxY2Mgx/rBGLDr202ZsOpIq
+         6h1fhYBhFgiXdEmL3kZJX6MULuCV7qtHPJVkMGf/xlwcdUS/rDVDNck+jdMrfmuVFczf
+         4k6hGp9vqZXFq4eQ4UsUxgVkQnpTTGRlFIqjZQlw8hX8IK277NLzUyaGmRrs8UiA1xsd
+         G6tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXLRad8Yj5/1Ttpui6NFp0Ze++5eAOtTvFchemSVKR1Re0hFCGeC7QV9cdx1R5lW2myzWyvGdSlMqjwjneo@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3PUwlxilSfGtbXypLJo/X/fEpXs2hihXFQzdWSQKJ3hkaBfmq
+	G0zov18a3b4QFaHOTSITKjGRLydzyCt4XkqMRauQKyY9e2Q2W65TSFFVHaIFB3ZONxk=
+X-Gm-Gg: ASbGncvuh+9qSPZDP48YitOXxQUujmq7myE7aqzhp9RgF7PusCJ1dZ29+h6FSaquVQc
+	Y/EvxMFdp7zpTph0lOM8n+UaD5IbHd0PV5xM+lUxfHhgcqGx45gcQcVLfsRCLRh7vYurV3zEqN+
+	EwwMyDNe7coLn7r1yWYH1zont9IYdyPiV9Kk8nE70c+d66gKcADcP9/w3rQgiiGDCkPBEhGqFiE
+	IQPeo/esuFckuqqJge4fpgg3dJIv0RQOWJs6HkVtB0gwaVUYqB40vituNxtIIcce3LeOGUeGeK+
+	aaEl89JRM8L/QKLi41j19h6hkgWtxxcD5a2olsikGs7S8xZN4GsmcJzT7gAYI44jJREFdsLy8vg
+	N8nn+vMKFvn2enSgdJD9lgqif+85wGupUGFJFfT0+RiFs4JmEzztfkJq+9CYv33B/kC1st4gsXT
+	xqtkdf4hi0G2gRJYQZELTJe4HaaaA=
+X-Google-Smtp-Source: AGHT+IEkeW7AYIkdag7V6zOou3VntsZM8Hgog/jx8e0yYhvUx47QmrZwYx5wIGi3mp9Al3RK8NbQFQ==
+X-Received: by 2002:a05:6000:40c9:b0:429:8b01:c093 with SMTP id ffacd0b85a97d-42b5934f642mr18648197f8f.15.1763555833162;
+        Wed, 19 Nov 2025 04:37:13 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42c9628ebacsm24992839f8f.30.2025.11.19.04.36.03
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e846afsm36908546f8f.13.2025.11.19.04.37.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:36:04 -0800 (PST)
-Date: Wed, 19 Nov 2025 15:36:00 +0300
+        Wed, 19 Nov 2025 04:37:12 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:37:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Frank Wunderlich <frank-w@public-files.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.18-rc_new 42/108]
- drivers/net/phy/as21xxx.c:1176 aeon_c45_an_config_aneg() error:
- uninitialized symbol 'changed'.
-Message-ID: <202511151513.Hnqzn6wc-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Wei Yang <richard.weiyang@gmail.com>,
+	willy@infradead.org, akpm@linux-foundation.org, david@kernel.org,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com, ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com, npache@redhat.com,
+	ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
+	lance.yang@linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	Wei Yang <richard.weiyang@gmail.com>
+Subject: Re: [PATCH] mm/huge_memory: consolidate order-related checks into
+ folio_split_supported()
+Message-ID: <202511151652.GKPwEctt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,61 +81,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251114075703.10434-1-richard.weiyang@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-rc_new
-head:   eb43ba8536a5d22d51b0f384a239728b30ede362
-commit: d16e92f56bf7e04bc87f39d34d70b47969767b11 [42/108] net: phy: as21: try the driver from mtk-sdk
-config: nios2-randconfig-r071-20251114 (https://download.01.org/0day-ci/archive/20251115/202511151513.Hnqzn6wc-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
+Hi Wei,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/mm-huge_memory-consolidate-order-related-checks-into-folio_split_supported/20251114-155833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251114075703.10434-1-richard.weiyang%40gmail.com
+patch subject: [PATCH] mm/huge_memory: consolidate order-related checks into folio_split_supported()
+config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151652.GKPwEctt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511151513.Hnqzn6wc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511151652.GKPwEctt-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/phy/as21xxx.c:1176 aeon_c45_an_config_aneg() error: uninitialized symbol 'changed'.
+smatch warnings:
+mm/huge_memory.c:3696 folio_split_supported() warn: signedness bug returning '(-22)'
 
-Old smatch warnings:
-drivers/net/phy/as21xxx.c:549 aeon_ipc_send_cmd() warn: unsigned 'val' is never less than zero.
-drivers/net/phy/as21xxx.c:557 aeon_ipc_send_cmd() warn: unsigned 'val' is never less than zero.
+vim +3696 mm/huge_memory.c
 
-vim +/changed +1176 drivers/net/phy/as21xxx.c
+aa27253af32c74 Wei Yang 2025-11-06  3690  bool folio_split_supported(struct folio *folio, unsigned int new_order,
+                                          ^^^^
+This is a bool function.
 
-830877d89edcd83 Christian Marangi 2025-05-17  1148  
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1149  static int aeon_c45_an_config_aneg(struct phy_device *phydev)
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1150  {
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1151  	int changed, ret;
+aa27253af32c74 Wei Yang 2025-11-06  3691  		enum split_type split_type, bool warns)
+58729c04cf1092 Zi Yan   2025-03-07  3692  {
+ab62f1bb0caaa5 Wei Yang 2025-11-14  3693  	const int old_order = folio_order(folio);
+ab62f1bb0caaa5 Wei Yang 2025-11-14  3694  
+ab62f1bb0caaa5 Wei Yang 2025-11-14  3695  	if (new_order >= old_order)
+ab62f1bb0caaa5 Wei Yang 2025-11-14 @3696  		return -EINVAL;
 
-changed is never initialized to false, only true.
+s/-EINVAL/false/
 
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1152  	u32 adv;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1153  	linkmode_and(phydev->advertising, phydev->advertising,
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1154  		     phydev->supported);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1155  	//changed = genphy_config_eee_advert(phydev);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1156  	adv = linkmode_adv_to_mii_adv_t(phydev->advertising);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1157  	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, MDIO_AN_ADVERTISE,
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1158  				  ADVERTISE_ALL | ADVERTISE_100BASE4 |
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1159  					  ADVERTISE_PAUSE_CAP |
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1160  					  ADVERTISE_PAUSE_ASYM,
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1161  				  adv);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1162  	if (ret < 0)
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1163  		return ret;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1164  	if (ret > 0)
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1165  		changed = 1;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1166  	adv = linkmode_adv_to_mii_10gbt_adv_t(phydev->advertising);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1167  	ret = phy_modify_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_CTRL,
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1168  				  MDIO_AN_10GBT_CTRL_ADV10G |
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1169  					  MDIO_AN_10GBT_CTRL_ADV5G |
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1170  					  MDIO_AN_10GBT_CTRL_ADV2_5G,
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1171  				  adv);
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1172  	if (ret < 0)
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1173  		return ret;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1174  	if (ret > 0)
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1175  		changed = 1;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11 @1176  	return changed;
-d16e92f56bf7e04 Frank Wunderlich  2025-10-11  1177  }
+ab62f1bb0caaa5 Wei Yang 2025-11-14  3697  
+58729c04cf1092 Zi Yan   2025-03-07  3698  	if (folio_test_anon(folio)) {
+58729c04cf1092 Zi Yan   2025-03-07  3699  		/* order-1 is not supported for anonymous THP. */
+58729c04cf1092 Zi Yan   2025-03-07  3700  		VM_WARN_ONCE(warns && new_order == 1,
+58729c04cf1092 Zi Yan   2025-03-07  3701  				"Cannot split to order-1 folio");
+28753037121116 Zi Yan   2025-11-05  3702  		if (new_order == 1)
+28753037121116 Zi Yan   2025-11-05  3703  			return false;
 
 -- 
 0-DAY CI Kernel Test Service
