@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0862356A4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 14:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B1227FB0E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 14:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763561277; cv=none; b=mlceFaP8LYeo4O3mXO/8qr0wycYm+YPP25TcbdmtFeuoO1SbhxMcNOGuZnLyOyP+9go6RHRA3uyQIsf4fZj8iG/JsHpBktA+KEo5AeJZv5OwBy04FECsYgK+kqiYoKeQ8VUcrqEX1qS7+1xFkmiwa5hiZwVaC6Ql+Hxlz4pCdE4=
+	t=1763563864; cv=none; b=cKQhhNwp0hw2JjynpKz91+734T+8f7bHsyweIER0NG/TI4/pTIiw40841ciS0cw9QOvJKrp450b3Pm0i4Vf5nPL7/Tp+I0/ILAC/llF9jaKIcr3ZE5WB6kqmSSvpTtPRrmvVkNNbYxZN5nGYQI/Tv4E0MoqSPBUGPIH7O3wtoZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763561277; c=relaxed/simple;
-	bh=VXej376e8NDUnHH6N1Y2Zz0He+oCNxyUEPvjiFLAsg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g/zcNnoWwdMy1fahJ0WZZAJWaMdGR3t5LlTrnnQfD22omxpy86nGMi2MzBO02Nqx9hmaD9dpJLI4NieYMHYOY8fwzqEdb2X8hUQTblWjjMofVT4Q86ZAKB4ll+9Hc4DdML9DjD6DF485wpyUodPmok/gtBEgQpCHuPFou0TUGLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DyXGI/YJ; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1763563864; c=relaxed/simple;
+	bh=vNuGV1rCQ/E6w1UWnBC6lGDkKXCj/KwyDtwthK+GYqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7fDDP9RTTxsisZflN81kO7xenlXq3LIu18mqOi3tU4M+6jgn/M1SwV0fXFd3q80cfpFa8pTmlGKSOBaBsV3lbqi2HmDyr9sNJxsX3/UyiO6czV7ToZqhOOH9YZR72J5A+gBMoOMz6zNiV4ax+bvlAeZaHRp/B1NDQ1cWmUji9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZ2yOJgO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DyXGI/YJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZ2yOJgO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763561276; x=1795097276;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VXej376e8NDUnHH6N1Y2Zz0He+oCNxyUEPvjiFLAsg4=;
-  b=DyXGI/YJrB26LchYYpbE/3Hd/PMVfieZmvG00uDoSyv3eddFjXSjW5xt
-   NTpBhgqQ7+R5rJJWjHYF3sYahojAQuQ944amFeC+LneuHxCZECXdEIQI0
-   Crg3rAIUPJw/D4+G22S47lSFJkXADGjd0NU9c+gbeNBbpQhcI/kLF9PvE
-   Nw8iRPQQUDzW/oJsW4+hplV+8Pv6I/Pbuzi00CdwU7Dn0J9bGh1B4KMWT
-   OvkGrT1EQ9HVHSfvBhienruIGzflqjZyrCRvkKyLxVb1VI4SOhcnpsT7P
-   B0mm2Jz8kz23DncCNwrwZaG57VzwUvL/ZsylgTB7wVJFroK78Da6tQdub
+  t=1763563863; x=1795099863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vNuGV1rCQ/E6w1UWnBC6lGDkKXCj/KwyDtwthK+GYqk=;
+  b=eZ2yOJgODvH7zjgLFoc7w3/A5SCNBNMZ9Elol2G+/C2HYSGwn+dP/SNk
+   yLrZrBwJw6WMsfY79nAjwCpzDl3aqkl7o6zfh/8eXYFDwOTnp8MG4DSaO
+   na6+zU7mAOiNvjRAkqxfWAvvS+7nsMvg6iaxHJxAJOhtceH6ekOfMJ99u
+   twYloHaPuuUW3o3uad1rFHrOcbb9hdKzPx6avq113eff97BwV5WFOUw1D
+   2HBVi8EOL/26MpW8R0E7q7FGu11JCfMIeGKs3Fa0eTie3JkTUq2DjRVKy
+   Mu1XH+CR5RwY7Las7+INrx7ZeuQDhaJtnKzx/DS6UTbaHbIaUa7avNe/2
    A==;
-X-CSE-ConnectionGUID: VG1kKmkxT62VeQA4+BQEsw==
-X-CSE-MsgGUID: AT+b7KNETt+9USMvpkcmFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76282098"
+X-CSE-ConnectionGUID: yKNSDxQQRISsGEwVlUJiMQ==
+X-CSE-MsgGUID: XfkV5vMiSuusNUODasjI2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76962095"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="76282098"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:07:55 -0800
-X-CSE-ConnectionGUID: bk6MB9woTrWpHMjMhYJIZg==
-X-CSE-MsgGUID: cMRwz3mYQi6L8Kke6S27xA==
+   d="scan'208";a="76962095"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:51:02 -0800
+X-CSE-ConnectionGUID: 9Hmy5UWvSKqiR9zW89wbWQ==
+X-CSE-MsgGUID: 47kEs49lTGmU5H1vCDzTiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="196200226"
+   d="scan'208";a="190741746"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Nov 2025 06:07:55 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Nov 2025 06:50:59 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLiqe-0002wx-0B;
-	Wed, 19 Nov 2025 14:07:52 +0000
-Date: Wed, 19 Nov 2025 22:07:51 +0800
+	id 1vLjWL-00030N-2E;
+	Wed, 19 Nov 2025 14:50:57 +0000
+Date: Wed, 19 Nov 2025 22:49:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 328/328] block/blk-mq.c:1049:36: sparse:
- sparse: cast from restricted blk_status_t
-Message-ID: <202511192204.6svmBzVu-lkp@intel.com>
+To: Ranganath V N <vnranganath.20@gmail.com>, johannes@sipsolutions.net,
+	dave.taht@bufferbloat.net, linville@tuxdriver.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com, khalid@kernel.org,
+	Ranganath V N <vnranganath.20@gmail.com>,
+	syzbot+878ddc3962f792e9af59@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] wifi: cfg80211: Fix uninitialized header access in
+ cfg80211_classify8021d
+Message-ID: <202511192205.7ZRQgwZI-lkp@intel.com>
+References: <20251118150524.7973-1-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,144 +68,196 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251118150524.7973-1-vnranganath.20@gmail.com>
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   bb0e74acaf990260e6fbe36e2fe42ec210016242
-commit: 54c492f8d2da8d8ea3740dfbeb233e3649331605 [328/328] block: remove blk-exec.c
-config: arm64-randconfig-r132-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192204.6svmBzVu-lkp@intel.com/config)
+Hi Ranganath,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.18-rc6 next-20251119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ranganath-V-N/wifi-cfg80211-Fix-uninitialized-header-access-in-cfg80211_classify8021d/20251118-231316
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20251118150524.7973-1-vnranganath.20%40gmail.com
+patch subject: [PATCH v3] wifi: cfg80211: Fix uninitialized header access in cfg80211_classify8021d
+config: arm64-randconfig-r132-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192205.7ZRQgwZI-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192204.6svmBzVu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192205.7ZRQgwZI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511192204.6svmBzVu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511192205.7ZRQgwZI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   block/blk-mq.c:315:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int rq_flags @@     got restricted req_flags_t [usertype] @@
-   block/blk-mq.c:315:26: sparse:     expected unsigned int rq_flags
-   block/blk-mq.c:315:26: sparse:     got restricted req_flags_t [usertype]
-   block/blk-mq.c:324:26: sparse: sparse: invalid assignment: |=
-   block/blk-mq.c:324:26: sparse:    left side has type unsigned int
-   block/blk-mq.c:324:26: sparse:    right side has type restricted req_flags_t
-   block/blk-mq.c:326:26: sparse: sparse: invalid assignment: |=
-   block/blk-mq.c:326:26: sparse:    left side has type unsigned int
-   block/blk-mq.c:326:26: sparse:    right side has type restricted req_flags_t
-   block/blk-mq.c:327:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted req_flags_t [usertype] rq_flags @@     got unsigned int rq_flags @@
-   block/blk-mq.c:327:22: sparse:     expected restricted req_flags_t [usertype] rq_flags
-   block/blk-mq.c:327:22: sparse:     got unsigned int rq_flags
->> block/blk-mq.c:1049:36: sparse: sparse: cast from restricted blk_status_t
->> block/blk-mq.c:1142:17: sparse: sparse: cast to restricted blk_status_t
+All errors (new ones prefixed by >>):
 
-vim +1049 block/blk-mq.c
+   net/wireless/util.c: In function 'cfg80211_classify8021d':
+>> net/wireless/util.c:966:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct iphdr iph, *ip;
+      ^~~~~~
+   net/wireless/util.c:976:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct ipv6hdr ip6h, *ip6;
+      ^~~~~~
 
-  1039	
-  1040	/**
-  1041	 * blk_end_sync_rq - executes a completion event on a request
-  1042	 * @rq: request to complete
-  1043	 * @error: end I/O status of the request
-  1044	 */
-  1045	static void blk_end_sync_rq(struct request *rq, blk_status_t error)
-  1046	{
-  1047		struct completion *waiting = rq->end_io_data;
-  1048	
-> 1049		rq->end_io_data = (void *)(uintptr_t)error;
-  1050	
-  1051		/*
-  1052		 * complete last, if this is a stack request the process (and thus
-  1053		 * the rq pointer) could be invalid right after this complete()
-  1054		 */
-  1055		complete(waiting);
-  1056	}
-  1057	
-  1058	/**
-  1059	 * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
-  1060	 * @bd_disk:	matching gendisk
-  1061	 * @rq:		request to insert
-  1062	 * @at_head:    insert request at head or tail of queue
-  1063	 * @done:	I/O completion handler
-  1064	 *
-  1065	 * Description:
-  1066	 *    Insert a fully prepared request at the back of the I/O scheduler queue
-  1067	 *    for execution.  Don't wait for completion.
-  1068	 *
-  1069	 * Note:
-  1070	 *    This function will invoke @done directly if the queue is dead.
-  1071	 */
-  1072	void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
-  1073				   int at_head, rq_end_io_fn *done)
-  1074	{
-  1075		WARN_ON(irqs_disabled());
-  1076		WARN_ON(!blk_rq_is_passthrough(rq));
-  1077	
-  1078		rq->rq_disk = bd_disk;
-  1079		rq->end_io = done;
-  1080	
-  1081		blk_account_io_start(rq);
-  1082	
-  1083		/*
-  1084		 * don't check dying flag for MQ because the request won't
-  1085		 * be reused after dying flag is set
-  1086		 */
-  1087		blk_mq_sched_insert_request(rq, at_head, true, false);
-  1088	}
-  1089	EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
-  1090	
-  1091	static bool blk_rq_is_poll(struct request *rq)
-  1092	{
-  1093		if (!rq->mq_hctx)
-  1094			return false;
-  1095		if (rq->mq_hctx->type != HCTX_TYPE_POLL)
-  1096			return false;
-  1097		if (WARN_ON_ONCE(!rq->bio))
-  1098			return false;
-  1099		return true;
-  1100	}
-  1101	
-  1102	static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
-  1103	{
-  1104		do {
-  1105			bio_poll(rq->bio, NULL, 0);
-  1106			cond_resched();
-  1107		} while (!completion_done(wait));
-  1108	}
-  1109	
-  1110	/**
-  1111	 * blk_execute_rq - insert a request into queue for execution
-  1112	 * @bd_disk:	matching gendisk
-  1113	 * @rq:		request to insert
-  1114	 * @at_head:    insert request at head or tail of queue
-  1115	 *
-  1116	 * Description:
-  1117	 *    Insert a fully prepared request at the back of the I/O scheduler queue
-  1118	 *    for execution and wait for completion.
-  1119	 * Return: The blk_status_t result provided to blk_mq_end_request().
-  1120	 */
-  1121	blk_status_t blk_execute_rq(struct gendisk *bd_disk, struct request *rq,
-  1122			int at_head)
-  1123	{
-  1124		DECLARE_COMPLETION_ONSTACK(wait);
-  1125		unsigned long hang_check;
-  1126	
-  1127		rq->end_io_data = &wait;
-  1128		blk_execute_rq_nowait(bd_disk, rq, at_head, blk_end_sync_rq);
-  1129	
-  1130		/* Prevent hang_check timer from firing at us during very long I/O */
-  1131		hang_check = sysctl_hung_task_timeout_secs;
-  1132	
-  1133		if (blk_rq_is_poll(rq))
-  1134			blk_rq_poll_completion(rq, &wait);
-  1135		else if (hang_check)
-  1136			while (!wait_for_completion_io_timeout(&wait,
-  1137					hang_check * (HZ/2)))
-  1138				;
-  1139		else
-  1140			wait_for_completion_io(&wait);
-  1141	
-> 1142		return (blk_status_t)(uintptr_t)rq->end_io_data;
-  1143	}
-  1144	EXPORT_SYMBOL(blk_execute_rq);
-  1145	
+
+vim +966 net/wireless/util.c
+
+   936	
+   937	/* Given a data frame determine the 802.1p/1d tag to use. */
+   938	unsigned int cfg80211_classify8021d(struct sk_buff *skb,
+   939					    struct cfg80211_qos_map *qos_map)
+   940	{
+   941		unsigned int dscp;
+   942		unsigned char vlan_priority;
+   943		unsigned int ret;
+   944	
+   945		/* skb->priority values from 256->263 are magic values to
+   946		 * directly indicate a specific 802.1d priority.  This is used
+   947		 * to allow 802.1d priority to be passed directly in from VLAN
+   948		 * tags, etc.
+   949		 */
+   950		if (skb->priority >= 256 && skb->priority <= 263) {
+   951			ret = skb->priority - 256;
+   952			goto out;
+   953		}
+   954	
+   955		if (skb_vlan_tag_present(skb)) {
+   956			vlan_priority = (skb_vlan_tag_get(skb) & VLAN_PRIO_MASK)
+   957				>> VLAN_PRIO_SHIFT;
+   958			if (vlan_priority > 0) {
+   959				ret = vlan_priority;
+   960				goto out;
+   961			}
+   962		}
+   963	
+   964		switch (skb->protocol) {
+   965		case htons(ETH_P_IP):
+ > 966			struct iphdr iph, *ip;
+   967	
+   968			ip = skb_header_pointer(skb, sizeof(struct ethhdr),
+   969						sizeof(*ip), &iph);
+   970			if (!ip)
+   971				return 0;
+   972	
+   973			dscp = ipv4_get_dsfield(ip_hdr(skb)) & 0xfc;
+   974			break;
+   975		case htons(ETH_P_IPV6):
+   976			struct ipv6hdr ip6h, *ip6;
+   977	
+   978			ip6 = skb_header_pointer(skb, sizeof(struct ethhdr),
+   979						 sizeof(*ip6), &ip6h);
+   980			if (!ip6)
+   981				return 0;
+   982	
+   983			dscp = ipv6_get_dsfield(ipv6_hdr(skb)) & 0xfc;
+   984			break;
+   985		case htons(ETH_P_MPLS_UC):
+   986		case htons(ETH_P_MPLS_MC): {
+   987			struct mpls_label mpls_tmp, *mpls;
+   988	
+   989			mpls = skb_header_pointer(skb, sizeof(struct ethhdr),
+   990						  sizeof(*mpls), &mpls_tmp);
+   991			if (!mpls)
+   992				return 0;
+   993	
+   994			ret = (ntohl(mpls->entry) & MPLS_LS_TC_MASK)
+   995				>> MPLS_LS_TC_SHIFT;
+   996			goto out;
+   997		}
+   998		case htons(ETH_P_80221):
+   999			/* 802.21 is always network control traffic */
+  1000			return 7;
+  1001		default:
+  1002			return 0;
+  1003		}
+  1004	
+  1005		if (qos_map) {
+  1006			unsigned int i, tmp_dscp = dscp >> 2;
+  1007	
+  1008			for (i = 0; i < qos_map->num_des; i++) {
+  1009				if (tmp_dscp == qos_map->dscp_exception[i].dscp) {
+  1010					ret = qos_map->dscp_exception[i].up;
+  1011					goto out;
+  1012				}
+  1013			}
+  1014	
+  1015			for (i = 0; i < 8; i++) {
+  1016				if (tmp_dscp >= qos_map->up[i].low &&
+  1017				    tmp_dscp <= qos_map->up[i].high) {
+  1018					ret = i;
+  1019					goto out;
+  1020				}
+  1021			}
+  1022		}
+  1023	
+  1024		/* The default mapping as defined Section 2.3 in RFC8325: The three
+  1025		 * Most Significant Bits (MSBs) of the DSCP are used as the
+  1026		 * corresponding L2 markings.
+  1027		 */
+  1028		ret = dscp >> 5;
+  1029	
+  1030		/* Handle specific DSCP values for which the default mapping (as
+  1031		 * described above) doesn't adhere to the intended usage of the DSCP
+  1032		 * value. See section 4 in RFC8325. Specifically, for the following
+  1033		 * Diffserv Service Classes no update is needed:
+  1034		 * - Standard: DF
+  1035		 * - Low Priority Data: CS1
+  1036		 * - Multimedia Conferencing: AF41, AF42, AF43
+  1037		 * - Network Control Traffic: CS7
+  1038		 * - Real-Time Interactive: CS4
+  1039		 * - Signaling: CS5
+  1040		 */
+  1041		switch (dscp >> 2) {
+  1042		case 10:
+  1043		case 12:
+  1044		case 14:
+  1045			/* High throughput data: AF11, AF12, AF13 */
+  1046			ret = 0;
+  1047			break;
+  1048		case 16:
+  1049			/* Operations, Administration, and Maintenance and Provisioning:
+  1050			 * CS2
+  1051			 */
+  1052			ret = 0;
+  1053			break;
+  1054		case 18:
+  1055		case 20:
+  1056		case 22:
+  1057			/* Low latency data: AF21, AF22, AF23 */
+  1058			ret = 3;
+  1059			break;
+  1060		case 24:
+  1061			/* Broadcasting video: CS3 */
+  1062			ret = 4;
+  1063			break;
+  1064		case 26:
+  1065		case 28:
+  1066		case 30:
+  1067			/* Multimedia Streaming: AF31, AF32, AF33 */
+  1068			ret = 4;
+  1069			break;
+  1070		case 44:
+  1071			/* Voice Admit: VA */
+  1072			ret = 6;
+  1073			break;
+  1074		case 46:
+  1075			/* Telephony traffic: EF */
+  1076			ret = 6;
+  1077			break;
+  1078		case 48:
+  1079			/* Network Control Traffic: CS6 */
+  1080			ret = 7;
+  1081			break;
+  1082		}
+  1083	out:
+  1084		return array_index_nospec(ret, IEEE80211_NUM_TIDS);
+  1085	}
+  1086	EXPORT_SYMBOL(cfg80211_classify8021d);
+  1087	
 
 -- 
 0-DAY CI Kernel Test Service
