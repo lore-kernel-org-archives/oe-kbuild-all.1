@@ -1,61 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AD035BDB2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441D835BDC1;
+	Wed, 19 Nov 2025 12:45:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763556351; cv=none; b=joL29PynKt/ec9R9QxHs5Gf6ZSWxysGfuSgw5MGKWGfhRLHy0NbCKWJQBsa5kqHi9j/ir30fN+PGhn8QYLqWVEFLyf8lTMK6pj7rcDnr9Oo2GxaxFVx7YO515fqZ7ega1m2XP77hBxuhCD2giuUWxCxrSOOo08fLWSMM2GU3vgI=
+	t=1763556355; cv=none; b=EdSX7WhfpoBaphKzsZJh4XBlH6cE/ONSu/YRn5vNRYw4l57yiMZYb5cgOLquwy5prX9b7nYT1Um9zufvu0iNO96WRx1iN3972jdJ/pFIjoB0NUuRcGfy2A6ClTYiLgMgUYoUcvjZ42+/iMsdr2wXIXmQ69gRhHiVH0YN4KLC2Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763556351; c=relaxed/simple;
-	bh=ng/O2QW3MktSvdXoUCnhJKqwF78VlPya4qWkFXgX3rU=;
+	s=arc-20240116; t=1763556355; c=relaxed/simple;
+	bh=HF9GdCIMZF1sjrLdRxndNornshZnJxuUvneqfFK3BPw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E1IyEvqgGkieehEkyZiwjqvhtu0UXgKpVh+elufvyKiqcbyF7fVY/Q5jSfWJli/4KhcdAXXeqadp4Ru8TzQuf7mtpOPZd0PAlS17ab1OhW6vfJluDtcFxuQPMZb6/ObqDyzmIbMIbNc+2NcLyk0Ty687SXPUE0PzNcdNtsCQIO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLhJAeeb; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=bW73RLZl49yOemGHbdn/0Xke3CoF0rES0a1a1UT8m22/XYVQgZcJXuXZ2uPexWmGFcudPjeSV1gu2oUP4KUKGMLaZmzUXMgl4of1Xz7F7RumN3MvysAnCRFRNEU3ukq/1+rhmye1fjsyf5eRTp5lRizypm507xGRZ6lmp9aeOGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCMFAzIo; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLhJAeeb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCMFAzIo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763556349; x=1795092349;
+  t=1763556352; x=1795092352;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ng/O2QW3MktSvdXoUCnhJKqwF78VlPya4qWkFXgX3rU=;
-  b=YLhJAeebXk9Xqik2Qfba1ajbiTAfI9fncRxWJWnf2vf1nMBZOnlRY9CJ
-   fQ3TQ2TaYnDA/1wbIKU9ego7Q8vXjgGlBA60bhprJTVGygWmCtvcCGiSp
-   eYSxlduWtAhavhNQ69r+H9RAaxRl8oG2+/svB/CdNSS9bdatJV5s8zOoL
-   iRWqN4nokOgiocfY5gLp6FJ5cYX2Y5Lq0lCYnGkyf2sP4jVjW7Q4G+DaU
-   Eh3zEFwiG7/DgI9NLaxkL9NqfDrbDddWoNW7phIkVSMJ3ltJLnotCfF4V
-   8jv1DW72C9tf1xkE1Mmiu5tBfxUWoe87bL5Zc2ShAltuwGvuQcU7d2/5+
+  bh=HF9GdCIMZF1sjrLdRxndNornshZnJxuUvneqfFK3BPw=;
+  b=FCMFAzIo9jARyIaWXHj+cgaTzumVJ53QT5GZ5mvsb7r2p22tZkLBQ36D
+   IjXCUao7fk49sAw6BcMZ78RdZtw/ZQOCORsMGEC21yTfsLR9xwq9GK+dl
+   lFDIOxA1JOPc31MbkiYfH4AAg1/nKwv3IZSljGmFB5nLtoIuciVHHIiUi
+   ZrZZKuNcNwQqT+ogqBuf8PVPMoEMoiPQqpissMzYU93sTz77Lqg5kBvG3
+   EwjjMBDx+73TzzupkB822z7Fnm0yid/kOy0Dy6/3u6rxl2FIBGd8mpX4t
+   NuvpT8QadvOfJsF2nq4zASAT4dY1Czva+njm2TpWE/8vTtAT4ORfgYP/T
    A==;
-X-CSE-ConnectionGUID: KNAB5sCfTvuAEhtA6ONVQQ==
-X-CSE-MsgGUID: RXkN/ELhSGm/LUBXzmChAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="91070274"
+X-CSE-ConnectionGUID: kFCuKy20QFKrDkTOxPLdTA==
+X-CSE-MsgGUID: TFnXoFa4TsSKl3UO0vh/AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="91070276"
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="91070274"
+   d="scan'208";a="91070276"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 04:45:48 -0800
-X-CSE-ConnectionGUID: Qi6JUvjLTHSszI2JgmCboQ==
-X-CSE-MsgGUID: J8lDMOAfQEyaPBIHH5ePiQ==
+X-CSE-ConnectionGUID: B0RsA/byT9izExDqLpupDQ==
+X-CSE-MsgGUID: fxKk5ZwHQG+ErFr+MlomYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190708390"
+   d="scan'208";a="190708391"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 19 Nov 2025 04:45:45 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLhZ9-0002sl-2D;
+	id 1vLhZ9-0002sn-2G;
 	Wed, 19 Nov 2025 12:45:43 +0000
-Date: Wed, 19 Nov 2025 20:45:16 +0800
+Date: Wed, 19 Nov 2025 20:45:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH 3/3] loop: disable writeback throttling and fix nowait
- support
-Message-ID: <202511192025.ApZLv3Ly-lkp@intel.com>
-References: <20251119093855.3405421-4-ming.lei@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-crypto@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH libcrypto 2/2] crypto: chacha20poly1305: statically check
+ fixed array lengths
+Message-ID: <202511192000.TLYrcg0Z-lkp@intel.com>
+References: <20251118170240.689299-2-Jason@zx2c4.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,54 +69,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119093855.3405421-4-ming.lei@redhat.com>
+In-Reply-To: <20251118170240.689299-2-Jason@zx2c4.com>
 
-Hi Ming,
+Hi Jason,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on next-20251119]
-[cannot apply to linus/master v6.18-rc6]
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master ebiggers/libcrypto-next ebiggers/libcrypto-fixes linus/master linux/master v6.18-rc6 next-20251119]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/loop-move-kiocb_start_write-to-aio-prep-phase/20251119-174659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251119093855.3405421-4-ming.lei%40redhat.com
-patch subject: [PATCH 3/3] loop: disable writeback throttling and fix nowait support
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511192025.ApZLv3Ly-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192025.ApZLv3Ly-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-A-Donenfeld/crypto-chacha20poly1305-statically-check-fixed-array-lengths/20251119-011125
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20251118170240.689299-2-Jason%40zx2c4.com
+patch subject: [PATCH libcrypto 2/2] crypto: chacha20poly1305: statically check fixed array lengths
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251119/202511192000.TLYrcg0Z-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192000.TLYrcg0Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511192025.ApZLv3Ly-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511192000.TLYrcg0Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from block/elevator.c:45:
->> block/blk-wbt.h:19:20: error: static declaration of 'wbt_disable_default' follows non-static declaration
-      19 | static inline void wbt_disable_default(struct gendisk *disk)
-         |                    ^~~~~~~~~~~~~~~~~~~
-   In file included from block/elevator.c:28:
-   include/linux/blkdev.h:452:6: note: previous declaration of 'wbt_disable_default' with type 'void(struct gendisk *)'
-     452 | void wbt_disable_default(struct gendisk *disk);
-         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireguard/cookie.c:193:2: warning: array argument is too small; contains 31 elements, callee requires at least 32 [-Warray-bounds]
+     193 |         xchacha20poly1305_encrypt(dst->encrypted_cookie, cookie, COOKIE_LEN,
+         |         ^
+     194 |                                   macs->mac1, COOKIE_LEN, dst->nonce,
+     195 |                                   checker->cookie_encryption_key);
+         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/chacha20poly1305.h:32:20: note: callee declares array parameter as static here
+      32 |                                const u8 key[min_array_size(CHACHA20POLY1305_KEY_SIZE)]);
+         |                                         ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireguard/cookie.c:6:
+   In file included from drivers/net/wireguard/cookie.h:9:
+   In file included from drivers/net/wireguard/messages.h:10:
+   In file included from include/crypto/chacha20poly1305.h:11:
+   In file included from include/linux/scatterlist.h:5:
+   In file included from include/linux/string.h:382:
+   include/linux/fortify-string.h:480:4: warning: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+     480 |                         __write_overflow_field(p_size_field, size);
+         |                         ^
+   2 warnings generated.
 
 
-vim +/wbt_disable_default +19 block/blk-wbt.h
+vim +193 drivers/net/wireguard/cookie.c
 
-e34cbd307477ae Jens Axboe        2016-11-09  18  
-04aad37be1a88d Christoph Hellwig 2023-02-03 @19  static inline void wbt_disable_default(struct gendisk *disk)
-e34cbd307477ae Jens Axboe        2016-11-09  20  {
-e34cbd307477ae Jens Axboe        2016-11-09  21  }
-04aad37be1a88d Christoph Hellwig 2023-02-03  22  static inline void wbt_enable_default(struct gendisk *disk)
-e34cbd307477ae Jens Axboe        2016-11-09  23  {
-e34cbd307477ae Jens Axboe        2016-11-09  24  }
-e34cbd307477ae Jens Axboe        2016-11-09  25  
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  179  
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  180  void wg_cookie_message_create(struct message_handshake_cookie *dst,
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  181  			      struct sk_buff *skb, __le32 index,
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  182  			      struct cookie_checker *checker)
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  183  {
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  184  	struct message_macs *macs = (struct message_macs *)
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  185  		((u8 *)skb->data + skb->len - sizeof(*macs));
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  186  	u8 cookie[COOKIE_LEN];
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  187  
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  188  	dst->header.type = cpu_to_le32(MESSAGE_HANDSHAKE_COOKIE);
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  189  	dst->receiver_index = index;
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  190  	get_random_bytes_wait(dst->nonce, COOKIE_NONCE_LEN);
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  191  
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  192  	make_cookie(cookie, skb, checker);
+e7096c131e5161 Jason A. Donenfeld 2019-12-09 @193  	xchacha20poly1305_encrypt(dst->encrypted_cookie, cookie, COOKIE_LEN,
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  194  				  macs->mac1, COOKIE_LEN, dst->nonce,
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  195  				  checker->cookie_encryption_key);
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  196  }
+e7096c131e5161 Jason A. Donenfeld 2019-12-09  197  
 
 -- 
 0-DAY CI Kernel Test Service
