@@ -1,144 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012047.outbound.protection.outlook.com [52.101.66.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441D835BDC1;
-	Wed, 19 Nov 2025 12:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763556355; cv=none; b=EdSX7WhfpoBaphKzsZJh4XBlH6cE/ONSu/YRn5vNRYw4l57yiMZYb5cgOLquwy5prX9b7nYT1Um9zufvu0iNO96WRx1iN3972jdJ/pFIjoB0NUuRcGfy2A6ClTYiLgMgUYoUcvjZ42+/iMsdr2wXIXmQ69gRhHiVH0YN4KLC2Gc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763556355; c=relaxed/simple;
-	bh=HF9GdCIMZF1sjrLdRxndNornshZnJxuUvneqfFK3BPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bW73RLZl49yOemGHbdn/0Xke3CoF0rES0a1a1UT8m22/XYVQgZcJXuXZ2uPexWmGFcudPjeSV1gu2oUP4KUKGMLaZmzUXMgl4of1Xz7F7RumN3MvysAnCRFRNEU3ukq/1+rhmye1fjsyf5eRTp5lRizypm507xGRZ6lmp9aeOGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCMFAzIo; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA75340298
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 13:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763558931; cv=fail; b=d1pUMkdwUPpYUgo8OsGuSHpRBVHHjzwtmNuwwfEyhhk62zm6Xf57JAN1Qv9RYJFvZSc23X1FPEIO6sgWJ56ZTGscy5I0KV8D+GU3lcCK36Cw4bsCxbodzD55miXIeDKck2LGfbdYkG3gzW9krwlLb/Vnrtny8Vx9NhLGnAdcgDc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763558931; c=relaxed/simple;
+	bh=tzhPp/wkJ79MDnLIeKh+SOHAxdscWwCvBUqMzcLfDt4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gkvh4PulJsnuUdYtnr+KFCuAQ2mh8iAJqqTTGNenu73DND/3MQQzgv4TGbqLkZZPF3W/kZca4xuZzpA0wOKCB28IXwZ50MjVyNZQslISrcxphoiPCEHhWuR/2kYBcOkmADzEAazTdF5fNmp0AW75l58vyXPucfY/GBVBTkaGzZs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Pf2D2+4A; arc=fail smtp.client-ip=52.101.66.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCMFAzIo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763556352; x=1795092352;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HF9GdCIMZF1sjrLdRxndNornshZnJxuUvneqfFK3BPw=;
-  b=FCMFAzIo9jARyIaWXHj+cgaTzumVJ53QT5GZ5mvsb7r2p22tZkLBQ36D
-   IjXCUao7fk49sAw6BcMZ78RdZtw/ZQOCORsMGEC21yTfsLR9xwq9GK+dl
-   lFDIOxA1JOPc31MbkiYfH4AAg1/nKwv3IZSljGmFB5nLtoIuciVHHIiUi
-   ZrZZKuNcNwQqT+ogqBuf8PVPMoEMoiPQqpissMzYU93sTz77Lqg5kBvG3
-   EwjjMBDx+73TzzupkB822z7Fnm0yid/kOy0Dy6/3u6rxl2FIBGd8mpX4t
-   NuvpT8QadvOfJsF2nq4zASAT4dY1Czva+njm2TpWE/8vTtAT4ORfgYP/T
-   A==;
-X-CSE-ConnectionGUID: kFCuKy20QFKrDkTOxPLdTA==
-X-CSE-MsgGUID: TFnXoFa4TsSKl3UO0vh/AQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="91070276"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="91070276"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 04:45:48 -0800
-X-CSE-ConnectionGUID: B0RsA/byT9izExDqLpupDQ==
-X-CSE-MsgGUID: fxKk5ZwHQG+ErFr+MlomYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="190708391"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Nov 2025 04:45:45 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vLhZ9-0002sn-2G;
-	Wed, 19 Nov 2025 12:45:43 +0000
-Date: Wed, 19 Nov 2025 20:45:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Kees Cook <kees@kernel.org>,
-	linux-crypto@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LKML <linux-kernel@vger.kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH libcrypto 2/2] crypto: chacha20poly1305: statically check
- fixed array lengths
-Message-ID: <202511192000.TLYrcg0Z-lkp@intel.com>
-References: <20251118170240.689299-2-Jason@zx2c4.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Pf2D2+4A"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y6OeOO8XsX1bik0Z1+njUzI0ocKNX/JABiDx0yIPLLQ+nz8LgfrWcJgy3/IbotqYdlNYAi6drEZ50Ilb/AxgX2bmRMz2yhCG/KowTRkZUk8qSEd6Ch8kfr0tjV1AGzeNYRJzBkM/CZdaSQc1YBLH2lgmpO+rsEQycYN0iPId4y3AGm3PDCn8MvblxbksJ9aoMtOtN/ilIx5xwNVyjfihQveg8ndUg/PBSEt68D04BhAlvTRQZv1d72XwV0o8w4bHGecTExFToSZQhl19Cq8nUHUcAbUOaBeU7ecyuAyTC7xPK8mBU3wt1Nu3QtISbw3r1vGQ9jVoWcGy7TFp13HrLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1eSlGGsGYrxRmjnSzRh6bLKjHntoQE2QIk1atT5BmgI=;
+ b=ux6PNWtGK8+9nKjDylwvF9rsuFOm/dr/1PuP5Aem7j0vgNcnA7lUWi9fVF9Krl4/COBdE+rGe6gK+oXe/VqIzClZiYXMg8kdqfE1FCKm0yoDr98vVEUuFqcQJ92JXnF3S0aFY09p5sbzZh4UoY/LUdl4f+9zMH3+zEWsG1ImW0keAhroLTY7WvdYqjOI07vB+KqOiJng5zXGKlzguji9iTaY24dUaTb3Bg0tchre4rak4d0AnhMXm7HqtqVWVJ7Z9pW6IW6oazyDzeYGRDVOl5Hvhpwa9b27JmNLB1dv3Y2eKXFMAIb/QguVBFa2htQ97Hkb5IEIa4Jokh/b6F0CdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1eSlGGsGYrxRmjnSzRh6bLKjHntoQE2QIk1atT5BmgI=;
+ b=Pf2D2+4AGSLI942mlKW67bxWls6nIYg5OrRwRPZh6jwwes3WgIMEoU53TTaay6KIg5yN0tf5FkRIakS30D7gBwfMDfYP8sy1IaE5+lV7miw6xFChPFc7VucsvOz9jSYNtJtgStDedKqEZncmUfS50fE3V5Gdu82lNzcqnc2C0TE3J87rVTgrZdEZul70/a/1yV1yvS+FT02en7Yxxd4VJrK9WgpVqWc0/+1cMGsMEp2x6Tkrr7Q32998vaWziJz1Hm9TDg7CSAZBqmpk1rNBf0TVKSs6hhbH5BmJMnU2PdIz4RGC/Xv8ZLj7CCt+wr+OGRovuBTQmm38gJ4u6HsVRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DBBPR04MB7497.eurprd04.prod.outlook.com (2603:10a6:10:204::9)
+ by AM9PR04MB8779.eurprd04.prod.outlook.com (2603:10a6:20b:40a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
+ 2025 13:28:43 +0000
+Received: from DBBPR04MB7497.eurprd04.prod.outlook.com
+ ([fe80::503f:b388:6d07:adff]) by DBBPR04MB7497.eurprd04.prod.outlook.com
+ ([fe80::503f:b388:6d07:adff%4]) with mapi id 15.20.9343.009; Wed, 19 Nov 2025
+ 13:28:43 +0000
+Date: Wed, 19 Nov 2025 15:28:40 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org, Serge Semin <fancer.lancer@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 14/15] net: dsa: sja1105: replace mdiobus-pcs
+ with xpcs-plat driver
+Message-ID: <20251119132840.ddw43kvhtybnihni@skbuf>
+References: <20251118190530.580267-15-vladimir.oltean@nxp.com>
+ <20251118190530.580267-15-vladimir.oltean@nxp.com>
+ <202511191835.rwfD48SW-lkp@intel.com>
+ <202511191835.rwfD48SW-lkp@intel.com>
+ <20251119120111.voyy7rmy4mk444wo@skbuf>
+ <aR2yEf04Pv-CZi1U@shell.armlinux.org.uk>
+ <aR2yl-ZZ-QGnnmTV@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aR2yl-ZZ-QGnnmTV@shell.armlinux.org.uk>
+X-ClientProxiedBy: VI1PR0502CA0032.eurprd05.prod.outlook.com
+ (2603:10a6:803:1::45) To DBBPR04MB7497.eurprd04.prod.outlook.com
+ (2603:10a6:10:204::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251118170240.689299-2-Jason@zx2c4.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR04MB7497:EE_|AM9PR04MB8779:EE_
+X-MS-Office365-Filtering-Correlation-Id: d27d7d1a-1790-4669-c876-08de276f8f9c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|19092799006|366016|10070799003|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sNSyrRyAkhaQET4o+AnRYU92uI5+54n6UiarEpgijYab0mQW2qFSgTr8ngXX?=
+ =?us-ascii?Q?9Mu9WECCxMO7/8IpUmhA6NndVqBQrcEKY5k595mNFV1g2WSzR8es0oSigUT7?=
+ =?us-ascii?Q?0elc9uQ6Vdl+D632zlyeY26xtQQ7sG3/5JYE1UwAyImlt813IZB77qRyI9x4?=
+ =?us-ascii?Q?XcMN0u2xiUUbi10s1X9JlynZRqlj+biQUSQh1daPjzQ/iMc4ImuxluvlezUu?=
+ =?us-ascii?Q?DxNy7boOFmE51daYpsOAd1WN4fmRB65q08SKqJRKaaFD2EjvGfh5oOjSbzeg?=
+ =?us-ascii?Q?YvFYeeXhuVri13sBdP0zB+c1h8gcTmK+pRCiz1L2b0A50at47Mvff/CdXJ5h?=
+ =?us-ascii?Q?6/xYOy9zlyDNxluh5QrL0bIPxQU871MoraNbkwdtgrNuqqYzmxr/xq7uPRlI?=
+ =?us-ascii?Q?gA+OGRMZymk/SgZyBu4nGWXPpaSD6/anV5Gb2hwwcsaBFN3vvDOBlNhs09TP?=
+ =?us-ascii?Q?oRXJYn+ryMVA73+2lRbgacfjm9FAj1w2PEuhaazYKeUlC1MFnZF7jImkLUW9?=
+ =?us-ascii?Q?CwlS6oR8Ft1GnA8KECD/QPN6ziIbWUQMilT60qhnv35WUFFAdGmTWaJw0iDH?=
+ =?us-ascii?Q?JRPnmAioSNoB/+x+t9ArPQudfS52kQr4eogu1hzybapcqzszdR0zMOvhPZF2?=
+ =?us-ascii?Q?5TpKyDoaaLIQBTfH9Xrb1hwaqPcL5Hoeru0hl92VTK7lcyWkx9l0p9zzSH9s?=
+ =?us-ascii?Q?TmTPRtgOjrKJ546EWtR7QX9MBF6dxe/dp2OVuvKPOB/DN/3QabWh7n0wsCOi?=
+ =?us-ascii?Q?Gl9BuKN/d8vaERvjSc+bAo3C2SE+dZcp/mPjx3m6/XFCObDr+f83Deg1M66n?=
+ =?us-ascii?Q?5I2+yJVST8i1YrD6Un8AYI8jLkCt5CbwS8spIh3PtUqstQPsPttLoiFRXWjW?=
+ =?us-ascii?Q?V2c41loq/F3Xj7FVwW8+FruCXjyYYG6dsBB86mwcGuh20rN1BM9LTFzA2ifA?=
+ =?us-ascii?Q?4OHMTt7i5q1iYMDOfXxL1On6xCgpdr4F54XK81R0MGD1RTerriyLl5pKAk08?=
+ =?us-ascii?Q?EIE1xSPePFKZlhf0UhzlCvAvQGy/32ZuIAIIT1ue27mkKHpG3WehYKGnPqE8?=
+ =?us-ascii?Q?xvAhKHW1VRIoa++QOTl44jlxkFH+tqBbFo5C4/XqRTXODXGEgO8Az34+5Ti4?=
+ =?us-ascii?Q?76xQY3hWSS1TJTBXrBAdhJqCXviGlPf+QpDbL4nBxoamHI31X4iKzr/F2zU3?=
+ =?us-ascii?Q?e5/WcKVQ+MYJFIWyGaFlxaH0DMjBNcvjMP0ru0QuEP/JJvDAjxn3KifjFJMC?=
+ =?us-ascii?Q?z03VI4w3IID8GeCSxaPl2KrCiMQqzYS2tq4GgNcjBqHKo8enHBo7Y167tV1o?=
+ =?us-ascii?Q?HFlRjMP96r621yrgTQGk6BLDp9XrgpZVMgqPciz/BptM6ljCHcT5K1gyHKU+?=
+ =?us-ascii?Q?MOo51dMjUBJx1xPx3sx53AppiFOQAEAfOq8d1/bpjgRF/tdTkF0RBUPEICat?=
+ =?us-ascii?Q?X2F7qJ7AfPpW8wYvwTI/BEMV1X4404tA?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR04MB7497.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VdP+ZXXV1SoVhSwp25fp/llD8Qf/jZ9mSBT232eKHY7hvPQlPyZnjNkkVkbn?=
+ =?us-ascii?Q?hDgEC5VWn2JM8vUrsDGKkRVIH+rXvATbuHNXUR3aARLTVXPlV2w0XDU+4T3H?=
+ =?us-ascii?Q?LrngIrc+b+USZ/Js6pwo5/ClY/mwBkElyp6mXjOtw0lNyNkeNF/PRcpS/moc?=
+ =?us-ascii?Q?uvk8BdSik6lM4F9AnzwprLM+07H3kbLSx0O8LkLyZ61aIZPy/5Ec3RuOQatN?=
+ =?us-ascii?Q?zGKnqm4iHhiTMFbLv7jdCoB//vvqtzL1eEuzgjeAvyklu6JUHA8GFWHfDJ72?=
+ =?us-ascii?Q?a0QZfy5ryfTRUNdAphkZYb8UMoxkKzvUuPkbUWBajm/N7TUevvZ/1huvR8Md?=
+ =?us-ascii?Q?SBh6i8OliaeQjelFpbgvLh1V5XebeuL8HLAeiZCu6Guw3EloOfkDRzCwc4Wj?=
+ =?us-ascii?Q?WUJdBrujzLwADAsecFMpgrfKeXv/uXCOH8QkLFXT3kxDlxX+QMEpP9LxWH3z?=
+ =?us-ascii?Q?cuW8eIMRCbq7x8FnoIun7/VxDLxJ12gLpCvrISPq8n/iJMZ0WbBrB5S6Xjs/?=
+ =?us-ascii?Q?QW8VQYZnOXOwOOv+jkUt1b4Rvrvl3oBKFghcOThnpNPsaSQlYttojjViIH99?=
+ =?us-ascii?Q?yzC1g4fGEiQh8vgmf9rWJEKlZl0osL5JmHUwaOuxCwiZZiV7SOTzbh1ecrTM?=
+ =?us-ascii?Q?X+bh4RfLZOkaSHB4SRK56qGsnldx5N7t1kCH0qAPlTPYf1m1tjg863h9poT4?=
+ =?us-ascii?Q?XphRYCHsXJoM+X3eZBY+RCbWuMYbNLiwc0YkKtawWtjS+ntgfWyT99pbXzpD?=
+ =?us-ascii?Q?hBxiiDj6f8eIQaV8A2Slq8Sb2pHUFt04uTUSeqhw+tJLd5tAUtBgniMQXT3L?=
+ =?us-ascii?Q?RdrqsNQ0fq+iSX5JL5y0dds2YQ82NDvRJyQNpI3tjpJl1vVI8Xz36za1UTLP?=
+ =?us-ascii?Q?r/4ezpJRdQFzy6gWNFG067GXQvdtWbe9wzrWBpE3XmOEv/+Yzx/X9F4CvxYj?=
+ =?us-ascii?Q?XAhWoEWZQgMiN4F+7ZS1wdeT3k+8vCH1VqnmCEl0nXLdgbkv8sAcONXR0Ngt?=
+ =?us-ascii?Q?Hu/Fck8GNubDywCHI8CyBW6rFBc8Ivgjo7/0kVZkuYlK1ZG0YK0xip9i2fZm?=
+ =?us-ascii?Q?Aw5mmZrISWP9ch5MyCYz0nGNPNwdA+0ygaz/lc6nXPRC2eTOcpzsqDKvGgPo?=
+ =?us-ascii?Q?wKA9E5GSbLZ9Fuyxr00ZWEPb8GUbtTf4Wskh/A9M8iKHoFibFk1zrijRvhc5?=
+ =?us-ascii?Q?u6PxNvJELVV53Vh7XeW0p0ys4OAyscFev3sB5tALxcFllJ+NgilrbhAxpbQS?=
+ =?us-ascii?Q?gT0xSKIlK/BjbP799+2w8G5aWfAqjaRUW7AeNz6tC+lPkuq/lFUbKYSGT/VJ?=
+ =?us-ascii?Q?bwxuEI1OFL12l/fCkssjFuOD1aa1vLb3fBYnKkrLsUKbIlJzSeqylv0nLUTA?=
+ =?us-ascii?Q?g7vNJt1AUfY/jCwbuoPTPs8acJh91nNTmQmNn/bqNvkK8NNx3v1NpZqPi75N?=
+ =?us-ascii?Q?OAxx9ZQAGMOOQp8MYdxRT1thoatZ+eZzvbQ0Pkf+1xE1DBPKCI7OteL05jru?=
+ =?us-ascii?Q?FIquv2JphYbsME+aRMETOCwzWvcu/5i3e1/8h6dTFeuJBLrMoy4IEd7MpNdp?=
+ =?us-ascii?Q?jXCrTdEX4cpVKMDva3EqegoPokxjkw58ESqLetLuv7hrpjX0HnjelKJzfL9V?=
+ =?us-ascii?Q?lDDcLFQZxMOEITI+Z9wddYcwtj6nyPdBKWMvJgLaoLqrw82vUZyke7KP+5Qs?=
+ =?us-ascii?Q?qsFUiQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d27d7d1a-1790-4669-c876-08de276f8f9c
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR04MB7497.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 13:28:43.9096
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F38SNDmD7lk8TJds2v7LEY7MKFCPUUMuZ/GIbVMh1HeSzAfxcKVtuf2Z6HtKq5f5JxhYuqesJDEmLn86G5UVtg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8779
 
-Hi Jason,
+On Wed, Nov 19, 2025 at 12:05:43PM +0000, Russell King (Oracle) wrote:
+> On Wed, Nov 19, 2025 at 12:03:29PM +0000, Russell King (Oracle) wrote:
+> > On Wed, Nov 19, 2025 at 02:01:11PM +0200, Vladimir Oltean wrote:
+> > > I do wonder how to print resource_size_t (typedef to phys_addr_t, which
+> > > is typedeffed to u64 or u32 depending on CONFIG_PHYS_ADDR_T_64BIT).
+> > 
+> > From the now hard to find Documentation/core-api/printk-formats.rst:
 
-kernel test robot noticed the following build warnings:
+I really wasn't aware of this, and I was reading the inline docs from
+lib/vsprintf.c all this time... Thanks!
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master ebiggers/libcrypto-next ebiggers/libcrypto-fixes linus/master linux/master v6.18-rc6 next-20251119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > Physical address types phys_addr_t
+> > ----------------------------------
+> > 
+> > ::
+> > 
+> >         %pa[p]  0x01234567 or 0x0123456789abcdef
+> > 
+> > For printing a phys_addr_t type (and its derivatives, such as
+> > resource_size_t) which can vary based on build options, regardless of the
+> > width of the CPU data path.
+> > 
+> > Passed by reference.
+> 
+> Hmm, but I guess you don't want the 0x prefix. Maybe print it to a
+> separate buffer and then lop off the first two characters?
+> 
+> Another solution would be to always cast it to a u64 and use %llx as
+> suggested in the "Integer types" section.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-A-Donenfeld/crypto-chacha20poly1305-statically-check-fixed-array-lengths/20251119-011125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20251118170240.689299-2-Jason%40zx2c4.com
-patch subject: [PATCH libcrypto 2/2] crypto: chacha20poly1305: statically check fixed array lengths
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251119/202511192000.TLYrcg0Z-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192000.TLYrcg0Z-lkp@intel.com/reproduce)
+Yeah, although I see the ePAPR section on node names doesn't disallow
+the 0x prefix for the unit-address, it is just that the established
+convention is without it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511192000.TLYrcg0Z-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/wireguard/cookie.c:193:2: warning: array argument is too small; contains 31 elements, callee requires at least 32 [-Warray-bounds]
-     193 |         xchacha20poly1305_encrypt(dst->encrypted_cookie, cookie, COOKIE_LEN,
-         |         ^
-     194 |                                   macs->mac1, COOKIE_LEN, dst->nonce,
-     195 |                                   checker->cookie_encryption_key);
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/crypto/chacha20poly1305.h:32:20: note: callee declares array parameter as static here
-      32 |                                const u8 key[min_array_size(CHACHA20POLY1305_KEY_SIZE)]);
-         |                                         ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/wireguard/cookie.c:6:
-   In file included from drivers/net/wireguard/cookie.h:9:
-   In file included from drivers/net/wireguard/messages.h:10:
-   In file included from include/crypto/chacha20poly1305.h:11:
-   In file included from include/linux/scatterlist.h:5:
-   In file included from include/linux/string.h:382:
-   include/linux/fortify-string.h:480:4: warning: call to '__write_overflow_field' declared with 'warning' attribute: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-     480 |                         __write_overflow_field(p_size_field, size);
-         |                         ^
-   2 warnings generated.
-
-
-vim +193 drivers/net/wireguard/cookie.c
-
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  179  
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  180  void wg_cookie_message_create(struct message_handshake_cookie *dst,
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  181  			      struct sk_buff *skb, __le32 index,
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  182  			      struct cookie_checker *checker)
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  183  {
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  184  	struct message_macs *macs = (struct message_macs *)
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  185  		((u8 *)skb->data + skb->len - sizeof(*macs));
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  186  	u8 cookie[COOKIE_LEN];
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  187  
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  188  	dst->header.type = cpu_to_le32(MESSAGE_HANDSHAKE_COOKIE);
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  189  	dst->receiver_index = index;
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  190  	get_random_bytes_wait(dst->nonce, COOKIE_NONCE_LEN);
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  191  
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  192  	make_cookie(cookie, skb, checker);
-e7096c131e5161 Jason A. Donenfeld 2019-12-09 @193  	xchacha20poly1305_encrypt(dst->encrypted_cookie, cookie, COOKIE_LEN,
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  194  				  macs->mac1, COOKIE_LEN, dst->nonce,
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  195  				  checker->cookie_encryption_key);
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  196  }
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  197  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+By far the most unassuming option seems to be to do explicit type
+casting to unsigned long long. I've started a new test build with the
+changes made so far.
