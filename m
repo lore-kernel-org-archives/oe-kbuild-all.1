@@ -1,73 +1,58 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB30834AAF7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 13:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0862356A4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 14:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763559555; cv=none; b=YSkyLzSMnHVS2wv1ZOk843g1Ou3nQmn2p1Q8hboX6WLrDfhgTJGM5Z6Pd5TI624X4jpxzSBBZPBB7SDje6c9kkHzYGP4j7nMhyijSLa10wSuicZkuP/5GVMM0TH+LFjiOZiXazw4T5yqHp6MoaCDtEdX/Qpp5OPSqvNEJvorJ+I=
+	t=1763561277; cv=none; b=mlceFaP8LYeo4O3mXO/8qr0wycYm+YPP25TcbdmtFeuoO1SbhxMcNOGuZnLyOyP+9go6RHRA3uyQIsf4fZj8iG/JsHpBktA+KEo5AeJZv5OwBy04FECsYgK+kqiYoKeQ8VUcrqEX1qS7+1xFkmiwa5hiZwVaC6Ql+Hxlz4pCdE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763559555; c=relaxed/simple;
-	bh=FXe73Ep9sD5rBsT34++3bbbhdAQxQqAf05cgTTcvnL0=;
+	s=arc-20240116; t=1763561277; c=relaxed/simple;
+	bh=VXej376e8NDUnHH6N1Y2Zz0He+oCNxyUEPvjiFLAsg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YfvshTPBmsVf+sXgVlrdl0nxKHeazigXTr4p9IPeT1vTLYHWTlbRepcgVaAZvmPhUkWRtaFqLvcniwhsIFc9BmSVFNFXmkjWwIW5Vv8N6luyBnP8aQW+mSO5J0omJRzAYRcDhq6qRCcWRSKHNjV8qYiqvUByhsiRrgyOzo5aMns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GI/wLjj9; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=g/zcNnoWwdMy1fahJ0WZZAJWaMdGR3t5LlTrnnQfD22omxpy86nGMi2MzBO02Nqx9hmaD9dpJLI4NieYMHYOY8fwzqEdb2X8hUQTblWjjMofVT4Q86ZAKB4ll+9Hc4DdML9DjD6DF485wpyUodPmok/gtBEgQpCHuPFou0TUGLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DyXGI/YJ; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GI/wLjj9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b387483bbso5411304f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 05:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763559552; x=1764164352; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
-        b=GI/wLjj9Ku3Br3WsEgwFtC6hmS1HnY025Nx4IcVnQUntvwRcFjfKIjalWTE+B/aByr
-         YVtuGFULIB/NHs72snHpE+FRmnIyZjDE27Yysf9WCq3dUNfYityHqyqeZ3pYYe4fReg2
-         iQrD7c2MUZ0HvmmdvGj0oY4uYo7KqYEmdSmjBz8qRGtIjPTT3k0ktozlDEu3ofDXM1cp
-         c5vKXLOLFGp9ciaErjv5xhhXgsJ6yb/XuXxhoiuqIKhISV0n/yAMsMVZaD5dxjGQJfaC
-         IRHFIfAkPAF73O31myzi1klcXWzHu8vbyPvv+rkxSg/NuWbeBkio0WOM9RHps/1FIQQg
-         5LwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763559552; x=1764164352;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/m614NLZ+hzZen13q8+FXmSjyAZ3+3CWaMrWQ9wAjhE=;
-        b=sQcs+3fm5BHKMxCuU4x7vW1fi4fdulq7oYkG+oyKLgKsHOjVa3AwLAsUMDUc9RdG4c
-         8CbfqoqX/nUL+BK9ncnrCDye0QBDwRJOZ9ln2Sv7imedXSLZfeEMfJVZTACtOISqBX6S
-         pXL456vrrs6ZFYuzxtVEaKsvWwsBykltkuwQz5w4yNLoCrf8IvQdMxYLlum60i+IGzUt
-         G9I5QcrEQF4NKjGTNcpPVSClUMXvqRRKg55K1EH6QwaW7RnooNhVd7dqu9/PGOScIMn1
-         hr8cCb8LfaKb7c5nHhWibXL28ETr9G12OPwGQhRBqsPDLQWfnAmxiQicFpD4ccR6nbyd
-         dXAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUe2oILdk0d3M+OyQMTnLdySqwzMdpP3vDVLoKxEOqB0K4wqhoG7pP6KJ2Y1n7rwwN1HoQKrW8kUa+ThYDg@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPsBGIyFV38jdNX7z3jdJZcNPe1WcGvMtJWE0gqbkED9mBpkxZ
-	f8r4giUmxoASdbqWYmvANBi6fyJGsbXPQSq8cSRZbIQc11Oxha2kPLJfV2EQU2aZkwQ=
-X-Gm-Gg: ASbGnct07SADx7xFCDsDykasa01J7OBGvk/uUUqmYD90gW82tHuNuoasBkxHUeFR24y
-	o2nKkFOF6b16f6atDJNmKC50uF1IuAsOTBfEL89lvYDG5CDl3Uxd0sjVmRVajBx1c9Tfdja402T
-	V5HtRdcBjJYNrOThrZWXkDGvKCS369dbdiejK8+Enpk9l4PU7ltRWcukZWImb603aJINd15cwC7
-	DhE3pYzRZs5nI9QG8VS75l1K4tDOh6XLpjpKjFyEeKgM5gPIGOZ0Gm5L+cf3op+7asPmcKxvWdz
-	QIBzyRwC2TAFBgelyYpwBixZ9bU50DftV+fxGONcA7qjUcBMBnh5GsXdE6v/DK+xXfjlESGsywP
-	tiSsLXpDsBa0D8AOYBzrgOIOKvjDfAhoK7R/akz7UB2pucRaGAfwm+SL3lOcpqymLhC0ZFM4akR
-	qIF6TrwzrmYk90MGpT
-X-Google-Smtp-Source: AGHT+IFywsvJ/Kkcb7CQTl669p0Qc8+79pdM+TJngb4nmXeXInYt0w/EpAge1FlITmi/iKuYtFhIyg==
-X-Received: by 2002:a5d:64e9:0:b0:42b:4139:579f with SMTP id ffacd0b85a97d-42b593424d1mr22618315f8f.25.1763559551955;
-        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e846afsm37165279f8f.13.2025.11.19.05.39.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 05:39:11 -0800 (PST)
-Date: Wed, 19 Nov 2025 16:39:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: [linux-next:master 9725/10183]
- drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing
- array offset 'i' after use.
-Message-ID: <202511192128.aqouWvbT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DyXGI/YJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763561276; x=1795097276;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VXej376e8NDUnHH6N1Y2Zz0He+oCNxyUEPvjiFLAsg4=;
+  b=DyXGI/YJrB26LchYYpbE/3Hd/PMVfieZmvG00uDoSyv3eddFjXSjW5xt
+   NTpBhgqQ7+R5rJJWjHYF3sYahojAQuQ944amFeC+LneuHxCZECXdEIQI0
+   Crg3rAIUPJw/D4+G22S47lSFJkXADGjd0NU9c+gbeNBbpQhcI/kLF9PvE
+   Nw8iRPQQUDzW/oJsW4+hplV+8Pv6I/Pbuzi00CdwU7Dn0J9bGh1B4KMWT
+   OvkGrT1EQ9HVHSfvBhienruIGzflqjZyrCRvkKyLxVb1VI4SOhcnpsT7P
+   B0mm2Jz8kz23DncCNwrwZaG57VzwUvL/ZsylgTB7wVJFroK78Da6tQdub
+   A==;
+X-CSE-ConnectionGUID: VG1kKmkxT62VeQA4+BQEsw==
+X-CSE-MsgGUID: AT+b7KNETt+9USMvpkcmFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76282098"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="76282098"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 06:07:55 -0800
+X-CSE-ConnectionGUID: bk6MB9woTrWpHMjMhYJIZg==
+X-CSE-MsgGUID: cMRwz3mYQi6L8Kke6S27xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="196200226"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 19 Nov 2025 06:07:55 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLiqe-0002wx-0B;
+	Wed, 19 Nov 2025 14:07:52 +0000
+Date: Wed, 19 Nov 2025 22:07:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: jason.zeng@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 328/328] block/blk-mq.c:1049:36: sparse:
+ sparse: cast from restricted blk_status_t
+Message-ID: <202511192204.6svmBzVu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,72 +62,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fe4d0dea039f2befb93f27569593ec209843b0f5
-commit: 896f1a2493b59beb2b5ccdf990503dbb16cb2256 [9725/10183] net: qlogic/qede: fix potential out-of-bounds read in qede_tpa_cont() and qede_tpa_end()
-config: xtensa-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192128.aqouWvbT-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   bb0e74acaf990260e6fbe36e2fe42ec210016242
+commit: 54c492f8d2da8d8ea3740dfbeb233e3649331605 [328/328] block: remove blk-exec.c
+config: arm64-randconfig-r132-20251119 (https://download.01.org/0day-ci/archive/20251119/202511192204.6svmBzVu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511192204.6svmBzVu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511192128.aqouWvbT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511192204.6svmBzVu-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/qlogic/qede/qede_fp.c:989 qede_tpa_end() error: testing array offset 'i' after use.
-drivers/net/ethernet/qlogic/qede/qede_fp.c:964 qede_tpa_cont() error: testing array offset 'i' after use.
+sparse warnings: (new ones prefixed by >>)
+   block/blk-mq.c:315:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int rq_flags @@     got restricted req_flags_t [usertype] @@
+   block/blk-mq.c:315:26: sparse:     expected unsigned int rq_flags
+   block/blk-mq.c:315:26: sparse:     got restricted req_flags_t [usertype]
+   block/blk-mq.c:324:26: sparse: sparse: invalid assignment: |=
+   block/blk-mq.c:324:26: sparse:    left side has type unsigned int
+   block/blk-mq.c:324:26: sparse:    right side has type restricted req_flags_t
+   block/blk-mq.c:326:26: sparse: sparse: invalid assignment: |=
+   block/blk-mq.c:326:26: sparse:    left side has type unsigned int
+   block/blk-mq.c:326:26: sparse:    right side has type restricted req_flags_t
+   block/blk-mq.c:327:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted req_flags_t [usertype] rq_flags @@     got unsigned int rq_flags @@
+   block/blk-mq.c:327:22: sparse:     expected restricted req_flags_t [usertype] rq_flags
+   block/blk-mq.c:327:22: sparse:     got unsigned int rq_flags
+>> block/blk-mq.c:1049:36: sparse: sparse: cast from restricted blk_status_t
+>> block/blk-mq.c:1142:17: sparse: sparse: cast to restricted blk_status_t
 
-Old smatch warnings:
-arch/xtensa/include/asm/thread_info.h:97 current_thread_info() warn: inconsistent indenting
+vim +1049 block/blk-mq.c
 
-vim +/i +989 drivers/net/ethernet/qlogic/qede/qede_fp.c
-
-cdda926d409869 Mintz, Yuval   2017-01-01   958  static inline void qede_tpa_cont(struct qede_dev *edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   959  				 struct qede_rx_queue *rxq,
-cdda926d409869 Mintz, Yuval   2017-01-01   960  				 struct eth_fast_path_rx_tpa_cont_cqe *cqe)
-cdda926d409869 Mintz, Yuval   2017-01-01   961  {
-cdda926d409869 Mintz, Yuval   2017-01-01   962  	int i;
-cdda926d409869 Mintz, Yuval   2017-01-01   963  
-896f1a2493b59b Pavel Zhigulin 2025-11-13  @964  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This needs to be done the other way to avoid an off-by-one access.
-
-	i < ARRAY_SIZE(cqe->len_list) && cqe->len_list[i]
-
-cdda926d409869 Mintz, Yuval   2017-01-01   965  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
-cdda926d409869 Mintz, Yuval   2017-01-01   966  				   le16_to_cpu(cqe->len_list[i]));
-cdda926d409869 Mintz, Yuval   2017-01-01   967  
-cdda926d409869 Mintz, Yuval   2017-01-01   968  	if (unlikely(i > 1))
-cdda926d409869 Mintz, Yuval   2017-01-01   969  		DP_ERR(edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   970  		       "Strange - TPA cont with more than a single len_list entry\n");
-cdda926d409869 Mintz, Yuval   2017-01-01   971  }
-cdda926d409869 Mintz, Yuval   2017-01-01   972  
-10a0176e4e6eb6 Mintz, Yuval   2017-04-07   973  static int qede_tpa_end(struct qede_dev *edev,
-cdda926d409869 Mintz, Yuval   2017-01-01   974  			struct qede_fastpath *fp,
-cdda926d409869 Mintz, Yuval   2017-01-01   975  			struct eth_fast_path_rx_tpa_end_cqe *cqe)
-cdda926d409869 Mintz, Yuval   2017-01-01   976  {
-cdda926d409869 Mintz, Yuval   2017-01-01   977  	struct qede_rx_queue *rxq = fp->rxq;
-cdda926d409869 Mintz, Yuval   2017-01-01   978  	struct qede_agg_info *tpa_info;
-cdda926d409869 Mintz, Yuval   2017-01-01   979  	struct sk_buff *skb;
-cdda926d409869 Mintz, Yuval   2017-01-01   980  	int i;
-cdda926d409869 Mintz, Yuval   2017-01-01   981  
-cdda926d409869 Mintz, Yuval   2017-01-01   982  	tpa_info = &rxq->tpa_info[cqe->tpa_agg_index];
-cdda926d409869 Mintz, Yuval   2017-01-01   983  	skb = tpa_info->skb;
-cdda926d409869 Mintz, Yuval   2017-01-01   984  
-8a8633978b842c Manish Chopra  2018-05-17   985  	if (tpa_info->buffer.page_offset == PAGE_SIZE)
-8a8633978b842c Manish Chopra  2018-05-17   986  		dma_unmap_page(rxq->dev, tpa_info->buffer.mapping,
-8a8633978b842c Manish Chopra  2018-05-17   987  			       PAGE_SIZE, rxq->data_direction);
-8a8633978b842c Manish Chopra  2018-05-17   988  
-896f1a2493b59b Pavel Zhigulin 2025-11-13  @989  	for (i = 0; cqe->len_list[i] && i < ARRAY_SIZE(cqe->len_list); i++)
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Same.
-
-cdda926d409869 Mintz, Yuval   2017-01-01   990  		qede_fill_frag_skb(edev, rxq, cqe->tpa_agg_index,
-cdda926d409869 Mintz, Yuval   2017-01-01   991  				   le16_to_cpu(cqe->len_list[i]));
-cdda926d409869 Mintz, Yuval   2017-01-01   992  	if (unlikely(i > 1))
+  1039	
+  1040	/**
+  1041	 * blk_end_sync_rq - executes a completion event on a request
+  1042	 * @rq: request to complete
+  1043	 * @error: end I/O status of the request
+  1044	 */
+  1045	static void blk_end_sync_rq(struct request *rq, blk_status_t error)
+  1046	{
+  1047		struct completion *waiting = rq->end_io_data;
+  1048	
+> 1049		rq->end_io_data = (void *)(uintptr_t)error;
+  1050	
+  1051		/*
+  1052		 * complete last, if this is a stack request the process (and thus
+  1053		 * the rq pointer) could be invalid right after this complete()
+  1054		 */
+  1055		complete(waiting);
+  1056	}
+  1057	
+  1058	/**
+  1059	 * blk_execute_rq_nowait - insert a request to I/O scheduler for execution
+  1060	 * @bd_disk:	matching gendisk
+  1061	 * @rq:		request to insert
+  1062	 * @at_head:    insert request at head or tail of queue
+  1063	 * @done:	I/O completion handler
+  1064	 *
+  1065	 * Description:
+  1066	 *    Insert a fully prepared request at the back of the I/O scheduler queue
+  1067	 *    for execution.  Don't wait for completion.
+  1068	 *
+  1069	 * Note:
+  1070	 *    This function will invoke @done directly if the queue is dead.
+  1071	 */
+  1072	void blk_execute_rq_nowait(struct gendisk *bd_disk, struct request *rq,
+  1073				   int at_head, rq_end_io_fn *done)
+  1074	{
+  1075		WARN_ON(irqs_disabled());
+  1076		WARN_ON(!blk_rq_is_passthrough(rq));
+  1077	
+  1078		rq->rq_disk = bd_disk;
+  1079		rq->end_io = done;
+  1080	
+  1081		blk_account_io_start(rq);
+  1082	
+  1083		/*
+  1084		 * don't check dying flag for MQ because the request won't
+  1085		 * be reused after dying flag is set
+  1086		 */
+  1087		blk_mq_sched_insert_request(rq, at_head, true, false);
+  1088	}
+  1089	EXPORT_SYMBOL_GPL(blk_execute_rq_nowait);
+  1090	
+  1091	static bool blk_rq_is_poll(struct request *rq)
+  1092	{
+  1093		if (!rq->mq_hctx)
+  1094			return false;
+  1095		if (rq->mq_hctx->type != HCTX_TYPE_POLL)
+  1096			return false;
+  1097		if (WARN_ON_ONCE(!rq->bio))
+  1098			return false;
+  1099		return true;
+  1100	}
+  1101	
+  1102	static void blk_rq_poll_completion(struct request *rq, struct completion *wait)
+  1103	{
+  1104		do {
+  1105			bio_poll(rq->bio, NULL, 0);
+  1106			cond_resched();
+  1107		} while (!completion_done(wait));
+  1108	}
+  1109	
+  1110	/**
+  1111	 * blk_execute_rq - insert a request into queue for execution
+  1112	 * @bd_disk:	matching gendisk
+  1113	 * @rq:		request to insert
+  1114	 * @at_head:    insert request at head or tail of queue
+  1115	 *
+  1116	 * Description:
+  1117	 *    Insert a fully prepared request at the back of the I/O scheduler queue
+  1118	 *    for execution and wait for completion.
+  1119	 * Return: The blk_status_t result provided to blk_mq_end_request().
+  1120	 */
+  1121	blk_status_t blk_execute_rq(struct gendisk *bd_disk, struct request *rq,
+  1122			int at_head)
+  1123	{
+  1124		DECLARE_COMPLETION_ONSTACK(wait);
+  1125		unsigned long hang_check;
+  1126	
+  1127		rq->end_io_data = &wait;
+  1128		blk_execute_rq_nowait(bd_disk, rq, at_head, blk_end_sync_rq);
+  1129	
+  1130		/* Prevent hang_check timer from firing at us during very long I/O */
+  1131		hang_check = sysctl_hung_task_timeout_secs;
+  1132	
+  1133		if (blk_rq_is_poll(rq))
+  1134			blk_rq_poll_completion(rq, &wait);
+  1135		else if (hang_check)
+  1136			while (!wait_for_completion_io_timeout(&wait,
+  1137					hang_check * (HZ/2)))
+  1138				;
+  1139		else
+  1140			wait_for_completion_io(&wait);
+  1141	
+> 1142		return (blk_status_t)(uintptr_t)rq->end_io_data;
+  1143	}
+  1144	EXPORT_SYMBOL(blk_execute_rq);
+  1145	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
