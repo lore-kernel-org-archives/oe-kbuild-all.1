@@ -1,73 +1,58 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59C231ED73
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 11:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7BC354ACC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 11:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763552368; cv=none; b=Ta6keD9BtABtVk1meqIPokW1X6tu0CsdjYSM3EtnRfi6bLlXdRFdSiNNdgBVnsvQ9fc8ZZf9S28L2UCEJvaDrOmX34EmxKRMpK3XtbnM3cO7wT2pHsM54nzCGL95jYfgL6cNsafHTkbyjLatTmNPMgStUzPbCdAL9/TozdQ6pPw=
+	t=1763552502; cv=none; b=oJMc/1XERHAGN04hDYmes27/N42fmDm3VsFfsmlnjKR/Bi79E4glyWJ0hPhWxuaazibjm+T/vXoA03ZmSjNLwe3H8ng6zDNAPef5fQdBlz1XONfn9sTBhyaFShDjomew/5ay/MFBPsTfbKDw/+tv/civFpJTjoqODQV0CT6L69Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763552368; c=relaxed/simple;
-	bh=UM9INyxyuJVSYVO3rVZYPCdEeNlMNoNnBRz+IvQdnpE=;
+	s=arc-20240116; t=1763552502; c=relaxed/simple;
+	bh=2/f89hI7LELryvZdyH3KBey4321fmi2Xgb05wZI3R2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oZ298F0r4Uul9ycC8JIcUF7Vw5WTSnnYnWMoym4+yuacArNZnzCV9y/b2sTVynqwQcASRXxXUGtuL6gnLkOv4fCRCjI6dzE70yJklE02FyDJOb88zKr4Pb5PjMaotu8QuSGwUFhLajH+cdKWGGnzpBCWU4XGUfLXPnHmNZXk8UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AW79drbR; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=ATZ6FtGxwA4ngss1S4jz/n5EnMXHFfQaCHvqtMTm2oO4k9M6A3VeeEBE2Oph+8NnZIDVw+MWfUcxCYJJQRX2d4ZwTkR7poIqG/ObKVmqOOKUIbghLXOdCr/u7bosy94pXfDOCTYaqYRD+TA8hhKSOnL6GKWmOxxp3hEn7MUHX84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYva4gFh; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AW79drbR"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42b32a5494dso3956288f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 03:39:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763552364; x=1764157164; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gwJG9GJDfyq4+RD2BDGOinZg52cTnz6+3CySEDanXDg=;
-        b=AW79drbRIoyaL6KpYgW4Iq42LRLD/x5yop1ILC4yznZ7GDNg2EhP79vFwQOX9o/ydX
-         +V8nIGlnADvuinjiNqM1PbNMsl/YGJp0AathaaBHkFTBR2v+Cjavu5Gs9mlF3w2ptFWM
-         rMB7RFaPmHCv5hduBykoWywvq2YY8hsfXw0mAGng81/CeKyh25ThFh5WUg4F8xDUQvND
-         q8iNZPricHHXpEpJ1JRo+vOhJYKAXnRcWwAR+xxVG5DzsSG8P4RC/sHLIljGc5awPvhX
-         4obbXL06xXIISiYTGX+x9ANONi0jnLWWCmeZCqsgyJoxxxz7Q215lc9SumIduD5htNTy
-         EuFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763552364; x=1764157164;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gwJG9GJDfyq4+RD2BDGOinZg52cTnz6+3CySEDanXDg=;
-        b=F2ByvyQvbJHi56LsjoBX1Z72xl6KhyEirgPDTN/tfjrdAj0h+LbqY/6pkZA2lIjQKW
-         uwQCSvqcVKqA27RneOsDg+xPOTdZgLLRl3EI+qfKA6r2FVHRJimmKo12wm6cvXnr+GRP
-         b8gyBLVNt5KVSVjwnSlmvKLqXhO6wahXVQhjirU5O5n1RuzeuSgmgXXOY3TJy0gLy7bg
-         dPmTWmaxlgIfL9R5vi+ln0FuLoVC4XssOONAlQPf8WTsnShFDFjGKK50ZP9cNUY8KSl+
-         D1c+xD/20zerxY1BPqLeXVzrZmTPN4ACW16yKw565FErc8IzPuQSL01ghwriCclntuVR
-         t8CA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNpUIrgNp+OPu2/JJlMaG11zFAhRzLUzYCeMIHTkFwExB8DOhjTICjcasbmjOmL1E06Zt+e7Xy+Vbc+yrd@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGMiSJeO+t4p9osnxXgLg+nATSBXcHiRkfvL9Zw+EzXBEZnyev
-	sB1NEuiWapYkeJ2aeq1Ohf74cll+iqcM+xSxSznIma/cDgXme9ROTn/mU+2s95jYw3s=
-X-Gm-Gg: ASbGncsslfhWdvRrvHFujzLKt/4u+DNyBG9XSsT0hte3OyqxY0GgBoc7+G6viHmcZjT
-	oN2X9Ep59BLVMGXJf00d2WQwKI0CP9FTMdLxneJjZ+vcZcyCDiAyrZ87+H0ivSphz7CxZHDpOmx
-	P2aYM9DVsvXJhSJiPuraMckJcuT9r10rDn8nxJ9lVwcJL0WDojlIpjKQK504SVwOEthQQSmWjvz
-	DfjUluXaxlHaNf1bDJ0zHsXd/QazAq5MwOHgRZyQ4le7iPbtwgCXeh5/fTyBAMA7GCsn1b3rAGZ
-	TlZCMy8UVIDlfN2P/1Olll6ur9bVWyZ4dSncFbNSNSNwC19JyCQwswfvOY8cGbbHLdNk+dXjd6j
-	Biy7HDYz/PutCPYZwZ2roQlzM3i+eW7qY0C3kDfJAjcYjQJmq1dwJbVf4fYT7hXzbp1eVdqtnWO
-	6eRz3vaCWKT1YvX0Ch
-X-Google-Smtp-Source: AGHT+IG0+nc2u44sOAgm3B9nfVuClMzbG47n0TMuwtBie7ZMDQ8A+R83vkbvW2yFaDixREsq5GJsjA==
-X-Received: by 2002:a05:6000:2310:b0:42b:3661:305c with SMTP id ffacd0b85a97d-42cb1fc8f6cmr2298825f8f.55.1763552364075;
-        Wed, 19 Nov 2025 03:39:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53e85627sm39489729f8f.16.2025.11.19.03.39.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 03:39:23 -0800 (PST)
-Date: Wed, 19 Nov 2025 14:39:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Haotian Zhang <vulab@iscas.ac.cn>,
-	herbert@gondor.apana.org.au, davem@davemloft.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH v2] crypto: sa2ul: Add error handling for DMA metadata
- retrieval
-Message-ID: <202511191706.iBCITtX2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYva4gFh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763552500; x=1795088500;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2/f89hI7LELryvZdyH3KBey4321fmi2Xgb05wZI3R2U=;
+  b=IYva4gFh6zVcP1IuRsQ4M1HDe0JlTr6tOImt1Acf7422HkooV6mRqYGz
+   oR3jzHMtLA14DSpKTJTyg7YGlK0UyfgjPQsyP5T/Y7VoEmhl6c8mlNvDR
+   Bup+YX/9hDRKhBb8/Og2A5Q9C6GE2e+9YBmXzCIADRSAWTx77CZIO1QvE
+   OGh/Mvl+Eetu2jSjXPu+HLqEVF3U+XH0eJBtiGcifildCEZel7F7kblyU
+   pChHhez4M49JsBLZS/34dtmPR4jH3MwroQlib8Sji5siPolqqhZ4j8uTB
+   Yd8NetIg//5mu6+CPBxG58AiWf0CXKNzAsMa1dI93L4bMPcmWe1Kq3fGc
+   Q==;
+X-CSE-ConnectionGUID: ThMFX7s6RnW753D6+uqnxA==
+X-CSE-MsgGUID: OtlQa7A0RyGc8sfZukCOvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65522960"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="65522960"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 03:41:40 -0800
+X-CSE-ConnectionGUID: jxnBRpBrTKu6PmMTuvKJ6A==
+X-CSE-MsgGUID: 4ufCEUmFQM+sz+xz9oxRgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="191287334"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Nov 2025 03:41:39 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLgZ7-0002pX-1Q;
+	Wed, 19 Nov 2025 11:41:37 +0000
+Date: Wed, 19 Nov 2025 19:40:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: jason.zeng@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 328/328] block/blk-mq.c:324:26: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202511191917.DsIpXs7g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,73 +61,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117023117.90-1-vulab@iscas.ac.cn>
 
-Hi Haotian,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/crypto-sa2ul-Add-error-handling-for-DMA-metadata-retrieval/20251117-103258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20251117023117.90-1-vulab%40iscas.ac.cn
-patch subject: [PATCH v2] crypto: sa2ul: Add error handling for DMA metadata retrieval
-config: m68k-randconfig-r073-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191706.iBCITtX2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   bb0e74acaf990260e6fbe36e2fe42ec210016242
+commit: b0e21ed5b9412dbf0d10b4a027fe130ac0ec166f [328/328] block: cache rq_flags inside blk_mq_rq_ctx_init()
+config: arm64-randconfig-r132-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191917.DsIpXs7g-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191917.DsIpXs7g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511191706.iBCITtX2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191917.DsIpXs7g-lkp@intel.com/
 
-smatch warnings:
-drivers/crypto/sa2ul.c:1064 sa_aes_dma_in_callback() warn: 'mdptr' can also be NULL
-drivers/crypto/sa2ul.c:1394 sa_sha_dma_in_callback() warn: 'mdptr' can also be NULL
-drivers/crypto/sa2ul.c:1709 sa_aead_dma_in_callback() warn: 'mdptr' can also be NULL
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-mq.c:324:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int rq_flags @@     got restricted req_flags_t [usertype] @@
+   block/blk-mq.c:324:26: sparse:     expected unsigned int rq_flags
+   block/blk-mq.c:324:26: sparse:     got restricted req_flags_t [usertype]
+>> block/blk-mq.c:333:26: sparse: sparse: invalid assignment: |=
+   block/blk-mq.c:333:26: sparse:    left side has type unsigned int
+   block/blk-mq.c:333:26: sparse:    right side has type restricted req_flags_t
+   block/blk-mq.c:335:26: sparse: sparse: invalid assignment: |=
+   block/blk-mq.c:335:26: sparse:    left side has type unsigned int
+   block/blk-mq.c:335:26: sparse:    right side has type restricted req_flags_t
+>> block/blk-mq.c:336:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted req_flags_t [usertype] rq_flags @@     got unsigned int rq_flags @@
+   block/blk-mq.c:336:22: sparse:     expected restricted req_flags_t [usertype] rq_flags
+   block/blk-mq.c:336:22: sparse:     got unsigned int rq_flags
 
-vim +/mdptr +1064 drivers/crypto/sa2ul.c
+vim +324 block/blk-mq.c
 
-7694b6ca649fea Keerthy        2020-07-13  1039  static void sa_aes_dma_in_callback(void *data)
-7694b6ca649fea Keerthy        2020-07-13  1040  {
-aedf818b1f1965 Yu Zhe         2023-03-17  1041  	struct sa_rx_data *rxd = data;
-7694b6ca649fea Keerthy        2020-07-13  1042  	struct skcipher_request *req;
-7694b6ca649fea Keerthy        2020-07-13  1043  	u32 *result;
-7694b6ca649fea Keerthy        2020-07-13  1044  	__be32 *mdptr;
-7694b6ca649fea Keerthy        2020-07-13  1045  	size_t ml, pl;
-7694b6ca649fea Keerthy        2020-07-13  1046  	int i;
-7694b6ca649fea Keerthy        2020-07-13  1047  
-00c9211f60db2d Peter Ujfalusi 2020-09-23  1048  	sa_sync_from_device(rxd);
-7694b6ca649fea Keerthy        2020-07-13  1049  	req = container_of(rxd->req, struct skcipher_request, base);
-7694b6ca649fea Keerthy        2020-07-13  1050  
-7694b6ca649fea Keerthy        2020-07-13  1051  	if (req->iv) {
-7694b6ca649fea Keerthy        2020-07-13  1052  		mdptr = (__be32 *)dmaengine_desc_get_metadata_ptr(rxd->tx_in, &pl,
-7694b6ca649fea Keerthy        2020-07-13  1053  							       &ml);
-
-
-The Kconfig file should probably enforce that CONFIG_DMA_ENGINE
-is set.  Otherwise dmaengine_desc_get_metadata_ptr() returns NULL.
-
-90d79e983588a8 Haotian Zhang  2025-11-17  1054  		if (IS_ERR(mdptr)) {
-90d79e983588a8 Haotian Zhang  2025-11-17  1055  			dev_err(rxd->ddev, "Failed to get AES RX metadata pointer: %ld\n",
-90d79e983588a8 Haotian Zhang  2025-11-17  1056  				PTR_ERR(mdptr));
-90d79e983588a8 Haotian Zhang  2025-11-17  1057  			sa_free_sa_rx_data(rxd);
-90d79e983588a8 Haotian Zhang  2025-11-17  1058  			skcipher_request_complete(req, PTR_ERR(mdptr));
-90d79e983588a8 Haotian Zhang  2025-11-17  1059  			return;
-90d79e983588a8 Haotian Zhang  2025-11-17  1060  		}
-7694b6ca649fea Keerthy        2020-07-13  1061  		result = (u32 *)req->iv;
-7694b6ca649fea Keerthy        2020-07-13  1062  
-7694b6ca649fea Keerthy        2020-07-13  1063  		for (i = 0; i < (rxd->enc_iv_size / 4); i++)
-7694b6ca649fea Keerthy        2020-07-13 @1064  			result[i] = be32_to_cpu(mdptr[i + rxd->iv_idx]);
-7694b6ca649fea Keerthy        2020-07-13  1065  	}
-7694b6ca649fea Keerthy        2020-07-13  1066  
-00c9211f60db2d Peter Ujfalusi 2020-09-23  1067  	sa_free_sa_rx_data(rxd);
-7694b6ca649fea Keerthy        2020-07-13  1068  
-7694b6ca649fea Keerthy        2020-07-13  1069  	skcipher_request_complete(req, 0);
-7694b6ca649fea Keerthy        2020-07-13  1070  }
+   311	
+   312	static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+   313			unsigned int tag, u64 alloc_time_ns)
+   314	{
+   315		struct blk_mq_ctx *ctx = data->ctx;
+   316		struct blk_mq_hw_ctx *hctx = data->hctx;
+   317		struct request_queue *q = data->q;
+   318		struct elevator_queue *e = q->elevator;
+   319		struct blk_mq_tags *tags = blk_mq_tags_from_data(data);
+   320		struct request *rq = tags->static_rqs[tag];
+   321		unsigned int rq_flags = 0;
+   322	
+   323		if (e) {
+ > 324			rq_flags = RQF_ELV;
+   325			rq->tag = BLK_MQ_NO_TAG;
+   326			rq->internal_tag = tag;
+   327		} else {
+   328			rq->tag = tag;
+   329			rq->internal_tag = BLK_MQ_NO_TAG;
+   330		}
+   331	
+   332		if (data->flags & BLK_MQ_REQ_PM)
+ > 333			rq_flags |= RQF_PM;
+   334		if (blk_queue_io_stat(q))
+   335			rq_flags |= RQF_IO_STAT;
+ > 336		rq->rq_flags = rq_flags;
+   337	
+   338		if (blk_mq_need_time_stamp(rq))
+   339			rq->start_time_ns = ktime_get_ns();
+   340		else
+   341			rq->start_time_ns = 0;
+   342		/* csd/requeue_work/fifo_time is initialized before use */
+   343		rq->q = q;
+   344		rq->mq_ctx = ctx;
+   345		rq->mq_hctx = hctx;
+   346		rq->cmd_flags = data->cmd_flags;
+   347		rq->rq_disk = NULL;
+   348		rq->part = NULL;
+   349	#ifdef CONFIG_BLK_RQ_ALLOC_TIME
+   350		rq->alloc_time_ns = alloc_time_ns;
+   351	#endif
+   352		rq->io_start_time_ns = 0;
+   353		rq->stats_sectors = 0;
+   354		rq->nr_phys_segments = 0;
+   355	#if defined(CONFIG_BLK_DEV_INTEGRITY)
+   356		rq->nr_integrity_segments = 0;
+   357	#endif
+   358		rq->timeout = 0;
+   359		rq->end_io = NULL;
+   360		rq->end_io_data = NULL;
+   361	
+   362		data->ctx->rq_dispatched[op_is_sync(data->cmd_flags)]++;
+   363		blk_crypto_rq_set_defaults(rq);
+   364		INIT_LIST_HEAD(&rq->queuelist);
+   365		/* tag was already set */
+   366		WRITE_ONCE(rq->deadline, 0);
+   367		refcount_set(&rq->ref, 1);
+   368	
+   369		if (rq->rq_flags & RQF_ELV) {
+   370			struct elevator_queue *e = data->q->elevator;
+   371	
+   372			rq->elv.icq = NULL;
+   373			INIT_HLIST_NODE(&rq->hash);
+   374			RB_CLEAR_NODE(&rq->rb_node);
+   375	
+   376			if (!op_is_flush(data->cmd_flags) &&
+   377			    e->type->ops.prepare_request) {
+   378				if (e->type->icq_cache)
+   379					blk_mq_sched_assign_ioc(rq);
+   380	
+   381				e->type->ops.prepare_request(rq);
+   382				rq->rq_flags |= RQF_ELVPRIV;
+   383			}
+   384		}
+   385	
+   386		data->hctx->queued++;
+   387		return rq;
+   388	}
+   389	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
