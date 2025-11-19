@@ -1,263 +1,206 @@
-Received: from smtpout.sipearl.com (smtpout.sipearl.com [178.170.11.57])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20033254B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 09:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.170.11.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D14C340A67;
+	Wed, 19 Nov 2025 09:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763543935; cv=none; b=N2Kl02X51teZyB+lynKcmUz5Ye5w5stukRDEuGXSzix30rLg9KJXP47KbNf1CvJ3gY+GX7rnk3gmj3oLuybVery7tjIK9IWQR5hXpMZJXl6+QgBOhm+DgM5EWQUVc5IFoZuSWGhV2rdOA00CMnc+VbteIDV/minFSt60sPusRM0=
+	t=1763544871; cv=none; b=dJGkRl8COcoBpQSIxlv3p+M4fvQ2Jvxo4AIxAJDZFNVrhL/xIoRhFQ8xc/HaehyfY0zYA6/GmSyHolKiZyGYfXAaZDTk8DsEvJR/fh6SCvMRicBOTgMBXQCYnxrKdbPCdwyuF3hMB8Y31ssEjtqoF8K/svrtnJBXtqpKEM7Dlmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763543935; c=relaxed/simple;
-	bh=A/nzHBnTALxUYji4M2ChVsHyYrSq/vEPPwnxPfJ6nh8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nZZou4S2emZ08z1CzHUzjxm+R9IahOMY26c+d60pVmVBvZQEXQk5kXniYaJ+5toIZZ8sCLHUQVs8WI0hgipvEc+t63nYL7b8qfkQOwb8K+2h6TsAi2M+t/5urQZfQR5Gi8OwvMHqkignURB4ARGluLxSKm2NitnMKbdiFpp5kOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com; spf=pass smtp.mailfrom=sipearl.com; dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b=A14RteS/; arc=none smtp.client-ip=178.170.11.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipearl.com
+	s=arc-20240116; t=1763544871; c=relaxed/simple;
+	bh=rt1dK5mUjJCU+oDDyz7ttJ0ljVGuDFtw09KBx+xqZ0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PqZN8fbKUciSoNJHrbjTtxtnIdXaFRbkOBqqOR7Urjneo9tvipS5zC7+w4IGQGypB4Ve4ovFNFVrlf/Z4LskqoXZDHGgXh8aoO/DxvCserwdMGz+JJoYYQU8oG+2FDlcDF9KfM9MbCptLxdsn2KyXmHuyRghyEkURUJjSimATS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bqmNHyZL; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b="A14RteS/"
-Received: from smtpout.sipearl.com ([172.31.29.1])
-	by smtpin.sipearl.com  with ESMTPS id 5AJ92vrG024678-5AJ92vrI024678
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Nov 2025 10:02:57 +0100
-Received: from dc2pvlnosz001.pub.int.sipearl.com (172.31.65.18) by
- dc2pvwexcz001.sipearl.corp (172.31.29.1) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.36; Wed, 19 Nov 2025 10:02:57 +0100
-From: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-To: <lkp@intel.com>
-CC: <andrea.tomassetti@sipearl.com>, <jassisinghbrar@gmail.com>,
-	<lenb@kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<olivier.dautricourt@sipearl.com>, <olivierdautricourt@gmail.com>,
-	<rafael@kernel.org>, <sudeep.holla@arm.com>, <thibault.cantori@sipearl.com>
-Subject: [PATCH v2] mailbox: pcc: support polling mode when there is no platform IRQ
-Date: Wed, 19 Nov 2025 10:01:18 +0100
-Message-ID: <20251119090118.2445303-1-andrea.tomassetti@sipearl.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <202511120729.R3XQNSnx-lkp@intel.com>
-References: <202511120729.R3XQNSnx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqmNHyZL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763544869; x=1795080869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rt1dK5mUjJCU+oDDyz7ttJ0ljVGuDFtw09KBx+xqZ0M=;
+  b=bqmNHyZLGWuv2dWXr8j/UAqvT0ZRToi1gOS8/nu1C4X2Qt3s3DvoRLwb
+   RGxkF8mmKDxpd7MR1pzyU1cAHbDbGBukjmZnhd1VFu8QDt4Hd5XX7uEd+
+   d1FLhg+qu8oomTxCR9RX6IzstCLlJZB3/CdbhuNqBRtzUj+/sxShpi6pm
+   +g5NlVVCezBTfei3LjQCRc2N5LGrWh8Fkzy6jXUFsTLRI57zORqgJPdUz
+   Jlaow7H0x+mLlIB9OSJhi2w+WhLMInOQ+uy9PCkd5yp3VK59UD2yjM9Mv
+   10wNaGudwJ2ZeevqvXM5fn0jZZ0zVnURTi5fDjaKzsbncHakJ4tQJ/fVv
+   w==;
+X-CSE-ConnectionGUID: o0iHMRPGQFa1Tu/Uuakijg==
+X-CSE-MsgGUID: MvGVrJO/QJCZoj+87Bq/IQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="77038024"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="77038024"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 01:34:29 -0800
+X-CSE-ConnectionGUID: NA1UNjAUR0SNiQW3iAbJ3Q==
+X-CSE-MsgGUID: jwnvvV7wQUGSssZm4Fikrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="190805313"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Nov 2025 01:34:25 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLeZz-0002fL-0w;
+	Wed, 19 Nov 2025 09:34:23 +0000
+Date: Wed, 19 Nov 2025 17:33:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	linux-cxl@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, Gregory Price <gourry@gourry.net>,
+	Robert Richter <rrichter@amd.com>,
+	Cheatham Benjamin <benjamin.cheatham@amd.com>,
+	"Fabio M . De Francesco" <fabio.m.de.francesco@linux.intel.com>
+Subject: Re: [PATCH 4/4 v6] cxl/test: Simulate an x86 Low Memory Hole for
+ tests
+Message-ID: <202511191640.3qEkK2oZ-lkp@intel.com>
+References: <20251118194321.1773484-5-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dc2pvwexcz002.sipearl.corp (172.31.29.2) To
- dc2pvwexcz001.sipearl.corp (172.31.29.1)
-X-FEAS-Client-IP: 172.31.29.1
-X-FE-Policy-ID: 2:2:2:SYSTEM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=sipearl.com; s=sipearl2024; c=relaxed/relaxed;
- h=from:to:cc:subject:date:message-id:references:mime-version:content-type;
- bh=cQRvB0G2AMAcVVjKdC/G5kP1LGby/AHBtIZ3/QDRRRM=;
- b=A14RteS/eOEuAgyfs2jbMZvR0TNpt6yuDiF8C3B+43r07tX+r+S8xOAJz8G99F6Q0BQusKOVarPC
-	k+4AuT6BwZwerrVT6kNkTjhcn96jLu6v65GwVXFWEFc61aAo3nu7ZWQwjpCYC90YKmaD7cX3oraH
-	V/8E8zEaBcwQbRThgNpJEArCAG5KiDo3sDf0IzQxFycogqS0f/fXYaQMYNfWzpAu2+TmGxQfIcQ6
-	XZbVm2TUI0QGC4cgg5WBAAo3mnWqC7jWNzWdbiY8RO9PCYC2SDlHKFA9wC5oM0b4INazXUA63i20
-	RU+q46y6wXF04Rs9l8BwJfsJMlVTUlv5o9jIsA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251118194321.1773484-5-fabio.m.de.francesco@linux.intel.com>
 
-The goal is to allow clients to submit a message in both irq and polling
-mode of the pcc mailbox. The ACPI specification does not require a
-platform irq for pcc channels. Let's implement the case where it is not
-available.
+Hi Fabio,
 
-peek_data is mapped to pcc_mbox_error_check_and_clear, so that it
-returns true if no error occurred while the platform processed last
-message, and therefore clients can fetch response data provided by the
-platform.
+kernel test robot noticed the following build errors:
 
-Tested-by: Thibault Cantori <thibault.cantori@sipearl.com>
-Co-developed-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-Signed-off-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-Signed-off-by: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202511120243.soxAFpqQ-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202511120558.Cln7LF6M-lkp@intel.com/
-Closes: https://lore.kernel.org/oe-kbuild-all/202511120729.R3XQNSnx-lkp@intel.com/
----
-v2: Fix issues reported by the kernel test robot
-  - sparse: incorrect type in argument 2 (different address spaces)
-  - acpi_pcc.c:(.text+0x69): undefined reference to `__udivdi3'
+[auto build test ERROR on 7ec9db66cc552f2f8a6779c16d01a2a01eccedde]
 
- drivers/acpi/acpi_pcc.c | 78 ++++++++++++++++++++++++++++-------------
- drivers/mailbox/pcc.c   | 12 ++++++-
- 2 files changed, 64 insertions(+), 26 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cxl-core-Change-match_-_by_range-signatures/20251119-034652
+base:   7ec9db66cc552f2f8a6779c16d01a2a01eccedde
+patch link:    https://lore.kernel.org/r/20251118194321.1773484-5-fabio.m.de.francesco%40linux.intel.com
+patch subject: [PATCH 4/4 v6] cxl/test: Simulate an x86 Low Memory Hole for tests
+config: powerpc64-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251119/202511191640.3qEkK2oZ-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191640.3qEkK2oZ-lkp@intel.com/reproduce)
 
-diff --git a/drivers/acpi/acpi_pcc.c b/drivers/acpi/acpi_pcc.c
-index 97064e943768..37f94fa4c424 100644
---- a/drivers/acpi/acpi_pcc.c
-+++ b/drivers/acpi/acpi_pcc.c
-@@ -51,7 +51,6 @@ acpi_pcc_address_space_setup(acpi_handle region_handle, u32 function,
- {
- 	struct pcc_data *data;
- 	struct acpi_pcc_info *ctx = handler_context;
--	struct pcc_mbox_chan *pcc_chan;
- 	static acpi_status ret;
- 
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
-@@ -59,7 +58,7 @@ acpi_pcc_address_space_setup(acpi_handle region_handle, u32 function,
- 		return AE_NO_MEMORY;
- 
- 	data->cl.rx_callback = pcc_rx_callback;
--	data->cl.knows_txdone = true;
-+	data->cl.knows_txdone = false;
- 	data->ctx.length = ctx->length;
- 	data->ctx.subspace_id = ctx->subspace_id;
- 	data->ctx.internal_buffer = ctx->internal_buffer;
-@@ -73,61 +72,90 @@ acpi_pcc_address_space_setup(acpi_handle region_handle, u32 function,
- 		goto err_free_data;
- 	}
- 
--	pcc_chan = data->pcc_chan;
--	if (!pcc_chan->mchan->mbox->txdone_irq) {
--		pr_err("This channel-%d does not support interrupt.\n",
--		       ctx->subspace_id);
--		ret = AE_SUPPORT;
--		goto err_free_channel;
--	}
--
- 	*region_context = data;
- 	return AE_OK;
- 
--err_free_channel:
--	pcc_mbox_free_channel(data->pcc_chan);
- err_free_data:
- 	kfree(data);
- 
- 	return ret;
- }
- 
-+static acpi_status
-+acpi_pcc_send_msg_polling(struct pcc_data *data)
-+{
-+	int ret;
-+
-+	ret = mbox_send_message(data->pcc_chan->mchan,
-+				(__force void *)data->pcc_chan->shmem);
-+	if (ret == -ETIME) {
-+		pr_err("PCC command executed timeout!\n");
-+		return AE_TIME;
-+	}
-+
-+	if (ret < 0)
-+		return AE_ERROR;
-+
-+	if (!mbox_client_peek_data(data->pcc_chan->mchan))
-+		return AE_ERROR;
-+
-+	return AE_OK;
-+}
-+
-+static acpi_status
-+acpi_pcc_send_msg_irq(struct pcc_data *data)
-+{
-+	int ret;
-+
-+	ret = mbox_send_message(data->pcc_chan->mchan, NULL);
-+	if (ret < 0)
-+		return AE_ERROR;
-+
-+	ret = wait_for_completion_timeout(&data->done,
-+					  usecs_to_jiffies(data->cl.tx_tout * USEC_PER_MSEC));
-+	if (ret == 0) {
-+		pr_err("PCC command executed timeout!\n");
-+		return AE_TIME;
-+	}
-+
-+	mbox_chan_txdone(data->pcc_chan->mchan, ret);
-+
-+	return AE_OK;
-+}
-+
- static acpi_status
- acpi_pcc_address_space_handler(u32 function, acpi_physical_address addr,
- 			       u32 bits, acpi_integer *value,
- 			       void *handler_context, void *region_context)
- {
--	int ret;
-+	acpi_status ret;
- 	struct pcc_data *data = region_context;
- 	u64 usecs_lat;
-+	bool use_polling = data->pcc_chan->mchan->mbox->txdone_poll;
- 
- 	reinit_completion(&data->done);
- 
- 	/* Write to Shared Memory */
- 	memcpy_toio(data->pcc_chan->shmem, (void *)value, data->ctx.length);
- 
--	ret = mbox_send_message(data->pcc_chan->mchan, NULL);
--	if (ret < 0)
--		return AE_ERROR;
--
- 	/*
- 	 * pcc_chan->latency is just a Nominal value. In reality the remote
- 	 * processor could be much slower to reply. So add an arbitrary
- 	 * amount of wait on top of Nominal.
- 	 */
- 	usecs_lat = PCC_CMD_WAIT_RETRIES_NUM * data->pcc_chan->latency;
--	ret = wait_for_completion_timeout(&data->done,
--						usecs_to_jiffies(usecs_lat));
--	if (ret == 0) {
--		pr_err("PCC command executed timeout!\n");
--		return AE_TIME;
--	}
- 
--	mbox_chan_txdone(data->pcc_chan->mchan, ret);
-+	data->cl.tx_block = use_polling;
-+	data->cl.tx_tout = div_u64(usecs_lat, USEC_PER_MSEC);
-+
-+	if (use_polling)
-+		ret = acpi_pcc_send_msg_polling(data);
-+	else
-+		ret = acpi_pcc_send_msg_irq(data);
- 
- 	memcpy_fromio(value, data->pcc_chan->shmem, data->ctx.length);
- 
--	return AE_OK;
-+	return ret;
- }
- 
- void __init acpi_init_pcc(void)
-diff --git a/drivers/mailbox/pcc.c b/drivers/mailbox/pcc.c
-index 0a00719b2482..e4e744669f81 100644
---- a/drivers/mailbox/pcc.c
-+++ b/drivers/mailbox/pcc.c
-@@ -579,11 +579,17 @@ static void pcc_shutdown(struct mbox_chan *chan)
- 		devm_free_irq(chan->mbox->dev, pchan->plat_irq, chan);
- }
- 
-+static bool pcc_peek_data(struct mbox_chan *chan)
-+{
-+	return pcc_mbox_error_check_and_clear(chan->con_priv) == 0;
-+}
-+
- static const struct mbox_chan_ops pcc_chan_ops = {
- 	.send_data = pcc_send_data,
- 	.startup = pcc_startup,
- 	.shutdown = pcc_shutdown,
- 	.last_tx_done = pcc_last_tx_done,
-+	.peek_data = pcc_peek_data,
- };
- 
- /**
-@@ -877,8 +883,12 @@ static int pcc_mbox_probe(struct platform_device *pdev)
- 		(unsigned long) pcct_tbl + sizeof(struct acpi_table_pcct));
- 
- 	acpi_pcct_tbl = (struct acpi_table_pcct *) pcct_tbl;
--	if (acpi_pcct_tbl->flags & ACPI_PCCT_DOORBELL)
-+	if (acpi_pcct_tbl->flags & ACPI_PCCT_DOORBELL) {
- 		pcc_mbox_ctrl->txdone_irq = true;
-+	} else {
-+		pcc_mbox_ctrl->txdone_poll = true;
-+		pcc_mbox_ctrl->txpoll_period = 1;
-+	}
- 
- 	for (i = 0; i < count; i++) {
- 		struct pcc_chan_info *pchan = chan_info + i;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191640.3qEkK2oZ-lkp@intel.com/
 
-base-commit: 8b690556d8fe074b4f9835075050fba3fb180e93
+All errors (new ones prefixed by >>):
+
+>> drivers/cxl/core/region.c:892:9: error: call to undeclared function '__platform_region_matches_cxld'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     892 |         return platform_region_matches_cxld(p, cxld);
+         |                ^
+   drivers/cxl/core/platform_quirks.h:48:38: note: expanded from macro 'platform_region_matches_cxld'
+      48 | #define platform_region_matches_cxld DECLARE_TESTABLE(platform_region_matches_cxld)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:63:1: note: expanded from here
+      63 | __platform_region_matches_cxld
+         | ^
+   drivers/cxl/core/region.c:892:9: note: did you mean 'platform_region_matches_cxld'?
+   drivers/cxl/core/platform_quirks.h:48:38: note: expanded from macro 'platform_region_matches_cxld'
+      48 | #define platform_region_matches_cxld DECLARE_TESTABLE(platform_region_matches_cxld)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:63:1: note: expanded from here
+      63 | __platform_region_matches_cxld
+         | ^
+   drivers/cxl/core/platform_quirks.h:31:1: note: 'platform_region_matches_cxld' declared here
+      31 | platform_region_matches_cxld(const struct cxl_region_params *p,
+         | ^
+>> drivers/cxl/core/region.c:1837:7: error: call to undeclared function '__platform_cxlrd_matches_cxled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1837 |                 if (platform_cxlrd_matches_cxled(cxlrd, cxled))
+         |                     ^
+   drivers/cxl/core/platform_quirks.h:47:38: note: expanded from macro 'platform_cxlrd_matches_cxled'
+      47 | #define platform_cxlrd_matches_cxled DECLARE_TESTABLE(platform_cxlrd_matches_cxled)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:101:1: note: expanded from here
+     101 | __platform_cxlrd_matches_cxled
+         | ^
+   drivers/cxl/core/region.c:1837:7: note: did you mean 'platform_cxlrd_matches_cxled'?
+   drivers/cxl/core/platform_quirks.h:47:38: note: expanded from macro 'platform_cxlrd_matches_cxled'
+      47 | #define platform_cxlrd_matches_cxled DECLARE_TESTABLE(platform_cxlrd_matches_cxled)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:101:1: note: expanded from here
+     101 | __platform_cxlrd_matches_cxled
+         | ^
+   drivers/cxl/core/platform_quirks.h:24:1: note: 'platform_cxlrd_matches_cxled' declared here
+      24 | platform_cxlrd_matches_cxled(const struct cxl_root_decoder *cxlrd,
+         | ^
+   drivers/cxl/core/region.c:2056:32: error: call to undeclared function '__platform_cxlrd_matches_cxled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2056 |             resource_size(p->res) && !platform_cxlrd_matches_cxled(cxlrd, cxled)) {
+         |                                       ^
+   drivers/cxl/core/platform_quirks.h:47:38: note: expanded from macro 'platform_cxlrd_matches_cxled'
+      47 | #define platform_cxlrd_matches_cxled DECLARE_TESTABLE(platform_cxlrd_matches_cxled)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:102:1: note: expanded from here
+     102 | __platform_cxlrd_matches_cxled
+         | ^
+   drivers/cxl/core/region.c:3490:4: error: call to undeclared function '__platform_cxlrd_matches_cxled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3490 |                 (platform_cxlrd_matches_cxled(cxlrd, cxled));
+         |                  ^
+   drivers/cxl/core/platform_quirks.h:47:38: note: expanded from macro 'platform_cxlrd_matches_cxled'
+      47 | #define platform_cxlrd_matches_cxled DECLARE_TESTABLE(platform_cxlrd_matches_cxled)
+         |                                      ^
+   drivers/cxl/core/platform_quirks.h:46:29: note: expanded from macro 'DECLARE_TESTABLE'
+      46 | #define DECLARE_TESTABLE(x) __##x
+         |                             ^
+   <scratch space>:84:1: note: expanded from here
+      84 | __platform_cxlrd_matches_cxled
+         | ^
+   4 errors generated.
+
+
+vim +/__platform_region_matches_cxld +892 drivers/cxl/core/region.c
+
+384e624bb211b4 Dan Williams          2022-06-07  872  
+c43521b9db7f5e Dave Jiang            2025-11-06  873  static bool spa_maps_hpa(const struct cxl_region_params *p,
+0f6f1982cb28ab Dave Jiang            2025-10-10  874  			 const struct range *range)
+0ec9849b63338d Dave Jiang            2025-02-26  875  {
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  876  	struct cxl_decoder *cxld;
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  877  
+0ec9849b63338d Dave Jiang            2025-02-26  878  	if (!p->res)
+0ec9849b63338d Dave Jiang            2025-02-26  879  		return false;
+0ec9849b63338d Dave Jiang            2025-02-26  880  
+0ec9849b63338d Dave Jiang            2025-02-26  881  	/*
+8d27dd0b219f00 Dave Jiang            2025-11-06  882  	 * The extended linear cache region is constructed by a 1:1 ratio
+8d27dd0b219f00 Dave Jiang            2025-11-06  883  	 * where the SPA maps equal amounts of DRAM and CXL HPA capacity with
+8d27dd0b219f00 Dave Jiang            2025-11-06  884  	 * CXL decoders at the high end of the SPA range.
+0ec9849b63338d Dave Jiang            2025-02-26  885  	 */
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  886  	if (p->res->start + p->cache_size == range->start &&
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  887  	    p->res->end == range->end)
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  888  		return true;
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  889  
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  890  	cxld = container_of(range, struct cxl_decoder, hpa_range);
+7c15a3666e848d Fabio M. De Francesco 2025-11-18  891  
+7c15a3666e848d Fabio M. De Francesco 2025-11-18 @892  	return platform_region_matches_cxld(p, cxld);
+0ec9849b63338d Dave Jiang            2025-02-26  893  }
+0ec9849b63338d Dave Jiang            2025-02-26  894  
+
 -- 
-2.51.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
