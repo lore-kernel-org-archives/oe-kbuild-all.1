@@ -1,142 +1,142 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104BD35292B;
-	Wed, 19 Nov 2025 11:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9699733DEFF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 11:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763552995; cv=none; b=Y4oxaWCaSPcnbzBskCXVPwM2NDQeayMFnYRsCG5irWtmdAWEb89ZrfrFk+qwR1XyXBF2UFd9y+F25SETptO34gM8v8INaQ7j3zWkO2T7o/C38NSKVkBkXVZ9ur3LifwWlIvdyAjO3K1NDZUOXabU5mbhOPEGK5yAJDLuXQ6Rm/U=
+	t=1763553105; cv=none; b=euAq1s9dlkzMFMN4AQB4NbuU1nn6nVV+vi9awQU6S6sSL1SnZ6TlMxi3f6dUrp7nBF6SAC5cycX7f+BN2eEcFgq6JW2RZLvQvBqCDOV4rSBHKT1E1Ombl+8/5z9vZlHqsj4a2aKft2ZhrbZXd0tvqCCYlTlKZTJSGvBn/UOnSVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763552995; c=relaxed/simple;
-	bh=DvoRRHTYWIPU875PXjEamFEK84qv3zHLzsw8G1GYaQk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n9teQfmHyn8Yb8SVQYU7MyiZ2d357coMDtKp4oKOL1euPriJafnc2pjTqqPxQTtlzl1vHZR7VH3s0TLlY4dQFTBVUIahG1321/tVIMNtw0qKKlx7XXWZMyxBt0yTvkxLp29L6JcjNaNAcv8o4e9YqIkJ9+cXriTjv8EzMvwAfxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dBKWb3WlczJ46k8;
-	Wed, 19 Nov 2025 19:48:59 +0800 (CST)
-Received: from frapema500003.china.huawei.com (unknown [7.182.19.114])
-	by mail.maildlp.com (Postfix) with ESMTPS id 537B01402A4;
-	Wed, 19 Nov 2025 19:49:43 +0800 (CST)
-Received: from frapema500004.china.huawei.com (7.182.19.21) by
- frapema500003.china.huawei.com (7.182.19.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 19 Nov 2025 12:49:43 +0100
-Received: from frapema500004.china.huawei.com ([7.182.19.21]) by
- frapema500004.china.huawei.com ([7.182.19.21]) with mapi id 15.02.1544.011;
- Wed, 19 Nov 2025 12:49:43 +0100
-From: Roberto Sassu <roberto.sassu@huawei.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
-	<oe-kbuild@lists.linux.dev>
-CC: "lkp@intel.com" <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>
-Subject: RE: [robertosassu:ima-snapshots-v1-devel-v1 1/1]
- security/integrity/ima/ima_fs.c:321 ima_measurements_snap_write() warn: maybe
- return -EFAULT instead of the bytes remaining?
-Thread-Topic: [robertosassu:ima-snapshots-v1-devel-v1 1/1]
- security/integrity/ima/ima_fs.c:321 ima_measurements_snap_write() warn: maybe
- return -EFAULT instead of the bytes remaining?
-Thread-Index: AQHcWUpHuW1NGUEbcEmWDT/Dj2mfqLT54mrA
-Date: Wed, 19 Nov 2025 11:49:43 +0000
-Message-ID: <4a3433e45ab949af8d40356bb2fda857@huawei.com>
-References: <202511170428.8scOuqUb-lkp@intel.com>
-In-Reply-To: <202511170428.8scOuqUb-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1763553105; c=relaxed/simple;
+	bh=bpNuwUZoEFygV0rMKpCsOi7Apav8GlxIv60B1qEmbF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VkGl6JZ4IVfEmDeUkFpvJ+2hSFRu/Z8zdAFM/Ihp13sYK2puyhMguAimqrgOLLkqmBg4pQlGRB229dGCw3QoUnzl8GlcMOxxw8RmPPAlQ5PZS5be16c+kblZX6x7WRdZQvpTzNSS+VPE/Sq15HYB9uU1XcoH+BUXQ7gChhjyMR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GjC2Rslx; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GjC2Rslx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763553103; x=1795089103;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bpNuwUZoEFygV0rMKpCsOi7Apav8GlxIv60B1qEmbF4=;
+  b=GjC2RslxixGB7UJ58luCx4is+kb20EWbBdinV2qoZadGC2FPA1n+vNqW
+   iiILAF1XFXl0+FE3xN8s3yH/Jlv83Sz1NO6PMNsOQ1KbOrnV91V2lVejP
+   MdIMmPB89ce9P0jkihmxhGvEmbf2L4iO4AokHaNz2tmOhmBxAl5hZCbzf
+   wLkODYa6p80+5FjVp8TziozTkyh5LAII7wBG7PhPN44w/jJxg1qcACBmB
+   BXszmvcZa6rxFg91jWh5Ycl2wLWBnIxspfdDu4kQYQj7xs47XuHqevUt3
+   35VFByk5FhkWdyl3oW1dFbyEICYVfU0GlznO97BT37LiAO7/UHkPjnbpl
+   g==;
+X-CSE-ConnectionGUID: aOYcew8kRtmGfUv96HJdfA==
+X-CSE-MsgGUID: vIaILe21Te2xY6dSpmC1Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="76270950"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="76270950"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 03:51:42 -0800
+X-CSE-ConnectionGUID: qAAMdLnRSCC91o/1+HcmUg==
+X-CSE-MsgGUID: yX/suS7cR6aIeoC9azpZGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="190695713"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 19 Nov 2025 03:51:41 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLgio-0002qP-2i;
+	Wed, 19 Nov 2025 11:51:38 +0000
+Date: Wed, 19 Nov 2025 19:51:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3278/3278] include/linux/xsched.h:309:29: error:
+ array has incomplete element type 'struct cgroup_file'
+Message-ID: <202511191942.8hZlsAYZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Sent: Wednesday, November 19, 2025 12:47 PM=20
-> tree:   https://github.com/robertosassu/linux ima-snapshots-v1-devel-v1
-> head:   b0bd002b6caa9d5d4f4d0db2a041b1fd91f33f8a
-> commit: b0bd002b6caa9d5d4f4d0db2a041b1fd91f33f8a [1/1] ima: Add
-> support for measurement list snapshots
-> config: i386-randconfig-141-20251116 (https://download.01.org/0day-
-> ci/archive/20251117/202511170428.8scOuqUb-lkp@intel.com/config)
-> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion
-> of the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511170428.8scOuqUb-lkp@intel.com/
->=20
-> smatch warnings:
-> security/integrity/ima/ima_fs.c:321 ima_measurements_snap_write() warn:
-> maybe return -EFAULT instead of the bytes remaining?
->=20
-> vim +321 security/integrity/ima/ima_fs.c
->=20
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  309  static ssize_t
-> ima_measurements_snap_write(struct file *file,
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  310
-> 		   const char __user *buf,
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  311
-> 		   size_t datalen, loff_t *ppos)
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  312  {
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  313  	unsigned char
-> req[SNAPSHOT_REQ_LENGTH];
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  314  	int ret;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  315
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  316  	if (*ppos > 0 ||
-> datalen !=3D SNAPSHOT_REQ_LENGTH)
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  317  		return -
-> EINVAL;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  318
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  319  	ret =3D
-> copy_from_user(req, buf, datalen);
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  320  	if (ret < 0)
-> b0bd002b6caa9d Roberto Sassu 2025-11-13 @321  		return ret;
->=20
-> Yep.  This should be:
->=20
-> 	if (copy_from_user(req, buf, datalen))
-> 		return -EFAULT;
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   dfb9bd9242c2350c127d51a126976ed386e9cc48
+commit: aafde051ac61687823976cc892fb3c416101d694 [3278/3278] xsched: Add support for CFS quota for cgroups
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251119/202511191942.8hZlsAYZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251119/202511191942.8hZlsAYZ-lkp@intel.com/reproduce)
 
-Ok, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511191942.8hZlsAYZ-lkp@intel.com/
 
-Roberto
+All errors (new ones prefixed by >>):
 
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  322
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  323  	if (req[1] !=3D '\n')
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  324  		return -
-> EINVAL;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  325
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  326  	switch (req[0]) {
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  327  	case
-> SNAPSHOT_REQ_MAKE:
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  328  		ret =3D
-> ima_queue_make_snapshot();
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  329  		break;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  330  	case
-> SNAPSHOT_REQ_DEL:
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  331  		ret =3D
-> ima_queue_delete_snapshot();
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  332  		break;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  333  	default:
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  334  		ret =3D -EINVAL;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  335  		break;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  336  	}
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  337
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  338  	if (ret < 0)
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  339  		return ret;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  340
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  341  	return datalen;
-> b0bd002b6caa9d Roberto Sassu 2025-11-13  342  }
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   In file included from kernel/xsched/vstream.c:23:
+   include/linux/xsched.h:276:29: error: field has incomplete type 'struct cgroup_subsys_state'
+     276 |         struct cgroup_subsys_state css;
+         |                                    ^
+   include/linux/kthread.h:219:8: note: forward declaration of 'struct cgroup_subsys_state'
+     219 | struct cgroup_subsys_state;
+         |        ^
+   In file included from kernel/xsched/vstream.c:23:
+>> include/linux/xsched.h:309:29: error: array has incomplete element type 'struct cgroup_file'
+     309 |         struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
+         |                                    ^
+   include/linux/xsched.h:309:9: note: forward declaration of 'struct cgroup_file'
+     309 |         struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
+         |                ^
+   2 errors generated.
 
+
+vim +309 include/linux/xsched.h
+
+   272	
+   273	/* Xsched scheduling control group */
+   274	struct xsched_group {
+   275		/* Cgroups controller structure */
+   276		struct cgroup_subsys_state css;
+   277	
+   278		/* Control group settings: */
+   279		int sched_class;
+   280		int prio;
+   281	
+   282		/* Bandwidth setting: shares value set by user */
+   283		u64 shares_cfg;
+   284		u64 shares_cfg_red;
+   285		u32 weight;
+   286		u64 children_shares_sum;
+   287	
+   288		/* Bandwidth setting: maximal quota in period */
+   289		s64 quota;
+   290		/* record the runtime of operators during the period */
+   291		s64 runtime;
+   292		s64 period;
+   293		struct hrtimer quota_timeout;
+   294		struct work_struct refill_work;
+   295	
+   296		struct xsched_group_xcu_priv perxcu_priv[XSCHED_NR_CUS];
+   297	
+   298		/* Groups hierarchcy */
+   299		struct xsched_group *parent;
+   300		struct list_head children_groups;
+   301		struct list_head group_node;
+   302	
+   303		spinlock_t lock;
+   304	
+   305		/* for XSE to move in perxcu */
+   306		struct list_head members;
+   307	
+   308		/* to control the xcu.{period, quota, shares} files shown or not */
+ > 309		struct cgroup_file xcu_file[NR_XCU_FILE_TYPES];
+   310		struct work_struct file_show_work;
+   311	};
+   312	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
