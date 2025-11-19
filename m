@@ -1,71 +1,92 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7632686A0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0438935A12E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 12:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763554922; cv=none; b=VwjJIQNeGAaTuNk/s7752hEb6XCfDFIUIEkqeHg58eTYvRUXwKhjjXrW8Y6aYdsobF9cPjiWta5c+mUx1qnv8beEo8RaseTbgodGLyaVvDIXhTDsVGNhUUA43aMW418w4oTT9naZB7wdATZaZQ4TnYkJYsLihdtBG8+oY6q7aoQ=
+	t=1763555587; cv=none; b=iRNdsH2awUq8i4QaDmwoEGTzTcrDpi82Z7++Otl7ldOnZnor+zn5Td/iZSfXDhNWMpHcAFtOulgSdi5IWIx2T1BiSwaHFASJS6aaYIdMmlJuhmesJWKthTs8mXPYgER02kBNZxsvTIp6VnPeYXPF44/iGsdQm77tKSWHCR23rpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763554922; c=relaxed/simple;
-	bh=auARveLeUk9dsZp1i7YcjSL2Pgz1JP9PYpIWLzHdUr0=;
+	s=arc-20240116; t=1763555587; c=relaxed/simple;
+	bh=h5hE7JIAPU5pXe6K4zFsETPItlQfALgrvHbOOEg4bic=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R64737EBZQUwniGt7JINP18c2F5FJZmVSCO66cTtp0lFGJ6RA5OEWqxGWj2ajxkBmeOoYm4g/8w7Lw6pnrM2Krl58NaAwu2yHYvwQsZBXSWjBeXKT939VC1nk3y+xEqm6e+4wvse5jU0qZUE4/Gcs5WpdhmGpJWjLtDYXRHudLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mElqHyD1; arc=none smtp.client-ip=209.85.128.45
+	 Content-Disposition:In-Reply-To; b=dfO5fZrAj5O8h6Sx68kVPTptbosUsqo6ClzZPdO3wCoq5moV/ZbsAzGka8z3nCSRx9I4ufqbINlNhmjhmpWSLAMEdFtpmzcCj1R6jwmGuEjQWsgNPBFkfaLiAruKf5BTjfR3oFRDiL6bCIYMAuWhKhAWbjxyzRo75QwlvdXCh2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rusD6656; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mElqHyD1"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477770019e4so69616445e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:21:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rusD6656"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so3442219f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 04:33:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763554918; x=1764159718; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tH7Nh3FPHlDtz44IwUgPwpiOvOpfkpLpZtMxQe8EW9Q=;
-        b=mElqHyD1eElFBamrJhjlklH7ueI5QuCmZt6QGjrYUzTiv9YeYaRoeGvHpzDuiQG5Ea
-         P3zpIeq5jAespAJW9VC6oIM0mIRQf+54Gi8rztUMx725UZegFWllxd3Uet39fJ9zq9IF
-         mCdtfsWUlO3AQsY0GzHz+Nn6zISCeI0s9COcV+5COB6nspeXh866Nj0TXmpK1f9kIeok
-         9jLOVr6t8dfheM1ukKAYMNKRiB/9dzXgxHYCPa01GuQWrJPhBPJdbQTZ802h/g8krw35
-         fy6wdHoKu6OcCkXCXroGrlCHUlCrfBiULbKtkM4eE4qNYvRuaFQZTXx1JjAxrns5PN3J
-         xtKg==
+        d=linaro.org; s=google; t=1763555582; x=1764160382; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
+        b=rusD6656EfPX/UPHdTgaD53cNcrjek3aO/vNXS/1f7mI9+p0b2H5MSUI4bdiqL3W+F
+         /katDl2jdhdqAASBpbYfj0dJjLlom82YQ1OSOCo8ReM2Spz27eVeA0SJCSSyF5bdBj9H
+         9hqx97a8rE/HMxBuV7DqNn4ikQwlFZn+I/UTWxF/5UlUn8wWZ/4FVi56Lfl/dHvgxJtk
+         KK8TyyvKXKIaifgTxG+IIOrYPgO3c/wWevN7SG/IfPrk2DC8KcCb+WZvkXLqN3LEWBPr
+         OHv/FB90PBQUt2JHqO2fLAR5z6ZabAwQYCOXakXiJ0z8myka826/EidkcFOs50U1RNgW
+         Z1ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763554918; x=1764159718;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tH7Nh3FPHlDtz44IwUgPwpiOvOpfkpLpZtMxQe8EW9Q=;
-        b=AOJLE13iRmuA0ueKzZhR9I49kF6YfCRWhzAHS/OswflMBw0abv04lAc/CNaD+F+Gm4
-         3CL3Np40J11VhVVrmRZoht6LF4w4qYkk652NVkoDvYIpbdI7XUO7CsHYv7iJJVt5vhVY
-         7UlflarahimKJIRqSjJgy8o9oi9vGCFUwK53pFzEuGWLC22eH1kffht1vBjPTUIxCofX
-         00J/OVR5uUx9M76hQ2uUOx0WUXJOFpkLjp9H7ALe2/wi0m7mLKcs+pbapBSWaD2/8mZJ
-         IvTT2pKuRowkMYgz8y9jbCLbNPPPo3gNn6oAlbs6VrL6qHHh4eLtVWChvTCsqqOmnECZ
-         /Ujw==
-X-Forwarded-Encrypted: i=1; AJvYcCUpgZwncSPCh2nF1iqtDrwsb100gIrYgRM6fWVS0KpfRAJHeTgT6mnLVikUNAk8pEvJ7XU7UH7dHnTt4L2b@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTiVxT+H8cOSBqS8jzHNYirktcQ+fcpTR81WIJFvrAMbjCObm3
-	5Di6Cu1tzPrnlC3kmUO4YypKVmxQuj6c9tZitCISM27VKsMIIOv0J73V5fnhfAkrtlY=
-X-Gm-Gg: ASbGnctnCH2zwO8/TsZX4rWBHo2+zbgH5XDQA1dRum4d8pTQ+NGkud5/zxCWn8jWWjO
-	OahYD7L7SVkACjYAlMMvzFL0iKoCCrqfwx5WOOQzG1HFIKnhwZ3GMXCKVaYT/l0ZLBcN2p9+Oaz
-	XgZ4rYMgs9rUEI3+f+JCSjYlxWVi2RGuzxjyDVGypIJbWkoL6F54LjSrUNC21VnjCafdRc9+RLY
-	p3I0iEbT5kKAzdbdlzc/EKBUVlSHPkQwdEHbAUYKcVKOHbMHz2A6EW4HwVlxuJa+rsjIFjkRmqB
-	F7OC4VzNYG2kGht61drFWuv1aND8QQDsZh4iwaabG6Ezimub+5rTM+5PwjPhmuGz2VpISIv5GiH
-	zOq75nhepZOodtaErI+goX4C6zlN9QeTokEqGnjmbMzPKy/jOxRPbkmJF/OFUiKcPvrmWi9Y5ZJ
-	RvY3AqXQ/4jsNroylN
-X-Google-Smtp-Source: AGHT+IHCxr8XJjsd4ur3hJdzxM3HFLVcnWplXceLR9IdI4N+9z12GFm5R73m/29pUu8hPMuoGx21KQ==
-X-Received: by 2002:a05:600c:4707:b0:477:9eb8:97d2 with SMTP id 5b1f17b1804b1-4779eb89abfmr125506805e9.8.1763554917824;
-        Wed, 19 Nov 2025 04:21:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763555582; x=1764160382;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TTpDJIyzlLD2mZZm8NPvuWPGVRMC0dlRU8JeQpSiDFg=;
+        b=eD8oBwgeO4fHsOJzPaVXZz1+us8b7X8bI7xaiwfhChSPTGunK3znpXzQH09TtcfJab
+         31vt6mxDamv3l4HVsmjLQGFCUelYK1muo5757YMkyre03LGG0fiGgOSOFYBZkREKm1tD
+         5Wv+706MC6wJ5bfMzE87uDyfErScV83svsuXfPtG7u8/bE2O7hzZQWgSxgMiTapBhX/1
+         mi9tsohWy5Qg0poc4K+6ih08FObI3kfQl/BKv/O9MItjlS15EBGg2CzCnuEjCzv6981/
+         L+XXr2c0oi56t32i1BZF0lUfTSP1WebXDlEuApmo13PM2aQRr9exOMpOauK/CEdLujsO
+         vKPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRfDP9votVz+lwnxQGzlQpRuzWtuNhpEoJrmZ9SmtXSldiveBc9JGUUy3MRmsjDOxQjh/F0K3HKG95mEOX@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2NXrR5J8pKwY7N9f5S3EvT+UG+P9dHbKy9CPYs54zy0V4N7G2
+	hhEENOnLNDzG4D0ejL5ZDQBVdmODq6KTlazWq0GNGo3b1taRbBk1Rv086iLkT67fWnA=
+X-Gm-Gg: ASbGncueA0WbekPm9/a0xYZbyOkPUb0b3TlLdjZASnafewrJC+qAnO9qpETDJfcmK89
+	4kBcFHtF58xcAheui7vnCwNpzSzoVULjWJZvBeTGeCxT2VmYJS+Wdk4zYCpFS7fy/lTZQmu5Nfs
+	+BGYX2RyKY/C2PVkpLScyn1S3+I/OV2OIA3LQ69vW6x2+bfS8r3DxssUzOSzv5hv+unrM7toSdp
+	snczuSwJq2gO7gwIo0g7lO0vz6k+cdthJj0W6I4pFK3nUvUmXKj9DEVs5iswns0pExV5jA0W0ya
+	UOs8C0VgDY9JzbKiZCRN4QqETlzScW2n9gqcsbm0T9/9JwI9tqpfFFCidRkphQQ7MLEtid6XU0J
+	jw5GiNTpZB4tC/qPjy26eq66OyLCQbgxdasUzlULIBZExisFsPq6wRdXmR24SZob9Ee+YH7XpSr
+	zVdzli+kUd7IIq7LXK9UHU+Sqjsrs=
+X-Google-Smtp-Source: AGHT+IGX99Lme1dSXVbOZlFEGGelrzxBBzInRwek/nqf1UQyJWFcp3FI0tP47t+mBlkjZGEp/hXjJg==
+X-Received: by 2002:a5d:5d0a:0:b0:42b:3062:c647 with SMTP id ffacd0b85a97d-42cb1f387bemr2370775f8f.21.1763555581987;
+        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477b103d312sm56329685e9.13.2025.11.19.04.21.56
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42c961f6e64sm24385786f8f.27.2025.11.19.04.33.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 04:21:57 -0800 (PST)
-Date: Wed, 19 Nov 2025 15:21:54 +0300
+        Wed, 19 Nov 2025 04:33:01 -0800 (PST)
+Date: Wed, 19 Nov 2025 15:32:57 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:cifs-next 5/9] fs/smb/client/transport.c:1071
- compound_send_recv() error: we previously assumed 'resp_iov' could be null
- (see line 1049)
-Message-ID: <202511150702.M9d2Y8G2-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	dri-devel@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Balbir Singh <balbirs@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Ralph Campbell <rcampbell@nvidia.com>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Francois Dugast <francois.dugast@intel.com>
+Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
+Message-ID: <202511151216.rhK2ItOb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,263 +95,227 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251114012228.2634882-1-balbirs@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git cifs-next
-head:   29e729b4debaf2d5e2b7a7212998982175571f37
-commit: b78ce07bce2954c0515e0b5de0d58d2cf61333db [5/9] cifs: Clean up some places where an extra kvec[] was required for rfc1002
-config: x86_64-randconfig-r072-20251115 (https://download.01.org/0day-ci/archive/20251115/202511150702.M9d2Y8G2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Balbir,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
+patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
+config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151216.rhK2ItOb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511150702.M9d2Y8G2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511151216.rhK2ItOb-lkp@intel.com/
 
 smatch warnings:
-fs/smb/client/transport.c:1071 compound_send_recv() error: we previously assumed 'resp_iov' could be null (see line 1049)
+mm/huge_memory.c:4044 __folio_split() error: uninitialized symbol 'end'.
+mm/huge_memory.c:4052 __folio_split() error: we previously assumed 'mapping' could be null (see line 4046)
 
-vim +/resp_iov +1071 fs/smb/client/transport.c
+vim +/end +4044 mm/huge_memory.c
 
-b8f57ee8aad414 fs/cifs/transport.c       Pavel Shilovsky    2016-11-23   863  int
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   864  compound_send_recv(const unsigned int xid, struct cifs_ses *ses,
-352d96f3acc6e0 fs/cifs/transport.c       Aurelien Aptel     2020-05-31   865  		   struct TCP_Server_Info *server,
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   866  		   const int flags, const int num_rqst, struct smb_rqst *rqst,
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   867  		   int *resp_buf_type, struct kvec *resp_iov)
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   868  {
-480b1cb9dad894 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-08   869  	int i, j, optype, rc = 0;
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   870  	struct smb_message *smb[MAX_COMPOUND];
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22   871  	bool cancelled_mid[MAX_COMPOUND] = {false};
-34f4deb7c56c6f fs/cifs/transport.c       Pavel Shilovsky    2019-01-16   872  	struct cifs_credits credits[MAX_COMPOUND] = {
-34f4deb7c56c6f fs/cifs/transport.c       Pavel Shilovsky    2019-01-16   873  		{ .value = 0, .instance = 0 }
-34f4deb7c56c6f fs/cifs/transport.c       Pavel Shilovsky    2019-01-16   874  	};
-34f4deb7c56c6f fs/cifs/transport.c       Pavel Shilovsky    2019-01-16   875  	unsigned int instance;
-738f9de5cdb917 fs/cifs/transport.c       Pavel Shilovsky    2016-11-23   876  	char *buf;
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   877  
-a891f0f895f4a7 fs/cifs/transport.c       Pavel Shilovsky    2012-05-23   878  	optype = flags & CIFS_OP_MASK;
-133672efbc1085 fs/cifs/transport.c       Steve French       2007-11-13   879  
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   880  	for (i = 0; i < num_rqst; i++)
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   881  		resp_buf_type[i] = CIFS_NO_BUFFER;  /* no response buf yet */
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   882  
-352d96f3acc6e0 fs/cifs/transport.c       Aurelien Aptel     2020-05-31   883  	if (!ses || !ses->server || !server) {
-f96637be081141 fs/cifs/transport.c       Joe Perches        2013-05-04   884  		cifs_dbg(VFS, "Null session\n");
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   885  		return -EIO;
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   886  	}
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   887  
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27   888  	spin_lock(&server->srv_lock);
-080dc5e5656c1c fs/cifs/transport.c       Shyam Prasad N     2021-07-19   889  	if (server->tcpStatus == CifsExiting) {
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27   890  		spin_unlock(&server->srv_lock);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   891  		return -ENOENT;
-080dc5e5656c1c fs/cifs/transport.c       Shyam Prasad N     2021-07-19   892  	}
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27   893  	spin_unlock(&server->srv_lock);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   894  
-7091bcaba9f34c fs/cifs/transport.c       Pavel Shilovsky    2019-01-30   895  	/*
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   896  	 * Wait for all the requests to become available.
-7091bcaba9f34c fs/cifs/transport.c       Pavel Shilovsky    2019-01-30   897  	 * This approach still leaves the possibility to be stuck waiting for
-7091bcaba9f34c fs/cifs/transport.c       Pavel Shilovsky    2019-01-30   898  	 * credits if the server doesn't grant credits to the outstanding
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   899  	 * requests and if the client is completely idle, not generating any
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   900  	 * other requests.
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   901  	 * This can be handled by the eventual session reconnect.
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   902  	 */
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   903  	rc = wait_for_compound_request(server, num_rqst, flags,
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   904  				       &instance);
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   905  	if (rc)
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   906  		return rc;
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   907  
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   908  	for (i = 0; i < num_rqst; i++) {
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   909  		credits[i].value = 1;
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   910  		credits[i].instance = instance;
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22   911  	}
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   912  
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   913  	/*
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   914  	 * Make sure that we sign in the same order that we send on this socket
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   915  	 * and avoid races inside tcp sendmsg code that could cause corruption
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   916  	 * of smb data.
-792af7b05b8a78 fs/cifs/transport.c       Pavel Shilovsky    2012-03-23   917  	 */
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   918  
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01   919  	cifs_server_lock(server);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   920  
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   921  	/*
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   922  	 * All the parts of the compound chain belong obtained credits from the
-257b78099be015 fs/cifs/transport.c       Ronnie Sahlberg    2019-03-11   923  	 * same session. We can not use credits obtained from the previous
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   924  	 * session to send this request. Check if there were reconnects after
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   925  	 * we obtained credits and return -EAGAIN in such cases to let callers
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   926  	 * handle it.
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   927  	 */
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   928  	if (instance != server->reconnect_instance) {
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01   929  		cifs_server_unlock(server);
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   930  		for (j = 0; j < num_rqst; j++)
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   931  			add_credits(server, &credits[j], optype);
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   932  		return -EAGAIN;
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   933  	}
-97ea499883cc05 fs/cifs/transport.c       Pavel Shilovsky    2019-01-15   934  
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   935  	for (i = 0; i < num_rqst; i++) {
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   936  		smb[i] = server->ops->setup_request(ses, server, &rqst[i]);
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   937  		if (IS_ERR(smb[i])) {
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   938  			revert_current_mid(server, i);
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   939  			for (j = 0; j < i; j++)
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   940  				delete_mid(smb[j]);
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01   941  			cifs_server_unlock(server);
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22   942  
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   943  			/* Update # of requests on wire to server */
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22   944  			for (j = 0; j < num_rqst; j++)
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   945  				add_credits(server, &credits[j], optype);
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   946  			return PTR_ERR(smb[i]);
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   947  		}
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   948  
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   949  		smb[i]->mid_state = MID_REQUEST_SUBMITTED;
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   950  		smb[i]->optype = optype;
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30   951  		/*
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   952  		 * Invoke callback for every part of the compound chain
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   953  		 * to calculate credits properly. Wake up this thread only when
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   954  		 * the last element is received.
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30   955  		 */
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30   956  		if (i < num_rqst - 1)
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   957  			smb[i]->callback = cifs_compound_callback;
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   958  		else
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   959  			smb[i]->callback = cifs_compound_last_callback;
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   960  	}
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   961  	rc = smb_send_rqst(server, num_rqst, rqst, flags);
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   962  
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   963  	for (i = 0; i < num_rqst; i++)
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31   964  		cifs_save_when_sent(smb[i]);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   965  
-c781af7e0c1fed fs/cifs/transport.c       Pavel Shilovsky    2019-03-04   966  	if (rc < 0) {
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   967  		revert_current_mid(server, num_rqst);
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   968  		server->sequence_number -= 2;
-c781af7e0c1fed fs/cifs/transport.c       Pavel Shilovsky    2019-03-04   969  	}
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01   970  
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01   971  	cifs_server_unlock(server);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   972  
-d69cb728e70c40 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-01   973  	/*
-d69cb728e70c40 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-01   974  	 * If sending failed for some reason or it is an oplock break that we
-d69cb728e70c40 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-01   975  	 * will not receive a response to - return credits back
-d69cb728e70c40 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-01   976  	 */
-d69cb728e70c40 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-01   977  	if (rc < 0 || (flags & CIFS_NO_SRV_RSP)) {
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   978  		for (i = 0; i < num_rqst; i++)
-3190b59a050ecd fs/cifs/transport.c       Aurelien Aptel     2019-06-24   979  			add_credits(server, &credits[i], optype);
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   980  		goto out;
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   981  	}
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   982  
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   983  	/*
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   984  	 * At this point the request is passed to the network stack - we assume
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   985  	 * that any credits taken from the server structure on the client have
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   986  	 * been spent and we can't return them back. Once we receive responses
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   987  	 * we will collect credits granted by the server in the mid callbacks
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   988  	 * and add those credits to the server structure.
-ee258d79159afe fs/cifs/transport.c       Pavel Shilovsky    2019-01-03   989  	 */
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02   990  
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10   991  	/*
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10   992  	 * Compounding is never used during session establish.
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10   993  	 */
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27   994  	spin_lock(&ses->ses_lock);
-dd3cd8709ed5f4 fs/cifs/transport.c       Shyam Prasad N     2022-04-07   995  	if ((ses->ses_status == SES_NEW) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27   996  		spin_unlock(&ses->ses_lock);
-080dc5e5656c1c fs/cifs/transport.c       Shyam Prasad N     2021-07-19   997  
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01   998  		cifs_server_lock(server);
-f486ef8e2003f6 fs/cifs/transport.c       Shyam Prasad N     2021-07-19   999  		smb311_update_preauth_hash(ses, server, rqst[0].rq_iov, rqst[0].rq_nvec);
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01  1000  		cifs_server_unlock(server);
-080dc5e5656c1c fs/cifs/transport.c       Shyam Prasad N     2021-07-19  1001  
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1002  		spin_lock(&ses->ses_lock);
-05946d4b7a7349 fs/cifs/transport.c       Vincent Whitchurch 2021-03-10  1003  	}
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1004  	spin_unlock(&ses->ses_lock);
-8bd68c6e47abff fs/cifs/transport.c       Aurelien Aptel     2018-02-16  1005  
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1006  	for (i = 0; i < num_rqst; i++) {
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1007  		rc = wait_for_response(server, smb[i]);
-8a26f0f781f56d fs/cifs/transport.c       Pavel Shilovsky    2019-01-03  1008  		if (rc != 0)
-8a26f0f781f56d fs/cifs/transport.c       Pavel Shilovsky    2019-01-03  1009  			break;
-8a26f0f781f56d fs/cifs/transport.c       Pavel Shilovsky    2019-01-03  1010  	}
-1be912dde772b7 fs/cifs/transport.c       Jeff Layton        2011-01-28  1011  	if (rc != 0) {
-8a26f0f781f56d fs/cifs/transport.c       Pavel Shilovsky    2019-01-03  1012  		for (; i < num_rqst; i++) {
-e3d100eae44b42 fs/cifs/transport.c       Paulo Alcantara    2021-03-08  1013  			cifs_server_dbg(FYI, "Cancelling wait for mid %llu cmd: %d\n",
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1014  				 smb[i]->mid, le16_to_cpu(smb[i]->command));
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1015  			send_cancel(server, &rqst[i], smb[i]);
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1016  			spin_lock(&smb[i]->mid_lock);
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1017  			smb[i]->wait_cancelled = true;
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1018  			if (smb[i]->mid_state == MID_REQUEST_SUBMITTED ||
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1019  			    smb[i]->mid_state == MID_RESPONSE_RECEIVED) {
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1020  				smb[i]->callback = cifs_cancelled_callback;
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1021  				cancelled_mid[i] = true;
-34f4deb7c56c6f fs/cifs/transport.c       Pavel Shilovsky    2019-01-16  1022  				credits[i].value = 0;
-1be912dde772b7 fs/cifs/transport.c       Jeff Layton        2011-01-28  1023  			}
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1024  			spin_unlock(&smb[i]->mid_lock);
-1be912dde772b7 fs/cifs/transport.c       Jeff Layton        2011-01-28  1025  		}
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1026  	}
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1027  
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1028  	for (i = 0; i < num_rqst; i++) {
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1029  		if (rc < 0)
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1030  			goto out;
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02  1031  
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1032  		rc = cifs_sync_mid_result(smb[i], server);
-053d50344568e5 fs/cifs/transport.c       Jeff Layton        2011-01-11  1033  		if (rc != 0) {
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1034  			/* mark this mid as cancelled to not free it below */
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1035  			cancelled_mid[i] = true;
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1036  			goto out;
-d6e04ae64c6b06 fs/cifs/transport.c       Steve French       2005-06-13  1037  		}
-d6e04ae64c6b06 fs/cifs/transport.c       Steve French       2005-06-13  1038  
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1039  		if (!smb[i]->resp_buf ||
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1040  		    smb[i]->mid_state != MID_RESPONSE_READY) {
-d6e04ae64c6b06 fs/cifs/transport.c       Steve French       2005-06-13  1041  			rc = -EIO;
-f96637be081141 fs/cifs/transport.c       Joe Perches        2013-05-04  1042  			cifs_dbg(FYI, "Bad MID state?\n");
-2b2bdfba7a3679 fs/cifs/transport.c       Steve French       2008-12-11  1043  			goto out;
-2b2bdfba7a3679 fs/cifs/transport.c       Steve French       2008-12-11  1044  		}
-2b2bdfba7a3679 fs/cifs/transport.c       Steve French       2008-12-11  1045  
-b78ce07bce2954 fs/smb/client/transport.c David Howells      2025-08-06  1046  		rc = server->ops->check_receive(smb[i], server,
-b78ce07bce2954 fs/smb/client/transport.c David Howells      2025-08-06  1047  						     flags & CIFS_LOG_ERROR);
-b78ce07bce2954 fs/smb/client/transport.c David Howells      2025-08-06  1048  
-b78ce07bce2954 fs/smb/client/transport.c David Howells      2025-08-06 @1049  		if (resp_iov) {
+6384dd1d18de7b Zi Yan                  2025-03-07  3908  static int __folio_split(struct folio *folio, unsigned int new_order,
+58729c04cf1092 Zi Yan                  2025-03-07  3909  		struct page *split_at, struct page *lock_at,
+f6b1f167ffe29f Balbir Singh            2025-11-14  3910  		struct list_head *list, enum split_type split_type)
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3911  {
+58729c04cf1092 Zi Yan                  2025-03-07  3912  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
+6c7de9c83be68b Zi Yan                  2025-07-18  3913  	struct folio *end_folio = folio_next(folio);
+5d65c8d758f259 Barry Song              2024-08-24  3914  	bool is_anon = folio_test_anon(folio);
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3915  	struct address_space *mapping = NULL;
+5d65c8d758f259 Barry Song              2024-08-24  3916  	struct anon_vma *anon_vma = NULL;
+8ec26327c18e1d Wei Yang                2025-10-10  3917  	int old_order = folio_order(folio);
+6c7de9c83be68b Zi Yan                  2025-07-18  3918  	struct folio *new_folio, *next;
+391dc7f40590d7 Zi Yan                  2025-07-18  3919  	int nr_shmem_dropped = 0;
+391dc7f40590d7 Zi Yan                  2025-07-18  3920  	int remap_flags = 0;
+504e070dc08f75 Yang Shi                2021-06-15  3921  	int extra_pins, ret;
+006d3ff27e884f Hugh Dickins            2018-11-30  3922  	pgoff_t end;
+478d134e9506c7 Xu Yu                   2022-04-28  3923  	bool is_hzp;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3924  
+714b056c832106 Zi Yan                  2025-07-17  3925  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
+714b056c832106 Zi Yan                  2025-07-17  3926  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3927  
+58729c04cf1092 Zi Yan                  2025-03-07  3928  	if (folio != page_folio(split_at) || folio != page_folio(lock_at))
+1412ecb3d256e5 Zi Yan                  2024-03-07  3929  		return -EINVAL;
+1412ecb3d256e5 Zi Yan                  2024-03-07  3930  
+8ec26327c18e1d Wei Yang                2025-10-10  3931  	if (new_order >= old_order)
+c010d47f107f60 Zi Yan                  2024-02-26  3932  		return -EINVAL;
+58729c04cf1092 Zi Yan                  2025-03-07  3933  
+aa27253af32c74 Wei Yang                2025-11-06  3934  	if (!folio_split_supported(folio, new_order, split_type, /* warn = */ true))
+6a50c9b512f773 Ran Xiaokai             2024-06-07  3935  		return -EINVAL;
+c010d47f107f60 Zi Yan                  2024-02-26  3936  
+5beaee54a324ba Matthew Wilcox (Oracle  2024-03-26  3937) 	is_hzp = is_huge_zero_folio(folio);
+4737edbbdd4958 Naoya Horiguchi         2023-04-06  3938  	if (is_hzp) {
+4737edbbdd4958 Naoya Horiguchi         2023-04-06  3939  		pr_warn_ratelimited("Called split_huge_page for huge zero page\n");
+478d134e9506c7 Xu Yu                   2022-04-28  3940  		return -EBUSY;
+4737edbbdd4958 Naoya Horiguchi         2023-04-06  3941  	}
+478d134e9506c7 Xu Yu                   2022-04-28  3942  
+3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3943) 	if (folio_test_writeback(folio))
+59807685a7e77e Ying Huang              2017-09-06  3944  		return -EBUSY;
+59807685a7e77e Ying Huang              2017-09-06  3945  
+5d65c8d758f259 Barry Song              2024-08-24  3946  	if (is_anon) {
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3947  		/*
+c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  3948  		 * The caller does not necessarily hold an mmap_lock that would
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3949  		 * prevent the anon_vma disappearing so we first we take a
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3950  		 * reference to it and then lock the anon_vma for write. This
+2f031c6f042cb8 Matthew Wilcox (Oracle  2022-01-29  3951) 		 * is similar to folio_lock_anon_vma_read except the write lock
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3952  		 * is taken to serialise against parallel split or collapse
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3953  		 * operations.
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3954  		 */
+29eea9b5a9c9ec Matthew Wilcox (Oracle  2022-09-02  3955) 		anon_vma = folio_get_anon_vma(folio);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3956  		if (!anon_vma) {
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3957  			ret = -EBUSY;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3958  			goto out;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3959  		}
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3960  		anon_vma_lock_write(anon_vma);
+3d4c0d98eb8572 Balbir Singh            2025-10-01  3961  		mapping = NULL;
 
-Can resp_iov really be NULL?
+end is not initialized for anonymous folios.
 
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1050  			buf = (char *)smb[i]->resp_buf;
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01  1051  			resp_iov[i].iov_base = buf;
-9c902f67d10e5c fs/smb/client/transport.c David Howells      2025-09-05  1052  			resp_iov[i].iov_len = smb[i]->resp_buf_size;
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01  1053  
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1054  			if (smb[i]->large_buf)
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01  1055  				resp_buf_type[i] = CIFS_LARGE_BUFFER;
-ec637e3ffb6b97 fs/cifs/transport.c       Steve French       2005-12-12  1056  			else
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01  1057  				resp_buf_type[i] = CIFS_SMALL_BUFFER;
-a891f0f895f4a7 fs/cifs/transport.c       Pavel Shilovsky    2012-05-23  1058  
-70f08f914a37a0 fs/cifs/transport.c       Enzo Matsumiya     2022-08-05  1059  			/* mark it so buf will not be freed by delete_mid */
-392e1c5dc9cc93 fs/cifs/transport.c       Ronnie Sahlberg    2019-05-06  1060  			if ((flags & CIFS_NO_RSP_BUF) == 0)
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1061  				smb[i]->resp_buf = NULL;
-b78ce07bce2954 fs/smb/client/transport.c David Howells      2025-08-06  1062  		}
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1063  	}
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1064  
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1065  	/*
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1066  	 * Compounding is never used during session establish.
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1067  	 */
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1068  	spin_lock(&ses->ses_lock);
-dd3cd8709ed5f4 fs/cifs/transport.c       Shyam Prasad N     2022-04-07  1069  	if ((ses->ses_status == SES_NEW) || (optype & CIFS_NEG_OP) || (optype & CIFS_SESS_OP)) {
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1070  		struct kvec iov = {
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10 @1071  			.iov_base = resp_iov[0].iov_base,
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1072  			.iov_len = resp_iov[0].iov_len
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3962  	} else {
+e220917fa50774 Luis Chamberlain        2024-08-22  3963  		unsigned int min_order;
+6a3edd29395631 Yin Fengwei             2022-08-10  3964  		gfp_t gfp;
+6a3edd29395631 Yin Fengwei             2022-08-10  3965  
+3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3966) 		mapping = folio->mapping;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3967  
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3968  		/* Truncated ? */
+6384dd1d18de7b Zi Yan                  2025-03-07  3969  		/*
+6384dd1d18de7b Zi Yan                  2025-03-07  3970  		 * TODO: add support for large shmem folio in swap cache.
+6384dd1d18de7b Zi Yan                  2025-03-07  3971  		 * When shmem is in swap cache, mapping is NULL and
+6384dd1d18de7b Zi Yan                  2025-03-07  3972  		 * folio_test_swapcache() is true.
+6384dd1d18de7b Zi Yan                  2025-03-07  3973  		 */
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3974  		if (!mapping) {
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3975  			ret = -EBUSY;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3976  			goto out;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3977  		}
+baa355fd331424 Kirill A. Shutemov      2016-07-26  3978  
+e220917fa50774 Luis Chamberlain        2024-08-22  3979  		min_order = mapping_min_folio_order(folio->mapping);
+e220917fa50774 Luis Chamberlain        2024-08-22  3980  		if (new_order < min_order) {
+e220917fa50774 Luis Chamberlain        2024-08-22  3981  			ret = -EINVAL;
+e220917fa50774 Luis Chamberlain        2024-08-22  3982  			goto out;
+e220917fa50774 Luis Chamberlain        2024-08-22  3983  		}
+e220917fa50774 Luis Chamberlain        2024-08-22  3984  
+6a3edd29395631 Yin Fengwei             2022-08-10  3985  		gfp = current_gfp_context(mapping_gfp_mask(mapping) &
+6a3edd29395631 Yin Fengwei             2022-08-10  3986  							GFP_RECLAIM_MASK);
+6a3edd29395631 Yin Fengwei             2022-08-10  3987  
+0201ebf274a306 David Howells           2023-06-28  3988  		if (!filemap_release_folio(folio, gfp)) {
+6a3edd29395631 Yin Fengwei             2022-08-10  3989  			ret = -EBUSY;
+6a3edd29395631 Yin Fengwei             2022-08-10  3990  			goto out;
+6a3edd29395631 Yin Fengwei             2022-08-10  3991  		}
+6a3edd29395631 Yin Fengwei             2022-08-10  3992  
+3c844d850e4486 Wei Yang                2025-11-06  3993  		if (split_type == SPLIT_TYPE_UNIFORM) {
+58729c04cf1092 Zi Yan                  2025-03-07  3994  			xas_set_order(&xas, folio->index, new_order);
+8ec26327c18e1d Wei Yang                2025-10-10  3995  			xas_split_alloc(&xas, folio, old_order, gfp);
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3996) 			if (xas_error(&xas)) {
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3997) 				ret = xas_error(&xas);
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3998) 				goto out;
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3999) 			}
+58729c04cf1092 Zi Yan                  2025-03-07  4000  		}
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4001) 
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4002  		anon_vma = NULL;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4003  		i_mmap_lock_read(mapping);
+006d3ff27e884f Hugh Dickins            2018-11-30  4004  
+006d3ff27e884f Hugh Dickins            2018-11-30  4005  		/*
+58729c04cf1092 Zi Yan                  2025-03-07  4006  		 *__split_unmapped_folio() may need to trim off pages beyond
+58729c04cf1092 Zi Yan                  2025-03-07  4007  		 * EOF: but on 32-bit, i_size_read() takes an irq-unsafe
+58729c04cf1092 Zi Yan                  2025-03-07  4008  		 * seqlock, which cannot be nested inside the page tree lock.
+58729c04cf1092 Zi Yan                  2025-03-07  4009  		 * So note end now: i_size itself may be changed at any moment,
+58729c04cf1092 Zi Yan                  2025-03-07  4010  		 * but folio lock is good enough to serialize the trimming.
+006d3ff27e884f Hugh Dickins            2018-11-30  4011  		 */
+006d3ff27e884f Hugh Dickins            2018-11-30  4012  		end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
+d144bf6205342a Hugh Dickins            2021-09-02  4013  		if (shmem_mapping(mapping))
+d144bf6205342a Hugh Dickins            2021-09-02  4014  			end = shmem_fallocend(mapping->host, end);
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4015  	}
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4016  
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4017  	/*
+684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4018) 	 * Racy check if we can split the page, before unmap_folio() will
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4019  	 * split PMDs
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4020  	 */
+8710f6ed34e7bc David Hildenbrand       2024-08-02  4021  	if (!can_split_folio(folio, 1, &extra_pins)) {
+fd4a7ac32918d3 Baolin Wang             2022-10-24  4022  		ret = -EAGAIN;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4023  		goto out_unlock;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4024  	}
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4025  
+684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4026) 	unmap_folio(folio);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4027  
+b6769834aac1d4 Alex Shi                2020-12-15  4028  	/* block interrupt reentry in xa_lock and spinlock */
+b6769834aac1d4 Alex Shi                2020-12-15  4029  	local_irq_disable();
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4030  	if (mapping) {
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4031  		/*
+3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4032) 		 * Check if the folio is present in page cache.
+3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4033) 		 * We assume all tail are present too, if folio is there.
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4034  		 */
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4035) 		xas_lock(&xas);
+6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4036) 		xas_reset(&xas);
+391dc7f40590d7 Zi Yan                  2025-07-18  4037  		if (xas_load(&xas) != folio) {
+391dc7f40590d7 Zi Yan                  2025-07-18  4038  			ret = -EAGAIN;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4039  			goto fail;
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4040  		}
+391dc7f40590d7 Zi Yan                  2025-07-18  4041  	}
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4042  
+f6b1f167ffe29f Balbir Singh            2025-11-14  4043  	ret = __folio_freeze_and_split_unmapped(folio, new_order, split_at, &xas, mapping,
+f6b1f167ffe29f Balbir Singh            2025-11-14 @4044  						true, list, split_type, end, extra_pins);
+                                                                                                                                ^^^
+Passing uninitialized variables isn't allowed unless the function is
+inlined.  It triggers a UBSan warning at runtime as well.
 
-Unchecked dereferences.
+391dc7f40590d7 Zi Yan                  2025-07-18  4045  fail:
+6c7de9c83be68b Zi Yan                  2025-07-18 @4046  	if (mapping)
+6c7de9c83be68b Zi Yan                  2025-07-18  4047  		xas_unlock(&xas);
+6c7de9c83be68b Zi Yan                  2025-07-18  4048  
+6c7de9c83be68b Zi Yan                  2025-07-18  4049  	local_irq_enable();
+6c7de9c83be68b Zi Yan                  2025-07-18  4050  
+391dc7f40590d7 Zi Yan                  2025-07-18  4051  	if (nr_shmem_dropped)
+391dc7f40590d7 Zi Yan                  2025-07-18 @4052  		shmem_uncharge(mapping->host, nr_shmem_dropped);
 
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1073  		};
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1074  		spin_unlock(&ses->ses_lock);
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01  1075  		cifs_server_lock(server);
-f486ef8e2003f6 fs/cifs/transport.c       Shyam Prasad N     2021-07-19  1076  		smb311_update_preauth_hash(ses, server, &iov, 1);
-cc391b694ff085 fs/cifs/transport.c       Vincent Whitchurch 2022-06-01  1077  		cifs_server_unlock(server);
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1078  		spin_lock(&ses->ses_lock);
-e0bba0b8548179 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-01  1079  	}
-d7d7a66aacd6fd fs/cifs/transport.c       Shyam Prasad N     2022-07-27  1080  	spin_unlock(&ses->ses_lock);
-cb5c2e63948451 fs/cifs/transport.c       Ronnie Sahlberg    2018-10-10  1081  
-7ee1af765dfa31 fs/cifs/transport.c       Jeremy Allison     2006-08-02  1082  out:
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30  1083  	/*
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30  1084  	 * This will dequeue all mids. After this it is important that the
-bdcffe4be7cb90 fs/smb/client/transport.c Xiaxi Shen         2024-08-07  1085  	 * demultiplex_thread will not process any of these mids any further.
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30  1086  	 * This is prevented above by using a noop callback that will not
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30  1087  	 * wake this thread except for the very last PDU.
-4e34feb5e96328 fs/cifs/transport.c       Ronnie Sahlberg    2018-08-30  1088  	 */
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1089  	for (i = 0; i < num_rqst; i++) {
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1090  		if (!cancelled_mid[i])
-6015a42782dbf9 fs/smb/client/transport.c David Howells      2025-07-31  1091  			delete_mid(smb[i]);
-8544f4aa9dd19a fs/cifs/transport.c       Pavel Shilovsky    2018-12-22  1092  	}
-^1da177e4c3f41 fs/cifs/transport.c       Linus Torvalds     2005-04-16  1093  
-d6e04ae64c6b06 fs/cifs/transport.c       Steve French       2005-06-13  1094  	return rc;
-d6e04ae64c6b06 fs/cifs/transport.c       Steve French       2005-06-13  1095  }
+Smatch complains that mapping can be NULL, but this is false positive
+because nr_shmem_dropped is always zero.
+
+6c7de9c83be68b Zi Yan                  2025-07-18  4053  
+958fea4c1e2eb6 Balbir Singh            2025-10-01  4054  	if (!ret && is_anon && !folio_is_device_private(folio))
+391dc7f40590d7 Zi Yan                  2025-07-18  4055  		remap_flags = RMP_USE_SHARED_ZEROPAGE;
+958fea4c1e2eb6 Balbir Singh            2025-10-01  4056  
+8ec26327c18e1d Wei Yang                2025-10-10  4057  	remap_page(folio, 1 << old_order, remap_flags);
+6c7de9c83be68b Zi Yan                  2025-07-18  4058  
+6c7de9c83be68b Zi Yan                  2025-07-18  4059  	/*
+6c7de9c83be68b Zi Yan                  2025-07-18  4060  	 * Unlock all after-split folios except the one containing
+6c7de9c83be68b Zi Yan                  2025-07-18  4061  	 * @lock_at page. If @folio is not split, it will be kept locked.
+6c7de9c83be68b Zi Yan                  2025-07-18  4062  	 */
+391dc7f40590d7 Zi Yan                  2025-07-18  4063  	for (new_folio = folio; new_folio != end_folio; new_folio = next) {
+6c7de9c83be68b Zi Yan                  2025-07-18  4064  		next = folio_next(new_folio);
+6c7de9c83be68b Zi Yan                  2025-07-18  4065  		if (new_folio == page_folio(lock_at))
+6c7de9c83be68b Zi Yan                  2025-07-18  4066  			continue;
+6c7de9c83be68b Zi Yan                  2025-07-18  4067  
+6c7de9c83be68b Zi Yan                  2025-07-18  4068  		folio_unlock(new_folio);
+6c7de9c83be68b Zi Yan                  2025-07-18  4069  		/*
+6c7de9c83be68b Zi Yan                  2025-07-18  4070  		 * Subpages may be freed if there wasn't any mapping
+6c7de9c83be68b Zi Yan                  2025-07-18  4071  		 * like if add_to_swap() is running on a lru page that
+6c7de9c83be68b Zi Yan                  2025-07-18  4072  		 * had its mapping zapped. And freeing these pages
+6c7de9c83be68b Zi Yan                  2025-07-18  4073  		 * requires taking the lru_lock so we do the put_page
+6c7de9c83be68b Zi Yan                  2025-07-18  4074  		 * of the tail pages after the split is complete.
+6c7de9c83be68b Zi Yan                  2025-07-18  4075  		 */
+6c7de9c83be68b Zi Yan                  2025-07-18  4076  		free_folio_and_swap_cache(new_folio);
+6c7de9c83be68b Zi Yan                  2025-07-18  4077  	}
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4078  
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4079  out_unlock:
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4080  	if (anon_vma) {
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4081  		anon_vma_unlock_write(anon_vma);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4082  		put_anon_vma(anon_vma);
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4083  	}
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4084  	if (mapping)
+baa355fd331424 Kirill A. Shutemov      2016-07-26  4085  		i_mmap_unlock_read(mapping);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4086  out:
+69a37a8ba1b408 Matthew Wilcox (Oracle  2022-06-08  4087) 	xas_destroy(&xas);
+8ec26327c18e1d Wei Yang                2025-10-10  4088  	if (old_order == HPAGE_PMD_ORDER)
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4089  		count_vm_event(!ret ? THP_SPLIT_PAGE : THP_SPLIT_PAGE_FAILED);
+8ec26327c18e1d Wei Yang                2025-10-10  4090  	count_mthp_stat(old_order, !ret ? MTHP_STAT_SPLIT : MTHP_STAT_SPLIT_FAILED);
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4091  	return ret;
+e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4092  }
 
 -- 
 0-DAY CI Kernel Test Service
