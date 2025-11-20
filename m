@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E482C79CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 10:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2818432B9B8;
+	Thu, 20 Nov 2025 10:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763634417; cv=none; b=q2WEHo5+zoMC1UCnTLTbl7uFCqSomP7KqvHKN0fONU7mRaF3mPy2+sxfvQ1pLet/KaVjkDdCruyUvyGp5ipPKyEu0twjsxJ4VTq4BosHx/2+JrwHlWAjoM0BosEb4xlZpHNI0sXRHt0+J8iEXRVDsn35k5AaV40QfVR2IzetRnY=
+	t=1763635079; cv=none; b=GslaZBnRm66aOxA60AEZMfGJ3dzysrrMxk9KO9NGQbUqBHOCIjNUpyb+p4B9v9HbY+roZQDVGnj46joUNVdpRsrddHEIrMdIiwA29DY5WTEzq5JlNqPfsKQ731JVI/6OwlSd7SI/s8TWW1HbEPXqQ78EGAplenet35PqEARqhR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763634417; c=relaxed/simple;
-	bh=MZtEx1hTVdTka3zso3fo/X2RKteMxsaJZ2LqsmHyAxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z/4KinO3vnCDWeBhMKMX/agaPorYxQ+jOt7NGTbmbG1+NB4N1Gu/Xh72OGrVpkPhhlTMWdoc8ma5LUWCzjhopGBajhdkrnSFraNok/wYZRqi/qapgtdny2PybX2NFTlsGisFsTecgDFcO+fMd73qdZaIRTeUczEhinyAdnfieeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2L/9b2v; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1763635079; c=relaxed/simple;
+	bh=AlKHnfMCe0Kx2+6ZKR/hBQWuTE5pstZT7QpjoJG+8Oo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nIzy29qn3Zgh67MQ1qoOjqUEY3bGj+85PFI8Dmj1WKMdNB8t6QQ0IsEYJvplLTf6q8gI04dN93/WM/UDo8ctbVXdIuTrLsN/MulL4OFQELOyJ+jwFJBTaZSfEqOi6qKU+7vPnJb65+fPjzlCtVNXSkMkrLtmlS8qvekhBglUWG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EReMv6Nx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2L/9b2v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EReMv6Nx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763634416; x=1795170416;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MZtEx1hTVdTka3zso3fo/X2RKteMxsaJZ2LqsmHyAxM=;
-  b=m2L/9b2v3nvLFt2XrdqssQy8orE48KNKwp775uFNxzQzq+5h8iN9UthF
-   94cndge/HhzDzVqX1G0gZlvIy08uBwPsIv4wyBRJbXf07FMAHmFK7Lv8P
-   bprBhzf/vdzC4lplMu6AVWePDxfL31+/IKi4H3d2QvXsDpsN3rgSz8rRq
-   Nj6U5F9cuqguUvgwPti/wry1nJtYLabCCgdHHFN0L5PAhm66Y6gyE+8Yy
-   o/gECT7tthvlsnZ6aGJTLMvWLVDBEX1y7u+D5BWC+aloN63ljHhwaJtSq
-   860gF67T8eUMz+Ou5mXQTbf/RnFiL3HiGq6MQH4Hnv8+LnpDk82P79vRq
+  t=1763635078; x=1795171078;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AlKHnfMCe0Kx2+6ZKR/hBQWuTE5pstZT7QpjoJG+8Oo=;
+  b=EReMv6Nx/tRfcvuGS71HBJGdFwNghLpMIP1tTWGnBk66kBxrq+wFiODI
+   K3Pqnu8TSZKYaI35Um5IlacgsHPZoNb0mWadqXC9xUybgGNXWN+Z8qzTT
+   BqtGGu2QC3Y7sGlXTXRGmZSedVkS34KsJBurVOtCFKjxMOv4tqMXpRsDP
+   HpzNFSfnIcPWnsBsKORjrqF0ZPEjn64+am2QnejyovoCIeQrAA4s7I3LZ
+   zD1lwwK4diRmEV0ycmEv3v9UUfVxi7kIo0vnZZa/HCpkospv7stC/6TSH
+   g7+LA5SpVgjBadrbwEtsVtb8SDUvg1shZ+7yhxig+HFKEJvJf/KjL16+5
    g==;
-X-CSE-ConnectionGUID: cxYAporMQHiNtAvYysFpnQ==
-X-CSE-MsgGUID: s0LaQH6GSuyI4p3JvAh2hw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65736205"
+X-CSE-ConnectionGUID: kdO2bJk6R1aDiMDRf+amjQ==
+X-CSE-MsgGUID: T073l9L+SiC9iqLjOpgPsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65401705"
 X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="65736205"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 02:26:56 -0800
-X-CSE-ConnectionGUID: h4dd6JT6RjqC/9fNyfPIrg==
-X-CSE-MsgGUID: NFIKZJfXRzi9D7REkT+NGQ==
+   d="scan'208";a="65401705"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 02:37:57 -0800
+X-CSE-ConnectionGUID: X5dmoaLPT8m6OOrOofxYTg==
+X-CSE-MsgGUID: lLEwymFWSsCD5rjgFeJBrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="221966254"
+   d="scan'208";a="191589579"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2025 02:26:55 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 20 Nov 2025 02:37:54 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vM1sJ-0003r5-2P;
-	Thu, 20 Nov 2025 10:26:51 +0000
-Date: Thu, 20 Nov 2025 18:26:35 +0800
+	id 1vM22y-0003rb-1x;
+	Thu, 20 Nov 2025 10:37:52 +0000
+Date: Thu, 20 Nov 2025 18:37:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] kernel/rcu/update.c:53:1: error:
- use of undeclared identifier '__tracepoint_rcu_stall_warning'; did you mean
- '__tracepoint_rcu_utilization'?
-Message-ID: <202511201846.jbzY99Bi-lkp@intel.com>
+To: George Guo <dongtai.guo@linux.dev>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+	George Guo <dongtai.guo@linux.dev>
+Subject: Re: [PATCH 2/2] LoongArch: Enable 128-bit atomics cmpxchg support
+Message-ID: <202511201828.xfphUVkJ-lkp@intel.com>
+References: <20251120-2-v1-2-705bdc440550@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,152 +65,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251120-2-v1-2-705bdc440550@linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   a15958de6871ffdaddb3c5736a489a5e3d6a3059
-commit: 5019ece9a34a655ee3def1159956106b706cde5e [3/3] ANDROID: rcu: allow hooks into rcu stall warning
-config: x86_64-randconfig-075-20251120 (https://download.01.org/0day-ci/archive/20251120/202511201846.jbzY99Bi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201846.jbzY99Bi-lkp@intel.com/reproduce)
+Hi George,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8b690556d8fe074b4f9835075050fba3fb180e93]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/George-Guo/LoongArch-Add-128-bit-atomic-cmpxchg-support/20251120-160152
+base:   8b690556d8fe074b4f9835075050fba3fb180e93
+patch link:    https://lore.kernel.org/r/20251120-2-v1-2-705bdc440550%40linux.dev
+patch subject: [PATCH 2/2] LoongArch: Enable 128-bit atomics cmpxchg support
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251120/202511201828.xfphUVkJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201828.xfphUVkJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511201846.jbzY99Bi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511201828.xfphUVkJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/rcu/update.c:53:1: error: use of undeclared identifier '__tracepoint_rcu_stall_warning'; did you mean '__tracepoint_rcu_utilization'?
-      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^
-   include/linux/tracepoint.h:385:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^
-   <scratch space>:6:1: note: expanded from here
-       6 | __tracepoint_rcu_stall_warning
-         | ^
-   include/trace/events/rcu.h:27:1: note: '__tracepoint_rcu_utilization' declared here
-      27 | TRACE_EVENT(rcu_utilization,
-         | ^
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:382:2: note: expanded from macro 'DEFINE_TRACE'
-     382 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:347:20: note: expanded from macro 'DEFINE_TRACE_FN'
-     347 |         struct tracepoint __tracepoint_##_name  __used                  \
-         |                           ^
-   <scratch space>:124:1: note: expanded from here
-     124 | __tracepoint_rcu_utilization
-         | ^
->> kernel/rcu/update.c:53:1: error: use of undeclared identifier '__traceiter_rcu_stall_warning'; did you mean '__tracepoint_rcu_stall_warning'?
-      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^
-   include/linux/tracepoint.h:386:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     386 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
-         |                           ^
-   <scratch space>:13:1: note: expanded from here
-      13 | __traceiter_rcu_stall_warning
-         | ^
-   kernel/rcu/update.c:53:1: note: '__tracepoint_rcu_stall_warning' declared here
-   include/linux/tracepoint.h:385:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^
-   <scratch space>:6:1: note: expanded from here
-       6 | __tracepoint_rcu_stall_warning
-         | ^
->> kernel/rcu/update.c:53:1: error: use of undeclared identifier '__SCK__tp_func_rcu_stall_warning'; did you mean '__SCK__tp_func_rcu_utilization'?
-      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^
-   include/linux/tracepoint.h:387:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+>> mm/slub.c:766:9: error: immediate must be a multiple of 4 in the range [-32768, 32764]
+     766 |         return try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+         |                ^
+   mm/slab.h:22:32: note: expanded from macro 'try_cmpxchg_freelist'
+      22 | # define try_cmpxchg_freelist           try_cmpxchg128
          |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
+   include/linux/atomic/atomic-instrumented.h:4956:2: note: expanded from macro 'try_cmpxchg128'
+    4956 |         raw_try_cmpxchg128(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^
+   include/linux/atomic/atomic-arch-fallback.h:326:9: note: expanded from macro 'raw_try_cmpxchg128'
+     326 |         ___r = raw_cmpxchg128((_ptr), ___o, (_new)); \
+         |                ^
+   include/linux/atomic/atomic-arch-fallback.h:141:24: note: expanded from macro 'raw_cmpxchg128'
+     141 | #define raw_cmpxchg128 arch_cmpxchg128
+         |                        ^
+   arch/loongarch/include/asm/cmpxchg.h:244:2: note: expanded from macro 'arch_cmpxchg128'
+     244 |         __cmpxchg128_asm("ll.d", "sc.d", ptr, o, n);                    \
+         |         ^
+   arch/loongarch/include/asm/cmpxchg.h:137:3: note: expanded from macro '__cmpxchg128_asm'
+     137 |         "     " st "  $t0, $t1, %2                           \n"        \
+         |          ^
+   <inline asm>:7:23: note: instantiated into assembly here
+       7 |      sc.d  $t0, $t1, $a2, 0                           
          |                       ^
-   <scratch space>:21:1: note: expanded from here
-      21 | __SCK__tp_func_rcu_stall_warning
-         | ^
-   include/trace/events/rcu.h:27:1: note: '__SCK__tp_func_rcu_utilization' declared here
-      27 | TRACE_EVENT(rcu_utilization,
-         | ^
-   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
-      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/linux/tracepoint.h:382:2: note: expanded from macro 'DEFINE_TRACE'
-     382 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
-         |         ^
-   include/linux/tracepoint.h:378:2: note: expanded from macro 'DEFINE_TRACE_FN'
-     378 |         DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);       \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:149:1: note: expanded from here
-     149 | __SCK__tp_func_rcu_utilization
-         | ^
->> kernel/rcu/update.c:53:1: error: use of undeclared identifier '__SCT__tp_func_rcu_stall_warning'; did you mean '__SCK__tp_func_rcu_stall_warning'?
-      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^
-   include/linux/tracepoint.h:387:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-         |                           ^
-   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
-      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+>> mm/slub.c:766:9: error: immediate must be a multiple of 4 in the range [-32768, 32764]
+     766 |         return try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+         |                ^
+   mm/slab.h:22:32: note: expanded from macro 'try_cmpxchg_freelist'
+      22 | # define try_cmpxchg_freelist           try_cmpxchg128
          |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:28:1: note: expanded from here
-      28 | __SCT__tp_func_rcu_stall_warning
-         | ^
-   kernel/rcu/update.c:53:1: note: '__SCK__tp_func_rcu_stall_warning' declared here
-   include/linux/tracepoint.h:387:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+   include/linux/atomic/atomic-instrumented.h:4956:2: note: expanded from macro 'try_cmpxchg128'
+    4956 |         raw_try_cmpxchg128(__ai_ptr, __ai_oldp, __VA_ARGS__); \
          |         ^
-   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
+   include/linux/atomic/atomic-arch-fallback.h:326:9: note: expanded from macro 'raw_try_cmpxchg128'
+     326 |         ___r = raw_cmpxchg128((_ptr), ___o, (_new)); \
+         |                ^
+   include/linux/atomic/atomic-arch-fallback.h:141:24: note: expanded from macro 'raw_cmpxchg128'
+     141 | #define raw_cmpxchg128 arch_cmpxchg128
+         |                        ^
+   arch/loongarch/include/asm/cmpxchg.h:244:2: note: expanded from macro 'arch_cmpxchg128'
+     244 |         __cmpxchg128_asm("ll.d", "sc.d", ptr, o, n);                    \
+         |         ^
+   arch/loongarch/include/asm/cmpxchg.h:137:3: note: expanded from macro '__cmpxchg128_asm'
+     137 |         "     " st "  $t0, $t1, %2                           \n"        \
+         |          ^
+   <inline asm>:7:23: note: instantiated into assembly here
+       7 |      sc.d  $t0, $t1, $a3, 0                           
          |                       ^
-   <scratch space>:21:1: note: expanded from here
-      21 | __SCK__tp_func_rcu_stall_warning
-         | ^
+>> mm/slub.c:766:9: error: immediate must be a multiple of 4 in the range [-32768, 32764]
+     766 |         return try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+         |                ^
+   mm/slab.h:22:32: note: expanded from macro 'try_cmpxchg_freelist'
+      22 | # define try_cmpxchg_freelist           try_cmpxchg128
+         |                                         ^
+   include/linux/atomic/atomic-instrumented.h:4956:2: note: expanded from macro 'try_cmpxchg128'
+    4956 |         raw_try_cmpxchg128(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^
+   include/linux/atomic/atomic-arch-fallback.h:326:9: note: expanded from macro 'raw_try_cmpxchg128'
+     326 |         ___r = raw_cmpxchg128((_ptr), ___o, (_new)); \
+         |                ^
+   include/linux/atomic/atomic-arch-fallback.h:141:24: note: expanded from macro 'raw_cmpxchg128'
+     141 | #define raw_cmpxchg128 arch_cmpxchg128
+         |                        ^
+   arch/loongarch/include/asm/cmpxchg.h:244:2: note: expanded from macro 'arch_cmpxchg128'
+     244 |         __cmpxchg128_asm("ll.d", "sc.d", ptr, o, n);                    \
+         |         ^
+   arch/loongarch/include/asm/cmpxchg.h:137:3: note: expanded from macro '__cmpxchg128_asm'
+     137 |         "     " st "  $t0, $t1, %2                           \n"        \
+         |          ^
+   <inline asm>:7:23: note: instantiated into assembly here
+       7 |      sc.d  $t0, $t1, $a5, 0                           
+         |                       ^
+>> mm/slub.c:766:9: error: immediate must be a multiple of 4 in the range [-32768, 32764]
+     766 |         return try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+         |                ^
+   mm/slab.h:22:32: note: expanded from macro 'try_cmpxchg_freelist'
+      22 | # define try_cmpxchg_freelist           try_cmpxchg128
+         |                                         ^
+   include/linux/atomic/atomic-instrumented.h:4956:2: note: expanded from macro 'try_cmpxchg128'
+    4956 |         raw_try_cmpxchg128(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^
+   include/linux/atomic/atomic-arch-fallback.h:326:9: note: expanded from macro 'raw_try_cmpxchg128'
+     326 |         ___r = raw_cmpxchg128((_ptr), ___o, (_new)); \
+         |                ^
+   include/linux/atomic/atomic-arch-fallback.h:141:24: note: expanded from macro 'raw_cmpxchg128'
+     141 | #define raw_cmpxchg128 arch_cmpxchg128
+         |                        ^
+   arch/loongarch/include/asm/cmpxchg.h:244:2: note: expanded from macro 'arch_cmpxchg128'
+     244 |         __cmpxchg128_asm("ll.d", "sc.d", ptr, o, n);                    \
+         |         ^
+   arch/loongarch/include/asm/cmpxchg.h:137:3: note: expanded from macro '__cmpxchg128_asm'
+     137 |         "     " st "  $t0, $t1, %2                           \n"        \
+         |          ^
+   <inline asm>:7:23: note: instantiated into assembly here
+       7 |      sc.d  $t0, $t1, $t3, 0                           
+         |                       ^
    4 errors generated.
 
 
-vim +53 kernel/rcu/update.c
+vim +766 mm/slub.c
 
-    52	
-  > 53	EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-    54	
+881db7fb03a77a Christoph Lameter 2011-06-01  756  
+6801be4f2653e5 Peter Zijlstra    2023-05-31  757  static inline bool
+6801be4f2653e5 Peter Zijlstra    2023-05-31  758  __update_freelist_fast(struct slab *slab,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  759  		      void *freelist_old, unsigned long counters_old,
+6801be4f2653e5 Peter Zijlstra    2023-05-31  760  		      void *freelist_new, unsigned long counters_new)
+6801be4f2653e5 Peter Zijlstra    2023-05-31  761  {
+6801be4f2653e5 Peter Zijlstra    2023-05-31  762  #ifdef system_has_freelist_aba
+6801be4f2653e5 Peter Zijlstra    2023-05-31  763  	freelist_aba_t old = { .freelist = freelist_old, .counter = counters_old };
+6801be4f2653e5 Peter Zijlstra    2023-05-31  764  	freelist_aba_t new = { .freelist = freelist_new, .counter = counters_new };
+6801be4f2653e5 Peter Zijlstra    2023-05-31  765  
+6801be4f2653e5 Peter Zijlstra    2023-05-31 @766  	return try_cmpxchg_freelist(&slab->freelist_counter.full, &old.full, new.full);
+6801be4f2653e5 Peter Zijlstra    2023-05-31  767  #else
+6801be4f2653e5 Peter Zijlstra    2023-05-31  768  	return false;
+6801be4f2653e5 Peter Zijlstra    2023-05-31  769  #endif
+6801be4f2653e5 Peter Zijlstra    2023-05-31  770  }
+6801be4f2653e5 Peter Zijlstra    2023-05-31  771  
 
 -- 
 0-DAY CI Kernel Test Service
