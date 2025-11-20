@@ -1,106 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F84D277CAB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 04:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5179C19CC28
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 04:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763611672; cv=none; b=ORyjKNBRGllQsFg8GvK/hkrLO+C8HDj6RJYxDiTaIbX/AvKMeSC1Mvi1+G05nqPpQ+IpwpYfYQi2EuYCc6XtvfCWcCeU5/KgbucbTdZSvZ0qSql8BzYIkM806N/lolGY8g6tbeVZHj8dvMtIiVEjxw0bqw96DC4rlMY8ZFfZwHI=
+	t=1763612785; cv=none; b=nZ5FbK7sdW6ZthTkTP/8wmbtyKfevyH3qFxXFiVuqzhUMPtD//+Qky8psQIK852cirtAWRoLOaXEeYDd9+vfcXiJO4AQPap5LhtjTESlxxkSQtaBvOrI2Bwamwn0aQHunBCyjAWYSf+lvudN3I2wdHQ1oFW+6HLeZC7qXyLq3wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763611672; c=relaxed/simple;
-	bh=1n9N+VmWchBBcvyrGlqe3PBayS80EaT9Pl3Ll33hFqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ol0wm7gWUuSUj3ZC+rXiMnhM7DMGGwJK8itX5qxruE2IDOCLTVaspvhz96QNHUcq81k4YVd9ScEa02P5PUcd7zydrwMuPP45yPXYX5JnNSPJP7gFRueH7WRIm2wOL5dwp/qoiUmiU9IIvZkIEWsclPgf8qyu0vw8wzbdSWG5k40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZv4R3L9; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1763612785; c=relaxed/simple;
+	bh=AoBCatCcUTo8pQY7B3M+B7FHb9s+7p9nuNzOnOSP1Pg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WcynGc65VUkhliTkkRvNbErI8/MN0KF4DFinUECDD/VhA92iTMrn58A2HrTvz7A+JNV6/uVcY41Md9ia6aDrIr7sQWhBcSjObu68lyA69OmDrnh/8J6MrHnbeCuGB0Y5xr57f0xZ5DWa6oiFVgKbbpsH6J3Ki5h9WRky7VK2vvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYwqZrIH; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZv4R3L9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYwqZrIH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763611670; x=1795147670;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1n9N+VmWchBBcvyrGlqe3PBayS80EaT9Pl3Ll33hFqY=;
-  b=JZv4R3L9/IaxHUAfqgOLagrx3pU4aVw06KbkSew10ml3XvLjO1xBaw9v
-   PIWtBsiq8eWef0dNVwQCZyIPAyLIRLBTynmz00JCcw2c7MzfDe1KgpjtZ
-   P8gkg56raKsjMpxgyrB+xCaqN/ESfYLp3znQEuicG7D4QYvehfItOsvoO
-   Os27ag2rd7cCH5LXbytWmbv2LA1h3MN2WfR+b+U1jpNHgy/Mv6E4kFXPD
-   a322qav4v+4n6lm8UpGJUvrNXWcGOpn8MRNDex0QHd0lMDTt+cNAkfIwS
-   EvBCroqE64VQlhGqNqayQ6oEDcAwpLm/hBVGKh6pwknvHklFI+t8MvCon
+  t=1763612783; x=1795148783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=AoBCatCcUTo8pQY7B3M+B7FHb9s+7p9nuNzOnOSP1Pg=;
+  b=JYwqZrIHpNULMeu1GNAwZ5GFYNFHVUL7NkNY1Obx/PuSFOJqtWea/BeN
+   motlVUpFGMz7zA4w6e0ZaUWMkw6Nrjk4OFFxRz5cRRuoRhOtPkvOmwA3x
+   gW9wQwn3Ig0GEK1nFSehXL7N9X/O+2JBgWIncCYVyq5hFXqdHjvZMxLQb
+   hBc+UbJ54TW/ut5uA5DQdM6z9IZjEp09ttqL3oN/JPqbesQ4t904hkcb6
+   HjJ3ScgFJBjAycZ6bhjQetqHn7DkebRIYoRBcMDRiyYf+I2/MpZgjiKZE
+   r6pfcnH+w2nX13RKAvj31//msGLHZebPY9Yat7EtztrHM3OGjGNgkXAXO
    w==;
-X-CSE-ConnectionGUID: oqIvTDGET1KcUAxhOU1uWg==
-X-CSE-MsgGUID: fAfsoLLORU68LM8mWYzfhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="69537050"
+X-CSE-ConnectionGUID: WB/r/3xGQZ2uSe+69RsCsw==
+X-CSE-MsgGUID: sHTqRtAwSBSxLKcd36sADA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65758471"
 X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="69537050"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 20:07:49 -0800
-X-CSE-ConnectionGUID: 6POQgReiREiHVZERdhClMA==
-X-CSE-MsgGUID: uNbEN78UQwm4WfvjaQGuWQ==
+   d="scan'208";a="65758471"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 20:26:22 -0800
+X-CSE-ConnectionGUID: Af/weTQ1RIqEzViG3Qz70w==
+X-CSE-MsgGUID: 0Jb0A23gS9Gn7dgzvYydzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="191045523"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Nov 2025 20:07:48 -0800
-Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+   d="scan'208";a="191511784"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 19 Nov 2025 20:26:19 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vLvxS-000000001OV-19tn;
-	Thu, 20 Nov 2025 04:07:46 +0000
-Date: Thu, 20 Nov 2025 05:07:03 +0100
+	id 1vLwFN-0003bL-0O;
+	Thu, 20 Nov 2025 04:26:17 +0000
+Date: Thu, 20 Nov 2025 12:25:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Antonio Borneo <antonio.borneo@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 8321/10183]
- arch/arm64/boot/dts/toshiba/tmpv7708-rm-mbrc.dtb: wdt@28330000
- (toshiba,visconti-wdt): $nodename:0: 'wdt@28330000' does not match
- '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-Message-ID: <202511200547.iQcGzYhF-lkp@intel.com>
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <legoffic.clement@gmail.com>,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Pascal Paillet <p.paillet@foss.st.com>
+Subject: Re: [PATCH v2 05/15] pinctrl: stm32: add new package to stm32mp257
+ pinctrl support
+Message-ID: <202511200853.efuVxuoM-lkp@intel.com>
+References: <20251118161936.1085477-6-antonio.borneo@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251118161936.1085477-6-antonio.borneo@foss.st.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fe4d0dea039f2befb93f27569593ec209843b0f5
-commit: 017bca91639f01302382013033b685ec8759aba4 [8321/10183] dt-bindings: watchdog: Allow node names named 'pmic'
-config: arm64-randconfig-2052-20251119 (https://download.01.org/0day-ci/archive/20251120/202511200547.iQcGzYhF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.9.dev17+geee71adb5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200547.iQcGzYhF-lkp@intel.com/reproduce)
+Hi Antonio,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 61cbe48d9d1ff277bc54051fbab8b733b2e64ccb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Borneo/pinctrl-stm32-accept-string-value-for-property-st-package/20251119-011734
+base:   61cbe48d9d1ff277bc54051fbab8b733b2e64ccb
+patch link:    https://lore.kernel.org/r/20251118161936.1085477-6-antonio.borneo%40foss.st.com
+patch subject: [PATCH v2 05/15] pinctrl: stm32: add new package to stm32mp257 pinctrl support
+config: microblaze-randconfig-r111-20251120 (https://download.01.org/0day-ci/archive/20251120/202511200853.efuVxuoM-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200853.efuVxuoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511200547.iQcGzYhF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511200853.efuVxuoM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/toshiba/tmpv7708-rm-mbrc.dtb: pmux@24190000 (toshiba,tmpv7708-pinctrl): 'pwm_mux' does not match any of the regexes: '-pins$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-rm-mbrc.dtb: pmux@24190000 (toshiba,tmpv7708-pinctrl): $nodename:0: 'pmux@24190000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-rm-mbrc.dtb: ethernet@28000000 (toshiba,visconti-dwmac): Unevaluated properties are not allowed ('mdio0' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/toshiba,visconti-dwmac.yaml
->> arch/arm64/boot/dts/toshiba/tmpv7708-rm-mbrc.dtb: wdt@28330000 (toshiba,visconti-wdt): $nodename:0: 'wdt@28330000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/toshiba,visconti-wdt.yaml
---
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: pmux@24190000 (toshiba,tmpv7708-pinctrl): $nodename:0: 'pmux@24190000' does not match '^(pinctrl|pinmux)(@[0-9a-f]+)?$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: pmux@24190000 (toshiba,tmpv7708-pinctrl): spi0-pins:groups: ['spi0_grp', 'spi0_cs0_grp'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: pmux@24190000 (toshiba,tmpv7708-pinctrl): spi0-pins:groups: ['spi0_grp', 'spi0_cs0_grp'] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/toshiba,visconti-pinctrl.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: mmc-slot@0 (mmc-spi-slot): $nodename:0: 'mmc-slot@0' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-spi-slot.yaml
-   arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: ethernet@28000000 (toshiba,visconti-dwmac): Unevaluated properties are not allowed ('mdio0' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/toshiba,visconti-dwmac.yaml
->> arch/arm64/boot/dts/toshiba/tmpv7708-visrobo-vrb.dtb: wdt@28330000 (toshiba,visconti-wdt): $nodename:0: 'wdt@28330000' does not match '^(pmic|timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/toshiba,visconti-wdt.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pinctrl/stm32/pinctrl-stm32.c:143:10: sparse: sparse: Initializer entry defined twice
+   drivers/pinctrl/stm32/pinctrl-stm32.c:144:10: sparse:   also defined here
+
+vim +143 drivers/pinctrl/stm32/pinctrl-stm32.c
+
+f263343bb793fa Antonio Borneo    2025-11-18  130  
+f263343bb793fa Antonio Borneo    2025-11-18  131  static const char * const stm32_pkgs[] = {
+f263343bb793fa Antonio Borneo    2025-11-18  132  	/*
+f263343bb793fa Antonio Borneo    2025-11-18  133  	 * Default dummy value, as match_string() doesn't accepts NULL.
+f263343bb793fa Antonio Borneo    2025-11-18  134  	 * Also not an empty string because it will match the old numeric
+f263343bb793fa Antonio Borneo    2025-11-18  135  	 * values <= 0x00ffffff.
+f263343bb793fa Antonio Borneo    2025-11-18  136  	 */
+f263343bb793fa Antonio Borneo    2025-11-18  137  	[0 ... (STM32_PKG_MAX - 1)] = "x",
+f263343bb793fa Antonio Borneo    2025-11-18  138  
+f263343bb793fa Antonio Borneo    2025-11-18  139  	[STM32_PKG_AA] = "AA",
+f263343bb793fa Antonio Borneo    2025-11-18  140  	[STM32_PKG_AB] = "AB",
+f263343bb793fa Antonio Borneo    2025-11-18  141  	[STM32_PKG_AC] = "AC",
+f263343bb793fa Antonio Borneo    2025-11-18  142  	[STM32_PKG_AD] = "AD",
+f263343bb793fa Antonio Borneo    2025-11-18 @143  	[STM32_PKG_AI] = "AI",
+66cbedfcc7caae Clément Le Goffic 2025-11-18  144  	[STM32_PKG_AI] = "AJ",
+f263343bb793fa Antonio Borneo    2025-11-18  145  	[STM32_PKG_AK] = "AK",
+f263343bb793fa Antonio Borneo    2025-11-18  146  	[STM32_PKG_AL] = "AL",
+f263343bb793fa Antonio Borneo    2025-11-18  147  };
+f263343bb793fa Antonio Borneo    2025-11-18  148  
 
 -- 
 0-DAY CI Kernel Test Service
