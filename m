@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2E31E7C34
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 20:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4342D7D41;
+	Thu, 20 Nov 2025 20:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763669039; cv=none; b=IbqF1CAuX440uHUtsByOzwJXFXv4Ib0Y9+5Dj4twvJIqUcFduUcRE466CzcgdZkuYalaGBfzUrS6u342teFSa5NtDCzzwg8P3HzA2qS7Y0nW/5lo0r7kvjpDnBzzCnBNKBPFhcaPo0Yh8Kl5lBZBGwt7/yhqE5YTBkIEMLAT/0w=
+	t=1763669477; cv=none; b=YLwZ+4RAIDhqyYeH3EwKYMC8U49sNRBYLNx4o6E2IvAQ+liyNK4xK8VywsMq+W34bYBC/LEI+YEJr30sxTV/qRKML1Yyxno87yR6QbPRKmKp51vJfkzExVjBepRFkiWBopUfLtmCDi0UGxQgkUbRWghYW+Ik2KTjXLTnZWTIDSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763669039; c=relaxed/simple;
-	bh=anmOgdP+qUWRG0ZLlX3B9qZBd68Ldt6CETuJGucqfQU=;
+	s=arc-20240116; t=1763669477; c=relaxed/simple;
+	bh=nDCgbYGUHh5R2fCR70fjYyA0cLVk6apJ0tbFn9thAGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LyXU/FEUl+Q8JA4CNqUlW5fadYzpdAtWBfnyja9vH9PAkKmKpjJSdqZ36zqnHRbSDaiIMIvde4KUKebBEsJTbdSH8tRgsEd1TqQ1uiJzMbDQjfZcs/ZX9MUMsf72O3s3y7LSvL/R0OJauXcwwBFmz5ASxXAchjdGrjLL4xTWbr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZaaEoJp2; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=B9aCLz+xOb5VEyjKbg/f6+agPH3hGr4R10IaUUNGEr2zaJSKo3FPJUqUHH/WvWcA6XbHwmv4jlbiPzOka1fc5OD4FJ97Yuf2b/7c1t8Tjicvy6PiB4lYw7YFQg8WCX08NDgcy0QLqsrNmkodSDoAplFh/pJIZ2ICBeBGMZ3kuVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ng2fTYRl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZaaEoJp2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ng2fTYRl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763669038; x=1795205038;
+  t=1763669475; x=1795205475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=anmOgdP+qUWRG0ZLlX3B9qZBd68Ldt6CETuJGucqfQU=;
-  b=ZaaEoJp2S3RE4IyB0ipza9wOndLTnGv3RVdqJLF7uRZqziRAdCQGRbh0
-   E2SjvZImqlJlL2Ymn5Bl5VgT1NZizVkasJWPDhHA8Wbdoy4REp6A7YYS2
-   Nx84o5BumZ32HfyddrRkV3OE4qWjGcZE9SKJbwkCbLhTlesUsm4EW662K
-   AAfdLPU3TEsYAxz2mhVpRTgxjk+NOGHuDpaKY+2Rh0OuOcC7Tnh48Wb1n
-   4I4fv0ry+nwAGgXze23MCEbdaGJ/Ukw/8mgqA8FKMhCMC6TER2mwfO2b8
-   71J5CjjAQVxpGRajHWK/VttOALzjJE5NTRpzVQjIaYO2F8ywRbNcdljtW
-   g==;
-X-CSE-ConnectionGUID: rOzH9so8Rcy6Rhhkk8pcAQ==
-X-CSE-MsgGUID: EBQ933FgTU6V9fAR++jPhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="69612633"
+  bh=nDCgbYGUHh5R2fCR70fjYyA0cLVk6apJ0tbFn9thAGU=;
+  b=Ng2fTYRliS1MSCTj3ivp4VEvpRl0e3KgmR1v+ymlZanV1YcDt9ebvcS7
+   rwYuJKJlp5tpoTNZph1vMhQ4Eex4knbU6VRaFnWmcTrBBt4NhSTO6MV+n
+   +giHBqXewZzrxyETJ3ubZsDXR5jpX6w/M0Ed5qtOeGlHWUBZSkTie/r3W
+   z/BpHOE8lmAE3tv+pi1aSHdzY6/51C1SWs4lecxPLex4GY+UYY3V2cEIp
+   OKriF3K9/hFlqorMGbJgEOTPAbN47fcTnPCyeIdOR0f0EQjoHE1prrjh4
+   mWfStrRC/9KIAQp/2q5VMLKNXmCFHBRXrWgDDa5oKtMmQ5jbLUv8ro7DG
+   A==;
+X-CSE-ConnectionGUID: VAEis2FhQJO+Br5Ri8ChNA==
+X-CSE-MsgGUID: MF04a8xUSSqvrzRHaOvwXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="64763904"
 X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="69612633"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 12:03:57 -0800
-X-CSE-ConnectionGUID: oM7gNF/OQSKVS1vfnbfE4Q==
-X-CSE-MsgGUID: LnBSbC5eTEyVzHmcn+KuXA==
+   d="scan'208";a="64763904"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 12:11:14 -0800
+X-CSE-ConnectionGUID: F6FW3Ug/Q8WNmFFN26zUWQ==
+X-CSE-MsgGUID: qGejYEBgRP64O5DuxAShgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="196610887"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9c39a92d400b) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 20 Nov 2025 12:03:57 -0800
-Received: from kbuild by 9c39a92d400b with local (Exim 4.98.2)
+   d="scan'208";a="191490470"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 20 Nov 2025 12:11:12 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMAsk-000000001X5-0OeY;
-	Thu, 20 Nov 2025 20:03:54 +0000
-Date: Thu, 20 Nov 2025 21:03:20 +0100
+	id 1vMAzl-0004WZ-35;
+	Thu, 20 Nov 2025 20:11:09 +0000
+Date: Fri, 21 Nov 2025 04:11:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 0/1] htmldocs: Warning:
- lib/Kconfig.debug references a file that doesn't exist:
- Documentation/dev-tools/kunit/
-Message-ID: <202511202110.JjslQUUr-lkp@intel.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: error[E0560]: struct `blk_mq_tag_set` has no field named `ops`
+Message-ID: <202511210403.9bkugEMc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +63,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Iurii,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   0a4bf073fa3fffa4289af31c9bed4311b7e20589
-commit: 03c4d42e3c14cca45ce64c85cd1eee0227048b85 [0/1] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-reproduce: (https://download.01.org/0day-ci/archive/20251120/202511202110.JjslQUUr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd95357fd8c6778ac7dea6c57a19b8b182b6e91f
+commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove volatile qualifier from io helpers
+date:   7 months ago
+config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511210403.9bkugEMc-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511210403.9bkugEMc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511202110.JjslQUUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511210403.9bkugEMc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/misc-devices/xilinx_sdfec.rst
-   Warning: drivers/media/v4l2-core/v4l2-fwnode.c references a file that doesn't exist: Documentation/acpi/dsd
-   Warning: drivers/net/ethernet/faraday/ftgmac100.c references a file that doesn't exist: Documentation/networking/phy.txt
-   Warning: drivers/net/ethernet/pensando/ionic/ionic_if.h references a file that doesn't exist: Documentation/networking/checksum-
-   Warning: fs/cifs/cifsfs.c references a file that doesn't exist: Documentation/workqueue.txt
->> Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/kunit/
+>> error[E0560]: struct `blk_mq_tag_set` has no field named `ops`
+   --> rust/kernel/block/mq/tag_set.rs:48:21
+   |
+   48 |                     ops: OperationsVTable::<T>::build(),
+   |                     ^^^ `blk_mq_tag_set` does not have this field
+   |
+   = note: available fields are: `_address`
+--
+>> error[E0560]: struct `blk_mq_tag_set` has no field named `nr_hw_queues`
+   --> rust/kernel/block/mq/tag_set.rs:49:21
+   |
+   49 |                     nr_hw_queues,
+   |                     ^^^^^^^^^^^^ `blk_mq_tag_set` does not have this field
+   |
+   = note: available fields are: `_address`
+--
+>> error[E0609]: no field `logical_block_size` on type `bindings::queue_limits`
+   --> rust/kernel/block/mq/gen_disk.rs:99:13
+   |
+   99 |         lim.logical_block_size = self.logical_block_size;
+   |             ^^^^^^^^^^^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `physical_block_size` on type `bindings::queue_limits`
+   --> rust/kernel/block/mq/gen_disk.rs:100:13
+   |
+   100 |         lim.physical_block_size = self.physical_block_size;
+   |             ^^^^^^^^^^^^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `features` on type `bindings::queue_limits`
+   --> rust/kernel/block/mq/gen_disk.rs:102:17
+   |
+   102 |             lim.features = bindings::BLK_FEAT_ROTATIONAL;
+   |                 ^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `fops` on type `gendisk`
+   --> rust/kernel/block/mq/gen_disk.rs:140:29
+   |
+   140 |         unsafe { (*gendisk).fops = &TABLE };
+   |                             ^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `disk_name` on type `gendisk`
+   --> rust/kernel/block/mq/gen_disk.rs:146:38
+   |
+   146 |             unsafe { &mut (*gendisk).disk_name },
+   |                                      ^^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0560]: struct `blk_mq_ops` has no field named `queue_rq`
+   --> rust/kernel/block/mq/operations.rs:218:9
+   |
+   218 |         queue_rq: Some(Self::queue_rq_callback),
+   |         ^^^^^^^^ `blk_mq_ops` does not have this field
+   |
+   = note: available fields are: `_address`
+--
+>> error[E0560]: struct `blk_mq_ops` has no field named `queue_rqs`
+   --> rust/kernel/block/mq/operations.rs:219:9
+   |
+   219 |         queue_rqs: None,
+   |         ^^^^^^^^^ `blk_mq_ops` does not have this field
+   |
+   = note: available fields are: `_address`
+--
+>> error[E0560]: struct `blk_mq_ops` has no field named `commit_rqs`
+   --> rust/kernel/block/mq/operations.rs:220:9
+   |
+   220 |         commit_rqs: Some(Self::commit_rqs_callback),
+   |         ^^^^^^^^^^ `blk_mq_ops` does not have this field
+   |
+   = note: available fields are: `_address`
+--
+>> error[E0560]: struct `blk_mq_ops` has no field named `get_budget`
+   --> rust/kernel/block/mq/operations.rs:221:9
+   |
+   221 |         get_budget: None,
+   |         ^^^^^^^^^^ `blk_mq_ops` does not have this field
+   |
+   = note: available fields are: `_address`
+..
 
 -- 
 0-DAY CI Kernel Test Service
