@@ -1,59 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D3736B05B;
-	Thu, 20 Nov 2025 15:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3425835CBDE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 15:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763652573; cv=none; b=RQWR9+z9tABJq+79MJyXJPs79X/DCGUd9u7/BYZz68sLQEEg3et3eEE9bMksJ5w1xdH51LVph3fvlnSCdUr+FXbNOp7w/dKHpWxI5bcQhD4gcfY3opdrRZnXQ8ojcqv5511RWIvykxB6wn+bl8w2A1fQKBmANdqhaYkMFz3peUk=
+	t=1763653346; cv=none; b=ToLnRM0CKM8StnE3iR9kOG9xS7blOQsuwu0Vq1W0HHf+sbbldQlA1yKPH1eG4GYyar5pjC4xGCH9hBXh5owXqVDnxCzxv3nD15tk8VNyVsPWfG+qW6rV03BHOMD2oCmYzkq9uEQkJhKGcWdukGTFDgSKXiBTumFD1QgonilOQT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763652573; c=relaxed/simple;
-	bh=hmqy9d3+OQC9bGm9xjwOAbUxR+ZQATvsm+zfL9KrnTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rZs43qit+hYiBqs2Y2M0j87qTx0t20kJ/2tBn++XQVdIWGmBbu59sdg++d99SY3pbYo2ZfkW63F3bEOur31z9p1xkTxzDsy2Msxvl8/F30EGL+/CLmYJrG+UQb9ZSNzUXYb4FngMF8lfBJrHTml7aEXkeKHDA2QUSPk36Hfxuew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdvyWDth; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763653346; c=relaxed/simple;
+	bh=jqc1pIyMAxigE7tZset0OOfL6VF1aHdRg4wAWz7wfVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EXfaRv5xf6667Gq6Sn7WM0oieCrcuJ1N+NkQTy/uiQ/JAs6Vj3sXBbOukhiZ1oSIdUls+ATu/SzHBKnIX9TIEklXY5z/P/NAXwDkYdu03sF11fLGAnwH/hGIs5w374jZST6a1ENFrA02lU280LHP3BnTZA1OXbWYD3+kJPiwyNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=TtpYxeQW; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdvyWDth"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763652572; x=1795188572;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hmqy9d3+OQC9bGm9xjwOAbUxR+ZQATvsm+zfL9KrnTQ=;
-  b=cdvyWDthO1WjURkibL967jyHWC9SdbT86+m/esf+D9558Kpypq2iG8HQ
-   /JK/EPhURNRxBiP7YI9KbR1CS1BmKWY00lQ56IuOx8LQY5AfhdfCyoHOz
-   SBqOpJibhL2w8/0Ki/MqM/6NWR8Lo944mELiCIxpc8pPjzJPT2ArmYHPs
-   U7d6h2zCokwQW+t7QMEZ536IkWkNKkb7pftkDcXsUZAcApjsP501WkH/N
-   2LXLxcA4IBW9M3ATcJIORbqgfoSqWxsTP1/8QEwzHfoXgoJyAix31FKAa
-   uesCAP5N2Tc1sKqOUSl5MU3wT6X9hCki3f5v+DTCNhhH/VGKjV1A3eD/8
-   Q==;
-X-CSE-ConnectionGUID: mZ+e7n5NRCeOzBD+As7iqA==
-X-CSE-MsgGUID: 26Ve5BDMRJyMoOlFRQwIkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="64733749"
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="64733749"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 07:29:30 -0800
-X-CSE-ConnectionGUID: w0D8LG7LTbue40Thj5Ppug==
-X-CSE-MsgGUID: p2jx3psSTWiQ3eKDPOYHPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
-   d="scan'208";a="196371063"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Nov 2025 07:29:29 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vM6b8-0004BZ-2F;
-	Thu, 20 Nov 2025 15:29:26 +0000
-Date: Thu, 20 Nov 2025 23:29:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Drew Fustini <fustini@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Adrien Ricciardi <aricciardi@baylibre.com>
-Subject: [fustini:b4/ssqosid-cbqri 20/24] include/linux/riscv_qos.h:10:10:
- fatal error: 'asm/qos.h' file not found
-Message-ID: <202511202306.3GDs8iOg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="TtpYxeQW"
+Received: from macsyma.thunk.org ([104.135.218.154])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 5AKFf5Xa020346
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Nov 2025 10:41:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1763653275; bh=PwK25/DM8jyeo/BvfK6O5K39WyPp+rYvJyaLpKyDbuI=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=TtpYxeQWgnqXOecP7qSvrH8Rt1E0fj801JxicjCD7vnBuS29cvctMe1itDRfYRJIt
+	 //kPQ8sVpQ8cloF9zF5XJQTJrUpeCrkjlTLhEaVKj4POjyoHFExAxaL0rXc0Mlzbo4
+	 9pUJWVc0XBy7OM59/0V3NnqTBJeFuQCFMJgaqmHSYlUqBW3BBctAvGhOIQdixtOFuP
+	 lmhUcieU+aHejv79Y0cbs+bGlq6BEf7MIJHUyTR1ZWg8LcV3U5MIBvluKlByDa+Z/8
+	 QT3yflfmiHx2rUdNCCzFTGX+oHyyU2H5YREKeklz+ii92XKSKO9e+ss2GyzNECgpf8
+	 vgkJ5eu8T30ig==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 0F87B4C0AD99; Thu, 20 Nov 2025 10:41:05 -0500 (EST)
+Date: Thu, 20 Nov 2025 10:41:04 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Baokun Li <libaokun1@huawei.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+        libaokun@huaweicloud.com, linux-ext4@vger.kernel.org, lkp@intel.com,
+        oe-kbuild-all@lists.linux.dev, adilger.kernel@dilger.ca, jack@suse.cz,
+        linux-kernel@vger.kernel.org, kernel@pankajraghav.com,
+        mcgrof@kernel.org, ebiggers@kernel.org, willy@infradead.org,
+        yi.zhang@huawei.com, yangerkun@huawei.com, chengzhihao1@huawei.com
+Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
+Message-ID: <20251120154104.GA13687@macsyma-3.local>
+References: <202511161433.qI6uGU0m-lkp@intel.com>
+ <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +54,15 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git b4/ssqosid-cbqri
-head:   f8bf739ad96594b69b3bf724e65ddf8c25a7d570
-commit: 6ef95cee3c96622eb715a3f707edc237f0bbdf89 [20/24] DO_NOT_MERGE soc: build Foobar SoC drivers
-config: s390-randconfig-6001-20251120 (https://download.01.org/0day-ci/archive/20251120/202511202306.3GDs8iOg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511202306.3GDs8iOg-lkp@intel.com/reproduce)
+On Thu, Nov 20, 2025 at 09:21:23AM +0800, Baokun Li wrote:
+> 
+> Oops! You nailed it. My bad, I totally forgot that unlock here, which
+> definitely left the lock unbalanced. I'll get that fixed up in v3.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511202306.3GDs8iOg-lkp@intel.com/
+I think you meant v4 (since the current patch series are v3 :-).  When
+do you think you might be able to get the next version of this patch
+series ready?  I think we're almost ready to land this feature!
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/soc/foobar/foobar_cbqri_memory.c:10:
->> include/linux/riscv_qos.h:10:10: fatal error: 'asm/qos.h' file not found
-      10 | #include <asm/qos.h>
-         |          ^~~~~~~~~~~
-   1 error generated.
-
-
-vim +10 include/linux/riscv_qos.h
-
-323bf1bd959da7 Drew Fustini 2023-04-19   9  
-323bf1bd959da7 Drew Fustini 2023-04-19 @10  #include <asm/qos.h>
-323bf1bd959da7 Drew Fustini 2023-04-19  11  
-
-:::::: The code at line 10 was first introduced by commit
-:::::: 323bf1bd959da71b544db59810cec3a50afffe5b RISC-V: QoS: define properties of CBQRI controllers
-
-:::::: TO: Drew Fustini <fustini@kernel.org>
-:::::: CC: Drew Fustini <fustini@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       	       	       	     	    	     - Ted
