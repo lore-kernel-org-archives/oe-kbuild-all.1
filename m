@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55E436D4F9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 22:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5E91D27B6;
+	Thu, 20 Nov 2025 22:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763678912; cv=none; b=B/hduj1Q+Xv9lSOxV4lRvck/ile4aJHrgU4KZ/b5DkkNeOCNTT43arLY933b8hVDr/YBn2eC0//tobd1NWOxIfAJUQN8fam+rH5ZdminzBZ5qkb3wsvHEyIEVGQlP4iJW5hCK+Xzws34x3ItWQLzF3GwtOZAZY4GhJAdnbgA9sM=
+	t=1763678913; cv=none; b=BPenOL8/0Br0C+z9BPdVYxA7D7aa3x4XagLJnaxcQTlHJ7f6Wq6QpS8RC2lhSBlMFNOhPeZOczYh+U534DHGYEi1ZqBaCt2jd51hlAe0QkLKenaqHempdca9dst/Qt52uiM97cVDt9jWW+OV/Shms5ZGg06XEapZUbw3eAqbnOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763678912; c=relaxed/simple;
-	bh=NIEIHPCgxVIf8b8E/7wYqcGaTcFauWawblV1ulzM9MA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fj40/QzXPAGDZ7R9BVm8vnwPrlc4kqZSGQw1Whm2EVS7LA1BYJ6NOJHT5RtE9cowKvmytw0MeCZoWBvrCcPmwRD1pzhVIttA5Bzs2Eh9Rg6VqFx6MmL4iHOI8DcF2vdY0qmcwT1bCFRmuzgCQAoDYECmRxKXBQuNP0OxMcLTZg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuX94BJT; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1763678913; c=relaxed/simple;
+	bh=DfuXYEf6NafM5XHJ3d2b0+YjhqAHDqcv1lXBBjn6+TI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uWyKN0JMVIAT5NrsIx91I6zIasb0k4zILqw5K1x8WO2XtwgKV9yz2RM6a2SeEbgUbAXeuWI3gi10s8beCv4ynB8q3Gry5tShnY3Qq+ROh2BXsrdgvBPT77kIEmEIQZIoQDw5TlYaPIlzWbPmBAc54W7KHeHE9xd4GUCH87kmtkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apnVCnT8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuX94BJT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apnVCnT8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1763678911; x=1795214911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NIEIHPCgxVIf8b8E/7wYqcGaTcFauWawblV1ulzM9MA=;
-  b=SuX94BJTegcXmHStubpzn6zxHRbmny4+VfZ6jFHUfu7W86m5+1ghk9pN
-   XRLYYWitzXK87AHc+DZCWcofuigtK1f5WlwpUOGrKCI53ifEwq9gZNoaq
-   azgyFpeyzAAr3aeH21yERhaYmArKHvtgO/X6h0dttBUDPTNwlzy7s4dWO
-   Mhp0hDYO+wc6GBxmWsb0ZSTrmy9N9TyDF0gEXU949p6OMCurx+A7nPyNK
-   Z9F8NetAQUaNraxxExx4hVqJKO8HD4+U03uc/bQBdAN3e4Gve9FtyqNLt
-   2Xn7osWsh7KUSj3LwUFxxjYD/jSvBdrTgGJRhmV3xQeIGdetj1lEsB9l5
-   g==;
-X-CSE-ConnectionGUID: 4hg9ozf3R3ey5PIYqDqp7Q==
-X-CSE-MsgGUID: MtSiLvR/TdaYO5++sGQ63A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="76449190"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DfuXYEf6NafM5XHJ3d2b0+YjhqAHDqcv1lXBBjn6+TI=;
+  b=apnVCnT89FC3n01XsaBrWnorq1TaMVQje6K6k4+uDbp/gCZH506fQNLi
+   ajyXnZuNO9gWQYLNSfIiTgfDLD3+gm6ulHHVoMniEeyBc1xa98MBSVv+S
+   77RY6/tCVo3v1kfTazjlLbrey+VlLdGJKG3+bQcAlmdrBjLwBU3X7wv7R
+   9niaHFyECjj6NMgsr58tZBEkMOirfcO+Mn7WOLLkuv3FthN2sqU5lo4Qi
+   oajAsni1ZD/Ti6yShPwO3CINjHjwWqCVUU0RtdH1FLnsJldjIY68+KaxI
+   g+vTlDwKCNi2t0RrmG2Q0X8onmvld2H+EstJ3OWULcwkcM+UcW4Xr3ek6
+   Q==;
+X-CSE-ConnectionGUID: PxZP8MjTSgq1SBiCF6qEFA==
+X-CSE-MsgGUID: d35gpJ8IQX6st9JJYqBxsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="69622574"
 X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="76449190"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 14:48:30 -0800
-X-CSE-ConnectionGUID: OLgHdnBiRkSNzUT7Xn0cMA==
-X-CSE-MsgGUID: 1KKiWaKwTMu2Bbfxs01h5g==
+   d="scan'208";a="69622574"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 14:48:30 -0800
+X-CSE-ConnectionGUID: efEzfgBVTBqMkDaah00JeA==
+X-CSE-MsgGUID: 6D/dhglzSeGqr4t5ev64DA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="191950030"
+   d="scan'208";a="191316693"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Nov 2025 14:48:29 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Nov 2025 14:48:29 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMDRy-0004fH-36;
-	Thu, 20 Nov 2025 22:48:26 +0000
-Date: Fri, 21 Nov 2025 06:47:34 +0800
+	id 1vMDRz-0004fL-08;
+	Thu, 20 Nov 2025 22:48:27 +0000
+Date: Fri, 21 Nov 2025 06:47:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lyude Paul <lyude@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v14 04/16] irq & spin_lock: Add counted interrupt
- disabling/enabling
-Message-ID: <202511210609.TbnD3ZYn-lkp@intel.com>
-References: <20251120214616.14386-5-lyude@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alice Ryhl <aliceryhl@google.com>
+Subject: [linux-next:master 2964/10599] error[E0609]: no field `dev` on type
+ `drm_gem_object`
+Message-ID: <202511210649.lhQnt194-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251120214616.14386-5-lyude@redhat.com>
 
-Hi Lyude,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e5d330e13f67d574f683c052c9a342814fd8fa39]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/preempt-Introduce-HARDIRQ_DISABLE_BITS/20251121-055548
-base:   e5d330e13f67d574f683c052c9a342814fd8fa39
-patch link:    https://lore.kernel.org/r/20251120214616.14386-5-lyude%40redhat.com
-patch subject: [PATCH v14 04/16] irq & spin_lock: Add counted interrupt disabling/enabling
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251121/202511210609.TbnD3ZYn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511210609.TbnD3ZYn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
+commit: d3917368ebc5cd89d7d08eab4673e5c4c73ff42f [2964/10599] rust: drm/gem: Remove Object.dev
+config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511210649.lhQnt194-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511210649.lhQnt194-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511210609.TbnD3ZYn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511210649.lhQnt194-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/spinlock.h:60,
-                    from include/linux/sched.h:37,
-                    from arch/nios2/kernel/asm-offsets.c:8:
->> include/linux/interrupt_rc.h:16:10: fatal error: asm/smp.h: No such file or directory
-      16 | #include <asm/smp.h>
-         |          ^~~~~~~~~~~
-   compilation terminated.
-   make[3]: *** [scripts/Makefile.build:182: arch/nios2/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +16 include/linux/interrupt_rc.h
-
-    13	
-    14	#include <linux/irqflags.h>
-    15	#include <asm/processor.h>
-  > 16	#include <asm/smp.h>
-    17	
+>> error[E0609]: no field `dev` on type `drm_gem_object`
+   --> rust/kernel/drm/gem/mod.rs:231:57
+   |
+   231 |         unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+   |                                                         ^^^ unknown field
+   |
+   = note: available field is: `_address`
 
 -- 
 0-DAY CI Kernel Test Service
