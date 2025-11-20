@@ -1,112 +1,192 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96CC1805E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 15:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A812C3749
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 16:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763653458; cv=none; b=aq3IAnw5WlB7Na6UOB2rzTZ7r18s6JLzImUcUD9sUQd/8Ros57Jt0yJvcMQcJFZL17Nv89+Oq8u+26QKRuSHcsj06krevdDfkqsSbdHOEvwV6UJZ7NPxdMukp3bHiq2wFCaTEnvwa+pYNI+gPlF/1CK1/senn3soy39F3oPf2fw=
+	t=1763654436; cv=none; b=Zn8QwefLVj470ABd/h6gHfgoQxUNd3v91KmcKPuVHH4YSg1znetm2BPTEZzcmXyx0mQ9LszduIj44yq74M6HWkXH5OHTf7LKv8Ac5bUY4OlYW/TmJxmx8RyQ4RkujMtSKe1r4iYGoyrjlvNzc4CMjKI3WAt65T0zM26f5j5YX6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763653458; c=relaxed/simple;
-	bh=7g0Jc6teL0geHR3zKsDtngEybkClT4ktVUBeOc2MAxI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=R2AwKvOaUumwHxhE7cZbdn8t0pwJc+037liaTrC5qRfFxQisrmzu+hR03m+FkuPzfLvxKnOLC8uRxncWoBFHKFLXInDla2zmBnnVV9Me6cne4rPHb5RMrrODXBt1xqyjNPkVAs9Uh3UDWKe54OUDShsLbAX0JZVWCflbm0TR7y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VgWbEA4I; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1763654436; c=relaxed/simple;
+	bh=AwoFhfHB65Rsiv5PesshxAZvETzOOKhUWF8bqFlUsMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQOTkwVnpViahdZRxyZa3ZnuiJnl35q4dOPhvUXp7GR/y9mTrSipWqaKPxUgH2aTh6j8onUfT8IThXugLuuoZqunZ/ZVArSySNtTRE6FZCPaLr1hFc6Muib8wAsl3wKy7JlrCMNI8A90ZDcugAsl5MLVbbz38a8m3QqRjnoI9lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxaikR0y; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VgWbEA4I"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-477771366cbso6517295e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 07:44:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763653455; x=1764258255; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7R/jcRhio/BOBSfmr70oitl3J9fEryzYjRsvPMYCQrI=;
-        b=VgWbEA4IAeVjZHjOxNJRvUABBIoZOAEVpdxzDapkPl2HHvn4F1bKiMKd3Z66SozYWf
-         ESSq+4QX5V+q4g0cEWNj/6g7/dGVmh5QyMnLkzWZu9BddEPgsrkMjO/m3E/J5BlpaZpG
-         a2or92rsE+tBQdV0i2Mc7jTYhUcrwLSYaDd5Kqs30pLFII57yHzs00RnyTk0ju+x8YcI
-         XfPfySSIRPunXP9zZGUHeg+KyAvrrGuflj7j3LWHhcNh9Nq5ugzCWEluqk1tEYKQulpD
-         julhUAZ/X38FRfIaOK5H+nQqeHbdVT5FmGbmkz8SjCKipA84srZk3bGCoAfIp3SR1De6
-         Pq6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763653455; x=1764258255;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7R/jcRhio/BOBSfmr70oitl3J9fEryzYjRsvPMYCQrI=;
-        b=IwlGDH3tEWKY5aHZk35YtV9gdgecjNlabypC++ROt8iAikn/c0w/qpD/AGzmC81cV3
-         1l6soO01m6KhYQ86D+DPC7gBkCSVRTkpxN81Ld9GinY7tlXxnYCsi/TtJuRLoFHnjPS/
-         +5ZYhAfYBk1iQgP5By4tHUzlcTTRY+GOrp2IlYENhtCAwIRjl0zJx8+dqFN2fw/HJYIl
-         VJk9rosx3My9jbnlPOG9fOfv36puxTHJtiJWiBk17GI0ydmPxPt2DjRWU072zUX8sFWN
-         drLblMvqZKD04ctTN8nkD9EdEnVWb1EVaGq46vi0Qkf2j/QNK/KC31EpQqTV02AF25uq
-         Swig==
-X-Forwarded-Encrypted: i=1; AJvYcCVCUUzRVw6a9p++aZFT2LX3vu7yRiAGDpwjJaY1u13UuKAypwlsoGutguBZrvN33SivcJ1VMp/8uvuqk3SH@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDEMYUJB7uzBSnSDLD2PNGdEeCUvgNn2aOyohgptkOyKybE+P4
-	b6VQ8Vl/Qqta7Kh9vafT6vGJTZfrX9IM6hHcm+MS8hBN0+fGvZBE90avtvpgbfrSA4D6yyd6Rb+
-	boSKioiyJuIYhIElPmA==
-X-Google-Smtp-Source: AGHT+IHmU9BLDuNTWW1AqTuCXcIgwbDH1e0RCZ9YZOWiqio3t/RtoA6HYEwkpAGgObOQi93T/yGQuZXZ1+5bE/o=
-X-Received: from wmna5.prod.google.com ([2002:a05:600c:685:b0:477:a0cb:7165])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4507:b0:475:da1a:53f9 with SMTP id 5b1f17b1804b1-477b9dec15amr30352945e9.14.1763653455202;
- Thu, 20 Nov 2025 07:44:15 -0800 (PST)
-Date: Thu, 20 Nov 2025 15:44:14 +0000
-In-Reply-To: <202511202005.7GzetV3D-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxaikR0y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763654434; x=1795190434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AwoFhfHB65Rsiv5PesshxAZvETzOOKhUWF8bqFlUsMw=;
+  b=CxaikR0ya4zUSxEXEv1buhxO2ItJllhzgZSzhUWh7CgTg3f9Ft2HXv5q
+   nxjL3MQ86xS1qIfHkwcDXSOBbDwlDTHg7Yxgdo02pXE6MDqiekvIYv387
+   tRQIdPquMf2lCfRIsBfy3NAbcb4IjkGFdgEUqghdBkfeN2YwG85XMpCmV
+   trOtLrkQ8AMHWKGxZ4N0D+8kdr6OT6XpBmJN2uldkWr1TQcxqY6t0EWSC
+   JpTYuiizOD5Gv7RtCuT4FdE8GVNa/RC71mp0t03zpdcY8Em+OJT0W/N6j
+   Au1SjN9X3y/PQtMHUn2QKNErdERxaRksw+PmdaWbR6/gL9chI2NvoQVkV
+   A==;
+X-CSE-ConnectionGUID: KXceTqGLQJmJIcFPXd+kog==
+X-CSE-MsgGUID: ILzOINhnQAijnlVLcvivow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65674235"
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
+   d="scan'208";a="65674235"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 08:00:34 -0800
+X-CSE-ConnectionGUID: zSPPkakLSf2F3dEc9oFl2w==
+X-CSE-MsgGUID: Je1DeRWyQ5u3NdUQU3sGFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; 
+   d="scan'208";a="191210814"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 20 Nov 2025 08:00:33 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vM75C-0004D1-0w;
+	Thu, 20 Nov 2025 16:00:30 +0000
+Date: Fri, 21 Nov 2025 00:00:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: Re: [PATCH 2/2] mmc: dw_mmc: add dw_mci_prepare_desc() for both of
+ 32bit and 64bit DMA
+Message-ID: <202511202301.b4PYJbNg-lkp@intel.com>
+References: <1763540498-84315-2-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202511202005.7GzetV3D-lkp@intel.com>
-Message-ID: <aR83TotAs7G-o5Pf@google.com>
-Subject: Re: [linux-next:master 7315/10599] ld.lld: error: undefined symbol: _copy_from_user
-From: Alice Ryhl <aliceryhl@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1763540498-84315-2-git-send-email-shawn.lin@rock-chips.com>
 
-On Thu, Nov 20, 2025 at 08:52:07PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
-> commit: d99dc586ca7c7729450af2ed39ca1483c0eb7b5c [7315/10599] uaccess: decouple INLINE_COPY_FROM_USER and CONFIG_RUST
-> config: loongarch-randconfig-6002-20251120 (https://download.01.org/0day-ci/archive/20251120/202511202005.7GzetV3D-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511202005.7GzetV3D-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511202005.7GzetV3D-lkp@intel.com/
-> 
-> Note: the linux-next/master HEAD 88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b builds fine.
->       It may have been fixed somewhere.
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ld.lld: error: undefined symbol: _copy_from_user
->    >>> referenced by uaccess.rs:306 (rust/kernel/uaccess.rs:306)
->    >>>               samples/rust/rust_misc_device.o:(<kernel::uaccess::UserSliceReader>::read::<i32>) in archive vmlinux.a
->    >>> referenced by uaccess.rs:306 (rust/kernel/uaccess.rs:306)
->    >>>               drivers/android/binder/rust_binder_main.o:(<kernel::uaccess::UserSliceReader>::read::<rust_binder_main::defs::BinderWriteRead>) in archive vmlinux.a
->    >>> referenced by uaccess.rs:306 (rust/kernel/uaccess.rs:306)
->    >>>               drivers/android/binder/rust_binder_main.o:(<kernel::uaccess::UserSliceReader>::read::<rust_binder_main::defs::BinderFreezeInfo>) in archive vmlinux.a
->    >>> referenced 24 more times
-> --
-> >> ld.lld: error: undefined symbol: _copy_to_user
->    >>> referenced by uaccess.rs:458 (rust/kernel/uaccess.rs:458)
->    >>>               samples/rust/rust_misc_device.o:(<kernel::uaccess::UserSliceWriter>::write::<i32>) in archive vmlinux.a
->    >>> referenced by uaccess.rs:458 (rust/kernel/uaccess.rs:458)
->    >>>               samples/rust/rust_misc_device.o:(<rust_misc_device::RustMiscDevice as kernel::miscdevice::MiscDevice>::ioctl) in archive vmlinux.a
->    >>> referenced by uaccess.rs:458 (rust/kernel/uaccess.rs:458)
->    >>>               drivers/android/binder/rust_binder_main.o:(<kernel::uaccess::UserSliceWriter>::write::<rust_binder_main::defs::BinderVersion>) in archive vmlinux.a
->    >>> referenced 15 more times
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Hi Shawn,
 
-This is a known issue:
-https://lore.kernel.org/all/20251118173250.2821388-1-aliceryhl@google.com/
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.18-rc6 next-20251120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/mmc-dw_mmc-add-dw_mci_prepare_desc-for-both-of-32bit-and-64bit-DMA/20251119-163950
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1763540498-84315-2-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH 2/2] mmc: dw_mmc: add dw_mci_prepare_desc() for both of 32bit and 64bit DMA
+config: arm64-randconfig-r121-20251120 (https://download.01.org/0day-ci/archive/20251120/202511202301.b4PYJbNg-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511202301.b4PYJbNg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511202301.b4PYJbNg-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mmc/host/dw_mmc.c:609:29: sparse: sparse: incompatible types in conditional expression (different base types):
+   drivers/mmc/host/dw_mmc.c:609:29: sparse:    unsigned int *
+   drivers/mmc/host/dw_mmc.c:609:29: sparse:    restricted __le32 *
+
+vim +609 drivers/mmc/host/dw_mmc.c
+
+   577	
+   578	static inline int dw_mci_prepare_desc(struct dw_mci *host, struct mmc_data *data,
+   579					      unsigned int sg_len, bool is_64bit)
+   580	{
+   581		unsigned int desc_len;
+   582		struct idmac_desc *desc_first, *desc_last, *desc;
+   583		struct idmac_desc_64addr *desc64_first, *desc64_last, *desc64;
+   584		u32 val, des0;
+   585		int i;
+   586	
+   587		if (is_64bit)
+   588			desc64_first = desc64_last = desc64 = host->sg_cpu;
+   589		else
+   590			desc_first = desc_last = desc = host->sg_cpu;
+   591	
+   592		for (i = 0; i < sg_len; i++) {
+   593			unsigned int length = sg_dma_len(&data->sg[i]);
+   594	
+   595			u64 mem_addr = sg_dma_address(&data->sg[i]);
+   596	
+   597			for ( ; length ; desc++) {
+   598				desc_len = (length <= DW_MCI_DESC_DATA_LENGTH) ?
+   599					   length : DW_MCI_DESC_DATA_LENGTH;
+   600	
+   601				length -= desc_len;
+   602	
+   603				/*
+   604				 * Wait for the former clear OWN bit operation
+   605				 * of IDMAC to make sure that this descriptor
+   606				 * isn't still owned by IDMAC as IDMAC's write
+   607				 * ops and CPU's read ops are asynchronous.
+   608				 */
+ > 609				if (readl_poll_timeout_atomic(is_64bit ? &desc64->des0 : &desc->des0,
+   610							val, IDMAC_OWN_CLR64(val), 10, 100 * USEC_PER_MSEC))
+   611					goto err_own_bit;
+   612	
+   613				des0 = IDMAC_DES0_OWN | IDMAC_DES0_DIC | IDMAC_DES0_CH;
+   614				if (is_64bit)
+   615					desc64->des0 = des0;
+   616				else
+   617					desc->des0 = cpu_to_le32(des0);
+   618	
+   619				/*
+   620				 * 1. Set OWN bit and disable interrupts for this descriptor
+   621				 * 2. Set Buffer length
+   622				 * Set physical address to DMA to/from
+   623				 */
+   624				if (is_64bit) {
+   625					desc64->des0 = IDMAC_DES0_OWN | IDMAC_DES0_DIC | IDMAC_DES0_CH;
+   626					IDMAC_64ADDR_SET_BUFFER1_SIZE(desc64, desc_len);
+   627					desc64->des4 = mem_addr & 0xffffffff;
+   628					desc64->des5 = mem_addr >> 32;
+   629				} else {
+   630					IDMAC_SET_BUFFER1_SIZE(desc, desc_len);
+   631					desc->des2 = cpu_to_le32(mem_addr);
+   632				}
+   633	
+   634				/* Update physical address for the next desc */
+   635				mem_addr += desc_len;
+   636	
+   637				/* Save pointer to the last descriptor */
+   638				if (is_64bit)
+   639					desc64_last = desc64;
+   640				else
+   641					desc_last = desc;
+   642			}
+   643		}
+   644	
+   645		/* Set the first descriptor and the last descriptor */
+   646		if (is_64bit) {
+   647			desc64_first->des0 |= IDMAC_DES0_FD;
+   648			desc64_last->des0 &= ~(IDMAC_DES0_CH | IDMAC_DES0_DIC);
+   649			desc64_last->des0 |= IDMAC_DES0_LD;
+   650		} else {
+   651			desc_first->des0 |= cpu_to_le32(IDMAC_DES0_FD);
+   652			desc_last->des0 &= cpu_to_le32(~(IDMAC_DES0_CH | IDMAC_DES0_DIC));
+   653			desc_last->des0 |= cpu_to_le32(IDMAC_DES0_LD);
+   654		}
+   655	
+   656		return 0;
+   657	err_own_bit:
+   658		/* restore the descriptor chain as it's polluted */
+   659		dev_dbg(host->dev, "descriptor is still owned by IDMAC.\n");
+   660		memset(host->sg_cpu, 0, DESC_RING_BUF_SZ);
+   661		dw_mci_idmac_init(host);
+   662		return -EINVAL;
+   663	}
+   664	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
