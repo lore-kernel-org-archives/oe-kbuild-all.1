@@ -1,120 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AA530F95C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 09:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D1526F443;
+	Thu, 20 Nov 2025 09:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763629632; cv=none; b=Q8gSJTNaretU/URTc4Q78u4ExEmC4epeZ4WYCv25iAZJQLNnitnnw2psT/kBgDD1vSrUR/MDOjUnznaSh/OafK5ThNU+Jjh+3W5tIgFRl6nFMclyz+BLSXM8XCkwHQAJMvVEc/x7diQU4SHo4MAiPI89MGpMzh0kSMPdwUCn4J8=
+	t=1763629970; cv=none; b=AGc/Yf3opjmlpNI38kd0BrOCv1m9r5eh6kezSz2lYtUNpnPpCN4J7oKZ4KKUDLH0nuJxGugA4fBogesr9mp99ifSmNI/48JfER0p+lQCBBXCtk+/hbU9nsjW0GDyIblhs998XgSZCParvQ71VVfsTku6RBUVyvshhB9DxESqAiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763629632; c=relaxed/simple;
-	bh=pjAyDN/67tYanwHFiTiXTHNBstRbeadBt7OuKG92oZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S02Ck+xYYFCVrKba4t7XGyi0wnMo6qC9bWpEwDrqc09j21DTmt4yygjd/fMSuGaH3OnOv6dUxarbgya0zNWEz03V0ky55fMWDNkNvnrntSnllQrsWXpLcHEvBGhoRNMcYw/ry+5f9P6Tbt61D4n5lsSV4onYlWFdlSfy2DZsSHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URE0xqa0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763629970; c=relaxed/simple;
+	bh=k/OsCn+VKOProOq6S3OuhfgntVL41+mM/PisTG2nLIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dq7ci9L8nIQpHHKcizWYhW8dPR4nF8liMRVs6/BiCfck2PbRbmSvchDj+L4Rgc+GgmEjZtmuvExTKoIYyU3OF7hdGdkJ1DolquYLYVESAL+Trs0TUhCuR+fcCU/PX3yW0m9KGybiVcAI1UdeyZ8DnhsFlEm9vs0nIz1ARqrwLKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnqXo6iT; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URE0xqa0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC85C4CEF1;
-	Thu, 20 Nov 2025 09:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763629631;
-	bh=pjAyDN/67tYanwHFiTiXTHNBstRbeadBt7OuKG92oZ8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=URE0xqa0Ksri3tH9zEQQBZf3WHISFOs8BRWj+dT0dT4nTDzpGfXWt5UB6YT6kKk0N
-	 Jn8vu8dwuSbs4ggU7Ow+/vqdPTimEToMCMMr71Hg9mUiymnGn3zqgJw+OFJL9VZQhS
-	 VOkqvXS1bETU8cL5+BKGZd84EjGh2uS89P9Ps/78lb3iuIhxXVFt43FsAoSfOHbCbV
-	 5feYoI8Vg3FLRZ1/n0phmc9GlshkCqNgIL8MYw+CRzq4rbVsXHNNqdAwNKZaWSNSeI
-	 sl394Bwjj+u4PmIXMerVrnGCFY0U6iD93ceOgWwlu8B8NR7dpVaJXPxLs2FAGReiYV
-	 XDdUc/4uY87eA==
-Message-ID: <34b0f449-3803-494c-9afa-3a95e88dc4ae@kernel.org>
-Date: Thu, 20 Nov 2025 10:07:08 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnqXo6iT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763629969; x=1795165969;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k/OsCn+VKOProOq6S3OuhfgntVL41+mM/PisTG2nLIs=;
+  b=FnqXo6iT6YNQ55F4kmXZ1pUCzTgrBN3t0hSDDVX/yDgGQGdPFv78JoT2
+   9NWCeuQVpyUigff/A7k3KHQvVMfes13VpKsYQJV3+QyLvk+9ffTyREbt+
+   DKPQ4XyYFshfSiFMJcjfPIGOTbd/xrMhEdGA7T2cGRmBp27dRGLUtPBTA
+   xaB2WdQ+GEkiJU1BpIz/oQlybwAE8aJHnB/DT6pB8Z3I2DkCExMabCLaP
+   BDLWudl3QbaNl9JY9KxfLO62Ozx7yCHbvMpRkkXC01dkue+St5w4aM9jq
+   tpwFChTvcEfY1L29SS4aHUmzCMjM3MOdMX22Jmd/kMWSfO0zEWZHAMLdM
+   g==;
+X-CSE-ConnectionGUID: gVz/swO5QmenBL9W7cNrIw==
+X-CSE-MsgGUID: VkHQ9duZTtWY97srNN5MRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65570882"
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="65570882"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 01:12:49 -0800
+X-CSE-ConnectionGUID: ZuF1wavUSGW9CV2GS3hVnQ==
+X-CSE-MsgGUID: jUYh+RrWR3u8y3enrHcsXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="221955192"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2025 01:12:47 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vM0ia-0003nj-2r;
+	Thu, 20 Nov 2025 09:12:44 +0000
+Date: Thu, 20 Nov 2025 17:12:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Matt Gilbride <mattgilbride@google.com>
+Subject: Warning: drivers/android/binder/rust_binderfs.c:229 function
+ parameter 'file' not described in 'binder_ctl_ioctl'
+Message-ID: <202511201725.ni2HZ2PP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [krzk:next/clk 9/10] drivers/clk/samsung/clk-pll.c:1488:1-7:
- WARNING: do_div() does a 64-by-32 division, please consider using div64_u64
- instead.
-To: GyoungBo Min <mingyoungbo@coasia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kyunghwan Kim <kenkim@coasia.com>,
- Ravi Patel <ravi.patel@samsung.com>
-References: <202511201607.N3OYcSYl-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <202511201607.N3OYcSYl-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 20/11/2025 10:01, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git next/clk
-> head:   66a62a2358c8a91dbd88e18d6d0f8d35c7b2d220
-> commit: 234db9f34c4c82f54c94326e92bdfd6304f4a2a4 [9/10] clk: samsung: Add clock PLL support for ARTPEC-9 SoC
-> config: nios2-randconfig-r054-20251120 (https://download.01.org/0day-ci/archive/20251120/202511201607.N3OYcSYl-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511201607.N3OYcSYl-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
->>> drivers/clk/samsung/clk-pll.c:1488:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   23cb64fb76257309e396ea4cec8396d4a1dbae68
+commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
+date:   9 weeks ago
+config: loongarch-randconfig-6002-20251120 (https://download.01.org/0day-ci/archive/20251120/202511201725.ni2HZ2PP-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201725.ni2HZ2PP-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511201725.ni2HZ2PP-lkp@intel.com/
 
-I drop the patchset from my branches. It is not ready.
+All warnings (new ones prefixed by >>):
 
-Please run standard kernel tools for static analysis, like coccinelle,
-smatch and sparse, and fix reported warnings. Also please check for
-warnings when building with W=1 for gcc and clang. Most of these
-commands (checks or W=1 build) can build specific targets, like some
-directory, to narrow the scope to only your code. The code here looks
-like it needs a fix. Feel free to get in touch if the warning is not clear.
+>> Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'file' not described in 'binder_ctl_ioctl'
+>> Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'cmd' not described in 'binder_ctl_ioctl'
+>> Warning: drivers/android/binder/rust_binderfs.c:229 function parameter 'arg' not described in 'binder_ctl_ioctl'
 
-Best regards,
-Krzysztof
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
