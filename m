@@ -1,195 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C247F1E51EB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 01:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763601419; cv=fail; b=dJFnJM3elZnf1Xo+ZUkMtV6AkGT2UzKyM36D1A8BaFZKjwLy0JbnJB5Qly/9H8jSwD/FRzViO1qkD5C6WRKys1WLkOSxFpriZgduDIcCSxVRAqjo9ZsQmZF5EbqAFSrow5VAie5h8WIYJtAmlV6BCd+BqiiJtAQDgvG2fY736vk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763601419; c=relaxed/simple;
-	bh=5r4OlrazEPyk2UnTO0z5bkC3WOdISuslZeGoEL+aDsU=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Z0Hi2Qd2VX+9zEjQTpEKjoUABw6T6qjaIWhsl2+Hx+YQjFStvA9Q8XOA5qqsvj+OMoy/fJlT0xbi1cXguKJ7EfIPSWxgaA26P6c7wF87Ik7KxI/xQd84XhD34/8TVi/t7v7vWC6OjwPvXWFzusa04CvGbNqcSzEUaHNrtCFef7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=layEZPfH; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01D8194A6C;
+	Thu, 20 Nov 2025 01:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763601692; cv=none; b=a2F0hoIPZ5bMYy229QJsJyvJ49ETguB530tYzY/9EjIsevx5Oh44XDZYYcR5+xB/y1cw+sq3KgFhRiuG0KGwq9GjNVEEiP5BIVx4oNNENrfXDv+07o50v3E9X6Zv79tox1T7l12/pX51RuvrNt3FwC4RSMci41gOxES1ToxIYb0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763601692; c=relaxed/simple;
+	bh=i4wxgjtKrhIGUq1NanlDCU86AlRZgyMavb9FCRKldVE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FJFEIUi2Wg0LXZo6eG+XXsrrDInZELlSoas9FGj6Zx4g3MjbSvele7T9tk9EzARWYhJ4/pT/Cc0JmfyIOto6z1WYAe3ius0ardoena67yanIiqBne/orPZpC+Svp8tc3JBrduFvWj5W1HBz/GDJKRZIDMPxsvwA59Ly6yfVlS38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=X9PjzlxR; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="layEZPfH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763601418; x=1795137418;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5r4OlrazEPyk2UnTO0z5bkC3WOdISuslZeGoEL+aDsU=;
-  b=layEZPfHnXxkw1idW42pfDiofbcb5hBNKCysUUfSypiG9BvjNB2//rzr
-   rPeT1qexFJnJukp2PiFnDZ1RDoB8w5vp0czL5pAvZ64x+T9AANDU4WdSK
-   JXuVcVMDAI84oq7ljPfIkYVlPNiXOPT4QTo7huvO1ngDlxH5ZGJhZt9G/
-   d7JdDWsfHvNMt6nPdidbcd4C+quSMDYA9fCP6Mv6BEnQ0CFWsgLl+xEpr
-   VA/nt3cHdJ4Ad8+XcJEPoL74dmimc01yg4Y+dxOT0qG8sEkX8SAMMKxOh
-   wkAPQKkhNwW95jZMBw9qzIlzcvk8QDiKZ42j+hh2SEyqidA+eQzEtAIxL
-   w==;
-X-CSE-ConnectionGUID: 5P7l6Ht7SeWcuDxUKw9cGg==
-X-CSE-MsgGUID: 8oNkxFuMRyu9vhkMy5DdqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76764523"
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="76764523"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 17:16:57 -0800
-X-CSE-ConnectionGUID: wIeUA/HHRvWv0Yy4SPx4gA==
-X-CSE-MsgGUID: qU2oaT60RIiYcmf7U+o2Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="195521906"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 17:16:57 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 17:16:56 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 19 Nov 2025 17:16:56 -0800
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.28) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 19 Nov 2025 17:16:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c3ubjN92kGBmh3Vumcao1rqR99YtDTPgIZ56UKj1yM06Ug933bB+3z4C60NSyC1+UFVG8BE+M3/GfNKOAkn4DzLM2Mn3eok068wD+PYTUEINjt2iGxfJzoQXEr0W5hkKSbIidqSPD/9eTGe19yyWPWEH1MVdCxD5Kt0Kj1pCceRLAPI6+68mImF6yIdOYOeaG7uV40bqh5SexoN3v03K37bg16+2p0RKHWJ+CMDPzyta+ralbAud0pFBeMWFueR42uCMO1jo3XKtXejqy3UHhdu7G6AecdUgaZyCJG9Y0sgFhborNWNqTjM/2nKzZf/rpF7cuo1t7LwWL9OZE/xZgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FNQxEdxdzkY9RhRfD3bx5bVZutU9fpfq0jo9UIIp+J4=;
- b=wdf8etB4p8qj30SI/63J5qIksq/7CmsnOgf4gjK5jjNwNnF9ztKP5yxBNGGDOmANpbRyH17V78A18DJm1cduba6sdX5r9wn8zM6gzbk9rMgzYxKTx/UQEsuzT27o8kAg0QlPokAmbXcbMmshey/FDVlvv+AvwQ4SyTQtN+sMLd2Onml+fGGiUtpz8t7BbO16B5F7ynWn4sa6LLiabhBfWTWeOoyn2c+bFpWTGsDKoGbN6ud4wIH1O6cN0Sl0AaGGu8dgFp/kIqlzmX2+govIYJmW+JCq+EaYPpS0bKGjI8CaKkKw2OICEgZKK+nIbR7VoJWoPdl+JZW7HMhcVNEdcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
- by DS0PR11MB8720.namprd11.prod.outlook.com (2603:10b6:8:1aa::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 01:16:53 +0000
-Received: from BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::3876:1eb1:8e84:84e7]) by BY5PR11MB4165.namprd11.prod.outlook.com
- ([fe80::3876:1eb1:8e84:84e7%6]) with mapi id 15.20.9320.018; Thu, 20 Nov 2025
- 01:16:53 +0000
-Date: Thu, 20 Nov 2025 09:16:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xiang Xiao <xiaoxiang781216@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [linux-review:Tanmay-Shah/rpmsg-virtio_rpmsg_bus-allow-the-different-vring-size-for-send-recv/20251115-030350
- 2/2] checkpatch: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email
- address mismatch: 'From: Xiang Xiao <xiaoxiang781216@gmail.com>' !=
- 'Signed-off-by: Xiang Xiao <xiaoxiang@xiaomi.com>'
-Message-ID: <aR5r/ZQV8MThucrS@rli9-mobl>
-Content-Type: multipart/mixed; boundary="OCLScRs+dJLabFcC"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
- To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="X9PjzlxR"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=CxjUVIcD25U44jI58/lzCsIjg0A1Iaqvili4aT6WUXI=;
+	b=X9PjzlxRsZ10KV8qrPgal2nX+zn1MXl5hPfPl0OoOu63Uxvh63+z+ThgVanBK4Z/C7oNMyXgB
+	mjRa914Wc+DPOhOQbWLAVOj+o6yGFne9YD1hX9qw1fvvS8wYn41dcKHAL70VjN7lWLHA+ElaFdz
+	jmAsSrZ+8lWmSjFDQIS644U=
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dBgWM0D9lznTV8;
+	Thu, 20 Nov 2025 09:19:59 +0800 (CST)
+Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2F7FD1A016C;
+	Thu, 20 Nov 2025 09:21:26 +0800 (CST)
+Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
+ (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 20 Nov
+ 2025 09:21:24 +0800
+Message-ID: <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
+Date: Thu, 20 Nov 2025 09:21:23 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|DS0PR11MB8720:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1d42f2e-2f38-499e-e9a4-08de27d27d3b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007|4013099003|4053099003;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/GHUBd1WuWv4sI4O3v70laSz9xr5m+Wgc7Ta39sDvpfHDT6ec2g2q1LtAmMG?=
- =?us-ascii?Q?JVXBdZ/2rzG0zINq2cW3xeHwGtofpsnOrN2w4lOMCeeEbQPhsMqMm3ioAad6?=
- =?us-ascii?Q?diaaTyvEW/cNZ4BryLvoTdmQnhaUgclvhUMm485tcW2DGrMpVH/SMde3aKEZ?=
- =?us-ascii?Q?9cjG0plUh2enIavuBT6fF5+BhM5ljEDH1CCtRRIcg9KeqEQWGr2lbM/jhlN2?=
- =?us-ascii?Q?JwbPAzfEnMUy2vJbe/PgvTeCJcO9V7SwvQ1/RWfp+dPgmHSseH8eEmRAejw7?=
- =?us-ascii?Q?RLVWNqfWiml7lX+Q3VO9OpDZtw1uil29/EuFEjN6/GZ2xjqwEgMfI7MupT37?=
- =?us-ascii?Q?seiOcz2oyZI0u/13J38MXQHVRv7NedIqrEw4ax7qGA3QLQ7P5XLGffH2q6JE?=
- =?us-ascii?Q?q08BAvKucGW3N3p7QhL+TEhX5UogVM9m057kElpOrzyby46hAiaNxcl7OGOY?=
- =?us-ascii?Q?qy91mg+JCh2800i908o79UUe0zeEc2gdcCB6YOa2xzDtZ+kCyHSJB64diMzb?=
- =?us-ascii?Q?6HQkLoM4lfKfNyQk0TjU5SrW1omQsAIf3Hj2hGHW7XxWj0gF00reokhhx1iQ?=
- =?us-ascii?Q?FpFuohnWbfIjoG+Z++8jYkc2mSumpsQuKZz/zXU2fecpz8b4Np7H5PNBHlna?=
- =?us-ascii?Q?GLoKj7LSXdcdLw6nNPEtbxAohwhrxPa9VR58kXPTvXRMP2c2H0zF5f6EIyfF?=
- =?us-ascii?Q?YxiYZS3NdbwEjnOS9omxKz0pJJfRtFi71IHjjz4a6tSOOaaJpnmTggpG0mNC?=
- =?us-ascii?Q?Mf6vn/7I2he8xUwoDjiQmbYVeeKgpYyHi1rq4JvKQBuAgQMkh7sry5UADbgS?=
- =?us-ascii?Q?F77m4RNq5W0d2csmSB3qLzogxRMwoV8YhnUvA98Z6rNJsYxaEzEzBtz4eDnY?=
- =?us-ascii?Q?PNc+4neBwu8/qSdTVtiDqHdYiQymBNNHIGo7tzXi3FyrLijA5CvGsFhcGmik?=
- =?us-ascii?Q?bI6HydJU06DFDnLfDqRHcjaj2cuBP+M07OoMqaF0boUX+yzgGzMevg/rJF8l?=
- =?us-ascii?Q?9dgXH2VIS6s/rOxseCCRjEbxyT5azcghU37Iot3h55xn7jruA7U68o/ljZCj?=
- =?us-ascii?Q?yqM7EWSrcxTQm8071+bWEtFOAij8fUt1qhc9lnyXvwJwDoUijp6m42c96hMu?=
- =?us-ascii?Q?X+QzBKE6poofMdPnhqGtKOcP5CCSlNOYKed9ytNc/6fRycQEGgyB+zsOJQFA?=
- =?us-ascii?Q?Wito6MhyysJVoFTDJ17e61CghJmgGzz/kFX0LYF0o9fFMPaVtbWZRXVAbfex?=
- =?us-ascii?Q?p9MmFDbWXNbG5Xq6G0pmq55MbRxqBIhzFx2AGXJJRYd8bQeWud7fKgwevAH/?=
- =?us-ascii?Q?Kuj3Jv8Q0wtp84ukc8EItMWFtAcEBV4i/pDRmUNHWkqizHhg3ZBej2Kfu1uq?=
- =?us-ascii?Q?Fk6Clh/PttG60ttu+m9Uf1kELS8jgjbTS98ey2hEZi/uddX/rpZPWIfyJbiU?=
- =?us-ascii?Q?sJR92acKFEWv3fwlbpqYOd2zO7oWcoNX2LRbTsesGbJs7aEXJ0/zXA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(4013099003)(4053099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?N1jxvu6+NMwSd0zeYuokCqmNCSLrXdnEza7aB58s5rCyRtRT2J+akysci+Q/?=
- =?us-ascii?Q?B8pzIUwQCpSD9kOGp0xjH2YgVyKmnVDRfqnsRNfhzK58jMtx3uNy5Yz7myjz?=
- =?us-ascii?Q?M7hu7VCsNcJe8zzOCUTPSgDc00x7h2SKfU+re8Rql6gDe9nqWSUzp1J9KZz9?=
- =?us-ascii?Q?UsNFmqdK0aMRPe0E4MMXGHqgDEdcUZwNPcGVlFE9X+9aL/ELkhjeYM9f01ST?=
- =?us-ascii?Q?L3jg8fFfPgn96zry633GMDYjmn4LtUoCFFoqaWJSJSgiD6l5DJJxZHj5WD7x?=
- =?us-ascii?Q?9pauYv/Fuz4lA94Hh7EIWzOZAcTxr5VpOflVdpG0loFkZNmP0VRsy9AmO9Aj?=
- =?us-ascii?Q?2NWNxl8htnidbK6lPwkFyGgYf2mdismTlV65pBNh3TVR+hB4bcA+Lx0Qh+Wk?=
- =?us-ascii?Q?V6sVMlNSAs9BpQBOpyqEH/hj+oLhGpVn/AHwrzEddqP9jUpR5dhtwvI/vBrC?=
- =?us-ascii?Q?tt6893zNP81Y9CGJXI8xyNJxtbqAmgF2BvWNvu6OPmmeAmATX7yDIXLtLa2x?=
- =?us-ascii?Q?OfAhJJyoKN6j3O1Pnn22kLfTlvSZlRzUlDAVU8PGrYWni9+P79SHTd6Ft4zy?=
- =?us-ascii?Q?A3gzp5baKbn4O5DYztBHDDv8youH9wlk4FPHgmzwWzNRwPPYdak5wii6vINg?=
- =?us-ascii?Q?Og1OI6RcW7Y/4eF+OP1MRjxyMSMFEyDPyt2nNi6rOls2UgIFnGndwF7GNCkx?=
- =?us-ascii?Q?/IoOw5qXx21QwVeYyYgcZHgg0EENe3ujrHwrnbjSBhFhmz8RaFM9VQyKXE8k?=
- =?us-ascii?Q?UjrGO8CukV1dw7iOrE8B8u2vJghY8tpqwGwyzEMzo3Y178gjjKe7a1reSBk1?=
- =?us-ascii?Q?V8f1pJTseim4NqK2dlboukQheiq/8RJdk/Dhtgur2slZ0FRbSB+eCXyXJaFE?=
- =?us-ascii?Q?t0d/hPFgCBS5+00JS19RDdwmSNGNPFi4kM4aekyQ/vrc8ciFSaXKiuBjDKYk?=
- =?us-ascii?Q?E+d0vQWIxXct0FaIEchW/l6Yk7+QOv+bWLXHwb54ZGhgWov4kxrlnY233V+s?=
- =?us-ascii?Q?UEEPkklePAeixaSyHL1Pm2qg9Mm7PX1y2RB13lHr6mnTh0EINrwIGOTmOY/Y?=
- =?us-ascii?Q?UFOt7VK8LIcJFh2UanXlZYrcyGheMaaKXqGcGCzSLYK1kTy1oayAjnaRBXq7?=
- =?us-ascii?Q?gScTmyw4d25mL479m9Jq7SYtDFKktv+3zZoc7fPNg6/XfPXsY14XLQjeaFoD?=
- =?us-ascii?Q?mfctqWnc4yI1fCwjSgOp4kTMNfTQbL9orXdZuLMOEznd6nzHqhSwdYSoGupm?=
- =?us-ascii?Q?0d6oiTo5mWl48uw6s4LLyIbI9I5VUwwT/mOXRYJftb+fnF3CJMjukZZAxdKq?=
- =?us-ascii?Q?g01PM03iImZnvchLypeZJNzHi0W/m6E0y6Cv08NbriO3rGg+18hHO5wUBMYl?=
- =?us-ascii?Q?Y+nD2UqKr7n2G4aNJXahsAKdcqU4d4pBi6jAmss5ONKxIGlb3XTYrLifnIar?=
- =?us-ascii?Q?ZnfOVxmpa56px0t7OWEbUbR0VdVyAOjvL4ibOsdxRXvQAPSWF+Bu+CZc9z+/?=
- =?us-ascii?Q?DELiNZm28uM7sCcY2cPMY6uD6Ifv58C/HNZoRBWH9antjsZkuOLcRcy+28QI?=
- =?us-ascii?Q?YsRg7flGfl0up9dDKR+9E8eSoqjFk+eIKddIOe4GjeAWu5slBkBU690gETZH?=
- =?us-ascii?Q?FQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1d42f2e-2f38-499e-e9a4-08de27d27d3b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 01:16:53.2403
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B5VF3l6/xW3DIiNCmnQ9LY1LvuQ65Tf5jRnZr7uFrJVdccPrNe+YE3TjyPK+xq6D4Fv9gWOXlAE9W1wzgiLI2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8720
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: <oe-kbuild@lists.linux.dev>, <libaokun@huaweicloud.com>,
+	<linux-ext4@vger.kernel.org>, <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>,
+	<jack@suse.cz>, <linux-kernel@vger.kernel.org>, <kernel@pankajraghav.com>,
+	<mcgrof@kernel.org>, <ebiggers@kernel.org>, <willy@infradead.org>,
+	<yi.zhang@huawei.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>,
+	Baokun Li <libaokun1@huawei.com>
+References: <202511161433.qI6uGU0m-lkp@intel.com>
+Content-Language: en-GB
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <202511161433.qI6uGU0m-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf500013.china.huawei.com (7.185.36.188)
 
---OCLScRs+dJLabFcC
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+On 2025-11-19 20:41, Dan Carpenter wrote:
+> Hi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/libaokun-huaweicloud-com/ext4-remove-page-offset-calculation-in-ext4_block_zero_page_range/20251111-224944
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+> patch link:    https://lore.kernel.org/r/20251111142634.3301616-22-libaokun%40huaweicloud.com
+> patch subject: [PATCH v3 21/24] ext4: make data=journal support large block size
+> config: arm64-randconfig-r071-20251114 (https://download.01.org/0day-ci/archive/20251116/202511161433.qI6uGU0m-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202511161433.qI6uGU0m-lkp@intel.com/
+>
+> New smatch warnings:
+> fs/ext4/inode.c:6612 ext4_change_inode_journal_flag() warn: inconsistent returns '&inode->i_mapping->invalidate_lock'.
+>
+> vim +6612 fs/ext4/inode.c
+>
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6527  int ext4_change_inode_journal_flag(struct inode *inode, int val)
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6528  {
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6529  	journal_t *journal;
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6530  	handle_t *handle;
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6531  	int err;
+> 00d873c17e29cc Jan Kara           2023-05-04  6532  	int alloc_ctx;
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6533  
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6534  	/*
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6535  	 * We have to be very careful here: changing a data block's
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6536  	 * journaling status dynamically is dangerous.  If we write a
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6537  	 * data block to the journal, change the status and then delete
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6538  	 * that block, we risk forgetting to revoke the old log record
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6539  	 * from the journal and so a subsequent replay can corrupt data.
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6540  	 * So, first we make sure that the journal is empty and that
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6541  	 * nobody is changing anything.
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6542  	 */
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6543  
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6544  	journal = EXT4_JOURNAL(inode);
+> 0390131ba84fd3 Frank Mayhar       2009-01-07  6545  	if (!journal)
+> 0390131ba84fd3 Frank Mayhar       2009-01-07  6546  		return 0;
+> d699594dc151c6 Dave Hansen        2007-07-18  6547  	if (is_journal_aborted(journal))
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6548  		return -EROFS;
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6549  
+> 17335dcc471199 Dmitry Monakhov    2012-09-29  6550  	/* Wait for all existing dio workers */
+> 17335dcc471199 Dmitry Monakhov    2012-09-29  6551  	inode_dio_wait(inode);
+> 17335dcc471199 Dmitry Monakhov    2012-09-29  6552  
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6553  	/*
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6554  	 * Before flushing the journal and switching inode's aops, we have
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6555  	 * to flush all dirty data the inode has. There can be outstanding
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6556  	 * delayed allocations, there can be unwritten extents created by
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6557  	 * fallocate or buffered writes in dioread_nolock mode covered by
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6558  	 * dirty data which can be converted only after flushing the dirty
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6559  	 * data (and journalled aops don't know how to handle these cases).
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6560  	 */
+> d4f5258eae7b38 Jan Kara           2021-02-04  6561  	filemap_invalidate_lock(inode->i_mapping);
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6562  	err = filemap_write_and_wait(inode->i_mapping);
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6563  	if (err < 0) {
+> d4f5258eae7b38 Jan Kara           2021-02-04  6564  		filemap_invalidate_unlock(inode->i_mapping);
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6565  		return err;
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6566  	}
+> f893fb965834e9 Baokun Li          2025-11-11  6567  	/* Before switch the inode journalling mode evict all the page cache. */
+> f893fb965834e9 Baokun Li          2025-11-11  6568  	truncate_pagecache(inode, 0);
+> 4c54659269ecb7 Daeho Jeong        2016-04-25  6569  
+> 00d873c17e29cc Jan Kara           2023-05-04  6570  	alloc_ctx = ext4_writepages_down_write(inode->i_sb);
+> dab291af8d6307 Mingming Cao       2006-10-11  6571  	jbd2_journal_lock_updates(journal);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6572  
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6573  	/*
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6574  	 * OK, there are no updates running now, and all cached data is
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6575  	 * synced to disk.  We are now in a completely consistent state
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6576  	 * which doesn't have anything in the journal, and we know that
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6577  	 * no filesystem updates are running, so it is safe to modify
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6578  	 * the inode's in-core data-journaling state flag now.
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6579  	 */
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6580  
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6581  	if (val)
+> 12e9b892002d9a Dmitry Monakhov    2010-05-16  6582  		ext4_set_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
+> 5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6583  	else {
+> 01d5d96542fd4e Leah Rumancik      2021-05-18  6584  		err = jbd2_journal_flush(journal, 0);
+> 4f879ca687a5f2 Jan Kara           2014-10-30  6585  		if (err < 0) {
+> 4f879ca687a5f2 Jan Kara           2014-10-30  6586  			jbd2_journal_unlock_updates(journal);
+> 00d873c17e29cc Jan Kara           2023-05-04  6587  			ext4_writepages_up_write(inode->i_sb, alloc_ctx);
+> 4f879ca687a5f2 Jan Kara           2014-10-30  6588  			return err;
+>
+> filemap_invalidate_unlock(inode->i_mapping) before returning?
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Tanmay-Shah/rpmsg-virtio_rpmsg_bus-allow-the-different-vring-size-for-send-recv/20251115-030350
-head:   a007aa03e33ef752e01518e211d9707017cf1aba
-commit: a007aa03e33ef752e01518e211d9707017cf1aba [2/2] rpmsg: virtio_rpmsg_bus: get buffer size from config space
-reproduce: (attached as reproduce)
+Oops! You nailed it. My bad, I totally forgot that unlock here, which
+definitely left the lock unbalanced. I'll get that fixed up in v3.
 
-# many are suggestions rather than must-fix
+Thanks a ton for doing the testing!
 
-WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email address mismatch: 'From: Xiang Xiao <xiaoxiang781216@gmail.com>' != 'Signed-off-by: Xiang Xiao <xiaoxiang@xiaomi.com>'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Baokun
 
---OCLScRs+dJLabFcC
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: attachment; filename="reproduce"
+>
+> 4f879ca687a5f2 Jan Kara           2014-10-30  6589  		}
+> 12e9b892002d9a Dmitry Monakhov    2010-05-16  6590  		ext4_clear_inode_flag(inode, EXT4_INODE_JOURNAL_DATA);
+> 5872ddaaf05bf2 Yongqiang Yang     2011-12-28  6591  	}
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6592  	ext4_set_aops(inode);
+> f893fb965834e9 Baokun Li          2025-11-11  6593  	ext4_set_inode_mapping_order(inode);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6594  
+> dab291af8d6307 Mingming Cao       2006-10-11  6595  	jbd2_journal_unlock_updates(journal);
+> 00d873c17e29cc Jan Kara           2023-05-04  6596  	ext4_writepages_up_write(inode->i_sb, alloc_ctx);
+> d4f5258eae7b38 Jan Kara           2021-02-04  6597  	filemap_invalidate_unlock(inode->i_mapping);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6598  
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6599  	/* Finally we can mark the inode as dirty. */
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6600  
+> 9924a92a8c2175 Theodore Ts'o      2013-02-08  6601  	handle = ext4_journal_start(inode, EXT4_HT_INODE, 1);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6602  	if (IS_ERR(handle))
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6603  		return PTR_ERR(handle);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6604  
+> aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  6605  	ext4_fc_mark_ineligible(inode->i_sb,
+> e85c81ba8859a4 Xin Yin            2022-01-17  6606  		EXT4_FC_REASON_JOURNAL_FLAG_CHANGE, handle);
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6607  	err = ext4_mark_inode_dirty(handle, inode);
+> 0390131ba84fd3 Frank Mayhar       2009-01-07  6608  	ext4_handle_sync(handle);
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6609  	ext4_journal_stop(handle);
+> 617ba13b31fbf5 Mingming Cao       2006-10-11  6610  	ext4_std_error(inode->i_sb, err);
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6611  
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11 @6612  	return err;
+> ac27a0ec112a08 Dave Kleikamp      2006-10-11  6613  }
+>
 
-reproduce:
-        scripts/checkpatch.pl -q --strict --no-summary --show-types -g a007aa03e33ef752e01518e211d9707017cf1aba
-
---OCLScRs+dJLabFcC--
