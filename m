@@ -1,92 +1,60 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7ED2FE594
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 05:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C921B13D638
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Nov 2025 05:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763616372; cv=none; b=YjgzC9TQb0p4TMp1GmREtxndmQJ9vcSunitMym97VJJioNmpozYRutnpWMMVfwQuybo6N9b2ro/HL5OKQoxe0JEx4AZVGOaBJz1N7oLpwyb4qz1l2wEqRcdnxvHovSrwi4eU9fHyYCIzzzk8h/pfcVpbpZkfFfCQco2/uNX2PCg=
+	t=1763618372; cv=none; b=mTcPCcq+FMP3D1UeBRKwOdvfNoQ5DIQKo4JtRt6pC1wh1bm/66FsrZJtzf6OGfboF+MdSXqbrZ/4k+1i8qSGN3DBwsbWOMuYpe3vpY9WxPSe9cw19E9lbj3CtM/2fjQTb8NOBbT6WHzPb5VhtGA2eguME1AKxkO9x9OiOMccZAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763616372; c=relaxed/simple;
-	bh=EruOZqd2KoR3uN2cg7AV2xYzHReBsphHSgRk39GWG88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZlKtTgUu6qKFEuQSuWQBzztwrOE5knvX6XUa27kpfrUIUTiqZiQSJJB04iGoV+K7N0yTvq2FLhc/jRebcTs72mcrpV+Pgjx8Nz2VO/EbiVWKdRszyUKrhy4Ie7EKwM1WcQxh7lFX+GyJRZO1op9JNT3+EOZAvCEmij0XNLxF04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dDeRmh+R; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763618372; c=relaxed/simple;
+	bh=D9uDXKmdkooGCsOZwFV2vP+RePsSRXucK3N93yluElg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R14wmIjxXa2n5YVepte7SKtbkqzhmdRVFDHBopb+4az2iIUtbc7H2t6wlrJ6fOeJKq7ayBGNivN8MQT695JLCT3KZ378pOsY30BP3zfBksmBkMJDnWPw/h8xuuX5LQ9AQvJSfxGqsLxGdCfqte2DEZTun5TrsIJjtZyFNZJVzHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhpj/k0v; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dDeRmh+R"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so2535065e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Nov 2025 21:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763616367; x=1764221167; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vUqeS6K4g0hUxh5GcRzYb7k8IKeXwg6G9epDSLnS8mY=;
-        b=dDeRmh+RTwMY28KjAou1RH3dW+XSDGNoQKiCYsw/tn5LvHMn0UCWERI0ODnsDspCmf
-         KBcDekwtmpcuEooMxquYwNpjqHbnJdmZuZwcvdPLh7Lso9wXykAA3gGXLrGd5lkMUk46
-         sfBUphr0UDto+XEvLGL3aVNVb3NDZqSDu2AbqwQo/ob1AhHFund19hgRnztlL05yxr9O
-         JEtseUy1J/3n57tpTOueqMgCQKXQi6+bOqSjUQLdMl45id8DXEbZywA2TWcu7Nh8g6Qc
-         R0kjvUt0nZS7/QQH1PsqediqXXByyHUNvIqTMzbsTSk5SiUnwDH0S5YXOQ8Uh+/LY3eG
-         y/dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763616367; x=1764221167;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vUqeS6K4g0hUxh5GcRzYb7k8IKeXwg6G9epDSLnS8mY=;
-        b=OMy7LFDLQA31Fe72ZCQgr6rrevjShT0mWmyAvSzUJ4xWAIkSEy2TrEpIYa9EI8rHXD
-         ZuHNZC+vKSoIaVNn8nNLY5zWLeB2JZkJfiZOLJX0Ep5K8mQjuFV7lLeCDvDbJdrrVxZi
-         8edwG4tQRaM5dpAIXQCq3b8lUqkyUPtQ2fD+ElSPAxcTCmX7a1SNM2/omNfq8cFHJCpq
-         OgLBKhg+zmpnVCvWat89aBLVd6zzFhFZVBcM6eK8MP4AMoO/O03a17HNL/6VVNzJrfNm
-         v2xaewNy0SFnXooQvQsnNzjxYbs283eF2+eafnl2uMtikrGrANl+8oyP2Qa38U5usrrU
-         etIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYrTjfON/KsqgCo6BQMpgbmpzRUSVrphYL9EVAWdtlWR8i+aFBfdMYDtoyg86pr1AdjK6mtJ3koyf+xRzI@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMyu6Kv5bWjV78800UKPmo8S+nW2G5MymkQ8QLDxAZpVW/m+K2
-	IxmeSQh4j6F9oy6U24YSs++oylE3znXK/MxbNjXIlrLIyJZxoU2TyYH5FMrUBsVa5d8=
-X-Gm-Gg: ASbGncsyMcGQDz5AcjKkVsd0AN4dnk+6ICdvcBCgIqWbeOkVKeUpwVesrlk1kctEGhN
-	ACr7zNkV7qs1/QCccrnNu3wzDuQV7PMkMiUgc/IgPvWJyVekyd+avd6OCz6hPwodRjdtq4Sjhpf
-	atLBEZ1jchjobUOqPHXRtdjEyEq7SLp/k6zyKpldOKEWBEUpz1vHSxbGkTuRYbRs8ARuLmH56/m
-	H83ONbOiLWxs+jDSfk9weJLzjOttWHRWMre292l304ZNCKuVyJ86rCIdlbO4YWu5YPSupQLKhs6
-	v0FK9XU9MVBD3zRjQUQZFmRbWVItXdrh7kmTU8yDpjma8yjftfVCk6ePKdBIXBOewCTPy978oT7
-	d1fjVvY2uAAhdFXRCaMJU8KL3W8YWWulelUtaFvQ4Ef/qcNyeF/vn2s0HkugrJNojyjnVIlNIRH
-	+Ae2K2TyEin18XE0TT
-X-Google-Smtp-Source: AGHT+IFWWOupAlmioPPlt+riq99upzqU3hX3m2vpY2Y33m3pRyb3Gi9KlUndDLVMEA6CzkdsEjgEWg==
-X-Received: by 2002:a05:600c:4746:b0:471:1774:3003 with SMTP id 5b1f17b1804b1-477bac1d90bmr5158065e9.29.1763616367195;
-        Wed, 19 Nov 2025 21:26:07 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a9df8db3sm53497665e9.11.2025.11.19.21.26.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 21:26:06 -0800 (PST)
-Date: Thu, 20 Nov 2025 08:26:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, dri-devel@lists.freedesktop.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Ralph Campbell <rcampbell@nvidia.com>,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-Message-ID: <aR6max8N4djU5OVB@stanley.mountain>
-References: <202511151216.rhK2ItOb-lkp@intel.com>
- <661d1f3b-0f04-43fc-85ef-d29d492a2b06@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhpj/k0v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763618370; x=1795154370;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D9uDXKmdkooGCsOZwFV2vP+RePsSRXucK3N93yluElg=;
+  b=mhpj/k0vOl83d5RIxgUSb6FW+Jl+acI2bEQGVD1zwZM+K0HfgxIBnCgd
+   0fgOcFKOhiQfsqAr21NUXMFRDcYD1hxmuFLhsEq7HAJaS0oI3cPC8YMWv
+   kuQe0BbQpj1cYV5Z9dFZ01+/tIavBXQ67sQLSaOMNupipADDEsO+FlZD5
+   kEV8Aw4eqaFaZ/D1svvzBSlwBefqjqtcOLPuECWlQlqaoqIoxb88ELWaW
+   ahC8jCLoxeodQStDP91x/omkA2cXu/H6hK4SXsZRJ9FdPNtV8eVdYtZAR
+   yeC8oLuSa1YPzr2OgoBl3up/rBfDL1dpsb0ybIuYtyf1BLPvexHdpt1Vd
+   A==;
+X-CSE-ConnectionGUID: X0iEw3tlRtCRsX+LEqqbdA==
+X-CSE-MsgGUID: oO4ja0OYSPO+ntCKbs5diA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76003276"
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="76003276"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 21:59:29 -0800
+X-CSE-ConnectionGUID: J0Fz7DxSSQOB//RbKnaHUw==
+X-CSE-MsgGUID: qAzAPHGmQwGFd6a3yhyFVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="228582726"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 Nov 2025 21:59:28 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vLxhV-0003el-2c;
+	Thu, 20 Nov 2025 05:59:25 +0000
+Date: Thu, 20 Nov 2025 13:59:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 3/3]
+ include/linux/tracepoint.h:385:27: error: '__tracepoint_rcu_stall_warning'
+ undeclared here (not in a function); did you mean
+ '__tracepoint_rcu_utilization'?
+Message-ID: <202511201334.ZxBRMcXB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -95,210 +63,272 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <661d1f3b-0f04-43fc-85ef-d29d492a2b06@nvidia.com>
 
-On Thu, Nov 20, 2025 at 10:58:07AM +1100, Balbir Singh wrote:
-> On 11/19/25 23:32, Dan Carpenter wrote:
-> > Hi Balbir,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
-> > patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-> > config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151216.rhK2ItOb-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202511151216.rhK2ItOb-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > mm/huge_memory.c:4044 __folio_split() error: uninitialized symbol 'end'.
-> > mm/huge_memory.c:4052 __folio_split() error: we previously assumed 'mapping' could be null (see line 4046)
-> > 
-> 
-> Thanks for the report!
-> 
-> If mapping is not NULL, end is initialized. More comments on UBSan below
-> 
-> > vim +/end +4044 mm/huge_memory.c
-> > 
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3908  static int __folio_split(struct folio *folio, unsigned int new_order,
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3909  		struct page *split_at, struct page *lock_at,
-> > f6b1f167ffe29f Balbir Singh            2025-11-14  3910  		struct list_head *list, enum split_type split_type)
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3911  {
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3912  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
-> > 6c7de9c83be68b Zi Yan                  2025-07-18  3913  	struct folio *end_folio = folio_next(folio);
-> > 5d65c8d758f259 Barry Song              2024-08-24  3914  	bool is_anon = folio_test_anon(folio);
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3915  	struct address_space *mapping = NULL;
-> > 5d65c8d758f259 Barry Song              2024-08-24  3916  	struct anon_vma *anon_vma = NULL;
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3917  	int old_order = folio_order(folio);
-> > 6c7de9c83be68b Zi Yan                  2025-07-18  3918  	struct folio *new_folio, *next;
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  3919  	int nr_shmem_dropped = 0;
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  3920  	int remap_flags = 0;
-> > 504e070dc08f75 Yang Shi                2021-06-15  3921  	int extra_pins, ret;
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  3922  	pgoff_t end;
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3923  	bool is_hzp;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3924  
-> > 714b056c832106 Zi Yan                  2025-07-17  3925  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-> > 714b056c832106 Zi Yan                  2025-07-17  3926  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3927  
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3928  	if (folio != page_folio(split_at) || folio != page_folio(lock_at))
-> > 1412ecb3d256e5 Zi Yan                  2024-03-07  3929  		return -EINVAL;
-> > 1412ecb3d256e5 Zi Yan                  2024-03-07  3930  
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3931  	if (new_order >= old_order)
-> > c010d47f107f60 Zi Yan                  2024-02-26  3932  		return -EINVAL;
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3933  
-> > aa27253af32c74 Wei Yang                2025-11-06  3934  	if (!folio_split_supported(folio, new_order, split_type, /* warn = */ true))
-> > 6a50c9b512f773 Ran Xiaokai             2024-06-07  3935  		return -EINVAL;
-> > c010d47f107f60 Zi Yan                  2024-02-26  3936  
-> > 5beaee54a324ba Matthew Wilcox (Oracle  2024-03-26  3937) 	is_hzp = is_huge_zero_folio(folio);
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3938  	if (is_hzp) {
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3939  		pr_warn_ratelimited("Called split_huge_page for huge zero page\n");
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3940  		return -EBUSY;
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3941  	}
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3942  
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3943) 	if (folio_test_writeback(folio))
-> > 59807685a7e77e Ying Huang              2017-09-06  3944  		return -EBUSY;
-> > 59807685a7e77e Ying Huang              2017-09-06  3945  
-> > 5d65c8d758f259 Barry Song              2024-08-24  3946  	if (is_anon) {
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3947  		/*
-> > c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  3948  		 * The caller does not necessarily hold an mmap_lock that would
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3949  		 * prevent the anon_vma disappearing so we first we take a
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3950  		 * reference to it and then lock the anon_vma for write. This
-> > 2f031c6f042cb8 Matthew Wilcox (Oracle  2022-01-29  3951) 		 * is similar to folio_lock_anon_vma_read except the write lock
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3952  		 * is taken to serialise against parallel split or collapse
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3953  		 * operations.
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3954  		 */
-> > 29eea9b5a9c9ec Matthew Wilcox (Oracle  2022-09-02  3955) 		anon_vma = folio_get_anon_vma(folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3956  		if (!anon_vma) {
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3957  			ret = -EBUSY;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3958  			goto out;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3959  		}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3960  		anon_vma_lock_write(anon_vma);
-> > 3d4c0d98eb8572 Balbir Singh            2025-10-01  3961  		mapping = NULL;
-> > 
-> > end is not initialized for anonymous folios.
-> > 
-> 
-> Yes
-> 
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3962  	} else {
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3963  		unsigned int min_order;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3964  		gfp_t gfp;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3965  
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3966) 		mapping = folio->mapping;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3967  
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3968  		/* Truncated ? */
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3969  		/*
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3970  		 * TODO: add support for large shmem folio in swap cache.
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3971  		 * When shmem is in swap cache, mapping is NULL and
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3972  		 * folio_test_swapcache() is true.
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3973  		 */
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3974  		if (!mapping) {
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3975  			ret = -EBUSY;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3976  			goto out;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3977  		}
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3978  
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3979  		min_order = mapping_min_folio_order(folio->mapping);
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3980  		if (new_order < min_order) {
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3981  			ret = -EINVAL;
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3982  			goto out;
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3983  		}
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3984  
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3985  		gfp = current_gfp_context(mapping_gfp_mask(mapping) &
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3986  							GFP_RECLAIM_MASK);
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3987  
-> > 0201ebf274a306 David Howells           2023-06-28  3988  		if (!filemap_release_folio(folio, gfp)) {
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3989  			ret = -EBUSY;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3990  			goto out;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3991  		}
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3992  
-> > 3c844d850e4486 Wei Yang                2025-11-06  3993  		if (split_type == SPLIT_TYPE_UNIFORM) {
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3994  			xas_set_order(&xas, folio->index, new_order);
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3995  			xas_split_alloc(&xas, folio, old_order, gfp);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3996) 			if (xas_error(&xas)) {
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3997) 				ret = xas_error(&xas);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3998) 				goto out;
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3999) 			}
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4000  		}
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4001) 
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4002  		anon_vma = NULL;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4003  		i_mmap_lock_read(mapping);
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4004  
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4005  		/*
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4006  		 *__split_unmapped_folio() may need to trim off pages beyond
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4007  		 * EOF: but on 32-bit, i_size_read() takes an irq-unsafe
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4008  		 * seqlock, which cannot be nested inside the page tree lock.
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4009  		 * So note end now: i_size itself may be changed at any moment,
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4010  		 * but folio lock is good enough to serialize the trimming.
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4011  		 */
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4012  		end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
-> > d144bf6205342a Hugh Dickins            2021-09-02  4013  		if (shmem_mapping(mapping))
-> > d144bf6205342a Hugh Dickins            2021-09-02  4014  			end = shmem_fallocend(mapping->host, end);
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4015  	}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4016  
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4017  	/*
-> > 684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4018) 	 * Racy check if we can split the page, before unmap_folio() will
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4019  	 * split PMDs
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4020  	 */
-> > 8710f6ed34e7bc David Hildenbrand       2024-08-02  4021  	if (!can_split_folio(folio, 1, &extra_pins)) {
-> > fd4a7ac32918d3 Baolin Wang             2022-10-24  4022  		ret = -EAGAIN;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4023  		goto out_unlock;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4024  	}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4025  
-> > 684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4026) 	unmap_folio(folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4027  
-> > b6769834aac1d4 Alex Shi                2020-12-15  4028  	/* block interrupt reentry in xa_lock and spinlock */
-> > b6769834aac1d4 Alex Shi                2020-12-15  4029  	local_irq_disable();
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4030  	if (mapping) {
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4031  		/*
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4032) 		 * Check if the folio is present in page cache.
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4033) 		 * We assume all tail are present too, if folio is there.
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4034  		 */
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4035) 		xas_lock(&xas);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4036) 		xas_reset(&xas);
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4037  		if (xas_load(&xas) != folio) {
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4038  			ret = -EAGAIN;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4039  			goto fail;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4040  		}
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4041  	}
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4042  
-> > f6b1f167ffe29f Balbir Singh            2025-11-14  4043  	ret = __folio_freeze_and_split_unmapped(folio, new_order, split_at, &xas, mapping,
-> > f6b1f167ffe29f Balbir Singh            2025-11-14 @4044  						true, list, split_type, end, extra_pins);
-> >                                                                                                                                 ^^^
-> > Passing uninitialized variables isn't allowed unless the function is
-> > inlined.  It triggers a UBSan warning at runtime as well.
-> 
-> end is expected to be unused when uninitialized, are you suggesting we need to have a default value even if unused inside the function.
-> My daily build has UBSan enabled, I'll try again
-> 
-> CONFIG_UBSAN=y
-> CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=y
-> # CONFIG_UBSAN_BOUNDS is not set
-> CONFIG_UBSAN_SHIFT=y
-> # CONFIG_UBSAN_UNREACHABLE is not set
-> # CONFIG_UBSAN_BOOL is not set
-> # CONFIG_UBSAN_ENUM is not set
-> 
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   a15958de6871ffdaddb3c5736a489a5e3d6a3059
+commit: 5019ece9a34a655ee3def1159956106b706cde5e [3/3] ANDROID: rcu: allow hooks into rcu stall warning
+config: arm-randconfig-001-20251120 (https://download.01.org/0day-ci/archive/20251120/202511201334.ZxBRMcXB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201334.ZxBRMcXB-lkp@intel.com/reproduce)
 
-Huh.  It's interesting that UBSan doesn't complain.  Potentially, the
-function is inlined?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511201334.ZxBRMcXB-lkp@intel.com/
 
-Technically, passing uninitialized variables to a function is undefined
-behavior in C.  But in practical terms (and it make Linus cross that
-the C standard doesn't account for this), when a function is inlined
-then that shouldn't really be undefined.  But otherwise, yes, passing
-uninitialized variables is not allowed, even when they're not used.
+All errors (new ones prefixed by >>):
 
-Everyone sensible is going to set CONFIG_INIT_STACK_ALL_ZERO for
-production systems so initializing variables to zero doesn't affect
-anything.
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:18,
+                    from kernel/rcu/update.c:21:
+>> include/linux/tracepoint.h:385:27: error: '__tracepoint_rcu_stall_warning' undeclared here (not in a function); did you mean '__tracepoint_rcu_utilization'?
+     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:385:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     385 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/tracepoint.h:386:27: error: '__traceiter_rcu_stall_warning' undeclared here (not in a function); did you mean '__tracepoint_rcu_stall_warning'?
+     386 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/tracepoint.h:386:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     386 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_rcu_stall_warning' undeclared here (not in a function); did you mean '__SCK__tp_func_rcu_utilization'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/static_call.h:348:41: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     348 | #define EXPORT_STATIC_CALL_GPL(name)    EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name))
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:348:59: note: in expansion of macro 'STATIC_CALL_KEY'
+     348 | #define EXPORT_STATIC_CALL_GPL(name)    EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:387:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     387 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:53:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      53 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-regards,
-dan carpenter
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
+
+vim +385 include/linux/tracepoint.h
+
+7ece55a4a3a04a Josh Triplett             2012-09-04  259  
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  260  /*
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  261   * Declare an exported function that Rust code can call to trigger this
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  262   * tracepoint. This function does not include the static branch; that is done
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  263   * in Rust to avoid a function call when the tracepoint is disabled.
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  264   */
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  265  #define DEFINE_RUST_DO_TRACE(name, proto, args)
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  266  #define __DEFINE_RUST_DO_TRACE(name, proto, args)			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  267  	notrace void rust_do_trace_##name(proto)			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  268  	{								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  269  		__rust_do_trace_##name(args);				\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  270  	}
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  271  
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  272  /*
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  273   * Make sure the alignment of the structure in the __tracepoints section will
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  274   * not add unwanted padding between the beginning of the section and the
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  275   * structure. Force alignment to the same alignment as the section start.
+3a630178fd5f30 Dave Hansen               2014-08-07  276   *
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  277)  * When lockdep is enabled, we make sure to always test if RCU is
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  278)  * "watching" regardless if the tracepoint is enabled or not. Tracepoints
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  279)  * require RCU to be active, and it should always warn at the tracepoint
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  280)  * site if it is not watching, as it will need to be active when the
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  281)  * tracepoint is enabled.
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  282   */
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  283) #define __DECLARE_TRACE(name, proto, args, cond, data_proto)		\
+de394e7568ce2c peterz@infradead.org      2020-09-08  284  	extern int __traceiter_##name(data_proto);			\
+de394e7568ce2c peterz@infradead.org      2020-09-08  285  	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  286  	extern struct tracepoint __tracepoint_##name;			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  287  	extern void rust_do_trace_##name(proto);			\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  288  	static inline void __rust_do_trace_##name(proto)		\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  289  	{								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  290  		__DO_TRACE(name,					\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  291  			TP_ARGS(args),					\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  292  			TP_CONDITION(cond), 0);				\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  293  	}								\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  294  	static inline void trace_##name(proto)				\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  295  	{								\
+c5905afb0ee655 Ingo Molnar               2012-02-24  296  		if (static_key_false(&__tracepoint_##name.key))		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  297) 			__DO_TRACE(name,				\
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  298) 				TP_ARGS(args),				\
+d54b6eeb553c89 Steven Rostedt (VMware    2017-04-07  299) 				TP_CONDITION(cond), 0);			\
+a05d59a5673339 Steven Rostedt (Red Hat   2015-02-06  300) 		if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {		\
+1b273124107cc8 Steven Rostedt (Google    2024-02-28  301) 			WARN_ONCE(!rcu_is_watching(),			\
+1b273124107cc8 Steven Rostedt (Google    2024-02-28  302) 				  "RCU not watching for tracepoint");	\
+3a630178fd5f30 Dave Hansen               2014-08-07  303  		}							\
+2fbb90db1b8fcc Steven Rostedt            2012-02-07  304  	}								\
+7ece55a4a3a04a Josh Triplett             2012-09-04  305  	__DECLARE_TRACE_RCU(name, PARAMS(proto), PARAMS(args),		\
+1746fd4416ed55 Steven Rostedt (VMware    2021-02-08  306) 			    PARAMS(cond))				\
+38516ab59fbc5b Steven Rostedt            2010-04-20  307  	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  308  	register_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  309  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  310  		return tracepoint_probe_register(&__tracepoint_##name,	\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  311  						(void *)probe, data);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  312  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  313  	static inline int						\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  314) 	register_trace_prio_##name(void (*probe)(data_proto), void *data,\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  315) 				   int prio)				\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  316) 	{								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  317) 		return tracepoint_probe_register_prio(&__tracepoint_##name, \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  318) 					      (void *)probe, data, prio); \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  319) 	}								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  320) 	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  321  	unregister_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  322  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  323  		return tracepoint_probe_unregister(&__tracepoint_##name,\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  324  						(void *)probe, data);	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  325  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  326  	static inline void						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  327  	check_trace_callback_type_##name(void (*cb)(data_proto))	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  328  	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  329) 	}								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  330) 	static inline bool						\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  331) 	trace_##name##_enabled(void)					\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  332) 	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  333) 		return static_key_false(&__tracepoint_##name.key);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  334  	}
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  335  
+654986462939cd Mathieu Desnoyers         2011-01-26  336  /*
+654986462939cd Mathieu Desnoyers         2011-01-26  337   * We have no guarantee that gcc and the linker won't up-align the tracepoint
+654986462939cd Mathieu Desnoyers         2011-01-26  338   * structures, so we create an array of pointers that will be used for iteration
+654986462939cd Mathieu Desnoyers         2011-01-26  339   * on the tracepoints.
+654986462939cd Mathieu Desnoyers         2011-01-26  340   */
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  341) #define DEFINE_TRACE_FN(_name, _reg, _unreg, proto, args)		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  342) 	static const char __tpstrtab_##_name[]				\
+33def8498fdde1 Joe Perches               2020-10-21  343  	__section("__tracepoints_strings") = #_name;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  344) 	extern struct static_call_key STATIC_CALL_KEY(tp_func_##_name);	\
+de394e7568ce2c peterz@infradead.org      2020-09-08  345  	int __traceiter_##_name(void *__data, proto);			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  346) 	void __probestub_##_name(void *__data, proto);			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  347) 	struct tracepoint __tracepoint_##_name	__used			\
+33def8498fdde1 Joe Perches               2020-10-21  348  	__section("__tracepoints") = {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  349) 		.name = __tpstrtab_##_name,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  350) 		.key = STATIC_KEY_INIT_FALSE,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  351) 		.static_call_key = &STATIC_CALL_KEY(tp_func_##_name),	\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  352) 		.static_call_tramp = STATIC_CALL_TRAMP_ADDR(tp_func_##_name), \
+de394e7568ce2c peterz@infradead.org      2020-09-08  353  		.iterator = &__traceiter_##_name,			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  354) 		.probestub = &__probestub_##_name,			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  355) 		.regfunc = _reg,					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  356) 		.unregfunc = _unreg,					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  357) 		.funcs = NULL };					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  358) 	__TRACEPOINT_ENTRY(_name);					\
+de394e7568ce2c peterz@infradead.org      2020-09-08  359  	int __traceiter_##_name(void *__data, proto)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  360) 	{								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  361) 		struct tracepoint_func *it_func_ptr;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  362) 		void *it_func;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  363) 									\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  364) 		it_func_ptr =						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  365) 			rcu_dereference_raw((&__tracepoint_##_name)->funcs); \
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  366  		if (it_func_ptr) {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  367) 			do {						\
+7211f0a25781ac Steven Rostedt (VMware    2021-02-04  368) 				it_func = READ_ONCE((it_func_ptr)->func); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  369) 				__data = (it_func_ptr)->data;		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  370) 				((void(*)(void *, proto))(it_func))(__data, args); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  371) 			} while ((++it_func_ptr)->func);		\
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  372  		}							\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  373) 		return 0;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  374) 	}								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  375) 	void __probestub_##_name(void *__data, proto)			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  376) 	{								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  377) 	}								\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  378  	DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);	\
+5de92a7ae4fd32 Alice Ryhl                2024-10-30  379  	DEFINE_RUST_DO_TRACE(_name, TP_PROTO(proto), TP_ARGS(args))
+97419875865859 Josh Stone                2009-08-24  380  
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  381) #define DEFINE_TRACE(name, proto, args)		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  382) 	DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  383  
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  384  #define EXPORT_TRACEPOINT_SYMBOL_GPL(name)				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18 @385) 	EXPORT_SYMBOL_GPL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08 @386  	EXPORT_SYMBOL_GPL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  387) 	EXPORT_STATIC_CALL_GPL(tp_func_##name)
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  388  #define EXPORT_TRACEPOINT_SYMBOL(name)					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  389) 	EXPORT_SYMBOL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08  390  	EXPORT_SYMBOL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  391) 	EXPORT_STATIC_CALL(tp_func_##name)
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  392) 
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  393  
+
+:::::: The code at line 385 was first introduced by commit
+:::::: d25e37d89dd2f41d7acae0429039d2f0ae8b4a07 tracepoint: Optimize using static_call()
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
