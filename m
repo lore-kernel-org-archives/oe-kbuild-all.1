@@ -1,81 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E182C2E22BA;
-	Fri, 21 Nov 2025 03:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373221B042E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 03:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763694071; cv=none; b=O45nH0vKjjbGV3R6QgRn6IbCuY4b3xl4BMV04xZ1chEQ+l6w6n3M2prZz6CPG9imDkE4ar0EHtMcdsWmb3RLT2ohxLUv4OjEPu2wuqTTlFXfOQUFV0KWrTqn2fod+F7t/teawHlmpAbituK09XVKpiQlcX3lkqARnJ/90D6TmYo=
+	t=1763696585; cv=none; b=Wv2IDQhJVzQJk71+Xpaks7g+abZPrRgvAAmW0D1gpNezIfpl8BiqQA6OT9wtBQukGW+aYbZd2gTTGvxIIfB1VhghchWcvdr+HnNjlU+5XCeai/aTNXro4fZqUa1GSzJ77Cx78NElc+6cREl9Su8p/Nv4q/UmBTPwuHNOOAh7UH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763694071; c=relaxed/simple;
-	bh=FVL7q02Hpy/Av8OCyCSpHvCN7UDMdCrsi9RsabkaWH0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecyzoEgTI5Plmyof/Tu7noNV+m/RpOEsHYrSnetcoZivpg+inU9j/aNdwWIjbidMIpRV0CGUPZxyjSDD2AAlLjKh+ddBOKMCTUMgtMfkUgo54FiNwMbfcHg6AY4fye1Vt/DLrLFWC16xckvnetKzuADrXC3yDD1Evsh/fMcBpzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UT5nWW/X; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1763696585; c=relaxed/simple;
+	bh=SML5Og0MOLD6AjopYpCWIv+QbCfsfEcI31qve+iHlR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZOM9yDO6gV44ochDx+FrBCipngORzJc2zgLLCmuspK/ZFm3gAtPhAWgY+x1uKWxH8+hh4eVXB0ukQO4ZT4RHdvfcsqhSkvj/r56vAaDbQAoKoAB65mlXEsOgg1ganab2DOEFjfpNLDaPwXn2CYpzg01MpmyJ2paNE9Z6Am0+eZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9Bp3rm/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UT5nWW/X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9Bp3rm/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763694067; x=1795230067;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FVL7q02Hpy/Av8OCyCSpHvCN7UDMdCrsi9RsabkaWH0=;
-  b=UT5nWW/XhV0k/03xp12qcnlcQRJV68HXDsy5F8awlqylTvzC9eOOv4Ke
-   R8R7aMsMWZlaylmtD6VAnrRFvKU5hymDQr5TVY7XG/Byk5p5buO5NGFEk
-   I2fsf7C0gpF8nDss7ZLD4j0iJN8hqN1gq7OJzvW5Qvhz5z0hMSV7U7IIa
-   yC86QmFj2VV6GRq4fzgJeKoe3rCn+uCLsg0Xbdzb+2vTHShRHEtdYgft8
-   fwv+96pzRrpaOPeMmHTq8LofDm2R5oT7+0kh8p06qOB/TsPZk59dWNesq
-   45fDKBqBoXBhWls1S380sr6NgGoB/hWaaSHzQ9y1q+0C3opPXm0yG9POw
-   w==;
-X-CSE-ConnectionGUID: xN5Rh+prQLSY4S7WUW9Csw==
-X-CSE-MsgGUID: Kx2MZyZJTXuDpC0/V6F85w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="68387431"
+  t=1763696583; x=1795232583;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SML5Og0MOLD6AjopYpCWIv+QbCfsfEcI31qve+iHlR4=;
+  b=Q9Bp3rm/ySG4OGDMmYW+doxIYQ1YYNAbWDduaWjYpOERIpJAISAHGqmn
+   nIOtcQqv+7y6g1QZrW9zgS68hN8hw1vMbyZJhG4sPMkLjOiNAGiuhNg6d
+   SikrdZ0jJEm7QWwLrR9MTmvssJo7kn7Hi31hgu+mou6kd+6wkQt3txNkw
+   cHRn9xfDLaO22ljNO2nic8nkh21F/mzs6Gsen+YRVtKJ1DJxxYlIUwfRt
+   jhXIpf56LI4j3TaPslU89/myZkj9h8BpymUzjcludQezjoYiTdL4SOmZc
+   YVcqR7GVkz8C/g2S5kINAYdXKlw2RRedLxUprcRXUGAuGrGgGGxmvhwjj
+   A==;
+X-CSE-ConnectionGUID: 4uWst/JBTt6tHGzWWnqmcg==
+X-CSE-MsgGUID: bto22qVPTdi+iv4x2f4DRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="88435735"
 X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="68387431"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 19:01:05 -0800
-X-CSE-ConnectionGUID: yid6KJQSR2WsDJcpM4e0/g==
-X-CSE-MsgGUID: AjA8/8NURZi/0NhunpN+oA==
+   d="scan'208";a="88435735"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 19:43:03 -0800
+X-CSE-ConnectionGUID: lP08XPpbSsSdsjYKgk+43w==
+X-CSE-MsgGUID: xGW7j+sFSzyCghifLl+FLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="195714715"
+   d="scan'208";a="191587453"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2025 19:00:58 -0800
+  by orviesa007.jf.intel.com with ESMTP; 20 Nov 2025 19:43:01 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMHOK-0004sR-06;
-	Fri, 21 Nov 2025 03:00:56 +0000
-Date: Fri, 21 Nov 2025 11:00:32 +0800
+	id 1vMI31-0004tn-2C;
+	Fri, 21 Nov 2025 03:42:59 +0000
+Date: Fri, 21 Nov 2025 11:42:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Colberg <pcolberg@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 1/8] rust: pci: add is_virtfn(), to check for VFs
-Message-ID: <202511211008.jgLuTcrQ-lkp@intel.com>
-References: <20251119-rust-pci-sriov-v1-1-883a94599a97@redhat.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3297/3297]
+ drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:41: error: invalid use of
+ undefined type 'struct acpi_device'
+Message-ID: <202511211110.IldThlOV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,35 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119-rust-pci-sriov-v1-1-883a94599a97@redhat.com>
 
-Hi Peter,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Colberg/rust-pci-add-is_virtfn-to-check-for-VFs/20251120-062302
-base:   e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559
-patch link:    https://lore.kernel.org/r/20251119-rust-pci-sriov-v1-1-883a94599a97%40redhat.com
-patch subject: [PATCH 1/8] rust: pci: add is_virtfn(), to check for VFs
-config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211008.jgLuTcrQ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211008.jgLuTcrQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7fb5c993b2b055db83a6c5eb3cf23051f0d62b43
+commit: 5d01c9ec4f3b95b0629a38d936f69bc05e494cc9 [3297/3297] pinctrl: Zhaoxin: Add KH-50000 support
+config: x86_64-buildonly-randconfig-003-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211110.IldThlOV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211110.IldThlOV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511211008.jgLuTcrQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511211110.IldThlOV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0599]: no method named `is_virtfn` found for struct `bindings::pci_dev` in the current scope
-   --> rust/kernel/pci.rs:415:35
-   |
-   415 |         unsafe { (*self.as_raw()).is_virtfn() != 0 }
-   |                                   ^^^^^^^^^ method not found in `pci_dev`
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_set_gpio_mode_and_pull':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:123:13: warning: variable 'value_back' set but not used [-Wunused-but-set-variable]
+     123 |         u16 value_back = 0;
+         |             ^~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_get':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:249:13: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
+     249 |         int pin;
+         |             ^~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_set':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:270:13: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
+     270 |         int pin;
+         |             ^~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_ack':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:330:13: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
+     330 |         int base_offset = 0;
+         |             ^~~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_mask_unmask':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:363:13: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
+     363 |         int base_offset = 0;
+         |             ^~~~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_gpio_irq_type':
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:487:13: warning: variable 'test_mask' set but not used [-Wunused-but-set-variable]
+     487 |         u16 test_mask;
+         |             ^~~~~~~~~
+   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c: In function 'zhaoxin_pinctrl_get_soc_data':
+>> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:779:41: error: invalid use of undefined type 'struct acpi_device'
+     779 |                         if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
+         |                                         ^~
+
+
+vim +779 drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c
+
+996e18349e58a3 leoliu-oc 2024-02-04  765  
+996e18349e58a3 leoliu-oc 2024-02-04  766  const struct zhaoxin_pinctrl_soc_data *zhaoxin_pinctrl_get_soc_data(struct platform_device *pdev)
+996e18349e58a3 leoliu-oc 2024-02-04  767  {
+996e18349e58a3 leoliu-oc 2024-02-04  768  	const struct zhaoxin_pinctrl_soc_data *data = NULL;
+996e18349e58a3 leoliu-oc 2024-02-04  769  	const struct zhaoxin_pinctrl_soc_data **table;
+996e18349e58a3 leoliu-oc 2024-02-04  770  	struct acpi_device *adev;
+996e18349e58a3 leoliu-oc 2024-02-04  771  	unsigned int i;
+996e18349e58a3 leoliu-oc 2024-02-04  772  
+996e18349e58a3 leoliu-oc 2024-02-04  773  	adev = ACPI_COMPANION(&pdev->dev);
+996e18349e58a3 leoliu-oc 2024-02-04  774  	if (adev) {
+996e18349e58a3 leoliu-oc 2024-02-04  775  		const void *match = device_get_match_data(&pdev->dev);
+996e18349e58a3 leoliu-oc 2024-02-04  776  
+996e18349e58a3 leoliu-oc 2024-02-04  777  		table = (const struct zhaoxin_pinctrl_soc_data **)match;
+996e18349e58a3 leoliu-oc 2024-02-04  778  		for (i = 0; table[i]; i++) {
+996e18349e58a3 leoliu-oc 2024-02-04 @779  			if (!strcmp(adev->pnp.unique_id, table[i]->uid)) {
+996e18349e58a3 leoliu-oc 2024-02-04  780  				data = table[i];
+996e18349e58a3 leoliu-oc 2024-02-04  781  				break;
+996e18349e58a3 leoliu-oc 2024-02-04  782  			}
+996e18349e58a3 leoliu-oc 2024-02-04  783  		}
+996e18349e58a3 leoliu-oc 2024-02-04  784  	} else {
+996e18349e58a3 leoliu-oc 2024-02-04  785  		const struct platform_device_id *id;
+996e18349e58a3 leoliu-oc 2024-02-04  786  
+996e18349e58a3 leoliu-oc 2024-02-04  787  		id = platform_get_device_id(pdev);
+996e18349e58a3 leoliu-oc 2024-02-04  788  		if (!id)
+996e18349e58a3 leoliu-oc 2024-02-04  789  			return ERR_PTR(-ENODEV);
+996e18349e58a3 leoliu-oc 2024-02-04  790  
+996e18349e58a3 leoliu-oc 2024-02-04  791  		table = (const struct zhaoxin_pinctrl_soc_data **)id->driver_data;
+996e18349e58a3 leoliu-oc 2024-02-04  792  		data = table[pdev->id];
+996e18349e58a3 leoliu-oc 2024-02-04  793  	}
+996e18349e58a3 leoliu-oc 2024-02-04  794  
+996e18349e58a3 leoliu-oc 2024-02-04  795  	return data ?: ERR_PTR(-ENODATA);
+996e18349e58a3 leoliu-oc 2024-02-04  796  }
+996e18349e58a3 leoliu-oc 2024-02-04  797  EXPORT_SYMBOL_GPL(zhaoxin_pinctrl_get_soc_data);
+996e18349e58a3 leoliu-oc 2024-02-04  798  
+
+:::::: The code at line 779 was first introduced by commit
+:::::: 996e18349e58a3ace519f9c0f32f4e62fc46ec2c Add support Zhaoxin GPIO pinctrl
+
+:::::: TO: leoliu-oc <leoliu-oc@zhaoxin.com>
+:::::: CC: leoliu-oc <leoliu-oc@zhaoxin.com>
 
 -- 
 0-DAY CI Kernel Test Service
