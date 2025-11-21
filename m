@@ -1,100 +1,85 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0193B1DE8AE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 14:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0734F34676F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 14:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763734920; cv=none; b=C3OMUBoEAJoNCrwpoHVaxck0o7MS9UnvXXjJJjuJf5hHc9zAwYcnhHb15ENUsQIASGZVb7XVAlqL9djhIiq0PEaWfkSH43nLyIHJKw6i0QzVgDE87DAKgh18AxxQH1xmwrUwn8hMsbkN1KNqaEL+r7WSdfBSQJib8WoKJJpnYNM=
+	t=1763735034; cv=none; b=ebLCFbQPn63ViXBFx6ImvF+v2Ck6nSXqKhTyFjmye7O714oWU4kbwBrX8x/qw1v0eUzcivzcHOl9oztfjcse1dfujj6he/JxMCmJROzkfLZOidAPbWwmOWnsNZRdiW+7g7Eq4ZLBaUWHB4KVINUZEUXRZSzmplg+mujLhoohdjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763734920; c=relaxed/simple;
-	bh=RFR3V1kjpvSdxAsPiYx8UtQOBKC0WuXfpNS4qKQz+TQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A0PYp390d4rpxsM51ehUkl95o3MEU9Jsj3NEbZs3nN0g+HRlY6IBuG5jp2R3twjoiOKMwCBVvIw56RfvooxUCrdETbqPajimLbsHZgPe/FEgWSOGZGXIR+54v/Kl5ujT/PxpJFvE0TjZ0yesDOCBTbSBA4/inExaaTGt0HoX53Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZSnCFJh; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763735034; c=relaxed/simple;
+	bh=OtTNHKjnTPKL5rUifnD+f9vNoMlILHnpJhbvjBsX9ow=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XJOGsl1uU3blJXjasxiOp51ZrG/+W10M7WInf+IUGlPcMq4tUWzaOp/8ZwKH9q1/z6KmM+YCImlnzHomBLw1gi1VpddrYcnS3V50bVfMlk/HFtX2gzsxPUXM4Q/zAe6k5b5zUt2tNmHhrZRGsKqWq3/cYZTPxsJXgm9bSOYQ0d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QbJdnN9X; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZSnCFJh"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-bc07266d011so51431a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 06:21:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763734918; x=1764339718; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RFR3V1kjpvSdxAsPiYx8UtQOBKC0WuXfpNS4qKQz+TQ=;
-        b=VZSnCFJhOaD4DKI9PJIc/XoJEuv/3sLQD/eC7AbXR3DmLO1UZRTGvaBC9/paep2SXt
-         2BaVHKGmAwN2diC/2xarIMb7FLcVhq5Kim+2liOXCdRCWBVz+x06rcTL0irJHX9BB0Bb
-         N0Fq2vd0LHNfU6vrBU61MZuOO4yQO/E++Qs7TTS8Kj42DvNwTKZu9gBF5QscGxcjC+n2
-         4yc7rQtD2pxMu1YA4dCdMQh1evvgm2dXvx8Yy78O9s1RPyY+NkDe8oUB96hiRbDgN7HS
-         a4n93Za7y811gxXJMK1LbsJ+i8vc9zxlY7DtK/vnGMHCJML6QgG2+X0VwWZ9XAf55IME
-         3tAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763734918; x=1764339718;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RFR3V1kjpvSdxAsPiYx8UtQOBKC0WuXfpNS4qKQz+TQ=;
-        b=tzs3KjA7VoNA9Rnl1QfUc1kqDsADGu+R2KzOhYJfw8arQpUm0Kxskc6cOnBSgEbix/
-         WeQkXclU6gDQ29Mv5fPcaP8WxelpJRq4iCsvw5PUbIZBgkN08YLndVHFB+X2VZxTuyJx
-         OQfiS/0tyx0IyRJXOxR+AlL04K5gYD5BQ2P+cbUTrG4YK5ipbEkYEyE2UgTiS/Pqw0sZ
-         P2kuFBPmTTYgktU9L1/yQHvHgaXtWsLUIEGsXUsPRNjXIrMwAs6ecKiuPtQwdtSVIMy7
-         xkIeMB1BagvF9M9OQExqliL+7oYHJFQ1Rhb1N4Z/6jCh3mRs+RtSJbDfc6n8a6faDnWo
-         XVMw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7KakZZohV2nH9+ca9bBowFpRjv+JLWzuyk/Ab924876EfasQqwskmImToHrf+yoGcTCMrVsabYBIS3L9q@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJb+jEzVtnyvjrZkFMz8YvZsYPeLG3J7PmDAco+EEqbZf+8PA2
-	2v+laGrQYy1rl1mgdBMZ57Gzo4DqzQhm04Y+BPcEvjhryYsvd+j0S6bgQDD9tCwJpYlNRK8CmaH
-	WjGHTscGXfkB4Kn38h9to0AJ5pB0ejQU=
-X-Gm-Gg: ASbGncuiXpa7QWG5kkAsCWjxlpgY6yoNpBAcBOIK8LhNWOVADds8pEFVaIhjXT9aNvz
-	REG2xHkct18tY0OxcFGD/9tYWASnJJh2+Z86Lpt9UiDTeMwBZq3opfN76fCKLH9qKJsSoG8rVml
-	o7SAUXsg0Bin5Vc62muPoVHc9NBL3ppoGqD34xHxcbv8NOtbv3BndN8T9LNFuoqjcO4v/csAqD0
-	MIMPySr2FYzSlsnez7lBmo8mThU+nQCMwa5XYWXqI2Qw5nnicceUb0mO0VAlVU/zrSZDtSocHxc
-	IPprnQBsW0hU3FFSiwVAYUs2obAQmc3WbRx6/s+oeNRXjTPXphAo5BXUJ4Qm+K4+7zHRr55c+Es
-	bSv7LEVLnMVPYDA==
-X-Google-Smtp-Source: AGHT+IGxgGStt/Y22K+JAx7fQyUc5IwSKSdul7Ur4fV9rcsaVu624t/wqTaDPbm6gJD4VZMySt2L8cgvvFVuT+BFc/E=
-X-Received: by 2002:a05:7300:ec16:b0:2a4:5129:fe99 with SMTP id
- 5a478bee46e88-2a724bc5450mr573676eec.2.1763734918154; Fri, 21 Nov 2025
- 06:21:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QbJdnN9X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763735033; x=1795271033;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OtTNHKjnTPKL5rUifnD+f9vNoMlILHnpJhbvjBsX9ow=;
+  b=QbJdnN9XhoTyWmDQWciHd4jXIk3XBeSllQTp29zKyPwGoB4OoOpkXT0H
+   SVa2lTUAaiM8Vc7gcpcxPfRslkXNv17UOTiagPdQkA2mfaoauES8E39dv
+   QxFCDKBX+WfHIRacXi/hKL25wBT9v3T0U6PICcYgTTJorA6kw+/UjNq6a
+   oFJQIAr20rv1NjPffRX6tWC3QYQaCCDuzjksHdhEqNP+BRBQSrioKYKfC
+   2MscE4xxcCM4p0iA2SyUad6t1ctsUzcoRZgFOKlk2vbjjrmvs2tMVkYGI
+   jAVaLU/LDElEDibT5g5Mb6NPamX4FnCSXehLlfQV6wIMzlrfhyQ1Mh/RL
+   g==;
+X-CSE-ConnectionGUID: sdyt2enXTiWMm5GL58PirQ==
+X-CSE-MsgGUID: KvBob0HcT061I7X3lKP+iA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="64831522"
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="64831522"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 06:23:52 -0800
+X-CSE-ConnectionGUID: wuf5rzhFRD60VmdxdDZKEw==
+X-CSE-MsgGUID: 8xmyKrJZSjKg9smrE2cSRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="195869671"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2025 06:23:51 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMS3A-0006Rp-0W;
+	Fri, 21 Nov 2025 14:23:48 +0000
+Date: Fri, 21 Nov 2025 22:23:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
+Subject: [linux-next:master 10423/11041] WARNING: modpost: vmlinux: section
+ mismatch in reference: qcom_cpufreq_ipq8064_name_version+0x1fa (section:
+ .text) -> qcom_cpufreq_ipq806x_match_list (section: .init.rodata)
+Message-ID: <202511212208.JsHl71jh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511210055.RUsFNku1-lkp@intel.com> <DEE5GDTBSJ5O.KGQ3AG72NF30@nvidia.com>
- <aSAr-aA2U26lr3iI@google.com> <DEEEZRYSYSS0.28PPK371D100F@nvidia.com> <aSBy3HQ9Z-h2LbB8@google.com>
-In-Reply-To: <aSBy3HQ9Z-h2LbB8@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 21 Nov 2025 15:21:45 +0100
-X-Gm-Features: AWmQ_bltZJf8aT4AG5SSFuJR5htkKbAvAmWm-6LDkIIZH4sdUIX3MWvzZ0DLe6k
-Message-ID: <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
-Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol: rust_build_error
-To: Alice Ryhl <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Trevor Gross <tmgross@umich.edu>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Nov 21, 2025 at 3:10=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> This kind of thing is why I keep saying build_error() is too fragile to
-> be used at all.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+commit: 0194066ac1caf1b17216d72eb5842804675c2ae2 [10423/11041] cpufreq: qcom-nvmem: fix compilation warning for qcom_cpufreq_ipq806x_match_list
+config: powerpc64-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511212208.JsHl71jh-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511212208.JsHl71jh-lkp@intel.com/reproduce)
 
-Adding `unsafe` blocks for things that should be able to be statically
-known isn't great.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511212208.JsHl71jh-lkp@intel.com/
 
-`build_assert!` is just too useful, so it is best to try to understand
-what can be done, or find an equivalent solution. Gary et al. may have
-some input here.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-Perhaps we need to resort to a macro, that would at least be better
-than adding `unsafe` blocks. It is what C does in many cases, after
-all.
+>> WARNING: modpost: vmlinux: section mismatch in reference: qcom_cpufreq_ipq8064_name_version+0x1fa (section: .text) -> qcom_cpufreq_ipq806x_match_list (section: .init.rodata)
+WARNING: modpost: vmlinux: section mismatch in reference: qcom_cpufreq_ipq8064_name_version+0x206 (section: .text) -> qcom_cpufreq_ipq806x_match_list (section: .init.rodata)
 
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
