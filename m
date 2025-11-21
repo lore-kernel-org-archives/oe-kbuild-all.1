@@ -1,120 +1,152 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E178345CB9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 14:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B9F2C08D0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 15:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763736289; cv=none; b=EPQwEupoV4WhrKyvSaVTgTWbnK7MrIrt80K29T90nFZL52rZ4iiqx3T5ZHaXkPeLZuaoLtnb2KW7hPEonNmSIzShmRh4cxbrUE5AmC1tactprzakVyRy4v1L3pGMTzguBnTALJlZxePj6JD9BZX7ZLwuPJPi/xWRqeNQkCGLe1w=
+	t=1763738160; cv=none; b=IdNVjYCm+S2m3vx3fowh3ZZH236oMthr1KYVrhLE+iSVKaPwjcHIBhljIzk4IaurlQF++hTNMBNH+3Mo2b6VoCCk/u2lh5vMfInaP6Z9gLY3dlUDuUJYjVRXHTiHWZmgBOmDaWs3SGmUf/ev0XJ+N8YZIbN5DPr2bTqITrZqvww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763736289; c=relaxed/simple;
-	bh=jf0MUkL4tIbtqWkRDzQwWqsb1FwWCg1QD88ryDNp9Sw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=h6psq84zOU71P2JIV5pw7iccsB8W21yJn28OPKrKxFKGl+Mc4pQrQENOQQuCdQbUV8DJDNm6BrOVZl91euD7Jj2/hymorkHugWIvF7c3MuaJIqwp9w873y3mEow6gcOGh/kUU5/zKR6Hve5GZt23/NT3Z5ePxtnMSRThVYByhhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HSTYdIa+; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1763738160; c=relaxed/simple;
+	bh=iGz46GQ64R0vdnHbLnUapXse7W/VUu7m2LOn564jGDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ICP6jkaq/A8W2IKOjL04sycwGzSOOUZJ6vSZ64SEqLDBTOIaMIxx4jRqi8D66d2dI+5QFsC7NxI4q6FkdU82qqfJOKSPJ9Lwl9HxIm5n+wj6YctP9s4T3yP9qS0PZgmjEsW3WwDMe4wzZ1WZDi+yspsAAXZsnJnI+MP2Lwczh3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXnAfFgK; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HSTYdIa+"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-429cd1d0d98so1720447f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 06:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763736285; x=1764341085; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A1QAZpL+0ZA3h0j+xdSuby/FpO90CIo8pYiVHFO//mU=;
-        b=HSTYdIa+i/YFItDWQ/Rkf5ZpGqdG/Ymomwls0PHIkWW8kRFGa+juxk1arKPnGSY/DC
-         UL9duxudCXi6kB5FMXaxlmSwEd9fw4nzLhoQ/0pc/J70KwXyjpIXLUHqEuUmCwusSVwl
-         SjmpX0vHMNzQf4+/qIfyg+FkX3m17NaCjkdAY/hGFNAiNbiMBKAQrj37q6GBPQ8lcKPm
-         bI46rotBEemVzW25Uz0jyn/RbQG7anbVZXj5cWT4ai2szIPc3RjZVSARDUX1FjGVNNRV
-         iJYSh+vuPoi/wjTZBwGiSINE7qgSn+jP+G3FJmjrvRthcOKFctcsykpKPSB6G+gtMQWv
-         4kkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763736285; x=1764341085;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=A1QAZpL+0ZA3h0j+xdSuby/FpO90CIo8pYiVHFO//mU=;
-        b=BcH8WV0xbDLR2qH7l2WDeHiGckyDL7gU2m6XC42CXc1LKvGVY/W08bKg6piuxMUqNs
-         ns3s+Rmi+CGFWuBbeh8bdG3o4svK6MOG/H43G615dF8BeTwpXcEZxTR2O+Dd9Uy1yS/c
-         bwktOtJxWYtyXezbHMhSOJ3WSVS/0g2acfFyskUY4Eu4/fV/9IJ+0GqGYamISv42ZtLR
-         coUtmJ8hZ03tlyJz1/beDFzp85BB9FE414A6Qe7AKdFmUNEDNJsPA33l/zz+ItcY8sgx
-         JJAuOGthzDQ3nIqy7qXpguTZcc4K6U2y7JU84dUFciYtjgglQZ/KqMyES8dXCO76tGAk
-         wc7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUclQbCJZNrje/9ebLjzAtvEDah5Rk+ruq3nyY807orAdPSYJgY1A4GMBDIbXjVsPoXyvv8g6+OUZXoFrlw@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVZD/LUu0SAQdVEhKcSfTqvLkxudodb0SYGPIZnYyiH4+pehs5
-	EQmBy4G2J4vh81+tTm+qjOj22UhIJUmJOFQqfY0Dj1+Pg4ZVhJ03ox39sZ+oIzd0cufjgCyDRDt
-	MbLq4iz/0vWMU9opVzA==
-X-Google-Smtp-Source: AGHT+IHrpgh/ZK7CXrgoqMkP7DULMySwAw/WxuzbsB2IFNQDbv7OS2Xae9d+od0jIzSYckVozIpCUyyJpXN4mnQ=
-X-Received: from wrwy4.prod.google.com ([2002:a05:6000:1084:b0:42b:3129:d])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:1ace:b0:3e8:b4cb:c3dc with SMTP id ffacd0b85a97d-42cc1cd5d4cmr2871358f8f.3.1763736284612;
- Fri, 21 Nov 2025 06:44:44 -0800 (PST)
-Date: Fri, 21 Nov 2025 14:44:43 +0000
-In-Reply-To: <20251121143008.2f5acc33.gary@garyguo.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXnAfFgK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763738159; x=1795274159;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iGz46GQ64R0vdnHbLnUapXse7W/VUu7m2LOn564jGDw=;
+  b=KXnAfFgK8Pd4ANfdm4SZLREGJmBOazj/n7W4b+Sxr5KQYy+YvdrWW0np
+   2r5ljSukmm+g9v55NXjeHtKQdm1YM0IqYDurqnB8U1boo0p3RgaOjk3Ek
+   AweRu/kQekWNnJ8S6yzW8iCOwdEvIvc9JJJtlrJNOen18sTTyBKATtSsp
+   dDo/yz/SkN+5RCAEFHgMwwNBF4Gct7u/pRj0Sl/IQU81tKd5W2XbjknAi
+   Tc3HhQ8w+BQrB4wBoTSvpg88IB0WglS5Yb1frwqzBG3eTOsuXU6CMpECd
+   YfHJaF5w7aMfWAwP8mpf/PlQLgZwn34OvcVZHTOdnp5W1O0taxOA97V1L
+   A==;
+X-CSE-ConnectionGUID: tRgmj8/wSzKTfO9SA3yavg==
+X-CSE-MsgGUID: QNh75Ol5T8u3q5WE86DzIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="77305684"
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="77305684"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 07:15:58 -0800
+X-CSE-ConnectionGUID: vtkVoWJmQ4eLP0upaSGyDw==
+X-CSE-MsgGUID: 3GRY8M0KT7yn02szl3KuQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="191829324"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 21 Nov 2025 07:15:56 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMSrZ-0006V9-2J;
+	Fri, 21 Nov 2025 15:15:53 +0000
+Date: Fri, 21 Nov 2025 23:15:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>
+Subject: [linusw-nomadik:b4/mcde-drm-regression-thirdfix 4/4]
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: error: 'state'
+ undeclared; did you mean 'statx'?
+Message-ID: <202511212325.j72kz6Hj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202511210055.RUsFNku1-lkp@intel.com> <DEE5GDTBSJ5O.KGQ3AG72NF30@nvidia.com>
- <aSAr-aA2U26lr3iI@google.com> <DEEEZRYSYSS0.28PPK371D100F@nvidia.com>
- <aSBy3HQ9Z-h2LbB8@google.com> <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
- <20251121143008.2f5acc33.gary@garyguo.net>
-Message-ID: <aSB623GKVDR2TBc3@google.com>
-Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol: rust_build_error
-From: Alice Ryhl <aliceryhl@google.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Trevor Gross <tmgross@umich.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Nov 21, 2025 at 02:30:08PM +0000, Gary Guo wrote:
-> On Fri, 21 Nov 2025 15:21:45 +0100
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
->=20
-> > On Fri, Nov 21, 2025 at 3:10=E2=80=AFPM Alice Ryhl <aliceryhl@google.co=
-m> wrote:
-> > >
-> > > This kind of thing is why I keep saying build_error() is too fragile =
-to
-> > > be used at all. =20
->=20
-> The case here I think is a perfectly fine use case of `build_error` as
-> it's completely by-value and does involve references. If compiler can't
-> figure out, it's either a compiler bug or a source bug.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git b4/mcde-drm-regression-thirdfix
+head:   3e64b03a4bf2f67f43046af7e41c197df9fd6efb
+commit: 3e64b03a4bf2f67f43046af7e41c197df9fd6efb [4/4] RFT: drm/rcar-du: Modify custom commit tail
+config: arm-randconfig-002-20251121 (https://download.01.org/0day-ci/archive/20251121/202511212325.j72kz6Hj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511212325.j72kz6Hj-lkp@intel.com/reproduce)
 
-The thing about this particular case is that it should have been
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511212325.j72kz6Hj-lkp@intel.com/
 
-	const { Bounded::<u8, 1>::from_expr(1) }
+All errors (new ones prefixed by >>):
 
-or similar.
+   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c: In function 'rcar_du_atomic_commit_tail':
+>> drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: error: 'state' undeclared (first use in this function); did you mean 'statx'?
+     552 |         drm_encoder_bridge_disable(dev, state);
+         |                                         ^~~~~
+         |                                         statx
+   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: note: each undeclared identifier is reported only once for each function it appears in
 
-You say that this kind of thing would be a compiler bug, but I don't
-think the compiler devs folks would agree with us on that at all. I
-mean, sure, it's a bug in the sense that it's a missed optimization, but
-it's not a correctness bug.
 
-If we used const eval, then suddenly it *would* easily be a compiler
-bug, and by the way, it would also work reliably.
+vim +552 drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
 
-> > Adding `unsafe` blocks for things that should be able to be statically
-> > known isn't great.
-> >=20
-> > `build_assert!` is just too useful, so it is best to try to understand
-> > what can be done, or find an equivalent solution. Gary et al. may have
-> > some input here.
+   516	
+   517	static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+   518	{
+   519		struct drm_device *dev = old_state->dev;
+   520		struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+   521		struct drm_crtc_state *crtc_state;
+   522		struct drm_crtc *crtc;
+   523		unsigned int i;
+   524	
+   525		/*
+   526		 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
+   527		 * when starting the CRTCs.
+   528		 */
+   529		rcdu->dpad1_source = -1;
+   530	
+   531		for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
+   532			struct rcar_du_crtc_state *rcrtc_state =
+   533				to_rcar_crtc_state(crtc_state);
+   534			struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+   535	
+   536			if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
+   537				rcdu->dpad0_source = rcrtc->index;
+   538	
+   539			if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
+   540				rcdu->dpad1_source = rcrtc->index;
+   541		}
+   542	
+   543		/*
+   544		 * Apply the atomic update.
+   545		 *
+   546		 * We need special ordering to make sure the CRTC disabled last
+   547		 * and enabled first. We do this with modified versions of the
+   548		 * common modeset_disables/enables functions.
+   549		 */
+   550	
+   551		/* Variant of drm_atomic_helper_commit_modeset_disables() */
+ > 552		drm_encoder_bridge_disable(dev, state);
+   553		drm_encoder_bridge_post_disable(dev, state);
+   554		drm_crtc_disable(dev, state);
+   555		drm_atomic_helper_update_legacy_modeset_state(dev, state);
+   556		drm_atomic_helper_calc_timestamping_constants(state);
+   557		drm_crtc_set_mode(dev, state);
+   558	
+   559		drm_atomic_helper_commit_planes(dev, old_state,
+   560						DRM_PLANE_COMMIT_ACTIVE_ONLY);
+   561	
+   562		/* Variant of drm_atomic_helper_commit_modeset_enables() */
+   563		drm_crtc_enable(dev, state);
+   564		drm_encoder_bridge_pre_enable(dev, state);
+   565		drm_encoder_bridge_enable(dev, state);
+   566		drm_atomic_helper_commit_writebacks(dev, state);
+   567	
+   568		drm_atomic_helper_commit_hw_done(old_state);
+   569		drm_atomic_helper_wait_for_flip_done(dev, old_state);
+   570	
+   571		drm_atomic_helper_cleanup_planes(dev, old_state);
+   572	}
+   573	
 
-I'm not advocating for adding unsafe blocks to skip bounds checks.
-
-And, fine, there are probably a few cases where it works reliably and
-has no real replacement. Such as the VTABLE_DEFAULT_ERROR check. But I
-do not think bounds checks are a place where it's a good idea.
-
-Alice
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
