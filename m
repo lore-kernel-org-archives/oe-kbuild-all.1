@@ -1,64 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503362FD692
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 19:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEFA2FD7BC;
+	Fri, 21 Nov 2025 19:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763752475; cv=none; b=ZWGVWJ6rLHqO1omJSfrkkmzwBqK671Hhj4avow/+cIQ+T4JejVtE82zmsi5mUiZO8vV+O4RtTSW0tjqBEdVBYHUz4IuyAKA09zvrcxMGo4fUSZJcH3VWkGDI6rEU0rBTTFmglsgFm7AwERMNbH5hUat1c0V9IJ1kGnIGo5EPyk0=
+	t=1763752476; cv=none; b=TOZdVE/tFnBf0LcI2U/MeU5f1yeFXzNCAbhGETan4Jo+DqSX7vU1+iz/U0bjKu1MrQ75QOBpI84p38aOaUtGjE+IlEfmR3+JaEJiKnmPfe0pSd6m5bfNRKjIbQt50JLgRvNpTzINeUPlxDoXTzeXGIjcIo+XxcNNMujbQC3vhI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763752475; c=relaxed/simple;
-	bh=Sq7InRy7vQv3Am7QucNFmVEs8KWoC3b59FzoPbem2sM=;
+	s=arc-20240116; t=1763752476; c=relaxed/simple;
+	bh=fGWNibXFUGAhDYfqhQTSp+K9Mm1aNTTr8crCL6BSz6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NUDXvKHv2oBf2NMeYc7T7ajzF1CXyZmSKaKSJExSe+IRxMat6fzpK32YhsV4lj1+qRn0lvn2HCaPiIf5CWVYLT88oFeMAwgJBQsKwgD9iwBOiJ6XIiBvFgtZRa35qgStcHcEgR1F9o1VialkLGFZN7+R54Ir+//7o8i7uw0RWUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccOI44VC; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1GMoqY7rcyWdKsFgfzo6GmqveDDkxCdK4tI+HpvviLJjiCjamvrmAjLpFBlrjfK4K/nWp3wBlwPJ1CmK5noLwQRx0OpZDmmeup0LBV9EN8TjJDAdqCW670KuBWJgqEY5EUr/AEW5HtzTbuzltIQHHPypHn4M5e6Rx9g7dA93sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGKAZJGP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccOI44VC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGKAZJGP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1763752475; x=1795288475;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Sq7InRy7vQv3Am7QucNFmVEs8KWoC3b59FzoPbem2sM=;
-  b=ccOI44VCYQ68WV8WABsyNgFUdJq2jmyoClCBXzKye+teD66wN4BMpd+a
-   LRtThXLSL6Ooh0cOE7nd7stWi92EUJb5/viGRIsyn4uPlWCnTWZcA2+VK
-   U7RaiutQCUHVV/uQtyjxh2g6qLq9JazNJjW7e5JZon2WbUugfnEFDPIdQ
-   enLlipgajslPp/Pu8fotLm55Zmej6eFLLDxatrKtTiSYi5971bgODhMdS
-   amil0JrGFD/q9nnWO7u/Cocb1SES9ASaWHJ5YeTtOiL7MK1g7g8Vags2+
-   v/oEryA4WI26qBm4+PEU5RbKPpFIKm0njVoGKW8Q3LiavNsHaV6lXlV1e
-   g==;
-X-CSE-ConnectionGUID: QOjRa8+0Q16YTRxRac622w==
-X-CSE-MsgGUID: oFrBBVJpQ425pBY7tPYusg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="53424125"
+  bh=fGWNibXFUGAhDYfqhQTSp+K9Mm1aNTTr8crCL6BSz6s=;
+  b=QGKAZJGPsDs7AIrvvRxTUb74haZct3x/p1NM3ofyLPBqAwYNtepsI+GR
+   qtz7ZpqJGG0dPMQSZ5O/if0FE1GZPTRYVrr47juQC+CyTD7yk6iekRa66
+   YTAeBiz/LxECM5yHF2OKHY9aT57/2QumayqVUftKgE+P9hHFwzS/Xe6+S
+   QLdaOJ3I3+DWetK1Vk6MFXLZcOTOXqUPf4zCQKZVpvWRvSuCzFKF+NKq1
+   9dKKAXvSS/6iRU7o2cA/gD2YWptKEzt328aGNDL0Jhjp5nYkRlmm+gwZ4
+   AImiZl+IN40Xe2Dc9km+4EmWDhGmlGUM2gsDBdQUmsimb3qGoVBgMKaTM
+   Q==;
+X-CSE-ConnectionGUID: rrYilaSxRPeggSFu0M5S3A==
+X-CSE-MsgGUID: 7BYeM5ELRZ2ojnoFDeefyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="68455001"
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="53424125"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 11:14:33 -0800
-X-CSE-ConnectionGUID: BpTgHjmEQHaQmTruCPUJ6A==
-X-CSE-MsgGUID: ia2OXpdSQ2GcSFhTM5c1NQ==
+   d="scan'208";a="68455001"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 11:14:35 -0800
+X-CSE-ConnectionGUID: 2Ijzr5YBT3aA7bLtsNb2Hw==
+X-CSE-MsgGUID: PUXp5Oq0QOCwVdGLd9G5ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="196238714"
+   d="scan'208";a="195936493"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 21 Nov 2025 11:14:28 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2025 11:14:28 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMWaP-0006m5-1Y;
+	id 1vMWaP-0006m3-1U;
 	Fri, 21 Nov 2025 19:14:25 +0000
-Date: Sat, 22 Nov 2025 03:13:49 +0800
+Date: Sat, 22 Nov 2025 03:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>, andrew@lunn.ch, olteanv@gmail.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, florian.fainelli@broadcom.com,
-	stephen@networkplumber.org, robh@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH] net: dsa: Fix error handling in dsa_port_parse_of
-Message-ID: <202511220203.nggER5yL-lkp@intel.com>
-References: <20251121035130.16020-1-make24@iscas.ac.cn>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tudor.ambarus@linaro.org, mukesh.ojha@oss.qualcomm.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 03/26] mm/percpu: Annotate static information into
+ meminspect
+Message-ID: <202511220241.7y7acdEZ-lkp@intel.com>
+References: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,82 +74,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251121035130.16020-1-make24@iscas.ac.cn>
+In-Reply-To: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 
-Hi Ma,
+Hi Eugen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.18-rc6 next-20251121]
+[auto build test ERROR on rppt-memblock/fixes]
+[also build test ERROR on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/net-dsa-Fix-error-handling-in-dsa_port_parse_of/20251121-115449
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251121035130.16020-1-make24%40iscas.ac.cn
-patch subject: [PATCH] net: dsa: Fix error handling in dsa_port_parse_of
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220203.nggER5yL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220203.nggER5yL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-4-eugen.hristev%40linaro.org
+patch subject: [PATCH 03/26] mm/percpu: Annotate static information into meminspect
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220241.7y7acdEZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220241.7y7acdEZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511220203.nggER5yL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220241.7y7acdEZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/dsa/dsa.c: In function 'dsa_port_parse_of':
->> net/dsa/dsa.c:1265:36: error: passing argument 1 of 'put_device' from incompatible pointer type [-Wincompatible-pointer-types]
-    1265 |                         put_device(conduit);
-         |                                    ^~~~~~~
-         |                                    |
-         |                                    struct net_device *
-   In file included from net/dsa/dsa.c:10:
-   include/linux/device.h:1181:32: note: expected 'struct device *' but argument is of type 'struct net_device *'
-    1181 | void put_device(struct device *dev);
-         |                 ~~~~~~~~~~~~~~~^~~
+>> mm/percpu.c:3350:25: error: use of undeclared identifier '__per_cpu_offset'; did you mean '__per_cpu_start'?
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         |                         ^~~~~~~~~~~~~~~~
+         |                         __per_cpu_start
+   include/linux/meminspect.h:101:40: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |                                               ^~~
+   include/linux/meminspect.h:92:29: note: expanded from macro 'MEMINSPECT_ENTRY'
+      92 |                                                .va = (void *)&(sym),            \
+         |                                                                ^~~
+   include/asm-generic/sections.h:42:13: note: '__per_cpu_start' declared here
+      42 | extern char __per_cpu_start[], __per_cpu_end[];
+         |             ^
+>> mm/percpu.c:3350:25: error: use of undeclared identifier '__per_cpu_offset'; did you mean '__per_cpu_start'?
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         |                         ^~~~~~~~~~~~~~~~
+         |                         __per_cpu_start
+   include/linux/meminspect.h:101:52: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |                                                           ^~~
+   include/linux/meminspect.h:93:22: note: expanded from macro 'MEMINSPECT_ENTRY'
+      93 |                                                .size = (sz),                    \
+         |                                                         ^~
+   include/asm-generic/sections.h:42:13: note: '__per_cpu_start' declared here
+      42 | extern char __per_cpu_start[], __per_cpu_end[];
+         |             ^
+>> mm/percpu.c:3350:1: error: invalid application of 'sizeof' to an incomplete type 'char[]'
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/meminspect.h:101:51: note: expanded from macro 'MEMINSPECT_SIMPLE_ENTRY'
+     101 |         MEMINSPECT_ENTRY(MEMINSPECT_ID_##sym, sym, sizeof(sym))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/meminspect.h:93:22: note: expanded from macro 'MEMINSPECT_ENTRY'
+      93 |                                                .size = (sz),                    \
+         |                                                         ^~
+   3 errors generated.
 
 
-vim +/put_device +1265 net/dsa/dsa.c
+vim +3350 mm/percpu.c
 
-  1243	
-  1244	static int dsa_port_parse_of(struct dsa_port *dp, struct device_node *dn)
-  1245	{
-  1246		struct device_node *ethernet = of_parse_phandle(dn, "ethernet", 0);
-  1247		const char *name = of_get_property(dn, "label", NULL);
-  1248		bool link = of_property_read_bool(dn, "link");
-  1249		int err;
-  1250	
-  1251		dp->dn = dn;
-  1252	
-  1253		if (ethernet) {
-  1254			struct net_device *conduit;
-  1255			const char *user_protocol;
-  1256	
-  1257			conduit = of_find_net_device_by_node(ethernet);
-  1258			of_node_put(ethernet);
-  1259			if (!conduit)
-  1260				return -EPROBE_DEFER;
-  1261	
-  1262			user_protocol = of_get_property(dn, "dsa-tag-protocol", NULL);
-  1263			err = dsa_port_parse_cpu(dp, conduit, user_protocol);
-  1264			if (err) {
-> 1265				put_device(conduit);
-  1266				return err;
-  1267			}
-  1268	
-  1269			return 0;
-  1270		}
-  1271	
-  1272		if (link)
-  1273			return dsa_port_parse_dsa(dp);
-  1274	
-  1275		return dsa_port_parse_user(dp, name);
-  1276	}
-  1277	
+  3349	
+> 3350	MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+  3351	/*
+  3352	 * pcpu_nr_pages - calculate total number of populated backing pages
+  3353	 *
+  3354	 * This reflects the number of pages populated to back chunks.  Metadata is
+  3355	 * excluded in the number exposed in meminfo as the number of backing pages
+  3356	 * scales with the number of cpus and can quickly outweigh the memory used for
+  3357	 * metadata.  It also keeps this calculation nice and simple.
+  3358	 *
+  3359	 * RETURNS:
+  3360	 * Total number of populated backing pages in use by the allocator.
+  3361	 */
+  3362	unsigned long pcpu_nr_pages(void)
+  3363	{
+  3364		return data_race(READ_ONCE(pcpu_nr_populated)) * pcpu_nr_units;
+  3365	}
+  3366	
 
 -- 
 0-DAY CI Kernel Test Service
