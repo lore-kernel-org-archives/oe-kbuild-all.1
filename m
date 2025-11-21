@@ -1,152 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B9F2C08D0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 15:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EDC1C3C11
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 15:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763738160; cv=none; b=IdNVjYCm+S2m3vx3fowh3ZZH236oMthr1KYVrhLE+iSVKaPwjcHIBhljIzk4IaurlQF++hTNMBNH+3Mo2b6VoCCk/u2lh5vMfInaP6Z9gLY3dlUDuUJYjVRXHTiHWZmgBOmDaWs3SGmUf/ev0XJ+N8YZIbN5DPr2bTqITrZqvww=
+	t=1763738795; cv=none; b=NUKxf6cVhdWpiIelwjTPrsgniuTcjMU85lgGLUHq2dseJVj83/EbjaT3ujOOlWRbZzEv6ZOjsQeuu0w4/cyknrKGBzM9ruVMCC3BTlYXsZWd+2fe11sl8Ee6+AlB3lSVGGtQ8qGHmq6UuGNsTJseMLRl0GNgpj+MJK+i72S0t4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763738160; c=relaxed/simple;
-	bh=iGz46GQ64R0vdnHbLnUapXse7W/VUu7m2LOn564jGDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ICP6jkaq/A8W2IKOjL04sycwGzSOOUZJ6vSZ64SEqLDBTOIaMIxx4jRqi8D66d2dI+5QFsC7NxI4q6FkdU82qqfJOKSPJ9Lwl9HxIm5n+wj6YctP9s4T3yP9qS0PZgmjEsW3WwDMe4wzZ1WZDi+yspsAAXZsnJnI+MP2Lwczh3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXnAfFgK; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763738795; c=relaxed/simple;
+	bh=Fc0UFyAJPOHXd8iFvnomarrioEoDN8IWc8z4Jero9E0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=msG0HY9FtvcVJ6APPKuChkvy8LIgT5D5t+7sPmu3vmOgzyUT5Yukd44tMaKXj3/s8rg0dJA55o6LotPPGy9+aS2femB2gsbFgtmu0XoZUkqqJfi7hL53WRrjVImovYTA2QQpdllr22ZrPTo0gqVg1KMhjE9DyPgmIsIYfHdKUhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OM2QSoR4; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXnAfFgK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763738159; x=1795274159;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iGz46GQ64R0vdnHbLnUapXse7W/VUu7m2LOn564jGDw=;
-  b=KXnAfFgK8Pd4ANfdm4SZLREGJmBOazj/n7W4b+Sxr5KQYy+YvdrWW0np
-   2r5ljSukmm+g9v55NXjeHtKQdm1YM0IqYDurqnB8U1boo0p3RgaOjk3Ek
-   AweRu/kQekWNnJ8S6yzW8iCOwdEvIvc9JJJtlrJNOen18sTTyBKATtSsp
-   dDo/yz/SkN+5RCAEFHgMwwNBF4Gct7u/pRj0Sl/IQU81tKd5W2XbjknAi
-   Tc3HhQ8w+BQrB4wBoTSvpg88IB0WglS5Yb1frwqzBG3eTOsuXU6CMpECd
-   YfHJaF5w7aMfWAwP8mpf/PlQLgZwn34OvcVZHTOdnp5W1O0taxOA97V1L
-   A==;
-X-CSE-ConnectionGUID: tRgmj8/wSzKTfO9SA3yavg==
-X-CSE-MsgGUID: QNh75Ol5T8u3q5WE86DzIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="77305684"
-X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="77305684"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 07:15:58 -0800
-X-CSE-ConnectionGUID: vtkVoWJmQ4eLP0upaSGyDw==
-X-CSE-MsgGUID: 3GRY8M0KT7yn02szl3KuQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="191829324"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Nov 2025 07:15:56 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vMSrZ-0006V9-2J;
-	Fri, 21 Nov 2025 15:15:53 +0000
-Date: Fri, 21 Nov 2025 23:15:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Subject: [linusw-nomadik:b4/mcde-drm-regression-thirdfix 4/4]
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: error: 'state'
- undeclared; did you mean 'statx'?
-Message-ID: <202511212325.j72kz6Hj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OM2QSoR4"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-bd2decde440so142486a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 07:26:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763738793; x=1764343593; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hjIFdUaCqy+lAqlZ5vMNsJsRQN1poaYwAWhq6QbVcTs=;
+        b=OM2QSoR43HRqPwZiXQIjHwk0kWHcmbBqZphKLb/qb2aVHoVAaKqJ0glwm/DusY7pDY
+         Sh+CEZlKdnBRKrn7inAfd+gy/6AXcQ/99N+r6odLe/wbjZDk4s6Xzjj5/qg50jAeBGtC
+         lU6vr60HE0CaABMTavfWS//houTP8bhqIOgJi9Q0rOwl9L6yVrtAVOVTUslsBXSiACu+
+         AQCRW4Y1ge7AS6rHNwTzZkNynal6hJtUqduIHDlhKP9W95sxXTLNlmHGWY3T9lBoBQvn
+         1hpun/vwG4kCVNgc7AQdz9bfXyMN7IjrX4/KifZ1NbiYSHlUY5wenbCRiYNFPt/nYRYV
+         O69g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763738793; x=1764343593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hjIFdUaCqy+lAqlZ5vMNsJsRQN1poaYwAWhq6QbVcTs=;
+        b=cP8lqisSJZQ1g01A62LQeyhrMYmpWKzF2fGlcZHjkJAG8vr96NeP0y30dOjyOYDu1y
+         SLsTrNbUNhA1Oxrz6Stnh5wbXCYYzlC2gDQglGABMvqV+OJpCEnKash6zuJHO7sBPm2n
+         fCkv7BVfe6Gpfc6YE2rkuOcmfThccvu0VetvxW4e+pA5Ot8vd7YYFwznHloqeEbhf/v9
+         NKgtSIT9dIeWIpzh9mcXmopQPZAKsIh+jsVA7qOFZI7nuPJ+K4C9xZocjUnE9+hviCPU
+         ij3yLZ/9QUWXCUezYRNS+MRxMo/y6HX7rcCBkZ8NP902A959KQ5/5xDYytyo/BhWVJLW
+         mMcw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0Ajh6SEUOp9t/KylgG+cmD3bkIWrCsS82wrSMhpoV8E+7ZEWyhBD47/Fos+jNE/z+jOGE2owKH5sLxiXK@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUBxZ5cXVTelixx+S61ul63VUTIeZVVfU11ONwZviaYN+N6zJ+
+	u9uihXQgFByWQcd3C59ABSc4uLWRmkV3DC3E7GjohBsnmYBs+YM8ZE0lfmo97EqZIB6YAPLGgd+
+	5ftgjIjc7X0PB1L+S4L7pvryDXYizxqU=
+X-Gm-Gg: ASbGncsyWdvtV5OCSFYElEsQ2cVd4ZVr54xbFxHY3vwIoaVk+DXaGOcxSg40VkDKHDw
+	z6ESe/hir42nR8QvG0wJz/ikGJcuREXb7GuwWB/aTikTYLKyqHJjVZGDmk5+8FZ99TK2br4PUN/
+	moFK6TT4ctghDq6xq1CDFpuEkpeCwj0mXyyQHoKLr2h71YhjjlBptczHAdFDIp8Qzw1afpUNf42
+	muWZ9ICjCrGFA/fUwcNOGNKyYhJviM4v9YbRBbYFJiU7f1tCm1+pK6WSiI9Ubq+A35Bb3wgqrzZ
+	40jRhiboA1iFu9UdrSGms4ddeoodggnfXAupWG8fWGEMKbbQVdKMcxmFZMdepTu1HYcCOVW6OSX
+	OFm+t+Q2WgfKHNzerTqv03cPM
+X-Google-Smtp-Source: AGHT+IHOs0uUfs3Z6vGsVjFS5NcHMrZFn4kosecnYtyBzSBHGeS79+7FxbCpD6jPHvFnr+pPnm2ZtoGuYa6SN8la/WQ=
+X-Received: by 2002:a05:7301:4084:b0:2a4:3592:cf8b with SMTP id
+ 5a478bee46e88-2a724bbea18mr656988eec.2.1763738792718; Fri, 21 Nov 2025
+ 07:26:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202511210649.lhQnt194-lkp@intel.com> <aSAriWs68Hlng-nS@google.com>
+In-Reply-To: <aSAriWs68Hlng-nS@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 21 Nov 2025 16:26:20 +0100
+X-Gm-Features: AWmQ_bkpV4aJnfnvrtjBjUInHbv3MgtOpq0bndT0SvEQtlrp6KG1Zd9pD74Lni0
+Message-ID: <CANiq72mzcvFrTXkgqcJVVrmSy-Z=69oz31KxuQicinmaodCyBQ@mail.gmail.com>
+Subject: Re: [linux-next:master 2964/10599] error[E0609]: no field `dev` on
+ type `drm_gem_object`
+To: Alice Ryhl <aliceryhl@google.com>, David Gow <davidgow@google.com>
+Cc: kernel test robot <lkp@intel.com>, Lyude Paul <lyude@redhat.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Danilo Krummrich <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andreas Hindborg <a.hindborg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git b4/mcde-drm-regression-thirdfix
-head:   3e64b03a4bf2f67f43046af7e41c197df9fd6efb
-commit: 3e64b03a4bf2f67f43046af7e41c197df9fd6efb [4/4] RFT: drm/rcar-du: Modify custom commit tail
-config: arm-randconfig-002-20251121 (https://download.01.org/0day-ci/archive/20251121/202511212325.j72kz6Hj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511212325.j72kz6Hj-lkp@intel.com/reproduce)
+On Fri, Nov 21, 2025 at 10:06=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> =
+wrote:
+>
+> Perhaps this config is just not working in general?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511212325.j72kz6Hj-lkp@intel.com/
+For context (copying myself from another recent thread):
 
-All errors (new ones prefixed by >>):
+    x86_64, arm64 and riscv64 should be kept working, and I also
+    build-test loongarch64, including for stable kernels.
 
-   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c: In function 'rcar_du_atomic_commit_tail':
->> drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: error: 'state' undeclared (first use in this function); did you mean 'statx'?
-     552 |         drm_encoder_bridge_disable(dev, state);
-         |                                         ^~~~~
-         |                                         statx
-   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c:552:41: note: each undeclared identifier is reported only once for each function it appears in
+    arm32 and UML are the ones that are best-effort (on my side at least)
+    so we play catch up as time allows, but loongarch64 so far should
+    always build and it would be sad to drop that.
 
+Relatedly, on my tests, I have also been seeing in UML:
 
-vim +552 drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+   RUSTC L rust/kernel.o - due to target missing
+error[E0425]: cannot find function `dma_set_mask` in crate `bindings`
+     --> rust/kernel/dma.rs:47:38
+      |
+   47 |         to_result(unsafe {
+bindings::dma_set_mask(self.as_ref().as_raw(), mask.value()) })
+      |                                      ^^^^^^^^^^^^ help: a
+function with a similar name exists: `xa_set_mark`
+      |
+     ::: /__w/quick/quick/linux/rust/bindings/bindings_generated.rs:24761:5
+      |
+24761 |     pub fn xa_set_mark(arg1: *mut xarray, index: ffi::c_ulong,
+arg2: xa_mark_t);
+      |     ---------------------------------------------------------------=
+-------------
+similarly named function `xa_set_mark` defined here
 
-   516	
-   517	static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-   518	{
-   519		struct drm_device *dev = old_state->dev;
-   520		struct rcar_du_device *rcdu = to_rcar_du_device(dev);
-   521		struct drm_crtc_state *crtc_state;
-   522		struct drm_crtc *crtc;
-   523		unsigned int i;
-   524	
-   525		/*
-   526		 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
-   527		 * when starting the CRTCs.
-   528		 */
-   529		rcdu->dpad1_source = -1;
-   530	
-   531		for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
-   532			struct rcar_du_crtc_state *rcrtc_state =
-   533				to_rcar_crtc_state(crtc_state);
-   534			struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-   535	
-   536			if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
-   537				rcdu->dpad0_source = rcrtc->index;
-   538	
-   539			if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
-   540				rcdu->dpad1_source = rcrtc->index;
-   541		}
-   542	
-   543		/*
-   544		 * Apply the atomic update.
-   545		 *
-   546		 * We need special ordering to make sure the CRTC disabled last
-   547		 * and enabled first. We do this with modified versions of the
-   548		 * common modeset_disables/enables functions.
-   549		 */
-   550	
-   551		/* Variant of drm_atomic_helper_commit_modeset_disables() */
- > 552		drm_encoder_bridge_disable(dev, state);
-   553		drm_encoder_bridge_post_disable(dev, state);
-   554		drm_crtc_disable(dev, state);
-   555		drm_atomic_helper_update_legacy_modeset_state(dev, state);
-   556		drm_atomic_helper_calc_timestamping_constants(state);
-   557		drm_crtc_set_mode(dev, state);
-   558	
-   559		drm_atomic_helper_commit_planes(dev, old_state,
-   560						DRM_PLANE_COMMIT_ACTIVE_ONLY);
-   561	
-   562		/* Variant of drm_atomic_helper_commit_modeset_enables() */
-   563		drm_crtc_enable(dev, state);
-   564		drm_encoder_bridge_pre_enable(dev, state);
-   565		drm_encoder_bridge_enable(dev, state);
-   566		drm_atomic_helper_commit_writebacks(dev, state);
-   567	
-   568		drm_atomic_helper_commit_hw_done(old_state);
-   569		drm_atomic_helper_wait_for_flip_done(dev, old_state);
-   570	
-   571		drm_atomic_helper_cleanup_planes(dev, old_state);
-   572	}
-   573	
+error[E0425]: cannot find function `dma_set_coherent_mask` in crate `bindin=
+gs`
+     --> rust/kernel/dma.rs:64:38
+      |
+   64 |         to_result(unsafe {
+bindings::dma_set_coherent_mask(self.as_ref().as_raw(), mask.value())
+})
+      |                                      ^^^^^^^^^^^^^^^^^^^^^
+help: a function with a similar name exists: `dma_coherent_ok`
+      |
+     ::: /__w/quick/quick/linux/rust/bindings/bindings_generated.rs:51489:5
+      |
+51489 |     pub fn dma_coherent_ok(dev: *mut device, phys:
+phys_addr_t, size: usize) -> bool_;
+      |     ---------------------------------------------------------------=
+-------------------
+similarly named function `dma_coherent_ok` defined here
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+error[E0425]: cannot find function `dma_map_sgtable` in crate `bindings`
+    --> rust/kernel/scatterlist.rs:212:23
+     |
+ 212 |               bindings::dma_map_sgtable(dev.as_raw(),
+sgt.as_ptr(), dir.into(), 0)
+     |                         ^^^^^^^^^^^^^^^ help: a function with a
+similar name exists: `dma_unmap_sgtable`
+     |
+    ::: /__w/quick/quick/linux/rust/bindings/bindings_helpers_generated.rs:=
+1339:5
+     |
+1339 | /     pub fn dma_unmap_sgtable(
+1340 | |         dev: *mut device,
+1341 | |         sgt: *mut sg_table,
+1342 | |         dir: dma_data_direction,
+1343 | |         attrs: ffi::c_ulong,
+1344 | |     );
+     | |______- similarly named function `dma_unmap_sgtable` defined here
+
+error[E0425]: cannot find function `dma_max_mapping_size` in crate `binding=
+s`
+   --> rust/kernel/scatterlist.rs:356:52
+    |
+356 |         let max_segment =3D match unsafe {
+bindings::dma_max_mapping_size(dev.as_raw()) } {
+    |
+^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+
+Cc'ing David amd UML maintainers and Rust DMA team so that they are aware.
+
+Cheers,
+Miguel
