@@ -1,107 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF83D3C465;
-	Fri, 21 Nov 2025 00:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD73824DD15;
+	Fri, 21 Nov 2025 01:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763685346; cv=none; b=t1DdmttlY7InIAZONeYOrdVhzZZ25A3iUWqlWWg3frupcaOTWjGt62wir4I1dS+dO0y9cmwQE349/XXc4aqlv322XuV7NtVnJC8BgLQdUmRbjSu1RGPhGSsGpQAhr9W5QqcsfPiXERDztpSBJatSmG+h88TM0O2XYlCBavlPYDU=
+	t=1763690366; cv=none; b=OhY7BCa10ZBFG52kynQ/2gdD4ntk2n+pYBS76Rc60i0WodReJhbCXLc2ScH9/EoPbSSa6EW5UZev/mFKevmgyfCpLA10WR4aSDt5DK2uJGgTIb82zTBYFbOU0D33IFkEOgovT8gH1/IIrs6Qs1Zxgi+q/WSg19joJ6+VOWrxwhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763685346; c=relaxed/simple;
-	bh=L/eS9F58uaJgAc7ZQ36NadBkDM4ggHGaukZ+oaZQaqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Be8+aV5DJoqEX7L1lc8t4BalFfH3YDUmC4LWgdkbRhpMcby1ZCGysLeJz/IZxE0MAvRJpNozidgexhKpK2kuHkwXkC8D/vhCSZgnduA7teXVETYl76hRvMf6CGeA3HSmnWOk6fgKKP8rCkL3idPfWSXFDYk0goCu53clZUojUhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKCUFYdA; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763690366; c=relaxed/simple;
+	bh=GIp0009+sUVrkjvzUUTzbgJHB8S8wPYfh9xGIoGtLHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XBFeKjdmi0BqAFkognhF0Hkk3gxEI5eEytHTPAEKU4OBIvonveVq/mIy7MAKSeRblkMX7YoOi4AItAN1gtGqLq5TY5impJMmkDK25Hf8ul2raYZTw+U00IZV2qsabufoFBZXcIXsM5dcvOnS8mQl4G7hgnRam+NaeGRTyV/Nf30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oO7FkeeE; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKCUFYdA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763685345; x=1795221345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L/eS9F58uaJgAc7ZQ36NadBkDM4ggHGaukZ+oaZQaqE=;
-  b=SKCUFYdAYulTGTm/POUygP+hN3H/7MeP1zgJ3smJ3Um7yctW/cc1KZJp
-   EV4i2mYe5A2VEovqMckYatA2z9rXSV6k9mRctIDKYjR0nNvur7wg8HtBh
-   0obM3M+U42O0W6K82Fffnq0TfmoPh5t/YseEheC9tdURs+Ghzbpu5+RPA
-   7hb5yXYr0ve5E1sjX/iA9Kzdm1rpUhCFrGyMpSHbeEa0GxYZ2WxQBuN/e
-   6LZIcX3kbFktZmHh4KqQvHzavUUfN4UwkNnzT1z9tjj4w6tzKWGIGNSvt
-   fXkzZKCIeoopFr8tuFj4+X7leQuy3WkaXc0cHK7f9TpVMnONDYNnprzkE
-   w==;
-X-CSE-ConnectionGUID: JMkOIdeQQ++6OQUl5b+t7w==
-X-CSE-MsgGUID: d8xyLMgXSsKrJp8pBDpU0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="69387913"
-X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="69387913"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 16:35:44 -0800
-X-CSE-ConnectionGUID: s2KDm1qCRi2he/MukdwbSg==
-X-CSE-MsgGUID: 1k+gm3MyRumFxSWs0dpdfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
-   d="scan'208";a="214892313"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2025 16:35:43 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vMF7k-0004lP-1N;
-	Fri, 21 Nov 2025 00:35:40 +0000
-Date: Fri, 21 Nov 2025 08:34:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Igor Korotin <igor.korotin.linux@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [linux-next:master 9316/10599] error[E0609]: no field `type_` on
- type `i2c_board_info`
-Message-ID: <202511210849.7WWIzNvA-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oO7FkeeE"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=8IxzA0xrDRDuCux7I/75OlQIhFWCZrW9huNpmM6c2T4=;
+	b=oO7FkeeEM51Lb0MdKyJBUbM6TX/LcMbaZV5EhyhjfHqfclk+U4zfapIHF0azYgBWx4ArKTKFx
+	t1YMU4B8OtTLHcwOMOGbTPmPOiUaxsDtrg1EantBTQm5YrxNot4nuuWzXt+yXisLgrQyNykC0+Z
+	YNOxmRW6pQM+62Tv2PpG1v0=
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dCJJf6xhjz12Lhq;
+	Fri, 21 Nov 2025 09:57:54 +0800 (CST)
+Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
+	by mail.maildlp.com (Postfix) with ESMTPS id A0BBB18048B;
+	Fri, 21 Nov 2025 09:59:21 +0800 (CST)
+Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
+ (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 21 Nov
+ 2025 09:59:20 +0800
+Message-ID: <e588e7d9-54bb-4fa2-ab31-1381dc5a3987@huawei.com>
+Date: Fri, 21 Nov 2025 09:59:18 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
+Content-Language: en-GB
+To: Theodore Tso <tytso@mit.edu>
+CC: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	<libaokun@huaweicloud.com>, <linux-ext4@vger.kernel.org>, <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <adilger.kernel@dilger.ca>, <jack@suse.cz>,
+	<linux-kernel@vger.kernel.org>, <kernel@pankajraghav.com>,
+	<mcgrof@kernel.org>, <ebiggers@kernel.org>, <willy@infradead.org>,
+	<yi.zhang@huawei.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>,
+	Baokun Li <libaokun1@huawei.com>
+References: <202511161433.qI6uGU0m-lkp@intel.com>
+ <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
+ <20251120154104.GA13687@macsyma-3.local>
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <20251120154104.GA13687@macsyma-3.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500013.china.huawei.com (7.185.36.188)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
-commit: f3cc26a417b77a07ff4418f7621dd318a1c533b1 [9316/10599] rust: i2c: add manual I2C device creation abstractions
-config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511210849.7WWIzNvA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511210849.7WWIzNvA-lkp@intel.com/reproduce)
+On 2025-11-20 23:41, Theodore Tso wrote:
+> On Thu, Nov 20, 2025 at 09:21:23AM +0800, Baokun Li wrote:
+>> Oops! You nailed it. My bad, I totally forgot that unlock here, which
+>> definitely left the lock unbalanced. I'll get that fixed up in v3.
+> I think you meant v4 (since the current patch series are v3 :-). 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511210849.7WWIzNvA-lkp@intel.com/
+Haha, yes, , I messed up the version number. 😅
 
-All errors (new ones prefixed by >>):
+>  When
+> do you think you might be able to get the next version of this patch
+> series ready?  I think we're almost ready to land this feature!
+>
+>        	       	       	     	    	     - Ted
+>
+Yep, the current tests look clean! Good news on the dependencies too:
+[1] and [2] are already merged to next.
 
->> error[E0609]: no field `nr` on type `i2c_adapter`
-   --> rust/kernel/i2c.rs:390:35
-   |
-   390 |         unsafe { (*self.as_raw()).nr }
-   |                                   ^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `type_` on type `i2c_board_info`
-   --> rust/kernel/i2c.rs:444:28
-   |
-   444 |             i2c_board_info.type_[i] = src[i];
-   |                            ^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `addr` on type `i2c_board_info`
-   --> rust/kernel/i2c.rs:448:24
-   |
-   448 |         i2c_board_info.addr = addr;
-   |                        ^^^^ unknown field
-   |
-   = note: available field is: `_address`
+[1]:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ee040cbd6e48
+[2]:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=50b2a4f19b22
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'll be sending out v4 today to fix the issue Dan mentioned, and then
+I think this feature is ready to land! 
+
+[P.S.: I noticed Christoph Hellwig and Eric Biggers are cleaning up the
+ fscrypt API. That might clear the way for us to ditch the "no fscrypt
+ support for ext4 LBS" restriction later on. I'm also looking into
+ speeding up large block checksums. But I think these extra features and
+ improvements can evolve independently from the work we’re doing now.]
+
+
+Cheers,
+Baokun
+
