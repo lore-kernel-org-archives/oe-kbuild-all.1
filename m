@@ -1,127 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A472F6187
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 08:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88D3277011
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 09:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763713778; cv=none; b=XOGBWtzSLNq5TUMvZ0z93IwRTlDGW75lxmG2xVwsRVD4Zt1XQRkZ4fMutBTbkRwqsMEv5t4FPIBEVK3wiCLwJCsE2npfk1fPTH6czubZIPU1ADdh6ezKIchUhsWc2L/hO3lKJMlUHA9dyldAcrfJJ+KvjrpgXg3QM69FoAr1G1w=
+	t=1763715981; cv=none; b=B5AVAEtu3bDF9h0O6Xe9xA3Moy+rUxNQzmhiBUWd2e7sh2gia/tWhOY8u1rMeCC+iJ9hFyeh19zibGArOny5r07CTv9fnLdZrHPhK26ztirj5Be4/pL3VtQicPR+RT+UJZD2fiF6M/pAbW+78Tz79k46grVuZcNTv3AI1MtDhDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763713778; c=relaxed/simple;
-	bh=BB4/6hGUoiLibs4Na2AJzu1fx/ZenLoo01mFy4fD8p4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ub8n2RCzCn/kVkECFGB8nQTH/83MiIl3OZDHTBUvoY+hp1PkZHtlcIBNyZW6UrIJsQ9VhcDH91XoEMumiNY4VcPrUjU1Fw9QjpkaGiqXl3V3odJS3WRdJ2R2kVcHxkENdIMasTNlhUJ47Y0xj3q6EhEm3v28x421W9hCBApatlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYkv8T1A; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763715981; c=relaxed/simple;
+	bh=zOKtgqF4HJ8j8T0d2/Slahffx8Cb+tioUsRQW7/Z8ac=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Zu0nxnUb8dFbPH3ZyWSsXTVvLW6o0HIVutO7RiWQ0EvHOjvd+s6mc3cVD8HDR+qKW3mDsy0giRb38wff1SKWXzHua8A82WGcL9Q4uDpYPdS0+A7WXEIR3mv9Vc0lMzJf5f4ZlgYCMQTRzyDaSLUztG7Nu411OmmKvTgxkZ1N0cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MBFBGKAw; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYkv8T1A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763713777; x=1795249777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BB4/6hGUoiLibs4Na2AJzu1fx/ZenLoo01mFy4fD8p4=;
-  b=kYkv8T1AzoL/wXbeLoC2WfvKVBxoRmG3M5/snfaIABqqfUqwPezpaIA/
-   CNnuyYkOzpoRVrL0+yyGpFYuCTadGGCAB2je5JV7NGKfNBtmToRTGfykW
-   ZtikN07C58cpFOe/o9lYfgowWwboAaWu3F/MsW6xUXSeoBiQuujshXM6w
-   F2lVigugG45LboeNMxZznkA8/Cl4LWfHU2odl8tVYSvSElIHDhhsIIe0z
-   eSoPzxXUFiEp+kPz2DnyaQI3B2wZLPewIs9EY07RO75J2zW4wgW2y8oxI
-   vx+96bwUfBivdBl3ja7aj+qX9PKCmK4J/4I+uJCdrfsdTWXvA7BZ3NBLd
-   g==;
-X-CSE-ConnectionGUID: ZdJOm4LkSgWqLef8BgZAWQ==
-X-CSE-MsgGUID: 5PmRy4L0SEWhg7L6JW7jUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="83193108"
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="83193108"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 00:29:37 -0800
-X-CSE-ConnectionGUID: IFcT6buWSgylRLtiFzTJOw==
-X-CSE-MsgGUID: HnY3eJyGTEa8YGbHZclxEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="191428265"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 00:29:31 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vMMWH-00056t-07;
-	Fri, 21 Nov 2025 08:29:29 +0000
-Date: Fri, 21 Nov 2025 16:29:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev, sshegde@linux.ibm.com, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, tglx@linutronix.de,
-	yury.norov@gmail.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
-	kprateek.nayak@amd.com, vschneid@redhat.com, iii@linux.ibm.com,
-	huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, christophe.leroy@csgroup.eu
-Subject: Re: [PATCH 12/17] powerpc: method to initialize ec and vp cores
-Message-ID: <202511211643.QVn7aDHd-lkp@intel.com>
-References: <20251119124449.1149616-13-sshegde@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MBFBGKAw"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4779ecc3cc8so8301365e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 01:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1763715978; x=1764320778; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WeU48TgMuKpFqa0P1KRY9QRCZS9h5NtO6feKcbkigT4=;
+        b=MBFBGKAwUqVsbVLtvMaPXOnfqCb3v8Z2RJPprtUUt8SgxfUI/54fHR4vC+L5MAAgAB
+         thyePECBtnsvkFbaLz0RlCUFosM6d8g6c+kECOlnZORh+E/wdySmpSZ9dkmlR+9DrkvB
+         B1V7BNu/eS6pMC2hGh4ob6Nq2ywd02UXfnRVnvJ3aIXbXo6xwFoHAdnfyINA2Obz9AFc
+         0fujdO89DrQ0Xb6ptKWwRm32qkyWGPFLsG6lffO8p57lsODK9Ej63ONgIZffrUc4ZJn+
+         5kZVNOJgExI3p0IAVMUcEko6i92gdrpcBTb7I7WKYP6r5zXNxjAVYFH4bW4Mify2RMQb
+         w9Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763715978; x=1764320778;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WeU48TgMuKpFqa0P1KRY9QRCZS9h5NtO6feKcbkigT4=;
+        b=O98h0hY1e7hmxMQmu8yIH8Mq9EK3hDYu56cV5k4YC4INHjv2kA6hiMXQOBiF5fYqB+
+         gjLMxjo/uDqVF2KcT2Srum6iyH5qXUaAji2ggSv2oDRSnh5BdVgVcREgDf5z2pEmNd3Q
+         hDjnhY7Mr/Nep3Qnox61ZJqvzA/u2l1SNGDoyIUpL/wPpCiQ6uS/+ZwyE5QeeK/SN2IU
+         WBbvFjVQ/fb0uqEX431MMJOJF7f4B7vYb/7XKq+ufGNWxmtS9ilupb2/WQHYhvGt4eN7
+         pupupn439EhSjfJankLAM1WtLxzOzKC3tH9KZ7wX8rLWK8V+CFCqZmg2m2JlSluG87Mk
+         7cmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXcNiLp79c+LzhnfuiU8zkO4A8noOGsdTPsqQcBXPK1qBRRBo7DfyHRmpW+Sl32vYqKnShALPu2PJbmRhlY@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdlVm98wxJiMgrfii81I7tY8WtlCd4iYUZgWh/G3JrQ3O9n587
+	YzKTQ1sq+KrXvKOFg77VLDL8x93QiiqNyf0qV7xyk0SI3J2yOyFJvUfQLktLvBLZ18kkFFi/k9s
+	JKLZ/Rl5aR2QrXi5GfA==
+X-Google-Smtp-Source: AGHT+IFi7Ro1buxMIwDHBU/1xLrbCnmwLUuJ2VcQkx7Dd6IbA9c6A9kXuy8l8eT1op8NAQZWhgpRwC85Zxzg+Ts=
+X-Received: from wmfv21.prod.google.com ([2002:a05:600c:15d5:b0:477:9fba:50e4])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:8b16:b0:477:fad:acd9 with SMTP id 5b1f17b1804b1-477c0203605mr15423305e9.34.1763715978389;
+ Fri, 21 Nov 2025 01:06:18 -0800 (PST)
+Date: Fri, 21 Nov 2025 09:06:17 +0000
+In-Reply-To: <202511210649.lhQnt194-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119124449.1149616-13-sshegde@linux.ibm.com>
+Mime-Version: 1.0
+References: <202511210649.lhQnt194-lkp@intel.com>
+Message-ID: <aSAriWs68Hlng-nS@google.com>
+Subject: Re: [linux-next:master 2964/10599] error[E0609]: no field `dev` on
+ type `drm_gem_object`
+From: Alice Ryhl <aliceryhl@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Lyude Paul <lyude@redhat.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-Hi Shrikanth,
+On Fri, Nov 21, 2025 at 06:47:35AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
+> commit: d3917368ebc5cd89d7d08eab4673e5c4c73ff42f [2964/10599] rust: drm/gem: Remove Object.dev
+> config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511210649.lhQnt194-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511210649.lhQnt194-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511210649.lhQnt194-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> error[E0609]: no field `dev` on type `drm_gem_object`
+>    --> rust/kernel/drm/gem/mod.rs:231:57
+>    |
+>    231 |         unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+>    |                                                         ^^^ unknown field
+>    |
+>    = note: available field is: `_address`
 
-kernel test robot noticed the following build errors:
+I tried reproducing this on commit d3917368ebc5, but I got this error
+instead:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on next-20251121]
-[cannot apply to powerpc/next powerpc/fixes driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+	error[E0432]: unresolved imports `core::sync::atomic::AtomicI64`, `core::sync::atomic::AtomicU64`
+	  --> <linux>/rust/kernel/debugfs/traits.rs:12:27
+	   |
+	12 |     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
+	   |                           ^^^^^^^^^ no `AtomicI64` in `sync::atomic`              ^^^^^^^^^ no `AtomicU64` in `sync::atomic`
+	   |
+	help: a similar name exists in the module
+	   |
+	12 |     AtomicI16, AtomicI32, AtomicI32, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU64,
+	   |                           ~~~~~~~~~
+	help: a similar name exists in the module
+	   |
+	12 |     AtomicI16, AtomicI32, AtomicI64, AtomicI8, AtomicIsize, AtomicU16, AtomicU32, AtomicU32,
+	   |                                                                                   ~~~~~~~~~
+	
+	error[E0560]: struct `bindings::drm_gem_object_funcs` has no field named `vmap`
+	   --> <linux>/rust/kernel/drm/gem/mod.rs:188:9
+	    |
+	188 |         vmap: None,
+	    |         ^^^^ `bindings::drm_gem_object_funcs` does not have this field
+	    |
+	    = note: available fields are: `kernel_vmap`
+	
+	error: aborting due to 2 previous errors
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/sched-docs-Document-cpu_paravirt_mask-and-Paravirt-CPU-concept/20251119-204931
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20251119124449.1149616-13-sshegde%40linux.ibm.com
-patch subject: [PATCH 12/17] powerpc: method to initialize ec and vp cores
-config: powerpc-randconfig-002-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211643.QVn7aDHd-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211643.QVn7aDHd-lkp@intel.com/reproduce)
+This was with ARCH=um SUBARCH=i386 in my make invocation and the
+provided config.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511211643.QVn7aDHd-lkp@intel.com/
+Perhaps this config is just not working in general?
 
-All errors (new ones prefixed by >>):
-
-   powerpc-linux-ld: arch/powerpc/kernel/smp.o: in function `smp_cpus_done':
->> arch/powerpc/kernel/smp.c:1735:(.init.text+0xd5c): undefined reference to `pseries_init_ec_vp_cores'
-
-
-vim +1735 arch/powerpc/kernel/smp.c
-
-  1721	
-  1722	void __init smp_cpus_done(unsigned int max_cpus)
-  1723	{
-  1724		/*
-  1725		 * We are running pinned to the boot CPU, see rest_init().
-  1726		 */
-  1727		if (smp_ops && smp_ops->setup_cpu)
-  1728			smp_ops->setup_cpu(boot_cpuid);
-  1729	
-  1730		if (smp_ops && smp_ops->bringup_done)
-  1731			smp_ops->bringup_done();
-  1732	
-  1733		dump_numa_cpu_topology();
-  1734		build_sched_topology();
-> 1735		pseries_init_ec_vp_cores();
-  1736	}
-  1737	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alice
