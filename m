@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42EB2EBB8B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 16:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A5A13E41A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 17:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763743330; cv=none; b=e/Eb2vuJQm1h1Dq5qcdLQ/kYyNHuTppWANGJjqodfiQKjPCEQ+UD6w2tG6h+knOOsg6nFlop6Fpk1I1uEFk9OgJW99I2R0yFl/9WrLsxcfq3i8nHv7shNDSrHgdPgtpNNySHkGNNJ3WC57laqilwipm5s+cgCgY19+5goPOmG+E=
+	t=1763745259; cv=none; b=pot+s0LOnq6U4HhQZz86UPMvgJCMZLwVB5hdUILN0GmPq8jBwdKOvo6SAmLNzPWbwolLa9/JeDOTaH9vzWlfh2qTU9JzwXLXOgRgjXPIWiKiedlEjQEEvOtUMENmm8pdagk2V/5Hse0sxEi74EEAL57+TUU3EC39VhGZNeRnXRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763743330; c=relaxed/simple;
-	bh=hRTcnjTRtf4Yv6+SOGmb+bUrSXXKlbhALuPzTpPQH1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=unJ7WGBFiMbrjgTjczw1OapGsFdtWs58bl5VRot1K8afGcP5AA5JABEIzekIZ9m8/fpJyvvBhRk/EEZT0OlopqCmGkXm5PZWSC2pcbSxRXBSu0bMcpid5zVfmFnw1dPentkmc9jnk1t3fT5cOIIjhpJxSILWAxnQMjuXEpC2j84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLDrraba; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1763745259; c=relaxed/simple;
+	bh=150knvdVimP1Sxf+IHS3A/Uh2qRTdjSQ1ygg39BCet0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=efk6DbJywK++FS5Sfmw9S8zMogA/19JVMTEk6amjwIK8oq0ieH/sWPZSHyekpF7Ep3BI79JIRF9AboMhDRkvr4Snfbp+ynWh+yvDWnefJ5kaatqrS8c3SJjo3+aDvmgWN+XJ45QrCTUlmx48TszCWHD14ihVHwiHml2ZBpBC5R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S3G04Trl; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLDrraba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S3G04Trl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763743329; x=1795279329;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hRTcnjTRtf4Yv6+SOGmb+bUrSXXKlbhALuPzTpPQH1U=;
-  b=JLDrraba2jgo4UwPC9/rOuII/aCZHNvuQZv1XA1cE+MiTUxMuqMHyjjz
-   ijF17hw5cH+9opw/p+oTqMD8GRTxJIUWoeIzUgsDXeljK1Oradf1qCHEJ
-   Vv26txMIG2hvXNQ98gZ2RLcXoTq/5FxdZgmRG30dM2NPXS23p8g2XRdlh
-   Jfa8u3GiaFqnKp/vNThc0czbJcoujZlRclxb08KgHO7HjObkB+2Y8uRnu
-   /kuS8yBN9dGMZNRk4hgpHj1loXqMn8cnaF6jGuYWqK3EHu6NPGPyPyFh2
-   9eu9E9GGGQa288JQeiQblBYMTgHM2T0AVJ3M/UGCG1OSvPOtQssEAzIv1
-   w==;
-X-CSE-ConnectionGUID: J3NNaX8xTDWxgmKhBM/Xaw==
-X-CSE-MsgGUID: UnShJzMqRESz0hiKGNio7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69459334"
+  t=1763745258; x=1795281258;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=150knvdVimP1Sxf+IHS3A/Uh2qRTdjSQ1ygg39BCet0=;
+  b=S3G04TrlaEpnEZOpOkHK8L/gtNnmuMLcqKOVFjQ4GVye3IDXASk2uouz
+   h13BZ4LpZCVaBwnsLcjtqB9vp4EoNzgky+fzC8JnmLwtytzgylQkd769X
+   dAaZf9pSzY+BUcQEz+/aXACMEmLIFLSY427r8Np3jalOGps+TjxfaSFMP
+   dsEabCT8eywSDc/2F98iCaScWjosq1ASTCL/AzaQlIkDptIvCpD+hkoYW
+   YZf/aX8KKjqrB1WZjvBKlQBlUePgUP3BRCw4uQynhE/FB+sa6PIF/m+s6
+   WvCEl33doQ6+wtJ3nkq3TV7DWNUXOnpBvF1FXGKjeU10t5x+OGpiT4wl4
+   A==;
+X-CSE-ConnectionGUID: 95LP8grWSUenuhXK3XWBhg==
+X-CSE-MsgGUID: 6UxWyQYjRGq838bjqvVxGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="65792214"
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="69459334"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 08:42:09 -0800
-X-CSE-ConnectionGUID: hz/fvhtvSg24Z4djTThBJw==
-X-CSE-MsgGUID: i1sv61V/SHadPLtk9GXt5w==
+   d="scan'208";a="65792214"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 09:14:18 -0800
+X-CSE-ConnectionGUID: qu6B9a0bRZ21y0YvoYxbGg==
+X-CSE-MsgGUID: Ssd/qetKQuewq4dpfK3Qcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="191410992"
+   d="scan'208";a="196687127"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Nov 2025 08:42:07 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 21 Nov 2025 09:14:12 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMUCz-0006b3-0z;
-	Fri, 21 Nov 2025 16:42:05 +0000
-Date: Sat, 22 Nov 2025 00:41:30 +0800
+	id 1vMUi1-0006dT-2W;
+	Fri, 21 Nov 2025 17:14:09 +0000
+Date: Sat, 22 Nov 2025 01:13:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/vmxon_sucks 10/16] arch/x86/virt/hw.c:269:23: error:
- implicit declaration of function
- 'x86_svm_emergency_disable_virtualization_cpu'; did you mean
- 'x86_vmx_emergency_disable_virtualization_cpu'?
-Message-ID: <202511220033.ZQT3gyNU-lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, tudor.ambarus@linaro.org,
+	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 03/26] mm/percpu: Annotate static information into
+ meminspect
+Message-ID: <202511220009.u6dJXVkB-lkp@intel.com>
+References: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +73,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251119154427.1033475-4-eugen.hristev@linaro.org>
 
-tree:   https://github.com/sean-jc/linux x86/vmxon_sucks
-head:   4fb18821409337968c67b6b6f7afb11b3ec12fd2
-commit: 4134b1c7cd3f9236e29eac315ddf39e30700b375 [10/16] KVM: x86: Extract VMXON and EFER.SVME enablement to kernel
-config: i386-randconfig-141-20251121 (https://download.01.org/0day-ci/archive/20251122/202511220033.ZQT3gyNU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220033.ZQT3gyNU-lkp@intel.com/reproduce)
+Hi Eugen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rppt-memblock/fixes]
+[also build test ERROR on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-4-eugen.hristev%40linaro.org
+patch subject: [PATCH 03/26] mm/percpu: Annotate static information into meminspect
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220009.u6dJXVkB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220009.u6dJXVkB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511220033.ZQT3gyNU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220009.u6dJXVkB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/x86/virt/hw.c:2:
-   arch/x86/virt/hw.c: In function 'x86_virt_put_cpu':
-   arch/x86/virt/hw.c:269:21: error: void value not ignored as it ought to be
-     269 |                 __r = x86_svm_##fn();                   \
-         |                     ^
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   arch/x86/virt/hw.c:300:9: note: in expansion of macro 'BUG_ON'
-     300 |         BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
-         |         ^~~~~~
-   arch/x86/virt/hw.c:300:16: note: in expansion of macro 'x86_virt_call'
-     300 |         BUG_ON(x86_virt_call(put_cpu) && !virt_rebooting);
-         |                ^~~~~~~~~~~~~
-   arch/x86/virt/hw.c: In function 'x86_virt_emergency_disable_virtualization_cpu':
->> arch/x86/virt/hw.c:269:23: error: implicit declaration of function 'x86_svm_emergency_disable_virtualization_cpu'; did you mean 'x86_vmx_emergency_disable_virtualization_cpu'? [-Wimplicit-function-declaration]
-     269 |                 __r = x86_svm_##fn();                   \
-         |                       ^~~~~~~~
-   arch/x86/virt/hw.c:328:15: note: in expansion of macro 'x86_virt_call'
-     328 |         (void)x86_virt_call(emergency_disable_virtualization_cpu);
-         |               ^~~~~~~~~~~~~
+   In file included from mm/percpu.c:90:
+>> mm/percpu.c:3350:25: error: '__per_cpu_offset' undeclared here (not in a function); did you mean '__per_cpu_start'?
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         |                         ^~~~~~~~~~~~~~~~
+   include/linux/meminspect.h:92:64: note: in definition of macro 'MEMINSPECT_ENTRY'
+      92 |                                                .va = (void *)&(sym),            \
+         |                                                                ^~~
+   mm/percpu.c:3350:1: note: in expansion of macro 'MEMINSPECT_SIMPLE_ENTRY'
+    3350 | MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+         | ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +269 arch/x86/virt/hw.c
+vim +3350 mm/percpu.c
 
-   259	
-   260	#define x86_virt_call(fn)				\
-   261	({							\
-   262		int __r;					\
-   263								\
-   264		if (IS_ENABLED(CONFIG_KVM_INTEL) &&		\
-   265		    cpu_feature_enabled(X86_FEATURE_VMX))	\
-   266			__r = x86_vmx_##fn();			\
-   267		else if (IS_ENABLED(CONFIG_KVM_AMD) &&		\
-   268			 cpu_feature_enabled(X86_FEATURE_SVM))	\
- > 269			__r = x86_svm_##fn();			\
-   270		else						\
-   271			__r = -EOPNOTSUPP;			\
-   272								\
-   273		__r;						\
-   274	})
-   275	
+  3349	
+> 3350	MEMINSPECT_SIMPLE_ENTRY(__per_cpu_offset);
+  3351	/*
+  3352	 * pcpu_nr_pages - calculate total number of populated backing pages
+  3353	 *
+  3354	 * This reflects the number of pages populated to back chunks.  Metadata is
+  3355	 * excluded in the number exposed in meminfo as the number of backing pages
+  3356	 * scales with the number of cpus and can quickly outweigh the memory used for
+  3357	 * metadata.  It also keeps this calculation nice and simple.
+  3358	 *
+  3359	 * RETURNS:
+  3360	 * Total number of populated backing pages in use by the allocator.
+  3361	 */
+  3362	unsigned long pcpu_nr_pages(void)
+  3363	{
+  3364		return data_race(READ_ONCE(pcpu_nr_populated)) * pcpu_nr_units;
+  3365	}
+  3366	
 
 -- 
 0-DAY CI Kernel Test Service
