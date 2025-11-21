@@ -1,176 +1,162 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772ED36D516
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 18:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8C72F0C74
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 18:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763749682; cv=none; b=OdWX9QMaURK0+Hd1dpE7/CNH8iszK1M35J930IJvVeX/RpyacEJtV8ANIbp3prYKGOOpUcmm9aBRU7QJM/d9X6p/kmv6QVq6l/yfycRjSD8lu+Q3FPo9MY28KQxtTlYTkMtfQUzDfyXKvD3oMdKkQURjqdB/fDyoOW8NVO8fe3Q=
+	t=1763750546; cv=none; b=hRG0ShIkioASFB196FFhbmHSMhBDoaGLCVJAaZoPB9R9ajn34huHnvgZVmhGeGRRV0JtjjmxcWff5qU7NlZzKQDq98DvRaF1N84OFctb12O1OjwJcEr3AnF6g/HOrecQiy2crYZ6V0mPZcpOHoQ8OGcO7ejSmeWr5+wu3tYP54A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763749682; c=relaxed/simple;
-	bh=eiNvpKMX+RHgtZkQ1+h3XWmFyZEgmHdrngHRg+aKUCk=;
+	s=arc-20240116; t=1763750546; c=relaxed/simple;
+	bh=hxUl/gupKPEcEBukDTmNcrH9MguQeVgUncvyEu0YNus=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=Dj7uh6JN3Mq4e21eJ4bFp/caZqF/DQAtlL0EMtcmZheVrRb9jnudXaGMApASgft9q3vOd2meDfALCVHfmzciGENjES5BbzPglXNzLwnOKE381SNcr0Hn18VWE2ExlhAXrvzx8znswTq0C4KmDyAZulIhgRghEmqK/Ug1jk9hPB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ixfW7LEH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=c3cFS4dtqP7Artk6dLPnfVtMEW+Jz6hI+L/7U0XCRwkiUNEBvPp7Fog8AKjcEdYQDVKSS940h0AUxCCUC1352qPDuZU2PqDhcoR03M+gi+OQmsxve0xENPLJbEEL0x0YIEpUBzv0a/v4tRNxuFGv6CuBK4gpKc0Ze9GFUvIQJ+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RqnsqhFP; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ixfW7LEH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763749679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9F1gVEfkmOU4VbBNqbz6au89HcS75XiMRWvgttvUABM=;
-	b=ixfW7LEHmaOV+ePy7IbM2owLZ4KC0mVFbjZ1dgS6FTFZaJYPrTjM0cEQf+CxzaGXmKNQaH
-	AkiWGKzNmTZmxCi4+qX+FxUHTynRykr2AfaBeOnosshZfDBhM7LuavtHIxcIaOaQJVmXCz
-	52Pqme4i3TJvkcSkomNATQXcNKs0hds=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-VdvjM06PNBOrAuzc1_NVxg-1; Fri, 21 Nov 2025 13:27:58 -0500
-X-MC-Unique: VdvjM06PNBOrAuzc1_NVxg-1
-X-Mimecast-MFC-AGG-ID: VdvjM06PNBOrAuzc1_NVxg_1763749678
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b26bc4984bso942279185a.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 10:27:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763749678; x=1764354478;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9F1gVEfkmOU4VbBNqbz6au89HcS75XiMRWvgttvUABM=;
-        b=J2NvIBLLvP4Lcfiuis8p9iuyDoOA0r99CnnrrL/ZZIePEp2Bk8+w3QD3ulhP4gOGxQ
-         cfPRP/xdT78X+UZv5vIcYlLeJ2/GbIUNVmtkZlZ5q0Wkka/ojNhPguarhJoodx0gXmJq
-         SJJKT3FJlwYDU4nSMhYqyMcN/HKyoVKA6hBrhvm9ld5dTG8+0epGPkVuRQ/CZFswula0
-         +OOLmmFhlYVX0Vo5xg7uI6I5YuDMzl+OynyUyFrKHnHIOWpurVZYfdFV/ViCY3xxF4Fe
-         Q2iDjp/a8hKQej1gHIuaW/bSqZBc0bpKYtPFkc/dfd7slanLTTtM3HkLVpzlGguHyvbW
-         ubWA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSU/ATyvXHIUMCyqTalS9yjathw86fWXstcbLfqb0IfVw9Lz7Ero1RIWqpVEdBMemNFuL/UhGqD80wK+os@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK4p//gVpmRFZ5H/T5NKwDKONdNrOUigRwakPzWn8VHRn+IgNC
-	8JoIzDaJwBOTowaKrZErFMAfQfJJlrHUjwo4p068fnKa16l7LXjV94gz7NU29V+hx3ftTdczYT2
-	cBIuBbBhkX19QVEMl5UUbqWq0K4WeDOv2LlC9OmZTYltqTucCGko8s/1KCpUxwWjcyaI=
-X-Gm-Gg: ASbGncsc43VAIJlE93e+1yYgEmaBBds9DRZynONdquS29xqNUDWFUz6irE/OLKaTqDw
-	BhAUTAeu8MaHeQ+CLcQWg6lgkciQy7P41W1GlBLnT4eWtPOAO/NXBBxqs7xiBf3JFKsfQllR3z9
-	lekJgcq5+Pkq1nb/mZBm4QmyMPVt5tm7LY+R1SSCRCRpC5YHczzmzopF4EuwPkwfZAhJsZj3GF/
-	zuzEiycqAoeOdk3snZhj/Pf7CV4aoFS+RhQ6LP0nAP6qoAMltyTA1hYXtiUwEjI7KNuoD+wIhF1
-	OPAS+tDv+SrzPHmQfIUSCk9h/zL98/a8kS5/CuXD/HeJvkm9PDelHi6J8ywH+BXkUbPBA97AsP3
-	I6UxZT0zYfQ==
-X-Received: by 2002:a05:622a:155:b0:4ed:da56:7a96 with SMTP id d75a77b69052e-4ee58af100cmr45387661cf.60.1763749677522;
-        Fri, 21 Nov 2025 10:27:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFkOzQWoZuQdAiXMy2SX7/W3kkLRTcNrhy9ckhF61k6Ze2u2Lmzw86pdU9Kf7yewixDrfgpEg==
-X-Received: by 2002:a05:622a:155:b0:4ed:da56:7a96 with SMTP id d75a77b69052e-4ee58af100cmr45387001cf.60.1763749676867;
-        Fri, 21 Nov 2025 10:27:56 -0800 (PST)
-Received: from localhost ([2607:f2c0:b141:ac00:2fb1:d1df:b122:3b2c])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4ee48d571d0sm41831021cf.12.2025.11.21.10.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 10:27:56 -0800 (PST)
-Date: Fri, 21 Nov 2025 13:27:55 -0500
-From: Peter Colberg <pcolberg@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 1/8] rust: pci: add is_virtfn(), to check for VFs
-Message-ID: <aSCvKy64s-LBrM85@earendel>
-Mail-Followup-To: kernel test robot <lkp@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-References: <20251119-rust-pci-sriov-v1-1-883a94599a97@redhat.com>
- <202511211008.jgLuTcrQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RqnsqhFP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763750545; x=1795286545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hxUl/gupKPEcEBukDTmNcrH9MguQeVgUncvyEu0YNus=;
+  b=RqnsqhFPge5ANpqR8M2SlofdVRmRBg8ByjyY6PIPAPxKPEuKisITNNp6
+   KjCCUfl5IPD1hsHV9xCjuJj7R1zWrPs6Cv0VHWObAa9/xR9GKp24OwNGV
+   MYvgNFU/eedgTewZIxPumjl1wtKZbbQymc6TPYgCtSljYsjc+EJi5CPq/
+   x2XxaUAHyK4sloRNHv3RlHmsiiyWzpj7GrpQGv0NfKZdy25ZTMcagc4X2
+   CG2/riAcSr9K/WFHt8nrIyzZ6Bg0UuF6wjmEtcgx7SVTkToBv3C6olFuQ
+   nwldIc5JgJWRaZ7FcQU/8ePRbTOfDctfebP9oCKxiIX3x/c5W1jr1xAbo
+   A==;
+X-CSE-ConnectionGUID: gSyGzDQKS0mnE3dZWKRzbQ==
+X-CSE-MsgGUID: 5EQLdFosQU6Hr3uppl3new==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69709415"
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="69709415"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 10:42:24 -0800
+X-CSE-ConnectionGUID: PZfH2U7WRRCYMOGyqhEU7w==
+X-CSE-MsgGUID: Nvs5kM4bSm+ywsAVwjGIiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
+   d="scan'208";a="191645332"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2025 10:42:23 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMW5N-0006jb-0s;
+	Fri, 21 Nov 2025 18:42:21 +0000
+Date: Sat, 22 Nov 2025 02:41:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCHv3 bpf-next 8/8] bpf, x86: Use single ftrace_ops for
+ direct calls
+Message-ID: <202511220217.s9169XhB-lkp@intel.com>
+References: <20251120212402.466524-9-jolsa@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202511211008.jgLuTcrQ-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: kal-rMlQ6dcslKjay1Wlgd6dRUm3X6pEYG-lSF1XJgY_1763749678
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251120212402.466524-9-jolsa@kernel.org>
 
-On Fri, Nov 21, 2025 at 11:00:32AM +0800, kernel test robot wrote:
-> Hi Peter,
-> 
-> kernel test robot noticed the following build errors:
+Hi Jiri,
 
-This appears to be a generic issue with UML, unrelated to this series.
+kernel test robot noticed the following build errors:
 
-https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/CONFIG_UML.20maybe.20broken.3F/with/558611169
+[auto build test ERROR on bpf-next/master]
 
-Thanks,
-Peter
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Make-alloc_and_copy_ftrace_hash-direct-friendly/20251121-052934
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251120212402.466524-9-jolsa%40kernel.org
+patch subject: [PATCHv3 bpf-next 8/8] bpf, x86: Use single ftrace_ops for direct calls
+config: i386-randconfig-141-20251121 (https://download.01.org/0day-ci/archive/20251122/202511220217.s9169XhB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220217.s9169XhB-lkp@intel.com/reproduce)
 
-> 
-> [auto build test ERROR on e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Colberg/rust-pci-add-is_virtfn-to-check-for-VFs/20251120-062302
-> base:   e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559
-> patch link:    https://lore.kernel.org/r/20251119-rust-pci-sriov-v1-1-883a94599a97%40redhat.com
-> patch subject: [PATCH 1/8] rust: pci: add is_virtfn(), to check for VFs
-> config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211008.jgLuTcrQ-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211008.jgLuTcrQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511211008.jgLuTcrQ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> error[E0599]: no method named `is_virtfn` found for struct `bindings::pci_dev` in the current scope
->    --> rust/kernel/pci.rs:415:35
->    |
->    415 |         unsafe { (*self.as_raw()).is_virtfn() != 0 }
->    |                                   ^^^^^^^^^ method not found in `pci_dev`
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220217.s9169XhB-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   kernel/bpf/trampoline.c: In function 'unregister_fentry':
+>> kernel/bpf/trampoline.c:335:23: error: implicit declaration of function 'direct_ops_del'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
+     335 |                 ret = direct_ops_del(tr->fops, tr->ip, old_addr);
+         |                       ^~~~~~~~~~~~~~
+         |                       direct_ops_free
+   kernel/bpf/trampoline.c: In function 'modify_fentry':
+>> kernel/bpf/trampoline.c:349:23: error: implicit declaration of function 'direct_ops_mod'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
+     349 |                 ret = direct_ops_mod(tr->fops, tr->ip, new_addr, lock_direct_mutex);
+         |                       ^~~~~~~~~~~~~~
+         |                       direct_ops_free
+   kernel/bpf/trampoline.c: In function 'register_fentry':
+>> kernel/bpf/trampoline.c:371:23: error: implicit declaration of function 'direct_ops_add'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
+     371 |                 ret = direct_ops_add(tr->fops, tr->ip, new_addr);
+         |                       ^~~~~~~~~~~~~~
+         |                       direct_ops_free
+
+
+vim +335 kernel/bpf/trampoline.c
+
+   328	
+   329	static int unregister_fentry(struct bpf_trampoline *tr, void *old_addr)
+   330	{
+   331		void *ip = tr->func.addr;
+   332		int ret;
+   333	
+   334		if (tr->func.ftrace_managed)
+ > 335			ret = direct_ops_del(tr->fops, tr->ip, old_addr);
+   336		else
+   337			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, old_addr, NULL);
+   338	
+   339		return ret;
+   340	}
+   341	
+   342	static int modify_fentry(struct bpf_trampoline *tr, void *old_addr, void *new_addr,
+   343				 bool lock_direct_mutex)
+   344	{
+   345		void *ip = tr->func.addr;
+   346		int ret;
+   347	
+   348		if (tr->func.ftrace_managed) {
+ > 349			ret = direct_ops_mod(tr->fops, tr->ip, new_addr, lock_direct_mutex);
+   350		} else {
+   351			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, old_addr, new_addr);
+   352		}
+   353		return ret;
+   354	}
+   355	
+   356	/* first time registering */
+   357	static int register_fentry(struct bpf_trampoline *tr, void *new_addr)
+   358	{
+   359		void *ip = tr->func.addr;
+   360		unsigned long faddr;
+   361		int ret;
+   362	
+   363		faddr = ftrace_location((unsigned long)ip);
+   364		if (faddr) {
+   365			if (!tr->fops)
+   366				return -ENOTSUPP;
+   367			tr->func.ftrace_managed = true;
+   368		}
+   369	
+   370		if (tr->func.ftrace_managed) {
+ > 371			ret = direct_ops_add(tr->fops, tr->ip, new_addr);
+   372		} else {
+   373			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, NULL, new_addr);
+   374		}
+   375	
+   376		return ret;
+   377	}
+   378	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
