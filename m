@@ -1,99 +1,105 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD73824DD15;
-	Fri, 21 Nov 2025 01:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229FE192B75;
+	Fri, 21 Nov 2025 02:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763690366; cv=none; b=OhY7BCa10ZBFG52kynQ/2gdD4ntk2n+pYBS76Rc60i0WodReJhbCXLc2ScH9/EoPbSSa6EW5UZev/mFKevmgyfCpLA10WR4aSDt5DK2uJGgTIb82zTBYFbOU0D33IFkEOgovT8gH1/IIrs6Qs1Zxgi+q/WSg19joJ6+VOWrxwhY=
+	t=1763691478; cv=none; b=Obeuui5M1PvTcV8TmJzjcO71Zqx/erkGxKQte8+qsV+YhYSGgCksGMD7rEP9bBFfHihbngwPj6ZaZOghHafqUgELqCqglTpwJ5+/+mLpRhIqIaKr1gxDSx1R4QBBqm/MvGJNhnm9M/qud1sFNFgjxjdxhrWnixssBBH37/UuFZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763690366; c=relaxed/simple;
-	bh=GIp0009+sUVrkjvzUUTzbgJHB8S8wPYfh9xGIoGtLHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=XBFeKjdmi0BqAFkognhF0Hkk3gxEI5eEytHTPAEKU4OBIvonveVq/mIy7MAKSeRblkMX7YoOi4AItAN1gtGqLq5TY5impJMmkDK25Hf8ul2raYZTw+U00IZV2qsabufoFBZXcIXsM5dcvOnS8mQl4G7hgnRam+NaeGRTyV/Nf30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oO7FkeeE; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1763691478; c=relaxed/simple;
+	bh=KKFkoZ0CkpXxzdLpgdAaS2bWx4sQivysV7gL/LituU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hl6gFKspotmyAUkvvbNSCIXyCJ4riiZzvV8hhlBSX7lrJbYdFx42o1A2GTavqthpCYVUuxmoXHc0svnrj7aNIfhRwLoVaQ9KDE1zHdFzJRY/iCiq+nVr9zwuRzQ5x2gRzC8pyLCE9a9qWfJ+dlm0vD+zjQpvHvMWJyRnXMJ6iAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8ZUkk8m; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oO7FkeeE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=8IxzA0xrDRDuCux7I/75OlQIhFWCZrW9huNpmM6c2T4=;
-	b=oO7FkeeEM51Lb0MdKyJBUbM6TX/LcMbaZV5EhyhjfHqfclk+U4zfapIHF0azYgBWx4ArKTKFx
-	t1YMU4B8OtTLHcwOMOGbTPmPOiUaxsDtrg1EantBTQm5YrxNot4nuuWzXt+yXisLgrQyNykC0+Z
-	YNOxmRW6pQM+62Tv2PpG1v0=
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dCJJf6xhjz12Lhq;
-	Fri, 21 Nov 2025 09:57:54 +0800 (CST)
-Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
-	by mail.maildlp.com (Postfix) with ESMTPS id A0BBB18048B;
-	Fri, 21 Nov 2025 09:59:21 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
- (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 21 Nov
- 2025 09:59:20 +0800
-Message-ID: <e588e7d9-54bb-4fa2-ab31-1381dc5a3987@huawei.com>
-Date: Fri, 21 Nov 2025 09:59:18 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8ZUkk8m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763691476; x=1795227476;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KKFkoZ0CkpXxzdLpgdAaS2bWx4sQivysV7gL/LituU4=;
+  b=T8ZUkk8mKu15Hj3a9/ft6p1FA5DwQnca9hyreCiJhKS1EYM1ZCAxxF7K
+   RHWDfwQ33xHTFz/dClQ98YwiQS0IIhQkL8ku1W29MCWS3PaqdmFsfAt/0
+   kz2U5BtD+4cirwRK2nh3wB1w3W3Op5ZSJqkns//oSHEtwj8KneAEeA+SF
+   oxg9vLRmQSzTvaGW+HrQy7h86T5VNqe3dyqLdnIygaujyEJEVNK74YM5A
+   suV2pA/6gTqKBbIty/6+Tq3Pu24cHsliAn6+ufKPU2A5KKn6mwJo8QXhT
+   Ov0bkTMbQzb4Z7Mpt+ZgPhL8hjH6NWzEinAn+bSoTnrfxj7js5SMBt12u
+   A==;
+X-CSE-ConnectionGUID: SUrM9uB1STWsqIRPPET3Hw==
+X-CSE-MsgGUID: 7JToWW6oTHKmiCUCJctmnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65867109"
+X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; 
+   d="scan'208";a="65867109"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 18:17:55 -0800
+X-CSE-ConnectionGUID: htcue1W8QKqHRGrUcIvyvQ==
+X-CSE-MsgGUID: +G1xQ2ePQQ6Wdh0lVZCRYA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Nov 2025 18:17:54 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vMGie-0004qV-0t;
+	Fri, 21 Nov 2025 02:17:52 +0000
+Date: Fri, 21 Nov 2025 10:17:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Igor Korotin <igor.korotin.linux@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: error[E0609]: no field `driver_data` on type `acpi_device_id`
+Message-ID: <202511211001.ultbf9IZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/24] ext4: make data=journal support large block size
-Content-Language: en-GB
-To: Theodore Tso <tytso@mit.edu>
-CC: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
-	<libaokun@huaweicloud.com>, <linux-ext4@vger.kernel.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <adilger.kernel@dilger.ca>, <jack@suse.cz>,
-	<linux-kernel@vger.kernel.org>, <kernel@pankajraghav.com>,
-	<mcgrof@kernel.org>, <ebiggers@kernel.org>, <willy@infradead.org>,
-	<yi.zhang@huawei.com>, <yangerkun@huawei.com>, <chengzhihao1@huawei.com>,
-	Baokun Li <libaokun1@huawei.com>
-References: <202511161433.qI6uGU0m-lkp@intel.com>
- <ce363839-18af-4372-b7c2-e08cb053e403@huawei.com>
- <20251120154104.GA13687@macsyma-3.local>
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <20251120154104.GA13687@macsyma-3.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500013.china.huawei.com (7.185.36.188)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025-11-20 23:41, Theodore Tso wrote:
-> On Thu, Nov 20, 2025 at 09:21:23AM +0800, Baokun Li wrote:
->> Oops! You nailed it. My bad, I totally forgot that unlock here, which
->> definitely left the lock unbalanced. I'll get that fixed up in v3.
-> I think you meant v4 (since the current patch series are v3 :-). 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd95357fd8c6778ac7dea6c57a19b8b182b6e91f
+commit: a74931eb59cf6b914e1b9471d9abd4429176f6af rust: acpi: add `acpi::DeviceId` abstraction
+date:   5 months ago
+config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211001.ultbf9IZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211001.ultbf9IZ-lkp@intel.com/reproduce)
 
-Haha, yes, , I messed up the version number. 😅
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511211001.ultbf9IZ-lkp@intel.com/
 
->  When
-> do you think you might be able to get the next version of this patch
-> series ready?  I think we're almost ready to land this feature!
->
->        	       	       	     	    	     - Ted
->
-Yep, the current tests look clean! Good news on the dependencies too:
-[1] and [2] are already merged to next.
+All errors (new ones prefixed by >>):
 
-[1]:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ee040cbd6e48
-[2]:
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=50b2a4f19b22
+>> error[E0609]: no field `driver_data` on type `acpi_device_id`
+   --> rust/kernel/acpi.rs:22:87
+   |
+   22 |     const DRIVER_DATA_OFFSET: usize = core::mem::offset_of!(bindings::acpi_device_id, driver_data);
+   |                                                                                       ^^^^^^^^^^^
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `driver_data` on type `acpi_device_id`
+   --> rust/kernel/acpi.rs:25:16
+   |
+   25 |         self.0.driver_data as _
+   |                ^^^^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
+--
+>> error[E0609]: no field `id` on type `acpi_device_id`
+   --> rust/kernel/acpi.rs:45:18
+   |
+   45 |             acpi.id[i] = src[i];
+   |                  ^^ unknown field
+   |
+   = note: available field is: `_address`
 
-I'll be sending out v4 today to fix the issue Dan mentioned, and then
-I think this feature is ready to land! 
-
-[P.S.: I noticed Christoph Hellwig and Eric Biggers are cleaning up the
- fscrypt API. That might clear the way for us to ditch the "no fscrypt
- support for ext4 LBS" restriction later on. I'm also looking into
- speeding up large block checksums. But I think these extra features and
- improvements can evolve independently from the work we’re doing now.]
-
-
-Cheers,
-Baokun
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
