@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8C72F0C74
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 18:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503362FD692
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 19:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763750546; cv=none; b=hRG0ShIkioASFB196FFhbmHSMhBDoaGLCVJAaZoPB9R9ajn34huHnvgZVmhGeGRRV0JtjjmxcWff5qU7NlZzKQDq98DvRaF1N84OFctb12O1OjwJcEr3AnF6g/HOrecQiy2crYZ6V0mPZcpOHoQ8OGcO7ejSmeWr5+wu3tYP54A=
+	t=1763752475; cv=none; b=ZWGVWJ6rLHqO1omJSfrkkmzwBqK671Hhj4avow/+cIQ+T4JejVtE82zmsi5mUiZO8vV+O4RtTSW0tjqBEdVBYHUz4IuyAKA09zvrcxMGo4fUSZJcH3VWkGDI6rEU0rBTTFmglsgFm7AwERMNbH5hUat1c0V9IJ1kGnIGo5EPyk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763750546; c=relaxed/simple;
-	bh=hxUl/gupKPEcEBukDTmNcrH9MguQeVgUncvyEu0YNus=;
+	s=arc-20240116; t=1763752475; c=relaxed/simple;
+	bh=Sq7InRy7vQv3Am7QucNFmVEs8KWoC3b59FzoPbem2sM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c3cFS4dtqP7Artk6dLPnfVtMEW+Jz6hI+L/7U0XCRwkiUNEBvPp7Fog8AKjcEdYQDVKSS940h0AUxCCUC1352qPDuZU2PqDhcoR03M+gi+OQmsxve0xENPLJbEEL0x0YIEpUBzv0a/v4tRNxuFGv6CuBK4gpKc0Ze9GFUvIQJ+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RqnsqhFP; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=NUDXvKHv2oBf2NMeYc7T7ajzF1CXyZmSKaKSJExSe+IRxMat6fzpK32YhsV4lj1+qRn0lvn2HCaPiIf5CWVYLT88oFeMAwgJBQsKwgD9iwBOiJ6XIiBvFgtZRa35qgStcHcEgR1F9o1VialkLGFZN7+R54Ir+//7o8i7uw0RWUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccOI44VC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RqnsqhFP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccOI44VC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763750545; x=1795286545;
+  t=1763752475; x=1795288475;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hxUl/gupKPEcEBukDTmNcrH9MguQeVgUncvyEu0YNus=;
-  b=RqnsqhFPge5ANpqR8M2SlofdVRmRBg8ByjyY6PIPAPxKPEuKisITNNp6
-   KjCCUfl5IPD1hsHV9xCjuJj7R1zWrPs6Cv0VHWObAa9/xR9GKp24OwNGV
-   MYvgNFU/eedgTewZIxPumjl1wtKZbbQymc6TPYgCtSljYsjc+EJi5CPq/
-   x2XxaUAHyK4sloRNHv3RlHmsiiyWzpj7GrpQGv0NfKZdy25ZTMcagc4X2
-   CG2/riAcSr9K/WFHt8nrIyzZ6Bg0UuF6wjmEtcgx7SVTkToBv3C6olFuQ
-   nwldIc5JgJWRaZ7FcQU/8ePRbTOfDctfebP9oCKxiIX3x/c5W1jr1xAbo
-   A==;
-X-CSE-ConnectionGUID: gSyGzDQKS0mnE3dZWKRzbQ==
-X-CSE-MsgGUID: 5EQLdFosQU6Hr3uppl3new==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69709415"
+  bh=Sq7InRy7vQv3Am7QucNFmVEs8KWoC3b59FzoPbem2sM=;
+  b=ccOI44VCYQ68WV8WABsyNgFUdJq2jmyoClCBXzKye+teD66wN4BMpd+a
+   LRtThXLSL6Ooh0cOE7nd7stWi92EUJb5/viGRIsyn4uPlWCnTWZcA2+VK
+   U7RaiutQCUHVV/uQtyjxh2g6qLq9JazNJjW7e5JZon2WbUugfnEFDPIdQ
+   enLlipgajslPp/Pu8fotLm55Zmej6eFLLDxatrKtTiSYi5971bgODhMdS
+   amil0JrGFD/q9nnWO7u/Cocb1SES9ASaWHJ5YeTtOiL7MK1g7g8Vags2+
+   v/oEryA4WI26qBm4+PEU5RbKPpFIKm0njVoGKW8Q3LiavNsHaV6lXlV1e
+   g==;
+X-CSE-ConnectionGUID: QOjRa8+0Q16YTRxRac622w==
+X-CSE-MsgGUID: oFrBBVJpQ425pBY7tPYusg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="53424125"
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="69709415"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 10:42:24 -0800
-X-CSE-ConnectionGUID: PZfH2U7WRRCYMOGyqhEU7w==
-X-CSE-MsgGUID: Nvs5kM4bSm+ywsAVwjGIiw==
+   d="scan'208";a="53424125"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 11:14:33 -0800
+X-CSE-ConnectionGUID: BpTgHjmEQHaQmTruCPUJ6A==
+X-CSE-MsgGUID: ia2OXpdSQ2GcSFhTM5c1NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="191645332"
+   d="scan'208";a="196238714"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2025 10:42:23 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Nov 2025 11:14:28 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMW5N-0006jb-0s;
-	Fri, 21 Nov 2025 18:42:21 +0000
-Date: Sat, 22 Nov 2025 02:41:44 +0800
+	id 1vMWaP-0006m5-1Y;
+	Fri, 21 Nov 2025 19:14:25 +0000
+Date: Sat, 22 Nov 2025 03:13:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCHv3 bpf-next 8/8] bpf, x86: Use single ftrace_ops for
- direct calls
-Message-ID: <202511220217.s9169XhB-lkp@intel.com>
-References: <20251120212402.466524-9-jolsa@kernel.org>
+To: Ma Ke <make24@iscas.ac.cn>, andrew@lunn.ch, olteanv@gmail.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, florian.fainelli@broadcom.com,
+	stephen@networkplumber.org, robh@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] net: dsa: Fix error handling in dsa_port_parse_of
+Message-ID: <202511220203.nggER5yL-lkp@intel.com>
+References: <20251121035130.16020-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,99 +67,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251120212402.466524-9-jolsa@kernel.org>
+In-Reply-To: <20251121035130.16020-1-make24@iscas.ac.cn>
 
-Hi Jiri,
+Hi Ma,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.18-rc6 next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Make-alloc_and_copy_ftrace_hash-direct-friendly/20251121-052934
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251120212402.466524-9-jolsa%40kernel.org
-patch subject: [PATCHv3 bpf-next 8/8] bpf, x86: Use single ftrace_ops for direct calls
-config: i386-randconfig-141-20251121 (https://download.01.org/0day-ci/archive/20251122/202511220217.s9169XhB-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/net-dsa-Fix-error-handling-in-dsa_port_parse_of/20251121-115449
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251121035130.16020-1-make24%40iscas.ac.cn
+patch subject: [PATCH] net: dsa: Fix error handling in dsa_port_parse_of
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251122/202511220203.nggER5yL-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220217.s9169XhB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220203.nggER5yL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511220217.s9169XhB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220203.nggER5yL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/bpf/trampoline.c: In function 'unregister_fentry':
->> kernel/bpf/trampoline.c:335:23: error: implicit declaration of function 'direct_ops_del'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
-     335 |                 ret = direct_ops_del(tr->fops, tr->ip, old_addr);
-         |                       ^~~~~~~~~~~~~~
-         |                       direct_ops_free
-   kernel/bpf/trampoline.c: In function 'modify_fentry':
->> kernel/bpf/trampoline.c:349:23: error: implicit declaration of function 'direct_ops_mod'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
-     349 |                 ret = direct_ops_mod(tr->fops, tr->ip, new_addr, lock_direct_mutex);
-         |                       ^~~~~~~~~~~~~~
-         |                       direct_ops_free
-   kernel/bpf/trampoline.c: In function 'register_fentry':
->> kernel/bpf/trampoline.c:371:23: error: implicit declaration of function 'direct_ops_add'; did you mean 'direct_ops_free'? [-Wimplicit-function-declaration]
-     371 |                 ret = direct_ops_add(tr->fops, tr->ip, new_addr);
-         |                       ^~~~~~~~~~~~~~
-         |                       direct_ops_free
+   net/dsa/dsa.c: In function 'dsa_port_parse_of':
+>> net/dsa/dsa.c:1265:36: error: passing argument 1 of 'put_device' from incompatible pointer type [-Wincompatible-pointer-types]
+    1265 |                         put_device(conduit);
+         |                                    ^~~~~~~
+         |                                    |
+         |                                    struct net_device *
+   In file included from net/dsa/dsa.c:10:
+   include/linux/device.h:1181:32: note: expected 'struct device *' but argument is of type 'struct net_device *'
+    1181 | void put_device(struct device *dev);
+         |                 ~~~~~~~~~~~~~~~^~~
 
 
-vim +335 kernel/bpf/trampoline.c
+vim +/put_device +1265 net/dsa/dsa.c
 
-   328	
-   329	static int unregister_fentry(struct bpf_trampoline *tr, void *old_addr)
-   330	{
-   331		void *ip = tr->func.addr;
-   332		int ret;
-   333	
-   334		if (tr->func.ftrace_managed)
- > 335			ret = direct_ops_del(tr->fops, tr->ip, old_addr);
-   336		else
-   337			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, old_addr, NULL);
-   338	
-   339		return ret;
-   340	}
-   341	
-   342	static int modify_fentry(struct bpf_trampoline *tr, void *old_addr, void *new_addr,
-   343				 bool lock_direct_mutex)
-   344	{
-   345		void *ip = tr->func.addr;
-   346		int ret;
-   347	
-   348		if (tr->func.ftrace_managed) {
- > 349			ret = direct_ops_mod(tr->fops, tr->ip, new_addr, lock_direct_mutex);
-   350		} else {
-   351			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, old_addr, new_addr);
-   352		}
-   353		return ret;
-   354	}
-   355	
-   356	/* first time registering */
-   357	static int register_fentry(struct bpf_trampoline *tr, void *new_addr)
-   358	{
-   359		void *ip = tr->func.addr;
-   360		unsigned long faddr;
-   361		int ret;
-   362	
-   363		faddr = ftrace_location((unsigned long)ip);
-   364		if (faddr) {
-   365			if (!tr->fops)
-   366				return -ENOTSUPP;
-   367			tr->func.ftrace_managed = true;
-   368		}
-   369	
-   370		if (tr->func.ftrace_managed) {
- > 371			ret = direct_ops_add(tr->fops, tr->ip, new_addr);
-   372		} else {
-   373			ret = bpf_arch_text_poke(ip, BPF_MOD_CALL, NULL, new_addr);
-   374		}
-   375	
-   376		return ret;
-   377	}
-   378	
+  1243	
+  1244	static int dsa_port_parse_of(struct dsa_port *dp, struct device_node *dn)
+  1245	{
+  1246		struct device_node *ethernet = of_parse_phandle(dn, "ethernet", 0);
+  1247		const char *name = of_get_property(dn, "label", NULL);
+  1248		bool link = of_property_read_bool(dn, "link");
+  1249		int err;
+  1250	
+  1251		dp->dn = dn;
+  1252	
+  1253		if (ethernet) {
+  1254			struct net_device *conduit;
+  1255			const char *user_protocol;
+  1256	
+  1257			conduit = of_find_net_device_by_node(ethernet);
+  1258			of_node_put(ethernet);
+  1259			if (!conduit)
+  1260				return -EPROBE_DEFER;
+  1261	
+  1262			user_protocol = of_get_property(dn, "dsa-tag-protocol", NULL);
+  1263			err = dsa_port_parse_cpu(dp, conduit, user_protocol);
+  1264			if (err) {
+> 1265				put_device(conduit);
+  1266				return err;
+  1267			}
+  1268	
+  1269			return 0;
+  1270		}
+  1271	
+  1272		if (link)
+  1273			return dsa_port_parse_dsa(dp);
+  1274	
+  1275		return dsa_port_parse_user(dp, name);
+  1276	}
+  1277	
 
 -- 
 0-DAY CI Kernel Test Service
