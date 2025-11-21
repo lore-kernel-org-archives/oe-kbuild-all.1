@@ -1,58 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EFB1C5D59
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 05:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF4323EAB8;
+	Fri, 21 Nov 2025 06:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763703558; cv=none; b=hGGs1cgqaLUI0D3BMsbXD3DD23WT39vGQ47Q5NnPOUAnddPRYTi9ZDpyBSaQmw+hnfVDn1GxpvMuTwO31Fdg/mHnXps2l/XFoE4lQ5l/PzrItXTmZUv0gT4+9IVwlR+RQPX+ftUw7+zRKYRvbG3YBQD7V6Sjbz8l0I/7Ois/cP0=
+	t=1763704885; cv=none; b=iOiOZfqKLQfxQs4MVxukwF1AaeKsJdUwRVxzdnwxnm91GxeotFkHqNqKJAv+8DKlAyYUQDu1T2Qq8En3u+z6cvJulSLRNgp5KJyjhtNf/qn6cYHlbGPJbBnCsawM2TakCK03cU3naoV0VPMuleNhbIgzn57X1Op+jNUR6mfmvjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763703558; c=relaxed/simple;
-	bh=Z/IIOasj73CXW4/au1p9VNcZj/kUKbhHkLVY18xRVtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j6ezPNxh4mVIBmyzcxbcp/F9TQ1cqhKwKBfZfqqCZ41iNsoWPMWeecWzftYjZhJMq856OaKpPYUXSPSESSZSgJbX1vLeFlTr80X3iKJNb+yq09jlUneUFb7DAmMvSq1HiCw2JZ9gkUQWNvp+MqU0RBXLrvddkil3IEqmdLVaLqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUIubQD5; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1763704885; c=relaxed/simple;
+	bh=VxJUVnrel4GrYcjD7+FVaUwXq4Hddg0oQdzEZbbT1x4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=In1vu256MwmdcU2k0jLyoYnNYm/xJtpNyZUAJ39pHF7wNSTyxKuGtH5MTU0V5yAF1DddO0dixH68fQnAU8Lup59t9T8jwt18DR6avXjUHeOb6f43yOamJ/Wv8vcLY+eDf/oZQfq2wJuB3PzTJdefiAooqQ2YmDYkX9DK1FyrJcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cA0fhmCf; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUIubQD5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cA0fhmCf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763703556; x=1795239556;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z/IIOasj73CXW4/au1p9VNcZj/kUKbhHkLVY18xRVtI=;
-  b=IUIubQD5fnkApLX4tAwoIznCQ+33mRCT3qK3eNErUMUQAQQDC8gSBCOP
-   ZqLSt5rVbUIFit1ZJsyH2bJ8yuvoseR9mA1fFaen+BWr1upJllbi+jl9C
-   I4OJHivR/SHon242aUeUkdDIW7+7IEitmBc16A71eS0uSVwUnw7XvWERc
-   HHlV8SrsOmzBVAvEEnwal3gLZT3CkVNiL149HHyaa+JkYFvv8enR0d+nu
-   v3jCu/CZ4LFvazr4T2eXs7K8/T35elvr6b1UHaspSxi3REqZLa/9TRXM2
-   nw3o2DwogEMQQFLJZM9xakccbucR+iimzaJ5yicpoeyCKZ7StB0eitLum
-   Q==;
-X-CSE-ConnectionGUID: 99ORmJi3RGqatVlaeObb2A==
-X-CSE-MsgGUID: umjx7HFHQF2GyDzwLmxaug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65821028"
+  t=1763704884; x=1795240884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VxJUVnrel4GrYcjD7+FVaUwXq4Hddg0oQdzEZbbT1x4=;
+  b=cA0fhmCfA92P13y349Hdud2Cvr1RcoWkbikJy/uIg+mUuDsFbihru8b9
+   PxH1I0fMKsRhrZmpmi2NHzWjsX0F8GDQLTzta1VRZd5YeBERhqkm5hKhU
+   vqph9pCGZlRm3HZY8uFOG6A/MB8bj3hKKVO6FLaD565Bl9hwi5HkwO7b9
+   I0KE4TdUqe/bKzbb/iIfLCBJ5QV5pZ1RE1PxLitg6WIsEpry34HKxXX5x
+   W0YQUiuISXHRUpZgWxnga/REM33uO69uGTKmY5rzsttYXHxpSrimqsCA3
+   mVnxliH+MRoauU88VRnbesV7J4XvCQN2RmInsYSJKprM2wuwodPWtW30y
+   w==;
+X-CSE-ConnectionGUID: l0SkohymTfWlcSQr5qGMKQ==
+X-CSE-MsgGUID: 6BXXq6MeTCWebMlftSKRfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="88442596"
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="65821028"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 21:39:16 -0800
-X-CSE-ConnectionGUID: tl8bqFlVQ3qEukVnsOEWyg==
-X-CSE-MsgGUID: XZv3xocsSQS+6vq9O3Czdg==
+   d="scan'208";a="88442596"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 22:01:23 -0800
+X-CSE-ConnectionGUID: mg0w5TNUSa+iEJ1jHHJkmw==
+X-CSE-MsgGUID: lYGsrtOCT9iCOVAefWA4oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; 
-   d="scan'208";a="196075279"
+   d="scan'208";a="196738488"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Nov 2025 21:39:15 -0800
+  by orviesa005.jf.intel.com with ESMTP; 20 Nov 2025 22:01:17 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMJrU-00050R-1y;
-	Fri, 21 Nov 2025 05:39:12 +0000
-Date: Fri, 21 Nov 2025 13:39:09 +0800
+	id 1vMKCo-00051X-1Q;
+	Fri, 21 Nov 2025 06:01:14 +0000
+Date: Fri, 21 Nov 2025 14:00:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 5/8] make[4]: *** No rule to make target
- 'crypto/mldsa.o', needed by 'crypto/built-in.a'.
-Message-ID: <202511211351.S8EZksFx-lkp@intel.com>
+To: Peter Colberg <pcolberg@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+	Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 6/8] rust: pci: add bus callback sriov_configure(), to
+ control SR-IOV from sysfs
+Message-ID: <202511211317.FkJsCIc0-lkp@intel.com>
+References: <20251119-rust-pci-sriov-v1-6-883a94599a97@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +85,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251119-rust-pci-sriov-v1-6-883a94599a97@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   0baca2aa9ee7559c68e1631bb8a9be65fc4a99dc
-commit: b674f2e232b8e3e6016ad724ab94c4f03a54ae0b [5/8] crypto: Add ML-DSA crypto_sig support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251121/202511211351.S8EZksFx-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211351.S8EZksFx-lkp@intel.com/reproduce)
+Hi Peter,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Colberg/rust-pci-add-is_virtfn-to-check-for-VFs/20251120-062302
+base:   e4addc7cc2dfcc19f1c8c8e47f3834b22cb21559
+patch link:    https://lore.kernel.org/r/20251119-rust-pci-sriov-v1-6-883a94599a97%40redhat.com
+patch subject: [PATCH 6/8] rust: pci: add bus callback sriov_configure(), to control SR-IOV from sysfs
+config: um-randconfig-001-20251121 (https://download.01.org/0day-ci/archive/20251121/202511211317.FkJsCIc0-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511211317.FkJsCIc0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511211351.S8EZksFx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511211317.FkJsCIc0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> make[4]: *** No rule to make target 'crypto/mldsa.o', needed by 'crypto/built-in.a'.
-   make[4]: Target 'crypto/' not remade because of errors.
+>> error[E0609]: no field `sriov_configure` on type `pci_driver`
+   --> rust/kernel/pci.rs:71:31
+   |
+   71 |                 (*pdrv.get()).sriov_configure = Some(Self::sriov_configure_callback);
+   |                               ^^^^^^^^^^^^^^^ unknown field
+   |
+   = note: available field is: `_address`
 
 -- 
 0-DAY CI Kernel Test Service
