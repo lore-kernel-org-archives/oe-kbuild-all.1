@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D29C30B505
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 22:48:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D778B30CDBA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Nov 2025 22:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763765342; cv=none; b=GMkKullA85QiVRDI4cS80oSDep97SIWVnHuJjWM9XA8M4hD7LzwvLMrKcmwXtvGVhIldDCwsMhOw9Sdtiy1hkpE8OmW4SX+ER3piy0iWRRNNe1n2zbmv12z8hLTIDirbBxu1bYEtFA1DZKKjmAGgVcelv6M3ewfkriZitq7GBjE=
+	t=1763765938; cv=none; b=VRAnXbvO/sHQlXmkRJJ1qjruqrnBjPXfXfUZFIzjwDa+tCXtlLx4eHSFm3oL+ad5mxHsn8Kvla35Pfn61Z5lyEPiatPCMB3t2b879QWcQiiAHQlulM8zdv51F5h4kS/nInkAVuABkMtBoKDp3BIf+OSms244Z8nJuPAK6VcBGtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763765342; c=relaxed/simple;
-	bh=UgnUuHq2aS+gVEtgh/nhTebWa2EinounUYxTLRJHn9Q=;
+	s=arc-20240116; t=1763765938; c=relaxed/simple;
+	bh=h54kPHfmf/TCt0yGaVN1O1i+TZrk+u93k4ZFa1X/8MY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CjBiRsnBYqTuzsOhWc+W51tu/yt6GXzcy8lfbC/A57d2D2eAoShCJG6uWQ6Gln1F257P4W6I4IcvXRm84OACaiYAas0P+r1mo2OtWo+q6vyQdoO61frj5osr0aeshUp0LWmYbckIDGUM+48gLcCZCZA6j9YANLJuIYBqD6JUe/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0SdAYIV; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=g63dljiyvgl976kcwnl79E1WfBaEPfSYrV2XXlUKwjFjxT2EkhqEDtAH0OGKEgXsuOWmDhX5kItn2MbSXpU7wfkaoqB9kRZMYpDIsHyT+EFueIJkrko5U9ANWP7m14WL6rZCfUeDw8m1qJPrZxQY2hOppdhlPPaKdl0b3CEOtQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HF9pei1v; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0SdAYIV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HF9pei1v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763765340; x=1795301340;
+  t=1763765934; x=1795301934;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UgnUuHq2aS+gVEtgh/nhTebWa2EinounUYxTLRJHn9Q=;
-  b=G0SdAYIV7xKAJWcIiYdNqCHxjVbGX0FH12mC2ExRkyI25V8GakvByydH
-   gGz2KM7jwH1rmHHNBBhz8/i9JMt1AW3nTmxRERWstHutsIFmxUbbw20tP
-   AXspjT2vES0KpuTaaLl5anC7TLr161p8TTqDz/nfvu674SaLBQOLGDaee
-   fW3ZlcMpQHy1/nKjoKoYBx97OQTyY81GcEtWbiwH/gvSiu81vJ48vy4/s
-   NetznPDEm9LMXhj7vgQm3qMeoqsanBdcZuQQ8ccLdxVVG14cmwZCIwgRp
-   5SUwVH4OjfFtBbmm5o/7Vkr0gaq5f9ndBLDKSlxotUZC5N2QrI9N6zK4V
-   w==;
-X-CSE-ConnectionGUID: C1ONCxNkSealXeD/SFsKmQ==
-X-CSE-MsgGUID: zMO9DV/OSu++YJZu87ZV0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="65749121"
+  bh=h54kPHfmf/TCt0yGaVN1O1i+TZrk+u93k4ZFa1X/8MY=;
+  b=HF9pei1v7/WyFTG4l+qiPLL6daYeJJXatMs2gPpzjgCCCQft2H5ZA2yb
+   RfujSF4XuYRvO+sCwyI0t4z3jU92+v5aIJBTv4B0eQx/fWrdoZFxDtBxK
+   fVrZkKAzH9Pw/qd7FFY7ZG9bGswjpt4NWQ3dfYimNxKrhuuyhaTa5LGll
+   Lldm+j68Dr+XEI5JE0kJE237eII4Ga5dNw4XXgdC5ID6K/bxhZx951PmS
+   AJp1fOiLyl9CXzudkmXGkl+OaPjnSaXHa+dLJPI3l9oAoQjWuoOTgoyi4
+   7p9dgBHORB9BceBrsyz6nTKoBqQ5rYun8msFIZPwHnrftBQtIRBWlBH+o
+   Q==;
+X-CSE-ConnectionGUID: h8+vNEX/SaOFca6OYBARFQ==
+X-CSE-MsgGUID: 2nthAPoiQkK9lHSreZQl9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="65056797"
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="65749121"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 14:48:53 -0800
-X-CSE-ConnectionGUID: uaY+md88Q1aNsL+jL456Aw==
-X-CSE-MsgGUID: ILA/ETOkQdWJkzVcfuLyLA==
+   d="scan'208";a="65056797"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 14:58:54 -0800
+X-CSE-ConnectionGUID: 27YVYb5cTMm54cZX0aQP5Q==
+X-CSE-MsgGUID: hGl67jGlQV2OrfMJbzUzog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; 
-   d="scan'208";a="229105892"
+   d="scan'208";a="195973342"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Nov 2025 14:48:51 -0800
+  by orviesa003.jf.intel.com with ESMTP; 21 Nov 2025 14:58:52 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMZvt-0006w5-13;
-	Fri, 21 Nov 2025 22:48:49 +0000
-Date: Sat, 22 Nov 2025 06:48:03 +0800
+	id 1vMa5a-0006wn-1Z;
+	Fri, 21 Nov 2025 22:58:50 +0000
+Date: Sat, 22 Nov 2025 06:58:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [morimoto:renesas-lts/v6.18-rc6-2025-11-20-x5h-ironhide-2 41/41]
- drivers/mailbox/mailbox.c:417:27: error: implicit declaration of function
- 'kcalloc'
-Message-ID: <202511220645.7cecVAWH-lkp@intel.com>
+ drivers/mailbox/mailbox.c:417:25: warning: assignment to 'const char **'
+ from 'int' makes pointer from integer without a cast
+Message-ID: <202511220608.0x3E5Voj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,30 +66,45 @@ Content-Disposition: inline
 tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc6-2025-11-20-x5h-ironhide-2
 head:   2b4bb2b272501af9302a01713e7e35ec89d1297a
 commit: 2b4bb2b272501af9302a01713e7e35ec89d1297a [41/41] mailbox: add new {fw/of}_xlate_with_name()
-config: um-randconfig-r071-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220645.7cecVAWH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220645.7cecVAWH-lkp@intel.com/reproduce)
+config: xtensa-randconfig-r072-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220608.0x3E5Voj-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220608.0x3E5Voj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511220645.7cecVAWH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511220608.0x3E5Voj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    drivers/mailbox/mailbox.c: In function 'mbox_request_channel':
->> drivers/mailbox/mailbox.c:417:27: error: implicit declaration of function 'kcalloc' [-Wimplicit-function-declaration]
+   drivers/mailbox/mailbox.c:417:27: error: implicit declaration of function 'kcalloc' [-Werror=implicit-function-declaration]
      417 |         mbox_name_array = kcalloc(index + 1, sizeof(char*), GFP_KERNEL);
          |                           ^~~~~~~
->> drivers/mailbox/mailbox.c:417:25: error: assignment to 'const char **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>> drivers/mailbox/mailbox.c:417:25: warning: assignment to 'const char **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
      417 |         mbox_name_array = kcalloc(index + 1, sizeof(char*), GFP_KERNEL);
          |                         ^
->> drivers/mailbox/mailbox.c:459:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+   drivers/mailbox/mailbox.c:459:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
      459 |         kfree(mbox_name_array);
          |         ^~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for GPIO_SYSCON
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
+   Selected by [m]:
+   - GPIO_SAMA5D2_PIOBU [=m] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [m]:
+   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=m]
 
 
-vim +/kcalloc +417 drivers/mailbox/mailbox.c
+vim +417 drivers/mailbox/mailbox.c
 
    367	
    368	/**
@@ -183,7 +198,7 @@ vim +/kcalloc +417 drivers/mailbox/mailbox.c
    456				chan = ERR_PTR(ret);
    457		}
    458	end:
- > 459		kfree(mbox_name_array);
+   459		kfree(mbox_name_array);
    460	
    461		return chan;
    462	}
