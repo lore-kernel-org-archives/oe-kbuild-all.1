@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48151A9FB7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 17:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44972227E83;
+	Sat, 22 Nov 2025 17:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763832431; cv=none; b=b8vEBxJQkurWTczr2utETsoFoT5jW72Aow9oE1iYZaEZzpsPYv5EHpO+tyXxCMY6AMfu8Xncy3EE6EmJyECvq5ESOocviS0KrankHHsqJMp/dh7lIX32R15Lr2xNxiHaE2gqMk35eTChLP8eHg+rT6fFuvGkJyAXDcapK45jaUs=
+	t=1763833754; cv=none; b=BEm+xSUgTrjvSDMLw8HczdMjVujEMfgzTtesdXbcC2LNCWA2WFeLIQ9fKcdUmIBhaikDqGunT+5I95prVuQZ3Fw8WyCUnxssZMZ4wmeJEG7+eG3hIXpO7mArhNTozye8zvnzguPgZw89LLrJaagnK3vOp3OH5BzxwMRfEh/7epo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763832431; c=relaxed/simple;
-	bh=XBWE4HNE03KVKBCNjtDkAYqEL74A//3jYopyGPatw+0=;
+	s=arc-20240116; t=1763833754; c=relaxed/simple;
+	bh=YUur6DbwKTKWFOrhDPHTes0/J1kDIJkq4u0+VBq/R0w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qpm/PqiXcYzZDYOva5kKUoSqvUJIaYJU+mthzIeOhOMgkxZppe5KAm3iO9VjEgpyyKZtguWKlilIx9fDqK0rizswHPtIiM3Z9pvz7Of8CEe3b8OgA8GyFNiv9NB2WmsXGNBkzbzQ5sRb/x37DwzpEeItz3SahViWBBEGcsumr6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbA4/8+E; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Lf+exWY4uetlaAGWrlbJuVepZjs6eBGgipvfVA++3KNmFmTulIGwoSr0Jcb8uGOVeY65mHIjN7P9gamsJAxs+1kgBT+n3iQteauP5vEOmGW/VAIHTVKzXeESVzZKSyilnBvlgmalv2sTBkelHvaeC5dcByMbTJBvA5OnxrMmNAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdkkdI8b; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbA4/8+E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdkkdI8b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763832430; x=1795368430;
+  t=1763833752; x=1795369752;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XBWE4HNE03KVKBCNjtDkAYqEL74A//3jYopyGPatw+0=;
-  b=FbA4/8+El+jZExh/Ba2XFn7s5eXqLmQ6O7IlPLFr+MaPLUr00mBaeHiy
-   KpkrojtRDe0eftq1sdEm7gZBS4zdL+OszBtYZc3wUITPJNqyeTR/NnV+o
-   nwXZUyd8BsoS4DNRuJx5ddxMxwgTe0TiVeghFMgS4kWa5hu6AWEmC9N4P
-   drRJnlhLDyh5bI9eMsXbQdoNt1yKy3x8pIxrP1ahDiF1Y10MnjDGfc8+g
-   6c7QNG5YYik5rdHBU9pNpqhHIHWKhZDnF+E/pBg/YHVpxCIkGU1q15Zyl
-   rStvMM1+kVA7lJiORL/kI6mZplHaw5JBC5VZF8GGmoqT2Cp+Lx5k9Qm2q
-   Q==;
-X-CSE-ConnectionGUID: WQtXQAmQSjSti1bk6sBkag==
-X-CSE-MsgGUID: Hzde9+02RwmDud9ZXfoYqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65927574"
+  bh=YUur6DbwKTKWFOrhDPHTes0/J1kDIJkq4u0+VBq/R0w=;
+  b=WdkkdI8bcBhb+loY6jQ8DVSPQnwyNV7SInb4rJHsOn9BQq22gdhEU0L6
+   wph9vRvqPcQhUTscZ4/UE5X9km+P4yHXHf02t/76EZDQIgYnnIuGM6qVy
+   oL2Sf3eYQSXmueAq8qHiQMO8JSk3fzHzsyD2dTJ96IiF2PDkzjcZc4B4U
+   tvPHPpFGVDwxSaBNzIkRVw9t9ERRlz0UBW8VFltNvpy9aiPh+bqrtoQLn
+   lEaE7rGWbpp2nZArmZ1pWcwc6SzgbObjuCd2FOIuXJQlyiqg/S6w4tqqI
+   5F+h43YYQ1cBvn9koIHNfQ4kuTxggGN9eQQDP6yoIf4mAnilk1ulbj8Sp
+   A==;
+X-CSE-ConnectionGUID: O8Yu3tq9TQew3dbi5hHLTQ==
+X-CSE-MsgGUID: OMJguwdrS+qLjEIS/o964Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="76586306"
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="65927574"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 09:27:08 -0800
-X-CSE-ConnectionGUID: q9cRp+xRQjWyrT8PjbUntA==
-X-CSE-MsgGUID: PaSQuxUjThmA8jAAZY0Wuw==
+   d="scan'208";a="76586306"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 09:49:11 -0800
+X-CSE-ConnectionGUID: molzxrzFQ2a2AjxpgrLA9w==
+X-CSE-MsgGUID: hJUvlbifRG2JF/9gsvWIQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="222588254"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Nov 2025 09:27:08 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 22 Nov 2025 09:49:10 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMrO5-0007ip-0f;
-	Sat, 22 Nov 2025 17:27:05 +0000
-Date: Sun, 23 Nov 2025 01:26:58 +0800
+	id 1vMrjP-0007jT-1n;
+	Sat, 22 Nov 2025 17:49:07 +0000
+Date: Sun, 23 Nov 2025 01:48:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Mingrui <liumingrui@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3301/3301] drivers/misc/zcopy/zcopy.c:259:5:
- warning: no previous prototype for 'attach_huge_pmd'
-Message-ID: <202511230145.Q8A14oTe-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 955/957] fs/bcachefs/btree/iter.h:387:3:
+ error: call to undeclared function 'trace_and_count'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202511230110.7BnaTkH2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +62,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   40e02117ca786975378e324ac2e14cc00b00206e
-commit: 2125c55fc8765bced7091ccef19d2733a9ad9de0 [3301/3301] zcopy: Extend PMD trans hugepage mapping ability
-config: arm64-randconfig-002-20251123 (https://download.01.org/0day-ci/archive/20251123/202511230145.Q8A14oTe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230145.Q8A14oTe-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   018e946b823e2a10e054aa0516e254e060af3fd5
+commit: e90865a4bd9471b154779be27f4e4a8ebce69d02 [955/957] bcachefs: move count_event() to sb/counters.h
+config: hexagon-randconfig-002-20251122 (https://download.01.org/0day-ci/archive/20251123/202511230110.7BnaTkH2-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230110.7BnaTkH2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511230145.Q8A14oTe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511230110.7BnaTkH2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/misc/zcopy/zcopy.c:259:5: warning: no previous prototype for 'attach_huge_pmd' [-Wmissing-prototypes]
-     259 | int attach_huge_pmd(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
-         |     ^~~~~~~~~~~~~~~
+   In file included from fs/bcachefs/data/ec.c:7:
+   In file included from fs/bcachefs/alloc/accounting.h:5:
+   In file included from fs/bcachefs/btree/update.h:5:
+>> fs/bcachefs/btree/iter.h:387:3: error: call to undeclared function 'trace_and_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     387 |                 trace_and_count(trans->c, trans_restart_injected, trans, ip);
+         |                 ^
+>> fs/bcachefs/btree/iter.h:387:29: error: use of undeclared identifier 'trans_restart_injected'; did you mean 'trace_trans_restart_injected'?
+     387 |                 trace_and_count(trans->c, trans_restart_injected, trans, ip);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+         |                                           trace_trans_restart_injected
+   fs/bcachefs/debug/trace.h:959:1: note: 'trace_trans_restart_injected' declared here
+     959 | DEFINE_EVENT(transaction_event, trans_restart_injected,
+         | ^
+   include/linux/tracepoint.h:608:2: note: expanded from macro 'DEFINE_EVENT'
+     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:481:2: note: expanded from macro 'DECLARE_TRACE_EVENT'
+     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:409:2: note: expanded from macro '__DECLARE_TRACE'
+     409 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto))
+         |         ^
+   include/linux/tracepoint.h:385:21: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     385 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:127:1: note: expanded from here
+     127 | trace_trans_restart_injected
+         | ^
+   2 errors generated.
+--
+   In file included from fs/bcachefs/init/fs.c:12:
+   In file included from fs/bcachefs/alloc/backpointers.h:7:
+>> fs/bcachefs/btree/iter.h:387:3: error: call to undeclared function 'trace_and_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     387 |                 trace_and_count(trans->c, trans_restart_injected, trans, ip);
+         |                 ^
+>> fs/bcachefs/btree/iter.h:387:29: error: use of undeclared identifier 'trans_restart_injected'; did you mean 'trace_trans_restart_injected'?
+     387 |                 trace_and_count(trans->c, trans_restart_injected, trans, ip);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+         |                                           trace_trans_restart_injected
+   fs/bcachefs/debug/trace.h:959:1: note: 'trace_trans_restart_injected' declared here
+     959 | DEFINE_EVENT(transaction_event, trans_restart_injected,
+         | ^
+   include/linux/tracepoint.h:608:2: note: expanded from macro 'DEFINE_EVENT'
+     608 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:481:2: note: expanded from macro 'DECLARE_TRACE_EVENT'
+     481 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:409:2: note: expanded from macro '__DECLARE_TRACE'
+     409 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto))
+         |         ^
+   include/linux/tracepoint.h:385:21: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     385 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:127:1: note: expanded from here
+     127 | trace_trans_restart_injected
+         | ^
+   fs/bcachefs/init/fs.c:1123:25: warning: result of comparison of constant 262144 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+    1123 |             c->opts.block_size > PAGE_SIZE) {
+         |             ~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +/attach_huge_pmd +259 drivers/misc/zcopy/zcopy.c
+vim +/trace_and_count +387 fs/bcachefs/btree/iter.h
 
-   258	
- > 259	int attach_huge_pmd(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
-   260			unsigned long dst_addr, unsigned long src_addr, pmd_t *dst_pmdp, pmd_t *src_pmdp)
-   261	{
-   262		struct mm_struct *dst_mm, *src_mm;
-   263		spinlock_t *src_ptl, *dst_ptl;
-   264		struct page *src_thp_page, *orig_thp_page;
-   265		pmd_t pmd, orig_pmd;
-   266		pgtable_t pgtable;
-   267	
-   268	
-   269		if (!vma_is_anonymous(dst_vma))
-   270			return -EINVAL;
-   271	
-   272		dst_mm = dst_vma->vm_mm;
-   273		src_mm = src_vma->vm_mm;
-   274	
-   275		/* alloc a pgtable for new pmdp */
-   276		pgtable = pte_alloc_one(dst_mm);
-   277		if (unlikely(!pgtable))
-   278			return -ENOMEM;
-   279	
-   280		src_ptl = pmd_lockptr(src_mm, src_pmdp);
-   281		dst_ptl = pmd_lockptr(dst_mm, dst_pmdp);
-   282	
-   283		spin_lock(src_ptl);
-   284		pmd = *src_pmdp;
-   285		src_thp_page = pmd_page(pmd);
-   286		if (unlikely(!PageHead(src_thp_page))) {
-   287			pr_err("VM assertion failed: it is not a head page\n");
-   288			spin_unlock(src_ptl);
-   289			return -EINVAL;
-   290		}
-   291	
-   292		get_page(src_thp_page);
-   293		atomic_inc(compound_mapcount_ptr(src_thp_page));
-   294		spin_unlock(src_ptl);
-   295	
-   296		spin_lock_nested(dst_ptl, SINGLE_DEPTH_NESTING);
-   297		orig_pmd = *dst_pmdp;
-   298		/* umap the old page mappings */
-   299		if (!pmd_none(orig_pmd)) {
-   300			orig_thp_page = pmd_page(orig_pmd);
-   301			put_page(orig_thp_page);
-   302			atomic_dec(compound_mapcount_ptr(orig_thp_page));
-   303			zcopy_add_mm_counter(dst_mm, MM_ANONPAGES, -HPAGE_PMD_NR);
-   304			mm_dec_nr_ptes(dst_mm);
-   305		}
-   306	
-   307		zcopy_add_mm_counter(dst_mm, MM_ANONPAGES, HPAGE_PMD_NR);
-   308		mm_inc_nr_ptes(dst_mm);
-   309		zcopy_pgtable_trans_huge_deposit(dst_mm, dst_pmdp, pgtable);
-   310		zcopy_set_pmd_at(dst_mm, dst_addr, dst_pmdp, pmd);
-   311		flush_tlb_range(dst_vma, dst_addr, dst_addr + HPAGE_PMD_SIZE);
-   312		spin_unlock(dst_ptl);
-   313	
-   314		return 0;
-   315	}
-   316	
+e5af273fcefb13 fs/bcachefs/btree_iter.h Kent Overstreet 2021-07-25  382  
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  383  static inline int trans_maybe_inject_restart(struct btree_trans *trans, unsigned long ip)
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  384  {
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  385  #ifdef CONFIG_BCACHEFS_INJECT_TRANSACTION_RESTARTS
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  386  	if (!(ktime_get_ns() & ~(~0ULL << min(63, (10 + trans->restart_count_this_trans))))) {
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23 @387  		trace_and_count(trans->c, trans_restart_injected, trans, ip);
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  388  		return btree_trans_restart_ip(trans,
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  389  					BCH_ERR_transaction_restart_fault_inject, ip);
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  390  	}
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  391  #endif
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  392  	return 0;
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  393  }
+9cf6b84b71adb9 fs/bcachefs/btree_iter.h Kent Overstreet 2024-09-23  394  
+
+:::::: The code at line 387 was first introduced by commit
+:::::: 9cf6b84b71adb97f3c19476ebb5a42228fad89b5 bcachefs: CONFIG_BCACHEFS_INJECT_TRANSACTION_RESTARTS
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
