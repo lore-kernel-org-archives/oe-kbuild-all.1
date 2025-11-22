@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF2F5661
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 13:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2135204583;
+	Sat, 22 Nov 2025 13:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763818787; cv=none; b=nv/DjWQTvbOXhxYBin0qkG0WvlrOX3fWtkRcsApJh4jFJ/XaSP+dYPnQ13WvM7X/zzY4zPbOhjgpi+pgmty1zwJU66pEdknDHg63JKTX4t10COI4sKZFXjYQuNTLqnL1XmbslrFMBIbtoZrACYu+s0oeNR9lD7LbA10Bx+OKzI8=
+	t=1763819448; cv=none; b=RRG3OBqYjEXoJPa20lTnjwMLpsqZ1RBrHUwcepkq3t7r6MWqNKiFcKEsyHFnb5I+JyZpqVBr9c9ntTcrDtduYYpADPDa/JCF8XLTDfWu9c6HgT9po+Q7qlOGc6s3BMyWsl87LD16JcSmXFjToaFaSxJZuVr/qhE+tFBYA1pxQZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763818787; c=relaxed/simple;
-	bh=LA8XRJ8hYbb6HVUX0ex4G947psgOKltycDOjS932eyI=;
+	s=arc-20240116; t=1763819448; c=relaxed/simple;
+	bh=5uHIYXs6hKc0/G6gf077IjVTcvUcqthDxaSh4N0B7A0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=joSfYC3EQHNY580cPYXma1pYQqPNcQML8r0w3SFSK89Wijwr2RntTB1T5FLBgd220N4S/Xewaiqp0afrdDFH9kiGC1hTO8W6cXTL+VzV8SV+VX/u++W5PWFqGYzUH2pqpzszw5qt8VfwxLSek+EyrqU23vNmrGx7RkoMZo8Thjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MuM/A9qF; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=PtMbxZBhVrkueJMJoZvoHfrw0WD+yhiwFZxizXtUYAVp5M9Ed6O0Va9zNOHw3+yQ5FqTPFatHtesktMVB8nV+72kcz3CIJsyvosPUz6FIsh88S2G9hGCbDmrRmXK82WY3fj40g31May0RGWCcUV4wR1OSqtytSUoq/DOmFGsu/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbK7YXBc; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MuM/A9qF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbK7YXBc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763818786; x=1795354786;
+  t=1763819447; x=1795355447;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LA8XRJ8hYbb6HVUX0ex4G947psgOKltycDOjS932eyI=;
-  b=MuM/A9qFPz3jDUaLWtC1HaJ/nSKxffyOunwxZ0Ybm7G/1mW0AB0qJdM0
-   iURu/tOaKt7N2x6aS97KsWjgW0kxpAK/WK380wzsE1KLkyxbk1W+MoRVc
-   8rieW1uEEyQkmoNGRyAr9empRT85hGU0+Ny9LDroQPzLjFGbfEXmThnR3
-   lmLpyOPuC+toZYU1RnLLa7QQzlEdS6O5Ni2B2wNyg74F5pK6ncKHTgeoO
-   BptHU29QWfBzNMXxNI/EuatFZDpBY+l1n+XcYoLBVgXDE4feHrr6cua1x
-   qwoHbOfo3BBwhxCGYmpJQLjqMGl2EseNbnSRs2tiKvvEn9SfAC5PgTpmp
+  bh=5uHIYXs6hKc0/G6gf077IjVTcvUcqthDxaSh4N0B7A0=;
+  b=UbK7YXBcg6iZlg9GF5YOwuKOK0ae6ktCsh+d7FpTF9WuHOd+ksfNRZNe
+   5Ha+QiZLDTNhpdXcGt0ntCbn8bwHvh01rLKUilmZYF/31mobcmZxVEAdy
+   c8+c2Fy0fs00xwOnXtg5OtWyhJEjKRxVjVFDhknL973ilPBIuST9t/mNw
+   d0L2I/kz+srwwui14CBsJrvtasKsbHEYZJNlGuPIKzyjcIEEE4WgCyG/U
+   J85ewdDcI2aWhChx55A9CxVZST6fCdg2rKkeSqi/M0D/cu0FiVGhBzKyb
+   6w1O6fO3PlHkp+6/MAbLC3nMQl8HFpx/OGtPpSFpb/fD5nGJxqAmvvGMp
    w==;
-X-CSE-ConnectionGUID: IXoXVB3BQPKEFYxyqx8xCQ==
-X-CSE-MsgGUID: aYUAOoONR0u18yP9X5BYYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="69510191"
+X-CSE-ConnectionGUID: hFaYMTdxQee6bjfOasHgAA==
+X-CSE-MsgGUID: V3sF3T2tT2mqsvbrzoIhLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65080094"
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="69510191"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 05:39:46 -0800
-X-CSE-ConnectionGUID: up2hGHKLRsaWwWzN6Nb89g==
-X-CSE-MsgGUID: lootEyG/R1ipNOMSGBjcpw==
+   d="scan'208";a="65080094"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 05:50:46 -0800
+X-CSE-ConnectionGUID: 8MYHAAF5QeKDLY2fmws1Jg==
+X-CSE-MsgGUID: SfpbS6vlQCm5aGhmCFP72g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="191113575"
+   d="scan'208";a="222874520"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Nov 2025 05:39:44 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 22 Nov 2025 05:50:45 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMnq1-0007YJ-1o;
-	Sat, 22 Nov 2025 13:39:41 +0000
-Date: Sat, 22 Nov 2025 21:39:06 +0800
+	id 1vMo0g-0007Yh-2g;
+	Sat, 22 Nov 2025 13:50:42 +0000
+Date: Sat, 22 Nov 2025 21:49:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Stephen Boyd <sboyd@kernel.org>
-Subject: drivers/clk/microchip/clk-core.c:915:10: sparse: sparse: Initializer
- entry defined twice
-Message-ID: <202511222115.uvHrP95A-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:uffd+guestmemfd/v1 4/5]
+ arch/x86/kvm/../../../virt/kvm/guest_memfd.c:376:10: error: use of
+ undeclared identifier 'VM_FAULT_USERFAULTFD'
+Message-ID: <202511222133.qIuQVc3r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +64,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Brian,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
-commit: 7d85cd8730ab7701a1cafd0db0d7b6b1f6cfbb91 clk: microchip: core: remove duplicate roclk_determine_rate()
-date:   7 weeks ago
-config: mips-randconfig-r134-20251122 (https://download.01.org/0day-ci/archive/20251122/202511222115.uvHrP95A-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511222115.uvHrP95A-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git uffd+guestmemfd/v1
+head:   37911e172b33e52e4e224da52775c714483c8a90
+commit: bf20f42e7ef8a03b1df8aca27e5159b87f7d40ea [4/5] guest_memfd: add support for userfaultfd minor mode
+config: x86_64-randconfig-075-20251122 (https://download.01.org/0day-ci/archive/20251122/202511222133.qIuQVc3r-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511222133.qIuQVc3r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511222115.uvHrP95A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511222133.qIuQVc3r-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/microchip/clk-core.c:915:10: sparse: sparse: Initializer entry defined twice
-   drivers/clk/microchip/clk-core.c:919:10: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +915 drivers/clk/microchip/clk-core.c
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:376:10: error: use of undeclared identifier 'VM_FAULT_USERFAULTFD'
+     376 |                 return VM_FAULT_USERFAULTFD;
+         |                        ^
+   1 error generated.
 
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  910  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  911  /* sclk with post-divider */
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  912  const struct clk_ops pic32_sclk_ops = {
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  913  	.get_parent	= sclk_get_parent,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  914  	.set_parent	= sclk_set_parent,
-e9f039c08cdc9b Brian Masney         2025-08-11 @915  	.determine_rate = sclk_determine_rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  916  	.set_rate	= sclk_set_rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  917  	.recalc_rate	= sclk_get_rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  918  	.init		= sclk_init,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  919  	.determine_rate = __clk_mux_determine_rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  920  };
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  921  
 
-:::::: The code at line 915 was first introduced by commit
-:::::: e9f039c08cdc9b38665aee9a88ae21f59c09ba8c clk: microchip: core: convert from round_rate() to determine_rate()
+vim +/VM_FAULT_USERFAULTFD +376 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
 
-:::::: TO: Brian Masney <bmasney@redhat.com>
-:::::: CC: Brian Masney <bmasney@redhat.com>
+   350	
+   351	static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+   352	{
+   353		struct inode *inode = file_inode(vmf->vma->vm_file);
+   354		struct folio *folio;
+   355		vm_fault_t ret = VM_FAULT_LOCKED;
+   356	
+   357		if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+   358			return VM_FAULT_SIGBUS;
+   359	
+   360		if (!((u64)inode->i_private & GUEST_MEMFD_FLAG_INIT_SHARED))
+   361			return VM_FAULT_SIGBUS;
+   362	
+   363		folio = kvm_gmem_get_folio(inode, vmf->pgoff);
+   364		if (IS_ERR(folio)) {
+   365			int err = PTR_ERR(folio);
+   366	
+   367			if (err == -EAGAIN)
+   368				return VM_FAULT_RETRY;
+   369	
+   370			return vmf_error(err);
+   371		}
+   372	
+   373		if (userfaultfd_minor(vmf->vma)) {
+   374			folio_unlock(folio);
+   375			folio_put(folio);
+ > 376			return VM_FAULT_USERFAULTFD;
+   377		}
+   378	
+   379		if (WARN_ON_ONCE(folio_test_large(folio))) {
+   380			ret = VM_FAULT_SIGBUS;
+   381			goto out_folio;
+   382		}
+   383	
+   384		if (!folio_test_uptodate(folio)) {
+   385			clear_highpage(folio_page(folio, 0));
+   386			kvm_gmem_mark_prepared(folio);
+   387		}
+   388	
+   389		vmf->page = folio_file_page(folio, vmf->pgoff);
+   390	
+   391	out_folio:
+   392		if (ret != VM_FAULT_LOCKED) {
+   393			folio_unlock(folio);
+   394			folio_put(folio);
+   395		}
+   396	
+   397		return ret;
+   398	}
+   399	
 
 -- 
 0-DAY CI Kernel Test Service
