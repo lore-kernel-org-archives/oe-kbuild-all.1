@@ -1,62 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A077C232785
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 18:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6B296BD7;
+	Sat, 22 Nov 2025 18:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763836878; cv=none; b=J942ALcaQmmeagDWcvE+7tPLfpF5jPiTXzikcVzTVPb1z7I+8FtT0C/6XRCD15hNKR9ZHEmkYd/QcVrE06yU5xFMZ7xOx3mgztRc8TW17FjppetIavJR/EHnYVcRYHeK/U9qFGKmphkbNreSHwvRIor4r4+dF5aFob0F+aWmMuk=
+	t=1763836879; cv=none; b=AwihFedzUvjy7DE+wW6atXDlyPdZEDwlGKHbtV92SnEe5ckUh5Q7HN98Erygbgda+YLVy5IyPnNTX54ieykLzem4XhikbkacKpwSuCIjJuR975qg7UF0d/Nym6xb0bxilwbfWGeXzQoTSrLeo8cdFn+91/hLdMnBvjPymoQBId4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763836878; c=relaxed/simple;
-	bh=7OQussVEX3VL1i4dvTzo+b8cQPRywZM33MOZ8XhfypM=;
+	s=arc-20240116; t=1763836879; c=relaxed/simple;
+	bh=uh6fba18pbvtcVMxyxzgPBWrZ9i8/1sGN1sD1sLq4co=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZdsQxZr9M0aZio+yWsH7ih/lQu0vPo0vkVEli2eHTw61xGuCK6b2XmGb4nuZZ9Mf8ZaW7eih++8d+d/jJ6cpNXEnlTKwVwRYZoS5C5IeoqQvAwL4oqKZyde3zpvAlvornrs2BtVjjEqrO6ymq+BthxWKVSz0s1AFTD9KbkX60o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxCVymHT; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=maFq6NCt8XICbUwirB2LXlVnrSIsB4HqxQBXOTrn46ESvKLXAjXgXAPvjWUqTXkR7os41Nhp/7g0fohFcyfweKNiM6yj8YWTFbn2AkP2i19bWQEX6w09tzS24TiTrHva7mUHTR5CouYIc4UxBD/oCrp0mK61KPy4fw6GxW3D5qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doKBJKeY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxCVymHT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doKBJKeY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763836876; x=1795372876;
+  t=1763836877; x=1795372877;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7OQussVEX3VL1i4dvTzo+b8cQPRywZM33MOZ8XhfypM=;
-  b=cxCVymHTKfpQBUGIMgMufkNgYkk0WQlv3Lx2v91Te0FM6d7pxTJCXJpz
-   WmwR74yIqkCUWztqaPp5y6KTLzzh1JTBcWJIeSZAxMnL7YD/keHTRMMcg
-   e2eanAQFsx7sZWJeVOnhtPiV5+nvRjMN7CaQl3cFmWF0W3VUhbnjz/oac
-   3192fz6fcdle+HFZRqzEm7fJb2ZDjgjaj10Ia2DTTEkpbubJLkOGILPzO
-   nHNALf12nmrTh+qPZbmmBhip1GJ/oY7aLbv2tR7j73sV2Tsh86g0tOI74
-   DBDQIZZS7xZIPWVFHJ4PdnSZ0bog15caSwJg/Ysy0Uamc9ys19k5e7TkV
+  bh=uh6fba18pbvtcVMxyxzgPBWrZ9i8/1sGN1sD1sLq4co=;
+  b=doKBJKeYivAY6e9PMOe8PjitnkFTgFeVZLUWoEp4vnT4eMUabXwelSZ5
+   XWNYDD5X9qwY8SlwZ5U1gbXqNFIkQItsLTPipvxTL53fNw+k7obDVS+CD
+   80l2HKAlnsByuOZhPAUwue9kHoZiFq+m4OVfg4aNF3jZOfQBemCKxGiOJ
+   7JyfDjDIGLFOlvklKfIBMn9//Zz+nY1TtIWjEykdtiduFwCE6uOOXn5uL
+   mdslEu8qBjrAn5hqFE0hKgD39lhbup1s8Rq7nJ1cJ0PYVX039Jowjzy8x
+   jrnZ66U5JaR5fd0vRX+UC4yS/EegISX3JDJaRgeHSkZwEXJC8IDGx6VPn
    A==;
-X-CSE-ConnectionGUID: Zom4FxNCS026Q0HTxZlXkg==
-X-CSE-MsgGUID: eSd6wxQuQBitHrc/AODRgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="77371104"
+X-CSE-ConnectionGUID: +CNXs3yWS6CmYsVkFCPW8g==
+X-CSE-MsgGUID: P2dgl8rsSMi98/7dtBTfJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="53469226"
 X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="77371104"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 10:41:15 -0800
-X-CSE-ConnectionGUID: 9o8XzK+iSXOjTRhZQKI3kA==
-X-CSE-MsgGUID: 4+QadW0tQmqxl/73NnbzYg==
+   d="scan'208";a="53469226"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 10:41:17 -0800
+X-CSE-ConnectionGUID: GX2RLIrLT5qBDBNYgcnDaQ==
+X-CSE-MsgGUID: IZMZCRR/Q2yDT+wCNFSm3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="191151587"
+   d="scan'208";a="191637140"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Nov 2025 10:41:14 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Nov 2025 10:41:13 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMsXn-0007l5-1M;
+	id 1vMsXn-0007l7-1R;
 	Sat, 22 Nov 2025 18:41:11 +0000
-Date: Sun, 23 Nov 2025 02:40:36 +0800
+Date: Sun, 23 Nov 2025 02:40:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH 13/13] mmc: dw_mmc: Remove struct dw_mci_slot
-Message-ID: <202511230231.JzqFjaBp-lkp@intel.com>
-References: <1763634565-183891-14-git-send-email-shawn.lin@rock-chips.com>
+To: Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Manikandan Muralidharan <manikandan.m@microchip.com>,
+	Dharma Balasubiramani <dharma.b@microchip.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Ludovic Desroches <ludovic.desroches@microchip.com>
+Subject: Re: [PATCH 5/8] drm/atmel-hlcdc: use devm_drm_of_get_bridge()
+Message-ID: <202511230240.NYBAiUV4-lkp@intel.com>
+References: <20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,88 +74,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1763634565-183891-14-git-send-email-shawn.lin@rock-chips.com>
+In-Reply-To: <20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67@microchip.com>
 
-Hi Shawn,
+Hi Ludovic,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20251120]
-[cannot apply to krzk/for-next rockchip/for-next linus/master ulf-hansson-mmc-mirror/next v6.18-rc6 v6.18-rc5 v6.18-rc4 v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/mmc-dw_mmc-Remove-unused-struct-dma_pdata/20251120-205522
-base:   next-20251120
-patch link:    https://lore.kernel.org/r/1763634565-183891-14-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH 13/13] mmc: dw_mmc: Remove struct dw_mci_slot
-config: arc-randconfig-002-20251123 (https://download.01.org/0day-ci/archive/20251123/202511230231.JzqFjaBp-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230231.JzqFjaBp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ludovic-Desroches/drm-atmel-hlcdc-use-managed-device-resources-for-the-display-controller/20251121-231107
+base:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
+patch link:    https://lore.kernel.org/r/20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67%40microchip.com
+patch subject: [PATCH 5/8] drm/atmel-hlcdc: use devm_drm_of_get_bridge()
+config: arm-randconfig-001-20251123 (https://download.01.org/0day-ci/archive/20251123/202511230240.NYBAiUV4-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230240.NYBAiUV4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511230231.JzqFjaBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511230240.NYBAiUV4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/debugfs.h:16,
-                    from drivers/mmc/host/dw_mmc.c:12:
->> drivers/mmc/host/dw_mmc.c:140:23: warning: 'dw_mci_req_fops' defined but not used [-Wunused-const-variable=]
-     140 | DEFINE_SHOW_ATTRIBUTE(dw_mci_req);
-         |                       ^~~~~~~~~~
-   include/linux/seq_file.h:213:37: note: in definition of macro 'DEFINE_SHOW_ATTRIBUTE'
-     213 | static const struct file_operations __name ## _fops = {                 \
-         |                                     ^~~~~~
+>> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:100:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     100 |         if (bridge) {
+         |             ^~~~~~
+   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:106:9: note: uninitialized use occurs here
+     106 |         return ret;
+         |                ^~~
+   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:100:2: note: remove the 'if' if its condition is always true
+     100 |         if (bridge) {
+         |         ^~~~~~~~~~~
+   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:75:9: note: initialize the variable 'ret' to silence this warning
+      75 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/dw_mci_req_fops +140 drivers/mmc/host/dw_mmc.c
+vim +100 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
 
-f95f3850f7a9e1 Will Newton 2011-01-02   99  
-f95f3850f7a9e1 Will Newton 2011-01-02  100  #if defined(CONFIG_DEBUG_FS)
-f95f3850f7a9e1 Will Newton 2011-01-02  101  static int dw_mci_req_show(struct seq_file *s, void *v)
-f95f3850f7a9e1 Will Newton 2011-01-02  102  {
-93ac9a7f4a2ac9 Shawn Lin   2025-11-20  103  	struct dw_mci *host = s->private;
-f95f3850f7a9e1 Will Newton 2011-01-02  104  	struct mmc_request *mrq;
-f95f3850f7a9e1 Will Newton 2011-01-02  105  	struct mmc_command *cmd;
-f95f3850f7a9e1 Will Newton 2011-01-02  106  	struct mmc_command *stop;
-f95f3850f7a9e1 Will Newton 2011-01-02  107  	struct mmc_data	*data;
-f95f3850f7a9e1 Will Newton 2011-01-02  108  
-f95f3850f7a9e1 Will Newton 2011-01-02  109  	/* Make sure we get a consistent snapshot */
-93ac9a7f4a2ac9 Shawn Lin   2025-11-20  110  	spin_lock_bh(&host->lock);
-93ac9a7f4a2ac9 Shawn Lin   2025-11-20  111  	mrq = host->mrq;
-f95f3850f7a9e1 Will Newton 2011-01-02  112  
-f95f3850f7a9e1 Will Newton 2011-01-02  113  	if (mrq) {
-f95f3850f7a9e1 Will Newton 2011-01-02  114  		cmd = mrq->cmd;
-f95f3850f7a9e1 Will Newton 2011-01-02  115  		data = mrq->data;
-f95f3850f7a9e1 Will Newton 2011-01-02  116  		stop = mrq->stop;
-f95f3850f7a9e1 Will Newton 2011-01-02  117  
-f95f3850f7a9e1 Will Newton 2011-01-02  118  		if (cmd)
-f95f3850f7a9e1 Will Newton 2011-01-02  119  			seq_printf(s,
-f95f3850f7a9e1 Will Newton 2011-01-02  120  				   "CMD%u(0x%x) flg %x rsp %x %x %x %x err %d\n",
-f95f3850f7a9e1 Will Newton 2011-01-02  121  				   cmd->opcode, cmd->arg, cmd->flags,
-f95f3850f7a9e1 Will Newton 2011-01-02  122  				   cmd->resp[0], cmd->resp[1], cmd->resp[2],
-f95f3850f7a9e1 Will Newton 2011-01-02  123  				   cmd->resp[2], cmd->error);
-f95f3850f7a9e1 Will Newton 2011-01-02  124  		if (data)
-f95f3850f7a9e1 Will Newton 2011-01-02  125  			seq_printf(s, "DATA %u / %u * %u flg %x err %d\n",
-f95f3850f7a9e1 Will Newton 2011-01-02  126  				   data->bytes_xfered, data->blocks,
-f95f3850f7a9e1 Will Newton 2011-01-02  127  				   data->blksz, data->flags, data->error);
-f95f3850f7a9e1 Will Newton 2011-01-02  128  		if (stop)
-f95f3850f7a9e1 Will Newton 2011-01-02  129  			seq_printf(s,
-f95f3850f7a9e1 Will Newton 2011-01-02  130  				   "CMD%u(0x%x) flg %x rsp %x %x %x %x err %d\n",
-f95f3850f7a9e1 Will Newton 2011-01-02  131  				   stop->opcode, stop->arg, stop->flags,
-f95f3850f7a9e1 Will Newton 2011-01-02  132  				   stop->resp[0], stop->resp[1], stop->resp[2],
-f95f3850f7a9e1 Will Newton 2011-01-02  133  				   stop->resp[2], stop->error);
-f95f3850f7a9e1 Will Newton 2011-01-02  134  	}
-f95f3850f7a9e1 Will Newton 2011-01-02  135  
-93ac9a7f4a2ac9 Shawn Lin   2025-11-20  136  	spin_unlock_bh(&host->lock);
-f95f3850f7a9e1 Will Newton 2011-01-02  137  
-f95f3850f7a9e1 Will Newton 2011-01-02  138  	return 0;
-f95f3850f7a9e1 Will Newton 2011-01-02  139  }
-64c1412b77d08d Shawn Lin   2018-02-23 @140  DEFINE_SHOW_ATTRIBUTE(dw_mci_req);
-f95f3850f7a9e1 Will Newton 2011-01-02  141  
+b6e075c3cb6e57d Peter Rosin       2018-08-25   67  
+6bee9b78a7a5ea2 Boris Brezillon   2017-05-18   68  static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+17a8e03e7e97d34 Boris Brezillon   2016-01-06   69  {
+b6e075c3cb6e57d Peter Rosin       2018-08-25   70  	struct atmel_hlcdc_rgb_output *output;
+b6e075c3cb6e57d Peter Rosin       2018-08-25   71  	struct device_node *ep;
+17a8e03e7e97d34 Boris Brezillon   2016-01-06   72  	struct drm_bridge *bridge;
+ec29c94011469e7 Ludovic Desroches 2025-11-21   73  	struct atmel_hlcdc_dc *dc = dev->dev_private;
+ec29c94011469e7 Ludovic Desroches 2025-11-21   74  	struct drm_crtc *crtc = dc->crtc;
+17a8e03e7e97d34 Boris Brezillon   2016-01-06   75  	int ret;
+1a396789f65a227 Boris Brezillon   2015-01-06   76  
+524bfe4ade6dbed Ludovic Desroches 2025-11-21   77  	bridge = devm_drm_of_get_bridge(dev->dev, dev->dev->of_node, 0, endpoint);
+524bfe4ade6dbed Ludovic Desroches 2025-11-21   78  	if (IS_ERR(bridge))
+524bfe4ade6dbed Ludovic Desroches 2025-11-21   79  		return PTR_ERR(bridge);
+6bee9b78a7a5ea2 Boris Brezillon   2017-05-18   80  
+e38758ed5aece5d Ludovic Desroches 2025-11-21   81  	output = drmm_simple_encoder_alloc(dev, struct atmel_hlcdc_rgb_output,
+e38758ed5aece5d Ludovic Desroches 2025-11-21   82  					   encoder, DRM_MODE_ENCODER_NONE);
+e38758ed5aece5d Ludovic Desroches 2025-11-21   83  	if (IS_ERR(output))
+e38758ed5aece5d Ludovic Desroches 2025-11-21   84  		return PTR_ERR(output);
+e38758ed5aece5d Ludovic Desroches 2025-11-21   85  
+e38758ed5aece5d Ludovic Desroches 2025-11-21   86  	ep = of_graph_get_endpoint_by_regs(dev->dev->of_node, 0, endpoint);
+e38758ed5aece5d Ludovic Desroches 2025-11-21   87  	if (!ep)
+e38758ed5aece5d Ludovic Desroches 2025-11-21   88  		return -ENODEV;
+b6e075c3cb6e57d Peter Rosin       2018-08-25   89  
+b6e075c3cb6e57d Peter Rosin       2018-08-25   90  	output->bus_fmt = atmel_hlcdc_of_bus_fmt(ep);
+b6e075c3cb6e57d Peter Rosin       2018-08-25   91  	of_node_put(ep);
+b6e075c3cb6e57d Peter Rosin       2018-08-25   92  	if (output->bus_fmt < 0) {
+3379655524e613e Eslam Khafagy     2025-08-14   93  		drm_err(dev, "endpoint %d: invalid bus width\n", endpoint);
+17a8e03e7e97d34 Boris Brezillon   2016-01-06   94  		return -EINVAL;
+b6e075c3cb6e57d Peter Rosin       2018-08-25   95  	}
+1a396789f65a227 Boris Brezillon   2015-01-06   96  
+1a396789f65a227 Boris Brezillon   2015-01-06   97  
+ec29c94011469e7 Ludovic Desroches 2025-11-21   98  	output->encoder.possible_crtcs = drm_crtc_mask(crtc);
+17a8e03e7e97d34 Boris Brezillon   2016-01-06   99  
+17a8e03e7e97d34 Boris Brezillon   2016-01-06 @100  	if (bridge) {
+a25b988ff83f3ca Laurent Pinchart  2020-02-26  101  		ret = drm_bridge_attach(&output->encoder, bridge, NULL, 0);
+17a8e03e7e97d34 Boris Brezillon   2016-01-06  102  		if (!ret)
+17a8e03e7e97d34 Boris Brezillon   2016-01-06  103  			return 0;
+17a8e03e7e97d34 Boris Brezillon   2016-01-06  104  	}
+1a396789f65a227 Boris Brezillon   2015-01-06  105  
+1a396789f65a227 Boris Brezillon   2015-01-06  106  	return ret;
+1a396789f65a227 Boris Brezillon   2015-01-06  107  }
+1a396789f65a227 Boris Brezillon   2015-01-06  108  
 
 -- 
 0-DAY CI Kernel Test Service
