@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E92317E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 07:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF36817E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 07:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763798145; cv=none; b=lPGOOJM6pD3mv5eVNSKY+wRwiHGla8RQxkGffHfQbRPZE7yjcV60FxyKezTolNvoBbzYBdCNSw19sosMM+jPeuspzSOpWtC5suwyS5GlC2MEDS5o4Nv2rDY7O94nMkYafs4I54KQ+9MCeJ+TTfUDpBkF1FXXN1JoUmkFJL3YLec=
+	t=1763798150; cv=none; b=b2ddTg2nFDuufs2PyzaR+lk50IpAQCePpdwrZTg8lxliMKazMG9CB/2Q1/WkVG7JH8k4+q/dpOPy3mFMSTGWBTGiU8+cKufaUCnTDO9Ov9+De82/fzou6djYp5YYOjoIb7juqQLEd1baBNfAYXqyKKsfGcSUY0FYrjh6qW0Vh4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763798145; c=relaxed/simple;
-	bh=MY3WwXzaFmix1l3RN2mmRkoAM55cXcuBR2x/5bWkJnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tTVpP7P2aKr25PxSK0H8tX8dOHnM2Hq5Wi6EWR6u+P6ScVvenXFpZS+B+uyVZJvZbdPoNsRBwZAXQsvxm6vvjWbSOD+wdcxYgax+QiHo5lFOf/hyQSZfWZpL7+5JLkS37QILJnPlZhRRnQFJylzKNWFqt0ZAX5/PEZCHraiLW5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaS2Kavi; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1763798150; c=relaxed/simple;
+	bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsLp58wfJS/P4Mv7EIxVIQFjnd1rP7rRaNsCePRqPdydqSZTVKX8gJ9KCYW1PM/n7fTO1aBCNeYrAgWTBJwMIgOGnl1VnnaCUslJZxlvWAYcvl1knUsCUQFABLdhSa5RfSQT9dXaF90ocm+nzRRKAYHG21OANbUx5BZAgFmnjMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVM9mC5G; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaS2Kavi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVM9mC5G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763798144; x=1795334144;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MY3WwXzaFmix1l3RN2mmRkoAM55cXcuBR2x/5bWkJnk=;
-  b=HaS2Kavi5BtXxqDnbotvtpS+PJVV8RKEK04Ru0LERzgYK3iGtWiBrczm
-   H5EBs41D3ufYUuL+yYblCdLeaqQxM5sDSRSYhKs+1PS+6BEsu17fmWGTN
-   peqexP91nKofz+cMgAkoFwKFriksXM2g/1b5yFf9hertg4tg+9o7YhS/2
-   c7Ze2ht2/Vlj+p+zTAStK45HcDtxo/vhBtCFfC9MgjIDCVL5E0i+5UGv3
-   oEmjVeAi3cHNBzWZp+kquMPR0v2HG+3/XcbRPU+WhXvW0l0EnBI0yqElY
-   Rrr8BZq1sl/6xog/EPsj3g20Qj/jO6Yn0O5QKciHs6F+xVmFAL+XLwpaG
-   g==;
-X-CSE-ConnectionGUID: b7apIB40QX2bjcp/YhLWmA==
-X-CSE-MsgGUID: pmslPoZUQCWHy7rG9M6m5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="66043613"
+  t=1763798149; x=1795334149;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
+  b=QVM9mC5GJ0P1V3L2M/VZh8bvwnbxYhpmWtr7FeFr+cRdbghWKhXAjUMq
+   nnmT6oTArYPZ2Z3woTbDhCbFA18yi6oeLw+knEOivXmaGf/V1Gh1gKH2i
+   2h3Wdarrpv1sm5J4aoGlBntQVFqdjpRAFMBqEZ0U1GXxGv7Ecgj/8+uvC
+   2oOkvmzMnWq3yTbrpsgxL3A2DamMS7n6bUmrPHKuu73BIqMa6CDiOAxgH
+   sMCiBihE3WaJQlx760FIZULJbH25La+HHUn6Qo2Oi5UL6hwszdi3TJUuW
+   2bH9ke2PDrVDLuDR6UPzAEwEXnFMYKWKusQx+DGdEt5zHZE5dfjKVsBf2
+   A==;
+X-CSE-ConnectionGUID: LXItKweZTkiloSmlwTydvw==
+X-CSE-MsgGUID: rdl/EormQEq9UTFwVddM8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69748451"
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="66043613"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 23:55:43 -0800
-X-CSE-ConnectionGUID: 7xTUkKrkQk+BYrIWDvWUOg==
-X-CSE-MsgGUID: eqpFuDHEQ46I0A/NYHg7Xw==
+   d="scan'208";a="69748451"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 23:55:48 -0800
+X-CSE-ConnectionGUID: wOeO3mLQSJuDwYi3qD24uQ==
+X-CSE-MsgGUID: AycttFy4TB+6j12x7ifhWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="191668720"
+   d="scan'208";a="222833433"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2025 23:55:43 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2025 23:55:43 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMiT6-0007Gr-1e;
+	id 1vMiT6-0007Gp-1a;
 	Sat, 22 Nov 2025 07:55:40 +0000
-Date: Sat, 22 Nov 2025 15:54:58 +0800
+Date: Sat, 22 Nov 2025 15:54:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/1]
- drivers/platform/x86/thinkpad_acpi.c:10603:17: error: too few arguments to
- function 'platform_profile_notify'
-Message-ID: <202511221548.NhQm2JNO-lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
+	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
+	mhocko@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, tudor.ambarus@linaro.org,
+	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, jonechou@google.com,
+	rostedt@goodmis.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH 23/26] soc: qcom: Add minidump driver
+Message-ID: <202511221521.2OINSDPK-lkp@intel.com>
+References: <20251119154427.1033475-24-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +72,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251119154427.1033475-24-eugen.hristev@linaro.org>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   40435e5332925bf7429f8e4c796040981fcc4968
-commit: 58b78ed61cea4cf0ab4d8e1b07b208d6513e4077 [0/1] BACKPORT: UPSTREAM: ACPI: platform_profile: Pass the profile handler into platform_profile_notify()
-config: i386-randconfig-014-20251122 (https://download.01.org/0day-ci/archive/20251122/202511221548.NhQm2JNO-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221548.NhQm2JNO-lkp@intel.com/reproduce)
+Hi Eugen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rppt-memblock/fixes]
+[also build test WARNING on linus/master v6.18-rc6]
+[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
+patch link:    https://lore.kernel.org/r/20251119154427.1033475-24-eugen.hristev%40linaro.org
+patch subject: [PATCH 23/26] soc: qcom: Add minidump driver
+config: nios2-randconfig-r123-20251122 (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511221548.NhQm2JNO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511221521.2OINSDPK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/qcom/minidump.c:108:35: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/soc/qcom/minidump.c:154:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] seq_num @@     got unsigned int enum meminspect_uid const id @@
+   drivers/soc/qcom/minidump.c:154:22: sparse:     expected restricted __le32 [usertype] seq_num
+   drivers/soc/qcom/minidump.c:154:22: sparse:     got unsigned int enum meminspect_uid const id
+>> drivers/soc/qcom/minidump.c:184:19: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/soc/qcom/minidump.c:183:39: sparse: signed value source
 
-   drivers/platform/x86/thinkpad_acpi.c: In function 'dytc_profile_refresh':
->> drivers/platform/x86/thinkpad_acpi.c:10603:17: error: too few arguments to function 'platform_profile_notify'
-   10603 |                 platform_profile_notify();
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/platform/x86/thinkpad_acpi.c:60:
-   include/linux/platform_profile.h:42:6: note: declared here
-      42 | void platform_profile_notify(struct platform_profile_handler *pprof);
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/thinkpad_acpi.c: In function 'dytc_profile_exit':
-   drivers/platform/x86/thinkpad_acpi.c:10701:9: error: too few arguments to function 'platform_profile_remove'
-   10701 |         platform_profile_remove();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_profile.h:40:5: note: declared here
-      40 | int platform_profile_remove(struct platform_profile_handler *pprof);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+vim +108 drivers/soc/qcom/minidump.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-
-
-vim +/platform_profile_notify +10603 drivers/platform/x86/thinkpad_acpi.c
-
-c3bfcd4c676238e Mark Pearson      2021-01-11  10574  
-c3bfcd4c676238e Mark Pearson      2021-01-11  10575  static void dytc_profile_refresh(void)
-c3bfcd4c676238e Mark Pearson      2021-01-11  10576  {
-c3bfcd4c676238e Mark Pearson      2021-01-11  10577  	enum platform_profile_option profile;
-f999e23ce66c155 Mark Pearson      2023-06-06  10578  	int output = 0, err = 0;
-f999e23ce66c155 Mark Pearson      2023-06-06  10579  	int perfmode, funcmode = 0;
-c3bfcd4c676238e Mark Pearson      2021-01-11  10580  
-c3bfcd4c676238e Mark Pearson      2021-01-11  10581  	mutex_lock(&dytc_mutex);
-42504af775361ca Mark Pearson      2022-06-03  10582  	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
-7a47f86bba748b3 Mark Pearson      2021-04-06  10583  		if (dytc_mmc_get_available)
-7a47f86bba748b3 Mark Pearson      2021-04-06  10584  			err = dytc_command(DYTC_CMD_MMC_GET, &output);
-7a47f86bba748b3 Mark Pearson      2021-04-06  10585  		else
-c3bfcd4c676238e Mark Pearson      2021-01-11  10586  			err = dytc_cql_command(DYTC_CMD_GET, &output);
-1bc5d819f0b9784 Mark Pearson      2023-01-24  10587  		funcmode = DYTC_FUNCTION_MMC;
-1bc5d819f0b9784 Mark Pearson      2023-01-24  10588  	} else if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
-e1c21608e3cfc4b Mark Pearson      2022-02-25  10589  		err = dytc_command(DYTC_CMD_GET, &output);
-1bc5d819f0b9784 Mark Pearson      2023-01-24  10590  		/* Check if we are PSC mode, or have AMT enabled */
-1bc5d819f0b9784 Mark Pearson      2023-01-24  10591  		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
-f999e23ce66c155 Mark Pearson      2023-06-06  10592  	} else { /* Unknown profile mode */
-f999e23ce66c155 Mark Pearson      2023-06-06  10593  		err = -ENODEV;
-1bc5d819f0b9784 Mark Pearson      2023-01-24  10594  	}
-c3bfcd4c676238e Mark Pearson      2021-01-11  10595  	mutex_unlock(&dytc_mutex);
-c3bfcd4c676238e Mark Pearson      2021-01-11  10596  	if (err)
-c3bfcd4c676238e Mark Pearson      2021-01-11  10597  		return;
-c3bfcd4c676238e Mark Pearson      2021-01-11  10598  
-c3bfcd4c676238e Mark Pearson      2021-01-11  10599  	perfmode = (output >> DYTC_GET_MODE_BIT) & 0xF;
-427c70dec738318 Mario Limonciello 2024-02-16  10600  	err = convert_dytc_to_profile(funcmode, perfmode, &profile);
-427c70dec738318 Mario Limonciello 2024-02-16  10601  	if (!err && profile != dytc_current_profile) {
-c3bfcd4c676238e Mark Pearson      2021-01-11  10602  		dytc_current_profile = profile;
-c3bfcd4c676238e Mark Pearson      2021-01-11 @10603  		platform_profile_notify();
-c3bfcd4c676238e Mark Pearson      2021-01-11  10604  	}
-c3bfcd4c676238e Mark Pearson      2021-01-11  10605  }
-c3bfcd4c676238e Mark Pearson      2021-01-11  10606  
-
-:::::: The code at line 10603 was first introduced by commit
-:::::: c3bfcd4c676238e198d5a798b50e5d424bf05497 platform/x86: thinkpad_acpi: Add platform profile support
-
-:::::: TO: Mark Pearson <markpearson@lenovo.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+    93	
+    94	/**
+    95	 * qcom_md_get_region_index() - Lookup minidump region by id
+    96	 * @md: minidump data
+    97	 * @id: minidump region id
+    98	 *
+    99	 * Return: On success, it returns the internal region index, on failure,
+   100	 *	returns	negative error value
+   101	 */
+   102	static int qcom_md_get_region_index(struct minidump *md, int id)
+   103	{
+   104		unsigned int count = le32_to_cpu(md->toc->region_count);
+   105		unsigned int i;
+   106	
+   107		for (i = 0; i < count; i++)
+ > 108			if (md->regions[i].seq_num == id)
+   109				return i;
+   110	
+   111		return -ENOENT;
+   112	}
+   113	
+   114	/**
+   115	 * register_md_region() - Register a new minidump region
+   116	 * @priv: private data
+   117	 * @e: pointer to inspect entry
+   118	 *
+   119	 * Return: None
+   120	 */
+   121	static void __maybe_unused register_md_region(void *priv,
+   122						      const struct inspect_entry *e)
+   123	{
+   124		unsigned int num_region, region_cnt;
+   125		const char *name = "unknown";
+   126		struct minidump_region *mdr;
+   127		struct minidump *md = priv;
+   128	
+   129		if (!(e->va || e->pa) || !e->size) {
+   130			dev_dbg(md->dev, "invalid region requested\n");
+   131			return;
+   132		}
+   133	
+   134		if (e->id < ARRAY_SIZE(meminspect_id_to_md_string))
+   135			name = meminspect_id_to_md_string[e->id];
+   136	
+   137		if (qcom_md_get_region_index(md, e->id) >= 0) {
+   138			dev_dbg(md->dev, "%s:%d region is already registered\n",
+   139				name, e->id);
+   140			return;
+   141		}
+   142	
+   143		/* Check if there is a room for a new entry */
+   144		num_region = le32_to_cpu(md->toc->region_count);
+   145		if (num_region >= MAX_NUM_REGIONS) {
+   146			dev_dbg(md->dev, "maximum region limit %u reached\n",
+   147				num_region);
+   148			return;
+   149		}
+   150	
+   151		region_cnt = le32_to_cpu(md->toc->region_count);
+   152		mdr = &md->regions[region_cnt];
+   153		scnprintf(mdr->name, MAX_REGION_NAME_LENGTH, "K%.8s", name);
+ > 154		mdr->seq_num = e->id;
+   155		if (e->pa)
+   156			mdr->address = cpu_to_le64(e->pa);
+   157		else if (e->va)
+   158			mdr->address = cpu_to_le64(__pa(e->va));
+   159		mdr->size = cpu_to_le64(ALIGN(e->size, 4));
+   160		mdr->valid = cpu_to_le32(MINIDUMP_REGION_VALID);
+   161		region_cnt++;
+   162		md->toc->region_count = cpu_to_le32(region_cnt);
+   163	
+   164		dev_dbg(md->dev, "%s:%d region registered %llx:%llx\n",
+   165			mdr->name, mdr->seq_num, mdr->address, mdr->size);
+   166	}
+   167	
+   168	/**
+   169	 * unregister_md_region() - Unregister a previously registered minidump region
+   170	 * @priv: private data
+   171	 * @e: pointer to inspect entry
+   172	 *
+   173	 * Return: None
+   174	 */
+   175	static void __maybe_unused unregister_md_region(void *priv,
+   176							const struct inspect_entry *e)
+   177	{
+   178		struct minidump_region *mdr;
+   179		struct minidump *md = priv;
+   180		unsigned int region_cnt;
+   181		unsigned int idx;
+   182	
+   183		idx = qcom_md_get_region_index(md, e->id);
+ > 184		if (idx < 0) {
+   185			dev_dbg(md->dev, "%d region is not present\n", e->id);
+   186			return;
+   187		}
+   188	
+   189		mdr = &md->regions[0];
+   190		region_cnt = le32_to_cpu(md->toc->region_count);
+   191	
+   192		/*
+   193		 * Left shift one position all the regions located after the
+   194		 * region being removed, in order to fill the gap.
+   195		 * Then, zero out the last region at the end.
+   196		 */
+   197		memmove(&mdr[idx], &mdr[idx + 1], (region_cnt - idx - 1) * sizeof(*mdr));
+   198		memset(&mdr[region_cnt - 1], 0, sizeof(*mdr));
+   199		region_cnt--;
+   200		md->toc->region_count = cpu_to_le32(region_cnt);
+   201	}
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
