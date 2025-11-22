@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF36817E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 07:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C46441A8F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 08:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763798150; cv=none; b=b2ddTg2nFDuufs2PyzaR+lk50IpAQCePpdwrZTg8lxliMKazMG9CB/2Q1/WkVG7JH8k4+q/dpOPy3mFMSTGWBTGiU8+cKufaUCnTDO9Ov9+De82/fzou6djYp5YYOjoIb7juqQLEd1baBNfAYXqyKKsfGcSUY0FYrjh6qW0Vh4Y=
+	t=1763798807; cv=none; b=jR+cEnjGD7YytWwiBZRhC2BB33xXkc/q+9CocaBfWV3vh2fGQfBGjYDN4H56f83oYfd9/IA1gcxpjZeFY4wNTHq9xsacT7ePkLX8l/oXJt0zeLXgnWIZcysNX/UB8BXj67TGpHR1s1VWN7/1sSSkMe0e82DEkaH0zojAbhJnbr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763798150; c=relaxed/simple;
-	bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nsLp58wfJS/P4Mv7EIxVIQFjnd1rP7rRaNsCePRqPdydqSZTVKX8gJ9KCYW1PM/n7fTO1aBCNeYrAgWTBJwMIgOGnl1VnnaCUslJZxlvWAYcvl1knUsCUQFABLdhSa5RfSQT9dXaF90ocm+nzRRKAYHG21OANbUx5BZAgFmnjMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVM9mC5G; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1763798807; c=relaxed/simple;
+	bh=IUJsTn5xp356frgqJ4Ua+NCPT+RNRYC7iGNhjv9oRAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bdoQtJ4vX/dtwFYmm6MXBeOJF3uLfeC3FJBGWHOJU1zQPj5yfcczmj2BE0tRFKoVas5TzpXprgBoXhUCJ0m8VdojlPc00/vQS2Wbc6ugg753PJ87H86CcnYm4M7bpJRRmVDoWjJwXsl8mkNL4WpsWWz1d0lgDW8UdE6DFsWU6Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZ4KxwRw; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVM9mC5G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZ4KxwRw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763798149; x=1795334149;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SXw40nk81lfewjY1S+9hPKCWNPlyLR4zHML4HwWfuNQ=;
-  b=QVM9mC5GJ0P1V3L2M/VZh8bvwnbxYhpmWtr7FeFr+cRdbghWKhXAjUMq
-   nnmT6oTArYPZ2Z3woTbDhCbFA18yi6oeLw+knEOivXmaGf/V1Gh1gKH2i
-   2h3Wdarrpv1sm5J4aoGlBntQVFqdjpRAFMBqEZ0U1GXxGv7Ecgj/8+uvC
-   2oOkvmzMnWq3yTbrpsgxL3A2DamMS7n6bUmrPHKuu73BIqMa6CDiOAxgH
-   sMCiBihE3WaJQlx760FIZULJbH25La+HHUn6Qo2Oi5UL6hwszdi3TJUuW
-   2bH9ke2PDrVDLuDR6UPzAEwEXnFMYKWKusQx+DGdEt5zHZE5dfjKVsBf2
-   A==;
-X-CSE-ConnectionGUID: LXItKweZTkiloSmlwTydvw==
-X-CSE-MsgGUID: rdl/EormQEq9UTFwVddM8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69748451"
+  t=1763798805; x=1795334805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IUJsTn5xp356frgqJ4Ua+NCPT+RNRYC7iGNhjv9oRAw=;
+  b=HZ4KxwRw0Q7JgQOsFZabESEOM7fveqiuEy5TD9Ki6NXLyic/FI4zyb9H
+   hYI8QtEv1M/tF2RDyIm+xULe3vopfHPcn68Mh4E9mJTmxvq3VKrMI8qG8
+   xexfU0XUZhGAWqRwJ6/weNs7PJi0uQWdbeEMRm9jbNeSLce4feDfcLvcN
+   I10K7KsHO9oRXiz2VYCCMJoH2kgwm8Z8molZrYRvfAVKGYj74gy9vMupc
+   csixQKDAPTmPzQjNLIloBJCpcI5ibDcq8dnIFgQ0EMtaA4qxa9xPpHSzk
+   4hMT7a2saVzmB6y/sa7hVjf9SXfk2oeCRF0e7/5Z/u4hAUFk60AGDtS1E
+   g==;
+X-CSE-ConnectionGUID: 58XkjF18QsCvsj29jL4nZg==
+X-CSE-MsgGUID: qV6YEkEAS2OkavyU3PHUug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="66044214"
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="69748451"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 23:55:48 -0800
-X-CSE-ConnectionGUID: wOeO3mLQSJuDwYi3qD24uQ==
-X-CSE-MsgGUID: AycttFy4TB+6j12x7ifhWg==
+   d="scan'208";a="66044214"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 00:06:45 -0800
+X-CSE-ConnectionGUID: HA9VjFr4Tky1B/hyvp9plA==
+X-CSE-MsgGUID: AgCWgj+ISF6Q5dxXXj9bXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="222833433"
+   d="scan'208";a="192143254"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2025 23:55:43 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Nov 2025 00:06:43 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMiT6-0007Gp-1a;
-	Sat, 22 Nov 2025 07:55:40 +0000
-Date: Sat, 22 Nov 2025 15:54:59 +0800
+	id 1vMidl-0007HH-1k;
+	Sat, 22 Nov 2025 08:06:41 +0000
+Date: Sat, 22 Nov 2025 16:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	tglx@linutronix.de, andersson@kernel.org, pmladek@suse.com,
-	rdunlap@infradead.org, corbet@lwn.net, david@redhat.com,
-	mhocko@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, tudor.ambarus@linaro.org,
-	mukesh.ojha@oss.qualcomm.com, linux-arm-kernel@lists.infradead.org,
-	linux-hardening@vger.kernel.org, jonechou@google.com,
-	rostedt@goodmis.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-arch@vger.kernel.org, tony.luck@intel.com, kees@kernel.org,
-	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: Re: [PATCH 23/26] soc: qcom: Add minidump driver
-Message-ID: <202511221521.2OINSDPK-lkp@intel.com>
-References: <20251119154427.1033475-24-eugen.hristev@linaro.org>
+To: kernel@openeuler.org, Jinqian Yang <yangjinqian1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3304/3304] arch/arm64/kvm/hypercalls.c:380:52:
+ error: passing argument 1 of 'hisi_ipiv_supported_per_vm' from incompatible
+ pointer type
+Message-ID: <202511221643.H3LgffBo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,152 +62,210 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119154427.1033475-24-eugen.hristev@linaro.org>
 
-Hi Eugen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rppt-memblock/fixes]
-[also build test WARNING on linus/master v6.18-rc6]
-[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next next-20251121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/kernel-Introduce-meminspect/20251119-235912
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock.git fixes
-patch link:    https://lore.kernel.org/r/20251119154427.1033475-24-eugen.hristev%40linaro.org
-patch subject: [PATCH 23/26] soc: qcom: Add minidump driver
-config: nios2-randconfig-r123-20251122 (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221521.2OINSDPK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   2e375b157ddf25336989b074c1f2a88a80ab72f5
+commit: cbd165f529bd32b586342c0a2d11c3ca50b9fdd3 [3304/3304] KVM: arm64: ipiv: Change parameter from vcpu to kvm
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251122/202511221643.H3LgffBo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511221643.H3LgffBo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511221521.2OINSDPK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511221643.H3LgffBo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/minidump.c:108:35: sparse: sparse: restricted __le32 degrades to integer
->> drivers/soc/qcom/minidump.c:154:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] seq_num @@     got unsigned int enum meminspect_uid const id @@
-   drivers/soc/qcom/minidump.c:154:22: sparse:     expected restricted __le32 [usertype] seq_num
-   drivers/soc/qcom/minidump.c:154:22: sparse:     got unsigned int enum meminspect_uid const id
->> drivers/soc/qcom/minidump.c:184:19: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/soc/qcom/minidump.c:183:39: sparse: signed value source
+All errors (new ones prefixed by >>):
 
-vim +108 drivers/soc/qcom/minidump.c
+   arch/arm64/kvm/hypercalls.c: In function 'kvm_smccc_call_handler':
+>> arch/arm64/kvm/hypercalls.c:380:52: error: passing argument 1 of 'hisi_ipiv_supported_per_vm' from incompatible pointer type [-Wincompatible-pointer-types]
+     380 |                 if (hisi_ipiv_supported_per_vm(vcpu->kvm))
+         |                                                ~~~~^~~~~
+         |                                                    |
+         |                                                    struct kvm *
+   In file included from arch/arm64/kvm/hypercalls.c:13:
+   arch/arm64/kvm/hisilicon/hisi_virt.h:127:64: note: expected 'struct kvm_vcpu *' but argument is of type 'struct kvm *'
+     127 | static inline bool hisi_ipiv_supported_per_vm(struct kvm_vcpu *vcpu)
+         |                                               ~~~~~~~~~~~~~~~~~^~~~
+   arch/arm64/kvm/hypercalls.c:386:52: error: passing argument 1 of 'hisi_ipiv_supported_per_vm' from incompatible pointer type [-Wincompatible-pointer-types]
+     386 |                 if (hisi_ipiv_supported_per_vm(vcpu->kvm)) {
+         |                                                ~~~~^~~~~
+         |                                                    |
+         |                                                    struct kvm *
+   arch/arm64/kvm/hisilicon/hisi_virt.h:127:64: note: expected 'struct kvm_vcpu *' but argument is of type 'struct kvm *'
+     127 | static inline bool hisi_ipiv_supported_per_vm(struct kvm_vcpu *vcpu)
+         |                                               ~~~~~~~~~~~~~~~~~^~~~
+>> arch/arm64/kvm/hypercalls.c:387:53: error: passing argument 1 of 'hisi_ipiv_enable_per_vm' from incompatible pointer type [-Wincompatible-pointer-types]
+     387 |                         hisi_ipiv_enable_per_vm(vcpu->kvm);
+         |                                                 ~~~~^~~~~
+         |                                                     |
+         |                                                     struct kvm *
+   arch/arm64/kvm/hisilicon/hisi_virt.h:131:61: note: expected 'struct kvm_vcpu *' but argument is of type 'struct kvm *'
+     131 | static inline void hisi_ipiv_enable_per_vm(struct kvm_vcpu *vcpu) {}
+         |                                            ~~~~~~~~~~~~~~~~~^~~~
 
-    93	
-    94	/**
-    95	 * qcom_md_get_region_index() - Lookup minidump region by id
-    96	 * @md: minidump data
-    97	 * @id: minidump region id
-    98	 *
-    99	 * Return: On success, it returns the internal region index, on failure,
-   100	 *	returns	negative error value
-   101	 */
-   102	static int qcom_md_get_region_index(struct minidump *md, int id)
-   103	{
-   104		unsigned int count = le32_to_cpu(md->toc->region_count);
-   105		unsigned int i;
-   106	
-   107		for (i = 0; i < count; i++)
- > 108			if (md->regions[i].seq_num == id)
-   109				return i;
-   110	
-   111		return -ENOENT;
-   112	}
-   113	
-   114	/**
-   115	 * register_md_region() - Register a new minidump region
-   116	 * @priv: private data
-   117	 * @e: pointer to inspect entry
-   118	 *
-   119	 * Return: None
-   120	 */
-   121	static void __maybe_unused register_md_region(void *priv,
-   122						      const struct inspect_entry *e)
-   123	{
-   124		unsigned int num_region, region_cnt;
-   125		const char *name = "unknown";
-   126		struct minidump_region *mdr;
-   127		struct minidump *md = priv;
-   128	
-   129		if (!(e->va || e->pa) || !e->size) {
-   130			dev_dbg(md->dev, "invalid region requested\n");
-   131			return;
-   132		}
-   133	
-   134		if (e->id < ARRAY_SIZE(meminspect_id_to_md_string))
-   135			name = meminspect_id_to_md_string[e->id];
-   136	
-   137		if (qcom_md_get_region_index(md, e->id) >= 0) {
-   138			dev_dbg(md->dev, "%s:%d region is already registered\n",
-   139				name, e->id);
-   140			return;
-   141		}
-   142	
-   143		/* Check if there is a room for a new entry */
-   144		num_region = le32_to_cpu(md->toc->region_count);
-   145		if (num_region >= MAX_NUM_REGIONS) {
-   146			dev_dbg(md->dev, "maximum region limit %u reached\n",
-   147				num_region);
-   148			return;
-   149		}
-   150	
-   151		region_cnt = le32_to_cpu(md->toc->region_count);
-   152		mdr = &md->regions[region_cnt];
-   153		scnprintf(mdr->name, MAX_REGION_NAME_LENGTH, "K%.8s", name);
- > 154		mdr->seq_num = e->id;
-   155		if (e->pa)
-   156			mdr->address = cpu_to_le64(e->pa);
-   157		else if (e->va)
-   158			mdr->address = cpu_to_le64(__pa(e->va));
-   159		mdr->size = cpu_to_le64(ALIGN(e->size, 4));
-   160		mdr->valid = cpu_to_le32(MINIDUMP_REGION_VALID);
-   161		region_cnt++;
-   162		md->toc->region_count = cpu_to_le32(region_cnt);
-   163	
-   164		dev_dbg(md->dev, "%s:%d region registered %llx:%llx\n",
-   165			mdr->name, mdr->seq_num, mdr->address, mdr->size);
-   166	}
-   167	
-   168	/**
-   169	 * unregister_md_region() - Unregister a previously registered minidump region
-   170	 * @priv: private data
-   171	 * @e: pointer to inspect entry
-   172	 *
-   173	 * Return: None
-   174	 */
-   175	static void __maybe_unused unregister_md_region(void *priv,
-   176							const struct inspect_entry *e)
-   177	{
-   178		struct minidump_region *mdr;
-   179		struct minidump *md = priv;
-   180		unsigned int region_cnt;
-   181		unsigned int idx;
-   182	
-   183		idx = qcom_md_get_region_index(md, e->id);
- > 184		if (idx < 0) {
-   185			dev_dbg(md->dev, "%d region is not present\n", e->id);
-   186			return;
-   187		}
-   188	
-   189		mdr = &md->regions[0];
-   190		region_cnt = le32_to_cpu(md->toc->region_count);
-   191	
-   192		/*
-   193		 * Left shift one position all the regions located after the
-   194		 * region being removed, in order to fill the gap.
-   195		 * Then, zero out the last region at the end.
-   196		 */
-   197		memmove(&mdr[idx], &mdr[idx + 1], (region_cnt - idx - 1) * sizeof(*mdr));
-   198		memset(&mdr[region_cnt - 1], 0, sizeof(*mdr));
-   199		region_cnt--;
-   200		md->toc->region_count = cpu_to_le32(region_cnt);
-   201	}
-   202	
+
+vim +/hisi_ipiv_supported_per_vm +380 arch/arm64/kvm/hypercalls.c
+
+   264	
+   265	int kvm_smccc_call_handler(struct kvm_vcpu *vcpu)
+   266	{
+   267		struct kvm_smccc_features *smccc_feat = &vcpu->kvm->arch.smccc_feat;
+   268		u32 func_id = smccc_get_function(vcpu);
+   269		u64 val[4] = {SMCCC_RET_NOT_SUPPORTED};
+   270		u32 feature;
+   271		u8 action;
+   272		gpa_t gpa;
+   273	
+   274		action = kvm_smccc_get_action(vcpu, func_id);
+   275		switch (action) {
+   276		case KVM_SMCCC_FILTER_HANDLE:
+   277			break;
+   278		case KVM_SMCCC_FILTER_DENY:
+   279			goto out;
+   280		case KVM_SMCCC_FILTER_FWD_TO_USER:
+   281			kvm_prepare_hypercall_exit(vcpu, func_id);
+   282			return 0;
+   283		default:
+   284			WARN_RATELIMIT(1, "Unhandled SMCCC filter action: %d\n", action);
+   285			goto out;
+   286		}
+   287	
+   288		switch (func_id) {
+   289		case ARM_SMCCC_VERSION_FUNC_ID:
+   290			val[0] = ARM_SMCCC_VERSION_1_1;
+   291			break;
+   292		case ARM_SMCCC_ARCH_FEATURES_FUNC_ID:
+   293			feature = smccc_get_arg1(vcpu);
+   294			switch (feature) {
+   295			case ARM_SMCCC_ARCH_WORKAROUND_1:
+   296				switch (arm64_get_spectre_v2_state()) {
+   297				case SPECTRE_VULNERABLE:
+   298					break;
+   299				case SPECTRE_MITIGATED:
+   300					val[0] = SMCCC_RET_SUCCESS;
+   301					break;
+   302				case SPECTRE_UNAFFECTED:
+   303					val[0] = SMCCC_ARCH_WORKAROUND_RET_UNAFFECTED;
+   304					break;
+   305				}
+   306				break;
+   307			case ARM_SMCCC_ARCH_WORKAROUND_2:
+   308				switch (arm64_get_spectre_v4_state()) {
+   309				case SPECTRE_VULNERABLE:
+   310					break;
+   311				case SPECTRE_MITIGATED:
+   312					/*
+   313					 * SSBS everywhere: Indicate no firmware
+   314					 * support, as the SSBS support will be
+   315					 * indicated to the guest and the default is
+   316					 * safe.
+   317					 *
+   318					 * Otherwise, expose a permanent mitigation
+   319					 * to the guest, and hide SSBS so that the
+   320					 * guest stays protected.
+   321					 */
+   322					if (cpus_have_final_cap(ARM64_SSBS))
+   323						break;
+   324					fallthrough;
+   325				case SPECTRE_UNAFFECTED:
+   326					val[0] = SMCCC_RET_NOT_REQUIRED;
+   327					break;
+   328				}
+   329				break;
+   330			case ARM_SMCCC_ARCH_WORKAROUND_3:
+   331				switch (arm64_get_spectre_bhb_state()) {
+   332				case SPECTRE_VULNERABLE:
+   333					break;
+   334				case SPECTRE_MITIGATED:
+   335					val[0] = SMCCC_RET_SUCCESS;
+   336					break;
+   337				case SPECTRE_UNAFFECTED:
+   338					val[0] = SMCCC_ARCH_WORKAROUND_RET_UNAFFECTED;
+   339					break;
+   340				}
+   341				break;
+   342			case ARM_SMCCC_HV_PV_TIME_FEATURES:
+   343				if (test_bit(KVM_REG_ARM_STD_HYP_BIT_PV_TIME,
+   344					     &smccc_feat->std_hyp_bmap))
+   345					val[0] = SMCCC_RET_SUCCESS;
+   346				break;
+   347	#ifdef CONFIG_PARAVIRT_SCHED
+   348			case ARM_SMCCC_HV_PV_SCHED_FEATURES:
+   349				val[0] = SMCCC_RET_SUCCESS;
+   350				break;
+   351	#endif /* CONFIG_PARAVIRT_SCHED */
+   352			}
+   353			break;
+   354		case ARM_SMCCC_HV_PV_TIME_FEATURES:
+   355			val[0] = kvm_hypercall_pv_features(vcpu);
+   356			break;
+   357		case ARM_SMCCC_HV_PV_TIME_ST:
+   358			gpa = kvm_init_stolen_time(vcpu);
+   359			if (gpa != INVALID_GPA)
+   360				val[0] = gpa;
+   361			break;
+   362	#ifdef CONFIG_PARAVIRT_SCHED
+   363		case ARM_SMCCC_HV_PV_SCHED_FEATURES:
+   364			val[0] = kvm_hypercall_pvsched_features(vcpu);
+   365			break;
+   366		case ARM_SMCCC_HV_PV_SCHED_IPA_INIT:
+   367			gpa = smccc_get_arg1(vcpu);
+   368			if (gpa != INVALID_GPA) {
+   369				vcpu->arch.pvsched.base = gpa;
+   370				val[0] = SMCCC_RET_SUCCESS;
+   371			}
+   372			break;
+   373		case ARM_SMCCC_HV_PV_SCHED_IPA_RELEASE:
+   374			vcpu->arch.pvsched.base = INVALID_GPA;
+   375			val[0] = SMCCC_RET_SUCCESS;
+   376			break;
+   377	#endif /* CONFIG_PARAVIRT_SCHED */
+   378	#ifdef CONFIG_ARM64_HISI_IPIV
+   379		case ARM_SMCCC_VENDOR_PV_SGI_FEATURES:
+ > 380			if (hisi_ipiv_supported_per_vm(vcpu->kvm))
+   381				val[0] = SMCCC_RET_SUCCESS;
+   382			else
+   383				val[0] = SMCCC_RET_NOT_SUPPORTED;
+   384			break;
+   385		case ARM_SMCCC_VENDOR_PV_SGI_ENABLE:
+ > 386			if (hisi_ipiv_supported_per_vm(vcpu->kvm)) {
+ > 387				hisi_ipiv_enable_per_vm(vcpu->kvm);
+   388				val[0] = SMCCC_RET_SUCCESS;
+   389			} else {
+   390				val[0] = SMCCC_RET_NOT_SUPPORTED;
+   391			}
+   392			break;
+   393	#endif
+   394		case ARM_SMCCC_VENDOR_HYP_CALL_UID_FUNC_ID:
+   395			val[0] = ARM_SMCCC_VENDOR_HYP_UID_KVM_REG_0;
+   396			val[1] = ARM_SMCCC_VENDOR_HYP_UID_KVM_REG_1;
+   397			val[2] = ARM_SMCCC_VENDOR_HYP_UID_KVM_REG_2;
+   398			val[3] = ARM_SMCCC_VENDOR_HYP_UID_KVM_REG_3;
+   399			break;
+   400		case ARM_SMCCC_VENDOR_HYP_KVM_FEATURES_FUNC_ID:
+   401			val[0] = smccc_feat->vendor_hyp_bmap;
+   402			/* Function numbers 2-63 are reserved for pKVM for now */
+   403			val[2] = smccc_feat->vendor_hyp_bmap_2;
+   404			break;
+   405		case ARM_SMCCC_VENDOR_HYP_KVM_PTP_FUNC_ID:
+   406			kvm_ptp_get_time(vcpu, val);
+   407			break;
+   408		case ARM_SMCCC_TRNG_VERSION:
+   409		case ARM_SMCCC_TRNG_FEATURES:
+   410		case ARM_SMCCC_TRNG_GET_UUID:
+   411		case ARM_SMCCC_TRNG_RND32:
+   412		case ARM_SMCCC_TRNG_RND64:
+   413			return kvm_trng_call(vcpu);
+   414		default:
+   415			return kvm_psci_call(vcpu);
+   416		}
+   417	
+   418	out:
+   419		smccc_set_retval(vcpu, val[0], val[1], val[2], val[3]);
+   420		return 1;
+   421	}
+   422	
 
 -- 
 0-DAY CI Kernel Test Service
