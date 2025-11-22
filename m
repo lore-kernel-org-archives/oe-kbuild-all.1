@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF6B296BD7;
-	Sat, 22 Nov 2025 18:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F9128DB49
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 19:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763836879; cv=none; b=AwihFedzUvjy7DE+wW6atXDlyPdZEDwlGKHbtV92SnEe5ckUh5Q7HN98Erygbgda+YLVy5IyPnNTX54ieykLzem4XhikbkacKpwSuCIjJuR975qg7UF0d/Nym6xb0bxilwbfWGeXzQoTSrLeo8cdFn+91/hLdMnBvjPymoQBId4=
+	t=1763840602; cv=none; b=klSomzvE+xQdL9S0TeL9lpRWQ93QmvbNWkjD2qsofHp2T8c4MBuQ8yj2fszxuX5eizn22McQG12ovUfcJUEmz97x/kQ99OHO3tH1pGRG+qZMfMm9GU2MeoX7zB7bYxLMkDY3pbxo9tSz8aU9elUmDXn5xsM+gKDJ0pBT58AdAiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763836879; c=relaxed/simple;
-	bh=uh6fba18pbvtcVMxyxzgPBWrZ9i8/1sGN1sD1sLq4co=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=maFq6NCt8XICbUwirB2LXlVnrSIsB4HqxQBXOTrn46ESvKLXAjXgXAPvjWUqTXkR7os41Nhp/7g0fohFcyfweKNiM6yj8YWTFbn2AkP2i19bWQEX6w09tzS24TiTrHva7mUHTR5CouYIc4UxBD/oCrp0mK61KPy4fw6GxW3D5qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doKBJKeY; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1763840602; c=relaxed/simple;
+	bh=tTtVvyKSz5JlcSrUbJsvhyguJ8y4uVarqw6a46W0uQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mLsAVgsw8yuFVfnmSFZZgSd9zyoU3pNDyl7sNajqqE3q4pn+QFSZfHQb7CVyPtOwDBXOlTWWqwZSg1glJur/jxOn4Wsf6ns9qbhfjQW4JmDdtN7awg/s9NwRTaBtfTOmIk85FtvQIo65yg1frLzTZsnlZOoLatWyeZRLScXkMsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hA9wejZ9; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doKBJKeY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hA9wejZ9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763836877; x=1795372877;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uh6fba18pbvtcVMxyxzgPBWrZ9i8/1sGN1sD1sLq4co=;
-  b=doKBJKeYivAY6e9PMOe8PjitnkFTgFeVZLUWoEp4vnT4eMUabXwelSZ5
-   XWNYDD5X9qwY8SlwZ5U1gbXqNFIkQItsLTPipvxTL53fNw+k7obDVS+CD
-   80l2HKAlnsByuOZhPAUwue9kHoZiFq+m4OVfg4aNF3jZOfQBemCKxGiOJ
-   7JyfDjDIGLFOlvklKfIBMn9//Zz+nY1TtIWjEykdtiduFwCE6uOOXn5uL
-   mdslEu8qBjrAn5hqFE0hKgD39lhbup1s8Rq7nJ1cJ0PYVX039Jowjzy8x
-   jrnZ66U5JaR5fd0vRX+UC4yS/EegISX3JDJaRgeHSkZwEXJC8IDGx6VPn
-   A==;
-X-CSE-ConnectionGUID: +CNXs3yWS6CmYsVkFCPW8g==
-X-CSE-MsgGUID: P2dgl8rsSMi98/7dtBTfJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="53469226"
+  t=1763840600; x=1795376600;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tTtVvyKSz5JlcSrUbJsvhyguJ8y4uVarqw6a46W0uQ8=;
+  b=hA9wejZ9Fukq099EpYWEKCSCkcLmzaKS7SOzjggK1h6tHciY//QUZy4b
+   C8bPcVcAITUJvtWlsvZCEdS9qQU22xftJvR/8QVGEkrybTI5xUgucT81j
+   xglxtwAZDp6uay420MoLpY9/DnYvH9mgnm8aqyenDaqNzCZmU5cNUiOpt
+   ThXnNzL4/WHpFlOyOSzVyHQsUJ49kMATn6Xkl85GUgAAKol5JvdCdYOUC
+   fPbhbbzRuhUp1gqDkgtmnOL6NhFkatac/rHLe1Dj7JSxJ62ooa0iug5fB
+   ltZjd67N/xdORvRJQOwny988VElkSAQi2puU3IuirzwHprlZIHSr/4eRm
+   Q==;
+X-CSE-ConnectionGUID: YaIUKUC1QgqvfJz5SjoKEg==
+X-CSE-MsgGUID: rhLaETPOSoud9H3FE2gQWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="83522550"
 X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="53469226"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 10:41:17 -0800
-X-CSE-ConnectionGUID: GX2RLIrLT5qBDBNYgcnDaQ==
-X-CSE-MsgGUID: IZMZCRR/Q2yDT+wCNFSm3g==
+   d="scan'208";a="83522550"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 11:43:20 -0800
+X-CSE-ConnectionGUID: kyBy5Yv5S6aB59ZJzvPfiA==
+X-CSE-MsgGUID: vxlgBhcNSNaN4rt6AIeVtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,219,1758610800"; 
-   d="scan'208";a="191637140"
+   d="scan'208";a="215328068"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Nov 2025 10:41:13 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2025 11:43:19 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vMsXn-0007l7-1R;
-	Sat, 22 Nov 2025 18:41:11 +0000
-Date: Sun, 23 Nov 2025 02:40:35 +0800
+	id 1vMtVs-0007nH-2V;
+	Sat, 22 Nov 2025 19:43:16 +0000
+Date: Sun, 23 Nov 2025 03:43:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Manikandan Muralidharan <manikandan.m@microchip.com>,
-	Dharma Balasubiramani <dharma.b@microchip.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Ludovic Desroches <ludovic.desroches@microchip.com>
-Subject: Re: [PATCH 5/8] drm/atmel-hlcdc: use devm_drm_of_get_bridge()
-Message-ID: <202511230240.NYBAiUV4-lkp@intel.com>
-References: <20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67@microchip.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-xen 10/16] net/vmw_vsock/af_vsock.c:2156:3-8:
+ WARNING: NULL check before some freeing functions is not needed.
+Message-ID: <202511230327.tTEh3myF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,89 +61,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67@microchip.com>
 
-Hi Ludovic,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ludovic-Desroches/drm-atmel-hlcdc-use-managed-device-resources-for-the-display-controller/20251121-231107
-base:   88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
-patch link:    https://lore.kernel.org/r/20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67%40microchip.com
-patch subject: [PATCH 5/8] drm/atmel-hlcdc: use devm_drm_of_get_bridge()
-config: arm-randconfig-001-20251123 (https://download.01.org/0day-ci/archive/20251123/202511230240.NYBAiUV4-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511230240.NYBAiUV4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   8d6b7b623852a5bc1d39af5ab57eac793f854123
+commit: 32138a86d9919ca28e597d5568784c5c26d4ce95 [10/16] vsock: Add shared-memory support for virtio and loopback
+config: riscv-randconfig-r052-20251123 (https://download.01.org/0day-ci/archive/20251123/202511230327.tTEh3myF-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 9.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511230240.NYBAiUV4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511230327.tTEh3myF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> net/vmw_vsock/af_vsock.c:2156:3-8: WARNING: NULL check before some freeing functions is not needed.
 
->> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:100:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     100 |         if (bridge) {
-         |             ^~~~~~
-   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:106:9: note: uninitialized use occurs here
-     106 |         return ret;
-         |                ^~~
-   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:100:2: note: remove the 'if' if its condition is always true
-     100 |         if (bridge) {
-         |         ^~~~~~~~~~~
-   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c:75:9: note: initialize the variable 'ret' to silence this warning
-      75 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+vim +2156 net/vmw_vsock/af_vsock.c
 
-
-vim +100 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-
-b6e075c3cb6e57d Peter Rosin       2018-08-25   67  
-6bee9b78a7a5ea2 Boris Brezillon   2017-05-18   68  static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
-17a8e03e7e97d34 Boris Brezillon   2016-01-06   69  {
-b6e075c3cb6e57d Peter Rosin       2018-08-25   70  	struct atmel_hlcdc_rgb_output *output;
-b6e075c3cb6e57d Peter Rosin       2018-08-25   71  	struct device_node *ep;
-17a8e03e7e97d34 Boris Brezillon   2016-01-06   72  	struct drm_bridge *bridge;
-ec29c94011469e7 Ludovic Desroches 2025-11-21   73  	struct atmel_hlcdc_dc *dc = dev->dev_private;
-ec29c94011469e7 Ludovic Desroches 2025-11-21   74  	struct drm_crtc *crtc = dc->crtc;
-17a8e03e7e97d34 Boris Brezillon   2016-01-06   75  	int ret;
-1a396789f65a227 Boris Brezillon   2015-01-06   76  
-524bfe4ade6dbed Ludovic Desroches 2025-11-21   77  	bridge = devm_drm_of_get_bridge(dev->dev, dev->dev->of_node, 0, endpoint);
-524bfe4ade6dbed Ludovic Desroches 2025-11-21   78  	if (IS_ERR(bridge))
-524bfe4ade6dbed Ludovic Desroches 2025-11-21   79  		return PTR_ERR(bridge);
-6bee9b78a7a5ea2 Boris Brezillon   2017-05-18   80  
-e38758ed5aece5d Ludovic Desroches 2025-11-21   81  	output = drmm_simple_encoder_alloc(dev, struct atmel_hlcdc_rgb_output,
-e38758ed5aece5d Ludovic Desroches 2025-11-21   82  					   encoder, DRM_MODE_ENCODER_NONE);
-e38758ed5aece5d Ludovic Desroches 2025-11-21   83  	if (IS_ERR(output))
-e38758ed5aece5d Ludovic Desroches 2025-11-21   84  		return PTR_ERR(output);
-e38758ed5aece5d Ludovic Desroches 2025-11-21   85  
-e38758ed5aece5d Ludovic Desroches 2025-11-21   86  	ep = of_graph_get_endpoint_by_regs(dev->dev->of_node, 0, endpoint);
-e38758ed5aece5d Ludovic Desroches 2025-11-21   87  	if (!ep)
-e38758ed5aece5d Ludovic Desroches 2025-11-21   88  		return -ENODEV;
-b6e075c3cb6e57d Peter Rosin       2018-08-25   89  
-b6e075c3cb6e57d Peter Rosin       2018-08-25   90  	output->bus_fmt = atmel_hlcdc_of_bus_fmt(ep);
-b6e075c3cb6e57d Peter Rosin       2018-08-25   91  	of_node_put(ep);
-b6e075c3cb6e57d Peter Rosin       2018-08-25   92  	if (output->bus_fmt < 0) {
-3379655524e613e Eslam Khafagy     2025-08-14   93  		drm_err(dev, "endpoint %d: invalid bus width\n", endpoint);
-17a8e03e7e97d34 Boris Brezillon   2016-01-06   94  		return -EINVAL;
-b6e075c3cb6e57d Peter Rosin       2018-08-25   95  	}
-1a396789f65a227 Boris Brezillon   2015-01-06   96  
-1a396789f65a227 Boris Brezillon   2015-01-06   97  
-ec29c94011469e7 Ludovic Desroches 2025-11-21   98  	output->encoder.possible_crtcs = drm_crtc_mask(crtc);
-17a8e03e7e97d34 Boris Brezillon   2016-01-06   99  
-17a8e03e7e97d34 Boris Brezillon   2016-01-06 @100  	if (bridge) {
-a25b988ff83f3ca Laurent Pinchart  2020-02-26  101  		ret = drm_bridge_attach(&output->encoder, bridge, NULL, 0);
-17a8e03e7e97d34 Boris Brezillon   2016-01-06  102  		if (!ret)
-17a8e03e7e97d34 Boris Brezillon   2016-01-06  103  			return 0;
-17a8e03e7e97d34 Boris Brezillon   2016-01-06  104  	}
-1a396789f65a227 Boris Brezillon   2015-01-06  105  
-1a396789f65a227 Boris Brezillon   2015-01-06  106  	return ret;
-1a396789f65a227 Boris Brezillon   2015-01-06  107  }
-1a396789f65a227 Boris Brezillon   2015-01-06  108  
+  2117	
+  2118	static int vsock_sendmsg_shmem_dmabuf(struct vsock_sock *vsk,
+  2119					      struct vsock_shmem_desc *desc)
+  2120	{
+  2121		struct dma_buf *dbuf = dma_buf_get(desc->fd);
+  2122		struct vsock_shmem_desc *entry, *old;
+  2123		int err;
+  2124	
+  2125		/* The fd must belong to a dma-buf */
+  2126		if (IS_ERR(dbuf))
+  2127			return PTR_ERR(dbuf);
+  2128	
+  2129		if (!dbuf->ops->shmem || !dbuf->ops->unshmem) {
+  2130			err = -EOPNOTSUPP;
+  2131			goto out;
+  2132		}
+  2133	
+  2134		if (desc->subop == VSOCK_SHMEM_SUBOP_OFFER) {
+  2135			/* Share memory and get metadata in `desc` from dmabuf */
+  2136			err = dbuf->ops->shmem(dbuf, desc);
+  2137			if (err)
+  2138				goto out;
+  2139	
+  2140			entry = kmemdup(desc, sizeof(*desc), GFP_KERNEL);
+  2141			if (!entry) {
+  2142				err = -ENOMEM;
+  2143				goto out;
+  2144			}
+  2145	
+  2146			/* Save a copy of descriptor by FD */
+  2147			old = xa_store(&vsock_shmem_xa, desc->fd, entry, GFP_KERNEL);
+  2148			if (xa_is_err(old)) {
+  2149				kfree(entry);
+  2150				err = xa_err(old);
+  2151				goto out;
+  2152			}
+  2153	
+  2154			/* Token used previously ? */
+  2155			if (old)
+> 2156				kfree(old);
+  2157		} else if (desc->subop == VSOCK_SHMEM_SUBOP_REVOKE) {
+  2158			entry = xa_erase(&vsock_shmem_xa, desc->fd);
+  2159			if (!entry) {
+  2160				err = -EINVAL;
+  2161				goto out;
+  2162			}
+  2163	
+  2164			/* Copy the metadata */
+  2165			memcpy(&desc->reserved, &entry->reserved,
+  2166			       sizeof(desc->reserved));
+  2167			kfree(entry);
+  2168		} else {
+  2169			err = -EINVAL;
+  2170			goto out;
+  2171		}
+  2172	
+  2173		/* Don't leak kernel's FD */
+  2174		desc->fd = -1;
+  2175	
+  2176		/* send SHMEM control pkt (out-of-band) */
+  2177		err = vsk->transport->send_shmem(vsk, desc);
+  2178		if (err < 0)
+  2179			goto out;
+  2180		err = 0;
+  2181	
+  2182		if (desc->subop == VSOCK_SHMEM_SUBOP_REVOKE)
+  2183			dbuf->ops->unshmem(dbuf);
+  2184	
+  2185	out:
+  2186		dma_buf_put(dbuf);
+  2187		return err;
+  2188	}
+  2189	
 
 -- 
 0-DAY CI Kernel Test Service
