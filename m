@@ -1,133 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-35.ptr.blmpb.com (va-2-35.ptr.blmpb.com [209.127.231.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADB926059B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 15:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D18C2222BF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 16:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763826300; cv=none; b=o+RsvPR0NiK2BhJEDNLy2YmaeQfQfGhJyKDoRypOOVvxo1RkN5QOE67Y60NA59qgTt06k5kHRqBaNpMnTd1OlmLkEwO0GpumN/8kJQJ9n9XZ1ODQ2mIpwD15ssmTEswgXPeBUjwI5p9cqRP0bSEgJ/z3ABMZeSe9ywSnkYazsx8=
+	t=1763827504; cv=none; b=n5xtL4oowzQv97M1O7wwglS1lmo7tt1EImFEg4w/TvnyFWPFGUcEfcA6LF4MYSeeINpi5cK8M7rmB1kbCA/7OtixORIEnbCOUe6VdRgHcINv4PTYxHmTp9u41hgSolxQJQxieBcw7Lv5uVegdpd18x6SG9bUwE83PuPdnuCdkyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763826300; c=relaxed/simple;
-	bh=e5/XApYQnCyZ1UzlF0SJp/yzzutDs9g5rpZSdaaMHME=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=auHd+dNh3dFDNaqfamnJqNKF1quz7Fi42k/H0c9ZWrOg4zgPw+cVgXMkfhAmnhhvXT5rRLot+CbSHQZUrLRY2afuoYMxFnyaT5UXQm/AndqNn+JPxIIeoNkPxsQN5HbXqLjXzh7J/aZvdHZpwL81OeF9PnK6BD/aoXvagzAiUa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PAk1Jkv+; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1763827504; c=relaxed/simple;
+	bh=CP+DOOUsxxAr5t/VfNU4vfTImuW6LnfUGi60HhXLvF4=;
+	h=To:From:In-Reply-To:Cc:Subject:Mime-Version:References:
+	 Content-Type:Date:Message-Id; b=pLLPoqLgFLSO6KqlLGCCEoXCNjN/QZ+dFEh+Oc8P2sU92np8enzbdiDMGF8uqofR/bOmxu+FQGR1oAR/Xv9TQU0VMf2WUQ7GlptOd45K767Ge4B1VqgolCBRIugdljKq8inzFvW8ZDcsyNyZFlnF1UPM8Lhi07fZZxhB6NOfELI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=pass smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=bpVKXDMd; arc=none smtp.client-ip=209.127.231.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PAk1Jkv+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763826298; x=1795362298;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=e5/XApYQnCyZ1UzlF0SJp/yzzutDs9g5rpZSdaaMHME=;
-  b=PAk1Jkv+x+kQOLupTEpCuUas+hKTW1rLhKMCVPuwh5QbuY0WrEJiV5O6
-   HkApJhB89RBKcvGAOAMkXsN09OZxWmMv/02sxEet8dXBbyATrMacoV5hU
-   mC5kX+GsDGcKlkBhlPdLcQfoPGlFzPmyEMd7dGKyc28Q7fmgu/uF2zxm/
-   em7o70zIFscrLNUZ9Zsm0epAFLp4DgFiAFmm0Wl+Bb+vlAcVeQKpPqxL/
-   fdO0IjSV+Y3GduqkiawXTFOUv56oyt1ElodANI7a1AxO4yyH+RrYTF1IB
-   F32GRh1m+4XwEr2wVPnDUir/0uYSW2yESgYbdkh9K9dFWSWWwR79k16u9
-   w==;
-X-CSE-ConnectionGUID: ZMXxr5VWRI2YOQB/SvfraQ==
-X-CSE-MsgGUID: QCNY2BUDQjiVKFZXHUqLAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="77257066"
-X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="77257066"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 07:44:58 -0800
-X-CSE-ConnectionGUID: XgTI6IAeSzeh+Up0vEC+iQ==
-X-CSE-MsgGUID: VlqsZCjlTRms8uElG3diSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,218,1758610800"; 
-   d="scan'208";a="196106438"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Nov 2025 07:44:57 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vMpnB-0007dL-0i;
-	Sat, 22 Nov 2025 15:44:53 +0000
-Date: Sat, 22 Nov 2025 23:43:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
-Subject: Re: [PATCH 4/5] drm/i915/power: convert intel_wakeref_t to struct
- ref_tracker *
-Message-ID: <202511222310.DfmWio5k-lkp@intel.com>
-References: <dcbcf50f10aa2c2371b24859c55369dfda701b5c.1763729370.git.jani.nikula@intel.com>
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="bpVKXDMd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1763827449;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=zoUq4Cr5cdpTxrnkkGYLJgacGfzgTMRdhiNi9B0nUG8=;
+ b=bpVKXDMdM4OH13IPNaq5TOJ9I6olSl36Pt0v1SULQkZcXLeWbmKL2hClUfPG21HQXPiYiu
+ KqFiDLah9ImSAW4rg+YIJHLtJhQWIceBvYrqnsfH7idYtHDwDcOWICwvQNrCSfzGQhTxdN
+ CABY9HpZXWbMq+Xi4VIS+wr/7/tHIDRDR7HlfVuUBwCLogc7FJIl23oqoY89DcKUtT/51a
+ HSp19P0hbPOWTPtcQXOt67NS5Yt+pPIXpYd3y2XTDbqcrGqSgAiEw1yrQpEPHoEWSaTTQt
+ QLTRNuGEG7wTNEmZyIkbSfwsIBnZEGN2XfxzApBq6s9JL4yMVgsoUsOLhw98OA==
+Reply-To: yukuai@fnnas.com
+To: "kernel test robot" <lkp@intel.com>, <axboe@kernel.dk>, 
+	<linux-block@vger.kernel.org>, <tj@kernel.org>, <nilay@linux.ibm.com>, 
+	<ming.lei@redhat.com>, <bvanassche@acm.org>
+From: "Yu Kuai" <yukuai@fnnas.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+In-Reply-To: <202511221056.dAY0duWw-lkp@intel.com>
+Content-Transfer-Encoding: quoted-printable
+Cc: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH v2 4/9] blk-mq-debugfs: warn about possible deadlock
+X-Lms-Return-Path: <lba+26921def8+924ff1+lists.linux.dev+yukuai@fnnas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dcbcf50f10aa2c2371b24859c55369dfda701b5c.1763729370.git.jani.nikula@intel.com>
+Mime-Version: 1.0
+References: <20251121062829.1433332-5-yukuai@fnnas.com> <202511221056.dAY0duWw-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Organization: fnnas
+Content-Type: text/plain; charset=UTF-8
+Received: from [192.168.1.104] ([39.182.0.153]) by smtp.feishu.cn with ESMTPS; Sun, 23 Nov 2025 00:04:07 +0800
+Date: Sun, 23 Nov 2025 00:04:05 +0800
+Message-Id: <97ab71d4-43da-49cf-8d8a-53279b90ec89@fnnas.com>
+Content-Language: en-US
 
-Hi Jani,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20251121]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18-rc6 v6.18-rc5 v6.18-rc4 linus/master v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-pps-drop-wakeref-parameter-from-with_intel_pps_lock/20251121-205435
-base:   next-20251121
-patch link:    https://lore.kernel.org/r/dcbcf50f10aa2c2371b24859c55369dfda701b5c.1763729370.git.jani.nikula%40intel.com
-patch subject: [PATCH 4/5] drm/i915/power: convert intel_wakeref_t to struct ref_tracker *
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251122/202511222310.DfmWio5k-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511222310.DfmWio5k-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511222310.DfmWio5k-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/i915_driver.c:58:
-   drivers/gpu/drm/i915/display/intel_display_power.h: In function 'intel_display_power_put_async':
->> drivers/gpu/drm/i915/display/intel_display_power.h:236:58: error: 'INTEL_WAKEREF_DEF' undeclared (first use in this function)
-     236 |         __intel_display_power_put_async(display, domain, INTEL_WAKEREF_DEF, -1);
-         |                                                          ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:236:58: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/i915/display/intel_display_power.h: In function 'intel_display_power_put_async_delay':
-   drivers/gpu/drm/i915/display/intel_display_power.h:245:58: error: 'INTEL_WAKEREF_DEF' undeclared (first use in this function)
-     245 |         __intel_display_power_put_async(display, domain, INTEL_WAKEREF_DEF, delay_ms);
-         |                                                          ^~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/i915/soc/../display/intel_display_core.h:23,
-                    from drivers/gpu/drm/i915/soc/intel_dram.c:11:
-   drivers/gpu/drm/i915/soc/../display/intel_display_power.h: In function 'intel_display_power_put_async':
->> drivers/gpu/drm/i915/soc/../display/intel_display_power.h:236:58: error: 'INTEL_WAKEREF_DEF' undeclared (first use in this function)
-     236 |         __intel_display_power_put_async(display, domain, INTEL_WAKEREF_DEF, -1);
-         |                                                          ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/soc/../display/intel_display_power.h:236:58: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/i915/soc/../display/intel_display_power.h: In function 'intel_display_power_put_async_delay':
-   drivers/gpu/drm/i915/soc/../display/intel_display_power.h:245:58: error: 'INTEL_WAKEREF_DEF' undeclared (first use in this function)
-     245 |         __intel_display_power_put_async(display, domain, INTEL_WAKEREF_DEF, delay_ms);
-         |                                                          ^~~~~~~~~~~~~~~~~
+Hi,
 
 
-vim +/INTEL_WAKEREF_DEF +236 drivers/gpu/drm/i915/display/intel_display_power.h
+=E5=9C=A8 2025/11/22 10:50, kernel test robot =E5=86=99=E9=81=93:
+> Hi Yu,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on axboe/for-next]
+> [also build test ERROR on linus/master v6.18-rc6 next-20251121]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/blk-mq-deb=
+ugfs-factor-out-a-helper-to-register-debugfs-for-all-rq_qos/20251121-143315
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git f=
+or-next
+> patch link:    https://lore.kernel.org/r/20251121062829.1433332-5-yukuai%=
+40fnnas.com
+> patch subject: [PATCH v2 4/9] blk-mq-debugfs: warn about possible deadloc=
+k
+> config: sparc64-defconfig (https://download.01.org/0day-ci/archive/202511=
+22/202511221056.dAY0duWw-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251122/202511221056.dAY0duWw-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511221056.dAY0duWw-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> block/blk-mq-debugfs.c:628:30: error: no member named 'blkcg_mutex' in =
+'struct request_queue'
+>       628 |         lockdep_assert_not_held(&q->blkcg_mutex);
+>           |                                  ~  ^
+>     include/linux/lockdep.h:393:49: note: expanded from macro 'lockdep_as=
+sert_not_held'
+>       393 | #define lockdep_assert_not_held(l)              do { (void)(l=
+); } while (0)
+>           |                                                             ^
+>     1 error generated.
+>
+>
+> vim +628 block/blk-mq-debugfs.c
+>
+>     612=09
+>     613	static void debugfs_create_files(struct request_queue *q, struct =
+dentry *parent,
+>     614					 void *data,
+>     615					 const struct blk_mq_debugfs_attr *attr)
+>     616	{
+>     617		/*
+>     618		 * Creating new debugfs entries with queue freezed has the risk =
+of
+>     619		 * deadlock.
+>     620		 */
+>     621		WARN_ON_ONCE(q->mq_freeze_depth !=3D 0);
+>     622		/*
+>     623		 * debugfs_mutex should not be nested under other locks that can=
+ be
+>     624		 * grabbed while queue is frozen.
+>     625		 */
+>     626		lockdep_assert_not_held(&q->elevator_lock);
+>     627		lockdep_assert_not_held(&q->rq_qos_mutex);
+>   > 628		lockdep_assert_not_held(&q->blkcg_mutex);
+>     629=09
+>     630		if (IS_ERR_OR_NULL(parent))
+>     631			return;
+>     632=09
+>     633		for (; attr->name; attr++)
+>     634			debugfs_create_file_aux(attr->name, attr->mode, parent,
+>     635					    (void *)attr, data, &blk_mq_debugfs_fops);
+>     636	}
+>     637=09
 
-7645b19d9bdd13 drivers/gpu/drm/i915/intel_display_power.h         Daniele Ceraolo Spurio 2019-05-31  230  
-7645b19d9bdd13 drivers/gpu/drm/i915/intel_display_power.h         Daniele Ceraolo Spurio 2019-05-31  231  static inline void
-5dcfda5cfa4261 drivers/gpu/drm/i915/display/intel_display_power.h Ville Syrjälä          2025-02-06  232  intel_display_power_put_async(struct intel_display *display,
-7645b19d9bdd13 drivers/gpu/drm/i915/intel_display_power.h         Daniele Ceraolo Spurio 2019-05-31  233  			      enum intel_display_power_domain domain,
-86347573213953 drivers/gpu/drm/i915/display/intel_display_power.h Jani Nikula            2025-11-21  234  			      struct ref_tracker *wakeref)
-7645b19d9bdd13 drivers/gpu/drm/i915/intel_display_power.h         Daniele Ceraolo Spurio 2019-05-31  235  {
-5dcfda5cfa4261 drivers/gpu/drm/i915/display/intel_display_power.h Ville Syrjälä          2025-02-06 @236  	__intel_display_power_put_async(display, domain, INTEL_WAKEREF_DEF, -1);
-caacfe31d64d78 drivers/gpu/drm/i915/display/intel_display_power.h Imre Deak              2023-06-16  237  }
-caacfe31d64d78 drivers/gpu/drm/i915/display/intel_display_power.h Imre Deak              2023-06-16  238  
+Thanks for the test, this set was build on the top of my other thread to in=
+troduce
+blkcg_mutex, I'll rebase in the next version.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--=20
+Thanks,
+Kuai
