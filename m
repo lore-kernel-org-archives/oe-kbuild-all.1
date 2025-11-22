@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950E52135AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 00:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B3621ABBB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Nov 2025 00:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763772231; cv=fail; b=q5MwU9+XF8EjFzJmgRqKZTO3unYV4Xgx81ORVUg+DPBNWg49Ua3WVnWdB1FoZzgnKiq8rckk13xPjhPaqAmVZYsSk3686xutlAlVAee4OuN4wmUCWj/pfBq1UdMKEk/TxEGhdZNOsQNKQ7VL9JojHfszwWpHGx1imeLsYmB+g0E=
+	t=1763772288; cv=fail; b=ZMMcKmkFQsNQfqxLJZWBoP28oHBqVePiY1O49UYRNRXlLarY584RMhm3h0FWYQpsL6OJOh9GNwsjqaWnkZU/uh5wVwAdxPYMEM7I1REiwRXAjD84eDsOOs4B6FxCsO90qJH/qKI1MVXM90R6QyWCY+uHL5J4+tC4pHQUHJuQ87o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763772231; c=relaxed/simple;
-	bh=rjVGExKGzKq05/WM3byX4Q2Bp0lAv4Z18vNYpIMcTmI=;
+	s=arc-20240116; t=1763772288; c=relaxed/simple;
+	bh=fmSt0RmdoM2bToqIUKX2A5h3FmH6uI//HINbHRt/I3Q=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=u9H3YAL1KyLGYnIicLES6JZWIpYMMsADnnXKUfGmwECUOuH0Q+KyjiRVWmAX/TKNp72eM3vpwJ1p+V3K9Rf3F5sN/Nc/XNy4TwQGvN9NHzO4cGRRDbEPa8CGJNWtIm+XCZHfna/7OgCGRKUoLP+S2qS+7JhXidcI0tNf6fVZJUw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cge7CuZ3; arc=fail smtp.client-ip=192.198.163.13
+	 Content-Disposition:MIME-Version; b=ZT51IVwuh/ENZesb6OgpgoOEK+iPB0HlqUj03AoY58I5/XyUqat/ZutSTyt/84i/GX4y4zRbFSlReze3uzaq/JTtDMLsleCUayteo9ZtN9FW90an0ikbKiNTAn0BetPRnLwSfNJ9phiEz7tVgc/qL1BjJwU1nCTCNsqmQRkA8a4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3ROaSnZ; arc=fail smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cge7CuZ3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3ROaSnZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763772229; x=1795308229;
-  h=date:from:to:cc:subject:message-id:
-   content-transfer-encoding:mime-version;
-  bh=rjVGExKGzKq05/WM3byX4Q2Bp0lAv4Z18vNYpIMcTmI=;
-  b=Cge7CuZ3WK+iFORwEvWvQhf08F/JLTxKiyo/eWvnsvLNaWW4ZjTlf1nF
-   gYb0ppbE1edE7G95Gi8PP9ln9Gd4BB1MDcvd+wUpfqIZPq4QbqJAqVvBC
-   0i8IdbZ+GBcYAM3HtJupqJiq6Q2y2uMUynyFzvZPIGx1vJ03BVPqChl52
-   6I/Azmil+agdqZuQcXr8Vm9cISgPSZZtwJEqXOioZvXHKJ12FF3DZzdOG
-   XYY3dKzF0xUo23MzizwDHFTyfFFO7pTN9J8rExc2F+aErkk3B6AW0HT3H
-   ym1ZaX11DIWSKykTFbuhJkRqG4ZsSNI+h/tYH8azGSxzoSgXxHCK846Rw
-   A==;
-X-CSE-ConnectionGUID: PB78gPvCRiyP6CLvP8aQVg==
-X-CSE-MsgGUID: a6BpQ2L0SBS6PcYWJWtF6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="68471882"
+  t=1763772287; x=1795308287;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fmSt0RmdoM2bToqIUKX2A5h3FmH6uI//HINbHRt/I3Q=;
+  b=P3ROaSnZUSgIoN3Bz/rrswFe/WzqtFPI6wW4MkUI9pDiP6U3rzYsZ2yb
+   HufYmsYTZx44YfyjDfrJKqiwjKfFypiINBgMe7oVIjqHbbGB/stETzSOf
+   aVGw0dfopFwYxX/2YFxywvxL1gJrf78lKjNKIjWA3f8DZfsE0PPLVzqjp
+   sARBKOKWeEkfZ6LlfDdO/GU28YNm1DguY3fXB2bCiUuvE+HavHTfse63r
+   jHbRq8RtIVxOk6q6o27/R6vQP4WYydHp5aIdBQO3uOtrvdEWWs4O03dGG
+   I7vA2bJQaqflBYkoGljhpJ6OLRR79JNn/OJ7sVrYKlKDAawSePodhbYrY
+   g==;
+X-CSE-ConnectionGUID: C0wvKFGlR6WbNx6W1lvXiA==
+X-CSE-MsgGUID: BLM/vqJlTDOcsrOp/FTZtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="83494003"
 X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
-   d="scan'208";a="68471882"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 16:43:48 -0800
-X-CSE-ConnectionGUID: tX3Z+p2KS3yyPH4jNXFc+g==
-X-CSE-MsgGUID: 2AcOIYxFQ0GnrqS1qcM6Zw==
+   d="scan'208";a="83494003"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 16:44:46 -0800
+X-CSE-ConnectionGUID: p0DsK7zHT1aFNv3gE95EEA==
+X-CSE-MsgGUID: 6SegakvNQziRRNVwp5wxGg==
 X-ExtLoop1: 1
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 16:43:48 -0800
+X-IronPort-AV: E=Sophos;i="6.20,217,1758610800"; 
+   d="scan'208";a="191125558"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2025 16:44:46 -0800
 Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 21 Nov 2025 16:43:47 -0800
+ 15.2.2562.27; Fri, 21 Nov 2025 16:44:45 -0800
 Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
  FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 21 Nov 2025 16:43:47 -0800
-Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.49) by
+ 15.2.2562.27 via Frontend Transport; Fri, 21 Nov 2025 16:44:45 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.27) by
  edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 21 Nov 2025 16:43:47 -0800
+ 15.2.2562.27; Fri, 21 Nov 2025 16:44:45 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q5q2rMBNWNVH5ziCgfR4EzoAVbHnRmrS99k/Xw+Oiuxn9zHDZ7nYZAj1IdGNX4ucgDmp4UiXo+BxmEfdmvrVXwR/vHx6owk3cTizRk0dTRcOsyzD+wZlNatieyxRrsz0HsoxqGKZSnkHhhyqV72VMfHHFK2P7qDrPXs7GMjzvRGjbBkYScSQ+XtzceKTgaYB6cohbSyeT/bkNN7UojAR+HE4A3gp+66IvpuNGDYDtQ0Ga4kuYcEStggn+LZfyhIJaOY3SmpLW0y+kOM8sCYVGuunCA5VAf8/H5OIKjOIYhpD4eEgntFsU/9j4XUWDkAoRy5VgoygtpYSkBBG1obg9g==
+ b=N0tj+zdNUeBt3LRAzbJ0GWv+mL+CuZUCsEM9zEn/ECjTbyYOGd2G3LGrtX4EeTn4v8z7AAyWD2eWgpRyFfYa2V4d0LklVbKbbGDcEkGjU1ldMXyyx8gytEjIoUwlboyAvZFVNSjOAbdekI7Fd+MIQBWD5hSgPYXkcpleXwg8dDBqmneuGR4q1MLQFK/d1JauEywspBce7auuLlcbD24RtZ9pFgF17Y77yOrY8ehtZsvyRw6DCY71+BVPZUVzywZoXtWy7t9GjcxB0EdH7UNSKqm3E4pu++VtbhnDhQ6qjS7MShblmsmijeEGYeRDlIq1zAm1lfjozc/6WgSqzw4PsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q+eGOiKUK1c25YAt5HRKNw64Q6NV7Chmu99d8bJRhuM=;
- b=j6JTX9AAn1gOAVvAyb+86346krwCwKbUODHbK/0Zpe50/1UldygG9SA4BhVkti4BIno+24dTvM8Z/tLFgQaNZFsmSj5wPN6bV8h46kgmLyaIDbaJ5/zdywcRg0XDI0q0Ff5tq+LkwUitXrvlhI9XnvRDcmOp37w660Mt4qj8YWEA0eZ3zrCGUamnYnBaApMGnUtkAtc1tRndBCJhrClOk0Bcf0hhQGrEnHu4oBxxw168piwA1Oen29VLFf69xeeDmm+gRmW8lTXugYI8+9IY0FzrticNet7uQ2bwCNAeA0DFFtr+rlullBLU7IeEMJfftsGjwb5BoLE6TQFFtYMQeA==
+ bh=h4x8HSs9GPiHrtRSBc3hENs4k1p7UESxgj54/CFdyoA=;
+ b=Hiflu0+JVh5bn3d7B0w8wUyk1H6fK652TrLIkvhPG5o8vXndWJ6xyqPP5LPWpkc5Qk3PQOUIvX2BAua0y0rmXjD8JEBafGz7oHL8jizC28eN3/SJ4+gwIqBMPOHf3dYrD/2F3dQvRO/w4sx5KO3kimiEpNPVKUeyOcSRNfMLssKU2AMUf9v5MYfXSG3EvM9zMV8bCMvgnmUb5ir4cd5j/LS9N4Lg9epFCiXe7QrJ2c9MgJVWH0Nzke6Xze0h9+axp/SCe1ktz1qQkA6seT5+pDPgQlqa0JQlaW2r/32cVaxd4K0Ng3FvicNqqhsdVVLnNSepRkX94bY/N5c+xYlIjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,22 +70,23 @@ Received: from BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
  by BL1PR11MB5253.namprd11.prod.outlook.com (2603:10b6:208:310::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.14; Sat, 22 Nov
- 2025 00:43:44 +0000
+ 2025 00:44:43 +0000
 Received: from BY5PR11MB4165.namprd11.prod.outlook.com
  ([fe80::3876:1eb1:8e84:84e7]) by BY5PR11MB4165.namprd11.prod.outlook.com
  ([fe80::3876:1eb1:8e84:84e7%6]) with mapi id 15.20.9320.018; Sat, 22 Nov 2025
- 00:43:44 +0000
-Date: Sat, 22 Nov 2025 08:43:36 +0800
+ 00:44:43 +0000
+Date: Sat, 22 Nov 2025 08:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Arnd Bergmann <arnd@arndb.de>
-Subject: [linux-next:master 9003/11041] tools/include/nolibc/arch.h:41:2:
- error: #error Unsupported Architecture
-Message-ID: <aSEHOMJL7a6QNfoZ@rli9-mobl>
-Content-Type: text/plain; charset="iso-8859-1"
+To: Alex Mastro <amastro@fb.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Alex
+ Williamson" <alex@shazbot.org>, David Matlack <dmatlack@google.com>
+Subject: tools/testing/selftests/vfio/lib/vfio_pci_device.c:249:7: warning:
+ comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long
+ long *') and 'typeof (size - 1) *' (aka 'unsigned int *'))
+Message-ID: <aSEHcgqCQTzB+fLU@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+X-ClientProxiedBy: SG2PR04CA0165.apcprd04.prod.outlook.com (2603:1096:4::27)
  To BY5PR11MB4165.namprd11.prod.outlook.com (2603:10b6:a03:18c::26)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -95,145 +97,341 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BY5PR11MB4165:EE_|BL1PR11MB5253:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d2bd4ad-30a2-4868-4646-08de29603087
+X-MS-Office365-Filtering-Correlation-Id: 0cc584ee-4793-41d1-6c4c-08de29605374
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?3zykwM6Y0xNA65vSMUGrU0+fn5etUopmmgD3l3TZdcFn3XOsPrH7QZBcR+?=
- =?iso-8859-1?Q?JMWaaEJrpEZo7Ib658PEDramKclNbOR9TMK0xfG91xcx6CA0q3Rj7ZCvXh?=
- =?iso-8859-1?Q?yeucNOJ2og73BQ6NamdQUUgUEUxfVFzzm8IcTPyYOwnI2pC2zMpI0n0cN1?=
- =?iso-8859-1?Q?doO6J5quY5VoeJjWqYCDUPUEkX0pS/pagiKnFrHY1BF9YjQHW40X23LzW1?=
- =?iso-8859-1?Q?Y8wgdVChZ3RFdpqguHVpc9HiPbT7wYn0BdItHuWLl2z8vgc75U+uiQQAZp?=
- =?iso-8859-1?Q?+whKog/CCyE2Xq4O19UAsUpWAId8PFnRVXM8uhmBu6OGIEdXntfToPVIjF?=
- =?iso-8859-1?Q?k45xEaUD0d+o+U3u30EYbgx1HablGleSmYYD44JEkQ4+OKOGgd0YuDv1sr?=
- =?iso-8859-1?Q?zWwaf9J9QQ2VQcshst6qD9QZunFdmUgaIhMUzW6W0aG5gkecLI7j0y8Zkg?=
- =?iso-8859-1?Q?lz+vIS6SCoC90Ym7P5yQQrX1KVoJJBFcIiXralyCmqYfKxjGYRCx0QdBzT?=
- =?iso-8859-1?Q?8GFj+Pw38RVATzwCe/Rer6FcCD1z/XNyBqCbEQ1K2g1KPdYMnd2h2G4JeQ?=
- =?iso-8859-1?Q?G62Hh2Zh399rqIIOuW/nj1NtDwPEFKXuweHUz8nZihzWxgwU2aplCJhg63?=
- =?iso-8859-1?Q?UqCdJcObNbyHHbGYIqpKF+KjLmQHtta7RQ/TMf+h1veF9vXiR9liPbTO9D?=
- =?iso-8859-1?Q?ncQ25trO06BLsjTZLknKb+hZ97cBWOKvnOIip0kQ/6dz/4rRvesN0dnysA?=
- =?iso-8859-1?Q?XNmW7/iegxmjaeJsxahyltDQBtFrj7XWryU0xAqbi6ICPf4imYKgZZhiC3?=
- =?iso-8859-1?Q?l3CFEqYUQYpdh6vq+G60U7A7zs+z69Yf2O65DWqrbJaictVSw3/QxQ72uD?=
- =?iso-8859-1?Q?j81ZjvkeDSBk94CQ9jGHO6wHKumQ3zPj1KyED2T/3IqjBuC8YXDXXt3ZPP?=
- =?iso-8859-1?Q?9Q40nmA38dM/ghv1HeOdMbqpyBbLdixcrIZnlylK/q4yDzwkEJF3ranzEd?=
- =?iso-8859-1?Q?1ictqf4LbBSaMbUxDwa/2vmfmgA/z2kMqjQWlTo43sPKagvFGSmJ8I/OzM?=
- =?iso-8859-1?Q?cLz+YZ2U6H2KV8eu9s6V5OtQpU51OJRMxxe6sIgSGhPdMx/oCthawszqJd?=
- =?iso-8859-1?Q?wSeZVjrr8L3bwj+A1ZuN0O4dkDRtZWOa9dudswgTV8h85kAF9VTrkSKKDc?=
- =?iso-8859-1?Q?vuVh+mYd9MrhWaq9uue3eHQgxpP48LEF1RF6szpw6wKRXMHYaUhtS9YfEy?=
- =?iso-8859-1?Q?UhXBIV+9vmGBKXoKkovxlu1efxlDV1gQ7ZeCOpOD4pwd2P7wggmxdB8SGi?=
- =?iso-8859-1?Q?gH+KlImfxOV8X3P2r4HJsunbps+h+fALA+1ZE3/CeeWgwe483b2GAeTbkA?=
- =?iso-8859-1?Q?WVcsxG3I3CY5dobLj8u/docVc10Gd13llrDh79mbBZtEeK+RswLMZAcnZa?=
- =?iso-8859-1?Q?VDDAen32+S5lmWhIjKNko69KcvaOgdS5x6hkkjhbRmf+h9lq9gd+doJfLz?=
- =?iso-8859-1?Q?2MC1+lqlUwSAx5z2JxjhBTU9EeMAkdM67MXF+Xh3Ju6w=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NWIDIVD2jybqJueLTr3xE7Panq4wDC/tGoet1nbGbSIPXK6Ac2P9mxXEhiEf?=
+ =?us-ascii?Q?C8PX//b+tc2fMzxkfdG6y2yDiDm4ibIDCOVabW+4KJ5603UX0TvZifQi0jCO?=
+ =?us-ascii?Q?mE3mEo/+LQgueSW8/RNo1iz8gwOPMlSLDlI2xP9euNX1Xww1bf8hbDfjiTt1?=
+ =?us-ascii?Q?MYXGVi674hETrut2Fiu04aFO8adt7RFhO5DsiKdUED9L/f2myCQ2KLAwYwHU?=
+ =?us-ascii?Q?gWmg//LBWiALdNMeamVITxsfctERG+hhMrxePt3CM5wxN27lvrEhNYcIAlgt?=
+ =?us-ascii?Q?nyIOMObcCfEX5c2Mg6RnMn+qsPMBobD7vlGOMwHXfUL3jqG1aIN4WAh+nJPg?=
+ =?us-ascii?Q?ltmDibH/K7lrOtYLOFoJ++LfeQi1visoRTi+uH53FE9T5k5Gsp/7xf3CPZrF?=
+ =?us-ascii?Q?SiUPTWs3qgFnojATsRavQnGolnwBLko/9Xfoq5k6Sxm1xpsXrxPO59DuJ3TX?=
+ =?us-ascii?Q?YOjGY+hGsvE6K8roNf9rRhmdHQ/H34O26gHX/GGzE+cuGk+VGglOu3fjQyZR?=
+ =?us-ascii?Q?YQO5umLSOQUCEVsL1ssNIHPViZrctadefchYZlG4CHgMnP5sdFVx6gPJLNM2?=
+ =?us-ascii?Q?7KBwmztCS8cvctV1MiUjHDdY0qWEsOIuSFcmj9NI6H5ORM1UBwQs/YyCXLLX?=
+ =?us-ascii?Q?qysUXZXoTef1mPK+XB8k6w4+VwMt1+w9fcIMwO/o818//l4K7H60pvZrggH0?=
+ =?us-ascii?Q?0T6zhSaV2zpUkMcgoiA1Z7lXmGhfSo/pkb8rBTK8FL4e76YcbGw39swOqL3Q?=
+ =?us-ascii?Q?M5g5/YTMlQ4azPqeCvHO5ssHZqS1Jitwocj/WU5ymUYRUgGIypUzHr6bcYGs?=
+ =?us-ascii?Q?Au+IyVMTVsU6d6wrTGTvcWECpagYX8v9lNVzcGSDK5TES2R8Ooe7qSIWAiAu?=
+ =?us-ascii?Q?V8nYftUynigTSfVEhoXHO3+2WrZbxYal/z/7NsiEnWRi2RRCbAjCO/j79kc0?=
+ =?us-ascii?Q?ytwk3KJ67UU8RIfnNSDiIjJg0Ild0vKs4R9adKx+UAH7zmqO5k0YkS7s12Vb?=
+ =?us-ascii?Q?Mls3qSUi/uhD4oQV/TcDYkzM0Ltjm1OAdGnd6cyiVSKYhjnkpQ0J4r8E2G37?=
+ =?us-ascii?Q?a+DOPhh9+CGLRvrITe6FhhzR/+OSa86nBnJncEmUPSLh7tZENAexnO7cbB6g?=
+ =?us-ascii?Q?rYEOTahG7RZw5LjzniCfDYfQ1/2vFlYWgGMJA7fW/QMlYyuq7t19UlDORCT2?=
+ =?us-ascii?Q?DpkersjNNm51H6Lojh4pyTqJ79X8psjWj0ZiYuDwrUJvIYyD82t1/XbxAM5c?=
+ =?us-ascii?Q?V1VQZrnru0gKufFehayWMqDdILESYZ6tAjyo1XBrt/qv36lry5dYUZx65Zej?=
+ =?us-ascii?Q?h0tRLzrWuAmVJ5amE1iUN23RLakZURMDrJ5voRhlnmcEpk9V065MVCPhMEgp?=
+ =?us-ascii?Q?B0iwKuZKHKzFztc652hDgHC3SXwGwLzE7kGDnYDukHteS3x+62UgNvVh138E?=
+ =?us-ascii?Q?pmzHxwz7uuRJ+sDUyBn0mZgzDdAa5UaE8AvntSCJ5o5xENp2SgmzCA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4165.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?TcW1AeIwj1ioV7D/ybVaCU30UxWFyZ0tanFLD8+Pqv6MyOuecklWqdTGzl?=
- =?iso-8859-1?Q?BbdGhQuz8m9vEwe4DRSCrz3BCx98Hnbm3zhkEGTIBmfpo3fC/nLdLK/kP8?=
- =?iso-8859-1?Q?GxHcYFy0uQP7Nxrr+PwBCKl8c9uDKdbGqmS9tB7Go8zmqKf3rAgtYHoUvo?=
- =?iso-8859-1?Q?n9NUbuLz052qWOo1To4U0pYgex2WEeTcrk1uH4yCe/vak0J/i9Z606ebGy?=
- =?iso-8859-1?Q?pHb3bkTI0MNQj9KwjiYzFW+PGzVpHzfgZHVahApWISkBH+r1z2NhLVR+7f?=
- =?iso-8859-1?Q?DERTmEOnb8MTr5uogL7XFKsaei5W3+f0RB2bPl1AbBjbmUXIScOiI4pDeW?=
- =?iso-8859-1?Q?ZdMfFoBfdDSKzAYWUJgrZ+gD0IabfB7ilfyRdD2Hyf9hK1s2rR4OlyZT0Z?=
- =?iso-8859-1?Q?F4Ced6vNo9YSB4DlRohRlh55bQq3XsuAO+hBQ+lT8QeVUs6hW6dTcBAeDm?=
- =?iso-8859-1?Q?6tXRtr3UdIwXw9WO5wW1nPL4ZKm6nMPZb1XG0tfZK8XJkxxGNfGXQbPdIY?=
- =?iso-8859-1?Q?XmCHvfHhhq+0qV2lTs6EIICia16pmwzuu703noroNzcS58aUBo64ooD4aJ?=
- =?iso-8859-1?Q?2wr0kqVUV9fvgczXO9qwMH/fc5wo0S3gKq4V+Rabm2WTgvkNbSlWHncR6+?=
- =?iso-8859-1?Q?7D6JZ5Rci9T0hUGqr0mpDD5nMwp5jylqdBR/5Hc/JL6c4+Vsg2K0yUVerC?=
- =?iso-8859-1?Q?3UAasoLXFO0AFyEHQpzipGt7xgTHQ0lxirJk+5yopZGovogr6UqI7KC8OG?=
- =?iso-8859-1?Q?DRfDridcKlSYYvb82ha+CUVGiQwHV8B8QHkuB4068fSvU26N2yQ/xnT6xG?=
- =?iso-8859-1?Q?a1HW62fuLLCWV0arWLGN4ju7zxMB+unbHJD0zBUgTY8nvPAjsR6M1DGNT5?=
- =?iso-8859-1?Q?VRBF42rtqRl49ajjQlIv20Qs4PTU5apg0LwP0zVz4Fh1qYJd3QbEY9a6wg?=
- =?iso-8859-1?Q?wRYIR/4ua7+d9Af5r28KUJ3nnuKZGFGNlwXcLwSZ1713YgQwVzSR2mcS6m?=
- =?iso-8859-1?Q?kSf2l3W+w3WacJqJHNympiDW6892Bo/vGQ6JZ51p7M7Vkdhf3buchAC6yc?=
- =?iso-8859-1?Q?iGE9AsSeoF3qnxBCcUUFUY7pFvAyhrZgtoWblMbQ4jn8esKplufHAxgPeS?=
- =?iso-8859-1?Q?Y8WF9CrVPllAXoq60TkGZeZqWWac0H8MDje7LxLaPd2/KzVhNoZOKHpbqe?=
- =?iso-8859-1?Q?S7/fz0Q+wIz58Ofo6INUHDrUlDfFnN/NY1Zwy0uJYaH3wRbptWtZuJSIZG?=
- =?iso-8859-1?Q?VfCEeohNsN6isHaxhd+w1rWVmZVU9ssFj659hQk04dRZm68z0XmFWSH4+7?=
- =?iso-8859-1?Q?Os5nViWV8V6el1XWaztAuOkS/GQcHikI8/GBml5zBzXSO1ZTMhpyvdneWK?=
- =?iso-8859-1?Q?X9BR/RgBLoRcbDN/6ZkF3vp2VBZ5Wks9B6R/XxsQFwvua2SYCguM6M13pu?=
- =?iso-8859-1?Q?HYxXJX+1AcO9Stl59K4uxeRjq35Hqq77T1sKUzz5j2iswkWPT/ZTs4bGef?=
- =?iso-8859-1?Q?q/VtCIegBn4AyGtUkmOOh73ni0MsE/PLnhU82GzAELHkR8G2hf5WT07uj6?=
- =?iso-8859-1?Q?rleVPvz6/ZKV30YhJ+auftNcyDY9QxEeewRzh3qLgT7RM3Kpi0GDohIo0W?=
- =?iso-8859-1?Q?OQ8EStEy+zeFEcD7tc/mMhJxM9/SCt6I9De1sz9ERZgr6wOCrzlruUtw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d2bd4ad-30a2-4868-4646-08de29603087
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jbm8DosXEg6YBVdH8iUZyOtXJtliWQ/1tCnsSne2CPPmc+cV7nxHTkiEc2MQ?=
+ =?us-ascii?Q?BbJ4RdRvSC3PeBh9p+DueeI35mCBU8N037PsGg7sB+Lpcgz8Te2w2uuESmX7?=
+ =?us-ascii?Q?VvqOAA8WI82AhplX+Qbl4fvCPnbi9qQGgLF2YXLdE8JFwZO2wEvtpFm2AQoY?=
+ =?us-ascii?Q?u2GFopJWuU4tFA9OwMei0foYeFGZD1BkDrOEKKMwKADdhsa05H9iYZd0jd8T?=
+ =?us-ascii?Q?zt7uFd52BE2ogvKzBHUx7O4tRZ8l1SrclZD/vL8PaOm74BRRNCbml95JOUA4?=
+ =?us-ascii?Q?Mc8gTMpBhbaHFZGzZkVpUYetQumfeC2i21Jw3iBqRSSoKI5/y27dddi5ykzE?=
+ =?us-ascii?Q?7chmqN6wSuG+TJOXbCtCWREFnq4eMTwJogc+u3wTA4pwOiqUCIsM0SLrBiij?=
+ =?us-ascii?Q?RB3Y6+wXCNoLCbe2wqzH+5JQi/koWXEyyopNfoOOkWTdX7/daW9rjuIF7V7q?=
+ =?us-ascii?Q?7JHbJjBZ3fCj77o+Hqi6rRReH/6RhNXMd44jhklMhRmYkDPf82kfFWMk4eNg?=
+ =?us-ascii?Q?S51DYSSq4BQOP2Lqw513MJyLbjptKfeuiMe6t9XW5+fVtMVbmg3OBjEqMmr3?=
+ =?us-ascii?Q?fpcaSWktGMJHDcc67dZNJ7swBNaLQP3jJeH3u8UMmvyHc+xmbsjU6UNMgaMe?=
+ =?us-ascii?Q?c5yD4IKd3APlso+IltmaatECZ/61YAo+3O2ojxOXA44W/JnCXsHviHcXICLD?=
+ =?us-ascii?Q?Qs17+78UNHEGx1pqO1UAb6kABrFr7ZEVeAe1+TjDpQ2/mQnr44qFFSN1Flhy?=
+ =?us-ascii?Q?6lk61NUn94aIa5fZyVRB6FRs+nPndo2uaF8HGErFGb5ig3ZIM0wtu6F/FIMC?=
+ =?us-ascii?Q?qqgqfNyLHcPDRkQqlvbU672fRkLG/4IPUv5cwkXU9LNNt7nWoB+/YVhNVgzP?=
+ =?us-ascii?Q?f+eLEGHjkgKlyww5py10a4CXM92jJCzMQJFt5goIppKdYRfDCh79GmMSIrc6?=
+ =?us-ascii?Q?UhBehBTpb68YF+Ja3fhe9w5fwvmavuLSSZf56x608WXEjARJuW5aUgton4dM?=
+ =?us-ascii?Q?b+c9Fkp/1Sq/TChfPp9MDSc9hx17teDOYrgDCgCk4QkGEKrNc9+raz7rZNya?=
+ =?us-ascii?Q?n3qQVULP5yyO3mE2Ue+XOrKL+9PMsmtellKtiUt4pEhaRWPVQyS1p3dY8C3W?=
+ =?us-ascii?Q?hL5T2LeS8oS39DchWgDlrOc14Fo/0ToI7ejjJwgyKQQoRddjkcYM5QVuZTV5?=
+ =?us-ascii?Q?GGHlvlBE5rLG//6Y+/Mieie7gl438D3OSl2OiX3z5Qu6LUmiEit7drZBa0S4?=
+ =?us-ascii?Q?uvHsM3CyBNLM10BdZYSEmLi25Ex9OOeuImlC9GHoMndItdIsizI46QSEYBe+?=
+ =?us-ascii?Q?Vsq+g0OcbRaoJqAo3UwsWGJSux8CyML7F16QOlfBkKmP8VsMqkYvWkC3FO0B?=
+ =?us-ascii?Q?0Uah5GyIWBz08U3941rl92InvtjdTs9LAV6Ja4xxBX1XdYP/7usrpsvUT2uz?=
+ =?us-ascii?Q?8pESUKHh2fM+zdjzPLVeS1mjo8Wj1x8owWvaY3knzeitRzXj+ighYM+yFW9x?=
+ =?us-ascii?Q?kzXbvjqzTxjkGi0qH+XqKwXvw0VURg5YsZ4MYrJhWil7EC9ixh8daYDIDbe2?=
+ =?us-ascii?Q?HTasRlz6J4E870y4EsfV++PwIouHkKV1k5DZH22MzKa0bLpYhaL6598uwxRJ?=
+ =?us-ascii?Q?5w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cc584ee-4793-41d1-6c4c-08de29605374
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4165.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2025 00:43:44.3549
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2025 00:44:43.1478
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O5oz0H20EUzPhyAQGHFdG5xLYgHmdoECtLf9krKUePlCOmsH1jSPHSDO2mEvl3Z7Faek5t0Mly6FN3oPaP0IXQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1BDm6Ae8CNFZ17UiGNTnZqhl5hwzF98xaAbc1dG39ZUdzTidOXNK0Dm1JqQFNjewNmXxqFIMnyesHA2DmxjQGA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5253
 X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
-commit: 169ebcbb90829bec0429ff9f6012a0313169e45f [9003/11041] tools: Remove s390 compat support
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251121/202511212331.pYBUDx2S-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511212331.pYBUDx2S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fd95357fd8c6778ac7dea6c57a19b8b182b6e91f
+commit: ce0e3c403e00e9e03e80aca6570bf936a44279e2 vfio: selftests: add iova allocator
+date:   9 days ago
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251121/202511212039.RbypLd55-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251121/202511212039.RbypLd55-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202511212331.pYBUDx2S-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511212039.RbypLd55-lkp@intel.com/
 
-Note: the linux-next/master HEAD d724c6f85e80a23ed46b7ebc6e38b527c09d64f5 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:215:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     215 |         VFIO_ASSERT_NOT_NULL(allocator);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:46:39: note: expanded from macro 'VFIO_ASSERT_NOT_NULL'
+      46 | #define VFIO_ASSERT_NOT_NULL(_a, ...) VFIO_ASSERT_NE(NULL, _a, ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:215:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     215 |         VFIO_ASSERT_NOT_NULL(allocator);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:46:39: note: expanded from macro 'VFIO_ASSERT_NOT_NULL'
+      46 | #define VFIO_ASSERT_NOT_NULL(_a, ...) VFIO_ASSERT_NE(NULL, _a, ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:235:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     235 |         VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:41:37: note: expanded from macro 'VFIO_ASSERT_GT'
+      41 | #define VFIO_ASSERT_GT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, >, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:235:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     235 |         VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:41:37: note: expanded from macro 'VFIO_ASSERT_GT'
+      41 | #define VFIO_ASSERT_GT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, >, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:236:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     236 |         VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:236:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     236 |         VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:242:3: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     242 |                 VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     243 |                                "IOVA allocator out of space\n");
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:39:37: note: expanded from macro 'VFIO_ASSERT_LT'
+      39 | #define VFIO_ASSERT_LT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, <, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:242:3: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     242 |                 VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     243 |                                "IOVA allocator out of space\n");
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:39:37: note: expanded from macro 'VFIO_ASSERT_LT'
+      39 | #define VFIO_ASSERT_LT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, <, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+>> tools/testing/selftests/vfio/lib/vfio_pci_device.c:249:7: warning: comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long long *') and 'typeof (size - 1) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     249 |                 if (check_add_overflow(iova, size - 1, &last) ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/../../../tools/include/linux/overflow.h:48:15: note: expanded from macro 'check_add_overflow'
+      48 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:257:7: warning: comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long long *') and 'typeof (size - 1) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     257 |                 if (check_add_overflow(iova, size - 1, &last) ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/../../../tools/include/linux/overflow.h:48:15: note: expanded from macro 'check_add_overflow'
+      48 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:298:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     298 |         VFIO_ASSERT_NE(iova, INVALID_IOVA, "%p is not mapped into device.\n", vaddr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:298:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     298 |         VFIO_ASSERT_NE(iova, INVALID_IOVA, "%p is not mapped into device.\n", vaddr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:323:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     323 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:323:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     323 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:336:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     336 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, &irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:336:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     336 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, &irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:342:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     342 |         VFIO_ASSERT_TRUE(index == VFIO_PCI_MSI_IRQ_INDEX ||
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     343 |                          index == VFIO_PCI_MSIX_IRQ_INDEX,
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     344 |                          "Unsupported IRQ index: %u\n", index);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:43:35: note: expanded from macro 'VFIO_ASSERT_TRUE'
+      43 | #define VFIO_ASSERT_TRUE(_a, ...) VFIO_ASSERT_NE(false, (_a), ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
 
-   In file included from tools/include/nolibc/nolibc.h:96,
-                    from tools/include/nolibc/stdio.h:8,
-                    from nolibc-test.c:12:
->> tools/include/nolibc/arch.h:41:2: error: #error Unsupported Architecture
-      41 | #error Unsupported Architecture
-         |  ^~~~~
-   In file included from tools/include/nolibc/nolibc.h:96,
-                    from tools/include/nolibc/errno.h:8,
-                    from nolibc-test-linkage.c:5:
->> tools/include/nolibc/arch.h:41:2: error: #error Unsupported Architecture
-      41 | #error Unsupported Architecture
-         |  ^~~~~
 
+vim +249 tools/testing/selftests/vfio/lib/vfio_pci_device.c
 
-vim +41 tools/include/nolibc/arch.h
-
-271661c1cde5ff Willy Tarreau    2022-02-07  17  
-cc6dc5fbecfdf2 Willy Tarreau    2025-06-18  18  #if defined(__x86_64__) || defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)
-cc6dc5fbecfdf2 Willy Tarreau    2025-06-18  19  #include "arch-x86.h"
-271661c1cde5ff Willy Tarreau    2022-02-07  20  #elif defined(__ARM_EABI__)
-271661c1cde5ff Willy Tarreau    2022-02-07  21  #include "arch-arm.h"
-271661c1cde5ff Willy Tarreau    2022-02-07  22  #elif defined(__aarch64__)
-01e8a6d0c39ca0 Thomas Weiﬂschuh 2025-06-23  23  #include "arch-arm64.h"
-aa68a5a83a0acc Thomas Weiﬂschuh 2023-10-20  24  #elif defined(__mips__)
-271661c1cde5ff Willy Tarreau    2022-02-07  25  #include "arch-mips.h"
-0cb0675ec37e16 Zhangjin Wu      2023-08-06  26  #elif defined(__powerpc__)
-0cb0675ec37e16 Zhangjin Wu      2023-08-06  27  #include "arch-powerpc.h"
-271661c1cde5ff Willy Tarreau    2022-02-07  28  #elif defined(__riscv)
-271661c1cde5ff Willy Tarreau    2022-02-07  29  #include "arch-riscv.h"
-169ebcbb90829b Heiko Carstens   2025-11-10  30  #elif defined(__s390x__)
-18a5a09d90a75f Sven Schnelle    2023-01-09  31  #include "arch-s390.h"
-73f12c6da77a7c Feiyang Chen     2023-03-04  32  #elif defined(__loongarch__)
-73f12c6da77a7c Feiyang Chen     2023-03-04  33  #include "arch-loongarch.h"
-8e1930296f921d Thomas Weiﬂschuh 2025-02-26  34  #elif defined(__sparc__)
-8e1930296f921d Thomas Weiﬂschuh 2025-02-26  35  #include "arch-sparc.h"
-66a4f9bb1e895a Daniel Palmer    2025-04-27  36  #elif defined(__m68k__)
-66a4f9bb1e895a Daniel Palmer    2025-04-27  37  #include "arch-m68k.h"
-02217ad447d7b1 Thomas Weiﬂschuh 2025-06-23  38  #elif defined(__sh__)
-02217ad447d7b1 Thomas Weiﬂschuh 2025-06-23  39  #include "arch-sh.h"
-48946c5aa7a848 Thomas Weiﬂschuh 2023-11-05  40  #else
-48946c5aa7a848 Thomas Weiﬂschuh 2023-11-05 @41  #error Unsupported Architecture
-271661c1cde5ff Willy Tarreau    2022-02-07  42  #endif
-271661c1cde5ff Willy Tarreau    2022-02-07  43  
-
-:::::: The code at line 41 was first introduced by commit
-:::::: 48946c5aa7a848c7dfc2151267af92956f492f58 tools/nolibc: error out on unsupported architecture
-
-:::::: TO: Thomas Weiﬂschuh <linux@weissschuh.net>
-:::::: CC: Thomas Weiﬂschuh <linux@weissschuh.net>
+ce0e3c403e00e9 Alex Mastro 2025-11-11  232  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  233  iova_t iova_allocator_alloc(struct iova_allocator *allocator, size_t size)
+ce0e3c403e00e9 Alex Mastro 2025-11-11  234  {
+ce0e3c403e00e9 Alex Mastro 2025-11-11  235  	VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+ce0e3c403e00e9 Alex Mastro 2025-11-11  236  	VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+ce0e3c403e00e9 Alex Mastro 2025-11-11  237  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  238  	for (;;) {
+ce0e3c403e00e9 Alex Mastro 2025-11-11  239  		struct iommu_iova_range *range;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  240  		iova_t iova, last;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  241  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  242  		VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+ce0e3c403e00e9 Alex Mastro 2025-11-11  243  			       "IOVA allocator out of space\n");
+ce0e3c403e00e9 Alex Mastro 2025-11-11  244  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  245  		range = &allocator->ranges[allocator->range_idx];
+ce0e3c403e00e9 Alex Mastro 2025-11-11  246  		iova = range->start + allocator->range_offset;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  247  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  248  		/* Check for sufficient space at the current offset */
+ce0e3c403e00e9 Alex Mastro 2025-11-11 @249  		if (check_add_overflow(iova, size - 1, &last) ||
+ce0e3c403e00e9 Alex Mastro 2025-11-11  250  		    last > range->last)
+ce0e3c403e00e9 Alex Mastro 2025-11-11  251  			goto next_range;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  252  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  253  		/* Align iova to size */
+ce0e3c403e00e9 Alex Mastro 2025-11-11  254  		iova = last & ~(size - 1);
+ce0e3c403e00e9 Alex Mastro 2025-11-11  255  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  256  		/* Check for sufficient space at the aligned iova */
+ce0e3c403e00e9 Alex Mastro 2025-11-11  257  		if (check_add_overflow(iova, size - 1, &last) ||
+ce0e3c403e00e9 Alex Mastro 2025-11-11  258  		    last > range->last)
+ce0e3c403e00e9 Alex Mastro 2025-11-11  259  			goto next_range;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  260  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  261  		if (last == range->last) {
+ce0e3c403e00e9 Alex Mastro 2025-11-11  262  			allocator->range_idx++;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  263  			allocator->range_offset = 0;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  264  		} else {
+ce0e3c403e00e9 Alex Mastro 2025-11-11  265  			allocator->range_offset = last - range->start + 1;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  266  		}
+ce0e3c403e00e9 Alex Mastro 2025-11-11  267  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  268  		return iova;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  269  
+ce0e3c403e00e9 Alex Mastro 2025-11-11  270  next_range:
+ce0e3c403e00e9 Alex Mastro 2025-11-11  271  		allocator->range_idx++;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  272  		allocator->range_offset = 0;
+ce0e3c403e00e9 Alex Mastro 2025-11-11  273  	}
+ce0e3c403e00e9 Alex Mastro 2025-11-11  274  }
+ce0e3c403e00e9 Alex Mastro 2025-11-11  275  
 
 -- 
 0-DAY CI Kernel Test Service
