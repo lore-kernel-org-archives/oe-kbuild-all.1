@@ -1,154 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34FD1DF25C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 07:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A3E28313D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 07:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763882228; cv=none; b=iQeupuHPf02EPwfALFdlSu5du/sT6Q3PA+ANPwCKcEt5adbzINhLNivIQk7dYegCdXZNe7KtSerHsAh1bs0kqgQwCMMC8v4oroyIa08+zig2GZoiC4anzsR8kPWpOR2TGD5Qpd0/FaMUWDHidPeJqPgyOSRingu4dS9fnygQYa4=
+	t=1763884149; cv=none; b=PCtWjASUAT4l/T0m8leCLbJXMjof/hRZ4Asds8UnYD/BBCtZ0gWaj3zeAEPD2i+ZkQk4hOzEC6BhGPBhnaUalNrhQQflZ3GUNY1O8AlE4O2UCIjMR9BuJs4/Wqc23SU7ml7IhW3BodBdXPtbvmHq3VqjoPYygyzuMVSCaXKsrFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763882228; c=relaxed/simple;
-	bh=klFGhZfdHv04LnhdgSwnQdGRqyMzvXSSnw/qSN1752Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ffIpSGxIXP7n3OIm+jIV7euMmHQcyCN68ypVWacmIhwM1P+82GGrzO1Ima9fHFR/9VAavcmZ84CyfmKxNhRmdYbyksuM1Ld/F56uZo6f4e5I5QaHfzI/uWcFfNqgHUmgYi2Qc8k9elKdFql7QGIf1mC7lJzAj2/lCcqBYKtX28Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OczPVNPs; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1763884149; c=relaxed/simple;
+	bh=7AhrVDm2iARSLXsfQeR30+FpCXIElx5Xq7BAd1ewNEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qKJDMPFn3XL2ykn6rtWNbaAAeUSdv9c7ILRjRdXEw1tnjsDP5ASTebfa+BnvEzAqpQi7lxrAs/1GpAXESAFn/82ox0NanMUD7D3H20RkmaZahasfCsAUGzaTZrlucnJJTrt2YczH+ju0mqZGgjv7mXr8d4Fwb8Em1NrWTqds56U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1OVQNxq; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OczPVNPs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1OVQNxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763882227; x=1795418227;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=klFGhZfdHv04LnhdgSwnQdGRqyMzvXSSnw/qSN1752Q=;
-  b=OczPVNPsDKhnzL0Gw5UaPRVOLXlO7rXysgx7Ywb2ruUW6GzWNYLgg9vM
-   0mjLoP6de/P7g+GDEjghK5j0WXzemNh0CnkF7nFdWOllb6OcxBWpM6NCx
-   +hjbVkJMVKmvkw0FXvfgqsTETZHkuyYLDHcyQNdeo70kNqa+fOsbeAuEr
-   tW8/l2xCfaN+r3UCrjPvIcE6FZbcT0dtaBgEG8xkqKGtZUN5mU6IVUEdN
-   QdV5ds6BCZSTOxeoajCcLABg6BlqCrPkjOXsFcwZRW6CIYFf+33Rkjm94
-   RmoND/HdJ4N/Lp8EvUxvNjp5Mv3qaCQXRsKtxK66GBTsi5qwEbnHvreUy
-   Q==;
-X-CSE-ConnectionGUID: jbXnzt0mSEqjz4ZwxG0FlA==
-X-CSE-MsgGUID: XFagusT5R8iYJ+IW+ypz3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="68512365"
+  t=1763884147; x=1795420147;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7AhrVDm2iARSLXsfQeR30+FpCXIElx5Xq7BAd1ewNEk=;
+  b=a1OVQNxqtYEhpFmU56rqPnDS+wG0G+7sWtXbhPehvPJM+w0kLKaSHbx5
+   v+X4wl9Is6qD8nHMetynZgklIhzrbt6eWAAG7r5k1NrO/YwPAaVd1+ej8
+   1q6rMZxaEf1KlwWWeQYZCHzo+vvR455OraG72fwotK4FFEbG4I4Bu84Gi
+   /uKk3gs+UZJgpw42BxAgOZ/LHzwrgEy9ecoCTGvlPFFLLQFfvo9Xp7Hv1
+   Qy0EivbnAzqOCMkduLo9JQYavY14njF9QL2SqK9ymtOqElEIDxiP+8VTO
+   LGVs3AY9Ybf5RZMEev+9YA2NZ+3AunSqrnOQXr4ytxbwglZS++6fMIbmP
+   g==;
+X-CSE-ConnectionGUID: Q1vpx0GGTe+M3LFz6D1/Hw==
+X-CSE-MsgGUID: YRc888QKSH2arOw+qb+pYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="77027959"
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="68512365"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 23:17:06 -0800
-X-CSE-ConnectionGUID: G7MWCOqHR1Sy8LPd3BiM/g==
-X-CSE-MsgGUID: FE/EBXUKSXiCwGtdZg1bpw==
+   d="scan'208";a="77027959"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2025 23:49:06 -0800
+X-CSE-ConnectionGUID: 4Ogp48JcREeuE3PjL23RHQ==
+X-CSE-MsgGUID: Nty2AsxIRnS2uJmoYw/7EQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
+   d="scan'208";a="196984749"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Nov 2025 23:17:03 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Nov 2025 23:49:05 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vN4LE-00087P-30;
-	Sun, 23 Nov 2025 07:17:00 +0000
-Date: Sun, 23 Nov 2025 15:16:41 +0800
+	id 1vN4qF-00088L-1m;
+	Sun, 23 Nov 2025 07:49:03 +0000
+Date: Sun, 23 Nov 2025 15:48:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Waiman Long <longman@redhat.com>,
-	Ryan Houdek <Sonicadvance1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
-	kernel-dev@igalia.com,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v6 4/9] futex: Create get_robust_list2() syscall
-Message-ID: <202511231423.O6KdcL8r-lkp@intel.com>
-References: <20251122-tonyk-robust_futex-v6-4-05fea005a0fd@igalia.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.fd.prepare.scoped 41/51]
+ drivers/gpio/gpiolib-cdev.c:316:33-39: ERROR: application of sizeof to
+ pointer
+Message-ID: <202511231553.tOdYotw7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251122-tonyk-robust_futex-v6-4-05fea005a0fd@igalia.com>
 
-Hi André,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c42ba5a87bdccbca11403b7ca8bad1a57b833732]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Use-explicit-sizes-for-compat_robust_list-structs/20251122-135406
-base:   c42ba5a87bdccbca11403b7ca8bad1a57b833732
-patch link:    https://lore.kernel.org/r/20251122-tonyk-robust_futex-v6-4-05fea005a0fd%40igalia.com
-patch subject: [PATCH v6 4/9] futex: Create get_robust_list2() syscall
-config: i386-randconfig-063-20251123 (https://download.01.org/0day-ci/archive/20251123/202511231423.O6KdcL8r-lkp@intel.com/config)
+tree:   https://github.com/brauner/linux.git work.fd.prepare.scoped
+head:   09ba3707485de081133d97c9bdc7fa364d318f46
+commit: ec5375d630a01fb398dce31411a58e29fc3a1bec [41/51] gpio: convert linehandle_create() to FD_PREPARE()
+config: i386-randconfig-r064-20251123 (https://download.01.org/0day-ci/archive/20251123/202511231553.tOdYotw7-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231423.O6KdcL8r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511231423.O6KdcL8r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511231553.tOdYotw7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/futex/syscalls.c:200:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct robust_list_head *head @@     got struct robust_list_head [noderef] __user * @@
-   kernel/futex/syscalls.c:200:22: sparse:     expected struct robust_list_head *head
-   kernel/futex/syscalls.c:200:22: sparse:     got struct robust_list_head [noderef] __user *
->> kernel/futex/syscalls.c:202:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __user *__x @@     got struct robust_list_head *head @@
-   kernel/futex/syscalls.c:202:24: sparse:     expected void [noderef] __user *__x
-   kernel/futex/syscalls.c:202:24: sparse:     got struct robust_list_head *head
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpiolib-cdev.c:316:33-39: ERROR: application of sizeof to pointer
 
-vim +200 kernel/futex/syscalls.c
+vim +316 drivers/gpio/gpiolib-cdev.c
 
-   160	
-   161	SYSCALL_DEFINE4(get_robust_list2, int, pid,
-   162			void __user * __user *, head_ptr,
-   163			unsigned int, index, unsigned int, flags)
-   164	{
-   165		void __user *entry_ptr;
-   166		uintptr_t entry;
-   167	
-   168		if (index >= FUTEX_ROBUST_LISTS_PER_USER)
-   169			return -EINVAL;
-   170	
-   171		if (flags)
-   172			return -EINVAL;
-   173	
-   174		/*
-   175		 * The first two indexes are reserved for the kernel to be used with the
-   176		 * legacy syscall, so we hide them from userspace.
-   177		 *
-   178		 * We map [0, FUTEX_ROBUST_LISTS_PER_USER) to
-   179		 *  [FUTEX_ROBUST_LIST2_IDX, FUTEX_ROBUST_LIST2_MAX_IDX)
-   180		 */
-   181		index += FUTEX_ROBUST_LIST2_IDX;
-   182	
-   183		entry_ptr = futex_get_robust_list_common(pid, false, index);
-   184		if (IS_ERR(entry_ptr))
-   185			return PTR_ERR(entry_ptr);
-   186	
-   187		entry = (uintptr_t) entry_ptr;
-   188	
-   189		if (entry & FUTEX_ROBUST_LIST_ENTRY_32BIT) {
-   190			entry &= FUTEX_ROBUST_LIST_ENTRY_MASK;
-   191	
-   192			if (copy_to_user(head_ptr, &entry, sizeof(u32)))
-   193				return -EFAULT;
-   194	
-   195			return 0;
-   196		} else {
-   197			struct robust_list_head *head;
-   198	
-   199			entry &= FUTEX_ROBUST_LIST_ENTRY_MASK;
- > 200			head = (__force struct robust_list_head __user *)entry;
-   201	
- > 202			return put_user(head, head_ptr);
-   203		}
-   204	}
-   205	
+   300	
+   301	static int linehandle_fd_create(struct gpio_device *gdev,
+   302					struct linehandle_state *lh,
+   303					struct gpiohandle_request *handlereq,
+   304					void __user *ip)
+   305	{
+   306		int ret;
+   307	
+   308		FD_PREPARE(fdf, O_RDONLY | O_CLOEXEC,
+   309			   anon_inode_getfile("gpio-linehandle", &linehandle_fileops,
+   310					      lh, O_RDONLY | O_CLOEXEC));
+   311		ret = ACQUIRE_ERR(fd_prepare, &fdf);
+   312		if (ret)
+   313			return ret;
+   314	
+   315		handlereq->fd = fd_prepare_fd(fdf);
+ > 316		if (copy_to_user(ip, handlereq, sizeof(handlereq)))
+   317			return -EFAULT;
+   318	
+   319		dev_dbg(&gdev->dev, "registered chardev handle for %d lines\n", lh->num_descs);
+   320	
+   321		fd_publish(fdf);
+   322		return 0;
+   323	}
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
