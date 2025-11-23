@@ -1,65 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0A81E4AF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 22:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15321433A6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 22:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763936954; cv=none; b=l0TDcwrBn2IsfYeO7Re7mhZ0NYRBlS0XMCPXZO6qvPsYXE6jyR+fPX3OtYATijVwoq+lr9i+8ukFSnOHpX2iYsH+1H2ER2ADJc/H5GuCTKJLqqbp6oFZQaqr354wc8CfOWIwALFjgLWioP5nX1fkfBAS8+9RcD8JkxtgOBhbexQ=
+	t=1763938712; cv=none; b=aXhxNM7x5APm10r2L3RoNwptvi4/Gucy7Cfhw3IMAUQofQpTqRDQ88ZcEsmq8wNX+0HDXDxlPPmg0dxgmNkUiSLIVs6uN9knE4A+AYPSu9zDO/a8PIpW1L7wWbE2h6r7DrMOLPeXZ3YKLYduIUI1B1YTBFPXWZ4BF/sPzcnI5v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763936954; c=relaxed/simple;
-	bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rcKNJgn1PTamCTg4QC3qpEUh9AdKNJUT2EAW8M1IS+AIp2VNL5pJWonN+g3wlZ0W/UUVqREl4m3SeVf9vTwvwNaJCbduLyayuPeV2+uaU8xyWwhOFL/rThNtgwxXUCLsqZZX4mM3+6PXyVi/si+eqj47/Tj0FpRo6vG86/T7Kkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moafI85T; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763938712; c=relaxed/simple;
+	bh=ylbOQ9SV9Xw9158J4OYNpgC3IwLRW7oX2upV6gTEuto=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s6uko/0OGhJc2e974Cld1KDMcIw5xy+Bu2JVVFpV2FSn8z4cH5uu+rkd+JRg83CpSuvQ1zFl9UxvdtRjtuo4vdimUtf6B/gfjEkoUVz2C9EyCfw4cBg8y1qMlUUnuwx4Bh1JBMHL/Y+VmkDdYjeBnD8WfC1Fu+9oLkDHFcZAySs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hE/pokme; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moafI85T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hE/pokme"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763936951; x=1795472951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
-  b=moafI85Tz88js/3ggIP8I0SlDJN0ltXkmMh7O1zNPSWMSDU7SqJDvl1v
-   aXwW8/mW3XKXaK26Vz4phfzj1XgvpZ4QATG/4yOSa1NKD1bsUs/alAZAr
-   sANcY8hSlyE4dxAAX037Ae7cIkYh2xs5cXAildqogE2Rl8du/EMnEisha
-   UigI5eNpe6o6hDxdBFV4Lod7GkNfBmnf1Wz3BnC7VcubVc+yNGBNMVvqm
-   MWDhtCGh3AznYuipJXDsM/ZhCxFI2MDsxkTj8bTETqow3fT1/geN094SJ
-   9mVV5jsYtlLHKLKmfNZHhMSZBgjJcVKJjZ58JM0thXBf1/g8fXVSCbjca
+  t=1763938711; x=1795474711;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ylbOQ9SV9Xw9158J4OYNpgC3IwLRW7oX2upV6gTEuto=;
+  b=hE/pokme4takhtKWD9bINu/kf8uDzdKyDpOmHai5NN/cQ+OSKP4y/s7k
+   bMJjhOjtSHFLcrKPLu/OiH7KGyju8iTProNcXMWYaT5JWf6qbIk0zR/hw
+   zFCLew7OLj5jLAH6o1YMUxioq6FHh5nCWjZCsLmiG7yOCdvpLvPwIQZ36
+   n8mPZci/Xghs/MrdWhdwPtZjtj+XRAufSIcgwOTbHRz+Gd9yZn6Bd2bvD
+   ZjfjH41vsuu0kfagj6tYo1OQS9jhEXQrRCTfDCD0Co2/IaHvYG5rEZhER
+   7t7O04E83czUE4j5OIRZg0ouheTcth9oCOJJDYok0RjuhO+GedE9jxsb3
    g==;
-X-CSE-ConnectionGUID: gvmSjTOlQHeOrQSUd/fmvQ==
-X-CSE-MsgGUID: hFFuETp7TiiA2ChgGTOaqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="76550182"
+X-CSE-ConnectionGUID: B60rym3LSJO6TciA6P2pXw==
+X-CSE-MsgGUID: +JXJszJ3SfOPkcCjdbwbFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="91424639"
 X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
-   d="scan'208";a="76550182"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:11 -0800
-X-CSE-ConnectionGUID: AKRJtZDfS5GybDL7pS6qzQ==
-X-CSE-MsgGUID: PYO5J11dSHyVC+Tl71f0Fw==
+   d="scan'208";a="91424639"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:58:31 -0800
+X-CSE-ConnectionGUID: Kkzf1jXnRL2ZtzWvhM1zew==
+X-CSE-MsgGUID: i18EZkiJToKT8NAc8txNrQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
-   d="scan'208";a="215530293"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.203])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:09 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BBC8611F869;
-	Mon, 24 Nov 2025 00:29:06 +0200 (EET)
-Date: Mon, 24 Nov 2025 00:29:06 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
- ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-Message-ID: <aSOKsu3XjLc9GRM-@kekkonen.localdomain>
-References: <aSEGwejeD3f7lnUL@rli9-mobl>
- <20251122013414.GA3094872@ax162>
- <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
- <20251122062946.GA3054484@ax162>
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Nov 2025 14:58:29 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNJ2J-000000000DZ-0jYS;
+	Sun, 23 Nov 2025 22:58:27 +0000
+Date: Mon, 24 Nov 2025 06:57:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shivank Garg <shivankg@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Christopherson <seanjc@google.com>
+Subject: [linux-next:master 2198/11041] arch/loongarch/kernel/switch.S:28:18:
+ error: operand must be a symbol with modifier (e.g. %pc_lo12) or an integer
+ in the range
+Message-ID: <202511240656.0NaPcJs1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,110 +60,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251122062946.GA3054484@ax162>
 
-Hi folks,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+commit: f634f10809ec3d51d9529dfb0f99bc7cec1b5eff [2198/11041] mm/mempolicy: Export memory policy symbols
+config: loongarch-randconfig-r051-20251123 (https://download.01.org/0day-ci/archive/20251124/202511240656.0NaPcJs1-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511240656.0NaPcJs1-lkp@intel.com/reproduce)
 
-On Fri, Nov 21, 2025 at 11:29:46PM -0700, Nathan Chancellor wrote:
-> On Fri, Nov 21, 2025 at 09:51:33PM -0800, Josh Poimboeuf wrote:
-> > On Fri, Nov 21, 2025 at 06:34:14PM -0700, Nathan Chancellor wrote:
-> > > On Sat, Nov 22, 2025 at 08:41:37AM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > > head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
-> > > > commit: 188d90f817e13b66e03e110eb6f82e8f5f0d654b objtool: Append "()" to function name in "unexpected end of section" warning
-> > > > date:   8 months ago
-> > > > :::::: branch date: 4 hours ago
-> > > > :::::: commit date: 8 months ago
-> > > > config: x86_64-randconfig-101-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/config)
-> > > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/r/202511220717.5HHMLUHG-lkp@intel.com/
-> > > > 
-> > > > All errors (new ones prefixed by >>):
-> > > > 
-> > > > >> drivers/media/i2c/ccs/ccs.o: error: objtool: ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-> > > 
-> > > That change obviously does not result in this warning/error. This
-> > > appears to be another divide by zero issue but based on my analysis so
-> > > far, I do not understand how...
-> > > 
-> > > https://github.com/ClangBuiltLinux/linux/issues/2129
-> > 
-> > Here ya go :-)  After looking at a gazillion of these I can often spot
-> > these pretty easily.  I'm not sure what the correct fix is here but this
-> > made the error go away.
-> > 
-> > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > index 1c889c878abd..2429c05bffb3 100644
-> > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
-> >  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
-> >  	max_m = crops[CCS_PAD_SINK]->width
-> >  		* CCS_LIM(sensor, SCALER_N_MIN)
-> > -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
-> > +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ? : 1);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511240656.0NaPcJs1-lkp@intel.com/
 
-Thanks for cc'ing me.
+All errors (new ones prefixed by >>):
 
-I prefer this as there's no guarantee the value read via ccs_get_limit()
-would be non-zero. Presumably it is (and has been so far as no-one has hit
-this to my knowledge), but we shouldn't rely on that.
+>> arch/loongarch/kernel/switch.S:28:18: error: operand must be a symbol with modifier (e.g. %pc_lo12) or an integer in the range [-2048, 2047]
+    ld.d $r20, $r5, 3808
+                    ^
 
-I can post a patch as well.
 
-> >  
-> >  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
-> >  		  CCS_LIM(sensor, SCALER_M_MAX));
-> 
-> Aha! Thanks a lot :) I had thought it might be something with CCS_LIM()
-> since ccs_get_limit() returns zero if ccs_limit_ptr() errors and in the
-> default case of the switch statement. There are a lot of unchecked
-> divides with the result of CCS_LIM() throughout this driver so I figured
-> if that was it, there would be other instances of this warning... oh
-> well.
-> 
-> Something like the following diff also fixes it since LLVM no longer
-> sees 0 as a possible divisor, which seems a little better to me since it
-> seems like one of the other uses could turn problematic with other
-> optimizations.  Given these cases are both errors and have visible WARNs
-> in case they are hit, it seems like it is better to use a valid divisor
-> instead of 0.
-> 
-> Just one more warning to tackle in my personal configuration then I can
-> enable CONFIG_OBJTOOL_WERROR to make new warnings from LLVM uprevs more
-> obvious :)
-> 
->   https://github.com/ClangBuiltLinux/linux/issues/2130
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 1c889c878abd..05c3da29f14c 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -137,7 +137,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
-> 
->         ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
->         if (ret)
-> -               return 0;
-> +               return 1;
-> 
->         switch (CCI_REG_WIDTH_BYTES(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
->         case sizeof(u8):
-> @@ -151,7 +151,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
->                 break;
->         default:
->                 WARN_ON(1);
-> -               return 0;
-> +               return 1;
->         }
-> 
->         return ccs_reg_conv(sensor, ccs_limits[limit].reg, val);
+vim +28 arch/loongarch/kernel/switch.S
+
+803b0fc5c3f2ba Huacai Chen 2022-05-31  12  
+803b0fc5c3f2ba Huacai Chen 2022-05-31  13  /*
+803b0fc5c3f2ba Huacai Chen 2022-05-31  14   * task_struct *__switch_to(task_struct *prev, task_struct *next,
+613d4164f5a503 Huacai Chen 2025-01-25  15   *			    struct thread_info *next_ti, void *sched_ra, void *sched_cfa)
+803b0fc5c3f2ba Huacai Chen 2022-05-31  16   */
+803b0fc5c3f2ba Huacai Chen 2022-05-31  17  	.align	5
+803b0fc5c3f2ba Huacai Chen 2022-05-31  18  SYM_FUNC_START(__switch_to)
+803b0fc5c3f2ba Huacai Chen 2022-05-31  19  	csrrd	t1, LOONGARCH_CSR_PRMD
+803b0fc5c3f2ba Huacai Chen 2022-05-31  20  	stptr.d	t1, a0, THREAD_CSRPRMD
+803b0fc5c3f2ba Huacai Chen 2022-05-31  21  
+803b0fc5c3f2ba Huacai Chen 2022-05-31  22  	cpu_save_nonscratch a0
+803b0fc5c3f2ba Huacai Chen 2022-05-31  23  	stptr.d	ra, a0, THREAD_REG01
+93a4fa622eb061 Qing Zhang  2022-08-06  24  	stptr.d a3, a0, THREAD_SCHED_RA
+93a4fa622eb061 Qing Zhang  2022-08-06  25  	stptr.d a4, a0, THREAD_SCHED_CFA
+09f33601bf940f Huacai Chen 2022-12-10  26  #if defined(CONFIG_STACKPROTECTOR) && !defined(CONFIG_SMP)
+09f33601bf940f Huacai Chen 2022-12-10  27  	la	t7, __stack_chk_guard
+09f33601bf940f Huacai Chen 2022-12-10 @28  	LONG_L	t8, a1, TASK_STACK_CANARY
+
+:::::: The code at line 28 was first introduced by commit
+:::::: 09f33601bf940f955c10a6e75a1c1b7bcadee5e2 LoongArch: Add basic STACKPROTECTOR support
+
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
-Kind regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
