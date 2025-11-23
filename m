@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEBD15E5BB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 10:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039BE15E5BB;
+	Sun, 23 Nov 2025 10:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763893463; cv=none; b=GhK2OaoN1CtsYystpNvNl21ExuaN32fR/iu5GFNymC79iuNcWUtp87tPJDhlystkzNAns5AIcCj7wONVIQO4+EdkCE92t3p96CnUHPv3Tohwxk+rmKFrUSmQ4rGRHgzUmzrFRVsg1rcZbXM2sYuy8H88w4NX7Tvw0gPkwz6e6uU=
+	t=1763893465; cv=none; b=f34yg9F9dMlo+bU0hCKl7WniA9glZ/qKWGDpcUPQBjavtL8lnaTdgquXTFxMMa5eFOgdam6tfxhbScr/3Z4g9cwk57Vt2T4vedPfndQtXwoj2xgdMp1OsLgMvMMCm+opoZriERqYdZ1n7qPygS2tEhRAkK02FK1c7fhigRmVKyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763893463; c=relaxed/simple;
-	bh=csjopn6ov896oScY/qM1P8mPwTeXjM1YsHS9UkeBRSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RdyGUin3BsCb/s9DoBTOZwkEJFP2TdVcMINFV4Bber0BmMr7quTwjMaume6FkIGa7y+HPdvjQUyHrQ1cr1gJEeVX1vIihRcMWQg2KuUwdEBPpDrZbAfbmSL8FX01QZcUgkvhFvBkRdTp+gInXpJXrzAMJIg/uurbqMY5yvJwys8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eBfSp0dt; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1763893465; c=relaxed/simple;
+	bh=MqXY389cFH5UMcUPlSXH9uPa/8KZTxgMoJ1/hoC4agI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q4aDd81eNjLzgN3TlPT0qz8/pYqL5U21eG91aDjT/uBo844MNdV6noX9PATZ47CmUi5ZzPynCtSCakRkMxWWi/fjFlsrvZlFuPkDiIUfu9ydVCdej1Y12GSga5to3YEZz8sGHUcCmiqTR0rcK+FLQiOU5LGOz1kwwOjP24Y8s0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1YJhYT9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eBfSp0dt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1YJhYT9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763893461; x=1795429461;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=csjopn6ov896oScY/qM1P8mPwTeXjM1YsHS9UkeBRSQ=;
-  b=eBfSp0dtq9rfPpVhbVpAxn1M/B408pi/yFYUMVEVv1N84NxTBEkCRnwZ
-   9adeOhUSJgkolS2cu/ejPWYBFUzhcOT92ZdIjO3+wtPmD7GQZSRTwSPGY
-   fhVNwiado7U3IEweh+G+hNAiY/zAWKMy3Hpm5Ms/V2dTx698WQ024bn2x
-   bEETJSI0SgPTtSdLF533vtNUABzOM9aFMD8oWtZxVntMNc2dGFL5ecgCR
-   kpz1NSdtGzsQOgWRJf3pULRSjJahOuC+8hNVuaeSJ2ttbG4zak7liGt5N
-   jwHrzfa+VnR6oL1tr1BJZZkhpyE6bDE9tXv2kmt+Aj1Z+T0jxDNdovj6Q
-   A==;
-X-CSE-ConnectionGUID: E5hKDxyDTWSdLSHeCAeYkw==
-X-CSE-MsgGUID: rt8Dhkr7S4ix/KsAs1znEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="88574503"
+  t=1763893464; x=1795429464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MqXY389cFH5UMcUPlSXH9uPa/8KZTxgMoJ1/hoC4agI=;
+  b=Q1YJhYT9qlD4IjyzC8q1xaxszM40u+nYMXxyvm8D5YOyeKkP0klmCRWY
+   tXDKk1U95nkeqWGaRZW5ho19SbXVnV4JvYXzVaJNiLxreLsR8MgV08KqO
+   JYPd+YOCx1U2sFVqoj5LSCMDPLUdCCi1H1a8G3TEMjTKRwVGSL37nG7kh
+   yeB8ifU04x0Id0r9gteyq4AMH8DWczPBy1SZ1MhZFXC3kpDoq3kGrhWy3
+   fYWP6klGQBTDgnc7n1vNjp4zQTAmRxGouYHq0KKPiGk+KLDok5XJ8lWm8
+   a2gucZlyrchrpft1eoOnDa2fxWl7swASRxkwcKgVj4zzzEDYtjPF6Cc84
+   Q==;
+X-CSE-ConnectionGUID: 6udUTaMZQaOixec2mHNqsw==
+X-CSE-MsgGUID: e1SyXYB7TiqJoSIx2AcyQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="69539480"
 X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="88574503"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 02:24:21 -0800
-X-CSE-ConnectionGUID: t1Fv66QwTECh3eAtIXlu0A==
-X-CSE-MsgGUID: UYkoKrEUT7+82muahMxmzA==
+   d="scan'208";a="69539480"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 02:24:24 -0800
+X-CSE-ConnectionGUID: IOlcPXmdTe2zhrKUUd+6tA==
+X-CSE-MsgGUID: wiT+jHJwSv6BnQBDmtjWvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
-   d="scan'208";a="192545315"
 Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Nov 2025 02:24:18 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 23 Nov 2025 02:24:19 -0800
 Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vN7GS-0008D3-1x;
+	id 1vN7GS-0008D1-1r;
 	Sun, 23 Nov 2025 10:24:16 +0000
-Date: Sun, 23 Nov 2025 18:23:46 +0800
+Date: Sun, 23 Nov 2025 18:23:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Laibin Qiu <qiulaibin@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/page_alloc.c:3684:54:
- sparse: sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202511231858.zGXZmmUs-lkp@intel.com>
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	psodagud@quicinc.com, djaggi@quicinc.com, quic_msavaliy@quicinc.com,
+	quic_vtanuku@quicinc.com, quic_arandive@quicinc.com,
+	quic_shazhuss@quicinc.com
+Subject: Re: [PATCH v1 03/12] soc: qcom: geni-se: Introduce helper API for
+ resource initialization
+Message-ID: <202511231819.jiLYo6Fl-lkp@intel.com>
+References: <20251122050018.283669-4-praveen.talari@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,149 +73,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251122050018.283669-4-praveen.talari@oss.qualcomm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6c5657aecca1857be6ea39f789159c9acfde2f9e
-commit: 9b6c51cd780588813c5d327e2a6d677d010a2b6f [1740/1740] mm: fix zoneref mapping problem in memory reliable
-config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20251123/202511231858.zGXZmmUs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231858.zGXZmmUs-lkp@intel.com/reproduce)
+Hi Praveen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d724c6f85e80a23ed46b7ebc6e38b527c09d64f5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Praveen-Talari/soc-qcom-geni-se-Refactor-geni_icc_get-and-make-qup-memory-ICC-path-optional/20251122-130449
+base:   d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+patch link:    https://lore.kernel.org/r/20251122050018.283669-4-praveen.talari%40oss.qualcomm.com
+patch subject: [PATCH v1 03/12] soc: qcom: geni-se: Introduce helper API for resource initialization
+config: loongarch-randconfig-002-20251123 (https://download.01.org/0day-ci/archive/20251123/202511231819.jiLYo6Fl-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231819.jiLYo6Fl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511231858.zGXZmmUs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511231819.jiLYo6Fl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:140:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/mem_reliable.h:68:15: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:4656:13: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:4661:35: sparse: sparse: invalid assignment: |=
-   mm/page_alloc.c:4661:35: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4661:35: sparse:    right side has type unsigned int
-   mm/page_alloc.c:4677:35: sparse: sparse: invalid assignment: |=
-   mm/page_alloc.c:4677:35: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4677:35: sparse:    right side has type unsigned int
-   mm/page_alloc.c:4683:35: sparse: sparse: invalid assignment: |=
-   mm/page_alloc.c:4683:35: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4683:35: sparse:    right side has type unsigned int
-   mm/page_alloc.c:4698:35: sparse: sparse: invalid assignment: |=
-   mm/page_alloc.c:4698:35: sparse:    left side has type restricted gfp_t
-   mm/page_alloc.c:4698:35: sparse:    right side has type unsigned int
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:3683:14: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:3684:45: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:3684:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted gfp_t [usertype] flags @@     got unsigned int @@
-   mm/page_alloc.c:3684:54: sparse:     expected restricted gfp_t [usertype] flags
-   mm/page_alloc.c:3684:54: sparse:     got unsigned int
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c:3701:14: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
-   mm/page_alloc.c: In function 'mem_init_print_info':
-   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 36-      |                           ^~
-   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
-    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: note: use '&__init_begin[0] <= &_sinittext[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 42-      |                           ^~
-   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
-    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 48-      |                                         ^
-   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
-    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: note: use '&_sinittext[0] < &__init_end[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 54-      |                                         ^
-   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
-    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 60-      |                           ^~
-   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
-    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 66-      |                           ^~
-   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
-    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 72-      |                                         ^
-   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
-    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 78-      |                                         ^
-   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
-    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 84-      |                           ^~
-   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
-    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 90-      |                           ^~
-   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
-    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 96-      |                                         ^
-   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
-    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 102-      |                                         ^
-   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
-    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 108-      |                           ^~
-   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
-    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 114-      |                           ^~
-   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
-    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
-    7512 |                 if (start <= pos && pos < end && size > adj) 120-      |                                         ^
-   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
-    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7512:41: note: use '&__start_rodata[0] < &_etext[0]' to compare the addresses
-    7512 |                 if (start <= pos && pos < end && size > adj) 126-      |                                         ^
+All errors (new ones prefixed by >>):
 
-vim +3684 mm/page_alloc.c
+>> drivers/soc/qcom/qcom-geni-se.c:1046:10: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+    1046 |                 return ERR_PTR(ret);
+         |                        ^~~~~~~~~~~~
+   1 error generated.
 
-  3673	
-  3674	#ifdef CONFIG_MEMORY_RELIABLE
-  3675	static inline void reliable_fb_find_zone(gfp_t gfp_mask,
-  3676						 struct alloc_context *ac)
-  3677	{
-  3678		if (!reliable_allow_fb_enabled())
-  3679			return;
-  3680	
-  3681		/* dst node don't have zone we want, fallback here */
-  3682		if ((gfp_mask & __GFP_THISNODE) && (ac->high_zoneidx == ZONE_NORMAL) &&
-  3683		    (gfp_mask & ___GFP_RELIABILITY)) {
-> 3684			ac->high_zoneidx = gfp_zone(gfp_mask & ~___GFP_RELIABILITY);
-  3685			ac->preferred_zoneref = first_zones_zonelist(
-  3686				ac->zonelist, ac->high_zoneidx, ac->nodemask);
-  3687		}
-  3688	
-  3689		return;
-  3690	}
-  3691	
+
+vim +1046 drivers/soc/qcom/qcom-geni-se.c
+
+  1015	
+  1016	/**
+  1017	 * geni_se_resources_init() - Initialize resources for a GENI SE device.
+  1018	 * @se: Pointer to the geni_se structure representing the GENI SE device.
+  1019	 *
+  1020	 * This function initializes various resources required by the GENI Serial Engine
+  1021	 * (SE) device, including clock resources (core and SE clocks), interconnect
+  1022	 * paths for communication.
+  1023	 * It retrieves optional and mandatory clock resources, adds an OF-based
+  1024	 * operating performance point (OPP) table, and sets up interconnect paths
+  1025	 * with default bandwidths. The function also sets a flag (`has_opp`) to
+  1026	 * indicate whether OPP support is available for the device.
+  1027	 *
+  1028	 * Return: 0 on success, or a negative errno on failure.
+  1029	 */
+  1030	int geni_se_resources_init(struct geni_se *se)
+  1031	{
+  1032		int ret;
+  1033	
+  1034		se->core_clk = devm_clk_get_optional(se->dev, "core");
+  1035		if (IS_ERR(se->core_clk))
+  1036			return dev_err_probe(se->dev, PTR_ERR(se->core_clk),
+  1037					     "Failed to get optional core clk\n");
+  1038	
+  1039		se->clk = devm_clk_get(se->dev, "se");
+  1040		if (IS_ERR(se->clk) && !has_acpi_companion(se->dev))
+  1041			return dev_err_probe(se->dev, PTR_ERR(se->clk),
+  1042					     "Failed to get SE clk\n");
+  1043	
+  1044		ret = devm_pm_opp_set_clkname(se->dev, "se");
+  1045		if (ret)
+> 1046			return ERR_PTR(ret);
+  1047	
+  1048		ret = devm_pm_opp_of_add_table(se->dev);
+  1049		if (ret && ret != -ENODEV)
+  1050			return dev_err_probe(se->dev, ret, "Failed to add OPP table\n");
+  1051	
+  1052		se->has_opp = (ret == 0);
+  1053	
+  1054		ret = geni_icc_get(se, "qup-memory");
+  1055		if (ret)
+  1056			return ret;
+  1057	
+  1058		return geni_icc_set_bw_ab(se, GENI_DEFAULT_BW, GENI_DEFAULT_BW, GENI_DEFAULT_BW);
+  1059	}
+  1060	EXPORT_SYMBOL_GPL(geni_se_resources_init);
+  1061	
 
 -- 
 0-DAY CI Kernel Test Service
