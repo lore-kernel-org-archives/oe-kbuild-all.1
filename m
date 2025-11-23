@@ -1,88 +1,514 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA751FE44B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 17:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DF81ACEDA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 18:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763920675; cv=none; b=hAkEZAsGi6iRgyf0NP27QZeVah6kf3JwiJxubptVN3WdXYsRVz4bFqCKxMiTzNNHwjx9xB8M/ZDBuWX+or3Rwy2woaCeRU37VFCEvePNOizqP6bvCMwluGSdjynZoY0XxFQeb6Q7DWbK3aHSrINqHZN6hn9cBmq75Wwa/UVgUEk=
+	t=1763921662; cv=none; b=lOk31zuilGC9trmxyM4bWf4wc0wJxE6XlPlVBZ5pQKefwaQTU0u2wSzfyVpXehLX+6A+lfjlyWaZNl+wzvU6eInv/JJtrLgVaZaoEhbqBN6stKK1uH0opLHndNjaWhr+JTN9bpQZSUzOI2lygsgF5Xa3xPIeXHxnKaj58ykMh0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763920675; c=relaxed/simple;
-	bh=9t/2tmvU9FOadULC1rpEOOF+wxXg4qy5y3mnHuoW8m8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7j1jQbnkdDl1s4puqP77JmvWH0IjhIePU3Oo7EirfRf4JtVSc/YDF0UKjp+BhFb/fjWPlkPnFFYk+Okrq+AltcU33eUJ6cPykLVT8t8hCcbgii4anA9HFlcQDQEP2wfAW6JaacOkOxul/rRG6h6VzC9wIH2rhRtqbkZlDk0Hbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PbAGUOGJ; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1763921662; c=relaxed/simple;
+	bh=joYfbvE5iAzggM+i/jT6vepfONG0mAX6qQgMq1c0144=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HehTSFIK6GgXEQn7TvUAuClu6cSLfiLhGZB3tSlmWgqa0RoDYZpkZJ13XiQA66tOaeMSBNeYUN+8YNyBPrX2+57IMCzm7Vsv7MAYYcqubZGvpW+1poa/AYSHCsBekuVEHna1Hmhf5uRc1CeMZN1Kjx0gCBfd2fgF1yKdoBEbZfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ya+jqPMT; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PbAGUOGJ"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64166a57f3bso5419783a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Nov 2025 09:57:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1763920672; x=1764525472; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tpsNplA1Voxrb2YjfEKZCml9qot8JSx+g9qK04gre68=;
-        b=PbAGUOGJ8ibnQO+xyTiZ3evU4RhmeCLHV7gQmzWlpjj18yoBCjXcBkXRZBW6B9YSOF
-         AeOTT4wE7S9U5ZixZ73aAV6NBGqnyMppnQSIfKf+XJyAKxzi2An1a3iuWBOnDswtUuUO
-         +IwO7AmKygd3dZMiUI/iDbvJvDLDX4AR0jXC9PwdqwUjeDhcDhrQfUTpgqAZ39jERxER
-         k5Sfpsl2LVlI5QUvP6l+iHcni94ZGjYMYDfLG9tso49tMFp3grJlmfYliErDTTHDkk6l
-         ffnSuA+INqh2RVlcMVmOiZYw6Z7I3mjao0oc9wnEn9zzwe8Vwekx0TLPxve6/+CC/UOy
-         ojFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763920672; x=1764525472;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tpsNplA1Voxrb2YjfEKZCml9qot8JSx+g9qK04gre68=;
-        b=wjTjLtyQD9edwG5nOBEwb1nD++HOTUT8U+aX54jR/C0NFX+OY2U+CFWo0onBXE8grT
-         fAtys0hZkr2uNmjZBKahDlc+H/TdcfsZluftDnbNpMChEJCG5CJHPYYTXwLRxxTooGde
-         UxLCp9Wn8IIVRLrHXkiDEfAeYG60vinLCINUIyBjvkwYzR1QzWyIpV123SfSU2CSEkDX
-         XVLlwQtgi6zdOlS48D9NlobbGGawaZ3dXkbBmBS6dIBp1lDzRJB2Si1EOKu8ZklJ0xJ5
-         iiO0t21nTXuh/DF3PciasAwRRqJhgOYQdSmAaXHziN796ndCanSkdFzBer0TSpZrDvjx
-         Yvvg==
-X-Gm-Message-State: AOJu0YyiRyOAK4QbDf6e+QFucqCBmqi4w8NrmenCJWriiQwMQw8kp3He
-	SyisW5v5iFNlNLRmuaWWrMQh/8Fy2FlIEtSPVtDnM9XKEU90t9CDJKvQZs1oX70tK7is90YUaIw
-	iwPFqLgvNP5S0QhTP0UGbk9wC4PHIY9FGdmKZOj5isg==
-X-Gm-Gg: ASbGncu+6WW+hSKEVyseT1veIg5lSG1C3swDb7s4w0BKy6pJcKlJQlu30jIz0BvoXF9
-	bEZ/mwmveaC0dOgMREP7ux4uQPgGobe/jXDDAuHYof94fwm765PpA1sI7a/ofbnSdxyTpfC0C+H
-	Tf9F0qc7eFRQR5Nh2S1BRmfpKAuxeY4hCBR4Af7v8qkdbjxWWWCwBb+lTE9M7lOyhdp1If3QYES
-	EKlLM0FTGp96ps537D30+JKKouS+T0UZVnsAHBmK869IHjC/4g1kmUa8wYxddY2mBGm
-X-Google-Smtp-Source: AGHT+IGpPvGwBwElKBibg79KxrBIQZdO1vFW5PwlaPoM2uZEHzARN/i8TzvXzLxaRVhlOvuafeBOkUf5sYbTlf60CsU=
-X-Received: by 2002:a05:6402:2750:b0:640:f1ea:8d1b with SMTP id
- 4fb4d7f45d1cf-64554665a54mr8854375a12.16.1763920671902; Sun, 23 Nov 2025
- 09:57:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ya+jqPMT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763921659; x=1795457659;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=joYfbvE5iAzggM+i/jT6vepfONG0mAX6qQgMq1c0144=;
+  b=Ya+jqPMTh4fG4CPsQofIMVI1jWcrLvC53zeX73mmBVulTnW+qhRYdyVm
+   fYbytK5YBm7U1S5mmDIr1QhWI5aSlx4x+oau0GhFyffESy7ejbR3eqhHV
+   gKdPCBmOpDxxV0cBe7lBxEjEK3+S2S2i9VsRL5CHnXpFJdRLPz750ROs+
+   vlbu2NBaT0vVRBcEznW4mOKsl0soY1yGIHoQoLAAkl+fnY28EMe+KWLVF
+   3KwUt1NNU9fYQf3mgpLMik99y8dC/ytuvI2p+UXe5VfbLU3FMSKRPgMAC
+   XoQEmkGgJ8kRC3/QcChNso0CEk6CwDkrSsZYQPdlxhUIJwKnNddGOOYzG
+   w==;
+X-CSE-ConnectionGUID: OgoECpJqTtSRfVixqCJXVg==
+X-CSE-MsgGUID: Y25upm+aQBi4NH1soPRozw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="91418103"
+X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
+   d="scan'208";a="91418103"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 10:14:19 -0800
+X-CSE-ConnectionGUID: KALPiXI/REC0zrzqnqEbfQ==
+X-CSE-MsgGUID: sZ8g+f0+Q62IrZ4uQrwL/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
+   d="scan'208";a="191811594"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Nov 2025 10:14:18 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNEbH-0000000002j-2iYC;
+	Sun, 23 Nov 2025 18:14:15 +0000
+Date: Sun, 23 Nov 2025 19:13:43 +0100
+From: kernel test robot <lkp@intel.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:more-at-least-decorations-v1 9/9]
+ lib/crypto/tests/sha224_kunit.c:13:20: error: implicit declaration of
+ function 'sha224_final'; did you mean 'sha224_init'?
+Message-ID: <202511231914.rcuwcz4S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <aSKvbLiFT0aParmU@rli9-mobl>
-In-Reply-To: <aSKvbLiFT0aParmU@rli9-mobl>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sun, 23 Nov 2025 12:57:15 -0500
-X-Gm-Features: AWmQ_bkrWaeby1Q8WA0pRgWJpDWpR9oPfzbbe6thBvqJtwQSoichCxeFeoD0NkI
-Message-ID: <CA+CK2bAsNp2j=U4o9pAfC87TSE+1sPRA4Gd6AjCUW2ZGKffTgw@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 86/104] liveupdate.c:21:10: fatal
- error: errno.h: No such file or directory
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Note: the akpm-mm/mm-nonmm-unstable HEAD 5b8dc8b45ebd9e7f3fea3adefeccd9ce94215103 builds fine.
->       It only hurts bisectability.
->
-> All errors (new ones prefixed by >>):
->
-> >> liveupdate.c:21:10: fatal error: errno.h: No such file or directory
->       21 | #include <errno.h>
->          |          ^~~~~~~~~
->    compilation terminated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git more-at-least-decorations-v1
+head:   da707520ed1dbaed0ef9666f7adfac8910423a1f
+commit: da707520ed1dbaed0ef9666f7adfac8910423a1f [9/9] lib/crypto: sha2: Add at_least decoration to fixed-size array params
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20251123/202511231914.rcuwcz4S-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231914.rcuwcz4S-lkp@intel.com/reproduce)
 
-I am not sure what needs to be done here. I have tried to reproduce
-this, and every single other selftest that includes standard libraries
-(most of them) spits out exactly the same error.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511231914.rcuwcz4S-lkp@intel.com/
 
-Pasha
+All errors (new ones prefixed by >>):
+
+         |                              ^~~~~~~~
+   include/crypto/sha2.h:396:38: error: expected ']' before numeric constant
+     396 |                      u8 out1[at_least SHA256_DIGEST_SIZE],
+         |                                      ^
+         |                                      ]
+   include/crypto/sha2.h:397:22: error: expected ';', ',' or ')' before 'u8'
+     397 |                      u8 out2[at_least SHA256_DIGEST_SIZE]);
+         |                      ^~
+   include/crypto/sha2.h:495:31: error: 'at_least' undeclared here (not in a function)
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:495:39: error: expected ']' before numeric constant
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:510:25: error: 'at_least' undeclared here (not in a function)
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:510:33: error: expected ']' before numeric constant
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:527:37: error: 'at_least' undeclared here (not in a function)
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:527:45: error: expected ']' before numeric constant
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:606:50: error: 'at_least' undeclared here (not in a function)
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:606:58: error: expected ']' before numeric constant
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:616:48: error: 'at_least' undeclared here (not in a function)
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:616:56: error: expected ']' before numeric constant
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:704:31: error: 'at_least' undeclared here (not in a function)
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:704:39: error: expected ']' before numeric constant
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:719:25: error: 'at_least' undeclared here (not in a function)
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:719:33: error: expected ']' before numeric constant
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:736:37: error: 'at_least' undeclared here (not in a function)
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:736:45: error: expected ']' before numeric constant
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:781:50: error: 'at_least' undeclared here (not in a function)
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:781:58: error: expected ']' before numeric constant
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:791:48: error: 'at_least' undeclared here (not in a function)
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:791:56: error: expected ']' before numeric constant
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:879:31: error: 'at_least' undeclared here (not in a function)
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:879:39: error: expected ']' before numeric constant
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:894:25: error: 'at_least' undeclared here (not in a function)
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:894:33: error: expected ']' before numeric constant
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:911:37: error: 'at_least' undeclared here (not in a function)
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:911:45: error: expected ']' before numeric constant
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_test_vectors':
+>> lib/crypto/tests/sha224_kunit.c:8:14: error: implicit declaration of function 'sha224' [-Wimplicit-function-declaration]
+       8 | #define HASH sha224
+         |              ^~~~~~
+   lib/crypto/tests/hash-test-template.h:114:17: note: in expansion of macro 'HASH'
+     114 |                 HASH(test_buf, data_len, actual_hash);
+         |                 ^~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_all_lens_up_to_4096':
+>> lib/crypto/tests/sha224_kunit.c:13:20: error: implicit declaration of function 'sha224_final'; did you mean 'sha224_init'? [-Wimplicit-function-declaration]
+      13 | #define HASH_FINAL sha224_final
+         |                    ^~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:140:9: note: in expansion of macro 'HASH_FINAL'
+     140 |         HASH_FINAL(&ctx, hash);
+         |         ^~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hmac':
+>> lib/crypto/tests/sha224_kunit.c:21:26: error: implicit declaration of function 'hmac_sha224_usingrawkey'; did you mean 'hmac_sha224_init_usingrawkey'? [-Wimplicit-function-declaration]
+      21 | #define HMAC_USINGRAWKEY hmac_sha224_usingrawkey
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:515:17: note: in expansion of macro 'HMAC_USINGRAWKEY'
+     515 |                 HMAC_USINGRAWKEY(raw_key, key_len, test_buf, data_len, mac);
+         |                 ^~~~~~~~~~~~~~~~
+>> lib/crypto/tests/sha224_kunit.c:20:14: error: implicit declaration of function 'hmac_sha224'; did you mean 'hmac_sha224_init'? [-Wimplicit-function-declaration]
+      20 | #define HMAC hmac_sha224
+         |              ^~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:520:17: note: in expansion of macro 'HMAC'
+     520 |                 HMAC(&key, test_buf, data_len, mac2);
+         |                 ^~~~
+>> lib/crypto/tests/sha224_kunit.c:19:20: error: implicit declaration of function 'hmac_sha224_final'; did you mean 'hmac_sha224_init'? [-Wimplicit-function-declaration]
+      19 | #define HMAC_FINAL hmac_sha224_final
+         |                    ^~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:525:9: note: in expansion of macro 'HMAC_FINAL'
+     525 |         HMAC_FINAL(&ctx, mac);
+         |         ^~~~~~~~~~
+--
+         |                              ^~~~~~~~
+   include/crypto/sha2.h:396:38: error: expected ']' before numeric constant
+     396 |                      u8 out1[at_least SHA256_DIGEST_SIZE],
+         |                                      ^
+         |                                      ]
+   include/crypto/sha2.h:397:22: error: expected ';', ',' or ')' before 'u8'
+     397 |                      u8 out2[at_least SHA256_DIGEST_SIZE]);
+         |                      ^~
+   include/crypto/sha2.h:495:31: error: 'at_least' undeclared here (not in a function)
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:495:39: error: expected ']' before numeric constant
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:510:25: error: 'at_least' undeclared here (not in a function)
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:510:33: error: expected ']' before numeric constant
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:527:37: error: 'at_least' undeclared here (not in a function)
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:527:45: error: expected ']' before numeric constant
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:606:50: error: 'at_least' undeclared here (not in a function)
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:606:58: error: expected ']' before numeric constant
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:616:48: error: 'at_least' undeclared here (not in a function)
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:616:56: error: expected ']' before numeric constant
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:704:31: error: 'at_least' undeclared here (not in a function)
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:704:39: error: expected ']' before numeric constant
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:719:25: error: 'at_least' undeclared here (not in a function)
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:719:33: error: expected ']' before numeric constant
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:736:37: error: 'at_least' undeclared here (not in a function)
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:736:45: error: expected ']' before numeric constant
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:781:50: error: 'at_least' undeclared here (not in a function)
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:781:58: error: expected ']' before numeric constant
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:791:48: error: 'at_least' undeclared here (not in a function)
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:791:56: error: expected ']' before numeric constant
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:879:31: error: 'at_least' undeclared here (not in a function)
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:879:39: error: expected ']' before numeric constant
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:894:25: error: 'at_least' undeclared here (not in a function)
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:894:33: error: expected ']' before numeric constant
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:911:37: error: 'at_least' undeclared here (not in a function)
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:911:45: error: expected ']' before numeric constant
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_test_vectors':
+>> lib/crypto/tests/sha256_kunit.c:9:14: error: implicit declaration of function 'sha256' [-Wimplicit-function-declaration]
+       9 | #define HASH sha256
+         |              ^~~~~~
+   lib/crypto/tests/hash-test-template.h:114:17: note: in expansion of macro 'HASH'
+     114 |                 HASH(test_buf, data_len, actual_hash);
+         |                 ^~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_all_lens_up_to_4096':
+>> lib/crypto/tests/sha256_kunit.c:14:20: error: implicit declaration of function 'sha256_final'; did you mean 'sha256_init'? [-Wimplicit-function-declaration]
+      14 | #define HASH_FINAL sha256_final
+         |                    ^~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:140:9: note: in expansion of macro 'HASH_FINAL'
+     140 |         HASH_FINAL(&ctx, hash);
+         |         ^~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hmac':
+>> lib/crypto/tests/sha256_kunit.c:22:26: error: implicit declaration of function 'hmac_sha256_usingrawkey'; did you mean 'hmac_sha256_init_usingrawkey'? [-Wimplicit-function-declaration]
+      22 | #define HMAC_USINGRAWKEY hmac_sha256_usingrawkey
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:515:17: note: in expansion of macro 'HMAC_USINGRAWKEY'
+     515 |                 HMAC_USINGRAWKEY(raw_key, key_len, test_buf, data_len, mac);
+         |                 ^~~~~~~~~~~~~~~~
+>> lib/crypto/tests/sha256_kunit.c:21:14: error: implicit declaration of function 'hmac_sha256'; did you mean 'hmac_sha256_init'? [-Wimplicit-function-declaration]
+      21 | #define HMAC hmac_sha256
+         |              ^~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:520:17: note: in expansion of macro 'HMAC'
+     520 |                 HMAC(&key, test_buf, data_len, mac2);
+         |                 ^~~~
+>> lib/crypto/tests/sha256_kunit.c:20:20: error: implicit declaration of function 'hmac_sha256_final'; did you mean 'hmac_sha256_init'? [-Wimplicit-function-declaration]
+      20 | #define HMAC_FINAL hmac_sha256_final
+         |                    ^~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:525:9: note: in expansion of macro 'HMAC_FINAL'
+     525 |         HMAC_FINAL(&ctx, mac);
+         |         ^~~~~~~~~~
+   lib/crypto/tests/sha256_kunit.c: In function 'test_sha256_finup_2x':
+>> lib/crypto/tests/sha256_kunit.c:83:17: error: implicit declaration of function 'sha256_finup_2x'; did you mean 'test_sha256_finup_2x'? [-Wimplicit-function-declaration]
+      83 |                 sha256_finup_2x(ctx, data1, data2, data_len, hash1, hash2);
+         |                 ^~~~~~~~~~~~~~~
+         |                 test_sha256_finup_2x
+--
+         |                              ^~~~~~~~
+   include/crypto/sha2.h:396:38: error: expected ']' before numeric constant
+     396 |                      u8 out1[at_least SHA256_DIGEST_SIZE],
+         |                                      ^
+         |                                      ]
+   include/crypto/sha2.h:397:22: error: expected ';', ',' or ')' before 'u8'
+     397 |                      u8 out2[at_least SHA256_DIGEST_SIZE]);
+         |                      ^~
+   include/crypto/sha2.h:495:31: error: 'at_least' undeclared here (not in a function)
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:495:39: error: expected ']' before numeric constant
+     495 |                        u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:510:25: error: 'at_least' undeclared here (not in a function)
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:510:33: error: expected ']' before numeric constant
+     510 |                  u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:527:37: error: 'at_least' undeclared here (not in a function)
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:527:45: error: expected ']' before numeric constant
+     527 |                              u8 out[at_least SHA256_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:606:50: error: 'at_least' undeclared here (not in a function)
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:606:58: error: expected ']' before numeric constant
+     606 | void sha384_final(struct sha384_ctx *ctx, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:616:48: error: 'at_least' undeclared here (not in a function)
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:616:56: error: expected ']' before numeric constant
+     616 | void sha384(const u8 *data, size_t len, u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:704:31: error: 'at_least' undeclared here (not in a function)
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:704:39: error: expected ']' before numeric constant
+     704 |                        u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:719:25: error: 'at_least' undeclared here (not in a function)
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:719:33: error: expected ']' before numeric constant
+     719 |                  u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:736:37: error: 'at_least' undeclared here (not in a function)
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:736:45: error: expected ']' before numeric constant
+     736 |                              u8 out[at_least SHA384_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   include/crypto/sha2.h:781:50: error: 'at_least' undeclared here (not in a function)
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                  ^~~~~~~~
+   include/crypto/sha2.h:781:58: error: expected ']' before numeric constant
+     781 | void sha512_final(struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                          ^
+         |                                                          ]
+   include/crypto/sha2.h:791:48: error: 'at_least' undeclared here (not in a function)
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                ^~~~~~~~
+   include/crypto/sha2.h:791:56: error: expected ']' before numeric constant
+     791 | void sha512(const u8 *data, size_t len, u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                                        ^
+         |                                                        ]
+   include/crypto/sha2.h:879:31: error: 'at_least' undeclared here (not in a function)
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                               ^~~~~~~~
+   include/crypto/sha2.h:879:39: error: expected ']' before numeric constant
+     879 |                        u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                       ^
+         |                                       ]
+   include/crypto/sha2.h:894:25: error: 'at_least' undeclared here (not in a function)
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                         ^~~~~~~~
+   include/crypto/sha2.h:894:33: error: expected ']' before numeric constant
+     894 |                  u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                 ^
+         |                                 ]
+   include/crypto/sha2.h:911:37: error: 'at_least' undeclared here (not in a function)
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                     ^~~~~~~~
+   include/crypto/sha2.h:911:45: error: expected ']' before numeric constant
+     911 |                              u8 out[at_least SHA512_DIGEST_SIZE]);
+         |                                             ^
+         |                                             ]
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_test_vectors':
+>> lib/crypto/tests/sha384_kunit.c:8:14: error: implicit declaration of function 'sha384' [-Wimplicit-function-declaration]
+       8 | #define HASH sha384
+         |              ^~~~~~
+   lib/crypto/tests/hash-test-template.h:114:17: note: in expansion of macro 'HASH'
+     114 |                 HASH(test_buf, data_len, actual_hash);
+         |                 ^~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hash_all_lens_up_to_4096':
+>> lib/crypto/tests/sha384_kunit.c:13:20: error: implicit declaration of function 'sha384_final'; did you mean 'sha384_init'? [-Wimplicit-function-declaration]
+      13 | #define HASH_FINAL sha384_final
+         |                    ^~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:140:9: note: in expansion of macro 'HASH_FINAL'
+     140 |         HASH_FINAL(&ctx, hash);
+         |         ^~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h: In function 'test_hmac':
+>> lib/crypto/tests/sha384_kunit.c:21:26: error: implicit declaration of function 'hmac_sha384_usingrawkey'; did you mean 'hmac_sha384_init_usingrawkey'? [-Wimplicit-function-declaration]
+      21 | #define HMAC_USINGRAWKEY hmac_sha384_usingrawkey
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:515:17: note: in expansion of macro 'HMAC_USINGRAWKEY'
+     515 |                 HMAC_USINGRAWKEY(raw_key, key_len, test_buf, data_len, mac);
+         |                 ^~~~~~~~~~~~~~~~
+>> lib/crypto/tests/sha384_kunit.c:20:14: error: implicit declaration of function 'hmac_sha384'; did you mean 'hmac_sha384_init'? [-Wimplicit-function-declaration]
+      20 | #define HMAC hmac_sha384
+         |              ^~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:520:17: note: in expansion of macro 'HMAC'
+     520 |                 HMAC(&key, test_buf, data_len, mac2);
+         |                 ^~~~
+>> lib/crypto/tests/sha384_kunit.c:19:20: error: implicit declaration of function 'hmac_sha384_final'; did you mean 'hmac_sha384_init'? [-Wimplicit-function-declaration]
+      19 | #define HMAC_FINAL hmac_sha384_final
+         |                    ^~~~~~~~~~~~~~~~~
+   lib/crypto/tests/hash-test-template.h:525:9: note: in expansion of macro 'HMAC_FINAL'
+     525 |         HMAC_FINAL(&ctx, mac);
+         |         ^~~~~~~~~~
+..
+
+
+vim +13 lib/crypto/tests/sha224_kunit.c
+
+4dcf6caddaa047 Eric Biggers 2025-07-09   7  
+4dcf6caddaa047 Eric Biggers 2025-07-09  @8  #define HASH sha224
+4dcf6caddaa047 Eric Biggers 2025-07-09   9  #define HASH_CTX sha224_ctx
+4dcf6caddaa047 Eric Biggers 2025-07-09  10  #define HASH_SIZE SHA224_DIGEST_SIZE
+4dcf6caddaa047 Eric Biggers 2025-07-09  11  #define HASH_INIT sha224_init
+4dcf6caddaa047 Eric Biggers 2025-07-09  12  #define HASH_UPDATE sha224_update
+4dcf6caddaa047 Eric Biggers 2025-07-09 @13  #define HASH_FINAL sha224_final
+4dcf6caddaa047 Eric Biggers 2025-07-09  14  #define HMAC_KEY hmac_sha224_key
+4dcf6caddaa047 Eric Biggers 2025-07-09  15  #define HMAC_CTX hmac_sha224_ctx
+4dcf6caddaa047 Eric Biggers 2025-07-09  16  #define HMAC_PREPAREKEY hmac_sha224_preparekey
+4dcf6caddaa047 Eric Biggers 2025-07-09  17  #define HMAC_INIT hmac_sha224_init
+4dcf6caddaa047 Eric Biggers 2025-07-09  18  #define HMAC_UPDATE hmac_sha224_update
+4dcf6caddaa047 Eric Biggers 2025-07-09 @19  #define HMAC_FINAL hmac_sha224_final
+4dcf6caddaa047 Eric Biggers 2025-07-09 @20  #define HMAC hmac_sha224
+4dcf6caddaa047 Eric Biggers 2025-07-09 @21  #define HMAC_USINGRAWKEY hmac_sha224_usingrawkey
+4dcf6caddaa047 Eric Biggers 2025-07-09  22  #include "hash-test-template.h"
+4dcf6caddaa047 Eric Biggers 2025-07-09  23  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 4dcf6caddaa0471c134bf0c869086fd0b57a9cc4 lib/crypto: tests: Add KUnit tests for SHA-224 and SHA-256
+
+:::::: TO: Eric Biggers <ebiggers@kernel.org>
+:::::: CC: Eric Biggers <ebiggers@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
