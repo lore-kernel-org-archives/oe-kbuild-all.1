@@ -1,59 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F8C21D58B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 20:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928792F2915;
+	Mon, 24 Nov 2025 22:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764016063; cv=none; b=D/ih7wdVsZ6rb8OA1gw4itpC6IG7qOA+87n53E5hwpyjgy2jxh64qUOINiJnVD//saHWE6DCOI/g8H+EYq0L4Xt5YQRccVIbXlCVoC1cIVON4KWkFtD7bl4kToXQJ0Ukkxx7UC2Ox5kcJylNXIDyGlOflzxpqw2Y5lkhqkt0Ff0=
+	t=1764022429; cv=none; b=uANfdKrTar5vH8wWs2M/DkcUDjZXdhW0Doyd+G44s082v9hzMMCYzO6GJBjcpi5xOu0RACjAC90NaJZ4dNsF9kt2ESvVdHxq/vmFXkaL3vWqMP9AXl7ODfPdErrETp+5b1KEOy3u8uU71FxnhlQkfW65smhYbed64gEulSdtGT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764016063; c=relaxed/simple;
-	bh=4VrQq/uSanZySJDb2ms2q//e9Mdadh0mOnZ9Ndfonic=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SGWgnGqTw6QZ3n234rLdLExlUYCcmlE/xbO+phEY5+JzfQEzrzQ8g6EJA/5/JLCG0EtZWseflnzncg4DRVJlAPGUjwwdtA3/jrsn4BiRSyWTUUPKL56ThWUsik2qmfD2+d7hMNTEdQqCdbNQB7oz0CxD8lgS0/F4tWbNbaXFj/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0yMuvfO; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764022429; c=relaxed/simple;
+	bh=GlcTQKIA4IKU/Qd7Z1l+tzgId/p55bDR4o+xEBrnMKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qz/IC60YOAMx4qrnC30Zwo8GFO4urJIdB+qJ/eab4QIa6r01rA2YznzQIt9QpUGnsWrno3nmWJ243tL4iRcYPXAaNhr0iZD/aTPHRt296Z2Hpu9SQryfmmlnbK1910ZObQveWtEOfU3aaXsSwngs8QgJIack3lGe3aauQuMU4VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDdVbqYz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0yMuvfO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764016063; x=1795552063;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4VrQq/uSanZySJDb2ms2q//e9Mdadh0mOnZ9Ndfonic=;
-  b=H0yMuvfOFRogNEUSfnOoPauvFwFFxoz58w0G8kvkoGwfhC+PRFrhkNW2
-   eXgQVrQ9nV1iHul2T3q7qY5LdbPn1qZzICM/Pgxe0BbsOOxUxSIUy1MzA
-   mnJEWdRWCvsR/tbF+oNZCbR+rGXIX/eTjP0Fi8V+FIbJn7+IhpHG7ACDN
-   LsM4wDScR1lDkckpGLpik/lJ8cYWK7P8yWHNF9MdQK77Uv0mDwuk+lVle
-   GxQtVwROqjRG74jGmnYabnUDxc2CoN3c1RNODMNqUrYGdjh7wlmFEEkP5
-   a20O3PEd2RkWCXE88vD+/s12tgs0g04ZOczAMDgFZ3KclEkt7LF1O2pS3
-   Q==;
-X-CSE-ConnectionGUID: jPDH04ncShil81TDufc0hg==
-X-CSE-MsgGUID: B/vWMKYkRFyl3FzIBCFvjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="65973248"
-X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="65973248"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 12:27:42 -0800
-X-CSE-ConnectionGUID: HcmHhJRCTqqo6tfpiAAghg==
-X-CSE-MsgGUID: HzpnM2BIQTSQl11aF+n2HA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="196890879"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Nov 2025 12:27:40 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNd9u-0000000016d-0Edq;
-	Mon, 24 Nov 2025 20:27:38 +0000
-Date: Tue, 25 Nov 2025 04:26:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 189/189]
- include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of
- type 'long unsigned int', but argument 5 has type 'void *'
-Message-ID: <202511250406.k7FlCw21-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDdVbqYz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A593EC4CEF1;
+	Mon, 24 Nov 2025 22:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764022428;
+	bh=GlcTQKIA4IKU/Qd7Z1l+tzgId/p55bDR4o+xEBrnMKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QDdVbqYzR8DzzDXGpA3UahGGE6mHOaSPb/y32/lJGoQFMIqovTAvtbHPW705rDOrg
+	 Qxcuc4p9U4ZlWWMhm8SaqQ779Mq/mepHf4qHUAFtGhV7jbhtz/xVRn7hDLXg2ulDr6
+	 iGpp4qT8fr/VNIQqk4JuXXhOGM2gFDNJIYC4hNzUAKE55ikDhx9mWiXEMtueQZl2tE
+	 JPItYrU6MhuvtBI3mLgT/EV/SPbLvr8azoCLrrZEmpV+jrHOSnU920rdKZ5sq2mEfM
+	 SIVSPCB9MUPesSS9n+79vTVro2/KPZ9R1fItB4yeT34IkUQwjRpnpgSZ/kCJhI5jZi
+	 48dbefTsI0b/Q==
+Date: Mon, 24 Nov 2025 15:13:43 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [tty:tty-next 27/37] drivers/tty/vt/keyboard.c:1712:7: error:
+ cannot jump from this asm goto statement to one of its possible targets
+Message-ID: <20251124221343.GA2953435@ax162>
+References: <202511241835.EA8lShgH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +44,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202511241835.EA8lShgH-lkp@intel.com>
 
-Hi Idan,
+On Mon, Nov 24, 2025 at 06:25:26PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
+> head:   da218406dd50e0ac96bb383de4edd208286efe70
+> commit: bfb24564b5fd8625ce5c007f274cabdc3b570969 [27/37] tty: vt/keyboard: use __free()
+> config: powerpc-randconfig-002-20251124 (https://download.01.org/0day-ci/archive/20251124/202511241835.EA8lShgH-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241835.EA8lShgH-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511241835.EA8lShgH-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/tty/vt/keyboard.c:1712:7: error: cannot jump from this asm goto statement to one of its possible targets
+>                    if (put_user(asize, &a->kb_cnt))
+>                        ^
+>    arch/powerpc/include/asm/uaccess.h:67:5: note: expanded from macro 'put_user'
+>                      __put_user(x, _pu_addr) : -EFAULT;                    \
+>                      ^
+>    arch/powerpc/include/asm/uaccess.h:49:3: note: expanded from macro '__put_user'
+>                    __put_user_size_goto(__pu_val, __pu_addr, __pu_size, __pu_failed);      \
+>                    ^
+>    arch/powerpc/include/asm/uaccess.h:127:10: note: expanded from macro '__put_user_size_goto'
+>            case 1: __put_user_asm_goto(x, __pus_addr, label, "stb"); break;        \
+>                    ^
+>    arch/powerpc/include/asm/uaccess.h:87:2: note: expanded from macro '__put_user_asm_goto'
+>            asm goto(                                       \
+>            ^
+>    drivers/tty/vt/keyboard.c:1736:7: note: possible target of asm goto statement
+>                    if (put_user(asize, &a->kb_cnt))
+>                        ^
+>    arch/powerpc/include/asm/uaccess.h:67:5: note: expanded from macro 'put_user'
+>                      __put_user(x, _pu_addr) : -EFAULT;                    \
+>                      ^
+>    arch/powerpc/include/asm/uaccess.h:53:9: note: expanded from macro '__put_user'
+>                                                                    \
+>                                                                    ^
+>    drivers/tty/vt/keyboard.c:1692:33: note: jump exits scope of variable with __attribute__((cleanup))
+>                    struct kbdiacr __free(kfree) *dia = kmalloc_array(MAX_DIACR, sizeof(struct kbdiacr),
+>                                                  ^
+>    drivers/tty/vt/keyboard.c:1722:23: note: jump bypasses initialization of variable with __attribute__((cleanup))
+>                    void __free(kfree) *buf = kmalloc_array(MAX_DIACR, sizeof(struct kbdiacruc),
+>                                        ^
 
-FYI, the error/warning still remains.
+Previously reported:
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   6dfc5d5f147fda6ad0ca4cb880fc8bcb466d1775
-commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [189/189] ANDROID: Add kiwi_fault_logging kernel parameter
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251125/202511250406.k7FlCw21-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250406.k7FlCw21-lkp@intel.com/reproduce)
+  https://lore.kernel.org/202509091702.Oc7eCRDw-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511250406.k7FlCw21-lkp@intel.com/
+My suggested workaround in that thread is still applicable if it would
+be acceptable as a formal patch:
 
-All warnings (new ones prefixed by >>):
+  https://lore.kernel.org/20250909215342.GA2456480@ax162/
 
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:17,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:6,
-                    from include/linux/sched.h:12,
-                    from include/linux/context_tracking.h:5,
-                    from arch/x86/kernel/traps.c:15:
-   arch/x86/kernel/traps.c: In function 'do_error_trap':
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'void *' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:66: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  long unsigned int
-         |                                                                %p
->> include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 7 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:87: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                     ~~^
-         |                                                                                       |
-         |                                                                                       long unsigned int
-         |                                                                                     %x
-   include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 8 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   arch/x86/kernel/traps.c:175:20: note: in expansion of macro 'KERN_ALERT'
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                    ^~~~~~~~~~
-   arch/x86/kernel/traps.c:175:98: note: format string is defined here
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                                ~~^
-         |                                                                                                  |
-         |                                                                                                  long unsigned int
-         |                                                                                                %x
-
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
