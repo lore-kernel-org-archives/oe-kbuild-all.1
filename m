@@ -1,139 +1,106 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE3721ADA7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 10:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C9F3BB5A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 10:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763980633; cv=none; b=I8ilR6yHHK8jHx1bgVN2aZwNaaq3wtxMD8iRCW8VDQj5M0frC7H6RLW9jsqUAYVF25438g3b4WMNuXlgkRqNCG7KHc0PYA5D1SIpD0JoruV7X60pGpRZ21cmbeM8h2qbwywGaecc6iuWPzuldgsK4accLNQ46bnmQdoZ05nOOkM=
+	t=1763981227; cv=none; b=h6noyCbq1zuAyoUIpFCk3f3MsnwIFjmy9ChDfDFG4C44oXqZRkALDib5bxxOQuVcD+lzPbcgd4Yq3QWKpsqwVYm6fvw3bQmmy0sp02YyLKyJsIrPItMLZXoyUbNiiUltFgSkM7UjIw7BGvTdSlIw4C2Rf4ppVGvfJRyjUmEiLnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763980633; c=relaxed/simple;
-	bh=01BmKKKJ8kuw55IuF7dgwaG/VYDxOrM6v2MxQRAZNk4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p8wrfV9Kuw40nPlGetol9EyW+afM3FC5vIxq5BAhvkKZltXAKnuVzWqguW3sRHj8HNpezHuAchxa0r4IxHa0saxAgczuMmKrXhsx++XKPh0AsxavQ2+2jVVFAfAbTAAV42+GSYnjc/Saqguuzah5rtWtHkKa+jrmLNVhAUx8FkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GKEVViqh; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1763981227; c=relaxed/simple;
+	bh=O1DoJQRcsVDEuEHmu6uH3W3rQ/B5VVI6DKhygLJlqCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rvurxa5+OcpFm7IsEU/0ohZoeGj81hdOhXsB327ErVeUpXIKCCotV3reN7Q/BD8w3LGnN+DEdR5V97+bQdU5KTOo+u5YSWe+L4LeE7p+0e0fLzeX+qPNAWI9KPcQ8h1zPPwy0D96vGRc+EEz8Y04ElaK5RryOgsP0pWIZGh4kKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+flXnpO; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GKEVViqh"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-42b3c965ce5so3447942f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 02:37:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1763980629; x=1764585429; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=01BmKKKJ8kuw55IuF7dgwaG/VYDxOrM6v2MxQRAZNk4=;
-        b=GKEVViqhH/NkrF6nFb7SOMq3QHA8e4DkUHp4gu1vkPGwmbEW1K79NQMP09P5iP/zgC
-         64Fjidw7eO0oOVyqcCTKMknYe2litz4EdkBchbzomAvb7MFAcXuLHjarF57guPzIl+zM
-         mS2t5c6H2jZnuMN9jY0Yc01liXglLDS9KK6PPdM/WLrqaYYdPjO8YYBXJxwS2D1o9ozT
-         18vyhBJl3zg9ciI4EorcS1S2tmyMOLYLMQ5kOwGdpExUz57kugHmsXMWt5F75DnfVEJm
-         Uv25Zg3Me7GASJNM8cJyo9GnjZr5cmwOws16ml+kwNh/BLVaQU0ZyQUy8rhf5X3tEgcj
-         MHOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763980629; x=1764585429;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=01BmKKKJ8kuw55IuF7dgwaG/VYDxOrM6v2MxQRAZNk4=;
-        b=ik69RDyOq2AEbeKXfXoyWah4JVQGpTcWB3VMa5mDncXMDz3OL9r49/5QesOzIG+CfN
-         EN+bqCP00J7o2/V+09WG2LtdEQRpzV/iMgR75LkViUfhxm2b0iHHwfAYOTU793rDBlQq
-         DmG7nQQioE0EVC10xbfRvoLSNa6lTND7KJ4HvobqZxeA7St2NUKaCr2GtnfW1OzkXLw5
-         glu7n3M+2TV81NZhh5A3CqoewZ7q8Mf9FZerjtzMFwmqYvRsOEeZSs4TQNNIbcy/BCn5
-         2XGVSQmKJ23l3NG3JB0GE7Pk6/DZG4Fxiomn9FZhMR+n5POoKdhPSxgpxi2ABZfQBo02
-         m9YA==
-X-Forwarded-Encrypted: i=1; AJvYcCWue5kwc4Xm2NDKrZcUWEX54a7Q5gzVLSSIlJLnXc/4vcVV13fB4AOhzIL8ZlfOW6wQTJNRFTQ4eH60FBDj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxs8EY8W794yMsZMw6tmhmCX0ozZmIDG5oJOs5uhOAaIc5cSnoj
-	4CtqROZnn0gRuCSzSyVYsFynkXBZOsAN451G6eHK5qvMIWJ+TPQ4IEj9h/B0OTYi/hS/E/u7KsW
-	O83wbQ0njJidYiQf3OQ==
-X-Google-Smtp-Source: AGHT+IE2yokmewMf29r7t0Tp3HawkoriayU3mB+EfJnackxr+OT2gdsbbfeMVJhXKYwaqU6lVz6HFHSUl8RSBQ8=
-X-Received: from wrwb6.prod.google.com ([2002:a5d:6346:0:b0:42b:5d42:f6b6])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:186b:b0:42b:3366:632a with SMTP id ffacd0b85a97d-42cc1d194camr11979436f8f.39.1763980629720;
- Mon, 24 Nov 2025 02:37:09 -0800 (PST)
-Date: Mon, 24 Nov 2025 10:37:08 +0000
-In-Reply-To: <CANiq72kUk_R0HGbX4eW9iucCXergJqBBeutnh7cb8SNAzGjG+g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+flXnpO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763981225; x=1795517225;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O1DoJQRcsVDEuEHmu6uH3W3rQ/B5VVI6DKhygLJlqCE=;
+  b=F+flXnpOKar/fNo1lrD4gFT4Xfyj3OU1C8FvYIu5kPUoQItZ5ADTqy4g
+   tss62cy5PFA4LfzajmBgw0XkhIwXmcMDP1D4/F6UeN3xDIfUB944nFqIP
+   TF+S5aMtTY4A28lFiWRMFDGpUMZGJ8lhUjfSceC1McNPDXnyHAYfFdQG2
+   lQm/R7WPpyJajNrPg4w869lmaFdrLAfWv6JradfOSjvcH47/zvRuV6ySn
+   mX3nJmYJDSN7/k13TUYNw9H3lvLrMMd6lmpnH2fNvUmoug53IfyLkl6vK
+   S5HpCt5ELj1muGCfUsxjuG8RWTJ2UzuBFqWcL50XV9ArTLPel1cdTXMVX
+   w==;
+X-CSE-ConnectionGUID: Z1dbr38gSIOvA3A2x8uWOw==
+X-CSE-MsgGUID: 9/tcuFkjT/mCOQKFKI6dqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65673776"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="65673776"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:47:04 -0800
+X-CSE-ConnectionGUID: 504uDi2WTcSU/QPWo04NTA==
+X-CSE-MsgGUID: 0CQkW1s6REqH3Iq/jvAOcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="197228550"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Nov 2025 02:47:01 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNU5y-000000000cX-3mux;
+	Mon, 24 Nov 2025 10:46:58 +0000
+Date: Mon, 24 Nov 2025 18:46:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Vishnu Saini <vishsain@qti.qualcomm.com>,
+	prahlad.valluru@oss.qualcomm.com,
+	Prahlad Valluru <vvalluru@qti.qualcomm.com>
+Subject: Re: [PATCH 1/2] arm64: dts: qcom: monaco: add lt8713sx bridge with
+ displayport
+Message-ID: <202511241826.Maela061-lkp@intel.com>
+References: <20251120-lt8713sx-bridge-linux-for-next-v1-1-2246fc5fb490@qti.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202511210055.RUsFNku1-lkp@intel.com> <DEE5GDTBSJ5O.KGQ3AG72NF30@nvidia.com>
- <aSAr-aA2U26lr3iI@google.com> <DEEEZRYSYSS0.28PPK371D100F@nvidia.com>
- <aSBy3HQ9Z-h2LbB8@google.com> <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
- <20251121143008.2f5acc33.gary@garyguo.net> <aSB623GKVDR2TBc3@google.com> <CANiq72kUk_R0HGbX4eW9iucCXergJqBBeutnh7cb8SNAzGjG+g@mail.gmail.com>
-Message-ID: <aSQ1VNuGHhFXYE2e@google.com>
-Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol: rust_build_error
-From: Alice Ryhl <aliceryhl@google.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Trevor Gross <tmgross@umich.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120-lt8713sx-bridge-linux-for-next-v1-1-2246fc5fb490@qti.qualcomm.com>
 
-On Fri, Nov 21, 2025 at 04:53:26PM +0100, Miguel Ojeda wrote:
-> On Fri, Nov 21, 2025 at 3:44=E2=80=AFPM Alice Ryhl <aliceryhl@google.com>=
- wrote:
-> >
-> > You say that this kind of thing would be a compiler bug, but I don't
-> > think the compiler devs folks would agree with us on that at all. I
-> > mean, sure, it's a bug in the sense that it's a missed optimization, bu=
-t
-> > it's not a correctness bug.
->=20
-> > I'm not advocating for adding unsafe blocks to skip bounds checks.
-> >
-> > And, fine, there are probably a few cases where it works reliably and
-> > has no real replacement. Such as the VTABLE_DEFAULT_ERROR check. But I
-> > do not think bounds checks are a place where it's a good idea.
->=20
-> There may be no guarantees, but it is a similar situation as for C
-> compilers in the kernel.
+Hi Vishnu,
 
-I don't think it is like that at all. We rely on non-guaranteed behavior
-for data races because we have no choice and we had extensive discussion
-about it with the compiler folks who are comfortable with us using that
-particular exception.
+kernel test robot noticed the following build errors:
 
-> Compilers can of course change behavior and have bugs and so on, and
-> thus avoiding to rely on it as much as possible is a good idea, but I
-> think it is a good idea to get build asserts reliably working as much
-> as possible for certain use cases. In particular, I don't see why
-> simple (local-enough) bounds checks cannot be one of those (it may not
-> be today, but it could).
->=20
-> Of course, the best would be to get the language to a point where it
-> supports this sort of thing natively. But that is a longer road.
->=20
-> And, in some situations, there may be no good alternative (i.e. const
-> eval / generics / macros may be too painful to apply), and thus people
-> may end up adding `unsafe` instead, which isn't great.
+[auto build test ERROR on 3c3d81183061b9e49dd3207fbbbc36314744bf3f]
 
-The difference is that someone adding unsafe to avoid a bounds check
-screams to the reviewers that something sketchy is going on. In
-comparison, drivers calling `Bounded::from_expr(_)` with a non-trivial
-expression looks like entirely normal code even though it might be
-relying on the precise and definitely subject-to-change details of when
-LLVM is choosing to inline various functions.
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishnu-Saini/arm64-dts-qcom-monaco-add-lt8713sx-bridge-with-displayport/20251120-190522
+base:   3c3d81183061b9e49dd3207fbbbc36314744bf3f
+patch link:    https://lore.kernel.org/r/20251120-lt8713sx-bridge-linux-for-next-v1-1-2246fc5fb490%40qti.qualcomm.com
+patch subject: [PATCH 1/2] arm64: dts: qcom: monaco: add lt8713sx bridge with displayport
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251124/202511241826.Maela061-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241826.Maela061-lkp@intel.com/reproduce)
 
-If const eval / generics / macros are too painful, then perform a
-runtime bounds check just like everyone who uses Rust outside of the
-kernel is doing.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511241826.Maela061-lkp@intel.com/
 
-> In addition, I think upstream probably wants to know about this sort
-> of this, i.e. sometimes the changes may be unintended (i.e. if we see
-> it changing in a new nightly) and they probably like to hear about
-> "obvious" optimizations not being applied, since they are potential
-> easy wins for them (or, rather, avoiding regressions), as Gary
-> mentions. That is also part of the value of building the kernel in
-> compiler CIs etc.
+All errors (new ones prefixed by >>):
 
-I do not at all think it's obvious that upstream would be happy about
-this, considering it comes with the serious trade-off of us relying on
-these optimizations happening.
+   Error: arch/arm64/boot/dts/qcom/monaco-evk.dts:413.1-6 Label or path mdss not found
+   Error: arch/arm64/boot/dts/qcom/monaco-evk.dts:417.1-10 Label or path mdss_dp0 not found
+   Error: arch/arm64/boot/dts/qcom/monaco-evk.dts:421.1-14 Label or path mdss_dp0_out not found
+   Error: arch/arm64/boot/dts/qcom/monaco-evk.dts:426.1-14 Label or path mdss_dp0_phy not found
+>> FATAL ERROR: Syntax error parsing input tree
 
-Alice
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
