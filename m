@@ -1,70 +1,59 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599AC8CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 08:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EA2BE5E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 08:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763972097; cv=none; b=YUZqKWq/v2Q+9tzJa6A6K+aCkS86Wps5zVzmziv9sfrsMJeVLDZWUGdZZe0Fpro/GB7iF/sDSUNAGD7QZ8IFG98XeFdMi8I2Dt4Z2iTfQmlITEWQiV3wwZcnmoA94kJhmTHpj1yAw/v32k2dm/y+I0RM/M0bJBcGOLyE7wt0Wpg=
+	t=1763972282; cv=none; b=AE3RUsFwrbw8UqHQttBJXx9hTEPFFegtkVSH+gsI7Q0ycNKMInYqsXA5Pld4Pjzu+kg/TqvAT/fDpf6XdXyRXo2sNj5o5DKHhdFYuD4laXWFtbYI2UkkGdcTmRwhdnPsHT9NNUsh7Ib6cqIDjDRHiRs3DbTgqxEECAbpxSbQaqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763972097; c=relaxed/simple;
-	bh=SaQ1F6nNaYjfU8wKuJDSOivziZ7XyPNEp/jfjI43gnU=;
+	s=arc-20240116; t=1763972282; c=relaxed/simple;
+	bh=o9ooNP1/9nZU32gUJhldbmZo59TyskIN8tPRe5NmiIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Ly1H+sz6Ex57+LUZGhAUn5pfkSSC3n+Zv90rLLGzudEotaA65AT7GFd4ev434QJrukYupOhGenMGV0hNkG2mhxPQXOuaOFWvSgD88kXoCYlRXIwvAWd3ZSHszqig2np8ExL9nQL6HoS+phy6mOdAhfdvdtH+koRc1ynyyejsrlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kj4wKKq9; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=MYuvIDq7g+RGUu+ykVTZM2yToQBO/EjRMtM/8EE45w9DohpCLO5vNaDYJaEcJordsD50Jc9N9IN75wQfrm9mvJ6tgtHfdcQcVymX8zST08RnHPb+reMlFVglicSoFP+NYDG8DYO9Gh0gOZGpao5SJI3W3eykP+bsUKuGUN1o2pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VR7cwpfy; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kj4wKKq9"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42b3377aaf2so2238234f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 00:14:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763972093; x=1764576893; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vtLDjsTRAO6VpgXgyjARdy73rxRwcIofjL8obKYSqVA=;
-        b=Kj4wKKq9UZam+pAuK0kc/0t7CkgQw+25vpCk5nYA5cvUkiBPWZt7JL9m3rHhLaWp5N
-         IfKVPsQZxULnsWFaAl2eBVQNN2hc5TI6qcE2C2+lvpw8PElC0Mv4JIOIi7vRi/izk9Hx
-         1AgLhQ+LQPkQcunHJ8oMF3XnhHicYqTke/UewCkGzuW5s3y7f6/58erN7hbTwcqJGS//
-         RsVzDqE3iy1NqLRGpNS2r3RbqWe9LMEQfC+BLBb9t5Q9qfmIPO1ahrsCx/T6kRp8Fana
-         pbTqPwAMxufgDIcYnX0P2vpp7gOFhxN2edPtQaQOz64YK0rcp3ZA65Iyj1pgXr2BrShE
-         WOIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763972093; x=1764576893;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vtLDjsTRAO6VpgXgyjARdy73rxRwcIofjL8obKYSqVA=;
-        b=rfWmJfyBWGhApmOWJrse6ssDxGWVPTVA52TfT52lxLP1o4aBfGoA1pFSzJARfnmao4
-         rpHLmOKW2ysUBDraepXxunuAfSN/x46OEtmpvHeeKfpsQGfMLGAN7fN1CK3TdKZ0Iasx
-         gaj1NNdihW/VDhOxG1kmBYheiLXYsWhZItH5Exf4b8WVkqVIwcR6JcA4twhm/Pxof5Fa
-         tgFMPHvSDkihVe8pQGYtxNFOKTLT/aQGAVRRDR9wy7f/zBwoqNW5sBrhvt5e9I43lri3
-         ODN4lpfUn7twZGznJ7NTsfYp60r1/egMBeK+Q+HKOc9RMqmxjHfA9wzvJAzm3F4f4C69
-         lQfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHfk0RGyqbUr7m8FiVONHTdW43MkupRhgLaF4beLoS3K41gejEc3vkR8qfSUaK0AG1XNgoxMAqZdw7XdVH@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx37VwGVfAatgmSE3ZEl5pRD7Zoqtr09BILCJz5mvy7XN90ZDXF
-	5yuB5ZhbtTeSpCfgpijC+9T3DQxJ34jUHkSGqG1HrgozleZJIeQe8NJE6efa2sRqUlk=
-X-Gm-Gg: ASbGncvZEYcVSTkqxlRaaVZ8LiF2vtLJsR+gGUmcw77w/acGn2XS+XdMrL1AOq6bCQd
-	98Dz6RvC98e6mEmBUo3VbnMTnu/4CruzVTkHnIybrUddXEGUxHjGUkKORybj5fCnC5t+iOhWhSO
-	v2k7dypVrgtsOByJexwXrRsj2LnBycTdVYGLlES8G+RbDD8UEkzdQgfkmIVrJrndsWjmyIthb6o
-	2dug95iXNdR71nMEXDPLSR/1aLp97wAez+7tcbPbPYfHBnKsepIS5VGunxWQBIhPTRlZnB0APAx
-	f0il3ezJ3aa/tcVvbCtcfY1iINUwrcPCyhElhu31sPdamFaDdCb1iKKLkEaweQnVHpZKsKGsB3V
-	U0adQWGWm4a5u9aLJ8fJzZJJBtrjdBgibjRDgWiIZzXAlXFJ6i7xkcDUgTtpjZGwuBK+E37XA23
-	9DzKZeQX5OPZnLYaqZ
-X-Google-Smtp-Source: AGHT+IE7JElKhz38ZIRYrFlgMyGvoHXk94gbncJ+AbHqFy96TF2SN64s1ckZnKcjnPw9Wryz9AfjyQ==
-X-Received: by 2002:a05:6000:1445:b0:42b:5448:7b06 with SMTP id ffacd0b85a97d-42cc1cbce56mr10856001f8f.13.1763972093335;
-        Mon, 24 Nov 2025 00:14:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fa35b7sm27248997f8f.20.2025.11.24.00.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 00:14:52 -0800 (PST)
-Date: Mon, 24 Nov 2025 11:14:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Luis Henriques <luis@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 3/3] fuse: implementation of the
- FUSE_LOOKUP_HANDLE operation
-Message-ID: <202511232052.lN8GzRFA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VR7cwpfy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763972281; x=1795508281;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o9ooNP1/9nZU32gUJhldbmZo59TyskIN8tPRe5NmiIs=;
+  b=VR7cwpfyfr88VU8dtjp1ApnAsicgQ8nhWqACt1Ir3f7u5YemvCuijqUJ
+   z8W8mVlNMq6zpeSDyBIBr2f7iFwIt4uc0d9ewA/y+8mcm914KlmCvf/Eu
+   VR+ShRKttAgQ3UXCzYHL5Ucu8Jy1fMlmpfBNoDLqoroOeWlc7GvedGSp1
+   Q499v7lqGM3uF+6z+JuwB19qqEwChrXJ5kFH7qRURZ7uXgmdjdBFz/2Wv
+   D1WHPNXYotxIRz1UT2J9h7rbxcGW9cogzMNQtEjwAZbI99lH1pRujwGdk
+   O6Kw4iTX16btvCydl8irMx6RJUCFSIrOGLxOIxBh2rfNCTV5IU185GDS1
+   A==;
+X-CSE-ConnectionGUID: z4vjnivIRiOO9+byMk0uaQ==
+X-CSE-MsgGUID: YqYYw4LAQs2cR48VbT0/QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="77439765"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="77439765"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 00:17:55 -0800
+X-CSE-ConnectionGUID: HYD5MaSvTRW9SeEZ5GeKgw==
+X-CSE-MsgGUID: jxLKsgnHSPenWqCNYDWtuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="192732494"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Nov 2025 00:17:53 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNRlf-000000000W5-18G9;
+	Mon, 24 Nov 2025 08:17:51 +0000
+Date: Mon, 24 Nov 2025 16:17:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: oe-kbuild-all@lists.linux.dev, Chanwoo Choi <cw00.choi@samsung.com>
+Subject: [chanwoo-extcon:extcon-testing 9/9]
+ drivers/extcon/extcon-s2m.c:15:10: fatal error: linux/mfd/samsung/s2mu005.h:
+ No such file or directory
+Message-ID: <202511241625.H8NSpB2S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,63 +62,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251120105535.13374-4-luis@igalia.com>
 
-Hi Luis,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Henriques/fuse-initial-infrastructure-for-FUSE_LOOKUP_HANDLE-support/20251120-190106
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
-patch link:    https://lore.kernel.org/r/20251120105535.13374-4-luis%40igalia.com
-patch subject: [RFC PATCH v1 3/3] fuse: implementation of the FUSE_LOOKUP_HANDLE operation
-config: s390-randconfig-r071-20251123 (https://download.01.org/0day-ci/archive/20251123/202511232052.lN8GzRFA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-testing
+head:   925e04713b380ad2b73ffcf2ece5ee1bfaa2689f
+commit: 925e04713b380ad2b73ffcf2ece5ee1bfaa2689f [9/9] extcon: add support for Samsung S2M series PMIC extcon devices
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20251124/202511241625.H8NSpB2S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241625.H8NSpB2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511232052.lN8GzRFA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511241625.H8NSpB2S-lkp@intel.com/
 
-smatch warnings:
-fs/fuse/inode.c:1198 fuse_encode_lookup_fh() warn: potential pointer math issue ('fh' is a 32 bit pointer)
+All errors (new ones prefixed by >>):
 
-vim +1198 fs/fuse/inode.c
+>> drivers/extcon/extcon-s2m.c:15:10: fatal error: linux/mfd/samsung/s2mu005.h: No such file or directory
+      15 | #include <linux/mfd/samsung/s2mu005.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1182  static int fuse_encode_lookup_fh(struct inode *inode, u32 *fh, int *max_len,
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1183  				 struct inode *parent)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1184  {
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1185  	struct fuse_inode *fi = get_fuse_inode(inode);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1186  	int total_len, len;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1187  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1188  	total_len = len = sizeof(struct fuse_file_handle);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1189  	if (parent)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1190  		total_len *= 2;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1191  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1192  	if (*max_len < total_len)
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1193  		return FILEID_INVALID;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1194  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1195  	memcpy(fh, &fi->fh, len);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1196  	if (parent) {
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1197  		fi = get_fuse_inode(parent);
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20 @1198  		memcpy((fh + len), &fi->fh, len);
 
-fh is a u32 pointer but len is in byte units so this is a pointer math
-bug.  It should be: memcpy((void *)fh + len, &fi->fh, len);
+vim +15 drivers/extcon/extcon-s2m.c
 
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1199  	}
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1200  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1201  	*max_len = total_len;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1202  
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1203  	/* XXX define new fid_type */
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1204  	return parent ? FILEID_INO64_GEN_PARENT : FILEID_INO64_GEN;
-c1c8bb9e0c6b30 Luis Henriques 2025-11-20  1205  }
+  > 15	#include <linux/mfd/samsung/s2mu005.h>
+    16	#include <linux/of.h>
+    17	#include <linux/platform_device.h>
+    18	#include <linux/power_supply.h>
+    19	#include <linux/regmap.h>
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
