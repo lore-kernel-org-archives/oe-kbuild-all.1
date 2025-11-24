@@ -1,72 +1,98 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E16F2F7ADF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 10:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A34A24A043;
+	Mon, 24 Nov 2025 10:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763978406; cv=none; b=dLC8zN0+W7StdfinWYtKgh/QRDuX9Zy7cN7nTPwPjF4/aNGq2fKGllfRnMmh30n1j8OJc08GaCCUb7244mP1Pd+JREhNXaax3RL4iutRBxd/BUrOABgjZ1bzqcGWr+TlxB4GWx0/kWu3M8C4n8cn2bR41l1Tnmwdwed4Wl+5X24=
+	t=1763978701; cv=none; b=e6OHgIW0BSYE2llyW3d/eTqqHe+FLanG6/38ClfOT+Sx39tIeiV0eQofFqy+4PZqfyblr8zvEO3wFUwUSxVGqGWxIRjSiyLUC5vZREEfTPlyyYhfJzKHV3rvzHzb1vCr81d4dYW8l2aTRCxfCh4l+ypalO/c4vq4DnrEhfrXvSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763978406; c=relaxed/simple;
-	bh=OhWCPGewPKbUWM/OVfpZhK5cG26GES8QSTtASqnjwFA=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
-	 Message-ID:Content-Type; b=vGoFe8imuyRF5SwSNEmFh+ADuu1WataXwUUPL131nNYBgnRrjAHj278oodBjYQer8Wodgi1obRmJ3tNhUm7ypUTJV+t7SN5oUrR43Wq/3+KOoIG//WRmp2MJC8ZMqVoxPssr3LS/Ct423/6hknrwee8cU2qg+1ImktBgAGvY/fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=b7rw5cH4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1763978701; c=relaxed/simple;
+	bh=OugCfz/qvZZOiB0DPe/fAHh+3Od4xnh9uePeSNANJ4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sKk9e/ak/5as6a7g6ZyU+x7mcOIfYQf6zdvzn2FGyCfVk47e+9c4oXx4e9mxW3AaEa3gHyqLwD5cr1mMe0EcpYL6Xw+JET4PEgYvGWpR685HAKQCYljbejtRJRfNFcMAdxw+XBDQqrustNm0pViVtHyIHXCGz63op7Fgwf9kJ88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIXPX4S9; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b7rw5cH4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1763978403;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OhWCPGewPKbUWM/OVfpZhK5cG26GES8QSTtASqnjwFA=;
-	b=b7rw5cH4uYx34s7GSJyYUdDHxVJuaQ9UJmgibrMZC3f8vw33d0i0SlT/Ytyi6fjyfkQNpT
-	lxRvNAtj20xZNss/c0I+S+Db5POKNMN6bqD6pqjhvlfeiPyezLtulhub8FO7lD+DrtjKVt
-	O4/YOVsrSeG+kWvBjXNs8Zut2oxQQ8o=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-358-nsjJbw0aNXiJXZNZrhF-2Q-1; Mon,
- 24 Nov 2025 05:00:02 -0500
-X-MC-Unique: nsjJbw0aNXiJXZNZrhF-2Q-1
-X-Mimecast-MFC-AGG-ID: nsjJbw0aNXiJXZNZrhF-2Q_1763978401
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 09FA41800451;
-	Mon, 24 Nov 2025 10:00:01 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.14])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 01CE93003761;
-	Mon, 24 Nov 2025 09:59:59 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <202511211850.JllIAy7x-lkp@intel.com>
-References: <202511211850.JllIAy7x-lkp@intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: dhowells@redhat.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [dhowells-fs:keys-pqc 5/8] make[4]: *** No rule to make target 'crypto/mldsa.o', needed by 'crypto/'.
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIXPX4S9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763978701; x=1795514701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OugCfz/qvZZOiB0DPe/fAHh+3Od4xnh9uePeSNANJ4g=;
+  b=hIXPX4S9W4UhhRYDPnHUmI2MmWzkdCjCnydsbsqZs1nSOBrVM6JdXimo
+   yZqm2v/0dWU1wrD9/E88Ab5kXCk9PKTlHrP03COBHXMRvWitdzebUi/QF
+   hXbO3qU+vdKF6M+6IijPfkbCQ4277sHU8SYzkLCDmBiXQ/hVhwCAlnD4I
+   CxZZzSGKipv8FPj80VZQynq6YkG8bKCptKbVZWPF4LN+zxmsGmHihD6+m
+   TQ9YpIHdEkKABhQaAq8c1PZ9yfmcWqPOJCRzLuKXGAXpUhbJmzx7OlVJM
+   0gNlYA7FyPO7/NBkzJeg78cyzEiMHG3mTqs8CQiR+EdYnq7lbngEramDN
+   Q==;
+X-CSE-ConnectionGUID: sZLDFXISTPugUTzlCXSqQQ==
+X-CSE-MsgGUID: WMw7nRS2RT6VRuC2zGDf8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65669157"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="65669157"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:05:00 -0800
+X-CSE-ConnectionGUID: /iv/yDxYT1eNfeuEVHlyhQ==
+X-CSE-MsgGUID: UaRwTaJ9Ts6R1T57f1qzWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="191450124"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 24 Nov 2025 02:04:58 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vNTRI-000000000aP-0uhW;
+	Mon, 24 Nov 2025 10:04:56 +0000
+Date: Mon, 24 Nov 2025 18:04:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Subject: [chanwoo-extcon:extcon-testing 9/9]
+ drivers/extcon/extcon-s2m.c:15:10: fatal error:
+ 'linux/mfd/samsung/s2mu005.h' file not found
+Message-ID: <202511241812.6tbQFtTJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 24 Nov 2025 09:59:58 +0000
-Message-ID: <3377502.1763978398@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GOmLWag2nzBgt3rvQL6KYXfv_b85C9qd3REmVV9zWJA_1763978401
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3377501.1763978398.1@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I forgot to git add the file to the patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-testing
+head:   925e04713b380ad2b73ffcf2ece5ee1bfaa2689f
+commit: 925e04713b380ad2b73ffcf2ece5ee1bfaa2689f [9/9] extcon: add support for Samsung S2M series PMIC extcon devices
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20251124/202511241812.6tbQFtTJ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251124/202511241812.6tbQFtTJ-lkp@intel.com/reproduce)
 
-David
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511241812.6tbQFtTJ-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+>> drivers/extcon/extcon-s2m.c:15:10: fatal error: 'linux/mfd/samsung/s2mu005.h' file not found
+      15 | #include <linux/mfd/samsung/s2mu005.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +15 drivers/extcon/extcon-s2m.c
+
+  > 15	#include <linux/mfd/samsung/s2mu005.h>
+    16	#include <linux/of.h>
+    17	#include <linux/platform_device.h>
+    18	#include <linux/power_supply.h>
+    19	#include <linux/regmap.h>
+    20	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
