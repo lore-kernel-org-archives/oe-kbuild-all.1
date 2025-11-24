@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189F4313279;
-	Mon, 24 Nov 2025 16:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8317A29993D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Nov 2025 17:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764003390; cv=none; b=AMDOVAzPQhOBpvvEcsgqvBh3qoDyDT4Xf7E3glysn5uxrUIdshMlWJ3wipY18Xcg1GHV5pZBTVRsJlSJHewQzVBIkZeT6Hf90LYrYeGAUkwKas0c9pgC+IfOy1EqP0gFs6z2IktQE67M7DpLilzBEqHTemr0P86omfmImFJ7y+M=
+	t=1764005852; cv=none; b=PsRDhmR4II1eH7911orjXQ2IccHwS4VAORvZkit5l1G+hbXSONHd/OXFiCfHulKCHOKU+dRq/ixrmZocORQPIcvNBKMLyozc1dd8+ZWOOJ1UdiHSRj+Ilhh+LvN/gdFl+fMDoL6faFHNCnLaZ51T9mpN0mEGsX3imv14DmlA0rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764003390; c=relaxed/simple;
-	bh=HwirAb/gLL+J5j3VximNgz6JNbZkPcvJA/jJoqA713A=;
+	s=arc-20240116; t=1764005852; c=relaxed/simple;
+	bh=h6O2RDHV0nCXL6F9JcQqQk+UcjUjL1E8vRTNtzSJ/Rc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hfArFKup/lwiGWNsE6f5OJXBFxejYeWhpDfXoNxff9scllH9DRRV/I8UeApjAFXhSC6LbqJUpsmdpsEjtfmGOj2D4HMk6qimMWN2NAUZPQOHI8GIIDMNnN+9XvXtsb72PGGUqb3mkP/jmhSzrEQlraGMiFFFZgY5r2hzy735mMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3vwICNh; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=THsM8PB9zspy22hloxl8eFxrSZTr+IbhSPK7Sv7fka3psAUmNW07MnK84HU8zFCNlKt2GSQ7jM8FVnNA18TyAJS8QMG7U/sU5Xs7UGT1GwBywHflE7yUshcY8/5GKNtsvGvL9/c6Aw0qLnEMIrfmJUHrQcxvRohR/baObew6c/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxIfSCGI; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3vwICNh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxIfSCGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764003388; x=1795539388;
+  t=1764005850; x=1795541850;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HwirAb/gLL+J5j3VximNgz6JNbZkPcvJA/jJoqA713A=;
-  b=P3vwICNhY6NS7rlUJtaCECGEWSHDAC60EgseXBvaKV+GuCCoNp8QV57E
-   9B9WNzOvj7cfum6JT96/85VS+QFkvG74KLTf+wCU7BvEjBfqwz+tZ25MF
-   v2O13cPwzGPQeWooqsbigQkw2NZmhF9RiD1abO/uQOmld4jwhKJkG60U0
-   yTHLU7bsy392ebeSvvHDi+3Xd+9y4DKeDw3Pq1YCfPloZhq202nGzqJ39
-   OtM6vjeyncIOl96jtSGCeKrT1EkZtKxKt5NJl0vo2TRRFW/w1mQ7L+sB5
-   uM8NhsJbJqmYDsqaj6APNMTTAtqfE5TzQryrF84NYIYf/dnjNjyf/YaBn
-   w==;
-X-CSE-ConnectionGUID: XIgJ+RPnSQS0pFTk8+ksdw==
-X-CSE-MsgGUID: BQtDr7gjR4iee0UtawmSTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="83397664"
+  bh=h6O2RDHV0nCXL6F9JcQqQk+UcjUjL1E8vRTNtzSJ/Rc=;
+  b=DxIfSCGIR1gBVAiPMZcqfO7/kmsXE+Ef5+Ar5z4NA/xBlsX8vd8G4vv8
+   RHtucg4QCNa8nEWkt3uQD3VhBOMnQsFLqVqPIh6Jmc+PgTLQ6YMzM+g+Q
+   nH2giPkE4hXfNmcM/IRcjB0WeLrYLIYkH0RgGwuBHuir/uckXad11t9Kp
+   FdtL5OLwgXVbW1hq8MjW/gBtCxjq/Wz26GPXNaOrJ5+6wK5zI9hbvR7cc
+   NKpvIu95s1Grq6eic8nJKfg9oujoh3BfaaQNYeRyQSVQwaLrpkISph5Sv
+   Kd/J+byS9Begg40B9lEgQtBWemDFLXmCMWzkg4dCEbgaZRCRRKr5Mfyqn
+   A==;
+X-CSE-ConnectionGUID: p/BRE8S/QwSUFwDQ9HNijA==
+X-CSE-MsgGUID: 2RCy+kJIRH2nOwgHlSGiow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66086649"
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="83397664"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 08:56:27 -0800
-X-CSE-ConnectionGUID: cTuJQOuKQZCYaFfbh5rctw==
-X-CSE-MsgGUID: 3p6sIwp1TnKTVOKdX0HNFw==
+   d="scan'208";a="66086649"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 09:37:30 -0800
+X-CSE-ConnectionGUID: M2MJ5NT/R/yo/sgVKVrjew==
+X-CSE-MsgGUID: r4cEKweDSRe8tcd4CntaTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,223,1758610800"; 
-   d="scan'208";a="196827974"
+   d="scan'208";a="193187542"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Nov 2025 08:56:27 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 24 Nov 2025 09:37:29 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNZrT-000000000vX-2mKC;
-	Mon, 24 Nov 2025 16:56:23 +0000
-Date: Tue, 25 Nov 2025 00:55:31 +0800
+	id 1vNaVC-000000000y5-3Tgj;
+	Mon, 24 Nov 2025 17:37:26 +0000
+Date: Tue, 25 Nov 2025 01:37:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [thesofproject:topic/sof-dev 3/12] sound/soc/sof/sof-client.c:282:3:
- error: cannot jump from this goto statement to its label
-Message-ID: <202511250019.JSR3t07S-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3309/3309]
+ drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable 'formats' is
+ used uninitialized whenever switch case is taken
+Message-ID: <202511250117.AjD77new-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,132 +63,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev
-head:   cdadd7263fb81b49fc509aed5f284b183c88337f
-commit: 9c64a0a3e4ce4e9f10ef3a088f4378415c493e2f [3/12] ASoC: SOF: Use guard()/scoped_guard() for mutex locks where it makes sense
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251125/202511250019.JSR3t07S-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250019.JSR3t07S-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   16b8586be5cdac465d2c81e7cdaffcc80384bfb7
+commit: 80764bc784413eb604c7d472db55b1ca72d4bbc5 [3309/3309] drm/loongson: add kernel modesetting driver support for ls7a1000/ls7a2000
+config: x86_64-buildonly-randconfig-001-20251124 (https://download.01.org/0day-ci/archive/20251125/202511250117.AjD77new-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250117.AjD77new-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511250019.JSR3t07S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511250117.AjD77new-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/sof/sof-client.c:282:3: error: cannot jump from this goto statement to its label
-     282 |                 goto err_dev_init;
-         |                 ^
-   sound/soc/sof/sof-client.c:297:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     297 |         guard(mutex)(&sdev->ipc_client_mutex);
-         |         ^
-   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:5:1: note: expanded from here
-       5 | __UNIQUE_ID_guard330
-         | ^
-   sound/soc/sof/sof-client.c:277:3: error: cannot jump from this goto statement to its label
-     277 |                 goto err_dev_add_data;
-         |                 ^
-   sound/soc/sof/sof-client.c:297:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     297 |         guard(mutex)(&sdev->ipc_client_mutex);
-         |         ^
-   include/linux/cleanup.h:401:15: note: expanded from macro 'guard'
-     401 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:5:1: note: expanded from here
-       5 | __UNIQUE_ID_guard330
-         | ^
-   2 errors generated.
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'lo32_addr_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:114:33: note: uninitialized use occurs here
+     114 |         writel(paddr, ldev->reg_base + lo32_addr_reg);
+         |                                        ^~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:77:19: note: initialize the variable 'lo32_addr_reg' to silence this warning
+      77 |         u32 lo32_addr_reg;
+         |                          ^
+         |                           = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'hi32_addr_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:115:48: note: uninitialized use occurs here
+     115 |         writel((paddr >> 32) & 0xFF, ldev->reg_base + hi32_addr_reg);
+         |                                                       ^~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:78:19: note: initialize the variable 'hi32_addr_reg' to silence this warning
+      78 |         u32 hi32_addr_reg;
+         |                          ^
+         |                           = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'val' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:120:9: note: uninitialized use occurs here
+     120 |         writel(val | CFG_PAGE_FLIP_BIT, ldev->reg_base + cfg_reg);
+         |                ^~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:80:9: note: initialize the variable 'val' to silence this warning
+      80 |         u32 val;
+         |                ^
+         |                 = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'cfg_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:120:51: note: uninitialized use occurs here
+     120 |         writel(val | CFG_PAGE_FLIP_BIT, ldev->reg_base + cfg_reg);
+         |                                                          ^~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:79:13: note: initialize the variable 'cfg_reg' to silence this warning
+      79 |         u32 cfg_reg;
+         |                    ^
+         |                     = 0
+>> drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable 'formats' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     444 |         case DRM_PLANE_TYPE_OVERLAY:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:451:12: note: uninitialized use occurs here
+     451 |                                        formats, format_count,
+         |                                        ^~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:429:20: note: initialize the variable 'formats' to silence this warning
+     429 |         const u32 *formats;
+         |                           ^
+         |                            = NULL
+   drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable 'format_count' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     444 |         case DRM_PLANE_TYPE_OVERLAY:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:451:21: note: uninitialized use occurs here
+     451 |                                        formats, format_count,
+         |                                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:428:27: note: initialize the variable 'format_count' to silence this warning
+     428 |         unsigned int format_count;
+         |                                  ^
+         |                                   = 0
+>> drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable 'name' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     444 |         case DRM_PLANE_TYPE_OVERLAY:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:453:18: note: uninitialized use occurs here
+     453 |                                        type, name, index);
+         |                                              ^~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:430:18: note: initialize the variable 'name' to silence this warning
+     430 |         const char *name;
+         |                         ^
+         |                          = NULL
+   7 warnings generated.
 
 
-vim +282 sound/soc/sof/sof-client.c
+vim +/formats +444 drivers/gpu/drm/loongson/lsdc_plane.c
 
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  253  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  254  int sof_client_dev_register(struct snd_sof_dev *sdev, const char *name, u32 id,
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  255  			    const void *data, size_t size)
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  256  {
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  257  	struct sof_client_dev_entry *centry;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  258  	struct auxiliary_device *auxdev;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  259  	struct sof_client_dev *cdev;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  260  	int ret;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  261  
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  262  	centry = kzalloc(sizeof(*centry), GFP_KERNEL);
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  263  	if (!centry)
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  264  		return -ENOMEM;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  265  
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  266  	cdev = &centry->client_dev;
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  267  
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  268  	centry->sdev = sdev;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  269  	auxdev = &cdev->auxdev;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  270  	auxdev->name = name;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  271  	auxdev->dev.parent = sdev->dev;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  272  	auxdev->dev.release = sof_client_auxdev_release;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  273  	auxdev->id = id;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  274  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  275  	ret = sof_client_dev_add_data(cdev, data, size);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  276  	if (ret < 0)
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  277  		goto err_dev_add_data;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  278  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  279  	ret = auxiliary_device_init(auxdev);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  280  	if (ret < 0) {
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  281  		dev_err(sdev->dev, "failed to initialize client dev %s.%d\n", name, id);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10 @282  		goto err_dev_init;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  283  	}
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  284  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  285  	ret = auxiliary_device_add(&cdev->auxdev);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  286  	if (ret < 0) {
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  287  		dev_err(sdev->dev, "failed to add client dev %s.%d\n", name, id);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  288  		/*
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  289  		 * sof_client_auxdev_release() will be invoked to free up memory
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  290  		 * allocations through put_device()
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  291  		 */
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  292  		auxiliary_device_uninit(&cdev->auxdev);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  293  		return ret;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  294  	}
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  295  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  296  	/* add to list of SOF client devices */
-9c64a0a3e4ce4e Peter Ujfalusi 2025-09-05  297  	guard(mutex)(&sdev->ipc_client_mutex);
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  298  	list_add(&centry->list, &sdev->ipc_client_list);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  299  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  300  	return 0;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  301  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  302  err_dev_init:
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  303  	kfree(cdev->auxdev.dev.platform_data);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  304  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  305  err_dev_add_data:
-075b7dd3e40a08 Peter Ujfalusi 2025-06-09  306  	kfree(centry);
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  307  
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  308  	return ret;
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  309  }
-cdd30ebb1b9f36 Peter Zijlstra 2024-12-02  310  EXPORT_SYMBOL_NS_GPL(sof_client_dev_register, "SND_SOC_SOF_CLIENT");
-6955d9512d0ea8 Peter Ujfalusi 2022-02-10  311  
-
-:::::: The code at line 282 was first introduced by commit
-:::::: 6955d9512d0ea814f1c2761bef7ad7b3cedf4d68 ASoC: SOF: Introduce IPC SOF client support
-
-:::::: TO: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+   420	
+   421	int lsdc_plane_init(struct lsdc_device *ldev,
+   422			    struct drm_plane *plane,
+   423			    enum drm_plane_type type,
+   424			    unsigned int index)
+   425	{
+   426		struct drm_device *ddev = ldev->ddev;
+   427		int zpos = lsdc_plane_get_default_zpos(type);
+   428		unsigned int format_count;
+   429		const u32 *formats;
+   430		const char *name;
+   431		int ret;
+   432	
+   433		switch (type) {
+   434		case DRM_PLANE_TYPE_PRIMARY:
+   435			formats = lsdc_primary_formats;
+   436			format_count = ARRAY_SIZE(lsdc_primary_formats);
+   437			name = "primary-%u";
+   438			break;
+   439		case DRM_PLANE_TYPE_CURSOR:
+   440			formats = lsdc_cursor_formats;
+   441			format_count = ARRAY_SIZE(lsdc_cursor_formats);
+   442			name = "cursor-%u";
+   443			break;
+ > 444		case DRM_PLANE_TYPE_OVERLAY:
 
 -- 
 0-DAY CI Kernel Test Service
