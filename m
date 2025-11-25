@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C182FB0BA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 21:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486703009ED
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 21:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764105623; cv=none; b=sHPCfSiaZ94AsNh2iFpXOMWrCRyQYevzJoTxWX7OUF3WwbUfHKdZPS0e2efX7BowBv9UGI91jIsbGd2q20DIYiQYuI8cPSK3gJVQtPNNLqTtYPx2F5zkJOdO7bfwdEZSTLxk4AoEjoHqVqjo50RpEPEiMV84oQ9fdqizUcZzfWA=
+	t=1764106221; cv=none; b=fFZbKoWJc8uAWwMOCHxRd0+fCQsc771PqReoTemHdtbpDPIkBMubW56SiL8/6i0Cl7PTXuH3HMsUlbovncUQ2Xu2KU2EuinXLTvjF0iJeD0wIqeyMx/VfZrMOlychVaMUz9li/LxWpxx2vW6LHwm+P1PpHOBH+mgXBs49x+/tRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764105623; c=relaxed/simple;
-	bh=3eMZ/MfM5RHhwJQ7d0IQHir4UVOOL7Et7y72tZ0G6FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JVhYqhuCk+u6TjU/h6m7u6qLGoRXO2M88NVQWTD76FMp2qIpJAGIKD+TEV+0IgB0/7g2OdQNzCwKUCD7Uz5yUK/DiLQwAHNQ1Hwu+9RmgdSBnbgT+t2UR54IkWhvgZJOtHoBy8IhbKsUFFjYq7LpwtLZMyOw5M9uycsoNAZME50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2YXELGz; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1764106221; c=relaxed/simple;
+	bh=osNQeslmy9yvSmaTVZBanrGvQpv6vm9gyif1bbdoDQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I50C5FtiDHryeZsEd3rxyesY3ESM++R57tGu110v4l8iWzgukLr/3aIrg3oTHqFIsyxfBk5qMv4zICo2xX2dYmfTJrziAsOTcCdcCPWXn53M7I75SiqRHU0s4Zc3MQdWYiTPMcbdKkZwHsOUiRsqVv15zvlhCxx3+dR/E3oX06o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmXXDfE8; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2YXELGz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmXXDfE8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764105622; x=1795641622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3eMZ/MfM5RHhwJQ7d0IQHir4UVOOL7Et7y72tZ0G6FI=;
-  b=i2YXELGzRtZ7aHkIjTp4sJk9J9MzR30dEN2JXL58s0wRAlnaR7V8juOJ
-   NeQ03em1sagRC1/BEXBwi3jBMzwfTdpY6qAP3KzTiIl1V9a5ltqLwC3Vf
-   uuf3nwm/ojmuukX5h1lSBgdskGEijFV+w1yQxbKKX5P3dpeKstByhxiNZ
-   8EhdsyoB/KlpfDOA15rXN55SqftFLXRgTaLPoM7RcSEwixvFm/X3kdcji
-   dRNtRYYH0Q/p3d5FbTuRo6p2u14lxhd36qWndQP/IK/e3khSPfD7FbmM+
-   bkReccy5XfA92XuAoy2w3SnJ1huWZ9RB7XFNfj8ndX56IJapwQ4CYlu/4
-   g==;
-X-CSE-ConnectionGUID: Hxcae8ZXQFqBtS1Ih0ZNbw==
-X-CSE-MsgGUID: 55X0JKOSQXK6Y9VeIzzQrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66167344"
+  t=1764106220; x=1795642220;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=osNQeslmy9yvSmaTVZBanrGvQpv6vm9gyif1bbdoDQo=;
+  b=fmXXDfE8s9cqnDAL8S3hv+8qgsKKVkLbktYey50k/VdUWWlMeAhnruPq
+   FA1Pb13g6fyEV566QQ/uTcXAGI39rAo29mMRPgHnbAoovaxASBG3MH3Wd
+   5OipX6VO3KaGE5bYAn+IbG1TkqyCs9oyaJDSdf5uOucKUJbtQ4ix5H0ZE
+   xRGhH3lTkMsL268sQ+gUWaO6DLZ9W/oFZ0ci5yFZjyOKr22coq1agVCok
+   0Vu0mKuR4RJNycBVKKVVvS301dGegJZ4UpPH5IXBDDut6GnCo4Tdp1OWi
+   6oMA9HhRqIifQro1Hm/30Ys2aZ3JCpjEoCMess/4SD44S07jjcmKKR7PM
+   w==;
+X-CSE-ConnectionGUID: FVD2tmb6T/+ppHhJ/LBzUg==
+X-CSE-MsgGUID: qpft0/bmQZm9TH2Tdgci7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65138116"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="66167344"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:20:21 -0800
-X-CSE-ConnectionGUID: +bze+cwnTKGwewcZ8/D4nA==
-X-CSE-MsgGUID: 24lLGtmWRNuYvDsvao4o3g==
+   d="scan'208";a="65138116"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:30:18 -0800
+X-CSE-ConnectionGUID: UMdOcix3Qz+3cZB17W9a0Q==
+X-CSE-MsgGUID: JfhDUIf7STeiCu6ekx6ODw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="196911755"
+   d="scan'208";a="192655084"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2025 13:20:16 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2025 13:30:17 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO0SM-000000002Gz-0eIn;
-	Tue, 25 Nov 2025 21:20:14 +0000
-Date: Wed, 26 Nov 2025 05:19:14 +0800
+	id 1vO0c2-000000002Hs-3Qlr;
+	Tue, 25 Nov 2025 21:30:14 +0000
+Date: Wed, 26 Nov 2025 05:29:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anirudh Raybharam <anirudh@anirudhrb.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	longli@microsoft.com, catalin.marinas@arm.com, will@kernel.org,
-	maz@kernel.org, tglx@linutronix.de, Arnd Bergmann <arnd@arndb.de>,
-	akpm@linux-foundation.org, agordeev@linux.ibm.com,
-	guoweikang.kernel@gmail.com, osandov@fb.com, bsz@amazon.de,
-	linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/3] arm64: hyperv: move hyperv detection earlier in boot
-Message-ID: <202511260546.RGx7vwyX-lkp@intel.com>
-References: <20251125170124.2443340-2-anirudh@anirudhrb.com>
+Subject: [norov:stack_magic 29/29] include/linux/kernel.h:30:10: fatal error:
+ linux/tracing.h: No such file or directory
+Message-ID: <202511260542.1Qe21bi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,95 +61,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125170124.2443340-2-anirudh@anirudhrb.com>
 
-Hi Anirudh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20251125]
-[also build test ERROR on v6.18-rc7]
-[cannot apply to arm64/for-next/core tip/irq/core arnd-asm-generic/master linus/master v6.18-rc7 v6.18-rc6 v6.18-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Raybharam/arm64-hyperv-move-hyperv-detection-earlier-in-boot/20251126-011057
-base:   next-20251125
-patch link:    https://lore.kernel.org/r/20251125170124.2443340-2-anirudh%40anirudhrb.com
-patch subject: [PATCH 1/3] arm64: hyperv: move hyperv detection earlier in boot
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251126/202511260546.RGx7vwyX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260546.RGx7vwyX-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux stack_magic
+head:   ba1a9217cab83b2001b2907b4357243251c3dfbc
+commit: ba1a9217cab83b2001b2907b4357243251c3dfbc [29/29] move tracing
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251126/202511260542.1Qe21bi2-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260542.1Qe21bi2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260546.RGx7vwyX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260542.1Qe21bi2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/mshyperv.h:66,
-                    from arch/arm64/kernel/setup.c:57:
->> include/asm-generic/mshyperv.h:326:38: error: return type is an incomplete type
-     326 | static inline enum hv_isolation_type hv_get_isolation_type(void)
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/mshyperv.h: In function 'hv_get_isolation_type':
->> include/asm-generic/mshyperv.h:328:16: error: 'HV_ISOLATION_TYPE_NONE' undeclared (first use in this function)
-     328 |         return HV_ISOLATION_TYPE_NONE;
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/mshyperv.h:328:16: note: each undeclared identifier is reported only once for each function it appears in
->> include/asm-generic/mshyperv.h:328:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
-   include/asm-generic/mshyperv.h:326:38: note: declared here
-     326 | static inline enum hv_isolation_type hv_get_isolation_type(void)
-         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+>> include/linux/kernel.h:30:10: fatal error: linux/tracing.h: No such file or directory
+      30 | #include <linux/tracing.h>
+         |          ^~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +326 include/asm-generic/mshyperv.h
+vim +30 include/linux/kernel.h
 
-7ad9bb9d0f357d Wei Liu                  2021-09-10  289  
-3817854ba89201 Nuno Das Neves           2025-03-14  290  #define _hv_status_fmt(fmt) "%s: Hyper-V status: %#x = %s: " fmt
-3817854ba89201 Nuno Das Neves           2025-03-14  291  #define hv_status_printk(level, status, fmt, ...) \
-3817854ba89201 Nuno Das Neves           2025-03-14  292  do { \
-3817854ba89201 Nuno Das Neves           2025-03-14  293  	u64 __status = (status); \
-3817854ba89201 Nuno Das Neves           2025-03-14  294  	pr_##level(_hv_status_fmt(fmt), __func__, hv_result(__status), \
-3817854ba89201 Nuno Das Neves           2025-03-14  295  		   hv_result_to_string(__status), ##__VA_ARGS__); \
-3817854ba89201 Nuno Das Neves           2025-03-14  296  } while (0)
-3817854ba89201 Nuno Das Neves           2025-03-14  297  #define hv_status_err(status, fmt, ...) \
-3817854ba89201 Nuno Das Neves           2025-03-14  298  	hv_status_printk(err, status, fmt, ##__VA_ARGS__)
-3817854ba89201 Nuno Das Neves           2025-03-14  299  #define hv_status_debug(status, fmt, ...) \
-3817854ba89201 Nuno Das Neves           2025-03-14  300  	hv_status_printk(debug, status, fmt, ##__VA_ARGS__)
-3817854ba89201 Nuno Das Neves           2025-03-14  301  
-3817854ba89201 Nuno Das Neves           2025-03-14  302  const char *hv_result_to_string(u64 hv_status);
-9d8731a1757bef Nuno Das Neves           2025-02-21  303  int hv_result_to_errno(u64 status);
-f3a99e761efa61 Tianyu Lan               2020-04-06  304  void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
-765e33f5211ab6 Michael Kelley           2019-05-30  305  bool hv_is_hyperv_initialized(void);
-b96f86534fa310 Dexuan Cui               2019-11-19  306  bool hv_is_hibernation_supported(void);
-a6c76bb08dc7f7 Andrea Parri (Microsoft  2021-02-01  307) enum hv_isolation_type hv_get_isolation_type(void);
-a6c76bb08dc7f7 Andrea Parri (Microsoft  2021-02-01  308) bool hv_is_isolation_supported(void);
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  309  bool hv_isolation_type_snp(void);
-20c89a559e00df Tianyu Lan               2021-10-25  310  u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size);
-d6e0228d265f29 Dexuan Cui               2023-08-24  311  u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2);
-3e1b611515d286 Tianyu Lan               2025-09-18  312  void hv_enable_coco_interrupt(unsigned int cpu, unsigned int vector, bool set);
-a156ad8c508209 Roman Kisel              2025-10-08  313  void hv_para_set_sint_proxy(bool enable);
-e6eeb3c782739c Roman Kisel              2025-10-08  314  u64 hv_para_get_synic_register(unsigned int reg);
-e6eeb3c782739c Roman Kisel              2025-10-08  315  void hv_para_set_synic_register(unsigned int reg, u64 val);
-765e33f5211ab6 Michael Kelley           2019-05-30  316  void hyperv_cleanup(void);
-6dc2a774cb4fdb Sunil Muthuswamy         2021-03-23  317  bool hv_query_ext_cap(u64 cap_query);
-37200078ed6aa2 Michael Kelley           2022-03-24  318  void hv_setup_dma_ops(struct device *dev, bool coherent);
-765e33f5211ab6 Michael Kelley           2019-05-30  319  #else /* CONFIG_HYPERV */
-db912b8954c23a Nuno Das Neves           2025-02-21  320  static inline void hv_identify_partition_type(void) {}
-765e33f5211ab6 Michael Kelley           2019-05-30  321  static inline bool hv_is_hyperv_initialized(void) { return false; }
-b96f86534fa310 Dexuan Cui               2019-11-19  322  static inline bool hv_is_hibernation_supported(void) { return false; }
-765e33f5211ab6 Michael Kelley           2019-05-30  323  static inline void hyperv_cleanup(void) {}
-f2580a907e5c0e Michael Kelley           2024-03-18  324  static inline void ms_hyperv_late_init(void) {}
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  325  static inline bool hv_is_isolation_supported(void) { return false; }
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25 @326  static inline enum hv_isolation_type hv_get_isolation_type(void)
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  327  {
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25 @328  	return HV_ISOLATION_TYPE_NONE;
-0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  329  }
-765e33f5211ab6 Michael Kelley           2019-05-30  330  #endif /* CONFIG_HYPERV */
-765e33f5211ab6 Michael Kelley           2019-05-30  331  
+    13	
+    14	#include <linux/stdarg.h>
+    15	#include <linux/align.h>
+    16	#include <linux/array_size.h>
+    17	#include <linux/limits.h>
+    18	#include <linux/linkage.h>
+    19	#include <linux/stddef.h>
+    20	#include <linux/types.h>
+    21	#include <linux/compiler.h>
+    22	#include <linux/container_of.h>
+    23	#include <linux/bitops.h>
+    24	#include <linux/hex.h>
+    25	#include <linux/kstrtox.h>
+    26	#include <linux/log2.h>
+    27	#include <linux/math.h>
+    28	#include <linux/minmax.h>
+    29	#include <linux/typecheck.h>
+  > 30	#include <linux/tracing.h>
+    31	#include <linux/panic.h>
+    32	#include <linux/printk.h>
+    33	#include <linux/build_bug.h>
+    34	#include <linux/sprintf.h>
+    35	#include <linux/static_call_types.h>
+    36	#include <linux/instruction_pointer.h>
+    37	#include <linux/util_macros.h>
+    38	#include <linux/wordpart.h>
+    39	
 
 -- 
 0-DAY CI Kernel Test Service
