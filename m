@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC0118DB1E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6971FDE01
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 13:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764074445; cv=none; b=WC8KUV2K6kT8bzfltympa+pnGLs+Qe2P+JR2suL76W/H5m+/vELXkB5gHn7O9FmW30VzohTnMmHTxxTdKKmY7rlO9sFCeZ78x1BMvTree3ogy5Jd+p60hovlrqHWOwRltz3JxAJIN3ZptnpXHFjXvYH5ixLOjqHJt+fWyvtbv2Y=
+	t=1764078169; cv=none; b=u2PKqhyvjSRM2l40Qj19Iwj1uD7rW5oid3r7KGaEWBAvbTTfNyYhTOXxK7GE1bT2pW0BqzXcy3G/u0SSixMfMY7Fg7mygsW9kNGWfxwq84SxEc9Ir069v1f5M7oB2jF0UgKOhGi9vf0TY+0lqPGJHedc8n52pfjeRRM6JDVBvhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764074445; c=relaxed/simple;
-	bh=HcWpqPEfD5umDhSDKe1rwPKcqspd9/5JZEjCOu+f+QE=;
+	s=arc-20240116; t=1764078169; c=relaxed/simple;
+	bh=dlhtpD2PGaMTjtg40oRdcJgd/WynGmZRX4mvD4ps0hE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TAeWxPUT30K11vpo9HogWwB1I+CCqvNrHEzFPm+u6/1UeDAEMYn+AUFyfzCmJClePvYOrNt07UYqqdR0uWc4enWzglHHueEyqNtb5NHBkb52aJzNEUgSXkoi++VImpBiei9MVHs8yiELXcal/8sGSpZ8dk4M2ucke5/efwvnwrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIBavgih; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=FfO5LzI9s0MGiIG5rH8klYQzwFi9PGOdO1fK3MOEwMcrcTG67rTMG+/5cOnMIcfSPIaCIHuhfNEPbyA8dD0a11Lq/GhGClCvmKDIPSqcPOEkwVdzZ3/BKDpvo9M6Oe3sJuQAgBUszs9qIP3O6dIPJ+bKCKQL2lgyi79/ClG4rJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SVfPR5bo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIBavgih"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SVfPR5bo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764074444; x=1795610444;
+  t=1764078166; x=1795614166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HcWpqPEfD5umDhSDKe1rwPKcqspd9/5JZEjCOu+f+QE=;
-  b=OIBavgihuwgqU2CV3Vdwa7HD3iIxbTaSAL0xQr+AZ4rmVw+cppaGWd0r
-   BUnOPJ5BNL3c3ACUvXSdwBx1T6q0Lm/7dTyHV7SlQSAysCPHasFP2vJX+
-   s/vxCRSbpby2sVWBgU28ErAiSjRa/Piwssh9ICK/VCseI0VXGHjzTAEy7
-   fW81Oy4+25Sny2VfNRuF8w0FKX6A9EA2L9gZJh5b2XWji52ebUbDoBkyH
-   dqZnYM5CeiOY4jRu/KI8CylNKCW8rwOdBu8dp/s+hEucW4YQEYYSF6fRs
-   jWq7aNysenC7eIUwreWZ9tIsFUdP4RFOAZPBzNpWIBXCODrKERNykgRfB
+  bh=dlhtpD2PGaMTjtg40oRdcJgd/WynGmZRX4mvD4ps0hE=;
+  b=SVfPR5bo6QCM7urQWvMwVdK0De8ZE8lbvDVzn2VNxidtIdaSNuOcZka8
+   fm8NTJFf+HCGLfSFGxqAON1r2Wg2xVRQNC6vsM8KZXi821yS08pzy7+Y8
+   dM2jaa4OEfrd8MS+obiNQZLL9yYlCcbtnd/whX/j+I9utpMahuJAXoAqL
+   yDbyJNexbYeO0cGmIUe2vPFCQy+3RVPS/Y7Hk2lPdM3eppYGf9hOsUl5v
+   u4B4c0enn4soxrfLtf6/bnoB0SOjjU67qiAx8LhlpcfiE4nVbz/h3aYA3
+   0Y0Ec4jempDOhOugMtvDy+eLcbctd3+3MAG+jkRbeURjew3u/9SlV72PC
    A==;
-X-CSE-ConnectionGUID: 3JiI4Q8XR3OPAHQWCHUMHA==
-X-CSE-MsgGUID: hWm7TIDZQAa1HK+2LZyK9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="69716287"
+X-CSE-ConnectionGUID: uE7RTa7eRqORtZqawJ8aGA==
+X-CSE-MsgGUID: DxJz+lyGS9y0DeOh1wC6IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="88746593"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="69716287"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:40:44 -0800
-X-CSE-ConnectionGUID: nk3NscyLS3KaUpsFwXolrw==
-X-CSE-MsgGUID: /+3yUfEbSDu1Yhu04DURJQ==
+   d="scan'208";a="88746593"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 05:42:45 -0800
+X-CSE-ConnectionGUID: ARzgve/YTNOQt3CSWI0Kxw==
+X-CSE-MsgGUID: zno5Ht+JT8ab1uNXwtUngQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="192863177"
+   d="scan'208";a="223318848"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Nov 2025 04:40:42 -0800
+  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 05:42:46 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNsLX-000000001mh-32Cs;
-	Tue, 25 Nov 2025 12:40:39 +0000
-Date: Tue, 25 Nov 2025 20:40:03 +0800
+	id 1vNtJc-000000001pM-10Y4;
+	Tue, 25 Nov 2025 13:42:44 +0000
+Date: Tue, 25 Nov 2025 21:42:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: error[E0609]: no field `data` on type `bindings::of_device_id`
-Message-ID: <202511252003.dkoqEyZq-lkp@intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:old-ucode-platform 2/6]
+ include/linux/../../arch/x86/include/asm/intel-family.h:5:10: fatal error:
+ asm/vfm.h: No such file or directory
+Message-ID: <202511252103.vQT88U4a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +63,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
-commit: ce735e73dd59b169b877cedd0753297c81c2a091 rust: auxiliary: add auxiliary device / driver abstractions
-date:   7 months ago
-config: loongarch-randconfig-r061-20251125 (https://download.01.org/0day-ci/archive/20251125/202511252003.dkoqEyZq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511252003.dkoqEyZq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git old-ucode-platform
+head:   13bb70ba267344f42129e7942104f056d44389b5
+commit: 61c21b2d8b57e9b2d48b774618c1bd19ce7a3a59 [2/6] x86/cpu: Add missing #include
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20251125/202511252103.vQT88U4a-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511252103.vQT88U4a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511252003.dkoqEyZq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511252103.vQT88U4a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0609]: no field `data` on type `bindings::of_device_id`
-   --> rust/kernel/of.rs:22:85
-   |
-   22 |     const DRIVER_DATA_OFFSET: usize = core::mem::offset_of!(bindings::of_device_id, data);
-   |                                                                                     ^^^^
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `data` on type `bindings::of_device_id`
-   --> rust/kernel/of.rs:25:16
-   |
-   25 |         self.0.data as _
-   |                ^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `compatible` on type `bindings::of_device_id`
-   --> rust/kernel/of.rs:40:16
-   |
-   40 |             of.compatible[i] = src[i] as _;
-   |                ^^^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   In file included from include/linux/peci-cpu.h:33,
+                    from drivers/hwmon/peci/cputemp.c:11:
+>> include/linux/../../arch/x86/include/asm/intel-family.h:5:10: fatal error: asm/vfm.h: No such file or directory
+       5 | #include <asm/vfm.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
+
+
+vim +5 include/linux/../../arch/x86/include/asm/intel-family.h
+
+     4	
+   > 5	#include <asm/vfm.h>
+     6	
 
 -- 
 0-DAY CI Kernel Test Service
