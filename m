@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC63F31B805
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C91231B822
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764072461; cv=none; b=Y3/+qPWTdrhp7muVBJCw/twWgh/5XAvvWImN6lTFy/SYPklZYCbXYTAX0wxKHwr0BUI1w1zMm7czUoiViBPo/RpVXCR5lCol9ZG/uI10LkCFC/jnhUGRFPGlnOgDfYwPJFHngf7YgkUGXICwqwBbwHG4jquiM1i+u70uORlDT1o=
+	t=1764072463; cv=none; b=irztYOimt7tOJLyH5Pl9WrrjxTRkos1LTYentnAvIc4eCycQU1NT8uyRk0iluJWICwBELTpdavxuVct2NWW1JxcKQW0KcNgjs4QloO1HK4UBzGDogky8C/XPTk2zTGpXksJ5zQN01OtXQsauC+KjoZrJ3yMksNnoB1PdzgxsEWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764072461; c=relaxed/simple;
-	bh=HUS/hr9rsdoWkE1iQlqgvgKg8CJAzkBfucNFF0L6nxQ=;
+	s=arc-20240116; t=1764072463; c=relaxed/simple;
+	bh=q689SXFSw+bA8HlC6pV07sXZDiD6ipRkxdVqiqUwJ4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gIRp+xErqmpaCtBcpEASWjHpePEi9DcBxrDW8+98tLg0txG5m/dhbkh8IcS6iB37GSc6eh+/Jr40I8rRDwomsm+rsGLwP4uqspDz33x1E+md+qzkEhNkmJCNuA6vMnSifEWQdlv40su/e9O6mo8Al9ZCic2Mg75AmDISpPD0880=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFsbLPaV; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=W8dSFvgKwlv04sAweFA74yQX9DxdQuZjn/066cgXmeqbzIlVHPgLTXX5QsXGdb/bEUtM7Lz5YVcjmcXoOt2LwOf6wF0ysI6PtXGAAC6tknbi9fEGOuBzXamNZHszJiRjUqqOMH14CZEkFwGP8G/FrQiN6eDShdYeR70toZLuQhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/iRha45; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFsbLPaV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/iRha45"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1764072460; x=1795608460;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HUS/hr9rsdoWkE1iQlqgvgKg8CJAzkBfucNFF0L6nxQ=;
-  b=HFsbLPaVEYU4eJjfK6CrkMD/KYUYbocz89x0nwOXyBt8rfJjdHQHU3dj
-   Rkp0HGDHRBrYKKss/h7YZ80UDjt5cMt+De/GpZyTUKik0t2NYzuYTmnlZ
-   bh1FLR0vOl/pOKPc8KvXZcBNxwgaY/6ygvSCwYohKte4zqIklcb145jtY
-   +aj4TDgurGRu77B5ezlHg0TzNfYWag/owR1yJoUWHHhYX5UuNJ4rYOkjj
-   8uACz/KnZTS2UMQlmMh227icpoIhSkpt2FQ3GwassBfp9Vn8KdKSTWlPp
-   mfatwqhtr9OxsA6WvvpNpTr/Er4ICf/4dkN/e1/reFGEIjmFs10u2poFw
-   w==;
-X-CSE-ConnectionGUID: FJn1TPvRT/KKoZM0k0Ysmw==
-X-CSE-MsgGUID: bnvaDTXtTyOYE/41izoi6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76711206"
+  bh=q689SXFSw+bA8HlC6pV07sXZDiD6ipRkxdVqiqUwJ4M=;
+  b=l/iRha45UcWX3RQp/4UqTGWveatbmBWPcu3wNonBFlqLtD/93OUcWXc9
+   PJ5eE3VhBgp59ErYepAmiBQ0WJwC9LeX6ssI/MPtqVc7lW0vzbw5+S/Oe
+   Ku+egzaI619gnq0nIxlAoc1mUqyo8gwZ0Y8ZB1Sja7QjqCnbnizQ22orJ
+   cHMdkkXaASAZvNHyzNgqYdAmAwHes5ozNnI/oLYBqjzttjmcYE5m++Q4O
+   r+1Novf0OORSFAcX5N2Ca6gQlcEo56sPOGuoxDh0uoeyqAWBoYkRkxGqB
+   HxucrYnf8aLiIw3p7vprydvlktk78hl7TCtLUpd2DsRKyfOoeZMatSFsL
+   Q==;
+X-CSE-ConnectionGUID: uZvQmZCZRYG3mtxWXr53RA==
+X-CSE-MsgGUID: vaOK4BivSXOnHQH6xQgUNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="65271995"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="76711206"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:07:39 -0800
-X-CSE-ConnectionGUID: wexZ6oseTpmjaSmPZZY6qQ==
-X-CSE-MsgGUID: W8gUzuhESsusJd2JbHwFhQ==
+   d="scan'208";a="65271995"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:07:40 -0800
+X-CSE-ConnectionGUID: /s/cz45zT+GU7ULFey3eIg==
+X-CSE-MsgGUID: ymqzsSV7THOX23ZbkP/oaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="192617431"
+   d="scan'208";a="223297134"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2025 04:07:38 -0800
+  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 04:07:39 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNrpX-000000001lE-3hTa;
+	id 1vNrpX-000000001lI-3oDB;
 	Tue, 25 Nov 2025 12:07:35 +0000
-Date: Tue, 25 Nov 2025 20:06:53 +0800
+Date: Tue, 25 Nov 2025 20:06:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:stack_magic 31/31] include/linux/tracing.h:168:8: error:
- extra tokens at end of #endif directive
-Message-ID: <202511251955.fqALPBb8-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3316/3316] kernel/xsched/core.c:497:12: warning:
+ no previous prototype for 'xsched_sched_init'
+Message-ID: <202511251921.jfyR52m4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux stack_magic
-head:   4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa
-commit: 4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa [31/31] add tracing.h
-config: powerpc-randconfig-001-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251955.fqALPBb8-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251955.fqALPBb8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c1bc27c0f90c1e34d319455cb1e28b2705987616
+commit: 832ec54e11a079d968d8f23780ab455b1537b214 [3316/3316] xsched: Add xsched RT class
+config: x86_64-buildonly-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251921.jfyR52m4-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251921.jfyR52m4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251955.fqALPBb8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511251921.jfyR52m4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from lib/test_bitops.c:10:
-   In file included from include/linux/module.h:18:
-   In file included from include/linux/kmod.h:9:
-   In file included from include/linux/umh.h:4:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:8:
-   In file included from include/linux/spinlock.h:56:
-   In file included from include/linux/preempt.h:79:
-   In file included from arch/powerpc/include/asm/preempt.h:5:
-   In file included from include/asm-generic/preempt.h:5:
-   In file included from include/linux/thread_info.h:60:
-   In file included from arch/powerpc/include/asm/thread_info.h:13:
-   In file included from arch/powerpc/include/asm/page.h:11:
-   In file included from include/linux/kernel.h:34:
->> include/linux/tracing.h:168:8: error: extra tokens at end of #endif directive [-Werror,-Wextra-tokens]
-     168 | #endif _/* _LINUX_TRACING_H */
-         |        ^
-         |        //
-   1 error generated.
+   kernel/xsched/core.c:189:5: warning: no previous prototype for 'xsched_xse_set_class' [-Wmissing-prototypes]
+     189 | int xsched_xse_set_class(struct xsched_entity *xse)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> kernel/xsched/core.c:497:12: warning: no previous prototype for 'xsched_sched_init' [-Wmissing-prototypes]
+     497 | __init int xsched_sched_init(void)
+         |            ^~~~~~~~~~~~~~~~~
+--
+>> kernel/xsched/rt.c:207:6: warning: no previous prototype for 'rq_init_rt' [-Wmissing-prototypes]
+     207 | void rq_init_rt(struct xsched_cu *xcu)
+         |      ^~~~~~~~~~
+>> kernel/xsched/rt.c:218:6: warning: no previous prototype for 'xse_init_rt' [-Wmissing-prototypes]
+     218 | void xse_init_rt(struct xsched_entity *xse)
+         |      ^~~~~~~~~~~
+>> kernel/xsched/rt.c:228:6: warning: no previous prototype for 'xse_deinit_rt' [-Wmissing-prototypes]
+     228 | void xse_deinit_rt(struct xsched_entity *xse)
+         |      ^~~~~~~~~~~~~
 
 
-vim +168 include/linux/tracing.h
+vim +/xsched_sched_init +497 kernel/xsched/core.c
 
-   167	
- > 168	#endif _/* _LINUX_TRACING_H */
+   496	
+ > 497	__init int xsched_sched_init(void)
 
 -- 
 0-DAY CI Kernel Test Service
