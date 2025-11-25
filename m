@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F6027B34F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 22:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66231F5EA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 22:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764108802; cv=none; b=GYYMzU1LsVwoyKXePNnb9OjnOxU5wjv50jvNnhyEddCZptbvi9IMj1/LeIfdH8bDUffcsw2QTtIH5vX8t1RX505juQV51Eozyxa5o+XDwNyh8D3IzLFQxqbdQD63b3E7pL0Z3djcdjp3keRxE7JyJUggKLXgmo4kRWem8Z/mulo=
+	t=1764109462; cv=none; b=jyJvoXlOjVhTGaHXCqA5ccdm4yaagnFSOPd+2q1W2KAkGvwQs9UFzxMK87PDysWaUnm28jzoBummtuEDrarX09ciM55AOcbpr7glJVm/1D6DKIhVBsPHlV5fpHCEnB4vjr5ys/LgbQ7Oez8sHIIojtXfv9EPKJ9MlQe39hU2O/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764108802; c=relaxed/simple;
-	bh=o7lmEc/4jUcAeBvbJO0WlkOJKci8haL71Rt2PHUUsFE=;
+	s=arc-20240116; t=1764109462; c=relaxed/simple;
+	bh=u1JrTW2IWW9xQuoP5r2uizApYf4YpWX7k7KQzpL5oa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZsuumWxzCkqHA89O6rCH3gqO3jo+QYqBR1fWplyhsKrIMwwUjZ4HpESYnRGXbjvNZcLD7pTaKa4JEi4KG3UfaxRQlzHyQk0jP1HtVwH7ISuGq47goGe/XOOvEjX8VGBv0XG4QVMbtlUwyrC5YbG+cTOYGpqSpodRYsaCAKKsLrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIIZo3hB; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Bnuk1lV5WzVI0tDhyUPNrK8TzZYj6IXkhf7GvA/UubIJtQsWeF/zjgIX003qm/2enOYE6ixNCKvLet5sS/7wBsvypiEQOVxtwYrNlk57K3d3+KA6R0FCeH57//YonL540wE10KR78r3X9hAQ7K28e8L6YzRN4ncxX1zbdhh7BPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8YkhId4; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIIZo3hB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8YkhId4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764108800; x=1795644800;
+  t=1764109461; x=1795645461;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o7lmEc/4jUcAeBvbJO0WlkOJKci8haL71Rt2PHUUsFE=;
-  b=AIIZo3hBAknnBXX1MkNhu0uBKttBIKqtvChYkRUJTXcI/b8hXPqAnKyA
-   0fo1uApDu1FFiEjFrv8tmbCV4RiakIcQ+WjhW6mt1lrYD06TqGEs1EMbJ
-   qU9QWDoHv+w1uA4ivuS1BrP6W/yR0I81MorkXQeL8sHxIG+MBoybjMFbu
-   uLEjHApIV+wOKlzkwYt5ESluSap12A2gFuHSlzn60wMJPa6iwcfqCSyf8
-   VF7LPaajV5Y/mlmd5kZh8wZXEVHfBApXjDmHxlu5L10Dd7HjWJNmpFHqx
-   sVMQlyQtIU4rXsjRzkwHOpM6vY8vKG9l5iYqsGBC1Ty4uEcRQ6iClyW11
+  bh=u1JrTW2IWW9xQuoP5r2uizApYf4YpWX7k7KQzpL5oa4=;
+  b=g8YkhId4lubaPJID53ztPkQJ3LyW7pV2eK76vWBHC11Ns6rsqhNS9VpU
+   SupTxC1YCPW9S9X9lEJ9F8QmghD6F7nh0uJDjuadHAlVNSgsW76/1L87g
+   zMtPMFWrNFx3nlFV64Aj/4+i11bpYSjMC5Lpw70dNYO/HetCUIvB/wjTB
+   2bA7/3kOwnadQnJC577xzro5dR0sJ/Slt8eieYE3FoR1jBWJbQ+TawwBC
+   RgtHv9rwXFuB49+9epbbkeKoZ0gRMAbtWwHVI5RgmoTQabCoNZJVr+ASF
+   2gTma6HyWe1+ecx6k9kC0OSLmGOijlNYLRDJKHC19Sodo+JumTTB+tjpw
    A==;
-X-CSE-ConnectionGUID: 36T9kHoXQCiIIIIv/t0Itg==
-X-CSE-MsgGUID: q/byB/QtRdm8lHvZCtf9VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65846703"
+X-CSE-ConnectionGUID: I+GLDF7lSFmwX2gOBbGu+Q==
+X-CSE-MsgGUID: ba5v12KJRBe+w0budJ08LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83749069"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="65846703"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 14:13:19 -0800
-X-CSE-ConnectionGUID: uvxPIyRPSFGKdG2jirETvQ==
-X-CSE-MsgGUID: II87BWhkR7ChsvsPWbdsAg==
+   d="scan'208";a="83749069"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 14:24:20 -0800
+X-CSE-ConnectionGUID: t6GYWIAiSceWh4JCIlovFA==
+X-CSE-MsgGUID: 8ssHDMaWQqWozYv0o6d3BQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="192773020"
+   d="scan'208";a="197083324"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2025 14:13:19 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2025 14:24:19 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO1Hg-000000002JR-0UvU;
-	Tue, 25 Nov 2025 22:13:16 +0000
-Date: Wed, 26 Nov 2025 06:12:35 +0800
+	id 1vO1SK-000000002Jp-3Iiy;
+	Tue, 25 Nov 2025 22:24:16 +0000
+Date: Wed, 26 Nov 2025 06:23:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 189/189]
- include/linux/compiler_types.h:309:45: error: call to
- '__compiletime_assert_494' declared with attribute error: clamp() low limit
- source_min greater than high limit source_max
-Message-ID: <202511260638.SstSYd3z-lkp@intel.com>
+To: Siva Reddy Kallam <siva.kallam@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
+	Usman Ansari <usman.ansari@broadcom.com>
+Subject: [rdma-rdma:wip/leon-for-next 38/54]
+ drivers/infiniband/hw/bng_re/bng_fw.c:278:9: error: implicit declaration of
+ function 'prefetch'
+Message-ID: <202511260607.Kuxn4NnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,72 +64,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   6dfc5d5f147fda6ad0ca4cb880fc8bcb466d1775
-commit: 530278140b21c18bf53392ce59ee2f46b094286b [189/189] minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
-config: x86_64-buildonly-randconfig-006-20251125 (https://download.01.org/0day-ci/archive/20251126/202511260638.SstSYd3z-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260638.SstSYd3z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
+head:   4022c7b6342a4d9a97e1e974e27efca95e79ed20
+commit: 23669ca628b3c39dc3cc43a5b4b93b4b5ab4d58c [38/54] RDMA/bng_re: Add infrastructure for enabling Firmware channel
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20251126/202511260607.Kuxn4NnN-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260607.Kuxn4NnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260638.SstSYd3z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260607.Kuxn4NnN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/gpu/drm/i915/display/intel_panel.c: In function 'scale':
->> include/linux/compiler_types.h:309:45: error: call to '__compiletime_assert_494' declared with attribute error: clamp() low limit source_min greater than high limit source_max
-     309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:290:25: note: in definition of macro '__compiletime_assert'
-     290 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:309:9: note: in expansion of macro '_compiletime_assert'
-     309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:109:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     109 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:116:9: note: in expansion of macro '__clamp_once'
-     116 |         __clamp_once(val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |         ^~~~~~~~~~~~
-   include/linux/minmax.h:192:28: note: in expansion of macro '__careful_clamp'
-     192 | #define clamp(val, lo, hi) __careful_clamp(val, lo, hi)
-         |                            ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_panel.c:479:22: note: in expansion of macro 'clamp'
-     479 |         source_val = clamp(source_val, source_min, source_max);
-         |                      ^~~~~
+   drivers/infiniband/hw/bng_re/bng_fw.c: In function 'bng_re_creq_irq':
+>> drivers/infiniband/hw/bng_re/bng_fw.c:278:9: error: implicit declaration of function 'prefetch' [-Wimplicit-function-declaration]
+     278 |         prefetch(bng_re_get_qe(hwq, sw_cons, NULL));
+         |         ^~~~~~~~
 
 
-vim +/__compiletime_assert_494 +309 include/linux/compiler_types.h
+vim +/prefetch +278 drivers/infiniband/hw/bng_re/bng_fw.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  295  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  296  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  297  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  298  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  299  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  300   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  301   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  302   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  303   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  304   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  305   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  306   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  307   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  308  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @309  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  310  
-
-:::::: The code at line 309 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   266	
+   267	static irqreturn_t bng_re_creq_irq(int irq, void *dev_instance)
+   268	{
+   269		struct bng_re_rcfw *rcfw = dev_instance;
+   270		struct bng_re_creq_ctx *creq;
+   271		struct bng_re_hwq *hwq;
+   272		u32 sw_cons;
+   273	
+   274		creq = &rcfw->creq;
+   275		hwq = &creq->hwq;
+   276		/* Prefetch the CREQ element */
+   277		sw_cons = HWQ_CMP(hwq->cons, hwq);
+ > 278		prefetch(bng_re_get_qe(hwq, sw_cons, NULL));
+   279	
+   280		tasklet_schedule(&creq->creq_tasklet);
+   281	
+   282		return IRQ_HANDLED;
+   283	}
+   284	
 
 -- 
 0-DAY CI Kernel Test Service
