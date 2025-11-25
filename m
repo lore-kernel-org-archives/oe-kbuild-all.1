@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E34B1624D5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 00:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D410254B03
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 01:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764029094; cv=none; b=KuQ3HWk2rNKOcJ6xy8J19+jx7MFDejau6tEb9PWrDxsqlPmFuvGk7z6Y3K+0OOGo7eQjAsvsW9HaTTVaw4WgzW/6zYro4InfVHe3ErrwzloE70RhTaFpQrVFJHqYG7Xh96M1kHLIzWBEGPpoSlwrOxM+qmFvn2fDeKUsPYwX2jw=
+	t=1764034737; cv=none; b=b8vuTCZbsr/Pwbjq0w4IhkGVNAVNBMkphxtGcbD14Zp/CvenpwVUbYeEtZRJzYW5+V2mGSjS5QcY9n/yaWqXxAuqdnJPcGKaju/nMiW88fGLwz0wnFfrYIYu8/fMUtG0hXdzp/TsGdDxUs0utUugYgKcb6aatoDhRbtpz5xLmPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764029094; c=relaxed/simple;
-	bh=rnHCyEkTw9pNfJ3Ebw3xHTGuD1pmrPH9C+8uMzxazkg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m20QVSYHT6aTfSlxzDrziQvmjIbZ+vSUcrtbW+FU5pKXrjxf4hS3brnb9pcc4gy/usrPy6j30mGN6wYNeyoavTtR9gSRyF/YYONjk81aSQa05vRODu28yZDVTR98I5ug505lyD3wW0V7/pauPbLJH6sY6CzuUuUqfdk2jSeMsJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QEmn54tR; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1764034737; c=relaxed/simple;
+	bh=Pft5LWJIY2MXzAvKHSUGWMJ75mPNbAVfEiL7WiPSweU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8dnAt94kMq3FC3YsWYOjHK6a54pdXMilclCI5T/EYutLqzafNi0EeUCCmzVTaQRheP1qTXIXbdtJ8HltoO28TF04PlsYUEl8vGQpHdTa7uKDtSLh+JYAdIKgHNq3rmZWSwYPXJq7x4TL84o/s3ERgGa+FIUS7/WkRxGzgVDU18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mEgMJUzT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QEmn54tR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mEgMJUzT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764029093; x=1795565093;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rnHCyEkTw9pNfJ3Ebw3xHTGuD1pmrPH9C+8uMzxazkg=;
-  b=QEmn54tRA7zgduRnKLoPohQgv6hH9z1AwGdX4YYWPkz6+xtpTtyYe156
-   R+QN5dGk9EgORmLkRqdedF+C8C2z78IEcX1JeFSS9HDgEPnqN1ZiUnCFZ
-   f+niGWyF1bQbjboRrkjp1cyyUA3M1Em/Zb8LZxcguyCUg7sLS2yHM56rh
-   0xdj4XfaEE4C8Um5tUOMiJ/8Z0Y9wVwahVWWU6bT83g+mix53SGX1H7Vw
-   dejKVNV6MRwWgokqgVq2vrGK0VMm7b/i1l6kg6zNodSyFqOV32DrsBLaV
-   3DbeVtpEjPi9THFvgw2MHf4OCyEQdx4n5hb7/9AyTBK6tmU+g4Y8LJaS2
-   Q==;
-X-CSE-ConnectionGUID: MINAlKwRSGG9I7Xe0/TZTg==
-X-CSE-MsgGUID: /xWnSxRyTAWUXukDq4JMFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="53610256"
+  t=1764034736; x=1795570736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Pft5LWJIY2MXzAvKHSUGWMJ75mPNbAVfEiL7WiPSweU=;
+  b=mEgMJUzTNVjnAUUHa0pDQBG+lav3a4hxcR4BI/59CWyqhggqCtByCzen
+   xJNuzYYpWgJoUIw9nYFaDq5uqOjFHBv4vhd1ZwinxS5MnuM3HUnTzNSHM
+   XuQXvF+egLhj6HIC2aT0gvLEVAa1A1LCINZPeI4MH21fkAbDOo9xMDbse
+   uja53K43uUxxFVWY4mh+56cpKfs3yOwibffryqQILD0PxXWUu/HXzWioR
+   846jkA/o9vZcDJ3rAjsT3Ef+ZkrBiZ8QdSjF+/N5v3Gg4Z3ryvmmpbweZ
+   8E16o/t0Q6iuNh1X185iA/tnXAAG0RQE468rfl2YXUah31GhAdxc7JI+L
+   A==;
+X-CSE-ConnectionGUID: rsQ3BENtRJK7wa0kSJl1mA==
+X-CSE-MsgGUID: 6zW3UwuYQ8i0lx7AcbwWeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="69668520"
 X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="53610256"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 16:04:52 -0800
-X-CSE-ConnectionGUID: ASyT23LZTwmqOfFw/i62mA==
-X-CSE-MsgGUID: cH3UHDevTu+rX4bPPuWuGg==
+   d="scan'208";a="69668520"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 17:38:56 -0800
+X-CSE-ConnectionGUID: pb7vgqUqTkqdTS6m2pKljQ==
+X-CSE-MsgGUID: KrQjKqiERHewYF7ZG57l6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="192932027"
+   d="scan'208";a="197409322"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Nov 2025 16:04:51 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 24 Nov 2025 17:38:53 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNgY0-000000001E5-3MVV;
-	Tue, 25 Nov 2025 00:04:44 +0000
-Date: Tue, 25 Nov 2025 08:04:01 +0800
+	id 1vNi14-000000001Gf-27iI;
+	Tue, 25 Nov 2025 01:38:50 +0000
+Date: Tue, 25 Nov 2025 09:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 456/456]
- include/linux/kernel.h:843:29: warning: comparison of distinct pointer types
- lacks a cast
-Message-ID: <202511250758.DaN1sdMJ-lkp@intel.com>
+To: Yu Kuai <yukuai@fnnas.com>, song@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linan122@huawei.com, xni@redhat.com
+Subject: Re: [PATCH] md: support to align bio to limits
+Message-ID: <202511250848.gq6d7JeR-lkp@intel.com>
+References: <20251121051406.1316884-3-yukuai@fnnas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,75 +63,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251121051406.1316884-3-yukuai@fnnas.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   f0f1719f2a6186edc2c4c8781e747872ef6e9794
-commit: cbffccccc8cacca37a7b5cef2b9fc7769c99763a [456/456] dm-integrity: limit MAX_TAG_SIZE to 255
-config: arm-randconfig-004-20251125 (https://download.01.org/0day-ci/archive/20251125/202511250758.DaN1sdMJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250758.DaN1sdMJ-lkp@intel.com/reproduce)
+Hi Yu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc7 next-20251124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-support-to-align-bio-to-limits/20251121-131703
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251121051406.1316884-3-yukuai%40fnnas.com
+patch subject: [PATCH] md: support to align bio to limits
+config: i386-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511250848.gq6d7JeR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250848.gq6d7JeR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511250758.DaN1sdMJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511250848.gq6d7JeR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/list.h:9:0,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bio.h:8,
-                    from drivers/md/dm-bio-record.h:10,
-                    from drivers/md/dm-integrity.c:9:
-   drivers/md/dm-integrity.c: In function 'integrity_metadata':
->> include/linux/kernel.h:843:29: warning: comparison of distinct pointer types lacks a cast
-      (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                                ^
-   include/linux/kernel.h:857:4: note: in expansion of macro '__typecheck'
-      (__typecheck(x, y) && __no_side_effects(x, y))
-       ^~~~~~~~~~~
-   include/linux/kernel.h:867:24: note: in expansion of macro '__safe_cmp'
-     __builtin_choose_expr(__safe_cmp(x, y), \
-                           ^~~~~~~~~~
-   include/linux/kernel.h:883:19: note: in expansion of macro '__careful_cmp'
-    #define max(x, y) __careful_cmp(x, y, >)
-                      ^~~~~~~~~~~~~
-   drivers/md/dm-integrity.c:1566:26: note: in expansion of macro 'max'
-      char checksums_onstack[max((size_t)HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
-                             ^~~
-   drivers/md/dm-integrity.c: In function 'dm_integrity_ctr':
-   drivers/md/dm-integrity.c:3758:22: warning: comparison is always false due to limited range of data type [-Wtype-limits]
-       if ((uint64_t)val >= (uint64_t)UINT_MAX * 1000 / HZ) {
-                         ^~
+   ld: drivers/md/md.o: in function `__md_bio_align_to_limits':
+>> drivers/md/md.c:434:(.text+0x68e4): undefined reference to `__umoddi3'
+>> ld: drivers/md/md.c:443:(.text+0x693a): undefined reference to `__umoddi3'
 
 
-vim +843 include/linux/kernel.h
+vim +434 drivers/md/md.c
 
-526211bc58c4b3 Ingo Molnar    2009-03-05  829  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  830  /*
-3c8ba0d61d04ce Kees Cook      2018-03-30  831   * min()/max()/clamp() macros must accomplish three things:
-3c8ba0d61d04ce Kees Cook      2018-03-30  832   *
-3c8ba0d61d04ce Kees Cook      2018-03-30  833   * - avoid multiple evaluations of the arguments (so side-effects like
-3c8ba0d61d04ce Kees Cook      2018-03-30  834   *   "x++" happen only once) when non-constant.
-3c8ba0d61d04ce Kees Cook      2018-03-30  835   * - perform strict type-checking (to generate warnings instead of
-3c8ba0d61d04ce Kees Cook      2018-03-30  836   *   nasty runtime surprises). See the "unnecessary" pointer comparison
-3c8ba0d61d04ce Kees Cook      2018-03-30  837   *   in __typecheck().
-3c8ba0d61d04ce Kees Cook      2018-03-30  838   * - retain result as a constant expressions when called with only
-3c8ba0d61d04ce Kees Cook      2018-03-30  839   *   constant expressions (to avoid tripping VLA warnings in stack
-3c8ba0d61d04ce Kees Cook      2018-03-30  840   *   allocation usage).
-3c8ba0d61d04ce Kees Cook      2018-03-30  841   */
-3c8ba0d61d04ce Kees Cook      2018-03-30  842  #define __typecheck(x, y) \
-3c8ba0d61d04ce Kees Cook      2018-03-30 @843  		(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-3c8ba0d61d04ce Kees Cook      2018-03-30  844  
-
-:::::: The code at line 843 was first introduced by commit
-:::::: 3c8ba0d61d04ced9f8d9ff93977995a9e4e96e91 kernel.h: Retain constant expression output for max()/min()
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   428	
+   429	static struct bio *__md_bio_align_to_limits(struct mddev *mddev,
+   430						    struct bio *bio)
+   431	{
+   432		unsigned int max_sectors = mddev->gendisk->queue->limits.max_sectors;
+   433		sector_t start = bio->bi_iter.bi_sector;
+ > 434		sector_t align_start = roundup(start, max_sectors);
+   435		sector_t end;
+   436		sector_t align_end;
+   437	
+   438		/* already aligned */
+   439		if (align_start == start)
+   440			return bio;
+   441	
+   442		end = start + bio_sectors(bio);
+ > 443		align_end = rounddown(end, max_sectors);
+   444	
+   445		/* bio is too small to split */
+   446		if (align_end <= align_start)
+   447			return bio;
+   448	
+   449		return bio_submit_split_bioset(bio, align_start - start,
+   450					       &mddev->gendisk->bio_split);
+   451	}
+   452	
 
 -- 
 0-DAY CI Kernel Test Service
