@@ -1,56 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4553328EB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 18:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5130F1FDE14
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 19:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764096732; cv=none; b=ljXKWTG6yEgRT8HxVH24TX2xrIqR5a3PjwcQy6g7Dw4tTc33m7UCdsvYN8neIlarAgqgusHQeHHBK+OeFWn6AGHEQUVDyXbRMWtjVHYJuD+hM66iYYxz3IOLBAEl98ZsR8gUAqGoi6hER8HeSbVKnWahbbQASRyc3FLonDDXDrQ=
+	t=1764097306; cv=none; b=DQ4aB+p13fqgFrggCrVbNoUdQ7arO9xGzqi+g8biAs/d391D+++1ZeGoafGyFcSIfIKhYCwgEmq+BbyuvMfDRvY0Mw3LFEvpazWsVFDm2y6QLoEVF+tOkdr0BjHtH0ogO+A/hHGp8Fx4Bw0CHNUxNNjWEWWX+fOdDVTNOGA1+88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764096732; c=relaxed/simple;
-	bh=YZZIstYE4z2XXhPUlWnUfnn/eprM83HP45iLYlPpFVc=;
+	s=arc-20240116; t=1764097306; c=relaxed/simple;
+	bh=YRa3Oe0SOJcysDAiAdnjrMjYwfhBpMiZ8q9QvoO5GP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tdnkWUJtsETY22JL86PiRxoypM+saqlrn0Rng+pR0Rk4ckTsln+JQQotKmHoPBc36oKUYMIXztPZaJLn4B8ajQYs4+WVVXEt7YZSGbETMotsPIsuGVT7E1KA6iG2a3igtbSVHUsqR93N05JNyqHrmopv0ENqXQO+b+sTiuKNnDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyEvoOuy; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=kMxj5TWEP5z6DHJ1FPTG6QLuJ4jiagBtNHi6wtO2oQKnJbkH1pA3ByZdO0MYP8kj/nx+7VnOWkJVVDXv5SYSAQ2V85yaqRcUb/6SRUKJc2IPJZE8X24jVimiX4A11VeTEBb3vZjqVsqcRSddIvFw+vATP4GYHTM8mzn4cEqdXac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YTh/urfx; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyEvoOuy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764096731; x=1795632731;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YZZIstYE4z2XXhPUlWnUfnn/eprM83HP45iLYlPpFVc=;
-  b=CyEvoOuySukgdkHeHVywmjaYpzjW127HgBCZ+8pK9p2wgNnLn6xZQHNP
-   zeuO0M2f/nBkVIQxaqE9Q0aGoDI2Ix9/tuhQJtsajDUKQdKORnWZdcZqN
-   iGPOpsQj25YYF/+xl1CZyRSbATyScCuicM+Vg3tnzYAQiBE9apZNpIPLr
-   s+7AX6B4nOieZ8wGYQXAuPJCWHKlOoyb6HRoL/8HTRWk+RCdQAYxLB/1W
-   e/ISVHak1eCV+/jF4QG2Y7MDqebQwyCTsnTFzZRc7LhRbn1VWXoWTO4ej
-   MCMoQbZd7vmkWCPyAb2lTDIUDb9k9Jlh+X3dxPjLI9MiTqisReRlqq8dY
-   w==;
-X-CSE-ConnectionGUID: 0eyM2kuNRK2sn+ii86EP/g==
-X-CSE-MsgGUID: 6fhCTLfbQY2r7XPzx6EJqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="53694919"
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="53694919"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 10:52:10 -0800
-X-CSE-ConnectionGUID: bEMj1+s9R5KgmchQPh4z0w==
-X-CSE-MsgGUID: MyXUvO/RRsmtuuDwzQzHGw==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Nov 2025 10:52:09 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNy90-000000002B3-45df;
-	Tue, 25 Nov 2025 18:52:06 +0000
-Date: Wed, 26 Nov 2025 02:51:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oupton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>
-Subject: [linux-next:master 11303/11746] arch/arm64/kvm/at.c:389:21: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202511260246.JQDGsQKa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YTh/urfx"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so56581275e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 11:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764097302; x=1764702102; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cTgUKzvtPmH71SG11kWbnj/1vHSAxLcPsYKvhGea9/8=;
+        b=YTh/urfxjilapjpcJK2TE8c31goa2lQzmqYylsl24nVgMK8ahkQwi1Ew9Uv13spCze
+         j8sZqCLGRopXKGmZK01vWLe0y12maeRvWiGWdktTmcHBYjwk+s5fk7HszAg8VuR8vWas
+         CFdPzdSMbDbonHQ8oPt80OTfYcJupCfUSx3UbKb5KMvu05+/kQlZhwCTL4HP2HF2X4AR
+         j2b87ILXaMinL6ECJgyFF6q7LKEmOIXa+VKI0pt/MbgC20A9G6/MZ6xX0igqVw8aGzsr
+         I3dlvEClWQ0ogX4VZqqH84rwDVPrZLETotXxOsR/58lJrUUdxYPGv7ur7UwtH4Seos7m
+         J9vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764097302; x=1764702102;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cTgUKzvtPmH71SG11kWbnj/1vHSAxLcPsYKvhGea9/8=;
+        b=ATPJaEsztRHYRiOtB6iMAk9IRwpe9ZOHQp535IQZxXnltjvyPL/8mRY3ui2LuOYxfL
+         KiEQnAwKpQdTPqQgg6Bh4mR45FkjNt5hpebwteputHC8YChvdmL/WV5UOl5VmoaoWdKC
+         aSaAD5b9ffARicfye7qbRQcAIW2LjRnifxmrHigm+mf/wD0Jvu1hx+BRQayjOqImJ8n6
+         qnty+mtHH7JiIgMv0iIV8y23U8juylxBcso79B6yLWMeNzASA7c5m+Y2KpA0nR0Jnm34
+         3wURvxYynD9UWTTPKB3VFB81PYHkx2nv+iNDhZNis1foNrw0xxAsKzFUOPwiGrFiyqFg
+         F75w==
+X-Forwarded-Encrypted: i=1; AJvYcCVrUTsM7GmQkVsrPsXxonO1rbXZNCl7ZzU6hKZUJVb7edR45l8FTkmue8zeJzkj5OuzHZahHJwJ0YwiWwYv@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYNvFnsKoq/0QcqGoemrPTCgqh2vwFxrB6aHaF2O/LhSVGfW58
+	1zRgxVHazyyW2Xw+fc9nXg/P7KJUNTTrYWAomSYb+gNrQvZD0zbuW90O/8tJSnuXg7U=
+X-Gm-Gg: ASbGncs7F8EghpyHYFF2ufpnOnyZPUh1sL023uiI9bF3GxN7hA9pIu9v/KVmlWV2/oH
+	n0wGaNnU7ndDlISXoTujOpan1/v/vd8pf94F9CWnr8dqFe67XyRK/3gdDJER+GPX1OjsVAQfSAp
+	Q1bQlTPjt3CH2cOeWtffBDJHEslCcrV56Bm3GRkbZhy7PyUfNyVWj5m+rLApBp0Vby8/e1c0hUR
+	7AdEPPfpnShRhRLxUFpVhvd0I9l906gOVGq87A2lC0a0g7vZFeElsHKxhX1KcA+N2L7k8LrJ4Uc
+	jwKbMz/R3Y3zCYXalKfUzAPDtmIThdAggQMf7pPxH8DNNrVUqbAVhHkducqsYIsnTlL1c4B/DIO
+	74NUhaVj2dxvYES30YsSsygGt62PlBRPNoMbnGUBS525aGuWNW5S+5p0lgyLX9f6e2rz+EWOiu+
+	PRQh8mo1MOuJtqJ787BYdO6E7LNWg=
+X-Google-Smtp-Source: AGHT+IFE+7S0vwfFxZ+kkhH8VJefM13Q0uuZ0KbXhvaQzZSdMDgPVZsWN2CFveC29hwaBgSYCYiPXw==
+X-Received: by 2002:a05:600c:3b96:b0:477:b0b9:312a with SMTP id 5b1f17b1804b1-477c11030a4mr178804865e9.7.1764097301550;
+        Tue, 25 Nov 2025 11:01:41 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4790ade13ddsm3759095e9.8.2025.11.25.11.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 11:01:41 -0800 (PST)
+Date: Tue, 25 Nov 2025 22:01:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Sean Christopherson <seanjc@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/vmxon_sucks 10/16] arch/x86/virt/hw.c:118
+ x86_vmx_put_cpu() error: uninitialized symbol 'r'.
+Message-ID: <202511252332.56suD8dT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,51 +74,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   92fd6e84175befa1775e5c0ab682938eca27c0b2
-commit: c59ca4b5b0c3fc8386665228b0cfee56323bfeb5 [11303/11746] KVM: arm64: Implement HW access flag management in stage-1 SW PTW
-config: arm64-randconfig-r133-20251125 (https://download.01.org/0day-ci/archive/20251126/202511260246.JQDGsQKa-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260246.JQDGsQKa-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/vmxon_sucks
+head:   8cc09ceb7eb4fc1e727ffebe33e01e28d6f475eb
+commit: 1d12733bef630ec915992646f80fcea097c84f0c [10/16] KVM: x86: Extract VMXON and EFER.SVME enablement to kernel
+config: i386-randconfig-141-20251125 (https://download.01.org/0day-ci/archive/20251125/202511252332.56suD8dT-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260246.JQDGsQKa-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511252332.56suD8dT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/at.c:389:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] old @@     got restricted __be64 [usertype] @@
-   arch/arm64/kvm/at.c:389:21: sparse:     expected unsigned long long [usertype] old
-   arch/arm64/kvm/at.c:389:21: sparse:     got restricted __be64 [usertype]
->> arch/arm64/kvm/at.c:390:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] new @@     got restricted __be64 [usertype] @@
-   arch/arm64/kvm/at.c:390:21: sparse:     expected unsigned long long [usertype] new
-   arch/arm64/kvm/at.c:390:21: sparse:     got restricted __be64 [usertype]
->> arch/arm64/kvm/at.c:392:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] old @@     got restricted __le64 [usertype] @@
-   arch/arm64/kvm/at.c:392:21: sparse:     expected unsigned long long [usertype] old
-   arch/arm64/kvm/at.c:392:21: sparse:     got restricted __le64 [usertype]
->> arch/arm64/kvm/at.c:393:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] new @@     got restricted __le64 [usertype] @@
-   arch/arm64/kvm/at.c:393:21: sparse:     expected unsigned long long [usertype] new
-   arch/arm64/kvm/at.c:393:21: sparse:     got restricted __le64 [usertype]
-   arch/arm64/kvm/at.c:1434:9: sparse: sparse: context imbalance in '__kvm_at_s1e01_fast' - wrong count at exit
+smatch warnings:
+arch/x86/virt/hw.c:118 x86_vmx_put_cpu() error: uninitialized symbol 'r'.
 
-vim +389 arch/arm64/kvm/at.c
+vim +/r +118 arch/x86/virt/hw.c
 
-   384	
-   385	static int kvm_swap_s1_desc(struct kvm_vcpu *vcpu, u64 pa, u64 old, u64 new,
-   386				    struct s1_walk_info *wi)
-   387	{
-   388		if (wi->be) {
- > 389			old = cpu_to_be64(old);
- > 390			new = cpu_to_be64(new);
-   391		} else {
- > 392			old = cpu_to_le64(old);
- > 393			new = cpu_to_le64(new);
-   394		}
-   395	
-   396		return __kvm_at_swap_desc(vcpu->kvm, pa, old, new);
-   397	}
-   398	
+1d12733bef630e Sean Christopherson 2025-10-09  102  static int x86_vmx_put_cpu(void)
+1d12733bef630e Sean Christopherson 2025-10-09  103  {
+1d12733bef630e Sean Christopherson 2025-10-09  104  	int r;
+
+int r = 0;
+
+1d12733bef630e Sean Christopherson 2025-10-09  105  
+1d12733bef630e Sean Christopherson 2025-10-09  106  	asm goto("1: vmxoff\n\t"
+1d12733bef630e Sean Christopherson 2025-10-09  107  		 _ASM_EXTABLE(1b, %l[fault])
+1d12733bef630e Sean Christopherson 2025-10-09  108  		 ::: "cc", "memory" : fault);
+1d12733bef630e Sean Christopherson 2025-10-09  109  
+1d12733bef630e Sean Christopherson 2025-10-09  110  	goto clear_vmxe;
+1d12733bef630e Sean Christopherson 2025-10-09  111  
+1d12733bef630e Sean Christopherson 2025-10-09  112  fault:
+1d12733bef630e Sean Christopherson 2025-10-09  113  	r = -EIO;
+1d12733bef630e Sean Christopherson 2025-10-09  114  
+1d12733bef630e Sean Christopherson 2025-10-09  115  clear_vmxe:
+1d12733bef630e Sean Christopherson 2025-10-09  116  	cr4_clear_bits(X86_CR4_VMXE);
+1d12733bef630e Sean Christopherson 2025-10-09  117  	intel_pt_handle_vmx(0);
+1d12733bef630e Sean Christopherson 2025-10-09 @118  	return r;
+1d12733bef630e Sean Christopherson 2025-10-09  120  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
