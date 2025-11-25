@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304B216A956
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 10:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA16315D2D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 11:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764068071; cv=none; b=IoQPH0i+dXDHbY6skZ+pn/MHDnQVmUojSVSoXDpiVfJRZFqCZRCzgLphCvGeowCBa3La10LFSawavgq6V9+LmIDnazpJ0asA7bKPgAgrL9fWhrpWg7NE8wyYH2OhihDvLei0TQuZ+DhdKWjqUN8bwHPYAnlgyMzkL8xpPSW6BxM=
+	t=1764070534; cv=none; b=J/ub1iBkqJ9zsl/ErmeUyzW3Fj+hcxfE2XMl2MsUgpj4Aw0j79MgpRR3LVsHqM7zycRUMRG4n585qDZFJSJWfIjEohKe2NLvHs3z2+I9Rw9jYctcoYbVqOW3kOO7FyD3HM1pZhLph/7lbqmUUTe9Ns7y/KXHxcaNzqpkEie4nG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764068071; c=relaxed/simple;
-	bh=F5JrAk57BtjRmDi9Ujk5ohqVK8zDINe9KfRSuPzltZY=;
+	s=arc-20240116; t=1764070534; c=relaxed/simple;
+	bh=UvQfHnxSgPz7p9QIvS+VnRdhJJ1lEQuNS48GfUEIxlA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tO2FogMoUHasOh4kj22Rmk1U54gNkXeYWRrH1bnjsfIKFr/IqfmoR9zPsJQsVji7ny0Ik59ic3lm4D4zyoyXiszcdL/yuKtcmAMR0zv0y7xsQ0GKdPph+0D10uEXI6Ox6QDZ16UT4e3lxzU1XYsXDyHg+DyvhsHNE0a16m4/6pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/ujHud/; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=dkt4VCRMBRzzrOU+MrF6MkF4rmS2SL/ynVQ4EomfcfFG0wvVGS1cXSV+lKhQCb14wMXWU9kspFDh8fWNj/B57DNlDiQ6729/QYlfMR41c2fu3SM5XuZAOmfMdGvcBhiIz8P62wgN9ZP8UlGBpxGzGkp5VNWf1poUd2jSfucAnws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bi0PrP11; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/ujHud/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bi0PrP11"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764068070; x=1795604070;
+  t=1764070533; x=1795606533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F5JrAk57BtjRmDi9Ujk5ohqVK8zDINe9KfRSuPzltZY=;
-  b=N/ujHud/B/1c0q8ZxSa7aKqa9CBdK7wsoqIzXy3oVb2BpfZnFUGaxIv4
-   +N4aZ1iIoY1Fy6HgKtCLTmV22qGHEEKzG/IbsNYn0/h7Q5DYyN796nEbC
-   gjHAVT4OYEtUhCloPJWuOH1r8cR8xGQh0bnS+WbVqJKPcNmPCLXd/N5FV
-   H6rxd2z9F6tbkgdaDXmuKIp4SPeU//c6dItbDrnaLVvCGtGxUbyEVFAF/
-   4zKDjQUT4Pjm2EtXangcIrQtH7S4H8TY/XQMgbWa72yS3F+2ndeyN8zRE
-   bisHLx29bhml8HKe0HCVq3vl9RCzuvja5eybN9ruWIz4qrJVQelpdxj5d
-   A==;
-X-CSE-ConnectionGUID: qsWeDgYVStmVC1R6BPMzoQ==
-X-CSE-MsgGUID: ajIhck0ZTaussh3U8LgPsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76406630"
+  bh=UvQfHnxSgPz7p9QIvS+VnRdhJJ1lEQuNS48GfUEIxlA=;
+  b=bi0PrP11JXKSI9iRIo3MycOHz0YYKppftqe5dPlBAbi9M47L6VYH2Pux
+   s9ZjxT8IRNu/WK4I2Ur5OZh/lWuGV5rtIBe3/bmih16EMygiMjjUvc00z
+   eNbAUI6WjYe1WmV3Xbd67lpUOJ5YuvN4Zn9a6U+lj+Hti2kGC0D60Jvuz
+   MnoYinXKHb3OseEiB/ZqU1CCnuuzX1Rwd7tR3V23oldGMQocjYlMFYY3k
+   Qv+IGHs++n/lZnUeBfLAQk2OtqjiWTIowEoYjD/FEAbyzAAOtXzq+gqLB
+   qRp65SiQGIBCrzSB84cRNfZftyAr6s3xO1Hwb/S5p1rf6okynLK8n2uXE
+   g==;
+X-CSE-ConnectionGUID: Ne69aZkTSUqB1UVDYaHscg==
+X-CSE-MsgGUID: NVRoOqOITsu1145/lnZMbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66161933"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="76406630"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 02:54:29 -0800
-X-CSE-ConnectionGUID: xn2/JTM3T8GoojRUpgjcZA==
-X-CSE-MsgGUID: QBL+mKR5QD+kf46UyjT1hg==
+   d="scan'208";a="66161933"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 03:35:32 -0800
+X-CSE-ConnectionGUID: gd89UBMZTi2UO55mQIDdaw==
+X-CSE-MsgGUID: uJd2orAIRKKZPGH+QQBZCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="223579808"
+   d="scan'208";a="197725119"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2025 02:54:27 -0800
+  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2025 03:35:31 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNqgj-000000001eb-0AFV;
-	Tue, 25 Nov 2025 10:54:25 +0000
-Date: Tue, 25 Nov 2025 18:53:56 +0800
+	id 1vNrKS-000000001gn-3bmW;
+	Tue, 25 Nov 2025 11:35:28 +0000
+Date: Tue, 25 Nov 2025 19:34:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
+To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1936/1936]
- drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.o: warning: objtool:
- missing symbol for section .text
-Message-ID: <202511251827.iPD7MiMU-lkp@intel.com>
+Subject: [norov:stack_magic 31/31] include/linux/tracing.h:168:8: error:
+ extra tokens at end of #endif directive
+Message-ID: <202511251905.ZP7Yh8uj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +62,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Naixin,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4ffe43c9c280969676fa933f022ebf1a8aaebcdb
-commit: d83c305cb9b2708b835a47c9ddcbcab97cf70c9f [1936/1936] Huawei BMA: Adding Huawei BMA driver: host_kbox_drv
-config: x86_64-buildonly-randconfig-004-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251827.iPD7MiMU-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251827.iPD7MiMU-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux stack_magic
+head:   4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa
+commit: 4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa [31/31] add tracing.h
+config: arc-randconfig-001-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251905.ZP7Yh8uj-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251905.ZP7Yh8uj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251827.iPD7MiMU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511251905.ZP7Yh8uj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:42:6: warning: no previous prototype for function 'kbox_write_to_pci' [-Wmissing-prototypes]
-      42 | void kbox_write_to_pci(void __iomem *dest, const void *src, int len,
-         |      ^
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      42 | void kbox_write_to_pci(void __iomem *dest, const void *src, int len,
-         | ^
-         | static 
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:111:6: warning: no previous prototype for function 'kbox_read_from_pci' [-Wmissing-prototypes]
-     111 | void kbox_read_from_pci(void *dest, void __iomem *src, int len,
-         |      ^
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:111:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     111 | void kbox_read_from_pci(void *dest, void __iomem *src, int len,
-         | ^
-         | static 
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:172:6: warning: no previous prototype for function 'kbox_memset_pci' [-Wmissing-prototypes]
-     172 | void kbox_memset_pci(void __iomem *dest, const char set_byte, int len,
-         |      ^
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:172:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     172 | void kbox_memset_pci(void __iomem *dest, const char set_byte, int len,
-         | ^
-         | static 
-   3 warnings generated.
->> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.o: warning: objtool: missing symbol for section .text
---
-   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_dump.c:35:19: warning: unused variable 'g_day_in_month' [-Wunused-const-variable]
-      35 | static const char g_day_in_month[] = {
-         |                   ^~~~~~~~~~~~~~
-   1 warning generated.
->> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_dump.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_panic.o: warning: objtool: missing symbol for section .text
---
->> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_image.o: warning: objtool: missing symbol for section .text
+   In file included from include/linux/kernel.h:34,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from lib/test_bitops.c:10:
+>> include/linux/tracing.h:168:8: error: extra tokens at end of #endif directive [-Werror=endif-labels]
+     168 | #endif _/* _LINUX_TRACING_H */
+         |        ^
+   cc1: all warnings being treated as errors
+
+
+vim +168 include/linux/tracing.h
+
+   167	
+ > 168	#endif _/* _LINUX_TRACING_H */
 
 -- 
 0-DAY CI Kernel Test Service
