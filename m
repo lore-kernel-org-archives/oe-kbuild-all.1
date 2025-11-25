@@ -1,121 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64CA286D4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 07:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902142D7DD9;
+	Tue, 25 Nov 2025 07:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764055277; cv=none; b=TsFKnf58CeV+1moYVn+ehBD00EiEU5ikvLX+18MK/weHzkdDFyM35V3M7dx0yHYaaJFmsSbGpg3uKGzxXqzQl6cdYBSac89iq84dZw0sxKzh3NX4ljdFqPUIEpQiFm3TV5w1Naw26Vsj28xI6NxP/GaB6sHFw1ejSUkKQU0fXWU=
+	t=1764056328; cv=none; b=mJxIAym0J3CfdbrUCNlMNdC3Nr/I0GVAwywreFZJylwnwaNsUdGKuzTSO+DINA8ueYUVvcGBnqAMgfewdqytC7Rw3FTBlZC/S/cVZJ3eeh4MwQ81DDcWrBGA9br9TiLviWu+w2anoDJFe4iVYDSQdyFpkoC0JHW4pvuAgv82U6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764055277; c=relaxed/simple;
-	bh=w75B7WOTq9vx4DzuLpj745lUgkIWBM8kDr36O/nGMpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rUYpbas6kwDayt5cXY4um5A4lu/H24lTqZr5RPatdo1j8UQmHrqKlqqVDOpMGd3+54FFUoKhCv5pvFOG6Wu0aNeR/sWk/lD+lQMCMEzSsJQN/1vOQf45hajjdVKtx3jnN/FdMxqWtZFT+wJQcTfx4zV30tAYqmKxQEn9OESnxnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXTcQ7zz; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764056328; c=relaxed/simple;
+	bh=V446la7lPJcpR4QJvyHjkwF5F2AFxzrJ0W2j6ahgRHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xm/W19cyPbp9rlmcz4KTTzsJ3Te0+9T6QJZjOsNho6SjWJFC4m6emki02I6hcT8OinO6TPKU+ns4w12uY0LJ3vWSWlwMohHMNA2XMG9XQPBGCI3pHg2bthYdIrKIGFpPSm1pQptomyIJ5bwruCqC0rmoeKpzc3d5G9b9Hpp8OBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gy3jEZ6G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXTcQ7zz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764055274; x=1795591274;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w75B7WOTq9vx4DzuLpj745lUgkIWBM8kDr36O/nGMpA=;
-  b=MXTcQ7zzvd7qkapxOQ/sGjiRcnh7SZkscbbGa59tOxqriwdFwdiwQ2OA
-   LxibYkoZy6UJ677T2p7M474grhC9JhTf3dj6Xs/eYUpPxC5Q/e97UCbgS
-   75qi2Lacuaf5j0qRhxXryILwLK4OJkOyW2/+x+n9FwByN29QnqEuO0zHy
-   tK9OGZT+nppw04t8TxOe88A9KGUsx8brlrVsZxYPPZTzVwxndnkJxC4xf
-   xtv1fU74HHQy3agByM9V+crJd2wGoMNXgTEOY9fuu6QW+PJSaJz5YQ7rI
-   d9yU+YZaNAswnh+PXzWCOeIY0NvKk3uUJ+DLlDtJZCP/b7PLtx4q69KsK
-   w==;
-X-CSE-ConnectionGUID: k8nfFLqSQl2X1cf0yEsKhQ==
-X-CSE-MsgGUID: waw7K8HTQNGapf8W9wQQpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="77434443"
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="77434443"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 23:21:13 -0800
-X-CSE-ConnectionGUID: j5iKMMv4Rrq/7jW1tI1VkA==
-X-CSE-MsgGUID: J1yrGyaGQ/muXs9WrkS82Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="196734635"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Nov 2025 23:21:12 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNnMM-000000001Sg-1ipG;
-	Tue, 25 Nov 2025 07:21:10 +0000
-Date: Tue, 25 Nov 2025 15:20:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3316/3316] kernel/xsched/vstream.c:94:19:
- warning: no previous prototype for 'xcu_find'
-Message-ID: <202511251558.2eHkQQky-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gy3jEZ6G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 312EAC4CEF1;
+	Tue, 25 Nov 2025 07:38:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764056328;
+	bh=V446la7lPJcpR4QJvyHjkwF5F2AFxzrJ0W2j6ahgRHI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gy3jEZ6GGZG2+oYYBtMo5H8l2Cm8oY0NhDnhxHYpLnqN/GwaE2MZUDoHOFFlkhWzC
+	 Vjb/u/SwMq51pdfaE6nrYFGlNXMVRKyLIZkaG9N4xR7G/bewrsB1G5rxfJcYwSH8Lg
+	 ei7pT19+gv400Y1myjfV1y+rkZ9oQyiVa1NbeAUcu8EJqLOoAD7JyVg3eVc3oVHG7Q
+	 KqzHDTVAGWkHHMxYgeeUKABly272YQr3dcIb9uUjenxZSx1rlvVzMLe1TkJhnmUYSs
+	 OU2BD1ETmngg6y2Msqlg42+5bNNSmqkPVR0jhOr3rNWhRYg60S7TF1/vrjFUJMO10K
+	 /qJGrmrPhYCvQ==
+Message-ID: <897c6ba7-e27d-4170-be56-4d0f544bfa42@kernel.org>
+Date: Tue, 25 Nov 2025 08:38:40 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   33cf1d28f3c50dfd5f2649216af46dce323c3f97
-commit: 8dde1f2e6bf6049bf69c9f510349c698e0aba49d [3316/3316] xsched: Introduce vstream management
-config: x86_64-buildonly-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251558.2eHkQQky-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251558.2eHkQQky-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251558.2eHkQQky-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/xsched/vstream.c:94:19: warning: no previous prototype for 'xcu_find' [-Wmissing-prototypes]
-      94 | struct xsched_cu *xcu_find(uint32_t type,
-         |                   ^~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tip:core/rseq 25/39] include/linux/rseq_entry.h:132:3: error:
+ invalid operand for instruction
+To: Thomas Gleixner <tglx@linutronix.de>, kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, x86@kernel.org, Ingo Molnar
+ <mingo@kernel.org>, "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ linuxppc-dev@lists.ozlabs.org, Nathan Chancellor <nathan@kernel.org>
+References: <202511250134.i0Jm8d7I-lkp@intel.com> <874iqji6n1.ffs@tglx>
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Content-Language: fr-FR
+In-Reply-To: <874iqji6n1.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +/xcu_find +94 kernel/xsched/vstream.c
 
-    93	
-  > 94	struct xsched_cu *xcu_find(uint32_t type,
-    95					uint32_t dev_id, uint32_t channel_id)
-    96	{
-    97		struct xcu_group *group = NULL;
-    98	
-    99		/* Find xcu by type. */
-   100		group = xcu_group_find(xcu_group_root, type);
-   101		if (group == NULL) {
-   102			XSCHED_ERR("Fail to find type group.\n");
-   103			return NULL;
-   104		}
-   105	
-   106		/* Find device id group. */
-   107		group = xcu_group_find(group, dev_id);
-   108		if (group == NULL) {
-   109			XSCHED_ERR("Fail to find device group.\n");
-   110			return NULL;
-   111		}
-   112		/* Find channel id group. */
-   113		group = xcu_group_find(group, channel_id);
-   114		if (group == NULL) {
-   115			XSCHED_ERR("Fail to find channel group.\n");
-   116			return NULL;
-   117		}
-   118	
-   119		XSCHED_DEBUG("XCU found: type=%u, dev_id=%u, chan_id=%u.\n",
-   120			type, dev_id, channel_id);
-   121	
-   122		return group->xcu;
-   123	}
-   124	
+Le 24/11/2025 à 20:15, Thomas Gleixner a écrit :
+> On Tue, Nov 25 2025 at 01:37, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/rseq
+>> head:   21782b3a5cd40892cb2995aa1ec3e74dd1112f1d
+>> commit: abc850e7616c91ebaa3f5ba3617ab0a104d45039 [25/39] rseq: Provide and use rseq_update_user_cs()
+>> config: powerpc-randconfig-002-20251124 (https://download.01.org/0day-ci/archive/20251125/202511250134.i0Jm8d7I-lkp@intel.com/config)
+>> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511250134.i0Jm8d7I-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202511250134.i0Jm8d7I-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     In file included from kernel/rseq.c:75:
+>>>> include/linux/rseq_entry.h:132:3: error: invalid operand for instruction
+>>                     unsafe_get_user(start_ip, &ucs->start_ip, efault);
+>>                     ^
+>>     include/linux/uaccess.h:606:2: note: expanded from macro 'unsafe_get_user'
+>>             arch_unsafe_get_user(x, ptr, local_label);      \
+>>             ^
+>>     arch/powerpc/include/asm/uaccess.h:458:2: note: expanded from macro 'arch_unsafe_get_user'
+>>             __get_user_size_goto(__gu_val, __gu_addr, sizeof(*(p)), e); \
+>>             ^
+>>     arch/powerpc/include/asm/uaccess.h:282:2: note: expanded from macro '__get_user_size_goto'
+>>             __get_user_size_allowed(x, ptr, size, __gus_retval);    \
+>>             ^
+>>     arch/powerpc/include/asm/uaccess.h:273:10: note: expanded from macro '__get_user_size_allowed'
+>>             case 8: __get_user_asm2(x, (u64 __user *)ptr, retval);  break;  \
+>>                     ^
+>>     arch/powerpc/include/asm/uaccess.h:256:4: note: expanded from macro '__get_user_asm2'
+>>                     "       li %1+1,0\n"                    \
+>>                      ^
+>>     <inline asm>:7:5: note: instantiated into assembly here
+>>             li 31+1,0
+> 
+> Definitely not a problem of tip core/rseq. It just ends up in
+> __get_user_asm2() and then the compiler gets unhappy about the PowerPC
+> inline assembly for whatever reason.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I see it is a CLANG build.
+
+CLANG might be less flexible, can you test with following change ?
+
+diff --git a/arch/powerpc/include/asm/uaccess.h 
+b/arch/powerpc/include/asm/uaccess.h
+index 4f5a46a77fa2..33d5f7ade254 100644
+--- a/arch/powerpc/include/asm/uaccess.h
++++ b/arch/powerpc/include/asm/uaccess.h
+@@ -253,7 +253,7 @@ __gus_failed:								\
+  		".section .fixup,\"ax\"\n"		\
+  		"4:	li %0,%3\n"			\
+  		"	li %1,0\n"			\
+-		"	li %1+1,0\n"			\
++		"	li %L1,0\n"			\
+  		"	b 3b\n"				\
+  		".previous\n"				\
+  		EX_TABLE(1b, 4b)			\
+
+
+Thanks
+Christophe
