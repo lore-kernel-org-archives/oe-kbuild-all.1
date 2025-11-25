@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4D92E88B7;
-	Tue, 25 Nov 2025 21:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFA32FB0B3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 21:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764104964; cv=none; b=Xs7Xx90Me8UJyRHtjWLJyLLy5OJynQOc1YGufw5XeRYIor+PK4MVWICJ5toVyK6Ggbo3SlnYyxjwpfH+0ViblXetpsPPwxStbQuALODztra76JFO5M4wB7DfxaH+Iys5muC5932i85KYJ7Gsgx9jwAP0Tl9Tx6km19sDpjfqb48=
+	t=1764105560; cv=none; b=de5Qcs+eouv6rGwm7F7XjqBuK4IAs7YhLrQJoN9wx5u7B0GnrRdB8Q5A7N2Bjl9icxzOjNbPp3/rv5KbMAxhxe840+sWDfIr4UkFXD3aosC9CfwMMSqTnQNfFDc3wOsgV5S5TIWlL0puD37qPuUkHnByLgFeUPG0PzKAiS+mohg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764104964; c=relaxed/simple;
-	bh=QzbNlCdnO2le+vDDF4HTzJdWMAQbyNJL3NeiVEE5Vxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gkv55FPAUM2EiS3wKgQKcMolRGa4IEeHpUTCCKMX4LloE1dWfwrfP/J6Mt/J7rLY0frfxrTbVbQxWzBoBGH+OeyNHOL2F3LHXT5nedQV734AFIfMG3zZsYnTDWpw0xgoa8V8P+VZKYHzfnjMgIZAWZn8ZclZKdCjsSvWyX7Fllc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbv6WZ25; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1764105560; c=relaxed/simple;
+	bh=tHReAClY+18HFickbZdyBGjV0pf+yYtvp16HndzBVuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r0u8URa7SjSuZLmTEYkvZENmZA6fduAAwkeow4VWe2kot48o5+eT9uC7khdohwv3isK1no8SW34URAdE4ZB1yQyK0xkxtcHPlEIV0CL8oIwKwBuljaxZOcyqtSijI0AfDmIv4StvbPet2kxd3ks3j+SYBQsfwT5vp2JekhNn318=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q63a+mnA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbv6WZ25"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q63a+mnA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764104959; x=1795640959;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QzbNlCdnO2le+vDDF4HTzJdWMAQbyNJL3NeiVEE5Vxw=;
-  b=dbv6WZ25V7iSMec8wMjZqTO8/D2bgBY44nCkLeR0grVINjTDlzGdbZ8A
-   i3k5975L0g1JsIW8W5+29vZ7ogNEYTClce20j8JmnZ+5nQ6og/+MFic3F
-   TUOkOOwXiqUykD07xQWxn8HmE1bmIhvhLT0GBkW6KZjtVBdWNIjdvilzI
-   WDVFhZctDn2vWn0qqiAK7ZlZVO3mmeXrH9gUhKnHw159TpLpnWzhG8LOZ
-   FgHi+MR07hNkA11lcJXgOSTWbWJv6/ZLjGmWDbLkIQXwmvM4vNm7IOMd4
-   vV+QPMYwGfdcgjthI1AR84MdWZ48gpJbS8S9MdEAm/h+mMEcf+woEOOST
-   w==;
-X-CSE-ConnectionGUID: 1d1wxHMTSk2SNVwGE5E/OQ==
-X-CSE-MsgGUID: 4TonzeV8SJSW+a6Cvzv3tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="77245214"
+  t=1764105559; x=1795641559;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tHReAClY+18HFickbZdyBGjV0pf+yYtvp16HndzBVuk=;
+  b=Q63a+mnA3mtZ8FHHTfQmitA3Mn7Zqm59+W0gY8XO2kbbtXFQ+rJNBmbD
+   FT+dYjXIPrn4OZzsNyf6/uRu/N8sNettT2cld+3nGqCy+kiMW/yGX79Id
+   +b836rbRjs4J5vuioJ8kg4MQ9HjSPhvolyE5tx4Ye4bkxln0ayV7R6uBM
+   KizJ6xedJuup/xSqyGVLvs98WYwBHbByr+SlkqLKQRokblP9ji2QGJ6IE
+   ZsXUZ/HNB9QkcGyLQsWmmjbVotz8aGiLNjNHK0IRlVBGkqKb4xn9H1WIa
+   vIfKMV05xqlMZS8pJQXT+8M0PrN4UbN3KRN08iN55NK3Wjd9tWdciYTpz
+   Q==;
+X-CSE-ConnectionGUID: Qp9DLOptSuKIyfE9vwDu9w==
+X-CSE-MsgGUID: TjFEqKcASaa1lyxVFcL1vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83525959"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="77245214"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:09:18 -0800
-X-CSE-ConnectionGUID: WiZxaJKJTX+x09ZlkKpNsw==
-X-CSE-MsgGUID: zXd9VnvpSc+uDYyLyBBfUQ==
+   d="scan'208";a="83525959"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:19:18 -0800
+X-CSE-ConnectionGUID: G67XL42VQuqp8KxUC3FLAg==
+X-CSE-MsgGUID: 0bQuqz7RS8KvuZSMS1H40A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="223448171"
+   d="scan'208";a="216107957"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 13:09:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2025 13:19:16 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO0Hh-000000002GL-2D8l;
-	Tue, 25 Nov 2025 21:09:13 +0000
-Date: Wed, 26 Nov 2025 05:08:43 +0800
+	id 1vO0RO-000000002Gv-0ZTN;
+	Tue, 25 Nov 2025 21:19:14 +0000
+Date: Wed, 26 Nov 2025 05:19:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lachlan Hodges <lachlan.hodges@morsemicro.com>,
-	johannes@sipsolutions.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org, arien.judge@morsemicro.com,
-	Lachlan Hodges <lachlan.hodges@morsemicro.com>
-Subject: Re: [PATCH wireless-next 3/3] wifi: mac80211: allow sharing
- identical chanctx for S1G interfaces
-Message-ID: <202511260404.HHDhZkqk-lkp@intel.com>
-References: <20251125025927.245280-4-lachlan.hodges@morsemicro.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Keith Busch <kbusch@kernel.org>
+Subject: [linux-nvme:nvme-6.19 3/27] include/linux/kern_levels.h:5:25:
+ warning: format '%ld' expects argument of type 'long int', but argument 2
+ has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202511260537.R9DHSTOl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,124 +63,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125025927.245280-4-lachlan.hodges@morsemicro.com>
 
-Hi Lachlan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.18-rc7 next-20251125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lachlan-Hodges/wifi-cfg80211-include-s1g_primary_2mhz-when-sending-chandef/20251125-110125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20251125025927.245280-4-lachlan.hodges%40morsemicro.com
-patch subject: [PATCH wireless-next 3/3] wifi: mac80211: allow sharing identical chanctx for S1G interfaces
-config: arm-randconfig-001-20251126 (https://download.01.org/0day-ci/archive/20251126/202511260404.HHDhZkqk-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260404.HHDhZkqk-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/nvme.git nvme-6.19
+head:   db2792e1d7696594dcd09dcc97f262e69819a820
+commit: 00eecf662c6e30736357ffd007ea2f3964f6eb04 [3/27] nvme-auth: modify nvme_auth_transform_key() to return status
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260404.HHDhZkqk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260537.R9DHSTOl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/mac80211/chan.c:671:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     671 |         case NL80211_CHAN_WIDTH_20_NOHT:
-         |         ^
-   net/mac80211/chan.c:671:2: note: insert 'break;' to avoid fall-through
-     671 |         case NL80211_CHAN_WIDTH_20_NOHT:
-         |         ^
-         |         break; 
-   1 warning generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:18,
+                    from drivers/nvme/common/auth.c:6:
+   drivers/nvme/common/auth.c: In function 'nvme_auth_transform_key':
+>> include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
+     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
+         |                 ^~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
+     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
+     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
+     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
+         |                 ^~~~~~~
 
 
-vim +671 net/mac80211/chan.c
+vim +5 include/linux/kern_levels.h
 
-52363af3a9c989 Johannes Berg       2025-11-05  643  
-b72a455a2409fd Johannes Berg       2023-05-04  644  static void _ieee80211_change_chanctx(struct ieee80211_local *local,
-d6c375095ade4e Mordechay Goodstein 2021-06-18  645  				      struct ieee80211_chanctx *ctx,
-d6c375095ade4e Mordechay Goodstein 2021-06-18  646  				      struct ieee80211_chanctx *old_ctx,
-6092077ad09ce8 Johannes Berg       2024-01-29  647  				      const struct ieee80211_chan_req *chanreq,
-b72a455a2409fd Johannes Berg       2023-05-04  648  				      struct ieee80211_link_data *rsvd_for)
-d6c375095ade4e Mordechay Goodstein 2021-06-18  649  {
-6092077ad09ce8 Johannes Berg       2024-01-29  650  	const struct cfg80211_chan_def *chandef = &chanreq->oper;
-761748f001800d Johannes Berg       2024-01-29  651  	struct ieee80211_chan_req ctx_req = {
-761748f001800d Johannes Berg       2024-01-29  652  		.oper = ctx->conf.def,
-761748f001800d Johannes Berg       2024-01-29  653  		.ap = ctx->conf.ap,
-761748f001800d Johannes Berg       2024-01-29  654  	};
-761748f001800d Johannes Berg       2024-01-29  655  	u32 changed = 0;
-44b72ca8163b8c Ilan Peer           2020-12-06  656  
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  657  	/* 5/10 MHz not handled here */
-44b72ca8163b8c Ilan Peer           2020-12-06  658  	switch (chandef->width) {
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  659  	case NL80211_CHAN_WIDTH_1:
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  660  	case NL80211_CHAN_WIDTH_2:
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  661  	case NL80211_CHAN_WIDTH_4:
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  662  	case NL80211_CHAN_WIDTH_8:
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  663  	case NL80211_CHAN_WIDTH_16:
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  664  		/*
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  665  		 * mac80211 currently only supports sharing identical
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  666  		 * chanctx's for S1G interfaces.
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  667  		 */
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  668  		if (ieee80211_chanreq_identical(&ctx_req, chanreq))
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  669  			return;
-ffaa1f7cd953b4 Lachlan Hodges      2025-11-25  670  		WARN_ON(1);
-44b72ca8163b8c Ilan Peer           2020-12-06 @671  	case NL80211_CHAN_WIDTH_20_NOHT:
-44b72ca8163b8c Ilan Peer           2020-12-06  672  	case NL80211_CHAN_WIDTH_20:
-44b72ca8163b8c Ilan Peer           2020-12-06  673  	case NL80211_CHAN_WIDTH_40:
-44b72ca8163b8c Ilan Peer           2020-12-06  674  	case NL80211_CHAN_WIDTH_80:
-44b72ca8163b8c Ilan Peer           2020-12-06  675  	case NL80211_CHAN_WIDTH_80P80:
-44b72ca8163b8c Ilan Peer           2020-12-06  676  	case NL80211_CHAN_WIDTH_160:
-5dca295dd76756 Ilan Peer           2022-02-14  677  	case NL80211_CHAN_WIDTH_320:
-44b72ca8163b8c Ilan Peer           2020-12-06  678  		break;
-44b72ca8163b8c Ilan Peer           2020-12-06  679  	default:
-44b72ca8163b8c Ilan Peer           2020-12-06  680  		WARN_ON(1);
-44b72ca8163b8c Ilan Peer           2020-12-06  681  	}
-44b72ca8163b8c Ilan Peer           2020-12-06  682  
-d6c375095ade4e Mordechay Goodstein 2021-06-18  683  	/* Check maybe BW narrowed - we do this _before_ calling recalc_chanctx_min_def
-d6c375095ade4e Mordechay Goodstein 2021-06-18  684  	 * due to maybe not returning from it, e.g in case new context was added
-d6c375095ade4e Mordechay Goodstein 2021-06-18  685  	 * first time with all parameters up to date.
-d6c375095ade4e Mordechay Goodstein 2021-06-18  686  	 */
-b27512368591fc Johannes Berg       2024-06-12  687  	ieee80211_chan_bw_change(local, old_ctx, false, true);
-44b72ca8163b8c Ilan Peer           2020-12-06  688  
-761748f001800d Johannes Berg       2024-01-29  689  	if (ieee80211_chanreq_identical(&ctx_req, chanreq)) {
-52363af3a9c989 Johannes Berg       2025-11-05  690  		_ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for, false);
-d6c375095ade4e Mordechay Goodstein 2021-06-18  691  		return;
-d6c375095ade4e Mordechay Goodstein 2021-06-18  692  	}
-d6c375095ade4e Mordechay Goodstein 2021-06-18  693  
-761748f001800d Johannes Berg       2024-01-29  694  	WARN_ON(ieee80211_chanctx_refcount(local, ctx) > 1 &&
-761748f001800d Johannes Berg       2024-01-29  695  		!cfg80211_chandef_compatible(&ctx->conf.def, &chanreq->oper));
-d6c375095ade4e Mordechay Goodstein 2021-06-18  696  
-d34be4310cbe3a Evan Quan           2023-12-11  697  	ieee80211_remove_wbrf(local, &ctx->conf.def);
-d34be4310cbe3a Evan Quan           2023-12-11  698  
-b82730bf57b548 Johannes Berg       2024-01-29  699  	if (!cfg80211_chandef_identical(&ctx->conf.def, &chanreq->oper)) {
-b82730bf57b548 Johannes Berg       2024-01-29  700  		if (ctx->conf.def.width != chanreq->oper.width)
-761748f001800d Johannes Berg       2024-01-29  701  			changed |= IEEE80211_CHANCTX_CHANGE_WIDTH;
-b82730bf57b548 Johannes Berg       2024-01-29  702  		if (ctx->conf.def.punctured != chanreq->oper.punctured)
-b82730bf57b548 Johannes Berg       2024-01-29  703  			changed |= IEEE80211_CHANCTX_CHANGE_PUNCTURING;
-b82730bf57b548 Johannes Berg       2024-01-29  704  	}
-761748f001800d Johannes Berg       2024-01-29  705  	if (!cfg80211_chandef_identical(&ctx->conf.ap, &chanreq->ap))
-761748f001800d Johannes Berg       2024-01-29  706  		changed |= IEEE80211_CHANCTX_CHANGE_AP;
-d6c375095ade4e Mordechay Goodstein 2021-06-18  707  	ctx->conf.def = *chandef;
-761748f001800d Johannes Berg       2024-01-29  708  	ctx->conf.ap = chanreq->ap;
-d6c375095ade4e Mordechay Goodstein 2021-06-18  709  
-d6c375095ade4e Mordechay Goodstein 2021-06-18  710  	/* check if min chanctx also changed */
-52363af3a9c989 Johannes Berg       2025-11-05  711  	changed |= __ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for,
-52363af3a9c989 Johannes Berg       2025-11-05  712  						      false);
-d34be4310cbe3a Evan Quan           2023-12-11  713  
-d34be4310cbe3a Evan Quan           2023-12-11  714  	ieee80211_add_wbrf(local, &ctx->conf.def);
-d34be4310cbe3a Evan Quan           2023-12-11  715  
-d6c375095ade4e Mordechay Goodstein 2021-06-18  716  	drv_change_chanctx(local, ctx, changed);
-55de908ab292c0 Johannes Berg       2012-07-26  717  
-761748f001800d Johannes Berg       2024-01-29  718  	/* check if BW is wider */
-b27512368591fc Johannes Berg       2024-06-12  719  	ieee80211_chan_bw_change(local, old_ctx, false, false);
-0aaffa9b969989 Johannes Berg       2010-05-05  720  }
-d01a1e658606a0 Michal Kazior       2012-06-26  721  
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
