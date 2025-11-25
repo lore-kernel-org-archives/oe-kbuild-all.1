@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90137214A8B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 08:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DEA2DBF45;
+	Tue, 25 Nov 2025 08:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764059000; cv=none; b=EZV8BJsYq8feo/lZe1nxC+7CYGyB6z1urwm0bV5eSE+GHfu9IOGGiudC1yLCgr7IjpTjFY9AlU33kEZ/W66fmW2Qy4oAEniqRLy1F5G90f3c3u1Jsd7UkIt3Ki/nLo7j83isw37bSNZrar1qdcPHjA/QIXt/nl/XQWCtIxWLbaU=
+	t=1764059782; cv=none; b=auRJ55g72m8Vft+unbuievZD0tlyFTSBMp9hxqm9bFTJZu/B21AqZ2qCdOWVhfa0X8OcV6LKh+ThqX5Qm8YRVSEXeWrvnwQPAcbSSlP+PDNV/QGpPBfHHqoEzZsG8M0tj0Q2ICI0ihBcWpxnkJCY5Pvz2Eh6P993OkepvP/kLLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764059000; c=relaxed/simple;
-	bh=iHnuAzg5Y36JfHrwMOtdYEIY4hCpt8N1qkpMCABSUew=;
+	s=arc-20240116; t=1764059782; c=relaxed/simple;
+	bh=X0XjT64sT/WdpRuEO/Hl2etOjQix3IiRxfA7bAlxIos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lg6zGwJFB78x3w/3bSBlnN/VW2lUB4SwthUM489Ex7f3qGhmx/49PCEYy2LCE4l+rQzknkh/p7I5Ea4kLUpkxQS4AN9SQ9fG2NjHWq3C1Y6sIe8VWrwhpNYJ69xtCSLr2PaRhvYR9udKFZ8qx1I5xtxwrRqrS+ihZ9PrGxsuO9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QM9i2/en; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=YPUUpsbYPrgwcKfnk8So4zDc75ptxuYKivBTDPoxKy3ynJJX3UNcdAvII7V+GCG4tSw8JLCThGurkC5PfuyACzX4EPoUo55nconhCQLj08m/0GDLqcWJIPUXlOI71INbP0yYt6VRIHJ54hSOHmslNCF+d3ofDXlDm1VJW/yytYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYUdvJWX; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QM9i2/en"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYUdvJWX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764058998; x=1795594998;
+  t=1764059779; x=1795595779;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iHnuAzg5Y36JfHrwMOtdYEIY4hCpt8N1qkpMCABSUew=;
-  b=QM9i2/en81uuO3SdSCRQTJ/iqbLkw8dghvHcGAE0Mb3yBQx9uX+RHZBs
-   4eO6e33iKh5cPERi+z+OWwP7ucSIKnrzLQE31RP9srCFnB/LDPzTf+WCf
-   OBENZ9r2nUn7HgLP5Yb55lILz/t7VoTeGRViJ6O6Q9zH7H/8ZM5aimwCS
-   ByI6/0BazSIuTfn0hx/aAcOUzNOiIm5qejuKNsAZ0iVNnjrtz62gpN7Sj
-   rQ7rxokZmDNbUNy/yX7kvPHSmEPPw+hK9U0PAd2XbOA22lln1BgS1YWBJ
-   H1g0iHDaMqIIZbbgtJwP0O7CwOX7qB60EnF+bEQ8T+zLAUEPqgV8aZsMC
-   g==;
-X-CSE-ConnectionGUID: 2Gy2D5peS/WNCUgTOlpJIg==
-X-CSE-MsgGUID: v6Mvm6uKSBaqnF1U2ScVAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66014915"
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="66014915"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 00:23:17 -0800
-X-CSE-ConnectionGUID: 5to+wKuSQceNPW/Yh5BG9w==
-X-CSE-MsgGUID: w+IJo+MAT0aExu4Zs5430Q==
+  bh=X0XjT64sT/WdpRuEO/Hl2etOjQix3IiRxfA7bAlxIos=;
+  b=WYUdvJWXQoHhOsaNtRA05BwlkStdFM79OLX+TMIoHBcIFUhU9yY083X5
+   6/vymYpW+PiIyX0AJX47+y0ABSn08UbBzgBoRp7gCwYeXui42Aun17y5I
+   Lxm4Y+ctFKmV2nF2ah7JI8mSYMqo3+vFrFNvlyZoAWgAPicwA8tM0pdRk
+   zUIubAOsyz0hhFPciiQLJFVCXwWcbOH3dn+s7g5pgDQ61GACimW+19Q40
+   WhrV4gjFv8uO5kY3z9eos3UHyYWF7myeb98VAGvJnMBgivTffNf813zgS
+   OeJislCr+f7Uet0NTCurWyzLev6FNH3uzfPLrvFbnXFykidOrEWrtWYr3
+   Q==;
+X-CSE-ConnectionGUID: 75GfeKbHS0GKkC23M/eYPg==
+X-CSE-MsgGUID: ElKwQjJXSFWun7Du01BlzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="65071666"
+X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
+   d="scan'208";a="65071666"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 00:36:18 -0800
+X-CSE-ConnectionGUID: 7luyBKC2TAC97/xvON/MMQ==
+X-CSE-MsgGUID: rLU+iZilTkmS8KmXXIuJlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
-   d="scan'208";a="191705924"
+X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
+   d="scan'208";a="193012469"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 25 Nov 2025 00:23:15 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 25 Nov 2025 00:36:16 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNoKP-000000001Vt-0aXi;
-	Tue, 25 Nov 2025 08:23:13 +0000
-Date: Tue, 25 Nov 2025 16:23:09 +0800
+	id 1vNoWz-000000001X7-3arI;
+	Tue, 25 Nov 2025 08:36:13 +0000
+Date: Tue, 25 Nov 2025 16:35:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai@fnnas.com>, song@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linan122@huawei.com, xni@redhat.com
-Subject: Re: [PATCH] md: support to align bio to limits
-Message-ID: <202511251523.ariD3O9E-lkp@intel.com>
-References: <20251121051406.1316884-3-yukuai@fnnas.com>
+To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+	Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Greg Ungerer <gerg@linux-m68k.org>,
+	imx@lists.linux.dev, dmaengine@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org,
+	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+Subject: Re: [PATCH 3/7] dma: mcf-edma: Add per-channel IRQ naming for
+ debugging
+Message-ID: <202511251608.l7i5CNAr-lkp@intel.com>
+References: <20251124-dma-coldfire-v1-3-dc8f93185464@yoseli.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,34 +67,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251121051406.1316884-3-yukuai@fnnas.com>
+In-Reply-To: <20251124-dma-coldfire-v1-3-dc8f93185464@yoseli.org>
 
-Hi Yu,
+Hi Jean-Michel,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.18-rc7 next-20251124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on d13f3ac64efb868d09cb2726b1e84929afe90235]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-support-to-align-bio-to-limits/20251121-131703
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251121051406.1316884-3-yukuai%40fnnas.com
-patch subject: [PATCH] md: support to align bio to limits
-config: arm-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251523.ariD3O9E-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251523.ariD3O9E-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Michel-Hautbois/dma-fsl-edma-Add-write-barrier-after-TCD-descriptor-fill/20251124-205625
+base:   d13f3ac64efb868d09cb2726b1e84929afe90235
+patch link:    https://lore.kernel.org/r/20251124-dma-coldfire-v1-3-dc8f93185464%40yoseli.org
+patch subject: [PATCH 3/7] dma: mcf-edma: Add per-channel IRQ naming for debugging
+config: x86_64-buildonly-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251608.l7i5CNAr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251608.l7i5CNAr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251523.ariD3O9E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511251608.l7i5CNAr-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/md/md-mod.ko] undefined!
+   drivers/dma/mcf-edma-main.c: In function 'mcf_edma_irq_init':
+>> drivers/dma/mcf-edma-main.c:86:56: warning: format '%d' expects argument of type 'int', but argument 4 has type 'resource_size_t' {aka 'long long unsigned int'} [-Wformat=]
+      86 |                                                 "eDMA-%d", i - res->start);
+         |                                                       ~^   ~~~~~~~~~~~~~~
+         |                                                        |     |
+         |                                                        int   resource_size_t {aka long long unsigned int}
+         |                                                       %lld
+   drivers/dma/mcf-edma-main.c:100:56: warning: format '%d' expects argument of type 'int', but argument 4 has type 'resource_size_t' {aka 'long long unsigned int'} [-Wformat=]
+     100 |                                                 "eDMA-%d", 16 + i - res->start);
+         |                                                       ~^   ~~~~~~~~~~~~~~~~~~~
+         |                                                        |          |
+         |                                                        int        resource_size_t {aka long long unsigned int}
+         |                                                       %lld
+
+
+vim +86 drivers/dma/mcf-edma-main.c
+
+    72	
+    73	static int mcf_edma_irq_init(struct platform_device *pdev,
+    74					struct fsl_edma_engine *mcf_edma)
+    75	{
+    76		int ret = 0, i;
+    77		struct resource *res;
+    78	
+    79		res = platform_get_resource_byname(pdev,
+    80					IORESOURCE_IRQ, "edma-tx-00-15");
+    81		if (!res)
+    82			return -1;
+    83	
+    84		for (ret = 0, i = res->start; i <= res->end; ++i) {
+    85			char *irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+  > 86							"eDMA-%d", i - res->start);
+    87	
+    88			ret |= request_irq(i, mcf_edma_tx_handler, 0, irq_name, mcf_edma);
+    89		}
+    90		if (ret)
+    91			return ret;
+    92	
+    93		res = platform_get_resource_byname(pdev,
+    94				IORESOURCE_IRQ, "edma-tx-16-55");
+    95		if (!res)
+    96			return -1;
+    97	
+    98		for (ret = 0, i = res->start; i <= res->end; ++i) {
+    99			char *irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+   100							"eDMA-%d", 16 + i - res->start);
+   101	
+   102			ret |= request_irq(i, mcf_edma_tx_handler, 0, irq_name, mcf_edma);
+   103		}
+   104		if (ret)
+   105			return ret;
+   106	
+   107		ret = platform_get_irq_byname(pdev, "edma-tx-56-63");
+   108		if (ret != -ENXIO) {
+   109			ret = request_irq(ret, mcf_edma_tx_handler,
+   110					  0, "eDMA-tx-56", mcf_edma);
+   111			if (ret)
+   112				return ret;
+   113		}
+   114	
+   115		ret = platform_get_irq_byname(pdev, "edma-err");
+   116		if (ret != -ENXIO) {
+   117			ret = request_irq(ret, mcf_edma_err_handler,
+   118					  0, "eDMA-err", mcf_edma);
+   119			if (ret)
+   120				return ret;
+   121		}
+   122	
+   123		return 0;
+   124	}
+   125	
 
 -- 
 0-DAY CI Kernel Test Service
