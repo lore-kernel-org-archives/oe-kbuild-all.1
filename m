@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFA32FB0B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 21:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C182FB0BA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 21:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764105560; cv=none; b=de5Qcs+eouv6rGwm7F7XjqBuK4IAs7YhLrQJoN9wx5u7B0GnrRdB8Q5A7N2Bjl9icxzOjNbPp3/rv5KbMAxhxe840+sWDfIr4UkFXD3aosC9CfwMMSqTnQNfFDc3wOsgV5S5TIWlL0puD37qPuUkHnByLgFeUPG0PzKAiS+mohg=
+	t=1764105623; cv=none; b=sHPCfSiaZ94AsNh2iFpXOMWrCRyQYevzJoTxWX7OUF3WwbUfHKdZPS0e2efX7BowBv9UGI91jIsbGd2q20DIYiQYuI8cPSK3gJVQtPNNLqTtYPx2F5zkJOdO7bfwdEZSTLxk4AoEjoHqVqjo50RpEPEiMV84oQ9fdqizUcZzfWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764105560; c=relaxed/simple;
-	bh=tHReAClY+18HFickbZdyBGjV0pf+yYtvp16HndzBVuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r0u8URa7SjSuZLmTEYkvZENmZA6fduAAwkeow4VWe2kot48o5+eT9uC7khdohwv3isK1no8SW34URAdE4ZB1yQyK0xkxtcHPlEIV0CL8oIwKwBuljaxZOcyqtSijI0AfDmIv4StvbPet2kxd3ks3j+SYBQsfwT5vp2JekhNn318=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q63a+mnA; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1764105623; c=relaxed/simple;
+	bh=3eMZ/MfM5RHhwJQ7d0IQHir4UVOOL7Et7y72tZ0G6FI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JVhYqhuCk+u6TjU/h6m7u6qLGoRXO2M88NVQWTD76FMp2qIpJAGIKD+TEV+0IgB0/7g2OdQNzCwKUCD7Uz5yUK/DiLQwAHNQ1Hwu+9RmgdSBnbgT+t2UR54IkWhvgZJOtHoBy8IhbKsUFFjYq7LpwtLZMyOw5M9uycsoNAZME50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i2YXELGz; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q63a+mnA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i2YXELGz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764105559; x=1795641559;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tHReAClY+18HFickbZdyBGjV0pf+yYtvp16HndzBVuk=;
-  b=Q63a+mnA3mtZ8FHHTfQmitA3Mn7Zqm59+W0gY8XO2kbbtXFQ+rJNBmbD
-   FT+dYjXIPrn4OZzsNyf6/uRu/N8sNettT2cld+3nGqCy+kiMW/yGX79Id
-   +b836rbRjs4J5vuioJ8kg4MQ9HjSPhvolyE5tx4Ye4bkxln0ayV7R6uBM
-   KizJ6xedJuup/xSqyGVLvs98WYwBHbByr+SlkqLKQRokblP9ji2QGJ6IE
-   ZsXUZ/HNB9QkcGyLQsWmmjbVotz8aGiLNjNHK0IRlVBGkqKb4xn9H1WIa
-   vIfKMV05xqlMZS8pJQXT+8M0PrN4UbN3KRN08iN55NK3Wjd9tWdciYTpz
-   Q==;
-X-CSE-ConnectionGUID: Qp9DLOptSuKIyfE9vwDu9w==
-X-CSE-MsgGUID: TjFEqKcASaa1lyxVFcL1vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83525959"
+  t=1764105622; x=1795641622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3eMZ/MfM5RHhwJQ7d0IQHir4UVOOL7Et7y72tZ0G6FI=;
+  b=i2YXELGzRtZ7aHkIjTp4sJk9J9MzR30dEN2JXL58s0wRAlnaR7V8juOJ
+   NeQ03em1sagRC1/BEXBwi3jBMzwfTdpY6qAP3KzTiIl1V9a5ltqLwC3Vf
+   uuf3nwm/ojmuukX5h1lSBgdskGEijFV+w1yQxbKKX5P3dpeKstByhxiNZ
+   8EhdsyoB/KlpfDOA15rXN55SqftFLXRgTaLPoM7RcSEwixvFm/X3kdcji
+   dRNtRYYH0Q/p3d5FbTuRo6p2u14lxhd36qWndQP/IK/e3khSPfD7FbmM+
+   bkReccy5XfA92XuAoy2w3SnJ1huWZ9RB7XFNfj8ndX56IJapwQ4CYlu/4
+   g==;
+X-CSE-ConnectionGUID: Hxcae8ZXQFqBtS1Ih0ZNbw==
+X-CSE-MsgGUID: 55X0JKOSQXK6Y9VeIzzQrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66167344"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="83525959"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:19:18 -0800
-X-CSE-ConnectionGUID: G67XL42VQuqp8KxUC3FLAg==
-X-CSE-MsgGUID: 0bQuqz7RS8KvuZSMS1H40A==
+   d="scan'208";a="66167344"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 13:20:21 -0800
+X-CSE-ConnectionGUID: +bze+cwnTKGwewcZ8/D4nA==
+X-CSE-MsgGUID: 24lLGtmWRNuYvDsvao4o3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="216107957"
+   d="scan'208";a="196911755"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2025 13:19:16 -0800
+  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2025 13:20:16 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO0RO-000000002Gv-0ZTN;
-	Tue, 25 Nov 2025 21:19:14 +0000
-Date: Wed, 26 Nov 2025 05:19:13 +0800
+	id 1vO0SM-000000002Gz-0eIn;
+	Tue, 25 Nov 2025 21:20:14 +0000
+Date: Wed, 26 Nov 2025 05:19:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>
-Subject: [linux-nvme:nvme-6.19 3/27] include/linux/kern_levels.h:5:25:
- warning: format '%ld' expects argument of type 'long int', but argument 2
- has type 'size_t' {aka 'unsigned int'}
-Message-ID: <202511260537.R9DHSTOl-lkp@intel.com>
+To: Anirudh Raybharam <anirudh@anirudhrb.com>, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, catalin.marinas@arm.com, will@kernel.org,
+	maz@kernel.org, tglx@linutronix.de, Arnd Bergmann <arnd@arndb.de>,
+	akpm@linux-foundation.org, agordeev@linux.ibm.com,
+	guoweikang.kernel@gmail.com, osandov@fb.com, bsz@amazon.de,
+	linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/3] arm64: hyperv: move hyperv detection earlier in boot
+Message-ID: <202511260546.RGx7vwyX-lkp@intel.com>
+References: <20251125170124.2443340-2-anirudh@anirudhrb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +69,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251125170124.2443340-2-anirudh@anirudhrb.com>
 
-tree:   git://git.infradead.org/nvme.git nvme-6.19
-head:   db2792e1d7696594dcd09dcc97f262e69819a820
-commit: 00eecf662c6e30736357ffd007ea2f3964f6eb04 [3/27] nvme-auth: modify nvme_auth_transform_key() to return status
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260537.R9DHSTOl-lkp@intel.com/reproduce)
+Hi Anirudh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20251125]
+[also build test ERROR on v6.18-rc7]
+[cannot apply to arm64/for-next/core tip/irq/core arnd-asm-generic/master linus/master v6.18-rc7 v6.18-rc6 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anirudh-Raybharam/arm64-hyperv-move-hyperv-detection-earlier-in-boot/20251126-011057
+base:   next-20251125
+patch link:    https://lore.kernel.org/r/20251125170124.2443340-2-anirudh%40anirudhrb.com
+patch subject: [PATCH 1/3] arm64: hyperv: move hyperv detection earlier in boot
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251126/202511260546.RGx7vwyX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260546.RGx7vwyX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260537.R9DHSTOl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260546.RGx7vwyX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/nvme/common/auth.c:6:
-   drivers/nvme/common/auth.c: In function 'nvme_auth_transform_key':
->> include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
-     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
-         |                 ^~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:486:25: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:567:16: note: in expansion of macro 'KERN_WARNING'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/nvme/common/auth.c:278:17: note: in expansion of macro 'pr_warn'
-     278 |                 pr_warn("incompatible digest size %ld for key (hash %s, len %ld)\n",
-         |                 ^~~~~~~
+   In file included from arch/arm64/include/asm/mshyperv.h:66,
+                    from arch/arm64/kernel/setup.c:57:
+>> include/asm-generic/mshyperv.h:326:38: error: return type is an incomplete type
+     326 | static inline enum hv_isolation_type hv_get_isolation_type(void)
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/mshyperv.h: In function 'hv_get_isolation_type':
+>> include/asm-generic/mshyperv.h:328:16: error: 'HV_ISOLATION_TYPE_NONE' undeclared (first use in this function)
+     328 |         return HV_ISOLATION_TYPE_NONE;
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/mshyperv.h:328:16: note: each undeclared identifier is reported only once for each function it appears in
+>> include/asm-generic/mshyperv.h:328:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+   include/asm-generic/mshyperv.h:326:38: note: declared here
+     326 | static inline enum hv_isolation_type hv_get_isolation_type(void)
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +5 include/linux/kern_levels.h
+vim +326 include/asm-generic/mshyperv.h
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+7ad9bb9d0f357d Wei Liu                  2021-09-10  289  
+3817854ba89201 Nuno Das Neves           2025-03-14  290  #define _hv_status_fmt(fmt) "%s: Hyper-V status: %#x = %s: " fmt
+3817854ba89201 Nuno Das Neves           2025-03-14  291  #define hv_status_printk(level, status, fmt, ...) \
+3817854ba89201 Nuno Das Neves           2025-03-14  292  do { \
+3817854ba89201 Nuno Das Neves           2025-03-14  293  	u64 __status = (status); \
+3817854ba89201 Nuno Das Neves           2025-03-14  294  	pr_##level(_hv_status_fmt(fmt), __func__, hv_result(__status), \
+3817854ba89201 Nuno Das Neves           2025-03-14  295  		   hv_result_to_string(__status), ##__VA_ARGS__); \
+3817854ba89201 Nuno Das Neves           2025-03-14  296  } while (0)
+3817854ba89201 Nuno Das Neves           2025-03-14  297  #define hv_status_err(status, fmt, ...) \
+3817854ba89201 Nuno Das Neves           2025-03-14  298  	hv_status_printk(err, status, fmt, ##__VA_ARGS__)
+3817854ba89201 Nuno Das Neves           2025-03-14  299  #define hv_status_debug(status, fmt, ...) \
+3817854ba89201 Nuno Das Neves           2025-03-14  300  	hv_status_printk(debug, status, fmt, ##__VA_ARGS__)
+3817854ba89201 Nuno Das Neves           2025-03-14  301  
+3817854ba89201 Nuno Das Neves           2025-03-14  302  const char *hv_result_to_string(u64 hv_status);
+9d8731a1757bef Nuno Das Neves           2025-02-21  303  int hv_result_to_errno(u64 status);
+f3a99e761efa61 Tianyu Lan               2020-04-06  304  void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
+765e33f5211ab6 Michael Kelley           2019-05-30  305  bool hv_is_hyperv_initialized(void);
+b96f86534fa310 Dexuan Cui               2019-11-19  306  bool hv_is_hibernation_supported(void);
+a6c76bb08dc7f7 Andrea Parri (Microsoft  2021-02-01  307) enum hv_isolation_type hv_get_isolation_type(void);
+a6c76bb08dc7f7 Andrea Parri (Microsoft  2021-02-01  308) bool hv_is_isolation_supported(void);
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  309  bool hv_isolation_type_snp(void);
+20c89a559e00df Tianyu Lan               2021-10-25  310  u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size);
+d6e0228d265f29 Dexuan Cui               2023-08-24  311  u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2);
+3e1b611515d286 Tianyu Lan               2025-09-18  312  void hv_enable_coco_interrupt(unsigned int cpu, unsigned int vector, bool set);
+a156ad8c508209 Roman Kisel              2025-10-08  313  void hv_para_set_sint_proxy(bool enable);
+e6eeb3c782739c Roman Kisel              2025-10-08  314  u64 hv_para_get_synic_register(unsigned int reg);
+e6eeb3c782739c Roman Kisel              2025-10-08  315  void hv_para_set_synic_register(unsigned int reg, u64 val);
+765e33f5211ab6 Michael Kelley           2019-05-30  316  void hyperv_cleanup(void);
+6dc2a774cb4fdb Sunil Muthuswamy         2021-03-23  317  bool hv_query_ext_cap(u64 cap_query);
+37200078ed6aa2 Michael Kelley           2022-03-24  318  void hv_setup_dma_ops(struct device *dev, bool coherent);
+765e33f5211ab6 Michael Kelley           2019-05-30  319  #else /* CONFIG_HYPERV */
+db912b8954c23a Nuno Das Neves           2025-02-21  320  static inline void hv_identify_partition_type(void) {}
+765e33f5211ab6 Michael Kelley           2019-05-30  321  static inline bool hv_is_hyperv_initialized(void) { return false; }
+b96f86534fa310 Dexuan Cui               2019-11-19  322  static inline bool hv_is_hibernation_supported(void) { return false; }
+765e33f5211ab6 Michael Kelley           2019-05-30  323  static inline void hyperv_cleanup(void) {}
+f2580a907e5c0e Michael Kelley           2024-03-18  324  static inline void ms_hyperv_late_init(void) {}
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  325  static inline bool hv_is_isolation_supported(void) { return false; }
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25 @326  static inline enum hv_isolation_type hv_get_isolation_type(void)
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  327  {
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25 @328  	return HV_ISOLATION_TYPE_NONE;
+0cc4f6d9f0b9f2 Tianyu Lan               2021-10-25  329  }
+765e33f5211ab6 Michael Kelley           2019-05-30  330  #endif /* CONFIG_HYPERV */
+765e33f5211ab6 Michael Kelley           2019-05-30  331  
 
 -- 
 0-DAY CI Kernel Test Service
