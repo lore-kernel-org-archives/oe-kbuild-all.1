@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC90C33375A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 18:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4553328EB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 18:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764095951; cv=none; b=maDpadhvtYyMvH3Y2o6xdchywCg7eRLOzLxJWkkYYbJcGl/1y9xkMqeUW8fRc3CnBPoh8BZjP5KYK5gB5re+cqsDAdeLczkSAzN5Av10mfWIvX+NwSjYPx7JuMdWmLVuMReHr5UcU9Q+Zafw1cCE00jxcJv03khPclZuZDxi7wU=
+	t=1764096732; cv=none; b=ljXKWTG6yEgRT8HxVH24TX2xrIqR5a3PjwcQy6g7Dw4tTc33m7UCdsvYN8neIlarAgqgusHQeHHBK+OeFWn6AGHEQUVDyXbRMWtjVHYJuD+hM66iYYxz3IOLBAEl98ZsR8gUAqGoi6hER8HeSbVKnWahbbQASRyc3FLonDDXDrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764095951; c=relaxed/simple;
-	bh=SwMh+bOv9VKkCEiXi8kk/hn8YQ6tuDRU9ra8uwee5tE=;
+	s=arc-20240116; t=1764096732; c=relaxed/simple;
+	bh=YZZIstYE4z2XXhPUlWnUfnn/eprM83HP45iLYlPpFVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=eTosrM8ZhnlNVnVE1yQHdPN4t5ISuvRhOrwezzjYP0Wp4AmXg99OgGcUZ03G8ju2H+Zg6EOwBr+1RkM7FF2df1Pj7oRO7VlnyX5w5mX/7WemaI9r0WSyYFysdviLOl5dw8jfvc5lDEKWt9Ze6WISmaKaGDuZNNDasOE0gT0Zx/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knhvuw1k; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=tdnkWUJtsETY22JL86PiRxoypM+saqlrn0Rng+pR0Rk4ckTsln+JQQotKmHoPBc36oKUYMIXztPZaJLn4B8ajQYs4+WVVXEt7YZSGbETMotsPIsuGVT7E1KA6iG2a3igtbSVHUsqR93N05JNyqHrmopv0ENqXQO+b+sTiuKNnDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CyEvoOuy; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knhvuw1k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyEvoOuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764095950; x=1795631950;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=SwMh+bOv9VKkCEiXi8kk/hn8YQ6tuDRU9ra8uwee5tE=;
-  b=knhvuw1koDrtbsIgpIRsBr1fSJlqpEXm0K5LxsJF2+DS7pW6pICPNroY
-   i9TOFayfVaiQmTLl5t/h6qQM8vklSaYBgaOCsgroBsh/WrWGKPn/aYLu6
-   Gt4/fwBg9sOOSJp/WxbnAW1FsE+57sBlGt53h4a/bW3+snUymkiqHW0r5
-   rPwBgRba+x9SSkSFYCnuA5RdZxvIDgXunyi/AahT+RrvpTttE+3SW+N6R
-   DtfZ9fB7ZFkV3E4/ZGdbDnEoaQM34zc36H4h3keB02eF/vTmeICvK/Rkg
-   ySOPbNUmKneWXPnEKkxOD7Nfy0CFzS7esrDVGVMviI+wYY/bJyfCOLQYj
+  t=1764096731; x=1795632731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YZZIstYE4z2XXhPUlWnUfnn/eprM83HP45iLYlPpFVc=;
+  b=CyEvoOuySukgdkHeHVywmjaYpzjW127HgBCZ+8pK9p2wgNnLn6xZQHNP
+   zeuO0M2f/nBkVIQxaqE9Q0aGoDI2Ix9/tuhQJtsajDUKQdKORnWZdcZqN
+   iGPOpsQj25YYF/+xl1CZyRSbATyScCuicM+Vg3tnzYAQiBE9apZNpIPLr
+   s+7AX6B4nOieZ8wGYQXAuPJCWHKlOoyb6HRoL/8HTRWk+RCdQAYxLB/1W
+   e/ISVHak1eCV+/jF4QG2Y7MDqebQwyCTsnTFzZRc7LhRbn1VWXoWTO4ej
+   MCMoQbZd7vmkWCPyAb2lTDIUDb9k9Jlh+X3dxPjLI9MiTqisReRlqq8dY
    w==;
-X-CSE-ConnectionGUID: 4VByWXViR42G7PQQix7Y5A==
-X-CSE-MsgGUID: YPaOIQTXTYK+ivXHRVD8eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65833323"
+X-CSE-ConnectionGUID: 0eyM2kuNRK2sn+ii86EP/g==
+X-CSE-MsgGUID: 6fhCTLfbQY2r7XPzx6EJqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="53694919"
 X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="65833323"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 10:39:09 -0800
-X-CSE-ConnectionGUID: hpozAfpmRNGuZ44rYeIurA==
-X-CSE-MsgGUID: NNtZ3MAdSVOlWrrn6wn6tw==
+   d="scan'208";a="53694919"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 10:52:10 -0800
+X-CSE-ConnectionGUID: bEMj1+s9R5KgmchQPh4z0w==
+X-CSE-MsgGUID: MyXUvO/RRsmtuuDwzQzHGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; 
-   d="scan'208";a="192719081"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2025 10:39:08 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 25 Nov 2025 10:52:09 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNxwP-0000000029F-4C29;
-	Tue, 25 Nov 2025 18:39:06 +0000
-Date: Wed, 26 Nov 2025 02:38:10 +0800
+	id 1vNy90-000000002B3-45df;
+	Tue, 25 Nov 2025 18:52:06 +0000
+Date: Wed, 26 Nov 2025 02:51:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Safin <a.safin@rosa.ru>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] media: ipu6: isys: csi2: guard NULL remote pad/subdev on
- enable/disable
-Message-ID: <aSX3klrjsRrlyCS2@4e95d9e973af>
+To: Oliver Upton <oupton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Marc Zyngier <maz@kernel.org>
+Subject: [linux-next:master 11303/11746] arch/arm64/kvm/at.c:389:21: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202511260246.JQDGsQKa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +59,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125183110.80525-1-a.safin@rosa.ru>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   92fd6e84175befa1775e5c0ab682938eca27c0b2
+commit: c59ca4b5b0c3fc8386665228b0cfee56323bfeb5 [11303/11746] KVM: arm64: Implement HW access flag management in stage-1 SW PTW
+config: arm64-randconfig-r133-20251125 (https://download.01.org/0day-ci/archive/20251126/202511260246.JQDGsQKa-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260246.JQDGsQKa-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260246.JQDGsQKa-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/at.c:389:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] old @@     got restricted __be64 [usertype] @@
+   arch/arm64/kvm/at.c:389:21: sparse:     expected unsigned long long [usertype] old
+   arch/arm64/kvm/at.c:389:21: sparse:     got restricted __be64 [usertype]
+>> arch/arm64/kvm/at.c:390:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] new @@     got restricted __be64 [usertype] @@
+   arch/arm64/kvm/at.c:390:21: sparse:     expected unsigned long long [usertype] new
+   arch/arm64/kvm/at.c:390:21: sparse:     got restricted __be64 [usertype]
+>> arch/arm64/kvm/at.c:392:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] old @@     got restricted __le64 [usertype] @@
+   arch/arm64/kvm/at.c:392:21: sparse:     expected unsigned long long [usertype] old
+   arch/arm64/kvm/at.c:392:21: sparse:     got restricted __le64 [usertype]
+>> arch/arm64/kvm/at.c:393:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] new @@     got restricted __le64 [usertype] @@
+   arch/arm64/kvm/at.c:393:21: sparse:     expected unsigned long long [usertype] new
+   arch/arm64/kvm/at.c:393:21: sparse:     got restricted __le64 [usertype]
+   arch/arm64/kvm/at.c:1434:9: sparse: sparse: context imbalance in '__kvm_at_s1e01_fast' - wrong count at exit
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+vim +389 arch/arm64/kvm/at.c
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] media: ipu6: isys: csi2: guard NULL remote pad/subdev on enable/disable
-Link: https://lore.kernel.org/stable/20251125183110.80525-1-a.safin%40rosa.ru
+   384	
+   385	static int kvm_swap_s1_desc(struct kvm_vcpu *vcpu, u64 pa, u64 old, u64 new,
+   386				    struct s1_walk_info *wi)
+   387	{
+   388		if (wi->be) {
+ > 389			old = cpu_to_be64(old);
+ > 390			new = cpu_to_be64(new);
+   391		} else {
+ > 392			old = cpu_to_le64(old);
+ > 393			new = cpu_to_le64(new);
+   394		}
+   395	
+   396		return __kvm_at_swap_desc(vcpu->kvm, pa, old, new);
+   397	}
+   398	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
