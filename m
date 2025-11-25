@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B782FBDEA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 11:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC63F31B805
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764071136; cv=none; b=X20DC5K+UzOIUuSucM+eP982rxUYffnoK3S4CGOQuKn34EOVTpl4r9NsQgoJq2JK6032IbQPEAYKU4xftzp0+YQcCgAoAoQ1RGwpJ3JtxUBd+RLHxVzl2QtkBaTJc/bnQxVYNs8ugwHepV+KB/MfcjcaHMCBTPVCn0CYhDEmLVU=
+	t=1764072461; cv=none; b=Y3/+qPWTdrhp7muVBJCw/twWgh/5XAvvWImN6lTFy/SYPklZYCbXYTAX0wxKHwr0BUI1w1zMm7czUoiViBPo/RpVXCR5lCol9ZG/uI10LkCFC/jnhUGRFPGlnOgDfYwPJFHngf7YgkUGXICwqwBbwHG4jquiM1i+u70uORlDT1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764071136; c=relaxed/simple;
-	bh=wxpR9kK07kWmOlQUvX49zrpQRrvjiKoa6JswBCvlN78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lprcN6yflKICYC9DICDA+bzcBlFlFsEyJVzb+GAsoKUYNLp2P/QnX3QU/1IC4OYgmGdcbkDHTi61+LGTjumYFqKaZLDIC4VZZNxOXWtJE9dTiZRwIQn7RJCfcfqZ02ShbSXn+VtXJYPzneXwp/hDHCEN4VGm3ZynInlGJ+4XQUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X1/VPxhx; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1764072461; c=relaxed/simple;
+	bh=HUS/hr9rsdoWkE1iQlqgvgKg8CJAzkBfucNFF0L6nxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gIRp+xErqmpaCtBcpEASWjHpePEi9DcBxrDW8+98tLg0txG5m/dhbkh8IcS6iB37GSc6eh+/Jr40I8rRDwomsm+rsGLwP4uqspDz33x1E+md+qzkEhNkmJCNuA6vMnSifEWQdlv40su/e9O6mo8Al9ZCic2Mg75AmDISpPD0880=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFsbLPaV; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X1/VPxhx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFsbLPaV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764071135; x=1795607135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wxpR9kK07kWmOlQUvX49zrpQRrvjiKoa6JswBCvlN78=;
-  b=X1/VPxhx+WQznopZ60hliB9kNYmJ/zMgfBvSdvtsuHjCL9OQa3zD9qoT
-   +7ofxvgayD1x9sH691Sj60Y6OO5MfOk2j1LLiJ89sfiPAVfc1J4Q/UVGy
-   iiVPOwlSdgAL5jQvhrnmhUSlapijHe52qAwY3Xy4jDmnftMdt4jAxsAPY
-   BERagq26hJqEwXW/k18pQHbVK15Ps+qoQK1CJEdoqEkrTdJPLbJ2gKYy3
-   V+ArYz604XEpslYn4Mioh54Vxy+vvxFShU35mSc+lIG7IZu3dCWG7IR55
-   uv5WmCfBC8nvm5rn4/8U99J3SFAFas1Dhfc6zLbzkLHn6Fi89o2wH136I
-   Q==;
-X-CSE-ConnectionGUID: Qc5cbqM1TlqsxT6Q73qdmw==
-X-CSE-MsgGUID: 5c56Rak+TjWUeBPiydDueg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="69946902"
+  t=1764072460; x=1795608460;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HUS/hr9rsdoWkE1iQlqgvgKg8CJAzkBfucNFF0L6nxQ=;
+  b=HFsbLPaVEYU4eJjfK6CrkMD/KYUYbocz89x0nwOXyBt8rfJjdHQHU3dj
+   Rkp0HGDHRBrYKKss/h7YZ80UDjt5cMt+De/GpZyTUKik0t2NYzuYTmnlZ
+   bh1FLR0vOl/pOKPc8KvXZcBNxwgaY/6ygvSCwYohKte4zqIklcb145jtY
+   +aj4TDgurGRu77B5ezlHg0TzNfYWag/owR1yJoUWHHhYX5UuNJ4rYOkjj
+   8uACz/KnZTS2UMQlmMh227icpoIhSkpt2FQ3GwassBfp9Vn8KdKSTWlPp
+   mfatwqhtr9OxsA6WvvpNpTr/Er4ICf/4dkN/e1/reFGEIjmFs10u2poFw
+   w==;
+X-CSE-ConnectionGUID: FJn1TPvRT/KKoZM0k0Ysmw==
+X-CSE-MsgGUID: bnvaDTXtTyOYE/41izoi6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76711206"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="69946902"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 03:45:35 -0800
-X-CSE-ConnectionGUID: 6gsUeQENROGd5YfL7Bnx1Q==
-X-CSE-MsgGUID: CBsbMmzkSHGg6iZBiRQoAg==
+   d="scan'208";a="76711206"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:07:39 -0800
+X-CSE-ConnectionGUID: wexZ6oseTpmjaSmPZZY6qQ==
+X-CSE-MsgGUID: W8gUzuhESsusJd2JbHwFhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="223290658"
+   d="scan'208";a="192617431"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 03:45:31 -0800
+  by orviesa007.jf.intel.com with ESMTP; 25 Nov 2025 04:07:38 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNrU9-000000001hl-0tl3;
-	Tue, 25 Nov 2025 11:45:29 +0000
-Date: Tue, 25 Nov 2025 19:45:02 +0800
+	id 1vNrpX-000000001lE-3hTa;
+	Tue, 25 Nov 2025 12:07:35 +0000
+Date: Tue, 25 Nov 2025 20:06:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Collins <david.collins@oss.qualcomm.com>,
-	konrad.dybcio@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-	kamal.wadhwa@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com
-Subject: Re: [PATCH v4 3/3] spmi: spmi-pmic-arb: add support for PMIC arbiter
- v8
-Message-ID: <202511251730.R2wx1j01-lkp@intel.com>
-References: <20251124-pmic_arb_v8-v4-3-d91dcbf097c7@oss.qualcomm.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:stack_magic 31/31] include/linux/tracing.h:168:8: error:
+ extra tokens at end of #endif directive
+Message-ID: <202511251955.fqALPBb8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,71 +61,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251124-pmic_arb_v8-v4-3-d91dcbf097c7@oss.qualcomm.com>
 
-Hi Jishnu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jishnu-Prakash/dt-bindings-spmi-split-out-common-QCOM-SPMI-PMIC-arbiter-properties/20251124-175115
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251124-pmic_arb_v8-v4-3-d91dcbf097c7%40oss.qualcomm.com
-patch subject: [PATCH v4 3/3] spmi: spmi-pmic-arb: add support for PMIC arbiter v8
-config: loongarch-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251730.R2wx1j01-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251730.R2wx1j01-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux stack_magic
+head:   4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa
+commit: 4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa [31/31] add tracing.h
+config: powerpc-randconfig-001-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251955.fqALPBb8-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251955.fqALPBb8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251730.R2wx1j01-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511251955.fqALPBb8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/spmi/spmi-pmic-arb.c: In function '_pmic_arb_init_apid_v7':
->> drivers/spmi/spmi-pmic-arb.c:1391:13: warning: unused variable 'ret' [-Wunused-variable]
-    1391 |         int ret, i;
-         |             ^~~
+   In file included from lib/test_bitops.c:10:
+   In file included from include/linux/module.h:18:
+   In file included from include/linux/kmod.h:9:
+   In file included from include/linux/umh.h:4:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from arch/powerpc/include/asm/preempt.h:5:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:60:
+   In file included from arch/powerpc/include/asm/thread_info.h:13:
+   In file included from arch/powerpc/include/asm/page.h:11:
+   In file included from include/linux/kernel.h:34:
+>> include/linux/tracing.h:168:8: error: extra tokens at end of #endif directive [-Werror,-Wextra-tokens]
+     168 | #endif _/* _LINUX_TRACING_H */
+         |        ^
+         |        //
+   1 error generated.
 
 
-vim +/ret +1391 drivers/spmi/spmi-pmic-arb.c
+vim +168 include/linux/tracing.h
 
-  1386	
-  1387	static int _pmic_arb_init_apid_v7(struct spmi_pmic_arb_bus *bus, int index,
-  1388					  int max_buses, unsigned long periph_mask)
-  1389	{
-  1390		struct spmi_pmic_arb *pmic_arb = bus->pmic_arb;
-> 1391		int ret, i;
-  1392	
-  1393		if (index < 0 || index >= max_buses) {
-  1394			dev_err(&bus->spmic->dev, "Unsupported bus index %d detected\n",
-  1395				index);
-  1396			return -EINVAL;
-  1397		}
-  1398	
-  1399		bus->base_apid = 0;
-  1400		bus->apid_count = 0;
-  1401		for (i = 0; i <= index; i++) {
-  1402			bus->base_apid += bus->apid_count;
-  1403			bus->apid_count = readl_relaxed(pmic_arb->core +
-  1404							PMIC_ARB_FEATURES + i * 4) &
-  1405							periph_mask;
-  1406		}
-  1407	
-  1408		if (bus->apid_count == 0) {
-  1409			dev_err(&bus->spmic->dev, "Bus %d not implemented\n", index);
-  1410			return -EINVAL;
-  1411		} else if (bus->base_apid + bus->apid_count > pmic_arb->max_periphs) {
-  1412			dev_err(&bus->spmic->dev, "Unsupported max APID %d detected\n",
-  1413				bus->base_apid + bus->apid_count);
-  1414			return -EINVAL;
-  1415		}
-  1416	
-  1417		return pmic_arb_init_apid_min_max(bus);
-  1418	}
-  1419	
+   167	
+ > 168	#endif _/* _LINUX_TRACING_H */
 
 -- 
 0-DAY CI Kernel Test Service
