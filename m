@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E932EC0B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 09:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304B216A956
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 10:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764064346; cv=none; b=s+PbTHHGLf7uLbrWn3UC1utTJr7b+X6q/rWSi3h5OysI/2AKBtly0YggqQ40cnL4w2PitiDjhR3ENxen/ODN2m49msJ4xQrkgIfF6j5clPDX+8m7vhF3Jow/aaxaZE/0bN6yNXQA4cnr4wP+2nkxmUtF1tdtLaMqEIOyWCjIOIs=
+	t=1764068071; cv=none; b=IoQPH0i+dXDHbY6skZ+pn/MHDnQVmUojSVSoXDpiVfJRZFqCZRCzgLphCvGeowCBa3La10LFSawavgq6V9+LmIDnazpJ0asA7bKPgAgrL9fWhrpWg7NE8wyYH2OhihDvLei0TQuZ+DhdKWjqUN8bwHPYAnlgyMzkL8xpPSW6BxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764064346; c=relaxed/simple;
-	bh=p27VawQ0735x1k417pSwtWP+BAdRrN4dEHZ9/z+gbDI=;
+	s=arc-20240116; t=1764068071; c=relaxed/simple;
+	bh=F5JrAk57BtjRmDi9Ujk5ohqVK8zDINe9KfRSuPzltZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XP33u0Tb1DB8FqfL7sTNp80e7pjwzZ+X0/F2nOhFPCk2/2hKpb4g942rbBmxAzH3CmtGENPvy0gbHB8ntYoYuLyeJ9L7DCGniMZ8Gx5sqEzMKzRZdUyZ2rJnKPxo7G6+qLYwfxbnoY0a0J9F73qlPJy2Tj3obYEgjt4OqeAbZII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNVK3Sq8; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=tO2FogMoUHasOh4kj22Rmk1U54gNkXeYWRrH1bnjsfIKFr/IqfmoR9zPsJQsVji7ny0Ik59ic3lm4D4zyoyXiszcdL/yuKtcmAMR0zv0y7xsQ0GKdPph+0D10uEXI6Ox6QDZ16UT4e3lxzU1XYsXDyHg+DyvhsHNE0a16m4/6pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/ujHud/; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNVK3Sq8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/ujHud/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764064345; x=1795600345;
+  t=1764068070; x=1795604070;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p27VawQ0735x1k417pSwtWP+BAdRrN4dEHZ9/z+gbDI=;
-  b=UNVK3Sq8M0TEec4iQSM31CCZDaKh98pyE0QBme904+NiL0ilLkAYJgop
-   u95O9reBG7j64CJg6kph6vbJKzHhUD3GPjCuLKOeEdO9tg1lNNF8mpG+w
-   dU+hTflmrOCD+/hof6G8X09WHr36KdHlg7By4neVnkdloRPoPf3sKR50a
-   2xup1EPPoYckLvXMld4GmIcGfx+4rAQNkT2tE5aU7MvA59ROZgULwjToq
-   Q3CSZMTZWmqDK1JB3QPQsATdbv1tsm1NsYLvceP8y88V+ksSDsai3F3VM
-   PKvw35jBuWl+sR9l1chmHyb7bAwRb17muLwk2hW7V2Bkh+0U+arvmduQy
+  bh=F5JrAk57BtjRmDi9Ujk5ohqVK8zDINe9KfRSuPzltZY=;
+  b=N/ujHud/B/1c0q8ZxSa7aKqa9CBdK7wsoqIzXy3oVb2BpfZnFUGaxIv4
+   +N4aZ1iIoY1Fy6HgKtCLTmV22qGHEEKzG/IbsNYn0/h7Q5DYyN796nEbC
+   gjHAVT4OYEtUhCloPJWuOH1r8cR8xGQh0bnS+WbVqJKPcNmPCLXd/N5FV
+   H6rxd2z9F6tbkgdaDXmuKIp4SPeU//c6dItbDrnaLVvCGtGxUbyEVFAF/
+   4zKDjQUT4Pjm2EtXangcIrQtH7S4H8TY/XQMgbWa72yS3F+2ndeyN8zRE
+   bisHLx29bhml8HKe0HCVq3vl9RCzuvja5eybN9ruWIz4qrJVQelpdxj5d
    A==;
-X-CSE-ConnectionGUID: XCfczxp7QlOa8g/+SIJ63g==
-X-CSE-MsgGUID: JJJYhHQmSkufqxbLdg2EIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66155149"
+X-CSE-ConnectionGUID: qsWeDgYVStmVC1R6BPMzoQ==
+X-CSE-MsgGUID: ajIhck0ZTaussh3U8LgPsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="76406630"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="66155149"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 01:52:24 -0800
-X-CSE-ConnectionGUID: iP9/5N+0Q1KBA6QH97rZIw==
-X-CSE-MsgGUID: Fx5Sy5A7QhKXadEzyEUBBQ==
+   d="scan'208";a="76406630"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 02:54:29 -0800
+X-CSE-ConnectionGUID: xn2/JTM3T8GoojRUpgjcZA==
+X-CSE-MsgGUID: QBL+mKR5QD+kf46UyjT1hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="193397162"
+   d="scan'208";a="223579808"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Nov 2025 01:52:23 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2025 02:54:27 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNpif-000000001bd-15D6;
-	Tue, 25 Nov 2025 09:52:21 +0000
-Date: Tue, 25 Nov 2025 17:51:28 +0800
+	id 1vNqgj-000000001eb-0AFV;
+	Tue, 25 Nov 2025 10:54:25 +0000
+Date: Tue, 25 Nov 2025 18:53:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
+To: kernel@openeuler.org, Cheng Jian <cj.chengjian@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3316/3316] kernel/xsched/core.c:189:5: warning:
- no previous prototype for 'xsched_xse_set_class'
-Message-ID: <202511251727.cFjVKjQN-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1936/1936]
+ drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.o: warning: objtool:
+ missing symbol for section .text
+Message-ID: <202511251827.iPD7MiMU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,36 +63,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c1bc27c0f90c1e34d319455cb1e28b2705987616
-commit: 76c15076abcb100f7c1204bd1ef0ec55128d6546 [3316/3316] xsched: Add basic scheduler core support
-config: x86_64-buildonly-randconfig-002-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251727.cFjVKjQN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251727.cFjVKjQN-lkp@intel.com/reproduce)
+Hi Naixin,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4ffe43c9c280969676fa933f022ebf1a8aaebcdb
+commit: d83c305cb9b2708b835a47c9ddcbcab97cf70c9f [1936/1936] Huawei BMA: Adding Huawei BMA driver: host_kbox_drv
+config: x86_64-buildonly-randconfig-004-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251827.iPD7MiMU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251827.iPD7MiMU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251727.cFjVKjQN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511251827.iPD7MiMU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/xsched/core.c:189:5: warning: no previous prototype for 'xsched_xse_set_class' [-Wmissing-prototypes]
-     189 | int xsched_xse_set_class(struct xsched_entity *xse)
-         |     ^~~~~~~~~~~~~~~~~~~~
-
-
-vim +/xsched_xse_set_class +189 kernel/xsched/core.c
-
-   188	
- > 189	int xsched_xse_set_class(struct xsched_entity *xse)
-   190	{
-   191		struct xsched_class *sched = xsched_first_class;
-   192	
-   193		xse->class = sched;
-   194		return 0;
-   195	}
-   196	
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:42:6: warning: no previous prototype for function 'kbox_write_to_pci' [-Wmissing-prototypes]
+      42 | void kbox_write_to_pci(void __iomem *dest, const void *src, int len,
+         |      ^
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:42:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      42 | void kbox_write_to_pci(void __iomem *dest, const void *src, int len,
+         | ^
+         | static 
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:111:6: warning: no previous prototype for function 'kbox_read_from_pci' [-Wmissing-prototypes]
+     111 | void kbox_read_from_pci(void *dest, void __iomem *src, int len,
+         |      ^
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:111:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     111 | void kbox_read_from_pci(void *dest, void __iomem *src, int len,
+         | ^
+         | static 
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:172:6: warning: no previous prototype for function 'kbox_memset_pci' [-Wmissing-prototypes]
+     172 | void kbox_memset_pci(void __iomem *dest, const char set_byte, int len,
+         |      ^
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c:172:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     172 | void kbox_memset_pci(void __iomem *dest, const char set_byte, int len,
+         | ^
+         | static 
+   3 warnings generated.
+>> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.o: warning: objtool: missing symbol for section .text
+--
+   drivers/net/ethernet/huawei/bma/kbox_drv/kbox_dump.c:35:19: warning: unused variable 'g_day_in_month' [-Wunused-const-variable]
+      35 | static const char g_day_in_month[] = {
+         |                   ^~~~~~~~~~~~~~
+   1 warning generated.
+>> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_dump.o: warning: objtool: missing symbol for section .text
+--
+>> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_panic.o: warning: objtool: missing symbol for section .text
+--
+>> drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_image.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
