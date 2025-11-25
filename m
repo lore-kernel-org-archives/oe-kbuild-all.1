@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CE531B805
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C781DA23
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 12:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764072465; cv=none; b=QlOPCIHsrWgo7NjBM7MzAAWE2vfXkb5tQY5cHaTU+GZGfqg2MYYwxoLdROIfMLM0iSMg4t+CzNqYLTkNP6mk+OZJ2XDtdwaLxQ8/UIAgeMWnupVRUPKGP/AhCpKeyUuom0NigMLLRbHayfey3vIayn01TACXJ9XJGyE0kq3tK+4=
+	t=1764073064; cv=none; b=rbmsIthu72dOUKIfPRKal5FlI1pRAtnJ8E1roK/atZ+Jr4Hg5Pd9ks8GSBNl5GMK1PuzcsGNpRgYUXYPEohhzHUo1j3BPlFhyeDsDPB07MI+rFJBdKs6YXw35c/76m5iiFs+cZgJPj0m9pDeCJYyBV2T9QquwBYvsrvKN/J6yNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764072465; c=relaxed/simple;
-	bh=hs2HqRZd9CKJ+mJ0wCwhI/P+IiG6MP94Om95Ix3hkeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JYjIanNywoFUBUraOMHRfDl6cJblbrjkEkc4+A0fO73hOl/TVFB7yGZBEFiYzUf2/tL+O8XITYIWDg/BLFm2IYBY2CC2Ae5W0AATw+wLGaMGfRgR3VJab35wxGPZLeRxwT7bGmdnutes63DasG3CAj50WODPHVcJUIau7kdw0CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWrd+ggX; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1764073064; c=relaxed/simple;
+	bh=Y04DrZuV8Osk+tUoqw7jLJ90epxMN2KK5RiZwt2Go1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ALYVba+UhLfkTtPHbpxEwluDC42tlrx3iSbq3fLjG9YZBpoIwws0WjL/dWjb7E01A4GLsODHNwpvnQFko/ANRjd7Xb5pMGrvGG2PHDmLScUx+Fdq2hxEGs+FuzOPT2VEE2R+wpkInUewggMKvKwOPNAhcP2I7AVCKYNSLFVri2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0LQTLZQ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWrd+ggX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0LQTLZQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764072464; x=1795608464;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hs2HqRZd9CKJ+mJ0wCwhI/P+IiG6MP94Om95Ix3hkeI=;
-  b=TWrd+ggXshnxnRo4SY7dMi/z7hwrMQWqBb8BtwC1YIwoCNALhDhv8VH0
-   a/KGs7WTBYJQyOUiQdudXwzjwHUddV7B11QuQK2DdsbttF+7uz1m2nOMa
-   UrIULsKVe93O9YCE1KnANA1CYhTHktzjCorY08KmOxqa4A4i8GHCmgcMW
-   SXJpIl7N1c3REr+HeNDk36s+vHTfBFFJJ2jPj28t9WmNLVk729sQGDGFP
-   xBMOYpnKzkX3LmYxJPmAL0rp9V3fUnKt86XCVGhCDhqcT+o+iezPksiA1
-   VxuepIuLMkpbdMQzPWKbJNsBj429pTGgIsMz4o+ae+FF0WZQArJ/+0mvW
-   Q==;
-X-CSE-ConnectionGUID: YqoR4woYRa62gKLZ1VcK5w==
-X-CSE-MsgGUID: omwkS8ltQ6a9Abq/ETrQ8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="65271998"
+  t=1764073062; x=1795609062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y04DrZuV8Osk+tUoqw7jLJ90epxMN2KK5RiZwt2Go1U=;
+  b=d0LQTLZQhqYYvnQnxUyXFdB8st0+XB1cvc1H5umb3JpchiFCUiel1wqG
+   pJ2hBzOtyl05yaZQIlts7OT2OgwyCeGfSAWXR8mXt9f/b0PGhuC2lemw5
+   oWHkJEOJCUx7Ggh76z10LgMiXMchvWD99QAyIiou2LDSWGyLtUS1sUz9d
+   vagijfdfgr5h9ozof1wUVs3ApcU+UHp8OC62mgvY257RpvHfHefRWh+zp
+   p/UtsBSitzbIRM1RzbZBjlj9StbtLi5WDqE79Fta65sLwhfaww5PmSYxa
+   4LUwqJtQyZjtQkbv5zvtXqJvS56IBCU4UAlcHz0+kdv3ZOFA6rRPz8ybv
+   g==;
+X-CSE-ConnectionGUID: EgKs/o5TTQuQZNqL69opKg==
+X-CSE-MsgGUID: cCLWnueES96QxYl+8vpwJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="91575688"
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="65271998"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:07:40 -0800
-X-CSE-ConnectionGUID: fNcbAgbKScS+EeOXAjaQbQ==
-X-CSE-MsgGUID: owRAvrX9RCWgBlSvuMp5rA==
+   d="scan'208";a="91575688"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 04:17:41 -0800
+X-CSE-ConnectionGUID: l0TWK8a9TBCGpiC32UIljg==
+X-CSE-MsgGUID: zvY7cKyKRY2H528tgH5Giw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="223297138"
+   d="scan'208";a="192263624"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2025 04:07:39 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 25 Nov 2025 04:17:40 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vNrpX-000000001l9-3UTq;
-	Tue, 25 Nov 2025 12:07:35 +0000
-Date: Tue, 25 Nov 2025 20:06:55 +0800
+	id 1vNrzF-000000001lt-2zsU;
+	Tue, 25 Nov 2025 12:17:37 +0000
+Date: Tue, 25 Nov 2025 20:17:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 456/456]
- net/ipv4/tcp_output.c:2028:21: sparse: sparse: incompatible types in
- comparison expression (different type sizes):
-Message-ID: <202511251936.ot5scfb5-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH] ring-buffer: Add helper functions for allocations
+Message-ID: <202511252040.Jny2Yxxn-lkp@intel.com>
+References: <20251124140906.71a2abf6@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,145 +65,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251124140906.71a2abf6@gandalf.local.home>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   f0f1719f2a6186edc2c4c8781e747872ef6e9794
-commit: 8b7ac7af3a6664d707cb451c1cac5d9444977815 [456/456] tcp: fix tcp_tso_should_defer() vs large RTT
-config: i386-randconfig-r121-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251936.ot5scfb5-lkp@intel.com/config)
+Hi Steven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trace/for-next]
+[also build test WARNING on linus/master v6.18-rc7 next-20251125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ring-buffer-Add-helper-functions-for-allocations/20251125-031044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251124140906.71a2abf6%40gandalf.local.home
+patch subject: [PATCH] ring-buffer: Add helper functions for allocations
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251125/202511252040.Jny2Yxxn-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251936.ot5scfb5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511252040.Jny2Yxxn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251936.ot5scfb5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511252040.Jny2Yxxn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp_output.c:2028:21: sparse: sparse: incompatible types in comparison expression (different type sizes):
-   net/ipv4/tcp_output.c:2028:21: sparse:    unsigned long long *
-   net/ipv4/tcp_output.c:2028:21: sparse:    long *
+All warnings (new ones prefixed by >>):
 
-vim +2028 net/ipv4/tcp_output.c
+   kernel/trace/ring_buffer.c: In function '__rb_allocate_pages':
+>> kernel/trace/ring_buffer.c:2279:30: warning: unused variable 'page' [-Wunused-variable]
+    2279 |                 struct page *page;
+         |                              ^~~~
+>> kernel/trace/ring_buffer.c:2242:15: warning: variable 'mflags' set but not used [-Wunused-but-set-variable]
+    2242 |         gfp_t mflags;
+         |               ^~~~~~
+   kernel/trace/ring_buffer.c: In function 'rb_allocate_cpu_buffer':
+   kernel/trace/ring_buffer.c:2362:22: warning: unused variable 'page' [-Wunused-variable]
+    2362 |         struct page *page;
+         |                      ^~~~
+   kernel/trace/ring_buffer.c: In function 'ring_buffer_alloc_read_page':
+   kernel/trace/ring_buffer.c:6493:22: warning: unused variable 'page' [-Wunused-variable]
+    6493 |         struct page *page;
+         |                      ^~~~
 
-  1943	
-  1944	/* Try to defer sending, if possible, in order to minimize the amount
-  1945	 * of TSO splitting we do.  View it as a kind of TSO Nagle test.
-  1946	 *
-  1947	 * This algorithm is from John Heffner.
-  1948	 */
-  1949	static bool tcp_tso_should_defer(struct sock *sk, struct sk_buff *skb,
-  1950					 bool *is_cwnd_limited,
-  1951					 bool *is_rwnd_limited,
-  1952					 u32 max_segs)
-  1953	{
-  1954		const struct inet_connection_sock *icsk = inet_csk(sk);
-  1955		u32 send_win, cong_win, limit, in_flight, threshold;
-  1956		u64 srtt_in_ns, expected_ack, how_far_is_the_ack;
-  1957		struct tcp_sock *tp = tcp_sk(sk);
-  1958		struct sk_buff *head;
-  1959		int win_divisor;
-  1960		s64 delta;
-  1961	
-  1962		if (icsk->icsk_ca_state >= TCP_CA_Recovery)
-  1963			goto send_now;
-  1964	
-  1965		/* Avoid bursty behavior by allowing defer
-  1966		 * only if the last write was recent (1 ms).
-  1967		 * Note that tp->tcp_wstamp_ns can be in the future if we have
-  1968		 * packets waiting in a qdisc or device for EDT delivery.
-  1969		 */
-  1970		delta = tp->tcp_clock_cache - tp->tcp_wstamp_ns - NSEC_PER_MSEC;
-  1971		if (delta > 0)
-  1972			goto send_now;
-  1973	
-  1974		in_flight = tcp_packets_in_flight(tp);
-  1975	
-  1976		BUG_ON(tcp_skb_pcount(skb) <= 1);
-  1977		BUG_ON(tp->snd_cwnd <= in_flight);
-  1978	
-  1979		send_win = tcp_wnd_end(tp) - TCP_SKB_CB(skb)->seq;
-  1980	
-  1981		/* From in_flight test above, we know that cwnd > in_flight.  */
-  1982		cong_win = (tp->snd_cwnd - in_flight) * tp->mss_cache;
-  1983	
-  1984		limit = min(send_win, cong_win);
-  1985	
-  1986		/* If a full-sized TSO skb can be sent, do it. */
-  1987		if (limit >= max_segs * tp->mss_cache)
-  1988			goto send_now;
-  1989	
-  1990		/* Middle in queue won't get any more data, full sendable already? */
-  1991		if ((skb != tcp_write_queue_tail(sk)) && (limit >= skb->len))
-  1992			goto send_now;
-  1993	
-  1994		win_divisor = READ_ONCE(sock_net(sk)->ipv4.sysctl_tcp_tso_win_divisor);
-  1995		if (win_divisor) {
-  1996			u32 chunk = min(tp->snd_wnd, tp->snd_cwnd * tp->mss_cache);
-  1997	
-  1998			/* If at least some fraction of a window is available,
-  1999			 * just use it.
-  2000			 */
-  2001			chunk /= win_divisor;
-  2002			if (limit >= chunk)
-  2003				goto send_now;
-  2004		} else {
-  2005			/* Different approach, try not to defer past a single
-  2006			 * ACK.  Receiver should ACK every other full sized
-  2007			 * frame, so if we have space for more than 3 frames
-  2008			 * then send now.
-  2009			 */
-  2010			if (limit > tcp_max_tso_deferred_mss(tp) * tp->mss_cache)
-  2011				goto send_now;
-  2012		}
-  2013	
-  2014		/* TODO : use tsorted_sent_queue ? */
-  2015		head = tcp_rtx_queue_head(sk);
-  2016		if (!head)
-  2017			goto send_now;
-  2018	
-  2019		srtt_in_ns = (u64)(NSEC_PER_USEC >> 3) * tp->srtt_us;
-  2020		/* When is the ACK expected ? */
-  2021		expected_ack = head->tstamp + srtt_in_ns;
-  2022		/* How far from now is the ACK expected ? */
-  2023		how_far_is_the_ack = expected_ack - tp->tcp_clock_cache;
-  2024	
-  2025		/* If next ACK is likely to come too late,
-  2026		 * ie in more than min(1ms, half srtt), do not defer.
-  2027		 */
-> 2028		threshold = min(srtt_in_ns >> 1, NSEC_PER_MSEC);
-  2029	
-  2030		if ((s64)(how_far_is_the_ack - threshold) > 0)
-  2031			goto send_now;
-  2032	
-  2033		/* Ok, it looks like it is advisable to defer.
-  2034		 * Three cases are tracked :
-  2035		 * 1) We are cwnd-limited
-  2036		 * 2) We are rwnd-limited
-  2037		 * 3) We are application limited.
-  2038		 */
-  2039		if (cong_win < send_win) {
-  2040			if (cong_win <= skb->len) {
-  2041				*is_cwnd_limited = true;
-  2042				return true;
-  2043			}
-  2044		} else {
-  2045			if (send_win <= skb->len) {
-  2046				*is_rwnd_limited = true;
-  2047				return true;
-  2048			}
-  2049		}
-  2050	
-  2051		/* If this packet won't get more data, do not wait. */
-  2052		if ((TCP_SKB_CB(skb)->tcp_flags & TCPHDR_FIN) ||
-  2053		    TCP_SKB_CB(skb)->eor)
-  2054			goto send_now;
-  2055	
-  2056		return true;
-  2057	
-  2058	send_now:
-  2059		return false;
-  2060	}
-  2061	
+
+vim +/page +2279 kernel/trace/ring_buffer.c
+
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2234) 
+74e2afc6df5782 Qiujun Huang                2020-10-15  2235  static int __rb_allocate_pages(struct ring_buffer_per_cpu *cpu_buffer,
+74e2afc6df5782 Qiujun Huang                2020-10-15  2236  		long nr_pages, struct list_head *pages)
+7a8e76a3829f10 Steven Rostedt              2008-09-29  2237  {
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2238) 	struct trace_buffer *buffer = cpu_buffer->buffer;
+4009cc31e7813e Steven Rostedt              2025-03-05  2239  	struct ring_buffer_cpu_meta *meta = NULL;
+044fa782ebb947 Steven Rostedt              2008-12-02  2240  	struct buffer_page *bpage, *tmp;
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2241) 	bool user_thread = current->mm != NULL;
+927e56db625322 Steven Rostedt (VMware      2018-04-04 @2242) 	gfp_t mflags;
+9b94a8fba501f3 Steven Rostedt (Red Hat     2016-05-12  2243) 	long i;
+3adc54fa82a68b Steven Rostedt              2009-03-30  2244  
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2245) 	/*
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2246) 	 * Check if the available memory is there first.
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2247) 	 * Note, si_mem_available() only gives us a rough estimate of available
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2248) 	 * memory. It may not be accurate. But we don't care, we just want
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2249) 	 * to prevent doing any allocation when it is obvious that it is
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2250) 	 * not going to succeed.
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2251) 	 */
+2a872fa4e9c8ad Steven Rostedt (VMware      2018-04-02  2252) 	i = si_mem_available();
+2a872fa4e9c8ad Steven Rostedt (VMware      2018-04-02  2253) 	if (i < nr_pages)
+2a872fa4e9c8ad Steven Rostedt (VMware      2018-04-02  2254) 		return -ENOMEM;
+2a872fa4e9c8ad Steven Rostedt (VMware      2018-04-02  2255) 
+d7ec4bfed6c974 Vaibhav Nagarnaik           2011-06-07  2256  	/*
+848618857d2535 Joel Fernandes              2017-07-12  2257  	 * __GFP_RETRY_MAYFAIL flag makes sure that the allocation fails
+848618857d2535 Joel Fernandes              2017-07-12  2258  	 * gracefully without invoking oom-killer and the system is not
+848618857d2535 Joel Fernandes              2017-07-12  2259  	 * destabilized.
+d7ec4bfed6c974 Vaibhav Nagarnaik           2011-06-07  2260  	 */
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2261) 	mflags = GFP_KERNEL | __GFP_RETRY_MAYFAIL;
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2262) 
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2263) 	/*
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2264) 	 * If a user thread allocates too much, and si_mem_available()
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2265) 	 * reports there's enough memory, even though there is not.
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2266) 	 * Make sure the OOM killer kills this thread. This can happen
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2267) 	 * even with RETRY_MAYFAIL because another task may be doing
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2268) 	 * an allocation after this task has taken all memory.
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2269) 	 * This is the task the OOM killer needs to take out during this
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2270) 	 * loop, even if it was triggered by an allocation somewhere else.
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2271) 	 */
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2272) 	if (user_thread)
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2273) 		set_current_oom_origin();
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2274) 
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2275) 	if (buffer->range_addr_start)
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2276) 		meta = rb_range_meta(buffer, nr_pages, cpu_buffer->cpu);
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2277) 
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2278) 	for (i = 0; i < nr_pages; i++) {
+927e56db625322 Steven Rostedt (VMware      2018-04-04 @2279) 		struct page *page;
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2280) 
+1e3d56c5556b8d Steven Rostedt              2025-11-24  2281  		bpage = alloc_cpu_page(cpu_buffer->cpu);
+044fa782ebb947 Steven Rostedt              2008-12-02  2282  		if (!bpage)
+e4c2ce82ca2710 Steven Rostedt              2008-10-01  2283  			goto free_pages;
+77ae365eca8950 Steven Rostedt              2009-03-27  2284  
+74e2afc6df5782 Qiujun Huang                2020-10-15  2285  		rb_check_bpage(cpu_buffer, bpage);
+74e2afc6df5782 Qiujun Huang                2020-10-15  2286  
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2287) 		/*
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2288) 		 * Append the pages as for mapped buffers we want to keep
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2289) 		 * the order
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2290) 		 */
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2291) 		list_add_tail(&bpage->list, pages);
+e4c2ce82ca2710 Steven Rostedt              2008-10-01  2292  
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2293) 		if (meta) {
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2294) 			/* A range was given. Use that for the buffer page */
+b14d032973d4e6 Steven Rostedt (Google      2024-06-12  2295) 			bpage->page = rb_range_buffer(cpu_buffer, i + 1);
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2296) 			if (!bpage->page)
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2297) 				goto free_pages;
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2298) 			/* If this is valid from a previous boot */
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2299) 			if (meta->head_buffer)
+c76883f18e59b7 Steven Rostedt (Google      2024-06-12  2300) 				rb_meta_buffer_update(cpu_buffer, bpage);
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2301) 			bpage->range = 1;
+b14d032973d4e6 Steven Rostedt (Google      2024-06-12  2302) 			bpage->id = i + 1;
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2303) 		} else {
+1e3d56c5556b8d Steven Rostedt              2025-11-24  2304  			int order = cpu_buffer->buffer->subbuf_order;
+1e3d56c5556b8d Steven Rostedt              2025-11-24  2305  			bpage->page = alloc_cpu_data(cpu_buffer->cpu, order);
+1e3d56c5556b8d Steven Rostedt              2025-11-24  2306  			if (!bpage->page)
+7a8e76a3829f10 Steven Rostedt              2008-09-29  2307  				goto free_pages;
+be68d63a139bd4 Steven Rostedt (Google      2024-06-12  2308) 		}
+f9b94daa542a8d Tzvetomir Stoyanov (VMware  2023-12-19  2309) 		bpage->order = cpu_buffer->buffer->subbuf_order;
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2310) 
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2311) 		if (user_thread && fatal_signal_pending(current))
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2312) 			goto free_pages;
+7a8e76a3829f10 Steven Rostedt              2008-09-29  2313  	}
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2314) 	if (user_thread)
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2315) 		clear_current_oom_origin();
+7a8e76a3829f10 Steven Rostedt              2008-09-29  2316  
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2317  	return 0;
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2318  
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2319  free_pages:
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2320  	list_for_each_entry_safe(bpage, tmp, pages, list) {
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2321  		list_del_init(&bpage->list);
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2322  		free_buffer_page(bpage);
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2323  	}
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2324) 	if (user_thread)
+927e56db625322 Steven Rostedt (VMware      2018-04-04  2325) 		clear_current_oom_origin();
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2326  
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2327  	return -ENOMEM;
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2328  }
+438ced1720b584 Vaibhav Nagarnaik           2012-02-02  2329  
 
 -- 
 0-DAY CI Kernel Test Service
