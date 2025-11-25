@@ -1,106 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic314-19.consmr.mail.gq1.yahoo.com (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA16315D2D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 11:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8142857C6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Nov 2025 11:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.69.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764070534; cv=none; b=J/ub1iBkqJ9zsl/ErmeUyzW3Fj+hcxfE2XMl2MsUgpj4Aw0j79MgpRR3LVsHqM7zycRUMRG4n585qDZFJSJWfIjEohKe2NLvHs3z2+I9Rw9jYctcoYbVqOW3kOO7FyD3HM1pZhLph/7lbqmUUTe9Ns7y/KXHxcaNzqpkEie4nG8=
+	t=1764070648; cv=none; b=Blvg+HiZFjVzKeSCDRbNBoxn3q1mxOCsMTjY73S4rrA3ypNHDWSaI1IRmiS2Dv97TTZvfy3k9fbLv7zqLJNnbcUD8MNuToq6ypT/yiA1TtEBHOFDOdBgtPqAC7XjrRyHc4HDeavU5YwFOV6CYPFMv1vC9OX02iwon5HB+FIGI4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764070534; c=relaxed/simple;
-	bh=UvQfHnxSgPz7p9QIvS+VnRdhJJ1lEQuNS48GfUEIxlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dkt4VCRMBRzzrOU+MrF6MkF4rmS2SL/ynVQ4EomfcfFG0wvVGS1cXSV+lKhQCb14wMXWU9kspFDh8fWNj/B57DNlDiQ6729/QYlfMR41c2fu3SM5XuZAOmfMdGvcBhiIz8P62wgN9ZP8UlGBpxGzGkp5VNWf1poUd2jSfucAnws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bi0PrP11; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764070648; c=relaxed/simple;
+	bh=n68/8w8Vz20Pp7RS6P80VVfiPvTaaD6DyXSzFNVk4VM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=sS81v4cSs3k9Tzo2z+psvdg4O66ZIgS7zweKB++gwGEtQ4ib5RUopwEo4Ku3P7eirqCvhkxmPLIDrgyWYvn9wGQxeRo5kEvnoW0XbpAXXzqz01f2Sp4cTklT5Q12i66h5oPMJcXzAVXIk8aJxNxlHNBWm8ToNfeHx3pieyBaTvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=MNqzmWEK; arc=none smtp.client-ip=98.137.69.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bi0PrP11"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764070533; x=1795606533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UvQfHnxSgPz7p9QIvS+VnRdhJJ1lEQuNS48GfUEIxlA=;
-  b=bi0PrP11JXKSI9iRIo3MycOHz0YYKppftqe5dPlBAbi9M47L6VYH2Pux
-   s9ZjxT8IRNu/WK4I2Ur5OZh/lWuGV5rtIBe3/bmih16EMygiMjjUvc00z
-   eNbAUI6WjYe1WmV3Xbd67lpUOJ5YuvN4Zn9a6U+lj+Hti2kGC0D60Jvuz
-   MnoYinXKHb3OseEiB/ZqU1CCnuuzX1Rwd7tR3V23oldGMQocjYlMFYY3k
-   Qv+IGHs++n/lZnUeBfLAQk2OtqjiWTIowEoYjD/FEAbyzAAOtXzq+gqLB
-   qRp65SiQGIBCrzSB84cRNfZftyAr6s3xO1Hwb/S5p1rf6okynLK8n2uXE
-   g==;
-X-CSE-ConnectionGUID: Ne69aZkTSUqB1UVDYaHscg==
-X-CSE-MsgGUID: NVRoOqOITsu1145/lnZMbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66161933"
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="66161933"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 03:35:32 -0800
-X-CSE-ConnectionGUID: gd89UBMZTi2UO55mQIDdaw==
-X-CSE-MsgGUID: uJd2orAIRKKZPGH+QQBZCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="197725119"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2025 03:35:31 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vNrKS-000000001gn-3bmW;
-	Tue, 25 Nov 2025 11:35:28 +0000
-Date: Tue, 25 Nov 2025 19:34:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:stack_magic 31/31] include/linux/tracing.h:168:8: error:
- extra tokens at end of #endif directive
-Message-ID: <202511251905.ZP7Yh8uj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="MNqzmWEK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1764070639; bh=Aivk+Xo6Ed+LL8ift0X6oFeNEKF6SQ/3fN2hlA4qTb8=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=MNqzmWEK/q73jLCEKQAMEd+GvwSuv80XiT96FndQvrKQf3IoTgSTx7JxMLmqkUDkEmbGBMAKxtjlJOieJ0Ev86Pkz7zjaRp7VOMXggAilYFuolRFFziB8FrJDm/9suEJ1uqGqgrcF+7VwLL1UpDdLCpYwEzrzg+tjoqkpuT56HjPn6bTKHtV+ZAJad7pfYaOHE/rC6tiuNoIrDZhkMokMQkZyLYgQSpptpG5jnn9KLjPKrTJ5p84wWMSpB1dQyAHqPASwDuTyh2lv/uIPwSXKepWXZi4tVoUlsp1iBQyCNZubSl3GfaKbO6FcESwO8xNY6KzptI6evIX+ATHdTqadA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1764070639; bh=nzXBr8OLxgaTEOBnGkv1RZyFCpDhL83qLIW9S/cSD8s=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=aaQQ3nryrSRy7w5acxHCG8RaPCoYQFFYaXOW9YtcVooAGRVjMIuvlAmjRBBVftY8KbtMPAMx3Ex6PpneG55/tOyDgDc5JhwmGwQ4JLS3u7ezDDk7TQsStZycM23KD/gQywSVvbHxtEe7Yu4ZJiSGAN8FxCDAnbbIldlHAztrtU1GFpxD61baV0nIb+xpMcEITnAP8NxXwO3RGsyVn0lAH8vHGYLKb+kEoYysZx6rUxxBemvz7JhJLtvBxCkyEHLzF2+r4HSYn7YDAL0lP3UJ0y6awfHorKpGM8KfMjBfkGI4n/85vymhJeATsdDCAIS17PV3PZ5k4wlrpGOyLqB2tA==
+X-YMail-OSG: bkMrI3kVM1ksCYSAUFvOhW4xkjY.xGI.0niUTFdJjVedBCD9HvVKbN02GhYm4mi
+ CiWUz4ltD0WSGHuOCep2mk4shieKcH1QtVSe4zpCbTpheR89TPSiiLRubW9wvHAWIud5gHb0z4eM
+ p24Ejo.OE8ZG96WK3VraGRHSUFVmw_ZNewrJ0q53Pwi60AyktJDd8TLLAbTFimfXspXLjvFzN8cG
+ Cg.SBriBPKA9scWcAec2opADkVXYzgwrFiw1cYVc.pjPCbh_jWn7aiXQ5Qmz_ftTwlFhevmqaGxo
+ bAgQ0GyrLY15E8xwcQn3YsMz.dWV9Gf5pjruFlj233ganeExsI3Xr1jg9jsdIJLJDYYl4r_O9q7G
+ gI6fG.dU6YvxSSMo4ptAfaxnnMjblbu5105DD27Sm4QU14B0.Aa0PdTr5qt2nBy0GMq6qigV2e1g
+ UgvH30V2oQUTkWDWdWqGqtA.PQymgMcZQJW7PS1PPfY5QU5Z0_.ieu76d.iRaDaI34F7Y6Yjt9DB
+ c.IWGMmZ2JCf4NxM455cqgjkYradUvNjx_Blm7K6RUvrQigA4SmJ7sR7TPVIEj6kNzAJSOH3QCrx
+ g3R3rrEhOb4sd6M6okmrnzqSjWE6OqQ8i1pxMw2wh68pp_xaZnOUAm1w4vP1xj_QeUAD6IZhv0IX
+ Ic5BVILX9XzIE_Ro7oeGEjtq_IujzNilEe7nY5EjW.E4kJr1h8O1g3U35CKBxFIDZi4Umh4EnEkq
+ E3eK8gikJ_4SuLpTijoEjmy5kImjBKiW6HOkfn538pZOUWGGU1C6g0LcZ45Udk7PQWAqZRvU3jCI
+ 46iO2jd.PIfBDaUF9Rzhzhiujwz6d8vKfLtZzMBsaF2QWnyvyzJqho017iFtkcfXw2m4owWz4L_w
+ 5v5n2w8AiUXSCcI.kxji_ji3mUJfzLjPi3854_UfpoypSxschemc_4bHTbWAjQ0B8pgEnrWaCCpT
+ mN9qR.Z.63Xnqm8OeyH6s6MIc4VKMOwfIDm5o2DduvX4iVF6zhjePkmJ.WKfJqicVi1keUQChMnT
+ gSXGiF._mM4m5ZG25QhOvfnc7VQVdkIsJYDmFr7WSrZyGH_.75oa4xDpM42t88Xpdv0dmHFpvjDw
+ rIf3AHI.le5ZPR.9Z.0M7vPA7yCf6whVJim6o1Ecmbw82zBrZZ_uw_lE25Gvhw7iZHYs_tLRkfU1
+ p049LeXuPHy5J1OCoOX9VhRCgBiYAMI4m3KGm25m2DVzilqsF9fYj3K2JMZqoRTdf.Stq5hOlBDB
+ XV_RICceDEdpHroLpbd7CflysF61gG8TnUmS2YsigdeXAyMJlGAcDbIMFKvi0ygxpsAaO_mCTeMg
+ jrlDpgVFWWY60S3VVLnMfmx4RtGYB1XySwFA3cWWDtgN2IruaKDtNCQjoAHmwwVUxA7NzA8PWAU1
+ RZj0.atMh04OGDnsiV1S8Z3EyACUmAUYCIC.GSFMYCbH4kbZ8kszEjWozrlCg8ZxWfRs2_7NGvlY
+ iyEzBMKrNaJwpPhwqxPyYKTjJyrXF8ktmuarFuLj5YLDLH6nYVh9d5sQKjwBgak9ykMSCITafE.s
+ 6fuxLUAXi.Ovd6bKF8m04hZaA48j2OzNKY_i02gTBSmct_VsR0_E23fj.1M_8O5lL7nMcN91wPTS
+ y31ApcHp02cSfl5odpdDT98GK7UwTtGHweuxu_O1NISNTlZ1cIkPlEHTVUOKqjAVPX_8Y8hYJU8o
+ bS1duhjQ1VY.HstIRnef.0bjjPsFpc_WN3X.FWdD0vx.sHnv3caxAxz1TxapmytvFIakAZT8IXG0
+ ywE8fTiaJuP2t7.t5II6x1HL7KOciHyGXLFK.OH7_oMxX3b5DjwNm1AIWUCD2jQxouUqFJ8vg0SE
+ nJ46C_FxXo3HNPJSMWZrKqxBb..IAYD2SOdmEal88MvMCST1L_doisnl4FMHcct0rCieaw14i.So
+ 49NLgAmNLZFgcAr_Boc2_ifkpEd0DgLjJOWcTVWw3ZGUoarvN_cMqtF2JfQgm7OA4kl1opZmuYZ.
+ LeUFLEcJnU4e7nuiygLKL_ioE3zfpxNLQZCX_kOpwdpDTT8cven2UOXbiG8tV.cMjy43yKlhTEWm
+ q4t85p8ycJrc1ZIXWX1SVreq6HCUtsRaRdK4DVkyPtF.fU8pD3p3GkmqHAZxAaUT7xTHyPlOghya
+ 1ImxLLm0MxdAC1jQtc8wVhhRR2O3QLf6BpR_xYPR.o15QRwr6YKizz8qyIlngN481NaD73a8_QvL
+ KWhDNqSYEs5OQeE6Suqn5ZAfoXuAF3YkCh7tqD2FcGF1R2ppheQ1Erc7UsT1x8VY_OU6Lbc52KLI
+ y2HqxrCXbz5eo6eELLOUPPjhW
+X-Sonic-MF: <adelodunolaoluwa@yahoo.com>
+X-Sonic-ID: dd081103-3322-4c45-bd93-39a5a0a3f307
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.gq1.yahoo.com with HTTP; Tue, 25 Nov 2025 11:37:19 +0000
+Received: by hermes--production-bf1-694dc9467b-bgdsm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b98e5df8cac04b0f1d435e78fb7b22a3;
+          Tue, 25 Nov 2025 11:37:16 +0000 (UTC)
+From: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+To: kuniyu@google.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	shuah@kernel.org
+Cc: netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	oe-kbuild-all@lists.linux.dev,
+	Sunday Adelodun <adelodunolaoluwa@yahoo.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH net-next] selftests: af_unix: remove unused stdlib.h include
+Date: Tue, 25 Nov 2025 12:36:48 +0100
+Message-ID: <20251125113648.25903-1-adelodunolaoluwa@yahoo.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+References: <20251125113648.25903-1-adelodunolaoluwa.ref@yahoo.com>
 
-tree:   https://github.com/norov/linux stack_magic
-head:   4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa
-commit: 4ebcb9cdc941dc900a8ea9e08e8ad58799a8c5aa [31/31] add tracing.h
-config: arc-randconfig-001-20251125 (https://download.01.org/0day-ci/archive/20251125/202511251905.ZP7Yh8uj-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251125/202511251905.ZP7Yh8uj-lkp@intel.com/reproduce)
+The unix_connreset.c test included <stdlib.h>, but no symbol from that
+header is used. This causes a fatal build error under certain
+linux-next configurations where stdlib.h is not available.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511251905.ZP7Yh8uj-lkp@intel.com/
+Remove the unused include to fix the build.
 
-All errors (new ones prefixed by >>):
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202511221800.hcgCKvVa-lkp@intel.com/
+Signed-off-by: Sunday Adelodun <adelodunolaoluwa@yahoo.com>
+---
+ tools/testing/selftests/net/af_unix/unix_connreset.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-   In file included from include/linux/kernel.h:34,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from lib/test_bitops.c:10:
->> include/linux/tracing.h:168:8: error: extra tokens at end of #endif directive [-Werror=endif-labels]
-     168 | #endif _/* _LINUX_TRACING_H */
-         |        ^
-   cc1: all warnings being treated as errors
-
-
-vim +168 include/linux/tracing.h
-
-   167	
- > 168	#endif _/* _LINUX_TRACING_H */
-
+diff --git a/tools/testing/selftests/net/af_unix/unix_connreset.c b/tools/testing/selftests/net/af_unix/unix_connreset.c
+index bffef2b54bfd..9844e829aed5 100644
+--- a/tools/testing/selftests/net/af_unix/unix_connreset.c
++++ b/tools/testing/selftests/net/af_unix/unix_connreset.c
+@@ -14,7 +14,6 @@
+  */
+ 
+ #define _GNU_SOURCE
+-#include <stdlib.h>
+ #include <string.h>
+ #include <fcntl.h>
+ #include <unistd.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
