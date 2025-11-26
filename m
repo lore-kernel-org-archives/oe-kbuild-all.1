@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CB633EAE0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 16:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AE424468C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 17:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764175992; cv=none; b=pqKasw9IL/wdWAWQ17DK/GsSI8msSBE3P4ZSbID1sDvP+qP0xoIeH6Q/hDemRImQK764KTEG8FAWnre4JuKjsvCVqz68w6Ts2zfQXyJwKrKT1Qwry8FxTVW8jQ0IqY3n4cWiLKBIhmBIBK3e5nRg73AIipSOzawm6Ufr6QHvQHM=
+	t=1764177192; cv=none; b=gBZ+a9F2J2P8YDmDf090W+MPs0+DzXZWeetDpAEHYG3dudoUZL/zsjfVJ2fG5GiobFurx06e9PS/FzGopr01PRcp+2mlZvFE5JAhRG3arrc5o5UWVSCgdBjYyk6JuFMEx038/7ksNoYGltkNw1KF+4QyljQjnvBs0Untj/mGP3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764175992; c=relaxed/simple;
-	bh=vFWDx4cnBeY0Uc+KH6ZPIqx47sAlSxDOJsb15IQK6ds=;
+	s=arc-20240116; t=1764177192; c=relaxed/simple;
+	bh=rActBB9AYr5Xs3afg+cy+bRr25IlNymI8G/BUEpOyfk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DbNub5lLfoQMqhEo33wc8qckkvNvwUstJ9XCFsm2S45szY6IWWu770SwwSpRc56jOQ/fDFHGRflmun7tupQpCmFDrOTRLj28mDj23BD5/5dSSwe2pT1jq7o5iNZ5ZXh8Jh8odWq25StUk2LrWgh34yIklGyksztXd/0DmbIdHvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOu4gJ2f; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=D6zsKqc+TSrec+J8p1d66LfMKpWgC0MtVyUo4ASOX8ZsuB0C2tz35Nlwo0OM6DtpIHouei0R6mhPtJlj3wY4J6xDEbbef1ipC1XiLbbCHfsRQNslF6w/iiJKyKdvqeX9Pmr0Q2qLDlg3rYvQAvN5LQovSeRKqCq98s3RKSQzYuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkRIsFL6; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOu4gJ2f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkRIsFL6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764175992; x=1795711992;
+  t=1764177192; x=1795713192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vFWDx4cnBeY0Uc+KH6ZPIqx47sAlSxDOJsb15IQK6ds=;
-  b=KOu4gJ2fuAl4DHN8JjUuhL2vYcuT4c4C1jB6TRU+V3uxQ/RNe8rcTEa6
-   YZlHh7NsE+NjDBgvdP4CF+oFtcrrN+ImvvpFrJ4d6fuzK9wElWSfLPqIj
-   UMrQT9NRaeKyElxp3GMK21Z1w5XMp01tk9Sjzf3yhw6w3z9MyFhIaQnGk
-   wksvzTidZ2cTQQqRNnCMCtnGK9orTI6khq4AVHwrfVhDOMgdaEyFA6QAj
-   0B/4hc2d8LTUIWk/a8Sls4oIvZ1jsKlIiRnTbEXqy83pwJS1/UsvyrmPM
-   AhRsT5I4qfDTW8rBOKeiW2QCnD6r1xX3BMCPvpszomD9bgaoiCZfrJv//
-   w==;
-X-CSE-ConnectionGUID: YQ4TivCQRsG9FyMUQYXByQ==
-X-CSE-MsgGUID: Z/EEodD8R36zXI+yLsomdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="69841145"
+  bh=rActBB9AYr5Xs3afg+cy+bRr25IlNymI8G/BUEpOyfk=;
+  b=IkRIsFL6VB5tIpfgTO/UOXC3swA0ATDHVPSZwS0ZlMkIwudzQxsEbJqj
+   r91pcNtL0zarfNg9RTE7wkqtGi1Gs8GDqJbSrkS/qY3TfXkUuONfPpwy7
+   ps1f+68C6p4CcbF6Kgy+rWpy5dDsgRpWiuqIZ8rjQPnSl5h0u7aEp9vQ3
+   KC9fELso69BapPQ5BOtQVFAla/A5Yh8/jFcsxZ5kB+d76li2/wtV3GXYI
+   JtpzWMK0yCVQtbi/KK57CSf9M9UPmCAXHAKy/WEZ7QrEb3zjAYTaB/8Pz
+   lQJWtT+y5Wvsn9x9iASDGRjrpvnwA3yByIrLsvGkTllYKHEKi2lXtZC25
+   g==;
+X-CSE-ConnectionGUID: it0o5vKJQuepoDcabFD08A==
+X-CSE-MsgGUID: GsAO3TP1QQW29rFg/rc0SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66298182"
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="69841145"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:53:11 -0800
-X-CSE-ConnectionGUID: zbCV1WflTN+D7kiQqTmNKQ==
-X-CSE-MsgGUID: bhxj2BGjSSGGqDbnStJaTg==
+   d="scan'208";a="66298182"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:13:11 -0800
+X-CSE-ConnectionGUID: uSEfYBRLRtir5qD3O2xGZg==
+X-CSE-MsgGUID: Ki42yIpLRDqtltvLETScWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="197476490"
+   d="scan'208";a="192245495"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Nov 2025 08:53:10 -0800
+  by orviesa010.jf.intel.com with ESMTP; 26 Nov 2025 09:13:09 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOIlO-0000000038f-3J8z;
-	Wed, 26 Nov 2025 16:53:06 +0000
-Date: Thu, 27 Nov 2025 00:52:14 +0800
+	id 1vOJ4l-0000000039h-2EfW;
+	Wed, 26 Nov 2025 17:13:07 +0000
+Date: Thu, 27 Nov 2025 01:12:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] drivers/android/binder.c:7481:
- undefined reference to `event_mutex'
-Message-ID: <202511270055.wPwH4Kzq-lkp@intel.com>
+Subject: [vireshk:virtio/msg-xen 10/16] af_vsock.c:undefined reference to
+ `dma_buf_get'
+Message-ID: <202511270143.KjU7LA0O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +62,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e436c77f5ed5017e5bd134f69e51a2e0a6550d4b
-commit: 43c26111cafa87d81570c63d96c497e13ec883da [1/1] ANDROID: binder: unload C Binder trace events
-config: arm64-randconfig-r112-20251126 (https://download.01.org/0day-ci/archive/20251127/202511270055.wPwH4Kzq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270055.wPwH4Kzq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   56410ffc55694c2bc41463768df26269d3a2b3f4
+commit: 55a1096feb1728f7f5d97e89b04bd0bc7893515c [10/16] vsock: Add shared-memory support for virtio and loopback
+config: m68k-randconfig-r112-20251126 (https://download.01.org/0day-ci/archive/20251127/202511270143.KjU7LA0O-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270143.KjU7LA0O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511270055.wPwH4Kzq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511270143.KjU7LA0O-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/android/binder.o: in function `binder_remove_trace_events':
->> drivers/android/binder.c:7481: undefined reference to `event_mutex'
-   aarch64-linux-ld: drivers/android/binder.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `event_mutex' which may bind externally can not be used when making a shared object; recompile with -fPIC
->> drivers/android/binder.c:7481:(.text+0x4ecc): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/android/binder.c:7481: undefined reference to `event_mutex'
->> aarch64-linux-ld: drivers/android/binder.c:7482: undefined reference to `trace_types_lock'
-   aarch64-linux-ld: drivers/android/binder.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `trace_types_lock' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/android/binder.c:7482:(.text+0x4ed4): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/android/binder.c:7482: undefined reference to `trace_types_lock'
->> aarch64-linux-ld: drivers/android/binder.c:7484: undefined reference to `ftrace_events'
-   aarch64-linux-ld: drivers/android/binder.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `ftrace_events' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/android/binder.c:7484:(.text+0x4ee0): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/android/binder.c:7484: undefined reference to `ftrace_events'
->> aarch64-linux-ld: drivers/android/binder.c:7483: undefined reference to `trace_event_sem'
-   aarch64-linux-ld: drivers/android/binder.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `trace_event_sem' which may bind externally can not be used when making a shared object; recompile with -fPIC
-   drivers/android/binder.c:7483:(.text+0x4efc): dangerous relocation: unsupported relocation
->> aarch64-linux-ld: drivers/android/binder.c:7483: undefined reference to `trace_event_sem'
->> aarch64-linux-ld: drivers/android/binder.c:7484: undefined reference to `ftrace_events'
->> aarch64-linux-ld: drivers/android/binder.c:7490: undefined reference to `remove_event_from_tracers'
-
-
-vim +7481 drivers/android/binder.c
-
-  7475	
-  7476	void binder_remove_trace_events(struct module *module)
-  7477	{
-  7478		struct trace_event_call *call, *tmp;
-  7479		const char *name;
-  7480	
-> 7481		mutex_lock(&event_mutex);
-> 7482		mutex_lock(&trace_types_lock);
-> 7483		down_write(&trace_event_sem);
-> 7484		list_for_each_entry_safe(call, tmp, &ftrace_events, list) {
-  7485			name = trace_event_name(call);
-  7486			if (!name || strncmp(name, "binder_", 7))
-  7487				continue;
-  7488			if (call->module != module)
-  7489				continue;
-> 7490			remove_event_from_tracers(call);
-  7491			list_del_init(&call->list);
-  7492		}
-  7493		up_write(&trace_event_sem);
-  7494		mutex_unlock(&trace_types_lock);
-  7495		mutex_unlock(&event_mutex);
-  7496	}
-  7497	EXPORT_SYMBOL_GPL(binder_remove_trace_events);
-  7498	
+   m68k-linux-ld: net/vmw_vsock/af_vsock.o: in function `vsock_connectible_sendmsg':
+>> af_vsock.c:(.text+0x2584): undefined reference to `dma_buf_get'
+>> m68k-linux-ld: af_vsock.c:(.text+0x261c): undefined reference to `dma_buf_put'
 
 -- 
 0-DAY CI Kernel Test Service
