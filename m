@@ -1,67 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA011DDC2C;
-	Tue, 25 Nov 2025 23:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CA3307AD3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 01:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764115050; cv=none; b=YM8wOo1Eobnp3a2zdoKc9pgIHq6cI9CjGNdcT2zwAWvf6QT5iLAkaoptQ4x18ObVyr+WZMt4CPxNxL/W3dDvpnDguhQ5l9wjBcUq48OMoBtNv7o+jy5ELIoKbJTAb1rYUztZomaoxPekoW00VM4eSZUZM5VjB0uIqEAHWU7zSAU=
+	t=1764121293; cv=none; b=krwGDU3LgKkXt/WthTF2XI9Om5UWjwTj1iulbWO/1bLrwX11E11wnBZRBZrqVGqPEXi9bT+4ImfxnEZUxMMZlOizzEC2eguymIsfp9zLHFYmWsLwxX2hGAjkC/gOAaqjdlBeTjefXec+l0+RlXjRN5gC4kZdsxdko4DbhAoPSaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764115050; c=relaxed/simple;
-	bh=E7Vhxuxnd5dJfb3+F6Sp1aDAooveiAzLlYqO8i1/WjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ovsm/Vzu0TtNO+K4WurtKFgSu8JpHg1rUpGSgVL/tdlF1Kpmy1L/lAzJNAjhdYwqD560jebXpKywnxAhRSNKdPSBe42xQYoeqlqePNu6Ek3lL42LGC9IRDAbqLFiYMk45TSgBspdWJtOL7pQS+CWHxZJ/j1j49VV+cxHczSUlO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gf0ajQpz; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1764121293; c=relaxed/simple;
+	bh=7BnMsBl3cyZ79ENOSXT6y3LmBW6bOYExn0VwCk5q5BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OWNIga2oOK+Fc7vu/ci8rL6LftZVILr9P6HXIVawlGXb6tOJUg/nuii2flL/FZo16lzL1UxdwXIeG5tuFg7/c6fFlnuXL6DevXJzsjK4bdfRgxrAdOZp2AAf+j/IfJckB7b9zpXqomgqwSKzdCRVQCMM8aANYDDVhqnbBcukMV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aW0JXYbT; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gf0ajQpz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aW0JXYbT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764115047; x=1795651047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E7Vhxuxnd5dJfb3+F6Sp1aDAooveiAzLlYqO8i1/WjU=;
-  b=Gf0ajQpzrcCuGclMWJsINoLoeQNRpd4FVclvBrKQKRUXbyavP3IThl9P
-   pEMAuBa7peYIUuuuilQlGBe4G/5po7ORHpjjGMiwFUzFmeeoAO/+kaD4c
-   h4bzOYWJrdzRsLldY6HGpJC2SyTRQCa7tdlB69X3gUVUyhFv1xrcqVU5/
-   QgTEwymJn5Y/QlwsJ4gnAXER0StRUIwXBG4SozBLtLD0sAk5K4YPcNLFo
-   S7Y+H+wx3p9uvsafDoOKcXk/fyAbaw8sKGXnzzIZtG3kBNUkEpPuC6AR8
-   vI3IKLL48lLMMGn/sF96DG+uiIX8IzIFCITyJ0JnV9+npCCB44pcu/H/B
-   Q==;
-X-CSE-ConnectionGUID: 5nkrvonuSPCe+1UvMlkeiw==
-X-CSE-MsgGUID: jv3M0yklSM2yAjkWdlbGlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66305318"
+  t=1764121290; x=1795657290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7BnMsBl3cyZ79ENOSXT6y3LmBW6bOYExn0VwCk5q5BA=;
+  b=aW0JXYbTZ11HI9602S0YHenmm1xQAzl7iDVuo7EPnp1+YtTdtQGBegrJ
+   ttWn+8/O4cnmmRJmg30bmnAQ3fZ42pjwla8PWBfjWZdc7uIfqnn9DIuFD
+   wQWeoLJbgIXqUM0UrRpc/X7ipfGpqIKB9CJkBQC49T4gXEbotdrqHlHSP
+   OQdMpxm6XG0th23AFIEJjhRuhyvvpXjsGMXQs+I+5ttzL9sHMdwvPP+3K
+   5h4OoLxHqSnFDaMIeHHevcs9QvttCvXuB9uhYP2A0nu0yXHBBPEmG/xzW
+   T5HYJUMbHmjbgVBRGZlqdLHZVLR5ITESc4BUgxYLQ818c9GYqtz+a0fRv
+   w==;
+X-CSE-ConnectionGUID: HMz91prGS+2Q2yj5Y9UPQA==
+X-CSE-MsgGUID: 2+2pnWcNS+GVExnRFkeXfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66310908"
 X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; 
-   d="scan'208";a="66305318"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 15:57:26 -0800
-X-CSE-ConnectionGUID: /6d2zgObRySKi6hiZ4qTgQ==
-X-CSE-MsgGUID: h3doMYfGSZq97NwrlfMlhg==
+   d="scan'208";a="66310908"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 17:41:27 -0800
+X-CSE-ConnectionGUID: A07CksiKTxekNIuj8xWwEg==
+X-CSE-MsgGUID: zgIFldKmScivTerFu1M+kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; 
-   d="scan'208";a="192041245"
+   d="scan'208";a="223777799"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Nov 2025 15:57:23 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2025 17:41:25 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vO2uP-000000002Mz-185N;
-	Tue, 25 Nov 2025 23:57:21 +0000
-Date: Wed, 26 Nov 2025 07:56:50 +0800
+	id 1vO4X5-000000002PJ-1xVX;
+	Wed, 26 Nov 2025 01:41:23 +0000
+Date: Wed, 26 Nov 2025 09:41:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tonghao Zhang <tonghao@bamaicloud.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Tonghao Zhang <tonghao@bamaicloud.com>,
-	Jay Vosburgh <jv@jvosburgh.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Hangbin Liu <liuhangbin@gmail.com>
-Subject: Re: [PATCH net-next v1 4/5] net: bonding: add the
- READ_ONCE/WRITE_ONCE for outside lock accessing
-Message-ID: <202511260755.PsI0heoq-lkp@intel.com>
-References: <20251125084451.11632-5-tonghao@bamaicloud.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:stack_magic 29/29] include/linux/kernel.h:30:10: fatal error:
+ 'linux/tracing.h' file not found
+Message-ID: <202511260926.ZmjJu72k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125084451.11632-5-tonghao@bamaicloud.com>
 
-Hi Tonghao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tonghao-Zhang/net-bonding-use-workqueue-to-make-sure-peer-notify-updated-in-lacp-mode/20251125-164825
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251125084451.11632-5-tonghao%40bamaicloud.com
-patch subject: [PATCH net-next v1 4/5] net: bonding: add the READ_ONCE/WRITE_ONCE for outside lock accessing
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20251126/202511260755.PsI0heoq-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260755.PsI0heoq-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux stack_magic
+head:   ba1a9217cab83b2001b2907b4357243251c3dfbc
+commit: ba1a9217cab83b2001b2907b4357243251c3dfbc [29/29] move tracing
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251126/202511260926.ZmjJu72k-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260926.ZmjJu72k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260755.PsI0heoq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260926.ZmjJu72k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/bonding/bond_main.c:1207:2: error: unterminated function-like macro invocation
-    1207 |         WRITE_ONCE(bond->send_peer_notif,
-         |         ^
-   include/asm-generic/rwonce.h:58:9: note: macro 'WRITE_ONCE' defined here
-      58 | #define WRITE_ONCE(x, val)                                              \
-         |         ^
->> drivers/net/bonding/bond_main.c:6585:37: error: expected '}'
-    6585 | MODULE_IMPORT_NS("NETDEV_INTERNAL");
-         |                                     ^
-   drivers/net/bonding/bond_main.c:1206:1: note: to match this '{'
-    1206 | {
-         | ^
-   2 errors generated.
+   In file included from arch/arm/kernel/asm-offsets.c:13:
+   In file included from include/linux/sched.h:37:
+   In file included from include/linux/spinlock.h:63:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:13:
+   In file included from include/linux/cpumask.h:15:
+   In file included from include/linux/numa.h:6:
+   In file included from include/linux/nodemask.h:94:
+   In file included from include/linux/random.h:7:
+>> include/linux/kernel.h:30:10: fatal error: 'linux/tracing.h' file not found
+      30 | #include <linux/tracing.h>
+         |          ^~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/arm/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1207 drivers/net/bonding/bond_main.c
+vim +30 include/linux/kernel.h
 
-  1203	
-  1204	/* Peer notify update handler. Holds only RTNL */
-  1205	static void bond_peer_notify_reset(struct bonding *bond)
-  1206	{
-> 1207		WRITE_ONCE(bond->send_peer_notif,
-  1208			   bond->params.num_peer_notif *
-  1209			   max(1, bond->params.peer_notif_delay);
-  1210	}
-  1211	
+    13	
+    14	#include <linux/stdarg.h>
+    15	#include <linux/align.h>
+    16	#include <linux/array_size.h>
+    17	#include <linux/limits.h>
+    18	#include <linux/linkage.h>
+    19	#include <linux/stddef.h>
+    20	#include <linux/types.h>
+    21	#include <linux/compiler.h>
+    22	#include <linux/container_of.h>
+    23	#include <linux/bitops.h>
+    24	#include <linux/hex.h>
+    25	#include <linux/kstrtox.h>
+    26	#include <linux/log2.h>
+    27	#include <linux/math.h>
+    28	#include <linux/minmax.h>
+    29	#include <linux/typecheck.h>
+  > 30	#include <linux/tracing.h>
+    31	#include <linux/panic.h>
+    32	#include <linux/printk.h>
+    33	#include <linux/build_bug.h>
+    34	#include <linux/sprintf.h>
+    35	#include <linux/static_call_types.h>
+    36	#include <linux/instruction_pointer.h>
+    37	#include <linux/util_macros.h>
+    38	#include <linux/wordpart.h>
+    39	
 
 -- 
 0-DAY CI Kernel Test Service
