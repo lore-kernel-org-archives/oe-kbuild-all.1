@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3151F584C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 21:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D989463
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 21:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764192686; cv=none; b=aqpPt/lbw+KRpGEZB3sQmTO7M7thkouMv5znA9qfd9EaNyZEbgYZObSt143AV75BJf7+XuypqUwLOMMhKkGq9mXOzuwz35IWHq7e6vUiUdEvpdTgmCi3Mc22pfnvgDXke4cM3xS2ZOtp/bmBCB6LOF3Ml1n1kVYa9qFmue3SRpE=
+	t=1764192866; cv=none; b=BU8C9TIX2mVQF0Owp8vIyqc0pb7fwbq0fu9JBREarNnBlO9OzHgwIN3bXrRrHOaAkvxmlIgT5C29PDl7ibDNgqJVcA6bzqAg6c/V0lqdfszlbw2Fg5OwAo9+vQdkZcvCnUewJtniD98ekZIkPGdt+9SvPwLTW+cyV0mjCgEvYj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764192686; c=relaxed/simple;
-	bh=MfjS1Rnmolz00tRZbeqHcepFhc1sPM3LRmUt6IfdOzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l51GEPC0MV0jkD3be6awb7vZJSniQfWNRmqmGEFS/B6pFZ9r+lSNBCL22rd4nMg3LXsmT9dutaohwlVyXnRhpisv0kuQRuDnR8IDpN9vkHgUgaU4T2D1e059RCisRyU9ZDrR2GFe2af1EQjHrdcDYSL4gl7HITfxjt23N1hR7iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OCJ9JWaO; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1764192866; c=relaxed/simple;
+	bh=F64OBwa5RU2WG8KkfNNwsDePPJZTGuJD5Jkc30EX+tA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=a3N8EsY86V8qNvxhi/PvR8uHZB/sJa2V9kDCGNR56vQ+6+xCmM9iFWJ9jgxHxpc4G3s/16BFNVgo8NIyjedJP2hRaaexP2AA0VIUiblKkmXXSljL4IaeFWOcOlf4fZVd2+X94HMuaKd0cB9tQ0IdG/3O/NVGKhJdDfxHlOm3aQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJtp4nEa; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OCJ9JWaO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJtp4nEa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764192685; x=1795728685;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MfjS1Rnmolz00tRZbeqHcepFhc1sPM3LRmUt6IfdOzw=;
-  b=OCJ9JWaO7bFm4zkyZeL/EkmH59xzBMGG2OzifUX+OPYBAvnOARykU9ko
-   dGgmCWaAku+xyz7MjIZ0WPRR8FofcncXtrULR1QupxtTKuUfybI3IMYBZ
-   mO9PeDK0tO9ZZCDVsBvMXommynzjXH7oqogovKrqY8mJWFFzrEO7ID/Ez
-   A/hsW9nEEh/MW3XGZufYeBItZzWWA4t9jBodNL1eIcBpaplRzo2IFvTE4
-   2RamOIFWAc3CoJH3/flpSS8Ee0Uv7ztRRIkC52h88Ldm/wA1T3CUSkNhr
-   kM7A4ybIq0tHi2G0iefYY0ISyRXRwPIo2ePgvbwvoc6LhcOOCerjzbFd4
-   Q==;
-X-CSE-ConnectionGUID: ocUIJ4XkQhi2M1Lyt0VAyg==
-X-CSE-MsgGUID: A4nvupWmTWqHRX8rYR3D3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66185486"
+  t=1764192865; x=1795728865;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=F64OBwa5RU2WG8KkfNNwsDePPJZTGuJD5Jkc30EX+tA=;
+  b=oJtp4nEa6mx8RYeK/sKBtOL/81FN+N5dnKTDgvIcBRvLd5MMmaehRbiO
+   CJbVGDGVVYlq4fvEmkeuOUc+TGQoJkPHMlbDIHU4cxnMTUmUPj9pkWm3t
+   1T1UnXUX+aYpkZL3r6d1qCokxGxfrwW0ruSuDiILH85xBSq82XbxpYDaq
+   TM5f1WFqzAmlCjfRynPoZpK4fiKIRSW0SUZOHq2ith61BMewZME9oTztY
+   6NDCvsAKuckJaUWmTW/jshGvVyRvCW+V1lAgeqVkWQuB/Va2uK0wjJ541
+   e+fenwQzKxN35nsjFV2cDlUZcNlKEKTXuhvdl9cZJaN/iL/JHbTwgIWfr
+   g==;
+X-CSE-ConnectionGUID: w6nPB4U+ToaqMF920atNMg==
+X-CSE-MsgGUID: JvcOX/GaRXOPRmVh5/ElrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77603068"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="66185486"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 13:31:24 -0800
-X-CSE-ConnectionGUID: Tu1HdTdwQ1OcV7BlBLHs5g==
-X-CSE-MsgGUID: Bv9xuYt2TnWmanzpD8fk7A==
+   d="scan'208";a="77603068"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 13:34:24 -0800
+X-CSE-ConnectionGUID: qM+bQ7BgQnqE0w6F8ZGpGA==
+X-CSE-MsgGUID: PaJhUTVoSuCTZ6W0XIaOGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="193153405"
+   d="scan'208";a="192957747"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Nov 2025 13:31:23 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 26 Nov 2025 13:34:23 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vON6e-000000003NZ-3g0d;
-	Wed, 26 Nov 2025 21:31:20 +0000
-Date: Thu, 27 Nov 2025 05:31:02 +0800
+	id 1vON9Z-000000003Np-0OxM;
+	Wed, 26 Nov 2025 21:34:21 +0000
+Date: Thu, 27 Nov 2025 05:34:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
-Message-ID: <202511270504.VyAUjuYi-lkp@intel.com>
-References: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] drm/msm: add PERFCTR_CNTL to ifpc_reglist
+Message-ID: <aSdySKtZeIcsxaxP@c2e5bee1bcda>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+In-Reply-To: <20251126-ifpc_counters-v2-1-b798bc433eff@gmail.com>
 
-Hi Pavel,
+Hi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on axboe/for-next]
-[also build test ERROR on akpm-mm/mm-nonmm-unstable linus/master v6.18-rc7 next-20251126]
-[cannot apply to linux-nvme/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Begunkov/file-add-callback-for-pre-mapping-dmabuf/20251124-065343
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence%40gmail.com
-patch subject: [RFC v2 05/11] block: add infra to handle dmabuf tokens
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20251127/202511270504.VyAUjuYi-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270504.VyAUjuYi-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511270504.VyAUjuYi-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   nios2-linux-ld: block/bdev.o: in function `blkdev_dma_map':
->> block/bdev.c:75:(.text+0x13fc): undefined reference to `blk_mq_dma_map'
->> block/bdev.c:75:(.text+0x13fc): relocation truncated to fit: R_NIOS2_CALL26 against `blk_mq_dma_map'
-   nios2-linux-ld: block/blk-mq.o: in function `blk_mq_submit_bio':
->> block/blk-mq.c:3225:(.text+0x6e7c): undefined reference to `blk_rq_assign_dma_map'
->> block/blk-mq.c:3225:(.text+0x6e7c): relocation truncated to fit: R_NIOS2_CALL26 against `blk_rq_assign_dma_map'
-
-
-vim +75 block/bdev.c
-
-    64	
-    65	struct dma_token *blkdev_dma_map(struct file *file,
-    66					 struct dma_token_params *params)
-    67	{
-    68		struct request_queue *q = bdev_get_queue(file_bdev(file));
-    69	
-    70		if (!(file->f_flags & O_DIRECT))
-    71			return ERR_PTR(-EINVAL);
-    72		if (!q->mq_ops)
-    73			return ERR_PTR(-EINVAL);
-    74	
-  > 75		return blk_mq_dma_map(q, params);
-    76	}
-    77	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] drm/msm: add PERFCTR_CNTL to ifpc_reglist
+Link: https://lore.kernel.org/stable/20251126-ifpc_counters-v2-1-b798bc433eff%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
