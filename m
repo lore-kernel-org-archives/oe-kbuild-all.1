@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D2E314A6B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 07:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF01319860;
+	Thu, 27 Nov 2025 07:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764227157; cv=none; b=KhS6gfxarYU8PBBGtXTjqMTEzkjpnknhwmwtR7/PQuXKd35Bq6JViSHVqCdMTn5K+aNnmNskRdFBa7szaNXEUJTcbwWWBvzZDyz6QIajNtiO3OeHgTIuAh2Ljs4gD2eq3gQFRyheAczjDeCka1qT3+d+VWvG71ZI+JhXaCOksR8=
+	t=1764228221; cv=none; b=n4q4T8BWNsbA+ko8Is4rTQA+krgmuLf4cb9D3feOawbqM+lCtwMHi2uT4/cdlmzpHV6E9jbXTrfXveAIG2ADTkEI158iuXC37pqKZgaOtZM557BE27s6WyaEGteOTxoI0s4OpbiGzap5DqABSxZ4ZmnVyyMyO5wL9iKflROu0mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764227157; c=relaxed/simple;
-	bh=czRbMmH5u2kp7sSyDHZoaIcWeS77FZ/UAjJ3rMVxapQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cat30nXoN8iPNwmK+WvdYIoYEq9tOIGvZuk6JxDJnebUsEkOZXxCWfmXesIjLtWfWE6Uo6oHp0abWOfcOJiCFt/Sw/esz0F2fi1Y8cIuFlKfd626sttb/NzkihgSmSfD/3tZzOwJ9KLSleUtRUch6CX2jhdonP4URkcaxf8z6DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4IUe5Qn; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1764228221; c=relaxed/simple;
+	bh=CWJpvD81htkYAKE+CLKcdyYRnveIIHJb3WiVrdNMmNE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aw9VSy0BxhETkTXcJ13u8sFXPFxg5dlMR8+VP7vy+h8Z2L/otDT0TCKzLNvw+8594gFPYzpz4uZ7rrFPBJqMcbYcjRkTkTUvwZ5LsjugKrCqMBbihbfmhfTRsbZaydkGBYuIB8O2lkQ5EHm8efZQaw9SDEOeUfMP8r0mBjccxds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDdojZ2s; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4IUe5Qn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDdojZ2s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764227154; x=1795763154;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=czRbMmH5u2kp7sSyDHZoaIcWeS77FZ/UAjJ3rMVxapQ=;
-  b=g4IUe5QnTaN8vtmHfwV0CZ3wOcbwLA/i5Hg1DN/TtJ20kjU0gQw6y+yI
-   qwiU2Nd/tnDTaGcl8Twaeopsy70pAXZJpO10pW5w/1R/WQhhn7EKH8V0s
-   aEUnCJtg8+pfqSlMDieCa/8GL3hwvkLOpKWFgrNRegyqTROrYnBJeexGY
-   uB4EgODF0/pt8EqMlD8bl6EE6/TQ4dvmigSH+OV0/vDW+be2fTQNKZPev
-   F/eTc2ZgLiwMcBGp0AYkDja3TzD44EkAEPzWCrEHr+wV1ym6eMrENkvnm
-   SzODVvaQ7t6SMhFii5+1yWV3uSK6l3qapVcYW7ME0PD9Kb+FJsJD3+Nqd
-   A==;
-X-CSE-ConnectionGUID: vJCiwhyqQ5e2kNlzJA/AGg==
-X-CSE-MsgGUID: g7Mbyp/yTXGZGOrEynY9Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76958294"
+  t=1764228219; x=1795764219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CWJpvD81htkYAKE+CLKcdyYRnveIIHJb3WiVrdNMmNE=;
+  b=KDdojZ2sPmveWgiqplVh69j0cOtmmb3Gk36vgyeXEv3wnNUzb1bHwpKr
+   szzoEyD+04vd9Rb54w4gK2H9szJi++6Qr1HO6T+F9jzEFTPaDQ4pRiUdW
+   rr2VO7E+q/zBWF5JQDGgszqVjSx2t9YUrQcXLBXaSb1aQio65X5OB9dcV
+   3HuLrmPlztXR2FmoeO24KZbDXr3hzBpGsen/LMEQMpC9lm7SfT4gm54x/
+   qWgU5d+Ph+xNuHIcFSOKDTpwlfVcx46CiaXl2BhU17MPC5SSsOoAOiuWJ
+   AVx5xBBaE+2UX03s2eBWGKtukXu/kX5hbqt9nfzXMf1iB+GjBDLh0zTAR
+   g==;
+X-CSE-ConnectionGUID: nPf7/GGqQFe/Upm+/O1E2g==
+X-CSE-MsgGUID: 79WNHG2pSqa0x3jbptmv3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="68863696"
 X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="76958294"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 23:05:52 -0800
-X-CSE-ConnectionGUID: SkCattLdQm20v6Y3zljjYQ==
-X-CSE-MsgGUID: oZZGw/jDRoOpxM0PYc1NdQ==
+   d="scan'208";a="68863696"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 23:23:38 -0800
+X-CSE-ConnectionGUID: d4NaVSK6QIGmn0Y+X5Stew==
+X-CSE-MsgGUID: K+73votSQKeE5MbgUuJVew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="193379385"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Nov 2025 23:05:49 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="197316929"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 26 Nov 2025 23:23:36 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOW4Z-000000003oT-09Pw;
-	Thu, 27 Nov 2025 07:05:47 +0000
-Date: Thu, 27 Nov 2025 15:05:07 +0800
+	id 1vOWLl-000000001ej-3zp6;
+	Thu, 27 Nov 2025 07:23:33 +0000
+Date: Thu, 27 Nov 2025 08:23:20 +0100
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai@fnnas.com>, song@kernel.org, linux-raid@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	filippo@debian.org, colyli@fnnas.com, yukuai@fnnas.com
-Subject: Re: [PATCH v2 06/11] md: support to align bio to limits
-Message-ID: <202511271423.CJ3C240z-lkp@intel.com>
-References: <20251124063203.1692144-7-yukuai@fnnas.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/netkit-iouring7 3/3] net/core/netdev-genl.c:1149:2:
+ error: use of undeclared identifier 'ifindex'
+Message-ID: <202511270850.haY5QS5X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,235 +62,290 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251124063203.1692144-7-yukuai@fnnas.com>
 
-Hi Yu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20251121]
-[also build test ERROR on v6.18-rc7]
-[cannot apply to linus/master song-md/md-next v6.18-rc7 v6.18-rc6 v6.18-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-mddev-has_superblock-into-mddev_flags/20251124-143826
-base:   next-20251121
-patch link:    https://lore.kernel.org/r/20251124063203.1692144-7-yukuai%40fnnas.com
-patch subject: [PATCH v2 06/11] md: support to align bio to limits
-config: xtensa-randconfig-001-20251127 (https://download.01.org/0day-ci/archive/20251127/202511271423.CJ3C240z-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271423.CJ3C240z-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git pr/netkit-iouring7
+head:   b0485a3422c57df789879678c6373976fb2bd3e0
+commit: b0485a3422c57df789879678c6373976fb2bd3e0 [3/3] foo
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251127/202511270850.haY5QS5X-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270850.haY5QS5X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511271423.CJ3C240z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511270850.haY5QS5X-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   cfi_cmdset_0002.c:(.xiptext+0xfe5): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0xff8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x1006): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x17b0)
-   cfi_cmdset_0002.c:(.xiptext+0x1012): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x101c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1024): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x1030): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x103a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1049): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1053): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1060): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x107c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1094): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x10ac): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x10c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x10dc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x10f2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x113f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x114b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x1154): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x116e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x1176): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x117c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   cfi_cmdset_0002.c:(.xiptext+0x1187): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x118f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x1198): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x11aa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp1
-   cfi_cmdset_0002.c:(.xiptext+0x11b2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x11d0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x11e8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x11f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x11fc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x940)
-   cfi_cmdset_0002.c:(.xiptext+0x120a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x1218): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x122e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x1237): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1243): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_cmdset_0002.c:(.xiptext+0x124c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1264): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1273): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x128e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x12a0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x12b8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x12ca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x12d4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x167c)
-   cfi_cmdset_0002.c:(.xiptext+0x12dc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x12e7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x12fa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __stack_chk_fail
-   cfi_cmdset_0002.c:(.xiptext+0x131b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1334): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x1342): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x17b0)
-   cfi_cmdset_0002.c:(.xiptext+0x134e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x1356): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x135e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x1368): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1376): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x137f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x138b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1396): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x139f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x13b4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x13be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x13c7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   cfi_cmdset_0002.c:(.xiptext+0x13f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x13f6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x288)
-   cfi_cmdset_0002.c:(.xiptext+0x13fc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x140b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x141c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1427): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1434): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x145c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x1472): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x1480): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x14a3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x14bf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x14cd): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x14d7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x14e0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x14ec): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x14f6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x14ff): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1514): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x151f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x152b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x154f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1573): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x158c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1598): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x15a7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x15d8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_cmdset_0002.c:(.xiptext+0x15e0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x15f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1608): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x1615): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_cmdset_0002.c:(.xiptext+0x161f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x167c)
-   cfi_cmdset_0002.c:(.xiptext+0x1627): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x162d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   xtensa-linux-ld: drivers/md/md.o: in function `recovery_start_store':
-   md.c:(.text+0xa144): undefined reference to `__udivdi3'
->> xtensa-linux-ld: md.c:(.text+0xa148): undefined reference to `__umoddi3'
-   xtensa-linux-ld: drivers/md/md.o: in function `md_write_end':
-   md.c:(.text+0xa21b): undefined reference to `__udivdi3'
-   xtensa-linux-ld: md.c:(.text+0xa284): undefined reference to `__umoddi3'
-   drivers/mtd/chips/cfi_util.o:(.xiptext+0x14): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_util.o:(.xiptext+0x28): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_present':
-   cfi_util.c:(.xiptext+0x38): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x46): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x7f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0x8d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x9b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0xa4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0xb2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0xc2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0xcf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __stack_chk_fail
-   cfi_util.c:(.xiptext+0xe7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0xf4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x10c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x123): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x12c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_off':
-   cfi_util.c:(.xiptext+0x13b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x144): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x152): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x168): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x177): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x180): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x193): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x1a0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x1cb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x1ec): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x1f9): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x207): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x21f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x246): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_on':
-   cfi_util.c:(.xiptext+0x26b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x274): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x282): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x2ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x2d3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x2dc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x2eb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x317): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x343): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0x357): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x360): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x36c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x398): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x3bb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x3c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x3d2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x3fe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x428): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0x43b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x444): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x450): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x47a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x4a2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x4ab): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x4c7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x4e0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp2
-   cfi_util.c:(.xiptext+0x4ed): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x4fb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_util.c:(.xiptext+0x506): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __kmalloc_noprof
-   cfi_util.c:(.xiptext+0x51a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x53c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x556): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x568): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x577): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x582): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x58e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x59c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x5a6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x5b4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x5c9): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x5d3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x5e0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x5ea): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   cfi_util.c:(.xiptext+0x5f3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/chips/cfi_util.o: in function `cfi_read_pri':
-   cfi_util.c:(.xiptext+0x60f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x618): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x632): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x63e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_cmp4
-   cfi_util.c:(.xiptext+0x64c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   cfi_util.c:(.xiptext+0x66b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.o:(.xiptext+0x7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_to':
-   map_funcs.c:(.xiptext+0x16): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy_toio
-   map_funcs.c:(.xiptext+0x2f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   map_funcs.c:(.xiptext+0x3b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   drivers/mtd/maps/map_funcs.o: in function `simple_map_copy_from':
-   map_funcs.c:(.xiptext+0x47): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   map_funcs.c:(.xiptext+0x50): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   map_funcs.c:(.xiptext+0x5e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy_fromio
-   map_funcs.c:(.xiptext+0x64): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   map_funcs.c:(.xiptext+0x8b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
-   map_funcs.c:(.xiptext+0x9a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_const_cmp4
-   map_funcs.c:(.xiptext+0xa8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __sanitizer_cov_trace_pc
+   net/core/netdev-genl.c:1143:30: error: use of undeclared identifier 'NETDEV_A_QUEUE_PAIR_QUEUE_TYPE'; did you mean 'NETDEV_A_QSTATS_QUEUE_TYPE'?
+    1143 |         if (nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_QUEUE_TYPE]) !=
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                     NETDEV_A_QSTATS_QUEUE_TYPE
+   include/uapi/linux/netdev.h:170:2: note: 'NETDEV_A_QSTATS_QUEUE_TYPE' declared here
+     170 |         NETDEV_A_QSTATS_QUEUE_TYPE,
+         |         ^
+>> net/core/netdev-genl.c:1149:2: error: use of undeclared identifier 'ifindex'
+    1149 |         ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+         |         ^
+   net/core/netdev-genl.c:1149:36: error: use of undeclared identifier 'NETDEV_A_QUEUE_PAIR_SRC_IFINDEX'; did you mean 'NETDEV_A_QUEUE_IFINDEX'?
+    1149 |         ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                           NETDEV_A_QUEUE_IFINDEX
+   include/uapi/linux/netdev.h:156:2: note: 'NETDEV_A_QUEUE_IFINDEX' declared here
+     156 |         NETDEV_A_QUEUE_IFINDEX,
+         |         ^
+>> net/core/netdev-genl.c:1151:6: error: array type 'struct nlattr *[4]' is not assignable
+    1151 |         ltb = info->attrs[NETDEV_A_QUEUE_LEASE];
+         |         ~~~ ^
+>> net/core/netdev-genl.c:1164:2: error: use of undeclared identifier 'ifindex_lease'
+    1164 |         ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+         |         ^
+>> net/core/netdev-genl.c:1164:30: error: passing 'struct nlattr' to parameter of incompatible type 'const struct nlattr *'; take the address with &
+    1164 |         ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                     &
+   include/net/netlink.h:1732:52: note: passing argument to parameter 'nla' here
+    1732 | static inline u32 nla_get_u32(const struct nlattr *nla)
+         |                                                    ^
+   net/core/netdev-genl.c:1166:6: error: array type 'struct nlattr *[4]' is not assignable
+    1166 |         qtb = info->attrs[NETDEV_A_LEASE_QUEUE];
+         |         ~~~ ^
+>> net/core/netdev-genl.c:1174:18: error: use of undeclared identifier 'tb'
+    1174 |         if (nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) != NETDEV_QUEUE_TYPE_RX) {
+         |                         ^
+>> net/core/netdev-genl.c:1181:6: error: use of undeclared identifier 'dst_ifidx'
+    1181 |         if (dst_ifidx == src_ifidx) {
+         |             ^
+>> net/core/netdev-genl.c:1181:19: error: use of undeclared identifier 'src_ifidx'
+    1181 |         if (dst_ifidx == src_ifidx) {
+         |                          ^
+   net/core/netdev-genl.c:1201:58: error: use of undeclared identifier 'dst_ifidx'
+    1201 |         dst_dev = netdev_get_by_index_lock(genl_info_net(info), dst_ifidx);
+         |                                                                 ^
+   net/core/netdev-genl.c:1202:7: warning: address of function 'dst_dev' will always evaluate to 'true' [-Wpointer-bool-conversion]
+    1202 |         if (!dst_dev) {
+         |             ~^~~~~~~
+   net/core/netdev-genl.c:1202:7: note: prefix with the address-of operator to silence this warning
+    1202 |         if (!dst_dev) {
+         |              ^
+         |              &
+>> net/core/netdev-genl.c:1206:13: error: member reference base type 'struct net_device *(const struct dst_entry *)' is not a structure or union
+    1206 |         if (dst_dev->dev.parent) {
+         |             ~~~~~~~^ ~~~
+   net/core/netdev-genl.c:1212:14: error: member reference base type 'struct net_device *(const struct dst_entry *)' is not a structure or union
+    1212 |         if (!dst_dev->queue_mgmt_ops ||
+         |              ~~~~~~~^ ~~~~~~~~~~~~~~
+   net/core/netdev-genl.c:1213:14: error: member reference base type 'struct net_device *(const struct dst_entry *)' is not a structure or union
+    1213 |             !dst_dev->queue_mgmt_ops->ndo_queue_create) {
+         |              ~~~~~~~^ ~~~~~~~~~~~~~~
+   net/core/netdev-genl.c:1219:13: error: member reference base type 'struct net_device *(const struct dst_entry *)' is not a structure or union
+    1219 |         if (dst_dev->real_num_rx_queues < 1) {
+         |             ~~~~~~~^ ~~~~~~~~~~~~~~~~~~
+>> net/core/netdev-genl.c:1226:2: error: use of undeclared identifier 'src_dev'
+    1226 |         src_dev = netdev_get_by_index(genl_info_net(info), src_ifidx,
+         |         ^
+   net/core/netdev-genl.c:1226:53: error: use of undeclared identifier 'src_ifidx'
+    1226 |         src_dev = netdev_get_by_index(genl_info_net(info), src_ifidx,
+         |                                                            ^
+   net/core/netdev-genl.c:1228:7: error: use of undeclared identifier 'src_dev'
+    1228 |         if (!src_dev) {
+         |              ^
+   net/core/netdev-genl.c:1232:7: error: use of undeclared identifier 'src_dev'
+    1232 |         if (!src_dev->dev.parent) {
+         |              ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
+
+
+vim +/ifindex +1149 net/core/netdev-genl.c
+
+  1122	
+  1123	int netdev_nl_queue_create_doit(struct sk_buff *skb, struct genl_info *info)
+  1124	{
+  1125		//struct netdev_rx_queue *src_rxq, *dst_rxq, *tmp_rxq;
+  1126		//u32 src_ifidx, src_qid, dst_ifidx, dst_qid, q_type;
+  1127		//struct net_device *src_dev, *dst_dev;
+  1128	
+  1129		const int qmaxtype = ARRAY_SIZE(netdev_queue_id_nl_policy) - 1;
+  1130		const int lmaxtype = ARRAY_SIZE(netdev_lease_nl_policy) - 1;
+  1131		struct nlattr *qtb[ARRAY_SIZE(netdev_queue_id_nl_policy)];
+  1132		struct nlattr *ltb[ARRAY_SIZE(netdev_lease_nl_policy)];
+  1133		netdevice_tracker dev_tracker;
+  1134		struct nlattr *attr;
+  1135		struct sk_buff *rsp;
+  1136		void *hdr;
+  1137		int err;
+  1138	
+  1139		if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_IFINDEX) ||
+  1140		    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_TYPE) ||
+  1141		    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_LEASE))
+  1142			return -EINVAL;
+> 1143		if (nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_QUEUE_TYPE]) !=
+  1144		    NETDEV_QUEUE_TYPE_RX) {
+  1145			NL_SET_ERR_MSG(info->extack, "Only creation of RX queue currently supported");
+  1146			return -EINVAL;
+  1147		}
+  1148	
+> 1149		ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+  1150	
+> 1151		ltb = info->attrs[NETDEV_A_QUEUE_LEASE];
+  1152		err = nla_parse_nested(ltb, lmaxtype, attr,
+  1153				       netdev_queue_id_nl_policy, info->extack);
+  1154		if (err < 0)
+  1155			return err;
+  1156		if (NL_REQ_ATTR_CHECK(info->extack, attr, ltb, NETDEV_A_LEASE_IFINDEX) ||
+  1157		    NL_REQ_ATTR_CHECK(info->extack, attr, ltb, NETDEV_A_LEASE_QUEUE))
+  1158			return -EINVAL;
+  1159		if (ltb[NETDEV_A_LEASE_NETNS_ID]) {
+  1160			NL_SET_BAD_ATTR(info->extack, ltb[NETDEV_A_LEASE_NETNS_ID]);
+  1161			return -EINVAL;
+  1162		}
+  1163	
+> 1164		ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+  1165	
+> 1166		qtb = info->attrs[NETDEV_A_LEASE_QUEUE];
+  1167		err = nla_parse_nested(qtb, qmaxtype, attr,
+  1168				       netdev_queue_id_nl_policy, info->extack);
+  1169		if (err < 0)
+  1170			return err;
+  1171		if (NL_REQ_ATTR_CHECK(info->extack, attr, qtb, NETDEV_A_QUEUE_ID) ||
+  1172		    NL_REQ_ATTR_CHECK(info->extack, attr, qtb, NETDEV_A_QUEUE_TYPE))
+  1173			return -EINVAL;
+> 1174		if (nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) != NETDEV_QUEUE_TYPE_RX) {
+  1175			NL_SET_BAD_ATTR(info->extack, qtb[NETDEV_A_QUEUE_TYPE]);
+  1176			return -EINVAL;
+  1177		}
+  1178	
+  1179	
+  1180	
+> 1181		if (dst_ifidx == src_ifidx) {
+  1182			NL_SET_ERR_MSG(info->extack,
+  1183				       "Destination driver cannot be same as source driver");
+  1184			return -EINVAL;
+  1185		}
+  1186	
+  1187		rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+  1188		if (!rsp)
+  1189			return -ENOMEM;
+  1190	
+  1191		hdr = genlmsg_iput(rsp, info);
+  1192		if (!hdr) {
+  1193			err = -EMSGSIZE;
+  1194			goto err_genlmsg_free;
+  1195		}
+  1196	
+  1197		/* Locking order is always from the virtual to the physical device
+  1198		 * since this is also the same order when applications open the
+  1199		 * memory provider later on.
+  1200		 */
+  1201		dst_dev = netdev_get_by_index_lock(genl_info_net(info), dst_ifidx);
+> 1202		if (!dst_dev) {
+  1203			err = -ENODEV;
+  1204			goto err_genlmsg_free;
+  1205		}
+> 1206		if (dst_dev->dev.parent) {
+  1207			err = -EINVAL;
+  1208			NL_SET_ERR_MSG(info->extack,
+  1209				       "Destination device is not a virtual device");
+  1210			goto err_unlock_dst_dev;
+  1211		}
+> 1212		if (!dst_dev->queue_mgmt_ops ||
+  1213		    !dst_dev->queue_mgmt_ops->ndo_queue_create) {
+  1214			err = -EOPNOTSUPP;
+  1215			NL_SET_ERR_MSG(info->extack,
+  1216				       "Destination driver does not support queue management operations");
+  1217			goto err_unlock_dst_dev;
+  1218		}
+  1219		if (dst_dev->real_num_rx_queues < 1) {
+  1220			err = -EINVAL;
+  1221			NL_SET_ERR_MSG(info->extack,
+  1222				       "Destination device must have at least one real RX queue");
+  1223			goto err_unlock_dst_dev;
+  1224		}
+  1225	
+> 1226		src_dev = netdev_get_by_index(genl_info_net(info), src_ifidx,
+  1227					      &dev_tracker, GFP_KERNEL);
+  1228		if (!src_dev) {
+  1229			err = -ENODEV;
+  1230			goto err_unlock_dst_dev;
+  1231		}
+  1232		if (!src_dev->dev.parent) {
+  1233			err = -EINVAL;
+  1234			NL_SET_ERR_MSG(info->extack,
+  1235				       "Source device is a virtual device");
+  1236			goto err_unlock_dst_dev_src_dev_put;
+  1237		}
+  1238		if (!netif_device_present(src_dev)) {
+  1239			err = -ENODEV;
+  1240			NL_SET_ERR_MSG(info->extack,
+  1241				       "Source device has been removed from the system");
+  1242			goto err_unlock_dst_dev_src_dev_put;
+  1243		}
+  1244		if (!src_dev->queue_mgmt_ops) {
+  1245			err = -EOPNOTSUPP;
+  1246			NL_SET_ERR_MSG(info->extack,
+  1247				       "Source driver does not support queue management operations");
+  1248			goto err_unlock_dst_dev_src_dev_put;
+  1249		}
+  1250	
+  1251		src_dev = netdev_put_lock(src_dev, &dev_tracker);
+  1252		if (!src_dev) {
+  1253			err = -ENODEV;
+  1254			goto err_unlock_dst_dev;
+  1255		}
+  1256		if (src_qid >= src_dev->real_num_rx_queues) {
+  1257			err = -ERANGE;
+  1258			NL_SET_BAD_ATTR(info->extack,
+  1259					info->attrs[NETDEV_A_QUEUE_PAIR_SRC_QUEUE_ID]);
+  1260			goto err_unlock_src_dev;
+  1261		}
+  1262	
+  1263		src_rxq = __netif_get_rx_queue(src_dev, src_qid);
+  1264		if (src_rxq->peer) {
+  1265			err = -EBUSY;
+  1266			NL_SET_ERR_MSG(info->extack,
+  1267				       "Source device queue is already bound");
+  1268			goto err_unlock_src_dev;
+  1269		}
+  1270	
+  1271		tmp_rxq = __netif_get_rx_queue(dst_dev, dst_dev->real_num_rx_queues - 1);
+  1272		if (tmp_rxq->peer && tmp_rxq->peer->dev != src_dev) {
+  1273			err = -EOPNOTSUPP;
+  1274			NL_SET_ERR_MSG(info->extack,
+  1275				       "Binding multiple queues from different source devices not supported");
+  1276			goto err_unlock_src_dev;
+  1277		}
+  1278	
+  1279		err = dst_dev->queue_mgmt_ops->ndo_queue_create(dst_dev, &dst_qid);
+  1280		if (err) {
+  1281			NL_SET_ERR_MSG(info->extack,
+  1282				       "Destination device is unable to create a new queue");
+  1283			goto err_unlock_src_dev;
+  1284		}
+  1285	
+  1286		dst_rxq = __netif_get_rx_queue(dst_dev, dst_qid);
+  1287		netdev_rx_queue_peer(src_dev, src_rxq, dst_rxq);
+  1288	
+  1289		nla_put_u32(rsp, NETDEV_A_QUEUE_PAIR_DST_QUEUE_ID, dst_qid);
+  1290		genlmsg_end(rsp, hdr);
+  1291	
+  1292		netdev_unlock(src_dev);
+  1293		netdev_unlock(dst_dev);
+  1294	
+  1295		return genlmsg_reply(rsp, info);
+  1296	
+  1297	err_unlock_dst_dev_src_dev_put:
+  1298		netdev_put(src_dev, &dev_tracker);
+  1299		goto err_unlock_dst_dev;
+  1300	err_unlock_src_dev:
+  1301		netdev_unlock(src_dev);
+  1302	err_unlock_dst_dev:
+  1303		netdev_unlock(dst_dev);
+  1304	err_genlmsg_free:
+  1305		nlmsg_free(rsp);
+  1306		return err;
+  1307	}
+  1308	
 
 -- 
 0-DAY CI Kernel Test Service
