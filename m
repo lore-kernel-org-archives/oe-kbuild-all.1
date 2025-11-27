@@ -1,64 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E7F214813
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 15:11:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED322332ED7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 15:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764256268; cv=none; b=cTfVIqbyIvlEXnY/3A0oXxIeOewxH2ygPtEz2ZotymTPLYBYg5pjrGrIs3SqG5mbL0p/LYkPDLY0eRaGRJbQcYfY7o9I8Cgd23Otco+fPEkHCrYy/Ula7n6I+GZH7cD88kSMo91aqse8ZTxcZkXBqJHyuhM+87TUbIc3xajtMsY=
+	t=1764256268; cv=none; b=KrtN20qov29N/jHmlIeLF/8pG3Nk8l1aQGiINcNY6GzDD62oLdC2ahf4WquJIxJxlFf1CtzhkinMYmY/LvDuTwJlzPmTIGX1XzofF0DAdCK3N0WHARrP8DuHzs8rArUYMcIcVI1q/dxax74Ioah3/avJX63Y22MLAxvn0fZ1Mew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1764256268; c=relaxed/simple;
-	bh=VbGblNVtoDSl589XQ7oYPodErP1t6oS9NvvWeUPMmGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eaTEm8S7Ay6/hsvdsXFsI1vtJfKnn668DCSIm5mSIAXnHa1UdsGQKJXA1YFveWU6yHY0TJ3URGOTIQa7bDWp4Gz4XTVAVmDPrHYI34Nd1okS+raFRciUg4LXXEvp/nm1Qnfq/qzPAA/QBu03rwJE94MQLOb4L3XlH+BoLpHNyhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmxWzcQl; arc=none smtp.client-ip=198.175.65.13
+	bh=V3VG/RseEWz4NxsFrLkaRJ5CpOgorsKHLooHbbIYi6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DKX1AoNK6wCIkl4vIHP3VnY4r2MX7HtgyfMxsSvhVLu76IKVaUk0Yd++PTBAuIqcg41FUXxBFEuSon7LPztoRA26KWjuV2OsRP4KPkCf+aAF9cZtquk3/7hKtvpAQKOIpZLHdO0OJuL6uNukp2LVFkiz6aAtKGQMLIw63aEVHWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6/0xdBj; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmxWzcQl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6/0xdBj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764256267; x=1795792267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VbGblNVtoDSl589XQ7oYPodErP1t6oS9NvvWeUPMmGU=;
-  b=CmxWzcQl6ySzVuEbXBH0HD/L5b7YtvNRK0iXe2S6SHfgeKG0MVVgtQVr
-   ZoetXl3jm+uMqQNVkfyOCwGZcVO58sVJzwxT1hTibj8Z2uzoOalJSaP0o
-   2oMLVtc9XYlmGp1epCLGt0//iqz7nWgYuO3Pz98glvhcNK0hBmRgG+lbk
-   lY358zDtmce2AHjCcZ+QXZqw5Xxxx7g2MjI7eUYjud/QR3yBr6fj1mU+u
-   x31FmKnnrrjsS0QJH7N3WxdNHhbAhXheY2SKi6b23XLsjeQqJzv8ybW7f
-   8IiBqag2Rm0VnnmoEioNyUNISnC5TvbPW6Inf4HwO9fPi4loj9jTcylJ+
+  t=1764256266; x=1795792266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V3VG/RseEWz4NxsFrLkaRJ5CpOgorsKHLooHbbIYi6s=;
+  b=i6/0xdBjtr8BKNhUWu/uw1disYhI/EoXk/RXQ62q7h8DVSTZ+9rMpZFF
+   Ih+bZe5lNeQsJsMlNd7y2gXMcLKD4/H//nB4vnTkgvSA49LEu1kvNSEqG
+   FDMsSQwIh9oqk93nNVJr0keku7fP+GZPdN1CWrSLVHgPRUpx0/3W6jPkh
+   VJxE3f6cfZniL1m0rd03z2Iqf9L1u1ONiaNdOD8cL549bZaC1wrzzeuzE
+   cv1uMtZSuLwD3ly73wMVTZRdvsxqhkKIIRXaLV9O/JDApd9k1pndFxLOd
+   ZYALYj7B+KHEfIPZqupbMKuPMFVkoIyRwRo0JNupJjbodm5noUBGLEpI3
    A==;
-X-CSE-ConnectionGUID: ta0jOMnxS0ezy1SwRZoyHw==
-X-CSE-MsgGUID: CybTLKKuQimQNjsIZPsUGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77409046"
+X-CSE-ConnectionGUID: sSzFchIrQEC8kGlE43riSA==
+X-CSE-MsgGUID: wOIs5JX3THKbQJP9CW3w2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77409044"
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="77409046"
+   d="scan'208";a="77409044"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 07:11:06 -0800
-X-CSE-ConnectionGUID: hONJ7WbgQjmgi56mrkxaaQ==
-X-CSE-MsgGUID: pV5bBdvaQwOK23dYa6rF6A==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 07:11:05 -0800
+X-CSE-ConnectionGUID: LYche8EvQeaZgB/cBKUqKQ==
+X-CSE-MsgGUID: 2RuHvYtJSDSm78p+jZdSGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="197569264"
+   d="scan'208";a="197569269"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 27 Nov 2025 07:11:04 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOde9-000000005C1-238z;
+	id 1vOde9-000000005C6-33tv;
 	Thu, 27 Nov 2025 15:11:01 +0000
-Date: Thu, 27 Nov 2025 23:10:52 +0800
+Date: Thu, 27 Nov 2025 23:10:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huisong Li <lihuisong@huawei.com>, rafael@kernel.org, lenb@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sudeep.Holla@arm.com,
-	linuxarm@huawei.com, jonathan.cameron@huawei.com,
-	zhanjie9@hisilicon.com, zhenglifeng1@huawei.com,
-	yubowen8@huawei.com, lihuisong@huawei.com
-Subject: Re: [PATCH 2/3] ACPI: processor: idle: Disable ACPI idle if get
- power information failed in power notify
-Message-ID: <202511272227.w1fgoiKQ-lkp@intel.com>
-References: <20251125072933.3706006-3-lihuisong@huawei.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/netkit-iouring7 3/3] net/core/netdev-genl.c:1202:6:
+ warning: the address of 'dst_dev' will always evaluate as 'true'
+Message-ID: <202511272317.FdEIj0s5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,35 +61,361 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125072933.3706006-3-lihuisong@huawei.com>
 
-Hi Huisong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.18-rc7 next-20251127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huisong-Li/cpuidle-Add-enable_cpuidle-interface/20251125-153615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251125072933.3706006-3-lihuisong%40huawei.com
-patch subject: [PATCH 2/3] ACPI: processor: idle: Disable ACPI idle if get power information failed in power notify
-config: riscv-randconfig-001-20251127 (https://download.01.org/0day-ci/archive/20251127/202511272227.w1fgoiKQ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272227.w1fgoiKQ-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git pr/netkit-iouring7
+head:   b0485a3422c57df789879678c6373976fb2bd3e0
+commit: b0485a3422c57df789879678c6373976fb2bd3e0 [3/3] foo
+config: arc-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511272317.FdEIj0s5-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272317.FdEIj0s5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511272227.w1fgoiKQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511272317.FdEIj0s5-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "enable_cpuidle" [drivers/acpi/processor.ko] undefined!
->> ERROR: modpost: "disable_cpuidle" [drivers/acpi/processor.ko] undefined!
+   net/core/netdev-genl.c: In function 'netdev_nl_queue_create_doit':
+   net/core/netdev-genl.c:1143:30: error: 'NETDEV_A_QUEUE_PAIR_QUEUE_TYPE' undeclared (first use in this function); did you mean 'NETDEV_A_QSTATS_QUEUE_TYPE'?
+     if (nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_QUEUE_TYPE]) !=
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                 NETDEV_A_QSTATS_QUEUE_TYPE
+   net/core/netdev-genl.c:1143:30: note: each undeclared identifier is reported only once for each function it appears in
+   net/core/netdev-genl.c:1149:2: error: 'ifindex' undeclared (first use in this function)
+     ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+     ^~~~~~~
+   net/core/netdev-genl.c:1149:36: error: 'NETDEV_A_QUEUE_PAIR_SRC_IFINDEX' undeclared (first use in this function); did you mean 'NETDEV_A_QUEUE_IFINDEX'?
+     ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                       NETDEV_A_QUEUE_IFINDEX
+   net/core/netdev-genl.c:1151:6: error: assignment to expression with array type
+     ltb = info->attrs[NETDEV_A_QUEUE_LEASE];
+         ^
+   net/core/netdev-genl.c:1164:2: error: 'ifindex_lease' undeclared (first use in this function); did you mean 'file_lease'?
+     ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+     ^~~~~~~~~~~~~
+     file_lease
+   net/core/netdev-genl.c:1164:34: error: incompatible type for argument 1 of 'nla_get_u32'
+     ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+                                 ~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/net/rtnetlink.h:7,
+                    from include/net/neighbour.h:31,
+                    from include/net/dst.h:20,
+                    from include/net/sock.h:66,
+                    from include/net/inet_sock.h:23,
+                    from include/net/ip.h:29,
+                    from include/net/busy_poll.h:18,
+                    from net/core/netdev-genl.c:6:
+   include/net/netlink.h:1732:52: note: expected 'const struct nlattr *' but argument is of type 'struct nlattr'
+    static inline u32 nla_get_u32(const struct nlattr *nla)
+                                  ~~~~~~~~~~~~~~~~~~~~~^~~
+   net/core/netdev-genl.c:1166:6: error: assignment to expression with array type
+     qtb = info->attrs[NETDEV_A_LEASE_QUEUE];
+         ^
+   net/core/netdev-genl.c:1174:18: error: 'tb' undeclared (first use in this function); did you mean 'ltb'?
+     if (nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) != NETDEV_QUEUE_TYPE_RX) {
+                     ^~
+                     ltb
+   net/core/netdev-genl.c:1181:6: error: 'dst_ifidx' undeclared (first use in this function); did you mean 'dst_init'?
+     if (dst_ifidx == src_ifidx) {
+         ^~~~~~~~~
+         dst_init
+   net/core/netdev-genl.c:1181:19: error: 'src_ifidx' undeclared (first use in this function); did you mean 'srcu_init'?
+     if (dst_ifidx == src_ifidx) {
+                      ^~~~~~~~~
+                      srcu_init
+>> net/core/netdev-genl.c:1202:6: warning: the address of 'dst_dev' will always evaluate as 'true' [-Waddress]
+     if (!dst_dev) {
+         ^
+   net/core/netdev-genl.c:1206:13: error: request for member 'dev' in something not a structure or union
+     if (dst_dev->dev.parent) {
+                ^~
+   net/core/netdev-genl.c:1212:14: error: request for member 'queue_mgmt_ops' in something not a structure or union
+     if (!dst_dev->queue_mgmt_ops ||
+                 ^~
+   net/core/netdev-genl.c:1213:14: error: request for member 'queue_mgmt_ops' in something not a structure or union
+         !dst_dev->queue_mgmt_ops->ndo_queue_create) {
+                 ^~
+   net/core/netdev-genl.c:1219:13: error: request for member 'real_num_rx_queues' in something not a structure or union
+     if (dst_dev->real_num_rx_queues < 1) {
+                ^~
+   net/core/netdev-genl.c:1226:2: error: 'src_dev' undeclared (first use in this function); did you mean 'dst_dev'?
+     src_dev = netdev_get_by_index(genl_info_net(info), src_ifidx,
+     ^~~~~~~
+     dst_dev
+   net/core/netdev-genl.c:1256:6: error: 'src_qid' undeclared (first use in this function); did you mean 'sk_uid'?
+     if (src_qid >= src_dev->real_num_rx_queues) {
+         ^~~~~~~
+         sk_uid
+   In file included from include/uapi/linux/neighbour.h:6,
+                    from include/linux/netdevice.h:44,
+                    from net/core/netdev-genl.c:3:
+   net/core/netdev-genl.c:1259:17: error: 'NETDEV_A_QUEUE_PAIR_SRC_QUEUE_ID' undeclared (first use in this function); did you mean 'NETDEV_A_QSTATS_QUEUE_ID'?
+        info->attrs[NETDEV_A_QUEUE_PAIR_SRC_QUEUE_ID]);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:145:25: note: in definition of macro 'NL_SET_BAD_ATTR_POLICY'
+      (extack)->bad_attr = (attr);  \
+                            ^~~~
+   net/core/netdev-genl.c:1258:3: note: in expansion of macro 'NL_SET_BAD_ATTR'
+      NL_SET_BAD_ATTR(info->extack,
+      ^~~~~~~~~~~~~~~
+   net/core/netdev-genl.c:1263:2: error: 'src_rxq' undeclared (first use in this function); did you mean 'ifc_req'?
+     src_rxq = __netif_get_rx_queue(src_dev, src_qid);
+     ^~~~~~~
+     ifc_req
+   net/core/netdev-genl.c:1271:2: error: 'tmp_rxq' undeclared (first use in this function); did you mean 'tcp_rsk'?
+     tmp_rxq = __netif_get_rx_queue(dst_dev, dst_dev->real_num_rx_queues - 1);
+     ^~~~~~~
+     tcp_rsk
+   net/core/netdev-genl.c:1271:49: error: request for member 'real_num_rx_queues' in something not a structure or union
+     tmp_rxq = __netif_get_rx_queue(dst_dev, dst_dev->real_num_rx_queues - 1);
+                                                    ^~
+   net/core/netdev-genl.c:1271:33: error: passing argument 1 of '__netif_get_rx_queue' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     tmp_rxq = __netif_get_rx_queue(dst_dev, dst_dev->real_num_rx_queues - 1);
+                                    ^~~~~~~
+   In file included from net/core/netdev-genl.c:9:
+   include/net/netdev_rx_queue.h:46:41: note: expected 'struct net_device *' but argument is of type 'struct net_device * (*)(const struct dst_entry *)'
+    __netif_get_rx_queue(struct net_device *dev, unsigned int rxq)
+                         ~~~~~~~~~~~~~~~~~~~^~~
+   net/core/netdev-genl.c:1279:15: error: request for member 'queue_mgmt_ops' in something not a structure or union
+     err = dst_dev->queue_mgmt_ops->ndo_queue_create(dst_dev, &dst_qid);
+                  ^~
+   net/core/netdev-genl.c:1279:60: error: 'dst_qid' undeclared (first use in this function); did you mean 'sk_uid'?
+     err = dst_dev->queue_mgmt_ops->ndo_queue_create(dst_dev, &dst_qid);
+                                                               ^~~~~~~
+                                                               sk_uid
+   net/core/netdev-genl.c:1286:2: error: 'dst_rxq' undeclared (first use in this function); did you mean 'dst_dev'?
+     dst_rxq = __netif_get_rx_queue(dst_dev, dst_qid);
+     ^~~~~~~
+     dst_dev
+   net/core/netdev-genl.c:1286:33: error: passing argument 1 of '__netif_get_rx_queue' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     dst_rxq = __netif_get_rx_queue(dst_dev, dst_qid);
+                                    ^~~~~~~
+   In file included from net/core/netdev-genl.c:9:
+   include/net/netdev_rx_queue.h:46:41: note: expected 'struct net_device *' but argument is of type 'struct net_device * (*)(const struct dst_entry *)'
+    __netif_get_rx_queue(struct net_device *dev, unsigned int rxq)
+                         ~~~~~~~~~~~~~~~~~~~^~~
+   net/core/netdev-genl.c:1287:2: error: implicit declaration of function 'netdev_rx_queue_peer'; did you mean 'netdev_rx_queue_lease'? [-Werror=implicit-function-declaration]
+     netdev_rx_queue_peer(src_dev, src_rxq, dst_rxq);
+     ^~~~~~~~~~~~~~~~~~~~
+     netdev_rx_queue_lease
+   net/core/netdev-genl.c:1289:19: error: 'NETDEV_A_QUEUE_PAIR_DST_QUEUE_ID' undeclared (first use in this function); did you mean 'NETDEV_A_QSTATS_QUEUE_ID'?
+     nla_put_u32(rsp, NETDEV_A_QUEUE_PAIR_DST_QUEUE_ID, dst_qid);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                      NETDEV_A_QSTATS_QUEUE_ID
+   net/core/netdev-genl.c:1293:16: error: passing argument 1 of 'netdev_unlock' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     netdev_unlock(dst_dev);
+                   ^~~~~~~
+   In file included from net/core/netdev-genl.c:3:
+   include/linux/netdevice.h:2771:53: note: expected 'struct net_device *' but argument is of type 'struct net_device * (*)(const struct dst_entry *)'
+    static inline void netdev_unlock(struct net_device *dev)
+                                     ~~~~~~~~~~~~~~~~~~~^~~
+   net/core/netdev-genl.c:1303:16: error: passing argument 1 of 'netdev_unlock' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     netdev_unlock(dst_dev);
+                   ^~~~~~~
+   In file included from net/core/netdev-genl.c:3:
+   include/linux/netdevice.h:2771:53: note: expected 'struct net_device *' but argument is of type 'struct net_device * (*)(const struct dst_entry *)'
+    static inline void netdev_unlock(struct net_device *dev)
+                                     ~~~~~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
+
+
+vim +1202 net/core/netdev-genl.c
+
+8802087d20c0e1c Stanislav Fomichev 2025-05-08  1122  
+d7ab39540fa2d0c Daniel Borkmann    2025-10-31  1123  int netdev_nl_queue_create_doit(struct sk_buff *skb, struct genl_info *info)
+d7ab39540fa2d0c Daniel Borkmann    2025-10-31  1124  {
+b0485a3422c57df Daniel Borkmann    2025-11-26  1125  	//struct netdev_rx_queue *src_rxq, *dst_rxq, *tmp_rxq;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1126  	//u32 src_ifidx, src_qid, dst_ifidx, dst_qid, q_type;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1127  	//struct net_device *src_dev, *dst_dev;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1128  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1129  	const int qmaxtype = ARRAY_SIZE(netdev_queue_id_nl_policy) - 1;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1130  	const int lmaxtype = ARRAY_SIZE(netdev_lease_nl_policy) - 1;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1131  	struct nlattr *qtb[ARRAY_SIZE(netdev_queue_id_nl_policy)];
+b0485a3422c57df Daniel Borkmann    2025-11-26  1132  	struct nlattr *ltb[ARRAY_SIZE(netdev_lease_nl_policy)];
+6218b42846f66cc David Wei          2025-10-31  1133  	netdevice_tracker dev_tracker;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1134  	struct nlattr *attr;
+6218b42846f66cc David Wei          2025-10-31  1135  	struct sk_buff *rsp;
+6218b42846f66cc David Wei          2025-10-31  1136  	void *hdr;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1137  	int err;
+6218b42846f66cc David Wei          2025-10-31  1138  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1139  	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_IFINDEX) ||
+b0485a3422c57df Daniel Borkmann    2025-11-26  1140  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_TYPE) ||
+b0485a3422c57df Daniel Borkmann    2025-11-26  1141  	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_QUEUE_LEASE))
+b0485a3422c57df Daniel Borkmann    2025-11-26  1142  		return -EINVAL;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1143  	if (nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_QUEUE_TYPE]) !=
+b0485a3422c57df Daniel Borkmann    2025-11-26  1144  	    NETDEV_QUEUE_TYPE_RX) {
+b0485a3422c57df Daniel Borkmann    2025-11-26  1145  		NL_SET_ERR_MSG(info->extack, "Only creation of RX queue currently supported");
+b0485a3422c57df Daniel Borkmann    2025-11-26  1146  		return -EINVAL;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1147  	}
+b0485a3422c57df Daniel Borkmann    2025-11-26  1148  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1149  	ifindex = nla_get_u32(info->attrs[NETDEV_A_QUEUE_PAIR_SRC_IFINDEX]);
+b0485a3422c57df Daniel Borkmann    2025-11-26  1150  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1151  	ltb = info->attrs[NETDEV_A_QUEUE_LEASE];
+b0485a3422c57df Daniel Borkmann    2025-11-26  1152  	err = nla_parse_nested(ltb, lmaxtype, attr,
+b0485a3422c57df Daniel Borkmann    2025-11-26  1153  			       netdev_queue_id_nl_policy, info->extack);
+b0485a3422c57df Daniel Borkmann    2025-11-26  1154  	if (err < 0)
+b0485a3422c57df Daniel Borkmann    2025-11-26  1155  		return err;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1156  	if (NL_REQ_ATTR_CHECK(info->extack, attr, ltb, NETDEV_A_LEASE_IFINDEX) ||
+b0485a3422c57df Daniel Borkmann    2025-11-26  1157  	    NL_REQ_ATTR_CHECK(info->extack, attr, ltb, NETDEV_A_LEASE_QUEUE))
+b0485a3422c57df Daniel Borkmann    2025-11-26  1158  		return -EINVAL;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1159  	if (ltb[NETDEV_A_LEASE_NETNS_ID]) {
+b0485a3422c57df Daniel Borkmann    2025-11-26  1160  		NL_SET_BAD_ATTR(info->extack, ltb[NETDEV_A_LEASE_NETNS_ID]);
+6218b42846f66cc David Wei          2025-10-31  1161  		return -EINVAL;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1162  	}
+6218b42846f66cc David Wei          2025-10-31  1163  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1164  	ifindex_lease = nla_get_u32(attr[NETDEV_A_LEASE_IFINDEX]);
+6218b42846f66cc David Wei          2025-10-31  1165  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1166  	qtb = info->attrs[NETDEV_A_LEASE_QUEUE];
+b0485a3422c57df Daniel Borkmann    2025-11-26  1167  	err = nla_parse_nested(qtb, qmaxtype, attr,
+b0485a3422c57df Daniel Borkmann    2025-11-26  1168  			       netdev_queue_id_nl_policy, info->extack);
+b0485a3422c57df Daniel Borkmann    2025-11-26  1169  	if (err < 0)
+b0485a3422c57df Daniel Borkmann    2025-11-26  1170  		return err;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1171  	if (NL_REQ_ATTR_CHECK(info->extack, attr, qtb, NETDEV_A_QUEUE_ID) ||
+b0485a3422c57df Daniel Borkmann    2025-11-26  1172  	    NL_REQ_ATTR_CHECK(info->extack, attr, qtb, NETDEV_A_QUEUE_TYPE))
+b0485a3422c57df Daniel Borkmann    2025-11-26  1173  		return -EINVAL;
+b0485a3422c57df Daniel Borkmann    2025-11-26  1174  	if (nla_get_u32(tb[NETDEV_A_QUEUE_TYPE]) != NETDEV_QUEUE_TYPE_RX) {
+b0485a3422c57df Daniel Borkmann    2025-11-26  1175  		NL_SET_BAD_ATTR(info->extack, qtb[NETDEV_A_QUEUE_TYPE]);
+6218b42846f66cc David Wei          2025-10-31  1176  		return -EINVAL;
+6218b42846f66cc David Wei          2025-10-31  1177  	}
+b0485a3422c57df Daniel Borkmann    2025-11-26  1178  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1179  
+b0485a3422c57df Daniel Borkmann    2025-11-26  1180  
+6218b42846f66cc David Wei          2025-10-31 @1181  	if (dst_ifidx == src_ifidx) {
+6218b42846f66cc David Wei          2025-10-31  1182  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1183  			       "Destination driver cannot be same as source driver");
+6218b42846f66cc David Wei          2025-10-31  1184  		return -EINVAL;
+6218b42846f66cc David Wei          2025-10-31  1185  	}
+6218b42846f66cc David Wei          2025-10-31  1186  
+6218b42846f66cc David Wei          2025-10-31  1187  	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+6218b42846f66cc David Wei          2025-10-31  1188  	if (!rsp)
+6218b42846f66cc David Wei          2025-10-31  1189  		return -ENOMEM;
+6218b42846f66cc David Wei          2025-10-31  1190  
+6218b42846f66cc David Wei          2025-10-31  1191  	hdr = genlmsg_iput(rsp, info);
+6218b42846f66cc David Wei          2025-10-31  1192  	if (!hdr) {
+6218b42846f66cc David Wei          2025-10-31  1193  		err = -EMSGSIZE;
+6218b42846f66cc David Wei          2025-10-31  1194  		goto err_genlmsg_free;
+6218b42846f66cc David Wei          2025-10-31  1195  	}
+6218b42846f66cc David Wei          2025-10-31  1196  
+6218b42846f66cc David Wei          2025-10-31  1197  	/* Locking order is always from the virtual to the physical device
+6218b42846f66cc David Wei          2025-10-31  1198  	 * since this is also the same order when applications open the
+6218b42846f66cc David Wei          2025-10-31  1199  	 * memory provider later on.
+6218b42846f66cc David Wei          2025-10-31  1200  	 */
+6218b42846f66cc David Wei          2025-10-31  1201  	dst_dev = netdev_get_by_index_lock(genl_info_net(info), dst_ifidx);
+6218b42846f66cc David Wei          2025-10-31 @1202  	if (!dst_dev) {
+6218b42846f66cc David Wei          2025-10-31  1203  		err = -ENODEV;
+6218b42846f66cc David Wei          2025-10-31  1204  		goto err_genlmsg_free;
+6218b42846f66cc David Wei          2025-10-31  1205  	}
+6218b42846f66cc David Wei          2025-10-31  1206  	if (dst_dev->dev.parent) {
+6218b42846f66cc David Wei          2025-10-31  1207  		err = -EINVAL;
+6218b42846f66cc David Wei          2025-10-31  1208  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1209  			       "Destination device is not a virtual device");
+6218b42846f66cc David Wei          2025-10-31  1210  		goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1211  	}
+6218b42846f66cc David Wei          2025-10-31  1212  	if (!dst_dev->queue_mgmt_ops ||
+6218b42846f66cc David Wei          2025-10-31  1213  	    !dst_dev->queue_mgmt_ops->ndo_queue_create) {
+6218b42846f66cc David Wei          2025-10-31  1214  		err = -EOPNOTSUPP;
+6218b42846f66cc David Wei          2025-10-31  1215  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1216  			       "Destination driver does not support queue management operations");
+6218b42846f66cc David Wei          2025-10-31  1217  		goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1218  	}
+6218b42846f66cc David Wei          2025-10-31  1219  	if (dst_dev->real_num_rx_queues < 1) {
+6218b42846f66cc David Wei          2025-10-31  1220  		err = -EINVAL;
+6218b42846f66cc David Wei          2025-10-31  1221  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1222  			       "Destination device must have at least one real RX queue");
+6218b42846f66cc David Wei          2025-10-31  1223  		goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1224  	}
+6218b42846f66cc David Wei          2025-10-31  1225  
+6218b42846f66cc David Wei          2025-10-31  1226  	src_dev = netdev_get_by_index(genl_info_net(info), src_ifidx,
+6218b42846f66cc David Wei          2025-10-31  1227  				      &dev_tracker, GFP_KERNEL);
+6218b42846f66cc David Wei          2025-10-31  1228  	if (!src_dev) {
+6218b42846f66cc David Wei          2025-10-31  1229  		err = -ENODEV;
+6218b42846f66cc David Wei          2025-10-31  1230  		goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1231  	}
+6218b42846f66cc David Wei          2025-10-31  1232  	if (!src_dev->dev.parent) {
+6218b42846f66cc David Wei          2025-10-31  1233  		err = -EINVAL;
+6218b42846f66cc David Wei          2025-10-31  1234  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1235  			       "Source device is a virtual device");
+6218b42846f66cc David Wei          2025-10-31  1236  		goto err_unlock_dst_dev_src_dev_put;
+6218b42846f66cc David Wei          2025-10-31  1237  	}
+6218b42846f66cc David Wei          2025-10-31  1238  	if (!netif_device_present(src_dev)) {
+6218b42846f66cc David Wei          2025-10-31  1239  		err = -ENODEV;
+6218b42846f66cc David Wei          2025-10-31  1240  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1241  			       "Source device has been removed from the system");
+6218b42846f66cc David Wei          2025-10-31  1242  		goto err_unlock_dst_dev_src_dev_put;
+6218b42846f66cc David Wei          2025-10-31  1243  	}
+6218b42846f66cc David Wei          2025-10-31  1244  	if (!src_dev->queue_mgmt_ops) {
+6218b42846f66cc David Wei          2025-10-31  1245  		err = -EOPNOTSUPP;
+6218b42846f66cc David Wei          2025-10-31  1246  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1247  			       "Source driver does not support queue management operations");
+6218b42846f66cc David Wei          2025-10-31  1248  		goto err_unlock_dst_dev_src_dev_put;
+6218b42846f66cc David Wei          2025-10-31  1249  	}
+6218b42846f66cc David Wei          2025-10-31  1250  
+6218b42846f66cc David Wei          2025-10-31  1251  	src_dev = netdev_put_lock(src_dev, &dev_tracker);
+6218b42846f66cc David Wei          2025-10-31  1252  	if (!src_dev) {
+6218b42846f66cc David Wei          2025-10-31  1253  		err = -ENODEV;
+6218b42846f66cc David Wei          2025-10-31  1254  		goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1255  	}
+6218b42846f66cc David Wei          2025-10-31  1256  	if (src_qid >= src_dev->real_num_rx_queues) {
+6218b42846f66cc David Wei          2025-10-31  1257  		err = -ERANGE;
+6218b42846f66cc David Wei          2025-10-31  1258  		NL_SET_BAD_ATTR(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1259  				info->attrs[NETDEV_A_QUEUE_PAIR_SRC_QUEUE_ID]);
+6218b42846f66cc David Wei          2025-10-31  1260  		goto err_unlock_src_dev;
+6218b42846f66cc David Wei          2025-10-31  1261  	}
+6218b42846f66cc David Wei          2025-10-31  1262  
+6218b42846f66cc David Wei          2025-10-31  1263  	src_rxq = __netif_get_rx_queue(src_dev, src_qid);
+6218b42846f66cc David Wei          2025-10-31  1264  	if (src_rxq->peer) {
+6218b42846f66cc David Wei          2025-10-31  1265  		err = -EBUSY;
+6218b42846f66cc David Wei          2025-10-31  1266  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1267  			       "Source device queue is already bound");
+6218b42846f66cc David Wei          2025-10-31  1268  		goto err_unlock_src_dev;
+6218b42846f66cc David Wei          2025-10-31  1269  	}
+6218b42846f66cc David Wei          2025-10-31  1270  
+6218b42846f66cc David Wei          2025-10-31  1271  	tmp_rxq = __netif_get_rx_queue(dst_dev, dst_dev->real_num_rx_queues - 1);
+6218b42846f66cc David Wei          2025-10-31  1272  	if (tmp_rxq->peer && tmp_rxq->peer->dev != src_dev) {
+6218b42846f66cc David Wei          2025-10-31  1273  		err = -EOPNOTSUPP;
+6218b42846f66cc David Wei          2025-10-31  1274  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1275  			       "Binding multiple queues from different source devices not supported");
+6218b42846f66cc David Wei          2025-10-31  1276  		goto err_unlock_src_dev;
+6218b42846f66cc David Wei          2025-10-31  1277  	}
+6218b42846f66cc David Wei          2025-10-31  1278  
+6218b42846f66cc David Wei          2025-10-31  1279  	err = dst_dev->queue_mgmt_ops->ndo_queue_create(dst_dev, &dst_qid);
+6218b42846f66cc David Wei          2025-10-31  1280  	if (err) {
+6218b42846f66cc David Wei          2025-10-31  1281  		NL_SET_ERR_MSG(info->extack,
+6218b42846f66cc David Wei          2025-10-31  1282  			       "Destination device is unable to create a new queue");
+6218b42846f66cc David Wei          2025-10-31  1283  		goto err_unlock_src_dev;
+6218b42846f66cc David Wei          2025-10-31  1284  	}
+6218b42846f66cc David Wei          2025-10-31  1285  
+6218b42846f66cc David Wei          2025-10-31  1286  	dst_rxq = __netif_get_rx_queue(dst_dev, dst_qid);
+6218b42846f66cc David Wei          2025-10-31  1287  	netdev_rx_queue_peer(src_dev, src_rxq, dst_rxq);
+6218b42846f66cc David Wei          2025-10-31  1288  
+6218b42846f66cc David Wei          2025-10-31  1289  	nla_put_u32(rsp, NETDEV_A_QUEUE_PAIR_DST_QUEUE_ID, dst_qid);
+6218b42846f66cc David Wei          2025-10-31  1290  	genlmsg_end(rsp, hdr);
+6218b42846f66cc David Wei          2025-10-31  1291  
+6218b42846f66cc David Wei          2025-10-31  1292  	netdev_unlock(src_dev);
+6218b42846f66cc David Wei          2025-10-31  1293  	netdev_unlock(dst_dev);
+6218b42846f66cc David Wei          2025-10-31  1294  
+6218b42846f66cc David Wei          2025-10-31  1295  	return genlmsg_reply(rsp, info);
+6218b42846f66cc David Wei          2025-10-31  1296  
+6218b42846f66cc David Wei          2025-10-31  1297  err_unlock_dst_dev_src_dev_put:
+6218b42846f66cc David Wei          2025-10-31  1298  	netdev_put(src_dev, &dev_tracker);
+6218b42846f66cc David Wei          2025-10-31  1299  	goto err_unlock_dst_dev;
+6218b42846f66cc David Wei          2025-10-31  1300  err_unlock_src_dev:
+6218b42846f66cc David Wei          2025-10-31  1301  	netdev_unlock(src_dev);
+6218b42846f66cc David Wei          2025-10-31  1302  err_unlock_dst_dev:
+6218b42846f66cc David Wei          2025-10-31  1303  	netdev_unlock(dst_dev);
+6218b42846f66cc David Wei          2025-10-31  1304  err_genlmsg_free:
+6218b42846f66cc David Wei          2025-10-31  1305  	nlmsg_free(rsp);
+6218b42846f66cc David Wei          2025-10-31  1306  	return err;
+d7ab39540fa2d0c Daniel Borkmann    2025-10-31  1307  }
+d7ab39540fa2d0c Daniel Borkmann    2025-10-31  1308  
+
+:::::: The code at line 1202 was first introduced by commit
+:::::: 6218b42846f66ccd2de5a208da7fc61390e7d15c net: Implement netdev_nl_queue_create_doit
+
+:::::: TO: David Wei <dw@davidwei.uk>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- 
 0-DAY CI Kernel Test Service
