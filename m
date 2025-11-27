@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7392729CB4C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 23:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BAF1DB551
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 23:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764284507; cv=none; b=KI1KFN60ok5HQln72UFMjMAl7MKI2W7iZCbGKOaYEgJv1KSOC95omojs4jMwByyljrafA/jdlXKA//AF/mv16Q6Ehr4nUwi+mNKb4vSqc1Efb+z4QqkCdeHvAFnkvlFCDq2AODfh9gNWrYCGYFWctb3iPqYSiYyV4HZDGz7K4kY=
+	t=1764286429; cv=none; b=EQPM6bfk5ZwoO1pvi1lJ+LzKsIVkLM/07iJWssCzRmM/Z8UFT24qQBWLj3uZua5yFgKWpMF9j1Ola6kPWLYjatY9cKH+exUgkKKTUYhnAfax6bx3l2HDGYHJbjf4HgU4iYEHYnN/pZfbHSPkJA67OjpSLPM7VJsKZ/vzIkVV+1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764284507; c=relaxed/simple;
-	bh=+0Djts6Zab5nguHrL1YmwSIN9uJvL6HG2O6vUCiAadU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=emrAAjtydP+YajqFX1Wc6gi7HQn5cRchKGTcvRLUqpQQE0MkmCPKIdCtzoHfw83Ca78zmuloGdW22ufpIjeFFXAZ9JksajfmcsxuH8reV9y8Ujr4OTypNiGFNCyqupjwI3I7CFK9QYrfrqInISKmCjvHPzbGFit53fS8ljQZ4P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xqj54zRp; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1764286429; c=relaxed/simple;
+	bh=Jt6bIBbJZKvU6woJ8tklLnbeoSLj9AH1hVcMc319y+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u2K8YPDgv8zUqMqYHisa3MDSODZZ/cJVQunFCfpHkYbGo5+UVDuoarY68QPGl35ulhFvGBIgkmhul1Kw8qlrO9KwIbV9W0A/ACaKvPLjuIHV5VMxbnJ0etohmniDvNc6GxA0JNRB6cIMy5jPe0ZqXfEn4ISkInPdHJ+3OD4oOjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/ZBsf1E; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xqj54zRp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/ZBsf1E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764284506; x=1795820506;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+0Djts6Zab5nguHrL1YmwSIN9uJvL6HG2O6vUCiAadU=;
-  b=Xqj54zRpH9xBzJY6C+8sZ8nS3M6HFB7+2R2E90gXFhrKMtbwxhsQjx2P
-   40q9+By98FL2gKd2+oodvnnmVpkJQZPiIFD3J4QSZec/jZGj0v18A8l32
-   WIDBCkipJUygCFm/DT1GyApdXWGEJpFlydB7CnVqsQ1PonLs+BGojruKA
-   3VGfO5MSvN31sYTqhnJf5lim2KuEH6+4UooXR3wFiDhEWSFGgpyu1P0Sa
-   JpW23Jgh4mA27dJWv7QtMjaEPUYAFHxl3Y2MBfUtTTkzEzC6G5YdUzYDJ
-   MK68ziAmGTng28bCe35VB7mOUNN1Ys69ev1Iy5mLdduvZ8g4CFRNIMxdQ
-   w==;
-X-CSE-ConnectionGUID: 4siVQ+GxRGi2xr0aBgD7sw==
-X-CSE-MsgGUID: m7PwX8XdRnedW5Z0aH+70w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="83936232"
+  t=1764286428; x=1795822428;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Jt6bIBbJZKvU6woJ8tklLnbeoSLj9AH1hVcMc319y+g=;
+  b=O/ZBsf1ELjKQBINWLPrG4WJr2tGaJ4CEGr435D0t7tgtDORtvtpLhl42
+   prFF9cvmk7TaFuRp5lturnSVYTtCUvygFT6h3xnSBGFgEbFIvvBeBooTp
+   D5bEShDT32N49/nEFJvvq/KkVggvjqTSFvJDo86+kqeKdzbG9WyoKpOpe
+   SrGsvtOB6Wi1erPP7bky+i56isaLQvVQK1c4FwpDQ5XeldwQCuG21hbjy
+   +bEtXrtCA21/IkTOIHav9w6EI/38rWj+P2+NxIVB4BELO4YBpRXPFIm5h
+   co5ylDG+2PGFvmdgvh1Ks7k+mfycTf/HJogVeXSwDI/jIjYDAXmjA8CsS
+   Q==;
+X-CSE-ConnectionGUID: b7L6lrTrQWKppNPNJTPN7w==
+X-CSE-MsgGUID: Tw/eXZwkSbOMgwheGH6I9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66491163"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="83936232"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 15:01:45 -0800
-X-CSE-ConnectionGUID: 6Deg3rq7St+8u/UglKhfuw==
-X-CSE-MsgGUID: 9i6b1qJwQqeVApd2rG72xg==
+   d="scan'208";a="66491163"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 15:33:48 -0800
+X-CSE-ConnectionGUID: bK4EJGhiQ0i/xl8GjRkzZQ==
+X-CSE-MsgGUID: Vd+CKkBaT5CPkFNSPwlO4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="230605597"
+   d="scan'208";a="224028726"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Nov 2025 15:01:43 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2025 15:33:46 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOkzd-000000005oo-0JKm;
-	Thu, 27 Nov 2025 23:01:41 +0000
-Date: Fri, 28 Nov 2025 07:01:14 +0800
+	id 1vOlUc-000000005qP-2I4v;
+	Thu, 27 Nov 2025 23:33:42 +0000
+Date: Fri, 28 Nov 2025 07:32:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1938/1938]
- block/blk-io-hierarchy/stats.o: warning: objtool: missing symbol for section
- .text
-Message-ID: <202511280607.8AfuGdNA-lkp@intel.com>
+To: Fengnan Chang <fengnanchang@gmail.com>, axboe@kernel.dk,
+	linux-block@vger.kernel.org, ming.lei@redhat.com, hare@suse.de,
+	hch@lst.de, yukuai3@huawei.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Fengnan Chang <changfengnan@bytedance.com>
+Subject: Re: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
+Message-ID: <202511280714.MCsRsCmR-lkp@intel.com>
+References: <20251127013908.66118-3-fengnanchang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,26 +65,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251127013908.66118-3-fengnanchang@gmail.com>
 
-Hi Yu,
+Hi Fengnan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d495515f012a96ae472e8ee75c66680fbdabaddb
-commit: 17e60c04404d52f58c2233ea5b72014f0d834e75 [1938/1938] block-io-hierarchy: core hierarchy stats implementation
-config: x86_64-buildonly-randconfig-005-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280607.8AfuGdNA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280607.8AfuGdNA-lkp@intel.com/reproduce)
+[auto build test ERROR on 4941a17751c99e17422be743c02c923ad706f888]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fengnan-Chang/blk-mq-use-array-manage-hctx-map-instead-of-xarray/20251127-094243
+base:   4941a17751c99e17422be743c02c923ad706f888
+patch link:    https://lore.kernel.org/r/20251127013908.66118-3-fengnanchang%40gmail.com
+patch subject: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251128/202511280714.MCsRsCmR-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280714.MCsRsCmR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280607.8AfuGdNA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280714.MCsRsCmR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> block/blk-io-hierarchy/stats.o: warning: objtool: missing symbol for section .text
+   In file included from drivers/block/rnbd/rnbd-clt.h:16,
+                    from drivers/block/rnbd/rnbd-clt.c:19:
+   drivers/block/rnbd/rnbd-clt.c: In function 'rnbd_init_mq_hw_queues':
+>> include/linux/blk-mq.h:1004:24: error: implicit declaration of function 'queue_hctx' [-Wimplicit-function-declaration]
+    1004 |              ({ hctx = queue_hctx((q), i); 1; }); (i)++)
+         |                        ^~~~~~~~~~
+   drivers/block/rnbd/rnbd-clt.c:1324:9: note: in expansion of macro 'queue_for_each_hw_ctx'
+    1324 |         queue_for_each_hw_ctx(dev->queue, hctx, i) {
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/blk-mq.h:1004:22: error: assignment to 'struct blk_mq_hw_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1004 |              ({ hctx = queue_hctx((q), i); 1; }); (i)++)
+         |                      ^
+   drivers/block/rnbd/rnbd-clt.c:1324:9: note: in expansion of macro 'queue_for_each_hw_ctx'
+    1324 |         queue_for_each_hw_ctx(dev->queue, hctx, i) {
+         |         ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/queue_hctx +1004 include/linux/blk-mq.h
+
+  1001	
+  1002	#define queue_for_each_hw_ctx(q, hctx, i)				\
+  1003		for ((i) = 0; (i) < (q)->nr_hw_queues &&			\
+> 1004		     ({ hctx = queue_hctx((q), i); 1; }); (i)++)
+  1005	
 
 -- 
 0-DAY CI Kernel Test Service
