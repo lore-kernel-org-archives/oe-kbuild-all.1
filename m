@@ -1,75 +1,59 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0082FDC3B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 18:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A79124886A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 18:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764267003; cv=none; b=dZkiy6YN7olQNqdNODL1sUoChB7qOYqAXQkA18tMupnPyi9r9AEz9TQzLl9plBRufRNb6s5VCuiowOO5I/A1OX4zqFuJbIX24wnTG7f5zt0WxoQ00CSIhSaysrVX321QFTWiT8ujLD2I9aYqNnjkjbcvAhbT5MeR5e+BMN90uxw=
+	t=1764267767; cv=none; b=FX73yGFOkviJ6a7fqgPFfYuKXOOZve77bco4U8QmgtYY0RID8yyziWa7g642R4l9MaPdb4dRzVqRPuCWqmAu+qu2TE+2QFe981bJXCvO/e+xtoLd/D3WfrfCHbA8KFjAz+521cuIqgkyijPWWRunuZEhylluZ14qDHcuzahQXF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764267003; c=relaxed/simple;
-	bh=mjIImdNaHtUFvvXlOK6pE8V72hbYBHg+Voc9qEUtsbk=;
+	s=arc-20240116; t=1764267767; c=relaxed/simple;
+	bh=tE7Yq5ldoNbJ9WyLf2b4mOZV0lwPxU3IHx5AAecTQ5I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=KN5h9Z4uaQ+Ky3o4J+zLj1bRdROMWaPaijkDa8yQWu9IwgN1LS/HnPPhQ5S8AjoU9DGWY0MR2dhismoO07IO3VabGy/uCu4YB5z8LEQtxhLo43lWJH3yYgaVUSIKyaKqE4NJmqWK6vSWPo+6QIZYaCYxFYYuQyySHnILyraV54U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qokUrdTY; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=hQ7da91XvcutUxy7+W4Xhg17VvkOEqdJSsIbFeBuWZ15SrtyohlTqAKAm+IzLxSS5v7/MNuM179MvGapNfl/lPwzjg17vM3/snnzNXWqaU49f6vWLmUyQaLHlnOat1VX1zsqv1ZlyNNdioCtw9u7fJ0SrFgtMOK5Ixh6GwNs2rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jvG2dTGK; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qokUrdTY"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429c4c65485so1070396f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 10:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764266999; x=1764871799; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dx7dLWF3fYt4YAydLoSYihtQG3rPcHN7URxJi8Fj67U=;
-        b=qokUrdTYH7oERe5M6fcQoWAt2XdOqAt6iBVxHGjlJ8a5Ude6J64AOa2gofkdaKxRtd
-         8YTOXnYRrNp0R9NNmL8HjBs4STmiTqbMPyR15rTJjIzg/IbTtvQ0tLXJUuElglury/LR
-         Od1vgFOZpqpdv+CzQEs8gspIVPL+ue7zNRxtIJgtAxpWTPZ5n91bsXj44QRmIc8pOOxk
-         IaI+zbGbC8B/sizZXDil32kDU3pbqNgrg0xcSfoANQC5nE7mlGJxmoDKnKgp+uhVppwI
-         qi0nm6nnDRAYuDzFCib6VMIbfIRTXtmswfW8Xp8Cc2eUVjuCtW6MlMnvkRm4zE3zX0za
-         Wu5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764266999; x=1764871799;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dx7dLWF3fYt4YAydLoSYihtQG3rPcHN7URxJi8Fj67U=;
-        b=ftkOmtCw4CzhFmGqYGsg5j6TWO3XRv8UAwLS4++Tkxs3dqblE5+MBuVvxe8qbfwQtX
-         x95B0NBgun/EmNJxS8PNpt13FmXL6yP45vRzmnX3apBZ98dH9XhOh0RXXPXC+Qcv0p74
-         TVO8xlJWe3gG2YRa3wJCBTsGXklf3bfzCmEi27I3XfE1+nOwL/miDTE1+1IkQVThylHh
-         LN2zsKNoYPEfmKi3rzLJHawYuQ1N71xTBKYaecMRrFP5a6DeuNmbzJd3iiA294ptJRaV
-         PBDRgA9G1pJZdLYK6+fYYMEnIjSnPT9t2z383BTQsKwxm2tcQ1zKRsqmVBnA8x0ZWi7d
-         dxyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTGJWMh16217UwhMu18C652S8UIjEYPeGJPj/csmv9r2une2Y5OII2RdUNUJ+UAgW9BgzZ7UeS7D1infzn@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKXBxihm4YxpKNgC4Ty+lk0dNr3SlgMkYOlegEy1tIXcAO4GTV
-	YENFYONgoySD/kXoIb7BuMP/c1+74a12LIQaviNn3YJXU3M5Oucs28d2gOZclcuy/S8=
-X-Gm-Gg: ASbGncvhIAuUA/Q1tJoVWc3OqFfW09L7J0TDJmBZtjVtF7/EqdI6j6NtKd9zU9/nW6/
-	umu0uztVV6BMQ81CYuOQlVClqzTjCk/jXZ59UA/c+W4Pa//nMFseUZpcadGRbw12m3HCLMGqbtR
-	sZCBvhQixSPYoSm8qz+idOizlyomqcW6EeWUQ+5X7t9ngsbP0gVl2EsCwSamLK27VuVDASw4v4j
-	CDP7k/HuK7vDLf2Chzd2zjRsCsq6gmx1/mfutwU97uH/EsBS63jnzvm1NVRJBlKLKu0L+wTEu2y
-	reZyr1USYZNvGPHgO2qKtn6oQJYPS7FMn2irP6WXErZlvD5pt1yGbZEKOimn4VWN9s5Q8PXmN17
-	0/6RXuEb9vEzB3m0+YZ3Thm6i9Zq50JqyGbs871zTjuazcb6DXZ9vTwGDNxlX9OhUd/Btg7ojn3
-	LbSrix3ti0Ua+5ZmZB
-X-Google-Smtp-Source: AGHT+IFj2t3yKW6pPDsFDhEyOjjtQDUGWqwY1Td1Uo8FE8nnLGME1TAIOSoCs2nLoFBFrgBCNM5nDQ==
-X-Received: by 2002:a05:6000:208a:b0:42b:3bd2:b2f8 with SMTP id ffacd0b85a97d-42cc1d3543dmr25867134f8f.46.1764266999388;
-        Thu, 27 Nov 2025 10:09:59 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42e1c5e3857sm5371663f8f.19.2025.11.27.10.09.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 10:09:58 -0800 (PST)
-Date: Thu, 27 Nov 2025 21:09:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Huisong Li <lihuisong@huawei.com>,
-	rafael@kernel.org, lenb@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sudeep.Holla@arm.com, linuxarm@huawei.com,
-	jonathan.cameron@huawei.com, zhanjie9@hisilicon.com,
-	zhenglifeng1@huawei.com, yubowen8@huawei.com, lihuisong@huawei.com
-Subject: Re: [PATCH 3/3] ACPI: processor: idle: Update idle states from
- avaiable power information
-Message-ID: <202511272353.nOqEau6n-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jvG2dTGK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764267766; x=1795803766;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tE7Yq5ldoNbJ9WyLf2b4mOZV0lwPxU3IHx5AAecTQ5I=;
+  b=jvG2dTGKLyVLxs1Ig/5ulCQdhKrkXxIIGLg7cEBXZo+HKcsfcTXvlG8a
+   es0bL2G1vXp2w74/hX/2lEPnK/ZhI1yXnWrEpDExwcHolKrYFtcfNEGuX
+   1u9XdRtwdH7OKTdxfnM7V/BAG4QeF9s2M/tCyqYYjtSi/eAyjYYt1VQiI
+   ziG0OgJ+rwA8nfJ+ykYe4mL7KkMj6pBrpPy3v8WW2ssh5Y4P/XvJJj611
+   eUAHK8X1iv/nOyBTBtxnQV+cHi7//vThGbN6EM3dd83z3XDZ6OAQSoc6T
+   WqlfgV6wAqW5cB6zNiaNzh5RClqxHrmQQv99I0xbYDnC2Rxg7cKbbsgTX
+   Q==;
+X-CSE-ConnectionGUID: Ci41aiNATY2pz2epoas0lw==
+X-CSE-MsgGUID: 7NJ2bG0ZSUO1LQrO0AMspw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="77421505"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="77421505"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 10:22:45 -0800
+X-CSE-ConnectionGUID: PtHCr3LaSEyY9ck4hbGQ1Q==
+X-CSE-MsgGUID: J7jkHeLeR8mmGg0dFlwRNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
+   d="scan'208";a="192414117"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 27 Nov 2025 10:22:44 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vOgdd-000000001oP-2okB;
+	Thu, 27 Nov 2025 18:22:41 +0000
+Date: Thu, 27 Nov 2025 19:22:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: David Wei <dw@davidwei.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: [cilium:pr/netkit-iouring6 1/2] net/core/netdev-genl.c:1123:5:
+ warning: no previous prototype for 'netdev_nl_bind_queue_doit'
+Message-ID: <202511271914.gOQcRs7y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,87 +62,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125072933.3706006-4-lihuisong@huawei.com>
 
-Hi Huisong,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huisong-Li/cpuidle-Add-enable_cpuidle-interface/20251125-153615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251125072933.3706006-4-lihuisong%40huawei.com
-patch subject: [PATCH 3/3] ACPI: processor: idle: Update idle states from avaiable power information
-config: i386-randconfig-141-20251126 (https://download.01.org/0day-ci/archive/20251127/202511272353.nOqEau6n-lkp@intel.com/config)
+tree:   https://github.com/cilium/linux.git pr/netkit-iouring6
+head:   7bfb4fc5f460441d05b483647e4f4c59c4afaeb1
+commit: f54fd4a1c99a85d283ce07ebc4505d09a28b28f5 [1/2] net: Add bind-queue operation
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251127/202511271914.gOQcRs7y-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271914.gOQcRs7y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511272353.nOqEau6n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511271914.gOQcRs7y-lkp@intel.com/
 
-smatch warnings:
-drivers/acpi/processor_idle.c:1339 acpi_processor_power_state_has_changed() error: we previously assumed '_pr' could be null (see line 1339)
+All warnings (new ones prefixed by >>):
 
-vim +/_pr +1339 drivers/acpi/processor_idle.c
+>> net/core/netdev-genl.c:1123:5: warning: no previous prototype for 'netdev_nl_bind_queue_doit' [-Wmissing-prototypes]
+    1123 | int netdev_nl_bind_queue_doit(struct sk_buff *skb, struct genl_info *info)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-a36a7fecfe6071 Sudeep Holla              2016-07-21  1294  int acpi_processor_power_state_has_changed(struct acpi_processor *pr)
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1295  {
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1296  	int cpu;
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1297  	struct acpi_processor *_pr;
-3d339dcbb56d8d Daniel Lezcano            2012-09-17  1298  	struct cpuidle_device *dev;
-ffff9603ddf90a Huisong Li                2025-11-25  1299  	int ret = 0;
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1300  
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1301  	if (disabled_by_idle_boot_param())
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1302  		return 0;
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1303  
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1304  	if (!pr->flags.power_setup_done)
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1305  		return -ENODEV;
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1306  
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1307  	/*
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1308  	 * FIXME:  Design the ACPI notification to make it once per
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1309  	 * system instead of once per-cpu.  This condition is a hack
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1310  	 * to make the code that updates C-States be called once.
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1311  	 */
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1312  
-9505626d7bfeb5 Paul E. McKenney          2012-02-28  1313  	if (pr->id == 0 && cpuidle_get_driver() == &acpi_idle_driver) {
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1314  
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1315  		/* Protect against cpu-hotplug */
-95ac706744de78 Sebastian Andrzej Siewior 2021-08-03  1316  		cpus_read_lock();
-6726655dfdd2dc Jiri Kosina               2014-09-03  1317  		cpuidle_pause_and_lock();
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1318  
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1319  		/* Disable all cpuidle devices */
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1320  		for_each_online_cpu(cpu) {
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1321  			_pr = per_cpu(processors, cpu);
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1322  			if (!_pr || !_pr->flags.power_setup_done)
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1323  				continue;
-3d339dcbb56d8d Daniel Lezcano            2012-09-17  1324  			dev = per_cpu(acpi_cpuidle_device, cpu);
-3d339dcbb56d8d Daniel Lezcano            2012-09-17  1325  			cpuidle_disable_device(dev);
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1326  		}
-46bcfad7a819bd Deepthi Dharwar           2011-10-28  1327  
-ffff9603ddf90a Huisong Li                2025-11-25  1328  		/*
-ffff9603ddf90a Huisong Li                2025-11-25  1329  		 * Update C-state information based on new power information.
-ffff9603ddf90a Huisong Li                2025-11-25  1330  		 *
-ffff9603ddf90a Huisong Li                2025-11-25  1331  		 * The same idle state is used for all CPUs.
-ffff9603ddf90a Huisong Li                2025-11-25  1332  		 * The old idle state may not be usable anymore if fail to get
-092a52b5417fd4 Huisong Li                2025-11-25  1333  		 * available ACPI power information from any online CPU.
-ffff9603ddf90a Huisong Li                2025-11-25  1334  		 * The cpuidle of all CPUs should be disabled.
-ffff9603ddf90a Huisong Li                2025-11-25  1335  		 */
-092a52b5417fd4 Huisong Li                2025-11-25  1336  		ret = -ENODEV;
-092a52b5417fd4 Huisong Li                2025-11-25  1337  		for_each_online_cpu(cpu) {
-092a52b5417fd4 Huisong Li                2025-11-25  1338  			_pr = per_cpu(processors, cpu);
-092a52b5417fd4 Huisong Li                2025-11-25 @1339  			if (!_pr && !_pr->flags.power_setup_done)
-                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-if _pr is NULL this will crash.  s/&&/||/
 
-092a52b5417fd4 Huisong Li                2025-11-25  1340  				continue;
-092a52b5417fd4 Huisong Li                2025-11-25  1341  			ret = acpi_processor_get_power_info(_pr);
-092a52b5417fd4 Huisong Li                2025-11-25  1342  			if (!ret) {
-092a52b5417fd4 Huisong Li                2025-11-25  1343  				acpi_processor_setup_cpuidle_states(_pr);
+vim +/netdev_nl_bind_queue_doit +1123 net/core/netdev-genl.c
+
+  1122	
+> 1123	int netdev_nl_bind_queue_doit(struct sk_buff *skb, struct genl_info *info)
+  1124	{
+  1125		return -EOPNOTSUPP;
+  1126	}
+  1127	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
