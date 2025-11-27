@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEF23054C5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 19:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19932D839C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 20:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764271772; cv=none; b=ih3LKyuKbj+hhbTzo3AK43XM0jdHhYhhZiBRjD6S+i3jCfMt65z998oeUyzN0qX8GpS6YzlsNoh3tHRfJB0oy/snPF/DotwEaLT2cBzOmysAQhCn1p3z+YAtwFqAMni1M8bounwDLFN/yGVnWiTrQzqO+lWuNcB0cVx8XzsMxjE=
+	t=1764273631; cv=none; b=Wgtg2Nge16tXPH/dfK/HP5DiqJdChRYhjTMetJBJOsp1QM35z1ZahsB5eilmo0mfIeFE8U2yEvQVrvXiSlhK49/DAWINXI+0JPTaOFY2qyAQ8tlR53BoZA2I14cTls+KVu9ofl+r2/JJr75tTK9uC3b8pGtdVlGECVOSFbZbPYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764271772; c=relaxed/simple;
-	bh=3dA7eKTdIK6Z2EWuL1CUxNnWxGO002dwKrQWaVzfMQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GI8Ggyi/5kpEZ2IqF8/tCD9pZW/wG4ad8qV7xIU8pY9hgNDa+GXFUvDjwCowpj+hnxge6y8bfLCfDxquT01tq3YyJfRbWSVJBNa610RYTZYXyEd8eYJ25jr1gGP1dWrKl//U/vHCqmYtVsMQHT6NKRgxMqSHk71/HD6daJy8Dxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5pbYQ+/; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1764273631; c=relaxed/simple;
+	bh=DFB2E9T/PpAFNL0FnaJ6gRp8LRbDwJ2Ed0yKG3KT3tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jNfrs4mIW0bAepjDyAzIPeVuf2u8UELbUL66pJ+qLr4ZraLotJimzNezomeaR+BM0vAsRybL3FUgso5a+on7id1vU8ewc4cAJFDSx8j40VOphLsrr9TSOek1D9g9vX+kNbJjIzGLWFTfm256987zYjJlOI0h6+smynJ6a8PfGLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHenk4CY; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5pbYQ+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHenk4CY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764271770; x=1795807770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3dA7eKTdIK6Z2EWuL1CUxNnWxGO002dwKrQWaVzfMQ4=;
-  b=A5pbYQ+/5bEabKU6Pwa29JdSZFStsp1+JG1QBnvmwA+XwswCELux9N7m
-   wo0GzrVqzrb/7kzItf/jQlFleM6LSFLqmEGzMvljpVNlrtgvZEj67zrdW
-   UXQPzm0El/7gSzAmeTiWbo7mH4cbfZ/TbuIpBiEbOtOiLLjJwnBWeBsZf
-   U8hGgO7IBSn6prZCtg8vKXkfhgK4UjoSN9NXhUit1DFSZlj+FWkn7ugcl
-   A2xfPI0xYc/5h8/8/gPDi5XasKj4PBRo3E6657UcxS5Toirlnjje1w7u7
-   U2lP+08yxGTjmszfwrGP0IdNsScwT5TnATlzCu7j24lQHScnuzeUEu0nR
-   g==;
-X-CSE-ConnectionGUID: xwNtHihxQtKHCWG9EyfWZg==
-X-CSE-MsgGUID: cyniB8ZySse9DBwpZPQQLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66393950"
+  t=1764273629; x=1795809629;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DFB2E9T/PpAFNL0FnaJ6gRp8LRbDwJ2Ed0yKG3KT3tg=;
+  b=mHenk4CYN0jkjS4GxZ1EH57byNJKY6UymJs0vSgbnNGunVO7cGCCd2uf
+   ACEr7EUEPtI7JR9RiOKDPey2hBLT2NONlRyffsQluEqof2EggZOWlzTXr
+   hrAua5SM80Wk4XcOC5NvzpliqaODXUmejWARTLIL9dgoFSABgE+QGBVG9
+   Gf+KaaQaif8X2Ol17MZ428MSRtaBd2dg0RJ7EFerdHtB9PCgyaby0WIOC
+   ysJOVZeqZS1S8eXQXuPkyKp7bizgbMmbVZIgTh5SVAgFJpzGLWF80ZQ1+
+   cNMNCfIjMoYzpkrLHPMIey0YoYkplaKW4y9wmnvTt4dtPtw0BwjMaDCn8
+   A==;
+X-CSE-ConnectionGUID: DEhNPubuRdy7FrYaGWAihQ==
+X-CSE-MsgGUID: vOmZH4w4TuisEzOg5lgtAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="69940407"
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="66393950"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 11:29:29 -0800
-X-CSE-ConnectionGUID: 19qKVL8VTRiNqYXMIIEb/Q==
-X-CSE-MsgGUID: wQwkhhWVRfmX8dHiJ7yaxw==
+   d="scan'208";a="69940407"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 12:00:29 -0800
+X-CSE-ConnectionGUID: e7b+1DFbQdC1E5I9T+mJ9g==
+X-CSE-MsgGUID: nl2h4LBZTw+QAh5WHnvfZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="197607869"
+   d="scan'208";a="198409433"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Nov 2025 11:29:26 -0800
+  by orviesa005.jf.intel.com with ESMTP; 27 Nov 2025 12:00:28 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOhgC-000000005Zv-1iSb;
-	Thu, 27 Nov 2025 19:29:24 +0000
-Date: Fri, 28 Nov 2025 03:29:06 +0800
+	id 1vOiAE-000000005bz-07SH;
+	Thu, 27 Nov 2025 20:00:26 +0000
+Date: Fri, 28 Nov 2025 03:59:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <taniya.das@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ajit Pandey <ajit.pandey@oss.qualcomm.com>,
-	Imran Shaik <imran.shaik@oss.qualcomm.com>,
-	Jagadeesh Kona <jagadeesh.kona@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Taniya Das <taniya.das@oss.qualcomm.com>
-Subject: Re: [PATCH] clk: qcom: clk-rpmh: Update the clock suffix for Glymur
-Message-ID: <202511280306.L2l4tAmD-lkp@intel.com>
-References: <20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f@oss.qualcomm.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1938/1938]
+ drivers/gpio/gpio-phytium-core.o: warning: objtool: missing symbol for
+ section .text
+Message-ID: <202511280322.yR8eUCYF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,69 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f@oss.qualcomm.com>
 
-Hi Taniya,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 92fd6e84175befa1775e5c0ab682938eca27c0b2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-clk-rpmh-Update-the-clock-suffix-for-Glymur/20251126-021404
-base:   92fd6e84175befa1775e5c0ab682938eca27c0b2
-patch link:    https://lore.kernel.org/r/20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f%40oss.qualcomm.com
-patch subject: [PATCH] clk: qcom: clk-rpmh: Update the clock suffix for Glymur
-config: arm64-randconfig-003-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280306.L2l4tAmD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280306.L2l4tAmD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d495515f012a96ae472e8ee75c66680fbdabaddb
+commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [1938/1938] gpio: add phytium gpio driver
+config: x86_64-buildonly-randconfig-005-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280322.yR8eUCYF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280322.yR8eUCYF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280306.L2l4tAmD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280322.yR8eUCYF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/clk/qcom/clk-rpmh.c:891:21: error: 'clk_rpmh_clk3_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk3_a2'?
-     891 |  [RPMH_RF_CLK3]  = &clk_rpmh_clk3_a.hw,
-         |                     ^~~~~~~~~~~~~~~
-         |                     clk_rpmh_clk3_a2
->> drivers/clk/qcom/clk-rpmh.c:892:22: error: 'clk_rpmh_clk3_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk3_a2_ao'?
-     892 |  [RPMH_RF_CLK3_A] = &clk_rpmh_clk3_a_ao.hw,
-         |                      ^~~~~~~~~~~~~~~~~~
-         |                      clk_rpmh_clk3_a2_ao
->> drivers/clk/qcom/clk-rpmh.c:893:21: error: 'clk_rpmh_clk4_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk4_a2'?
-     893 |  [RPMH_RF_CLK4]  = &clk_rpmh_clk4_a.hw,
-         |                     ^~~~~~~~~~~~~~~
-         |                     clk_rpmh_clk4_a2
->> drivers/clk/qcom/clk-rpmh.c:894:22: error: 'clk_rpmh_clk4_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk4_a2_ao'?
-     894 |  [RPMH_RF_CLK4_A] = &clk_rpmh_clk4_a_ao.hw,
-         |                      ^~~~~~~~~~~~~~~~~~
-         |                      clk_rpmh_clk4_a2_ao
->> drivers/clk/qcom/clk-rpmh.c:895:21: error: 'clk_rpmh_clk5_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk5_a2'?
-     895 |  [RPMH_RF_CLK5]  = &clk_rpmh_clk5_a.hw,
-         |                     ^~~~~~~~~~~~~~~
-         |                     clk_rpmh_clk5_a2
->> drivers/clk/qcom/clk-rpmh.c:896:22: error: 'clk_rpmh_clk5_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk5_a2_ao'?
-     896 |  [RPMH_RF_CLK5_A] = &clk_rpmh_clk5_a_ao.hw,
-         |                      ^~~~~~~~~~~~~~~~~~
-         |                      clk_rpmh_clk5_a2_ao
-
-
-vim +891 drivers/clk/qcom/clk-rpmh.c
-
-c035a9e265dd80 Taniya Das 2024-12-04  887  
-ebcb9db98bdab8 Taniya Das 2025-08-25  888  static struct clk_hw *glymur_rpmh_clocks[] = {
-ebcb9db98bdab8 Taniya Das 2025-08-25  889  	[RPMH_CXO_CLK]		= &clk_rpmh_bi_tcxo_div2.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25  890  	[RPMH_CXO_CLK_A]	= &clk_rpmh_bi_tcxo_div2_ao.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @891  	[RPMH_RF_CLK3]		= &clk_rpmh_clk3_a.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @892  	[RPMH_RF_CLK3_A]	= &clk_rpmh_clk3_a_ao.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @893  	[RPMH_RF_CLK4]		= &clk_rpmh_clk4_a.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @894  	[RPMH_RF_CLK4_A]	= &clk_rpmh_clk4_a_ao.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @895  	[RPMH_RF_CLK5]		= &clk_rpmh_clk5_a.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25 @896  	[RPMH_RF_CLK5_A]	= &clk_rpmh_clk5_a_ao.hw,
-ebcb9db98bdab8 Taniya Das 2025-08-25  897  };
-ebcb9db98bdab8 Taniya Das 2025-08-25  898  
+>> drivers/gpio/gpio-phytium-core.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
