@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B54224B06
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 01:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8F020A5E5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 02:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764208779; cv=none; b=FqYWN8DM8ioKxWsxvjuL47udHdYZsmxJm3c9sf4UIK5TaxGmH2a+yYHRjoGWBVypblm6EQGh7hx2RW7FSlnoisoDAYwG6Ts4LQaA84T0Iib0/HhjrRwoW0YBHs5VBH5CIHZjJDhX8MULt1A3fzAHDUefsErWGDXvlggQIRDSsCQ=
+	t=1764209499; cv=none; b=VinqB0J8MC6bVH4EjDRI1FEPKI12dxL8gnyNBBb1IZMfd8Vuk2hyzdrl/UfC+l0ejusF0YJUYQf7w4/pQHY99tvg6eecUC+LvUo5CEYu3eoZ9Axs1FzRxsK9/niSNnwKsW/61k5HPkvvyrPOQEjhUO6fDIyiUozFhsGzE99TizU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764208779; c=relaxed/simple;
-	bh=/iTY5lK+GbVbpicqPvPbabWVnqm2qRHYTtm+0dMiuCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=haeleeeUNorQzkl+XSxGYQVBYrLbMX3oxE/+VqOh43LYUxGvTARTERnESS0AGRXHYiLCO4j8II4Zm7AoNlh/ogl1hqNel5+eq6cEUlbCs/herPGK9iA3ID5+lR1w/WXds+D6cYNf8ooVzOI1ZDbF48GNk9LIS/YgEcCG47tfn2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzaj84Uy; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1764209499; c=relaxed/simple;
+	bh=03xlcrtbeQDVPYj3GQTCWdlgh50NoMk7Ww6yn/S15p8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CvfyftWXO8cQuOkxup4R6gSmFoHWsZNOmX/+zeNiXwzBer8brEDMxNIogG8kJ0WxFABlNQT0+yckNgDIgvEJtq0OviDaexxC4EHstjHdr/35FYEFfUCgt75QRhJFMIf0KxCL1SncnMVA0LYRtk38hv3RPKjSp7IDXNL3lfW7GrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIMrLuaE; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzaj84Uy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIMrLuaE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764208777; x=1795744777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/iTY5lK+GbVbpicqPvPbabWVnqm2qRHYTtm+0dMiuCA=;
-  b=hzaj84UyB7kGswEYom3ZPvoZPOiGPGBVw6B4rdIuadQYD71jI0N70Onn
-   P7k3fLlSNXT72+ci2xE33KJYCL255FWfJj6/sRu//Rt76qLH4FJZSpMeG
-   5uATJK0FVL+u84DURoZfY+OgQVvDs7/dz4BwOgkvHND87oEFuwjVEp5lz
-   dpJDopssqQnO+qzmJtjorRwixgJfC1phVdOtFMysArNScOyMKERcOqBXY
-   dxw8a/DIaNekHegTHjd5QqaNsGfSdqKDWS1lA9GfHu8V1Oo2AT/mSVfhZ
-   05zthNrsfbs+zErIILc3iC5YluQf7OWQkbpXpWCPXZjlT6kb5oQRnG4mE
+  t=1764209498; x=1795745498;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=03xlcrtbeQDVPYj3GQTCWdlgh50NoMk7Ww6yn/S15p8=;
+  b=aIMrLuaEXNKd+FgVNrmMlTcc1J8R2GB0RM/VlYhBBW+CuTQ4lks9j1op
+   Q0euHErYRlDzL0Xa5btAIk1soS+oCBa9EcV6oRaZSASqDPjFb3SN/LrGc
+   HHlx79tLP2S1GkxkMFtZKz2FW98vKNzpZmKFonpB698EOITAXlyixSgT5
+   Uh3/La2uYiZdEQ0ucsl5230srxDJQo0t3TbNArfg1yr/anZD/zGPh07DN
+   DQX1i8Oe07Ravs+Z1JvbTiGvp9DoSrONx4Rsd+/mKvAlTGHDH5Bi72abH
+   w7s3SktlxoxzEGVcgW397QK9zqrJvRZsfncxCZwFy+P3Q3Gj3agmKw904
    w==;
-X-CSE-ConnectionGUID: kA5+yoh9QFqcddyE6kon6g==
-X-CSE-MsgGUID: Syxfxl4/QC6+ARigY5wR7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="65439489"
+X-CSE-ConnectionGUID: ISr/9CuSQR6XaJm2AfQiCQ==
+X-CSE-MsgGUID: kPwMjX6FT86wRnoRAh84cA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="70116619"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="65439489"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 17:59:37 -0800
-X-CSE-ConnectionGUID: dOnZxvv5TN6aBUKek9C2pg==
-X-CSE-MsgGUID: kq4D3beKReSkhCcAnWR2Fg==
+   d="scan'208";a="70116619"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 18:11:37 -0800
+X-CSE-ConnectionGUID: C2Add/c1QEOa1nVvur+R5g==
+X-CSE-MsgGUID: 2SGaAquNS3u6DcpDraP8OA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="193907601"
+   d="scan'208";a="192917904"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Nov 2025 17:59:35 -0800
+  by orviesa009.jf.intel.com with ESMTP; 26 Nov 2025 18:11:37 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vORIC-000000003Yb-2ohe;
-	Thu, 27 Nov 2025 01:59:32 +0000
-Date: Thu, 27 Nov 2025 09:59:24 +0800
+	id 1vORTp-000000003ZZ-3Q0Y;
+	Thu, 27 Nov 2025 02:11:33 +0000
+Date: Thu, 27 Nov 2025 10:11:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Palmer <daniel@thingy.jp>, geert@linux-m68k.org
-Cc: oe-kbuild-all@lists.linux.dev, kas@kernel.org, mingo@kernel.org,
-	seanjc@google.com, bp@alien8.de, linux-m68k@lists.linux-m68k.org,
-	linux-kernel@vger.kernel.org, Daniel Palmer <daniel@thingy.jp>
-Subject: Re: [PATCH] m68k: implement runtime consts
-Message-ID: <202511270956.hzGiPzdZ-lkp@intel.com>
-References: <20251127000505.2117956-1-daniel@thingy.jp>
+To: David Wei <dw@davidwei.uk>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: [cilium:pr/netkit-iouring7 2/3] net/core/netdev_queues.c:30:9:
+ error: implicit declaration of function 'netdev_rx_queue_leased'; did you
+ mean 'netdev_queue_busy'?
+Message-ID: <202511271055.WbK6GSiR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +63,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127000505.2117956-1-daniel@thingy.jp>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on geert-m68k/for-next]
-[also build test WARNING on geert-m68k/for-linus linus/master v6.18-rc7 next-20251126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Palmer/m68k-implement-runtime-consts/20251127-080652
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git for-next
-patch link:    https://lore.kernel.org/r/20251127000505.2117956-1-daniel%40thingy.jp
-patch subject: [PATCH] m68k: implement runtime consts
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251127/202511270956.hzGiPzdZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270956.hzGiPzdZ-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git pr/netkit-iouring7
+head:   b0485a3422c57df789879678c6373976fb2bd3e0
+commit: 6218b42846f66ccd2de5a208da7fc61390e7d15c [2/3] net: Implement netdev_nl_queue_create_doit
+config: arc-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511271055.WbK6GSiR-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271055.WbK6GSiR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511270956.hzGiPzdZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511271055.WbK6GSiR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/dcache.c:38:
-   arch/m68k/include/asm/runtime-const.h: In function '__runtime_fixup_ptr':
->> arch/m68k/include/asm/runtime-const.h:28:29: warning: unused variable 'end' [-Wunused-variable]
-      28 |         const unsigned long end = start + sizeof(*value);
-         |                             ^~~
-   arch/m68k/include/asm/runtime-const.h: In function '__runtime_fixup_shift':
-   arch/m68k/include/asm/runtime-const.h:51:29: warning: unused variable 'end' [-Wunused-variable]
-      51 |         const unsigned long end = start + sizeof(*insn);
-         |                             ^~~
+   net/core/netdev_queues.c: In function 'netdev_queue_busy':
+>> net/core/netdev_queues.c:30:9: error: implicit declaration of function 'netdev_rx_queue_leased'; did you mean 'netdev_queue_busy'? [-Werror=implicit-function-declaration]
+     return netdev_rx_queue_leased(dev, idx) ||
+            ^~~~~~~~~~~~~~~~~~~~~~
+            netdev_queue_busy
+>> net/core/netdev_queues.c:31:9: error: implicit declaration of function 'xsk_get_pool_from_qid' [-Werror=implicit-function-declaration]
+            xsk_get_pool_from_qid(dev, idx);
+            ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/end +28 arch/m68k/include/asm/runtime-const.h
+vim +30 net/core/netdev_queues.c
 
-    13	
-    14	#define runtime_const_ptr(sym) ({				\
-    15		typeof(sym) __ret;					\
-    16		asm_inline("1:\t"					\
-    17			"mov.l #0xcafef00d,%0\n\t"			\
-    18			".pushsection runtime_ptr_" #sym ",\"a\"\n\t"	\
-    19			".long 1b - .\n\t"				\
-    20			".popsection"					\
-    21			: "=a" (__ret));				\
-    22		__ret; })
-    23	
-    24	static inline void __runtime_fixup_ptr(void *where, unsigned long val)
-    25	{
-    26		u32 *value = where + 2;
-    27		const unsigned long start = ((unsigned long) where) + 2;
-  > 28		const unsigned long end = start + sizeof(*value);
-    29	
-    30		*value = val;
-    31	
-    32		flush_icache_range(start, end);
-    33	}
-    34	
+    27	
+    28	bool netdev_queue_busy(struct net_device *dev, int idx)
+    29	{
+  > 30		return netdev_rx_queue_leased(dev, idx) ||
+  > 31		       xsk_get_pool_from_qid(dev, idx);
 
 -- 
 0-DAY CI Kernel Test Service
