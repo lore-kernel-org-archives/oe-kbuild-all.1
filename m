@@ -1,62 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BAF1DB551
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 23:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9A1311C35
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 23:43:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764286429; cv=none; b=EQPM6bfk5ZwoO1pvi1lJ+LzKsIVkLM/07iJWssCzRmM/Z8UFT24qQBWLj3uZua5yFgKWpMF9j1Ola6kPWLYjatY9cKH+exUgkKKTUYhnAfax6bx3l2HDGYHJbjf4HgU4iYEHYnN/pZfbHSPkJA67OjpSLPM7VJsKZ/vzIkVV+1k=
+	t=1764287029; cv=none; b=KUcK8qSTFrYZgokoCPRzwTnibVBiSEj/e2LXq/Ud0rjnrB8HBGEzgw+QP5TQPiXrXf32g4k9S7zwYIL/MlWWS5F0izHVwEjyIjNg53dxiLGri1zyp6FiEKp0iRnkpTu2NwlBostl0ZDxhqyRa+GiVPBaVBOIGOlCNRej6XZFxvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764286429; c=relaxed/simple;
-	bh=Jt6bIBbJZKvU6woJ8tklLnbeoSLj9AH1hVcMc319y+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2K8YPDgv8zUqMqYHisa3MDSODZZ/cJVQunFCfpHkYbGo5+UVDuoarY68QPGl35ulhFvGBIgkmhul1Kw8qlrO9KwIbV9W0A/ACaKvPLjuIHV5VMxbnJ0etohmniDvNc6GxA0JNRB6cIMy5jPe0ZqXfEn4ISkInPdHJ+3OD4oOjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/ZBsf1E; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1764287029; c=relaxed/simple;
+	bh=Oq5N0ugEDbl58KFO3MRiCPxMrqVnxHpQHUCKEbIZGIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sYd7j//g/hVkQwBMvgR5jt4FRa6XVtdHXOV3XMN9CJXuYJ/z5pwFL9ynaPnZ9fZlzxbl1QT0VP/ZWykVpXz/xVwCupdqw4i+zXiXPs4la/PBN9eNit7fwSmhFGoqzz4VmeyJ6cTfVqXz5j/xeWeIqtie1Vd+aSBLTOGH1iRFGXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTTRO/gn; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/ZBsf1E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTTRO/gn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764286428; x=1795822428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jt6bIBbJZKvU6woJ8tklLnbeoSLj9AH1hVcMc319y+g=;
-  b=O/ZBsf1ELjKQBINWLPrG4WJr2tGaJ4CEGr435D0t7tgtDORtvtpLhl42
-   prFF9cvmk7TaFuRp5lturnSVYTtCUvygFT6h3xnSBGFgEbFIvvBeBooTp
-   D5bEShDT32N49/nEFJvvq/KkVggvjqTSFvJDo86+kqeKdzbG9WyoKpOpe
-   SrGsvtOB6Wi1erPP7bky+i56isaLQvVQK1c4FwpDQ5XeldwQCuG21hbjy
-   +bEtXrtCA21/IkTOIHav9w6EI/38rWj+P2+NxIVB4BELO4YBpRXPFIm5h
-   co5ylDG+2PGFvmdgvh1Ks7k+mfycTf/HJogVeXSwDI/jIjYDAXmjA8CsS
-   Q==;
-X-CSE-ConnectionGUID: b7L6lrTrQWKppNPNJTPN7w==
-X-CSE-MsgGUID: Tw/eXZwkSbOMgwheGH6I9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66491163"
+  t=1764287028; x=1795823028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Oq5N0ugEDbl58KFO3MRiCPxMrqVnxHpQHUCKEbIZGIE=;
+  b=XTTRO/gnweDDEPsS2XZKVga3FlvJ9lbgtg+W4WU9vraNIM8H/J7KwlcZ
+   7k6u1Pn28690m0UIYmiry7P3Pe3ogEiXN9/Pr/AlojFGrqNJ+EnU+zm94
+   6URdRcEnsv8X5ewGC5al66JcEuKGcEIPnvwjQDSm2FFRwLYM4SkBtHmgC
+   ECa1+qx+FxN8gC10DJ0WBFKhNJdyV60IaOXPOVpIo/eG0PJ7iC7pPHMga
+   o9KHtBey57FoSDf3NP3KH7+DbDYXeDf8JAdy6qxZwGCpFDFqUYv7pVqlC
+   DJp6U0WPU+JlFWuv+Cehdw/QAKgro9H3RlDf+D6ojz5DMz+5QAaGIQqAo
+   A==;
+X-CSE-ConnectionGUID: gU7lTAWKSGWKBAae9nPAsg==
+X-CSE-MsgGUID: dn+DBvInTqu1DXF1A0PttA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66491655"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="66491163"
+   d="scan'208";a="66491655"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 15:33:48 -0800
-X-CSE-ConnectionGUID: bK4EJGhiQ0i/xl8GjRkzZQ==
-X-CSE-MsgGUID: Vd+CKkBaT5CPkFNSPwlO4w==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 15:43:47 -0800
+X-CSE-ConnectionGUID: 1NlewJlSRcqrm71om2nK6Q==
+X-CSE-MsgGUID: 7keEAhSsRCy9yQ65c+/z2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="224028726"
+   d="scan'208";a="224029724"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2025 15:33:46 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2025 15:43:45 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOlUc-000000005qP-2I4v;
-	Thu, 27 Nov 2025 23:33:42 +0000
-Date: Fri, 28 Nov 2025 07:32:55 +0800
+	id 1vOleI-000000005qb-2k9m;
+	Thu, 27 Nov 2025 23:43:42 +0000
+Date: Fri, 28 Nov 2025 07:43:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fengnan Chang <fengnanchang@gmail.com>, axboe@kernel.dk,
-	linux-block@vger.kernel.org, ming.lei@redhat.com, hare@suse.de,
-	hch@lst.de, yukuai3@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Fengnan Chang <changfengnan@bytedance.com>
-Subject: Re: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
-Message-ID: <202511280714.MCsRsCmR-lkp@intel.com>
-References: <20251127013908.66118-3-fengnanchang@gmail.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3355/3355] block/blk-cgroup.c:2320:18: warning:
+ no previous prototype for function 'bpf_blkcg_get_dev_iostat'
+Message-ID: <202511280702.XVMyBDu0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,53 +61,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127013908.66118-3-fengnanchang@gmail.com>
 
-Hi Fengnan,
+Hi GONG,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 4941a17751c99e17422be743c02c923ad706f888]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fengnan-Chang/blk-mq-use-array-manage-hctx-map-instead-of-xarray/20251127-094243
-base:   4941a17751c99e17422be743c02c923ad706f888
-patch link:    https://lore.kernel.org/r/20251127013908.66118-3-fengnanchang%40gmail.com
-patch subject: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251128/202511280714.MCsRsCmR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280714.MCsRsCmR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c246f2d81b5390b10c50870d9ef40337e9a5cb86
+commit: 969159a7bdeceb8bf814c6e0bf3b5360d9d9b167 [3355/3355] bpf-rvi: blk-cgroup: Add bpf_blkcg_get_dev_iostat() kfunc
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20251128/202511280702.XVMyBDu0-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280702.XVMyBDu0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280714.MCsRsCmR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280702.XVMyBDu0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/block/rnbd/rnbd-clt.h:16,
-                    from drivers/block/rnbd/rnbd-clt.c:19:
-   drivers/block/rnbd/rnbd-clt.c: In function 'rnbd_init_mq_hw_queues':
->> include/linux/blk-mq.h:1004:24: error: implicit declaration of function 'queue_hctx' [-Wimplicit-function-declaration]
-    1004 |              ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-         |                        ^~~~~~~~~~
-   drivers/block/rnbd/rnbd-clt.c:1324:9: note: in expansion of macro 'queue_for_each_hw_ctx'
-    1324 |         queue_for_each_hw_ctx(dev->queue, hctx, i) {
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/blk-mq.h:1004:22: error: assignment to 'struct blk_mq_hw_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1004 |              ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-         |                      ^
-   drivers/block/rnbd/rnbd-clt.c:1324:9: note: in expansion of macro 'queue_for_each_hw_ctx'
-    1324 |         queue_for_each_hw_ctx(dev->queue, hctx, i) {
-         |         ^~~~~~~~~~~~~~~~~~~~~
+>> block/blk-cgroup.c:2320:18: warning: no previous prototype for function 'bpf_blkcg_get_dev_iostat' [-Wmissing-prototypes]
+    2320 | __bpf_kfunc void bpf_blkcg_get_dev_iostat(struct blkcg *blkcg, int major, int minor,
+         |                  ^
+   block/blk-cgroup.c:2320:13: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2320 | __bpf_kfunc void bpf_blkcg_get_dev_iostat(struct blkcg *blkcg, int major, int minor,
+         |             ^
+         |             static 
+   1 warning generated.
 
 
-vim +/queue_hctx +1004 include/linux/blk-mq.h
+vim +/bpf_blkcg_get_dev_iostat +2320 block/blk-cgroup.c
 
-  1001	
-  1002	#define queue_for_each_hw_ctx(q, hctx, i)				\
-  1003		for ((i) = 0; (i) < (q)->nr_hw_queues &&			\
-> 1004		     ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-  1005	
+  2306	
+  2307	/*
+  2308	 * Basically inmitating:
+  2309	 *
+  2310	 *   - v1:
+  2311	 *     - tg_print_rwstat_recursive() in block/blk-throttle.c
+  2312	 *     - bfqg_print_rwstat_recursive() in block/bfq-cgroup.c
+  2313	 *   - v2:
+  2314	 *     - blkcg_print_stat()
+  2315	 *
+  2316	 * without the final printing (e.g. the __blkg_prfill_rwstat() part).
+  2317	 *
+  2318	 * Note that a subsystem can only exist in either cgroup v1 or v2 at the same time.
+  2319	 */
+> 2320	__bpf_kfunc void bpf_blkcg_get_dev_iostat(struct blkcg *blkcg, int major, int minor,
+  2321						  struct blkg_rw_iostat *iostat, bool is_v2)
+  2322	{
+  2323		struct blkcg_gq *blkg;
+  2324		char dev_name[64];
+  2325	
+  2326		if (!blkcg || !iostat)
+  2327			return;
+  2328	
+  2329		if (is_v2) {
+  2330			if (blkcg == &blkcg_root)
+  2331				blkcg_fill_root_iostats();
+  2332			else
+  2333				cgroup_rstat_flush_atomic(blkcg->css.cgroup);
+  2334		}
+  2335	
+  2336		snprintf(dev_name, sizeof(dev_name), "%d:%d", major, minor);
+  2337		rcu_read_lock();
+  2338		hlist_for_each_entry_rcu(blkg, &blkcg->blkg_list, blkcg_node) {
+  2339			if (strcmp(dev_name, blkg_dev_name(blkg)))
+  2340				continue;
+  2341			spin_lock_irq(&blkg->q->queue_lock);
+  2342			if (is_v2)
+  2343				blkcg_get_one_stat_v2(blkg, iostat);
+  2344			else
+  2345				blkcg_get_one_stat_v1(blkg, iostat);
+  2346			spin_unlock_irq(&blkg->q->queue_lock);
+  2347			break;
+  2348		}
+  2349		rcu_read_unlock();
+  2350	}
+  2351	
 
 -- 
 0-DAY CI Kernel Test Service
