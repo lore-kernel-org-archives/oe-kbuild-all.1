@@ -1,62 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3623305077
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 19:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEF23054C5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 19:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764271770; cv=none; b=VUaten0LYTezj/Jxd+t+5n3BhjBUPmYplTeSqPjaSd7c9lknNOq5u/WyFOJZ2JkU8D4ZPWyBPCgBp29CwIyoK3Ue7P2aNzbiDIPrifipJ+Z02uQJPSUUDFFUSHMP9aEnbHlLwc2MRpUzKla9vo4v3jJxZeHHNEuPr18QDS3c4pM=
+	t=1764271772; cv=none; b=ih3LKyuKbj+hhbTzo3AK43XM0jdHhYhhZiBRjD6S+i3jCfMt65z998oeUyzN0qX8GpS6YzlsNoh3tHRfJB0oy/snPF/DotwEaLT2cBzOmysAQhCn1p3z+YAtwFqAMni1M8bounwDLFN/yGVnWiTrQzqO+lWuNcB0cVx8XzsMxjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764271770; c=relaxed/simple;
-	bh=IoJDqo3p2KUZ6CfHm4PkzJhsZADgqOzfnts8yppvMng=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ryxbfgKlg/yBc+2GQCkO72XIHVvZqUON0Pygz4wNJF5e5z5kp2S++v9+E42wmZn8WhDAiMqlTvVgcgpbYMBnL1nx/aXdhYhyvQGnZ6O6G3w4iChlIQ5kfrO8k5ZO+CEfRGjma8AN4+KH+FCLuCJw+qGJRUlQBin42IA62G/zjHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MU3ajGpo; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1764271772; c=relaxed/simple;
+	bh=3dA7eKTdIK6Z2EWuL1CUxNnWxGO002dwKrQWaVzfMQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GI8Ggyi/5kpEZ2IqF8/tCD9pZW/wG4ad8qV7xIU8pY9hgNDa+GXFUvDjwCowpj+hnxge6y8bfLCfDxquT01tq3YyJfRbWSVJBNa610RYTZYXyEd8eYJ25jr1gGP1dWrKl//U/vHCqmYtVsMQHT6NKRgxMqSHk71/HD6daJy8Dxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5pbYQ+/; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MU3ajGpo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5pbYQ+/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764271768; x=1795807768;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IoJDqo3p2KUZ6CfHm4PkzJhsZADgqOzfnts8yppvMng=;
-  b=MU3ajGpoo3eZjhRejpLTLC22Vy8c7XfF43Wcn6NZ2Fbh4yduiLW80UFg
-   DksL+JAx6CaeJKlUdQKGHXTJSJlgsxsMRuM2cuCiBz8QUBYXmCx4b1v9q
-   EG/HHX8A1KXKFNfBlCxYGE3cJHRvgHW0FrO++DlYLrQAfNj8c8UwTJzpe
-   /q7EhMjkpIhJChiFBFUBMzd6ASJ2uU13g0JDRC6qvmvn/xFON97s8lYBD
-   z+mBt14Ng2HMg0sF6lZpd7Ydep0AwhCPRx7/5RGqsPJHCdIT/SeDNL9K+
-   GLh73aJPrXuCZX43Z0VveqcN0OxN2FIQasNkPqVGMciM0T1o55oF+pghv
+  t=1764271770; x=1795807770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3dA7eKTdIK6Z2EWuL1CUxNnWxGO002dwKrQWaVzfMQ4=;
+  b=A5pbYQ+/5bEabKU6Pwa29JdSZFStsp1+JG1QBnvmwA+XwswCELux9N7m
+   wo0GzrVqzrb/7kzItf/jQlFleM6LSFLqmEGzMvljpVNlrtgvZEj67zrdW
+   UXQPzm0El/7gSzAmeTiWbo7mH4cbfZ/TbuIpBiEbOtOiLLjJwnBWeBsZf
+   U8hGgO7IBSn6prZCtg8vKXkfhgK4UjoSN9NXhUit1DFSZlj+FWkn7ugcl
+   A2xfPI0xYc/5h8/8/gPDi5XasKj4PBRo3E6657UcxS5Toirlnjje1w7u7
+   U2lP+08yxGTjmszfwrGP0IdNsScwT5TnATlzCu7j24lQHScnuzeUEu0nR
    g==;
-X-CSE-ConnectionGUID: isbOw80hTbu/E9vOtNcTGQ==
-X-CSE-MsgGUID: I5YI1gJaSP6xYDgmOJdW6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="53887358"
+X-CSE-ConnectionGUID: xwNtHihxQtKHCWG9EyfWZg==
+X-CSE-MsgGUID: cyniB8ZySse9DBwpZPQQLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66393950"
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="53887358"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 11:29:28 -0800
-X-CSE-ConnectionGUID: fadmlSSgRNuSAaw7Dnv61A==
-X-CSE-MsgGUID: yU2C/FaKSR+ZZk22kjhrzQ==
+   d="scan'208";a="66393950"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 11:29:29 -0800
+X-CSE-ConnectionGUID: 19qKVL8VTRiNqYXMIIEb/Q==
+X-CSE-MsgGUID: wQwkhhWVRfmX8dHiJ7yaxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="194095708"
+   d="scan'208";a="197607869"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Nov 2025 11:29:26 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 27 Nov 2025 11:29:26 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOhgC-000000005a4-2EiN;
+	id 1vOhgC-000000005Zv-1iSb;
 	Thu, 27 Nov 2025 19:29:24 +0000
-Date: Fri, 28 Nov 2025 03:29:05 +0800
+Date: Fri, 28 Nov 2025 03:29:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Taniya Das <taniya.das@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Pratyush Yadav <pratyush@kernel.org>
-Subject: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
- luo_ioctl() warn: unsigned 'nr' is never less than zero.
-Message-ID: <202511280300.6pvBmXUS-lkp@intel.com>
+	Ajit Pandey <ajit.pandey@oss.qualcomm.com>,
+	Imran Shaik <imran.shaik@oss.qualcomm.com>,
+	Jagadeesh Kona <jagadeesh.kona@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Taniya Das <taniya.das@oss.qualcomm.com>
+Subject: Re: [PATCH] clk: qcom: clk-rpmh: Update the clock suffix for Glymur
+Message-ID: <202511280306.L2l4tAmD-lkp@intel.com>
+References: <20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,58 +72,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
-commit: b30a1fee674c8446bebd9e399b267ac824093bc8 [12118/12398] liveupdate: luo_core: add user interface
-config: x86_64-randconfig-161-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280300.6pvBmXUS-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Taniya,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 92fd6e84175befa1775e5c0ab682938eca27c0b2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-clk-rpmh-Update-the-clock-suffix-for-Glymur/20251126-021404
+base:   92fd6e84175befa1775e5c0ab682938eca27c0b2
+patch link:    https://lore.kernel.org/r/20251125-glymur_rpmhcc_fix-v1-1-60081b3cce7f%40oss.qualcomm.com
+patch subject: [PATCH] clk: qcom: clk-rpmh: Update the clock suffix for Glymur
+config: arm64-randconfig-003-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280306.L2l4tAmD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280306.L2l4tAmD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280300.6pvBmXUS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280306.L2l4tAmD-lkp@intel.com/
 
-smatch warnings:
-kernel/liveupdate/luo_core.c:402 luo_ioctl() warn: unsigned 'nr' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +/nr +402 kernel/liveupdate/luo_core.c
+>> drivers/clk/qcom/clk-rpmh.c:891:21: error: 'clk_rpmh_clk3_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk3_a2'?
+     891 |  [RPMH_RF_CLK3]  = &clk_rpmh_clk3_a.hw,
+         |                     ^~~~~~~~~~~~~~~
+         |                     clk_rpmh_clk3_a2
+>> drivers/clk/qcom/clk-rpmh.c:892:22: error: 'clk_rpmh_clk3_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk3_a2_ao'?
+     892 |  [RPMH_RF_CLK3_A] = &clk_rpmh_clk3_a_ao.hw,
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      clk_rpmh_clk3_a2_ao
+>> drivers/clk/qcom/clk-rpmh.c:893:21: error: 'clk_rpmh_clk4_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk4_a2'?
+     893 |  [RPMH_RF_CLK4]  = &clk_rpmh_clk4_a.hw,
+         |                     ^~~~~~~~~~~~~~~
+         |                     clk_rpmh_clk4_a2
+>> drivers/clk/qcom/clk-rpmh.c:894:22: error: 'clk_rpmh_clk4_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk4_a2_ao'?
+     894 |  [RPMH_RF_CLK4_A] = &clk_rpmh_clk4_a_ao.hw,
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      clk_rpmh_clk4_a2_ao
+>> drivers/clk/qcom/clk-rpmh.c:895:21: error: 'clk_rpmh_clk5_a' undeclared here (not in a function); did you mean 'clk_rpmh_clk5_a2'?
+     895 |  [RPMH_RF_CLK5]  = &clk_rpmh_clk5_a.hw,
+         |                     ^~~~~~~~~~~~~~~
+         |                     clk_rpmh_clk5_a2
+>> drivers/clk/qcom/clk-rpmh.c:896:22: error: 'clk_rpmh_clk5_a_ao' undeclared here (not in a function); did you mean 'clk_rpmh_clk5_a2_ao'?
+     896 |  [RPMH_RF_CLK5_A] = &clk_rpmh_clk5_a_ao.hw,
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      clk_rpmh_clk5_a2_ao
 
-   392	
-   393	static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
-   394	{
-   395		const struct luo_ioctl_op *op;
-   396		struct luo_ucmd ucmd = {};
-   397		union ucmd_buffer buf;
-   398		unsigned int nr;
-   399		int err;
-   400	
-   401		nr = _IOC_NR(cmd);
- > 402		if (nr < LIVEUPDATE_CMD_BASE ||
-   403		    (nr - LIVEUPDATE_CMD_BASE) >= ARRAY_SIZE(luo_ioctl_ops)) {
-   404			return -EINVAL;
-   405		}
-   406	
-   407		ucmd.ubuffer = (void __user *)arg;
-   408		err = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
-   409		if (err)
-   410			return err;
-   411	
-   412		op = &luo_ioctl_ops[nr - LIVEUPDATE_CMD_BASE];
-   413		if (op->ioctl_num != cmd)
-   414			return -ENOIOCTLCMD;
-   415		if (ucmd.user_size < op->min_size)
-   416			return -EINVAL;
-   417	
-   418		ucmd.cmd = &buf;
-   419		err = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
-   420					    ucmd.user_size);
-   421		if (err)
-   422			return err;
-   423	
-   424		return op->execute(&ucmd);
-   425	}
-   426	
+
+vim +891 drivers/clk/qcom/clk-rpmh.c
+
+c035a9e265dd80 Taniya Das 2024-12-04  887  
+ebcb9db98bdab8 Taniya Das 2025-08-25  888  static struct clk_hw *glymur_rpmh_clocks[] = {
+ebcb9db98bdab8 Taniya Das 2025-08-25  889  	[RPMH_CXO_CLK]		= &clk_rpmh_bi_tcxo_div2.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25  890  	[RPMH_CXO_CLK_A]	= &clk_rpmh_bi_tcxo_div2_ao.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @891  	[RPMH_RF_CLK3]		= &clk_rpmh_clk3_a.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @892  	[RPMH_RF_CLK3_A]	= &clk_rpmh_clk3_a_ao.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @893  	[RPMH_RF_CLK4]		= &clk_rpmh_clk4_a.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @894  	[RPMH_RF_CLK4_A]	= &clk_rpmh_clk4_a_ao.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @895  	[RPMH_RF_CLK5]		= &clk_rpmh_clk5_a.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25 @896  	[RPMH_RF_CLK5_A]	= &clk_rpmh_clk5_a_ao.hw,
+ebcb9db98bdab8 Taniya Das 2025-08-25  897  };
+ebcb9db98bdab8 Taniya Das 2025-08-25  898  
 
 -- 
 0-DAY CI Kernel Test Service
