@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0E0304BCA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 20:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C861AF0BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 21:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764276095; cv=none; b=uy99cCcDRjSuWcdZWk8rX5liyto0VUcpxW7o+nyGk6+SpFAxoGUrXood+8OHzxmm6RW8bNh+X5IsjM8MtuQRBFL5tDFhpTA9JyQJXxMT5AR+mKNLlacqU8oaBSWM7XrQ0bkCzMZLHahpaoqtwYloHxyC4NeY2/glgduMmF6mLKA=
+	t=1764278196; cv=none; b=aZSZ9suSocWRp5kRPKv59AuLUFCMIU1upKOEVqDr/JqPBUi8H79rPMr6KVlYAkz9JxNenzB14h830j/XkwoxoSyLVM1/pYJdG9LEYOBCAVtGzpmPoKRkI6FKdgY1ZEGpvXc03TbjAr8Sv6OWSYwOfHlh+ylsM16gnmvBR5ChkE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764276095; c=relaxed/simple;
-	bh=QA/ZzFWM8eJy3AO5vcQJsCYO31kNtb0Jm5IzJ4sTa8Q=;
+	s=arc-20240116; t=1764278196; c=relaxed/simple;
+	bh=Z8yRS/8uLbrkQovvsyzvIKf9f4VSimhwx3jiuJ2z1DY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RKgNIcff7qRSOa45OAgXFyYaVnUOG5ANLbpFsOssAzuPR4GyU6l86VLlg3CS56lrYj36k93SJMqpl3BqCg3oCxTpUJQQSV8g7M1WikjRzDM6MUD+a/i6PUZf5Bb9hPt8FTCgrLP7T+V6oMgjENrv2YJaEhqWIWqg7EJzkTX2M7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7T7RjVF; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnIKPhgQg1hzkGSID+a7ktU3Je68oGlH6aC1nkoTW6w9MV3ec+37wdMPGHyRidVTeNy1GoWvz5sr7QxkfdI05J8+Gk7Ybi+TGB31q2XP82EM9GEkLPam6D/Zdsvor6jaaaOn4OP2F10X5FIw2197w2dk0KNWK/FCeV1Ly59KDY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ryjosn+F; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7T7RjVF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ryjosn+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764276094; x=1795812094;
+  t=1764278194; x=1795814194;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QA/ZzFWM8eJy3AO5vcQJsCYO31kNtb0Jm5IzJ4sTa8Q=;
-  b=a7T7RjVFe5/xl4gaS09YwY6weMeHnS5B3c2DnwHwWmsuEPMnKp1Sh3i1
-   kpcivprxHaa6tRe+ZfeR3aXSrCzvky+XZr89II9NM9Tj9/DXjptSiyOGh
-   yLoy7yQn7n4brtincke0ZHof50135BGlkJ5b6lLBrj9MnFCMgfGADDMIT
-   GIUNKahdPAlMWcFxYvCzNn0EE0+l7hosu9P2fwwqAoJCf1Csi7jfebzvC
-   bMFSzqHBAeXfBXoKl3f0pLEiHcoFRyOwqJswUs8LyS+e3TNb54cf+jo1u
-   3L5mEsHK4HBqDBUriik0jDmmyf0dprwMwc8cTL1lSKHWHy9gboGJbwj+j
-   w==;
-X-CSE-ConnectionGUID: Rjoy0q7oQDK2ap2D8aZYEw==
-X-CSE-MsgGUID: uIZpQlWSSBGl0vNJFOd3WQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66034053"
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="66034053"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 12:41:33 -0800
-X-CSE-ConnectionGUID: 5Q1S9mF8RpmgmhFfgI1Elg==
-X-CSE-MsgGUID: +VzEKHWqQbC/n5LgO7uLSA==
+  bh=Z8yRS/8uLbrkQovvsyzvIKf9f4VSimhwx3jiuJ2z1DY=;
+  b=Ryjosn+FrpR7S9ZISdq0DA8RRQQzESP/aVO29Zoan2n/Bai8SGLcnG5A
+   2F5Hwq5psc5pLABPfgia6btFF0dIqDk8lNf6uK4gwGU/r4zO7ZRsnSMZW
+   8krzHYbiT6lZ0Akk74vs8RiyRHC1DrrHyRHu9BwjK+jkvyV0dVjfDoRE+
+   wSm9bY0wCg0EJO1fkiYXK0s+Pm2BQjMoEkfHyIujBplhkGkLw10orGNSG
+   +2/J7+P79Y9MjqgXid2ISjquxHK1FQAujgFl9jsG6xcatjKuF80wLIcS8
+   E/2cjlqW8pJ5MAvX6nRszzrzid8/03unJcS9pOwXEi+X9aOXpeU9oYXnt
+   Q==;
+X-CSE-ConnectionGUID: BW4P29DkQAW3nW2LbDotpA==
+X-CSE-MsgGUID: 1G8mXQK2RpyfS4KSoNxNKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66354075"
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
+   d="scan'208";a="66354075"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 13:16:33 -0800
+X-CSE-ConnectionGUID: NYCz+KypSvaQO9MKMYljHw==
+X-CSE-MsgGUID: afuLrXIwTJySzQEtKJTcsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="224264127"
+   d="scan'208";a="193110605"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Nov 2025 12:41:30 -0800
+  by orviesa009.jf.intel.com with ESMTP; 27 Nov 2025 13:16:34 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOinw-000000005f3-2B4v;
-	Thu, 27 Nov 2025 20:41:28 +0000
-Date: Fri, 28 Nov 2025 04:41:07 +0800
+	id 1vOjLq-000000005gv-369a;
+	Thu, 27 Nov 2025 21:16:30 +0000
+Date: Fri, 28 Nov 2025 05:15:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fengnan Chang <fengnanchang@gmail.com>, axboe@kernel.dk,
-	linux-block@vger.kernel.org, ming.lei@redhat.com, hare@suse.de,
-	hch@lst.de, yukuai3@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Fengnan Chang <changfengnan@bytedance.com>
-Subject: Re: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
-Message-ID: <202511280407.DzqlGFFg-lkp@intel.com>
-References: <20251127013908.66118-3-fengnanchang@gmail.com>
+To: Marc Kleine-Budde <mkl@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH can-next v8 16/17] can: raw: instantly reject unsupported
+ CAN frames
+Message-ID: <202511280531.YnWW2Rxc-lkp@intel.com>
+References: <20251126-canxl-v8-16-e7e3eb74f889@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,71 +63,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127013908.66118-3-fengnanchang@gmail.com>
+In-Reply-To: <20251126-canxl-v8-16-e7e3eb74f889@pengutronix.de>
 
-Hi Fengnan,
+Hi Marc,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 4941a17751c99e17422be743c02c923ad706f888]
+[auto build test ERROR on ab084f0b8d6d2ee4b1c6a28f39a2a7430bdfa7f0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fengnan-Chang/blk-mq-use-array-manage-hctx-map-instead-of-xarray/20251127-094243
-base:   4941a17751c99e17422be743c02c923ad706f888
-patch link:    https://lore.kernel.org/r/20251127013908.66118-3-fengnanchang%40gmail.com
-patch subject: [PATCH v2 2/2] blk-mq: fix potential uaf for 'queue_hw_ctx'
-config: arm-randconfig-002-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280407.DzqlGFFg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280407.DzqlGFFg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Kleine-Budde/can-dev-can_get_ctrlmode_str-use-capitalized-ctrlmode-strings/20251126-182121
+base:   ab084f0b8d6d2ee4b1c6a28f39a2a7430bdfa7f0
+patch link:    https://lore.kernel.org/r/20251126-canxl-v8-16-e7e3eb74f889%40pengutronix.de
+patch subject: [PATCH can-next v8 16/17] can: raw: instantly reject unsupported CAN frames
+config: arm64-randconfig-004-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280531.YnWW2Rxc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280531.YnWW2Rxc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280407.DzqlGFFg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280531.YnWW2Rxc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/block/rnbd/rnbd-clt.h:16,
-                    from drivers/block/rnbd/rnbd-clt.c:19:
-   drivers/block/rnbd/rnbd-clt.c: In function 'rnbd_init_mq_hw_queues':
-   include/linux/blk-mq.h:1004:17: error: implicit declaration of function 'queue_hctx'; did you mean 'queue_work'? [-Werror=implicit-function-declaration]
-          ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-                    ^~~~~~~~~~
-   drivers/block/rnbd/rnbd-clt.c:1324:2: note: in expansion of macro 'queue_for_each_hw_ctx'
-     queue_for_each_hw_ctx(dev->queue, hctx, i) {
-     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/blk-mq.h:1004:15: warning: assignment to 'struct blk_mq_hw_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-          ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-                  ^
-   drivers/block/rnbd/rnbd-clt.c:1324:2: note: in expansion of macro 'queue_for_each_hw_ctx'
-     queue_for_each_hw_ctx(dev->queue, hctx, i) {
-     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from rnbd-clt.h:16,
-                    from rnbd-clt.c:19:
-   rnbd-clt.c: In function 'rnbd_init_mq_hw_queues':
-   include/linux/blk-mq.h:1004:17: error: implicit declaration of function 'queue_hctx'; did you mean 'queue_work'? [-Werror=implicit-function-declaration]
-          ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-                    ^~~~~~~~~~
-   rnbd-clt.c:1324:2: note: in expansion of macro 'queue_for_each_hw_ctx'
-     queue_for_each_hw_ctx(dev->queue, hctx, i) {
-     ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/blk-mq.h:1004:15: warning: assignment to 'struct blk_mq_hw_ctx *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-          ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-                  ^
-   rnbd-clt.c:1324:2: note: in expansion of macro 'queue_for_each_hw_ctx'
-     queue_for_each_hw_ctx(dev->queue, hctx, i) {
-     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1004 include/linux/blk-mq.h
-
-  1001	
-  1002	#define queue_for_each_hw_ctx(q, hctx, i)				\
-  1003		for ((i) = 0; (i) < (q)->nr_hw_queues &&			\
-> 1004		     ({ hctx = queue_hctx((q), i); 1; }); (i)++)
-  1005	
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: net/can/raw.o: in function `raw_check_txframe':
+>> raw.c:(.text+0x16d4): undefined reference to `safe_candev_priv'
 
 -- 
 0-DAY CI Kernel Test Service
