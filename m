@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642B625785D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Nov 2025 23:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F19D244671
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 00:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764201574; cv=none; b=CPzCxQbKBFt28sl5f+6uWzLw10YG5XFRM8P65jRtdTT9KaoIzmLgQKa7KKp+/z1Izw9mkKfUKS2+UWD+z/Pod2DOEddu+tz/kKR/t46FuDvgeyqpRvlXwbdvHO1W8R4yLHD4GG2JjjKsQlEOu5KkMwL80htMQfN5csSe0iYOjH8=
+	t=1764204695; cv=none; b=fjhZc3Qrwe+5cGi24eRuXf04abRaA+unE2MgDV76kgVhkasJxma7D1R9dxb505hVOqFyE+C76KmMemxRf5JP6YK78ESVOfNRB9flHOF+ROKT8Q2V6r2TvSdUfdOcQz5h5ZarmPVjZHgtQ7RmKYc1fDvbAsjTul2JivFnm8/ZuKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764201574; c=relaxed/simple;
-	bh=27iVwFxTwOuBTy7oV3cfjXSnyfz6z9TObP4ezD3qA10=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=reicYL5O4DNfHwSaczT+ZrfNQcalMfF+84iOMxcaCNVWrrRSCVCcrPOJG40gGVR8WZs4aMG72bVjQmk3htYEckecxWpcT+iUimD4EodPDnbDL5jSVyHhbZ53K9Gg0n9YwtKcDf50ZXxHgEvJ/0xXSiasmy4VpU9U89z4p7PHSkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fdahcpl1; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1764204695; c=relaxed/simple;
+	bh=e+vl5giX9WVA9vgapKAivhfKtOevJhbFmGu/8riibKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FfS1vGfNFZ9bHArs0kX5Cx5m/UGayKv+ima1ndYbAFojvNQht2x6I9bbw5OgKhLJv/bMDZ50hSw2KN6OeVJXvkeP31Uy9+IHeH3EfoQ7WizVsvAe937jWOEXUyFqtJi3JjeiFZXLb32WkuGceYZYExkJ/iC6UlstH+xE6bMHkAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ce5KseXj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fdahcpl1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ce5KseXj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764201572; x=1795737572;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=27iVwFxTwOuBTy7oV3cfjXSnyfz6z9TObP4ezD3qA10=;
-  b=fdahcpl13khJdA/0ATm6CX2MrHZGwqT1opLNyKz6ocBAn+6I7GR6+PFc
-   tUrNHyCduZWOABIGS6ru8AmFTr6TG8+gZjLUmNQl4kr7u2phZLMAuy7yM
-   00e5WJBHr174rYe0dZYojsGXZto6N7XECBfgVIIoPEZrsvr1QMm2LAvWo
-   X/dR4IcrYuOWVrVKm23dXN0yTHUHMaqbC2fqSH0uD6868F8kiTVR9fysX
-   eGBF2nNcSzVVFhbyyOwK6rTYRHCFnPMMKw1GMakm4taLv0xSO85wBdMyI
-   RNOG1Z8XeiqnM2oZ2PsU2bwxLgVxTZzuxmmOWrdZYXyyxxV8g5U1ArRUz
+  t=1764204694; x=1795740694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e+vl5giX9WVA9vgapKAivhfKtOevJhbFmGu/8riibKc=;
+  b=Ce5KseXjRI1HgW8cPOjqXNpHGi3VVk1GtLiIahCUxAyosJtWZYCD9Sf3
+   tZAiO5ipbBo8vg70QNHICzdcqUa6EREt0o2UNdGHtZT8hofHAmcQVXwCF
+   1KmtKrOgaDC1GVy0PYDZxuRiwMfJaC+3KP4eHgJlxQaBtCxrRZ4EUZNzB
+   ifiRtpoavI009RAu+Ag0ePl8H0sHW3lnzkoj02FLy8Dl1XRa7/59HxQxl
+   3YddxPT1CQ2j1NUkLMsNr39nHV+XG/p00QLkjwaIlHrbeUxNqSlkHqlMB
+   rXdKBnVq1M09A+PZXdB7eo75qimqhv+R6hkBBpx/BAHnE01UH4qffj58a
    A==;
-X-CSE-ConnectionGUID: uXgcA7oVRceunIiLRc2j6g==
-X-CSE-MsgGUID: O2ZGguA2TZabcv3oljDMBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="70108634"
+X-CSE-ConnectionGUID: T/g9nBuxQbCkS93xqhDXtQ==
+X-CSE-MsgGUID: miCYlzmWQJaNqDZw4Q0oaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="65959557"
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="70108634"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 15:59:32 -0800
-X-CSE-ConnectionGUID: kHmvFCs0RNKWxXN8QzGhyg==
-X-CSE-MsgGUID: Yl8xPGqJRPaDO9jwPNXY1w==
+   d="scan'208";a="65959557"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 16:51:34 -0800
+X-CSE-ConnectionGUID: i3k8xmh1TRS510ZLWSJr8A==
+X-CSE-MsgGUID: jztcg/nLSZmuLhooWNLIcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
-   d="scan'208";a="192894370"
+   d="scan'208";a="197420131"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Nov 2025 15:59:30 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 26 Nov 2025 16:51:31 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOPPz-000000003Tx-14Gw;
-	Wed, 26 Nov 2025 23:59:27 +0000
-Date: Thu, 27 Nov 2025 07:58:50 +0800
+	id 1vOQEL-000000003WL-2Hov;
+	Thu, 27 Nov 2025 00:51:29 +0000
+Date: Thu, 27 Nov 2025 08:51:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <dw@davidwei.uk>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
-	Nikolay Aleksandrov <razor@blackwall.org>
-Subject: [cilium:pr/netkit-iouring6 2/2] net/core/netdev_rx_queue.c:21:6:
- warning: no previous prototype for 'netdev_rx_queue_peer'
-Message-ID: <202511270713.FCG5drU7-lkp@intel.com>
+To: Yu Kuai <yukuai@fnnas.com>, song@kernel.org, linux-raid@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	filippo@debian.org, colyli@fnnas.com, yukuai@fnnas.com
+Subject: Re: [PATCH v2 06/11] md: support to align bio to limits
+Message-ID: <202511270809.hl08JR8y-lkp@intel.com>
+References: <20251124063203.1692144-7-yukuai@fnnas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,113 +63,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251124063203.1692144-7-yukuai@fnnas.com>
 
-tree:   https://github.com/cilium/linux.git pr/netkit-iouring6
-head:   7bfb4fc5f460441d05b483647e4f4c59c4afaeb1
-commit: 7bfb4fc5f460441d05b483647e4f4c59c4afaeb1 [2/2] net: Implement netdev_nl_bind_queue_doit
-config: arc-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511270713.FCG5drU7-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270713.FCG5drU7-lkp@intel.com/reproduce)
+Hi Yu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20251121]
+[also build test ERROR on v6.18-rc7]
+[cannot apply to linus/master song-md/md-next v6.18-rc7 v6.18-rc6 v6.18-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-mddev-has_superblock-into-mddev_flags/20251124-143826
+base:   next-20251121
+patch link:    https://lore.kernel.org/r/20251124063203.1692144-7-yukuai%40fnnas.com
+patch subject: [PATCH v2 06/11] md: support to align bio to limits
+config: sparc-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511270809.hl08JR8y-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511270809.hl08JR8y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511270713.FCG5drU7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511270809.hl08JR8y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/core/netdev_rx_queue.c:21:6: warning: no previous prototype for 'netdev_rx_queue_peer' [-Wmissing-prototypes]
-    void netdev_rx_queue_peer(struct net_device *src_dev,
-         ^~~~~~~~~~~~~~~~~~~~
->> net/core/netdev_rx_queue.c:34:6: warning: no previous prototype for 'netdev_rx_queue_unpeer' [-Wmissing-prototypes]
-    void netdev_rx_queue_unpeer(struct net_device *src_dev,
-         ^~~~~~~~~~~~~~~~~~~~~~
-   net/core/netdev_rx_queue.c: In function '__netif_get_rx_queue_peer':
-   net/core/netdev_rx_queue.c:55:9: error: 'struct netdev_rx_queue' has no member named 'peer'
-     if (rxq->peer) {
-            ^~
-   net/core/netdev_rx_queue.c:58:12: error: 'struct netdev_rx_queue' has no member named 'peer'
-      rxq = rxq->peer;
-               ^~
-   net/core/netdev_rx_queue.c: At top level:
->> net/core/netdev_rx_queue.c:66:1: warning: no previous prototype for 'netif_get_rx_queue_peer_locked' [-Wmissing-prototypes]
-    netif_get_rx_queue_peer_locked(struct net_device **dev, unsigned int *rxq_idx)
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/core/netdev_rx_queue.c:81:6: warning: no previous prototype for 'netif_put_rx_queue_peer_locked' [-Wmissing-prototypes]
-    void netif_put_rx_queue_peer_locked(struct net_device *orig_dev,
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/netdev_rx_queue_peer +21 net/core/netdev_rx_queue.c
-
-    20	
-  > 21	void netdev_rx_queue_peer(struct net_device *src_dev,
-    22				  struct netdev_rx_queue *src_rxq,
-    23				  struct netdev_rx_queue *dst_rxq)
-    24	{
-    25		netdev_assert_locked(src_dev);
-    26		netdev_assert_locked(dst_rxq->dev);
-    27	
-    28		netdev_hold(src_dev, &src_rxq->lease_tracker, GFP_KERNEL);
-    29	
-    30		WRITE_ONCE(src_rxq->lease, dst_rxq);
-    31		WRITE_ONCE(dst_rxq->lease, src_rxq);
-    32	}
-    33	
-  > 34	void netdev_rx_queue_unpeer(struct net_device *src_dev,
-    35				    struct netdev_rx_queue *src_rxq,
-    36				    struct netdev_rx_queue *dst_rxq)
-    37	{
-    38		WARN_ON_ONCE(READ_ONCE(dst_rxq->dev->reg_state) != NETREG_UNREGISTERING);
-    39	
-    40		netdev_assert_locked(dst_rxq->dev);
-    41		netdev_assert_locked(src_dev);
-    42	
-    43		WRITE_ONCE(src_rxq->lease, NULL);
-    44		WRITE_ONCE(dst_rxq->lease, NULL);
-    45	
-    46		netdev_put(src_dev, &src_rxq->lease_tracker);
-    47	}
-    48	
-    49	static struct netdev_rx_queue *
-    50	__netif_get_rx_queue_peer(struct net_device **dev, unsigned int *rxq_idx)
-    51	{
-    52		struct net_device *orig_dev = *dev;
-    53		struct netdev_rx_queue *rxq = __netif_get_rx_queue(orig_dev, *rxq_idx);
-    54	
-  > 55		if (rxq->peer) {
-    56			if (orig_dev->dev.parent)
-    57				return NULL;
-  > 58			rxq = rxq->peer;
-    59			*rxq_idx = get_netdev_rx_queue_index(rxq);
-    60			*dev = rxq->dev;
-    61		}
-    62		return rxq;
-    63	}
-    64	
-    65	struct netdev_rx_queue *
-  > 66	netif_get_rx_queue_peer_locked(struct net_device **dev, unsigned int *rxq_idx)
-    67	{
-    68		struct net_device *orig_dev = *dev;
-    69		struct netdev_rx_queue *rxq;
-    70	
-    71		/* Locking order is always from the virtual to the physical device
-    72		 * see netdev_nl_bind_queue_doit().
-    73		 */
-    74		netdev_ops_assert_locked(orig_dev);
-    75		rxq = __netif_get_rx_queue_peer(dev, rxq_idx);
-    76		if (rxq && orig_dev != *dev)
-    77			netdev_lock(*dev);
-    78		return rxq;
-    79	}
-    80	
-  > 81	void netif_put_rx_queue_peer_locked(struct net_device *orig_dev,
-    82					    struct net_device *dev)
-    83	{
-    84		if (orig_dev != dev)
-    85			netdev_unlock(dev);
-    86	}
-    87	
+   sparc-linux-ld: drivers/md/md.o: in function `md_submit_bio':
+>> md.c:(.text+0x85d4): undefined reference to `__umoddi3'
 
 -- 
 0-DAY CI Kernel Test Service
