@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0E612B94
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 22:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FDD27B34E;
+	Thu, 27 Nov 2025 23:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764281753; cv=none; b=pOYzz4UWX9Vb9kLsvITK1rLqaBW39Cn6TC0EBvicr6QSbF9vvO1a2p3LvKl0q+36z5Fc2qtkTfbgGUuZSogEC40vVOfaQGR8Qj1jueMiIjtvvr6nVHolzl7fLYE5yk3G5tDFxcIncR/fki/3QTwyGHYC38p0OxA7ruKM+K4atNg=
+	t=1764284507; cv=none; b=EHJ/K0Qpn5Kzv7hyEpLy79Tud8NAzxuV8/slYgSyzoLuiaXUuA330i8Yh5ujsqMJmKLfx4DCaGCCJ3G/ggbAvCp6rMtp9uUpOPkm5HPQTNn3o3BxYQsHA108PiL8MHWSMhhjoEAcJx7kkZ85T3BQxFXObRJRLMsJBGL4OoINoz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764281753; c=relaxed/simple;
-	bh=dh7WEwBqgPJKiKCmjdZWMzjuHgPsmhYEOZN9KPkMgGI=;
+	s=arc-20240116; t=1764284507; c=relaxed/simple;
+	bh=c2j4bEB4sIjbWg4ks4HGdoAa7FErabBhxhSRuXPDFL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NdE+4vC6Cpx0/Bd8yPdk8i78F+rdIBSNfQQD7S1Ze7lq6moBpVHdnSrFoKAQq0jI7mqo87GfuJLzZTvd6spU7du3kcpWSGetlxNJ/WmUVtruIf46JxqXj0ZeRqqMl/NW2Fn6Jptv+qQDa87iQyY4m/6wsg2ei8fTJt+LrSL/Uo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/n8N5k+; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=f7efPp/dRxTMcQdduY7+xEKjkTryrnYM9Dw4fFJL8mV9yvE/irX/xQUm9fFKxj0kN1FBzRPPdvgkl0FTh8gLW7/di4aUkuUhzhldia65kCaWKVZWWhJQoB6BOwqmRJQ1jCrcgt7EuhFKzpwr8t7vSBnbplefDSe81ldUXKk1xKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJdgzJPS; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/n8N5k+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJdgzJPS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764281751; x=1795817751;
+  t=1764284505; x=1795820505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dh7WEwBqgPJKiKCmjdZWMzjuHgPsmhYEOZN9KPkMgGI=;
-  b=n/n8N5k+gs4Y7PuEm4zW/pgihWF9d+vs9EfvU1k+2RT6XTColIU230ux
-   pBHahEPwIspD/zU0N7xiJ6cHiS94WKIYS0g5EAg59MxoH33hu/Omov4oW
-   wnisGiSx01ooM5lK2HIvLHG622BXIWU4/+Jpgc/f4VGRzchp5R8z0gv8j
-   wJy+nEGKU9Y6OJrmJNnllLka7G0enhm2/5QlpyAJWWveoDpqkJkgYrCCt
-   WtkVd1iafdZZ84t3zTxfOr6W5swcgZsxyb23tGuccByY8wBssWPyN4H8E
-   2CZ0RV1vXGb5nujIuKXPj1Yi0lYfitUSVHLUloRmreJFaiCgLkWXUd9AR
-   A==;
-X-CSE-ConnectionGUID: 4cULEHwURhuj0BUnFotvBw==
-X-CSE-MsgGUID: j+6IpW0tQzWaaxwDUquwww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="76648350"
+  bh=c2j4bEB4sIjbWg4ks4HGdoAa7FErabBhxhSRuXPDFL8=;
+  b=TJdgzJPSESnB8KWVH8FtDbm4pAjzobCsl/i+W+WFZJ45YVUr3dRCDZHm
+   1n+NDgfAyG5QAeG47gEtTl6hjyoG9GxajRdnCGfiiUuygyvG5mhm+mZXZ
+   E3bDja0O2/21pnf29CehML3UqcRqpb4SR7sUNfswZJ/lFqwEv4lK4eqCT
+   7Mj7PjiQNg+uikoUISF2tYaFr5G+2AkojG3stGSbbSPonujiBxkgnIP3G
+   dYZPX8VCI1W0KjNCx1ZpTdlTRlLefY43m4ANmdxWmKBN6AP629yN6zk5+
+   hgGyOZozQqu+upyGzG0rR1mEm6/XOCBT+hWPtNv9ByGH4/UK0P8yrS1TN
+   w==;
+X-CSE-ConnectionGUID: qNsVPUuXQKWzUyJixeeY9A==
+X-CSE-MsgGUID: rfGeVQnlTMeGeXlfjBxn3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="70185854"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="76648350"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 14:15:47 -0800
-X-CSE-ConnectionGUID: O0f2DPTbS/2B8ZHrhw9OSw==
-X-CSE-MsgGUID: cQj+IGiSSj6LsI+S43u0Lw==
+   d="scan'208";a="70185854"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 15:01:45 -0800
+X-CSE-ConnectionGUID: uR9+DpvhR6+L0zYQQNYICw==
+X-CSE-MsgGUID: NDBQDO7DQTSBuIfuVoEy7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="197631341"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Nov 2025 14:15:46 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="193421937"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2025 15:01:43 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOkHA-000000001rR-0pmV;
-	Thu, 27 Nov 2025 22:15:44 +0000
-Date: Thu, 27 Nov 2025 23:15:17 +0100
+	id 1vOkzd-000000005om-02xB;
+	Thu, 27 Nov 2025 23:01:41 +0000
+Date: Fri, 28 Nov 2025 07:01:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:renesas-lts/v6.18-rc6-2025-11-20-x5h-ironhide-2 41/41]
- drivers/mailbox/mailbox.c:417:27: error: implicit declaration of function
- 'kcalloc'
-Message-ID: <202511272349.biU3lDQo-lkp@intel.com>
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [cel:nfsv3-xdrgen 60/75] fs/nfsd/nfs2acl.c:177:10: error: no member
+ named 'access' in 'struct nfsd3_accessargs'
+Message-ID: <202511280658.xSZMMz2E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,132 +62,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux renesas-lts/v6.18-rc6-2025-11-20-x5h-ironhide-2
-head:   2b4bb2b272501af9302a01713e7e35ec89d1297a
-commit: 2b4bb2b272501af9302a01713e7e35ec89d1297a [41/41] mailbox: add new {fw/of}_xlate_with_name()
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251127/202511272349.biU3lDQo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272349.biU3lDQo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsv3-xdrgen
+head:   d6deccd7892291215036a5d70a688a2ccf230b15
+commit: 2d303c4ac8b0e06b053ef4258525fa113324c050 [60/75] NFSD: Use xdrgen XDR functions for NFSv3 ACCESS procedure
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251128/202511280658.xSZMMz2E-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280658.xSZMMz2E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511272349.biU3lDQo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280658.xSZMMz2E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/mailbox/mailbox.c: In function 'mbox_request_channel':
->> drivers/mailbox/mailbox.c:417:27: error: implicit declaration of function 'kcalloc' [-Wimplicit-function-declaration]
-     417 |         mbox_name_array = kcalloc(index + 1, sizeof(char*), GFP_KERNEL);
-         |                           ^~~~~~~
->> drivers/mailbox/mailbox.c:417:25: error: assignment to 'const char **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     417 |         mbox_name_array = kcalloc(index + 1, sizeof(char*), GFP_KERNEL);
-         |                         ^
->> drivers/mailbox/mailbox.c:459:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     459 |         kfree(mbox_name_array);
-         |         ^~~~~
+>> fs/nfsd/nfs2acl.c:177:10: error: no member named 'access' in 'struct nfsd3_accessargs'
+     177 |                         argp->access);
+         |                         ~~~~  ^
+   include/linux/sunrpc/debug.h:25:28: note: expanded from macro 'dprintk'
+      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:42:26: note: expanded from macro 'dfprintk'
+      42 |                 __sunrpc_printk(fmt, ##__VA_ARGS__);                    \
+         |                                        ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:34:57: note: expanded from macro '__sunrpc_printk'
+      34 | #  define __sunrpc_printk(fmt, ...)     trace_printk(fmt, ##__VA_ARGS__)
+         |                                                             ^~~~~~~~~~~
+   include/linux/kernel.h:276:26: note: expanded from macro 'trace_printk'
+     276 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+         |                                        ^~~~~~~~~~~
+   include/linux/kernel.h:287:37: note: expanded from macro 'do_trace_printk'
+     287 |         __trace_printk_check_format(fmt, ##args);                       \
+         |                                            ^~~~
+   include/linux/kernel.h:239:40: note: expanded from macro '__trace_printk_check_format'
+     239 |                 ____trace_printk_check_format(fmt, ##args);             \
+         |                                                      ^~~~
+>> fs/nfsd/nfs2acl.c:177:10: error: no member named 'access' in 'struct nfsd3_accessargs'
+     177 |                         argp->access);
+         |                         ~~~~  ^
+   include/linux/sunrpc/debug.h:25:28: note: expanded from macro 'dprintk'
+      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:42:26: note: expanded from macro 'dfprintk'
+      42 |                 __sunrpc_printk(fmt, ##__VA_ARGS__);                    \
+         |                                        ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:34:57: note: expanded from macro '__sunrpc_printk'
+      34 | #  define __sunrpc_printk(fmt, ...)     trace_printk(fmt, ##__VA_ARGS__)
+         |                                                             ^~~~~~~~~~~
+   include/linux/kernel.h:276:26: note: expanded from macro 'trace_printk'
+     276 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+         |                                        ^~~~~~~~~~~
+   include/linux/kernel.h:290:50: note: expanded from macro 'do_trace_printk'
+     290 |                 __trace_bprintk(_THIS_IP_, trace_printk_fmt, ##args);   \
+         |                                                                ^~~~
+>> fs/nfsd/nfs2acl.c:177:10: error: no member named 'access' in 'struct nfsd3_accessargs'
+     177 |                         argp->access);
+         |                         ~~~~  ^
+   include/linux/sunrpc/debug.h:25:28: note: expanded from macro 'dprintk'
+      25 |         dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:42:26: note: expanded from macro 'dfprintk'
+      42 |                 __sunrpc_printk(fmt, ##__VA_ARGS__);                    \
+         |                                        ^~~~~~~~~~~
+   include/linux/sunrpc/debug.h:34:57: note: expanded from macro '__sunrpc_printk'
+      34 | #  define __sunrpc_printk(fmt, ...)     trace_printk(fmt, ##__VA_ARGS__)
+         |                                                             ^~~~~~~~~~~
+   include/linux/kernel.h:276:26: note: expanded from macro 'trace_printk'
+     276 |                 do_trace_printk(fmt, ##__VA_ARGS__);    \
+         |                                        ^~~~~~~~~~~
+   include/linux/kernel.h:292:36: note: expanded from macro 'do_trace_printk'
+     292 |                 __trace_printk(_THIS_IP_, fmt, ##args);                 \
+         |                                                  ^~~~
+>> fs/nfsd/nfs2acl.c:180:8: error: no member named 'access' in 'struct nfsd3_accessres'
+     180 |         resp->access = argp->access;
+         |         ~~~~  ^
+   fs/nfsd/nfs2acl.c:180:23: error: no member named 'access' in 'struct nfsd3_accessargs'
+     180 |         resp->access = argp->access;
+         |                        ~~~~  ^
+>> fs/nfsd/nfs2acl.c:181:8: error: no member named 'status' in 'struct nfsd3_accessres'
+     181 |         resp->status = nfsd_access(rqstp, &resp->fh, &resp->access, NULL);
+         |         ~~~~  ^
+   fs/nfsd/nfs2acl.c:181:54: error: no member named 'access' in 'struct nfsd3_accessres'
+     181 |         resp->status = nfsd_access(rqstp, &resp->fh, &resp->access, NULL);
+         |                                                       ~~~~  ^
+   fs/nfsd/nfs2acl.c:182:12: error: no member named 'status' in 'struct nfsd3_accessres'
+     182 |         if (resp->status != nfs_ok)
+         |             ~~~~  ^
+   fs/nfsd/nfs2acl.c:184:8: error: no member named 'status' in 'struct nfsd3_accessres'
+     184 |         resp->status = fh_getattr(&resp->fh, &resp->stat);
+         |         ~~~~  ^
+>> fs/nfsd/nfs2acl.c:184:46: error: no member named 'stat' in 'struct nfsd3_accessres'
+     184 |         resp->status = fh_getattr(&resp->fh, &resp->stat);
+         |                                               ~~~~  ^
+   fs/nfsd/nfs2acl.c:234:40: error: no member named 'access' in 'struct nfsd3_accessargs'
+     234 |         if (xdr_stream_decode_u32(xdr, &args->access) < 0)
+         |                                         ~~~~  ^
+   fs/nfsd/nfs2acl.c:280:37: error: no member named 'status' in 'struct nfsd3_accessres'
+     280 |         if (!svcxdr_encode_stat(xdr, resp->status))
+         |                                      ~~~~  ^
+   fs/nfsd/nfs2acl.c:282:16: error: no member named 'status' in 'struct nfsd3_accessres'
+     282 |         switch (resp->status) {
+         |                 ~~~~  ^
+   fs/nfsd/nfs2acl.c:284:58: error: no member named 'stat' in 'struct nfsd3_accessres'
+     284 |                 if (!svcxdr_encode_fattr(rqstp, xdr, &resp->fh, &resp->stat))
+         |                                                                  ~~~~  ^
+   fs/nfsd/nfs2acl.c:286:40: error: no member named 'access' in 'struct nfsd3_accessres'
+     286 |                 if (xdr_stream_encode_u32(xdr, resp->access) < 0)
+         |                                                ~~~~  ^
+   15 errors generated.
 
 
-vim +/kcalloc +417 drivers/mailbox/mailbox.c
+vim +177 fs/nfsd/nfs2acl.c
 
-   367	
-   368	/**
-   369	 * mbox_request_channel - Request a mailbox channel.
-   370	 * @cl: Identity of the client requesting the channel.
-   371	 * @index: Index of mailbox specifier in 'mboxes' property.
-   372	 *
-   373	 * The Client specifies its requirements and capabilities while asking for
-   374	 * a mailbox channel. It can't be called from atomic context.
-   375	 * The channel is exclusively allocated and can't be used by another
-   376	 * client before the owner calls mbox_free_channel.
-   377	 * After assignment, any packet received on this channel will be
-   378	 * handed over to the client via the 'rx_callback'.
-   379	 * The framework holds reference to the client, so the mbox_client
-   380	 * structure shouldn't be modified until the mbox_free_channel returns.
-   381	 *
-   382	 * Return: Pointer to the channel assigned to the client if successful.
-   383	 *		ERR_PTR for request failure.
-   384	 */
-   385	struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-   386	{
-   387		struct fwnode_reference_args fwspec;
-   388		struct fwnode_handle *fwnode;
-   389		struct mbox_controller *mbox;
-   390		struct of_phandle_args spec;
-   391		struct mbox_chan *chan;
-   392		struct device *dev;
-   393		const char **mbox_name_array;
-   394		const char *mbox_name;
-   395		unsigned int i;
-   396		int ret;
-   397	
-   398		dev = cl->dev;
-   399		if (!dev) {
-   400			pr_debug("No owner device\n");
-   401			return ERR_PTR(-ENODEV);
-   402		}
-   403	
-   404		fwnode = dev_fwnode(dev);
-   405		if (!fwnode) {
-   406			dev_dbg(dev, "No owner fwnode\n");
-   407			return ERR_PTR(-ENODEV);
-   408		}
-   409	
-   410		ret = fwnode_property_get_reference_args(fwnode, "mboxes", "#mbox-cells",
-   411							 0, index, &fwspec);
-   412		if (ret) {
-   413			dev_err(dev, "%s: can't parse \"%s\" property\n", __func__, "mboxes");
-   414			return ERR_PTR(ret);
-   415		}
-   416	
- > 417		mbox_name_array = kcalloc(index + 1, sizeof(char*), GFP_KERNEL);
-   418		if (!mbox_name_array)
-   419			return ERR_PTR(-ENOMEM);
-   420	
-   421		mbox_name = NULL;
-   422		ret = fwnode_property_read_string_array(fwnode, "mbox-names", mbox_name_array, index + 1);
-   423		if (ret > 0)
-   424			mbox_name = mbox_name_array[index];
-   425	
-   426		spec.np = to_of_node(fwspec.fwnode);
-   427		spec.args_count = fwspec.nargs;
-   428		for (i = 0; i < spec.args_count; i++)
-   429			spec.args[i] = fwspec.args[i];
-   430	
-   431		scoped_guard(mutex, &con_mutex) {
-   432			chan = ERR_PTR(-EPROBE_DEFER);
-   433			list_for_each_entry(mbox, &mbox_cons, node) {
-   434				if (device_match_fwnode(mbox->dev, fwspec.fwnode)) {
-   435					if (mbox_name && mbox->fw_xlate_with_name)
-   436						chan = mbox->fw_xlate_with_name(mbox, &fwspec, mbox_name);
-   437					else if (mbox->fw_xlate)
-   438						chan = mbox->fw_xlate(mbox, &fwspec);
-   439					else if (mbox_name && mbox->of_xlate_with_name)
-   440						chan = mbox->of_xlate_with_name(mbox, &spec, mbox_name);
-   441					else if (mbox->of_xlate)
-   442						chan = mbox->of_xlate(mbox, &spec);
-   443	
-   444					if (!IS_ERR(chan))
-   445						break;
-   446				}
-   447			}
-   448	
-   449			fwnode_handle_put(fwspec.fwnode);
-   450	
-   451			if (IS_ERR(chan))
-   452				goto end;
-   453	
-   454			ret = __mbox_bind_client(chan, cl);
-   455			if (ret)
-   456				chan = ERR_PTR(ret);
-   457		}
-   458	end:
- > 459		kfree(mbox_name_array);
-   460	
-   461		return chan;
-   462	}
-   463	EXPORT_SYMBOL_GPL(mbox_request_channel);
-   464	
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  166  
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  167  /*
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  168   * Check file access
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  169   */
+a6beb73272b4c0 Christoph Hellwig   2017-05-08  170  static __be32 nfsacld_proc_access(struct svc_rqst *rqstp)
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  171  {
+a6beb73272b4c0 Christoph Hellwig   2017-05-08  172  	struct nfsd3_accessargs *argp = rqstp->rq_argp;
+a6beb73272b4c0 Christoph Hellwig   2017-05-08  173  	struct nfsd3_accessres *resp = rqstp->rq_resp;
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  174  
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  175  	dprintk("nfsd: ACCESS(2acl)   %s 0x%x\n",
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  176  			SVCFH_fmt(&argp->fh),
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22 @177  			argp->access);
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  178  
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  179  	fh_copy(&resp->fh, &argp->fh);
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22 @180  	resp->access = argp->access;
+f0af22101d9072 Chuck Lever         2020-10-01 @181  	resp->status = nfsd_access(rqstp, &resp->fh, &resp->access, NULL);
+f0af22101d9072 Chuck Lever         2020-10-01  182  	if (resp->status != nfs_ok)
+f0af22101d9072 Chuck Lever         2020-10-01  183  		goto out;
+f0af22101d9072 Chuck Lever         2020-10-01 @184  	resp->status = fh_getattr(&resp->fh, &resp->stat);
+f0af22101d9072 Chuck Lever         2020-10-01  185  out:
+cc028a10a48c3c Chuck Lever         2020-10-02  186  	return rpc_success;
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  187  }
+a257cdd0e21796 Andreas Gruenbacher 2005-06-22  188  
+
+:::::: The code at line 177 was first introduced by commit
+:::::: a257cdd0e2179630d3201c32ba14d7fcb3c3a055 [PATCH] NFSD: Add server support for NFSv3 ACLs.
+
+:::::: TO: Andreas Gruenbacher <agruen@suse.de>
+:::::: CC: Trond Myklebust <Trond.Myklebust@netapp.com>
 
 -- 
 0-DAY CI Kernel Test Service
