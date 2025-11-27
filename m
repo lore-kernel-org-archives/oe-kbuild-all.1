@@ -1,71 +1,67 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EA82D948A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 09:03:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E8732693C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 09:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764234206; cv=none; b=PvIgCBSHLmOWuWeuOM+9GXTu9QPK88WxgDLEjeVIPgI0fmXu2+qcZMjmJvp6Bytl1M5qo3TSYoiRRD83dsXThmC9PzAWo1sYlyuBDoi2VPugzDrcQgCLS/++xb2P706IoaSgLsIqhfceZhRPoWcGQuvwUqHAx9SxQSkHU1mDmkM=
+	t=1764234827; cv=none; b=mXZir5WpQ1rK4QjsgMGPYqtGgW0ls/+xOL5+80BWU66HcduwompFEZ9mqxwirIx3v4sLQkX1gOZmuRlnyXufJEu2DJh6AV3lpvN3TK0Dixp03aXA7HhEqanS2xN2ljO9kPXBKpMF6Y90t8FBFpomx41nahSEjVQPsni3gQ2zMCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764234206; c=relaxed/simple;
-	bh=5dlBU1bLUKAUPi8mZvwFnPI+FEnNq50B0iyUmI7CWlA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ksKTSix3UGboQfdGq4TsdCCsWkziIXhDHbIsV3YcuNYVJxxJfByn6Ft7Xwlv6O6M5BmBijNMPJCnYIhG8nE47yPGLn+S+SsKITnVl6XaQXQsmt79kzSSp9h7R5Snz7OEBVEOFK9Mpmg/ycfOe9Zf8CWe5oYZicsHNKwRj61Prag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oQzyVANG; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764234827; c=relaxed/simple;
+	bh=nMeiv3SIi8QG4moeoqdXt6Rrisu/4W7V71FP8WJhXLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FHmF6uzaUEdg7GiP0B9QSaJtZ9KReI4k3oKVFOnD5xjbUwocMvc9ooQtDuDOGrHlnaUxO4gXEZ7c3JWdSvzqNEpraNUfbEvxbZNIygN0Nmi21EDwY/yL0VbHODYfkHcPkXXj6xibiSXwy6KMiQkNLqtFJxJPFGibgHU2nHq6k+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8IbPd37; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oQzyVANG"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477770019e4so4175865e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 01:03:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764234202; x=1764839002; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6JdINPvofPb5s41JcK1QbCB8OCu8A4Xj8jHKRdhRQPg=;
-        b=oQzyVANGPRvKUwoqIx/YPhK0dHsl8Fgil1KUMqFKpoAhYuyliXvRYXG6T3rZNsmz7l
-         YdzLdI1ezbOUyY81x0kETm9ZigrRxlmoU9+wSzF6qnyDA0Wicd7C8gmxCtVgoh35aRpH
-         pwhQKrByNay6UxfJHcKRAVqJhpP4dSwjthd9C8zFpX6vDQYZ3LUadYaud4ZJm1jY6PvC
-         wZrFQR/BVPL/OZVuFxHUlbsUoy2jkOuoDuwFEH3udUDfcdCzG3bT4H9UyZEEFRDdp2Q9
-         7IWKtA4zi18EfW56jdLnTXsw0+TClRTokgmPAUYfkPNVxjjRg2cNO5lrWBkUAWgVoqzA
-         hhWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764234202; x=1764839002;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6JdINPvofPb5s41JcK1QbCB8OCu8A4Xj8jHKRdhRQPg=;
-        b=f3oRka90DV8WOm5bqgmmv1VksLtjiAU3mxavG5MvQt26BhwnxmNe6/ol4zvxMYvMJg
-         D+2bHeIeOY4gPAm4iWQa99K9ioAHIOIdhwlkd3Q6tTiMMcoZ+D4aTmo76IVHFQOwtMYR
-         H7FPullVaufU7JAr7P8plStYigdShZ9kG/x2pVjUvBPEfLaBO+b8vwy+ZiR/Mw3B34vh
-         6h6qHTt7xYcN0FtSA3YIcphyf8x0eeLABvvAFXbvennzXhVVEfs0lxVCgkvE561RkT3o
-         QXAvqmof+vowh3fGSTJdctsrhRqqRqkaAZ2yqKN+FWRcoz1BaZEXuNUOpy8zoMbaKirV
-         Le4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVtxTlZPwpNGVfI71+c5vyvv+BI2hyBETBT1DNopZEBQ+qSCsXkKGhuW0Qx7rEcxbZPv8j8tn/yoQmFs0vE@lists.linux.dev
-X-Gm-Message-State: AOJu0YyEwVFPL0ZuTj5NA/8KSjHbndtnpeQ2Cljpyo8riZjkRdae+21Z
-	3JWdylv7PobPaImWPWVUgcdgaMTni7Xn8iSeLq50ajZTm1lnqQD7jV4JwgnqosTIszQ=
-X-Gm-Gg: ASbGncsBWI1LU+lnz+z+ORdWkS0MSNzx79YJS51XqLJc5TCHVuZVA6PZy/b+2G0aUtP
-	bjd3g6h3XVH5P869++FVwICIdhqGtbYCNSm0NVqWol6GJkHdbCZ9Xt5ezn+cNVS8FaXk5GSocwH
-	drgRX/39kcOGgxRBOyXg9qDDwLEyVuWOXM//SAfzQQOwZaIbGWi6DKWL9d+b5Zc3zD1Yll5EkO4
-	fqcduwWrRC+YFdbWNy5VIRJZ8GE5AQDcNYgjAKASNyQTYpR61I07Ur4/M0qaGuyUsv0yh0DeRhG
-	EpUImaauZLi36FXnGr1vjl63FAQh5hG7wJVFg5sbmnyp7y72a7qhJMiZlY0cW7z0P3xjnEPyp2w
-	Et8dVphtpLIeFw/aGkir3tO8tPxc/9S0aFGT6yswh0cSSSlKGgvfWnBIpLrGVQPp+DQY/rnJjvt
-	+Dg5zj/d5ModF/FAf4
-X-Google-Smtp-Source: AGHT+IFynb9zZlTb1lIry0GmIiL8O+WRck+Tqg2z+IEv8rbf/6IV831qOuOuCwUdLqEfTBJoUemWKQ==
-X-Received: by 2002:a05:600c:1c87:b0:477:98f7:2aec with SMTP id 5b1f17b1804b1-47904acef12mr111071645e9.3.1764234201059;
-        Thu, 27 Nov 2025 01:03:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4791116c3c0sm20418605e9.8.2025.11.27.01.03.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 01:03:20 -0800 (PST)
-Date: Thu, 27 Nov 2025 12:03:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Conor Dooley <conor+lkp@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [conor:pinctrl 21/23] drivers/pinctrl/pinctrl-generic.c:183
- pinctrl_generic_pins_function_dt_node_to_map() error: uninitialized symbol
- 'map'.
-Message-ID: <202511271435.oSbNsRD6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8IbPd37"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764234823; x=1795770823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nMeiv3SIi8QG4moeoqdXt6Rrisu/4W7V71FP8WJhXLY=;
+  b=D8IbPd37E1UtX2IJzDdKNLUtatRzcTvtyW6Yk6UPMDzcJ9UM3SfHipdt
+   x/k3tYTGVsEnUew+qrgvhT57b+TCjAnJ12AC+nXSD23XG08NF+nz89hSG
+   Y0rZqzseeQEKxpFh0ds4vk+phpiLDBoU2zlLv+TqPQCwGnAgpXql2l/A3
+   vuVjJnWc00xUfuIsIv163juaLzGd9aAxpEgGSUR4tAxvzHgHiOzWQSloG
+   DEqt8Hsvsp9+b55zzDd64X3KBozZ3X9w5DsnhO2pYWNApmbMo2ElyMiWF
+   7vchjCPZnoOOiW+Fhx805nDSbczcbd9MZxAGS7DSnIxHrJvUVTf4rWlHm
+   Q==;
+X-CSE-ConnectionGUID: m+JkLjECTuqVt+USBX1RzA==
+X-CSE-MsgGUID: G6PYdzv1T7O4vvYhshguVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="91759728"
+X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
+   d="scan'208";a="91759728"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 01:13:41 -0800
+X-CSE-ConnectionGUID: galzY4AMRqWW3GAP7HFGLQ==
+X-CSE-MsgGUID: qPStb08kTMKgIAKRQFTcDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
+   d="scan'208";a="193206736"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2025 01:13:39 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vOY4F-000000001hN-3iCC;
+	Thu, 27 Nov 2025 09:13:35 +0000
+Date: Thu, 27 Nov 2025 10:13:23 +0100
+From: kernel test robot <lkp@intel.com>
+To: Tim Bird <tim@bird.org>, pmladek@suse.com,
+	Steve Rostedt <rostedt@goodmis.org>, john.ogness@linutronix.de,
+	senozhatsky@chromium.org
+Cc: oe-kbuild-all@lists.linux.dev, Tim Bird <Tim.Bird@sony.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Francesco Valla <francesco@valla.it>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Embedded <linux-embedded@vger.kernel.org>
+Subject: Re: [PATCH] printk: add early_counter_ns routine for printk blind
+ spot
+Message-ID: <202511271051.yfp2O98B-lkp@intel.com>
+References: <39b09edb-8998-4ebd-a564-7d594434a981@bird.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,103 +70,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <39b09edb-8998-4ebd-a564-7d594434a981@bird.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
-head:   a88950bbbc80fe53e2c773353674604d3130c443
-commit: c5d18e566a49f4f9a50575259bbdda2118b000e4 [21/23] pinctrl: add polarfire soc mssio pinctrl driver
-config: powerpc64-randconfig-r072-20251127 (https://download.01.org/0day-ci/archive/20251127/202511271435.oSbNsRD6-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
+Hi Tim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc7]
+[cannot apply to akpm-mm/mm-everything next-20251127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Bird/printk-add-early_counter_ns-routine-for-printk-blind-spot/20251125-133242
+base:   linus/master
+patch link:    https://lore.kernel.org/r/39b09edb-8998-4ebd-a564-7d594434a981%40bird.org
+patch subject: [PATCH] printk: add early_counter_ns routine for printk blind spot
+config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20251127/202511271051.yfp2O98B-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271051.yfp2O98B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511271435.oSbNsRD6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511271051.yfp2O98B-lkp@intel.com/
 
-New smatch warnings:
-drivers/pinctrl/pinctrl-generic.c:183 pinctrl_generic_pins_function_dt_node_to_map() error: uninitialized symbol 'map'.
+All errors (new ones prefixed by >>):
 
-vim +/map +183 drivers/pinctrl/pinctrl-generic.c
+   ld: init/main.o: in function `kernel_init':
+>> init/main.c:1522:(.ref.text+0x201): undefined reference to `__udivdi3'
 
-df80616e3dbbe3 Conor Dooley 2025-11-26  111  int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
-df80616e3dbbe3 Conor Dooley 2025-11-26  112  						 struct device_node *np,
-df80616e3dbbe3 Conor Dooley 2025-11-26  113  						 struct pinctrl_map **maps,
-df80616e3dbbe3 Conor Dooley 2025-11-26  114  						 unsigned int *num_maps)
-df80616e3dbbe3 Conor Dooley 2025-11-26  115  {
-df80616e3dbbe3 Conor Dooley 2025-11-26  116  	struct device *dev = pctldev->dev;
-df80616e3dbbe3 Conor Dooley 2025-11-26  117  	struct device_node *child_np;
-df80616e3dbbe3 Conor Dooley 2025-11-26  118  	struct pinctrl_map *map;
 
-map needs to be set to NULL at the start.  We pass it to
-krealloc_array().
+vim +1522 init/main.c
 
-df80616e3dbbe3 Conor Dooley 2025-11-26  119  	const char **group_names;
-df80616e3dbbe3 Conor Dooley 2025-11-26  120  	unsigned int num_reserved_maps = 0;
-df80616e3dbbe3 Conor Dooley 2025-11-26  121  	int ngroups = 0;
-df80616e3dbbe3 Conor Dooley 2025-11-26  122  	int ret;
-df80616e3dbbe3 Conor Dooley 2025-11-26  123  
-df80616e3dbbe3 Conor Dooley 2025-11-26  124  	*maps = NULL;
-df80616e3dbbe3 Conor Dooley 2025-11-26  125  	*num_maps = 0;
-df80616e3dbbe3 Conor Dooley 2025-11-26  126  
-df80616e3dbbe3 Conor Dooley 2025-11-26  127  	/*
-df80616e3dbbe3 Conor Dooley 2025-11-26  128  	 * Check if this is actually the pins node, or a parent containing
-df80616e3dbbe3 Conor Dooley 2025-11-26  129  	 * multiple pins nodes.
-df80616e3dbbe3 Conor Dooley 2025-11-26  130  	 */
-df80616e3dbbe3 Conor Dooley 2025-11-26  131  	if (!of_property_present(np, "pins"))
-df80616e3dbbe3 Conor Dooley 2025-11-26  132  		goto parent;
-df80616e3dbbe3 Conor Dooley 2025-11-26  133  
-df80616e3dbbe3 Conor Dooley 2025-11-26  134  	group_names = devm_kcalloc(dev, 1, sizeof(*group_names), GFP_KERNEL);
-df80616e3dbbe3 Conor Dooley 2025-11-26  135  	if (!group_names)
-df80616e3dbbe3 Conor Dooley 2025-11-26  136  		return -ENOMEM;
-df80616e3dbbe3 Conor Dooley 2025-11-26  137  
-df80616e3dbbe3 Conor Dooley 2025-11-26  138  	ret = pinctrl_generic_pins_function_dt_subnode_to_map(pctldev, np, np,
-df80616e3dbbe3 Conor Dooley 2025-11-26  139  							      &map,num_maps,
-df80616e3dbbe3 Conor Dooley 2025-11-26  140  							      &num_reserved_maps,
-df80616e3dbbe3 Conor Dooley 2025-11-26  141  							      group_names,
-df80616e3dbbe3 Conor Dooley 2025-11-26  142  							      ngroups);
-df80616e3dbbe3 Conor Dooley 2025-11-26  143  	if (ret) {
-df80616e3dbbe3 Conor Dooley 2025-11-26  144  		pinctrl_utils_free_map(pctldev, map, *num_maps);
-df80616e3dbbe3 Conor Dooley 2025-11-26  145  		return dev_err_probe(dev, ret, "error figuring out mappings for %s\n", np->name);
-df80616e3dbbe3 Conor Dooley 2025-11-26  146  	}
-df80616e3dbbe3 Conor Dooley 2025-11-26  147  
-df80616e3dbbe3 Conor Dooley 2025-11-26  148  	ret = pinmux_generic_add_function(pctldev, np->name, group_names, 1, NULL);
-df80616e3dbbe3 Conor Dooley 2025-11-26  149  	if (ret < 0) {
-df80616e3dbbe3 Conor Dooley 2025-11-26  150  		pinctrl_utils_free_map(pctldev, map, *num_maps);
-df80616e3dbbe3 Conor Dooley 2025-11-26  151  		return dev_err_probe(dev, ret, "error adding function %s\n", np->name);
-df80616e3dbbe3 Conor Dooley 2025-11-26  152  	}
-df80616e3dbbe3 Conor Dooley 2025-11-26  153  
-df80616e3dbbe3 Conor Dooley 2025-11-26  154  	*maps = map;
-df80616e3dbbe3 Conor Dooley 2025-11-26  155  
-df80616e3dbbe3 Conor Dooley 2025-11-26  156  	return 0;
-df80616e3dbbe3 Conor Dooley 2025-11-26  157  
-df80616e3dbbe3 Conor Dooley 2025-11-26  158  parent:
-df80616e3dbbe3 Conor Dooley 2025-11-26  159  	for_each_available_child_of_node(np, child_np)
-df80616e3dbbe3 Conor Dooley 2025-11-26  160  		ngroups += 1;
-df80616e3dbbe3 Conor Dooley 2025-11-26  161  
-df80616e3dbbe3 Conor Dooley 2025-11-26  162  	group_names = devm_kcalloc(dev, ngroups, sizeof(*group_names), GFP_KERNEL);
-df80616e3dbbe3 Conor Dooley 2025-11-26  163  	if (!group_names)
-df80616e3dbbe3 Conor Dooley 2025-11-26  164  		return -ENOMEM;
-df80616e3dbbe3 Conor Dooley 2025-11-26  165  
-df80616e3dbbe3 Conor Dooley 2025-11-26  166  	ngroups = 0;
-df80616e3dbbe3 Conor Dooley 2025-11-26  167  	for_each_available_child_of_node_scoped(np, child_np) {
-df80616e3dbbe3 Conor Dooley 2025-11-26  168  		ret = pinctrl_generic_pins_function_dt_subnode_to_map(pctldev, np, child_np,
-df80616e3dbbe3 Conor Dooley 2025-11-26  169  								      &map,num_maps,
-df80616e3dbbe3 Conor Dooley 2025-11-26  170  								      &num_reserved_maps,
-df80616e3dbbe3 Conor Dooley 2025-11-26  171  								      group_names,
-df80616e3dbbe3 Conor Dooley 2025-11-26  172  								      ngroups);
-df80616e3dbbe3 Conor Dooley 2025-11-26  173  		if (ret) {
-df80616e3dbbe3 Conor Dooley 2025-11-26  174  			pinctrl_utils_free_map(pctldev, map, *num_maps);
-df80616e3dbbe3 Conor Dooley 2025-11-26  175  			return dev_err_probe(dev, ret, "error figuring out mappings for %s\n", np->name);
-df80616e3dbbe3 Conor Dooley 2025-11-26  176  		}
-df80616e3dbbe3 Conor Dooley 2025-11-26  177  
-df80616e3dbbe3 Conor Dooley 2025-11-26  178  		ngroups++;
-df80616e3dbbe3 Conor Dooley 2025-11-26  179  	}
-df80616e3dbbe3 Conor Dooley 2025-11-26  180  
-df80616e3dbbe3 Conor Dooley 2025-11-26  181  	ret = pinmux_generic_add_function(pctldev, np->name, group_names, ngroups, NULL);
-df80616e3dbbe3 Conor Dooley 2025-11-26  182  	if (ret < 0) {
-df80616e3dbbe3 Conor Dooley 2025-11-26 @183  		pinctrl_utils_free_map(pctldev, map, *num_maps);
+  1481	
+  1482	static int __ref kernel_init(void *unused)
+  1483	{
+  1484		int ret;
+  1485		u64 end_cycles, end_ns;
+  1486		u32 early_mult, early_shift;
+  1487	
+  1488		/*
+  1489		 * Wait until kthreadd is all set-up.
+  1490		 */
+  1491		wait_for_completion(&kthreadd_done);
+  1492	
+  1493		kernel_init_freeable();
+  1494		/* need to finish all async __init code before freeing the memory */
+  1495		async_synchronize_full();
+  1496	
+  1497		system_state = SYSTEM_FREEING_INITMEM;
+  1498		kprobe_free_init_mem();
+  1499		ftrace_free_init_mem();
+  1500		kgdb_free_init_mem();
+  1501		exit_boot_config();
+  1502		free_initmem();
+  1503		mark_readonly();
+  1504	
+  1505		/*
+  1506		 * Kernel mappings are now finalized - update the userspace page-table
+  1507		 * to finalize PTI.
+  1508		 */
+  1509		pti_finalize();
+  1510	
+  1511		system_state = SYSTEM_RUNNING;
+  1512		numa_default_policy();
+  1513	
+  1514		rcu_end_inkernel_boot();
+  1515	
+  1516		do_sysctl_args();
+  1517	
+  1518		/* show calibration data for early_counter_ns */
+  1519		end_cycles = get_cycles();
+  1520		end_ns = local_clock();
+  1521		clocks_calc_mult_shift(&early_mult, &early_shift,
+> 1522			((end_cycles - start_cycles) * NSEC_PER_SEC)/(end_ns - start_ns),
+  1523			NSEC_PER_SEC, 50);
+  1524	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
