@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6762283121;
-	Thu, 27 Nov 2025 19:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3623305077
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 19:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764270450; cv=none; b=NUKdQY4xRuL958t6R02QdrNG+COHlnqYZZmGNjkKFheL7KxOn6rTJdooN5ax5YaQ5sT15W99HP+Psj27FCn0kd05XPuuQPc0XZfsLpMFjATZwuwdc9lQPXu4JSkC9bFsfxMTIzMvIdUpyHx3/XrjKcr/ZDg4F1PjIyGEYI0GWi8=
+	t=1764271770; cv=none; b=VUaten0LYTezj/Jxd+t+5n3BhjBUPmYplTeSqPjaSd7c9lknNOq5u/WyFOJZ2JkU8D4ZPWyBPCgBp29CwIyoK3Ue7P2aNzbiDIPrifipJ+Z02uQJPSUUDFFUSHMP9aEnbHlLwc2MRpUzKla9vo4v3jJxZeHHNEuPr18QDS3c4pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764270450; c=relaxed/simple;
-	bh=ibJyM056T8UZwla7AY/4UvkPMuimmJY3SdHg2ySi9xA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E6KQer6dum5zzB4Qa6SohivtHBQspVtMeWIVQtbdTieJG1mNvDO+IsUFzBIMjY0gKI6d9hROwSVLNNeLf8vh4wEh8XzAqSr54Ky/3iw3kVhgPmVvN/cj5O7WzT5cjds+Yu/MNwcW7CS9oFrllDJeRyGzRrAZ3R0XK+U7DvSCoso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6bCagyt; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1764271770; c=relaxed/simple;
+	bh=IoJDqo3p2KUZ6CfHm4PkzJhsZADgqOzfnts8yppvMng=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ryxbfgKlg/yBc+2GQCkO72XIHVvZqUON0Pygz4wNJF5e5z5kp2S++v9+E42wmZn8WhDAiMqlTvVgcgpbYMBnL1nx/aXdhYhyvQGnZ6O6G3w4iChlIQ5kfrO8k5ZO+CEfRGjma8AN4+KH+FCLuCJw+qGJRUlQBin42IA62G/zjHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MU3ajGpo; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6bCagyt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MU3ajGpo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764270448; x=1795806448;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ibJyM056T8UZwla7AY/4UvkPMuimmJY3SdHg2ySi9xA=;
-  b=R6bCagytV3qBNZwwBV9i57IR0yc+WtwmZV8WdEsixrk6zEhVyNWzdukd
-   8mcgg60Lm66AXDCthC2uw6lqxC4GiielNHWQ/M9h9G4EVO4mnT4jOeVDr
-   wGfNK2Q1ihgeZBltyKsIJnI7Ar2OUP6MUmwauVs9QGmBXJfT3YET20mm+
-   DPoUk3YZMsXe7R0tfK7psOWK2+inbUsY3rb2Nl+7hdKsug/TE8Q2fopvj
-   18FT0DncVZomMiUHQtsaKyj9xTcRIocv5H8iEs6fWr03ZuKVL/vk8mGCA
-   HI8a1ptTj1fbKmKrIsQ4rwK2oobTKa/wY8aDJT0NjetDv63VNWLcxuV74
+  t=1764271768; x=1795807768;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IoJDqo3p2KUZ6CfHm4PkzJhsZADgqOzfnts8yppvMng=;
+  b=MU3ajGpoo3eZjhRejpLTLC22Vy8c7XfF43Wcn6NZ2Fbh4yduiLW80UFg
+   DksL+JAx6CaeJKlUdQKGHXTJSJlgsxsMRuM2cuCiBz8QUBYXmCx4b1v9q
+   EG/HHX8A1KXKFNfBlCxYGE3cJHRvgHW0FrO++DlYLrQAfNj8c8UwTJzpe
+   /q7EhMjkpIhJChiFBFUBMzd6ASJ2uU13g0JDRC6qvmvn/xFON97s8lYBD
+   z+mBt14Ng2HMg0sF6lZpd7Ydep0AwhCPRx7/5RGqsPJHCdIT/SeDNL9K+
+   GLh73aJPrXuCZX43Z0VveqcN0OxN2FIQasNkPqVGMciM0T1o55oF+pghv
    g==;
-X-CSE-ConnectionGUID: iZ6iN4OuQra30A/Xo3GFug==
-X-CSE-MsgGUID: ds7Stc+nRzS+vcDw96qb3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66480999"
+X-CSE-ConnectionGUID: isbOw80hTbu/E9vOtNcTGQ==
+X-CSE-MsgGUID: I5YI1gJaSP6xYDgmOJdW6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="53887358"
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="66480999"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 11:07:27 -0800
-X-CSE-ConnectionGUID: XhDSF54NSwaFX6MQUt1kLA==
-X-CSE-MsgGUID: RTFps8NmSXCsxd4DiTWq4A==
+   d="scan'208";a="53887358"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 11:29:28 -0800
+X-CSE-ConnectionGUID: fadmlSSgRNuSAaw7Dnv61A==
+X-CSE-MsgGUID: yU2C/FaKSR+ZZk22kjhrzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; 
-   d="scan'208";a="192550326"
+   d="scan'208";a="194095708"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 Nov 2025 11:07:23 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 27 Nov 2025 11:29:26 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOhKr-000000005Xp-2RXc;
-	Thu, 27 Nov 2025 19:07:21 +0000
-Date: Fri, 28 Nov 2025 03:07:07 +0800
+	id 1vOhgC-000000005a4-2EiN;
+	Thu, 27 Nov 2025 19:29:24 +0000
+Date: Fri, 28 Nov 2025 03:29:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>, bpf@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, kernel-team@meta.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	Song Liu <song@kernel.org>
-Subject: Re: [PATCH bpf-next 1/3] bpf: Allow const char * from LSM hooks as
- kfunc const string arguments
-Message-ID: <202511280214.sckLyHDU-lkp@intel.com>
-References: <20251127005011.1872209-6-song@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Pratyush Yadav <pratyush@kernel.org>
+Subject: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
+ luo_ioctl() warn: unsigned 'nr' is never less than zero.
+Message-ID: <202511280300.6pvBmXUS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,58 +65,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127005011.1872209-6-song@kernel.org>
 
-Hi Song,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Allow-const-char-from-LSM-hooks-as-kfunc-const-string-arguments/20251127-125352
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251127005011.1872209-6-song%40kernel.org
-patch subject: [PATCH bpf-next 1/3] bpf: Allow const char * from LSM hooks as kfunc const string arguments
-config: loongarch-randconfig-001-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280214.sckLyHDU-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280214.sckLyHDU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
+commit: b30a1fee674c8446bebd9e399b267ac824093bc8 [12118/12398] liveupdate: luo_core: add user interface
+config: x86_64-randconfig-161-20251127 (https://download.01.org/0day-ci/archive/20251128/202511280300.6pvBmXUS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280214.sckLyHDU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280300.6pvBmXUS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/liveupdate/luo_core.c:402 luo_ioctl() warn: unsigned 'nr' is never less than zero.
 
->> kernel/bpf/verifier.c:9655:14: warning: unused variable 'tname' [-Wunused-variable]
-    9655 |         const char *tname;
-         |                     ^~~~~
-   1 warning generated.
+vim +/nr +402 kernel/liveupdate/luo_core.c
 
-
-vim +/tname +9655 kernel/bpf/verifier.c
-
-  9649	
-  9650	/* Check for const string passed in as input to the bpf program. */
-  9651	static int check_reg_const_str_arg(struct bpf_reg_state *reg)
-  9652	{
-  9653		const struct btf *btf;
-  9654		const struct btf_type *t;
-> 9655		const char *tname;
-  9656	
-  9657		if (base_type(reg->type) != PTR_TO_BTF_ID)
-  9658			return -EINVAL;
-  9659	
-  9660		btf = reg->btf;
-  9661		t = btf_type_by_id(btf, reg->btf_id);
-  9662		if (!t)
-  9663			return -EINVAL;
-  9664	
-  9665		if (btf_type_is_const_char_ptr(btf, t))
-  9666			return 0;
-  9667		return -EINVAL;
-  9668	}
-  9669	
+   392	
+   393	static long luo_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+   394	{
+   395		const struct luo_ioctl_op *op;
+   396		struct luo_ucmd ucmd = {};
+   397		union ucmd_buffer buf;
+   398		unsigned int nr;
+   399		int err;
+   400	
+   401		nr = _IOC_NR(cmd);
+ > 402		if (nr < LIVEUPDATE_CMD_BASE ||
+   403		    (nr - LIVEUPDATE_CMD_BASE) >= ARRAY_SIZE(luo_ioctl_ops)) {
+   404			return -EINVAL;
+   405		}
+   406	
+   407		ucmd.ubuffer = (void __user *)arg;
+   408		err = get_user(ucmd.user_size, (u32 __user *)ucmd.ubuffer);
+   409		if (err)
+   410			return err;
+   411	
+   412		op = &luo_ioctl_ops[nr - LIVEUPDATE_CMD_BASE];
+   413		if (op->ioctl_num != cmd)
+   414			return -ENOIOCTLCMD;
+   415		if (ucmd.user_size < op->min_size)
+   416			return -EINVAL;
+   417	
+   418		ucmd.cmd = &buf;
+   419		err = copy_struct_from_user(ucmd.cmd, op->size, ucmd.ubuffer,
+   420					    ucmd.user_size);
+   421		if (err)
+   422			return err;
+   423	
+   424		return op->execute(&ucmd);
+   425	}
+   426	
 
 -- 
 0-DAY CI Kernel Test Service
