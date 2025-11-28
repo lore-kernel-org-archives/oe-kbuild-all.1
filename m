@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E892522B6;
-	Fri, 28 Nov 2025 01:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEDC23D7F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 01:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764294594; cv=none; b=QK+oU420lks3BGy6P+byQUinemwzE2i5cq1dUlChrY/+/MAz6/i/h140htScObSsq5kCM+KNNvL2qJ3YOeJm4eqMGCvGicUUQECFIiKSG9IeOOlu/w8PbQFB0/Ir5Qfd0P44Og3JNRvTS/V3GTbLz32t8Y4A2gNIE2xKXdT6zQU=
+	t=1764295196; cv=none; b=RlhszW8/u86s/5XkRNPCWhJebT9BvHkfGrYJEDIQuNUeXpqE/hpvNWBZKOg+xEgvRJxqC4fLhL2iSfGxoXAaaVlNBQEZipEkeK9rFqFV/DtZEi/hNdWs2o4seQNqFDe2pM8fqk4vpSUCEuVzHuKE5P520tWlnv1s4ORQlcun1iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764294594; c=relaxed/simple;
-	bh=FptZF3h/cDUsKwn+A9U5fwifWphXmv0RNUXkDtC+2ls=;
+	s=arc-20240116; t=1764295196; c=relaxed/simple;
+	bh=jG+Q3vKVz8tj9mgaLr+HMnR7/uIPrxtNMPCHuccxSdA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iF1mvNFQJ+jASqStJEK4dwSNtLAgxY95hGE6nbbCyPpxCYe06zukEHJ9h37Ne29f3p9UiqcahJ4m+8bYo1to3SdX0ULRc0pmByzOYlDgzK6eKmXE/26IMtT+q51AGREEdTNQ9IMeUPkRFW9IKj1lOC7mmeTSDOrVxgwfDeNuoWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQ/VpPx/; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jk8N6Rfy1flA6FPjVCPpeMSU0YYSROYUqeCkG3BC+Zi+RWRxRrnJwWPs8GuN/JvXxpc99otktGASeLrxrBqtAC7J9V6LSrAIwarv6haRIPV7x352qlzSuc+Z6TuX+nQCj+7cV5QnTljeYF5qUlM6ruY2ADACT0T6v/1i8VA6HZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPPyMRFU; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQ/VpPx/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPPyMRFU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764294592; x=1795830592;
+  t=1764295195; x=1795831195;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FptZF3h/cDUsKwn+A9U5fwifWphXmv0RNUXkDtC+2ls=;
-  b=CQ/VpPx/drQbCZDF/NcpXHXabOOAMu/g/iM5UtpMBhZ2D2iLdSW/s/tE
-   HDSykq+s3y77uwSykMFOXXGzb9nkxtZEo3eYr9KzB4JN7t3quZCs9MmQ0
-   bJz0Rp8U98d10+ohxnwZlOW3c3w3Zb7YN0mv2ugG6+yJpXM0PRbf248qp
-   IBOFtWcarhKXnnPLOK+coBpuzhZUbLNX7gY/TUPR85y/IpL+Rf/yJommy
-   vMJqHOI/F1FMfQx81xGKX+zXt8F57ocWCzM8msUAUSbqDLzqHtzBTWIwN
-   kuARPHIBBzwWeKmn0XoSZkn5X9u0CNc2daAIgX7f1J5BMnbrLAx0LeIKq
+  bh=jG+Q3vKVz8tj9mgaLr+HMnR7/uIPrxtNMPCHuccxSdA=;
+  b=ZPPyMRFUznFTy23LZz7Ga6D4s1iLuDBdI1MaRix4mLFm5Bii64UaaccJ
+   An7vhBuxNZ8qOjrmSib/6VN/6ZYfSZUwAR+IZ3zUkrzdnG8FjGR3V46IE
+   vPwtoLVrHA5Epf/x1VEx/dgNWkJn015PvKwJ33EWtv6QAoMBbd0IhipJG
+   Ur9+/P3BH54ZBACoOikun6tPDXOvGKBhIzsnpBGlOLbknN6ox7K3BkadS
+   w5+z8g/OzOfYgq/JTfvGq/45ClaVIvEBbERRjWwqIU6t8p5hv7Vld3TFp
+   BhGwvSFVEFy8PysKNanYHmP2r+O4L4XzidREkPsYiO1DzfLFirT4aENk+
    Q==;
-X-CSE-ConnectionGUID: hNdVMBfPTvSLcMKnuiTVJQ==
-X-CSE-MsgGUID: 2rA+H+oHRfK2u5Wu5iZNtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="70193061"
+X-CSE-ConnectionGUID: tgvN0whMQF+dJxKLJPMeMg==
+X-CSE-MsgGUID: MwjzMVzfRgueO6RiuyL+Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="68925550"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="70193061"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 17:49:51 -0800
-X-CSE-ConnectionGUID: agImw1F6QE2Zil+IHsYxvg==
-X-CSE-MsgGUID: p3lRvPusQ2Wn6x3O8dOzBw==
+   d="scan'208";a="68925550"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 17:59:54 -0800
+X-CSE-ConnectionGUID: ddZGwDcEQ66Xb8fiKIQDbw==
+X-CSE-MsgGUID: m60YY/UUSkGdERHuslMpnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="192604399"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 27 Nov 2025 17:49:49 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="192475967"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 27 Nov 2025 17:59:49 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOncI-000000001u5-1oJv;
-	Fri, 28 Nov 2025 01:49:46 +0000
-Date: Fri, 28 Nov 2025 02:48:58 +0100
+	id 1vOnly-000000005v3-2oCr;
+	Fri, 28 Nov 2025 01:59:46 +0000
+Date: Fri, 28 Nov 2025 09:59:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 3/5] mm: introduce VM_FAULT_UFFD_MINOR fault reason
-Message-ID: <202511280257.T9fSJoDF-lkp@intel.com>
-References: <20251125183840.2368510-4-rppt@kernel.org>
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Antonino Maniscalco <antomani103@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix a7xx per pipe register programming
+Message-ID: <202511280900.x5OzOOoJ-lkp@intel.com>
+References: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,266 +74,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125183840.2368510-4-rppt@kernel.org>
+In-Reply-To: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
 
-Hi Mike,
+Hi Anna,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
+[auto build test WARNING on 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/userfaultfd-move-vma_can_userfault-out-of-line/20251126-024059
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251125183840.2368510-4-rppt%40kernel.org
-patch subject: [PATCH v2 3/5] mm: introduce VM_FAULT_UFFD_MINOR fault reason
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251128/202511280257.T9fSJoDF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280257.T9fSJoDF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maniscalco/drm-msm-Fix-a7xx-per-pipe-register-programming/20251127-074833
+base:   7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
+patch link:    https://lore.kernel.org/r/20251127-gras_nc_mode_fix-v1-1-5c0cf616401f%40gmail.com
+patch subject: [PATCH] drm/msm: Fix a7xx per pipe register programming
+config: loongarch-randconfig-001-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280900.x5OzOOoJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280900.x5OzOOoJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280257.T9fSJoDF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280900.x5OzOOoJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/dax.c:30:
-   In file included from include/trace/events/fs_dax.h:208:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:256:
->> include/trace/events/fs_dax.h:50:3: error: expected expression
-      50 |                 __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-         |                 ^
-   include/trace/stages/stage3_trace_output.h:70:16: note: expanded from macro '__print_flags'
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   In file included from fs/dax.c:30:
-   In file included from include/trace/events/fs_dax.h:208:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:256:
-   include/trace/events/fs_dax.h:134:3: error: expected expression
-     134 |                 __print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-         |                 ^
-   include/trace/stages/stage3_trace_output.h:70:16: note: expanded from macro '__print_flags'
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   2 errors generated.
---
-   In file included from fs/f2fs/super.c:41:
-   In file included from include/trace/events/f2fs.h:2407:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:256:
->> include/trace/events/f2fs.h:1436:3: error: expected expression
-    1436 |                 __print_flags(__entry->ret, "|", VM_FAULT_RESULT_TRACE))
-         |                 ^
-   include/trace/stages/stage3_trace_output.h:70:16: note: expanded from macro '__print_flags'
-      70 |                         { flag_array, { -1, NULL }};                    \
-         |                                     ^
-   1 error generated.
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a7xx_patch_pwrup_reglist':
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:71: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
+     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
 
 
-vim +50 include/trace/events/fs_dax.h
+vim +984 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 
-282a8e0391c377 Ross Zwisler            2017-02-22    9  
-282a8e0391c377 Ross Zwisler            2017-02-22   10  DECLARE_EVENT_CLASS(dax_pmd_fault_class,
-f42003917b4569 Dave Jiang              2017-02-22   11  	TP_PROTO(struct inode *inode, struct vm_fault *vmf,
-f42003917b4569 Dave Jiang              2017-02-22   12  		pgoff_t max_pgoff, int result),
-f42003917b4569 Dave Jiang              2017-02-22   13  	TP_ARGS(inode, vmf, max_pgoff, result),
-282a8e0391c377 Ross Zwisler            2017-02-22   14  	TP_STRUCT__entry(
-282a8e0391c377 Ross Zwisler            2017-02-22   15  		__field(unsigned long, ino)
-282a8e0391c377 Ross Zwisler            2017-02-22   16  		__field(unsigned long, vm_start)
-282a8e0391c377 Ross Zwisler            2017-02-22   17  		__field(unsigned long, vm_end)
-bfbe71109fa40e Lorenzo Stoakes         2025-06-18   18  		__field(vm_flags_t, vm_flags)
-282a8e0391c377 Ross Zwisler            2017-02-22   19  		__field(unsigned long, address)
-282a8e0391c377 Ross Zwisler            2017-02-22   20  		__field(pgoff_t, pgoff)
-282a8e0391c377 Ross Zwisler            2017-02-22   21  		__field(pgoff_t, max_pgoff)
-282a8e0391c377 Ross Zwisler            2017-02-22   22  		__field(dev_t, dev)
-282a8e0391c377 Ross Zwisler            2017-02-22   23  		__field(unsigned int, flags)
-282a8e0391c377 Ross Zwisler            2017-02-22   24  		__field(int, result)
-282a8e0391c377 Ross Zwisler            2017-02-22   25  	),
-282a8e0391c377 Ross Zwisler            2017-02-22   26  	TP_fast_assign(
-282a8e0391c377 Ross Zwisler            2017-02-22   27  		__entry->dev = inode->i_sb->s_dev;
-282a8e0391c377 Ross Zwisler            2017-02-22   28  		__entry->ino = inode->i_ino;
-f42003917b4569 Dave Jiang              2017-02-22   29  		__entry->vm_start = vmf->vma->vm_start;
-f42003917b4569 Dave Jiang              2017-02-22   30  		__entry->vm_end = vmf->vma->vm_end;
-f42003917b4569 Dave Jiang              2017-02-22   31  		__entry->vm_flags = vmf->vma->vm_flags;
-d8a849e1bc1237 Dave Jiang              2017-02-22   32  		__entry->address = vmf->address;
-d8a849e1bc1237 Dave Jiang              2017-02-22   33  		__entry->flags = vmf->flags;
-d8a849e1bc1237 Dave Jiang              2017-02-22   34  		__entry->pgoff = vmf->pgoff;
-282a8e0391c377 Ross Zwisler            2017-02-22   35  		__entry->max_pgoff = max_pgoff;
-282a8e0391c377 Ross Zwisler            2017-02-22   36  		__entry->result = result;
-282a8e0391c377 Ross Zwisler            2017-02-22   37  	),
-282a8e0391c377 Ross Zwisler            2017-02-22   38  	TP_printk("dev %d:%d ino %#lx %s %s address %#lx vm_start "
-282a8e0391c377 Ross Zwisler            2017-02-22   39  			"%#lx vm_end %#lx pgoff %#lx max_pgoff %#lx %s",
-282a8e0391c377 Ross Zwisler            2017-02-22   40  		MAJOR(__entry->dev),
-282a8e0391c377 Ross Zwisler            2017-02-22   41  		MINOR(__entry->dev),
-282a8e0391c377 Ross Zwisler            2017-02-22   42  		__entry->ino,
-282a8e0391c377 Ross Zwisler            2017-02-22   43  		__entry->vm_flags & VM_SHARED ? "shared" : "private",
-282a8e0391c377 Ross Zwisler            2017-02-22   44  		__print_flags(__entry->flags, "|", FAULT_FLAG_TRACE),
-282a8e0391c377 Ross Zwisler            2017-02-22   45  		__entry->address,
-282a8e0391c377 Ross Zwisler            2017-02-22   46  		__entry->vm_start,
-282a8e0391c377 Ross Zwisler            2017-02-22   47  		__entry->vm_end,
-282a8e0391c377 Ross Zwisler            2017-02-22   48  		__entry->pgoff,
-282a8e0391c377 Ross Zwisler            2017-02-22   49  		__entry->max_pgoff,
-282a8e0391c377 Ross Zwisler            2017-02-22  @50  		__print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-282a8e0391c377 Ross Zwisler            2017-02-22   51  	)
-282a8e0391c377 Ross Zwisler            2017-02-22   52  )
-282a8e0391c377 Ross Zwisler            2017-02-22   53  
-282a8e0391c377 Ross Zwisler            2017-02-22   54  #define DEFINE_PMD_FAULT_EVENT(name) \
-282a8e0391c377 Ross Zwisler            2017-02-22   55  DEFINE_EVENT(dax_pmd_fault_class, name, \
-f42003917b4569 Dave Jiang              2017-02-22   56  	TP_PROTO(struct inode *inode, struct vm_fault *vmf, \
-282a8e0391c377 Ross Zwisler            2017-02-22   57  		pgoff_t max_pgoff, int result), \
-f42003917b4569 Dave Jiang              2017-02-22   58  	TP_ARGS(inode, vmf, max_pgoff, result))
-282a8e0391c377 Ross Zwisler            2017-02-22   59  
-282a8e0391c377 Ross Zwisler            2017-02-22   60  DEFINE_PMD_FAULT_EVENT(dax_pmd_fault);
-282a8e0391c377 Ross Zwisler            2017-02-22   61  DEFINE_PMD_FAULT_EVENT(dax_pmd_fault_done);
-282a8e0391c377 Ross Zwisler            2017-02-22   62  
-653b2ea3396fda Ross Zwisler            2017-02-22   63  DECLARE_EVENT_CLASS(dax_pmd_load_hole_class,
-f42003917b4569 Dave Jiang              2017-02-22   64  	TP_PROTO(struct inode *inode, struct vm_fault *vmf,
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   65) 		struct folio *zero_folio,
-653b2ea3396fda Ross Zwisler            2017-02-22   66  		void *radix_entry),
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   67) 	TP_ARGS(inode, vmf, zero_folio, radix_entry),
-653b2ea3396fda Ross Zwisler            2017-02-22   68  	TP_STRUCT__entry(
-653b2ea3396fda Ross Zwisler            2017-02-22   69  		__field(unsigned long, ino)
-bfbe71109fa40e Lorenzo Stoakes         2025-06-18   70  		__field(vm_flags_t, vm_flags)
-653b2ea3396fda Ross Zwisler            2017-02-22   71  		__field(unsigned long, address)
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   72) 		__field(struct folio *, zero_folio)
-653b2ea3396fda Ross Zwisler            2017-02-22   73  		__field(void *, radix_entry)
-653b2ea3396fda Ross Zwisler            2017-02-22   74  		__field(dev_t, dev)
-653b2ea3396fda Ross Zwisler            2017-02-22   75  	),
-653b2ea3396fda Ross Zwisler            2017-02-22   76  	TP_fast_assign(
-653b2ea3396fda Ross Zwisler            2017-02-22   77  		__entry->dev = inode->i_sb->s_dev;
-653b2ea3396fda Ross Zwisler            2017-02-22   78  		__entry->ino = inode->i_ino;
-f42003917b4569 Dave Jiang              2017-02-22   79  		__entry->vm_flags = vmf->vma->vm_flags;
-f42003917b4569 Dave Jiang              2017-02-22   80  		__entry->address = vmf->address;
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   81) 		__entry->zero_folio = zero_folio;
-653b2ea3396fda Ross Zwisler            2017-02-22   82  		__entry->radix_entry = radix_entry;
-653b2ea3396fda Ross Zwisler            2017-02-22   83  	),
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   84) 	TP_printk("dev %d:%d ino %#lx %s address %#lx zero_folio %p "
-653b2ea3396fda Ross Zwisler            2017-02-22   85  			"radix_entry %#lx",
-653b2ea3396fda Ross Zwisler            2017-02-22   86  		MAJOR(__entry->dev),
-653b2ea3396fda Ross Zwisler            2017-02-22   87  		MINOR(__entry->dev),
-653b2ea3396fda Ross Zwisler            2017-02-22   88  		__entry->ino,
-653b2ea3396fda Ross Zwisler            2017-02-22   89  		__entry->vm_flags & VM_SHARED ? "shared" : "private",
-653b2ea3396fda Ross Zwisler            2017-02-22   90  		__entry->address,
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   91) 		__entry->zero_folio,
-653b2ea3396fda Ross Zwisler            2017-02-22   92  		(unsigned long)__entry->radix_entry
-653b2ea3396fda Ross Zwisler            2017-02-22   93  	)
-653b2ea3396fda Ross Zwisler            2017-02-22   94  )
-653b2ea3396fda Ross Zwisler            2017-02-22   95  
-653b2ea3396fda Ross Zwisler            2017-02-22   96  #define DEFINE_PMD_LOAD_HOLE_EVENT(name) \
-653b2ea3396fda Ross Zwisler            2017-02-22   97  DEFINE_EVENT(dax_pmd_load_hole_class, name, \
-f42003917b4569 Dave Jiang              2017-02-22   98  	TP_PROTO(struct inode *inode, struct vm_fault *vmf, \
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26   99) 		struct folio *zero_folio, void *radix_entry), \
-c93012d849c9e3 Matthew Wilcox (Oracle  2024-03-26  100) 	TP_ARGS(inode, vmf, zero_folio, radix_entry))
-653b2ea3396fda Ross Zwisler            2017-02-22  101  
-653b2ea3396fda Ross Zwisler            2017-02-22  102  DEFINE_PMD_LOAD_HOLE_EVENT(dax_pmd_load_hole);
-653b2ea3396fda Ross Zwisler            2017-02-22  103  DEFINE_PMD_LOAD_HOLE_EVENT(dax_pmd_load_hole_fallback);
-282a8e0391c377 Ross Zwisler            2017-02-22  104  
-a9c42b33ed8096 Ross Zwisler            2017-05-08  105  DECLARE_EVENT_CLASS(dax_pte_fault_class,
-a9c42b33ed8096 Ross Zwisler            2017-05-08  106  	TP_PROTO(struct inode *inode, struct vm_fault *vmf, int result),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  107  	TP_ARGS(inode, vmf, result),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  108  	TP_STRUCT__entry(
-a9c42b33ed8096 Ross Zwisler            2017-05-08  109  		__field(unsigned long, ino)
-bfbe71109fa40e Lorenzo Stoakes         2025-06-18  110  		__field(vm_flags_t, vm_flags)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  111  		__field(unsigned long, address)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  112  		__field(pgoff_t, pgoff)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  113  		__field(dev_t, dev)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  114  		__field(unsigned int, flags)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  115  		__field(int, result)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  116  	),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  117  	TP_fast_assign(
-a9c42b33ed8096 Ross Zwisler            2017-05-08  118  		__entry->dev = inode->i_sb->s_dev;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  119  		__entry->ino = inode->i_ino;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  120  		__entry->vm_flags = vmf->vma->vm_flags;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  121  		__entry->address = vmf->address;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  122  		__entry->flags = vmf->flags;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  123  		__entry->pgoff = vmf->pgoff;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  124  		__entry->result = result;
-a9c42b33ed8096 Ross Zwisler            2017-05-08  125  	),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  126  	TP_printk("dev %d:%d ino %#lx %s %s address %#lx pgoff %#lx %s",
-a9c42b33ed8096 Ross Zwisler            2017-05-08  127  		MAJOR(__entry->dev),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  128  		MINOR(__entry->dev),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  129  		__entry->ino,
-a9c42b33ed8096 Ross Zwisler            2017-05-08  130  		__entry->vm_flags & VM_SHARED ? "shared" : "private",
-a9c42b33ed8096 Ross Zwisler            2017-05-08  131  		__print_flags(__entry->flags, "|", FAULT_FLAG_TRACE),
-a9c42b33ed8096 Ross Zwisler            2017-05-08  132  		__entry->address,
-a9c42b33ed8096 Ross Zwisler            2017-05-08  133  		__entry->pgoff,
-a9c42b33ed8096 Ross Zwisler            2017-05-08  134  		__print_flags(__entry->result, "|", VM_FAULT_RESULT_TRACE)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  135  	)
-a9c42b33ed8096 Ross Zwisler            2017-05-08  136  )
-a9c42b33ed8096 Ross Zwisler            2017-05-08  137  
-a9c42b33ed8096 Ross Zwisler            2017-05-08  138  #define DEFINE_PTE_FAULT_EVENT(name) \
-a9c42b33ed8096 Ross Zwisler            2017-05-08  139  DEFINE_EVENT(dax_pte_fault_class, name, \
-a9c42b33ed8096 Ross Zwisler            2017-05-08  140  	TP_PROTO(struct inode *inode, struct vm_fault *vmf, int result), \
-a9c42b33ed8096 Ross Zwisler            2017-05-08  141  	TP_ARGS(inode, vmf, result))
-a9c42b33ed8096 Ross Zwisler            2017-05-08  142  
-a9c42b33ed8096 Ross Zwisler            2017-05-08  143  DEFINE_PTE_FAULT_EVENT(dax_pte_fault);
-a9c42b33ed8096 Ross Zwisler            2017-05-08  144  DEFINE_PTE_FAULT_EVENT(dax_pte_fault_done);
-678c9fd0430a14 Ross Zwisler            2017-05-08  145  DEFINE_PTE_FAULT_EVENT(dax_load_hole);
-71eab6dfd91eab Jan Kara                2017-11-01  146  DEFINE_PTE_FAULT_EVENT(dax_insert_pfn_mkwrite_no_entry);
-71eab6dfd91eab Jan Kara                2017-11-01  147  DEFINE_PTE_FAULT_EVENT(dax_insert_pfn_mkwrite);
-a9c42b33ed8096 Ross Zwisler            2017-05-08  148  
-d14a3f48a152b7 Ross Zwisler            2017-05-08  149  DECLARE_EVENT_CLASS(dax_writeback_range_class,
-d14a3f48a152b7 Ross Zwisler            2017-05-08  150  	TP_PROTO(struct inode *inode, pgoff_t start_index, pgoff_t end_index),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  151  	TP_ARGS(inode, start_index, end_index),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  152  	TP_STRUCT__entry(
-d14a3f48a152b7 Ross Zwisler            2017-05-08  153  		__field(unsigned long, ino)
-d14a3f48a152b7 Ross Zwisler            2017-05-08  154  		__field(pgoff_t, start_index)
-d14a3f48a152b7 Ross Zwisler            2017-05-08  155  		__field(pgoff_t, end_index)
-d14a3f48a152b7 Ross Zwisler            2017-05-08  156  		__field(dev_t, dev)
-d14a3f48a152b7 Ross Zwisler            2017-05-08  157  	),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  158  	TP_fast_assign(
-d14a3f48a152b7 Ross Zwisler            2017-05-08  159  		__entry->dev = inode->i_sb->s_dev;
-d14a3f48a152b7 Ross Zwisler            2017-05-08  160  		__entry->ino = inode->i_ino;
-d14a3f48a152b7 Ross Zwisler            2017-05-08  161  		__entry->start_index = start_index;
-d14a3f48a152b7 Ross Zwisler            2017-05-08  162  		__entry->end_index = end_index;
-d14a3f48a152b7 Ross Zwisler            2017-05-08  163  	),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  164  	TP_printk("dev %d:%d ino %#lx pgoff %#lx-%#lx",
-d14a3f48a152b7 Ross Zwisler            2017-05-08  165  		MAJOR(__entry->dev),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  166  		MINOR(__entry->dev),
-d14a3f48a152b7 Ross Zwisler            2017-05-08  167  		__entry->ino,
-d14a3f48a152b7 Ross Zwisler            2017-05-08  168  		__entry->start_index,
-d14a3f48a152b7 Ross Zwisler            2017-05-08  169  		__entry->end_index
-d14a3f48a152b7 Ross Zwisler            2017-05-08  170  	)
-d14a3f48a152b7 Ross Zwisler            2017-05-08  171  )
-d14a3f48a152b7 Ross Zwisler            2017-05-08  172  
-d14a3f48a152b7 Ross Zwisler            2017-05-08  173  #define DEFINE_WRITEBACK_RANGE_EVENT(name) \
-d14a3f48a152b7 Ross Zwisler            2017-05-08  174  DEFINE_EVENT(dax_writeback_range_class, name, \
-d14a3f48a152b7 Ross Zwisler            2017-05-08  175  	TP_PROTO(struct inode *inode, pgoff_t start_index, pgoff_t end_index),\
-d14a3f48a152b7 Ross Zwisler            2017-05-08  176  	TP_ARGS(inode, start_index, end_index))
-d14a3f48a152b7 Ross Zwisler            2017-05-08  177  
-d14a3f48a152b7 Ross Zwisler            2017-05-08  178  DEFINE_WRITEBACK_RANGE_EVENT(dax_writeback_range);
-d14a3f48a152b7 Ross Zwisler            2017-05-08  179  DEFINE_WRITEBACK_RANGE_EVENT(dax_writeback_range_done);
-d14a3f48a152b7 Ross Zwisler            2017-05-08  180  
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  181  TRACE_EVENT(dax_writeback_one,
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  182  	TP_PROTO(struct inode *inode, pgoff_t pgoff, pgoff_t pglen),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  183  	TP_ARGS(inode, pgoff, pglen),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  184  	TP_STRUCT__entry(
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  185  		__field(unsigned long, ino)
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  186  		__field(pgoff_t, pgoff)
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  187  		__field(pgoff_t, pglen)
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  188  		__field(dev_t, dev)
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  189  	),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  190  	TP_fast_assign(
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  191  		__entry->dev = inode->i_sb->s_dev;
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  192  		__entry->ino = inode->i_ino;
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  193  		__entry->pgoff = pgoff;
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  194  		__entry->pglen = pglen;
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  195  	),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  196  	TP_printk("dev %d:%d ino %#lx pgoff %#lx pglen %#lx",
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  197  		MAJOR(__entry->dev),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  198  		MINOR(__entry->dev),
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  199  		__entry->ino,
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  200  		__entry->pgoff,
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  201  		__entry->pglen
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  202  	)
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  203  )
-f9bc3a07539bc8 Ross Zwisler            2017-05-08  204  
-282a8e0391c377 Ross Zwisler            2017-02-22  205  #endif /* _TRACE_FS_DAX_H */
-282a8e0391c377 Ross Zwisler            2017-02-22  206  
-282a8e0391c377 Ross Zwisler            2017-02-22  207  /* This part must be outside protection */
-282a8e0391c377 Ross Zwisler            2017-02-22 @208  #include <trace/define_trace.h>
+   931	
+   932	static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
+   933	{
+   934		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+   935		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+   936		const struct adreno_reglist_list *reglist;
+   937		const struct adreno_reglist_pipe_list *pipe_reglist;
+   938		void *ptr = a6xx_gpu->pwrup_reglist_ptr;
+   939		struct cpu_gpu_lock *lock = ptr;
+   940		u32 *dest = (u32 *)&lock->regs[0];
+   941		u32 pipe_reglist_count = 0;
+   942		int i;
+   943	
+   944		lock->gpu_req = lock->cpu_req = lock->turn = 0;
+   945	
+   946		reglist = adreno_gpu->info->a6xx->ifpc_reglist;
+   947		lock->ifpc_list_len = reglist->count;
+   948	
+   949		/*
+   950		 * For each entry in each of the lists, write the offset and the current
+   951		 * register value into the GPU buffer
+   952		 */
+   953		for (i = 0; i < reglist->count; i++) {
+   954			*dest++ = reglist->regs[i];
+   955			*dest++ = gpu_read(gpu, reglist->regs[i]);
+   956		}
+   957	
+   958		reglist = adreno_gpu->info->a6xx->pwrup_reglist;
+   959		lock->preemption_list_len = reglist->count;
+   960	
+   961		for (i = 0; i < reglist->count; i++) {
+   962			*dest++ = reglist->regs[i];
+   963			*dest++ = gpu_read(gpu, reglist->regs[i]);
+   964		}
+   965	
+   966		/*
+   967		 * The overall register list is composed of
+   968		 * 1. Static IFPC-only registers
+   969		 * 2. Static IFPC + preemption registers
+   970		 * 3. Dynamic IFPC + preemption registers (ex: perfcounter selects)
+   971		 *
+   972		 * The first two lists are static. Size of these lists are stored as
+   973		 * number of pairs in ifpc_list_len and preemption_list_len
+   974		 * respectively. With concurrent binning, Some of the perfcounter
+   975		 * registers being virtualized, CP needs to know the pipe id to program
+   976		 * the aperture inorder to restore the same. Thus, third list is a
+   977		 * dynamic list with triplets as
+   978		 * (<aperture, shifted 12 bits> <address> <data>), and the length is
+   979		 * stored as number for triplets in dynamic_list_len.
+   980		 */
+   981		pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
+   982		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
+   983			for (i = 0; i < pipe_reglist->count; i++) {
+ > 984				if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+   985					continue;
+   986				*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
+   987				*dest++ = pipe_reglist->regs[i].offset;
+   988				*dest++ = a7xx_read_pipe(gpu, pipe_id,
+   989							 pipe_reglist->regs[i].offset);
+   990				pipe_reglist_count++;
+   991			}
+   992		}
+   993		lock->dynamic_list_len = pipe_reglist_count;
+   994	}
+   995	
 
 -- 
 0-DAY CI Kernel Test Service
