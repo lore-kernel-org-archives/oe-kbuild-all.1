@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7558C2E63C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 00:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6295A1B3923
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 01:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764288889; cv=none; b=VbSRtRFCuxnu+RLV8rsR+3qzMq4ox2f/Byp+B6kle7yCnPJk39ASOWVk88V0qFLu70GWUmPDkbnMmnH7BhRrUxiARX4PWsBsH8LhaCnf7S+hM1eCe5Pl4uA+dP7eFvlfTRZmo2es3D3mwDGoyuZDJmpC/AsxKUX9nGiqwrH/TAs=
+	t=1764292012; cv=none; b=GrDh39eAh75hT2p+MkwZkvVt7sRB/oG9jRfOMFV9hafFuwJXLxpKv8FsoVrDuq2E1tS7fgBmijM+WoCNGK3wF5fhpS4Lk4HkLy6TLiojn1iEatMuKS8BVctZGXmh0JodgAYyg08qC150EJkyxWzh7B7zGPx8WigOKZ6W3MJUtOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764288889; c=relaxed/simple;
-	bh=1gwUlNhQ148Ga4ZlgKpMShe68HlVmrJGqsI0mEqkfak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jcEUUgoQJFxZq3gp5QpwBiqvxjr+pZ4j+tYKcCpeBL9TLNOiYvxSI5WJMCzWOICIWQeNizpe8VQlmNgyF4FKd7MZ7QejFnXvWvOBzaJwBih7sRcA+TMg0jFu5YLFsvNrEK617Ibe7Zybyyq0ZCSatGF35X3m9m+cXniiumUWmW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NbyMnlU0; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1764292012; c=relaxed/simple;
+	bh=OO03E0n/IUOMczcN43LZ+tclrhjhsZoEWLJpvt8MYwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XhFOLUiZjNHh73XLUIIBmLTh1ZY//455rz+KcKcnhr5Oe2hmPw2MCFkAyhEINHdKyKDQQHtrmZ+RjwaWuXduyeLHXf0Lb+quuS7E3fGolzFe1nSsZj5CJ/LJyLe5deXr5X6yLdXFeTQw+uDwBynnfiqZYXoby7poU/B9aAmFqzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWjNKnqp; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbyMnlU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWjNKnqp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764288888; x=1795824888;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1gwUlNhQ148Ga4ZlgKpMShe68HlVmrJGqsI0mEqkfak=;
-  b=NbyMnlU0hTgavVuUlBu7ji/BphwXy50FQQGBfBZm2eJQ13t8LgAppPi3
-   PI0+vpG51wuj5Y6OAfE05hLbtXBnj+Vp898eXFATtXdlbtLKOhjmBwoD2
-   yC+s/YWK8iOHneXYgMSBRtACUXzO/1vv61QaDITMc7Wtqr4H5HFesqZjE
-   lce3ZT9ItJeVQ9u97SUx2L1xNaORoOxFPh05TvpyvmQ+WtiggsPR+a5lS
-   uoGGC4pC6BOo1rrOqXvpvyddybqQISoHAdhWtvF8eoCKkZKlKYNtY/0/M
-   /V13C4IIvekUT8TVNRNO4A7BmkWGDExVWMEuok9A8IM8+7EtEPUJp81SS
-   g==;
-X-CSE-ConnectionGUID: OWofZRyXQ7mMtPdLqaGUlw==
-X-CSE-MsgGUID: umNqCG0IQfur0P3U23wVBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66275840"
+  t=1764292011; x=1795828011;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OO03E0n/IUOMczcN43LZ+tclrhjhsZoEWLJpvt8MYwA=;
+  b=nWjNKnqp6CBYTq2InLr9F02ngyHawKu9YfAQOkhrznfiaCzAhRY3cWzx
+   3cfpW7tA0KiIrdYx+0YIQqNG4wVh39PJV8Av5Le2cRMaezIoTqGnb5mWv
+   1Im1+fb1T4k8FWjTPlQgLuoeD+bJ4K+e2u6/nnAw0/s84KWunj9FmWV4Z
+   iAE8NiSgBY8X5umCxf3um7CShAeKyL6UaaTO65L0EtCTNOEY0/j5K3Cy0
+   kMS71Sl18/fdXoFqUmc+257YyPuEQ3IMO01sz6q9AoYaUb3D0qOqiKg6P
+   5uLjJp53clVFgo7/maUkLF/Zcfy8JHB89OhDv8XOmOxsouL5EHSkXeT0Q
+   w==;
+X-CSE-ConnectionGUID: Tdq5jM+vQvGn046M+0bbYQ==
+X-CSE-MsgGUID: 5ul9cP8RSXaa4Oa3IW8zkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="53898205"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="66275840"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 16:14:47 -0800
-X-CSE-ConnectionGUID: uM7jlM0+SJGxYrD3/o4bxg==
-X-CSE-MsgGUID: +t6ZFY/bRUGPqVdNcRWrIw==
+   d="scan'208";a="53898205"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 17:06:50 -0800
+X-CSE-ConnectionGUID: VJ8g0R+1RsuSiZMmxWpFWg==
+X-CSE-MsgGUID: +lyYgP+URqyuPsZvcbjRDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="194136268"
+   d="scan'208";a="193440740"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Nov 2025 16:14:45 -0800
+  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2025 17:06:48 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOm8J-000000005rh-34I7;
-	Fri, 28 Nov 2025 00:14:43 +0000
-Date: Fri, 28 Nov 2025 08:14:26 +0800
+	id 1vOmwf-000000005tb-1mql;
+	Fri, 28 Nov 2025 01:06:45 +0000
+Date: Fri, 28 Nov 2025 09:06:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH can-next v8 16/17] can: raw: instantly reject unsupported
- CAN frames
-Message-ID: <202511280842.djCQ0N0O-lkp@intel.com>
-References: <20251126-canxl-v8-16-e7e3eb74f889@pengutronix.de>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 9984/12398] ERROR: modpost: "hid_allocate_device"
+ [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+Message-ID: <202511280822.i2fveMpR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,30 +64,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126-canxl-v8-16-e7e3eb74f889@pengutronix.de>
 
-Hi Marc,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ab084f0b8d6d2ee4b1c6a28f39a2a7430bdfa7f0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marc-Kleine-Budde/can-dev-can_get_ctrlmode_str-use-capitalized-ctrlmode-strings/20251126-182121
-base:   ab084f0b8d6d2ee4b1c6a28f39a2a7430bdfa7f0
-patch link:    https://lore.kernel.org/r/20251126-canxl-v8-16-e7e3eb74f889%40pengutronix.de
-patch subject: [PATCH can-next v8 16/17] can: raw: instantly reject unsupported CAN frames
-config: x86_64-randconfig-005-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280842.djCQ0N0O-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
+commit: 2d877d0659cb69cc0677ee2805e9521966d70ac5 [9984/12398] ASoC: SDCA: Add basic SDCA class driver
+config: x86_64-randconfig-002-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280822.i2fveMpR-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280842.djCQ0N0O-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280822.i2fveMpR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280842.djCQ0N0O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280822.i2fveMpR-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "safe_candev_priv" [net/can/can-raw.ko] undefined!
+>> ERROR: modpost: "hid_allocate_device" [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+>> ERROR: modpost: "hid_destroy_device" [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+>> ERROR: modpost: "hid_input_report" [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+>> ERROR: modpost: "hid_parse_report" [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+>> ERROR: modpost: "hid_add_device" [sound/soc/sdca/snd-soc-sdca.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_SDCA_HID
+   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_SOC_SDCA [=m] && (HID [=n]=y [=y] || HID [=n]=SND_SOC_SDCA [=m])
+   Selected by [m]:
+   - SND_SOC_SDCA_CLASS [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_SOC_SDCA [=m]
 
 -- 
 0-DAY CI Kernel Test Service
