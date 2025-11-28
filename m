@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF3F2AEE4;
-	Fri, 28 Nov 2025 03:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBDC149C6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 03:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764300472; cv=none; b=Lo2SYoOu12cLyn4CvrgSEqtHTh/VBGo2Rgo+Cg0pu5eIMADRR6vNHKiVxf+Jd54a5OGx1GF7FAzCyx+SHStSnwQGiLIMNhK+xUVvUyt+8opTuVZVJjNKFkZ58M9dH+iSFvV9Pw6rhyLlNoAyUsrzbDt8G2n4XKOhY1f/2BZ5cWQ=
+	t=1764302217; cv=none; b=cA4z9ARCuzizDahKlSSSlTfsu0Is4zUAS21/73bfFNIpU5IQ8e8T6dAXGrdH1Ew+Bg7qPflVvwEMocE7TduBWnnlwBvqwmdv5Vs24KpGXQo9p0IPzaRTY7KLo6RAKPJILLZp6loAgmfNtMYkpNgpCaRIN2qQIwrvVk5T0Bi8F6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764300472; c=relaxed/simple;
-	bh=bL7R1sPB35UMIRFSKgSootUfsdYsQLhKiDreJ8A29Bs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tyYYEbbLW/TaHxBVbv0cz/pNGoNd2mMKSkRshWiV1UH10gj7wcZ7QBCfk6V3GRfmBVydEdCy6rmHzTu/SOX4op8JnGnHN/9wGtADcxj3Egpd+UNQzogkfVSPI4IhRKf/FOXu5bo64ijQ3+Od8BbF3/rRnCJx4BtzCzVRTBBuG/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ViBUbKRA; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764302217; c=relaxed/simple;
+	bh=UMqTCaDwldL0LfXr8jTnIouASNS0ueChF/JL6+6rwsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oeFKL1kRWb+UYJXpS6muQFsDyEOm3hIeaREmALOE4QAF3wcX8ohk1hpQ3vr/IB7oV0vfrIwyC88hHcT6v+wXVcJ/cEaBDZrt9S9e/FZWNxDS1uccI36Pv0ldvacNF77cYNwvTjEl1DtRIkCpHasWEJk21eHbiAG+HMP8NP5y0h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0XrGpFq; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ViBUbKRA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0XrGpFq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764300472; x=1795836472;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bL7R1sPB35UMIRFSKgSootUfsdYsQLhKiDreJ8A29Bs=;
-  b=ViBUbKRA2tL+R+Gn0R+x3pBMJK4RVAq3fHcrdKvQnM7McORS2CxUSiV5
-   QgGsnEVGzQc7YHptdP4aWTQaLBtaOfqUcbhAP0ZlV4aAVnJkg6JO6ff5U
-   H+kXruhbs5LNqL+9LQiq190X/mJf9xwopjE+XymPs7qn8NG9tSm5FKrMc
-   y/lI7Zrk7Ger06T0nf/LAsunG4kRPOMJ1zT680lgEQNnyPKQK6J3Rbnvr
-   URmQmQw+HCN0yw1QmgS67JBMxaQ5654mPY4X71nB2+4jRvE9MDPX6bjge
-   /WDuuMOXHg9ppPiGVcKyKNcpynbiJBogbxSmm+PgWEewPGTSy7Q9E3gU0
-   w==;
-X-CSE-ConnectionGUID: W/Ty+SlZTB28eYUIR9GcTw==
-X-CSE-MsgGUID: DzRUM/5mRHGtd2eTRz01zQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="88980906"
+  t=1764302216; x=1795838216;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UMqTCaDwldL0LfXr8jTnIouASNS0ueChF/JL6+6rwsM=;
+  b=J0XrGpFq5ZVsb3MDTJC/kxgF5ij5ub/qZthikJCEyAHXifxCYhqBl2fX
+   XFyE5AuwsMsznVStiLjvRNLzYVGp3PZR/1M1MFLQHpW617FQRkZfgPMv8
+   dhquLDtRoT9YwoLnlJvhCum5w7jRmAj+HnSqF2tT4N2fmX4xYfjSGM+wA
+   BWup4xi2jYS9Xk3OB+DtljptGFWeP2qaJW008CR4tZiTuHOOcHbktw/Pw
+   H9OEPP7sw3Fb88KKR4crQcS+EDW6tyT+XEvUOG2xmtfhiSzzUYGXSh2A5
+   mBubZ2KqPwYipLO2++r07JTtjsCpX5JI+7NKb9ngIRY71Td4Jm+nidv5a
+   Q==;
+X-CSE-ConnectionGUID: EPicTBZ+SN+fzcX7/HaRug==
+X-CSE-MsgGUID: ppiD/7dfRwKr88RvD3mvRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66050408"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="88980906"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 19:27:51 -0800
-X-CSE-ConnectionGUID: irUJX32mTeylTqOkkk53bA==
-X-CSE-MsgGUID: cVGX9mwjROemAM6/s/HuqA==
+   d="scan'208";a="66050408"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 19:56:55 -0800
+X-CSE-ConnectionGUID: jx6JkqdVSTmEO/b+1cuTfA==
+X-CSE-MsgGUID: yItV8Jo6REWJIaD0LKLRBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="198314704"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Nov 2025 19:27:49 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="193374830"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2025 19:56:54 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOp99-000000001vF-1Img;
-	Fri, 28 Nov 2025 03:27:47 +0000
-Date: Fri, 28 Nov 2025 04:27:17 +0100
+	id 1vOpbH-0000000060I-28VI;
+	Fri, 28 Nov 2025 03:56:51 +0000
+Date: Fri, 28 Nov 2025 11:56:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 4/5] guest_memfd: add support for userfaultfd minor
- mode
-Message-ID: <202511280435.kT9zhWyV-lkp@intel.com>
-References: <20251125183840.2368510-5-rppt@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 2/2]
+ drivers/gpu/drm/mediatek/mtk_disp_dither.c:143:3: error: implicit
+ declaration of function 'mtk_crtc_start_crc_cmdq'; did you mean
+ 'mtk_merge_start_cmdq'?
+Message-ID: <202511281116.LVwqXklp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +63,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125183840.2368510-5-rppt@kernel.org>
 
-Hi Mike,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport/userfaultfd-move-vma_can_userfault-out-of-line/20251126-024059
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251125183840.2368510-5-rppt%40kernel.org
-patch subject: [PATCH v2 4/5] guest_memfd: add support for userfaultfd minor mode
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251128/202511280435.kT9zhWyV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280435.kT9zhWyV-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   603ff1c9ed9f7d6441d63f591ba6abfc87c04964
+commit: 31d89b3b35a1b3278e9075c9c02bc52730c223b4 [2/2] CHROMIUM: mediatek/drm: Add DITHER CRC functionality and refactor OUTPROC
+config: arm64-randconfig-004-20251128 (https://download.01.org/0day-ci/archive/20251128/202511281116.LVwqXklp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511281116.LVwqXklp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280435.kT9zhWyV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511281116.LVwqXklp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:401:22: error: redefinition of 'kvm_gmem_get_folio'
-     401 | static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t pgoff)
-         |                      ^
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:100:22: note: previous definition is here
-     100 | static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
-         |                      ^
-   1 error generated.
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: In function 'mtk_dither_start':
+>> drivers/gpu/drm/mediatek/mtk_disp_dither.c:143:3: error: implicit declaration of function 'mtk_crtc_start_crc_cmdq'; did you mean 'mtk_merge_start_cmdq'? [-Werror=implicit-function-declaration]
+     143 |   mtk_crtc_start_crc_cmdq(&dither->crc);
+         |   ^~~~~~~~~~~~~~~~~~~~~~~
+         |   mtk_merge_start_cmdq
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: In function 'mtk_dither_stop':
+>> drivers/gpu/drm/mediatek/mtk_disp_dither.c:156:3: error: implicit declaration of function 'mtk_crtc_stop_crc_cmdq'; did you mean 'mtk_merge_stop_cmdq'? [-Werror=implicit-function-declaration]
+     156 |   mtk_crtc_stop_crc_cmdq(&dither->crc);
+         |   ^~~~~~~~~~~~~~~~~~~~~~
+         |   mtk_merge_stop_cmdq
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: In function 'mtk_dither_crc_read':
+>> drivers/gpu/drm/mediatek/mtk_disp_dither.c:178:2: error: implicit declaration of function 'mtk_crtc_read_crc'; did you mean 'mtk_crtc_create'? [-Werror=implicit-function-declaration]
+     178 |  mtk_crtc_read_crc(&priv->crc);
+         |  ^~~~~~~~~~~~~~~~~
+         |  mtk_crtc_create
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: In function 'mtk_dither_crc_attach':
+>> drivers/gpu/drm/mediatek/mtk_disp_dither.c:200:2: error: implicit declaration of function 'mtk_crtc_create_crc_cmdq' [-Werror=implicit-function-declaration]
+     200 |  mtk_crtc_create_crc_cmdq(&priv->crc, data);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: In function 'mtk_dither_crc_detach':
+>> drivers/gpu/drm/mediatek/mtk_disp_dither.c:207:2: error: implicit declaration of function 'mtk_crtc_destroy_crc_cmdq' [-Werror=implicit-function-declaration]
+     207 |  mtk_crtc_destroy_crc_cmdq(&priv->crc);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c: At top level:
+   drivers/gpu/drm/mediatek/mtk_disp_dither.c:210:6: warning: no previous prototype for 'mtk_dither_set' [-Wmissing-prototypes]
+     210 | void mtk_dither_set(struct device *dev, unsigned int bpc,
+         |      ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/mediatek/mtk_disp_outproc.c: In function 'mtk_disp_outproc_crc_read':
+   drivers/gpu/drm/mediatek/mtk_disp_outproc.c:80:2: error: implicit declaration of function 'mtk_crtc_read_crc'; did you mean 'mtk_crtc_create'? [-Werror=implicit-function-declaration]
+      80 |  mtk_crtc_read_crc(&priv->crc);
+         |  ^~~~~~~~~~~~~~~~~
+         |  mtk_crtc_create
+   drivers/gpu/drm/mediatek/mtk_disp_outproc.c: In function 'mtk_disp_outproc_crc_attach':
+>> drivers/gpu/drm/mediatek/mtk_disp_outproc.c:226:2: error: implicit declaration of function 'mtk_crtc_create_crc_cmdq' [-Werror=implicit-function-declaration]
+     226 |  mtk_crtc_create_crc_cmdq(&priv->crc, data);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_outproc.c: In function 'mtk_disp_outproc_crc_detach':
+>> drivers/gpu/drm/mediatek/mtk_disp_outproc.c:233:2: error: implicit declaration of function 'mtk_crtc_destroy_crc_cmdq' [-Werror=implicit-function-declaration]
+     233 |  mtk_crtc_destroy_crc_cmdq(&priv->crc);
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   At top level:
+   drivers/gpu/drm/mediatek/mtk_disp_outproc.c:58:18: warning: 'outproc_crc_ofs' defined but not used [-Wunused-const-variable=]
+      58 | static const u32 outproc_crc_ofs[] = {
+         |                  ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/kvm_gmem_get_folio +401 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
+vim +143 drivers/gpu/drm/mediatek/mtk_disp_dither.c
 
-   399	
-   400	#ifdef CONFIG_USERFAULTFD
- > 401	static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t pgoff)
-   402	{
-   403		struct folio *folio;
-   404	
-   405		folio = kvm_gmem_get_folio(inode, pgoff);
-   406		if (IS_ERR_OR_NULL(folio))
-   407			return folio;
-   408	
-   409		if (!folio_test_uptodate(folio)) {
-   410			clear_highpage(folio_page(folio, 0));
-   411			kvm_gmem_mark_prepared(folio);
-   412		}
-   413	
-   414		return folio;
-   415	}
-   416	#endif
-   417	
+   135	
+   136	void mtk_dither_start(struct device *dev)
+   137	{
+   138		struct mtk_disp_dither *dither = dev_get_drvdata(dev);
+   139	
+   140		if (dither->crc.cnt) {
+   141			writel(DITHER_CRC_EN | DITHER_CRC_START,
+   142			       dither->regs + DISP_REG_DITHER(0));
+ > 143			mtk_crtc_start_crc_cmdq(&dither->crc);
+   144		}
+   145	
+   146		writel(DITHER_EN, dither->regs + DISP_REG_DITHER_EN);
+   147	}
+   148	
+   149	void mtk_dither_stop(struct device *dev)
+   150	{
+   151		struct mtk_disp_dither *dither = dev_get_drvdata(dev);
+   152	
+   153		writel_relaxed(0x0, dither->regs + DISP_REG_DITHER_EN);
+   154		if (dither->crc.cnt) {
+   155			writel(0, dither->regs + DISP_REG_DITHER(0));
+ > 156			mtk_crtc_stop_crc_cmdq(&dither->crc);
+   157		}
+   158	}
+   159	
+   160	size_t mtk_dither_crc_cnt(struct device *dev)
+   161	{
+   162		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   163	
+   164		return priv->crc.cnt;
+   165	}
+   166	
+   167	u32 *mtk_dither_crc_entry(struct device *dev)
+   168	{
+   169		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   170	
+   171		return priv->crc.va;
+   172	}
+   173	
+   174	void mtk_dither_crc_read(struct device *dev)
+   175	{
+   176		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   177	
+ > 178		mtk_crtc_read_crc(&priv->crc);
+   179	}
+   180	
+   181	void mtk_dither_crc_reset(struct device *dev, struct cmdq_pkt *cmdq_pkt)
+   182	{
+   183		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   184		struct mtk_crtc_crc *crc = &priv->crc;
+   185		u32 crc_mask = DITHER_CRC_CLR | DITHER_CRC_START;
+   186	
+   187		/* reset crc and clear crc start bit*/
+   188		mtk_ddp_write_mask(cmdq_pkt, DITHER_CRC_CLR, &priv->cmdq_reg, priv->regs,
+   189				   crc->rst_ofs, crc_mask);
+   190	
+   191		/* clear reset bit and start crc */
+   192		mtk_ddp_write_mask(cmdq_pkt, DITHER_CRC_START, &priv->cmdq_reg, priv->regs,
+   193				   crc->rst_ofs, crc_mask);
+   194	}
+   195	
+   196	void mtk_dither_crc_attach(struct device *dev, struct mtk_crtc *data)
+   197	{
+   198		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   199	
+ > 200		mtk_crtc_create_crc_cmdq(&priv->crc, data);
+   201	}
+   202	
+   203	void mtk_dither_crc_detach(struct device *dev)
+   204	{
+   205		struct mtk_disp_dither *priv = dev_get_drvdata(dev);
+   206	
+ > 207		mtk_crtc_destroy_crc_cmdq(&priv->crc);
+   208	}
+   209	
 
 -- 
 0-DAY CI Kernel Test Service
