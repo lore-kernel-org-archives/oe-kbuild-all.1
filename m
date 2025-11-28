@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A3B2459F3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 01:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668DB1D9346
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 01:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764293931; cv=none; b=QkNqy6L6ghLNSlnvwfbLHg8Bd8SbJyrkUi9nAtMTxTjpwrV12vp9iGO+DWTNXWV4ZJeZ4/C46Wc1V5GOJ1nSeJ2mDoJp2kEkjyi4h7NAx0lA55fJOtGnKCsre/QfNUS8NG+TOYHFWPe2Il0efmCDNsFTUcLxaG+gWZQLZjxqPkY=
+	t=1764294592; cv=none; b=h+7NgzfBWdsZl4HApxScwqOibyzKmgHXmiOFAPhGQrQN61KhPHZTjoY7PBruMcMkLtRGsJ+bv45P+Uwd/7HfTGpS14pRllJQY96lBXESLXVnXIRxIHMhw7raQRwGFxkNfLyQ+P+ptJ9cxmTqdlhOkP4cYkqk8n1lX0lIERTJAYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764293931; c=relaxed/simple;
-	bh=+jTNudJXF/EkZWbekJbhy5E6S3MiVDv7TDNe2SKPAOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rpzzlJic4iA2MDUxGYV+zrPIe9ZjiDO+vhiZHrlGJ1jImesAP5BbRVqEGABZFVstQgbS4ZHP0iHcM6BxvLdA24MNWYIUq5pMBRao8lH3h+9bgXtSfy5qqA+zYvbm8LOkQyck/pHua4TucG2F5iilB61kSzuC+txu7G6ClF6kx5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NG77LMTk; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764294592; c=relaxed/simple;
+	bh=7d+ebyQoWo58+nBuMKOPTTNYXgeo2ZIqflPVr0wEcuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxtCX1fLHiHihNC6BpIwbzKRY9aLXyogrfdTzYDPtk6SY8bht48qQA4KPWJ/f7pMGAtUtpzWDErfXH9UJIvEnvNjSCt7G7+8QWcKG1NhL7j52Na47H/arcHql6FtnkTVzjV1r7eBsPHeAPIv8QRXmm+KqoKSJRYFDEzLIKgjj8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDePK0e9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NG77LMTk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDePK0e9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764293929; x=1795829929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+jTNudJXF/EkZWbekJbhy5E6S3MiVDv7TDNe2SKPAOk=;
-  b=NG77LMTkyEDKnnzWD+OvwRi66alW09SO6I8JR2QpsnDo97ECixKtm7gS
-   +w6YHduNQTpLZgeJ0R8hiFMaNlct89yW1eLdQtQWBbxDKv1JI7/U5Jol7
-   PpfE2ixOMWnulV15VUc3qOlz7qBNyC//b5diZiqAa5ONOzzY4Fgt7H96g
-   uij48yxigmn73TBYgfKm8p+PwrQixQ/PVv8zVlILj4Y5vK70lVucei2xX
-   WdciJ8YMI14NEvcXSuwvf4VwjGCn2jaPZtPWMZkJ9wUqh5+ek9Efx6shO
-   HhxF40Nn35ZWRD3id/HHVYtbEaA2ZpBcZOgtOyPcJZ7EwWlneqt3iYj1O
-   w==;
-X-CSE-ConnectionGUID: iMPdIFUQSo6abxcfVU+2ZA==
-X-CSE-MsgGUID: k9bnmToyQU+oQIX/rf760w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="88975898"
+  t=1764294590; x=1795830590;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7d+ebyQoWo58+nBuMKOPTTNYXgeo2ZIqflPVr0wEcuY=;
+  b=XDePK0e9mOqYP4kuc4C0Rqn0RQm8XHUwBTiGToGeqc0Xty3o9uYZnrxn
+   +HqbEB3Gp7WXcgMj3tsPuznNu54jC4bwD7fTZBpKuVbi6sbjQw0n396ON
+   fB6uem8W1DS8uWfT0xgfJ9/zCcYKhQAAF3KymGjSsP1M4UjN5HdMqJ7UM
+   2oWgFXpjyYwt7sCUypKzEGe2bObnV9v62YHge3HuLF86dYd9H5GtVPsYX
+   q7dP9y1OFq5M+8KuxvVfvuDXdRaM4HOFg7QWLEhNC9D/zqVpn2P/lr9nN
+   APGYIpVUC2vQFfE44L/pCHaGGgZXaUGt+Jh08HRPRa8LImEWW2JCmsUOy
+   Q==;
+X-CSE-ConnectionGUID: sl6/BIoKTtmrFvMxXjYTyQ==
+X-CSE-MsgGUID: z6haIDqBQOiuPX05r5d3EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="70193052"
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="88975898"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 17:38:49 -0800
-X-CSE-ConnectionGUID: Hyt5xfukTVOQ6U4Hsumm3A==
-X-CSE-MsgGUID: 9O77yVzOS4OKloUwB9EwXg==
+   d="scan'208";a="70193052"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 17:49:50 -0800
+X-CSE-ConnectionGUID: yXb+vhnWTrOdQJIfF9eY6w==
+X-CSE-MsgGUID: yxrdyXH/TqawMlWnUKOmqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="193147039"
+   d="scan'208";a="224047455"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Nov 2025 17:38:48 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2025 17:49:48 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vOnRe-000000005uH-0e0S;
-	Fri, 28 Nov 2025 01:38:46 +0000
-Date: Fri, 28 Nov 2025 09:38:08 +0800
+	id 1vOncI-000000005uR-14q7;
+	Fri, 28 Nov 2025 01:49:46 +0000
+Date: Fri, 28 Nov 2025 09:48:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: Gabriel Krisman Bertazi <krisman@suse.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:lockless-random 6/6] vmlinux.o: warning: objtool:
- do_syscall_64+0x18e: call to get_random_u8() leaves .noinstr.text section
-Message-ID: <202511280957.byDGIH1h-lkp@intel.com>
+Subject: Re: [RFC PATCH 3/4] mm: Avoid percpu MM counters on single-threaded
+ tasks
+Message-ID: <202511280956.Pbp1eIpB-lkp@intel.com>
+References: <20251127233635.4170047-4-krisman@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +63,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251127233635.4170047-4-krisman@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git lockless-random
-head:   05894b44c19c9050c63946f12c5755389c79c80b
-commit: 05894b44c19c9050c63946f12c5755389c79c80b [6/6] randomize_kstack: Use get_random_u8() at entry for entropy
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251128/202511280957.byDGIH1h-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280957.byDGIH1h-lkp@intel.com/reproduce)
+Hi Gabriel,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18-rc7 next-20251127]
+[cannot apply to akpm-mm/mm-everything dennis-percpu/for-next kees/for-next/execve]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Krisman-Bertazi/lib-percpu_counter-Split-out-a-helper-to-insert-into-hotplug-list/20251128-073934
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251127233635.4170047-4-krisman%40suse.de
+patch subject: [RFC PATCH 3/4] mm: Avoid percpu MM counters on single-threaded tasks
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251128/202511280956.Pbp1eIpB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511280956.Pbp1eIpB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511280957.byDGIH1h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511280956.Pbp1eIpB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: do_syscall_64+0x18e: call to get_random_u8() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: __do_fast_syscall_32+0xf5: call to get_random_u8() leaves .noinstr.text section
+   In file included from include/linux/mm_types.h:21,
+                    from include/linux/sched/signal.h:14,
+                    from include/linux/ptrace.h:7,
+                    from arch/alpha/kernel/asm-offsets.c:12:
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_initialized':
+>> include/linux/lazy_percpu_counter.h:48:42: error: 'struct percpu_counter' has no member named 'remote'
+      48 |         return !(atomic_long_read(&lpc->c.remote) & LAZY_INIT_BIAS);
+         |                                          ^
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_init_many':
+   include/linux/lazy_percpu_counter.h:56:42: error: 'struct percpu_counter' has no member named 'remote'
+      56 |                 atomic_long_set(&lpc[i].c.remote, LAZY_INIT_BIAS);
+         |                                          ^
+   In file included from include/linux/sched.h:37,
+                    from arch/alpha/kernel/asm-offsets.c:11:
+>> include/linux/lazy_percpu_counter.h:57:45: error: 'struct percpu_counter' has no member named 'lock'
+      57 |                 raw_spin_lock_init(&lpc[i].c.lock);
+         |                                             ^
+   include/linux/spinlock.h:113:16: note: in definition of macro 'raw_spin_lock_init'
+     113 |         do { *(lock) = __RAW_SPIN_LOCK_UNLOCKED(lock); } while (0)
+         |                ^~~~
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_add_atomic':
+   include/linux/lazy_percpu_counter.h:67:51: error: 'struct percpu_counter' has no member named 'remote'
+      67 |                 counter = atomic_long_read(&lpc->c.remote);
+         |                                                   ^
+   include/linux/lazy_percpu_counter.h:72:53: error: 'struct percpu_counter' has no member named 'remote'
+      72 |         } while (atomic_long_cmpxchg_relaxed(&lpc->c.remote, counter, (counter+x)) != counter);
+         |                                                     ^
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_sum_local':
+   include/linux/lazy_percpu_counter.h:94:52: error: 'struct percpu_counter' has no member named 'remote'
+      94 |         return remove_bias(atomic_long_read(&lpc->c.remote));
+         |                                                    ^
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_sum':
+   include/linux/lazy_percpu_counter.h:101:52: error: 'struct percpu_counter' has no member named 'remote'
+     101 |         return remove_bias(atomic_long_read(&lpc->c.remote)) + lpc->c.count;
+         |                                                    ^
+   include/linux/lazy_percpu_counter.h: In function 'lazy_percpu_counter_read':
+   include/linux/lazy_percpu_counter.h:115:52: error: 'struct percpu_counter' has no member named 'remote'
+     115 |         return remove_bias(atomic_long_read(&lpc->c.remote)) + lpc->c.count;
+         |                                                    ^
+   make[3]: *** [scripts/Makefile.build:182: arch/alpha/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +48 include/linux/lazy_percpu_counter.h
+
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  45  
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  46  static inline bool lazy_percpu_counter_initialized(struct lazy_percpu_counter *lpc)
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  47  {
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27 @48  	return !(atomic_long_read(&lpc->c.remote) & LAZY_INIT_BIAS);
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  49  }
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  50  
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  51  static inline void lazy_percpu_counter_init_many(struct lazy_percpu_counter *lpc, int amount,
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  52  					       int nr_counters)
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  53  {
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  54  	for (int i = 0; i < nr_counters; i++) {
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  55  		lpc[i].c.count = amount;
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  56  		atomic_long_set(&lpc[i].c.remote, LAZY_INIT_BIAS);
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27 @57  		raw_spin_lock_init(&lpc[i].c.lock);
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  58  	}
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  59  }
+64259dc8f53734 Gabriel Krisman Bertazi 2025-11-27  60  
 
 -- 
 0-DAY CI Kernel Test Service
