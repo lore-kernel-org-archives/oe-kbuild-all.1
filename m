@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884EF207A0B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 18:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7B123C4F4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 19:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764355596; cv=none; b=frlWd4TZsOPL7PQXsOAMZQexdzmG8ZJusgUN7MyBzcoPLgHknjrMfFESzdTi8AeuG5tCsBUls4v9z6JOPXVLgEGfu03jdvFlakj2GsJAVTTdHUgs+FvImIq1mUOm2Cn38ebvrTTWOePe+evcQ2GnIUmnj2g1cD1S9uWMrTTyrao=
+	t=1764358716; cv=none; b=eu4PO7zgnJZfUxju+XWUsktYGKIjpOudeFso31fYKLrXYvcYqSPJloAH5O8wBwG5b6/qFbiAe3R3PTYioFbBwIufZYtTgpl6+peVuCKBJjG84c9IarB7fh0PvntR/VfwTfPTNkjKW6dVUlhrxWv0ccUcpFpRsX/qLo9sZU86LJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764355596; c=relaxed/simple;
-	bh=DpQafR+0vhopUwNj74SdoMaNJqnU/dy1P1aVEFArtGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kh3piKoB1HBTdhi2V5dEgQ+bzHDWEYLcT83twSGik/FbMaysNFwI9v0GqWto6+lmMzUUuW6bVb2lV81qnBJxd8IgVDOzmaesJA55EhwPI5ByVcHvkjWK6y53xudv2fIhIR6WKXPNHHuaj0FYY3fopQU1GfhewI2TPSta9S0C4xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/+RxORL; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1764358716; c=relaxed/simple;
+	bh=SmJg7wHGO/OzMlk8EGQWiS6CF9OCIZjeXm/7lTGBMEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EZ4tG6i2unjaGUgeGEYg2pQAGqEOR7mnHev2nlG5vl7Qfah1eB6u3sZEtAfTqbRlh6ycs+5J3+ss/VkUGxpelZfxPWM8O0ACUyQZPNGEuWauXsJtBn4qo+bCu8OMjgoRjOSpRVBnLg18b4FoFN5pf1WxWvFvREsA8MN7E7bLnd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WR7kVsN9; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/+RxORL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR7kVsN9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764355593; x=1795891593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DpQafR+0vhopUwNj74SdoMaNJqnU/dy1P1aVEFArtGw=;
-  b=O/+RxORL2dapz6fIj4h1ytyyjiJYpy46WEyoo9M1+VpT6tkYgo0MxCFs
-   ix1Dka+9yUsgAeHK8qOXglaAi6rM0ChYGrLM6rQV7PnpNRA8s7MoMEjKw
-   lGZ4MI/ssncfsvoVstOLuLiObtev+9VE1r5cQdgrJFxCtqrMGas2L5EAQ
-   sCilxk1BNY9uGE1Avr/NHLDLkpk887OQVRB8pt1c3dCxySMQmH6jeawCD
-   49X0wlGxSZtd/kY3PTq7zFCddOel26G+hDQtbsrjBU6WkJPBRfoG3zKfb
-   1BzEcrhLYAtPDCLTQHhifef152u1GVJ+YK4Qhs+bMffjeUNXBo4PJcmlg
-   g==;
-X-CSE-ConnectionGUID: AWmaBPHfTN2nASYfM8UnJg==
-X-CSE-MsgGUID: uuyZPkl7Rn+0CqBOcDMvVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66276434"
+  t=1764358713; x=1795894713;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SmJg7wHGO/OzMlk8EGQWiS6CF9OCIZjeXm/7lTGBMEU=;
+  b=WR7kVsN9m0YWq/2H8naKbrio5O+SZEwoT0cIjy4jXYnSgHkG7g4bJdmd
+   kcVjJmQyny7rK5zuH5SXlrr6RE8kV++My+jdREudzEURX4k1ojGYkZYEv
+   I8YfqRZN6xDTnmA67OXtQs+iinI58pKzQO8eNLpOm/hfh5nmJs266mFEG
+   r1EGzGiIM+WDZR1hKfDUDv0waM4VWz3TDXJFvbHX/BqpymtKb4icAyy0P
+   QNKjl0BQkcdWuPutR0Ml3W8QhakLLccjPp9EPQzsW7eotzTDjuF3v3kce
+   5qvMubZA74QakhQ/ObXBD1F6lo48Z08x3+jGEhl6Npz0c5tExFWWdiw3+
+   w==;
+X-CSE-ConnectionGUID: 9aC9VZD4RX+4I+om+9CbjA==
+X-CSE-MsgGUID: FlNnXhSTQEuIXHEHoPcljw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="70255169"
 X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
-   d="scan'208";a="66276434"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 10:46:33 -0800
-X-CSE-ConnectionGUID: 6442T8RxSkmvyKM+i3J1mQ==
-X-CSE-MsgGUID: QDoamcWWQuKyuayM66dxUA==
+   d="scan'208";a="70255169"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 11:38:31 -0800
+X-CSE-ConnectionGUID: jw+ZBqwtQBKrWEsueBzkZw==
+X-CSE-MsgGUID: f76wjxHqQPCw4+STY60U+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
-   d="scan'208";a="198622633"
+   d="scan'208";a="194308358"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 Nov 2025 10:46:31 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 28 Nov 2025 11:38:32 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vP3UC-000000006en-2lI3;
-	Fri, 28 Nov 2025 18:46:28 +0000
-Date: Sat, 29 Nov 2025 02:46:07 +0800
+	id 1vP4IX-000000006gX-3sea;
+	Fri, 28 Nov 2025 19:38:29 +0000
+Date: Sat, 29 Nov 2025 03:38:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
-	robh@kernel.org, conor+dt@kernel.org, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>
-Subject: Re: [PATCH v4 2/2] iio: amplifiers: adl8113: add driver support
-Message-ID: <202511290251.tcqKd4O5-lkp@intel.com>
-References: <20251121095204.18574-3-antoniu.miclaus@analog.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 10477/10599] Warning:
+ drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:244 struct __packed
+ mtk_mfg_opp_entry { __le32 freq_khz; __le32 voltage_core; __le32
+ voltage_sram; __le32 posdiv; __le32 voltage_margin; __le32 power_mw; };
+ error: Cannot parse struct or union!
+Message-ID: <202511290304.GR8Tmh1q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,65 +64,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251121095204.18574-3-antoniu.miclaus@analog.com>
 
-Hi Antoniu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.18-rc7 next-20251128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/dt-bindings-iio-amplifiers-add-adl8113/20251121-180600
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20251121095204.18574-3-antoniu.miclaus%40analog.com
-patch subject: [PATCH v4 2/2] iio: amplifiers: adl8113: add driver support
-config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290251.tcqKd4O5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
+commit: 615378e6cac251ab1900d577e48e36d160feed56 [10477/10599] Merge branch 'next' of https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20251129/202511290304.GR8Tmh1q-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290304.GR8Tmh1q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511290251.tcqKd4O5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511290304.GR8Tmh1q-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/amplifiers/adl8113.c:58 adl8113_set_path() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +58 drivers/iio/amplifiers/adl8113.c
-
-    48	
-    49	static int adl8113_set_path(struct adl8113_state *st,
-    50				    enum adl8113_signal_path path)
-    51	{
-    52		int va, vb;
-    53	
-    54		/* Determine GPIO values based on signal path */
-    55		switch (path) {
-    56		case ADL8113_INTERNAL_AMP:
-    57			va = 0; vb = 0; /* Internal amplifier */
-  > 58			break;
-    59		case ADL8113_INTERNAL_BYPASS:
-    60			va = 1; vb = 1; /* Internal bypass */
-    61			break;
-    62		case ADL8113_EXTERNAL_A:
-    63			va = 0; vb = 1; /* External bypass A */
-    64			break;
-    65		case ADL8113_EXTERNAL_B:
-    66			va = 1; vb = 0; /* External bypass B */
-    67			break;
-    68		default:
-    69			return -EINVAL;
-    70		}
-    71	
-    72		gpiod_set_value(st->gpio_va, va);
-    73		gpiod_set_value(st->gpio_vb, vb);
-    74		st->current_path = path;
-    75		return 0;
-    76	}
-    77	
+>> Warning: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:244 struct __packed mtk_mfg_opp_entry { __le32 freq_khz; __le32 voltage_core; __le32 voltage_sram; __le32 posdiv; __le32 voltage_margin; __le32 power_mw; }; error: Cannot parse struct or union!
 
 -- 
 0-DAY CI Kernel Test Service
