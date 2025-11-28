@@ -1,146 +1,130 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.161])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C492C264F81
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 16:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.161
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764347802; cv=pass; b=SaUHN8naKdCo1s57ttCdgJIi9umZx61VtYQZh7hoFIVdJ4mmfrJXjTWwHsjCsSVyV2os6qYiwzolnCtB49puXX1V6KrgUWrirUUUrLdY4U8vYv8GILrGeWvXWcq6L4c/b3lVIkPgX2lv6coHJP+Sfp/dmCktuAKl0YY1/7dpKg0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764347802; c=relaxed/simple;
-	bh=isq5LGsq2qltaCe0MOQw0rghRj7ayxC3sUd1Kl45RHk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TwcseepXHCeaKw8/ajjUt7vY4sQaBY2tWHh+tOm+LdPRQT5VBplpsZZSky/Z8YAeca6zzq2lT+VeY7Id1SvZZ3ySwX/1/M1IrEiikMZH2xZVAemBoFbMnbQSIlV2KuaoytaQq+v3qFkh2nLAVWVHTzIdGvdpfasIr//UKPqt+tc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net; spf=pass smtp.mailfrom=hartkopp.net; dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=FcP96tqV; dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=aPIEyEmI; arc=pass smtp.client-ip=81.169.146.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hartkopp.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884EF207A0B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 18:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764355596; cv=none; b=frlWd4TZsOPL7PQXsOAMZQexdzmG8ZJusgUN7MyBzcoPLgHknjrMfFESzdTi8AeuG5tCsBUls4v9z6JOPXVLgEGfu03jdvFlakj2GsJAVTTdHUgs+FvImIq1mUOm2Cn38ebvrTTWOePe+evcQ2GnIUmnj2g1cD1S9uWMrTTyrao=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764355596; c=relaxed/simple;
+	bh=DpQafR+0vhopUwNj74SdoMaNJqnU/dy1P1aVEFArtGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kh3piKoB1HBTdhi2V5dEgQ+bzHDWEYLcT83twSGik/FbMaysNFwI9v0GqWto6+lmMzUUuW6bVb2lV81qnBJxd8IgVDOzmaesJA55EhwPI5ByVcHvkjWK6y53xudv2fIhIR6WKXPNHHuaj0FYY3fopQU1GfhewI2TPSta9S0C4xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/+RxORL; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="FcP96tqV";
-	dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="aPIEyEmI"
-ARC-Seal: i=1; a=rsa-sha256; t=1764347790; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=IgWJGEzxs7mY2sQRWSZpQddL8dCAWtgTgb23VLYDjiKwU/osONhVqbZ/4iG51fYEso
-    BoeaQwSzT7WJkOx2JU85Ax5eDzgANjxsuTJ6XwVHuoPIzZt1vVavPS3Yonlbtj2MY3xn
-    KZTtS09zUjCLvVzlZtqBcGmS5CJtx9w9mPwTiUNYZLW1mCEULpkdiQkSuFk8Mp8gfJor
-    ZM4D2AtO4pGa7JMPpACT8LtftcN5vTokETx8oQJE/uizU4CDp3fL5JrUt0u0aZ639f2E
-    oKzFV34fsTqxGfHxwRiOKLp25gm3NL6c2/IX/Fwxvj/NBMC/P3ge3na8M7VsSEC6LLh5
-    9KIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1764347790;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=2cYmJ+EHjEZxdWdxX0k2iPK0L7O3kfK9lXAGjiI0rz4=;
-    b=SxTSGLtM+pMPcM9xCpS7ILgTKJFw7i+aKqu2IHgQ9IX8M5lmEAPwkgqNxhYBKjiU4z
-    dZwTPBo4LuAJRp3FsTJ7FN52uDaiale3yvYOREGEkXycuw3um4CI71cVWwg2d1mgPCWr
-    4DiTjeBL1dZiMZjkfKKtr1mi1CUtVrGbyTdOS5rO5UJDzwcbtJ8g7ZhNQ7+r/3Ipla3j
-    0pvvEvjEYa1C5BMZz0Xc0taYw/SrhUzkjHFjUoJ38tgOEgxTgVOYzj2mDNvh936WVpQ+
-    7kivh8XPE2uMzpJtYX41KaJg+exXmuiFLCA07Wrr4DXgDmq588WSBoJ2hrKlAR97w2ud
-    1z+w==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1764347790;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=2cYmJ+EHjEZxdWdxX0k2iPK0L7O3kfK9lXAGjiI0rz4=;
-    b=FcP96tqVrLR6gUE246DmAGad3TvkLghgfEnwKQCidc2b+/Ac2LbgkYpVkCsAR8r9F+
-    Giu/nvOKFTU/ZTT0HwgDKxj/cQB82Oex1Z9bqQv0/D1nKEzw4vCk0VHZoy+Fi+CSe7J/
-    pMXjhl25zNxmHWfBr2TZ3rqXUk7xSlwnQljHOwWhfaJRGvTOLsJNSOePeAAkofOQT89X
-    +IEa8C+mzWRnjSfO3vtMdqVSVsTymZjGsk5F9EKJhKtpnRbmVlHMLVmJqsCRo2uORnUj
-    DJk/+zIqpPHPfkGGswRIUMn9oRlJZlY9G95B//+tMVE2/RxK5D0SWge3DML7TkjP8eIM
-    9c8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1764347790;
-    s=strato-dkim-0003; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=2cYmJ+EHjEZxdWdxX0k2iPK0L7O3kfK9lXAGjiI0rz4=;
-    b=aPIEyEmIibyU/iv/8FNqX89Sca9rzi4elO1B+tcf+9UJhvKGTC9f66myDt0VkvpB0J
-    o1vcJpvoUuQrELFy+wAw==
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/t54cFxeEQ7s8bGWj0Q=="
-Received: from [IPV6:2a00:6020:4a38:6810::9f3]
-    by smtp.strato.de (RZmta 54.0.0 AUTH)
-    with ESMTPSA id Ke2b461ASGaTgSr
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 28 Nov 2025 17:36:29 +0100 (CET)
-Message-ID: <c994913f-d747-4bdc-bf7c-ef4341495b73@hartkopp.net>
-Date: Fri, 28 Nov 2025 17:36:29 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/+RxORL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764355593; x=1795891593;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DpQafR+0vhopUwNj74SdoMaNJqnU/dy1P1aVEFArtGw=;
+  b=O/+RxORL2dapz6fIj4h1ytyyjiJYpy46WEyoo9M1+VpT6tkYgo0MxCFs
+   ix1Dka+9yUsgAeHK8qOXglaAi6rM0ChYGrLM6rQV7PnpNRA8s7MoMEjKw
+   lGZ4MI/ssncfsvoVstOLuLiObtev+9VE1r5cQdgrJFxCtqrMGas2L5EAQ
+   sCilxk1BNY9uGE1Avr/NHLDLkpk887OQVRB8pt1c3dCxySMQmH6jeawCD
+   49X0wlGxSZtd/kY3PTq7zFCddOel26G+hDQtbsrjBU6WkJPBRfoG3zKfb
+   1BzEcrhLYAtPDCLTQHhifef152u1GVJ+YK4Qhs+bMffjeUNXBo4PJcmlg
+   g==;
+X-CSE-ConnectionGUID: AWmaBPHfTN2nASYfM8UnJg==
+X-CSE-MsgGUID: uuyZPkl7Rn+0CqBOcDMvVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66276434"
+X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
+   d="scan'208";a="66276434"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 10:46:33 -0800
+X-CSE-ConnectionGUID: 6442T8RxSkmvyKM+i3J1mQ==
+X-CSE-MsgGUID: QDoamcWWQuKyuayM66dxUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
+   d="scan'208";a="198622633"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 28 Nov 2025 10:46:31 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vP3UC-000000006en-2lI3;
+	Fri, 28 Nov 2025 18:46:28 +0000
+Date: Sat, 29 Nov 2025 02:46:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH v4 2/2] iio: amplifiers: adl8113: add driver support
+Message-ID: <202511290251.tcqKd4O5-lkp@intel.com>
+References: <20251121095204.18574-3-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 11759/12740] net/can/raw.c:933: undefined
- reference to `safe_candev_priv'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Marc Kleine-Budde <mkl@pengutronix.de>
-References: <202511282325.uVQFRTkA-lkp@intel.com>
-Content-Language: en-US
-From: Oliver Hartkopp <socketcan@hartkopp.net>
-In-Reply-To: <202511282325.uVQFRTkA-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251121095204.18574-3-antoniu.miclaus@analog.com>
 
-Hi,
+Hi Antoniu,
 
-the issue already has been reported.
+kernel test robot noticed the following build warnings:
 
-And this patch is on its way:
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.18-rc7 next-20251128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-https://lore.kernel.org/linux-can/20251128100803.65707-1-socketcan@hartkopp.net/
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/dt-bindings-iio-amplifiers-add-adl8113/20251121-180600
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20251121095204.18574-3-antoniu.miclaus%40analog.com
+patch subject: [PATCH v4 2/2] iio: amplifiers: adl8113: add driver support
+config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290251.tcqKd4O5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-Many thanks,
-Oliver
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511290251.tcqKd4O5-lkp@intel.com/
 
+smatch warnings:
+drivers/iio/amplifiers/adl8113.c:58 adl8113_set_path() warn: inconsistent indenting
 
-On 28.11.25 16:49, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   7d31f578f3230f3b7b33b0930b08f9afd8429817
-> commit: 1a620a723853a0f49703c317d52dc6b9602cbaa8 [11759/12740] can: raw: instantly reject unsupported CAN frames
-> config: nios2-randconfig-002-20251128 (https://download.01.org/0day-ci/archive/20251128/202511282325.uVQFRTkA-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511282325.uVQFRTkA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511282325.uVQFRTkA-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     nios2-linux-ld: net/can/raw.o: in function `raw_check_txframe':
->>> net/can/raw.c:933: undefined reference to `safe_candev_priv'
->>> net/can/raw.c:933:(.text+0x284): relocation truncated to fit: R_NIOS2_CALL26 against `safe_candev_priv'
-> 
-> 
-> vim +933 net/can/raw.c
-> 
->     929	
->     930	static unsigned int raw_check_txframe(struct raw_sock *ro, struct sk_buff *skb,
->     931					      struct net_device *dev)
->     932	{
->   > 933		struct can_priv *priv = safe_candev_priv(dev);
->     934	
->     935		/* Classical CAN */
->     936		if (can_is_can_skb(skb) && raw_dev_cc_enabled(dev, priv))
->     937			return CAN_MTU;
->     938	
->     939		/* CAN FD */
->     940		if (ro->fd_frames && can_is_canfd_skb(skb) &&
->     941		    raw_dev_fd_enabled(dev, priv))
->     942			return CANFD_MTU;
->     943	
->     944		/* CAN XL */
->     945		if (ro->xl_frames && can_is_canxl_skb(skb) &&
->     946		    raw_dev_xl_enabled(dev, priv))
->     947			return CANXL_MTU;
->     948	
->     949		return 0;
->     950	}
->     951	
-> 
+vim +58 drivers/iio/amplifiers/adl8113.c
 
+    48	
+    49	static int adl8113_set_path(struct adl8113_state *st,
+    50				    enum adl8113_signal_path path)
+    51	{
+    52		int va, vb;
+    53	
+    54		/* Determine GPIO values based on signal path */
+    55		switch (path) {
+    56		case ADL8113_INTERNAL_AMP:
+    57			va = 0; vb = 0; /* Internal amplifier */
+  > 58			break;
+    59		case ADL8113_INTERNAL_BYPASS:
+    60			va = 1; vb = 1; /* Internal bypass */
+    61			break;
+    62		case ADL8113_EXTERNAL_A:
+    63			va = 0; vb = 1; /* External bypass A */
+    64			break;
+    65		case ADL8113_EXTERNAL_B:
+    66			va = 1; vb = 0; /* External bypass B */
+    67			break;
+    68		default:
+    69			return -EINVAL;
+    70		}
+    71	
+    72		gpiod_set_value(st->gpio_va, va);
+    73		gpiod_set_value(st->gpio_vb, vb);
+    74		st->current_path = path;
+    75		return 0;
+    76	}
+    77	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
