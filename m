@@ -1,61 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A401D9346
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 04:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD6335979
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 05:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764304080; cv=none; b=GdmwAa42aN2L3ZIFKU68BpEelXFv7NMCGhrcWKLr/gp/7ok2DSAMbpIREGvWYOf2ncFGWrR+S+pfW1+Mxt7WRBaPMeIR8uiXltoCdrsEgBv6RH0YVr1I+0iBjxtKtDpc7X3EGNgyapGWz3p0G4NEV69yX5jnq0jFX2YboS0q8yg=
+	t=1764308190; cv=none; b=ZpijKWFZVIS51hhRazNHJ9DZnzx/BAkkjtTTvVt9NEHTvLP1sEAs1LpjEI9kx2iTSdVkfoU08GL8TgZNe9Dd8i49PATWO33FpOHfHGv41G6KZm5ML0tUXncGf0qc7fxfTCW1/+lWY61b+pr14q8wflAtYTbfHyvVcnQzHHvyz04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764304080; c=relaxed/simple;
-	bh=Leq+OxocHlCwtRvRah1X19T19DwSMtFENqxVB0eI0Oo=;
+	s=arc-20240116; t=1764308190; c=relaxed/simple;
+	bh=8wiEBHJ4+x7E3lJinDLCE623bdMU6dsmaIPqIuHtVcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WS3pw7qP7QJ9X8lhzT++NC9oC2PVK53aJqrfGIpmSn59t4ShhoIxO0Ye2x1Rig0bXjjrkX6OwqUtXTpIrRhVKs+36fuyt7Q36K4wc9DNUq6DHs8vv9DqVS+0MCNkIqTmwJpkk7ZSGDJJ+pzkmDeocPJ4d4w6vG/OvTx9lugMN30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4lu8tps; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=YNHvtOfApWh1oZ8jhlPILWVRNLiAGVkZt2zXttkM6e6nLyjEiu34NHBzuqSEcWnaABP2lIcpss/dpE7yj1fSGw1XtCqmk1bTavTA//dSadOlzviakGB/8lul7ZpPiw6JOrabQ5OKspy9X961lYspP/5ecVp4eIFXpKdD+lExljQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LbSG70LS; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4lu8tps"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764304079; x=1795840079;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Leq+OxocHlCwtRvRah1X19T19DwSMtFENqxVB0eI0Oo=;
-  b=O4lu8tpsxOBXhGpj11jT9h0KQLadbM3jCCBHhbwJvKlcF6YbLg2LVuz8
-   ASlmxB0+7BHgQpi0V3SmEqz54/8vFpEQi2++Sh1xzSHh+/tHtwXLrPzT7
-   9caP2d2ztt5zUd7m0ai8SDsNguQPYUB4mit9a/ohiABFS+UyH+ZKrrHF2
-   6u0msTJpTr1RVRRArMze+vhSw+RCm0eDA/jAgVwiSW5kw33m+Dq1ymewt
-   ifGcCMklBJ1iblPnkAiPZ8EQlFRC5S9jGeq7+H2bN6ElvV8P8DOqEVZmv
-   0GiXgdG5ZlGXdqiudDitl9uEg5DO0hOUQFfKdg4rMmksKfWH28R1KB5bp
-   A==;
-X-CSE-ConnectionGUID: UJedlE/qSJeW2zlDvwsvsQ==
-X-CSE-MsgGUID: uVl0q77KTuKtNxdUEDE6Hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66301962"
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="66301962"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2025 20:27:58 -0800
-X-CSE-ConnectionGUID: 286LrtvoSye7T5WCHicWFQ==
-X-CSE-MsgGUID: O5dRBDqPRMunKYDaI9gyTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; 
-   d="scan'208";a="193265420"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Nov 2025 20:27:55 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vOq5J-0000000062L-1Vjk;
-	Fri, 28 Nov 2025 04:27:53 +0000
-Date: Fri, 28 Nov 2025 12:27:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 9984/12398]
- sound/soc/sdca/sdca_class.c:32:undefined reference to `sdw_slave_read_prop'
-Message-ID: <202511281223.DDs12LiC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LbSG70LS"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779adb38d3so9515355e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 21:36:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764308187; x=1764912987; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6BwgPmPmCAS9dDYWOHGZSPcfUCqw6dFNzwxvE8Ydh1U=;
+        b=LbSG70LSNdQrsX6N1GFVvVLo4W84eNLNUoGNo1hZlxKwTDFjKOGXTx5s0AFvlEiI49
+         MLwlOSuWo9aj4byhqjstwars+xUD5vBNrYU5y3CHdKeUfB5C920d2yNa442cD0f9jjUb
+         LUSGwicXZx+2a6pLNhIz29qTvWXWB5qXvQLwkDqsXHngLEsS/X6vMZ9x5jEYVLaGiJU2
+         OTJo7eM9aS6XKO+eiiUn7tESw6DqXN2b6V5ExJZawejryjXZs9GNn3Pk66VkgCv6GAEL
+         CTyQXjlwdUfK9bVU9Wpa4bi8ZoXo33UaeZEKsU+oBLb5pebC5qkeXn1i2dndxAiqKNRd
+         ZzEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764308187; x=1764912987;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6BwgPmPmCAS9dDYWOHGZSPcfUCqw6dFNzwxvE8Ydh1U=;
+        b=tU7YrmjLaUpF6WpSHoDQwFN/iQS3ptaaTcwN0bBSRQOVrNuU0YIeKgEqFwxWC21WfQ
+         eGafbc24RySPQXwVNXD0476KZNQ1+LbAikwBn7xGPXXaLmm2LJSSXuD8QvcSStwBxRdB
+         DRvm46vw9SBDScBfzKVySkQb9JlW4UoBognnQQVHGw6iBC1eu5ffrzRvuqOSw1i4lrgF
+         nTr0c4x6I36Z1E6MYqapiXhOc6q3eW//fMcgh26zjF5FoSyvg0Mjur/qiai1Ssw6LDEd
+         9CRpyWxE3w9Rt6JZpC2d63M8oPWr6f1KNftrRy1QHfUAPRSa069DvPtTKMFldg419JX3
+         vMnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWMtUCZabu9kqe840OWH/zbb6e7r+s5NX3elOGgNW1frtHDpVsoKxLpfIcvYSVds+Z/i8MkVaM6PbCzcR5A@lists.linux.dev
+X-Gm-Message-State: AOJu0YzljbcwzFprJtByQ4km/x3bdHRMnEk6xNMDnILYYskmgQVUAedo
+	cQEWU5J2HaAOvWwWJooU+eRYmlU/HA3IOnEAGYb+rjKrh9Yn6UNpAcSVi30hWXDrFdU=
+X-Gm-Gg: ASbGncuhpqi5lcpovgrP6c6sGMy0ITI6mrR23ZOStBCHx59Kyfqudx/kmqlrzT5pGeR
+	bGLJoMZdtZAzIh1Va1Szz0ygveScMUC9Wr67t6xbhq6ILyBcq9tQWMLmSG9jOPjxqe/zIk4lRVF
+	GOOFi79xhFtt0NqpNR58g/qM5YlpByv0kPR2SrORd4e5aBdCj0kuDz6tx36iXahbDu7wX4fJzMr
+	qC0HMIki4U6mEWrBeP1rmTLm328PjEQmZPcY7XUgYTUtFd4jcimuh857zq09bSVNFY4ZbnBFHeK
+	Ux6jdRHhdPHl8mBXyCzzbwXIgla6x0iOYgZfG+ORcIfdAFgfncmf/C0c6mPA283W6dsM/ey5Mgf
+	DxhNL19Psk1iemOlS3u58Wg7ouA03+GgNRmdq8EIVkN42OAMLP2Vorf9S0KlbDIFZzBguHJw3Kb
+	MRsQRG95waCet4agqbAPzmHcxXQgs=
+X-Google-Smtp-Source: AGHT+IF9jpVKYfnJgUxyB9biyy78MmFLMzsKhgcXrK+i7aGcbHxcOkBKZg0VNhGPcSuEsTZ1PFAJHQ==
+X-Received: by 2002:a05:6000:2288:b0:429:66bf:1463 with SMTP id ffacd0b85a97d-42e0f34fb80mr14113962f8f.44.1764308186777;
+        Thu, 27 Nov 2025 21:36:26 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42e1c5d618csm7388957f8f.14.2025.11.27.21.36.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 21:36:26 -0800 (PST)
+Date: Fri, 28 Nov 2025 08:36:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yaxing Guo <guoyaxing@bosc.ac.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [char-misc:char-misc-next 57/60]
+ drivers/uio/uio_pci_generic_sva.c:32 uio_pci_sva_open() error: we previously
+ assumed 'udev' could be null (see line 32)
+Message-ID: <202511280815.WV9iCJZb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,262 +76,159 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
-commit: 2d877d0659cb69cc0677ee2805e9521966d70ac5 [9984/12398] ASoC: SDCA: Add basic SDCA class driver
-config: x86_64-randconfig-006-20251128 (https://download.01.org/0day-ci/archive/20251128/202511281223.DDs12LiC-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-next
+head:   cbe1d77ed84ae9ab3355d61aca0c30d561a61d5a
+commit: 3397c3cd859a2c51962ad032dcf97961d42f9db2 [57/60] uio: Add SVA support for PCI devices via uio_pci_generic_sva.c
+config: x86_64-randconfig-161-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280815.WV9iCJZb-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511281223.DDs12LiC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511281223.DDs12LiC-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/uio/uio_pci_generic_sva.c:32 uio_pci_sva_open() error: we previously assumed 'udev' could be null (see line 32)
+drivers/uio/uio_pci_generic_sva.c:54 uio_pci_sva_release() error: we previously assumed 'udev' could be null (see line 54)
+drivers/uio/uio_pci_generic_sva.c:140 probe() warn: passing devm_ allocated variable to kfree. 'udev'
 
-   ld: vmlinux.o: in function `sdwhid_parse':
->> sound/soc/sdca/sdca_hid.c:37:(.text+0x41b3c34): undefined reference to `hid_parse_report'
-   ld: vmlinux.o: in function `sdca_add_hid_device':
->> sound/soc/sdca/sdca_hid.c:95:(.text+0x41b3cb5): undefined reference to `hid_allocate_device'
->> ld: sound/soc/sdca/sdca_hid.c:114:(.text+0x41b3f4e): undefined reference to `hid_add_device'
-   ld: vmlinux.o: in function `sdca_hid_process_report':
->> sound/soc/sdca/sdca_hid.c:160:(.text+0x41b4346): undefined reference to `hid_input_report'
-   ld: vmlinux.o: in function `class_read_prop':
->> sound/soc/sdca/sdca_class.c:32:(.text+0x41b8e19): undefined reference to `sdw_slave_read_prop'
-   ld: vmlinux.o: in function `class_sdw_probe':
->> sound/soc/sdca/sdca_class.c:216:(.text+0x41b954a): undefined reference to `__devm_regmap_init_sdw'
-   ld: vmlinux.o: in function `class_sdw_driver_init':
->> sound/soc/sdca/sdca_class.c:300:(.init.text+0xcfc2e): undefined reference to `__sdw_register_driver'
-   ld: vmlinux.o: in function `sdca_add_hid_device':
->> sound/soc/sdca/sdca_hid.c:117:(.text.unlikely+0x400212): undefined reference to `hid_destroy_device'
-   ld: vmlinux.o: in function `class_sdw_driver_exit':
->> sound/soc/sdca/sdca_class.c:300:(.exit.text+0xb38c): undefined reference to `sdw_unregister_driver'
+vim +/udev +32 drivers/uio/uio_pci_generic_sva.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_SOC_SDCA_HID
-   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SDCA [=y] && (HID [=n]=y [=y] || HID [=n]=SND_SOC_SDCA [=y])
-   Selected by [y]:
-   - SND_SOC_SDCA_CLASS [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SDCA [=y]
+3397c3cd859a2c Yaxing Guo 2025-09-26   26  static int uio_pci_sva_open(struct uio_info *info, struct inode *inode)
+3397c3cd859a2c Yaxing Guo 2025-09-26   27  {
+3397c3cd859a2c Yaxing Guo 2025-09-26   28  	struct iommu_sva *handle;
+3397c3cd859a2c Yaxing Guo 2025-09-26   29  	struct uio_pci_sva_dev *udev = info->priv;
+3397c3cd859a2c Yaxing Guo 2025-09-26   30  	struct iommu_domain *domain;
+3397c3cd859a2c Yaxing Guo 2025-09-26   31  
+3397c3cd859a2c Yaxing Guo 2025-09-26  @32  	if (!udev && !udev->pdev)
 
+The && should be ||.
 
-vim +32 sound/soc/sdca/sdca_class.c
+3397c3cd859a2c Yaxing Guo 2025-09-26   33  		return -ENODEV;
+3397c3cd859a2c Yaxing Guo 2025-09-26   34  
+3397c3cd859a2c Yaxing Guo 2025-09-26   35  	domain = iommu_get_domain_for_dev(&udev->pdev->dev);
+3397c3cd859a2c Yaxing Guo 2025-09-26   36  	if (domain)
+3397c3cd859a2c Yaxing Guo 2025-09-26   37  		iommu_detach_device(domain, &udev->pdev->dev);
+3397c3cd859a2c Yaxing Guo 2025-09-26   38  
+3397c3cd859a2c Yaxing Guo 2025-09-26   39  	handle = iommu_sva_bind_device(&udev->pdev->dev, current->mm);
+3397c3cd859a2c Yaxing Guo 2025-09-26   40  	if (IS_ERR(handle))
+3397c3cd859a2c Yaxing Guo 2025-09-26   41  		return -EINVAL;
+3397c3cd859a2c Yaxing Guo 2025-09-26   42  
+3397c3cd859a2c Yaxing Guo 2025-09-26   43  	udev->pasid = iommu_sva_get_pasid(handle);
+3397c3cd859a2c Yaxing Guo 2025-09-26   44  
+3397c3cd859a2c Yaxing Guo 2025-09-26   45  	udev->sva_handle = handle;
+3397c3cd859a2c Yaxing Guo 2025-09-26   46  
+3397c3cd859a2c Yaxing Guo 2025-09-26   47  	return 0;
+3397c3cd859a2c Yaxing Guo 2025-09-26   48  }
+3397c3cd859a2c Yaxing Guo 2025-09-26   49  
+3397c3cd859a2c Yaxing Guo 2025-09-26   50  static int uio_pci_sva_release(struct uio_info *info, struct inode *inode)
+3397c3cd859a2c Yaxing Guo 2025-09-26   51  {
+3397c3cd859a2c Yaxing Guo 2025-09-26   52  	struct uio_pci_sva_dev *udev = info->priv;
+3397c3cd859a2c Yaxing Guo 2025-09-26   53  
+3397c3cd859a2c Yaxing Guo 2025-09-26  @54  	if (!udev && !udev->pdev)
 
-    27	
-    28	static int class_read_prop(struct sdw_slave *sdw)
-    29	{
-    30		struct sdw_slave_prop *prop = &sdw->prop;
-    31	
-  > 32		sdw_slave_read_prop(sdw);
-    33	
-    34		prop->use_domain_irq = true;
-    35		prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY |
-    36				      SDW_SCP_INT1_IMPL_DEF;
-    37	
-    38		return 0;
-    39	}
-    40	
-    41	static int class_sdw_update_status(struct sdw_slave *sdw, enum sdw_slave_status status)
-    42	{
-    43		struct sdca_class_drv *drv = dev_get_drvdata(&sdw->dev);
-    44	
-    45		switch (status) {
-    46		case SDW_SLAVE_ATTACHED:
-    47			dev_dbg(drv->dev, "device attach\n");
-    48	
-    49			drv->attached = true;
-    50	
-    51			complete(&drv->device_attach);
-    52			break;
-    53		case SDW_SLAVE_UNATTACHED:
-    54			dev_dbg(drv->dev, "device detach\n");
-    55	
-    56			drv->attached = false;
-    57	
-    58			reinit_completion(&drv->device_attach);
-    59			break;
-    60		default:
-    61			break;
-    62		}
-    63	
-    64		return 0;
-    65	}
-    66	
-    67	static const struct sdw_slave_ops class_sdw_ops = {
-    68		.read_prop	= class_read_prop,
-    69		.update_status	= class_sdw_update_status,
-    70	};
-    71	
-    72	static void class_regmap_lock(void *data)
-    73	{
-    74		struct mutex *lock = data;
-    75	
-    76		mutex_lock(lock);
-    77	}
-    78	
-    79	static void class_regmap_unlock(void *data)
-    80	{
-    81		struct mutex *lock = data;
-    82	
-    83		mutex_unlock(lock);
-    84	}
-    85	
-    86	static int class_wait_for_attach(struct sdca_class_drv *drv)
-    87	{
-    88		if (!drv->attached) {
-    89			unsigned long timeout = msecs_to_jiffies(CLASS_SDW_ATTACH_TIMEOUT_MS);
-    90			unsigned long time;
-    91	
-    92			time = wait_for_completion_timeout(&drv->device_attach, timeout);
-    93			if (!time) {
-    94				dev_err(drv->dev, "timed out waiting for device re-attach\n");
-    95				return -ETIMEDOUT;
-    96			}
-    97		}
-    98	
-    99		regcache_cache_only(drv->dev_regmap, false);
-   100	
-   101		return 0;
-   102	}
-   103	
-   104	static bool class_dev_regmap_volatile(struct device *dev, unsigned int reg)
-   105	{
-   106		switch (reg) {
-   107		case SDW_SCP_SDCA_INTMASK1 ... SDW_SCP_SDCA_INTMASK4:
-   108			return false;
-   109		default:
-   110			return true;
-   111		}
-   112	}
-   113	
-   114	static bool class_dev_regmap_precious(struct device *dev, unsigned int reg)
-   115	{
-   116		switch (reg) {
-   117		case SDW_SCP_SDCA_INT1 ... SDW_SCP_SDCA_INT4:
-   118		case SDW_SCP_SDCA_INTMASK1 ... SDW_SCP_SDCA_INTMASK4:
-   119			return false;
-   120		default:
-   121			return true;
-   122		}
-   123	}
-   124	
-   125	static const struct regmap_config class_dev_regmap_config = {
-   126		.name			= "sdca-device",
-   127		.reg_bits		= 32,
-   128		.val_bits		= 8,
-   129	
-   130		.max_register		= SDW_SDCA_MAX_REGISTER,
-   131		.volatile_reg		= class_dev_regmap_volatile,
-   132		.precious_reg		= class_dev_regmap_precious,
-   133	
-   134		.cache_type		= REGCACHE_MAPLE,
-   135	
-   136		.lock			= class_regmap_lock,
-   137		.unlock			= class_regmap_unlock,
-   138	};
-   139	
-   140	static void class_boot_work(struct work_struct *work)
-   141	{
-   142		struct sdca_class_drv *drv = container_of(work,
-   143							  struct sdca_class_drv,
-   144							  boot_work);
-   145		int ret;
-   146	
-   147		ret = class_wait_for_attach(drv);
-   148		if (ret)
-   149			goto err;
-   150	
-   151		drv->irq_info = sdca_irq_allocate(drv->dev, drv->dev_regmap,
-   152						  drv->sdw->irq);
-   153		if (IS_ERR(drv->irq_info))
-   154			goto err;
-   155	
-   156		ret = sdca_dev_register_functions(drv->sdw);
-   157		if (ret)
-   158			goto err;
-   159	
-   160		dev_dbg(drv->dev, "boot work complete\n");
-   161	
-   162		pm_runtime_mark_last_busy(drv->dev);
-   163		pm_runtime_put_autosuspend(drv->dev);
-   164	
-   165		return;
-   166	
-   167	err:
-   168		pm_runtime_put_sync(drv->dev);
-   169	}
-   170	
-   171	static void class_dev_remove(void *data)
-   172	{
-   173		struct sdca_class_drv *drv = data;
-   174	
-   175		cancel_work_sync(&drv->boot_work);
-   176	
-   177		sdca_dev_unregister_functions(drv->sdw);
-   178	}
-   179	
-   180	static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id)
-   181	{
-   182		struct device *dev = &sdw->dev;
-   183		struct sdca_device_data *data = &sdw->sdca_data;
-   184		struct regmap_config *dev_config;
-   185		struct sdca_class_drv *drv;
-   186		int ret;
-   187	
-   188		sdca_lookup_swft(sdw);
-   189	
-   190		drv = devm_kzalloc(dev, sizeof(*drv), GFP_KERNEL);
-   191		if (!drv)
-   192			return -ENOMEM;
-   193	
-   194		dev_config = devm_kmemdup(dev, &class_dev_regmap_config,
-   195					  sizeof(*dev_config), GFP_KERNEL);
-   196		if (!dev_config)
-   197			return -ENOMEM;
-   198	
-   199		drv->functions = devm_kcalloc(dev, data->num_functions,
-   200					      sizeof(*drv->functions),
-   201					      GFP_KERNEL);
-   202		if (!drv->functions)
-   203			return -ENOMEM;
-   204	
-   205		drv->dev = dev;
-   206		drv->sdw = sdw;
-   207		mutex_init(&drv->regmap_lock);
-   208	
-   209		dev_set_drvdata(drv->dev, drv);
-   210	
-   211		INIT_WORK(&drv->boot_work, class_boot_work);
-   212		init_completion(&drv->device_attach);
-   213	
-   214		dev_config->lock_arg = &drv->regmap_lock;
-   215	
- > 216		drv->dev_regmap = devm_regmap_init_sdw(sdw, dev_config);
-   217		if (IS_ERR(drv->dev_regmap))
-   218			return dev_err_probe(drv->dev, PTR_ERR(drv->dev_regmap),
-   219					     "failed to create device regmap\n");
-   220	
-   221		regcache_cache_only(drv->dev_regmap, true);
-   222	
-   223		pm_runtime_set_autosuspend_delay(dev, 250);
-   224		pm_runtime_use_autosuspend(dev);
-   225		pm_runtime_set_active(dev);
-   226		pm_runtime_get_noresume(dev);
-   227	
-   228		ret = devm_pm_runtime_enable(dev);
-   229		if (ret)
-   230			return ret;
-   231	
-   232		ret = devm_add_action_or_reset(dev, class_dev_remove, drv);
-   233		if (ret)
-   234			return ret;
-   235	
-   236		queue_work(system_long_wq, &drv->boot_work);
-   237	
-   238		return 0;
-   239	}
-   240	
+Same.
+
+3397c3cd859a2c Yaxing Guo 2025-09-26   55  		return -ENODEV;
+3397c3cd859a2c Yaxing Guo 2025-09-26   56  
+3397c3cd859a2c Yaxing Guo 2025-09-26   57  	iommu_sva_unbind_device(udev->sva_handle);
+3397c3cd859a2c Yaxing Guo 2025-09-26   58  
+3397c3cd859a2c Yaxing Guo 2025-09-26   59  	return 0;
+3397c3cd859a2c Yaxing Guo 2025-09-26   60  }
+3397c3cd859a2c Yaxing Guo 2025-09-26   61  
+3397c3cd859a2c Yaxing Guo 2025-09-26   62  static int probe(struct pci_dev *pdev, const struct pci_device_id *id)
+3397c3cd859a2c Yaxing Guo 2025-09-26   63  {
+3397c3cd859a2c Yaxing Guo 2025-09-26   64  	struct uio_pci_sva_dev *udev;
+3397c3cd859a2c Yaxing Guo 2025-09-26   65  	int ret, i, irq = 0;
+3397c3cd859a2c Yaxing Guo 2025-09-26   66  
+3397c3cd859a2c Yaxing Guo 2025-09-26   67  	ret = pci_enable_device(pdev);
+3397c3cd859a2c Yaxing Guo 2025-09-26   68  	if (ret) {
+3397c3cd859a2c Yaxing Guo 2025-09-26   69  		dev_err(&pdev->dev, "pci_enable_device failed: %d\n", ret);
+3397c3cd859a2c Yaxing Guo 2025-09-26   70  		return ret;
+3397c3cd859a2c Yaxing Guo 2025-09-26   71  	}
+3397c3cd859a2c Yaxing Guo 2025-09-26   72  
+3397c3cd859a2c Yaxing Guo 2025-09-26   73  	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+3397c3cd859a2c Yaxing Guo 2025-09-26   74  	if (ret)
+3397c3cd859a2c Yaxing Guo 2025-09-26   75  		goto out_disable;
+3397c3cd859a2c Yaxing Guo 2025-09-26   76  
+3397c3cd859a2c Yaxing Guo 2025-09-26   77  	pci_set_master(pdev);
+3397c3cd859a2c Yaxing Guo 2025-09-26   78  
+3397c3cd859a2c Yaxing Guo 2025-09-26   79  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX | PCI_IRQ_MSI);
+3397c3cd859a2c Yaxing Guo 2025-09-26   80  	if (ret > 0) {
+3397c3cd859a2c Yaxing Guo 2025-09-26   81  		irq = pci_irq_vector(pdev, 0);
+3397c3cd859a2c Yaxing Guo 2025-09-26   82  		if (irq < 0) {
+3397c3cd859a2c Yaxing Guo 2025-09-26   83  			dev_err(&pdev->dev, "Failed to get MSI vector\n");
+3397c3cd859a2c Yaxing Guo 2025-09-26   84  			ret = irq;
+3397c3cd859a2c Yaxing Guo 2025-09-26   85  			goto out_disable;
+3397c3cd859a2c Yaxing Guo 2025-09-26   86  		}
+3397c3cd859a2c Yaxing Guo 2025-09-26   87  	} else
+3397c3cd859a2c Yaxing Guo 2025-09-26   88  		dev_warn(&pdev->dev,
+3397c3cd859a2c Yaxing Guo 2025-09-26   89  			 "No IRQ vectors available (%d), using polling\n", ret);
+3397c3cd859a2c Yaxing Guo 2025-09-26   90  
+3397c3cd859a2c Yaxing Guo 2025-09-26   91  	udev = devm_kzalloc(&pdev->dev, sizeof(struct uio_pci_sva_dev),
+                                                ^^^^^^^^^^^^^^^^^^^
+devm_
+
+3397c3cd859a2c Yaxing Guo 2025-09-26   92  			    GFP_KERNEL);
+3397c3cd859a2c Yaxing Guo 2025-09-26   93  	if (!udev) {
+3397c3cd859a2c Yaxing Guo 2025-09-26   94  		ret =  -ENOMEM;
+3397c3cd859a2c Yaxing Guo 2025-09-26   95  		goto out_disable;
+3397c3cd859a2c Yaxing Guo 2025-09-26   96  	}
+3397c3cd859a2c Yaxing Guo 2025-09-26   97  
+3397c3cd859a2c Yaxing Guo 2025-09-26   98  	udev->pdev = pdev;
+3397c3cd859a2c Yaxing Guo 2025-09-26   99  	udev->info.name = "uio_pci_sva";
+3397c3cd859a2c Yaxing Guo 2025-09-26  100  	udev->info.version = "0.0.1";
+3397c3cd859a2c Yaxing Guo 2025-09-26  101  	udev->info.open = uio_pci_sva_open;
+3397c3cd859a2c Yaxing Guo 2025-09-26  102  	udev->info.release = uio_pci_sva_release;
+3397c3cd859a2c Yaxing Guo 2025-09-26  103  	udev->info.irq = irq;
+3397c3cd859a2c Yaxing Guo 2025-09-26  104  	udev->info.handler = irq_handler;
+3397c3cd859a2c Yaxing Guo 2025-09-26  105  	udev->info.priv = udev;
+3397c3cd859a2c Yaxing Guo 2025-09-26  106  
+3397c3cd859a2c Yaxing Guo 2025-09-26  107  	for (i = 0; i < MAX_UIO_MAPS; i++) {
+3397c3cd859a2c Yaxing Guo 2025-09-26  108  		struct resource *r = &pdev->resource[i];
+3397c3cd859a2c Yaxing Guo 2025-09-26  109  		struct uio_mem *uiomem = &udev->info.mem[i];
+3397c3cd859a2c Yaxing Guo 2025-09-26  110  
+3397c3cd859a2c Yaxing Guo 2025-09-26  111  		if (r->flags != (IORESOURCE_SIZEALIGN | IORESOURCE_MEM))
+3397c3cd859a2c Yaxing Guo 2025-09-26  112  			continue;
+3397c3cd859a2c Yaxing Guo 2025-09-26  113  
+3397c3cd859a2c Yaxing Guo 2025-09-26  114  		if (uiomem >= &udev->info.mem[MAX_UIO_MAPS]) {
+3397c3cd859a2c Yaxing Guo 2025-09-26  115  			dev_warn(&pdev->dev, "Do not support more than %d iomem\n",
+3397c3cd859a2c Yaxing Guo 2025-09-26  116  				 MAX_UIO_MAPS);
+3397c3cd859a2c Yaxing Guo 2025-09-26  117  			break;
+3397c3cd859a2c Yaxing Guo 2025-09-26  118  		}
+3397c3cd859a2c Yaxing Guo 2025-09-26  119  
+3397c3cd859a2c Yaxing Guo 2025-09-26  120  		uiomem->memtype = UIO_MEM_PHYS;
+3397c3cd859a2c Yaxing Guo 2025-09-26  121  		uiomem->addr = r->start & PAGE_MASK;
+3397c3cd859a2c Yaxing Guo 2025-09-26  122  		uiomem->offs = r->start & ~PAGE_MASK;
+3397c3cd859a2c Yaxing Guo 2025-09-26  123  		uiomem->size =
+3397c3cd859a2c Yaxing Guo 2025-09-26  124  			(uiomem->offs + resource_size(r) + PAGE_SIZE - 1) &
+3397c3cd859a2c Yaxing Guo 2025-09-26  125  			PAGE_MASK;
+3397c3cd859a2c Yaxing Guo 2025-09-26  126  		uiomem->name = r->name;
+3397c3cd859a2c Yaxing Guo 2025-09-26  127  	}
+3397c3cd859a2c Yaxing Guo 2025-09-26  128  
+3397c3cd859a2c Yaxing Guo 2025-09-26  129  	ret = devm_uio_register_device(&pdev->dev, &udev->info);
+3397c3cd859a2c Yaxing Guo 2025-09-26  130  	if (ret) {
+3397c3cd859a2c Yaxing Guo 2025-09-26  131  		dev_err(&pdev->dev, "Failed to register uio device\n");
+3397c3cd859a2c Yaxing Guo 2025-09-26  132  		goto out_free;
+3397c3cd859a2c Yaxing Guo 2025-09-26  133  	}
+3397c3cd859a2c Yaxing Guo 2025-09-26  134  
+3397c3cd859a2c Yaxing Guo 2025-09-26  135  	pci_set_drvdata(pdev, udev);
+3397c3cd859a2c Yaxing Guo 2025-09-26  136  
+3397c3cd859a2c Yaxing Guo 2025-09-26  137  	return 0;
+3397c3cd859a2c Yaxing Guo 2025-09-26  138  
+3397c3cd859a2c Yaxing Guo 2025-09-26  139  out_free:
+3397c3cd859a2c Yaxing Guo 2025-09-26 @140  	kfree(udev);
+                                                ^^^^^^^^^^^
+Delete this.  It's a double free.
+
+3397c3cd859a2c Yaxing Guo 2025-09-26  141  out_disable:
+3397c3cd859a2c Yaxing Guo 2025-09-26  142  	pci_disable_device(pdev);
+3397c3cd859a2c Yaxing Guo 2025-09-26  143  
+3397c3cd859a2c Yaxing Guo 2025-09-26  144  	return ret;
+3397c3cd859a2c Yaxing Guo 2025-09-26  145  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
