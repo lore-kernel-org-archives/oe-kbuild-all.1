@@ -1,72 +1,73 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD6335979
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 05:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E29C25B305
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Nov 2025 06:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764308190; cv=none; b=ZpijKWFZVIS51hhRazNHJ9DZnzx/BAkkjtTTvVt9NEHTvLP1sEAs1LpjEI9kx2iTSdVkfoU08GL8TgZNe9Dd8i49PATWO33FpOHfHGv41G6KZm5ML0tUXncGf0qc7fxfTCW1/+lWY61b+pr14q8wflAtYTbfHyvVcnQzHHvyz04=
+	t=1764310562; cv=none; b=dg57jKfQXiedLzh+rBGA5mMH0CIlHW0NoW+87K0eXp8OnAIBkRiRjbGLs+UlbF9iJdI8GsJZJ5yWiG1mmo0n83wolSRnVCd2HgiqM3li6t20t0N2sdxeeegrlednswt1DWrrs/Jid7Q5d0N/aNgcjNgx3biR0Mz2+lfpfSZlOVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764308190; c=relaxed/simple;
-	bh=8wiEBHJ4+x7E3lJinDLCE623bdMU6dsmaIPqIuHtVcI=;
+	s=arc-20240116; t=1764310562; c=relaxed/simple;
+	bh=ffhTyij1ReNQCxTshYxvVfuBAAWHI7lGZdQHx3iN9O4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YNHvtOfApWh1oZ8jhlPILWVRNLiAGVkZt2zXttkM6e6nLyjEiu34NHBzuqSEcWnaABP2lIcpss/dpE7yj1fSGw1XtCqmk1bTavTA//dSadOlzviakGB/8lul7ZpPiw6JOrabQ5OKspy9X961lYspP/5ecVp4eIFXpKdD+lExljQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LbSG70LS; arc=none smtp.client-ip=209.85.128.47
+	 Content-Disposition:In-Reply-To; b=awO6qj84ouX4Um0Y9oU4lQPPpyh1MTQUNF7i8J0eVRLA8JopPuwwq6FNw4utt7STwEfp/nfuVLbe+HH8LF5Edsl4x7lrj8sYAylC4meDwaX6DVUJzB9OABUu5G2P08byt39/6iXmDwfR13rctkCFH8DWWvhvIlGRwT6q8BI28Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k3uHuvIu; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LbSG70LS"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779adb38d3so9515355e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 21:36:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k3uHuvIu"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47795f6f5c0so7494495e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Nov 2025 22:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764308187; x=1764912987; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6BwgPmPmCAS9dDYWOHGZSPcfUCqw6dFNzwxvE8Ydh1U=;
-        b=LbSG70LSNdQrsX6N1GFVvVLo4W84eNLNUoGNo1hZlxKwTDFjKOGXTx5s0AFvlEiI49
-         MLwlOSuWo9aj4byhqjstwars+xUD5vBNrYU5y3CHdKeUfB5C920d2yNa442cD0f9jjUb
-         LUSGwicXZx+2a6pLNhIz29qTvWXWB5qXvQLwkDqsXHngLEsS/X6vMZ9x5jEYVLaGiJU2
-         OTJo7eM9aS6XKO+eiiUn7tESw6DqXN2b6V5ExJZawejryjXZs9GNn3Pk66VkgCv6GAEL
-         CTyQXjlwdUfK9bVU9Wpa4bi8ZoXo33UaeZEKsU+oBLb5pebC5qkeXn1i2dndxAiqKNRd
-         ZzEQ==
+        d=linaro.org; s=google; t=1764310559; x=1764915359; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GzOlZeoUbK5GrmA6UDcAo/pAL66N5+Wh7nDV2nIjmh4=;
+        b=k3uHuvIutdL4qU0XPjswJl5cwmJ0qj2XRxeWScGWEINTqm6UxhYYku7T5+cyXfBSJz
+         mrmkPrVjqvX6/TGvnjaWcQehs0yd9xbxmHkdQmsFdSjRXewQY1CmK/EDhbvlzm860P1v
+         7O4C2o+edHFqHoiHIbU+ZPnk0V99+yB4MAX1kx2YXMACgt3YJThPWPE14nMUtdSBhLrH
+         Dayxu+CW1/kttwTl+8G604H+kLgwJhBMySmv1qpVV7cDPc6/haUs7d/sUsFamKmf7k5J
+         9acbGzMGgq4t6iUzyoxsUH7VjNqTeIbv/5nFeL58106YcPdRSxFgX+VlQmEoxyZ9F0vw
+         7UoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764308187; x=1764912987;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6BwgPmPmCAS9dDYWOHGZSPcfUCqw6dFNzwxvE8Ydh1U=;
-        b=tU7YrmjLaUpF6WpSHoDQwFN/iQS3ptaaTcwN0bBSRQOVrNuU0YIeKgEqFwxWC21WfQ
-         eGafbc24RySPQXwVNXD0476KZNQ1+LbAikwBn7xGPXXaLmm2LJSSXuD8QvcSStwBxRdB
-         DRvm46vw9SBDScBfzKVySkQb9JlW4UoBognnQQVHGw6iBC1eu5ffrzRvuqOSw1i4lrgF
-         nTr0c4x6I36Z1E6MYqapiXhOc6q3eW//fMcgh26zjF5FoSyvg0Mjur/qiai1Ssw6LDEd
-         9CRpyWxE3w9Rt6JZpC2d63M8oPWr6f1KNftrRy1QHfUAPRSa069DvPtTKMFldg419JX3
-         vMnA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMtUCZabu9kqe840OWH/zbb6e7r+s5NX3elOGgNW1frtHDpVsoKxLpfIcvYSVds+Z/i8MkVaM6PbCzcR5A@lists.linux.dev
-X-Gm-Message-State: AOJu0YzljbcwzFprJtByQ4km/x3bdHRMnEk6xNMDnILYYskmgQVUAedo
-	cQEWU5J2HaAOvWwWJooU+eRYmlU/HA3IOnEAGYb+rjKrh9Yn6UNpAcSVi30hWXDrFdU=
-X-Gm-Gg: ASbGncuhpqi5lcpovgrP6c6sGMy0ITI6mrR23ZOStBCHx59Kyfqudx/kmqlrzT5pGeR
-	bGLJoMZdtZAzIh1Va1Szz0ygveScMUC9Wr67t6xbhq6ILyBcq9tQWMLmSG9jOPjxqe/zIk4lRVF
-	GOOFi79xhFtt0NqpNR58g/qM5YlpByv0kPR2SrORd4e5aBdCj0kuDz6tx36iXahbDu7wX4fJzMr
-	qC0HMIki4U6mEWrBeP1rmTLm328PjEQmZPcY7XUgYTUtFd4jcimuh857zq09bSVNFY4ZbnBFHeK
-	Ux6jdRHhdPHl8mBXyCzzbwXIgla6x0iOYgZfG+ORcIfdAFgfncmf/C0c6mPA283W6dsM/ey5Mgf
-	DxhNL19Psk1iemOlS3u58Wg7ouA03+GgNRmdq8EIVkN42OAMLP2Vorf9S0KlbDIFZzBguHJw3Kb
-	MRsQRG95waCet4agqbAPzmHcxXQgs=
-X-Google-Smtp-Source: AGHT+IF9jpVKYfnJgUxyB9biyy78MmFLMzsKhgcXrK+i7aGcbHxcOkBKZg0VNhGPcSuEsTZ1PFAJHQ==
-X-Received: by 2002:a05:6000:2288:b0:429:66bf:1463 with SMTP id ffacd0b85a97d-42e0f34fb80mr14113962f8f.44.1764308186777;
-        Thu, 27 Nov 2025 21:36:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764310559; x=1764915359;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GzOlZeoUbK5GrmA6UDcAo/pAL66N5+Wh7nDV2nIjmh4=;
+        b=YsavLlMYzoF1lOefwcCkzIpThAQM8nhYFX97HYRvxP/2bj8zsKoQUqTFpzF/D9hzGL
+         /aN5ycjq49SN8bmnKGChgarQgTzYSMGtKXpZEaTQHDXYjQ+6/xuqubHcDlHFxO5H6zsE
+         zi20LUwB5YE0l8x6nhdeEiMIkGoqPAIBp9oJw7RK4WC7GCDCvjyrH4C9Omx7Um4vLxe6
+         P1J46VW3iU5ySI/aBXwLHHWjDFLDkQmd6SB+30hl5/K1l239ksqhDQo8yWYencm9andW
+         Ewqqgp3wJrdaTW4XTK9uCjGq1aNjh2CGVvHKFheCem1Ba3k8MaGX3Y7Zl8K3Q/3r8MuB
+         Bw6A==
+X-Forwarded-Encrypted: i=1; AJvYcCXcQn4BdOIIp3grPeqgPcjHDFqzXswXfSOhoCpMHWYxWCHtbbsIrI3jj8akdXsP7fFbOw9zXm/haK1uvCqM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUIujTGFojHp6H32whI19G0fzlZy7NsJ6wM/TwgwvZ+XlXOVzJ
+	pCiBJc3HO96/LaSYJQUOFVURW16cUB6uYXOhB9xiLfkiAEEUJOTADVa+yMEdlVaqIpQ=
+X-Gm-Gg: ASbGnct39wAJfOeXQ3NcHNDaQcMnLWAYkLPazwPSSM8GXqhYOCKEQDbZ23m3i3+s+Ev
+	dHBpZxGtmE2aNFuVN2T028FwhcbWxzyiDRltgVqKsh/EoctPwMs5Oj3lWqOiLmDcy+meIe0f7bJ
+	7g1mJr30F4X/gdh2CNsTsJ/1wKxSu9bWprGbPtFipmQSc3sgnOiwBQBTL4sAu7nQm1n9ekAntfi
+	5iizT6SkpYKYQDpDrivz8iNsqQSynGafUMvOugsESFt13agUBBKemf64pXx2FGkl4voTQnN1i/Q
+	H1SUu5RmCHXMhLtsR0SA33TO+y1+R45tAn9PsFzty4w8lSc07g3oEsJVL3O4pV8qprpcyPNc6Fg
+	egCHcoFYdUgj0mMnLuQvd4jB2yTmEPfwXFhi9I9WCCifkMs0Oi4mpdj1qvprOD64S5EQjw2frd/
+	lcACIKxr9rzHQFiILg
+X-Google-Smtp-Source: AGHT+IFdIuL1+ag2sXfLUM/g00Zb6LkyXzXLVWwOpnWTkJoN0WxuvEW4Ox+Z1MnircVKNp0kAljDVQ==
+X-Received: by 2002:a05:600c:1c85:b0:471:9da:524c with SMTP id 5b1f17b1804b1-477c016eab5mr306888745e9.12.1764310558915;
+        Thu, 27 Nov 2025 22:15:58 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42e1c5d618csm7388957f8f.14.2025.11.27.21.36.25
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-479040d81e4sm88057735e9.3.2025.11.27.22.15.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 21:36:26 -0800 (PST)
-Date: Fri, 28 Nov 2025 08:36:22 +0300
+        Thu, 27 Nov 2025 22:15:58 -0800 (PST)
+Date: Fri, 28 Nov 2025 09:15:54 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yaxing Guo <guoyaxing@bosc.ac.cn>
+To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>,
+	dm-devel@lists.linux.dev, linux-block@vger.kernel.org,
+	snitzer@kernel.org, hch@lst.de, axboe@kernel.dk,
+	ebiggers@kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [char-misc:char-misc-next 57/60]
- drivers/uio/uio_pci_generic_sva.c:32 uio_pci_sva_open() error: we previously
- assumed 'udev' could be null (see line 32)
-Message-ID: <202511280815.WV9iCJZb-lkp@intel.com>
+	Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 3/3] dm-crypt: dynamic scatterlist for many segments
+Message-ID: <202511281018.FNOzcP4r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,158 +76,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251124170903.3931792-4-kbusch@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-next
-head:   cbe1d77ed84ae9ab3355d61aca0c30d561a61d5a
-commit: 3397c3cd859a2c51962ad032dcf97961d42f9db2 [57/60] uio: Add SVA support for PCI devices via uio_pci_generic_sva.c
-config: x86_64-randconfig-161-20251128 (https://download.01.org/0day-ci/archive/20251128/202511280815.WV9iCJZb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Keith,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-remove-stacking-default-dma_alignment/20251125-051340
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+patch link:    https://lore.kernel.org/r/20251124170903.3931792-4-kbusch%40meta.com
+patch subject: [PATCHv2 3/3] dm-crypt: dynamic scatterlist for many segments
+config: i386-randconfig-141-20251127 (https://download.01.org/0day-ci/archive/20251128/202511281018.FNOzcP4r-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511281018.FNOzcP4r-lkp@intel.com/
 
-smatch warnings:
-drivers/uio/uio_pci_generic_sva.c:32 uio_pci_sva_open() error: we previously assumed 'udev' could be null (see line 32)
-drivers/uio/uio_pci_generic_sva.c:54 uio_pci_sva_release() error: we previously assumed 'udev' could be null (see line 54)
-drivers/uio/uio_pci_generic_sva.c:140 probe() warn: passing devm_ allocated variable to kfree. 'udev'
+New smatch warnings:
+drivers/md/dm-crypt.c:1510 crypt_convert_block_skcipher() warn: was || intended here instead of &&?
 
-vim +/udev +32 drivers/uio/uio_pci_generic_sva.c
+vim +1510 drivers/md/dm-crypt.c
 
-3397c3cd859a2c Yaxing Guo 2025-09-26   26  static int uio_pci_sva_open(struct uio_info *info, struct inode *inode)
-3397c3cd859a2c Yaxing Guo 2025-09-26   27  {
-3397c3cd859a2c Yaxing Guo 2025-09-26   28  	struct iommu_sva *handle;
-3397c3cd859a2c Yaxing Guo 2025-09-26   29  	struct uio_pci_sva_dev *udev = info->priv;
-3397c3cd859a2c Yaxing Guo 2025-09-26   30  	struct iommu_domain *domain;
-3397c3cd859a2c Yaxing Guo 2025-09-26   31  
-3397c3cd859a2c Yaxing Guo 2025-09-26  @32  	if (!udev && !udev->pdev)
+8f0009a225171c Milan Broz        2017-03-16  1499  	skcipher_request_set_crypt(req, sg_in, sg_out, cc->sector_size, iv);
+3a7f6c990ad04e Milan Broz        2008-02-08  1500  
+3a7f6c990ad04e Milan Broz        2008-02-08  1501  	if (bio_data_dir(ctx->bio_in) == WRITE)
+bbdb23b5d69521 Herbert Xu        2016-01-24  1502  		r = crypto_skcipher_encrypt(req);
+3a7f6c990ad04e Milan Broz        2008-02-08  1503  	else
+bbdb23b5d69521 Herbert Xu        2016-01-24  1504  		r = crypto_skcipher_decrypt(req);
+3a7f6c990ad04e Milan Broz        2008-02-08  1505  
+2dc5327d3acb33 Milan Broz        2011-01-13  1506  	if (!r && cc->iv_gen_ops && cc->iv_gen_ops->post)
+ef43aa38063a6b Milan Broz        2017-01-04  1507  		r = cc->iv_gen_ops->post(cc, org_iv, dmreq);
+ef43aa38063a6b Milan Broz        2017-01-04  1508  
+02664d2ac0d3cf Keith Busch       2025-11-24  1509  out:
+02664d2ac0d3cf Keith Busch       2025-11-24 @1510  	if (r == -EINPROGRESS && r == -EBUSY) {
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Presumably || was intended as the warning suggests since it can't be
+both.
 
-The && should be ||.
-
-3397c3cd859a2c Yaxing Guo 2025-09-26   33  		return -ENODEV;
-3397c3cd859a2c Yaxing Guo 2025-09-26   34  
-3397c3cd859a2c Yaxing Guo 2025-09-26   35  	domain = iommu_get_domain_for_dev(&udev->pdev->dev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   36  	if (domain)
-3397c3cd859a2c Yaxing Guo 2025-09-26   37  		iommu_detach_device(domain, &udev->pdev->dev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   38  
-3397c3cd859a2c Yaxing Guo 2025-09-26   39  	handle = iommu_sva_bind_device(&udev->pdev->dev, current->mm);
-3397c3cd859a2c Yaxing Guo 2025-09-26   40  	if (IS_ERR(handle))
-3397c3cd859a2c Yaxing Guo 2025-09-26   41  		return -EINVAL;
-3397c3cd859a2c Yaxing Guo 2025-09-26   42  
-3397c3cd859a2c Yaxing Guo 2025-09-26   43  	udev->pasid = iommu_sva_get_pasid(handle);
-3397c3cd859a2c Yaxing Guo 2025-09-26   44  
-3397c3cd859a2c Yaxing Guo 2025-09-26   45  	udev->sva_handle = handle;
-3397c3cd859a2c Yaxing Guo 2025-09-26   46  
-3397c3cd859a2c Yaxing Guo 2025-09-26   47  	return 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26   48  }
-3397c3cd859a2c Yaxing Guo 2025-09-26   49  
-3397c3cd859a2c Yaxing Guo 2025-09-26   50  static int uio_pci_sva_release(struct uio_info *info, struct inode *inode)
-3397c3cd859a2c Yaxing Guo 2025-09-26   51  {
-3397c3cd859a2c Yaxing Guo 2025-09-26   52  	struct uio_pci_sva_dev *udev = info->priv;
-3397c3cd859a2c Yaxing Guo 2025-09-26   53  
-3397c3cd859a2c Yaxing Guo 2025-09-26  @54  	if (!udev && !udev->pdev)
-
-Same.
-
-3397c3cd859a2c Yaxing Guo 2025-09-26   55  		return -ENODEV;
-3397c3cd859a2c Yaxing Guo 2025-09-26   56  
-3397c3cd859a2c Yaxing Guo 2025-09-26   57  	iommu_sva_unbind_device(udev->sva_handle);
-3397c3cd859a2c Yaxing Guo 2025-09-26   58  
-3397c3cd859a2c Yaxing Guo 2025-09-26   59  	return 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26   60  }
-3397c3cd859a2c Yaxing Guo 2025-09-26   61  
-3397c3cd859a2c Yaxing Guo 2025-09-26   62  static int probe(struct pci_dev *pdev, const struct pci_device_id *id)
-3397c3cd859a2c Yaxing Guo 2025-09-26   63  {
-3397c3cd859a2c Yaxing Guo 2025-09-26   64  	struct uio_pci_sva_dev *udev;
-3397c3cd859a2c Yaxing Guo 2025-09-26   65  	int ret, i, irq = 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26   66  
-3397c3cd859a2c Yaxing Guo 2025-09-26   67  	ret = pci_enable_device(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   68  	if (ret) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   69  		dev_err(&pdev->dev, "pci_enable_device failed: %d\n", ret);
-3397c3cd859a2c Yaxing Guo 2025-09-26   70  		return ret;
-3397c3cd859a2c Yaxing Guo 2025-09-26   71  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26   72  
-3397c3cd859a2c Yaxing Guo 2025-09-26   73  	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-3397c3cd859a2c Yaxing Guo 2025-09-26   74  	if (ret)
-3397c3cd859a2c Yaxing Guo 2025-09-26   75  		goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   76  
-3397c3cd859a2c Yaxing Guo 2025-09-26   77  	pci_set_master(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26   78  
-3397c3cd859a2c Yaxing Guo 2025-09-26   79  	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSIX | PCI_IRQ_MSI);
-3397c3cd859a2c Yaxing Guo 2025-09-26   80  	if (ret > 0) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   81  		irq = pci_irq_vector(pdev, 0);
-3397c3cd859a2c Yaxing Guo 2025-09-26   82  		if (irq < 0) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   83  			dev_err(&pdev->dev, "Failed to get MSI vector\n");
-3397c3cd859a2c Yaxing Guo 2025-09-26   84  			ret = irq;
-3397c3cd859a2c Yaxing Guo 2025-09-26   85  			goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   86  		}
-3397c3cd859a2c Yaxing Guo 2025-09-26   87  	} else
-3397c3cd859a2c Yaxing Guo 2025-09-26   88  		dev_warn(&pdev->dev,
-3397c3cd859a2c Yaxing Guo 2025-09-26   89  			 "No IRQ vectors available (%d), using polling\n", ret);
-3397c3cd859a2c Yaxing Guo 2025-09-26   90  
-3397c3cd859a2c Yaxing Guo 2025-09-26   91  	udev = devm_kzalloc(&pdev->dev, sizeof(struct uio_pci_sva_dev),
-                                                ^^^^^^^^^^^^^^^^^^^
-devm_
-
-3397c3cd859a2c Yaxing Guo 2025-09-26   92  			    GFP_KERNEL);
-3397c3cd859a2c Yaxing Guo 2025-09-26   93  	if (!udev) {
-3397c3cd859a2c Yaxing Guo 2025-09-26   94  		ret =  -ENOMEM;
-3397c3cd859a2c Yaxing Guo 2025-09-26   95  		goto out_disable;
-3397c3cd859a2c Yaxing Guo 2025-09-26   96  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26   97  
-3397c3cd859a2c Yaxing Guo 2025-09-26   98  	udev->pdev = pdev;
-3397c3cd859a2c Yaxing Guo 2025-09-26   99  	udev->info.name = "uio_pci_sva";
-3397c3cd859a2c Yaxing Guo 2025-09-26  100  	udev->info.version = "0.0.1";
-3397c3cd859a2c Yaxing Guo 2025-09-26  101  	udev->info.open = uio_pci_sva_open;
-3397c3cd859a2c Yaxing Guo 2025-09-26  102  	udev->info.release = uio_pci_sva_release;
-3397c3cd859a2c Yaxing Guo 2025-09-26  103  	udev->info.irq = irq;
-3397c3cd859a2c Yaxing Guo 2025-09-26  104  	udev->info.handler = irq_handler;
-3397c3cd859a2c Yaxing Guo 2025-09-26  105  	udev->info.priv = udev;
-3397c3cd859a2c Yaxing Guo 2025-09-26  106  
-3397c3cd859a2c Yaxing Guo 2025-09-26  107  	for (i = 0; i < MAX_UIO_MAPS; i++) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  108  		struct resource *r = &pdev->resource[i];
-3397c3cd859a2c Yaxing Guo 2025-09-26  109  		struct uio_mem *uiomem = &udev->info.mem[i];
-3397c3cd859a2c Yaxing Guo 2025-09-26  110  
-3397c3cd859a2c Yaxing Guo 2025-09-26  111  		if (r->flags != (IORESOURCE_SIZEALIGN | IORESOURCE_MEM))
-3397c3cd859a2c Yaxing Guo 2025-09-26  112  			continue;
-3397c3cd859a2c Yaxing Guo 2025-09-26  113  
-3397c3cd859a2c Yaxing Guo 2025-09-26  114  		if (uiomem >= &udev->info.mem[MAX_UIO_MAPS]) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  115  			dev_warn(&pdev->dev, "Do not support more than %d iomem\n",
-3397c3cd859a2c Yaxing Guo 2025-09-26  116  				 MAX_UIO_MAPS);
-3397c3cd859a2c Yaxing Guo 2025-09-26  117  			break;
-3397c3cd859a2c Yaxing Guo 2025-09-26  118  		}
-3397c3cd859a2c Yaxing Guo 2025-09-26  119  
-3397c3cd859a2c Yaxing Guo 2025-09-26  120  		uiomem->memtype = UIO_MEM_PHYS;
-3397c3cd859a2c Yaxing Guo 2025-09-26  121  		uiomem->addr = r->start & PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  122  		uiomem->offs = r->start & ~PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  123  		uiomem->size =
-3397c3cd859a2c Yaxing Guo 2025-09-26  124  			(uiomem->offs + resource_size(r) + PAGE_SIZE - 1) &
-3397c3cd859a2c Yaxing Guo 2025-09-26  125  			PAGE_MASK;
-3397c3cd859a2c Yaxing Guo 2025-09-26  126  		uiomem->name = r->name;
-3397c3cd859a2c Yaxing Guo 2025-09-26  127  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26  128  
-3397c3cd859a2c Yaxing Guo 2025-09-26  129  	ret = devm_uio_register_device(&pdev->dev, &udev->info);
-3397c3cd859a2c Yaxing Guo 2025-09-26  130  	if (ret) {
-3397c3cd859a2c Yaxing Guo 2025-09-26  131  		dev_err(&pdev->dev, "Failed to register uio device\n");
-3397c3cd859a2c Yaxing Guo 2025-09-26  132  		goto out_free;
-3397c3cd859a2c Yaxing Guo 2025-09-26  133  	}
-3397c3cd859a2c Yaxing Guo 2025-09-26  134  
-3397c3cd859a2c Yaxing Guo 2025-09-26  135  	pci_set_drvdata(pdev, udev);
-3397c3cd859a2c Yaxing Guo 2025-09-26  136  
-3397c3cd859a2c Yaxing Guo 2025-09-26  137  	return 0;
-3397c3cd859a2c Yaxing Guo 2025-09-26  138  
-3397c3cd859a2c Yaxing Guo 2025-09-26  139  out_free:
-3397c3cd859a2c Yaxing Guo 2025-09-26 @140  	kfree(udev);
-                                                ^^^^^^^^^^^
-Delete this.  It's a double free.
-
-3397c3cd859a2c Yaxing Guo 2025-09-26  141  out_disable:
-3397c3cd859a2c Yaxing Guo 2025-09-26  142  	pci_disable_device(pdev);
-3397c3cd859a2c Yaxing Guo 2025-09-26  143  
-3397c3cd859a2c Yaxing Guo 2025-09-26  144  	return ret;
-3397c3cd859a2c Yaxing Guo 2025-09-26  145  }
+02664d2ac0d3cf Keith Busch       2025-11-24  1511  		kfree(dmreq->__sg_in);
+02664d2ac0d3cf Keith Busch       2025-11-24  1512  		kfree(dmreq->__sg_out);
+02664d2ac0d3cf Keith Busch       2025-11-24  1513  		dmreq->__sg_in = NULL;
+02664d2ac0d3cf Keith Busch       2025-11-24  1514  		dmreq->__sg_out = NULL;
+02664d2ac0d3cf Keith Busch       2025-11-24  1515  	}
+3a7f6c990ad04e Milan Broz        2008-02-08  1516  	return r;
+01482b7671d014 Milan Broz        2008-02-08  1517  }
 
 -- 
 0-DAY CI Kernel Test Service
