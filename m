@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86611A9FAA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 01:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9353319F135
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 01:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764379967; cv=none; b=WxQU6Rpc3ZFigkNugVa01IsgZMT064Z02SZsXwmFAYkhtJlbdEZIfav6HMcOk2u9h1TNnvmu+ROJuSvPUWDziOGZM2WBzAfw36df8x8Bmp42+oygPVlQMjuZEtPIObuRo9wTkcxRBBcGlLSjnfnjNO6w0UnBT2TWb3gjjsbuHdw=
+	t=1764381229; cv=none; b=dpzmvjYHn1G0Ma6R2TqnZkkEMS31zu1/g2HJ0pzn4yuiICGUzde0FDVET0IkZC2dKfbt+ekz9JIYDUEX4wcMpxYNhJX83W4Gu2sqT+VZN0K1T7iNwavnMN8iiW2U4Wobt8Gw8WfPrt/61FCC9CVTPNFfGyjAvWAKGMydQjDyO28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764379967; c=relaxed/simple;
-	bh=+O3yh0ZGPmSHADmnZjcNSTwCC5QVtqkzT+V2y+V4hcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbixHp03Gbr5515eO7djsm0MaiHMgznZ20Z58KUj73NfQHMlV2JwMYD5+9eynuaD8xsQ+8xfu5bULUgrc2B6Kquzz2ffXZQW/A2psT+emOtUv0hIaT7sZb4c1+nOh1EXzOufEfmCsm9eU2iWRriRKD879dIYne8k2gUyyDQSHPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXHEYkgg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1764381229; c=relaxed/simple;
+	bh=0fiLUfYh5jBvuSK1/cbz694nx5PLMKczyjRjHvRstCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q4Eo80IKZ/GIUgiPIJqiJuSYrcg27y9ZjARxf1SAPp0iHGdhcxrNbneLZjeXIABH6lcNW3hoLET/9sjMLNyv+BFVhb2k6cV4+VbfZrqgnFYKhcW9yV8DMLJBAy1/eiuCncvW2Iho2P1WV3LcUYskH5qNiU/vuJ4FWY1S005ovhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSiHi+5d; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXHEYkgg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSiHi+5d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764379965; x=1795915965;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+O3yh0ZGPmSHADmnZjcNSTwCC5QVtqkzT+V2y+V4hcU=;
-  b=mXHEYkgg+M9p1LA4GbEb81otl2JAOcl9vQxQPosBrRi/SsfvqUOhtQC5
-   cnvJQ3ePuFBQ/isGJBvbRLsKYu9z4BRI0XPenUMA8ASpA3tuB7xBH0UZt
-   uHOhYrzWSOM4db8lAa1F6FHLmtb9Qvz3bLSdaHS0xoc91QL8sr4lo6/pk
-   ROzm9O/yzHdjP/a26ex+ba/fyImx2R1SGHNEAdr+gLZ/QXarNFS2zmeJM
-   Nd+AnZi7JOCu4dQ2uk/N+ycdq6T4Dyq4fkBXCxzT3P67K5Vca17ssrSCK
-   ArSRqA8tdrQqbW7g1aJAhOXLq8a5tpzl2TV4mqKb4MO48NiwVTOCSPA2F
+  t=1764381226; x=1795917226;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0fiLUfYh5jBvuSK1/cbz694nx5PLMKczyjRjHvRstCA=;
+  b=CSiHi+5dPFDKPWDEEDmngv243wQnxgme2VBiCE9Vl/O7O+l9lx8dhNeh
+   Y9WrBcUkfsQBnDDSia3NIHLt+eyUe9rDrl4rIW8kHpXKTL/Uq01fotpkQ
+   NXvDnD4K3b/g+R8FcrwmXwmn3Z4+NowU5uUByzS7UPP5hKvZRa/vxzzpE
+   GkXV6QONBJ5TWYgtlr4A9TsiVuOmCeWkkQld5as2Ki1XNADNTLiQlK+ho
+   JoVYUvAxPlzxXmKbY4AJVdq7suD5iS5GgUICtybFZgRQT6msKSVPrNeIJ
+   oazircjBwDpY/UKiu+1J9WyeWyVYdO0mr+Pk3qcA3M8MSW0PP4bOEuXBR
    g==;
-X-CSE-ConnectionGUID: yrr7TxXHTyWsl7oY3v4lAw==
-X-CSE-MsgGUID: iea8HAqcRcy0OdyfBAwWbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66291703"
+X-CSE-ConnectionGUID: qHfNbrPAQ1GRhu+gkwRB4g==
+X-CSE-MsgGUID: 1IcHwx2EQOqo3Bs/ojkVOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="76726105"
 X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; 
-   d="scan'208";a="66291703"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 17:32:44 -0800
-X-CSE-ConnectionGUID: RYNF2qVDQ3GwvuYSQhqhKA==
-X-CSE-MsgGUID: a0ow/vkBTEeg/T37dVIzmQ==
+   d="scan'208";a="76726105"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 17:53:45 -0800
+X-CSE-ConnectionGUID: f5ke1iWrTeO1MJjmlWpq0w==
+X-CSE-MsgGUID: uWUDsLYHTjmxxkW5ZvsEMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; 
-   d="scan'208";a="193776465"
+   d="scan'208";a="230850585"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Nov 2025 17:32:43 -0800
+  by orviesa001.jf.intel.com with ESMTP; 28 Nov 2025 17:53:42 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vP9pI-000000006sD-3MMy;
-	Sat, 29 Nov 2025 01:32:40 +0000
-Date: Sat, 29 Nov 2025 09:32:32 +0800
+	id 1vPA9d-000000006sb-134V;
+	Sat, 29 Nov 2025 01:53:41 +0000
+Date: Sat, 29 Nov 2025 09:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/4] erofs: enable error reporting for
- z_erofs_fixup_insize()
-Message-ID: <202511290903.UE7BHh4Q-lkp@intel.com>
-References: <20251127073122.2542542-4-hsiangkao@linux.alibaba.com>
+Subject: [peterz-queue:sched/flat 21/22] kernel/sched/fair.c:8944:22: error:
+ 'nse' undeclared; did you mean 'se'?
+Message-ID: <202511290919.WvRP2JFC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127073122.2542542-4-hsiangkao@linux.alibaba.com>
 
-Hi Gao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on xiang-erofs/dev-test]
-[also build test WARNING on xiang-erofs/fixes linus/master v6.18-rc7 next-20251128]
-[cannot apply to xiang-erofs/dev]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gao-Xiang/erofs-improve-Zstd-LZMA-and-DEFLATE-error-strings/20251127-153426
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20251127073122.2542542-4-hsiangkao%40linux.alibaba.com
-patch subject: [PATCH 4/4] erofs: enable error reporting for z_erofs_fixup_insize()
-config: x86_64-randconfig-123-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290903.UE7BHh4Q-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290903.UE7BHh4Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
+head:   589908814e69e3b1a5f3c00003d3746b1865cc30
+commit: c68619a24fa5fc6ad3e7edac3a04b8bb6cca02a3 [21/22] sched: Remove sched_class::pick_next_task()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251129/202511290919.WvRP2JFC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290919.WvRP2JFC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511290903.UE7BHh4Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511290919.WvRP2JFC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/erofs/decompressor.c:195:16: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +195 fs/erofs/decompressor.c
+   kernel/sched/fair.c:8870:28: error: static declaration of 'pick_task_fair' follows non-static declaration
+    8870 | static struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf)
+         |                            ^~~~~~~~~~~~~~
+   In file included from kernel/sched/fair.c:57:
+   kernel/sched/sched.h:2687:28: note: previous declaration of 'pick_task_fair' with type 'struct task_struct *(struct rq *, struct rq_flags *)'
+    2687 | extern struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf);
+         |                            ^~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'put_prev_task_fair':
+>> kernel/sched/fair.c:8944:22: error: 'nse' undeclared (first use in this function); did you mean 'se'?
+    8944 |                     !nse || cfs_rq->h_curr)
+         |                      ^~~
+         |                      se
+   kernel/sched/fair.c:8944:22: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/sched/fair.c:8944:37: error: 'struct cfs_rq' has no member named 'h_curr'; did you mean 'curr'?
+    8944 |                     !nse || cfs_rq->h_curr)
+         |                                     ^~~~~~
+         |                                     curr
+   kernel/sched/fair.c: In function 'set_next_task_fair':
+   kernel/sched/fair.c:13484:38: error: 'struct cfs_rq' has no member named 'h_curr'; did you mean 'curr'?
+   13484 |                     first && cfs_rq->h_curr)
+         |                                      ^~~~~~
+         |                                      curr
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:13824:10: error: 'const struct sched_class' has no member named 'pick_next_task'; did you mean 'set_next_task'?
+   13824 |         .pick_next_task         = pick_next_task_fair,
+         |          ^~~~~~~~~~~~~~
+         |          set_next_task
+   kernel/sched/fair.c:13824:35: error: 'pick_next_task_fair' undeclared here (not in a function); did you mean 'set_next_task_fair'?
+   13824 |         .pick_next_task         = pick_next_task_fair,
+         |                                   ^~~~~~~~~~~~~~~~~~~
+         |                                   set_next_task_fair
 
-7fc45dbc938a2e drivers/staging/erofs/decompressor.c Gao Xiang 2019-06-24  179  
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  180  /*
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  181   * Get the exact on-disk size of the compressed data:
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  182   *  - For LZ4, it should apply if the zero_padding feature is on (5.3+);
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  183   *  - For others, zero_padding is enabled all the time.
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  184   */
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  185  const char *z_erofs_fixup_insize(struct z_erofs_decompress_req *rq,
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  186  				 const char *padbuf, unsigned int padbufsize)
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  187  {
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  188  	const char *padend;
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  189  
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  190  	padend = memchr_inv(padbuf, 0, padbufsize);
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  191  	if (!padend)
-c06acfa83138b7 fs/erofs/decompressor.c              Gao Xiang 2025-11-27  192  		return "compressed data start not found";
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  193  	rq->inputsize -= padend - padbuf;
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  194  	rq->pageofs_in += padend - padbuf;
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28 @195  	return 0;
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  196  }
-10e5f6e482e18d fs/erofs/decompressor.c              Gao Xiang 2021-12-28  197  
+
+vim +8944 kernel/sched/fair.c
+
+  8940	
+  8941		while (se) {
+  8942			cfs_rq = cfs_rq_of(se);
+  8943			if (!IS_ENABLED(CONFIG_FAIR_GROUP_SCHED) ||
+> 8944			    !nse || cfs_rq->h_curr)
+  8945				put_prev_entity(cfs_rq, se);
+  8946	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8947			if (nse) {
+  8948				if (is_same_group(se, nse))
+  8949					break;
+  8950				if (nse->depth >= se->depth)
+  8951					nse = parent_entity(nse);
+  8952				if (nse->depth > se->depth)
+  8953					continue;
+  8954			}
+  8955	#endif
+  8956			se = parent_entity(se);
+  8957		}
+  8958	}
+  8959	
 
 -- 
 0-DAY CI Kernel Test Service
