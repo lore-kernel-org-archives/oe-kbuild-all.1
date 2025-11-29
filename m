@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142C61A0BE0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 09:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C3E1E3762
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 11:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764408850; cv=none; b=TIjGO4sSJEPLDr0WY6aaYHcWru4NoeM4WC3w2gLT8CdfC8IwhnkD6e7PpK/y0Gx+tE1zzESTDj325hDm2VDDIRMfgbikT2bHRGp/iedVBRMmIR4EpghKAFegxg7MteR7qwgKM1uL4SWf2Wl+lvQb+BeMl3wh1PlBwsm57oMyBk8=
+	t=1764414665; cv=none; b=mz6sVmq5xon+hI93Hvg0Ok1/SYNmMLPgPj5Tf2rwgTqU4nuIFnZnnjN1TRt3p0gQaOia5OE8Ko6E+JeWSfFoe4JfoQllTDD8oS6WzJxOxTezxSa7NVosGZNeNwrJbXrYAbPQnG0uKGZNUsc0s9tnbIhp4sa5Y5hVz1eHOa86igo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764408850; c=relaxed/simple;
-	bh=ocS5jTnT8stxoT5v3yOd5Pc1SW0cBfNyYQ5zHu+xKbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F2BxNQsnf2DUADv6JB4O8tMMrMDuVd1IT4ik1FvNu9GOM6SXcobCl9yXQAtVCI7b3euUk9XzP9rWACkpTsykt7I8f15jNUSYoKb0LmrC/xpAmaSgwInbtpqC0SaywK7PLbtkd/ri6G9iLmFWsydKimMpbFqEC8rOJdCW11qxiWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBl6f50h; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1764414665; c=relaxed/simple;
+	bh=2UA5sco6NuFh6yBNwCIqsd1c3E4ylFlBew9OjNjMjDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=faHgSB6YD18Qd9MoRKV6kLBUKniK+buBq8MNN6aFs1SfZfOPRTCd/qZpHSdNGiMFDHB+01ZuXGCkUicfkZdJf+WMUp1Cgto4KN8r/53NIgNIY7Qx5COrkGVCuyLSkIsD/phoOhmb3wrIgzzOXU/gcxaBQlQrcwxORdsCqPn60f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MokggMNn; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBl6f50h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MokggMNn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764408849; x=1795944849;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ocS5jTnT8stxoT5v3yOd5Pc1SW0cBfNyYQ5zHu+xKbc=;
-  b=mBl6f50hgTkpqsPFDQTFDik+Lv0j0TOBs5Fl13dV1i8JgdZWC+3qWChy
-   UyYIVerYF4ryavp9DxvmepyvTecorZG9VF3uRPSJq/BJvTfnjzRV9lwFo
-   VG5LqGFWYagPB8utIOoaOLWOtS2Ee0o+0hXhPqIL+6YPT+2TuZ5c0ttZi
-   F9Gc9nzL4BjxhZ3J8I3IXbNgsxoEeFKqRdiqRkaK9DRhUlEETwRXGikDv
-   xe/PDw57sA97hCeZJprW70HVMbGa/PGauUqb/0lF/LASZkBHeLeZjK1KE
-   crpW7b2NaOPNplWsxaBSR5yr+yDsqpyZbWDvfQB+hDuqpdbc0YoZk1TPz
-   A==;
-X-CSE-ConnectionGUID: ATEXpXisSIKvCrYu/LCXow==
-X-CSE-MsgGUID: +HhPMNlqTguhURY3aklY+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66580130"
+  t=1764414663; x=1795950663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2UA5sco6NuFh6yBNwCIqsd1c3E4ylFlBew9OjNjMjDA=;
+  b=MokggMNnfiqYE0Bgk1DTO2XMnCsbJKbNNIgOf/3QkmPgLbpCLa2iCUZg
+   UjMUtJ8ontSZedPZ2xp3POv48ZIU/iQyogrWJIESwkfPkFWStcOs4igkS
+   ztbFgC7IJbFq/1Yv7bF/FwQ4o2W3Te8zbt5sdQc6gPBTED/wnFx5dPPki
+   s4vItbDJwxfVbw1WsRQfzCBmU5miCTEoSBG+H2VxDEoCRX8vfckh1PnN+
+   qTv7f952iBA+22w0KIJFgRJEAHtCDh3InfUdehBc4dEzkz7ll1HOAUwPz
+   3J2kqlb3eGKcUEGnnYXXbs/YJrkNSzupO5MRWK+hpibvWOiInazI00wK0
+   g==;
+X-CSE-ConnectionGUID: vm1XVanSRCW09T+GYk+Fnw==
+X-CSE-MsgGUID: xm85FygMS124ZF1aR10TnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66306799"
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="66580130"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 01:34:09 -0800
-X-CSE-ConnectionGUID: EhwmdOJzT/uvb7ZJQ8o9Vg==
-X-CSE-MsgGUID: n+PJlvsST0eIojF702qL7g==
+   d="scan'208";a="66306799"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 03:11:02 -0800
+X-CSE-ConnectionGUID: 07e4EypTSjqk02QeoBMjlw==
+X-CSE-MsgGUID: VptHr+F9Sd6YJLQl0Xa/Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="193292052"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Nov 2025 01:34:07 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+   d="scan'208";a="193754572"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 29 Nov 2025 03:10:58 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPHLA-000000002ID-2oXF;
-	Sat, 29 Nov 2025 09:34:04 +0000
-Date: Sat, 29 Nov 2025 10:33:10 +0100
+	id 1vPIqt-00000000789-3cxV;
+	Sat, 29 Nov 2025 11:10:55 +0000
+Date: Sat, 29 Nov 2025 19:10:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luca Weiss <luca@lucaweiss.eu>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: [linux-next:master 11922/12740]
- arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: remoteproc@5c00000
- (qcom,sdm845-slpi-pas): Unevaluated properties are not allowed ('cx-supply'
- was unexpected)
-Message-ID: <202511291050.Tvu0iocr-lkp@intel.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, srini@kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+	quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+	arnd@arndb.de, dmitry.baryshkov@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/2] misc: fastrpc: Refactor mmap and munmap logic
+ into helper functions
+Message-ID: <202511291834.zu81Ud77-lkp@intel.com>
+References: <20251128103428.1119696-2-ekansh.gupta@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +67,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251128103428.1119696-2-ekansh.gupta@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7d31f578f3230f3b7b33b0930b08f9afd8429817
-commit: 3d447dcdae53b13b5d7df32c4d1d35971d460008 [11922/12740] dt-bindings: remoteproc: qcom,adsp: Make msm8974 use CX as power domain
-config: arm64-randconfig-2052-20251128 (https://download.01.org/0day-ci/archive/20251129/202511291050.Tvu0iocr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema version: 2025.9.dev21+gaa859412c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291050.Tvu0iocr-lkp@intel.com/reproduce)
+Hi Ekansh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18-rc7 next-20251128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Refactor-mmap-and-munmap-logic-into-helper-functions/20251128-183620
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20251128103428.1119696-2-ekansh.gupta%40oss.qualcomm.com
+patch subject: [PATCH v2 1/2] misc: fastrpc: Refactor mmap and munmap logic into helper functions
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251129/202511291834.zu81Ud77-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291834.zu81Ud77-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511291050.Tvu0iocr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511291834.zu81Ud77-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts:602.10-643.4: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:4796.27-4849.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pmic@66 (maxim,max77705): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml
->> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: remoteproc@5c00000 (qcom,sdm845-slpi-pas): Unevaluated properties are not allowed ('cx-supply' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): $nodename:0: 'i2c21' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
-   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'pmic@60' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
+All warnings (new ones prefixed by >>):
+
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_munmap_dsp':
+>> drivers/misc/fastrpc.c:1825:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1825 |         args[0].ptr = (u64) &req_msg;
+         |                       ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_map_dsp':
+   drivers/misc/fastrpc.c:1897:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1897 |         args[0].ptr = (u64)&req_msg;
+         |                       ^
+   drivers/misc/fastrpc.c:1903:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1903 |         args[1].ptr = (u64)&pages;
+         |                       ^
+   drivers/misc/fastrpc.c:1906:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1906 |         args[2].ptr = (u64)&rsp_msg;
+         |                       ^
+
+
+vim +1825 drivers/misc/fastrpc.c
+
+  1813	
+  1814	static int fastrpc_req_munmap_dsp(struct fastrpc_user *fl, u64 raddr, u64 size)
+  1815	{
+  1816		struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
+  1817		struct fastrpc_munmap_req_msg req_msg;
+  1818		int err;
+  1819		u32 sc;
+  1820	
+  1821		req_msg.client_id = fl->client_id;
+  1822		req_msg.size = size;
+  1823		req_msg.vaddr = raddr;
+  1824	
+> 1825		args[0].ptr = (u64) &req_msg;
+  1826		args[0].length = sizeof(req_msg);
+  1827	
+  1828		sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
+  1829		err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+  1830					      &args[0]);
+  1831	
+  1832		return err;
+  1833	}
+  1834	
 
 -- 
 0-DAY CI Kernel Test Service
