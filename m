@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9353319F135
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 01:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC59114F125;
+	Sat, 29 Nov 2025 02:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764381229; cv=none; b=dpzmvjYHn1G0Ma6R2TqnZkkEMS31zu1/g2HJ0pzn4yuiICGUzde0FDVET0IkZC2dKfbt+ekz9JIYDUEX4wcMpxYNhJX83W4Gu2sqT+VZN0K1T7iNwavnMN8iiW2U4Wobt8Gw8WfPrt/61FCC9CVTPNFfGyjAvWAKGMydQjDyO28=
+	t=1764381887; cv=none; b=khS6eARnAdvuledgizj2mBoMt1lHA5JMBsnHSA8CB3tj4s8VvTxuFbcfOzp7jHqPdsWeSOYSxda5BK6eIsOQ2zQt98KFgzsVRLF2A+PPCNbeXuU6FHnTqLHEQ66j44ZWjHhNiGRpeBHCkVpGt7Wtzz9oZewEPsOlmJidaeArWcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764381229; c=relaxed/simple;
-	bh=0fiLUfYh5jBvuSK1/cbz694nx5PLMKczyjRjHvRstCA=;
+	s=arc-20240116; t=1764381887; c=relaxed/simple;
+	bh=VROoY/BOTrLXT6qEJDZMwUJjhqkH0hDoAxJYBEgcZ38=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4Eo80IKZ/GIUgiPIJqiJuSYrcg27y9ZjARxf1SAPp0iHGdhcxrNbneLZjeXIABH6lcNW3hoLET/9sjMLNyv+BFVhb2k6cV4+VbfZrqgnFYKhcW9yV8DMLJBAy1/eiuCncvW2Iho2P1WV3LcUYskH5qNiU/vuJ4FWY1S005ovhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSiHi+5d; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=LiGtvKtyjM4zr9gdiOeatdTjQEUkztJEo5iQ0X10O7biYDZntaJVFO7fyUQCDk6qNxSIFx12Eh8osSANaq+yXNQE9Hf5/JAHRbVWoYzhPvM3v76fq9AzbpTQ+nx9Kk6wi91TbKSdtm2eURyWYlRuIVKgHb66WG0N8OAWhnSzjTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrdeYBOE; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSiHi+5d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrdeYBOE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764381226; x=1795917226;
+  t=1764381886; x=1795917886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0fiLUfYh5jBvuSK1/cbz694nx5PLMKczyjRjHvRstCA=;
-  b=CSiHi+5dPFDKPWDEEDmngv243wQnxgme2VBiCE9Vl/O7O+l9lx8dhNeh
-   Y9WrBcUkfsQBnDDSia3NIHLt+eyUe9rDrl4rIW8kHpXKTL/Uq01fotpkQ
-   NXvDnD4K3b/g+R8FcrwmXwmn3Z4+NowU5uUByzS7UPP5hKvZRa/vxzzpE
-   GkXV6QONBJ5TWYgtlr4A9TsiVuOmCeWkkQld5as2Ki1XNADNTLiQlK+ho
-   JoVYUvAxPlzxXmKbY4AJVdq7suD5iS5GgUICtybFZgRQT6msKSVPrNeIJ
-   oazircjBwDpY/UKiu+1J9WyeWyVYdO0mr+Pk3qcA3M8MSW0PP4bOEuXBR
+  bh=VROoY/BOTrLXT6qEJDZMwUJjhqkH0hDoAxJYBEgcZ38=;
+  b=BrdeYBOEGuv7MBYyUz3ctR4oJR23H9UUCB8a/Hmc1BPUhGOi0MAcd66O
+   oBsOR+GsFL6CVnoCVzwLSJK2e9i6sCtv+Ndx9As4Y14ULrU3H4RVHm//V
+   C3+8bVneEtkXs+jaIGG3l7hsyHTKOv63qEGh0P4WuWi7zC4/a75dNe+4x
+   muqaIQXJKwrwRUXQ23Xthc5ywDUqbqlCivOsV71+NHXOPC6GO3D7r/un1
+   h2TOH7nJrny/m8g907omySfPG/7vADRdHYS2ulGbb7h2w9Z53IsaZsYaA
+   T889iJ0VR1plS3IRhu9RFudtOz3VhzQjJ5Tm/mkEETeKXngzyJcJnVpeb
    g==;
-X-CSE-ConnectionGUID: qHfNbrPAQ1GRhu+gkwRB4g==
-X-CSE-MsgGUID: 1IcHwx2EQOqo3Bs/ojkVOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="76726105"
+X-CSE-ConnectionGUID: KACQzfrvSr2yss3oxxifjw==
+X-CSE-MsgGUID: aMTWEwbLTkiJ3Z5aWOE0ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="77870177"
 X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; 
-   d="scan'208";a="76726105"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 17:53:45 -0800
-X-CSE-ConnectionGUID: f5ke1iWrTeO1MJjmlWpq0w==
-X-CSE-MsgGUID: uWUDsLYHTjmxxkW5ZvsEMw==
+   d="scan'208";a="77870177"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 18:04:46 -0800
+X-CSE-ConnectionGUID: U8gzwpDVReu9upitdF5ytw==
+X-CSE-MsgGUID: CmGEHZOyQXGc8RgDA0Z/Rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; 
-   d="scan'208";a="230850585"
+   d="scan'208";a="194001916"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Nov 2025 17:53:42 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 28 Nov 2025 18:04:44 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPA9d-000000006sb-134V;
-	Sat, 29 Nov 2025 01:53:41 +0000
-Date: Sat, 29 Nov 2025 09:53:13 +0800
+	id 1vPAKH-000000006sx-25us;
+	Sat, 29 Nov 2025 02:04:41 +0000
+Date: Sat, 29 Nov 2025 10:03:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/flat 21/22] kernel/sched/fair.c:8944:22: error:
- 'nse' undeclared; did you mean 'se'?
-Message-ID: <202511290919.WvRP2JFC-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/flat 21/22] kernel/sched/fair.c:8944:8: error:
+ use of undeclared identifier 'nse'; did you mean 'se'?
+Message-ID: <202511291025.or3848gb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,52 +65,132 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
 head:   589908814e69e3b1a5f3c00003d3746b1865cc30
 commit: c68619a24fa5fc6ad3e7edac3a04b8bb6cca02a3 [21/22] sched: Remove sched_class::pick_next_task()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251129/202511290919.WvRP2JFC-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290919.WvRP2JFC-lkp@intel.com/reproduce)
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251129/202511291025.or3848gb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291025.or3848gb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511290919.WvRP2JFC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511291025.or3848gb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    kernel/sched/fair.c:8870:28: error: static declaration of 'pick_task_fair' follows non-static declaration
     8870 | static struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf)
-         |                            ^~~~~~~~~~~~~~
-   In file included from kernel/sched/fair.c:57:
-   kernel/sched/sched.h:2687:28: note: previous declaration of 'pick_task_fair' with type 'struct task_struct *(struct rq *, struct rq_flags *)'
+         |                            ^
+   kernel/sched/sched.h:2687:28: note: previous declaration is here
     2687 | extern struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf);
-         |                            ^~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'put_prev_task_fair':
->> kernel/sched/fair.c:8944:22: error: 'nse' undeclared (first use in this function); did you mean 'se'?
+         |                            ^
+>> kernel/sched/fair.c:8944:8: error: use of undeclared identifier 'nse'; did you mean 'se'?
     8944 |                     !nse || cfs_rq->h_curr)
          |                      ^~~
          |                      se
-   kernel/sched/fair.c:8944:22: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/sched/fair.c:8944:37: error: 'struct cfs_rq' has no member named 'h_curr'; did you mean 'curr'?
+   kernel/sched/fair.c:8932:23: note: 'se' declared here
+    8932 |         struct sched_entity *se = &prev->se;
+         |                              ^
+   kernel/sched/fair.c:8944:23: error: no member named 'h_curr' in 'struct cfs_rq'
     8944 |                     !nse || cfs_rq->h_curr)
-         |                                     ^~~~~~
-         |                                     curr
-   kernel/sched/fair.c: In function 'set_next_task_fair':
-   kernel/sched/fair.c:13484:38: error: 'struct cfs_rq' has no member named 'h_curr'; did you mean 'curr'?
-   13484 |                     first && cfs_rq->h_curr)
-         |                                      ^~~~~~
-         |                                      curr
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:13824:10: error: 'const struct sched_class' has no member named 'pick_next_task'; did you mean 'set_next_task'?
-   13824 |         .pick_next_task         = pick_next_task_fair,
-         |          ^~~~~~~~~~~~~~
-         |          set_next_task
-   kernel/sched/fair.c:13824:35: error: 'pick_next_task_fair' undeclared here (not in a function); did you mean 'set_next_task_fair'?
-   13824 |         .pick_next_task         = pick_next_task_fair,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-         |                                   set_next_task_fair
+         |                             ~~~~~~  ^
+   kernel/sched/fair.c:13484:24: error: no member named 'h_curr' in 'struct cfs_rq'
+    13484 |                     first && cfs_rq->h_curr)
+          |                              ~~~~~~  ^
+   kernel/sched/fair.c:13824:21: error: use of undeclared identifier 'pick_next_task_fair'; did you mean 'set_next_task_fair'?
+    13824 |         .pick_next_task         = pick_next_task_fair,
+          |                                   ^~~~~~~~~~~~~~~~~~~
+          |                                   set_next_task_fair
+   kernel/sched/fair.c:13476:13: note: 'set_next_task_fair' declared here
+    13476 | static void set_next_task_fair(struct rq *rq, struct task_struct *p, bool first)
+          |             ^
+   kernel/sched/fair.c:13824:3: error: field designator 'pick_next_task' does not refer to any field in type 'const struct sched_class'; did you mean 'set_next_task'?
+    13824 |         .pick_next_task         = pick_next_task_fair,
+          |          ^~~~~~~~~~~~~~
+          |          set_next_task
+   kernel/sched/sched.h:2481:9: note: 'set_next_task' declared here
+    2481 |         void (*set_next_task)(struct rq *rq, struct task_struct *p, bool first);
+         |                ^
+   kernel/sched/fair.c:13826:28: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+    13826 |         .set_next_task          = set_next_task_fair,
+          |                                   ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:13824:21: note: previous initialization is here
+    13824 |         .pick_next_task         = pick_next_task_fair,
+          |                                   ^~~~~~~~~~~~~~~~~~~
+   1 warning and 6 errors generated.
 
 
 vim +8944 kernel/sched/fair.c
 
+  8869	
+> 8870	static struct task_struct *pick_task_fair(struct rq *rq, struct rq_flags *rf)
+  8871	{
+  8872		struct sched_entity *se;
+  8873		struct cfs_rq *cfs_rq;
+  8874		struct task_struct *p;
+  8875		bool throttled;
+  8876		int new_tasks;
+  8877	
+  8878	again:
+  8879		cfs_rq = &rq->cfs;
+  8880		if (!cfs_rq->nr_queued)
+  8881			goto idle;
+  8882	
+  8883		throttled = false;
+  8884	
+  8885		do {
+  8886			/* Might not have done put_prev_entity() */
+  8887			if (cfs_rq->curr && cfs_rq->curr->on_rq)
+  8888				update_curr(cfs_rq);
+  8889	
+  8890			throttled |= check_cfs_rq_runtime(cfs_rq);
+  8891	
+  8892			se = pick_next_entity(rq, cfs_rq);
+  8893			if (!se)
+  8894				goto again;
+  8895			cfs_rq = group_cfs_rq(se);
+  8896		} while (cfs_rq);
+  8897	
+  8898		p = task_of(se);
+  8899		if (unlikely(throttled))
+  8900			task_throttle_setup_work(p);
+  8901		return p;
+  8902	
+  8903	idle:
+  8904		new_tasks = sched_balance_newidle(rq, rf);
+  8905		if (new_tasks < 0)
+  8906			return RETRY_TASK;
+  8907		if (new_tasks > 0)
+  8908			goto again;
+  8909		return NULL;
+  8910	}
+  8911	
+  8912	static struct task_struct *
+  8913	fair_server_pick_task(struct sched_dl_entity *dl_se, struct rq_flags *rf)
+  8914	{
+  8915		return pick_task_fair(dl_se->rq, rf);
+  8916	}
+  8917	
+  8918	void fair_server_init(struct rq *rq)
+  8919	{
+  8920		struct sched_dl_entity *dl_se = &rq->fair_server;
+  8921	
+  8922		init_dl_entity(dl_se);
+  8923	
+  8924		dl_server_init(dl_se, rq, fair_server_pick_task);
+  8925	}
+  8926	
+  8927	/*
+  8928	 * Account for a descheduled task:
+  8929	 */
+  8930	static void put_prev_task_fair(struct rq *rq, struct task_struct *prev, struct task_struct *next)
+  8931	{
+  8932		struct sched_entity *se = &prev->se;
+  8933		struct cfs_rq *cfs_rq;
+  8934	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8935		struct sched_entity *nse = NULL;
+  8936	
+  8937		if (next && next->sched_class == &fair_sched_class)
+  8938			nse = &next->se;
+  8939	#endif
   8940	
   8941		while (se) {
   8942			cfs_rq = cfs_rq_of(se);
