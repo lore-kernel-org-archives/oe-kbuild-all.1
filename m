@@ -1,136 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB952233D9C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 19:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DFF1EA7DB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 19:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764444995; cv=none; b=MupdAg1brviZumLk3KLLh3PerUqi3UWkZVWM0i1G/lYrI5uV0Wec8J+tAz0MA3SX9Kn+14o6m+0UJGHD10+UqczBf9TfohHbsmBWTkhetCUW+iQbcT9sWsiSYEuolVI4HTSyRRfXpTe1u2RK3tbVbgUguJ592wiSApCbdLOO/Mo=
+	t=1764445929; cv=none; b=YFGLF5fjAU6qjFxJumr8LI9bJOa2AYO5bqXuNEK/n0AB6/7I5FWc4aWgftEBcAjmzXERejK0BWchDf8x3xlWagYLEcANsb5rHU3KoMhPWCioo6fO0z53MZznlYq8Qb2yrw4kju19XP1x36DCWvM4NZOQ1uE2EnArQxgZPsgqTKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764444995; c=relaxed/simple;
-	bh=n+c33eLmKpvzexuKf5CMuWcYJjwQ9elpT0g++XC2a+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KomBDdBHlERQHxOo7zfz/BoBIzupPFca/1VjEexqsJnYWvedUakI9UPeKKpid+k2EnJvE97DRkRWRF/YpRPyJQWmEdenrDnRL4GsCE/D5AxCg++8dIOuU/kKgInEs69M9Rdj24d6dt5GFAaSICiGNI/r7eGQdanu6ckuVpvrE00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6fS7Y1j; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764445929; c=relaxed/simple;
+	bh=OrmomZ+9BKBtj7hi44FcTpdla33Mr2LSv8PXGh4OlGc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lI5tQa620uqnCBMOAJFCG+CzucpuLyU6Ycr9Aa8Y5wjxftnZQ/O8iw44KxVd39rugJzfrf2i/oh1tjMjsshPVs2VLNJoIfD2tlnIBtvUi0dfIh83U5ZYai4wVWzU1+gMpsgrHu2z9VRqFQnnuRPpEo2eSWcSEN208Kly7l88cjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=EdDlKbWF; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6fS7Y1j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764444992; x=1795980992;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n+c33eLmKpvzexuKf5CMuWcYJjwQ9elpT0g++XC2a+0=;
-  b=M6fS7Y1jN06762AwIk90hh1vVC7+i2lAQ0teP6bcx7hy2H2gnGWSlhvA
-   4ZSpicHt/2iMAco7BJGY62IEah+qr0TOJ+XzT0yUiUqkdYIOPS9+M+uOU
-   t4gIdJ5RH1xQEML+O1Mzw+UpTAVbb+hCNo+kUyLD+P7AuxNKf8FVoMztY
-   odpEPoSk1KHI/+xzZg8ipkZSUenokE1m+HM2GZ3Swcoba/x/uCQe+66xM
-   Gajr0TnY48Lje9V0y5Y/f9pmg16bqHqSH0lzwt/pPkyPnmn6B9xRgdZgR
-   RDT2T0XjBlgOSxWNInbVPKBXiGsJI9bVFdsG6CR6chIY50sJDFAjyfOhL
-   w==;
-X-CSE-ConnectionGUID: o3hZ/P65RSeI1ELdaAPDkQ==
-X-CSE-MsgGUID: kv5qnOn7R1qKa9gg4JnRlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="66324897"
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="66324897"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 11:36:31 -0800
-X-CSE-ConnectionGUID: X2Kc27BdQt26CZYuNXjZ+A==
-X-CSE-MsgGUID: E5oHsCPqSSmFLDlysbtEJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="198181574"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 29 Nov 2025 11:36:28 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vPQk5-000000007W1-2WuL;
-	Sat, 29 Nov 2025 19:36:25 +0000
-Date: Sun, 30 Nov 2025 03:35:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
-	David Kaplan <david.kaplan@amd.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>
-Subject: Re: [PATCH v5 4/9] x86/vmscape: Move mitigation selection to a
- switch()
-Message-ID: <202511300322.KCG4AuJ9-lkp@intel.com>
-References: <20251126-vmscape-bhb-v5-4-02d66e423b00@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="EdDlKbWF"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6417313bddaso4656915a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 11:52:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1764445926; x=1765050726; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YUeLWvyACxGaCf4GzfDj2Zf5qGJH4Y9rmObQPo3NL+0=;
+        b=EdDlKbWFBD7DEwcw4QNm+4G9j8KwKCoQtVY/6V25+PBYvClFWxYwzFqHBQ1kY9yXIb
+         MpL+IAkn5BAz1jGJqf8rJrloGjA/+/T7ioqxPAeTXE53hc7AdyLjKjglRN21q1S0LwOZ
+         +LKblbMnc4OoiDdd9z0RYSjX9AmKULXo3EuFIeDSwmpi2vXt4ySslRK3fc+mLQOuj6eo
+         N4vajLh4l5wdSzn/yjvnm7gb/VG4nppMm9sSmlRs6qeoP6tTw/bpFiUpwOl04CFUPFYw
+         7wbT3QeDHCqrb6uCUxoHRw09KgT2E4NVPd/3yHJqsHmk9ronAY+OBKRMky5AuHsSswu8
+         a5Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764445926; x=1765050726;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YUeLWvyACxGaCf4GzfDj2Zf5qGJH4Y9rmObQPo3NL+0=;
+        b=OHCRi+cmsYdBiXg0flS213n5YWI8G5724TmZzDfjchUSz21TmkOShExj4c122O4QpY
+         Xw1rFtPFkIz9uDfnvsm9HBmd31SRzuzT97GClpM/GMapWgkBlue2KiQl7RZmZwB0h/Zy
+         ROgrRDc7l4PegEfNL7uoRjk7iSuubgrRNfzJ2n2GAb9wCCfhjNQbumZAh2cKqxo6PVJt
+         n/jBg6Vyd1296X9jm8oc5PLB3bpl9MawKwDccwXx063FU+05VGi1REWG4YR0WUllZSPT
+         I+o1dI6/Jf8BY99OdIq/wmwg5I2BgcMPWrEPfp7rylMBcFAo0ztLe5DSVn059KFcaW1X
+         ghZQ==
+X-Gm-Message-State: AOJu0Yy9b39qt5SfAWO/OfBHpwy3/qVYBg7ipSuWFTdqx51FiGWQUpJa
+	m2s03/Tgunav8cnvVceHtlUt2HDHgJV7HyPrWwfyG5JjM0ySWjh6Fx406KhbHh/K8VSrKS5n+ju
+	jSycM3hLE9Nlnb3EcNocpjrIa6mYe75mu4XB38z+rsA==
+X-Gm-Gg: ASbGncvQpHHFgg6eCqYi13EH0qBOynmjpALNzCs+ydz+ChR9roqRc9IIVarunWBNVOm
+	UZfm7H8JZePXxqObcNL/KTv15KULOtYGOm/qqAzPDpmLpjq3V5jicYxfqn59isvCuKCvrV9xB5j
+	etmLJ3+AooH0J1xGjRQVkmSmPv8gZXLUERWT+KrnrsJ+B99eDrnBGbnxpP57yOfNdgcDG2BytF+
+	ZcHfH+/kSHpHQ7E+kXp67NNM9dk2JUaCvojgu/OCyslx0NPKk27JfvEMhEpRMth+4TH
+X-Google-Smtp-Source: AGHT+IFrwqbaIeWdJib8FrG2mDeH9cpmV3Xd1JNcESoDRG6rLym64mFEzXP+GMLcdbvXtvEDkr4BWumbOiH/BtJqycw=
+X-Received: by 2002:a05:6402:1ed2:b0:640:8348:6a82 with SMTP id
+ 4fb4d7f45d1cf-645eb7872afmr16547077a12.24.1764445925596; Sat, 29 Nov 2025
+ 11:52:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126-vmscape-bhb-v5-4-02d66e423b00@linux.intel.com>
+References: <202511280300.6pvBmXUS-lkp@intel.com>
+In-Reply-To: <202511280300.6pvBmXUS-lkp@intel.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sat, 29 Nov 2025 14:51:28 -0500
+X-Gm-Features: AWmQ_bnFhg4fTSb2cmgYMQtzbTBVTpNXxCQJRN9-QkYD3rk0FAtL0ZYOt9H_zqA
+Message-ID: <CA+CK2bCmp4gjpyND2=Chdz-EfRAF20unYzO2dwQb+ZTEihgk3w@mail.gmail.com>
+Subject: Re: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
+ luo_ioctl() warn: unsigned 'nr' is never less than zero.
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Pratyush Yadav <pratyush@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pawan,
+On Thu, Nov 27, 2025 at 2:29=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
+> commit: b30a1fee674c8446bebd9e399b267ac824093bc8 [12118/12398] liveupdate=
+: luo_core: add user interface
+> config: x86_64-randconfig-161-20251127 (https://download.01.org/0day-ci/a=
+rchive/20251128/202511280300.6pvBmXUS-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511280300.6pvBmXUS-lkp=
+@intel.com/
+>
+> smatch warnings:
+> kernel/liveupdate/luo_core.c:402 luo_ioctl() warn: unsigned 'nr' is never=
+ less than zero.
+>
+> vim +/nr +402 kernel/liveupdate/luo_core.c
+>
+>    392
+>    393  static long luo_ioctl(struct file *filep, unsigned int cmd, unsig=
+ned long arg)
+>    394  {
+>    395          const struct luo_ioctl_op *op;
+>    396          struct luo_ucmd ucmd =3D {};
+>    397          union ucmd_buffer buf;
+>    398          unsigned int nr;
+>    399          int err;
+>    400
+>    401          nr =3D _IOC_NR(cmd);
+>  > 402          if (nr < LIVEUPDATE_CMD_BASE ||
+>    403              (nr - LIVEUPDATE_CMD_BASE) >=3D ARRAY_SIZE(luo_ioctl_=
+ops)) {
 
-kernel test robot noticed the following build warnings:
+This is a false positive. The logic is designed to work generically
+for any base, similar to how it is handled in session ioctl and
+iommufd ictl. The warning only triggers because LIVEUPDATE_CMD_BASE
+happens to be 0 in this specific case.
 
-[auto build test WARNING on 6a23ae0a96a600d1d12557add110e0bb6e32730c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawan-Gupta/x86-bhi-x86-vmscape-Move-LFENCE-out-of-clear_bhb_loop/20251127-061843
-base:   6a23ae0a96a600d1d12557add110e0bb6e32730c
-patch link:    https://lore.kernel.org/r/20251126-vmscape-bhb-v5-4-02d66e423b00%40linux.intel.com
-patch subject: [PATCH v5 4/9] x86/vmscape: Move mitigation selection to a switch()
-config: x86_64-randconfig-122-20251129 (https://download.01.org/0day-ci/archive/20251130/202511300322.KCG4AuJ9-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300322.KCG4AuJ9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511300322.KCG4AuJ9-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/bugs.c:3260:9: sparse: sparse: statement expected after case label
-
-vim +3260 arch/x86/kernel/cpu/bugs.c
-
-556c1ad666ad90 Pawan Gupta  2025-08-14  3231  
-556c1ad666ad90 Pawan Gupta  2025-08-14  3232  static void __init vmscape_select_mitigation(void)
-556c1ad666ad90 Pawan Gupta  2025-08-14  3233  {
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3234  	if (!boot_cpu_has_bug(X86_BUG_VMSCAPE)) {
-556c1ad666ad90 Pawan Gupta  2025-08-14  3235  		vmscape_mitigation = VMSCAPE_MITIGATION_NONE;
-556c1ad666ad90 Pawan Gupta  2025-08-14  3236  		return;
-556c1ad666ad90 Pawan Gupta  2025-08-14  3237  	}
-556c1ad666ad90 Pawan Gupta  2025-08-14  3238  
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3239  	if ((vmscape_mitigation == VMSCAPE_MITIGATION_AUTO) &&
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3240  	    !should_mitigate_vuln(X86_BUG_VMSCAPE))
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3241  		vmscape_mitigation = VMSCAPE_MITIGATION_NONE;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3242  
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3243  	switch (vmscape_mitigation) {
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3244  	case VMSCAPE_MITIGATION_NONE:
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3245  		break;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3246  
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3247  	case VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER:
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3248  		if (!boot_cpu_has(X86_FEATURE_IBPB))
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3249  			vmscape_mitigation = VMSCAPE_MITIGATION_NONE;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3250  		break;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3251  
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3252  	case VMSCAPE_MITIGATION_AUTO:
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3253  		if (boot_cpu_has(X86_FEATURE_IBPB))
-556c1ad666ad90 Pawan Gupta  2025-08-14  3254  			vmscape_mitigation = VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER;
-5799d5d8a6c877 David Kaplan 2025-09-12  3255  		else
-5799d5d8a6c877 David Kaplan 2025-09-12  3256  			vmscape_mitigation = VMSCAPE_MITIGATION_NONE;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3257  		break;
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3258  
-0091dd36e9ee51 Pawan Gupta  2025-11-26  3259  	default:
-5799d5d8a6c877 David Kaplan 2025-09-12 @3260  	}
-556c1ad666ad90 Pawan Gupta  2025-08-14  3261  }
-556c1ad666ad90 Pawan Gupta  2025-08-14  3262  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    404                  return -EINVAL;
+>    405          }
+>    406
+>    407          ucmd.ubuffer =3D (void __user *)arg;
+>    408          err =3D get_user(ucmd.user_size, (u32 __user *)ucmd.ubuff=
+er);
+>    409          if (err)
+>    410                  return err;
+>    411
+>    412          op =3D &luo_ioctl_ops[nr - LIVEUPDATE_CMD_BASE];
+>    413          if (op->ioctl_num !=3D cmd)
+>    414                  return -ENOIOCTLCMD;
+>    415          if (ucmd.user_size < op->min_size)
+>    416                  return -EINVAL;
+>    417
+>    418          ucmd.cmd =3D &buf;
+>    419          err =3D copy_struct_from_user(ucmd.cmd, op->size, ucmd.ub=
+uffer,
+>    420                                      ucmd.user_size);
+>    421          if (err)
+>    422                  return err;
+>    423
+>    424          return op->execute(&ucmd);
+>    425  }
+>    426
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
