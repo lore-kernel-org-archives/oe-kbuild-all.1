@@ -1,65 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C31E15278E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 09:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142C61A0BE0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 09:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764407279; cv=none; b=RDZsq704WU/mW5T/VJZMIhcVe3C6RFFr98USJb6itU/R8IDVBqIkmv+T6BAhHniYEwhZPyb03vqre4i1atYCcf70j+vn0U+EB9LTFmv4az7FOSxP3e12MVNbW99K26ZiIVaOtf2lOQjbNUON4LopKsx92DPzaYfaJYNrN/YNG08=
+	t=1764408850; cv=none; b=TIjGO4sSJEPLDr0WY6aaYHcWru4NoeM4WC3w2gLT8CdfC8IwhnkD6e7PpK/y0Gx+tE1zzESTDj325hDm2VDDIRMfgbikT2bHRGp/iedVBRMmIR4EpghKAFegxg7MteR7qwgKM1uL4SWf2Wl+lvQb+BeMl3wh1PlBwsm57oMyBk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764407279; c=relaxed/simple;
-	bh=LaFWmCSuL4KQQ+UT/MEIhGMRgAIrz8Sy2tDbRWfHTC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ePmtTWW7xkAoPbT/Nnd2D/26bm3wQgpJJU4u1Mi6+RlL7IwhWODZhMSZ+S6eXLPptzuAUtv8TLWFrTg739C7clIN8Z0vkFjsFXwy0Bceg4Pav904d3WXFcpVdwvEfU3YB4X5ghNJFkS77BVei4/C5RQP0aHdPSElHTkDpqS8rE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/vN6QfU; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1764408850; c=relaxed/simple;
+	bh=ocS5jTnT8stxoT5v3yOd5Pc1SW0cBfNyYQ5zHu+xKbc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F2BxNQsnf2DUADv6JB4O8tMMrMDuVd1IT4ik1FvNu9GOM6SXcobCl9yXQAtVCI7b3euUk9XzP9rWACkpTsykt7I8f15jNUSYoKb0LmrC/xpAmaSgwInbtpqC0SaywK7PLbtkd/ri6G9iLmFWsydKimMpbFqEC8rOJdCW11qxiWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBl6f50h; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/vN6QfU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBl6f50h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764407277; x=1795943277;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LaFWmCSuL4KQQ+UT/MEIhGMRgAIrz8Sy2tDbRWfHTC8=;
-  b=k/vN6QfU4CBWujrdj/sHFhpODHlC5EHgnpQH6lkFiEPbYG3kyQFVrPgp
-   3gMz9adH9SlIcWMIWnzv69rPt6dQ44eIazTCiws+vB2BctZKO3lHCLFcE
-   QJ7BcrwGlGgDAVRfTJWqw1TjT17YJ38/SA15WRXeyx9isGuq7W5TOg6uq
-   j2tHOXlIwSHHQDG/MV8F3Co+I3E7zr6JaBHlJtriowcRJBkqDyLLSJeJn
-   JNN28Qq488MGqGY4+fHGYYNw2td2GrhE/qhaai8YOX9sqkrYKv9Lc0wq8
-   u61N+EZqCmLA43Y9Fv2FbJ1+BUQZaZSjKWAR/FPlDIsB5dAYrmFO0IrAF
+  t=1764408849; x=1795944849;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ocS5jTnT8stxoT5v3yOd5Pc1SW0cBfNyYQ5zHu+xKbc=;
+  b=mBl6f50hgTkpqsPFDQTFDik+Lv0j0TOBs5Fl13dV1i8JgdZWC+3qWChy
+   UyYIVerYF4ryavp9DxvmepyvTecorZG9VF3uRPSJq/BJvTfnjzRV9lwFo
+   VG5LqGFWYagPB8utIOoaOLWOtS2Ee0o+0hXhPqIL+6YPT+2TuZ5c0ttZi
+   F9Gc9nzL4BjxhZ3J8I3IXbNgsxoEeFKqRdiqRkaK9DRhUlEETwRXGikDv
+   xe/PDw57sA97hCeZJprW70HVMbGa/PGauUqb/0lF/LASZkBHeLeZjK1KE
+   crpW7b2NaOPNplWsxaBSR5yr+yDsqpyZbWDvfQB+hDuqpdbc0YoZk1TPz
    A==;
-X-CSE-ConnectionGUID: 9h8l5qBrRh6HYXnTcHnN8Q==
-X-CSE-MsgGUID: pLcNuhB3QnuNvSK68AQ93g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="65419293"
+X-CSE-ConnectionGUID: ATEXpXisSIKvCrYu/LCXow==
+X-CSE-MsgGUID: +HhPMNlqTguhURY3aklY+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66580130"
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="65419293"
+   d="scan'208";a="66580130"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 01:07:56 -0800
-X-CSE-ConnectionGUID: fmPpZhEQRmiKI3VGGnD6Uw==
-X-CSE-MsgGUID: Iv5FX28QRx6kcI6sEUS0Pw==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 01:34:09 -0800
+X-CSE-ConnectionGUID: EhwmdOJzT/uvb7ZJQ8o9Vg==
+X-CSE-MsgGUID: n+PJlvsST0eIojF702qL7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="193289632"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Nov 2025 01:07:54 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="193292052"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Nov 2025 01:34:07 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPGvo-0000000074r-1bCf;
-	Sat, 29 Nov 2025 09:07:52 +0000
-Date: Sat, 29 Nov 2025 17:07:17 +0800
+	id 1vPHLA-000000002ID-2oXF;
+	Sat, 29 Nov 2025 09:34:04 +0000
+Date: Sat, 29 Nov 2025 10:33:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Richard Chang <richardycc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Brian Geffon <bgeffon@google.com>, Minchan Kim <minchan@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH 1/2] zram: introduce compressed data writeback
-Message-ID: <202511291628.NZif1jdx-lkp@intel.com>
-References: <20251128170442.2988502-2-senozhatsky@chromium.org>
+To: Luca Weiss <luca@lucaweiss.eu>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: [linux-next:master 11922/12740]
+ arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: remoteproc@5c00000
+ (qcom,sdm845-slpi-pas): Unevaluated properties are not allowed ('cx-supply'
+ was unexpected)
+Message-ID: <202511291050.Tvu0iocr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,67 +64,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251128170442.2988502-2-senozhatsky@chromium.org>
 
-Hi Sergey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20251128]
-[cannot apply to axboe/for-next linus/master v6.18-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sergey-Senozhatsky/zram-introduce-compressed-data-writeback/20251129-010716
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251128170442.2988502-2-senozhatsky%40chromium.org
-patch subject: [PATCH 1/2] zram: introduce compressed data writeback
-config: x86_64-randconfig-011-20251129 (https://download.01.org/0day-ci/archive/20251129/202511291628.NZif1jdx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291628.NZif1jdx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7d31f578f3230f3b7b33b0930b08f9afd8429817
+commit: 3d447dcdae53b13b5d7df32c4d1d35971d460008 [11922/12740] dt-bindings: remoteproc: qcom,adsp: Make msm8974 use CX as power domain
+config: arm64-randconfig-2052-20251128 (https://download.01.org/0day-ci/archive/20251129/202511291050.Tvu0iocr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema version: 2025.9.dev21+gaa859412c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291050.Tvu0iocr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511291628.NZif1jdx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511291050.Tvu0iocr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/block/zram/zram_drv.c:2099:12: warning: 'zram_read_from_zspool_raw' defined but not used [-Wunused-function]
-    2099 | static int zram_read_from_zspool_raw(struct zram *zram, struct page *page,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/zram_read_from_zspool_raw +2099 drivers/block/zram/zram_drv.c
-
-  2098	
-> 2099	static int zram_read_from_zspool_raw(struct zram *zram, struct page *page,
-  2100					     u32 index)
-  2101	{
-  2102		struct zcomp_strm *zstrm;
-  2103		unsigned long handle;
-  2104		unsigned int size;
-  2105		void *src;
-  2106	
-  2107		handle = zram_get_handle(zram, index);
-  2108		size = zram_get_obj_size(zram, index);
-  2109	
-  2110		/*
-  2111		 * We need to get stream just for ->local_copy buffer, in
-  2112		 * case if object spans two physical pages. No decompression
-  2113		 * takes place here, as we read raw compressed data.
-  2114		 */
-  2115		zstrm = zcomp_stream_get(zram->comps[ZRAM_PRIMARY_COMP]);
-  2116		src = zs_obj_read_begin(zram->mem_pool, handle, zstrm->local_copy);
-  2117		memcpy_to_page(page, 0, src, size);
-  2118		zs_obj_read_end(zram->mem_pool, handle, src);
-  2119		zcomp_stream_put(zstrm);
-  2120	
-  2121		return 0;
-  2122	}
-  2123	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts:602.10-643.4: Warning (avoid_unnecessary_addr_size): /soc@0/geniqup@ac0000/i2c@a98000/pmic@66: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4796.27-4849.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
+   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: pmic@66 (maxim,max77705): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/maxim,max77705.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: remoteproc@5c00000 (qcom,sdm845-slpi-pas): Unevaluated properties are not allowed ('cx-supply' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,adsp.yaml
+   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): $nodename:0: 'i2c21' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
+   arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dtb: i2c21 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'pmic@60' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml
 
 -- 
 0-DAY CI Kernel Test Service
