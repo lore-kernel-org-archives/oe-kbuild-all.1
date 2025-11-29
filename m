@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71F4191
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 21:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83550224AF7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 23:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764450036; cv=none; b=X88POF77cJ+bXscMLb4kk6ljPoyjrLNB3MvGvzy8JOhW16wpI1xB24g8vS2udri1LZpWi7EkP2RXJ4e5DuBr9X5eD3wib8uFjhk6OECLuZQ7c7+5Z5z3vjWC2NM2oNqcwXm7RGL+CfoCHS5jGD+z4nxMtCKnLXWvrxr8zU8fENs=
+	t=1764459340; cv=none; b=GsTd2+FQayA3kA0zdXLqfDL3EGD5oxeDSQTQnBPOx86L6PjXqpNIGo4GoJSq33mZtEryJMfBt6lrhHZJudc1uts16ynQuacVfo6nEzVHTE4uQspc4nPDWD2RcWUJ+ysYJnQMTxbCCMyVSVZt18552gW73QGv9ezDPq3MqljRKeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764450036; c=relaxed/simple;
-	bh=jFGH6JAZWVZctcxMT4SvYIg1yLcOJOKAySE0k39POAE=;
+	s=arc-20240116; t=1764459340; c=relaxed/simple;
+	bh=p9sHDk7+7GmM4EdNSN1k/QSYDWP2ipLEld/Jgzmom7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FvE2z/jrrUK4FE+vWptxtwgt/VdyLUghwRg7R2w3l6rTQvLtl5mb/N5nx3/BZWCqC1ztSqEQMarOM0ke6iHgt51X4OPnmcHRJV+XezKpVXgsnRJo01m1x0BhveyjOdV0E4dMPtKAA2IYI/Wi4LMFPdsFl3NfzwoXQw4WEycASWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cl4k5Xw5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=OaZcJCSIg/pay8bv16EDbq0tz0Ho/Id8cbNFej8ig0FtQ3Qpxn9quxa2Sk1o2fOkvpvlA/TzVaSu25GlRDZAzPv5Y2CFMO8OsCVhQvolMb8PbR/GENlVAuf8KzDMf4Xw+o5cYC8CL7p08NnBM1LIjZ5bzrxLlYe2rPgWjjtnFbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQG88xmm; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cl4k5Xw5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQG88xmm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764450034; x=1795986034;
+  t=1764459339; x=1795995339;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jFGH6JAZWVZctcxMT4SvYIg1yLcOJOKAySE0k39POAE=;
-  b=cl4k5Xw5jiV97pGxnByHQLHjr94vu2b6vsuaEGB7mUv1aF+UM10B7/Jq
-   ISryDkFc1ITZk+Pbq/xyA6QxMu2G1cHseXA+mC3hlA4We6oEVYZwRcNiO
-   aX/+mQo02u20y/ZcAIMNoTmarGqHPiUewcpGFCpY4/iZOG7zwYBMUJR/9
-   nLGlia6CQ/NBPozUobWcDVklbOfbGtDOqalS7yrrUV169bD7DNu2B4hMR
-   TU1p2dqFC+FMg4aDIwubXg4imBbD/wq22VkpQMNcth+osIMfZLWqN2kYP
-   /emI5I1fcsg7U7Rl6Pkw0DAfcoTGCo8ybR1BE0Zd7aaIQkdUgoK53h6T5
-   w==;
-X-CSE-ConnectionGUID: gHRniCSGSZy2ZVWUs9rShg==
-X-CSE-MsgGUID: zjHlLybFSMyaVvUGo9E0aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="77788358"
+  bh=p9sHDk7+7GmM4EdNSN1k/QSYDWP2ipLEld/Jgzmom7k=;
+  b=YQG88xmmQ0dBOAQpsUDFX1l5jHEO50pa7U94tmGhfYIxzeCQtzJTi3wv
+   SfDe94wEqfKI+TTbEeYtdjnuU8jThc0UzQskHLhKzbmOFVBE3hMGBqttl
+   iLqWjN2nIikfS0t4ZNke3YfghkhluEDs0azOSh9sRSy8/kIfqE0pUhCP0
+   pCsU/L95NeuSMcrT1yTej12ffKPwdrMrEzbjWJH507fTbI00OWz/0h6eV
+   Y8sR/SYllK6TEgM3XcxxRf/jZWYCCGTLM5HS06v/itQNkIMxM1RO2KgWG
+   OkgcPEaFS4vpOdqG/Q6WKWO/bcrgIw+7jcfjIzK12xHfTXApsP+aiZdoa
+   g==;
+X-CSE-ConnectionGUID: IFgUrXz6SrCBDZD3wq1Blg==
+X-CSE-MsgGUID: AKvEugYvTXyiVQKUIIMdaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="66601030"
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="77788358"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 13:00:33 -0800
-X-CSE-ConnectionGUID: OckHkw/pSCCe1c5rmaNmUg==
-X-CSE-MsgGUID: C5VZLRE9TcyfmPE/WE6oIg==
+   d="scan'208";a="66601030"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 15:35:38 -0800
+X-CSE-ConnectionGUID: 1E40CCnNSNWk+LKW010sfQ==
+X-CSE-MsgGUID: RE9DlHqFQMm2KaPoH0ynJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="194141200"
+   d="scan'208";a="194522589"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2025 13:00:31 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 29 Nov 2025 15:35:37 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPS3R-000000007af-1Y35;
-	Sat, 29 Nov 2025 21:00:29 +0000
-Date: Sun, 30 Nov 2025 04:59:59 +0800
+	id 1vPUTW-000000007fl-3D2i;
+	Sat, 29 Nov 2025 23:35:34 +0000
+Date: Sun, 30 Nov 2025 07:35:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bean Huo <beanhuo@micron.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Can Guo <can.guo@oss.qualcomm.com>,
-	Avri Altman <avri.altman@sandisk.com>,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: [jejb-scsi:misc 448/524] drivers/ufs/core/ufshcd.c:8950:undefined
- reference to `ufs_rpmb_probe'
-Message-ID: <202511300443.h7sotuL0-lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:rqspinlock/freeze 1/1] kernel/bpf/rqspinlock.c:214:43:
+ error: invalid use of undefined type 'struct mcs_spinlock'
+Message-ID: <202511300707.d7T08mYO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,75 +62,302 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git misc
-head:   82f78acd5a9270370ef4aa3f032ede25f3dc91ee
-commit: b06b8c421485e0e96d7fd6aa614fb0b6f2778a03 [448/524] scsi: ufs: core: Add OP-TEE based RPMB driver for UFS devices
-config: x86_64-randconfig-073-20251129 (https://download.01.org/0day-ci/archive/20251130/202511300443.h7sotuL0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300443.h7sotuL0-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux rqspinlock/freeze
+head:   ecbeea85f52f8ff53a69932204c687c4de11f1c9
+commit: ecbeea85f52f8ff53a69932204c687c4de11f1c9 [1/1] rqspinlock: Back propagate deadlock signals from successors
+config: parisc-randconfig-001-20251130 (https://download.01.org/0day-ci/archive/20251130/202511300707.d7T08mYO-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300707.d7T08mYO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511300443.h7sotuL0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511300707.d7T08mYO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `ufshcd_add_lus':
->> drivers/ufs/core/ufshcd.c:8950:(.text+0x17b6348): undefined reference to `ufs_rpmb_probe'
-   ld: vmlinux.o: in function `ufshcd_remove':
->> drivers/ufs/core/ufshcd.c:10505:(.text+0x17b8ec4): undefined reference to `ufs_rpmb_remove'
+>> kernel/bpf/rqspinlock.c:202:42: warning: 'struct mcs_spinlock' declared inside parameter list will not be visible outside of this definition or declaration
+     202 |                                   struct mcs_spinlock *node)
+         |                                          ^~~~~~~~~~~~
+   In file included from <command-line>:
+   kernel/bpf/rqspinlock.c: In function 'check_timeout':
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:552:27: note: in definition of macro '__unqual_scalar_typeof'
+     552 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   In file included from ./arch/parisc/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:382,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/smp.h:12,
+                    from kernel/bpf/rqspinlock.c:16:
+>> kernel/bpf/rqspinlock.c:214:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   kernel/bpf/rqspinlock.c:214:29: note: in expansion of macro 'READ_ONCE'
+     214 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   kernel/bpf/rqspinlock.c:215:33: error: invalid use of undefined type 'struct mcs_spinlock'
+     215 |                         if (node->next->locked != RES_HUNG_VAL)
+         |                                 ^~
+   kernel/bpf/rqspinlock.c:240:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:29: note: in expansion of macro 'READ_ONCE'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:29: note: in expansion of macro 'READ_ONCE'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:29: note: in expansion of macro 'READ_ONCE'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:602:9: note: in expansion of macro '_compiletime_assert'
+     602 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:29: note: in expansion of macro 'READ_ONCE'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                             ^~~~~~~~~
+   kernel/bpf/rqspinlock.c:240:43: error: invalid use of undefined type 'struct mcs_spinlock'
+     240 |                 if (node && READ_ONCE(node->next)) {
+         |                                           ^~
+   include/linux/compiler_types.h:582:23: note: in definition of macro '__compiletime_assert'
+     582 |                 if (!(condition))                                       \
 
 
-vim +8950 drivers/ufs/core/ufshcd.c
+vim +214 kernel/bpf/rqspinlock.c
 
-  8909	
-  8910	/**
-  8911	 * ufshcd_add_lus - probe and add UFS logical units
-  8912	 * @hba: per-adapter instance
-  8913	 *
-  8914	 * Return: 0 upon success; < 0 upon failure.
-  8915	 */
-  8916	static int ufshcd_add_lus(struct ufs_hba *hba)
-  8917	{
-  8918		int ret;
-  8919	
-  8920		/* Add required well known logical units to scsi mid layer */
-  8921		ret = ufshcd_scsi_add_wlus(hba);
-  8922		if (ret)
-  8923			goto out;
-  8924	
-  8925		/* Initialize devfreq after UFS device is detected */
-  8926		if (ufshcd_is_clkscaling_supported(hba)) {
-  8927			memcpy(&hba->clk_scaling.saved_pwr_info,
-  8928				&hba->pwr_info,
-  8929				sizeof(struct ufs_pa_layer_attr));
-  8930			hba->clk_scaling.is_allowed = true;
-  8931	
-  8932			ret = ufshcd_devfreq_init(hba);
-  8933			if (ret)
-  8934				goto out;
-  8935	
-  8936			hba->clk_scaling.is_enabled = true;
-  8937			ufshcd_init_clk_scaling_sysfs(hba);
-  8938		}
-  8939	
-  8940		/*
-  8941		 * The RTC update code accesses the hba->ufs_device_wlun->sdev_gendev
-  8942		 * pointer and hence must only be started after the WLUN pointer has
-  8943		 * been initialized by ufshcd_scsi_add_wlus().
-  8944		 */
-  8945		schedule_delayed_work(&hba->ufs_rtc_update_work,
-  8946				      msecs_to_jiffies(UFS_RTC_UPDATE_INTERVAL_MS));
-  8947	
-  8948		ufs_bsg_probe(hba);
-  8949		scsi_scan_host(hba->host);
-> 8950		ufs_rpmb_probe(hba);
-  8951	
-  8952	out:
-  8953		return ret;
-  8954	}
-  8955	
+   199	
+   200	static noinline int check_timeout(rqspinlock_t *lock, u32 mask,
+   201					  struct rqspinlock_timeout *ts,
+ > 202					  struct mcs_spinlock *node)
+   203	{
+   204		u64 prev = ts->cur;
+   205		u64 time;
+   206		int ret;
+   207	
+   208		if (!ts->timeout_end) {
+   209			if (check_deadlock_AA(lock))
+   210				return -EDEADLK;
+   211			/*
+   212			 * Is the successor indicating to us that they have a deadlock?
+   213			 */
+ > 214			if (node && READ_ONCE(node->next)) {
+   215				if (node->next->locked != RES_HUNG_VAL)
+   216					return 0;
+   217				return -ETIMEDOUT;
+   218			}
+   219			ts->cur = ktime_get_mono_fast_ns();
+   220			ts->timeout_end = ts->cur + ts->duration;
+   221			return 0;
+   222		}
+   223	
+   224		time = ktime_get_mono_fast_ns();
+   225		if (time > ts->timeout_end)
+   226			return -ETIMEDOUT;
+   227	
+   228		/*
+   229		 * A millisecond interval passed from last time? Trigger deadlock
+   230		 * checks.
+   231		 */
+   232		if (prev + NSEC_PER_MSEC < time) {
+   233			ts->cur = time;
+   234			ret = check_deadlock_ABBA(lock, mask);
+   235			if (ret)
+   236				return ret;
+   237			/*
+   238			 * Is the successor indicating to us that they have a deadlock?
+   239			 */
+   240			if (node && READ_ONCE(node->next)) {
+   241				if (node->next->locked != RES_HUNG_VAL)
+   242					return 0;
+   243				return -ETIMEDOUT;
+   244			}
+   245		}
+   246	
+   247		return 0;
+   248	}
+   249	
 
 -- 
 0-DAY CI Kernel Test Service
