@@ -1,72 +1,59 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F08208AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 16:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556D626738D;
+	Sat, 29 Nov 2025 16:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764435248; cv=none; b=oUlkI/IoZvWU+4Q4Azzx5FgEDfi1f+Y1wQPkyi7xD6pfRflgVjpDUtgjwa/pHW8pQ47d2GI5yYk0uXasw1bhvauWtgKPTIvC4KMzb8pSY0rk3KY23n5pF1PL4VIXxI+urmUmbm4+iVfc7ImtEibBI3uYEI5dSMt9e+oP9ROxgGw=
+	t=1764435504; cv=none; b=YvcQVe8HwopS6LYFq3Z+BlBzFMS7oLY9/ZsWHhXeBdNEoZl5AghOcAI6bawkWOHLq6K98ylCI6ae2u7KcSqQ4et4+1gKxaQNaA6UNzZfECUFX76Dbrs9NG+TebZJuQowSd8oEsSGZ7bzVDYf0kYFVfpZrKP02sgy7sewVShHa4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764435248; c=relaxed/simple;
-	bh=yCnraAl4+YRYxXbfttFFzTDa9wIKsD7rXWu6EE+W+aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=FGdYr+gyfc93231imYleRDFJ6u1u6OjPALARguml7y7fRjqLFZCElx7BJ20758Bz1RtVUYkuLpdfgvB3kqkHKVtw5phN5gZoVl/hvVzhxSRNRC3RafAQWnt6sm1Vpq3IPCtulHjWRG7H2fX3bF4WJd1xjGSmmRSk5Igvh16qEIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QHksiTow; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764435504; c=relaxed/simple;
+	bh=pW5UrQwSVFwM/jP1/sOOsumOV5VJnPtB2fuzc/HkqS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZkai6O98hgdvJVo0jmWQfjPLXbKKVLwaxjVARJg1+Xy2yZR13YZhkIaIVuC0raGmcaFrM2hZ8EODtVq2SOsV0lTOpFKjGW0ca9KkBkwzL9+M9hRDxybnWFwSzua5bkidiJKguEPkD8tjQLczrVdSedpbl0OkOfQVjR2h2WSuL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdVTcbS3; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QHksiTow"
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-55b26461e78so778012e0c.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 08:54:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764435246; x=1765040046; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
-        b=QHksiTowne2zke1uR6NkoaqHchFBbMsDNpCmuvjAc0HtCfSbFSgIi+ZexRj/dyCCpw
-         9ckDKLPf3kOflICWpCU4PBF3N9wrlk7fWc9f+aSNKUDYlMg1zR60Svtti3kZp5GwvuT4
-         mPCAn1oPuu2825j0+4PVhioTDhUdMBNrldWDtb6aiqunLNMTKGUvcTxUD4pLucgk5Za5
-         J63XThLM5imAdo0c3I+8MnwRS73XZbw6maYBXnjg4JoAQVE8Hx+5qdQqBgj6lHoPmNOX
-         awcdHX2i3+d2YrR9o2xDjYTqOxweEabUKZLnabePxTZAOqe91bF0YUmGZSxnXs+UbEUA
-         p+ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764435246; x=1765040046;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
-        b=rl3CalNuR08BjeA1QhGTtkNnUKoY4gCSrKi/0YcFcMXY8wOWrOitJ0D7FL/otuirqS
-         Azmm1jtldoM5j9RTr/1oIBK+2DTqAr4VxduY+JDtCshK5Nzbppc/F7UMIL+1pLPwfCFp
-         HP1kdGjHmSs8HJEsrwG66pTdC1JL5mRi4Og3cnuQuv/TMMiPwrk8Fx/4zCoP3os29KiE
-         zydkMOlnb0BdCDavMpNmmF2WtadwWW4ui9okdGxuCsImAHgnHdGjE6ejSXRgo70CQcZO
-         QwiAhPPWFL0nwxjcBnOAD2EvQDhMqah1ETfsTh4vBYiNRXFiRWU3NcEm1gQs3RpKeUcM
-         oNHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO9p62etILILWa0e63/kI842kPOoGi94ry+rnFzh+cm0MTvSCHtEflDgnhDl5Ai6DzdeRsa+T+Gw1mpWeM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2NWNEhufAZ5tS0LOTr7O+rjhCvtiOFCzLm0FgUt2MMySTTXnd
-	/2JyP8KE/z4BMn+a+7UtnRLLgmMNyy9XJ4oSPs3zrmEOQ4l3zK4WAMA9FcjsuEFY7/o=
-X-Gm-Gg: ASbGnctoTJfaaY26BPzcrrTmyySMF8YlRzsNdypZTTgfP3ZigJHvictwNzEhZG6kC7z
-	q/fbkur9hAZtQgg3YuE1qyQUCItvv4+820kO255gIHT5TJfEMrI/K3rTGvrMY9veYOMKI8Kpf3R
-	J80YxD2K6kfuPWNPM4vOQgh8pRUBwADQIPpSSnC1WB77NquRGJTnZaiRBpY0l1gp2ahc0/LDopi
-	gd6M+aYeUykccldwSjt6qa6cteJFr33MgviFeNAxvzCnlxMnsGhbO6BTsohjeRauT004qLnIlMS
-	B66V57bmkk4tqQw+rP6Q3U5VuUjrf7PZCbNnyf8fWtPvm3dTgD+oIyiwjXlZtqsJhAbkSqmClkR
-	oR5th6uYOg+fWvh/gzGvKQJkB86k0giNMX3V+gJkhx6Ulu1FCdqMcrNXIrONpWMKCmPXiyTuK/L
-	2gtkKo9jg5U/NHJBG3
-X-Google-Smtp-Source: AGHT+IG5tajmTfYoc3lFMiwar57/U6inDiuyMwTKKDkv9l56SNQgQ4HUSlYelexgYFZ7UMzNqqfw7Q==
-X-Received: by 2002:a05:6122:202a:b0:55b:305b:4e3c with SMTP id 71dfb90a1353d-55b8f00fd2cmr10936851e0c.18.1764435245594;
-        Sat, 29 Nov 2025 08:54:05 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 71dfb90a1353d-55cf516c50dsm3256156e0c.19.2025.11.29.08.54.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 08:54:04 -0800 (PST)
-Date: Sat, 29 Nov 2025 19:53:59 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check
- LRC timestamp in TDR
-Message-ID: <202511291102.jnnKP6IB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdVTcbS3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764435502; x=1795971502;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pW5UrQwSVFwM/jP1/sOOsumOV5VJnPtB2fuzc/HkqS8=;
+  b=cdVTcbS3Q5WjuJXwzmbiaFp4Moz/W7jmW3aEHr1L4JvsCyLLVjEhelEl
+   TAiC9aTqYSnCBrwo4hTZWJVzXRevOZ78ByCtRBladVjUxFwxT/OW0pmX3
+   0k7J4Fmeg6OHPBnrprO90ShfR+RkeE4n3tNd4qChn7FPa9hQADbjTiiDR
+   /ndo56eeg+N7/dBxVegaPQ6bly/rcz7neG0uZ2wwbWMeu9+zIgkS9ijks
+   89CYyGt1Zian7mgyU380cWV6SoZR4JJ942uFdGyyV4Mpg08H/e2KPe3HJ
+   Dj1PbW1H46jJvJ229kDAdwIbCs8+URijh0VZCs8c9mWa5LDOMI0yNhXD/
+   Q==;
+X-CSE-ConnectionGUID: 5QBHwfc+Raau6WYHmMcdfA==
+X-CSE-MsgGUID: fP7c7nJiScm8PulHhU2YZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="89075318"
+X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
+   d="scan'208";a="89075318"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 08:58:22 -0800
+X-CSE-ConnectionGUID: If1lwWeQRb+7b+R4MEMF3w==
+X-CSE-MsgGUID: bFijp0h0RleO5AY6Teeh3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
+   d="scan'208";a="198619031"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 29 Nov 2025 08:58:20 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vPOH4-000000007Ov-0fRZ;
+	Sat, 29 Nov 2025 16:58:18 +0000
+Date: Sun, 30 Nov 2025 00:57:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 14/16] crypto: qat - add support for zstd
+Message-ID: <202511300007.jf6qGfjm-lkp@intel.com>
+References: <20251128191531.1703018-15-giovanni.cabiddu@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,74 +62,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126214748.650107-9-matthew.brost@intel.com>
+In-Reply-To: <20251128191531.1703018-15-giovanni.cabiddu@intel.com>
 
-Hi Matthew,
+Hi Giovanni,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ebbdf6466b30e3b37f3b360826efd21f0633fb9e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-several-job-helpers-to-avoid-drivers-touching-scheduler-state/20251127-054955
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20251126214748.650107-9-matthew.brost%40intel.com
-patch subject: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check LRC timestamp in TDR
-config: x86_64-randconfig-161-20251128 (https://download.01.org/0day-ci/archive/20251129/202511291102.jnnKP6IB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Giovanni-Cabiddu/crypto-zstd-fix-double-free-in-per-CPU-stream-cleanup/20251128-222112
+base:   ebbdf6466b30e3b37f3b360826efd21f0633fb9e
+patch link:    https://lore.kernel.org/r/20251128191531.1703018-15-giovanni.cabiddu%40intel.com
+patch subject: [RFC PATCH 14/16] crypto: qat - add support for zstd
+config: i386-buildonly-randconfig-003 (https://download.01.org/0day-ci/archive/20251130/202511300007.jf6qGfjm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300007.jf6qGfjm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511291102.jnnKP6IB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511300007.jf6qGfjm-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_lrc.c:2392 xe_lrc_timestamp() error: uninitialized symbol 'new_ts'.
+All warnings (new ones prefixed by >>):
 
-vim +/new_ts +2392 drivers/gpu/drm/xe/xe_lrc.c
+>> drivers/crypto/intel/qat/qat_common/qat_comp_zstd_utils.c:104:17: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     103 |                                 pr_debug("[%s]: qat zstd sequence overflow (seqs_idx:%lu, out_seqs_capacity:%lu, lz4s_buff_size:%u)\n",
+         |                                                                                      ~~~
+         |                                                                                      %zu
+     104 |                                          __func__, seqs_idx, out_seqs_capacity, lz4s_buff_size);
+         |                                                    ^~~~~~~~
+   include/linux/printk.h:636:26: note: expanded from macro 'pr_debug'
+     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |                          ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:270:22: note: expanded from macro 'dynamic_pr_debug'
+     270 |                            pr_fmt(fmt), ##__VA_ARGS__)
+         |                                   ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/crypto/intel/qat/qat_common/qat_comp_zstd_utils.c:104:27: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     103 |                                 pr_debug("[%s]: qat zstd sequence overflow (seqs_idx:%lu, out_seqs_capacity:%lu, lz4s_buff_size:%u)\n",
+         |                                                                                                             ~~~
+         |                                                                                                             %zu
+     104 |                                          __func__, seqs_idx, out_seqs_capacity, lz4s_buff_size);
+         |                                                              ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:636:26: note: expanded from macro 'pr_debug'
+     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |                          ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:270:22: note: expanded from macro 'dynamic_pr_debug'
+     270 |                            pr_fmt(fmt), ##__VA_ARGS__)
+         |                                   ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   2 warnings generated.
 
-94c0c481e1bd20 Matthew Brost         2025-11-26  2363  u64 xe_lrc_timestamp(struct xe_lrc *lrc)
-9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2364  {
-94c0c481e1bd20 Matthew Brost         2025-11-26  2365  	u64 lrc_ts, reg_ts, new_ts;
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2366  	u32 engine_id;
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2367  
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2368  	lrc_ts = xe_lrc_ctx_timestamp(lrc);
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2369  	/* CTX_TIMESTAMP mmio read is invalid on VF, so return the LRC value */
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2370  	if (IS_SRIOV_VF(lrc_to_xe(lrc))) {
-94c0c481e1bd20 Matthew Brost         2025-11-26  2371  		new_ts = lrc_ts;
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2372  		goto done;
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2373  	}
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2374  
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2375  	if (lrc_ts == CONTEXT_ACTIVE) {
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2376  		engine_id = xe_lrc_engine_id(lrc);
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2377  		if (!get_ctx_timestamp(lrc, engine_id, &reg_ts))
-94c0c481e1bd20 Matthew Brost         2025-11-26  2378  			new_ts = reg_ts;
 
-uninitialized on else path.
+vim +104 drivers/crypto/intel/qat/qat_common/qat_comp_zstd_utils.c
 
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2379  
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2380  		/* read lrc again to ensure context is still active */
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2381  		lrc_ts = xe_lrc_ctx_timestamp(lrc);
-
-lrc_ts is re-assigned here.
-
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2382  	}
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2383  
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2384  	/*
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2385  	 * If context switched out, just use the lrc_ts. Note that this needs to
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2386  	 * be a separate if condition.
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2387  	 */
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2388  	if (lrc_ts != CONTEXT_ACTIVE)
-94c0c481e1bd20 Matthew Brost         2025-11-26  2389  		new_ts = lrc_ts;
-
-uninitialized on else path.
-
-9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2390  
-82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2391  done:
-94c0c481e1bd20 Matthew Brost         2025-11-26 @2392  	return new_ts;
-94c0c481e1bd20 Matthew Brost         2025-11-26  2393  }
+    14	
+    15	/*
+    16	 * Implement the same algorithm as the QAT ZSTD sequence producer plugin,
+    17	 * to decode LZ4s formatted data into ZSTD_Sequence format.
+    18	 */
+    19	size_t qat_alg_dec_lz4s(ZSTD_Sequence *out_seqs, size_t out_seqs_capacity,
+    20				unsigned char *lz4s_buff, unsigned int lz4s_buff_size,
+    21				unsigned char *literals, unsigned int *lit_len)
+    22	{
+    23		unsigned char *end_ip = lz4s_buff + lz4s_buff_size;
+    24		unsigned int hist_literal_len = 0;
+    25		unsigned char *ip = lz4s_buff;
+    26		size_t seqs_idx = 0;
+    27	
+    28		*lit_len = 0;
+    29	
+    30		if (!lz4s_buff_size)
+    31			return 0;
+    32	
+    33		while (ip < end_ip) {
+    34			size_t length = 0;
+    35			size_t offset = 0;
+    36			size_t literal_len = 0, match_len = 0;
+    37	
+    38			/* get literal length */
+    39			unsigned const token = *ip++;
+    40	
+    41			length = token >> ML_BITS;
+    42			if (length == RUN_MASK) {
+    43				unsigned int s;
+    44	
+    45				do {
+    46					s = *ip++;
+    47					length += s;
+    48				} while (s == 255);
+    49			}
+    50	
+    51			literal_len = length;
+    52	
+    53			{
+    54				u8 *start = ip;
+    55				u8 *dest = literals;
+    56				u8 *dest_end = literals + length;
+    57	
+    58				do {
+    59					__builtin_memcpy(dest, start, QAT_ZSTD_LIT_COPY_LEN);
+    60					dest += QAT_ZSTD_LIT_COPY_LEN;
+    61					start += QAT_ZSTD_LIT_COPY_LEN;
+    62				} while (dest < dest_end);
+    63			}
+    64	
+    65			literals += length;
+    66			*lit_len += length;
+    67	
+    68			ip += length;
+    69			if (ip == end_ip) { /* Meet the end of the LZ4 sequence */
+    70				literal_len += hist_literal_len;
+    71				out_seqs[seqs_idx].litLength = literal_len;
+    72				out_seqs[seqs_idx].offset = offset;
+    73				out_seqs[seqs_idx].matchLength = match_len;
+    74				break;
+    75			}
+    76	
+    77			/* get matchPos */
+    78			offset = le16_to_cpu(*(__le16 *)ip);
+    79			ip += 2;
+    80	
+    81			/* get match length */
+    82			length = token & ML_MASK;
+    83			if (length == ML_MASK) {
+    84				unsigned int s;
+    85	
+    86				do {
+    87					s = *ip++;
+    88					length += s;
+    89				} while (s == 255);
+    90			}
+    91			if (length != 0) {
+    92				length += LZ4MINMATCH;
+    93				match_len = (unsigned short)length;
+    94				literal_len += hist_literal_len;
+    95	
+    96				/* update ZSTD_Sequence */
+    97				out_seqs[seqs_idx].offset = offset;
+    98				out_seqs[seqs_idx].litLength = literal_len;
+    99				out_seqs[seqs_idx].matchLength = match_len;
+   100				hist_literal_len = 0;
+   101				++seqs_idx;
+   102				if (seqs_idx >= (out_seqs_capacity - 1)) {
+   103					pr_debug("[%s]: qat zstd sequence overflow (seqs_idx:%lu, out_seqs_capacity:%lu, lz4s_buff_size:%u)\n",
+ > 104						 __func__, seqs_idx, out_seqs_capacity, lz4s_buff_size);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
