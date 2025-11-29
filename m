@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878CF8BEC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 01:01:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C102B15539A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 01:01:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764378106; cv=none; b=X2yPJbTDqcAnj4saD7I62wZScscrCB9YzTbrDrmMXovU1JuuCyzajaXOkQjHOQSni/ZjmKi4XTuAX99EsMYoGvS31Kw6Gj1OGUXxwHAgojc/is/ZYc97CDsCUIZTcKpXPomig0bfU70HB9UF/IiXIwctf7GF4WtAcAxubKAJAvk=
+	t=1764378109; cv=none; b=bIR4J541a2kl6XnLiuqXmnel1prw1UGm9QXMhvyiUfALN8U3Dlj7wxGhIxXJX2d2UrQGIzdyS9TR2o8TItHFJ8ZnNwvl4gN4wKV+LSztxgA4B5qxqKoGNPWqK5zY812NxL+DPdM5W2AXBw7MECl8geqPJF5MguITnWADjkoeAIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764378106; c=relaxed/simple;
-	bh=RXYA+RpN+Qh6YJyU6Z2rbvCIxvrjEp4ibVnORpSjc3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxdDIKnn0AW0HRz//BHeqqZP0JItf2SsHvyYp8e5ldG6ZSmkBO/m1H0wjrYkFWuaO0Zwk36Wf87qC3vGscvDZbRtc8YUAQjkWSimrZsGr0lNkMgLCHDViBpVu4pjax+8X74DXYLW+9KuEyN+7GO55WFa+5H6SKIX4RcCb5v4xgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daq7VRis; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1764378109; c=relaxed/simple;
+	bh=yKPBrOQdI8/tYjq0qBt9Ci6zNq43AYfrFlGQaRH0V1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NjW0PGFSa1ED/I48ouXmf2hXmqtfHC1zyhTcax2ePlObxyMw+cn+oCdy5lkTKReUv6gkOlcM1jFfa4ro/AqM389Mgqhd3paFMsA4dJi2W1J8U16X5EB0xxrqo2q0oFct2h6h+kulqPGTGNWN1xhmzLQIUIjeI6EQM9o1pGETso0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnGDPy/P; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daq7VRis"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnGDPy/P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764378105; x=1795914105;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RXYA+RpN+Qh6YJyU6Z2rbvCIxvrjEp4ibVnORpSjc3o=;
-  b=daq7VRisZnssGxt3lZuTXYVY7ISoRiWvv0iQOg05CR6j0kGQDgVincm9
-   X22oX8k4IFX28/6vMcsgeGK8LfDlpfdqWlYx0RQxZV5BfRQFngpnQQtvZ
-   N4Vrux62tXH+Ptvy0GmHd37qLrOmCN0F9r605YVCGP5yRqbjX3MKTrIoS
-   de0dUXgQraBJqIxcHSGU+n4mfLffEbwfSCQItHUG++dDc4OirZvbzU39c
-   wPIqONzGj68rdTfrN4/pXhJ9j23gQTryZ6sThn3VvEVQnsSIUeRpvSN14
-   HCT5j9u9pAb7g1QXCE8pGxxMLx3Pg2y4hFvRrZ8QpDbPhF+O1SoYQYNcS
-   Q==;
-X-CSE-ConnectionGUID: ZCHMFaV4T3inN1ckkkbD/A==
-X-CSE-MsgGUID: x96gcJqFRKmmyqkaM9HZ4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66115322"
+  t=1764378107; x=1795914107;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yKPBrOQdI8/tYjq0qBt9Ci6zNq43AYfrFlGQaRH0V1s=;
+  b=AnGDPy/PMbR7QirKpILIzzVH4O/J/YkwD5XV+d6bj2z0/YDarPUcURPB
+   ACvomkEMW63HWsuRHBbJAg2BgfUdcPKruMax+8VK4tfb7pKmpMMqGjCLw
+   epB69gFOn66uJIHYX/afSiZJN9wPHTg0xbDxJYf3CNHJ7YotE3u6Wki6e
+   QaQjqKVZAErQt7Q9YSMIsts+VhZ3pfeB0FlA/pjsA5iGWondRfNZhLLac
+   fOJIQpnp0GPGurri7dbY6f9EHFXQzv2QJ9tXrJA1GNM5pBJStesAGKeW1
+   /QrA8ngBtfeaZvHUA0Ob8YfNKiaVk2l3op8J0h2GiMwtxhQmGUnjlBY9p
+   A==;
+X-CSE-ConnectionGUID: +ZPGaMkSRbm8G2BhA0txVg==
+X-CSE-MsgGUID: qVuExR2WTN2rhn1CL5eqHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66115324"
 X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; 
-   d="scan'208";a="66115322"
+   d="scan'208";a="66115324"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 17:01:44 -0800
-X-CSE-ConnectionGUID: PgiLiW0ySF+KI8/bG2HCFw==
-X-CSE-MsgGUID: qql/RNx4R3qHwgzzBYbZnQ==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 17:01:45 -0800
+X-CSE-ConnectionGUID: IRWCRJOCRzGUDZOlxmPM6Q==
+X-CSE-MsgGUID: 7q/UX/9HQhmZNmtNukRntg==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Nov 2025 17:01:42 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 28 Nov 2025 17:01:43 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vP9LI-000000006rd-1fEJ;
+	id 1vP9LI-000000006rh-1nkH;
 	Sat, 29 Nov 2025 01:01:40 +0000
-Date: Sat, 29 Nov 2025 09:01:16 +0800
+Date: Sat, 29 Nov 2025 09:01:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Tian <litian@redhat.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC] crypto/hkdf: Fix salt length short issue in FIPS mode
-Message-ID: <202511290809.8Fr4ja5n-lkp@intel.com>
-References: <20251126134222.22083-1-litian@redhat.com>
+Subject: [android-common:android16-6.12-desktop 46/46]
+ include/uapi/linux/const.h:20:25: warning: conversion from 'long long
+ unsigned int' to 'size_t' {aka 'unsigned int'} changes value from
+ '34359738368' to '0'
+Message-ID: <202511290848.Uqepzr98-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,109 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251126134222.22083-1-litian@redhat.com>
 
-Hi Li,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master linus/master v6.18-rc7 next-20251128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Tian/crypto-hkdf-Fix-salt-length-short-issue-in-FIPS-mode/20251126-214458
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20251126134222.22083-1-litian%40redhat.com
-patch subject: [PATCH RFC] crypto/hkdf: Fix salt length short issue in FIPS mode
-config: arc-randconfig-001-20251129 (https://download.01.org/0day-ci/archive/20251129/202511290809.8Fr4ja5n-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290809.8Fr4ja5n-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   b6f9c712b4dc25b00af4208e59b4ee8f344e0ab8
+commit: a0a3f0a41c8789060f0ed28f79066d97bfc47a8b [46/46] UPSTREAM: drm/xe: Add a xe_bo subtest for shrinking / swapping
+config: arm-randconfig-003-20251129 (https://download.01.org/0day-ci/archive/20251129/202511290848.Uqepzr98-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511290848.Uqepzr98-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511290809.8Fr4ja5n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511290848.Uqepzr98-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/crypto/hkdf.c: In function 'fscrypt_init_hkdf':
->> fs/crypto/hkdf.c:40:31: error: 'HKDF_HASHLEN' undeclared (first use in this function); did you mean 'DT_HASH'?
-     static const u8 default_salt[HKDF_HASHLEN];
-                                  ^~~~~~~~~~~~
-                                  DT_HASH
-   fs/crypto/hkdf.c:40:31: note: each undeclared identifier is reported only once for each function it appears in
->> fs/crypto/hkdf.c:41:5: warning: unused variable 'prk' [-Wunused-variable]
-     u8 prk[HKDF_HASHLEN];
-        ^~~
->> fs/crypto/hkdf.c:40:18: warning: unused variable 'default_salt' [-Wunused-variable]
-     static const u8 default_salt[HKDF_HASHLEN];
-                     ^~~~~~~~~~~~
-   fs/crypto/hkdf.c: In function 'fscrypt_hkdf_expand':
-   fs/crypto/hkdf.c:65:9: error: 'HKDF_HASHLEN' undeclared (first use in this function); did you mean 'DT_HASH'?
-     u8 tmp[HKDF_HASHLEN];
-            ^~~~~~~~~~~~
-            DT_HASH
->> fs/crypto/hkdf.c:65:5: warning: unused variable 'tmp' [-Wunused-variable]
-     u8 tmp[HKDF_HASHLEN];
-        ^~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from include/linux/pagemap.h:8,
+                    from include/drm/ttm/ttm_tt.h:30,
+                    from drivers/gpu/drm/xe/xe_bo.h:9,
+                    from drivers/gpu/drm/xe/xe_bo.c:6:
+   drivers/gpu/drm/xe/tests/xe_bo.c: In function 'shrink_test_run_device':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '34359738368' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:49:41: note: in expansion of macro '_AC'
+      49 | #define SZ_32G                          _AC(0x800000000, ULL)
+         |                                         ^~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:461:17: note: in expansion of macro 'SZ_32G'
+     461 |         limit = SZ_32G;
+         |                 ^~~~~~
+   include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'size_t' {aka 'unsigned int'} changes value from '17179869184' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:48:41: note: in expansion of macro '_AC'
+      48 | #define SZ_16G                          _AC(0x400000000, ULL)
+         |                                         ^~~
+   drivers/gpu/drm/xe/tests/xe_bo.c:464:25: note: in expansion of macro 'SZ_16G'
+     464 |                 limit = SZ_16G;
+         |                         ^~~~~~
 
 
-vim +40 fs/crypto/hkdf.c
+vim +20 include/uapi/linux/const.h
 
-c1144c9b8ad94d Eric Biggers    2019-08-04  15  
-c1144c9b8ad94d Eric Biggers    2019-08-04  16  /*
-c1144c9b8ad94d Eric Biggers    2019-08-04  17   * HKDF consists of two steps:
-c1144c9b8ad94d Eric Biggers    2019-08-04  18   *
-c1144c9b8ad94d Eric Biggers    2019-08-04  19   * 1. HKDF-Extract: extract a pseudorandom key of length HKDF_HASHLEN bytes from
-c1144c9b8ad94d Eric Biggers    2019-08-04  20   *    the input keying material and optional salt.
-c1144c9b8ad94d Eric Biggers    2019-08-04  21   * 2. HKDF-Expand: expand the pseudorandom key into output keying material of
-c1144c9b8ad94d Eric Biggers    2019-08-04  22   *    any length, parameterized by an application-specific info string.
-c1144c9b8ad94d Eric Biggers    2019-08-04  23   *
-c1144c9b8ad94d Eric Biggers    2019-08-04  24   * HKDF-Extract can be skipped if the input is already a pseudorandom key of
-c1144c9b8ad94d Eric Biggers    2019-08-04  25   * length HKDF_HASHLEN bytes.  However, cipher modes other than AES-256-XTS take
-c1144c9b8ad94d Eric Biggers    2019-08-04  26   * shorter keys, and we don't want to force users of those modes to provide
-c1144c9b8ad94d Eric Biggers    2019-08-04  27   * unnecessarily long master keys.  Thus fscrypt still does HKDF-Extract.  No
-c1144c9b8ad94d Eric Biggers    2019-08-04  28   * salt is used, since fscrypt master keys should already be pseudorandom and
-c1144c9b8ad94d Eric Biggers    2019-08-04  29   * there's no way to persist a random salt per master key from kernel mode.
-c1144c9b8ad94d Eric Biggers    2019-08-04  30   */
-c1144c9b8ad94d Eric Biggers    2019-08-04  31  
-c1144c9b8ad94d Eric Biggers    2019-08-04  32  /*
-19591f7e781fd1 Eric Biggers    2025-09-05  33   * Compute HKDF-Extract using 'master_key' as the input keying material, and
-19591f7e781fd1 Eric Biggers    2025-09-05  34   * prepare the resulting HMAC key in 'hkdf'.  Afterwards, 'hkdf' can be used for
-19591f7e781fd1 Eric Biggers    2025-09-05  35   * HKDF-Expand many times without having to recompute HKDF-Extract each time.
-c1144c9b8ad94d Eric Biggers    2019-08-04  36   */
-19591f7e781fd1 Eric Biggers    2025-09-05  37  void fscrypt_init_hkdf(struct hmac_sha512_key *hkdf, const u8 *master_key,
-c1144c9b8ad94d Eric Biggers    2019-08-04  38  		       unsigned int master_key_size)
-c1144c9b8ad94d Eric Biggers    2019-08-04  39  {
-3241cd0c6c1791 Hannes Reinecke 2025-02-24 @40  	static const u8 default_salt[HKDF_HASHLEN];
-c1144c9b8ad94d Eric Biggers    2019-08-04 @41  	u8 prk[HKDF_HASHLEN];
-c1144c9b8ad94d Eric Biggers    2019-08-04  42  
-19591f7e781fd1 Eric Biggers    2025-09-05  43  	hmac_sha512_usingrawkey(default_salt, sizeof(default_salt),
-19591f7e781fd1 Eric Biggers    2025-09-05  44  				master_key, master_key_size, prk);
-19591f7e781fd1 Eric Biggers    2025-09-05  45  	hmac_sha512_preparekey(hkdf, prk, sizeof(prk));
-c1144c9b8ad94d Eric Biggers    2019-08-04  46  	memzero_explicit(prk, sizeof(prk));
-c1144c9b8ad94d Eric Biggers    2019-08-04  47  }
-c1144c9b8ad94d Eric Biggers    2019-08-04  48  
-c1144c9b8ad94d Eric Biggers    2019-08-04  49  /*
-19591f7e781fd1 Eric Biggers    2025-09-05  50   * HKDF-Expand (RFC 5869 section 2.3).  Expand the HMAC key 'hkdf' into 'okmlen'
-c1144c9b8ad94d Eric Biggers    2019-08-04  51   * bytes of output keying material parameterized by the application-specific
-c1144c9b8ad94d Eric Biggers    2019-08-04  52   * 'info' of length 'infolen' bytes, prefixed by "fscrypt\0" and the 'context'
-c1144c9b8ad94d Eric Biggers    2019-08-04  53   * byte.  This is thread-safe and may be called by multiple threads in parallel.
-c1144c9b8ad94d Eric Biggers    2019-08-04  54   *
-c1144c9b8ad94d Eric Biggers    2019-08-04  55   * ('context' isn't part of the HKDF specification; it's just a prefix fscrypt
-c1144c9b8ad94d Eric Biggers    2019-08-04  56   * adds to its application-specific info strings to guarantee that it doesn't
-c1144c9b8ad94d Eric Biggers    2019-08-04  57   * accidentally repeat an info string when using HKDF for different purposes.)
-c1144c9b8ad94d Eric Biggers    2019-08-04  58   */
-19591f7e781fd1 Eric Biggers    2025-09-05  59  void fscrypt_hkdf_expand(const struct hmac_sha512_key *hkdf, u8 context,
-c1144c9b8ad94d Eric Biggers    2019-08-04  60  			 const u8 *info, unsigned int infolen,
-c1144c9b8ad94d Eric Biggers    2019-08-04  61  			 u8 *okm, unsigned int okmlen)
-c1144c9b8ad94d Eric Biggers    2019-08-04  62  {
-19591f7e781fd1 Eric Biggers    2025-09-05  63  	struct hmac_sha512_ctx ctx;
-19591f7e781fd1 Eric Biggers    2025-09-05  64  	u8 counter = 1;
-19591f7e781fd1 Eric Biggers    2025-09-05 @65  	u8 tmp[HKDF_HASHLEN];
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
+6df95fd7ad9a842 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
+74ef649fe847fdf include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
+74ef649fe847fdf include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
+74ef649fe847fdf include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
+74ef649fe847fdf include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
+74ef649fe847fdf include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
+9d291e787b2b71d include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
+
+:::::: The code at line 20 was first introduced by commit
+:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
+
+:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
+:::::: CC: Andi Kleen <andi@basil.nowhere.org>
 
 -- 
 0-DAY CI Kernel Test Service
