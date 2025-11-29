@@ -1,126 +1,141 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA36121FF55
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 20:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71F4191
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 21:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764447692; cv=none; b=nyE0p4Fxc21wUoETe5E2B4vf8W6JY/eKlbhhpA5/otG5TSfHhtsi0zMoM6IqisV0A1SYMCioE7ox1PKmuw5+ahsfNRZwjQzd2EtEGj1TpobGQXAZVg/G84R2fFpUKZ4g2I6vJmNAz0GjGsLZGcnptDPwuuKX4E0J2jnSoLlcIE4=
+	t=1764450036; cv=none; b=X88POF77cJ+bXscMLb4kk6ljPoyjrLNB3MvGvzy8JOhW16wpI1xB24g8vS2udri1LZpWi7EkP2RXJ4e5DuBr9X5eD3wib8uFjhk6OECLuZQ7c7+5Z5z3vjWC2NM2oNqcwXm7RGL+CfoCHS5jGD+z4nxMtCKnLXWvrxr8zU8fENs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764447692; c=relaxed/simple;
-	bh=7da8x67zR6MolDbwSEJuqUZQzuCfTjbFirgHAuOtiv0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kHpJQ598c4VRWuhCSbPgV9+6s579uPTe9IRbVvpBnm/cvNbpwdRpfLYQouY6tQPrYM8GopHk5TfYX67iJdBH4DgVJhfWxnAIdX5V4fCp6TI/A+kr674E8heihCjqqLEeH34LKv0K6FQRYfyiirxpoCdRvMWjYaDqCvSuqByRrZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jyJh8sG5; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764450036; c=relaxed/simple;
+	bh=jFGH6JAZWVZctcxMT4SvYIg1yLcOJOKAySE0k39POAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FvE2z/jrrUK4FE+vWptxtwgt/VdyLUghwRg7R2w3l6rTQvLtl5mb/N5nx3/BZWCqC1ztSqEQMarOM0ke6iHgt51X4OPnmcHRJV+XezKpVXgsnRJo01m1x0BhveyjOdV0E4dMPtKAA2IYI/Wi4LMFPdsFl3NfzwoXQw4WEycASWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cl4k5Xw5; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jyJh8sG5"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-64320b9bb4bso5681142a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 12:21:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764447689; x=1765052489; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/XHR7HkGUh307NcvDolSi1iT1WNmg9xX4qNTaJW490g=;
-        b=jyJh8sG5FBAU/q4qbWR09y1hM7CtY92Si4+RU3YVNvgqwxC+sVThVCnCZb3SWa/E0l
-         ofogJWBN1hL+DlW6NrWPj4uyGRr8Dmse+IX1pE8Gg22vBV4R+Ph9fzt83vrvebzvVTtr
-         8El6Uqg3oZHs0kpQojHOj3ilUYfBn0A6CkntTD6CH06QoSqnkWzaM7xeGcErjYwTHiGc
-         bVz0xwY71H93HlMPVQiVnc4g2F/ymynA8vXkT27ZHtbRKvDhEQSXvFuD2HoDKIxn4gQV
-         lbZtO/3zH+syGxcAN3RZWtp07MvEQQD3OehyyelxecTiq9sFbrP1SQEi1bsUJ4YsHNiD
-         iKng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764447689; x=1765052489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/XHR7HkGUh307NcvDolSi1iT1WNmg9xX4qNTaJW490g=;
-        b=qieN4h23QX+5qYAN9hKkMuN8MswpyW66g2+0+SOxduSNO7Ee4tfBam7+pyHiXThrvQ
-         PX69uwuMY7KW4mMb2mwzAUm6emgebHDWUfYH9qNPpoRAnDMOfqGzksUOFTtTpd19s8+w
-         tdrxJzSv/Dvfg6O1JegaMG7O7ppvGyDwQPnhPZvkm0P6n3bIdeQMR4IEGPDN9Wqfd4we
-         o0XARZ8Bommdks9AqnSv9K38zSlAkOAalmLT4b3PD879+/+qdldfUAwhhpuC3LQ2ICse
-         BArBziaBycNyYkX4X6700Ibkt1XgHAHWtfEWcJQxiIaLa5IIFShAtBeU43hcgf9sdX10
-         e6pw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8cvrNUZrIj/KVMnpQdKucBt/ZPSa3LEigV2cLytjKqJ8gpLyRzpaqWvTf7VbC3bGh2BSA0LGraDuGp5Rd@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxc8oCYuqkhWYJ46B+mfddVj+uQt4o9VXqBmwnOdsQ9LpBqd1uy
-	QCyiOLPDIP34BjWmWw5iNwHb+17YHzjJLOd+DeL9Of6fp1zG6lpRfS+INrF8/w+wZHAW373PWQZ
-	ld92kXaLcACUsa8Zp3xo/8QkoMDb0jY/LQ6/q/oxIhw==
-X-Gm-Gg: ASbGncuqrYLmk10FHcyUAafqMcpSJKgW6DYqIqcKpbqFY6VKal/w5x9NtwGVYu3Yola
-	5leoxzLl+3hw7eCMwCk2vUnhVdXCWH2b/ofn1yCF7EaZ1/4fjW3ZMFzuPrVWz3G6mQTOYZeXiI5
-	+pWbF34DPBQObxNlLc5DP2RJzvJN2qqhkJQrQF7qk24EjrocVcZI3LDHyCGOHHh4+UJ0t9X588N
-	4uDbTE8GDxbBWbMBj7j3u1qH/nN1rz8Bmre4TgGxIp2FwGhF08dJLbtxTAF4GFwo3QW
-X-Google-Smtp-Source: AGHT+IEL4C5AnQpblZ1dvvo+ajN+xWYGrZZ8Ar7Vxav7Gzlsu3+rsZciLM6uVqUSKHBwC7MdMFToICZgC1zz+1jAtMk=
-X-Received: by 2002:a05:6402:1462:b0:640:b625:b920 with SMTP id
- 4fb4d7f45d1cf-6455508090amr32009897a12.6.1764447689219; Sat, 29 Nov 2025
- 12:21:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cl4k5Xw5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764450034; x=1795986034;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jFGH6JAZWVZctcxMT4SvYIg1yLcOJOKAySE0k39POAE=;
+  b=cl4k5Xw5jiV97pGxnByHQLHjr94vu2b6vsuaEGB7mUv1aF+UM10B7/Jq
+   ISryDkFc1ITZk+Pbq/xyA6QxMu2G1cHseXA+mC3hlA4We6oEVYZwRcNiO
+   aX/+mQo02u20y/ZcAIMNoTmarGqHPiUewcpGFCpY4/iZOG7zwYBMUJR/9
+   nLGlia6CQ/NBPozUobWcDVklbOfbGtDOqalS7yrrUV169bD7DNu2B4hMR
+   TU1p2dqFC+FMg4aDIwubXg4imBbD/wq22VkpQMNcth+osIMfZLWqN2kYP
+   /emI5I1fcsg7U7Rl6Pkw0DAfcoTGCo8ybR1BE0Zd7aaIQkdUgoK53h6T5
+   w==;
+X-CSE-ConnectionGUID: gHRniCSGSZy2ZVWUs9rShg==
+X-CSE-MsgGUID: zjHlLybFSMyaVvUGo9E0aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="77788358"
+X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
+   d="scan'208";a="77788358"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 13:00:33 -0800
+X-CSE-ConnectionGUID: OckHkw/pSCCe1c5rmaNmUg==
+X-CSE-MsgGUID: C5VZLRE9TcyfmPE/WE6oIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
+   d="scan'208";a="194141200"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2025 13:00:31 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vPS3R-000000007af-1Y35;
+	Sat, 29 Nov 2025 21:00:29 +0000
+Date: Sun, 30 Nov 2025 04:59:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bean Huo <beanhuo@micron.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Can Guo <can.guo@oss.qualcomm.com>,
+	Avri Altman <avri.altman@sandisk.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Subject: [jejb-scsi:misc 448/524] drivers/ufs/core/ufshcd.c:8950:undefined
+ reference to `ufs_rpmb_probe'
+Message-ID: <202511300443.h7sotuL0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202511280300.6pvBmXUS-lkp@intel.com> <CA+CK2bCmp4gjpyND2=Chdz-EfRAF20unYzO2dwQb+ZTEihgk3w@mail.gmail.com>
- <20251129120040.fb60e8a35d54d66c0bdbdf33@linux-foundation.org>
-In-Reply-To: <20251129120040.fb60e8a35d54d66c0bdbdf33@linux-foundation.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 29 Nov 2025 15:20:51 -0500
-X-Gm-Features: AWmQ_bmWLua5FxNRY82NS-hj8ivGSs3L0IY3KtCuQNzfBMcPL-qi-s2DnemZlOY
-Message-ID: <CA+CK2bBJmj3nK4QhAC5pr+5nS0vRv_5cOxAr_mohC+YreiZPcg@mail.gmail.com>
-Subject: Re: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
- luo_ioctl() warn: unsigned 'nr' is never less than zero.
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Pratyush Yadav <pratyush@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Nov 29, 2025 at 3:00=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Sat, 29 Nov 2025 14:51:28 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
-com> wrote:
->
-> > > smatch warnings:
-> > > kernel/liveupdate/luo_core.c:402 luo_ioctl() warn: unsigned 'nr' is n=
-ever less than zero.
-> > >
-> > > vim +/nr +402 kernel/liveupdate/luo_core.c
-> > >
-> > >    392
-> > >    393  static long luo_ioctl(struct file *filep, unsigned int cmd, u=
-nsigned long arg)
-> > >    394  {
-> > >    395          const struct luo_ioctl_op *op;
-> > >    396          struct luo_ucmd ucmd =3D {};
-> > >    397          union ucmd_buffer buf;
-> > >    398          unsigned int nr;
-> > >    399          int err;
-> > >    400
-> > >    401          nr =3D _IOC_NR(cmd);
-> > >  > 402          if (nr < LIVEUPDATE_CMD_BASE ||
-> > >    403              (nr - LIVEUPDATE_CMD_BASE) >=3D ARRAY_SIZE(luo_io=
-ctl_ops)) {
-> >
-> > This is a false positive. The logic is designed to work generically
-> > for any base, similar to how it is handled in session ioctl and
-> > iommufd ictl. The warning only triggers because LIVEUPDATE_CMD_BASE
-> > happens to be 0 in this specific case.
->
-> This is a difficult situation.
->
-> In some cases smatch has found a bug, in other cases it's just being
-> irritating.
->
-> I think there is value in smatch occasionally finding bugs, and to
-> support that we should try to rearrange false positives so that smatch
-> doesn't report on those.
->
-> Perhaps there's some way we can do that here, without uglifying things?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git misc
+head:   82f78acd5a9270370ef4aa3f032ede25f3dc91ee
+commit: b06b8c421485e0e96d7fd6aa614fb0b6f2778a03 [448/524] scsi: ufs: core: Add OP-TEE based RPMB driver for UFS devices
+config: x86_64-randconfig-073-20251129 (https://download.01.org/0day-ci/archive/20251130/202511300443.h7sotuL0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300443.h7sotuL0-lkp@intel.com/reproduce)
 
-Yes, we can make "unsigned int nr;" signed: "int nr;", should be OK.
-Would you like me to send a fix patch with this change?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511300443.h7sotuL0-lkp@intel.com/
 
-Thank you,
-Pasha
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `ufshcd_add_lus':
+>> drivers/ufs/core/ufshcd.c:8950:(.text+0x17b6348): undefined reference to `ufs_rpmb_probe'
+   ld: vmlinux.o: in function `ufshcd_remove':
+>> drivers/ufs/core/ufshcd.c:10505:(.text+0x17b8ec4): undefined reference to `ufs_rpmb_remove'
+
+
+vim +8950 drivers/ufs/core/ufshcd.c
+
+  8909	
+  8910	/**
+  8911	 * ufshcd_add_lus - probe and add UFS logical units
+  8912	 * @hba: per-adapter instance
+  8913	 *
+  8914	 * Return: 0 upon success; < 0 upon failure.
+  8915	 */
+  8916	static int ufshcd_add_lus(struct ufs_hba *hba)
+  8917	{
+  8918		int ret;
+  8919	
+  8920		/* Add required well known logical units to scsi mid layer */
+  8921		ret = ufshcd_scsi_add_wlus(hba);
+  8922		if (ret)
+  8923			goto out;
+  8924	
+  8925		/* Initialize devfreq after UFS device is detected */
+  8926		if (ufshcd_is_clkscaling_supported(hba)) {
+  8927			memcpy(&hba->clk_scaling.saved_pwr_info,
+  8928				&hba->pwr_info,
+  8929				sizeof(struct ufs_pa_layer_attr));
+  8930			hba->clk_scaling.is_allowed = true;
+  8931	
+  8932			ret = ufshcd_devfreq_init(hba);
+  8933			if (ret)
+  8934				goto out;
+  8935	
+  8936			hba->clk_scaling.is_enabled = true;
+  8937			ufshcd_init_clk_scaling_sysfs(hba);
+  8938		}
+  8939	
+  8940		/*
+  8941		 * The RTC update code accesses the hba->ufs_device_wlun->sdev_gendev
+  8942		 * pointer and hence must only be started after the WLUN pointer has
+  8943		 * been initialized by ufshcd_scsi_add_wlus().
+  8944		 */
+  8945		schedule_delayed_work(&hba->ufs_rtc_update_work,
+  8946				      msecs_to_jiffies(UFS_RTC_UPDATE_INTERVAL_MS));
+  8947	
+  8948		ufs_bsg_probe(hba);
+  8949		scsi_scan_host(hba->host);
+> 8950		ufs_rpmb_probe(hba);
+  8951	
+  8952	out:
+  8953		return ret;
+  8954	}
+  8955	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
