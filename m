@@ -1,107 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FA123D7FF;
-	Sat, 29 Nov 2025 17:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03E43C17;
+	Sat, 29 Nov 2025 17:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764436106; cv=none; b=Qz/z+2zkI9t7/+Hut5DnwWV0/uEBeuKL3fMgpXY22JiIYCZ72hiB0XH6IF02bPvu9SVFaafoykYgCzhtivLD4VgyYJCDKjiYx0kRLQCdllXdEstbey06PaUl4XzUO5uP0HDqFI8/oiuXGH0OXHi587vma8HikE86eI7oLPuTHww=
+	t=1764436256; cv=none; b=exzYxO8rmI046FloOSu3ki9WnsO02hfFNjPnMik5g4A6PfTIACajV17AeelRVI1F3G3lgVAhKq1Ci2kLBNaixkWrHrt+yN2yvZg/DXWAzX1vuZquz2/boK367DYP1d8YHjzOlB/wvVOT6V31W3TbheelI8q1UZWNAEhRM9/qSfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764436106; c=relaxed/simple;
-	bh=+bevP/0R/VoXIhpIIKnzgq5Z8RfHu4MVErQ3XrbNF3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feuMvP9zgkxB1e3acYy69sV9Ras21zh6kL4XgdaQIo8ac8hF8IqazfpiwsGprR0AaYUMYIPOXsAwVlfLFX04vGbBfQLf0Op/iLzOTyudedJki9lEiodKf/V+2nyyKzo6aeMw1xVFwKj/veKhKdn/laGplVDjvE/F0GUiS5LhXC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jej8diPT; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764436256; c=relaxed/simple;
+	bh=5Jnx6XSyzNl0s1JeoaSpcGapG5gc6IBem2nxCWuxBs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JwLqa5+gK1+scVpwjeg6orGfkBwoPEs+fq0CNIS3owWBilbzsiayuqT2kgE0vSDbg3kQNiAXF0lg7jl/xs2QJxRmH9Z+deACe0xm8W7FE+D4SsYQaUSnKD0cuHv7coCsAkWuG8wBC1mLpknPP8Rt0WU2vmHbfzXylgL6ERxzCns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZPqYGgX4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jej8diPT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764436105; x=1795972105;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+bevP/0R/VoXIhpIIKnzgq5Z8RfHu4MVErQ3XrbNF3E=;
-  b=jej8diPTsA8IUFRe4EoeJaFh6IHAJ7w4MP5cX18xf33Zgn9uNeJZEC2V
-   cwPfp47oy/Q1tPHfLT2LcaTpGJzEvkSmf5Y2qYy/YQUB/U8xFFOkmk6x/
-   5yns75l7ZA0OQbDrFjSObQz0DUiCIJKKSK5JHE7v2/TCfsAOtnYjJvbnJ
-   pwpsUBABVlBGStrlLfzZH0ZSrnw6KMdKxhy92ChHvHHfIy+yIOTOCgnk1
-   oY8KPKvGhCutKchSGm7DNRl3v0fv+X4VyRk73CeeyYpp+iU4x3gxaClJ3
-   /Yfiv2CaltEEWrZhbsEXlcKw/Ps4UUYqHqOfHnRz0vGASrSvW+l7NpSMm
-   Q==;
-X-CSE-ConnectionGUID: Ef8OIFNqThWq3JXIfPXqMw==
-X-CSE-MsgGUID: p9qJQRVFSzqEBTpX0OAhYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="76749362"
-X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="76749362"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 09:08:24 -0800
-X-CSE-ConnectionGUID: EziT+gQLTu2QFv3RtSKfyg==
-X-CSE-MsgGUID: HPx5jHnCTAmAzzOq8iOJSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
-   d="scan'208";a="197886281"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Nov 2025 09:08:21 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vPOQk-000000007PR-2yvB;
-	Sat, 29 Nov 2025 17:08:18 +0000
-Date: Sun, 30 Nov 2025 01:08:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kurt Borja <kuurtb@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Tobias Sperling <tobias.sperling@softing.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kurt Borja <kuurtb@gmail.com>
-Subject: Re: [PATCH v3 2/2] iio: adc: Add ti-ads1018 driver
-Message-ID: <202511300040.bsFH07WD-lkp@intel.com>
-References: <20251128-ads1x18-v3-2-a6ebab815b2d@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZPqYGgX4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A0C2C4CEF7;
+	Sat, 29 Nov 2025 17:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764436256;
+	bh=5Jnx6XSyzNl0s1JeoaSpcGapG5gc6IBem2nxCWuxBs4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZPqYGgX47x1JEtwNdjooa4RPPIQwmHQd6WkyXZ4iWi1HMynFopPuMLquKEEE5KDYV
+	 x8cZ45ChufmHbSMMHe1rFD03jkCiKv4e2r4EH6SCnTWG8wQ5DA9uKg+7YKD15ZgeX1
+	 jSsrRzCBl+P7A7jpbB6lhCwnNVqjcAyJXpkDXEWo9jrfCQJNBlTMPtDJyItQiLvONL
+	 f86U4rFMcoulkLpnPnpa1A1a7la4suuyG6ajfyjokrKhN8bZUhycKwED0ZDca7r1x/
+	 zzwE3DbFDD7A3i8KU47Aik+vJevr8I3H1Fpui9GCCSzBzR/4zjm4zuPGT8U8ixK8yo
+	 TH/fDfoi6N6QQ==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild-all@lists.linux.dev,
+	damon@lists.linux.dev
+Subject: Re: [sj:damon/next 101/102] checkpatch: WARNING:REPEATED_WORD: Possible repeated word: 'is'
+Date: Sat, 29 Nov 2025 09:10:50 -0800
+Message-ID: <20251129171052.48021-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aSrWuUuXhjnUZu2W@rli9-mobl>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251128-ads1x18-v3-2-a6ebab815b2d@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Kurt,
+On Sat, 29 Nov 2025 19:19:21 +0800 kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   09441df640d26cf9228bc68c256ebf1f0e28669d
+> commit: 5e3fefed6d95bbe0b2505ad80309debcf09bc439 [101/102] mm/damon: add data structures for access check control
+> reproduce: (https://download.01.org/0day-ci/archive/20251129/202511290619.LO76yGtH-lkp@intel.com/reproduce)
+> 
+> # many are suggestions rather than must-fix
+> 
+> WARNING:REPEATED_WORD: Possible repeated word: 'is'
+> #45: FILE: include/linux/damon.h:862:
+> + * @matching:	Whether is is for condition-matching reports.
 
-[auto build test WARNING on f9e05791642810a0cf6237d39fafd6fec5e0b4bb]
+Thank you for this report, fixed:
+http://git.kernel.org/sj/c/dc85bee8bbc5346521716cf1f469e403af219179
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/dt-bindings-iio-adc-Add-TI-ADS1018-ADS1118/20251129-120153
-base:   f9e05791642810a0cf6237d39fafd6fec5e0b4bb
-patch link:    https://lore.kernel.org/r/20251128-ads1x18-v3-2-a6ebab815b2d%40gmail.com
-patch subject: [PATCH v3 2/2] iio: adc: Add ti-ads1018 driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251130/202511300040.bsFH07WD-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300040.bsFH07WD-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511300040.bsFH07WD-lkp@intel.com/
+Thanks,
+SJ
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/iio/adc/ti-ads1018.c:183 function parameter 'ads1018' not described in 'ads1018_get_data_rate_mode'
->> Warning: drivers/iio/adc/ti-ads1018.c:197 function parameter 'ads1018' not described in 'ads1018_get_pga_mode'
->> Warning: drivers/iio/adc/ti-ads1018.c:213 function parameter 'ads1018' not described in 'ads1018_set_data_rate_mode'
->> Warning: drivers/iio/adc/ti-ads1018.c:229 function parameter 'ads1018' not described in 'ads1018_set_pga_mode'
->> Warning: drivers/iio/adc/ti-ads1018.c:246 function parameter 'ads1018' not described in 'ads1018_calc_delay'
->> Warning: drivers/iio/adc/ti-ads1018.c:272 function parameter 'ads1018' not described in 'ads1018_read_unlocked'
->> Warning: drivers/iio/adc/ti-ads1018.c:302 function parameter 'ads1018' not described in 'ads1018_oneshot'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
