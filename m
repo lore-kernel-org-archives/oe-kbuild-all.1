@@ -1,72 +1,72 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880C28F7D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 16:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F08208AD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 16:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764435110; cv=none; b=lTPKKAg/Q+WnwZNCwjqQp2WiTOKK+8SNakL841WBZLJGvIjlzCm7UuXq5x/D1EyX0RuZeBx47+PajzCPEaVoN6LMqssoa4XRA9UQCgzplsg9iD+LUwi24RkHqCy1VrQTV3IjuBLNPKEwPF+Vc2O34bV+R6w9jU4oOvVaVOW5ll0=
+	t=1764435248; cv=none; b=oUlkI/IoZvWU+4Q4Azzx5FgEDfi1f+Y1wQPkyi7xD6pfRflgVjpDUtgjwa/pHW8pQ47d2GI5yYk0uXasw1bhvauWtgKPTIvC4KMzb8pSY0rk3KY23n5pF1PL4VIXxI+urmUmbm4+iVfc7ImtEibBI3uYEI5dSMt9e+oP9ROxgGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764435110; c=relaxed/simple;
-	bh=/iNK4Qtd+hA3I1KKNTPu2IlUU49kyEFn0I93BpZeAb0=;
+	s=arc-20240116; t=1764435248; c=relaxed/simple;
+	bh=yCnraAl4+YRYxXbfttFFzTDa9wIKsD7rXWu6EE+W+aw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TDpDYh9r4tP6NWfSbAAAIayIGjs1yh0xrHI5xlxz6lnfKqCm3l9alxAwqbvPhDbBFOaPu/H7H3QPQkpRI4jQ0772Peqc/Pc2ckOLnY8VfbRZgZ6xD/ZSwgFmpok8Mqhzu1vVaMPMZEzlXlCBX8xyaWvi8rT+UVjtrN5oQVmtKhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V+PosJYe; arc=none smtp.client-ip=209.85.128.44
+	 Content-Disposition:In-Reply-To; b=FGdYr+gyfc93231imYleRDFJ6u1u6OjPALARguml7y7fRjqLFZCElx7BJ20758Bz1RtVUYkuLpdfgvB3kqkHKVtw5phN5gZoVl/hvVzhxSRNRC3RafAQWnt6sm1Vpq3IPCtulHjWRG7H2fX3bF4WJd1xjGSmmRSk5Igvh16qEIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QHksiTow; arc=none smtp.client-ip=209.85.221.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V+PosJYe"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso14586615e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 08:51:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QHksiTow"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-55b26461e78so778012e0c.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 08:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764435105; x=1765039905; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1764435246; x=1765040046; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eNQQ2TrZ6lIHhcgB8NrgQiNlLOxGJsp2u9drC4JaiaE=;
-        b=V+PosJYe7InO76N3Cu3wtRYOVbU984qd40lmBkJUjq0KnC2o060eYTx5Z3zcdL3qh1
-         iK8m3nRbxt0kZs77EwO0OKB2kov3JN2euf7SvlgoxD4ak84t0WBr+L+i8gG/RWD5Kahg
-         yPxsx0FEUpdu7WF05lGjSy7n/DkH7eepRpFw8A/uUwHeX3rGJe/Qll3dVKYg47+UztIP
-         PaM/FFEy1QimE9NjpraiZENiVJDWPO1+/rDpEx1GhHkEvjwVtpoWEfGdysx/MKYtqGLv
-         +2MX/dmig9ZC9/AoA0hFVUqRngQLc/yn5rc1b6jeR3bO6zF+FMwFvo8WIizjrV7R2GVY
-         pdrQ==
+        bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
+        b=QHksiTowne2zke1uR6NkoaqHchFBbMsDNpCmuvjAc0HtCfSbFSgIi+ZexRj/dyCCpw
+         9ckDKLPf3kOflICWpCU4PBF3N9wrlk7fWc9f+aSNKUDYlMg1zR60Svtti3kZp5GwvuT4
+         mPCAn1oPuu2825j0+4PVhioTDhUdMBNrldWDtb6aiqunLNMTKGUvcTxUD4pLucgk5Za5
+         J63XThLM5imAdo0c3I+8MnwRS73XZbw6maYBXnjg4JoAQVE8Hx+5qdQqBgj6lHoPmNOX
+         awcdHX2i3+d2YrR9o2xDjYTqOxweEabUKZLnabePxTZAOqe91bF0YUmGZSxnXs+UbEUA
+         p+ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764435105; x=1765039905;
+        d=1e100.net; s=20230601; t=1764435246; x=1765040046;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eNQQ2TrZ6lIHhcgB8NrgQiNlLOxGJsp2u9drC4JaiaE=;
-        b=r0mtiDq1lpH58U3KuNqIy2gJEE3JGWy3wOO7DOnJ52fTBxGqPfXJ3I3kRizHOmbQjs
-         Y1gHlkWKikxqpmvrNM365q31cR+VddsobXFGU+tJI7O4QM8VH+z/SPMHwxKtkd+C4HK0
-         2D722s+jim7ah+H+/V+jw7rwEK8o3E7Ru0E8gofbO5zTMmwy+J+XKyHzk8+44xy4bf3K
-         vrPa17LCd8EvfMWmHozYL+7Yf+YMiYQKHuCyIz0+s+d1JJ7NEH8CQdS0LuJzkCNB3vzw
-         KFcmDcVnYtHFN2NVtSDDC3AQLpxUsiQ41pniZdTvb/YECvvwAmur3w7/vTZ9/GWSM60U
-         NHFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmZ3vsIAm95eSeDXRLDRJeoxLowTy8t8jFKPEBUcfaj0H65HQJ1huhO7xy7ExeCE2SSaJtN9a/QM/tfbCt@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+OfzepPGUezJ0vUUlOwgcSZjrLV2dY0KvrgO3781wwqa0Vn7x
-	zFiWgXWZYxicKBQdgQPBWtuJe9H0ik8dol+D4I+lJmB79wO8h9/cJgwKKujzqW3jaYQ=
-X-Gm-Gg: ASbGncuwPn1gxM0YelIK2fEUwSm9iqDvd9c05/BCcHRs5pRWUkTeYYY6Voo07t17i5d
-	szkkBIjckB0k+G2zx8ASDTWOB9QJOcXqQopKzNY4oTUUmO3NWEzncuWU46HFRz7p/Qw8hVhBFMy
-	tSURLrbf0egmuVp5zW824zMITD5n/sfS0EebIFsOGfUPQaDMk79z6doB/uv1dCeKavv+Q3BwKyo
-	EtM3H134VY/FviE6D648pbMoTwQuKDWhmgYTyutVT5d/ym3KLRnRavRkXQhpSvs6/7oQi2p03al
-	2aMVLh4PQKHT9RRccNYCriPUcuGlYgkuSYH8tbOkCaG+a3QCTt2HNcwI4KkCA78rGdurnwG/7n6
-	XD4lKJ02L5sFh/tzYL9/BEHhqGdITLMtjiB+gepwKpTuyFcS/AoXV4Mt3a8qFRtsSZydnchntdr
-	XOZKma5FnwLwzhXop4zqc55Z8h0Wk=
-X-Google-Smtp-Source: AGHT+IFQybZ8AC4gkevKQ/6HpN9EXVOyox2BHm3ICg6x870LOSGMofLFGRpseW1XP7cGo/FDwctfxQ==
-X-Received: by 2002:a05:600c:198e:b0:46e:33b2:c8da with SMTP id 5b1f17b1804b1-477c1133927mr322314755e9.32.1764435104802;
-        Sat, 29 Nov 2025 08:51:44 -0800 (PST)
+        bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
+        b=rl3CalNuR08BjeA1QhGTtkNnUKoY4gCSrKi/0YcFcMXY8wOWrOitJ0D7FL/otuirqS
+         Azmm1jtldoM5j9RTr/1oIBK+2DTqAr4VxduY+JDtCshK5Nzbppc/F7UMIL+1pLPwfCFp
+         HP1kdGjHmSs8HJEsrwG66pTdC1JL5mRi4Og3cnuQuv/TMMiPwrk8Fx/4zCoP3os29KiE
+         zydkMOlnb0BdCDavMpNmmF2WtadwWW4ui9okdGxuCsImAHgnHdGjE6ejSXRgo70CQcZO
+         QwiAhPPWFL0nwxjcBnOAD2EvQDhMqah1ETfsTh4vBYiNRXFiRWU3NcEm1gQs3RpKeUcM
+         oNHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUO9p62etILILWa0e63/kI842kPOoGi94ry+rnFzh+cm0MTvSCHtEflDgnhDl5Ai6DzdeRsa+T+Gw1mpWeM@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2NWNEhufAZ5tS0LOTr7O+rjhCvtiOFCzLm0FgUt2MMySTTXnd
+	/2JyP8KE/z4BMn+a+7UtnRLLgmMNyy9XJ4oSPs3zrmEOQ4l3zK4WAMA9FcjsuEFY7/o=
+X-Gm-Gg: ASbGnctoTJfaaY26BPzcrrTmyySMF8YlRzsNdypZTTgfP3ZigJHvictwNzEhZG6kC7z
+	q/fbkur9hAZtQgg3YuE1qyQUCItvv4+820kO255gIHT5TJfEMrI/K3rTGvrMY9veYOMKI8Kpf3R
+	J80YxD2K6kfuPWNPM4vOQgh8pRUBwADQIPpSSnC1WB77NquRGJTnZaiRBpY0l1gp2ahc0/LDopi
+	gd6M+aYeUykccldwSjt6qa6cteJFr33MgviFeNAxvzCnlxMnsGhbO6BTsohjeRauT004qLnIlMS
+	B66V57bmkk4tqQw+rP6Q3U5VuUjrf7PZCbNnyf8fWtPvm3dTgD+oIyiwjXlZtqsJhAbkSqmClkR
+	oR5th6uYOg+fWvh/gzGvKQJkB86k0giNMX3V+gJkhx6Ulu1FCdqMcrNXIrONpWMKCmPXiyTuK/L
+	2gtkKo9jg5U/NHJBG3
+X-Google-Smtp-Source: AGHT+IG5tajmTfYoc3lFMiwar57/U6inDiuyMwTKKDkv9l56SNQgQ4HUSlYelexgYFZ7UMzNqqfw7Q==
+X-Received: by 2002:a05:6122:202a:b0:55b:305b:4e3c with SMTP id 71dfb90a1353d-55b8f00fd2cmr10936851e0c.18.1764435245594;
+        Sat, 29 Nov 2025 08:54:05 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4790b0c3a28sm217505665e9.9.2025.11.29.08.51.43
+        by smtp.gmail.com with UTF8SMTPSA id 71dfb90a1353d-55cf516c50dsm3256156e0c.19.2025.11.29.08.54.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 08:51:44 -0800 (PST)
-Date: Sat, 29 Nov 2025 19:51:41 +0300
+        Sat, 29 Nov 2025 08:54:04 -0800 (PST)
+Date: Sat, 29 Nov 2025 19:53:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alex Markuze <amarkuze@redhat.com>,
-	ceph-devel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, idryomov@gmail.com,
-	linux-fsdevel@vger.kernel.org, amarkuze@redhat.com,
-	vdubeyko@redhat.com
-Subject: Re: [PATCH 3/3] ceph: add subvolume metrics collection and reporting
-Message-ID: <202511290541.wFDJlRdO-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check
+ LRC timestamp in TDR
+Message-ID: <202511291102.jnnKP6IB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,91 +75,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251127134620.2035796-4-amarkuze@redhat.com>
+In-Reply-To: <20251126214748.650107-9-matthew.brost@intel.com>
 
-Hi Alex,
+Hi Matthew,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Markuze/ceph-handle-InodeStat-v8-versioned-field-in-reply-parsing/20251127-214928
-base:   https://github.com/ceph/ceph-client.git for-linus
-patch link:    https://lore.kernel.org/r/20251127134620.2035796-4-amarkuze%40redhat.com
-patch subject: [PATCH 3/3] ceph: add subvolume metrics collection and reporting
-config: x86_64-randconfig-r071-20251128 (https://download.01.org/0day-ci/archive/20251129/202511290541.wFDJlRdO-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-several-job-helpers-to-avoid-drivers-touching-scheduler-state/20251127-054955
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251126214748.650107-9-matthew.brost%40intel.com
+patch subject: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check LRC timestamp in TDR
+config: x86_64-randconfig-161-20251128 (https://download.01.org/0day-ci/archive/20251129/202511291102.jnnKP6IB-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202511290541.wFDJlRdO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202511291102.jnnKP6IB-lkp@intel.com/
 
 smatch warnings:
-fs/ceph/debugfs.c:436 subvolume_metrics_show() error: we previously assumed 'mdsc' could be null (see line 399)
+drivers/gpu/drm/xe/xe_lrc.c:2392 xe_lrc_timestamp() error: uninitialized symbol 'new_ts'.
 
-vim +/mdsc +436 fs/ceph/debugfs.c
+vim +/new_ts +2392 drivers/gpu/drm/xe/xe_lrc.c
 
-d469e1da62544e7 Alex Markuze 2025-11-27  390  static int subvolume_metrics_show(struct seq_file *s, void *p)
-d469e1da62544e7 Alex Markuze 2025-11-27  391  {
-d469e1da62544e7 Alex Markuze 2025-11-27  392  	struct ceph_fs_client *fsc = s->private;
-d469e1da62544e7 Alex Markuze 2025-11-27  393  	struct ceph_mds_client *mdsc = fsc->mdsc;
-d469e1da62544e7 Alex Markuze 2025-11-27  394  	struct ceph_subvol_metric_snapshot *snapshot = NULL;
-d469e1da62544e7 Alex Markuze 2025-11-27  395  	u32 nr = 0;
-d469e1da62544e7 Alex Markuze 2025-11-27  396  	u64 total_sent = 0;
-d469e1da62544e7 Alex Markuze 2025-11-27  397  	u32 i;
-d469e1da62544e7 Alex Markuze 2025-11-27  398  
-d469e1da62544e7 Alex Markuze 2025-11-27 @399  	if (mdsc) {
+94c0c481e1bd20 Matthew Brost         2025-11-26  2363  u64 xe_lrc_timestamp(struct xe_lrc *lrc)
+9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2364  {
+94c0c481e1bd20 Matthew Brost         2025-11-26  2365  	u64 lrc_ts, reg_ts, new_ts;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2366  	u32 engine_id;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2367  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2368  	lrc_ts = xe_lrc_ctx_timestamp(lrc);
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2369  	/* CTX_TIMESTAMP mmio read is invalid on VF, so return the LRC value */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2370  	if (IS_SRIOV_VF(lrc_to_xe(lrc))) {
+94c0c481e1bd20 Matthew Brost         2025-11-26  2371  		new_ts = lrc_ts;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2372  		goto done;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2373  	}
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2374  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2375  	if (lrc_ts == CONTEXT_ACTIVE) {
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2376  		engine_id = xe_lrc_engine_id(lrc);
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2377  		if (!get_ctx_timestamp(lrc, engine_id, &reg_ts))
+94c0c481e1bd20 Matthew Brost         2025-11-26  2378  			new_ts = reg_ts;
 
-This assumes mdsc can be NULL
+uninitialized on else path.
 
-d469e1da62544e7 Alex Markuze 2025-11-27  400  		mutex_lock(&mdsc->subvol_metrics_last_mutex);
-d469e1da62544e7 Alex Markuze 2025-11-27  401  		if (mdsc->subvol_metrics_last &&
-d469e1da62544e7 Alex Markuze 2025-11-27  402  		    mdsc->subvol_metrics_last_nr) {
-d469e1da62544e7 Alex Markuze 2025-11-27  403  			nr = mdsc->subvol_metrics_last_nr;
-d469e1da62544e7 Alex Markuze 2025-11-27  404  			snapshot = kmemdup(mdsc->subvol_metrics_last,
-d469e1da62544e7 Alex Markuze 2025-11-27  405  					   nr * sizeof(*snapshot),
-d469e1da62544e7 Alex Markuze 2025-11-27  406  					   GFP_KERNEL);
-d469e1da62544e7 Alex Markuze 2025-11-27  407  			if (!snapshot)
-d469e1da62544e7 Alex Markuze 2025-11-27  408  				nr = 0;
-d469e1da62544e7 Alex Markuze 2025-11-27  409  		}
-d469e1da62544e7 Alex Markuze 2025-11-27  410  		total_sent = mdsc->subvol_metrics_sent;
-d469e1da62544e7 Alex Markuze 2025-11-27  411  		mutex_unlock(&mdsc->subvol_metrics_last_mutex);
-d469e1da62544e7 Alex Markuze 2025-11-27  412  	}
-d469e1da62544e7 Alex Markuze 2025-11-27  413  
-d469e1da62544e7 Alex Markuze 2025-11-27  414  	seq_puts(s, "Last sent subvolume metrics:\n");
-d469e1da62544e7 Alex Markuze 2025-11-27  415  	if (!nr) {
-d469e1da62544e7 Alex Markuze 2025-11-27  416  		seq_puts(s, "  (none)\n");
-d469e1da62544e7 Alex Markuze 2025-11-27  417  	} else {
-d469e1da62544e7 Alex Markuze 2025-11-27  418  		seq_puts(s, "  subvol_id          rd_ops    wr_ops    rd_bytes       wr_bytes       rd_lat_us      wr_lat_us\n");
-d469e1da62544e7 Alex Markuze 2025-11-27  419  		for (i = 0; i < nr; i++) {
-d469e1da62544e7 Alex Markuze 2025-11-27  420  			const struct ceph_subvol_metric_snapshot *e = &snapshot[i];
-d469e1da62544e7 Alex Markuze 2025-11-27  421  
-d469e1da62544e7 Alex Markuze 2025-11-27  422  			seq_printf(s, "  %-18llu %-9llu %-9llu %-14llu %-14llu %-14llu %-14llu\n",
-d469e1da62544e7 Alex Markuze 2025-11-27  423  				   e->subvolume_id,
-d469e1da62544e7 Alex Markuze 2025-11-27  424  				   e->read_ops, e->write_ops,
-d469e1da62544e7 Alex Markuze 2025-11-27  425  				   e->read_bytes, e->write_bytes,
-d469e1da62544e7 Alex Markuze 2025-11-27  426  				   e->read_latency_us, e->write_latency_us);
-d469e1da62544e7 Alex Markuze 2025-11-27  427  		}
-d469e1da62544e7 Alex Markuze 2025-11-27  428  	}
-d469e1da62544e7 Alex Markuze 2025-11-27  429  	kfree(snapshot);
-d469e1da62544e7 Alex Markuze 2025-11-27  430  
-d469e1da62544e7 Alex Markuze 2025-11-27  431  	seq_puts(s, "\nStatistics:\n");
-d469e1da62544e7 Alex Markuze 2025-11-27  432  	seq_printf(s, "  entries_sent:      %llu\n", total_sent);
-d469e1da62544e7 Alex Markuze 2025-11-27  433  
-d469e1da62544e7 Alex Markuze 2025-11-27  434  	mutex_lock(&mdsc->subvol_metrics_last_mutex);
-                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereference
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2379  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2380  		/* read lrc again to ensure context is still active */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2381  		lrc_ts = xe_lrc_ctx_timestamp(lrc);
 
-d469e1da62544e7 Alex Markuze 2025-11-27  435  	seq_printf(s, "  non_zero_sends:    %llu\n",
-d469e1da62544e7 Alex Markuze 2025-11-27 @436  		   mdsc->subvol_metrics_nonzero_sends);
-d469e1da62544e7 Alex Markuze 2025-11-27  437  	mutex_unlock(&mdsc->subvol_metrics_last_mutex);
-d469e1da62544e7 Alex Markuze 2025-11-27  438  
-d469e1da62544e7 Alex Markuze 2025-11-27  439  	seq_puts(s, "\nPending (unsent) subvolume metrics:\n");
-d469e1da62544e7 Alex Markuze 2025-11-27  440  	ceph_subvolume_metrics_dump(&fsc->mdsc->subvol_metrics, s);
-d469e1da62544e7 Alex Markuze 2025-11-27  441  	return 0;
-d469e1da62544e7 Alex Markuze 2025-11-27  442  }
+lrc_ts is re-assigned here.
+
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2382  	}
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2383  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2384  	/*
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2385  	 * If context switched out, just use the lrc_ts. Note that this needs to
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2386  	 * be a separate if condition.
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2387  	 */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2388  	if (lrc_ts != CONTEXT_ACTIVE)
+94c0c481e1bd20 Matthew Brost         2025-11-26  2389  		new_ts = lrc_ts;
+
+uninitialized on else path.
+
+9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2390  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2391  done:
+94c0c481e1bd20 Matthew Brost         2025-11-26 @2392  	return new_ts;
+94c0c481e1bd20 Matthew Brost         2025-11-26  2393  }
 
 -- 
 0-DAY CI Kernel Test Service
