@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EC3298CA6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 16:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CEB224B04
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 16:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764519785; cv=none; b=Vbr+BknKMCNEd7MitfScHaIpB23EiwjEP/ZaD9O2hEfF1caU7e9VLmFMF3QT1CrLg6wM8bIaTybwND3k04RL2jAxPwspm11YFuMEggFs70fJbw+R7UIj9NAQA0ehrAdSxXq0JpphWuhbC8cbTFFNEYpipMfBatG8UgRw5nHvebo=
+	t=1764519844; cv=none; b=D33kGxLfKX7BR1IYT8YoBkcpSWKdVQP0njbnB8Rn5BBl87pl5QoEXr9k4498CwfUjU5m0Tnl0i9j/2FDR4JE59bWkpoDuJhX6KSc098oL1ZSZX73Utw6uP5aIKqVBVot/1kRx3YySyQb3V+zBx/38MyrqntfS+oAUwlya4oxZEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764519785; c=relaxed/simple;
-	bh=nHaYhcpTmZuFPKf0WTwtlhyqBUVFg9c1CIDuIDn6dUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=akFKX0/C48OYwBEQtZ3y3wg7O5NevDFK/iHnoTCwYp+e+YUefHo/u4UKhsRWDdwyHzuePnpehkb2G3tXJlnCxqrU/6aQjSi2Vs2M4qwCdeBsFFDpWKi94DcmHFqVurD7FndwP2J5nRwGMzABCyHKtGBC1Hu/DV1GaiMfZv4/+l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eai38viY; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764519844; c=relaxed/simple;
+	bh=ANV47WWyixiegLM8aItrNKS3lqFtimpW1slvpEkn+F0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MHiLCqAlv9jK9IYnesJUJdurfr3jxQ4dTQgQYJTckOTHicCwCyO/8siF63KIM3FMCbzqiXGvfXpJMxDAuc13gnomGZ0xnBdajGmD3UMWrXtboZ46zjRpVgJ6suQ/1xTQMU8d96mD3OfOuW+FM98PGVFxpIViLa/xAxW4UMbIgjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alYdVQQ7; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eai38viY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alYdVQQ7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764519784; x=1796055784;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nHaYhcpTmZuFPKf0WTwtlhyqBUVFg9c1CIDuIDn6dUA=;
-  b=eai38viYV7pXv+L1Uqv5ZAb05xjLlss6DvQ6eYLoqS4NZ3uF+iEweTS3
-   0cxhB7bRWSrKZ7ubBDOasRDY9ishr3r1W/38TZQVj3Dt54PyJOPnaeWln
-   mn3kG5P/1zcWdzJPRi6n8jd0IMJlzEf/O1ym/7qHMpsLgpdmd6qeU39j1
-   DZj+YPouX5miF23BTzV1+kKwejmRltQVe4sA5sag2suojKR1DdqZqEfnu
-   179x31zR8A5SDHna1TwGkNZ5NtbqsZCUjbPdg+rOOMJwMTvB9CejfjKya
-   fgJDE9x6DlBHS7Yl8Wh0e9Q1wYOJUxjps33uCBez4eNmgqHLPGH20YUl9
+  t=1764519842; x=1796055842;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ANV47WWyixiegLM8aItrNKS3lqFtimpW1slvpEkn+F0=;
+  b=alYdVQQ7kHjZa94Rz+xs8ao9AmnZzdLDqimMsBOm1YB68a1NYueb4iyC
+   0F4ar3v8M6WLSef41Uzcrbp/8rZjydIxbbCKR+B28FaVUQkZoKimxbKIy
+   LnDGZK313VaR5+C+JIymyRm6rZUMJSxIt5HqGpHX8Zuv889ON4Twy1nFC
+   W4ComKFV5om0yOEhr5J8tGabyR06D78kMJhvnZaIe824xr1LObD8XRrlw
+   Kl+ndnNguZripOYcA0GUxg5DrIv9atQoAtoMoplAvMz6YPhgt5BabFpQQ
+   Qjd/FxuSeldGIXBR1fzI7s4IuVsi9QFFjbvL3eH9bBqTCp09u5zNe2Z+1
    w==;
-X-CSE-ConnectionGUID: ZJzKzZXkSbi++O84UcpfIQ==
-X-CSE-MsgGUID: Ca25NKJBQlO1AtVg1siX5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="89113741"
+X-CSE-ConnectionGUID: 1JOGiqfYTziuOjHXFUPPWQ==
+X-CSE-MsgGUID: 2KUeJMXUQXS1YjOsMQQuKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66496187"
 X-IronPort-AV: E=Sophos;i="6.20,238,1758610800"; 
-   d="scan'208";a="89113741"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 08:23:03 -0800
-X-CSE-ConnectionGUID: 16W0CBnHQjye5H+OBZ05PQ==
-X-CSE-MsgGUID: JQTvTM6RTSajS8KijiKEZg==
+   d="scan'208";a="66496187"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 08:24:02 -0800
+X-CSE-ConnectionGUID: 6OIWPOoJQa+Wyi/MKHt0Fg==
+X-CSE-MsgGUID: vdlx9HuNSmKD3FPrNRZGuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,238,1758610800"; 
-   d="scan'208";a="217220965"
+   d="scan'208";a="231148170"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Nov 2025 08:23:01 -0800
+  by orviesa001.jf.intel.com with ESMTP; 30 Nov 2025 08:24:01 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPkCR-00000000841-0kxU;
-	Sun, 30 Nov 2025 16:22:59 +0000
-Date: Mon, 1 Dec 2025 00:22:58 +0800
+	id 1vPkDP-00000000849-17dt;
+	Sun, 30 Nov 2025 16:23:59 +0000
+Date: Mon, 1 Dec 2025 00:22:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: Ryan Roberts <ryan.roberts@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:rqspinlock/freeze 1/1] kernel/bpf/rqspinlock.c:200:21:
- warning: 'check_timeout' defined but not used
-Message-ID: <202512010056.jGSagCm9-lkp@intel.com>
+Subject: Re: [RFC PATCH v1 2/2] randomize_kstack: Unify random source across
+ arches
+Message-ID: <202511302317.BGFIlAYX-lkp@intel.com>
+References: <20251127105958.2427758-3-ryan.roberts@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,119 +63,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251127105958.2427758-3-ryan.roberts@arm.com>
 
-tree:   https://github.com/kkdwivedi/linux rqspinlock/freeze
-head:   ecbeea85f52f8ff53a69932204c687c4de11f1c9
-commit: ecbeea85f52f8ff53a69932204c687c4de11f1c9 [1/1] rqspinlock: Back propagate deadlock signals from successors
-config: arm64-randconfig-001-20251130 (https://download.01.org/0day-ci/archive/20251201/202512010056.jGSagCm9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512010056.jGSagCm9-lkp@intel.com/reproduce)
+Hi Ryan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on kees/for-next/hardening kees/for-next/pstore kees/for-next/kspp linus/master v6.18-rc7 next-20251128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/randomize_kstack-Maintain-kstack_offset-per-task/20251127-190408
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20251127105958.2427758-3-ryan.roberts%40arm.com
+patch subject: [RFC PATCH v1 2/2] randomize_kstack: Unify random source across arches
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251130/202511302317.BGFIlAYX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511302317.BGFIlAYX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512010056.jGSagCm9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511302317.BGFIlAYX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/rqspinlock.c: In function 'resilient_tas_spin_lock':
-   kernel/bpf/rqspinlock.c:304:43: error: macro "RES_CHECK_TIMEOUT" passed 4 arguments, but takes just 3
-      if (RES_CHECK_TIMEOUT(ts, ret, ~0u, NULL))
-                                              ^
-   kernel/bpf/rqspinlock.c:304:7: error: 'RES_CHECK_TIMEOUT' undeclared (first use in this function); did you mean 'NET_LLC2_TIMEOUT'?
-      if (RES_CHECK_TIMEOUT(ts, ret, ~0u, NULL))
-          ^~~~~~~~~~~~~~~~~
-          NET_LLC2_TIMEOUT
-   kernel/bpf/rqspinlock.c:304:7: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/bpf/rqspinlock.c: In function 'resilient_queued_spin_lock_slowpath':
-   kernel/bpf/rqspinlock.c:429:100: error: macro "RES_CHECK_TIMEOUT" passed 4 arguments, but takes just 3
-      res_smp_cond_load_acquire(&lock->locked, !VAL || RES_CHECK_TIMEOUT(ts, ret, _Q_LOCKED_MASK, NULL));
-                                                                                                       ^
-   In file included from include/linux/bpf.h:34,
-                    from kernel/bpf/rqspinlock.c:18:
-   kernel/bpf/rqspinlock.c:429:52: error: 'RES_CHECK_TIMEOUT' undeclared (first use in this function); did you mean 'NET_LLC2_TIMEOUT'?
-      res_smp_cond_load_acquire(&lock->locked, !VAL || RES_CHECK_TIMEOUT(ts, ret, _Q_LOCKED_MASK, NULL));
-                                                       ^~~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/rqspinlock.h:59:7: note: in definition of macro '__smp_cond_load_acquire_timewait'
-      if (cond_expr)      \
-          ^~~~~~~~~
-   arch/arm64/include/asm/rqspinlock.h:89:41: note: in expansion of macro 'smp_cond_load_acquire_timewait'
-    #define res_smp_cond_load_acquire(v, c) smp_cond_load_acquire_timewait(v, c, 0, 1)
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/rqspinlock.c:429:3: note: in expansion of macro 'res_smp_cond_load_acquire'
-      res_smp_cond_load_acquire(&lock->locked, !VAL || RES_CHECK_TIMEOUT(ts, ret, _Q_LOCKED_MASK, NULL));
-      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/rqspinlock.c:559:69: error: macro "RES_CHECK_TIMEOUT" passed 4 arguments, but takes just 3
-          (VAL != RES_HUNG_VAL && RES_CHECK_TIMEOUT(ts, ret, ~0u, node)));
-                                                                        ^
-   kernel/bpf/rqspinlock.c:607:1: error: macro "RES_CHECK_TIMEOUT" passed 4 arguments, but takes just 3
-            RES_CHECK_TIMEOUT(ts, ret, _Q_LOCKED_PENDING_MASK, node));
-    ^       ~~~~~~~~~
-   At top level:
->> kernel/bpf/rqspinlock.c:200:21: warning: 'check_timeout' defined but not used [-Wunused-function]
-    static noinline int check_timeout(rqspinlock_t *lock, u32 mask,
-                        ^~~~~~~~~~~~~
-
-
-vim +/check_timeout +200 kernel/bpf/rqspinlock.c
-
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  199  
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15 @200  static noinline int check_timeout(rqspinlock_t *lock, u32 mask,
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  201  				  struct rqspinlock_timeout *ts,
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  202  				  struct mcs_spinlock *node)
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  203  {
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  204  	u64 prev = ts->cur;
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  205  	u64 time;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  206  	int ret;
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  207  
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  208  	if (!ts->timeout_end) {
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  209  		if (check_deadlock_AA(lock))
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  210  			return -EDEADLK;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  211  		/*
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  212  		 * Is the successor indicating to us that they have a deadlock?
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  213  		 */
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  214  		if (node && READ_ONCE(node->next)) {
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  215  			if (node->next->locked != RES_HUNG_VAL)
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  216  				return 0;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  217  			return -ETIMEDOUT;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  218  		}
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  219  		ts->cur = ktime_get_mono_fast_ns();
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  220  		ts->timeout_end = ts->cur + ts->duration;
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  221  		return 0;
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  222  	}
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  223  
-5860f5ce479f42 Kumar Kartikeya Dwivedi 2025-11-28  224  	time = ktime_get_mono_fast_ns();
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  225  	if (time > ts->timeout_end)
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  226  		return -ETIMEDOUT;
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  227  
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  228  	/*
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  229  	 * A millisecond interval passed from last time? Trigger deadlock
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  230  	 * checks.
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  231  	 */
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  232  	if (prev + NSEC_PER_MSEC < time) {
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  233  		ts->cur = time;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  234  		ret = check_deadlock_ABBA(lock, mask);
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  235  		if (ret)
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  236  			return ret;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  237  		/*
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  238  		 * Is the successor indicating to us that they have a deadlock?
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  239  		 */
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  240  		if (node && READ_ONCE(node->next)) {
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  241  			if (node->next->locked != RES_HUNG_VAL)
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  242  				return 0;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  243  			return -ETIMEDOUT;
-ecbeea85f52f8f Kumar Kartikeya Dwivedi 2025-11-29  244  		}
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  245  	}
-31158ad02ddbed Kumar Kartikeya Dwivedi 2025-03-15  246  
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  247  	return 0;
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  248  }
-14c48ee8145275 Kumar Kartikeya Dwivedi 2025-03-15  249  
-
-:::::: The code at line 200 was first introduced by commit
-:::::: 31158ad02ddbed2b0672c9701a0a2f3e5b3bc01a rqspinlock: Add deadlock detection and recovery
-
-:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+>> vmlinux.o: warning: objtool: do_syscall_64+0x1a2: call to prandom_u32_state() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: __do_fast_syscall_32+0xfd: call to prandom_u32_state() leaves .noinstr.text section
 
 -- 
 0-DAY CI Kernel Test Service
