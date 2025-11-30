@@ -1,91 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8153FF1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 00:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D601235950
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 00:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764463723; cv=none; b=QNtmttTF9nqEFPwlICnJ8/M2wpWIxavRp9sfFbSW6L5Aay0Mt0GUtEOrI/0EBa/MsFDyOp8ln4YU2GiybGiiFOSvCVYmIuYm26rqbl36CgsNLHDUpxbeYDRko5ibFk92RrsqbR2jLEcgOSiQ3Y1LJdJdM8obN5r5+6tUf8koe+M=
+	t=1764464142; cv=none; b=eyFn9lJFzSbcKtT5hO7GQg3RejrDU8U1cM+PwJMZjfVV6kO19NavojWzVl8tPjchFtJ9sCqtLbxLg59aebhE7FnKPkQLVDtY+JUno+QRrH6vjORRxh3bcnJe9xCIuqyQnlJ4kI3WHYaTMjRMb+4gvWX7IX7naj9OPwRndSM/2aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764463723; c=relaxed/simple;
-	bh=b9MJEMNER/RQYc5vZDUMgCilQoR0TBwuj1054jlF9Uo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l4a9mK0yPw2bJICnsN56gYPKMftbBA4hWVF7bXKBL21zc4H15IbsvrgMg8aix99czLGgeRMElJUoR9c2WQ58vAh7TDzWICKYdsIMquwld4eCgbVpgml4daQneuvS5egLWcUB55uP7hqHXvdYmOce86pl1fAL8QYIKl+rAhdHRlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuCEbWxX; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764464142; c=relaxed/simple;
+	bh=NBeOWTMZATRlXobDnOjOlVx+njZZt5TBT9yNSFRkrR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aLD1dZHANE6uBryuhd82W+CuROfakbNazdr7g9WsEz39IjlHl1KjFcagJIzj66aXfV9QkHnwVpKyK+iRL1VSe34jjI7DRlUAHq+LyTrLalEN5X/tEqq9gRaGMbRPgWxV6LnUzEVZXoic1zMPiytpIAG3zoOjzH7cnUOBiFeFI0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PQmgAvkm; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuCEbWxX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764463720; x=1795999720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b9MJEMNER/RQYc5vZDUMgCilQoR0TBwuj1054jlF9Uo=;
-  b=PuCEbWxXOkzzMpRlqyaZlvh3O0Qnw+CEgYs2fiNf2l5CHjHad20WAFRM
-   W/4rW+I63Rm1LpMP49olREXBa3u6uoQv0Tx0sb3xZ0rusvl0BE3wURSwv
-   gIVJJ6phcH7bVa7Xx7tPNkuCUVfQ0jQfzRygFMar0MGxsWNm5hTkZGIIf
-   LFVOVSJ7wziPwDtXQG2Z4y8G9gYsFXNdc9xjVSu7CjG4gIQny0FpK6yEp
-   uRFyFjHhVPwrHRwIegvOpMagNc7zaw+9dKRCxDAtMtWBOZQ782Cki5puo
-   kkR++nGhQWLhhdmPaCYgkaFXbhukfaYyiFyxZ5dx0/9HDYDDR6TfI2Qpf
-   g==;
-X-CSE-ConnectionGUID: mjRFV3fETFmOSM7iefKd6g==
-X-CSE-MsgGUID: Xzh2nYcnRvC8yQ1bXNv8rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="66468315"
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="66468315"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 16:48:40 -0800
-X-CSE-ConnectionGUID: ry2S3vR0QoamlNzx0UhR/Q==
-X-CSE-MsgGUID: wMVcf7GPRAKQ81AnbEV0Ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; 
-   d="scan'208";a="192862400"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Nov 2025 16:48:39 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vPVcC-000000007h9-0mRE;
-	Sun, 30 Nov 2025 00:48:36 +0000
-Date: Sun, 30 Nov 2025 08:47:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: error[E0560]: struct `bindings::file_operations` has no field named
- `compat_ioctl`
-Message-ID: <202511300859.35d9m0hj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PQmgAvkm"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b727f452fffso662316866b.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 16:55:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1764464139; x=1765068939; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ODvKrhGkwSlhPa8Jb1bNoOTwQQH/HZ4Eumvhds6swjA=;
+        b=PQmgAvkmFV+PXtBbkVd9Lrsai/hodYi3iknMIJwlQO4dBw+C/QfRiUuyKgriK65JDH
+         8PgpJEBHzJOHwdWi1zZuvsStNwy4A/wLjPC1fTYzXv6PecKUqOoYCzpzBkMMommiKdfo
+         V1jZ3VVq5zleWNUn5McBKbMK6uO2yYTR6/810zu2Vg0qdV7QIUt7Vj/d0AW30sUwN/dl
+         4L4jIqZfqTgOOjDysYA9Hycqax4LIP9w+Zjt4cAa86VwUX02iik0j7ztbNr9OFSwAQ4l
+         U2hTK+PlttErtRYRrYdbr69BC+9TNmDu8ofC00/WccjFgQ51jhom4BkGuFxvftFHu4bU
+         H9UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764464139; x=1765068939;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ODvKrhGkwSlhPa8Jb1bNoOTwQQH/HZ4Eumvhds6swjA=;
+        b=J295mwfCbcN8jcAi+S/JOpNlK/HrVgJnJSEQep7L1zQoLV93IDDxoanQcPahFNqhBT
+         lmptprjKOH99ygChq+/qX53nu9UaixQmkN/IeAg80ai1u4UU2dgC3b1YtvZVblcij+fP
+         Rr9sPXksS/lBW8EqziW3OOUUNG86BKYJONxycJ55+IvJNFBlIdhQKLQo7aa9ibpkeB2Y
+         1Bvya2BCYHlO3LRJD48sXO2x5LwrTxvlQSx4AdPzgZWR9RSkWt/2DYS77mxeT4Oz62YM
+         9ZFoF36dtWBXo0Shb9Eq+5SuwyRkble8zSaEqr5adC3ZX9/A5Tuq/0yFIfoyPJHrZZ6t
+         KNfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrNFpl8ph5vCuhSZNSy9ImiN2zRR8IjXAzjjvgpa+Lx03UpczoVnrPUZqhdL7oDCSKnE/EWQbQLqLjs4Bk@lists.linux.dev
+X-Gm-Message-State: AOJu0YwX1PxnZAP3N0Q88g+90cYGUaoqNkaoct5rZfIdBR4i6jP4GBna
+	VPK6GQQk5brtkGmVmVjWw2wkfRy7TFPQ94d3tlnO1LR0Zd7pVVz9a+3yz+laisZlwIrMNeoH2cA
+	z1AMljR1rRKWaX67iCG5mALGn6uk2Iw8x0yUlUaGhwQ==
+X-Gm-Gg: ASbGnctYbLixo2upYaUhpVomEayGdmzSFxrdYallosYF5W+Ctf/Is2CubjE0/HaInBp
+	qKZzMigkjXQYL1qoWAOEWZdnA1ejj3/BZGiPem84B9eWCCbKJifveaCaBty6NNnprVzf/iP3OXY
+	LM8uauLXQ0PgHgdee5Th9fC2mmUicUETtiKXw534N7ZTE4mAS/Vbo87/bZAeUCmp0+zYjzAx5M5
+	mObipkHvSdy7RKAKVZr+EE8UeBzomGVebnlF6YfdK0RqOeXl85fWG90nIrxSxaSLc6a
+X-Google-Smtp-Source: AGHT+IH6LUCi5rjA0Lr0nzqfx5DbAhNHqzUxGTdNtAaquPcmdopH9wDpInveo3rVf28FnQZ02b/ePqsUDSgGQlxuq+I=
+X-Received: by 2002:a17:907:7e94:b0:b77:1b05:a082 with SMTP id
+ a640c23a62f3a-b771b05a47bmr571754566b.2.1764464139115; Sat, 29 Nov 2025
+ 16:55:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202511280300.6pvBmXUS-lkp@intel.com> <CA+CK2bCmp4gjpyND2=Chdz-EfRAF20unYzO2dwQb+ZTEihgk3w@mail.gmail.com>
+ <20251129120040.fb60e8a35d54d66c0bdbdf33@linux-foundation.org>
+ <CA+CK2bBJmj3nK4QhAC5pr+5nS0vRv_5cOxAr_mohC+YreiZPcg@mail.gmail.com> <20251129155221.d5f3c519747d8d492aa17462@linux-foundation.org>
+In-Reply-To: <20251129155221.d5f3c519747d8d492aa17462@linux-foundation.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Sat, 29 Nov 2025 19:55:02 -0500
+X-Gm-Features: AWmQ_bnGr4rnCvxKPzqTx69_qNLEustqMkD3XbJsdWt8w5JVvGcgYvW5EMJahow
+Message-ID: <CA+CK2bCS3DtWR5u-z1jwyQLxLjgEJuvd916Mn5wviBLD_M6Fww@mail.gmail.com>
+Subject: Re: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
+ luo_ioctl() warn: unsigned 'nr' is never less than zero.
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Pratyush Yadav <pratyush@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6bda50f4333fa61c07f04f790fdd4e2c9f4ca610
-commit: f893691e742688ae21ad597c5bba13bef54706cd rust: miscdevice: add base miscdevice abstraction
-date:   1 year, 2 months ago
-config: arm64-randconfig-r073-20251130 (https://download.01.org/0day-ci/archive/20251130/202511300859.35d9m0hj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511300859.35d9m0hj-lkp@intel.com/reproduce)
+On Sat, Nov 29, 2025 at 6:52=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Sat, 29 Nov 2025 15:20:51 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
+com> wrote:
+>
+> > > > >    393  static long luo_ioctl(struct file *filep, unsigned int cm=
+d, unsigned long arg)
+> > > > >    394  {
+> > > > >    395          const struct luo_ioctl_op *op;
+> > > > >    396          struct luo_ucmd ucmd =3D {};
+> > > > >    397          union ucmd_buffer buf;
+> > > > >    398          unsigned int nr;
+> > > > >    399          int err;
+> > > > >    400
+> > > > >    401          nr =3D _IOC_NR(cmd);
+> > > > >  > 402          if (nr < LIVEUPDATE_CMD_BASE ||
+> > > > >    403              (nr - LIVEUPDATE_CMD_BASE) >=3D ARRAY_SIZE(lu=
+o_ioctl_ops)) {
+> > > >
+> > > > This is a false positive. The logic is designed to work generically
+> > > > for any base, similar to how it is handled in session ioctl and
+> > > > iommufd ictl. The warning only triggers because LIVEUPDATE_CMD_BASE
+> > > > happens to be 0 in this specific case.
+> > >
+> > > This is a difficult situation.
+> > >
+> > > In some cases smatch has found a bug, in other cases it's just being
+> > > irritating.
+> > >
+> > > I think there is value in smatch occasionally finding bugs, and to
+> > > support that we should try to rearrange false positives so that smatc=
+h
+> > > doesn't report on those.
+> > >
+> > > Perhaps there's some way we can do that here, without uglifying thing=
+s?
+> >
+> > Yes, we can make "unsigned int nr;" signed: "int nr;", should be OK.
+> > Would you like me to send a fix patch with this change?
+>
+> Sure, thanks.  It's a bit lame using an inappropriate type but the
+> world won't end if we do.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511300859.35d9m0hj-lkp@intel.com/
+I will send a patch.
 
-All errors (new ones prefixed by >>):
+Actually, I realized we can simply drop the nr < LIVEUPDATE_CMD_BASE
+check entirely.
 
->> error[E0560]: struct `bindings::file_operations` has no field named `compat_ioctl`
-   --> rust/kernel/miscdevice.rs:161:13
-   |
-   161 |             compat_ioctl: if T::HAS_COMPAT_IOCTL {
-   |             ^^^^^^^^^^^^ `bindings::file_operations` does not have this field
-   |
-   = note: available fields are: `_address`
+Since nr is unsigned, if it is less than LIVEUPDATE_CMD_BASE, the
+subtraction (nr - LIVEUPDATE_CMD_BASE) will wrap around to a large
+positive value. This will trigger the >=3D ARRAY_SIZE check
+automatically. This solves the warning without needing to change nr to
+a signed type.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pasha
