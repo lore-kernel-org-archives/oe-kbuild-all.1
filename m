@@ -1,135 +1,102 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from sg-1-23.ptr.blmpb.com (sg-1-23.ptr.blmpb.com [118.26.132.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D601235950
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 00:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC684FBF0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 02:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=118.26.132.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764464142; cv=none; b=eyFn9lJFzSbcKtT5hO7GQg3RejrDU8U1cM+PwJMZjfVV6kO19NavojWzVl8tPjchFtJ9sCqtLbxLg59aebhE7FnKPkQLVDtY+JUno+QRrH6vjORRxh3bcnJe9xCIuqyQnlJ4kI3WHYaTMjRMb+4gvWX7IX7naj9OPwRndSM/2aA=
+	t=1764470304; cv=none; b=JlGDP05a1xkPeYURsgRrANPMv7xTsSQprnhXDpJmfp9G4e51ClK4uT8zPcHXsEcc6FRJ8hOXWaDJ8k4inXNNmCh/0kySEGWEErU/zVavFudUahLtASJGkIu6RG64HryN2yCyucJVwNSpqp8mh5dyPaz+khSSTA8e7xtHkE3GYIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764464142; c=relaxed/simple;
-	bh=NBeOWTMZATRlXobDnOjOlVx+njZZt5TBT9yNSFRkrR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aLD1dZHANE6uBryuhd82W+CuROfakbNazdr7g9WsEz39IjlHl1KjFcagJIzj66aXfV9QkHnwVpKyK+iRL1VSe34jjI7DRlUAHq+LyTrLalEN5X/tEqq9gRaGMbRPgWxV6LnUzEVZXoic1zMPiytpIAG3zoOjzH7cnUOBiFeFI0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=PQmgAvkm; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1764470304; c=relaxed/simple;
+	bh=W8LsCLK67dlNpsyF40683w99+jDqOch8ULlH1vlYSus=;
+	h=Cc:Content-Type:Message-Id:Mime-Version:In-Reply-To:To:From:
+	 Subject:Date:References; b=AiCSdck046ABi8nY8DRO38DcXGZG7jaFez4qbXk/ZrbblIRnS5JGa9/m4K54I8NPN5YgnDmsm1imTO/Vt0C0GDP0Ka/GkKzOAhtbyRL92pIF9c8zo+htQxiP98xQ28U7SPA+QQN/CGxxC+ghP/0mYs6GBATXXLgwl1HnlmQhdHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com; spf=pass smtp.mailfrom=fnnas.com; dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b=Z/iUh5TO; arc=none smtp.client-ip=118.26.132.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fnnas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fnnas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PQmgAvkm"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b727f452fffso662316866b.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Nov 2025 16:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1764464139; x=1765068939; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ODvKrhGkwSlhPa8Jb1bNoOTwQQH/HZ4Eumvhds6swjA=;
-        b=PQmgAvkmFV+PXtBbkVd9Lrsai/hodYi3iknMIJwlQO4dBw+C/QfRiUuyKgriK65JDH
-         8PgpJEBHzJOHwdWi1zZuvsStNwy4A/wLjPC1fTYzXv6PecKUqOoYCzpzBkMMommiKdfo
-         V1jZ3VVq5zleWNUn5McBKbMK6uO2yYTR6/810zu2Vg0qdV7QIUt7Vj/d0AW30sUwN/dl
-         4L4jIqZfqTgOOjDysYA9Hycqax4LIP9w+Zjt4cAa86VwUX02iik0j7ztbNr9OFSwAQ4l
-         U2hTK+PlttErtRYRrYdbr69BC+9TNmDu8ofC00/WccjFgQ51jhom4BkGuFxvftFHu4bU
-         H9UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764464139; x=1765068939;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ODvKrhGkwSlhPa8Jb1bNoOTwQQH/HZ4Eumvhds6swjA=;
-        b=J295mwfCbcN8jcAi+S/JOpNlK/HrVgJnJSEQep7L1zQoLV93IDDxoanQcPahFNqhBT
-         lmptprjKOH99ygChq+/qX53nu9UaixQmkN/IeAg80ai1u4UU2dgC3b1YtvZVblcij+fP
-         Rr9sPXksS/lBW8EqziW3OOUUNG86BKYJONxycJ55+IvJNFBlIdhQKLQo7aa9ibpkeB2Y
-         1Bvya2BCYHlO3LRJD48sXO2x5LwrTxvlQSx4AdPzgZWR9RSkWt/2DYS77mxeT4Oz62YM
-         9ZFoF36dtWBXo0Shb9Eq+5SuwyRkble8zSaEqr5adC3ZX9/A5Tuq/0yFIfoyPJHrZZ6t
-         KNfw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrNFpl8ph5vCuhSZNSy9ImiN2zRR8IjXAzjjvgpa+Lx03UpczoVnrPUZqhdL7oDCSKnE/EWQbQLqLjs4Bk@lists.linux.dev
-X-Gm-Message-State: AOJu0YwX1PxnZAP3N0Q88g+90cYGUaoqNkaoct5rZfIdBR4i6jP4GBna
-	VPK6GQQk5brtkGmVmVjWw2wkfRy7TFPQ94d3tlnO1LR0Zd7pVVz9a+3yz+laisZlwIrMNeoH2cA
-	z1AMljR1rRKWaX67iCG5mALGn6uk2Iw8x0yUlUaGhwQ==
-X-Gm-Gg: ASbGnctYbLixo2upYaUhpVomEayGdmzSFxrdYallosYF5W+Ctf/Is2CubjE0/HaInBp
-	qKZzMigkjXQYL1qoWAOEWZdnA1ejj3/BZGiPem84B9eWCCbKJifveaCaBty6NNnprVzf/iP3OXY
-	LM8uauLXQ0PgHgdee5Th9fC2mmUicUETtiKXw534N7ZTE4mAS/Vbo87/bZAeUCmp0+zYjzAx5M5
-	mObipkHvSdy7RKAKVZr+EE8UeBzomGVebnlF6YfdK0RqOeXl85fWG90nIrxSxaSLc6a
-X-Google-Smtp-Source: AGHT+IH6LUCi5rjA0Lr0nzqfx5DbAhNHqzUxGTdNtAaquPcmdopH9wDpInveo3rVf28FnQZ02b/ePqsUDSgGQlxuq+I=
-X-Received: by 2002:a17:907:7e94:b0:b77:1b05:a082 with SMTP id
- a640c23a62f3a-b771b05a47bmr571754566b.2.1764464139115; Sat, 29 Nov 2025
- 16:55:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=fnnas-com.20200927.dkim.feishu.cn header.i=@fnnas-com.20200927.dkim.feishu.cn header.b="Z/iUh5TO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1764470290;
+  h=from:subject:mime-version:from:date:message-id:subject:to:cc:
+ reply-to:content-type:mime-version:in-reply-to:message-id;
+ bh=Rkx7Ahdvf7rs487NDbvuC3W0RQRmgADzUQXM+7MHBog=;
+ b=Z/iUh5TOgZ4vLAfd3CmitbWUgl0EGrEFhjNPCvS5gQ+JyL6wYIkL7c884kEXAmU1oye5Je
+ X9t7eMK/Q9c4GUQrMU2ZATsTfKNHgaHz5TkTqddMeG76DCEaS/Ge7Dx6yDITk/0t1J8vbs
+ n35sR2At8VG9aC+36BcEjPSKzBfmApv/UFgjHO71sdg8VoQmraReoTvEQjzxtKb0jCnAUM
+ ET4P07iXNnPGBSBsoT4Lz6wTrkaJ1bhJQrjL1zMIol+kyg2Hof8r8l/Q58zvPDvd5TCd99
+ ngp9kK8C2Hjz518A9ZW75KJQIRQZiyNAqvYB6QIeL3K+B6ha+VXr3KUf2m5kkw==
+Cc: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, 
+	<filippo@debian.org>, <colyli@fnnas.com>
+Content-Language: en-US
+X-Lms-Return-Path: <lba+2692bae10+43ffb1+lists.linux.dev+yukuai@fnnas.com>
+X-Original-From: Yu Kuai <yukuai@fnnas.com>
+Received: from [192.168.1.104] ([39.182.0.153]) by smtp.feishu.cn with ESMTPS; Sun, 30 Nov 2025 10:38:07 +0800
+Reply-To: yukuai@fnnas.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Message-Id: <7830a957-1c8a-4971-b59a-7f01e69f39b7@fnnas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202511280300.6pvBmXUS-lkp@intel.com> <CA+CK2bCmp4gjpyND2=Chdz-EfRAF20unYzO2dwQb+ZTEihgk3w@mail.gmail.com>
- <20251129120040.fb60e8a35d54d66c0bdbdf33@linux-foundation.org>
- <CA+CK2bBJmj3nK4QhAC5pr+5nS0vRv_5cOxAr_mohC+YreiZPcg@mail.gmail.com> <20251129155221.d5f3c519747d8d492aa17462@linux-foundation.org>
-In-Reply-To: <20251129155221.d5f3c519747d8d492aa17462@linux-foundation.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Sat, 29 Nov 2025 19:55:02 -0500
-X-Gm-Features: AWmQ_bnGr4rnCvxKPzqTx69_qNLEustqMkD3XbJsdWt8w5JVvGcgYvW5EMJahow
-Message-ID: <CA+CK2bCS3DtWR5u-z1jwyQLxLjgEJuvd916Mn5wviBLD_M6Fww@mail.gmail.com>
-Subject: Re: [linux-next:master 12118/12398] kernel/liveupdate/luo_core.c:402
- luo_ioctl() warn: unsigned 'nr' is never less than zero.
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Pratyush Yadav <pratyush@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+In-Reply-To: <202511270809.hl08JR8y-lkp@intel.com>
+To: "kernel test robot" <lkp@intel.com>, <song@kernel.org>, 
+	<linux-raid@vger.kernel.org>, "Yu Kuai" <yukuai@fnnas.com>
+From: "Yu Kuai" <yukuai@fnnas.com>
+Subject: Re: [PATCH v2 06/11] md: support to align bio to limits
+Date: Sun, 30 Nov 2025 10:38:05 +0800
+References: <20251124063203.1692144-7-yukuai@fnnas.com> <202511270809.hl08JR8y-lkp@intel.com>
+Organization: fnnas
 
-On Sat, Nov 29, 2025 at 6:52=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
+Hi,
+
+=E5=9C=A8 2025/11/27 8:51, kernel test robot =E5=86=99=E9=81=93:
+> Hi Yu,
 >
-> On Sat, 29 Nov 2025 15:20:51 -0500 Pasha Tatashin <pasha.tatashin@soleen.=
-com> wrote:
+> kernel test robot noticed the following build errors:
 >
-> > > > >    393  static long luo_ioctl(struct file *filep, unsigned int cm=
-d, unsigned long arg)
-> > > > >    394  {
-> > > > >    395          const struct luo_ioctl_op *op;
-> > > > >    396          struct luo_ucmd ucmd =3D {};
-> > > > >    397          union ucmd_buffer buf;
-> > > > >    398          unsigned int nr;
-> > > > >    399          int err;
-> > > > >    400
-> > > > >    401          nr =3D _IOC_NR(cmd);
-> > > > >  > 402          if (nr < LIVEUPDATE_CMD_BASE ||
-> > > > >    403              (nr - LIVEUPDATE_CMD_BASE) >=3D ARRAY_SIZE(lu=
-o_ioctl_ops)) {
-> > > >
-> > > > This is a false positive. The logic is designed to work generically
-> > > > for any base, similar to how it is handled in session ioctl and
-> > > > iommufd ictl. The warning only triggers because LIVEUPDATE_CMD_BASE
-> > > > happens to be 0 in this specific case.
-> > >
-> > > This is a difficult situation.
-> > >
-> > > In some cases smatch has found a bug, in other cases it's just being
-> > > irritating.
-> > >
-> > > I think there is value in smatch occasionally finding bugs, and to
-> > > support that we should try to rearrange false positives so that smatc=
-h
-> > > doesn't report on those.
-> > >
-> > > Perhaps there's some way we can do that here, without uglifying thing=
-s?
-> >
-> > Yes, we can make "unsigned int nr;" signed: "int nr;", should be OK.
-> > Would you like me to send a fix patch with this change?
+> [auto build test ERROR on next-20251121]
+> [also build test ERROR on v6.18-rc7]
+> [cannot apply to linus/master song-md/md-next v6.18-rc7 v6.18-rc6 v6.18-r=
+c5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+
+This set should be applied cleanly for the branch mdraid/md-6.19
+
+Thanks,
+Kuai
+
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 >
-> Sure, thanks.  It's a bit lame using an inappropriate type but the
-> world won't end if we do.
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-m=
+ddev-has_superblock-into-mddev_flags/20251124-143826
+> base:   next-20251121
+> patch link:    https://lore.kernel.org/r/20251124063203.1692144-7-yukuai%=
+40fnnas.com
+> patch subject: [PATCH v2 06/11] md: support to align bio to limits
+> config: sparc-randconfig-002-20251127 (https://download.01.org/0day-ci/ar=
+chive/20251127/202511270809.hl08JR8y-lkp@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251127/202511270809.hl08JR8y-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202511270809.hl08JR8y-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     sparc-linux-ld: drivers/md/md.o: in function `md_submit_bio':
+>>> md.c:(.text+0x85d4): undefined reference to `__umoddi3'
 
-I will send a patch.
-
-Actually, I realized we can simply drop the nr < LIVEUPDATE_CMD_BASE
-check entirely.
-
-Since nr is unsigned, if it is less than LIVEUPDATE_CMD_BASE, the
-subtraction (nr - LIVEUPDATE_CMD_BASE) will wrap around to a large
-positive value. This will trigger the >=3D ARRAY_SIZE check
-automatically. This solves the warning without needing to change nr to
-a signed type.
-
-Pasha
+--=20
+Thanks,
+Kuai
