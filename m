@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D89C2E2667;
-	Sun, 30 Nov 2025 23:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987A923C519
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 23:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764544330; cv=none; b=Z6bHh6uJ1edfZhuBkoULz+e8uKOFD7doTyFpw1xMbqKoPoowxJH5nxkjLN7CeIwuseHDyeGzX/b7RBOBIT/lz3MFnevrNlqRKz4RUBs/DkApDLGd8hxoGln83v0wO+ETPgn2OgELs4DjVkfj+9q5fUFx65YzVQYI0/qE+f7OmyI=
+	t=1764544991; cv=none; b=IleL+3m8I2y7caDqKYWri7HJSy2GmBYM8oRJ8AijP+Hlpylxin9/jrBBNU7C5hyA+5gru7aDkeIOBZ3laMPrpYeilaHSYRv1XKRAWIkRpYYJKbKWfW4QLOd2gaoxlMi8QSksB8hP9IF4u/jHZw7no5cN9jczLXAXK9tMJfmTZ0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764544330; c=relaxed/simple;
-	bh=Uk1rJbVhVosX9YkqfKXg9+pEgBDW8ZsYJb06Nfvu2/I=;
+	s=arc-20240116; t=1764544991; c=relaxed/simple;
+	bh=eoBLZ+2ZNCzGt957x2kAXgqkLUmQzw9SBu1Q9ZearFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NekD6UQKmn5WfifsBBB182zc8jc0D7GkkNBYomMXvdwVGwxCFrpuFJ65S6zwtnCQHoiTC1lhDg+KR95KpfLLbuTzWJNsYZ92aXdlf1d27L7ygSu5QmD+AskGl3LyzeBMorSIzm47tySOJ3DRh0cAOTjo6OSsFTrmOjbXdyZRFvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYyTJm1l; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=ILTddLI9UfpLYXKGr80mHNZa4B51dhwYghwuwOEI04MuOB+WExAUI3Oe4/fvp+Jvom0pGvAHfZI2RAV4CoQsTZCj6JoiCxyxcTq7R7t/x//Ly4C0MvqrHqA1y+LTjR5JvwSZGEd+RBoL9bAnzlMDU8e8Jm09a0wkx5RMPYdedpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WimWdUXa; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYyTJm1l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WimWdUXa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764544328; x=1796080328;
+  t=1764544989; x=1796080989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Uk1rJbVhVosX9YkqfKXg9+pEgBDW8ZsYJb06Nfvu2/I=;
-  b=EYyTJm1lbVihvARNoMfSUSkKN0ykipmgNJ+58nhk5OGCl3VoRtUuGL6Z
-   ATOVzKCneGe7r/t+C+QaAbC5DWRmF6bZV0tXeaZl5Zwmbm60pG17Za/qI
-   WpBdgALjXjUxQQKG96QdaPKIOMcoNWmxar7Krc5eiP5fyeA4x7IAM8U2V
-   niGZKerafTM/bR0tZ/i5ZOD5jkyGP1Q51MoSZdOQX0SzzYd4fkJgmr5hU
-   F53NDxzB/NZnYfHOniIeQa1S/fsorIywOsjFBSWD8no4XCQ26Pe+3bRL+
-   bpbz8wp/iqx13CqRslZ9Gen2KlYZx4y8wsWk2uQ82N1xePTN6GjszTuEA
-   g==;
-X-CSE-ConnectionGUID: pSET5PO9Tf+KaXB0hN1sBQ==
-X-CSE-MsgGUID: y3zH2pQlTWi4BRIJzoY2Gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="65482917"
+  bh=eoBLZ+2ZNCzGt957x2kAXgqkLUmQzw9SBu1Q9ZearFY=;
+  b=WimWdUXa7Nspep/ZZWXX3kc/c/fy7cYiiR3uiYanCeytJ6RIrkJYdQ1I
+   bD+H7l8eiKFmnQFWkEfaenQpd8/Eyo4wBjXKPSsyKfFMXJMad89DBF6Go
+   jlne84/PLM/pjRU2NGT6RXJ57lI9mUR1ACCk7dNadHBvH/MuglZAFD4j4
+   AAyVxHojjMAEiHAMrPhu78KHCwO3POsFMEnVdE4t1THx5dK02ZU5ZTBg9
+   d+6wDvJK2oSrFquO4Vd2S16vVVLjVr6utzDY169L0I1r9WewmEym2/7aA
+   o/HY84c714QHiqUUFM5q4U9P7Mm6t8UUyLcO+tCjGoBCX8bZ5fGbYPFE9
+   w==;
+X-CSE-ConnectionGUID: drg+4OZbSj+O5LTqdcpPAw==
+X-CSE-MsgGUID: QwnAO+e7QgirFk6V0hkCXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77164435"
 X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
-   d="scan'208";a="65482917"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 15:12:07 -0800
-X-CSE-ConnectionGUID: 1tN3z/FYTUOSQYdpMHOVwQ==
-X-CSE-MsgGUID: FE1lWn3iQLy+wotM4gxIXA==
+   d="scan'208";a="77164435"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 15:23:09 -0800
+X-CSE-ConnectionGUID: iR+hEzovSlCLmYvDYEEeuA==
+X-CSE-MsgGUID: XXKIU8B6TZOZr+cLWwFc/A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
+   d="scan'208";a="193168010"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Nov 2025 15:12:06 -0800
+  by orviesa010.jf.intel.com with ESMTP; 30 Nov 2025 15:23:07 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPqaK-000000008EP-1Ltj;
-	Sun, 30 Nov 2025 23:12:04 +0000
-Date: Mon, 1 Dec 2025 07:12:00 +0800
+	id 1vPqky-000000008Ej-39KY;
+	Sun, 30 Nov 2025 23:23:04 +0000
+Date: Mon, 1 Dec 2025 07:22:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [lwn:docs-next 64/66] Warning:
- sound/usb/usx2y/us144mkii_controls.c:8 This comment starts with '/**', but
- isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202512010746.EPe9Xcp5-lkp@intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alice Ryhl <aliceryhl@google.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>
+Subject: error[E0425]: cannot find function `dma_map_sgtable` in crate
+ `bindings`
+Message-ID: <202512010734.GAsaWH7b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +67,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.lwn.net/linux.git docs-next
-head:   464257baf99200d1be1c053f15aa617056361e81
-commit: 5f88f44d8427a97347afda3a6114aed0df472a0b [64/66] docs: kdoc: various fixes for grammar, spelling, punctuation
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251201/202512010746.EPe9Xcp5-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512010746.EPe9Xcp5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e69c7c175115c51c7f95394fc55425a395b3af59
+commit: 05aa6fb1c21d7fb9df735da24096d793223789d5 rust: scatterlist: Add abstraction for sg_table
+date:   3 months ago
+config: um-randconfig-r054-20251201 (https://download.01.org/0day-ci/archive/20251201/202512010734.GAsaWH7b-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512010734.GAsaWH7b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512010746.EPe9Xcp5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512010734.GAsaWH7b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: sound/usb/usx2y/us144mkii_controls.c:6 Cannot find identifier on line:
-    * @brief Text descriptions for playback output source options.
-   Warning: sound/usb/usx2y/us144mkii_controls.c:7 Cannot find identifier on line:
-    *
->> Warning: sound/usb/usx2y/us144mkii_controls.c:8 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Used by ALSA kcontrol elements to provide user-friendly names for
-   Warning: sound/usb/usx2y/us144mkii_controls.c:15 Cannot find identifier on line:
-    * @brief Text descriptions for capture input source options.
-   Warning: sound/usb/usx2y/us144mkii_controls.c:16 Cannot find identifier on line:
-    *
-   Warning: sound/usb/usx2y/us144mkii_controls.c:17 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Used by ALSA kcontrol elements to provide user-friendly names for
-   Warning: sound/usb/usx2y/us144mkii_controls.c:100 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_line_out_control ='
-   Warning: sound/usb/usx2y/us144mkii_controls.c:171 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_digital_out_control ='
-   Warning: sound/usb/usx2y/us144mkii_controls.c:259 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_capture_12_control ='
-   Warning: sound/usb/usx2y/us144mkii_controls.c:330 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_capture_34_control ='
-   Warning: sound/usb/usx2y/us144mkii_controls.c:408 cannot understand function prototype: 'const struct snd_kcontrol_new tascam_samplerate_control ='
+>> error[E0425]: cannot find function `dma_map_sgtable` in crate `bindings`
+   --> rust/kernel/scatterlist.rs:212:23
+   |
+   212 |               bindings::dma_map_sgtable(dev.as_raw(), sgt.as_ptr(), dir.into(), 0)
+   |                         ^^^^^^^^^^^^^^^ help: a function with a similar name exists: `dma_unmap_sgtable`
+   |
+   ::: rust/bindings/bindings_helpers_generated.rs:465:5
+   |
+   465 | /     pub fn dma_unmap_sgtable(
+   466 | |         dev: *mut device,
+   467 | |         sgt: *mut sg_table,
+   468 | |         dir: dma_data_direction,
+   469 | |         attrs: ffi::c_ulong,
+   470 | |     );
+   | |______- similarly named function `dma_unmap_sgtable` defined here
 --
-   Warning: sound/usb/usx2y/us144mkii.c:13 Cannot find identifier on line:
-    * @brief Module parameters for ALSA card instantiation.
-   Warning: sound/usb/usx2y/us144mkii.c:14 Cannot find identifier on line:
-    *
->> Warning: sound/usb/usx2y/us144mkii.c:15 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * These parameters allow users to configure how the ALSA sound card
---
->> Warning: drivers/infiniband/hw/mlx5/umr.c:986 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * This function makes an mkey non-present by zapping the translation entries of
+>> error[E0425]: cannot find function `dma_max_mapping_size` in crate `bindings`
+   --> rust/kernel/scatterlist.rs:356:52
+   |
+   356 |         let max_segment = match unsafe { bindings::dma_max_mapping_size(dev.as_raw()) } {
+   |                                                    ^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
