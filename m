@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D73258EFB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 18:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B698B23EA8A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Nov 2025 21:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764525809; cv=none; b=ZflBI3J2UaQYB8XxJXlVYwVteuTk3qNeZfodE0qzUpkfQVbg/p7CyJwybhzcrsNm2z5Tq2VDMGYBfLCiuABsSWyMfDnyYz7HcXUNBPfu4BOvS7A0oW6Kk+ZVtctO9LpUdjWuDNtpPOE1zWneoezny8bKzoTdY+UIFbw/PUNskD0=
+	t=1764536887; cv=none; b=QxCU/50qbNJDKe0BdqheDCif0F1fFGa6Cd1PGnjV3COXraeFrbQj2ejUUZTj0rWZAJm6wMGbLEZc097kTnfh/liVbxqR2eZAwUBDeJ/5vdOjpMRlx8dgPtqv6Jv8abLJFL1G596pzuQMFwdVtEjeZ7hAgnxmrgnjXnq7KFYvYaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764525809; c=relaxed/simple;
-	bh=ZqVwHivoVUmWgEvQjyk/WhrXNd4Z9xULQneMl4nM6rU=;
+	s=arc-20240116; t=1764536887; c=relaxed/simple;
+	bh=NRkMsxoHYZqiJj5ZD/9EySHfxLk2qbytX7F5gc9lfl8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VJaOn5a7Wt5JZMDG/SKFRI1/TLVWM/0J00OykVX+aKu85fIqL1/szgzfycS9/fngRTKMW/2MfATtgoxqnWJqhX9gqIq5/SmGW1AHW0hEkfIeneqzOq08UOeRW7jATDdmkQXZF5TNPopF2axevAHSEtPLpHfKMqjikaETc8EVC84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kilhvBVB; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=LqAoV9WhvRUixsvk0ZZRJEd9DLszv3ZwkKcAsz6gfm6PUAvhfc0dVw060CIri17Iv/E2kV2xfusKxNKW/URx34Ibi/qQelMC8QAKU7KnyV90HaryzJochUwJlQvxCx6J2GDe7kCmesUAGsW9cfcOPoyJRF+jwusBtvsdpYDRTLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhBxiPW3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kilhvBVB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhBxiPW3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764525807; x=1796061807;
+  t=1764536886; x=1796072886;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZqVwHivoVUmWgEvQjyk/WhrXNd4Z9xULQneMl4nM6rU=;
-  b=kilhvBVBIemra2Or7AB5RFe1Rf8cMH2YTp9vbyuDhABBUxj9FCFWfIkR
-   qXeIt+xQcBJ6DNgioFr8fxuYhTgnfHo/hpYBZ3dgV0w/W3+98wtNuIdn0
-   +rq4/CG22Ji6p0cj8npqDZqy8SfrEHK2f/9+zb0UoIVAMoSZvBohchfDj
-   W/QRg2B9UbaMelItMNG08T4qgeen8gh/UAdh7Ly7EvLAchjn6bKUNpdos
-   HPyilbzDVu4Vaeaky3lzCNcwsP7CSB3UPkAb4piBXiPE0+znK/JyVxo0v
-   1lWsGsei7vC1v195DPEPMsBKr7TtT2lt7ltfIKz360/Er/0sVcrz27Jas
+  bh=NRkMsxoHYZqiJj5ZD/9EySHfxLk2qbytX7F5gc9lfl8=;
+  b=LhBxiPW3ZzCcmHafJNqzj8wlBKGw1eZZn+87YxYEgNG8RLbF8LbI2x5l
+   9j6t3bCaeg6u4doMswQEbTMROp45qpGsV+hoh57m5lLY2U4t2YoxIb0+m
+   Tun5WaZ9Z1gTyEq/pLIich6qtOugTGcP0u4SmbfoRTjEeXWP75WvNjpak
+   sxRHDJCkcv+J0p96+rudHTpA6ucwPijyc0+FmtaHwrqiNj3qHyfH0Eu9l
+   oE0uYBG7SR8ewJM7t6r31KFWbPdEae3hdRpPwur4OPFMeSH1+8i4CKnMC
+   8fOar0Gzq0qAqaKlP1Id5mN8BLTfLmgLSwFsSscMzto25iHx1jKN9902i
    Q==;
-X-CSE-ConnectionGUID: P4N/zIl9TcOpTkH3Dz4SxQ==
-X-CSE-MsgGUID: jpiS/MkxR728x51RzFZAlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="91941626"
+X-CSE-ConnectionGUID: /z+UUWFRQumP2uZRodjaZQ==
+X-CSE-MsgGUID: 2H+FrukvToqBS54HLEy0ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66428328"
 X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
-   d="scan'208";a="91941626"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 10:03:21 -0800
-X-CSE-ConnectionGUID: s5k5X2RzQm28zCM/kuD36A==
-X-CSE-MsgGUID: vQ0YvH49QfmpYNRq2pk5Lg==
+   d="scan'208";a="66428328"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 13:08:05 -0800
+X-CSE-ConnectionGUID: E2/o3ojdTrCrubZ0Z1+N+A==
+X-CSE-MsgGUID: uWcAVuHiQ7SJl1hkDygs4g==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Nov 2025 10:03:19 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.20,239,1758610800"; 
+   d="scan'208";a="194693097"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 30 Nov 2025 13:08:04 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vPllW-000000002a5-1Xzz;
-	Sun, 30 Nov 2025 18:03:18 +0000
-Date: Sun, 30 Nov 2025 19:02:25 +0100
+	id 1vPoeH-000000008An-1TCJ;
+	Sun, 30 Nov 2025 21:08:01 +0000
+Date: Mon, 1 Dec 2025 05:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>
-Subject: [devsec-tsm:next 22/22] Warning: drivers/crypto/ccp/sev-dev-tio.c:80
- struct member 'reserved1' not described in 'sla_buffer_hdr'
-Message-ID: <202511301956.8VtI6PCU-lkp@intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: error[E0425]: cannot find function `dma_set_mask` in crate `bindings`
+Message-ID: <202512010419.B6H1cMB9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,35 +64,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alexey,
-
-First bad commit (maybe != root cause):
-
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm next
-head:   3532f6154971dc631062ed1f436b7a9eca6c8882
-commit: 3532f6154971dc631062ed1f436b7a9eca6c8882 [22/22] crypto/ccp: Implement SEV-TIO PCIe IDE (phase1)
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251130/202511301956.8VtI6PCU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511301956.8VtI6PCU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e69c7c175115c51c7f95394fc55425a395b3af59
+commit: 101d66828a4eefb89b72256155feb6ec9abc144a rust: dma: add DMA addressing capabilities
+date:   4 months ago
+config: um-randconfig-r054-20251201 (https://download.01.org/0day-ci/archive/20251201/202512010419.B6H1cMB9-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512010419.B6H1cMB9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511301956.8VtI6PCU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512010419.B6H1cMB9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved1' not described in 'sla_buffer_hdr'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved2' not described in 'sla_buffer_hdr'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:188 struct member 'reserved' not described in 'sev_data_tio_status'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved1' not described in 'sev_data_tio_dev_create'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved2' not described in 'sev_data_tio_dev_create'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved1' not described in 'sev_data_tio_dev_connect'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved2' not described in 'sev_data_tio_dev_connect'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved3' not described in 'sev_data_tio_dev_connect'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved4' not described in 'sev_data_tio_dev_connect'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:289 struct member 'reserved' not described in 'sev_data_tio_dev_certs'
->> Warning: drivers/crypto/ccp/sev-dev-tio.c:303 struct member 'reserved' not described in 'sev_data_tio_dev_reclaim'
+>> error[E0425]: cannot find function `dma_set_mask` in crate `bindings`
+   --> rust/kernel/dma.rs:36:38
+   |
+   36    |         to_result(unsafe { bindings::dma_set_mask(self.as_ref().as_raw(), mask.value()) })
+   |                                      ^^^^^^^^^^^^ help: a function with a similar name exists: `xa_set_mark`
+   |
+   ::: rust/bindings/bindings_generated.rs:26642:5
+   |
+   26642 |     pub fn xa_set_mark(arg1: *mut xarray, index: ffi::c_ulong, arg2: xa_mark_t);
+   |     ---------------------------------------------------------------------------- similarly named function `xa_set_mark` defined here
+--
+>> error[E0425]: cannot find function `dma_set_coherent_mask` in crate `bindings`
+   --> rust/kernel/dma.rs:53:38
+   |
+   53    |         to_result(unsafe { bindings::dma_set_coherent_mask(self.as_ref().as_raw(), mask.value()) })
+   |                                      ^^^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `dma_coherent_ok`
+   |
+   ::: rust/bindings/bindings_generated.rs:50209:5
+   |
+   50209 |     pub fn dma_coherent_ok(dev: *mut device, phys: phys_addr_t, size: usize) -> bool_;
+   |     ---------------------------------------------------------------------------------- similarly named function `dma_coherent_ok` defined here
 
 -- 
 0-DAY CI Kernel Test Service
