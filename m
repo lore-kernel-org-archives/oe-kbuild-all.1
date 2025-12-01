@@ -1,95 +1,95 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE0B13E02A;
-	Mon,  1 Dec 2025 02:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3DA79F2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 02:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764554787; cv=none; b=Gcvy2StNKDSs/JhUHz3Yvv1Yyfeu6wnY2nYNmL1iB1+2dpjIiNyCJuL2hLBdSMWYr3KsMAXTYmTDHHaPIND5gNQkftw6lNqs42GkKgvVsVTNSGA4UKP5hZrBvOmluJfObeOkdSrtHVMvzL5hGpsd3MtuiImNo7lvAu6Z48/jEv4=
+	t=1764557785; cv=none; b=WgB1qrux3Gz6j/l6zlTMKMnQdSaxcd/4FWht9xuy5j/F4HO3JVVX2Y2AQNeL7hb+Tq2qvnWDXL3TfaAJnMIozpVeZUHjavJT8PrL/ZriqCqu4NHAwwh/+xJKkQnQ9jGA4bp893sa3PB7YdghrdoQ4LEMKbDpPbNFXSHwhTWEJkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764554787; c=relaxed/simple;
-	bh=2Dvg0cca3rYtjagbvcCc2vUhTWEJsQU4OeucLFYpxr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o6jYDLwUyD1uQ/v82uJwZGWob982B9h0PeYFi72bBSz/bhNIOOY2SQrgWztJzBCMTEEUbZ6tSLOU1EqO5DQisrsuz38Egl+qGxP9jViMZ5ophJ8dfSfnzod12FJcg7mTffCNUfuiuJTwnfl3c7YC6v9i5onTBB3kBf+Xm4xyt00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C+JgXGBh; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764557785; c=relaxed/simple;
+	bh=MlwwlhjS7FR2O91milX009UXD1cnGv0IKFvA+bgTM3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TFoFt8laFJ+DgyrOP6qz3PUir9JPKZaCVBc8sClyqkBWWAsh8PLpTI6EG6hJGtuxnYRf+sUFah1VKukOyuZUQoqjFc7z9NhgfNw5drbwYJs8zsI6iWcN9CW1DO0kCxczCo2/Zh50/CMjCSwVn2BjuAHYLw1ALwDIXOf4wyk3fdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5bcqYsg; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C+JgXGBh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7w89WMLpYdMl4z8GOso6jwxPqlxOE2sq9865xliq2WA=; b=C+JgXGBhsZ6n9qw4vbUQYIwzyw
-	ZQtJuZFWmJA4IxdKDADICzxVFfETtDJ6LHc+QtErzYt7uilzMMc5qmznUC9OnoAGtra/+QWs4EFHb
-	7a0UOzIckhQqSMDo1sY0CVqNbtNNuxMMhF1tSG2k47c1f9pzaE54iJXSfMFiNVhp5Ep+J3wlrVAZ5
-	RxJO3H1ExKXPUgevIl8y17WKVnSzcBizfwPsj8GRs86QhvFS9afaaJRkR0/frxE0AfD1tTuQjdzvr
-	qtUfr3kwPWUMP9A7Q9TCV6BrClmU8euFA5Ocfxj5fdVfQp9FGiBwvOLsEIqb0S2fEcHB9Ze2k3glS
-	G1xo2QgA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vPtJ1-00000002nm3-12H2;
-	Mon, 01 Dec 2025 02:06:23 +0000
-Message-ID: <66a48b09-b119-435c-b8d8-474773bdf8a9@infradead.org>
-Date: Sun, 30 Nov 2025 18:06:22 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5bcqYsg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764557784; x=1796093784;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MlwwlhjS7FR2O91milX009UXD1cnGv0IKFvA+bgTM3Q=;
+  b=H5bcqYsgCDfEDATemyID1qv1vZ12FoDXA9PjdwS5ASBOFFvucnTwUBrd
+   fv4RZNv2wIssRcSq3QCqG14gb7ddlh5Wg7PzQRi4M5y637FIAtHstTiry
+   ZKzjc03N2m+/tPdacGunag4hQGGIc1IlL8N96CY8Dmh7InNOMRhc57eju
+   dGUSspbwgoi+v0pVAqk62MfQD5OwBP/Et/aXmyjElD0Kzn2XV2sQludyv
+   7G2sF9p9vHpmRBvzyu4Wv2sGCiSdm7ssgbLRkibazRJq6cOJIZPoL5D12
+   uDurTaLUTQWjtgvLAFfwmErK8H4U9XPJY8ikmssvS0EjvhDN4QwzrxvIz
+   g==;
+X-CSE-ConnectionGUID: UHP0BQy6RHGEgw2yN6NRkA==
+X-CSE-MsgGUID: 3cIDlOKSTNSm/rfzGJqbMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="69078888"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
+   d="scan'208";a="69078888"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 18:56:24 -0800
+X-CSE-ConnectionGUID: m5btEOVZRFKn7l7qby5B4Q==
+X-CSE-MsgGUID: g45udkRdT4qhgYdquSD0mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
+   d="scan'208";a="199067416"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 30 Nov 2025 18:56:22 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vPu5M-000000002cb-1h03;
+	Mon, 01 Dec 2025 02:56:20 +0000
+Date: Mon, 1 Dec 2025 03:55:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Sinyuk <konstantin.sinyuk@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Koby Elbaz <koby.elbaz@intel.com>
+Subject: [habanaai-drivers-accel-habanalabs:habanalabs-next 8/17]
+ versioncheck: ./drivers/accel/habanalabs/common/habanalabs.h: 16
+ linux/version.h not needed.
+Message-ID: <202512010329.gMw4d14E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [lwn:docs-next 64/66] Warning:
- sound/usb/usx2y/us144mkii_controls.c:8 This comment starts with '/**', but
- isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>
-References: <202512010746.EPe9Xcp5-lkp@intel.com>
- <4d298cba-7e61-4933-a765-1f8a60b8f0f4@infradead.org>
- <aSzktTVhHy6EQUg1@rli9-mobl> <aSz2pyrJvGiVi1nv@rli9-mobl>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aSz2pyrJvGiVi1nv@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://github.com/HabanaAI/drivers.accel.habanalabs.kernel habanalabs-next
+head:   7dafc58c0da3fa475f72a64c5dbdeaddea7a9583
+commit: bd6c1eb119bea48bd1a1c29cf82c6965fae41cae [8/17] accel/habanalabs: add On-Demand Paging (ODP) infrastructure
+reproduce: (https://download.01.org/0day-ci/archive/20251201/202512010329.gMw4d14E-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512010329.gMw4d14E-lkp@intel.com/
 
-On 11/30/25 6:00 PM, Philip Li wrote:
-> On Mon, Dec 01, 2025 at 08:43:33AM +0800, Philip Li wrote:
->> On Sun, Nov 30, 2025 at 04:20:59PM -0800, Randy Dunlap wrote:
->>> Hi,
->>> Is the robot an AI?
->>> Maybe that could help explain why a commit that fixes spelling,
->>> grammar, punctuation, etc., causes all of these kernel-doc warnings--
->>
->> Sorry about this, the bisection is buggy and identified the wrong commit
->> in this case. I will further investigate and ix the issue asap.
-> 
-> Hi Randy, it is found the commit slightly change the warning output from "Refer Documentation"
-> to "Refer to Documentation", which leads to wrong judgement that considers this
-> commit as the first bad one.
-> 
-> I will think of how to avoid this kind of false positive. Sorry again for the
-> confusion.
-> 
-> @@ -1179,7 +1179,7 @@ class KernelDoc:
->              #
->              else:
->                  self.emit_msg(ln,
-> -                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst\n{line}")
-> +                              f"This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst\n{line}")
-> 
-
-Ah, I see. Thanks for the info.
-
->>
->>> all of which seem to be valid warning reports when I have a quick
->>> look at them.
-
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.0/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/accel/habanalabs/common/habanalabs.h: 16 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 449: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
