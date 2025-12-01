@@ -1,204 +1,267 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24E5125A0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 05:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764568220; cv=none; b=Rilm4OuHM8QVc/CEKi2GgMc2+VPABwk1QnSGsp8qIshbbBS9osFdXWQZ08bJkwr4dEBY6ua/QtEbgtcFe7GTjtM3TVjGx3AHevRhdAGNC/cgPhX7VBVfoE7QPgHfj40hCIeegbrsK5ZqJkaMKV25Hr9e2AFoCZbT/qfB9wp4zro=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764568220; c=relaxed/simple;
-	bh=1vHguioRnvDPkb3jE3IYwFRBIlcHk+m2AfLmh5COTfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdhNGejYTsHBwm9xZuRn15hdN5rK0X/D0ueoeCUnc203HfekV5caVipbxtgWs58qNAvW6ldogclrMLdIVyBxVxUtUsCUm1ECzFSft+fHIxiTShM4ppzlhuN//lAVHJDvs73LoJGBrQw5BQ8ExFSSbgMbqbs2eggENY6QShUy05g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aH+CHdqq; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF141D5CFB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 06:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764570518; cv=fail; b=ZKpgpetsauNa1wj00V6Nyi18CgCi38HTloRi1f80sAGF/8Y8VIozDBcfaMIiRG5V8G8W/AYlR55VKNs/r4qFzTQcxF6f8Nh/dgtO6IegxBY8HXGPX8IYV3xiCArbSR5MDG0Pg5vDbiD3h6uCAQtjQcPqByDrmpbtxCPVEm52c/g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764570518; c=relaxed/simple;
+	bh=qdPoVAveCMzfR/YvvpNnwjxN/+xtoI9+LwaFT9+VKjY=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=HRSFu5QmmlPErv02+Kp5rXC6eL4lHpePKsk351qQN5o2nbOZs3NeAA+b/DTpZo48fy12l12ckQ9qw1k1sXJuFc1IaGrWm+sdyWRuwzn7XSOfZMZINQfDznJC8vmcga/ZoH7RLD0QRdWRwLCW/fiHuViwwncW92YnoZlu42aSwhU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ag+bN1al; arc=fail smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aH+CHdqq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ag+bN1al"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764568218; x=1796104218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1vHguioRnvDPkb3jE3IYwFRBIlcHk+m2AfLmh5COTfk=;
-  b=aH+CHdqq0lSE51hAacVz83JbRF2zxPWIDviaWwHK0x5jBl+0IjOi8nlW
-   0hn9VXwxxzq+WgG9BMWf893RxH2XZE58yCQRHx8juz0IJAkq1OmfBMud6
-   b53ogQxFnT9/aPLV1TXTRipxHQybnaeTdcPd7b9faW7hHjSfpxd6a51U2
-   40RTX0rDI9SLIdIdM80MT5lcnifBU46pCYxpWLKg9fOEecOWSZxgwreLc
-   LdTRSmDj4WJ0qDlDBLu+Y4bz6AsXJ2wFD+cKHUwNvH4UljpF/FYnP9vFS
-   uvwhgG7MnHHGafWSZdCZ3GsiqOz6blnP0+sLYby85v+QidXDqWvjUWAIb
-   Q==;
-X-CSE-ConnectionGUID: 2x/qnw+mTny13jkOF1zaKQ==
-X-CSE-MsgGUID: J44Svoi9Q8qao2vWA0lo9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66528043"
+  t=1764570517; x=1796106517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qdPoVAveCMzfR/YvvpNnwjxN/+xtoI9+LwaFT9+VKjY=;
+  b=Ag+bN1alYYdoMrvsG7C+GAqQdjcgkq9cbbMeXgDa+IbQjBvmBH1dFSq7
+   qxPA7/Z+d//n+/Ce7RAxJp57Qba95wKpLR16CgsENO3dc7e8ZiX3HRa7R
+   plnbGLd9SGCN6RerU7OYlXigQ97twDoz0PjODXd7WeVfw4VnnBQbM4fhG
+   /8+3zX539T/8+EJqpXdsyHKScWOaHGgUtrjcNXKujd+d7JS4Wi5Cqc8+p
+   fmdwxTICfM2wUX3s/rR81RXJMPn/dHtp625uUq8pv2uwSYllbvDUrOGps
+   95oWRjo2MfrSgmcgnMHoZnSW+LtettNaWtnT8v+2yVD3mGS8kBjGyhJBa
+   A==;
+X-CSE-ConnectionGUID: nc0ri0xlRUm3TASlVk4L3w==
+X-CSE-MsgGUID: bKy0pJ96R0mrttYWDMXTiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="83888842"
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="66528043"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 21:50:17 -0800
-X-CSE-ConnectionGUID: aI7/GcSUSEW/4Nvix7dXWA==
-X-CSE-MsgGUID: DvGlVzvFTG2GkucNvnfrhQ==
+   d="scan'208";a="83888842"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:28:37 -0800
+X-CSE-ConnectionGUID: yq5sgc/mSUuqxLE83TuMjw==
+X-CSE-MsgGUID: BiFkjPP+TqictcsC1BqZOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="198919951"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Nov 2025 21:50:16 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vPwnd-000000008LN-2FhZ;
-	Mon, 01 Dec 2025 05:50:13 +0000
-Date: Mon, 1 Dec 2025 13:49:55 +0800
+   d="scan'208";a="193872808"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2025 22:28:36 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 30 Nov 2025 22:28:35 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Sun, 30 Nov 2025 22:28:35 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.20) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Sun, 30 Nov 2025 22:28:34 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hAg0BrpucVaozOBNzElBlhzc6yMWkOM2eINlrPwU/VhkGOctrr+ZHYWAtwqUkK31eMH2w4ZCyhh+5AYQb2+OGrFD8CocUts3Wc6MUT+EMrGZGqUtgg4odRebkQdhrfzeMCY0Oeg3N3tJXzkotgEUc4r54hDwCeiWoZHN3qy3IzE/6hLEDltqDUgZTuFUIAT3vnecUiX4TE2Wwpp9bA5GaVjP/2YnhiZeoHmMmhktGaNFSD0ZPTQtkF4Pcd5Lwu8Wo2Nn0BIRwi7sg9Pq9givrYRoFZJMROdGa/YAYRyiOm02q1l90qgBvLwNzVWQb6oOdZAfd68/NJ7a/ihYnCHnVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5QKa5qnC/L7fsCe9ZLp9sO/Y/I9VfCb6BzThS8hXkqc=;
+ b=XlpoNE3nN2M5jptvqdRUlSPZmXQ4Yx9xnhFz/grsoLonu5nMn9pQLRYfwEo6qw0/8EheMxIKOX42Vltz3Qa62MJjUpHPwRhrJqZ8vC9DCxbmrT9hU27eRnKEP9WUKzg264dzBDP3Pa2Ek7WrXoSM6CEmVorzAvWC9ISVEQK7AOtuIto4yz/pG14gB7y459YnTQyGv4Ku0JVaNFJGMHy0Gt9jy4afzEK0dc5PCf44riWVn5m7H4oi5zb6A8hx0dizhlfX5a6DTMK7QOAYVhXRlTNeeRquPnTqtZHmPRQFP+0odoWjubH6L+EnRg36tU4uchf3E1TaqeKGZhT+ZzYa1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by CO1PR11MB5156.namprd11.prod.outlook.com (2603:10b6:303:94::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 06:28:32 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%5]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 06:28:32 +0000
+Date: Mon, 1 Dec 2025 14:28:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 20/27] NTB: ntb_transport: Introduce remote eDMA
- backed transport mode
-Message-ID: <202512011355.xYtxLg6d-lkp@intel.com>
-References: <20251129160405.2568284-21-den@valinux.co.jp>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [jarkko-tpmdd:tpm2-session 10/18]
+ drivers/char/tpm/tpm2-cmd.c:211:20: error: void value not ignored as it
+ ought to be
+Message-ID: <aS01h8E7FC/dKOLw@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0159.apcprd04.prod.outlook.com (2603:1096:4::21)
+ To MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251129160405.2568284-21-den@valinux.co.jp>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB5963:EE_|CO1PR11MB5156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7892eb17-2453-4ed6-ccc1-08de30a2d918
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oqOdkb1VyhATLLBeGa7jAz8uar/idqxbYPHSp4LRyIzD89ZLkheqOYlPxero?=
+ =?us-ascii?Q?jOTFEJZPcqxrBE+XSVI4ngqvEu3KShlGJwyqsXfdyXX6AaV61HhNyeL6VA87?=
+ =?us-ascii?Q?2eJsNDQ9ctEYhGIztqWRFxXOdoHoi2OYD7owK8Ig8bdOW3yjQIMF0HdjJ2Da?=
+ =?us-ascii?Q?zxy6iKYQoh5dbzDW9dYEJbIvhDkIeHN/8fknNfyKAmNeQ1dSpanevV3tSpzn?=
+ =?us-ascii?Q?UGlJwBo80DuflmsV2Vu7Wenpx1rpJDwjPCPYzwGvs753o6xlzwZ4W+J8Hxmr?=
+ =?us-ascii?Q?ZCaB/FPhuGuu9govopI9CCtr9deK3uO6KQ6KiG9+NMq6/3P4lLXqvBZFcFn8?=
+ =?us-ascii?Q?DTuYG/Dl869eVgBQYOQrHgZVSw1bhsAY1hAX1U312gx6xrkg2tVGYXDJmO3e?=
+ =?us-ascii?Q?ilf4XNc/RT4ZvD3mCTdE0IkWK+WjQsyo+iDUSK+23su/WpgA5at1MyVURVpZ?=
+ =?us-ascii?Q?BAUNA5j1QBV6Af+vtkuYdMranscOcLIHhyTSmMDjuIu+2yGeOWWZCTG/zzFm?=
+ =?us-ascii?Q?N43TjG5vLvszy+TjZi7ILjhdQwHMMOz8SFbPGRZnQzSuxsXgAJVnoLnf9EvH?=
+ =?us-ascii?Q?PUqm3AoSAErdsSyvjaBRA9kCz1KO/kZPJTwgzu44hQPd7Oqsuxw+KTng4OgB?=
+ =?us-ascii?Q?KzCmByWWjZQxQ5Curk+1GtlmnBdP7FA8aD17Vpcc9issAZlNQXeP9V5DM1XG?=
+ =?us-ascii?Q?ro1jt2DVyEeV6GuzOPI6Ej0Bam1eKUMqaq/rovE3rXR0irsCjK7qDQCQMUxk?=
+ =?us-ascii?Q?MHeyeDF+28qu59CT0Av6nnKnxfM9aufpS3ZgfmUCV9FtccCnVUtdd44UZZRm?=
+ =?us-ascii?Q?ShcSmAvDsN0m67MdYWohiltja4YifFap57v38G+rZBTVs0LY2hQ1M1d/PSki?=
+ =?us-ascii?Q?mgXoKspJDbiuVslxl11bsjtwjk1e4UI9FdypVe82yszE22WgU7CBTjvhvvp2?=
+ =?us-ascii?Q?bt4Su54Gq7GGQZY9Ckxm73fnddULV/NUsRAIOrLoRXZ+KGQqujJPqbUHw8Zb?=
+ =?us-ascii?Q?dOELH34t3hao2+aDc3/a3eWwjIV3WLrp9sFwLRM0DE/ecBfFxonTbxetrgcv?=
+ =?us-ascii?Q?p41O3EaGNShzjiEoeE5ZvRXKbPvGBXQYpVtmsKZhaq/vnny2zwnj4sYSbJ7S?=
+ =?us-ascii?Q?GcERFYyv9zEgxBsf+b/kh6QhQQAktGcu9Ash8vjexC1F/rpbqCA1PMMONVvF?=
+ =?us-ascii?Q?T3EEvEW6ibIwq/vw9hfS7A4nmZvlrGGpML+DMbG+DkuCNrZYkjD4b2WARj5d?=
+ =?us-ascii?Q?r+rrJ9Q72hbB5H4cK1cN8fTpvzXMHzNTUYj1/l+YT856iG2XeVU+s7/azjtL?=
+ =?us-ascii?Q?kjUqUxsfWXDhJrSJfyO5szCXhrP1x9jnI040I8bmzKYzpGVOb41eM9W2HcrB?=
+ =?us-ascii?Q?NCokXy0H7l6h83c7AXYkutwA1yVcsXxxU7NJ6PiId9C8Oo0oCqq+utVC1NbM?=
+ =?us-ascii?Q?yFoK9TqTyqy1jaPbCi5r1IpXdSkoI9Xm/5dAEvFpWvPaxpEi+aRuUQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?odM3lxwBlmcb0/m9aYLwfpcAnLn1ctbw+J+Tq/bC2uJ8ayfZGF7LdMboQqsG?=
+ =?us-ascii?Q?e4OISjQxA0T8t6XlvfMh8kx07cjkY4pWaobZq4gsvBThBHiNpQrnx8idqdvY?=
+ =?us-ascii?Q?WUpC808L8uTXMds1YxmI2WK0hb2kmOLJHgCdcMnWXHqDpTO8gDhHNzByq7IP?=
+ =?us-ascii?Q?AATezEdqTLcFG4rhFm7hsYQAV7v7A1Ek3GJqgETB7y+RAYBM7/bTTZvVx0US?=
+ =?us-ascii?Q?IG0HMfOwi9lfnl0NifM9ixceUHycR8X0OYoMwjJq1eV7FIRlyTQvSYs4kjjA?=
+ =?us-ascii?Q?1N0/W8tizF6/Xm3q4afJt+PxYxJnX/81NW3xkobdAyRoKCH/6t79MyBX1cBL?=
+ =?us-ascii?Q?BV++2DjzmSEU7opGo+ldBa3ssaFI2rlwxgHCqu9O3+AUGqRYe1V8YcIgR8QW?=
+ =?us-ascii?Q?F002tyf2Dr9Z8DQ6pSkfRnual1F0SdrEGKEbhSBs/fPbgQqch98WlUBvIztL?=
+ =?us-ascii?Q?UWqY4VxHIiZMQ1j8x9wdBiiome7UOMk6lI8z4fyU5WRROfOuj0PRpLCbzNAD?=
+ =?us-ascii?Q?e/q14T4KujrJ1UNJ+ukx8Gd9T+2bKJFqPXRB40ST9iyvpgKZYVyvmSFDSCRq?=
+ =?us-ascii?Q?V5p+90+Pg5F0Cd0yUjj8PeVXz+NySCGGhM9skgQJBNLvKG6O8QFwuWNMA3FC?=
+ =?us-ascii?Q?kZIBCUbJ5lvhlSG3LWYyUdHWiJy0ezbkQSwldUJx8ewgB39k6nWEI/yFKqQO?=
+ =?us-ascii?Q?UhfCPDzGqbWTH9lxKmElpNQqtMdIzRKNDLyGzUyzQyg0+Z/PfpmMlC9js80e?=
+ =?us-ascii?Q?ZqrS8+pg7n4AaWX5yBs8ZCL2lnWHB/jB4UhJw65jA3c+SPIFAsrOWaBbUhX8?=
+ =?us-ascii?Q?oGB7zDsEEunJt1QAmMh7zPPVbAEKGJk6vd2A/4BHKMCjL6WdcNxRPeY8tZNH?=
+ =?us-ascii?Q?CIqOoTvPEpx9a+N/TEgoZ/4jqidNaSb0NHQlJ/DGiPkKJRqHtlgjr18MBo4D?=
+ =?us-ascii?Q?9qUifgrFUFjYUVzdU9RW2OcHWhADguRA+84ww/q2TYh34eOyFNkYXSTwutGn?=
+ =?us-ascii?Q?mQQY/Z0C4j2WNu9yYcuGLlCmaavAXA3GUoxPBLNOeKT+0Wbh9QCDyBvV0OEO?=
+ =?us-ascii?Q?W/4jX7VB7OUFvXRSQtaVrOij/Lzz0BUjAbLhtpVkt9StqXK7UWqAMQCFZC+T?=
+ =?us-ascii?Q?JsOk6AicQ9ECZIJcMQWbfOnYDcC1EtllwG6iaLQIrGYru6TP8K6YvHZBOTs4?=
+ =?us-ascii?Q?+iMUwIT5iOXPuFOXBtCc9jV1+BRB9JdK94v0bLtPJHO1rJ/qHxTjMYJcc5q6?=
+ =?us-ascii?Q?830S2ubT3VUJmvZoy4qTuJQ0V98ZtxLZv815eEKVw1NwtZ5bAjF91qQkuCjC?=
+ =?us-ascii?Q?sepTcg3KQJASgNWmadv4JX5HPWEpWK72Ekh+63WMokG8IQFD2rnOQO5uHI6o?=
+ =?us-ascii?Q?OS+Q9JRbSnRLSCNibHbhA2LPkwtCcwKpVGxM5DPET7bzpQOIixJmVMwTaj0j?=
+ =?us-ascii?Q?Bg+F4Rp196jEWH4rM6hfKZbOwWWa3155sTUefqCYAXOWP4DGndsTFRZVw/vW?=
+ =?us-ascii?Q?Fl7wAV3Te9DoVIFi0KBWJI/EoQvoDIt1iu/xJI/D/MS9Xe4zzV1yyRuAS3i4?=
+ =?us-ascii?Q?Fr0Jm9Ajbv6twYpUDGMEe4jVMWoL2nEfJexoPY3K?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7892eb17-2453-4ed6-ccc1-08de30a2d918
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 06:28:32.1894
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c0zI9aygEAxhTki4WDi47YkGgklnPN/T3BLdOtyPM0eJgKRoKVZ8WYqjdchL9fL/IPA2fRN9gllDXgl8M4PgSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5156
+X-OriginatorOrg: intel.com
 
-Hi Koichiro,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20251128]
-[cannot apply to jonmason-ntb/ntb-next pci/for-linus geert-renesas-devel/next linus/master v6.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/PCI-endpoint-pci-epf-vntb-Use-array_index_nospec-on-mws_size-access/20251130-001424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251129160405.2568284-21-den%40valinux.co.jp
-patch subject: [RFC PATCH v2 20/27] NTB: ntb_transport: Introduce remote eDMA backed transport mode
-config: powerpc-randconfig-001-20251201 (https://download.01.org/0day-ci/archive/20251201/202512011355.xYtxLg6d-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011355.xYtxLg6d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2-session
+head:   9e1990f86d12b41f0b37d9414385587a5e79591c
+commit: c094b019ad89433d0fc5e6b9bff002697178cfb2 [10/18] tpm2-sessions: address out-of-range indexing
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251201/202512011423.RlZBqKJg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011423.RlZBqKJg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512011355.xYtxLg6d-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512011423.RlZBqKJg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/ntb/ntb_transport_core.c: In function 'ntb_transport_init_queue':
->> drivers/ntb/ntb_transport_core.c:1286:40: warning: variable 'qp_count' set but not used [-Wunused-but-set-variable]
-    1286 |         unsigned int mw_num, mw_count, qp_count;
-         |                                        ^~~~~~~~
->> drivers/ntb/ntb_transport_core.c:1286:30: warning: variable 'mw_count' set but not used [-Wunused-but-set-variable]
-    1286 |         unsigned int mw_num, mw_count, qp_count;
-         |                              ^~~~~~~~
->> drivers/ntb/ntb_transport_core.c:1286:22: warning: variable 'mw_num' set but not used [-Wunused-but-set-variable]
-    1286 |         unsigned int mw_num, mw_count, qp_count;
-         |                      ^~~~~~
-   drivers/ntb/ntb_transport_core.c: At top level:
->> drivers/ntb/ntb_transport_core.c:1367:47: warning: 'edma_backend_ops' defined but not used [-Wunused-const-variable=]
-    1367 | static const struct ntb_transport_backend_ops edma_backend_ops;
-         |                                               ^~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm2-cmd.c: In function 'tpm2_pcr_extend':
+>> drivers/char/tpm/tpm2-cmd.c:211:20: error: void value not ignored as it ought to be
+     211 |                 rc = tpm_buf_fill_hmac_session(chip, &buf);
+         |                    ^
+   drivers/char/tpm/tpm2-cmd.c: In function 'tpm2_get_random':
+   drivers/char/tpm/tpm2-cmd.c:276:21: error: void value not ignored as it ought to be
+     276 |                 err = tpm_buf_fill_hmac_session(chip, &buf);
+         |                     ^
 
 
-vim +/qp_count +1286 drivers/ntb/ntb_transport_core.c
+vim +211 drivers/char/tpm/tpm2-cmd.c
 
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1281  
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1282  static int ntb_transport_init_queue(struct ntb_transport_ctx *nt,
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1283  				    unsigned int qp_num)
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1284  {
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1285  	struct ntb_transport_qp *qp;
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09 @1286  	unsigned int mw_num, mw_count, qp_count;
-948d3a65b6d164 drivers/ntb/ntb_transport.c      Jon Mason    2013-04-18  1287  
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1288  	mw_count = nt->mw_count;
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1289  	qp_count = nt->qp_count;
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1290  
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1291  	mw_num = QP_TO_MW(nt, qp_num);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1292  
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1293  	qp = &nt->qp_vec[qp_num];
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1294  	qp->qp_num = qp_num;
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1295  	qp->transport = nt;
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1296  	qp->ndev = nt->ndev;
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1297  	qp->client_ready = false;
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1298  	qp->event_handler = NULL;
-cc79bd2738c2d4 drivers/ntb/ntb_transport.c      Dave Jiang   2023-08-22  1299  	ntb_qp_link_context_reset(qp);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1300  
-c8650fd03d320e drivers/ntb/ntb_transport.c      Dave Jiang   2015-07-13  1301  	if (nt->debugfs_node_dir) {
-2d1987992b40a8 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1302  		char debugfs_name[8];
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1303  
-2d1987992b40a8 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1304  		snprintf(debugfs_name, sizeof(debugfs_name), "qp%d", qp_num);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1305  		qp->debugfs_dir = debugfs_create_dir(debugfs_name,
-c8650fd03d320e drivers/ntb/ntb_transport.c      Dave Jiang   2015-07-13  1306  						     nt->debugfs_node_dir);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1307  
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1308  		qp->debugfs_stats = debugfs_create_file("stats", S_IRUSR,
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1309  							qp->debugfs_dir, qp,
-2d1987992b40a8 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1310  							&ntb_qp_debugfs_stats_fops);
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1311  	} else {
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1312  		qp->debugfs_dir = NULL;
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1313  		qp->debugfs_stats = NULL;
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1314  	}
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1315  
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1316  	INIT_DELAYED_WORK(&qp->link_work, ntb_qp_link_work);
-fca4d5188c1123 drivers/ntb/ntb_transport.c      Jon Mason    2013-09-09  1317  	INIT_WORK(&qp->link_cleanup, ntb_qp_link_cleanup_work);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1318  
-da2e5ae56164b8 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-07-13  1319  	spin_lock_init(&qp->ntb_rx_q_lock);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1320  	spin_lock_init(&qp->ntb_tx_free_q_lock);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1321  
-da2e5ae56164b8 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-07-13  1322  	INIT_LIST_HEAD(&qp->rx_post_q);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1323  	INIT_LIST_HEAD(&qp->rx_pend_q);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1324  	INIT_LIST_HEAD(&qp->rx_free_q);
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1325  	INIT_LIST_HEAD(&qp->tx_free_q);
-282a2feeb9bfb1 drivers/ntb/ntb_transport.c      Jon Mason    2013-02-12  1326  
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1327  	tasklet_init(&qp->rxc_db_work, ntb_transport_rxc_db,
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1328  		     (unsigned long)qp);
-e26a5843f7f501 drivers/ntb/ntb_transport.c      Allen Hubbe  2015-04-09  1329  
-282a2feeb9bfb1 drivers/ntb/ntb_transport.c      Jon Mason    2013-02-12  1330  	return 0;
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1331  }
-fce8a7bb5b4bfb drivers/ntb/ntb_transport.c      Jon Mason    2012-11-16  1332  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1333  static unsigned int ntb_transport_default_tx_free_entry(struct ntb_transport_qp *qp)
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1334  {
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1335  	unsigned int head = qp->tx_index;
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1336  	unsigned int tail = qp->remote_rx_info->entry;
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1337  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1338  	return tail >= head ? tail - head : qp->tx_max_entry + tail - head;
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1339  }
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1340  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1341  static int ntb_transport_default_rx_enqueue(struct ntb_transport_qp *qp,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1342  					    struct ntb_queue_entry *entry)
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1343  {
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1344  	ntb_list_add(&qp->ntb_rx_q_lock, &entry->entry, &qp->rx_pend_q);
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1345  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1346  	if (qp->active)
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1347  		tasklet_schedule(&qp->rxc_db_work);
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1348  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1349  	return 0;
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1350  }
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1351  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1352  static void ntb_transport_default_rx_poll(struct ntb_transport_qp *qp);
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1353  static int ntb_transport_default_tx_enqueue(struct ntb_transport_qp *qp,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1354  					    struct ntb_queue_entry *entry,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1355  					    void *cb, void *data, unsigned int len,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1356  					    unsigned int flags);
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1357  
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1358  static const struct ntb_transport_backend_ops default_backend_ops = {
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1359  	.setup_qp_mw = ntb_transport_default_setup_qp_mw,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1360  	.tx_free_entry = ntb_transport_default_tx_free_entry,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1361  	.tx_enqueue = ntb_transport_default_tx_enqueue,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1362  	.rx_enqueue = ntb_transport_default_rx_enqueue,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1363  	.rx_poll = ntb_transport_default_rx_poll,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1364  	.debugfs_stats_show = ntb_transport_default_debugfs_stats_show,
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1365  };
-5c2671d8c2c274 drivers/ntb/ntb_transport.c      Koichiro Den 2025-11-30  1366  
-2c52b6a2a63cec drivers/ntb/ntb_transport_core.c Koichiro Den 2025-11-30 @1367  static const struct ntb_transport_backend_ops edma_backend_ops;
-2c52b6a2a63cec drivers/ntb/ntb_transport_core.c Koichiro Den 2025-11-30  1368  
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  159  
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  160  /**
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  161   * tpm2_pcr_extend() - extend a PCR value
+794c6e109b5938 Winkler, Tomas  2016-11-23  162   *
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  163   * @chip:	TPM chip to use.
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  164   * @pcr_idx:	index of the PCR.
+c1f92b4b04ad70 Nayna Jain      2017-01-30  165   * @digests:	list of pcr banks and corresponding digest values to extend.
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  166   *
+794c6e109b5938 Winkler, Tomas  2016-11-23  167   * Return: Same as with tpm_transmit_cmd.
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  168   */
+0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  169  int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
+aa042475938f58 Roberto Sassu   2019-02-06  170  		    struct tpm_digest *digests)
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  171  {
+c1f92b4b04ad70 Nayna Jain      2017-01-30  172  	struct tpm_buf buf;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  173  	int rc;
+c1f92b4b04ad70 Nayna Jain      2017-01-30  174  	int i;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  175  
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  176  	if (!disable_pcr_integrity) {
+6519fea6fd372b James Bottomley 2024-04-29  177  		rc = tpm2_start_auth_session(chip);
+c1f92b4b04ad70 Nayna Jain      2017-01-30  178  		if (rc)
+c1f92b4b04ad70 Nayna Jain      2017-01-30  179  			return rc;
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  180  	}
+c1f92b4b04ad70 Nayna Jain      2017-01-30  181  
+6519fea6fd372b James Bottomley 2024-04-29  182  	rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
+6519fea6fd372b James Bottomley 2024-04-29  183  	if (rc) {
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  184  		if (!disable_pcr_integrity)
+6519fea6fd372b James Bottomley 2024-04-29  185  			tpm2_end_auth_session(chip);
+6519fea6fd372b James Bottomley 2024-04-29  186  		return rc;
+6519fea6fd372b James Bottomley 2024-04-29  187  	}
+c1f92b4b04ad70 Nayna Jain      2017-01-30  188  
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  189  	if (!disable_pcr_integrity) {
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  190  		rc = tpm_buf_append_name(chip, &buf, pcr_idx, NULL);
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  191  		if (rc) {
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  192  			tpm2_end_auth_session(chip);
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  193  			return rc;
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  194  		}
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  195  
+6519fea6fd372b James Bottomley 2024-04-29  196  		tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  197  	} else {
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  198  		tpm_buf_append_handle(chip, &buf, pcr_idx);
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  199  		tpm_buf_append_auth(chip, &buf, 0, NULL, 0);
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  200  	}
+c1f92b4b04ad70 Nayna Jain      2017-01-30  201  
+0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  202  	tpm_buf_append_u32(&buf, chip->nr_allocated_banks);
+c1f92b4b04ad70 Nayna Jain      2017-01-30  203  
+0b6cf6b97b7ef1 Roberto Sassu   2019-02-06  204  	for (i = 0; i < chip->nr_allocated_banks; i++) {
+c1f92b4b04ad70 Nayna Jain      2017-01-30  205  		tpm_buf_append_u16(&buf, digests[i].alg_id);
+879b589210a9a0 Roberto Sassu   2019-02-06  206  		tpm_buf_append(&buf, (const unsigned char *)&digests[i].digest,
+879b589210a9a0 Roberto Sassu   2019-02-06  207  			       chip->allocated_banks[i].digest_size);
+c1f92b4b04ad70 Nayna Jain      2017-01-30  208  	}
+c1f92b4b04ad70 Nayna Jain      2017-01-30  209  
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  210  	if (!disable_pcr_integrity) {
+c094b019ad8943 Jarkko Sakkinen 2025-11-30 @211  		rc = tpm_buf_fill_hmac_session(chip, &buf);
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  212  		if (rc) {
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  213  			tpm2_end_auth_session(chip);
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  214  			return rc;
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  215  		}
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  216  	}
+c094b019ad8943 Jarkko Sakkinen 2025-11-30  217  
+47a6c28b6861b1 Jarkko Sakkinen 2018-11-05  218  	rc = tpm_transmit_cmd(chip, &buf, 0, "attempting extend a PCR value");
+27184f8905ba68 Jarkko Sakkinen 2024-11-13  219  	if (!disable_pcr_integrity)
+6519fea6fd372b James Bottomley 2024-04-29  220  		rc = tpm_buf_check_hmac_response(chip, &buf, rc);
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  221  
+c1f92b4b04ad70 Nayna Jain      2017-01-30  222  	tpm_buf_destroy(&buf);
+c1f92b4b04ad70 Nayna Jain      2017-01-30  223  
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  224  	return rc;
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  225  }
+7a1d7e6dd76a20 Jarkko Sakkinen 2014-12-12  226  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
