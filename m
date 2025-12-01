@@ -1,85 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EA254758;
-	Mon,  1 Dec 2025 10:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986AC2DCF41
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 11:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764585939; cv=none; b=quR0pdJgpsNn1ujnQSiqZLg2XiEc7iwOKy8zVjcq2H7vgs4q0NRtpoGzQAVAMGfXQXb2NTsxe5IKT6UcVz1VJO8P4+hzZCcosSe36tNF7rXWJ8d+Ej4rzGxo3u8kRTo4couvTijx0ipVY86fRQGMk39wBGcJA8Sqai7zviMovvo=
+	t=1764588397; cv=none; b=pBQfF8ErzJp+6FfwWijEVAfY4rljhCuef2Xf6OBo0WdkJGm+N2/XkIqJz+LCkjN6vEfPVMa6LODIXhADn5MF0iiMQ7nhKnCx7jw9XCwy9GONy/GEXk+aQVLsEJNJ10rZN/GoqVc1uPRXFNXMMHofYDRHXeRbaydAJxlbAHoCO1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764585939; c=relaxed/simple;
-	bh=ZMgoxer0A9bsoQPMk9d56YSEmZcP/1tXGHcKFEva5vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucgRtzAdn+BvTjKx12xBUU6TKjsP+DQtAbyCur9feutpMa39KgSzrIWRWQgE1uGrDiX/E5yiXTViBoWNS6oqZaOvt0QtKi/2bSLqEDdUIJjiPJ8Y1LS2ryAaxmciSYNJVviG7wIpDi1q45YljBr5ufbS4QuGFM9T24SMyYuwSs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPQSae8u; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1764588397; c=relaxed/simple;
+	bh=4kaKj/0xrQLn/vNruNbrdTaCoBMPELQmqpqaTe7Xaj8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Axz7iQ4a/2gdpEMlm2ULnKOCGtvbtN1YQFiEbxmRYkYziLrVkOzDBCounvcHrBJSSHW2UbU++xbbNX88LWzd9Qdh9V19jZw1lGkRTqa5l7lezkskaJKDZSJL1wjNRypaj2bN1eivyaAUZYCnZF8h9Mn7ujM/kDxh+8+LDx0uu2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYKOJa3Z; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPQSae8u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYKOJa3Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764585938; x=1796121938;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZMgoxer0A9bsoQPMk9d56YSEmZcP/1tXGHcKFEva5vw=;
-  b=fPQSae8uY52ejvWDrdNf50XFl4vqeMpygklw0AsAj4dwOVeLCnzZ3DmY
-   M0FLXBXVrylE7C/COK4dWfmjUYLHMK0FOQmRdFx26j1D0c7nvK+JXs79y
-   eT/6nyXEv/n5BlhDajgdaTDigX7gCiw5GSTEWvHl9zVEaXh9AQzi0hWUe
-   h984IjfLL2OOaIQHTcX4TbdF35zxQZIMol3txvL4ltXRLwk24loVQvYiu
-   CwvP7l8M8TVQu3s8InfDq6ghyY1H4jjPUwpm34g34T44bhwKwe/qFRZgW
-   rACQx2jgTy5Ibq+FDIXQRlUgykDNfPxZjXh4UQ9fEt5fYwzi5k51i9CBi
-   g==;
-X-CSE-ConnectionGUID: BWNegZ4WTdCJ6RDsArNTQQ==
-X-CSE-MsgGUID: mU7eozSATayv/zT5XJEoIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66592480"
+  t=1764588395; x=1796124395;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4kaKj/0xrQLn/vNruNbrdTaCoBMPELQmqpqaTe7Xaj8=;
+  b=EYKOJa3Zk+9i3qQ5SL/FltHae7ms62hHF8ntkMJzbqlPgKr/HPvrXRxe
+   xi2Xuwbao8YnPwgSZQREkqHuxDayyG+qh9a8eModPQxOJUf8v49i4s7sz
+   iB7Lw3eHCJVN+cXt2hV9zM4IZTki/PpS+jaNygRELYM8oES9r+st2eHFP
+   7XoHvEfT8CFXnB6d93GgmFYynEkuIReUOYQpU81qnlj69AM1FQ172f1sj
+   qdVAx8sFZCLxmj4UFUOvyqRymYCkg20UaBdKpfV87ddNWGHbkuu1vxwKC
+   IpH28lzudXiaKq8/eReMfmqS0CfO8e4hI+6jMBbu+eNlG9sH49NoMgSTO
+   Q==;
+X-CSE-ConnectionGUID: JfqOz4rtQeiLlihfCx7rkg==
+X-CSE-MsgGUID: sR2AenbnSY6AHjIoXomBmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="77209323"
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="66592480"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 02:45:36 -0800
-X-CSE-ConnectionGUID: UiKU1BOTQS2bJoYoZgTb0g==
-X-CSE-MsgGUID: j/cfelm4RgGMNamFGIajLA==
+   d="scan'208";a="77209323"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 03:26:35 -0800
+X-CSE-ConnectionGUID: mmNDIfS8Tqm+WFqjMEgHqw==
+X-CSE-MsgGUID: w9WEI88CSSiOOV2cCmQhTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="194136456"
+   d="scan'208";a="194832359"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2025 02:45:29 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 01 Dec 2025 03:26:34 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQ1PK-000000008UT-14OD;
-	Mon, 01 Dec 2025 10:45:26 +0000
-Date: Mon, 1 Dec 2025 18:44:51 +0800
+	id 1vQ236-000000008WT-0Cli;
+	Mon, 01 Dec 2025 11:26:32 +0000
+Date: Mon, 1 Dec 2025 19:26:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Lyude Paul <lyude@redhat.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
-Message-ID: <202512011741.Euw2XF0j-lkp@intel.com>
-References: <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 13169/13171] Warning:
+ drivers/crypto/ccp/sev-dev-tio.c:249 #define TIO_DEV_DISCONNECT_FLAG_FORCE
+   BIT(0); error: Cannot parse struct or union!
+Message-ID: <202512011905.z4ACJpAS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -88,84 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
 
-Hi Alice,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 77b686f688126a5f758b51441a03186e9eb1b0f1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/drm-gpuvm-take-GEM-lock-inside-drm_gpuvm_bo_obtain_prealloc/20251128-221710
-base:   77b686f688126a5f758b51441a03186e9eb1b0f1
-patch link:    https://lore.kernel.org/r/20251128-gpuvm-rust-v1-4-ebf66bf234e0%40google.com
-patch subject: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
-config: x86_64-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251201/202512011741.Euw2XF0j-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011741.Euw2XF0j-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
+commit: 281a569adbeaa7661286f4fdf549f937e975e172 [13169/13171] Merge branch 'next' of https://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm.git
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251201/202512011905.z4ACJpAS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512011905.z4ACJpAS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512011741.Euw2XF0j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512011905.z4ACJpAS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `drm_gpuvm_get` in crate `bindings`
-   --> rust/kernel/drm/gpuvm/mod.rs:58:28
-   |
-   58    |         unsafe { bindings::drm_gpuvm_get(self.vm.get()) };
-   |                            ^^^^^^^^^^^^^ help: a function with a similar name exists: `drm_gpuvm_put`
-   |
-   ::: rust/bindings/bindings_generated.rs:75807:5
-   |
-   75807 |     pub fn drm_gpuvm_put(gpuvm: *mut drm_gpuvm);
-   |     -------------------------------------------- similarly named function `drm_gpuvm_put` defined here
---
->> error[E0425]: cannot find function `drm_gpuvm_is_extobj` in crate `bindings`
-   --> rust/kernel/drm/gpuvm/mod.rs:217:28
-   |
-   217   |         unsafe { bindings::drm_gpuvm_is_extobj(self.as_raw(), obj.as_raw()) }
-   |                            ^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `drm_gpuvm_bo_extobj_add`
-   |
-   ::: rust/bindings/bindings_generated.rs:75985:5
-   |
-   75985 |     pub fn drm_gpuvm_bo_extobj_add(vm_bo: *mut drm_gpuvm_bo);
-   |     --------------------------------------------------------- similarly named function `drm_gpuvm_bo_extobj_add` defined here
---
->> error[E0425]: cannot find function `drm_gpuvm_exec_unlock` in crate `bindings`
-   --> rust/kernel/drm/gpuvm/mod.rs:345:28
-   |
-   345   |         unsafe { bindings::drm_gpuvm_exec_unlock(self.exec.get()) };
-   |                            ^^^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `drm_gpuvm_exec_lock`
-   |
-   ::: rust/bindings/bindings_generated.rs:75876:5
-   |
-   75876 |     pub fn drm_gpuvm_exec_lock(vm_exec: *mut drm_gpuvm_exec) -> ffi::c_int;
-   |     ----------------------------------------------------------------------- similarly named function `drm_gpuvm_exec_lock` defined here
---
->> error[E0425]: cannot find function `dma_resv_lock` in crate `bindings`
-   --> rust/kernel/drm/gpuvm/mod.rs:376:28
-   |
-   376   |         unsafe { bindings::dma_resv_lock(self.raw_resv_lock(), ptr::null_mut()) };
-   |                            ^^^^^^^^^^^^^ help: a function with a similar name exists: `dma_resv_fini`
-   |
-   ::: rust/bindings/bindings_generated.rs:74915:5
-   |
-   74915 |     pub fn dma_resv_fini(obj: *mut dma_resv);
-   |     ----------------------------------------- similarly named function `dma_resv_fini` defined here
---
->> error[E0425]: cannot find function `dma_resv_unlock` in crate `bindings`
-   --> rust/kernel/drm/gpuvm/mod.rs:392:28
-   |
-   392  |         unsafe { bindings::dma_resv_unlock(self.0.raw_resv_lock()) };
-   |                            ^^^^^^^^^^^^^^^ help: a function with a similar name exists: `mmap_read_unlock`
-   |
-   ::: rust/bindings/bindings_helpers_generated.rs:1129:5
-   |
-   1129 |     pub fn mmap_read_unlock(mm: *mut mm_struct);
-   |     -------------------------------------------- similarly named function `mmap_read_unlock` defined here
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved1' not described in 'sla_buffer_hdr'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved2' not described in 'sla_buffer_hdr'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:188 struct member 'reserved' not described in 'sev_data_tio_status'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved1' not described in 'sev_data_tio_dev_create'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved2' not described in 'sev_data_tio_dev_create'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved1' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved2' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved3' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved4' not described in 'sev_data_tio_dev_connect'
+>> Warning: drivers/crypto/ccp/sev-dev-tio.c:249 #define TIO_DEV_DISCONNECT_FLAG_FORCE   BIT(0); error: Cannot parse struct or union!
+>> Warning: drivers/crypto/ccp/sev-dev-tio.c:267 #define TIO_DEV_MEAS_FLAG_RAW_BITSTREAM BIT(0); error: Cannot parse struct or union!
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:289 struct member 'reserved' not described in 'sev_data_tio_dev_certs'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:303 struct member 'reserved' not described in 'sev_data_tio_dev_reclaim'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved1' not described in 'sla_buffer_hdr'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:80 struct member 'reserved2' not described in 'sla_buffer_hdr'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:188 struct member 'reserved' not described in 'sev_data_tio_status'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved1' not described in 'sev_data_tio_dev_create'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:213 struct member 'reserved2' not described in 'sev_data_tio_dev_create'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved1' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved2' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved3' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:239 struct member 'reserved4' not described in 'sev_data_tio_dev_connect'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:289 struct member 'reserved' not described in 'sev_data_tio_dev_certs'
+   Warning: drivers/crypto/ccp/sev-dev-tio.c:303 struct member 'reserved' not described in 'sev_data_tio_dev_reclaim'
 
 -- 
 0-DAY CI Kernel Test Service
