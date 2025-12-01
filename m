@@ -1,66 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4D433859B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 18:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8D6DF72
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 18:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764612813; cv=none; b=YUcjTQAT+yOdb3kbM6rp5SNz0zObKUpHRlJ4VbuAakn8QgYtHY+U+3bVPRwNW0GCIT3AIeOUPaMAdD9g5Cd8V0QYegBMRkFp7PHH305Autzc/AsjST33C6WWBxssFE93OVTNWLIp+uGmYJVr/6zYXM1AbosZykgS0mxPEm1Dkz4=
+	t=1764614120; cv=none; b=TGWdy3Y3Edu6Ib4++o5ZX3R9GmORKMUe4WQK+qTu1v+l9yWQb7NeF16bs6fBXX8C87DQ3fha///9f3xUUNxXghBoC7eVqmPnlRUTAE2LAiZdwRmVytGPw2YNCmknqDRd2/X10oUSeo8HPQlX1VypLZPuiSfeDAi61i0QtrdJ2e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764612813; c=relaxed/simple;
-	bh=1OVxfyh8sdIolJjCq/0rbz5FUEcQW1fLWnCdbSs7H3A=;
+	s=arc-20240116; t=1764614120; c=relaxed/simple;
+	bh=C+PXX3TOApAr5yIkyBDCO/YnEJTvHNDcx0zbS8RWuo0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p6nmhO1KAwwJUs/hGwmgG6HIUh/2+2hcpKXchPCsECOEeLWa4B9QzBwL/xSYwGSJZapFygwY+0etq+zKwWaZnCtKojKv5kxS6AXBQ+49T8OC+aoZ6uPYHkY7fNfgZSaB0uVAvXf9ABi693/zgYW1Qm5ngqKV0V30nkt1CEjLTS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3AHzNoZ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=m6zfIdsRHdOF2XluNMcgsAtbXw8jmD4sO7+eSNS3MsOTim6ojDx6A4vfKH7rEnF6cB7bTlhjk8DXPaVs6euDMiJ5So0IoJFxtJp8owBLaNdQyXogmOeKfVH6CLA/Y46VeJMBsoLZapSXmoyuSNkwHXZdHw+03xlDg5lOiayPwCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/OUjqU0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3AHzNoZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764612811; x=1796148811;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1OVxfyh8sdIolJjCq/0rbz5FUEcQW1fLWnCdbSs7H3A=;
-  b=O3AHzNoZE0P0KQkPiiPpuajGLwhdiqtySsEFDdo1/X78NGDUqfNB5PpK
-   9ebhGIIPU0qimVCPwBw5EECWWMtasQC3yyDXHegC7qCowNkIvf1qA6kgp
-   S9wxoOouxPMT4AvFjntk081FuJKeE3oIrPds7zhrQGN3+jq7/Rzu5+yH+
-   XNt70/u3myq/Fk6xvX+Uu9pb7KQfcKhimzt2AseWVISjue4Wxv74hvZ6s
-   e2HtV3p4eeUXmk/E/24TB0CZIMT4qiNbzfrFDtMcHxXpm+VpY4j3+ZuBs
-   F3JktilA0V1yU1m67xNAQC1GrzPCVv0M8WjxKpA4lfT7i7J+YNFxE0PrE
-   w==;
-X-CSE-ConnectionGUID: Mholg8TKTBGBn1L71BL1zw==
-X-CSE-MsgGUID: Chkxkm6KR6SZ9mJkJBN7pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66456932"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="66456932"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 10:13:31 -0800
-X-CSE-ConnectionGUID: eQsj4P6fTUiHH7qMtVRguQ==
-X-CSE-MsgGUID: k2CTu3v2Qi+MYIFMXyXr8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="224838033"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Dec 2025 10:13:27 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQ8Oq-0000000091d-1lmf;
-	Mon, 01 Dec 2025 18:13:24 +0000
-Date: Tue, 2 Dec 2025 02:13:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
-	ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
-	contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
-	jadahl@redhat.com, sebastian.wick@redhat.com,
-	swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
-	suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v7 07/15] drm/i915/color: Add plane CTM callback for D12 and
- beyond
-Message-ID: <202512020215.qWaNGjB2-lkp@intel.com>
-References: <20251201064655.3579280-8-uma.shankar@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/OUjqU0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A12C4CEF1;
+	Mon,  1 Dec 2025 18:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764614119;
+	bh=C+PXX3TOApAr5yIkyBDCO/YnEJTvHNDcx0zbS8RWuo0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c/OUjqU08RImBKwbXe3HoyKAfQrHF13YwcBL6PFxHE/LaYIw0GwJatMUx5vwEOmsb
+	 5/syDHnYFdQla89Zr3zFQUIwqBuXZVUEgkbyOcKOeOe7GNF0LnlhvxVPuMGAE3maBC
+	 X1lAhhjFAY4M2ILeVOqkGdCVVw3YcYGAwGvjrmGoCWGtumz0ZnsrPIiu7S9k6JACpq
+	 wOgqpllFNfXrYPkRAJSNKXq9CWRWrD0Wpjv1Pc1exZWaw5asHG1pdagwzrZpatTch+
+	 OQGGkZmlc7VNxbQKRKFTOmpCtneNV946UFUoyEAtrRKCkTfn+4bmPLZZCETdsCGSiD
+	 shF4gLjANY8ew==
+Date: Mon, 1 Dec 2025 20:35:16 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [linux-next:master 12420/13171]
+ include/linux/compiler_types.h:602:45: error: call to
+ '__compiletime_assert_293' declared with attribute error: min(burstcnt, len
+ - count - 1) signedness error
+Message-ID: <aS3f5Enpz7qj6u8N@kernel.org>
+References: <202512012040.BkoYgkkr-lkp@intel.com>
+ <20251201124256.328f4f35@pumpkin>
+ <aS2ljp-MWo_7ZTjJ@kernel.org>
+ <20251201161228.3c09d88a@pumpkin>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,142 +48,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251201064655.3579280-8-uma.shankar@intel.com>
+In-Reply-To: <20251201161228.3c09d88a@pumpkin>
 
-Hi Uma,
+On Mon, Dec 01, 2025 at 04:12:28PM +0000, David Laight wrote:
+> On Mon, 1 Dec 2025 16:26:22 +0200
+> Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> 
+> > On Mon, Dec 01, 2025 at 12:42:56PM +0000, David Laight wrote:
+> > > On Mon, 1 Dec 2025 20:18:45 +0800
+> > > kernel test robot <lkp@intel.com> wrote:
+> > >   
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > > > head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
+> > > > commit: 9ce4f8e56bd2ed2bd473572bbd4c1a7f8863487c [12420/13171] drivers/char/tpm: use min() instead of min_t()
+> > > > config: xtensa-randconfig-r123-20251201 (https://download.01.org/0day-ci/archive/20251201/202512012040.BkoYgkkr-lkp@intel.com/config)
+> > > > compiler: xtensa-linux-gcc (GCC) 11.5.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012040.BkoYgkkr-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202512012040.BkoYgkkr-lkp@intel.com/
+> > > > 
+> > > > All errors (new ones prefixed by >>):
+> > > > 
+> > > >    In file included from <command-line>:
+> > > >    drivers/char/tpm/tpm_tis_core.c: In function 'tpm_tis_send_data':  
+> > > > >> include/linux/compiler_types.h:602:45: error: call to '__compiletime_assert_293' declared with attribute error: min(burstcnt, len - count - 1) signedness error    
+> > > ...  
+> > > >    drivers/char/tpm/tpm_tis_core.c:456:28: note: in expansion of macro 'min'
+> > > >      456 |                 burstcnt = min(burstcnt, len - count - 1);  
+> > > 
+> > > I hate compiler differences.
+> > > Usually the:
+> > > 	if (burstcnt < 0) {
+> > > 		...
+> > > 		goto out_err;
+> > > 	}
+> > > a few lines higher is enough to make the statically_true(burstcnt >= 0) pass.
+> > > 
+> > > I'm not sure why it doesn't here.
+> > > 
+> > > 	David  
+> > 
+> > It is already part of PR, which I've revised already once in order to
+> > drop one patch:
+> > 
+> > https://lore.kernel.org/linux-integrity/aSnQZ4pRWqJai6FW@kernel.org/T/#u
+> > 
+> > Since I don't want to end up into a cycle of iterations with this I can
+> > at this point drop the patch, unless better suggestions are available.
+> > 
+> > I.e., I'll update PR one more time dropping this patch.
+> > 
+> > We can revisit this during rc cycles. I'll hold on for a while before
+> > taking action in order to leave a bit window to respond. Just need to
+> > address this quickly, that's all.
+> 
+> I need to go through that patch set (it hit 223 patches for allmodconfig)
+> after the merge window and decide what to do with it.
+> There are a few real bugs in there where the min_t() cast does discard
+> significant high bits.
+> 
+> The pattern that failed here works most of the time.
 
-kernel test robot noticed the following build errors:
+OK, yeah, this was what I suspected actually :-)
 
-[auto build test ERROR on next-20251201]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6 linus/master v6.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I just wanted to communicate what I'm about to do before I do it,
+and appreciate the quick response, thanks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-base:   next-20251201
-patch link:    https://lore.kernel.org/r/20251201064655.3579280-8-uma.shankar%40intel.com
-patch subject: [v7 07/15] drm/i915/color: Add plane CTM callback for D12 and beyond
-config: i386-buildonly-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251202/202512020215.qWaNGjB2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020215.qWaNGjB2-lkp@intel.com/reproduce)
+I'll create +1 iteration of my pull request and drop this commit
+from my master and next branches.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512020215.qWaNGjB2-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/display/intel_color.c:31:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
-    1993 |         struct drm_colorop base;
-         |                            ^~~~
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_load_plane_csc_matrix':
->> drivers/gpu/drm/i915/display/intel_color.c:3865:20: error: invalid use of undefined type 'struct drm_color_ctm_3x4'
-    3865 |         input = ctm->matrix;
-         |                    ^~
-
-
-vim +3865 drivers/gpu/drm/i915/display/intel_color.c
-
-  3846	
-  3847	static void
-  3848	xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
-  3849				    const struct intel_plane_state *plane_state)
-  3850	{
-  3851		struct intel_display *display = to_intel_display(plane_state);
-  3852		const struct drm_plane_state *state = &plane_state->uapi;
-  3853		enum pipe pipe = to_intel_plane(state->plane)->pipe;
-  3854		enum plane_id plane = to_intel_plane(state->plane)->id;
-  3855		const struct drm_property_blob *blob = plane_state->hw.ctm;
-  3856		struct drm_color_ctm_3x4 *ctm;
-  3857		const u64 *input;
-  3858		u16 coeffs[9] = {};
-  3859		int i, j;
-  3860	
-  3861		if (!icl_is_hdr_plane(display, plane) || !blob)
-  3862			return;
-  3863	
-  3864		ctm = blob->data;
-> 3865		input = ctm->matrix;
-  3866	
-  3867		/*
-  3868		 * Convert fixed point S31.32 input to format supported by the
-  3869		 * hardware.
-  3870		 */
-  3871		for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
-  3872			u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
-  3873	
-  3874			/*
-  3875			 * Clamp input value to min/max supported by
-  3876			 * hardware.
-  3877			 */
-  3878			abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
-  3879	
-  3880			/* sign bit */
-  3881			if (CTM_COEFF_NEGATIVE(input[j]))
-  3882				coeffs[i] |= 1 << 15;
-  3883	
-  3884			if (abs_coeff < CTM_COEFF_0_125)
-  3885				coeffs[i] |= (3 << 12) |
-  3886					      ILK_CSC_COEFF_FP(abs_coeff, 12);
-  3887			else if (abs_coeff < CTM_COEFF_0_25)
-  3888				coeffs[i] |= (2 << 12) |
-  3889					      ILK_CSC_COEFF_FP(abs_coeff, 11);
-  3890			else if (abs_coeff < CTM_COEFF_0_5)
-  3891				coeffs[i] |= (1 << 12) |
-  3892					      ILK_CSC_COEFF_FP(abs_coeff, 10);
-  3893			else if (abs_coeff < CTM_COEFF_1_0)
-  3894				coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
-  3895			else if (abs_coeff < CTM_COEFF_2_0)
-  3896				coeffs[i] |= (7 << 12) |
-  3897					      ILK_CSC_COEFF_FP(abs_coeff, 8);
-  3898			else
-  3899				coeffs[i] |= (6 << 12) |
-  3900					      ILK_CSC_COEFF_FP(abs_coeff, 7);
-  3901	
-  3902			/* Skip postoffs */
-  3903			if (!((j + 2) % 4))
-  3904				j += 2;
-  3905			else
-  3906				j++;
-  3907		}
-  3908	
-  3909		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
-  3910				   coeffs[0] << 16 | coeffs[1]);
-  3911		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
-  3912				   coeffs[2] << 16);
-  3913	
-  3914		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
-  3915				   coeffs[3] << 16 | coeffs[4]);
-  3916		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
-  3917				   coeffs[5] << 16);
-  3918	
-  3919		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
-  3920				   coeffs[6] << 16 | coeffs[7]);
-  3921		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
-  3922				   coeffs[8] << 16);
-  3923	
-  3924		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
-  3925		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
-  3926		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
-  3927	
-  3928		/*
-  3929		 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
-  3930		 */
-  3931		intel_de_write_dsb(display, dsb,
-  3932				   PLANE_CSC_POSTOFF(pipe, plane, 0),
-  3933				   ctm_to_twos_complement(input[3], 0, 12));
-  3934		intel_de_write_dsb(display, dsb,
-  3935				   PLANE_CSC_POSTOFF(pipe, plane, 1),
-  3936				   ctm_to_twos_complement(input[7], 0, 12));
-  3937		intel_de_write_dsb(display, dsb,
-  3938				   PLANE_CSC_POSTOFF(pipe, plane, 2),
-  3939				   ctm_to_twos_complement(input[11], 0, 12));
-  3940	}
-  3941	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+BR, Jarkko
