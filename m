@@ -1,42 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B801121C17D;
-	Mon,  1 Dec 2025 19:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BA02080C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 19:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764616256; cv=none; b=hjU3l8YA1EQHeK8R6mqE3x6cDvkLfH8V7Ge2gYR5IPYJmxP20NivCkJNFHKD8OxZjDF9+RXofgcDbjjUZ7SrX2wLAUNf1vFMTGeLqz+0KeZA5i61Y9u2vuVWYgt1NMxsvbkH21yU33rTXSc1cw0emVyz9c7fVTOW10p6QflMTpw=
+	t=1764617379; cv=none; b=dRZUSEwyydRX68PK5PPiNx/ziwMpJ4gFbcdfv4QA+yQvN22qKRUJDvZuEzDtbbQG36gXTeLMP8kYgBOpNuMPRNOEzS1W/d3LeUoDtGuw9j+FTqG5pnpOAZzEfz1JSy6Xd7yzfKWkmQImUXQh32YXtoIRvbGvoytVfDMlQDZS5hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764616256; c=relaxed/simple;
-	bh=3uLftGmXOJVyk3JM6exrsoORdteRFaEjZfuhX0PK5Sc=;
+	s=arc-20240116; t=1764617379; c=relaxed/simple;
+	bh=wEeWshUELrWCpy2AXbFvY00dfhEnEVOWjGjYTP/rV/c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxTH2rJIA3gdailvYFk8hquo8Z3VzZlRhlyOcaNvraOB2Cpu54bZ1KBLZyd+rRxesMm/d8x0KTlopLwvu9Q3O4zR3sxvfSg7tFDLpmeu2MpVVcCb86Z/JV9ZMtQ9VPoKCRhVLwd0lirjY4td9hnSAtIl0zNnyV6EpdCep01IsLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pPBV4eFB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFp8IxTtH6sAdmx+TZGKG/+8OQAcLEJFlTotcmw5MEWKWsTufUFHMMaOK+7Icv9Dkp/gnoBTTgZuNh9nk/rEOisAY5oM8TaWLw1RDWCPdc0VxGf9UeUR/O77bUXYlFuw05v3lPHM6ydcXXw3U5ICtQraVe+vWZ13bLyNiml5D/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nLvTlYd0; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPBV4eFB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01AA3C4CEF1;
-	Mon,  1 Dec 2025 19:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764616256;
-	bh=3uLftGmXOJVyk3JM6exrsoORdteRFaEjZfuhX0PK5Sc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pPBV4eFBZt3lu0SaKfidmAoDBiMG70orPFB2cKx/G0UQ9ROBSvdLAs7Sr/LucVAJe
-	 xq6i9jQTqmdHtOETnFDMPgDlUoZ/qV+eL0ZuxdJTjDotoH5N3B60P7Dhwoc4ltGQS3
-	 kzaqGZNWVOTwmTVl4sgpcK7J2s26CGYDQFKP15nbb5BHx3I0ynzex9RdZX8p3T0ICd
-	 nyQGHmAWRIJpauTDiZFo0mfsbcLRyqZ5AyhU6MJKnZy5N4oS08M1ZgjPuZABT9cjto
-	 JqLHj06CEzlP91WCSn0nxXx2z3h8W8VEwCMcDcjKO88ASOm68K3FeY/fZfOYcHA1wG
-	 Cg1lLyO9zFs8A==
-Date: Mon, 1 Dec 2025 12:10:52 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Seven Lee <wtli@nuvoton.com>, Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [linux-next:master 11929/12398]
- sound/soc/codecs/nau8325.c:430:13: warning: variable 'n2_max' is
- uninitialized when used here
-Message-ID: <20251201191052.GA2727778@ax162>
-References: <202511271353.g6GYVUt6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLvTlYd0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764617377; x=1796153377;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wEeWshUELrWCpy2AXbFvY00dfhEnEVOWjGjYTP/rV/c=;
+  b=nLvTlYd0FF7NL7GLSd/C1wmOXPdLi6L6jSylztWKMBbRFng+YuzP7Xe+
+   aFxvov/1BxgOWYVMj2uFheTLIeTNb9lEYSdoB1RCHwt8xnIXaTY1aD+h0
+   QEpPE4BHbD9jlhp+yKCEGWtXsbq3DVTeVqu4pCwDyeM7twtgrY66+j9FP
+   aQS0PUQ562bnIUQ76MfIneBVtt9lDdC50ERa70vufZF9bjYS1Th++WDwP
+   VPLNuJl+PNT39N9NJ8mpbIBQkQ5lqNZ/Helzr+uSrzOo1HN5NE3YXsH4c
+   sh6gAwW/qbaKH6tFAaGvhHPSGR65iL1Ik/X0Lss0xs2+VA3E5IGsYOJQR
+   Q==;
+X-CSE-ConnectionGUID: 70mDhjL0SY6eDGeWDaMBVw==
+X-CSE-MsgGUID: 999tettOSnGpjGvkYdKxjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="69165047"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="69165047"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 11:29:36 -0800
+X-CSE-ConnectionGUID: KbOCuOgSS22isMzUzTjzJA==
+X-CSE-MsgGUID: a1MhPLfiS9C5qU6Ry/9q2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="199093475"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2025 11:29:32 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vQ9aT-0000000095V-498Z;
+	Mon, 01 Dec 2025 19:29:29 +0000
+Date: Tue, 2 Dec 2025 03:28:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
+	ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+	contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
+	jadahl@redhat.com, sebastian.wick@redhat.com,
+	swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
+	suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [v7 11/15] drm/i915/color: Program Pre-CSC registers
+Message-ID: <202512020343.7KKu4M4I-lkp@intel.com>
+References: <20251201064655.3579280-12-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,137 +68,206 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202511271353.g6GYVUt6-lkp@intel.com>
+In-Reply-To: <20251201064655.3579280-12-uma.shankar@intel.com>
 
-On Thu, Nov 27, 2025 at 01:50:44PM +0800, kernel test robot wrote:
-> Hi Jaroslav,
-> 
-> First bad commit (maybe != root cause):
+Hi Uma,
 
-Indeed, this appears to be a problem from commit c0a3873b9938 ("ASoC:
-nau8325: new driver"), it was simply not visible before the driver was
-actually hooked into the build system.
+kernel test robot noticed the following build errors:
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   ef68bf704646690aba5e81c2f7be8d6ef13d7ad8
-> commit: cd41d3420ef658b2ca902d7677536ec8e25b610a [11929/12398] ASoC: nau8325: add missing build config
-> config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251127/202511271353.g6GYVUt6-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271353.g6GYVUt6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202511271353.g6GYVUt6-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> sound/soc/codecs/nau8325.c:430:13: warning: variable 'n2_max' is uninitialized when used here [-Wuninitialized]
->      430 |                 *n2_sel = n2_max;
->          |                           ^~~~~~
->    sound/soc/codecs/nau8325.c:389:52: note: initialize the variable 'n2_max' to silence this warning
->      389 |         int i, j, mclk, mclk_max, ratio, ratio_sel, n2_max;
->          |                                                           ^
->          |                                                            = 0
-> >> sound/soc/codecs/nau8325.c:431:11: warning: variable 'ratio_sel' is uninitialized when used here [-Wuninitialized]
->      431 |                 ratio = ratio_sel;
->          |                         ^~~~~~~~~
->    sound/soc/codecs/nau8325.c:389:44: note: initialize the variable 'ratio_sel' to silence this warning
->      389 |         int i, j, mclk, mclk_max, ratio, ratio_sel, n2_max;
->          |                                                   ^
->          |                                                    = 0
->    2 warnings generated.
+[auto build test ERROR on next-20251201]
+[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6 linus/master v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This warning seems legitimate even though it seems like there is no harm
-at runtime?
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
+base:   next-20251201
+patch link:    https://lore.kernel.org/r/20251201064655.3579280-12-uma.shankar%40intel.com
+patch subject: [v7 11/15] drm/i915/color: Program Pre-CSC registers
+config: i386-buildonly-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251202/202512020343.7KKu4M4I-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020343.7KKu4M4I-lkp@intel.com/reproduce)
 
-> vim +/n2_max +430 sound/soc/codecs/nau8325.c
-> 
-> c0a3873b9938bf Seven Lee 2024-03-27  384  
-> c0a3873b9938bf Seven Lee 2024-03-27  385  static int nau8325_clksrc_choose(struct nau8325 *nau8325,
-> c0a3873b9938bf Seven Lee 2024-03-27  386  				 const struct nau8325_srate_attr **srate_table,
-> c0a3873b9938bf Seven Lee 2024-03-27  387  				 int *n1_sel, int *mult_sel, int *n2_sel)
-> c0a3873b9938bf Seven Lee 2024-03-27  388  {
-> c0a3873b9938bf Seven Lee 2024-03-27  389  	int i, j, mclk, mclk_max, ratio, ratio_sel, n2_max;
-> c0a3873b9938bf Seven Lee 2024-03-27  390  
-> c0a3873b9938bf Seven Lee 2024-03-27  391  	if (!nau8325->mclk || !nau8325->fs)
-> c0a3873b9938bf Seven Lee 2024-03-27  392  		goto proc_err;
-> c0a3873b9938bf Seven Lee 2024-03-27  393  
-> c0a3873b9938bf Seven Lee 2024-03-27  394  	/* select sampling rate and MCLK_SRC */
-> c0a3873b9938bf Seven Lee 2024-03-27  395  	*srate_table = target_srate_attribute(nau8325->fs);
-> c0a3873b9938bf Seven Lee 2024-03-27  396  	if (!*srate_table)
-> c0a3873b9938bf Seven Lee 2024-03-27  397  		goto proc_err;
-> c0a3873b9938bf Seven Lee 2024-03-27  398  
-> c0a3873b9938bf Seven Lee 2024-03-27  399  	/* First check clock from MCLK directly, decide N2 for MCLK_SRC.
-> c0a3873b9938bf Seven Lee 2024-03-27  400  	 * If not good, consider 1/N1 and Multiplier.
-> c0a3873b9938bf Seven Lee 2024-03-27  401  	 */
-> c0a3873b9938bf Seven Lee 2024-03-27  402  	ratio = nau8325_clksrc_n2(nau8325, *srate_table, nau8325->mclk, n2_sel);
-> c0a3873b9938bf Seven Lee 2024-03-27  403  	if (ratio != NAU8325_MCLK_FS_RATIO_NUM) {
-> c0a3873b9938bf Seven Lee 2024-03-27  404  		*n1_sel = 0;
-> c0a3873b9938bf Seven Lee 2024-03-27  405  		*mult_sel = CLK_PROC_BYPASS;
-> c0a3873b9938bf Seven Lee 2024-03-27  406  		*n2_sel = MCLK_SRC;
-> c0a3873b9938bf Seven Lee 2024-03-27  407  		goto proc_done;
-> c0a3873b9938bf Seven Lee 2024-03-27  408  	}
-> c0a3873b9938bf Seven Lee 2024-03-27  409  
-> c0a3873b9938bf Seven Lee 2024-03-27  410  	/* Get MCLK_SRC through 1/N, Multiplier, and then 1/N2. */
-> c0a3873b9938bf Seven Lee 2024-03-27  411  	mclk_max = 0;
-> c0a3873b9938bf Seven Lee 2024-03-27  412  	for (i = 0; i < ARRAY_SIZE(mclk_n1_div); i++) {
-> c0a3873b9938bf Seven Lee 2024-03-27  413  		for (j = 0; j < ARRAY_SIZE(mclk_n3_mult); j++) {
-> c0a3873b9938bf Seven Lee 2024-03-27  414  			mclk = nau8325->mclk << mclk_n3_mult[j].param;
-> c0a3873b9938bf Seven Lee 2024-03-27  415  			mclk = mclk / mclk_n1_div[i].param;
-> c0a3873b9938bf Seven Lee 2024-03-27  416  			ratio = nau8325_clksrc_n2(nau8325,
-> c0a3873b9938bf Seven Lee 2024-03-27  417  						  *srate_table, mclk, n2_sel);
-> c0a3873b9938bf Seven Lee 2024-03-27  418  			if (ratio != NAU8325_MCLK_FS_RATIO_NUM &&
-> c0a3873b9938bf Seven Lee 2024-03-27  419  			    (mclk_max < mclk || i > *n1_sel)) {
-> c0a3873b9938bf Seven Lee 2024-03-27  420  				mclk_max = mclk;
-> c0a3873b9938bf Seven Lee 2024-03-27  421  				n2_max = *n2_sel;
-> c0a3873b9938bf Seven Lee 2024-03-27  422  				*n1_sel = i;
-> c0a3873b9938bf Seven Lee 2024-03-27  423  				*mult_sel = j;
-> c0a3873b9938bf Seven Lee 2024-03-27  424  				ratio_sel = ratio;
-> c0a3873b9938bf Seven Lee 2024-03-27  425  					goto proc_done;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512020343.7KKu4M4I-lkp@intel.com/
 
-n2_max and ratio_sel are only assigned in this if block, which ends in
-an unconditional jump to proc_done...
+All errors (new ones prefixed by >>):
 
-> c0a3873b9938bf Seven Lee 2024-03-27  426  			}
-> c0a3873b9938bf Seven Lee 2024-03-27  427  		}
-> c0a3873b9938bf Seven Lee 2024-03-27  428  	}
-> c0a3873b9938bf Seven Lee 2024-03-27  429  	if (mclk_max) {
-> c0a3873b9938bf Seven Lee 2024-03-27 @430  		*n2_sel = n2_max;
-> c0a3873b9938bf Seven Lee 2024-03-27 @431  		ratio = ratio_sel;
-> c0a3873b9938bf Seven Lee 2024-03-27  432  		goto proc_done;
-> c0a3873b9938bf Seven Lee 2024-03-27  433  	}
+   In file included from drivers/gpu/drm/i915/display/intel_color.c:31:
+   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
+    1993 |         struct drm_colorop base;
+         |                            ^~~~
+   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_load_plane_csc_matrix':
+   drivers/gpu/drm/i915/display/intel_color.c:3869:20: error: invalid use of undefined type 'struct drm_color_ctm_3x4'
+    3869 |         input = ctm->matrix;
+         |                    ^~
+   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_program_plane_pre_csc_lut':
+>> drivers/gpu/drm/i915/display/intel_color.c:3966:47: error: implicit declaration of function 'drm_color_lut32_extract'; did you mean 'drm_color_lut_extract'? [-Wimplicit-function-declaration]
+    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                               drm_color_lut_extract
+>> drivers/gpu/drm/i915/display/intel_color.c:3966:82: error: invalid use of undefined type 'struct drm_color_lut32'
+    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
+         |                                                                                  ^
+>> drivers/gpu/drm/i915/display/intel_color.c:3966:85: error: invalid use of undefined type 'const struct drm_color_lut32'
+    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
+         |                                                                                     ^
 
-which will always skip this if block, so if this if statement is taken,
-these values are genuinely uninitialized.
 
-However, as far as I can tell, if the first if statement is not taken,
-mclk_max will be 0, so it seems like this if statement is never taken
-and is dead code? At the same time, won't 'mclk_max < mclk' always be
-true unless mclk itself is 0, so what purpose does mclk_max serve
-otherwise? Was it intentional that the first if statement ends in a jump
-to proc_done? It looks like the value of n2_max is never actually used
-outside of this dead if statement.
+vim +3966 drivers/gpu/drm/i915/display/intel_color.c
 
-> c0a3873b9938bf Seven Lee 2024-03-27  435  proc_err:
-> c0a3873b9938bf Seven Lee 2024-03-27  436  	dev_dbg(nau8325->dev, "The MCLK %d is invalid. It can't get MCLK_SRC of 256/400/500 FS (%d)",
-> c0a3873b9938bf Seven Lee 2024-03-27  437  		nau8325->mclk, nau8325->fs);
-> c0a3873b9938bf Seven Lee 2024-03-27  438  	return -EINVAL;
-> c0a3873b9938bf Seven Lee 2024-03-27  439  proc_done:
-> c0a3873b9938bf Seven Lee 2024-03-27  440  	dev_dbg(nau8325->dev, "nau8325->fs=%d,range=0x%x, %s, (n1,mu,n2,dmu):(%d,%d,%d), MCLK_SRC=%uHz (%d)",
-> c0a3873b9938bf Seven Lee 2024-03-27  441  		nau8325->fs, (*srate_table)->range,
-> c0a3873b9938bf Seven Lee 2024-03-27  442  		(*srate_table)->max ? "MAX" : "MIN",
-> c0a3873b9938bf Seven Lee 2024-03-27  443  		*n1_sel == CLK_PROC_BYPASS ?
-> c0a3873b9938bf Seven Lee 2024-03-27  444  		CLK_PROC_BYPASS : mclk_n1_div[*n1_sel].param,
-> c0a3873b9938bf Seven Lee 2024-03-27  445  		*mult_sel == CLK_PROC_BYPASS ?
-> c0a3873b9938bf Seven Lee 2024-03-27  446  		CLK_PROC_BYPASS : 1 << mclk_n3_mult[*mult_sel].param,
-> c0a3873b9938bf Seven Lee 2024-03-27  447  		1 << mclk_n2_div[*n2_sel].param,
-> c0a3873b9938bf Seven Lee 2024-03-27  448  		(*srate_table)->mclk_src[ratio],
-> c0a3873b9938bf Seven Lee 2024-03-27  449  		(*srate_table)->mclk_src[ratio] / nau8325->fs);
-> c0a3873b9938bf Seven Lee 2024-03-27  450  
-> c0a3873b9938bf Seven Lee 2024-03-27  451  	return 0;
-> c0a3873b9938bf Seven Lee 2024-03-27  452  }
-> c0a3873b9938bf Seven Lee 2024-03-27  453  
+  3850	
+  3851	static void
+  3852	xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
+  3853				    const struct intel_plane_state *plane_state)
+  3854	{
+  3855		struct intel_display *display = to_intel_display(plane_state);
+  3856		const struct drm_plane_state *state = &plane_state->uapi;
+  3857		enum pipe pipe = to_intel_plane(state->plane)->pipe;
+  3858		enum plane_id plane = to_intel_plane(state->plane)->id;
+  3859		const struct drm_property_blob *blob = plane_state->hw.ctm;
+  3860		struct drm_color_ctm_3x4 *ctm;
+  3861		const u64 *input;
+  3862		u16 coeffs[9] = {};
+  3863		int i, j;
+  3864	
+  3865		if (!icl_is_hdr_plane(display, plane) || !blob)
+  3866			return;
+  3867	
+  3868		ctm = blob->data;
+> 3869		input = ctm->matrix;
+  3870	
+  3871		/*
+  3872		 * Convert fixed point S31.32 input to format supported by the
+  3873		 * hardware.
+  3874		 */
+  3875		for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
+  3876			u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
+  3877	
+  3878			/*
+  3879			 * Clamp input value to min/max supported by
+  3880			 * hardware.
+  3881			 */
+  3882			abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
+  3883	
+  3884			/* sign bit */
+  3885			if (CTM_COEFF_NEGATIVE(input[j]))
+  3886				coeffs[i] |= 1 << 15;
+  3887	
+  3888			if (abs_coeff < CTM_COEFF_0_125)
+  3889				coeffs[i] |= (3 << 12) |
+  3890					      ILK_CSC_COEFF_FP(abs_coeff, 12);
+  3891			else if (abs_coeff < CTM_COEFF_0_25)
+  3892				coeffs[i] |= (2 << 12) |
+  3893					      ILK_CSC_COEFF_FP(abs_coeff, 11);
+  3894			else if (abs_coeff < CTM_COEFF_0_5)
+  3895				coeffs[i] |= (1 << 12) |
+  3896					      ILK_CSC_COEFF_FP(abs_coeff, 10);
+  3897			else if (abs_coeff < CTM_COEFF_1_0)
+  3898				coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
+  3899			else if (abs_coeff < CTM_COEFF_2_0)
+  3900				coeffs[i] |= (7 << 12) |
+  3901					      ILK_CSC_COEFF_FP(abs_coeff, 8);
+  3902			else
+  3903				coeffs[i] |= (6 << 12) |
+  3904					      ILK_CSC_COEFF_FP(abs_coeff, 7);
+  3905	
+  3906			/* Skip postoffs */
+  3907			if (!((j + 2) % 4))
+  3908				j += 2;
+  3909			else
+  3910				j++;
+  3911		}
+  3912	
+  3913		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
+  3914				   coeffs[0] << 16 | coeffs[1]);
+  3915		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
+  3916				   coeffs[2] << 16);
+  3917	
+  3918		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
+  3919				   coeffs[3] << 16 | coeffs[4]);
+  3920		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
+  3921				   coeffs[5] << 16);
+  3922	
+  3923		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
+  3924				   coeffs[6] << 16 | coeffs[7]);
+  3925		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
+  3926				   coeffs[8] << 16);
+  3927	
+  3928		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
+  3929		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
+  3930		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
+  3931	
+  3932		/*
+  3933		 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
+  3934		 */
+  3935		intel_de_write_dsb(display, dsb,
+  3936				   PLANE_CSC_POSTOFF(pipe, plane, 0),
+  3937				   ctm_to_twos_complement(input[3], 0, 12));
+  3938		intel_de_write_dsb(display, dsb,
+  3939				   PLANE_CSC_POSTOFF(pipe, plane, 1),
+  3940				   ctm_to_twos_complement(input[7], 0, 12));
+  3941		intel_de_write_dsb(display, dsb,
+  3942				   PLANE_CSC_POSTOFF(pipe, plane, 2),
+  3943				   ctm_to_twos_complement(input[11], 0, 12));
+  3944	}
+  3945	
+  3946	static void
+  3947	xelpd_program_plane_pre_csc_lut(struct intel_dsb *dsb,
+  3948					const struct intel_plane_state *plane_state)
+  3949	{
+  3950		struct intel_display *display = to_intel_display(plane_state);
+  3951		const struct drm_plane_state *state = &plane_state->uapi;
+  3952		enum pipe pipe = to_intel_plane(state->plane)->pipe;
+  3953		enum plane_id plane = to_intel_plane(state->plane)->id;
+  3954		const struct drm_color_lut32 *pre_csc_lut = plane_state->hw.degamma_lut->data;
+  3955		u32 i, lut_size;
+  3956	
+  3957		if (icl_is_hdr_plane(display, plane)) {
+  3958			lut_size = 128;
+  3959	
+  3960			intel_de_write_dsb(display, dsb,
+  3961					   PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
+  3962					   PLANE_PAL_PREC_AUTO_INCREMENT);
+  3963	
+  3964			if (pre_csc_lut) {
+  3965				for (i = 0; i < lut_size; i++) {
+> 3966					u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
+  3967	
+  3968					intel_de_write_dsb(display, dsb,
+  3969							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  3970							   lut_val);
+  3971				}
+  3972	
+  3973				/* Program the max register to clamp values > 1.0. */
+  3974				/* TODO: Restrict to 0x7ffffff */
+  3975				do {
+  3976					intel_de_write_dsb(display, dsb,
+  3977							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  3978							   (1 << 24));
+  3979				} while (i++ > 130);
+  3980			} else {
+  3981				for (i = 0; i < lut_size; i++) {
+  3982					u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
+  3983	
+  3984					intel_de_write_dsb(display, dsb,
+  3985							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
+  3986				}
+  3987	
+  3988				do {
+  3989					intel_de_write_dsb(display, dsb,
+  3990							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
+  3991							   1 << 24);
+  3992				} while (i++ < 130);
+  3993			}
+  3994	
+  3995			intel_de_write_dsb(display, dsb, PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
+  3996		}
+  3997	}
+  3998	
 
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
