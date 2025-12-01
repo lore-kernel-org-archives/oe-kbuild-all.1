@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016A6199949;
-	Mon,  1 Dec 2025 14:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06D93328F7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 Dec 2025 15:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764599637; cv=none; b=odjgKdO70J58W6ZsHxI7bEDjI02QboAByAPkNWnLLHzfuoFTAnst2zfYqD26vfNZmSVUa+r9vnuchZBHJkzVcnz+dyj5ScAVTGYjFLOKDa9AHD6xOHfirONe6J/QGQxCP+cI9RjXKk68VNn3jG8hwZ/JBZsiIKYo8xJUpJtqktQ=
+	t=1764603917; cv=none; b=C/cY40KUiyv5gZ3caNR39OY7ktfgT1lqarVC/mjLnh8mA7fKowoJ/1CDc8vprUpdYiryzUCk2+TcNoZGdGmvgkcFfg2WWfUer9N3KXGOqxamM55k6UdfdgEq53QKsciKtQiHZ8w0nHVlTV1BteUkd84aMjcCpES4/hrN4/XJJ1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764599637; c=relaxed/simple;
-	bh=yne6KQuShtCQ7x+U9JYugotd5EaFO19y4CABwq5nuZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HH2W2JIsS+5lW4RGtYuEKbaKlXOei6s1HKzVya8T49Sg9oSf1Nl0kAw9/ufV7yWTTwx7dQSeuvV7EAzQKWweQyBTZU2MCSnMAuhUpuf3/883zSWqaVvdj/mM+Nw1Ga42JaTjK5PYygrj/RGFdGncSgryqk/nMeOeMn39suEHLk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZOHbkBp; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1764603917; c=relaxed/simple;
+	bh=ihd+OynkBI3LvrViK4UW6HYIHLMlvRpHhZbmAdKbktE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S/NmNieqpQOoslFNuco5Oyuz8UCBFXl7VgxxJgkJ+lDnrQIWKnRqCIRHg8mRd8rUy6rGxiGHkSfJz2H/y1q2DbNOMKuWXdbYh88PpKdzdQfvkKJ3AqpjrEqrCyKjw5f0eQf6EJODQtQD/2aZjjGJNDXIYTOZc61UoK16zhLMGPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g0yH6fU/; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZOHbkBp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0yH6fU/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764599636; x=1796135636;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yne6KQuShtCQ7x+U9JYugotd5EaFO19y4CABwq5nuZE=;
-  b=IZOHbkBpq++OnmWgvelTp3gMGmvx2E+J3YF0nLR/xA8QgxAAGCS1G1bR
-   qGb1d9Tw5HEwbbr4nrvYht3LZHP9kdD/69sHREuLyfjSB3lmf/SLmBPi2
-   oR693GCnKXBkLktNuhuJVMQdthfh+qd5C7sUWXjDGL95Ghd8cti/fQYGJ
-   UqPqJF045MLsnI1rg90Ao9il0dWS780+LjofoBYfOVLoyF9dZK/CXmexJ
-   JVrJ8JNfUaeIcMm3QD77/cFZWUD8RwG1soADo00AT1yOpzAAzEqCG/1ix
-   2Ur7UCUO8tkkFVpeIpLo5xB3iyZYekI4WYSjhIAmungpMJmvi5z8Ll9Z/
-   A==;
-X-CSE-ConnectionGUID: 5jclYYLxSE6tSJAtnuev8g==
-X-CSE-MsgGUID: iVrnsoLFSxOVwAOXKA6jvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="92016309"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="92016309"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 06:33:55 -0800
-X-CSE-ConnectionGUID: 6myoGbDbTL6AbT1tShcARg==
-X-CSE-MsgGUID: YP7VIhTCQBCya+DYgo8pOw==
+  t=1764603915; x=1796139915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ihd+OynkBI3LvrViK4UW6HYIHLMlvRpHhZbmAdKbktE=;
+  b=g0yH6fU/wsv3ye73sEcX5cWW0bmFJ41uuAAvL2RrZy3V0MtUn3kxdw85
+   1c89BYMpZBoBwmGvMoIcEbgAQkgHkjtr8prbOalgXb+qYXHBJJ/lQwJWo
+   rcZQVpWt/Gs9sXAMfnfANgSuoFT4974S3e6JZCoHzEtKiGHR1y4i4OIqS
+   IyomeRPtZXla/AtFEDJZ98Nd7ivz+8UDHg0WRIOYatKPtTNxM0sQ11Ig6
+   UOCfW5+d130pfASlwlQl+u83K7z/1aQAnWMhiKkQIQW73LTu4cLdIlL1o
+   smhL+FvIFIsKrkoBBHSbM1bFP7prXhy1xYDtYvk4x+VVjnNfOrDhosrPh
+   g==;
+X-CSE-ConnectionGUID: 2C82sZchQjqXkLwVU+4X8A==
+X-CSE-MsgGUID: jbZe/bucQTqOfu38b87OpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66709459"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="66709459"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:45:15 -0800
+X-CSE-ConnectionGUID: KL2GTH2XQcGFh5jbS6aywQ==
+X-CSE-MsgGUID: l9FOx2pNThORGj2iPEE/Pg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
-   d="scan'208";a="193212770"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="194096174"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Dec 2025 06:32:59 -0800
+  by orviesa007.jf.intel.com with ESMTP; 01 Dec 2025 07:45:09 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQ4xT-000000008pN-3PFK;
-	Mon, 01 Dec 2025 14:32:55 +0000
-Date: Mon, 1 Dec 2025 22:32:12 +0800
+	id 1vQ65L-000000008sv-0xtH;
+	Mon, 01 Dec 2025 15:45:07 +0000
+Date: Mon, 1 Dec 2025 23:45:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [linux-next:master 1229/13171] error[E0425]: cannot find function
- `pci_alloc_irq_vectors` in crate `bindings`
-Message-ID: <202512012238.YgVvRRUx-lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
+	ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+	contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
+	jadahl@redhat.com, sebastian.wick@redhat.com,
+	swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
+	suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [v7 05/15] drm/i915/color: Add framework to program CSC
+Message-ID: <202512012301.V42g2qYb-lkp@intel.com>
+References: <20251201064655.3579280-6-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +68,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251201064655.3579280-6-uma.shankar@intel.com>
 
-Hi Joel,
+Hi Uma,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
-commit: 340ccc973544a6e7e331729bc4944603085cafab [1229/13171] rust: pci: Allocate and manage PCI interrupt vectors
-config: x86_64-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251201/202512012238.YgVvRRUx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012238.YgVvRRUx-lkp@intel.com/reproduce)
+[auto build test ERROR on next-20251201]
+[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6 linus/master v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
+base:   next-20251201
+patch link:    https://lore.kernel.org/r/20251201064655.3579280-6-uma.shankar%40intel.com
+patch subject: [v7 05/15] drm/i915/color: Add framework to program CSC
+config: x86_64-randconfig-012-20251201 (https://download.01.org/0day-ci/archive/20251201/202512012301.V42g2qYb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012301.V42g2qYb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512012238.YgVvRRUx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512012301.V42g2qYb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `pci_alloc_irq_vectors` in crate `bindings`
-   --> rust/kernel/pci.rs:628:23
-   |
-   628  |             bindings::pci_alloc_irq_vectors(dev.as_raw(), min_vecs, max_vecs, irq_types.as_raw())
-   |                       ^^^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `pci_irq_vector`
-   |
-   ::: rust/bindings/bindings_helpers_generated.rs:1201:5
-   |
-   1201 |     pub fn pci_irq_vector(pdev: *mut pci_dev, nvec: ffi::c_uint) -> ffi::c_int;
-   |     --------------------------------------------------------------------------- similarly named function `pci_irq_vector` defined here
---
->> error[E0425]: cannot find function `pci_free_irq_vectors` in crate `bindings`
-   --> rust/kernel/pci.rs:654:28
-   |
-   654  |         unsafe { bindings::pci_free_irq_vectors(self.dev.as_raw()) };
-   |                            ^^^^^^^^^^^^^^^^^^^^ help: a function with a similar name exists: `pci_irq_vector`
-   |
-   ::: rust/bindings/bindings_helpers_generated.rs:1201:5
-   |
-   1201 |     pub fn pci_irq_vector(pdev: *mut pci_dev, nvec: ffi::c_uint) -> ffi::c_int;
-   |     --------------------------------------------------------------------------- similarly named function `pci_irq_vector` defined here
+   In file included from drivers/gpu/drm/i915/display/intel_colorop.h:9,
+                    from drivers/gpu/drm/i915/display/intel_plane.c:52:
+   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
+    1993 |         struct drm_colorop base;
+         |                            ^~~~
+   drivers/gpu/drm/i915/display/intel_plane.c: In function 'intel_plane_color_copy_uapi_to_hw_state':
+   drivers/gpu/drm/i915/display/intel_plane.c:367:41: error: 'struct drm_plane_state' has no member named 'color_pipeline'
+     367 |         iter_colorop = plane_state->uapi.color_pipeline;
+         |                                         ^
+   drivers/gpu/drm/i915/display/intel_plane.c:370:17: error: implicit declaration of function 'for_each_new_colorop_in_state'; did you mean 'for_each_new_crtc_in_state'? [-Wimplicit-function-declaration]
+     370 |                 for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_new_crtc_in_state
+   drivers/gpu/drm/i915/display/intel_plane.c:370:84: error: expected ';' before '{' token
+     370 |                 for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+         |                                                                                    ^~
+         |                                                                                    ;
+>> drivers/gpu/drm/i915/display/intel_plane.c:360:35: error: unused variable 'blob' [-Werror=unused-variable]
+     360 |         struct drm_property_blob *blob;
+         |                                   ^~~~
+>> drivers/gpu/drm/i915/display/intel_plane.c:359:31: error: unused variable 'intel_colorop' [-Werror=unused-variable]
+     359 |         struct intel_colorop *intel_colorop;
+         |                               ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_plane.c: At top level:
+>> drivers/gpu/drm/i915/display/intel_plane.c:341:1: error: 'intel_plane_colorop_replace_blob' defined but not used [-Werror=unused-function]
+     341 | intel_plane_colorop_replace_blob(struct intel_plane_state *plane_state,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/blob +360 drivers/gpu/drm/i915/display/intel_plane.c
+
+   339	
+   340	static bool
+ > 341	intel_plane_colorop_replace_blob(struct intel_plane_state *plane_state,
+   342					 struct intel_colorop *intel_colorop,
+   343					 struct drm_property_blob *blob)
+   344	{
+   345		if (intel_colorop->id == INTEL_PLANE_CB_CSC)
+   346			return drm_property_replace_blob(&plane_state->hw.ctm, blob);
+   347	
+   348		return false;
+   349	}
+   350	
+   351	static void
+   352	intel_plane_color_copy_uapi_to_hw_state(struct intel_plane_state *plane_state,
+   353						const struct intel_plane_state *from_plane_state,
+   354						struct intel_crtc *crtc)
+   355	{
+   356		struct drm_colorop *iter_colorop, *colorop;
+   357		struct drm_colorop_state *new_colorop_state;
+   358		struct drm_atomic_state *state = plane_state->uapi.state;
+ > 359		struct intel_colorop *intel_colorop;
+ > 360		struct drm_property_blob *blob;
+   361		int i = 0;
+   362		struct intel_atomic_state *intel_atomic_state = to_intel_atomic_state(state);
+   363		struct intel_crtc_state *new_crtc_state = intel_atomic_state ?
+   364			intel_atomic_get_new_crtc_state(intel_atomic_state, crtc) : NULL;
+   365		bool changed = false;
+   366	
+   367		iter_colorop = plane_state->uapi.color_pipeline;
+   368	
+   369		while (iter_colorop) {
+ > 370			for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+   371				if (new_colorop_state->colorop == iter_colorop) {
+   372					blob = new_colorop_state->bypass ? NULL : new_colorop_state->data;
+   373					intel_colorop = to_intel_colorop(colorop);
+   374					changed |= intel_plane_colorop_replace_blob(plane_state,
+   375										    intel_colorop,
+   376										    blob);
+   377				}
+   378			}
+   379			iter_colorop = iter_colorop->next;
+   380		}
+   381	
+   382		if (new_crtc_state && changed)
+   383			new_crtc_state->plane_color_changed = true;
+   384	}
+   385	
 
 -- 
 0-DAY CI Kernel Test Service
