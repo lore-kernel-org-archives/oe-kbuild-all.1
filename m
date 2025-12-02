@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4685227BA4;
-	Tue,  2 Dec 2025 02:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC3018A6DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 02:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764641515; cv=none; b=u5DIewiyJwQEo15ddqvRAFXiWe3dy2VCyoOGkJejo6BfPABBycv3AKlWJgp/zVcqQP6XwUEYvHvo1JVk9jx9qoz6OqhKyPHjZxu7Jpx72nxzPnBhPjNRB5z33ZoZ0P4P9fdxdYypkggSc5UxoJrjgu7iNLZRBFzAvQhvjnxuSXo=
+	t=1764644035; cv=none; b=kL0r040eaaQfI2E9lOn8DjRxBkRhOh/DS08+iOH4shAExy9Ldj5XfnkNGvXKy83EZesEjAGuxS1/ldYNp55Kee1499RBh1Ic9DrQUGtcR7hi5V8MbXMmOxo/AnX7FCuUC4nz5nsQ+EXwZ82k4/i1dg9BUrKqee6YgVI7jOh26Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764641515; c=relaxed/simple;
-	bh=KIkcSZmsCKYG8A4wN0Pyyzwu9+pOmTVUsNzJylJYrVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=awRFiEUSIHVAWdAUvL2W6CNTHfQ1S5HHwSvapNAZap8bZLozzL1gA9Q3Fo+RXsdlgHZbDRnbOB2cl17m6fkjmHW+RwX1XkijQmZhC2Jc2I/jytI4VFxB1U6lXntZKht7GtET/OX6yJqIz6DYnmflEuNPvZZvJ+NEbUXWdmYh5+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO0J/I9u; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1764644035; c=relaxed/simple;
+	bh=2Xl3x4bVRa2lwyK3Wss1GEbRZFSuduU84A/XYHWpxw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RRnI3lxEii9R827r3qW80Sl86mRxK4vcE6Li5ZzYklrLDfPYhgtoKNDjFfGROjURQFuDTFfq1PjmCm1PbJuSRfDfac24P0caOBC8PTeDJyHzdlNoSKSWzORSZ1TcvnqXAtidVE/TMVouP4lf7HApjO71oFYJvuKjg7w3NdYFwe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6vBluyi; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO0J/I9u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6vBluyi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764641514; x=1796177514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KIkcSZmsCKYG8A4wN0Pyyzwu9+pOmTVUsNzJylJYrVA=;
-  b=YO0J/I9uLtl6IzPqbY0cjWo/PyXnFExwIPlKgjPP5njFdgdWWbXSEjNh
-   ok+/tbaWVWYhms/CfGBe/vuZIZq+BkFXzH4/XWdB9O2eJN0BAadQX21w5
-   ys/K9Yh4ArwoKopugecilKpnoi3Ml6yDwT/uSZ3ebfYASNhZgnvnrTcHi
-   U6rt2ODFPdGu+8otrJ1dM/RlvS46NJ1oZHjL6L1hq3QmkykREU0CbpN5W
-   2cvPMvWJ77vB1VcNCA2MPkt3HSoVv8O6kq6g2Ry5cTJvkWb9/FSToCJE3
-   1Pi9xjRK8zuBq1q4GwxE+k31EQpnu0OhDwUmiVcPY/NwBVfAGx1wc4OEx
+  t=1764644034; x=1796180034;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Xl3x4bVRa2lwyK3Wss1GEbRZFSuduU84A/XYHWpxw4=;
+  b=N6vBluyiPzPlkn/qK3CYMeKxobu/N85safDdm4qry0a0RTvQbuyJxwOm
+   VrWXWgzRpaw+s28Eq6kVV1LDveXJvzA9hHxSu24lpI6rxzhPqqimmmtaO
+   no+TwP4wofb/BYvpH9zlnqmIPf0VrpJc/5WwTKEwCT12ypUrCNBlDJClW
+   4FAr3yuo9+9sKzu8OJcyPH3R3F2Ze/5vUSDg+t8OTs/afVucZiwC79rqJ
+   izNDaqRL3/QgsE8jwR6brEB3suD6dviFrYYXuudUMRZ4ZCGo1PaqtWwjV
+   wB3UgiAD+h9pB2Ne9GfCTKRtArSA/+7UosH1BzhoUbHj3mj/ABCSZiB85
    Q==;
-X-CSE-ConnectionGUID: rXk6KAMQTGqKn6D75gD0Xg==
-X-CSE-MsgGUID: rbjwEomgS8qg7E+ZW6ggjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="65599150"
+X-CSE-ConnectionGUID: E3716EJkSMy7GIq636Z7zQ==
+X-CSE-MsgGUID: 2kt5rMpATQCxEKBZbPKNYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="92076876"
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="65599150"
+   d="scan'208";a="92076876"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 18:11:53 -0800
-X-CSE-ConnectionGUID: Xo9G9SzhQM+5oQ7Hn/QcKA==
-X-CSE-MsgGUID: dT73CrKDS1ulWOmgP/2gJg==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 18:53:53 -0800
+X-CSE-ConnectionGUID: ZesCezZ/TVehn4VG1eeVWA==
+X-CSE-MsgGUID: +yFE+ZGLR6yzz89sYWJENA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="199171437"
+   d="scan'208";a="199181297"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2025 18:11:50 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2025 18:53:52 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQFro-000000009Jp-0COB;
-	Tue, 02 Dec 2025 02:11:48 +0000
-Date: Tue, 2 Dec 2025 10:10:51 +0800
+	id 1vQGWT-000000009Lh-3dHh;
+	Tue, 02 Dec 2025 02:53:49 +0000
+Date: Tue, 2 Dec 2025 10:53:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: joakim.zhang@cixtech.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	cix-kernel-upstream@cixtech.com,
-	Joakim Zhang <joakim.zhang@cixtech.com>
-Subject: Re: [PATCH v3 3/3] ALSA: hda: add CIX IPBLOQ HDA controller support
-Message-ID: <202512020919.sEEAZ5w1-lkp@intel.com>
-References: <20251201105700.832715-4-joakim.zhang@cixtech.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-09 0/1]
+ include/linux/android_kabi.h:49:17: error: static assertion failed:
+ "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the
+ same as atomic64_t nr_task_refs"
+Message-ID: <202512021027.tpCIKz1N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,101 +63,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251201105700.832715-4-joakim.zhang@cixtech.com>
 
-Hi,
+Hi Mercier,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.18 next-20251201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/joakim-zhang-cixtech-com/ALSA-hda-dt-bindings-add-CIX-IPBLOQ-HDA-controller-support/20251201-185859
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20251201105700.832715-4-joakim.zhang%40cixtech.com
-patch subject: [PATCH v3 3/3] ALSA: hda: add CIX IPBLOQ HDA controller support
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251202/202512020919.sEEAZ5w1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020919.sEEAZ5w1-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-09
+head:   678351714175f030fff4c29ab70870a1ace4d63a
+commit: 4b2d8222ee51d3aac9c4b9c2b5b758ab17d639b8 [0/1] ANDROID: Use ABI reservations for dmabuf RSS / PSS accounting
+config: i386-randconfig-002-20251202 (https://download.01.org/0day-ci/archive/20251202/202512021027.tpCIKz1N-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021027.tpCIKz1N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512020919.sEEAZ5w1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512021027.tpCIKz1N-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/hda/controllers/cix-ipbloq.c:224:31: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744071293632512 to 1879048192 [-Wconstant-conversion]
-     224 |         chip->bus.core.addr_offset = CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET;
-         |                                    ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/hda/controllers/cix-ipbloq.c:23:51: note: expanded from macro 'CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET'
-      23 | #define CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET        (-0x90000000ULL)
-         |                                                          ^~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from include/linux/android_vendor.h:18,
+                    from include/linux/mutex.h:23,
+                    from include/linux/seqlock.h:19,
+                    from include/linux/mmzone.h:17,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from kernel/fork.c:16:
+>> include/linux/android_kabi.h:49:17: error: static assertion failed: "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the same as atomic64_t nr_task_refs"
+      49 |                 _Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),       \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:68:17: note: in expansion of macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
+      68 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:113:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     113 |         _ANDROID_KABI_REPLACE(_ANDROID_KABI_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:540:9: note: in expansion of macro 'ANDROID_KABI_USE'
+     540 |         ANDROID_KABI_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/android_vendor.h:18,
+                    from include/linux/mutex.h:23,
+                    from include/linux/seqlock.h:19,
+                    from include/linux/mmzone.h:17,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from mm/mmap.c:13:
+>> include/linux/android_kabi.h:49:17: error: static assertion failed: "include/linux/dma-buf.h:540: u64 android_kabi_reserved1 is not aligned the same as atomic64_t nr_task_refs"
+      49 |                 _Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),       \
+         |                 ^~~~~~~~~~~~~~
+   include/linux/android_kabi.h:68:17: note: in expansion of macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
+      68 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/android_kabi.h:113:9: note: in expansion of macro '_ANDROID_KABI_REPLACE'
+     113 |         _ANDROID_KABI_REPLACE(_ANDROID_KABI_RESERVE(number), _new)
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-buf.h:540:9: note: in expansion of macro 'ANDROID_KABI_USE'
+     540 |         ANDROID_KABI_USE(1, atomic64_t nr_task_refs);
+         |         ^~~~~~~~~~~~~~~~
+   mm/mmap.c: In function 'do_mas_align_munmap':
+   mm/mmap.c:2644:34: warning: variable 'e' set but not used [-Wunused-but-set-variable]
+    2644 |                 unsigned long s, e;
+         |                                  ^
+   mm/mmap.c:2644:31: warning: variable 's' set but not used [-Wunused-but-set-variable]
+    2644 |                 unsigned long s, e;
+         |                               ^
 
 
-vim +224 sound/hda/controllers/cix-ipbloq.c
+vim +49 include/linux/android_kabi.h
 
-   180	
-   181	static int cix_ipbloq_hda_create(struct cix_ipbloq_hda *hda,
-   182					 struct snd_card *card,
-   183					 unsigned int driver_caps)
-   184	{
-   185		static const struct snd_device_ops ops = {
-   186			.dev_disconnect = cix_ipbloq_hda_dev_disconnect,
-   187			.dev_free = cix_ipbloq_hda_dev_free,
-   188		};
-   189		struct azx *chip;
-   190		int err;
-   191	
-   192		chip = &hda->chip;
-   193		chip->card = card;
-   194		chip->ops = &cix_ipbloq_hda_ops;
-   195		chip->driver_caps = driver_caps;
-   196		chip->driver_type = driver_caps & 0xff;
-   197		chip->dev_index = 0;
-   198		chip->single_cmd = 0;
-   199		chip->codec_probe_mask = -1;
-   200		chip->align_buffer_size = 1;
-   201		chip->jackpoll_interval = msecs_to_jiffies(CIX_IPBLOQ_JACKPOLL_DEFAULT_TIME_MS);
-   202		mutex_init(&chip->open_mutex);
-   203		INIT_LIST_HEAD(&chip->pcm_list);
-   204	
-   205		/*
-   206		 * HD-audio controllers appear pretty inaccurate about the update-IRQ timing.
-   207		 * The IRQ is issued before actually the data is processed. So use stream
-   208		 * link position by default instead of dma position buffer.
-   209		 */
-   210		chip->get_position[0] = chip->get_position[1] = azx_get_pos_lpib;
-   211	
-   212		err = azx_bus_init(chip, NULL);
-   213		if (err < 0) {
-   214			dev_err(hda->dev, "failed to init bus, err = %d\n", err);
-   215			return err;
-   216		}
-   217	
-   218		/* RIRBSTS.RINTFL cannot be cleared, cause interrupt storm */
-   219		chip->bus.core.polling_mode = 1;
-   220		chip->bus.core.not_use_interrupts = 1;
-   221	
-   222		chip->bus.core.aligned_mmio = 1;
-   223		chip->bus.core.dma_stop_delay = 100;
- > 224		chip->bus.core.addr_offset = CIX_IPBLOQ_SKY1_ADDR_HOST_TO_HDAC_OFFSET;
-   225	
-   226		chip->bus.jackpoll_in_suspend = 1;
-   227	
-   228		err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops);
-   229		if (err < 0) {
-   230			dev_err(card->dev, "failed to create device, err = %d\n", err);
-   231			return err;
-   232		}
-   233	
-   234		return 0;
-   235	}
-   236	
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  37  
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  38  /*
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  39   * Worker macros, don't use these, use the ones without a leading '_'
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  40   */
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  41  
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  42  #define __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new)				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  43  	union {									\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  44  		_Static_assert(sizeof(struct{_new;}) <= sizeof(struct{_orig;}),	\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  45  			       __FILE__ ":" __stringify(__LINE__) ": "		\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  46  			       __stringify(_new)				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  47  			       " is larger than "				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  48  			       __stringify(_orig) );				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11 @49  		_Static_assert(__alignof__(struct{_new;}) <= __alignof__(struct{_orig;}),	\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  50  			       __FILE__ ":" __stringify(__LINE__) ": "		\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  51  			       __stringify(_orig)				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  52  			       " is not aligned the same as "			\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  53  			       __stringify(_new) );				\
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  54  	}
+804873a198f8dcb Greg Kroah-Hartman 2020-03-11  55  
+
+:::::: The code at line 49 was first introduced by commit
+:::::: 804873a198f8dcb3f9c414ab5dcf40a1fd14b918 ANDROID: GKI: add android_kabi.h
+
+:::::: TO: Greg Kroah-Hartman <gregkh@google.com>
+:::::: CC: Jaskaran Singh <quic_jasksing@quicinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
