@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5704F270557
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 19:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907912C11C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 20:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764703260; cv=none; b=nLCmnexYUmsPcLGgRKfyrY7RDCGYiTm7WLGGWfZEZkWd17pjwJDEMmzvtz80e3zrHDshiyKfcmYXFeIZ4bUnHMHIgyUkuZLx2kCLzrHlC3YjFoE2aGNhUa3qzDbp1YniRYInJWh4czfuKZxS9uLy9JjXweR8vFA1dmX/b1XG6iM=
+	t=1764705717; cv=none; b=Q9XqJd03XqSyQnE4SU1XCYUZovIvi27EvEceB6TgttBEcqx/HJVwPYX//2q9vqSHf4xu3wuJJjIsN0bLvbU4PzvEKG8I6hYgYl3c2GEjB0zrCpS1Q123wT5fLk00QXJz6zJo00DlKLv5NBWgR18Inp3IA2b7ZMx/YSaYB3ACuqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764703260; c=relaxed/simple;
-	bh=q32lN4z3XiKPNxNXBPpZVxb9ivyASyaAlwhe5fnN3ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTumuEW8YN/riS5lb5w0I4fdMtmvwJTx0OS2FOvV05xLuEq39qmCBcrAfBPYU9v0cuQULAU3WaG9F5bsEiYP/XAQ8bpYRZu9bc1IIaWpBYh5LoQ1qFVRB9YBh2npuTNIa3kMlxNGmtvXfDD6WZNv/EmEF8Dhfj0tzYC5lb1IMcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ezap8Z4M; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1764705717; c=relaxed/simple;
+	bh=tDMsaFxI3YB8BdjG7wYssbtXsD6fFyJrdmWVbLt6iVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JHa+AkJNagsVHlIQmVgSu9MUKrY3r0hbKwWjzh5hMBNvt5tBZRO5/rvPXTdV0vzUWQqsSp/EKQ7L2oIXQX8kVAXlbbhlKczWwKeFNAg3eFzgZ4K093WvR6U3vYRNMsss2ItMO1byAG6UxyHS8X3Me4I5UtZjEjrLD7pt/oMeBvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+ycch5E; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ezap8Z4M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+ycch5E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764703259; x=1796239259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q32lN4z3XiKPNxNXBPpZVxb9ivyASyaAlwhe5fnN3ek=;
-  b=Ezap8Z4MPdUQbhOHbfNMt/X0i2+gUatsVAxdNiYxN5veIMZBGNkJC+zA
-   8IQRcquvh5JVHYBs16vpfUdYCJLPFTMjQOkWnezeu3ckJVpM6OsQw3/Ag
-   geyCtmwwPKzNVz7wd+FfqHeeVVUrXvg8dqpGS/IM9/Ql461/578imFZbP
-   973oZNNMarrKt+ftclOQuTVfR3ClzH+Jh3OMOLiaC+FVoBck+aMamf7h5
-   SsK1xN9oN5/6isvKonZMh5nM91RO+A9dQ1eayRWlD+OShTlI9w+Rh+qP8
-   YDcCbv87PvzvLSi+omOC/C2ip5f0QAsNhF6gg38DFcZcSrKvdVZLUUPm2
-   A==;
-X-CSE-ConnectionGUID: o6L+oLTBSzSc2cGT+RkPKw==
-X-CSE-MsgGUID: Tj3W/j0LSaOcv7LlcrepMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="78151763"
+  t=1764705714; x=1796241714;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tDMsaFxI3YB8BdjG7wYssbtXsD6fFyJrdmWVbLt6iVQ=;
+  b=T+ycch5EtiOiMKybnOIN7WA+Bbfopm5fV5cBtIQ2F2wJQl7ZYCSnWBvL
+   Med5aduLWG4pCV8ttWISDTn1802j4zh6+R/BX9rHTq0fOPfG4oXFagQLs
+   kx1N7QAxym5y0ma5MUm0d7NEZnVo8huRQdKZ+g+WejUrziwzozR6i4u71
+   GAzcQDUWxp0Ipm0W6SvbhwEsBNkkMBGTb+Vp00rAX/xVaYb2n+byuLtl8
+   ANodRupQ6Soj1XkuGLCPuHcCbIDy7MraYVotSR4qYgOTPQ/5n+C9putR5
+   4qfsCjOR9YvDmrbM5oujSml1W/CxvsbRZv+iktNny8t4z99W8R2p2EbpU
+   w==;
+X-CSE-ConnectionGUID: EbtnvpDeRjmEu/hTiZG6xA==
+X-CSE-MsgGUID: FKdZDvZLRQWjhZ3K6Vr9yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77373454"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="78151763"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 11:20:50 -0800
-X-CSE-ConnectionGUID: CTw/QShmRuS3sNzagv2Fkg==
-X-CSE-MsgGUID: Q+MirQL0QlKOVlnEHmFllg==
+   d="scan'208";a="77373454"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 12:01:50 -0800
+X-CSE-ConnectionGUID: DT+/TmB6TUuxroXHz9lVHg==
+X-CSE-MsgGUID: M1Akr68/SLOuXHAsCI3xyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="225149371"
+   d="scan'208";a="194288423"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 Dec 2025 11:20:48 -0800
+  by orviesa009.jf.intel.com with ESMTP; 02 Dec 2025 12:01:49 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQVvZ-00000000A8n-0uC4;
-	Tue, 02 Dec 2025 19:20:45 +0000
-Date: Wed, 3 Dec 2025 03:20:16 +0800
+	id 1vQWZG-00000000AAB-1gwq;
+	Tue, 02 Dec 2025 20:01:46 +0000
+Date: Wed, 3 Dec 2025 04:01:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Po-Wen Kao <powenkao@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Brian Kao <powenkao@google.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/1] scsi: core: Fix error handler encryption support
-Message-ID: <202512030247.AllzCFdb-lkp@intel.com>
-References: <20251202011529.73738-1-powenkao@google.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202512030340.h4teI6vf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,146 +62,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251202011529.73738-1-powenkao@google.com>
 
-Hi Po-Wen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.18 next-20251202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Po-Wen-Kao/scsi-core-Fix-error-handler-encryption-support/20251202-091809
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20251202011529.73738-1-powenkao%40google.com
-patch subject: [PATCH 1/1] scsi: core: Fix error handler encryption support
-config: i386-randconfig-013-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030247.AllzCFdb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030247.AllzCFdb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7f8d5f70fffe2177afcc62f02feead5827dfe8dd
+commit: 506aa8b02a8d6898c64cc095d233fbae1cef8b8a dma-fence: Add safe access helpers and document the rules
+date:   6 months ago
+config: i386-randconfig-062-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030340.h4teI6vf-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030340.h4teI6vf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030247.AllzCFdb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512030340.h4teI6vf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence.c:1112:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1112:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1114:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1144:51: sparse:     got char const *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     expected char const [noderef] __rcu *
+   drivers/dma-buf/dma-fence.c:1146:24: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_fence.h):
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+>> include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
+   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
+   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
 
-   drivers/scsi/scsi_error.c: In function 'scsi_eh_prep_cmnd':
->> drivers/scsi/scsi_error.c:1122:35: error: 'struct request' has no member named 'crypt_keyslot'
-    1122 |         ses->rq_crypt_keyslot = rq->crypt_keyslot;
-         |                                   ^~
->> drivers/scsi/scsi_error.c:1123:31: error: 'struct request' has no member named 'crypt_ctx'
-    1123 |         ses->rq_crypt_ctx = rq->crypt_ctx;
-         |                               ^~
-   drivers/scsi/scsi_error.c:1125:11: error: 'struct request' has no member named 'crypt_keyslot'
-    1125 |         rq->crypt_keyslot = NULL;
-         |           ^~
-   drivers/scsi/scsi_error.c:1126:11: error: 'struct request' has no member named 'crypt_ctx'
-    1126 |         rq->crypt_ctx = NULL;
-         |           ^~
-   drivers/scsi/scsi_error.c: In function 'scsi_eh_restore_cmnd':
-   drivers/scsi/scsi_error.c:1160:11: error: 'struct request' has no member named 'crypt_keyslot'
-    1160 |         rq->crypt_keyslot = ses->rq_crypt_keyslot;
-         |           ^~
-   drivers/scsi/scsi_error.c:1161:11: error: 'struct request' has no member named 'crypt_ctx'
-    1161 |         rq->crypt_ctx = ses->rq_crypt_ctx;
-         |           ^~
+vim +12 include/trace/events/dma_fence.h
 
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  11  
+f54d1867005c33 include/trace/events/dma_fence.h Chris Wilson            2016-10-25 @12  DECLARE_EVENT_CLASS(dma_fence,
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  13  
+f54d1867005c33 include/trace/events/dma_fence.h Chris Wilson            2016-10-25  14  	TP_PROTO(struct dma_fence *fence),
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  15  
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  16  	TP_ARGS(fence),
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  17  
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  18  	TP_STRUCT__entry(
+ecec875a6c3379 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  19  		__string(driver, dma_fence_driver_name(fence))
+ecec875a6c3379 include/trace/events/dma_fence.h Tvrtko Ursulin          2025-05-15  20  		__string(timeline, dma_fence_timeline_name(fence))
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  21  		__field(unsigned int, context)
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  22  		__field(unsigned int, seqno)
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  23  	),
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  24  
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  25  	TP_fast_assign(
+2c92ca849fcc6e include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  26) 		__assign_str(driver);
+2c92ca849fcc6e include/trace/events/dma_fence.h Steven Rostedt (Google  2024-05-16  27) 		__assign_str(timeline);
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  28  		__entry->context = fence->context;
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  29  		__entry->seqno = fence->seqno;
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  30  	),
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  31  
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  32  	TP_printk("driver=%s timeline=%s context=%u seqno=%u",
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  33  		  __get_str(driver), __get_str(timeline), __entry->context,
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  34  		  __entry->seqno)
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  35  );
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst       2014-07-01  36  
 
-vim +1122 drivers/scsi/scsi_error.c
+:::::: The code at line 12 was first introduced by commit
+:::::: f54d1867005c3323f5d8ad83eed823e84226c429 dma-buf: Rename struct fence to dma_fence
 
-  1047	
-  1048	/**
-  1049	 * scsi_eh_prep_cmnd  - Save a scsi command info as part of error recovery
-  1050	 * @scmd:       SCSI command structure to hijack
-  1051	 * @ses:        structure to save restore information
-  1052	 * @cmnd:       CDB to send. Can be NULL if no new cmnd is needed
-  1053	 * @cmnd_size:  size in bytes of @cmnd (must be <= MAX_COMMAND_SIZE)
-  1054	 * @sense_bytes: size of sense data to copy. or 0 (if != 0 @cmnd is ignored)
-  1055	 *
-  1056	 * This function is used to save a scsi command information before re-execution
-  1057	 * as part of the error recovery process.  If @sense_bytes is 0 the command
-  1058	 * sent must be one that does not transfer any data.  If @sense_bytes != 0
-  1059	 * @cmnd is ignored and this functions sets up a REQUEST_SENSE command
-  1060	 * and cmnd buffers to read @sense_bytes into @scmd->sense_buffer.
-  1061	 */
-  1062	void scsi_eh_prep_cmnd(struct scsi_cmnd *scmd, struct scsi_eh_save *ses,
-  1063				unsigned char *cmnd, int cmnd_size, unsigned sense_bytes)
-  1064	{
-  1065		struct scsi_device *sdev = scmd->device;
-  1066		struct request *rq = scsi_cmd_to_rq(scmd);
-  1067	
-  1068		/*
-  1069		 * We need saved copies of a number of fields - this is because
-  1070		 * error handling may need to overwrite these with different values
-  1071		 * to run different commands, and once error handling is complete,
-  1072		 * we will need to restore these values prior to running the actual
-  1073		 * command.
-  1074		 */
-  1075		ses->cmd_len = scmd->cmd_len;
-  1076		ses->data_direction = scmd->sc_data_direction;
-  1077		ses->sdb = scmd->sdb;
-  1078		ses->result = scmd->result;
-  1079		ses->resid_len = scmd->resid_len;
-  1080		ses->underflow = scmd->underflow;
-  1081		ses->prot_op = scmd->prot_op;
-  1082		ses->eh_eflags = scmd->eh_eflags;
-  1083	
-  1084		scmd->prot_op = SCSI_PROT_NORMAL;
-  1085		scmd->eh_eflags = 0;
-  1086		memcpy(ses->cmnd, scmd->cmnd, sizeof(ses->cmnd));
-  1087		memset(scmd->cmnd, 0, sizeof(scmd->cmnd));
-  1088		memset(&scmd->sdb, 0, sizeof(scmd->sdb));
-  1089		scmd->result = 0;
-  1090		scmd->resid_len = 0;
-  1091	
-  1092		if (sense_bytes) {
-  1093			scmd->sdb.length = min_t(unsigned, SCSI_SENSE_BUFFERSIZE,
-  1094						 sense_bytes);
-  1095			sg_init_one(&ses->sense_sgl, scmd->sense_buffer,
-  1096				    scmd->sdb.length);
-  1097			scmd->sdb.table.sgl = &ses->sense_sgl;
-  1098			scmd->sc_data_direction = DMA_FROM_DEVICE;
-  1099			scmd->sdb.table.nents = scmd->sdb.table.orig_nents = 1;
-  1100			scmd->cmnd[0] = REQUEST_SENSE;
-  1101			scmd->cmnd[4] = scmd->sdb.length;
-  1102			scmd->cmd_len = COMMAND_SIZE(scmd->cmnd[0]);
-  1103		} else {
-  1104			scmd->sc_data_direction = DMA_NONE;
-  1105			if (cmnd) {
-  1106				BUG_ON(cmnd_size > sizeof(scmd->cmnd));
-  1107				memcpy(scmd->cmnd, cmnd, cmnd_size);
-  1108				scmd->cmd_len = COMMAND_SIZE(scmd->cmnd[0]);
-  1109			}
-  1110		}
-  1111	
-  1112		scmd->underflow = 0;
-  1113	
-  1114		if (sdev->scsi_level <= SCSI_2 && sdev->scsi_level != SCSI_UNKNOWN)
-  1115			scmd->cmnd[1] = (scmd->cmnd[1] & 0x1f) |
-  1116				(sdev->lun << 5 & 0xe0);
-  1117	
-  1118		/*
-  1119		 * Encryption must be disabled for the commands submitted by the error handler.
-  1120		 * Hence, clear the encryption context information.
-  1121		 */
-> 1122		ses->rq_crypt_keyslot = rq->crypt_keyslot;
-> 1123		ses->rq_crypt_ctx = rq->crypt_ctx;
-  1124	
-  1125		rq->crypt_keyslot = NULL;
-  1126		rq->crypt_ctx = NULL;
-  1127	
-  1128		/*
-  1129		 * Zero the sense buffer.  The scsi spec mandates that any
-  1130		 * untransferred sense data should be interpreted as being zero.
-  1131		 */
-  1132		memset(scmd->sense_buffer, 0, SCSI_SENSE_BUFFERSIZE);
-  1133	}
-  1134	EXPORT_SYMBOL(scsi_eh_prep_cmnd);
-  1135	
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
