@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192E4221FB4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 08:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCBC2FFFB3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 08:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764662952; cv=none; b=aAQKfh7I/SejJXpus5BQfyCpbBowGDS25WRQ8hEWVrLGSfyKt+YDTh5XWfbHwRCIVofBLoroP3yDTsNn+VGSe0NiMq7MC5BzKqVh1rL114ANAobXaZRJKr7pA2+ZTg5/Rk8/AuKn86JbZOpmlhPrtVw38N4k0XXFhdTLqrglTAk=
+	t=1764663336; cv=none; b=urbF6Ur3AFZ6IOnJjTomuwmdTKXOV35Vnm3Xk0fAo40tpRNpF5DWOn5jpqXyGTP3gOrnLp5XPHE7mndwhssq6UX1bK9QK37/Mt1RN/iNka4S3dVX1EUnyKcHBpe7pUchpPa/1XCUj4TWLTAfguARgqTuvije3bGQBcLah69D6Bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764662952; c=relaxed/simple;
-	bh=oZlhyjO/Uc4ae++H4kNMJU9I1/TCh3tXQk4g9M0X++U=;
+	s=arc-20240116; t=1764663336; c=relaxed/simple;
+	bh=eO0PoFfxdDvwPN8H883DxVff+vw9lQPiJvgdWWRnv4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iMes3oByLfkKIwut3WF9UiOfCMXjflcUxqK1/ih6PGisnUzzO8bwsXku6NAohM93x6vxFpZeYwz7lZa0rb5ET7qjgxcNblFXJAzjxEw2VdgWeto+QztddqrK9Mo4H5Qk5vDMWkMb2uQR7NUiuqGcnsaXaZebaLUdwR4WO/6PQTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZCnwuY9I; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=pxefPzL4qt2fsoA1+38cdf4A5IdI1lDCvQHAw28RR6N+Px2zcE0pi8WEM7RcesfIzuBvSaaxJVRBjX7HQKbWASY+xQYkJGqLphIpY65V/vhq520XUPrGjX85Tf5epfDf3FuVFPhuKN0BmAS9qDZ99DK+OdXrV1Egw2iMJh5SHsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TuXrLM3B; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZCnwuY9I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TuXrLM3B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764662950; x=1796198950;
+  t=1764663335; x=1796199335;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oZlhyjO/Uc4ae++H4kNMJU9I1/TCh3tXQk4g9M0X++U=;
-  b=ZCnwuY9IwxDYMZOk7TJOaN9rcuciF96tES63NfbNT21w+SphFnXlLcqL
-   MX/+r0h7BPDXP2Cc2jb4RRQbZvh2hPWswqHhdM4Do7SH1/kptpJdqH8SA
-   EedFB8E6h8O/9Mnp48TDtzNORWPN5LRrz1fiD6VXJ+jgHThybS8SenbwU
-   Ht1UPZ4285nGPvtLvke8meaIoYrCEi1cqS6sRv41Kp/VLKYk7NMl06zKJ
-   zIBuIB5J55JL5p781AZsU2bD4XGNTzeAzmSaj/8to+uf51H5ZeXnXrgCp
-   L8yArA6NHTE5ukJFZl7lfxON8sk2Q+wtl6QwVBngIJZOulTQAdZcifbnY
-   A==;
-X-CSE-ConnectionGUID: JJPudCbwTkCxsd7lU9C3dQ==
-X-CSE-MsgGUID: UW0NSmZMStaOKx/IKkfG4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66576767"
+  bh=eO0PoFfxdDvwPN8H883DxVff+vw9lQPiJvgdWWRnv4I=;
+  b=TuXrLM3B0UYEfnBvIb+mSUXtxMAICzYg7GVzVHm5ilgjcG0D6z+uzHO1
+   a12/DSDm6ibfhB0xD/ZqOJIgqfPEk0sp+KUxpncudXAoyClcxwVpi+pps
+   ts2YrcoDfrbQ65TMpbYhVr6wpEywUcK6zMdBV9264v9WdDPuuqAnMda/u
+   Tsh4TOk3HvgAJM+6ksCc3+Eqxdr4CPUODzuLsjHvxaBcc8QlkGcOmf8fA
+   9B2OmfEArjjvI+Gr31k5kNsayRZZk2qP917ipFuf46euPL7f6idZ5Po0f
+   1iCNmBY8MoVoDFkLXsXRIDFROso9EoYt3IgsFJhT5CkgF/X6pBDLE2DXS
+   Q==;
+X-CSE-ConnectionGUID: SR2MiUiEQC2rpVMRfIAJKQ==
+X-CSE-MsgGUID: x/kcwVuTRvqGu18bOYQ5GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="65623664"
 X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="66576767"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 00:09:10 -0800
-X-CSE-ConnectionGUID: s+nSb3KARA2RTXA4+oiC3Q==
-X-CSE-MsgGUID: t2BLgB8CTJeLxUTSv27ifQ==
+   d="scan'208";a="65623664"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 00:15:34 -0800
+X-CSE-ConnectionGUID: ut0eE3CURXmuswbrP7Hgtw==
+X-CSE-MsgGUID: w4howBQNSKagAqXa5eAfaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="198688641"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2025 00:09:08 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="194526546"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2025 00:15:33 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQLRZ-000000009Z9-1OG5;
-	Tue, 02 Dec 2025 08:09:05 +0000
-Date: Tue, 2 Dec 2025 16:08:52 +0800
+	id 1vQLXn-000000002qB-0cEm;
+	Tue, 02 Dec 2025 08:15:31 +0000
+Date: Tue, 2 Dec 2025 09:15:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Lyude Paul <lyude@redhat.com>
-Subject: error[E0609]: no field `driver_priv` on type `drm_file`
-Message-ID: <202512021620.lHWA8obt-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [linux-next:master 12362/13055] include/vdso/bits.h:7:40: warning:
+ left shift count >= width of type
+Message-ID: <202512020956.Dnz8A2H0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,37 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a26e7032d7d57c998598c08a034872d6f0d3945
-commit: a98a73be9ee9c42495690b2fe56e1ce27768289a rust: drm: file: Add File abstraction
-date:   7 months ago
-config: arm-randconfig-r121-20251201 (https://download.01.org/0day-ci/archive/20251202/202512021620.lHWA8obt-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021620.lHWA8obt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47b7b5e32bb7264b51b89186043e1ada4090b558
+commit: 256a21743d911f94ce92fe28f793cd586f3860b2 [12362/13055] i3c: Add HDR API support
+config: i386-randconfig-2006-20250804 (https://download.01.org/0day-ci/archive/20251202/202512020956.Dnz8A2H0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020956.Dnz8A2H0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512021620.lHWA8obt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512020956.Dnz8A2H0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0609]: no field `driver_priv` on type `drm_file`
-   --> rust/kernel/drm/file.rs:46:35
-   |
-   46 |         unsafe { (*self.as_raw()).driver_priv }.cast()
-   |                                   ^^^^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/atomic.h:7,
+                    from include/linux/atomic.h:7,
+                    from drivers/i3c/device.c:8:
+   drivers/i3c/device.c: In function 'i3c_device_get_supported_xfer_mode':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/i3c/device.c:272:68: note: in expansion of macro 'BIT'
+     272 |         return i3c_dev_get_master(dev->desc)->this->info.hdr_cap | BIT(I3C_SDR);
+         |                                                                    ^~~
 --
->> error[E0609]: no field `driver_priv` on type `drm_file`
-   --> rust/kernel/drm/file.rs:81:35
-   |
-   81 |         unsafe { (*file.as_raw()).driver_priv = driver_priv.cast() };
-   |                                   ^^^^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/atomic.h:7,
+                    from include/linux/atomic.h:7,
+                    from device.c:8:
+   device.c: In function 'i3c_device_get_supported_xfer_mode':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   device.c:272:68: note: in expansion of macro 'BIT'
+     272 |         return i3c_dev_get_master(dev->desc)->this->info.hdr_cap | BIT(I3C_SDR);
+         |                                                                    ^~~
+
+
+vim +7 include/vdso/bits.h
+
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
+3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
+cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
+3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
+
+:::::: The code at line 7 was first introduced by commit
+:::::: 3945ff37d2f48d39fd1751d282c80176654049e4 linux/bits.h: Extract common header for vDSO
+
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
