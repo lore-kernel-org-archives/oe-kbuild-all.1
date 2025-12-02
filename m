@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BFE25CC40
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 03:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00E814F9FB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 03:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764644764; cv=none; b=joHGIQde8cMRynr8hjIkHLK4z1TAefFN2wda3NWgUvRUbNyP0v+AMLn62KJf7Qfg7UlJl2a4mf2xbViqsDeEpxIvk9+r6Jg46BDbWG0MSPbFFW+vf4XmcPZQ43Qfg0XddQb+4VDa8qJHmYdlrz/d1eWvTetHs4X4bAuUV1uU0DU=
+	t=1764645356; cv=none; b=Lj6AnPI6vBYcbLHjH74yP/151PX0hBFsnyNkr+4QO2VwRfalrSj9a4k5AlTmy4glaFwW2DfxNYSh3FX3S4+d7AwFbAE36kVQvK15wRg9tsgqPKdbQTXeIAFFeEGFrLaQP4ZQxWEmrba+N2QzKetFPvGeLirEoEcg6p7sRulYNLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764644764; c=relaxed/simple;
-	bh=CC6yt3msoS4Fi7vSn0SKqLgnBKAY+5qX6AwKLYoRbTc=;
+	s=arc-20240116; t=1764645356; c=relaxed/simple;
+	bh=jHyqQXuomG46L20h+XsroFRAnK29O/dxqhuy/nRVoIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YxAlCIwUjeqS5k2UQqTyQnGiHrelteO3SqL8MbyURvzvSOTPf/LgDlWR/sJ7EAtKW+0j4Em9wwrIIqf1lL97rPjphUzIFCqAVzuVsYJwY1BAuJiYgAU8v+NzMWoT0uS3/xkfQc1Gva+sKC6jaRNB96pvodF2EBhq/p29QBNX+Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1fhNLwQ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=XIlUjx/ShU7V8Fd0OiQzzxU+yVtarAkqQitJXGgX0PaEg0VBMQLG+DYAAaCKZDJAQEIEJ+5HNPPJE/Jp/QIAyLq9hjx0ZmLwl6HSWLjYthKDdWCZsys/3Kn2wBwCmFLenMSYhSJGFHZTkMfBRJZ/vnvy5dSeZKT1d0Z6sanT9rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NY7C1l6p; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1fhNLwQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NY7C1l6p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764644763; x=1796180763;
+  t=1764645354; x=1796181354;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CC6yt3msoS4Fi7vSn0SKqLgnBKAY+5qX6AwKLYoRbTc=;
-  b=c1fhNLwQyQd/MHpf3imp3QEN6S6pqogO5PG4zPucZe17xYmYAJbQ+cC8
-   d1S/daJwKfjJtXERvagoxUnagddBlFvCMNLcV0OQ/qwrEJC6BUVAoZLFY
-   y7TwjTlp84aocfRSNwpeRfORKD0EsAp4RRyq2YPvwcPmN0xuCv7Uj/7qa
-   YQ+e3hyKWlvMtOQcKB24W9vTiNgUcsdvw48DflvfqIat0tPwmSl/6CdNh
-   uHd8Thrr+utv/8fRwHaCnxC3bBx4BdeBYujMujiRf6XtsglbvoL/s/Dhf
-   9bL3uJ+WXfE0tQNwyCEbdYZP7PPvI4+w5wexJ+Gb0D9MPwSum6v6c0BYa
-   Q==;
-X-CSE-ConnectionGUID: X5U1JAL7Q++dTDbHV7wbgw==
-X-CSE-MsgGUID: rOUPRhEvRGirjW1c2NlpAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="89249735"
+  bh=jHyqQXuomG46L20h+XsroFRAnK29O/dxqhuy/nRVoIk=;
+  b=NY7C1l6pNXMFAen3Cwuadv52dlVhrPReHSEI1NDY4znOGj3RnCyS3CJf
+   eOxofKBYE3y/sV8HgVv58J93C/ayKGuTWL5Cl7Un/Pm+p3Rn4KyNZwmAu
+   UaqHa0qfE99Z6PWl1fF0+t0JBJllhe6bIZ1NaDoWxAJSayfzIAqdy4cFz
+   YPIpHMwlM+1VWjwZJk2/IszjRx2/A++OghYkDJ2b4wOo6sA0EoTEQpInD
+   2shSLzkA9n/Ye9v3Ol+CiWqs6t7SBIgwRF1Zl2/8BaNruWFEhOUxu2rBX
+   8D18qKndpDfcBMio1DEoCkkY1BRyWNL7YxGaPeJuF5lvHyNVZx0sa3Ubp
+   g==;
+X-CSE-ConnectionGUID: +CrELwdcScmVwQK4TjSh5g==
+X-CSE-MsgGUID: lLHvO3jXSX2i+dM3ZTI+lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77950289"
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="89249735"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 19:05:54 -0800
-X-CSE-ConnectionGUID: J917mVnJTqy4lClq8lTVCQ==
-X-CSE-MsgGUID: +VY5TZJjT5aDNj6acE0Qpg==
+   d="scan'208";a="77950289"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 19:15:54 -0800
+X-CSE-ConnectionGUID: sD/QmIRkQpW4Az/CofWktQ==
+X-CSE-MsgGUID: SYTc9e8CTyaoAeDiPqlivQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
-   d="scan'208";a="198453104"
+   d="scan'208";a="198716274"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Dec 2025 19:05:52 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Dec 2025 19:15:53 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQGi6-000000009MU-2J3C;
-	Tue, 02 Dec 2025 03:05:50 +0000
-Date: Tue, 2 Dec 2025 11:04:52 +0800
+	id 1vQGrm-000000009Mz-3krJ;
+	Tue, 02 Dec 2025 03:15:50 +0000
+Date: Tue, 2 Dec 2025 11:15:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: error[E0609]: no field `su_group` on type `configfs_subsystem`
-Message-ID: <202512021007.njLxXEZ1-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 1/1]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error:
+ nbl_product_base.h: No such file or directory
+Message-ID: <202512021141.27TjiKkw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +63,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4664fb427c8fd0080f40109f5e2b2090a6fb0c84
-commit: 446cafc295bfc0e89da94a482fe8290bd8b429fb rust: configfs: introduce rust support for configfs
-date:   7 months ago
-config: arm-randconfig-r121-20251201 (https://download.01.org/0day-ci/archive/20251202/202512021007.njLxXEZ1-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021007.njLxXEZ1-lkp@intel.com/reproduce)
+Hi nebula_matrix_driver,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   f8b46025836b24add69b8d09beae8fd836ae26e3
+commit: 059837f47f887848d0068cb0431354e8e1197e44 [1/1] anolis: net/nbl_core: Add nbl_core-driver for nebula-matrix S1000 series smart NIC.
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251202/202512021141.27TjiKkw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021141.27TjiKkw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512021007.njLxXEZ1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512021141.27TjiKkw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0609]: no field `su_group` on type `configfs_subsystem`
-   --> rust/kernel/configfs.rs:159:49
-   |
-   159 | ...                   &mut (*place.get()).su_group,
-   |                                           ^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10,
+                    from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: nbl_product_base.h: No such file or directory
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
 --
->> error[E0609]: no field `su_group` on type `configfs_subsystem`
-   --> rust/kernel/configfs.rs:228:56
-   |
-   228 |         unsafe { &raw const (*(*this).subsystem.get()).su_group }
-   |                                                        ^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_fc_leonis.h:9:10: fatal error: nbl_resource.h: No such file or directory
+       9 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
 --
->> error[E0609]: no field `su_group` on type `configfs_subsystem`
-   --> rust/kernel/configfs.rs:233:88
-   |
-   233 |         let c_subsys_ptr = unsafe { container_of!(group, bindings::configfs_subsystem, su_group) };
-   |                                                                                        ^^^^^^^^
-   |
-   = note: available field is: `_address`
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_tc_tun_leonis.c:1:10: fatal error: nbl_resource.h: No such file or directory
+       1 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
 --
->> error[E0609]: no field `cg_subsys` on type `config_group`
-   --> rust/kernel/configfs.rs:310:36
-   |
-   310 |     let is_root = unsafe { (*this).cg_subsys.is_null() };
-   |                                    ^^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.h:10:10: fatal error: nbl_resource.h: No such file or directory
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
 --
->> error[E0609]: no field `cg_item` on type `config_group`
-   --> rust/kernel/configfs.rs:400:86
-   |
-   400 |         let c_child_group_ptr = unsafe { container_of!(item, bindings::config_group, cg_item) };
-   |                                                                                      ^^^^^^^
-   |
-   = note: available field is: `_address`
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c:7:
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h:10:10: fatal error: nbl_resource.h: No such file or directory
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
 --
->> error[E0560]: struct `configfs_group_operations` has no field named `make_item`
-   --> rust/kernel/configfs.rs:420:9
-   |
-   420 |         make_item: None,
-   |         ^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
---
->> error[E0560]: struct `configfs_group_operations` has no field named `make_group`
-   --> rust/kernel/configfs.rs:421:9
-   |
-   421 |         make_group: Some(Self::make_group),
-   |         ^^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
---
->> error[E0560]: struct `configfs_group_operations` has no field named `disconnect_notify`
-   --> rust/kernel/configfs.rs:422:9
-   |
-   422 |         disconnect_notify: None,
-   |         ^^^^^^^^^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
---
->> error[E0560]: struct `configfs_group_operations` has no field named `drop_item`
-   --> rust/kernel/configfs.rs:423:9
-   |
-   423 |         drop_item: Some(Self::drop_item),
-   |         ^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
---
->> error[E0560]: struct `configfs_group_operations` has no field named `is_visible`
-   --> rust/kernel/configfs.rs:424:9
-   |
-   424 |         is_visible: None,
-   |         ^^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
---
->> error[E0560]: struct `configfs_group_operations` has no field named `is_bin_visible`
-   --> rust/kernel/configfs.rs:425:9
-   |
-   425 |         is_bin_visible: None,
-   |         ^^^^^^^^^^^^^^ `configfs_group_operations` does not have this field
-   |
-   = note: available fields are: `_address`
-..
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_include: No such file or directory [-Werror=missing-include-dirs]
+   cc1: error: drivers/net/ethernet/nebula-matrix/nbl/nbl_export: No such file or directory [-Werror=missing-include-dirs]
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_tc_tun.c:5:10: fatal error: nbl_resource.h: No such file or directory
+       5 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   compilation terminated.
+
+
+vim +10 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+
+     9	
+  > 10	#include "nbl_product_base.h"
+    11	#include "nbl_def_channel.h"
+    12	#include "nbl_def_phy.h"
+    13	#include "nbl_def_resource.h"
+    14	#include "nbl_def_dispatch.h"
+    15	#include "nbl_def_service.h"
+    16	#include "nbl_def_dev.h"
+    17	#include "nbl_def_common.h"
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
