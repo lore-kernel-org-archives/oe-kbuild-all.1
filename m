@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E132F296BD8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 17:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0306248896
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 17:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764695025; cv=none; b=KDKUMK88swY7HK66GngFH/XhZYt7F20R1dqRNRy5BhIuXvs2QYyxBjoGXhyZPvmhccCt3vNeAIjwmKRSoqdoud1nCwAA1QWHfGhbsDLWPkBK970+JegJzLMJX1LdQCLXQGXkD/28+mXXwB1t9pcEqvNu0wZiI1kz0oIW3Rua4nQ=
+	t=1764695686; cv=none; b=YF9t+jmE+w/LjU0MGgC6y6bRQLMkMQWYsDxEYYczRDV6hhpgg9tTEfU+ODoVCtq2sY3C62K5aIi00myUNxn1O+gsGU+lm9xdNHQgeN7/hbuB+V9TVJlDmOPT/sviuSfejCKWHMoplRcsCf4aASUrczj83su+EUxEcPO40+k+pwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764695025; c=relaxed/simple;
-	bh=nEy3xzqPQ98uUDsWJfoQmYvj5vjYlX2ONzin9l9pRXM=;
+	s=arc-20240116; t=1764695686; c=relaxed/simple;
+	bh=DFzDnLHNZrkPnYRYGjds66snrD1gx6zNh2GxjW+BAN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tv/+/yJg7yNHL2rOE93MpJnAqHGuAK0+Z9yCYhAQ0XvahTUeXo0mzfG7ZTvSL9lzOKZ4s/FRrz3g6+gPN3dHXBXavFt004/DCAGnch/HGhwQSPEq4g3pgPcjo+ivrDoDqd0Xk9+D+GCsr60g67SsSQKr735MPJikWDouBdtWxOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm11XXg4; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=U7YTAsXgZaZcNf/2tK4aUsaZkSckmjgAmyL2S2io0M/++XzZs6daB7XGd2Tjfn0NoooYfmmzMk8d0ajYyYJq7sun6vaUdiPEPGr0i7OubhehqRJkjvqKNytc5FTzpC9f9J050FF1vshjHtceMIfec4aoFEWFKgIOtxXecXfUsWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKOVkNjM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm11XXg4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKOVkNjM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764695023; x=1796231023;
+  t=1764695684; x=1796231684;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nEy3xzqPQ98uUDsWJfoQmYvj5vjYlX2ONzin9l9pRXM=;
-  b=Qm11XXg4BG6thV+2fAhQHgw7kRo78jcvgh+UAcIRdmVkzTdQu14XC4qo
-   5jyV6+gVk9UnlTzMEffFaCGmcOJWhFpC6gXK54NXbFRYi1SXg0Fv5Sboo
-   dPI3+pG6RUREOCBW8ZAfwT1zn/BqyBQCh9OCHAJAz9Q09ZFuOoBOh2Zpa
-   qtYYAPP8hTIlUKrZ9+aoCVf5yIQajyl1J5G8fMjee4A9P9od4cw77/YRa
-   WMQNC2GC4BI3dOWHwooVT1qwLFMPBM1aTLEgEhsoUO24vpW1aZaCxCdqJ
-   yYO38wY22/52bFkIxa5lEuPTU0fjF/sLPaHd2rSTsdv0soAc8TXWxcd2P
+  bh=DFzDnLHNZrkPnYRYGjds66snrD1gx6zNh2GxjW+BAN4=;
+  b=lKOVkNjM8x9QHKDOb0rM5pHpwXnfwK0xf8YstdWnS6IYhoGGWi+dN1co
+   t+sDqICDu4LNmxcGSC/IdFHzU5LRvjjc8IAk7+ZkC2nywgiiVA/lMmn0u
+   g1uJStTZ6zrCOK5Jp54aonVvjFKdP5ZnPBoG1mQSaGhVlp4WzZyB3xq64
+   XQp2wtbWQWUQf5u6Eto5N8bxg3KRWpnr8jRdB6+D/Q9kTca7frgjjRLbo
+   yth1oueGeIl0VL0/MQwouPB1NUIh/31TvXFua6WcKvNOGKH6zCOqoknKA
+   5r6iiRrKqyGhm/tDeRkwrsZ0OCky3xZ9E5rOQdXeYc9sY2KVGQf0voAa1
    A==;
-X-CSE-ConnectionGUID: FBwMFUDtRROycpKg9VspBA==
-X-CSE-MsgGUID: zAo8wjZxRjivRuLqmOi8Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77777511"
+X-CSE-ConnectionGUID: 59NVOOJLQGGfjkwd2+9JiQ==
+X-CSE-MsgGUID: tOBceZHyTo2FkJ8XYbSVsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66746003"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="77777511"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 09:03:42 -0800
-X-CSE-ConnectionGUID: KgS6oIzoQzS8tZrPAjsdCQ==
-X-CSE-MsgGUID: 7T2CTsnMQ16euUE3yuzDSg==
+   d="scan'208";a="66746003"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 09:14:43 -0800
+X-CSE-ConnectionGUID: AUgapb2ESuy/dSJx4q9RBQ==
+X-CSE-MsgGUID: +sFiG0XpS9agg+vS/0KTSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="199555032"
+   d="scan'208";a="194419477"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Dec 2025 09:03:41 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2025 09:14:42 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQTms-00000000A29-3XNZ;
-	Tue, 02 Dec 2025 17:03:38 +0000
-Date: Wed, 3 Dec 2025 01:03:11 +0800
+	id 1vQTxX-00000000A2r-24nY;
+	Tue, 02 Dec 2025 17:14:39 +0000
+Date: Wed, 3 Dec 2025 01:14:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3.1 28/28] mm/bpf_oom.c:31:35: warning: cast to
- pointer from integer of different size
-Message-ID: <202512030102.iQlX9FAo-lkp@intel.com>
+Subject: [android-common:android16-6.12 5/5] include/linux/compiler.h:166:45:
+ error: '__UNIQUE_ID_y_589' undeclared; did you mean '__UNIQUE_ID_x_588'?
+Message-ID: <202512030108.Eqh7pgef-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,148 +62,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3.1
-head:   dca9f586d5471222d105b51cf2ceb5eb91fdda01
-commit: dca9f586d5471222d105b51cf2ceb5eb91fdda01 [28/28] tmp
-config: x86_64-randconfig-003-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030102.iQlX9FAo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030102.iQlX9FAo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   3baed0f7e2da3b0640b60515a0766f4dbb637f7d
+commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [5/5] ANDROID: Update proxy-exec logic from v14 to v18
+config: arm-randconfig-r061-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030108.Eqh7pgef-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030108.Eqh7pgef-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030102.iQlX9FAo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512030108.Eqh7pgef-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/bpf_oom.c: In function 'bpf_oom_memcg_to_link':
-   mm/bpf_oom.c:25:32: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-      25 |         return css->cgroup->bpf.bpf_oom_link;
-         |                                ^
-   mm/bpf_oom.c: In function 'bpf_ops_handle_oom':
-   mm/bpf_oom.c:31:57: error: implicit declaration of function 'bpf_struct_ops_link_to_ops'; did you mean 'bpf_struct_ops_link_create'? [-Wimplicit-function-declaration]
-      31 |         struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         bpf_struct_ops_link_create
->> mm/bpf_oom.c:31:35: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      31 |         struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
-         |                                   ^
-   mm/bpf_oom.c: In function 'bpf_oom_ops_reg':
-   mm/bpf_oom.c:111:34: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     111 |         if (ops_link->cgroup->bpf.bpf_oom_link) {
-         |                                  ^
-   mm/bpf_oom.c:116:30: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
-     116 |         ops_link->cgroup->bpf.bpf_oom_link = ops_link;
-         |                              ^
-   mm/bpf_oom.c: At top level:
-   mm/bpf_oom.c:125:32: warning: 'struct bpf_struct_st_link' declared inside parameter list will not be visible outside of this definition or declaration
-     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
-         |                                ^~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:125:6: warning: no previous prototype for 'bpf_oom_clear_link' [-Wmissing-prototypes]
-     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
-         |      ^~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c: In function 'bpf_oom_clear_link':
-   mm/bpf_oom.c:130:20: error: invalid use of undefined type 'struct bpf_struct_st_link'
-     130 |         if (st_link->cgroup)
-         |                    ^~
-   mm/bpf_oom.c:131:24: error: invalid use of undefined type 'struct bpf_struct_st_link'
-     131 |                 st_link->cgroup->bpf.bpf_oom_link = NULL;
-         |                        ^~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:108,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:11,
-                    from mm/bpf_oom.c:8:
-   mm/bpf_oom.c: In function 'bpf_oom_ops_unreg':
-   include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct bpf_struct_st_link'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
-     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
-         |                                              ^~~~~~~~~~~~
-   include/linux/compiler_types.h:532:27: error: expression in static assertion is not an integer
-     532 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
-     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
-         |                                              ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/uapi/linux/bpf.h:11,
-                    from include/linux/bpf.h:7:
-   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct bpf_struct_st_link'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
-      24 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
-     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
-         |                                              ^~~~~~~~~~~~
-   mm/bpf_oom.c:141:21: error: invalid use of undefined type 'struct bpf_struct_st_link'
-     141 |         if (!st_link->cgroup)
-         |                     ^~
-   mm/bpf_oom.c:144:28: error: passing argument 1 of 'bpf_oom_clear_link' from incompatible pointer type [-Wincompatible-pointer-types]
-     144 |         bpf_oom_clear_link(st_link);
-         |                            ^~~~~~~
-         |                            |
-         |                            struct bpf_struct_st_link *
-   mm/bpf_oom.c:125:52: note: expected 'struct bpf_struct_st_link *' but argument is of type 'struct bpf_struct_st_link *'
-     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   mm/bpf_oom.c: In function 'bpf_oom_struct_ops_init':
-   include/linux/bpf.h:2066:50: warning: statement with no effect [-Wunused-value]
-    2066 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-         |                                                  ^~~~~~~~~~~~~~~~
-   mm/bpf_oom.c:201:16: note: in expansion of macro 'register_bpf_struct_ops'
-     201 |         return register_bpf_struct_ops(&bpf_oom_bpf_ops, bpf_oom_ops);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/bpf_oom.c: In function 'bpf_oom_memcg_to_link':
-   mm/bpf_oom.c:26:1: warning: control reaches end of non-void function [-Wreturn-type]
-      26 | }
-         | ^
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
+    1776 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_589' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_588'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
 
 
-vim +31 mm/bpf_oom.c
+vim +166 include/linux/compiler.h
 
-    27	
-    28	static int bpf_ops_handle_oom(struct bpf_struct_ops_link *link,
-    29				      struct oom_control *oc)
-    30	{
-  > 31		struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
-    32		int ret;
-    33	
-    34		oc->bpf_handler_name = &ops->name[0];
-    35		oc->bpf_memory_freed = false;
-    36		ret = ops->handle_out_of_memory(link, oc);
-    37		oc->bpf_handler_name = NULL;
-    38	
-    39		return ret;
-    40	}
-    41	
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
