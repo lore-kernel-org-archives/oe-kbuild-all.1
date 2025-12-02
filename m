@@ -1,215 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32D02853F1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 20:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EFE284B25;
+	Tue,  2 Dec 2025 21:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764708232; cv=none; b=XRJfoChrrLFp5p/YAWDW06Lpg1Px7wcydLCo6E229K/3GbUZJbpu739zNcf/VLpO9++BcklR4O4zFHjCjGPjQAJNZNEE4fgk/MOwMnrN+q3N7NGWjriXOkIP6ywYh1dz01P9lqLh5qha+WRCkTqxKym5Ox7+Jw1zCx2qm4ESI3k=
+	t=1764709325; cv=none; b=HdKSTck2BOxdUUcz3ytsfBcKo1MzCBhc4gQ0BbAPZP1f9ZVGBqP4KTv+xLnIhP2MhbOk7uXWfSBP5ukQ7TycDooBs+OSvPnHvtmCC3R/soKgYeEDqhYrllBgbhCz0mEWodbx+nEfC3xcO/TKNAprKReHk/az+Vigv6+/TUSLX7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764708232; c=relaxed/simple;
-	bh=R46FUeYZUqIk5A74gbgVaENgS5o3LzVBIb6PTus9CVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mwTKIgTzk/wbEuMmLfu8d3bL1+UUF/EVf3pilBFMt+q6m5BbHJVzFFJ0DmOFARMxwYiotrSxv753dEA1eVaLyIyvOUrsEU5XEHHyjlgt9w8TRCP2iNVOcGSFRTV10WU4f5aG95dZMyqO6uMQacCpjQg8nNIPIfW0yImmm01iJjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEuxXo9V; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764709325; c=relaxed/simple;
+	bh=+4Wjf5/tvkfcNaHMnxJOkU6cLkTlP2V+XNGZf231ezM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LtQ9JuffqoP1uovidPYpiMc4sPqpyBuWBI3QESQ94Q9K6oI4dlYDay8vINugHo6nAaWzbtYWH4YdVahR+5z6PpF9HE5Au0RfQQ5U+5Bz8vutvohqKeGjaRcrStUepVtlC1zb+Emgi2QUCdLYuaUXMLQR5nnxTQcyS3wnGFNckpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sPnruIBM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEuxXo9V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764708231; x=1796244231;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R46FUeYZUqIk5A74gbgVaENgS5o3LzVBIb6PTus9CVA=;
-  b=ZEuxXo9VRwWIybxigZ0+kQMhKag8dWX9nsPhWgZOY4ya1HosGeFmCx8T
-   gA1ooHAUja9YjAvuFupadtm2jg6t6DuELWlI9VfTQZ/U/gqr+8/ecn+U7
-   X0wPhfYYi8iculLgMrJ+e95vKR2jn5X+W5FvYSLt9hE1n8LdXGaNLwvQR
-   Q6BUZKMOd/zt3CNlIgP0mByB2g1H2XhP6vgTqw6jQuKypP8asRCuDxa9O
-   5SNkWDoIp7ErqCB8Z2F6acm9rIV/X4dcO/teTG3vhnjclsSMWYautemmc
-   StnbFBlm/kKyZlCEdfhe+27Vi8f17vMKlCP7p6wKNcJJ7CxnC1d4d8lsW
-   Q==;
-X-CSE-ConnectionGUID: ourHdcrPRBKDj+lG9BuBgw==
-X-CSE-MsgGUID: rosBP0hiSDm711KWinT5uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89343830"
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="89343830"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 12:43:50 -0800
-X-CSE-ConnectionGUID: Pb/7iF80RLuKcLUVyyNGvg==
-X-CSE-MsgGUID: wzH2iBm5Tj+l3WLZt5z//A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="194294638"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 02 Dec 2025 12:43:49 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQXDv-00000000ABL-0yje;
-	Tue, 02 Dec 2025 20:43:47 +0000
-Date: Wed, 3 Dec 2025 04:43:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 3/3]
- include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name'
- defined but not used
-Message-ID: <202512030453.A8a8GK5N-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sPnruIBM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 337F6C4CEF1;
+	Tue,  2 Dec 2025 21:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764709325;
+	bh=+4Wjf5/tvkfcNaHMnxJOkU6cLkTlP2V+XNGZf231ezM=;
+	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sPnruIBMcVC5iPE8sAS6XVE8QAuH/o46LtIXaNJ9ZU1JAn3OzU6NIyvJYsQsz0v+R
+	 WGilOCd8bTa5GJ9mvkvX2NUxzmk2iFmIsEj78ZOKxNPm8nTY2w5sHxWbqKWdVGhNl4
+	 oDt2xSLP3j2dpypvRUbecT70tuXInp7iiQGUG9mq+rc5xRdkXWjj59Q32IlfC2iaXV
+	 tjzLMDHPMjRwGzKpXOw53HrX8f7Tts6Rpakf+bV4AHGo8tgspoPDj0VRUkZkanZ5ns
+	 9/9j2jbrySWsChCfSJgF4hjx+sC/1h1hykNzd5k8KtQSML0a2PJzR90+uT/1N/6sQk
+	 uMbgkupzbu42Q==
+Message-ID: <3447801b-95f7-4368-a433-e79669b5d22e@kernel.org>
+Date: Tue, 2 Dec 2025 22:02:02 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Shreyas,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   db0c22e7c787ae43e1961147bbefee206bb885ee
-commit: 4f8ffa0f055581b1f71a2abb6abd409022f47658 [3/3] ANDROID: vendor hooks: Add hooks to support bootloader based hibernation
-config: arm64-randconfig-004-20251203 (https://download.01.org/0day-ci/archive/20251203/202512030453.A8a8GK5N-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030453.A8a8GK5N-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030453.A8a8GK5N-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:28,
-                    from drivers/android/vendor_hooks.c:47:
->> include/trace/stages/init.h:2:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:36,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/stages/init.h:2:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:25,
-                    from drivers/android/vendor_hooks.c:45:
-   include/trace/stages/init.h:2:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:18,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:18,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/stages/init.h:8:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^
-   In file included from include/trace/trace_events.h:27:0,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:61,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/stages/init.h:2:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+User-Agent: Mozilla Thunderbird
+Reply-To: Daniel Gomez <da.gomez@kernel.org>
+Subject: Re: [linux-next:master 4752/13171] error[E0609]: no field
+ `__bindgen_anon_1` on type `bindings::kernel_param`
+To: kernel test robot <lkp@intel.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Benno Lossin <lossin@kernel.org>
+References: <202512020454.Tf36WHw5-lkp@intel.com>
+Content-Language: en-US
+From: Daniel Gomez <da.gomez@kernel.org>
+Organization: kernel.org
+In-Reply-To: <202512020454.Tf36WHw5-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +/str__bl_hib__trace_system_name +2 include/trace/stages/init.h
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+On 01/12/2025 21.20, kernel test robot wrote:
+> Hi Andreas,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
+> commit: 0b08fc292842a13aa496413b48c1efb83573b8c6 [4752/13171] rust: introduce module_param module
+> config: arm64-randconfig-001-20251202 (https://download.01.org/0day-ci/archive/20251202/202512020454.Tf36WHw5-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020454.Tf36WHw5-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512020454.Tf36WHw5-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> error[E0609]: no field `__bindgen_anon_1` on type `bindings::kernel_param`
+>    --> rust/kernel/module_param.rs:78:46
+>    |
+>    78 |         let container = unsafe { &*((*param).__bindgen_anon_1.arg.cast::<SetOnce<T>>()) };
+>    |                                              ^^^^^^^^^^^^^^^^ unknown field
+>    |
+>    = note: available field is: `_address`
+> 
 
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+I can't replicate this issue either.
 
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+I've added these patches to fix other unrelated build issues, so, I'm not sure
+how 0day ended up skipping them? Perhaps it uses head 95cb2fd6c? + bisect?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+a74b6c0e53a6d um: Don't rename vmap to kernel_vmap
+f74cf399e02e2 rust: debugfs: Replace the usage of Rust native atomics 
+013f912eb5fa7 rust: sync: atomic: Implement Debug for Atomic<Debug> 
+14e9a18b07ec4 rust: sync: atomic: Make Atomic*Ops pub(crate)
+
+My testing branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/da.gomez/linux.git/log/?h=20251202-0day-test-0b08fc292842-with-fixes
+
+FWIW, this is what I've tried:
+
+rustc --version --verbose
+rustc 1.88.0 (6b00bc388 2025-06-23)
+binary: rustc
+commit-hash: 6b00bc3880198600130e1cf62b8f8a93494488cc
+commit-date: 2025-06-23
+host: x86_64-unknown-linux-gnu
+release: 1.88.0
+LLVM version: 20.1.5
+
+bindgen --version --verbose
+bindgen 0.72.1
+Clang: Debian clang version 21.1.5 (1)
+
+rm -rfv build_dir/
+mkdir -p build_dir/
+wget https://download.01.org/0day-ci/archive/20251202/202512020454.Tf36WHw5-lkp@intel.com/config -O build_dir/.config
+
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-22 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 rustavailable
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-22 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-22 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 prepare
+COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-22 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 -j$(nproc)
+
+grep -i "bindgen\|rustc\|llv\|clang" build_dir/.config
+CONFIG_CC_VERSION_TEXT="ClangBuiltLinux clang version 22.0.0git (https://github.com/llvm/llvm-project.git e19fa930ca838715028c00c234874d1db4f93154)"
+CONFIG_CC_IS_CLANG=y
+CONFIG_CLANG_VERSION=220000
+CONFIG_AS_IS_LLVM=y
+CONFIG_RUSTC_VERSION=108800
+CONFIG_RUSTC_LLVM_VERSION=200105
+CONFIG_RUSTC_HAS_COERCE_POINTEE=y
+CONFIG_RUSTC_HAS_SPAN_FILE=y
+CONFIG_RUSTC_HAS_UNNECESSARY_TRANSMUTES=y
+CONFIG_RUSTC_VERSION_TEXT="rustc 1.88.0 (6b00bc388 2025-06-23)"
+CONFIG_BINDGEN_VERSION_TEXT="bindgen 0.72.1"
+CONFIG_RUSTC_SUPPORTS_ARM64=y
+CONFIG_CLANG_SUPPORTS_DYNAMIC_FTRACE_WITH_ARGS=y
+CONFIG_ARCH_SUPPORTS_LTO_CLANG=y
+CONFIG_ARCH_SUPPORTS_LTO_CLANG_THIN=y
+CONFIG_HAS_LTO_CLANG=y
+# CONFIG_LTO_CLANG_THIN is not set
+CONFIG_HAVE_CFI_ICALL_NORMALIZE_INTEGERS_RUSTC=y
+
+Build succeeds without issues (warnings, yes).
