@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD661B424F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 04:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA098460;
+	Tue,  2 Dec 2025 05:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764651602; cv=none; b=Aa8sJzezguBNhfNvm8TajEmPyYGGbdYC50j5NA9MrG6vh7++niBoyiuU4+iPM8qoshdqbGrS+AKXjfiYCl7sAi6Qk5B6TqFcrq21WizToU7F0J0eZWEnzKZLdCBDjCMF+Q6Yz8TyMDkM65P4xsG5EjuWKd13uIUPElcq5tSslNo=
+	t=1764652861; cv=none; b=DTyTjGojJBRoLuErjYO9lgiCzrgtKUZBAVR6T0TmCZZK87V3claUnn1+6XoNVBUdQs7iFtrk/NmcHFScOh6NJaUIiS/7r+s3fxVqk+3KAa33tqaKEvmHhhHL9BK14FsJ+vR904JIPmMRZEJo6s+3tVYQ2uVNTQ/CEoy57U8V3eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764651602; c=relaxed/simple;
-	bh=kOegLafmANCuIAWKGeRjvcLC5FhDcJdmhZCkPsJUKgA=;
+	s=arc-20240116; t=1764652861; c=relaxed/simple;
+	bh=TrsiHmkhIUFBoupzjEJ72BEcfrXZ5o8pDPL1Jg0VIQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wk4Ny0g8QM/0MPZGqpe8b66u/JciUK/n3pkJ4Fej/Iqz2SXf/GPS2b7BecB8SF4XxO5CQNL6hvrd3gadhSIBd545t1k0pw3GpfpiMFdZwPDz+c88fxiv5DC87yiX4h0chv7re7EI1h3F/F1M2As89XgwalsSx8fXrGRVODX31Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4cLMIgM; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=XRe8823rbPnamdhi8HIbbQCR8sUE+GN6/YjjXPDPrFslq3wqb9yPTyY6CsNhrfLxevXsJn7HvnT13lDFJ01AFJdIJvXn6T0Hm8ExQ27rp1Msx5sldJghFD9KT/1XjKJbLhez10DM9y1oBm3JMaNzA4rpEMs4pzTZVmoMhWgwR9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5JEQdVI; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4cLMIgM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5JEQdVI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764651600; x=1796187600;
+  t=1764652860; x=1796188860;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kOegLafmANCuIAWKGeRjvcLC5FhDcJdmhZCkPsJUKgA=;
-  b=S4cLMIgMBiTBQ4N21/AP00gcjKXfE7PrRSquGpl1/PaMZ9vHgx4mMKTp
-   eaVX63rlU9jJhalzCvs93zbQgpU1yrXr3tfrcWrIfvQFd5xqw0fnC+sg0
-   BRM5LOMjZEgD3pNik+RnbwvtG6oDspQ9qUfd0BH4CmjAsID/Jfcr7qMKd
-   YMty8cIv/qjZqpEkTm6/yyVt1WK8otd9i3X1Y3YRuF5o+PQf06IHGYLXN
-   3lVYMK1COrTSriZO2XS05LnpnKkBEvs4W83TV/o/I5MUFgHSOeO/Ae84d
-   y8l58+Q9o3Sv9Uipj0KN7k5jDsPPoZ8f6TJK0/a6V84QB27WKWUEPF2VU
-   Q==;
-X-CSE-ConnectionGUID: 5yJSt+WKS4C7SjgdQlESVQ==
-X-CSE-MsgGUID: N5VbQidpQ1+dTbVel/XFsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="78072890"
+  bh=TrsiHmkhIUFBoupzjEJ72BEcfrXZ5o8pDPL1Jg0VIQg=;
+  b=H5JEQdVIssgKz3P0ma2q60Vm2TIeSQf4BUDofRA8QJ4y/uSk1gKNAjk0
+   7FVmLa0C6X4JN5Q4YG//0cnv/g3HfCxrj/IWQMtLpSjp83i04OZyNkdNz
+   81ekO9FazpkjoVMCOEKrO4Ov56Dyom384TuT9n8eyTv5ZCtMBIMQUftY1
+   BqU0PaI82u4Z3gBF3sUozTl/r0Gu+DyG89lBzeJ09BcfvbrW3QSO9K1yV
+   ueKxMcTzp9Hl4JTwxbD7lanUyM53bomoweHyAv1CFPWRfRYfzccwDVZ95
+   6dfhtvt5X+r96y+gJs5JZWj6x1y7iTKOUAR1pbtNkjFMNE7SrTSR9xTLM
+   A==;
+X-CSE-ConnectionGUID: DC9sdiMrRv62720zG6C+QQ==
+X-CSE-MsgGUID: PpaPKoNwTw+KUCullphgSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="76929608"
 X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="78072890"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 20:59:58 -0800
-X-CSE-ConnectionGUID: RuQayqR3RsagLLx0d24zfw==
-X-CSE-MsgGUID: eeBb2CuSRkOsN5nFONW/pw==
+   d="scan'208";a="76929608"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 21:20:58 -0800
+X-CSE-ConnectionGUID: lSaAhxqHTuiRq40zAWgVWw==
+X-CSE-MsgGUID: wS49jXBxQo2+mNtOfRz9VQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; 
-   d="scan'208";a="194367372"
+   d="scan'208";a="199397331"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Dec 2025 20:59:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 01 Dec 2025 21:20:57 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQIUU-000000009Q9-0oda;
-	Tue, 02 Dec 2025 04:59:54 +0000
-Date: Tue, 2 Dec 2025 12:59:18 +0800
+	id 1vQIoo-000000009Qr-3qkc;
+	Tue, 02 Dec 2025 05:20:54 +0000
+Date: Tue, 2 Dec 2025 13:20:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/1] mm/memory_hotplug.c:452:12:
- warning: no previous prototype for function '__remove_pfn_range_from_zone'
-Message-ID: <202512021204.32jcdmBi-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2025-12-01 5/13]
+ sound/soc/mediatek/mt8189/mt8189-nau8825.c:347:34: error: incompatible
+ pointer types passing 'struct snd_soc_dapm_context **' to parameter of type
+ 'struct snd_soc_dapm_context *'; remove &
+Message-ID: <202512021328.U7z2nhVN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +64,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   fb3dc582fdefab0d6ab237b393b1e7e7f65dc78c
-commit: f5bc00581306fa4057d2e3a84b9a347c1ada021e [0/1] anolis: mm/memory_hotplug: refactor remove_pfn_range_from_zone()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251202/202512021204.32jcdmBi-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021204.32jcdmBi-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2025-12-01
+head:   a5568a9bacc493dbb1465f3b850acf8595553013
+commit: 80cf25a8c974d41d5dec39864570b0e1a3b3b997 [5/13] ASoC: soc-dapm: add snd_soc_dapm_alloc()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251202/202512021328.U7z2nhVN-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021328.U7z2nhVN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512021204.32jcdmBi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512021328.U7z2nhVN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memory_hotplug.c:452:12: warning: no previous prototype for function '__remove_pfn_range_from_zone' [-Wmissing-prototypes]
-     452 | void __ref __remove_pfn_range_from_zone(struct zone *zone,
-         |            ^
-   mm/memory_hotplug.c:452:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     452 | void __ref __remove_pfn_range_from_zone(struct zone *zone,
-         | ^
-         | static 
-   mm/memory_hotplug.c:681:12: warning: no previous prototype for function '__move_pfn_range_to_zone' [-Wmissing-prototypes]
-     681 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
-         |            ^
-   mm/memory_hotplug.c:681:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     681 | void __ref __move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
-         | ^
-         | static 
-   mm/memory_hotplug.c:1013:6: warning: no previous prototype for function '__adjust_present_page_count' [-Wmissing-prototypes]
-    1013 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
-         |      ^
-   mm/memory_hotplug.c:1013:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1013 | void __adjust_present_page_count(struct page *page, struct memory_group *group,
-         | ^
-         | static 
-   3 warnings generated.
+>> sound/soc/mediatek/mt8189/mt8189-nau8825.c:347:34: error: incompatible pointer types passing 'struct snd_soc_dapm_context **' to parameter of type 'struct snd_soc_dapm_context *'; remove & [-Werror,-Wincompatible-pointer-types]
+     347 |         ret = snd_soc_dapm_new_controls(&card->dapm, mt8189_dumb_spk_widgets,
+         |                                         ^~~~~~~~~~~
+   include/sound/soc-dapm.h:648:60: note: passing argument to parameter 'dapm' here
+     648 | int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
+         |                                                            ^
+   sound/soc/mediatek/mt8189/mt8189-nau8825.c:424:34: error: incompatible pointer types passing 'struct snd_soc_dapm_context **' to parameter of type 'struct snd_soc_dapm_context *'; remove & [-Werror,-Wincompatible-pointer-types]
+     424 |         ret = snd_soc_dapm_new_controls(&card->dapm, mt8189_headset_widgets,
+         |                                         ^~~~~~~~~~~
+   include/sound/soc-dapm.h:648:60: note: passing argument to parameter 'dapm' here
+     648 | int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
+         |                                                            ^
+   2 errors generated.
 
 
-vim +/__remove_pfn_range_from_zone +452 mm/memory_hotplug.c
+vim +347 sound/soc/mediatek/mt8189/mt8189-nau8825.c
 
-   451	
- > 452	void __ref __remove_pfn_range_from_zone(struct zone *zone,
-   453					      unsigned long start_pfn,
-   454					      unsigned long nr_pages,
-   455						  int phase)
-   456	{
-   457		const unsigned long end_pfn = start_pfn + nr_pages;
-   458		struct pglist_data *pgdat = zone->zone_pgdat;
-   459		unsigned long pfn, cur_nr_pages, flags;
-   460	
-   461		if (phase == MHP_PHASE_DEFAULT || phase == MHP_PHASE_DEFERRED) {
-   462			/* Poison struct pages because they are now uninitialized again. */
-   463			for (pfn = start_pfn; pfn < end_pfn; pfn += cur_nr_pages) {
-   464				cond_resched();
-   465	
-   466				/* Select all remaining pages up to the next section boundary */
-   467				cur_nr_pages =
-   468					min(end_pfn - pfn, SECTION_ALIGN_UP(pfn + 1) - pfn);
-   469				page_init_poison(pfn_to_page(pfn),
-   470						sizeof(struct page) * cur_nr_pages);
-   471			}
-   472		}
-   473	
+d218ea171430e4 Cyril Chao 2025-10-31  341  
+d218ea171430e4 Cyril Chao 2025-10-31  342  static int mt8189_dumb_amp_init(struct snd_soc_pcm_runtime *rtd)
+d218ea171430e4 Cyril Chao 2025-10-31  343  {
+d218ea171430e4 Cyril Chao 2025-10-31  344  	struct snd_soc_card *card = rtd->card;
+d218ea171430e4 Cyril Chao 2025-10-31  345  	int ret;
+d218ea171430e4 Cyril Chao 2025-10-31  346  
+d218ea171430e4 Cyril Chao 2025-10-31 @347  	ret = snd_soc_dapm_new_controls(&card->dapm, mt8189_dumb_spk_widgets,
+d218ea171430e4 Cyril Chao 2025-10-31  348  					ARRAY_SIZE(mt8189_dumb_spk_widgets));
+d218ea171430e4 Cyril Chao 2025-10-31  349  	if (ret) {
+d218ea171430e4 Cyril Chao 2025-10-31  350  		dev_err(rtd->dev, "unable to add Dumb Speaker dapm, ret %d\n", ret);
+d218ea171430e4 Cyril Chao 2025-10-31  351  		return ret;
+d218ea171430e4 Cyril Chao 2025-10-31  352  	}
+d218ea171430e4 Cyril Chao 2025-10-31  353  
+d218ea171430e4 Cyril Chao 2025-10-31  354  	ret = snd_soc_add_card_controls(card, mt8189_dumb_spk_controls,
+d218ea171430e4 Cyril Chao 2025-10-31  355  					ARRAY_SIZE(mt8189_dumb_spk_controls));
+d218ea171430e4 Cyril Chao 2025-10-31  356  	if (ret) {
+d218ea171430e4 Cyril Chao 2025-10-31  357  		dev_err(rtd->dev, "unable to add Dumb card controls, ret %d\n", ret);
+d218ea171430e4 Cyril Chao 2025-10-31  358  		return ret;
+d218ea171430e4 Cyril Chao 2025-10-31  359  	}
+d218ea171430e4 Cyril Chao 2025-10-31  360  
+d218ea171430e4 Cyril Chao 2025-10-31  361  	return 0;
+d218ea171430e4 Cyril Chao 2025-10-31  362  }
+d218ea171430e4 Cyril Chao 2025-10-31  363  
+
+:::::: The code at line 347 was first introduced by commit
+:::::: d218ea171430e49412804efb794942dd121a8032 ASoC: mediatek: mt8189: add machine driver with nau8825
+
+:::::: TO: Cyril Chao <Cyril.Chao@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
