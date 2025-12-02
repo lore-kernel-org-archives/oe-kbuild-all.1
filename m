@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ED62BDC13
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 16:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E132F296BD8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 Dec 2025 17:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764694425; cv=none; b=qUD5Dy3GTfYllu98023MYZUEun1pZT8DH7R4meiG7Zf5x3y1n0Ulrg1VdqJX5zMBA0e1z8+yuvQVRIyDa3zjVqUlzbG4Nc/PCQCsih5nWSykr8ElenI/z35LAfY0PbigfiAHiQhikctiNstLPu45AoNG6B/R2RBZ3LLE5kfqaqc=
+	t=1764695025; cv=none; b=KDKUMK88swY7HK66GngFH/XhZYt7F20R1dqRNRy5BhIuXvs2QYyxBjoGXhyZPvmhccCt3vNeAIjwmKRSoqdoud1nCwAA1QWHfGhbsDLWPkBK970+JegJzLMJX1LdQCLXQGXkD/28+mXXwB1t9pcEqvNu0wZiI1kz0oIW3Rua4nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764694425; c=relaxed/simple;
-	bh=KR8SLmXxaR3IBGFGNG/MNbKNClcGA48y8P0HZlcilhY=;
+	s=arc-20240116; t=1764695025; c=relaxed/simple;
+	bh=nEy3xzqPQ98uUDsWJfoQmYvj5vjYlX2ONzin9l9pRXM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PeBZ6Z71f6J4VLgJdcqfM4ZzRGlga7nHkxaP/dmMk+vtbhei5xORZNw519vISdpWexPsbgUdLBylJ/XmZuf7Z+RVEiNhEJU+EchnfEXAS2MTj0sh/1EM/vy6P/adrZKX7DQJgGNgbkUWgzvOOyN6/QQOKHZiVq9x5ezPeoPkPG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGYJUvzB; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Tv/+/yJg7yNHL2rOE93MpJnAqHGuAK0+Z9yCYhAQ0XvahTUeXo0mzfG7ZTvSL9lzOKZ4s/FRrz3g6+gPN3dHXBXavFt004/DCAGnch/HGhwQSPEq4g3pgPcjo+ivrDoDqd0Xk9+D+GCsr60g67SsSQKr735MPJikWDouBdtWxOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qm11XXg4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGYJUvzB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm11XXg4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764694424; x=1796230424;
+  t=1764695023; x=1796231023;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KR8SLmXxaR3IBGFGNG/MNbKNClcGA48y8P0HZlcilhY=;
-  b=OGYJUvzBn92D/jzXEqY7bR2sy4UEhMmmAuaYn6dmt0xhT3mjntsxf8tK
-   uWpbD6dC8Tf9DPZ2G51y67RgO/lRk5O8vuG+KRTP6uk478Ov5Qkuof6DR
-   BWUiD0IhanmqpQD6BGSzq/Er9coMtW0MArqKXtxGxFJO/QmXeYY0nFc2K
-   sax4KXjgogZwTRGmaogpuj8cGDa/go8bFInFm5FlX/FN8yyRzgUEXudvX
-   ZWV0FecXo0ye6omMNigDN9zFV6ESmEJnsQmeIJ5H//7QbLNveK7wwMgji
-   3/023snU9yuxB/8LjJZDc/DeiNg/ukq30zA5DNsPOV2saHkC6SYodIB1y
-   Q==;
-X-CSE-ConnectionGUID: 4nFwjZGTSV6In1tIm9c38Q==
-X-CSE-MsgGUID: v9gFAYSQQ8mhL20cCwDxQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="92148712"
+  bh=nEy3xzqPQ98uUDsWJfoQmYvj5vjYlX2ONzin9l9pRXM=;
+  b=Qm11XXg4BG6thV+2fAhQHgw7kRo78jcvgh+UAcIRdmVkzTdQu14XC4qo
+   5jyV6+gVk9UnlTzMEffFaCGmcOJWhFpC6gXK54NXbFRYi1SXg0Fv5Sboo
+   dPI3+pG6RUREOCBW8ZAfwT1zn/BqyBQCh9OCHAJAz9Q09ZFuOoBOh2Zpa
+   qtYYAPP8hTIlUKrZ9+aoCVf5yIQajyl1J5G8fMjee4A9P9od4cw77/YRa
+   WMQNC2GC4BI3dOWHwooVT1qwLFMPBM1aTLEgEhsoUO24vpW1aZaCxCdqJ
+   yYO38wY22/52bFkIxa5lEuPTU0fjF/sLPaHd2rSTsdv0soAc8TXWxcd2P
+   A==;
+X-CSE-ConnectionGUID: FBwMFUDtRROycpKg9VspBA==
+X-CSE-MsgGUID: zAo8wjZxRjivRuLqmOi8Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77777511"
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="92148712"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 08:53:41 -0800
-X-CSE-ConnectionGUID: ft2qzoZMRZSlPqrU0WgtsQ==
-X-CSE-MsgGUID: R8T4oQUyQi6AqUP7EAs6Og==
+   d="scan'208";a="77777511"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 09:03:42 -0800
+X-CSE-ConnectionGUID: KgS6oIzoQzS8tZrPAjsdCQ==
+X-CSE-MsgGUID: 7T2CTsnMQ16euUE3yuzDSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; 
-   d="scan'208";a="194302310"
+   d="scan'208";a="199555032"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Dec 2025 08:53:40 -0800
+  by orviesa005.jf.intel.com with ESMTP; 02 Dec 2025 09:03:41 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQTdC-00000000A1X-1VuN;
-	Tue, 02 Dec 2025 16:53:38 +0000
-Date: Wed, 3 Dec 2025 00:52:46 +0800
+	id 1vQTms-00000000A29-3XNZ;
+	Tue, 02 Dec 2025 17:03:38 +0000
+Date: Wed, 3 Dec 2025 01:03:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:pinctrl 24/26]
- drivers/pinctrl/meson/pinctrl-amlogic-a4.c:675:5: warning: no previous
- prototype for 'aml_dt_node_to_map_pinmux'
-Message-ID: <202512030037.0k2cP7Ie-lkp@intel.com>
+Subject: [rgushchin:bpfoom.3.1 28/28] mm/bpf_oom.c:31:35: warning: cast to
+ pointer from integer of different size
+Message-ID: <202512030102.iQlX9FAo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,109 +62,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
-head:   3844b9420d3e0f27718cb9d54196e2bfa37344dd
-commit: ab05ac0f88ba427bbeeba708c439ed07dea683fd [24/26] move dt_node_to_map_pinmux
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251203/202512030037.0k2cP7Ie-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030037.0k2cP7Ie-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.3.1
+head:   dca9f586d5471222d105b51cf2ceb5eb91fdda01
+commit: dca9f586d5471222d105b51cf2ceb5eb91fdda01 [28/28] tmp
+config: x86_64-randconfig-003-20251202 (https://download.01.org/0day-ci/archive/20251203/202512030102.iQlX9FAo-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030102.iQlX9FAo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030037.0k2cP7Ie-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512030102.iQlX9FAo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/meson/pinctrl-amlogic-a4.c:675:5: warning: no previous prototype for 'aml_dt_node_to_map_pinmux' [-Wmissing-prototypes]
-     675 | int aml_dt_node_to_map_pinmux(struct pinctrl_dev *pctldev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/meson/pinctrl-amlogic-a4.c: In function 'aml_dt_node_to_map_pinmux':
-   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:715:15: error: implicit declaration of function 'pinctrl_utils_reserve_map' [-Wimplicit-function-declaration]
-     715 |         ret = pinctrl_utils_reserve_map(pctldev, map, &reserved_maps,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:720:15: error: implicit declaration of function 'pinctrl_utils_add_map_mux' [-Wimplicit-function-declaration]
-     720 |         ret = pinctrl_utils_add_map_mux(pctldev, map,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:727:23: error: implicit declaration of function 'pinctrl_utils_add_map_configs' [-Wimplicit-function-declaration]
-     727 |                 ret = pinctrl_utils_add_map_configs(pctldev, map, &reserved_maps,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/meson/pinctrl-amlogic-a4.c:737:17: error: implicit declaration of function 'pinctrl_utils_free_map'; did you mean 'pinctrl_gpio_free'? [-Wimplicit-function-declaration]
-     737 |                 pinctrl_utils_free_map(pctldev, *map, *num_maps);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 pinctrl_gpio_free
+   mm/bpf_oom.c: In function 'bpf_oom_memcg_to_link':
+   mm/bpf_oom.c:25:32: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+      25 |         return css->cgroup->bpf.bpf_oom_link;
+         |                                ^
+   mm/bpf_oom.c: In function 'bpf_ops_handle_oom':
+   mm/bpf_oom.c:31:57: error: implicit declaration of function 'bpf_struct_ops_link_to_ops'; did you mean 'bpf_struct_ops_link_create'? [-Wimplicit-function-declaration]
+      31 |         struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
+         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                         bpf_struct_ops_link_create
+>> mm/bpf_oom.c:31:35: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      31 |         struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
+         |                                   ^
+   mm/bpf_oom.c: In function 'bpf_oom_ops_reg':
+   mm/bpf_oom.c:111:34: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     111 |         if (ops_link->cgroup->bpf.bpf_oom_link) {
+         |                                  ^
+   mm/bpf_oom.c:116:30: error: 'struct cgroup_bpf' has no member named 'bpf_oom_link'
+     116 |         ops_link->cgroup->bpf.bpf_oom_link = ops_link;
+         |                              ^
+   mm/bpf_oom.c: At top level:
+   mm/bpf_oom.c:125:32: warning: 'struct bpf_struct_st_link' declared inside parameter list will not be visible outside of this definition or declaration
+     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
+         |                                ^~~~~~~~~~~~~~~~~~
+   mm/bpf_oom.c:125:6: warning: no previous prototype for 'bpf_oom_clear_link' [-Wmissing-prototypes]
+     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
+         |      ^~~~~~~~~~~~~~~~~~
+   mm/bpf_oom.c: In function 'bpf_oom_clear_link':
+   mm/bpf_oom.c:130:20: error: invalid use of undefined type 'struct bpf_struct_st_link'
+     130 |         if (st_link->cgroup)
+         |                    ^~
+   mm/bpf_oom.c:131:24: error: invalid use of undefined type 'struct bpf_struct_st_link'
+     131 |                 st_link->cgroup->bpf.bpf_oom_link = NULL;
+         |                        ^~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:108,
+                    from include/linux/bug.h:5,
+                    from include/linux/alloc_tag.h:8,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:11,
+                    from mm/bpf_oom.c:8:
+   mm/bpf_oom.c: In function 'bpf_oom_ops_unreg':
+   include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct bpf_struct_st_link'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
+     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
+         |                                              ^~~~~~~~~~~~
+   include/linux/compiler_types.h:532:27: error: expression in static assertion is not an integer
+     532 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
+     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
+         |                                              ^~~~~~~~~~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/uapi/linux/bpf.h:11,
+                    from include/linux/bpf.h:7:
+   include/linux/stddef.h:16:33: error: invalid use of undefined type 'struct bpf_struct_st_link'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:24:28: note: in expansion of macro 'offsetof'
+      24 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ^~~~~~~~
+   mm/bpf_oom.c:139:46: note: in expansion of macro 'container_of'
+     139 |         struct bpf_struct_st_link *st_link = container_of(link, struct bpf_struct_st_link, link);
+         |                                              ^~~~~~~~~~~~
+   mm/bpf_oom.c:141:21: error: invalid use of undefined type 'struct bpf_struct_st_link'
+     141 |         if (!st_link->cgroup)
+         |                     ^~
+   mm/bpf_oom.c:144:28: error: passing argument 1 of 'bpf_oom_clear_link' from incompatible pointer type [-Wincompatible-pointer-types]
+     144 |         bpf_oom_clear_link(st_link);
+         |                            ^~~~~~~
+         |                            |
+         |                            struct bpf_struct_st_link *
+   mm/bpf_oom.c:125:52: note: expected 'struct bpf_struct_st_link *' but argument is of type 'struct bpf_struct_st_link *'
+     125 | void bpf_oom_clear_link(struct bpf_struct_st_link *st_link)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   mm/bpf_oom.c: In function 'bpf_oom_struct_ops_init':
+   include/linux/bpf.h:2066:50: warning: statement with no effect [-Wunused-value]
+    2066 | #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
+         |                                                  ^~~~~~~~~~~~~~~~
+   mm/bpf_oom.c:201:16: note: in expansion of macro 'register_bpf_struct_ops'
+     201 |         return register_bpf_struct_ops(&bpf_oom_bpf_ops, bpf_oom_ops);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/bpf_oom.c: In function 'bpf_oom_memcg_to_link':
+   mm/bpf_oom.c:26:1: warning: control reaches end of non-void function [-Wreturn-type]
+      26 | }
+         | ^
 
 
-vim +/aml_dt_node_to_map_pinmux +675 drivers/pinctrl/meson/pinctrl-amlogic-a4.c
+vim +31 mm/bpf_oom.c
 
-   674	
- > 675	int aml_dt_node_to_map_pinmux(struct pinctrl_dev *pctldev,
-   676				      struct device_node *np, struct pinctrl_map **map,
-   677				      unsigned int *num_maps)
-   678	{
-   679		struct device *dev = pctldev->dev;
-   680		struct device_node *pnode;
-   681		unsigned long *configs = NULL;
-   682		unsigned int num_configs = 0;
-   683		struct property *prop;
-   684		unsigned int reserved_maps;
-   685		int reserve;
-   686		int ret;
-   687	
-   688		prop = of_find_property(np, "pinmux", NULL);
-   689		if (!prop) {
-   690			dev_info(dev, "Missing pinmux property\n");
-   691			return -ENOENT;
-   692		}
-   693	
-   694		pnode = of_get_parent(np);
-   695		if (!pnode) {
-   696			dev_info(dev, "Missing function node\n");
-   697			return -EINVAL;
-   698		}
-   699	
-   700		reserved_maps = 0;
-   701		*map = NULL;
-   702		*num_maps = 0;
-   703	
-   704		ret = pinconf_generic_parse_dt_config(np, pctldev, &configs,
-   705						      &num_configs);
-   706		if (ret < 0) {
-   707			dev_err(dev, "%pOF: could not parse node property\n", np);
-   708			return ret;
-   709		}
-   710	
-   711		reserve = 1;
-   712		if (num_configs)
-   713			reserve++;
-   714	
-   715		ret = pinctrl_utils_reserve_map(pctldev, map, &reserved_maps,
-   716						num_maps, reserve);
-   717		if (ret < 0)
-   718			goto exit;
-   719	
-   720		ret = pinctrl_utils_add_map_mux(pctldev, map,
-   721						&reserved_maps, num_maps, np->name,
-   722						pnode->name);
-   723		if (ret < 0)
-   724			goto exit;
-   725	
-   726		if (num_configs) {
-   727			ret = pinctrl_utils_add_map_configs(pctldev, map, &reserved_maps,
-   728							    num_maps, np->name, configs,
-   729							    num_configs, PIN_MAP_TYPE_CONFIGS_GROUP);
-   730			if (ret < 0)
-   731				goto exit;
-   732		}
-   733	
-   734	exit:
-   735		kfree(configs);
-   736		if (ret)
-   737			pinctrl_utils_free_map(pctldev, *map, *num_maps);
-   738	
-   739		return ret;
-   740	}
-   741	
+    27	
+    28	static int bpf_ops_handle_oom(struct bpf_struct_ops_link *link,
+    29				      struct oom_control *oc)
+    30	{
+  > 31		struct bpf_oom_ops *ops = (struct bpf_oom_ops *)bpf_struct_ops_link_to_ops(link);
+    32		int ret;
+    33	
+    34		oc->bpf_handler_name = &ops->name[0];
+    35		oc->bpf_memory_freed = false;
+    36		ret = ops->handle_out_of_memory(link, oc);
+    37		oc->bpf_handler_name = NULL;
+    38	
+    39		return ret;
+    40	}
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
