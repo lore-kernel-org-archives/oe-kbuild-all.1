@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EEBDF6C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 13:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4169226CFE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 14:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764769959; cv=none; b=ImlFwV5MUzsXyIzRDidk3JuAfl/9GXlhj2gI3AEckQjef9l5nXnb4qnFPcFom8F5qGFuMDrMvgkjH3qodjDPQVv2iNvAWSfcy9O8u2jvdx/7oSkHplh39T/Y2mSPwJ3eq7ZA/f2dAUEbSfdJ4VYuiSrgLnCaUK6WvqBwgWwMrtI=
+	t=1764771761; cv=none; b=rXnex1ekPonQZW3KPj9jtYIBb/QTjU+ifn27WKsnK8x2DDWoFPM0Xc7MNO/53UBVTNYUZMVadczwiMeMLgV44hl+Scftqs8GbA1yA9bMuuyt5z2Z/vGUBoXKb+0H7QMKY6q3GjuqXVXxjDnFJ4ncSRS/4Dd38a4GmcF3jAqccBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764769959; c=relaxed/simple;
-	bh=SeGBbJz+RtRbYJ1bOtRmYM2cmMiZiXiXmbalH/HmS2w=;
+	s=arc-20240116; t=1764771761; c=relaxed/simple;
+	bh=WofjSumylFUoJ4q5SH2aE+/EGSJbUIgylep6Wgpxd94=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WImj9RbZQdpl311ERjtG+0xe7ut7LB2xEQT5Fa2d6KhTsc/UqUpvDN3RDA+SvC0PUPEaQbQWRA+YkReFSxKWQ0yiJUz4XrdnY7c4FTmWKlyyenl72ZttkujiieikscGJPvmPGapXvLhNXg9jABbQuqCfcQ5bmXbedy+FTC3agoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZIE83sB; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=iKDzRiPKfGAlM8uip5chaT8YejFZkCHnXFQVmzv1IZijOmwgqPoLb6GWISV2kghNUTE8eLnzDon+rjOgV5113318SjimmRJ9veEuFsGzZTLR5m2qnAukLZj1XoKKaftlSGGR2VOLbrpXHneqSuVvkbcbbuy/O1hxecTPwP5z+Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V2WoO1wn; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZIE83sB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V2WoO1wn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764769958; x=1796305958;
+  t=1764771760; x=1796307760;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SeGBbJz+RtRbYJ1bOtRmYM2cmMiZiXiXmbalH/HmS2w=;
-  b=PZIE83sBcTdEf9M8pLc5buXtCCGs0Kh54EBEDHngyNzw693ASm8QaHUz
-   AmIBdSjZOFvIJVfP+jBF54rw7K1wFBSVxl/Nzgmh4LHYfgMAJsRAjLFot
-   2fW6eNJyJkuIq1qnpWrgC2ui9rP3gJ3Lf/xQ8bVAzAT1L4miaevo3f9Ge
-   tHp9d/DL2EQeKiji/0EQfl4len3WUsdSodexfnCV1eaIwse3Yf7BYOnD+
-   tLEWK3/sTT8ICTVQ49nS9cgpO7OHy++eWuA0Hu06Vn8deskcOliJ+XFiI
-   jGSeZf1144xEiWqgo9uv0nVDDMbM8//rQaoxbiGG/XFn6SNhhIWa9uG8B
-   Q==;
-X-CSE-ConnectionGUID: e9Os3XfoT/ur2u3c2D+9rg==
-X-CSE-MsgGUID: Nj9g3NXXRvGPDmzmXTOIHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70377695"
+  bh=WofjSumylFUoJ4q5SH2aE+/EGSJbUIgylep6Wgpxd94=;
+  b=V2WoO1wn647x0g/6wjwuvZ/kwgrGHUcVmeFSmCV5reAAV6kQe5EridS9
+   vKhYQokwwVVWiSHiFNQQGzPbNMQJuiu0K7oNXxPY5e26Nx6bT4mW8wXZt
+   5qOvYfExaGDcVQWcqexRrCBbLe4kiK6Bj1X06JvkTx9qMdmngc/2ejXEF
+   r+Exq+1IKpz+pm6pE/7H0blpx7KoGaCVlqoxexwf5ZUPgr0xwAIWbDP3i
+   zntcI80MDxaq2DECjIFbRBWo/GihEsFF1U23rq6bHXQuWk5cPRpDoIaVh
+   7odYpb3q9DetBn90PjU5oXePFCAhrd0lQZJ2SW39O7hsj94IVHpx4w3NG
+   g==;
+X-CSE-ConnectionGUID: HE+7ZNGxQnOGYQG3KmfM2w==
+X-CSE-MsgGUID: 7/QsdB/1TJqUkD/b/km9ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89416478"
 X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="70377695"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 05:52:38 -0800
-X-CSE-ConnectionGUID: sdCdnEJzRTu9hz367bVvHA==
-X-CSE-MsgGUID: iDRiXAEfT5S4JzM7d++Maw==
+   d="scan'208";a="89416478"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 06:22:40 -0800
+X-CSE-ConnectionGUID: yUz7a4SoQQ+2wrDOONBBww==
+X-CSE-MsgGUID: apEtzXbpQKGyufxQZknbhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="194782613"
+   d="scan'208";a="193964780"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Dec 2025 05:52:37 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Dec 2025 06:22:38 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQnHW-00000000B1c-0Mrb;
-	Wed, 03 Dec 2025 13:52:34 +0000
-Date: Wed, 3 Dec 2025 21:51:37 +0800
+	id 1vQnkZ-00000000B2v-1Ihc;
+	Wed, 03 Dec 2025 14:22:35 +0000
+Date: Wed, 3 Dec 2025 22:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:coroutine/base 1/1] libbpf.c:7842:9: error: implicit
- declaration of function 'BIT'
-Message-ID: <202512032115.1SawB9K5-lkp@intel.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: include/linux/seqlock.h:1257:undefined reference to
+ `__scoped_seqlock_bug'
+Message-ID: <202512032230.5pqkcg8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/kkdwivedi/linux coroutine/base
-head:   62b213e3013e4604001d012307697bdefd018582
-commit: 62b213e3013e4604001d012307697bdefd018582 [1/1] Basic pass
-config: arm64-randconfig-002-20251203 (https://download.01.org/0day-ci/archive/20251203/202512032115.1SawB9K5-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512032115.1SawB9K5-lkp@intel.com/reproduce)
+Hi Oleg,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
+commit: 488f48b32654dc6be04d9cc12f75ce030c9cb21b seqlock: Change thread_group_cputime() to use scoped_seqlock_read()
+date:   6 weeks ago
+config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512032115.1SawB9K5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512032230.5pqkcg8x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> libbpf.c:7842:9: error: implicit declaration of function 'BIT' [-Werror,-Wimplicit-function-declaration]
-    7842 |         return BIT(reg - BPF_REG_6);
-         |                ^
->> libbpf.c:7870:22: error: implicit declaration of function 'BIT_ULL' [-Werror,-Wimplicit-function-declaration]
-    7870 |         live->stack_mask |= BIT_ULL(slot);
-         |                             ^
-   libbpf.c:7931:26: error: implicit declaration of function 'BIT_ULL' [-Werror,-Wimplicit-function-declaration]
-    7931 |                                 live->stack_mask &= ~BIT_ULL(slot);
-         |                                                      ^
-   libbpf.c:7951:26: error: implicit declaration of function 'BIT_ULL' [-Werror,-Wimplicit-function-declaration]
-    7951 |                                 live->stack_mask &= ~BIT_ULL(slot);
-         |                                                      ^
-   libbpf.c:8010:22: error: implicit declaration of function 'BIT_ULL' [-Werror,-Wimplicit-function-declaration]
-    8010 |                 if (!(stack_mask & BIT_ULL(slot)))
-         |                                    ^
->> libbpf.c:8015:24: error: use of undeclared identifier 'BPF_REG_AX'
-    8015 |                         BPF_LDX_MEM(BPF_DW, BPF_REG_AX, BPF_REG_10, stack_off),
-         |                                             ^
-   libbpf.c:8016:35: error: use of undeclared identifier 'BPF_REG_AX'
-    8016 |                         BPF_STX_MEM(BPF_DW, BPF_REG_0, BPF_REG_AX, ctx_off),
-         |                                                        ^
->> libbpf.c:8019:46: error: invalid application of 'sizeof' to an incomplete type 'struct bpf_insn[]'
-    8019 |                 err = append_insns(insns, cnt, cap, spill, ARRAY_SIZE(spill));
-         |                                                            ^~~~~~~~~~~~~~~~~
-   tools/include/linux/kernel.h:91:32: note: expanded from macro 'ARRAY_SIZE'
-      91 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
->> libbpf.c:8012:7: error: mixing declarations and code is a C99 extension [-Werror,-Wdeclaration-after-statement]
-    8012 |                 int stack_off = -(int)(CORO_SLOT_SIZE * (slot + 1));
-         |                     ^
->> libbpf.c:7989:13: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
-    7989 |                                          (1ULL << CORO_STACK_SLOTS) - 1)
-         |                                                ^  ~~~~~~~~~~~~~~~~
-   libbpf.c:8045:22: error: implicit declaration of function 'BIT_ULL' [-Werror,-Wimplicit-function-declaration]
-    8045 |                 if (!(stack_mask & BIT_ULL(slot)))
-         |                                    ^
-   libbpf.c:8050:24: error: use of undeclared identifier 'BPF_REG_AX'
-    8050 |                         BPF_LDX_MEM(BPF_DW, BPF_REG_AX, BPF_REG_0, ctx_off),
-         |                                             ^
-   libbpf.c:8051:36: error: use of undeclared identifier 'BPF_REG_AX'
-    8051 |                         BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_AX, stack_off),
-         |                                                         ^
-   libbpf.c:8054:45: error: invalid application of 'sizeof' to an incomplete type 'struct bpf_insn[]'
-    8054 |                 err = append_insns(insns, cnt, cap, fill, ARRAY_SIZE(fill));
-         |                                                           ^~~~~~~~~~~~~~~~
-   tools/include/linux/kernel.h:91:32: note: expanded from macro 'ARRAY_SIZE'
-      91 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   libbpf.c:8047:7: error: mixing declarations and code is a C99 extension [-Werror,-Wdeclaration-after-statement]
-    8047 |                 int stack_off = -(int)(CORO_SLOT_SIZE * (slot + 1));
-         |                     ^
-   libbpf.c:8034:13: error: shift count >= width of type [-Werror,-Wshift-count-overflow]
-    8034 |                                          (1ULL << CORO_STACK_SLOTS) - 1)
-         |                                                ^  ~~~~~~~~~~~~~~~~
->> libbpf.c:8192:3: error: attempt to use a poisoned identifier
-    8192 |                 u8 class = BPF_CLASS(orig_insn->code);
-         |                 ^
-   libbpf.c:8193:3: error: attempt to use a poisoned identifier
-    8193 |                 u8 opcode = BPF_OP(orig_insn->code);
-         |                 ^
-   libbpf.c:8194:3: error: attempt to use a poisoned identifier
-    8194 |                 s64 new_off, target;
-         |                 ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf.o] Error 1 shuffle=2899571258
-   make[6]: Target '__build' not remade because of errors.
-   make[5]: *** [Makefile:152: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf-in.o] Error 2 shuffle=2899571258
-   make[5]: Target 'tools/bpf/resolve_btfids/libbpf/libbpf.a' not remade because of errors.
-   make[4]: *** [Makefile:61: tools/bpf/resolve_btfids//libbpf/libbpf.a] Error 2 shuffle=2899571258
-   make[4]: Target 'all' not remade because of errors.
-   make[3]: *** [Makefile:76: bpf/resolve_btfids] Error 2 shuffle=2899571258
-   make[2]: *** [Makefile:1449: tools/bpf/resolve_btfids] Error 2 shuffle=2899571258
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2899571258
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2899571258
-   make: Target 'prepare' not remade because of errors.
+   arm-linux-gnueabi-ld: kernel/sched/build_policy.o: in function `__scoped_seqlock_next':
+>> include/linux/seqlock.h:1257:(.text+0x96a0): undefined reference to `__scoped_seqlock_bug'
+
+
+vim +1257 include/linux/seqlock.h
+
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1251  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1252  static inline void
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1253  __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1254  {
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1255  	switch (sst->state) {
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1256  	case ss_done:
+cc39f3872c0865 Peter Zijlstra 2025-10-09 @1257  		__scoped_seqlock_bug();
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1258  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1259  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1260  	case ss_lock:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1261  	case ss_lock_irqsave:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1262  		sst->state = ss_done;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1263  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1264  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1265  	case ss_lockless:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1266  		if (!read_seqretry(lock, sst->data)) {
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1267  			sst->state = ss_done;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1268  			return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1269  		}
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1270  		break;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1271  	}
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1272  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1273  	switch (target) {
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1274  	case ss_done:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1275  		__scoped_seqlock_invalid_target();
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1276  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1277  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1278  	case ss_lock:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1279  		sst->lock = &lock->lock;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1280  		spin_lock(sst->lock);
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1281  		sst->state = ss_lock;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1282  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1283  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1284  	case ss_lock_irqsave:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1285  		sst->lock_irqsave = &lock->lock;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1286  		spin_lock_irqsave(sst->lock_irqsave, sst->data);
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1287  		sst->state = ss_lock_irqsave;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1288  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1289  
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1290  	case ss_lockless:
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1291  		sst->data = read_seqbegin(lock);
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1292  		return;
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1293  	}
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1294  }
+cc39f3872c0865 Peter Zijlstra 2025-10-09  1295  
+
+:::::: The code at line 1257 was first introduced by commit
+:::::: cc39f3872c0865bef992b713338df369554fa9e0 seqlock: Introduce scoped_seqlock_read()
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
