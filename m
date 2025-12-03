@@ -1,231 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268C03081DF
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 20:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB2C21D3CC;
+	Wed,  3 Dec 2025 20:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764792695; cv=none; b=Rjvtv3rMU7Nli6V0dvDTsoXRG3sXQr99DcFTjrRQRNNrRwuixCpo9mSdpNzxrbmtKhDCLUojlg7srBXZodNDuwXLfrOdsE+rQHFX7y+wn40iFqIvDYbhMmiJ09/G7c3fVH5vMsu0wTFV71eUd1xNo/S0Nl0W54C9QYGRSMkQG5Q=
+	t=1764793929; cv=none; b=bElPdYyi47TsN+isaWMv+5Kqb8A1xvjuW+4lzlRZhP8rdQbr15eaqCtjgjYSM/QqlEm0AuhdWuDySd/+9yn8WwhcH3+pZCK4sB2dhObtH+WZWHJiuAm3fC8SG2hcOs3pUQ/NmvASwL1jfTFNotOa4kq2z14SuAKBjQPC7Ah8vFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764792695; c=relaxed/simple;
-	bh=9IzenvfKKzIT8fJcRz2w7iqop5ypfGDzeiyLtYKHFig=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fumxp91j/VmSomTFotbv43yGuuQC23trmbPgo2leS6d2AtbfxRCQyq6p4YfmzO311TkZHqJ283lzrHFwkJFwIUeW4sHKVwc5MWH4gYrSfrmHzvn3mVcIFEtDo0RHffPbqk4SkoJuuex3WRJs6VBOnauwumhOJRjFOqa9QB5zhKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrW0Uydh; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764793929; c=relaxed/simple;
+	bh=YPK0k64dOD+3zdePS5bfGvkTs7O9+oH6iFliF5oYG1g=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=lknYRB8f8HxqMJX9QpiJmHVABU4S9UcIDUCHPKc/hRKXgXzHye/+HPIJFA2GEYxafWaRB4/lGGlFJMoXl/LyxuhYVW0dQKG8Vx75yyEQAtAwnYAteTBBA97QjrIdKSPI7/KJPmf5ymZj5wviCgPc4WVdxLQ8bFdVT/LJayIH1NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=YZIEfJ0j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GXVMH1ej; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrW0Uydh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764792693; x=1796328693;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9IzenvfKKzIT8fJcRz2w7iqop5ypfGDzeiyLtYKHFig=;
-  b=XrW0UydhADzKO53VsayuM3Y/CifQAU6GQYGGnI5pjrv2+IHgCSbs3XzD
-   PoCiYUT/Yse0ORdJNc26n7Yq/lWQacK8szEQCDmovmaPLCJ85gqbrNjFO
-   QJCuQw569NafctZZshpcwpd7KUcL/QBlH0achkKgOH4U0Dgvr8uhjsKzk
-   0ZQlZD63yoaS4OVSZUEzbrgMZWq+DWTSaFdEDrfE7JrOvPdSixPjP6n/O
-   heVTbgtahEFQhEKDZQ3m99QEZ7IQtqLu0RfuEr1c9zLRPCqDQCaJEvzgO
-   0tyYhvAXYPjKIufih4qp/VolPCL0jl9/UYz6KYV/MJgtC7yVL55KZqEgn
-   w==;
-X-CSE-ConnectionGUID: SZGxZww5Rz2ol1MzZ+rmrg==
-X-CSE-MsgGUID: qjAUabZaSV67UpvOOKpH4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="92278912"
-X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="92278912"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 12:11:33 -0800
-X-CSE-ConnectionGUID: lPgHOSY+RAOXzzLkJzMP4A==
-X-CSE-MsgGUID: soQb1XyBS32s94UqNWg/9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,246,1758610800"; 
-   d="scan'208";a="195203484"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Dec 2025 12:11:30 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQtCB-00000000D71-3mmj;
-	Wed, 03 Dec 2025 20:11:27 +0000
-Date: Thu, 4 Dec 2025 04:10:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chu Guangqing <chuguangqing@inspur.com>,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Chu Guangqing <chuguangqing@inspur.com>
-Subject: Re: [PATCH v11 1/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000
- soc chipset
-Message-ID: <202512040420.tMzo2lns-lkp@intel.com>
-References: <20251202022452.2636-2-chuguangqing@inspur.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="YZIEfJ0j";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GXVMH1ej"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0921314000C1;
+	Wed,  3 Dec 2025 15:32:06 -0500 (EST)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-04.internal (MEProxy); Wed, 03 Dec 2025 15:32:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1764793926;
+	 x=1764880326; bh=EDURVxXoZBPQNYYglcnxiR31l3E2zyZboYhovndqQB4=; b=
+	YZIEfJ0jFBvXkxHM82barl97u1LyBFpWOPBy51/mHlyai6cIGgLIT2nGVRKTb8PA
+	uVAi4xeMA1H9/A9rv/3j+iYFllHrsyqXvq2jGnVFzDvVukELrTi1PJ478jRzRfBP
+	TSsB+dGO6dVlsM1L1Zt+hBl1n7yyYo1p1iUlc1OhnVakb7dgBuL0S5zWZ50ogA9D
+	Kbali2jW3akgTLY/MdpdfW6E/gg+iI17WlvNatIPuDElccR5xKebHN95l6omOz5g
+	eEew/F+0VdMFuc/8dVrAio5YJgTMI/9vxAuoXscgEaM3SeaaNFHP92CeIRYt2Nk4
+	Y41VqbaLi6aRKtlzRIBDrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764793926; x=
+	1764880326; bh=EDURVxXoZBPQNYYglcnxiR31l3E2zyZboYhovndqQB4=; b=G
+	XVMH1ejcaTMHcRghQB9XIRTJ5JJDGOjCbL3vyRmewIrBIYyc71EAf+hYK7kMfD68
+	xMCHlD+JM7KSsrTjswEgu4xpjJH0kIAvMAKi6JOytbtjOwHaAk4LXRGd56NDjSQP
+	AOQCvKp8eaFT7ZKXNbHIfhECjV9QlprbEldwDRWnwf03+/U8co7zXwHnZ0A+LiLu
+	jk9OaC4+5DW/D+3/+hwxeQJGsSF98vh2U3P1Clw5IEO+LPGxHE4A9h3hp2p7OZ0t
+	tE7cwhypvZ/yhE3b8r+QEkuOIiEuQaVwfcgc+v6h7oITOfTz0B1hef3d5CBSIVzu
+	Ov4xYkI6deB4F/PkR09iQ==
+X-ME-Sender: <xms:RZ4waeCqutWcs4Da-UvyeISHoV7MHs7KrN-R_bkToiMpo1IeFScH7g>
+    <xme:RZ4waTXVDlgNpKWB264iuHRwVQCvAcDqdWdV7mcX9zVnMn2JMdcTHxxWy2L5uCuMX
+    pHJZj8oKghcp602wyN2YQ0OWc8g6mbN5WOPr7BzO7CqFFVOSlFMe_qE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefjeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhguuceu
+    vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
+    epvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleejnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguse
+    grrhhnuggsrdguvgdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopegsvhgrnhgrshhstghhvgesrggtmhdrohhrghdprhgtphhtthhopehlkh
+    hpsehinhhtvghlrdgtohhmpdhrtghpthhtohepsggvrghnhhhuohesihhokhhpphdruggv
+    pdhrtghpthhtohepjhgvjhgssehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtoheplh
+    hlvhhmsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhl
+    ugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegsvggrnhhhuh
+    hosehmihgtrhhonhdrtghomhdprhgtphhtthhopehmrghrthhinhdrphgvthgvrhhsvghn
+    sehorhgrtghlvgdrtghomhdprhgtphhtthhopegtrghnrdhguhhosehoshhsrdhquhgrlh
+    gtohhmmhdrtghomh
+X-ME-Proxy: <xmx:RZ4waeLw6DPpBTuCITfU2W7r57zH4mOCxu1F_2rBlX9Bp047RC5qMA>
+    <xmx:RZ4waWQtrbH--7wJrp6aJWak047p6NT5taidkNmWmHmrNzXePV_vxQ>
+    <xmx:RZ4waWJA6VQ-do_0GpDkDasa6WmmU8Urduv9iScCfu3IMEa5EMxozg>
+    <xmx:RZ4waZ8VR7p0eNPz443PYKYsSs-sz-S5jAxsLe54ZChRQ0eDVPdTyA>
+    <xmx:Rp4wafXsRp85s4E50cif_LlunKj1Fyq6TUrzoWnU0tH-lZOAFB_UlW7d>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 290D4C4006B; Wed,  3 Dec 2025 15:32:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251202022452.2636-2-chuguangqing@inspur.com>
+X-ThreadId: ALO74ngA5rV3
+Date: Wed, 03 Dec 2025 21:31:44 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Bean Huo" <beanhuo@iokpp.de>, "kernel test robot" <lkp@intel.com>,
+ avri.altman@sandisk.com, "Bart Van Assche" <bvanassche@acm.org>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, can.guo@oss.qualcomm.com,
+ "Bean Huo" <beanhuo@micron.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <4eaccff9-a89d-4d0e-afbf-95e9996f9049@app.fastmail.com>
+In-Reply-To: <fff872d022550536f05c181ad58577889af0b5ef.camel@iokpp.de>
+References: <20251130151508.3076994-1-beanhuo@iokpp.de>
+ <202512031316.SvDwnvhy-lkp@intel.com>
+ <98ac8e0b-6027-4f6d-b5cf-b9ad9c856ecf@app.fastmail.com>
+ <fff872d022550536f05c181ad58577889af0b5ef.camel@iokpp.de>
+Subject: Re: [PATCH] scsi: ufs: core: Fix link error when CONFIG_RPMB=m
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Chu,
+On Wed, Dec 3, 2025, at 17:23, Bean Huo wrote:
+> On Wed, 2025-12-03 at 15:39 +0100, Arnd Bergmann wrote:
+>
+> However, the robot reported redefinition errors, which suggests that t=
+he
+> header=E2=80=99s #else branch is being included while ufs-rpmb.c is al=
+so being compiled.
+>
+> I=E2=80=99m wondering if I=E2=80=99m missing something about the robot=
+=E2=80=99s build logic.
+>
 
-kernel test robot noticed the following build errors:
+It took me a while as well, but I found the link to the patch that
+was tested now, as this was the one that changed IS_ENABLED()
+to IS_BUILTIN(), and that went wrong with CONFIG_RPMB=3Dm.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.18 next-20251203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chu-Guangqing/gpu-drm-add-support-for-YHGCH-ZX1000-soc-chipset/20251202-102817
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20251202022452.2636-2-chuguangqing%40inspur.com
-patch subject: [PATCH v11 1/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc chipset
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512040420.tMzo2lns-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512040420.tMzo2lns-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512040420.tMzo2lns-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/yhgch/yhgch_drm_drv.c:27:12: error: static declaration of 'yhgch_dumb_create' follows non-static declaration
-      27 | static int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
-         |            ^~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/yhgch/yhgch_drm_drv.c:20:
-   drivers/gpu/drm/yhgch/yhgch_drm_drv.h:48:5: note: previous declaration of 'yhgch_dumb_create' with type 'int(struct drm_file *, struct drm_device *, struct drm_mode_create_dumb *)'
-      48 | int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/yhgch/yhgch_drm_drv.c: In function 'yhgch_dumb_create':
->> drivers/gpu/drm/yhgch/yhgch_drm_drv.c:32:15: error: implicit declaration of function 'drm_mode_size_dumb'; did you mean 'drm_mode_set_name'? [-Wimplicit-function-declaration]
-      32 |         ret = drm_mode_size_dumb(dev, args, SZ_16, 0);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               drm_mode_set_name
-   drivers/gpu/drm/yhgch/yhgch_drm_drv.c: In function 'yhgch_kms_init':
->> drivers/gpu/drm/yhgch/yhgch_drm_drv.c:93:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-      93 |                 drm_err(dev, "failed to init de: %d\n", ret);
-         |                 ^~~~~~~
-         |                 pr_err
-   drivers/gpu/drm/yhgch/yhgch_drm_drv.c: In function 'yhgch_pci_probe':
->> drivers/gpu/drm/yhgch/yhgch_drm_drv.c:262:17: error: implicit declaration of function 'drm_warn'; did you mean 'dev_warn'? [-Wimplicit-function-declaration]
-     262 |                 drm_warn(dev, "enabling MSI failed: %d\n", ret);
-         |                 ^~~~~~~~
-         |                 dev_warn
---
-   drivers/gpu/drm/yhgch/yhgch_drm_de.c: In function 'yhgch_plane_atomic_update':
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:73:13: error: implicit declaration of function 'drm_gem_fb_begin_cpu_access'; did you mean 'dma_buf_begin_cpu_access'? [-Wimplicit-function-declaration]
-      73 |         if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |             dma_buf_begin_cpu_access
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:78:17: error: implicit declaration of function 'drm_gem_fb_end_cpu_access'; did you mean 'dma_buf_end_cpu_access'? [-Wimplicit-function-declaration]
-      78 |                 drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 dma_buf_end_cpu_access
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:68:24: warning: unused variable 'y' [-Wunused-variable]
-      68 |         int offset, x, y;
-         |                        ^
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:68:21: warning: unused variable 'x' [-Wunused-variable]
-      68 |         int offset, x, y;
-         |                     ^
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:68:13: warning: unused variable 'offset' [-Wunused-variable]
-      68 |         int offset, x, y;
-         |             ^~~~~~
-   drivers/gpu/drm/yhgch/yhgch_drm_de.c: In function 'yhgch_de_init':
->> drivers/gpu/drm/yhgch/yhgch_drm_de.c:354:17: error: implicit declaration of function 'drm_err'; did you mean 'pr_err'? [-Wimplicit-function-declaration]
-     354 |                 drm_err(dev, "failed to init plane: %d\n", ret);
-         |                 ^~~~~~~
-         |                 pr_err
-
-
-vim +/yhgch_dumb_create +27 drivers/gpu/drm/yhgch/yhgch_drm_drv.c
-
-    26	
-  > 27	static int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
-    28				     struct drm_mode_create_dumb *args)
-    29	{
-    30		int ret;
-    31	
-  > 32		ret = drm_mode_size_dumb(dev, args, SZ_16, 0);
-    33		if (ret)
-    34			return ret;
-    35	
-    36		return drm_gem_shmem_dumb_create(file, dev,  args);
-    37	}
-    38	
-    39	static struct drm_driver yhgch_driver = {
-    40		.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-    41		.fops = &yhgch_fops,
-    42		.name = "yhgch",
-    43		.desc = "yhgch drm driver",
-    44		.major = 3,
-    45		.minor = 1,
-    46		.dumb_create = yhgch_dumb_create,
-    47		DRM_FBDEV_SHMEM_DRIVER_OPS,
-    48	};
-    49	
-    50	static int __maybe_unused yhgch_pm_suspend(struct device *dev)
-    51	{
-    52		struct drm_device *drm_dev = dev_get_drvdata(dev);
-    53	
-    54		return drm_mode_config_helper_suspend(drm_dev);
-    55	}
-    56	
-    57	static int __maybe_unused yhgch_pm_resume(struct device *dev)
-    58	{
-    59		struct drm_device *drm_dev = dev_get_drvdata(dev);
-    60	
-    61		return drm_mode_config_helper_resume(drm_dev);
-    62	}
-    63	
-    64	static const struct dev_pm_ops yhgch_pm_ops = {
-    65		SET_SYSTEM_SLEEP_PM_OPS(yhgch_pm_suspend,
-    66					yhgch_pm_resume)
-    67	};
-    68	
-    69	static const struct drm_mode_config_funcs yhgch_mode_funcs = {
-    70		.atomic_check = drm_atomic_helper_check,
-    71		.atomic_commit = drm_atomic_helper_commit,
-    72		.fb_create = drm_gem_fb_create_with_dirty,
-    73	};
-    74	
-    75	static int yhgch_kms_init(struct yhgch_drm_private *priv)
-    76	{
-    77		struct drm_device *dev = &priv->dev;
-    78		int ret;
-    79	
-    80		ret = drmm_mode_config_init(dev);
-    81		if (ret)
-    82			return ret;
-    83	
-    84		dev->mode_config.min_width = 0;
-    85		dev->mode_config.min_height = 0;
-    86		dev->mode_config.max_width = 1920;
-    87		dev->mode_config.max_height = 1200;
-    88		dev->mode_config.preferred_depth = 24;
-    89		dev->mode_config.funcs = &yhgch_mode_funcs;
-    90	
-    91		ret = yhgch_de_init(priv);
-    92		if (ret) {
-  > 93			drm_err(dev, "failed to init de: %d\n", ret);
-    94			return ret;
-    95		}
-    96	
-    97		ret = yhgch_vdac_init(priv);
-    98		if (ret) {
-    99			drm_err(dev, "failed to init vdac: %d\n", ret);
-   100			return ret;
-   101		}
-   102		drm_kms_helper_poll_init(dev);
-   103	
-   104		return 0;
-   105	}
-   106	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Arnd
