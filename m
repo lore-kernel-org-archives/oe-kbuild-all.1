@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6005818A6AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 01:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875E9DDAB;
+	Wed,  3 Dec 2025 01:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764723961; cv=none; b=SDgwIkxAFmE6BU5TllEVHEP7JMdzNTXiyPwR9cv9fCpmiZlwgg/9Q3OhX1WDcqs03cSWVZ/VWZb+y2+im/xxZCZ3pGMRkHRaGZ3yaZ5O6eiVqr/LsT8IQWcWg/dezpIoe1SHS/iXukQ6j4uaEuTRJPq3fa0xplf0YMnUcnREJS4=
+	t=1764724622; cv=none; b=iJdsD6w8r6RdrEqSi2OYoEUPt1rFrMsjZf3QYG6gWhZ51D/wFFcH6nH0uMV8y1fHhaaSX6Ninw5LaKjxxMQP2yZAPf1Pxm49xqKLyvB7/tNUu1EnlMKHBfu6BaI9MHYzmMS8ZXO+HkJlZgYrIBDq+oj9RKr3r2V8F0aZcYLJsek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764723961; c=relaxed/simple;
-	bh=GiWOWdjTe0lnSXm8NVRy/xT8MfBBqf2CPF27MvwaFrk=;
+	s=arc-20240116; t=1764724622; c=relaxed/simple;
+	bh=MLYxDX/3fNdtrknl7370CzhghL682Ko9AD2VBiMczLE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=luQbkyUtHDGaUu7FS6cmoOszvZOzhZt36YhYKwwU1jiHU5xpT4Uvav2OdfMEyXXAUB27TCt3LQgvfXYgu+NvNqdSU2gtQx3c2ELncwS20jYPgrR5tY9bClQkUpUpaiFv0sMXamaXQE108LsbD2RLid4ncsp9VwjQdxJBOl7plP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKxK9keE; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=c4jK+i6wS4yHEgz8aRyaGP/8MZ8X5I6Jodibf4Ww0HEcrRS2IVvzNeZYSUvI+tX1Ja2URUReypQTB4Apa0ypvZbaEdaP0DoEIq0A0bfHGDcB7GYr8Jf6tpNL9cZRq/5yWJ7o64W0MpV5jCWVU7J19NjP4WvmgKDMGrW8YAEfVUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvhYZe9G; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKxK9keE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvhYZe9G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764723961; x=1796259961;
+  t=1764724621; x=1796260621;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GiWOWdjTe0lnSXm8NVRy/xT8MfBBqf2CPF27MvwaFrk=;
-  b=gKxK9keE34+737ntN/2UWj6lxhhsO/EoDyuqYVZ98yop3CNYtVgSiLsK
-   kME7jEll7xaDowUjY47Df6CJ7CGps12FGlCN5Ar6gGDG7Wh5h4+LOvpoA
-   ny83hAJKS5fMD6iG3kSzwJYnuipY4wWPoaD5Yuh8+yfLFvN9/Eih7uUW8
-   EV2y+bQQBqkpqxWNTGYse/UXmFMOo4taC/q2mtp5L9Nw3D6bnyakazUYG
-   yZNV4pRNTiyqNCiTO3P7JHWuNC8ak0pGqyhDkZQEPcgf6hhi3CllUOmZa
-   mSpXPnWK5lxaKjS2LSFPHbQC1tXRcF2Wai6ekdj97s8+5Bz4xjnupsXdD
-   g==;
-X-CSE-ConnectionGUID: x2miwJXZRayJ38GiBt35rw==
-X-CSE-MsgGUID: g2HHyRmuQN6noUQFO+MYUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65712814"
+  bh=MLYxDX/3fNdtrknl7370CzhghL682Ko9AD2VBiMczLE=;
+  b=AvhYZe9G4mo/eceRA/djVqhp473SVSnPnJJW1GUuVa2Iyg0PucH2E7Xu
+   fdPG6z7dfDuwk5+5zLt9S7Uovq7ykranrX4CACXo3MhSO2jYIh+L7slhq
+   xDS5Zk+purAz3kI6Z8uV5KlUPohR7JflZEcsfgPHh87HF9cn0LAfDVD6d
+   oMGRH0GQzYwr6pKpJccgeGWNCGGaJGeY/qjiLFwhRrgFGas6G/Znc2Nig
+   VHDEFR7ETsr8XxqbTnrkDmSS1vy78jEhHdg3j1c6irEWLneWdkafY12Tm
+   31UF/7hp4ZYVNyWoieBA4lWTCwAVkgOGhUTf4huD705dzP1//oNZilnIB
+   w==;
+X-CSE-ConnectionGUID: mhN0N9T0TOuFY1acvXa4kw==
+X-CSE-MsgGUID: O5ezjdtPQs67TqiN49xYsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66750484"
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="65712814"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 17:06:00 -0800
-X-CSE-ConnectionGUID: yxkuUTHgRPCvi6he0TiJ/A==
-X-CSE-MsgGUID: ZGxerOuvTbyXCeRi/iBtlA==
+   d="scan'208";a="66750484"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 17:17:01 -0800
+X-CSE-ConnectionGUID: oJYxlz7LTLabY3IcnAdJ8w==
+X-CSE-MsgGUID: g9Gyj+W9Q965i/Hkh8N+pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="194953250"
+   d="scan'208";a="199014498"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Dec 2025 17:05:58 -0800
+  by orviesa004.jf.intel.com with ESMTP; 02 Dec 2025 17:16:58 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQbJb-00000000ALi-3yKh;
-	Wed, 03 Dec 2025 01:05:55 +0000
-Date: Wed, 3 Dec 2025 09:05:29 +0800
+	id 1vQbUG-00000000AMF-1trT;
+	Wed, 03 Dec 2025 01:16:56 +0000
+Date: Wed, 3 Dec 2025 09:15:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Lyude Paul <lyude@redhat.com>
-Subject: error[E0609]: no field `vma_node` on type `drm_gem_object`
-Message-ID: <202512030945.2O1kegv5-lkp@intel.com>
+To: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>
+Subject: [linux-next:master 12337/13055] drivers/vfio/pci/xe/main.c:555:2:
+ error: call to undeclared function 'INTEL_WCL_IDS'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202512030951.SoXeWc1k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +65,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d61f1cc5db799f4e44a63418b2dc19396787427b
-commit: c284d3e423382be3591d5b1e402e330e6c3f726c rust: drm: gem: Add GEM object abstraction
-date:   7 months ago
-config: arm-randconfig-r121-20251201 (https://download.01.org/0day-ci/archive/20251203/202512030945.2O1kegv5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030945.2O1kegv5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47b7b5e32bb7264b51b89186043e1ada4090b558
+commit: 2e38c50ae4929f0b954fee69d428db7121452867 [12337/13055] vfio/xe: Add device specific vfio_pci driver variant for Intel graphics
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251203/202512030951.SoXeWc1k-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030951.SoXeWc1k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030945.2O1kegv5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512030951.SoXeWc1k-lkp@intel.com/
+
+Note: the linux-next/master HEAD 47b7b5e32bb7264b51b89186043e1ada4090b558 builds fine.
+      It may have been fixed somewhere.
 
 All errors (new ones prefixed by >>):
 
->> error[E0609]: no field `size` on type `drm_gem_object`
-   --> rust/kernel/drm/gem/mod.rs:119:47
-   |
-   119 |         unsafe { (*self.into_gem_obj().get()).size }
-   |                                               ^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `vma_node` on type `drm_gem_object`
-   --> rust/kernel/drm/gem/mod.rs:162:46
-   |
-   162 |                 (*self.into_gem_obj().get()).vma_node
-   |                                              ^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `funcs` on type `drm_gem_object`
-   --> rust/kernel/drm/gem/mod.rs:221:34
-   |
-   221 |         unsafe { (*obj.as_raw()).funcs = &Self::OBJECT_FUNCS };
-   |                                  ^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `owner` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:305:10
-   |
-   305 |     fops.owner = core::ptr::null_mut();
-   |          ^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `open` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:306:10
-   |
-   306 |     fops.open = Some(bindings::drm_open);
-   |          ^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `release` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:307:10
-   |
-   307 |     fops.release = Some(bindings::drm_release);
-   |          ^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `unlocked_ioctl` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:308:10
-   |
-   308 |     fops.unlocked_ioctl = Some(bindings::drm_ioctl);
-   |          ^^^^^^^^^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `poll` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:313:10
-   |
-   313 |     fops.poll = Some(bindings::drm_poll);
-   |          ^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `read` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:314:10
-   |
-   314 |     fops.read = Some(bindings::drm_read);
-   |          ^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `llseek` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:315:10
-   |
-   315 |     fops.llseek = Some(bindings::noop_llseek);
-   |          ^^^^^^ unknown field
-   |
-   = note: available field is: `_address`
---
->> error[E0609]: no field `mmap` on type `bindings::file_operations`
-   --> rust/kernel/drm/gem/mod.rs:316:10
-   |
-   316 |     fops.mmap = Some(bindings::drm_gem_mmap);
-   |          ^^^^ unknown field
-   |
-   = note: available field is: `_address`
-..
+>> drivers/vfio/pci/xe/main.c:555:2: error: call to undeclared function 'INTEL_WCL_IDS'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     555 |         INTEL_WCL_IDS(INTEL_PCI_VFIO_DEVICE),
+         |         ^
+   drivers/vfio/pci/xe/main.c:555:16: error: use of undeclared identifier 'INTEL_PCI_VFIO_DEVICE'
+     555 |         INTEL_WCL_IDS(INTEL_PCI_VFIO_DEVICE),
+         |                       ^
+>> drivers/vfio/pci/xe/main.c:559:1: error: definition of variable with array type needs an explicit size or an initializer
+     559 | MODULE_DEVICE_TABLE(pci, xe_vfio_pci_table);
+         | ^
+   include/linux/module.h:261:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     261 | static typeof(name) __mod_device_table(type, name)                      \
+         |                     ^
+   include/linux/module.h:253:2: note: expanded from macro '__mod_device_table'
+     253 |         __PASTE(__mod_device_table__,   \
+         |         ^
+   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:152:1: note: expanded from here
+     152 | __mod_device_table__kmod_xe_vfio_pci__pci__xe_vfio_pci_table
+         | ^
+   3 errors generated.
+
+
+vim +/INTEL_WCL_IDS +555 drivers/vfio/pci/xe/main.c
+
+   552	
+   553	static const struct pci_device_id xe_vfio_pci_table[] = {
+   554		INTEL_PTL_IDS(INTEL_PCI_VFIO_DEVICE),
+ > 555		INTEL_WCL_IDS(INTEL_PCI_VFIO_DEVICE),
+   556		INTEL_BMG_IDS(INTEL_PCI_VFIO_DEVICE),
+   557		{}
+   558	};
+ > 559	MODULE_DEVICE_TABLE(pci, xe_vfio_pci_table);
+   560	
 
 -- 
 0-DAY CI Kernel Test Service
