@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF7C482EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 00:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618F41B4257;
+	Wed,  3 Dec 2025 01:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764723361; cv=none; b=mjzaSVv8Fxsgu64f/LY4lYd1FqzWTqvSWBSkGQVumA8q9Cz/3gCymky3KxwvA6ltEouVt8vO5DL5Fbx0QaGm1gzEkGWNkJMvftypVB01fQ6Ne8CsOyTicoUt8u8M2kTPRLPXnjwtfFegwDBiCGY2UsuyVZIPD4to1Aj71ElNTIk=
+	t=1764723961; cv=none; b=DJBDObI/gffCXT+cV/3v5Zg3IGXQzs7GB3thjsYRf/a4KLKtkRdRxxiIZCZwaPfv11lrJZG2tONaxt/1gTZyx7F+T+M2A1f+toBJ+Gl5EK8ZdPdZ+WJXDlhJDujTlUCPdklzQMfegVpF3Vyreb7NtPvIGkTwDufpJi+Ms5Z7Uek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764723361; c=relaxed/simple;
-	bh=0wcWHW+0pl+Hxt0x3vTCruLpCCIcSw3E9QkGgMtZ3vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qv53l59huF5TE7+a7nt9s9idj0YiwcT4hbhX6sucz/OWvA7e/SfaQ1QKEju8QFY1cTxqINm4Hg100bW+/GuvYeVMl8d4jHDerRZ7y34UyMPlwlru4Zc007gtMsSc1mR9q4bveLZ9DDsdVLCmK+xMzRbv4V03kplQKxyl4jkgBwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwkS3kMK; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764723961; c=relaxed/simple;
+	bh=Q7FgzPiTQVCOcOXhyBadv3BfwwB0RDeQjqgHUDVrIKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ATOvE4+TYEjO1LoOZimIK6fsUJ9P04t8Ptsf9/jPWAzCIjWM6rjeRvy4xkzYsIh1t0+NESHXKyMlJkXy17ISuoji9HgCKb22li0nSGY6nWiG8HqIuNudUL6uSCn2OElQtkqRxLFdQsMwJyAXSf8YS1sxgpBsjcvG5L6xH2Nu1Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJ1wMI+Y; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwkS3kMK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJ1wMI+Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764723359; x=1796259359;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0wcWHW+0pl+Hxt0x3vTCruLpCCIcSw3E9QkGgMtZ3vE=;
-  b=gwkS3kMKjqlTnxCHOhEi16dCk7lS5YC8hlnU/dR63w65Mmunx9K07uV7
-   g8uwL25MV4/ciY1FrXA16gYTNiAEFJ2JKw1F5nXfGCn9fuYYD9F4n9d7q
-   0XwLHLD8C1Co/es+eRomQCcuXUfkgP3hyKEYCLeCoeIlvgZ0AZdJYIa1t
-   OWLd7xK0t8wIf0WDQH60qf0pCKgq3VQ9OW4c2ZhRCg4Jk0is685/ksMey
-   fbNPw7PWEMZrYk+ppJXj03J8G9fpYYAN7LkyG6aZgtvihPt/ew0v7X94g
-   J22om/hKAM/hlNfQ2/Tg7HysyZe487sS6rd9W2VZy9TV+8wd0/JLvdeoz
-   g==;
-X-CSE-ConnectionGUID: jEqDQdGRRwiMexJoP7L65w==
-X-CSE-MsgGUID: kvexYiPTSe+G52LVA76Mcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89361351"
+  t=1764723960; x=1796259960;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q7FgzPiTQVCOcOXhyBadv3BfwwB0RDeQjqgHUDVrIKM=;
+  b=LJ1wMI+YEHAlrTWoVfzjxBjZQfn869uAVGcFto3Dm+yLDbMNHi6yS3p0
+   r29vf5aUxn9PG0Bg/gnGHncEfYdKs9IPqil/na0h/3WxQ4BrcSnVCxUKZ
+   PV61ysrhRsEi2XExcADqZ9GngYsGHUc3d0ppb7yIlQaEAlOofZu8cino+
+   n4urez4xCdAzV3Uo7OC8whNnCeFrzH3wKobBNtVbHBSuGuFFZbwI8d6fw
+   GDmTM7oGZPN5Sb8HxFT8z5/vkZ/rV99R26CvCha3jwiNVIgngPyrREH6T
+   3ljq5+8qoBT4Rx9OTymrx0n9GM9fhP30DB2wRUpeIEkNupNVqCWLRlj8z
+   A==;
+X-CSE-ConnectionGUID: UU26cuxcRbaHFln/zIWL9w==
+X-CSE-MsgGUID: SwNFZi8jShiS2kfEdom0zQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66874817"
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="89361351"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 16:55:59 -0800
-X-CSE-ConnectionGUID: 7W7/LPmOQCWYhls8ZmNfeQ==
-X-CSE-MsgGUID: kYRBLh8nQQ2Mj44T4ZNDOg==
+   d="scan'208";a="66874817"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 17:06:00 -0800
+X-CSE-ConnectionGUID: ikaxBdF/Qz6F9KNkEFjHtg==
+X-CSE-MsgGUID: ZTMQpqADR++TPqbwIDXyJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="194631587"
+   d="scan'208";a="195320631"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Dec 2025 16:55:58 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Dec 2025 17:05:58 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQb9v-00000000AKn-0nJ7;
-	Wed, 03 Dec 2025 00:55:55 +0000
-Date: Wed, 3 Dec 2025 08:55:00 +0800
+	id 1vQbJb-00000000ALf-3rV0;
+	Wed, 03 Dec 2025 01:05:55 +0000
+Date: Wed, 3 Dec 2025 09:05:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Weinberger <richard@nod.at>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] regmap: Allow disabling debugfs via regmap_config
-Message-ID: <202512030854.wgxWw5AH-lkp@intel.com>
-References: <20251129142042.344359-3-richard@nod.at>
+To: Feng Tang <feng.tang@linux.alibaba.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Petr Mladek <pmladek@suse.com>
+Subject: [linux-next:master 9966/13055] kernel/watchdog.c:74:22: warning:
+ unused variable 'hardlockup_si_mask'
+Message-ID: <202512030920.NFKtekA7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,551 +64,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251129142042.344359-3-richard@nod.at>
 
-Hi Richard,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on broonie-regmap/for-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v6.18 next-20251202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Weinberger/dt-bindings-Document-new-common-property-has-inaccessible-regs/20251129-222517
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251129142042.344359-3-richard%40nod.at
-patch subject: [PATCH 2/4] regmap: Allow disabling debugfs via regmap_config
-config: arc-hsdk_defconfig (https://download.01.org/0day-ci/archive/20251203/202512030854.wgxWw5AH-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030854.wgxWw5AH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   47b7b5e32bb7264b51b89186043e1ada4090b558
+commit: a9af76a78760717361cccc884dc649e30db61c8b [9966/13055] watchdog: add sys_info sysctls to dump sys info on system lockup
+config: powerpc64-randconfig-002-20251203 (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512030854.wgxWw5AH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512030920.NFKtekA7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/base/regmap/regmap.c: In function '__regmap_init':
->> drivers/base/regmap/regmap.c:700:12: error: 'struct regmap' has no member named 'debugfs_disable'
-     700 |         map->debugfs_disable = config->debugfs_disable;
-         |            ^~
+>> kernel/watchdog.c:74:22: warning: unused variable 'hardlockup_si_mask' [-Wunused-variable]
+      74 | static unsigned long hardlockup_si_mask;
+         |                      ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +700 drivers/base/regmap/regmap.c
+vim +/hardlockup_si_mask +74 kernel/watchdog.c
 
-   674	
-   675	struct regmap *__regmap_init(struct device *dev,
-   676				     const struct regmap_bus *bus,
-   677				     void *bus_context,
-   678				     const struct regmap_config *config,
-   679				     struct lock_class_key *lock_key,
-   680				     const char *lock_name)
-   681	{
-   682		struct regmap *map;
-   683		int ret = -EINVAL;
-   684		enum regmap_endian reg_endian, val_endian;
-   685		int i, j;
-   686	
-   687		if (!config)
-   688			goto err;
-   689	
-   690		map = kzalloc(sizeof(*map), GFP_KERNEL);
-   691		if (map == NULL) {
-   692			ret = -ENOMEM;
-   693			goto err;
-   694		}
-   695	
-   696		ret = regmap_set_name(map, config);
-   697		if (ret)
-   698			goto err_map;
-   699	
- > 700		map->debugfs_disable = config->debugfs_disable;
-   701	
-   702		ret = -EINVAL; /* Later error paths rely on this */
-   703	
-   704		if (config->disable_locking) {
-   705			map->lock = map->unlock = regmap_lock_unlock_none;
-   706			map->can_sleep = config->can_sleep;
-   707			regmap_debugfs_disable(map);
-   708		} else if (config->lock && config->unlock) {
-   709			map->lock = config->lock;
-   710			map->unlock = config->unlock;
-   711			map->lock_arg = config->lock_arg;
-   712			map->can_sleep = config->can_sleep;
-   713		} else if (config->use_hwlock) {
-   714			map->hwlock = hwspin_lock_request_specific(config->hwlock_id);
-   715			if (!map->hwlock) {
-   716				ret = -ENXIO;
-   717				goto err_name;
-   718			}
-   719	
-   720			switch (config->hwlock_mode) {
-   721			case HWLOCK_IRQSTATE:
-   722				map->lock = regmap_lock_hwlock_irqsave;
-   723				map->unlock = regmap_unlock_hwlock_irqrestore;
-   724				break;
-   725			case HWLOCK_IRQ:
-   726				map->lock = regmap_lock_hwlock_irq;
-   727				map->unlock = regmap_unlock_hwlock_irq;
-   728				break;
-   729			default:
-   730				map->lock = regmap_lock_hwlock;
-   731				map->unlock = regmap_unlock_hwlock;
-   732				break;
-   733			}
-   734	
-   735			map->lock_arg = map;
-   736		} else {
-   737			if ((bus && bus->fast_io) ||
-   738			    config->fast_io) {
-   739				if (config->use_raw_spinlock) {
-   740					raw_spin_lock_init(&map->raw_spinlock);
-   741					map->lock = regmap_lock_raw_spinlock;
-   742					map->unlock = regmap_unlock_raw_spinlock;
-   743					lockdep_set_class_and_name(&map->raw_spinlock,
-   744								   lock_key, lock_name);
-   745				} else {
-   746					spin_lock_init(&map->spinlock);
-   747					map->lock = regmap_lock_spinlock;
-   748					map->unlock = regmap_unlock_spinlock;
-   749					lockdep_set_class_and_name(&map->spinlock,
-   750								   lock_key, lock_name);
-   751				}
-   752			} else {
-   753				mutex_init(&map->mutex);
-   754				map->lock = regmap_lock_mutex;
-   755				map->unlock = regmap_unlock_mutex;
-   756				map->can_sleep = true;
-   757				lockdep_set_class_and_name(&map->mutex,
-   758							   lock_key, lock_name);
-   759			}
-   760			map->lock_arg = map;
-   761			map->lock_key = lock_key;
-   762		}
-   763	
-   764		/*
-   765		 * When we write in fast-paths with regmap_bulk_write() don't allocate
-   766		 * scratch buffers with sleeping allocations.
-   767		 */
-   768		if ((bus && bus->fast_io) || config->fast_io)
-   769			map->alloc_flags = GFP_ATOMIC;
-   770		else
-   771			map->alloc_flags = GFP_KERNEL;
-   772	
-   773		map->reg_base = config->reg_base;
-   774		map->reg_shift = config->pad_bits % 8;
-   775	
-   776		map->format.pad_bytes = config->pad_bits / 8;
-   777		map->format.reg_shift = config->reg_shift;
-   778		map->format.reg_bytes = BITS_TO_BYTES(config->reg_bits);
-   779		map->format.val_bytes = BITS_TO_BYTES(config->val_bits);
-   780		map->format.buf_size = BITS_TO_BYTES(config->reg_bits + config->val_bits + config->pad_bits);
-   781		if (config->reg_stride)
-   782			map->reg_stride = config->reg_stride;
-   783		else
-   784			map->reg_stride = 1;
-   785		if (is_power_of_2(map->reg_stride))
-   786			map->reg_stride_order = ilog2(map->reg_stride);
-   787		else
-   788			map->reg_stride_order = -1;
-   789		map->use_single_read = config->use_single_read || !(config->read || (bus && bus->read));
-   790		map->use_single_write = config->use_single_write || !(config->write || (bus && bus->write));
-   791		map->can_multi_write = config->can_multi_write && (config->write || (bus && bus->write));
-   792		if (bus) {
-   793			map->max_raw_read = bus->max_raw_read;
-   794			map->max_raw_write = bus->max_raw_write;
-   795		} else if (config->max_raw_read && config->max_raw_write) {
-   796			map->max_raw_read = config->max_raw_read;
-   797			map->max_raw_write = config->max_raw_write;
-   798		}
-   799		map->dev = dev;
-   800		map->bus = bus;
-   801		map->bus_context = bus_context;
-   802		map->max_register = config->max_register;
-   803		map->max_register_is_set = map->max_register ?: config->max_register_is_0;
-   804		map->wr_table = config->wr_table;
-   805		map->rd_table = config->rd_table;
-   806		map->volatile_table = config->volatile_table;
-   807		map->precious_table = config->precious_table;
-   808		map->wr_noinc_table = config->wr_noinc_table;
-   809		map->rd_noinc_table = config->rd_noinc_table;
-   810		map->writeable_reg = config->writeable_reg;
-   811		map->readable_reg = config->readable_reg;
-   812		map->volatile_reg = config->volatile_reg;
-   813		map->precious_reg = config->precious_reg;
-   814		map->writeable_noinc_reg = config->writeable_noinc_reg;
-   815		map->readable_noinc_reg = config->readable_noinc_reg;
-   816		map->cache_type = config->cache_type;
-   817	
-   818		spin_lock_init(&map->async_lock);
-   819		INIT_LIST_HEAD(&map->async_list);
-   820		INIT_LIST_HEAD(&map->async_free);
-   821		init_waitqueue_head(&map->async_waitq);
-   822	
-   823		if (config->read_flag_mask ||
-   824		    config->write_flag_mask ||
-   825		    config->zero_flag_mask) {
-   826			map->read_flag_mask = config->read_flag_mask;
-   827			map->write_flag_mask = config->write_flag_mask;
-   828		} else if (bus) {
-   829			map->read_flag_mask = bus->read_flag_mask;
-   830		}
-   831	
-   832		if (config->read && config->write) {
-   833			map->reg_read  = _regmap_bus_read;
-   834			if (config->reg_update_bits)
-   835				map->reg_update_bits = config->reg_update_bits;
-   836	
-   837			/* Bulk read/write */
-   838			map->read = config->read;
-   839			map->write = config->write;
-   840	
-   841			reg_endian = REGMAP_ENDIAN_NATIVE;
-   842			val_endian = REGMAP_ENDIAN_NATIVE;
-   843		} else if (!bus) {
-   844			map->reg_read  = config->reg_read;
-   845			map->reg_write = config->reg_write;
-   846			map->reg_update_bits = config->reg_update_bits;
-   847	
-   848			map->defer_caching = false;
-   849			goto skip_format_initialization;
-   850		} else if (!bus->read || !bus->write) {
-   851			map->reg_read = _regmap_bus_reg_read;
-   852			map->reg_write = _regmap_bus_reg_write;
-   853			map->reg_update_bits = bus->reg_update_bits;
-   854	
-   855			map->defer_caching = false;
-   856			goto skip_format_initialization;
-   857		} else {
-   858			map->reg_read  = _regmap_bus_read;
-   859			map->reg_update_bits = bus->reg_update_bits;
-   860			/* Bulk read/write */
-   861			map->read = bus->read;
-   862			map->write = bus->write;
-   863	
-   864			reg_endian = regmap_get_reg_endian(bus, config);
-   865			val_endian = regmap_get_val_endian(dev, bus, config);
-   866		}
-   867	
-   868		switch (config->reg_bits + map->reg_shift) {
-   869		case 2:
-   870			switch (config->val_bits) {
-   871			case 6:
-   872				map->format.format_write = regmap_format_2_6_write;
-   873				break;
-   874			default:
-   875				goto err_hwlock;
-   876			}
-   877			break;
-   878	
-   879		case 4:
-   880			switch (config->val_bits) {
-   881			case 12:
-   882				map->format.format_write = regmap_format_4_12_write;
-   883				break;
-   884			default:
-   885				goto err_hwlock;
-   886			}
-   887			break;
-   888	
-   889		case 7:
-   890			switch (config->val_bits) {
-   891			case 9:
-   892				map->format.format_write = regmap_format_7_9_write;
-   893				break;
-   894			case 17:
-   895				map->format.format_write = regmap_format_7_17_write;
-   896				break;
-   897			default:
-   898				goto err_hwlock;
-   899			}
-   900			break;
-   901	
-   902		case 10:
-   903			switch (config->val_bits) {
-   904			case 14:
-   905				map->format.format_write = regmap_format_10_14_write;
-   906				break;
-   907			default:
-   908				goto err_hwlock;
-   909			}
-   910			break;
-   911	
-   912		case 12:
-   913			switch (config->val_bits) {
-   914			case 20:
-   915				map->format.format_write = regmap_format_12_20_write;
-   916				break;
-   917			default:
-   918				goto err_hwlock;
-   919			}
-   920			break;
-   921	
-   922		case 8:
-   923			map->format.format_reg = regmap_format_8;
-   924			break;
-   925	
-   926		case 16:
-   927			switch (reg_endian) {
-   928			case REGMAP_ENDIAN_BIG:
-   929				map->format.format_reg = regmap_format_16_be;
-   930				break;
-   931			case REGMAP_ENDIAN_LITTLE:
-   932				map->format.format_reg = regmap_format_16_le;
-   933				break;
-   934			case REGMAP_ENDIAN_NATIVE:
-   935				map->format.format_reg = regmap_format_16_native;
-   936				break;
-   937			default:
-   938				goto err_hwlock;
-   939			}
-   940			break;
-   941	
-   942		case 24:
-   943			switch (reg_endian) {
-   944			case REGMAP_ENDIAN_BIG:
-   945				map->format.format_reg = regmap_format_24_be;
-   946				break;
-   947			default:
-   948				goto err_hwlock;
-   949			}
-   950			break;
-   951	
-   952		case 32:
-   953			switch (reg_endian) {
-   954			case REGMAP_ENDIAN_BIG:
-   955				map->format.format_reg = regmap_format_32_be;
-   956				break;
-   957			case REGMAP_ENDIAN_LITTLE:
-   958				map->format.format_reg = regmap_format_32_le;
-   959				break;
-   960			case REGMAP_ENDIAN_NATIVE:
-   961				map->format.format_reg = regmap_format_32_native;
-   962				break;
-   963			default:
-   964				goto err_hwlock;
-   965			}
-   966			break;
-   967	
-   968		default:
-   969			goto err_hwlock;
-   970		}
-   971	
-   972		if (val_endian == REGMAP_ENDIAN_NATIVE)
-   973			map->format.parse_inplace = regmap_parse_inplace_noop;
-   974	
-   975		switch (config->val_bits) {
-   976		case 8:
-   977			map->format.format_val = regmap_format_8;
-   978			map->format.parse_val = regmap_parse_8;
-   979			map->format.parse_inplace = regmap_parse_inplace_noop;
-   980			break;
-   981		case 16:
-   982			switch (val_endian) {
-   983			case REGMAP_ENDIAN_BIG:
-   984				map->format.format_val = regmap_format_16_be;
-   985				map->format.parse_val = regmap_parse_16_be;
-   986				map->format.parse_inplace = regmap_parse_16_be_inplace;
-   987				break;
-   988			case REGMAP_ENDIAN_LITTLE:
-   989				map->format.format_val = regmap_format_16_le;
-   990				map->format.parse_val = regmap_parse_16_le;
-   991				map->format.parse_inplace = regmap_parse_16_le_inplace;
-   992				break;
-   993			case REGMAP_ENDIAN_NATIVE:
-   994				map->format.format_val = regmap_format_16_native;
-   995				map->format.parse_val = regmap_parse_16_native;
-   996				break;
-   997			default:
-   998				goto err_hwlock;
-   999			}
-  1000			break;
-  1001		case 24:
-  1002			switch (val_endian) {
-  1003			case REGMAP_ENDIAN_BIG:
-  1004				map->format.format_val = regmap_format_24_be;
-  1005				map->format.parse_val = regmap_parse_24_be;
-  1006				break;
-  1007			default:
-  1008				goto err_hwlock;
-  1009			}
-  1010			break;
-  1011		case 32:
-  1012			switch (val_endian) {
-  1013			case REGMAP_ENDIAN_BIG:
-  1014				map->format.format_val = regmap_format_32_be;
-  1015				map->format.parse_val = regmap_parse_32_be;
-  1016				map->format.parse_inplace = regmap_parse_32_be_inplace;
-  1017				break;
-  1018			case REGMAP_ENDIAN_LITTLE:
-  1019				map->format.format_val = regmap_format_32_le;
-  1020				map->format.parse_val = regmap_parse_32_le;
-  1021				map->format.parse_inplace = regmap_parse_32_le_inplace;
-  1022				break;
-  1023			case REGMAP_ENDIAN_NATIVE:
-  1024				map->format.format_val = regmap_format_32_native;
-  1025				map->format.parse_val = regmap_parse_32_native;
-  1026				break;
-  1027			default:
-  1028				goto err_hwlock;
-  1029			}
-  1030			break;
-  1031		}
-  1032	
-  1033		if (map->format.format_write) {
-  1034			if ((reg_endian != REGMAP_ENDIAN_BIG) ||
-  1035			    (val_endian != REGMAP_ENDIAN_BIG))
-  1036				goto err_hwlock;
-  1037			map->use_single_write = true;
-  1038		}
-  1039	
-  1040		if (!map->format.format_write &&
-  1041		    !(map->format.format_reg && map->format.format_val))
-  1042			goto err_hwlock;
-  1043	
-  1044		map->work_buf = kzalloc(map->format.buf_size, GFP_KERNEL);
-  1045		if (map->work_buf == NULL) {
-  1046			ret = -ENOMEM;
-  1047			goto err_hwlock;
-  1048		}
-  1049	
-  1050		if (map->format.format_write) {
-  1051			map->defer_caching = false;
-  1052			map->reg_write = _regmap_bus_formatted_write;
-  1053		} else if (map->format.format_val) {
-  1054			map->defer_caching = true;
-  1055			map->reg_write = _regmap_bus_raw_write;
-  1056		}
-  1057	
-  1058	skip_format_initialization:
-  1059	
-  1060		map->range_tree = RB_ROOT;
-  1061		for (i = 0; i < config->num_ranges; i++) {
-  1062			const struct regmap_range_cfg *range_cfg = &config->ranges[i];
-  1063			struct regmap_range_node *new;
-  1064	
-  1065			/* Sanity check */
-  1066			if (range_cfg->range_max < range_cfg->range_min) {
-  1067				dev_err(map->dev, "Invalid range %d: %u < %u\n", i,
-  1068					range_cfg->range_max, range_cfg->range_min);
-  1069				goto err_range;
-  1070			}
-  1071	
-  1072			if (range_cfg->range_max > map->max_register) {
-  1073				dev_err(map->dev, "Invalid range %d: %u > %u\n", i,
-  1074					range_cfg->range_max, map->max_register);
-  1075				goto err_range;
-  1076			}
-  1077	
-  1078			if (range_cfg->selector_reg > map->max_register) {
-  1079				dev_err(map->dev,
-  1080					"Invalid range %d: selector out of map\n", i);
-  1081				goto err_range;
-  1082			}
-  1083	
-  1084			if (range_cfg->window_len == 0) {
-  1085				dev_err(map->dev, "Invalid range %d: window_len 0\n",
-  1086					i);
-  1087				goto err_range;
-  1088			}
-  1089	
-  1090			/* Make sure, that this register range has no selector
-  1091			   or data window within its boundary */
-  1092			for (j = 0; j < config->num_ranges; j++) {
-  1093				unsigned int sel_reg = config->ranges[j].selector_reg;
-  1094				unsigned int win_min = config->ranges[j].window_start;
-  1095				unsigned int win_max = win_min +
-  1096						       config->ranges[j].window_len - 1;
-  1097	
-  1098				/* Allow data window inside its own virtual range */
-  1099				if (j == i)
-  1100					continue;
-  1101	
-  1102				if (range_cfg->range_min <= sel_reg &&
-  1103				    sel_reg <= range_cfg->range_max) {
-  1104					dev_err(map->dev,
-  1105						"Range %d: selector for %d in window\n",
-  1106						i, j);
-  1107					goto err_range;
-  1108				}
-  1109	
-  1110				if (!(win_max < range_cfg->range_min ||
-  1111				      win_min > range_cfg->range_max)) {
-  1112					dev_err(map->dev,
-  1113						"Range %d: window for %d in window\n",
-  1114						i, j);
-  1115					goto err_range;
-  1116				}
-  1117			}
-  1118	
-  1119			new = kzalloc(sizeof(*new), GFP_KERNEL);
-  1120			if (new == NULL) {
-  1121				ret = -ENOMEM;
-  1122				goto err_range;
-  1123			}
-  1124	
-  1125			new->map = map;
-  1126			new->name = range_cfg->name;
-  1127			new->range_min = range_cfg->range_min;
-  1128			new->range_max = range_cfg->range_max;
-  1129			new->selector_reg = range_cfg->selector_reg;
-  1130			new->selector_mask = range_cfg->selector_mask;
-  1131			new->selector_shift = range_cfg->selector_shift;
-  1132			new->window_start = range_cfg->window_start;
-  1133			new->window_len = range_cfg->window_len;
-  1134	
-  1135			if (!_regmap_range_add(map, new)) {
-  1136				dev_err(map->dev, "Failed to add range %d\n", i);
-  1137				kfree(new);
-  1138				goto err_range;
-  1139			}
-  1140	
-  1141			if (map->selector_work_buf == NULL) {
-  1142				map->selector_work_buf =
-  1143					kzalloc(map->format.buf_size, GFP_KERNEL);
-  1144				if (map->selector_work_buf == NULL) {
-  1145					ret = -ENOMEM;
-  1146					goto err_range;
-  1147				}
-  1148			}
-  1149		}
-  1150	
-  1151		ret = regcache_init(map, config);
-  1152		if (ret != 0)
-  1153			goto err_range;
-  1154	
-  1155		if (dev) {
-  1156			ret = regmap_attach_dev(dev, map, config);
-  1157			if (ret != 0)
-  1158				goto err_regcache;
-  1159		} else {
-  1160			regmap_debugfs_init(map);
-  1161		}
-  1162	
-  1163		return map;
-  1164	
-  1165	err_regcache:
-  1166		regcache_exit(map);
-  1167	err_range:
-  1168		regmap_range_exit(map);
-  1169		kfree(map->work_buf);
-  1170	err_hwlock:
-  1171		if (map->hwlock)
-  1172			hwspin_lock_free(map->hwlock);
-  1173	err_name:
-  1174		kfree_const(map->name);
-  1175	err_map:
-  1176		kfree(map);
-  1177	err:
-  1178		if (bus && bus->free_on_exit)
-  1179			kfree(bus);
-  1180		return ERR_PTR(ret);
-  1181	}
-  1182	EXPORT_SYMBOL_GPL(__regmap_init);
-  1183	
+    62	
+    63	/*
+    64	 * Should we panic when a soft-lockup or hard-lockup occurs:
+    65	 */
+    66	unsigned int __read_mostly hardlockup_panic =
+    67				IS_ENABLED(CONFIG_BOOTPARAM_HARDLOCKUP_PANIC);
+    68	
+    69	/*
+    70	 * bitmasks to control what kinds of system info to be printed when
+    71	 * hard lockup is detected, it could be task, memory, lock etc.
+    72	 * Refer include/linux/sys_info.h for detailed bit definition.
+    73	 */
+  > 74	static unsigned long hardlockup_si_mask;
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
