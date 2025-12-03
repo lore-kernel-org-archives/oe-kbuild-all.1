@@ -1,99 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9B629A9E9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 07:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD27299AA3
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 08:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764747085; cv=none; b=oJcSq51r/KBY2Ie25G6YETj9vqiqIxYecHKyh4JL3VVwx+3dVa4OK2MMZKf2g9GxuN2ry7d4pl6A/HyBOLxK3cSoKTyI4uWFOona+wsvpggSKgv7YG22iGTGhaCADBMmc7d5KMn6Yut4skqTj8zSfUVoReCm6q/ijlzbNQBiQ2Q=
+	t=1764749225; cv=none; b=mi2GYZA576kPET3gGK+WdGAh/M1Sk4ZoA5sK2IMlq91xJYIBiXDQsG+NAbGB16cARvqDjhYW/w14Aib4qrT6COrRI/nIWfxPowMfo9mx4+7JmuNbhbzUcVhIPvsWN4CR5e7eO+NMt+NodiY7jb0M2PNoFCMB0kkhCcckDZeMu/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764747085; c=relaxed/simple;
-	bh=G1g4kTeDoN/gzH0PTtN/ZSScTjIaNIu2g7J/DD0IXaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HUaZ5GewhzTabp94n7EpMf9SQPEeXtWl+JW3S1MAHH/vjcGl7kUE/+racUz9n+hW+NNm6eZXBanurBNLMuaejfgBg2AlZRdMCPeGqW4slLKPCYBjXt9wkEiOfhQMndUkRADrCcSAcpDSej+3QQbAr709meiF6AJGsYeNav0ZgiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CEv49g9N; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764749225; c=relaxed/simple;
+	bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=to9+k2fNRoLj1kA/Xks9dhtUJOR1iCyJgvSqWNLt0DoDqnjZtQFkCBqjKgmg3Dg/Bqp5fHiUJBpD4bLkfiEFF+Hsa76sl5y86Ezy2RDTad1OVD0+Xt4YfdMgjG8pwy/8Ei6K5rUhIfecatvp0YCKXbIW0Yu2eef+mvE4uRfpiFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=VJl5CPyF; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CEv49g9N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764747084; x=1796283084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G1g4kTeDoN/gzH0PTtN/ZSScTjIaNIu2g7J/DD0IXaY=;
-  b=CEv49g9N57iCb4clVP/7MzZcGTG2qAZ2X10LK9ezsubiTDOvKFJT4EyR
-   G1lzyV8f9eehefx1T0hFHAT3aFdHUyXGm0ZvzWGGvTKThWRAP8ZL3vyDi
-   Quiw99JxCYdLSDEsVVwuEcQYv6c+y/IvQ5eRM4e9wJxnX+ZKAREC3j3G/
-   4WddywFpN7anoBXI28OimHBoKVmbeN1tfKbZJPrIUFeZtjkR4M3UsMHQ2
-   2+kK74hDtX0am3iEuLHY+R+JEbwL+rwVgNktjUBwHwzUqNzjJsu9Jc3zH
-   vLxztdaAzQBbWvbeFEJHZPtno4nkByfgYOv+EpEDbhnDGTNqDM7sCf1f+
-   g==;
-X-CSE-ConnectionGUID: orPfdA5UT1y8SFMrroXLKg==
-X-CSE-MsgGUID: bU4WwsaARAmu6+Sly/A1sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77412475"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="77412475"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 23:31:23 -0800
-X-CSE-ConnectionGUID: Dn76+ZHVQ+GaRIClVt0zcA==
-X-CSE-MsgGUID: ATwKRMtlTvaAWAynPf12WA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="217933721"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Dec 2025 23:31:22 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQhKZ-00000000Ai1-1LjY;
-	Wed, 03 Dec 2025 07:31:19 +0000
-Date: Wed, 3 Dec 2025 15:30:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Gary Guo <gary@garyguo.net>
-Subject: error[E0560]: struct `bindings::file_operations` has no field named
- `mmap`
-Message-ID: <202512031542.URVb8ITS-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="VJl5CPyF"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3437af8444cso7512548a91.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Dec 2025 00:07:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1764749223; x=1765354023; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
+        b=VJl5CPyF1/RHefQW/5UMoVlX0nwFI2oT/v9aagJ3uPzqNA/K0dcDDoIdaCmYJu8IEb
+         2SeNf8KdXgdDoWY9ZG2Izyq/o2kVREDfAwmNaDOPFh99aLWqChLZQmlCkgnAQPrTsURF
+         y32DemKaUrr74lsoBa47VRZWjgbe3d2ZgQIYU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764749223; x=1765354023;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
+        b=TLRxBCGI7Op4SDF4BR7k4XiURz7J4s+tOCouh5epn/Ha+7v91GDjKTBRliM1vMg1OG
+         kTQxx4AIfR1qWG+bFEqIjiRyuOVKiPHhoTNcEk5RhfNh+YxU7ARnElJxJQTDgOoOn5lD
+         d8bP0GNMKzas8yJUrMZnLu9QtTEKpdtF/abbeoASnyFyYsiJCtaCTas6hbQzs+EEhUS/
+         JpHa5gwvVchLfZLMYp7UddzVI1N9Bo2NFLgazrJ1LVgh5gd1vwNj1UsL7Ks61BZdj6Rz
+         TTycsLHGlOu+poBJrgHItHYFmeCR/mVRC7oBVk/IIoTjfskxwUMxqYtmS6r1O6Ik9dJ8
+         2LDg==
+X-Forwarded-Encrypted: i=1; AJvYcCV5HNLCeV/rd3XO4ixE95iBwp7Yuzamzgq7r72xOzJViMBfBH7VSGKae0z5Iubwz+weK6PSmWs3tjEdV3yW@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+bW50CJOt4SqHVvVfxg9ZKMZtgXafUaMc0yCgqfW3+OJURtVD
+	TjhvNmlFq27UrbrmyPOvwMFiljAHiLgvSIUSfa1DSft4JKrBvjpqrdgM3HyHVaYWwJLgqr/Pl5Y
+	cZZRLt4PNcTeYjnZ2u9qKODZYp8qlLKgV2jmA9wYd3A==
+X-Gm-Gg: ASbGncujKjSlbEQoWviAaprW1z5bzaoEadTg9vpTCNs3eWIOT5t2YOMaDcd/SI6XrTq
+	UBsFeeAGRRDIXeY+Bb+k9fVEamc54drWd0dBfEDHIBC2wfgTyBFNAR3ZsA5E0b1ulehjf3wu2JI
+	rfOY19lEi56pwIAGT2JWNoVu5sZO3joGOac/qEqASNE8fmkUWzIv1c1mpkg7Y2ttUp1YBlj/vKK
+	zu0hbAf7QgWjigZS91zz+LSJ2Zjcz88y1AmtqBFcZsFd9bn+nKVRC5QYik077kkyXGlp6y1
+X-Google-Smtp-Source: AGHT+IEkhPS/1t5aWn66HdrhuKIufecStZBHy4HAaA+gH5GymYQAa2QcZdly0X0LFCKmADzkkz/N+CfyjLmyH6GwNyQ=
+X-Received: by 2002:a17:90b:534e:b0:32b:9750:10e4 with SMTP id
+ 98e67ed59e1d1-349126f0736mr1811981a91.27.1764749223337; Wed, 03 Dec 2025
+ 00:07:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251127000505.2117956-1-daniel@thingy.jp> <202511270956.hzGiPzdZ-lkp@intel.com>
+ <CAFr9PXngrVvcQ2yO0JUj6ve1T39rWftwECnKfUcV3PcKUCPPmg@mail.gmail.com> <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
+In-Reply-To: <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
+From: Daniel Palmer <daniel@thingy.jp>
+Date: Wed, 3 Dec 2025 17:06:52 +0900
+X-Gm-Features: AWmQ_bnS9BDxaDFZorffwfoU6u2xuAk1McRav0PjgsGRdFzJ_fhtggnUthokDX8
+Message-ID: <CAFr9PXm_8Lyk5rPMWw+mAzu97RRfjLj8NLqz5K0Po4p9PM6FOw@mail.gmail.com>
+Subject: Re: [PATCH] m68k: implement runtime consts
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, kas@kernel.org, 
+	mingo@kernel.org, seanjc@google.com, bp@alien8.de, 
+	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alice,
+Hi Geert,
 
-FYI, the error/warning still remains.
+On Thu, 27 Nov 2025 at 19:22, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
-commit: f8c78198816f04619da6eebfc5b67741bff56325 rust: miscdevice: add mmap support
-date:   7 months ago
-config: arm-randconfig-r121-20251201 (https://download.01.org/0day-ci/archive/20251203/202512031542.URVb8ITS-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031542.URVb8ITS-lkp@intel.com/reproduce)
+>
+> Replacing the macros by static inline functions should fix that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512031542.URVb8ITS-lkp@intel.com/
+Thanks. I've done that now. Any comments on the rest of this?
+I have a few things like implementing jump labels, a vDSO to get
+around the sys_get_thread_area() bottleneck to come after this.
 
-All errors (new ones prefixed by >>):
+Cheers,
 
->> error[E0560]: struct `bindings::file_operations` has no field named `mmap`
-   --> rust/kernel/miscdevice.rs:338:9
-   |
-   338 |         mmap: if T::HAS_MMAP { Some(Self::mmap) } else { None },
-   |         ^^^^ `bindings::file_operations` does not have this field
-   |
-   = note: available fields are: `_address`
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Daniel
