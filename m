@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2787D25EF87
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 03:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A6C14AD20;
+	Wed,  3 Dec 2025 03:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764732795; cv=none; b=RNo8hcKbYlW52eGJZtWQz9ZFkI9oJYYh5aJuaYry2iBlmDAEZd34FmvdNr0Y1COMseLRLu82/YXl2fOHCqTKmAr8jKzoYFMONWoLLNlcuqjs8OInvoEVm/XN9HwjNGDi7rP3qunjMcWQz4p9a0GkZcSiGCzWy1hmM7VLM4OHeHU=
+	t=1764733576; cv=none; b=L3c3X5k5j6VDg6H42AM1t4fGGEHwM1kIfESJR4Ny8sNVt7dVvLS/FK6ZWCSdjgiU+44rPNeu7aQ6VSvT34SQktKxfpd/aDBhCr8BOghgI9ZSUTfQvWZtUcc/dPXofJN3y/1+fem11yGX9aLeEfJr2pkLHKt8SaHWBeU2rC08TYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764732795; c=relaxed/simple;
-	bh=pF92qd8vcNzCTWj3vobUghfjCA/jboSHn9Ujh2Ir2pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZbMroY2O8Qz5zYtfqkKsBB3F6+PaGAFYu6tP2NrzzAFHn+aP6zihjdQQuguQSREtzXFqE5MEreE606gxUtqaEkEyPAPinf6JHuuwwJd50K2KNuDmkJV+9VKHTptuhJeD3ffK6W+5KOfKERtsw9LaFH4j6aleEVbUIMWzdck6uYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESZfTK9/; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1764733576; c=relaxed/simple;
+	bh=Zw01VMIJSuTBcOHvzK3T3px//j+RS/aHvaVxL3azliA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ViJOopTOLmE2kqZPhoTJHEkJMrypWpw0fVZ+hHTcD9ec/PAj+16QnfvGw3shg6cP3ncsI+8w5zZJI9qLS67a1/y+fqWRoAsDK1Ab6niXZsLu//W6podztIw8sTF4uV7J+auObR6hqN3S/XV+SrkOKzydQwHR1i/0TtCbl+0c5IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cQKqXfgE; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESZfTK9/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cQKqXfgE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764732795; x=1796268795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pF92qd8vcNzCTWj3vobUghfjCA/jboSHn9Ujh2Ir2pg=;
-  b=ESZfTK9/KUVyosxzRSd6Rttq+1FM2TW835N0aN6y41I8Rx+qZVfdrIgm
-   Nia+oigWYvVwGWn/joFS3XnO2oPo4n6HFQFNihDTn35kaox/cjx8puwHu
-   4C4dAAHfrMzFGpiK17EOi8DJSQq/oD23+vcCqAdhYFn98OCSiru8YeOs2
-   PuWMJvl3kUDhSeaCnblAUQmyldGG8mZAC/SSE/KtPJ0NsDWZQ5jH3MzaM
-   UufnYTtAZwj3HUcSrJ+H0p0QReaKJQC2TKamO5YagAwqguP5maIuKjKxF
-   6qH6MvDVN1WmoLhgfY3X1WqVokqB1L6uzCvl3eSOc4E0z0b8V0jk+RRPr
-   Q==;
-X-CSE-ConnectionGUID: LE/wI6ofQCSo5jPaSS3WLA==
-X-CSE-MsgGUID: 57IUC6S1QDegCFirg7LqJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70575448"
+  t=1764733573; x=1796269573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zw01VMIJSuTBcOHvzK3T3px//j+RS/aHvaVxL3azliA=;
+  b=cQKqXfgEimW7OK2rEko+HzGh/Pxe+u3E3yjopiWntTEVm75qL2Wx+7LI
+   maqFfVpSsYDQQU40YoRv9Jtq8ro/V7bkIgWtuUhPWis/J3S/HldueQ+L+
+   ZVnQO0uEVbfeZQJfCJqqwP6V9mGvNLWmTOTRsl99dYheE08f7JX8P2TYH
+   r/4Tdnl/7lY5DpenYOqsRHuYfyX4f4t59aFDzb3YefWj02LFZJQh/cP7Y
+   2WoLSPUVA55BTRC/BzlFjw20aPnPZ+Eo+ncRX/CWfpE2lb41jssdlQNBv
+   qzWxEIZEzOh8n4DIonXxGD1c3JH1BZ5XKrNnCCy3jphfQqoe9J6K+o9aJ
+   g==;
+X-CSE-ConnectionGUID: BQ/8uuAzSUmACZQKBBnM5Q==
+X-CSE-MsgGUID: /lh4WAaPQ4GFCaTMbwQ8rQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66884911"
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="70575448"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 19:33:11 -0800
-X-CSE-ConnectionGUID: HvT7mUsUQ6mW8CLiMGx01Q==
-X-CSE-MsgGUID: eCvzKnVUTfGr3RdF5NMFlw==
+   d="scan'208";a="66884911"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 19:46:13 -0800
+X-CSE-ConnectionGUID: J8f8GMFXTxCq8y5/TGHTjA==
+X-CSE-MsgGUID: q+fo0rYBSdieFER7JNu8cQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="194554550"
+   d="scan'208";a="193843758"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2025 19:33:09 -0800
+  by orviesa010.jf.intel.com with ESMTP; 02 Dec 2025 19:46:11 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQdc3-00000000AVr-0yLy;
-	Wed, 03 Dec 2025 03:33:07 +0000
-Date: Wed, 3 Dec 2025 11:33:02 +0800
+	id 1vQdoe-00000000AWf-0PZ3;
+	Wed, 03 Dec 2025 03:46:08 +0000
+Date: Wed, 3 Dec 2025 11:45:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3.1 14/28] mm/bpf_memcontrol.c:110:27: sparse:
- sparse: symbol 'bpf_mem_cgroup_memory_events' was not declared. Should it be
- static?
-Message-ID: <202512031109.23tnEFwS-lkp@intel.com>
+To: Nilesh Javali <njavali@marvell.com>, martin.petersen@oracle.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-scsi@vger.kernel.org, GR-QLogic-Storage-Upstream@marvell.com,
+	agurumurthy@marvell.com, sdeodhar@marvell.com, emilne@redhat.com,
+	jmeneghi@redhat.com
+Subject: Re: [PATCH 03/12] qla2xxx: Add load flash firmware mailbox support
+ for 28xxx
+Message-ID: <202512031128.XsuvzBv1-lkp@intel.com>
+References: <20251202054444.1711778-4-njavali@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,132 +66,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251202054444.1711778-4-njavali@marvell.com>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3.1
-head:   dca9f586d5471222d105b51cf2ceb5eb91fdda01
-commit: 7a2b79c829dc8a15df310c4dc92d9c01b1e0bfa3 [14/28] mm: introduce BPF kfunc to access memory events
-config: i386-randconfig-062-20251202 (https://download.01.org/0day-ci/archive/20251203/202512031109.23tnEFwS-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031109.23tnEFwS-lkp@intel.com/reproduce)
+Hi Nilesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e6965188f84a7883e6a0d3448e86b0cf29b24dfc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Add-Speed-in-SFP-print-information/20251202-140943
+base:   e6965188f84a7883e6a0d3448e86b0cf29b24dfc
+patch link:    https://lore.kernel.org/r/20251202054444.1711778-4-njavali%40marvell.com
+patch subject: [PATCH 03/12] qla2xxx: Add load flash firmware mailbox support for 28xxx
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251203/202512031128.XsuvzBv1-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031128.XsuvzBv1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512031109.23tnEFwS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512031128.XsuvzBv1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/bpf_memcontrol.c:110:27: sparse: sparse: symbol 'bpf_mem_cgroup_memory_events' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:63:9: sparse: sparse: context imbalance in 'bpf_get_mem_cgroup' - different lock contexts for basic block
+All warnings (new ones prefixed by >>):
 
-vim +/bpf_mem_cgroup_memory_events +110 mm/bpf_memcontrol.c
+>> drivers/scsi/qla2xxx/qla_init.c:8490:28: warning: variable 'fragment' set but not used [-Wunused-but-set-variable]
+    8490 |         uint templates, segments, fragment;
+         |                                   ^
+   In file included from drivers/scsi/qla2xxx/qla_init.c:6:
+   In file included from drivers/scsi/qla2xxx/qla_def.h:12:
+   In file included from include/linux/module.h:13:
+   In file included from include/linux/stat.h:19:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:11:
+   In file included from arch/x86/include/asm/msr.h:11:
+   In file included from arch/x86/include/asm/cpumask.h:5:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:13:
+   In file included from include/linux/string.h:382:
+   include/linux/fortify-string.h:580:4: warning: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     580 |                         __read_overflow2_field(q_size_field, size);
+         |                         ^
+   2 warnings generated.
 
-    12	
-    13	/**
-    14	 * bpf_get_root_mem_cgroup - Returns a pointer to the root memory cgroup
-    15	 *
-    16	 * The function has KF_ACQUIRE semantics, even though the root memory
-    17	 * cgroup is never destroyed after being created and doesn't require
-    18	 * reference counting. And it's perfectly safe to pass it to
-    19	 * bpf_put_mem_cgroup()
-    20	 */
-  > 21	__bpf_kfunc struct mem_cgroup *bpf_get_root_mem_cgroup(void)
-    22	{
-    23		/* css_get() is not needed */
-    24		return root_mem_cgroup;
-    25	}
-    26	
-    27	/**
-    28	 * bpf_get_mem_cgroup - Get a reference to a memory cgroup
-    29	 * @css: pointer to the css structure
-    30	 *
-    31	 * Returns a pointer to a mem_cgroup structure after bumping
-    32	 * the corresponding css's reference counter.
-    33	 *
-    34	 * It's fine to pass a css which belongs to any cgroup controller,
-    35	 * e.g. unified hierarchy's main css.
-    36	 *
-    37	 * Implements KF_ACQUIRE semantics.
-    38	 */
-    39	__bpf_kfunc struct mem_cgroup *
-    40	bpf_get_mem_cgroup(struct cgroup_subsys_state *css)
-    41	{
-    42		struct mem_cgroup *memcg = NULL;
-    43		bool rcu_unlock = false;
-    44	
-    45		if (!root_mem_cgroup)
-    46			return NULL;
-    47	
-    48		if (root_mem_cgroup->css.ss != css->ss) {
-    49			struct cgroup *cgroup = css->cgroup;
-    50			int ssid = root_mem_cgroup->css.ss->id;
-    51	
-    52			rcu_read_lock();
-    53			rcu_unlock = true;
-    54			css = rcu_dereference_raw(cgroup->subsys[ssid]);
-    55		}
-    56	
-    57		if (css && css_tryget(css))
-    58			memcg = container_of(css, struct mem_cgroup, css);
-    59	
-    60		if (rcu_unlock)
-    61			rcu_read_unlock();
-    62	
-    63		return memcg;
-    64	}
-    65	
-    66	/**
-    67	 * bpf_put_mem_cgroup - Put a reference to a memory cgroup
-    68	 * @memcg: memory cgroup to release
-    69	 *
-    70	 * Releases a previously acquired memcg reference.
-    71	 * Implements KF_RELEASE semantics.
-    72	 */
-    73	__bpf_kfunc void bpf_put_mem_cgroup(struct mem_cgroup *memcg)
-    74	{
-    75		css_put(&memcg->css);
-    76	}
-    77	
-    78	/**
-    79	 * bpf_mem_cgroup_vm_events - Read memory cgroup's vm event counter
-    80	 * @memcg: memory cgroup
-    81	 * @event: event id
-    82	 *
-    83	 * Allows to read memory cgroup event counters.
-    84	 */
-    85	__bpf_kfunc unsigned long bpf_mem_cgroup_vm_events(struct mem_cgroup *memcg,
-    86							enum vm_event_item event)
-    87	{
-    88		return memcg_events(memcg, event);
-    89	}
-    90	
-    91	/**
-    92	 * bpf_mem_cgroup_usage - Read memory cgroup's usage
-    93	 * @memcg: memory cgroup
-    94	 *
-    95	 * Returns current memory cgroup size in bytes.
-    96	 */
-    97	__bpf_kfunc unsigned long bpf_mem_cgroup_usage(struct mem_cgroup *memcg)
-    98	{
-    99		return page_counter_read(&memcg->memory) * PAGE_SIZE;
-   100	}
-   101	
-   102	/**
-   103	 * bpf_mem_cgroup_events - Read memory cgroup's page state counter
-   104	 * bpf_mem_cgroup_memory_events - Read memory cgroup's memory event value
-   105	 * @memcg: memory cgroup
-   106	 * @event: memory event id
-   107	 *
-   108	 * Returns current memory event count.
-   109	 */
- > 110	__bpf_kfunc unsigned long bpf_mem_cgroup_memory_events(struct mem_cgroup *memcg,
-   111							enum memcg_memory_event event)
-   112	{
-   113		if (event >= MEMCG_NR_MEMORY_EVENTS)
-   114			return (unsigned long)-1;
-   115	
-   116		return atomic_long_read(&memcg->memory_events[event]);
-   117	}
-   118	
+
+vim +/fragment +8490 drivers/scsi/qla2xxx/qla_init.c
+
+  8482	
+  8483	static int
+  8484	qla28xx_load_fw_template(scsi_qla_host_t *vha, uint32_t faddr)
+  8485	{
+  8486		struct qla_hw_data *ha = vha->hw;
+  8487		struct fwdt *fwdt = ha->fwdt;
+  8488		struct req_que *req = ha->req_q_map[0];
+  8489		uint32_t risc_size, risc_attr = 0;
+> 8490		uint templates, segments, fragment;
+  8491		uint32_t *dcode;
+  8492		ulong dlen;
+  8493		int rval;
+  8494		uint j;
+  8495	
+  8496		dcode = (uint32_t *)req->ring;
+  8497		segments = FA_RISC_CODE_SEGMENTS;
+  8498	
+  8499		for (j = 0; j < segments; j++) {
+  8500			rval = qla24xx_read_flash_data(vha, dcode, faddr, 10);
+  8501			if (rval) {
+  8502				ql_log(ql_log_fatal, vha, 0x01a1,
+  8503				       "-> Failed to read flash addr + size .\n");
+  8504				return QLA_FUNCTION_FAILED;
+  8505			}
+  8506	
+  8507			risc_size = be32_to_cpu((__force __be32)dcode[3]);
+  8508	
+  8509			if (risc_attr == 0)
+  8510				risc_attr = be32_to_cpu((__force __be32)dcode[9]);
+  8511	
+  8512			dlen = ha->fw_transfer_size >> 2;
+  8513			for (fragment = 0; risc_size; fragment++) {
+  8514				if (dlen > risc_size)
+  8515					dlen = risc_size;
+  8516	
+  8517				faddr += dlen;
+  8518				risc_size -= dlen;
+  8519			}
+  8520		}
+  8521	
+  8522		templates = (risc_attr & BIT_9) ? 2 : 1;
+  8523	
+  8524		ql_dbg(ql_dbg_init, vha, 0x01a1, "-> templates = %u\n", templates);
+  8525	
+  8526		for (j = 0; j < templates; j++, fwdt++) {
+  8527			vfree(fwdt->template);
+  8528			fwdt->template = NULL;
+  8529			fwdt->length = 0;
+  8530	
+  8531			dcode = (uint32_t *)req->ring;
+  8532	
+  8533			rval = qla24xx_read_flash_data(vha, dcode, faddr, 7);
+  8534			if (rval) {
+  8535				ql_log(ql_log_fatal, vha, 0x01a2,
+  8536				    "-> Unable to read template size.\n");
+  8537				goto failed;
+  8538			}
+  8539	
+  8540			risc_size = be32_to_cpu((__force __be32)dcode[2]);
+  8541			ql_dbg(ql_dbg_init, vha, 0x01a3,
+  8542			    "-> fwdt%u template array at %#x (%#x dwords)\n",
+  8543			    j, faddr, risc_size);
+  8544			if (!risc_size || !~risc_size) {
+  8545				ql_dbg(ql_dbg_init, vha, 0x01a4,
+  8546				    "-> fwdt%u failed to read array\n", j);
+  8547				goto failed;
+  8548			}
+  8549	
+  8550			/* skip header and ignore checksum */
+  8551			faddr += 7;
+  8552			risc_size -= 8;
+  8553	
+  8554			ql_dbg(ql_dbg_init, vha, 0x01a5,
+  8555			    "-> fwdt%u template allocate template %#x words...\n",
+  8556			    j, risc_size);
+  8557			fwdt->template = vmalloc(risc_size * sizeof(*dcode));
+  8558			if (!fwdt->template) {
+  8559				ql_log(ql_log_warn, vha, 0x01a6,
+  8560				    "-> fwdt%u failed allocate template.\n", j);
+  8561				goto failed;
+  8562			}
+  8563	
+  8564			dcode = fwdt->template;
+  8565			rval = qla24xx_read_flash_data(vha, dcode, faddr, risc_size);
+  8566	
+  8567			if (rval || !qla27xx_fwdt_template_valid(dcode)) {
+  8568				ql_log(ql_log_warn, vha, 0x01a7,
+  8569				    "-> fwdt%u failed template validate (rval %x)\n",
+  8570				    j, rval);
+  8571				goto failed;
+  8572			}
+  8573	
+  8574			dlen = qla27xx_fwdt_template_size(dcode);
+  8575			ql_dbg(ql_dbg_init, vha, 0x01a7,
+  8576			    "-> fwdt%u template size %#lx bytes (%#lx words)\n",
+  8577			    j, dlen, dlen / sizeof(*dcode));
+  8578			if (dlen > risc_size * sizeof(*dcode)) {
+  8579				ql_log(ql_log_warn, vha, 0x01a8,
+  8580				    "-> fwdt%u template exceeds array (%-lu bytes)\n",
+  8581				    j, dlen - risc_size * sizeof(*dcode));
+  8582				goto failed;
+  8583			}
+  8584	
+  8585			fwdt->length = dlen;
+  8586			ql_dbg(ql_dbg_init, vha, 0x01a9,
+  8587			    "-> fwdt%u loaded template ok\n", j);
+  8588	
+  8589			faddr += risc_size + 1;
+  8590		}
+  8591	
+  8592		return QLA_SUCCESS;
+  8593	
+  8594	failed:
+  8595		vfree(fwdt->template);
+  8596		fwdt->template = NULL;
+  8597		fwdt->length = 0;
+  8598	
+  8599		return QLA_SUCCESS;
+  8600	}
+  8601	
 
 -- 
 0-DAY CI Kernel Test Service
