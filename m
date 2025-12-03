@@ -1,66 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FA723770A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 02:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C62F23770A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 02:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764728756; cv=fail; b=BT5Ca/EbyZm2ExMcLcDKQ8v5u/SHIfPfkR18S5ukmcCzRSJOKGe/Vf9RNUH3uUg9wjET24tTOM3y476eDdmJbi4hE4Mcx7OfPWDIH6HeusQ0DWrlgOBRtgh+Jge3VtqUAMNSWKZ7yxhRP0O2aoIClJJ55CJBMqpNrAPLwk2d5mw=
+	t=1764728802; cv=fail; b=ZrBpIs3RMjltFTsO1ppbgmQc28cFGFVwFv8jkDqoZLLgBWFkZw8LydD2QEiMLYxXePfbKWOH6Xy297tLuvbr13pEqIgZxd3zgFpeCppLhQdqBSD44LsMjXIHRFdKqmRh1M0wuRkLTzgFjwYJQDHDA6CxiulogWw/vgAUsZ1Jzu4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764728756; c=relaxed/simple;
-	bh=gTUzBBtYrSVhl4r+DGteOVZMgsAzZUIjDFVvfPKkVUs=;
+	s=arc-20240116; t=1764728802; c=relaxed/simple;
+	bh=1AO9aTzQUxXa0BZoKRlUVIHtBU0J8VCAduay7FcmifM=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=NRNDkxG7cL8EHeUs6rI+73ry31ZxhrEXwJKFpVG33Yvj0PIsaP8I1oxJ7tWFlTpvY8r8zszAviuXV6GTUFUS8DltaPbgPF4c5GnXQ3QTEa2IGIero2dlvbQ2S6krWHcc9ulDiEJ5iZqeXszFolyqBPUyP/skOrGWBbNRcFElrXo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfCf2Ib4; arc=fail smtp.client-ip=192.198.163.17
+	 Content-Disposition:MIME-Version; b=tWrHAvtjGOzLFFl64s9ZJFRGcNC0Blj8TNbftV0nXeWIbMrdVAtrsoUSzN771Zie6GGHVu8B20K9Ry9Uwh6JLKh6aoRtmumhnG4HBnUdwjwR/aYqMcQM9kkjphba+1DibfBiIAwThb9TNWHUp/z7hJbMDvysqhfdFP3NRG7T/5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceXlkY7k; arc=fail smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfCf2Ib4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceXlkY7k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764728755; x=1796264755;
+  t=1764728801; x=1796264801;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gTUzBBtYrSVhl4r+DGteOVZMgsAzZUIjDFVvfPKkVUs=;
-  b=AfCf2Ib4kD7nOl0phrPhaYfy/0POE4rOhSVkKSYqhBTQeq0h5XsmHUBK
-   VFgQ3gr0c9GwxEMx9o/dWzgfEthdPjgVPGLw2T55y68Shb9ptAMXpPUkw
-   2AMRyElZqRV6cuSnEFuJRftNQSkrFKfknmqtYBh91S+H2xFnV2nncU7Fh
-   InP4h4uJsSNHa1WeK7iXLAgnnoeLipuoxQAup0qXiO5BQYEAttCT4fIU9
-   3yqxy6zvagvr0CiVLZQlIAY+P9bxfWmCcTk+8l2QMwU8nIagO95CFDu/V
-   LSP5JnGW61//Rt+m/mlwdtoKDj1wGShzso22JBfMQo5ppgVBD5h36Qwmz
-   Q==;
-X-CSE-ConnectionGUID: n4Fb7oStSJSZfAqZmv5JtQ==
-X-CSE-MsgGUID: 2Dz+EM4dRQ+2YkTkTDmRCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66602201"
+  bh=1AO9aTzQUxXa0BZoKRlUVIHtBU0J8VCAduay7FcmifM=;
+  b=ceXlkY7kZ7uazS4gbUqEdE8X5cR5iOBW44Ht5Cojw/kSMcZOeem8DiBi
+   kTz1uV48OR7LUOqMoO2x5cHBXz7+Zc/mXIXgJ+3x75+XtgLvTAaSK7wDC
+   eseJPW2rWXPgWZo4dWlRg2DcJe19Hl1vWCnKOgUe5eAHLgbzNkOjdCoXF
+   3iZXPMuTBtRGXqfV0AEfFb/7jKFK3xhGwwagE1WS+c0oYpZ2a0xqS5ull
+   /bJy0FwdIaA390g5jPoTi7yrgUNPjBleoK/1Gz5HwlWQkiaTQnfYpsW3X
+   ObPl08dMnsbryl1Zv1G1JRo2/J6rwvz4H1vmDe3mU36kUfX37oHQ0V+tp
+   w==;
+X-CSE-ConnectionGUID: GKTLY/6vTwK/Y2liGygrsw==
+X-CSE-MsgGUID: kekAtO6eRp+IKCDeUxcozA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66434214"
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="66602201"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 18:25:54 -0800
-X-CSE-ConnectionGUID: OliNIXp8TruhDeSrkUrptQ==
-X-CSE-MsgGUID: VKIKOLMHRwyJtGSkXzxkVw==
+   d="scan'208";a="66434214"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 18:26:40 -0800
+X-CSE-ConnectionGUID: T6ZFgRaCQ+ivnQMfzZoFHQ==
+X-CSE-MsgGUID: 8KhM4ph6QLe9f5UC8vGfXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; 
-   d="scan'208";a="194967910"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 18:25:53 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+   d="scan'208";a="193632911"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2025 18:26:41 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 18:25:53 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.2.2562.29; Tue, 2 Dec 2025 18:26:40 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 18:25:53 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.24) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 18:26:40 -0800
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.71) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 18:25:53 -0800
+ 15.2.2562.29; Tue, 2 Dec 2025 18:26:39 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UUcouYXhKs29je6wZjY1/Fx6hLz+PbBy9BlW0aGXYMZEGKAQitcFCoXXGTCTqZyXzsBEEfJCZ5kUx7nTJYLkgSS18K3r1al5nq/MkdGZYPh14HBea4RBmA6Ne46CtW+FT4yXbaQMuGg+NEgBENRJ+YSxQIhgCZvdxZm5qeHljqdVbZnF9ZjAQAlWRZ6h1zjSMZam9FKkuAQO7t3WZc+T/X5QzGQHzoy7zlM0sjNuNzZWQmGuZDltdp6DjCJyJGZ7XpAmiWu7pP3EJUyqINJQ5TwE1u9UXly9ie33iG+Y66WFtOHGmNSHxJCBwqr1S2cmIuOZJyPNmzwXM2bC+ao/hg==
+ b=ZqMltk7j43LEY7Q2DMiVm4WGpEgrZhs+PUpKD3BGE2l2OiKdj1PyjYpaEsUJ5CTyJXocxQDirV2XvXakyHmGEpe7kTMV+kkOwTbI6ron/9S2dEuyZAmmXJaUM7QFmRbGkJ1PAut8xhcE58hFb13SBkhUUomDYNiT+kLdZyI8VFmSqmk3DghT7jWd8v6BPaoMUmbEu3H4dDfWYbB+n6JLKh/yvsD3dEmorRoAdcm01YYPxX3bDcV3NiAcvtpc+BWcz9meGsEAqAxp5nxa98e5ZnLW2MR9OZ1asehfd3xK10SNEbVIZPZwwFQtmk+QTcz3EyD8O0khPWlYE1f20dZ93A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oSW6iV5ZcnUBzjkRgfQMwYapiSqwfjRvoYZpokreouI=;
- b=a7PvFEE+axjbb/PW2ZeAhDuNMn9bTu0tJkBc+Wc/AHkcOXTXZjA7G+1lMxgP7QOwkAgrNP+BfcVRKDaZpmBydHPOyid6ONWo0UPdRLQ1t4qbynw7YrrzEiwsEwVLJPKd0ugro7OkQl+FQkLQ6Na4/pjCFagxZbfBpSBWTgtseS8dpZ7mJmJTyO6mEVbyqbh5IgzPEXvlatDS6pHHHI4T5itu0KHMWNCXneQL+Qg3u2OP6sm5P/27lSnjFGL0lqCwEeC8WtTktRiX1xJ1gHfMaB2hI7ElKsQUayQ6+HHDU94BfiE3INBCPqfGVPT4hg+6qzLXrcLiN78wDNhqm2PVhg==
+ bh=MS8m2nDhbFhRqZWe1Hr48ALZ1LoNDRShX1uxtbJYwFQ=;
+ b=d2+bq7b0DH3fpNl8JLfZeRo55oEKQdN9iSDrTegj5V2xethMJT2+t3AnJ475vS1XVr0R9B1+fxZZvrsyV/ZUSfizgkRg3iH/lRFfgANOnKI2umdWmRkHoVGi4mUGfPON1o12obVXC8rwHhNm5BKDYd/B65luCURbHEUKbs4jU6b2EVLUBiqHb5nx1r7xB85Yp9GMhsclTqr4Vr/pndfQUZqg660pAXY6zqWJrCww0glu0Mvn1BTYXL6FuBPHnbiEaXck0lSs0qkA91pYAg3fjWM3HjIz7/WK/0KzqQzIUsJeclxU9Hug6mOUasEKXwZUIT29qrmDEXKMILS1V6+dFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,22 +70,22 @@ Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
  by DM3PPF1CEB6B7EF.namprd11.prod.outlook.com (2603:10b6:f:fc00::f10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Wed, 3 Dec
- 2025 02:25:51 +0000
+ 2025 02:26:32 +0000
 Received: from MN0PR11MB5963.namprd11.prod.outlook.com
  ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
  ([fe80::edb2:a242:e0b8:5ac9%5]) with mapi id 15.20.9366.012; Wed, 3 Dec 2025
- 02:25:51 +0000
-Date: Wed, 3 Dec 2025 10:25:43 +0800
+ 02:26:32 +0000
+Date: Wed, 3 Dec 2025 10:26:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: <cros-kernel-buildreports@googlegroups.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [android-common:android14-kiwi-6.1 36/36]
- drivers/dma-buf/dma-buf.c:413: warning: Function parameter or member
- 'dmabuf_info' not described in 'dma_buf_account_task'
-Message-ID: <aS+fpwm+9levt67l@rli9-mobl>
+To: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, 0day robot <lkp@intel.com>, Uma Shankar
+	<uma.shankar@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_color_pipeline.c:25:15: error:
+ implicit declaration of function 'drm_plane_colorop_curve_1d_lut_init'
+Message-ID: <aS+fz5ScaI7Hc2iZ@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0168.apcprd04.prod.outlook.com (2603:1096:4::30)
+X-ClientProxiedBy: SG2PR04CA0169.apcprd04.prod.outlook.com (2603:1096:4::31)
  To MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,191 +96,205 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR11MB5963:EE_|DM3PPF1CEB6B7EF:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0a22797-3807-44ab-1f9f-08de321346e2
+X-MS-Office365-Filtering-Correlation-Id: 21f9a1c8-11dc-47b4-ce88-08de32135f78
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Qcs/Uuj0VUgV3v3zgA42Pm9s7c5ASd1p7cAoP2c8lozPSMt/9aVaFGCixoHD?=
- =?us-ascii?Q?8920a/woXfJfL816NSLw7Scx016iWgZj2ILMgeXXrqHmE+Pzl2PwjZ0E+aqa?=
- =?us-ascii?Q?4XggfNrkZCE6frA8zsf9VkFNVli+992SLQ48aQ2qn9PE8F1iCtjGlCmH3SvR?=
- =?us-ascii?Q?sc5XbhqrutY+9QW/JJh9GvEvdYj1TM/XpQ9kTOqzr7ZhWCabTlpgQ5b4b8Lg?=
- =?us-ascii?Q?IJ8QMTATE+a36+QlJWINJ/z/ZQKrDXqVDyOJF64MFfMg0UFuStbrNaFoqbtd?=
- =?us-ascii?Q?oYkM6lRqx5GMh6zUeTfNu6aDcT1lSODlAFKgodhus6UzOzGLjMCxOUM9wN+A?=
- =?us-ascii?Q?kR9K2siYbd/JiEyRcffQgW0Taicn81S+vAMh8rDjDYbKBURDTUC+bCCUOfOU?=
- =?us-ascii?Q?p5VHtCzUpBmmq960nWxAr59OF93o40imea+x49pN6t5aYTPZTpGJ3S3T8J9x?=
- =?us-ascii?Q?RCH+ogO6Ab2hmIuXWwJpn+cC75CpC49oMOp3JxI7jf6lkTvTJ7SVVuHgTMNI?=
- =?us-ascii?Q?oLJzeFis2XggGXwpNvjzwxOAa4JTagAwS5qU0a0aIJsLCwjZw+HM/zFg9Lqe?=
- =?us-ascii?Q?LZlJn6HF36Jv/y7cLlHqSQgxco0Jhm004bIUCpsqPBYZzAeI/1OLpHLufhqp?=
- =?us-ascii?Q?3vySGTJiy44G66uYz+qPVyyj50ALQu7r/umeCBhRsLtemtwGYUKVnjGKslUe?=
- =?us-ascii?Q?H/Unl32SWFV1au58cI+0f1bz8t4AyCtKi3aby9wZwj2D3JQMMGhR8pi0kULQ?=
- =?us-ascii?Q?h0PaRab928B6kxVdbodwHS/swgeSuy+YoNmZ9A3rcX6DEvzsOx+JDV5l7DZD?=
- =?us-ascii?Q?4AEcBova19OUpAcYsoQ3Q4jPUY24Li/4ToKSuZM+2tlTglfkgvrZmobL+Qnn?=
- =?us-ascii?Q?nNAYWr04PNZyc4B7nEE/hl/MjpPB7bIQ8c3Pd2wLCmobgLqY0D6icWFQfT/u?=
- =?us-ascii?Q?saP66VVPwD9ARdYeD/0iJ3CHv9hOP2OF7HMTn11LZNC3lzfMcAbRHryShqZI?=
- =?us-ascii?Q?oWL5xefInj1FH1m1B2PeqHKhSLJH5R8nbXzRshLCselkOBYjCdsGo+ttSM7o?=
- =?us-ascii?Q?00+4uQFDTH89ilUzUb3evzeO2Hde3CIllvodrMfMq3saijfhitmUyKx4b4pf?=
- =?us-ascii?Q?NhwWTZ7Ipwdj1TGqpdUkj9NVDVLDTWiejVCLxvta2OcQCzNM2wLjlDkR2JrC?=
- =?us-ascii?Q?L2Oyy+RMtR1cueD7BwtwMqXyq18K/k3GMocPPQfq1tzJQ/oSu3XhUcM6nwUC?=
- =?us-ascii?Q?8b2KWqe346tiTcirjBb4WiuXjfXyjnUb7eXUeT2bRsKFqzKP8aSFxfpBgSvp?=
- =?us-ascii?Q?+bjqX/QemdUaWlWwpzv4P2/+jkntA3PnPKzWlYCkLOqj/MWRyFyuzzIkHNHN?=
- =?us-ascii?Q?nFMRhk0U+5/EIipbtKbqxIoT7duf+wIlDjSCAsWUNGq7m7gS+WPKRO+hV+2c?=
- =?us-ascii?Q?prNtgxLQVcIY97hk3hNQYeUJSK00Z66G3zEKHwNUP/jYF78JcrVU6Q=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OSWu8aQQqskPIalAQbTeLPWaJQtriXqsQ+JePfy22Cryzy0c52/3Q4qcvamD?=
+ =?us-ascii?Q?hgz9NpVmFakaF6ebXviHX3CG1DY+Yru8dwhaWUOD6pLNQWYdeCTxb2mzI5m1?=
+ =?us-ascii?Q?OYL9H50P9riDwZB1mvCDsLjmtkyaVetkLLLHYNVJGAVNOQOmJN62vdYqbcHQ?=
+ =?us-ascii?Q?Y+ZMcCE1lugBbtkNWzL37zJ73uVgPlWTkiy5rQQyAy2ID5wpR6+QFg4G7XQ7?=
+ =?us-ascii?Q?0jdtbXzrh9YJFoxpEgDC2nRtyyLy2t3qYnGg9qyLhIs6ccUFDcMI52yieX0t?=
+ =?us-ascii?Q?BFHaA2RL9rMzRngoPIeR9tKXrlSScfSS27N0RA7RjAh8eEhCvdzsSfNgLjHj?=
+ =?us-ascii?Q?uD6U0UFgkR3ArV/h/8htSXqwEHidrcVXfkwpvOKnglsJVvaFL8WI2fPjUiEE?=
+ =?us-ascii?Q?h6mfmPfIHYJwiHdeqy7a+Oxzf3i2Ect30hxnRuUBMujQdptk2MrUNHmAJtqF?=
+ =?us-ascii?Q?G54DWzJWHOG8kBk4cFQ6OeQ7DqW3o7cTtQXImU3NfAiBkWFlxNX6WWa5If7i?=
+ =?us-ascii?Q?HpRLzXdLR3Jl5lnQwlN4CphdCbyZ3TrI9Htze8H15zBDEoWYvdbT3NMbw1zv?=
+ =?us-ascii?Q?oElRAFGgQor6XsWUQiBvz0XN9X/s/rq0vLPcZet+JPouNV4s5w+bBwLufl5I?=
+ =?us-ascii?Q?OPFsP26M5nLM6dZ0fXie5pxdTRXMFcXQey/sbrxnhcao52E7233j5TKEYmW1?=
+ =?us-ascii?Q?1m4LZnrWzTUFHjFJwzUnxLoWKVR3ZeOEfPd0HO3UP2lGDWv4xFd/QN8JeA0J?=
+ =?us-ascii?Q?cVRe5+Gxj4P3jEJmY7ZFN61guzpQHS1LSZQ4DE6o57a9tlDVZBpaHJg6Dh6a?=
+ =?us-ascii?Q?lEPuNJsxxrxKtLgw3877j+8t2JzKl3i+xRwGZeGe4J4KXDXjyQuMtXH+sUEo?=
+ =?us-ascii?Q?YMxWBwoZ340sWJP1UQUAzD+Vs6e8Yl7c1NkRtLliuL2RJx1ThX5QFz5x6vWl?=
+ =?us-ascii?Q?ezvzsKpPtTMQDID4hrgr1QaRLhXUemLdYDQk4xJrmf8usHCrDclJLEQ9bmw/?=
+ =?us-ascii?Q?R+oEelm4zN2UZdxLF9b59EhSXY4sPTj3T4gAv9zomk3psxCjQcqWe0pGThXz?=
+ =?us-ascii?Q?CMGNSLkkkwUNXGxlAqewuN+xjvpFIxb47YiQPCtgnaT2I9Alr98FZ2s4kJ2Y?=
+ =?us-ascii?Q?ZQLtXdtuEH+9u8E1io0a67U+C0LsqPW/tBm417X09Sp1sA3hOZPBzCcyGqoX?=
+ =?us-ascii?Q?dU9jTJo7rDxmkFmHAfZ9WMJqZ15LstLKJWWArjYRFsguCKUh/TReEl0rD2Jy?=
+ =?us-ascii?Q?LKB0U7Zba2pY98BSdm0DzfRX0V/1HyY/f6h1aXv8XkhCFIS6pEUWXVr7cNaa?=
+ =?us-ascii?Q?/jwTy2CukTtvHWhBfiHXyRNb0HtgH0IdrDb+/WwoYOmcR5HxiVdYo9JM3rvl?=
+ =?us-ascii?Q?kPHLA57sqdm4f8lOKFFwuY0W6YO8b+qX1ZLXgRzAT8+PDLmYjHocy/bronfX?=
+ =?us-ascii?Q?Dg3Cz1EP1bnYTEsAsXX9ufggdHGCYdvyKRiGKGJqoBeihR66qDDq/Q=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nyn1qGI0Of0S7lZwh7qs9nAcCt23a6tb5ZjOMEuBOXDgL7wZh5KgPXuQ0m7d?=
- =?us-ascii?Q?zpqtzm3nZy3wFVZWzCdz2kP3rPGCt8c+DAg03uO7b5Oe+Onz2AbAVn55tfm0?=
- =?us-ascii?Q?pDyWz8vHTTHsDPu7yj2xxAkr9ksgNEKYoJUnNef70tqkzU0wDfxSMmevzRpU?=
- =?us-ascii?Q?w4vn4mNbc560kQlYUtuqoo7ggLHxDkIm7Mk1TQq6bVSkr20B6SxWMiQ7Z+eN?=
- =?us-ascii?Q?7eaZ3q+pYepe/wGmTdqntY1+Gs55e7xaBgcrEN9FCHpP4d+3LfJJrGWEPewv?=
- =?us-ascii?Q?J3rJmTqms/lVSs6xn6i1JN2pfFIffyz9Ds/Ben2rD29gsbi4QhQzW+iO0xkG?=
- =?us-ascii?Q?PxrXdzlU9iZSIJ3Vy3XOfkEd9sDdcguwS2QWiRNMwWaBoyT3MGppLxSBrPQ+?=
- =?us-ascii?Q?zZ4/btxZkUmUVO4J/gk9e503yOV4jotE9DUAbMdnDLPyqh1Uz30S1bcSl3vh?=
- =?us-ascii?Q?zSsiVTgyHJjYx9GDA3YCDp8mXnXSq7HS0xUkEw+redIM2cXIbswHg9JAxZht?=
- =?us-ascii?Q?om8oWvEAvmbZOJFoqe6MrSKd7yfA6qgeTrD0wvra4UJFj5Fq/OKcyY/Qdx+o?=
- =?us-ascii?Q?FIgUfeDjx0ywebcEHQ2g00P60vUjNcdl1OvWonLqFpmb+1OIsEcYbRPviKe2?=
- =?us-ascii?Q?b0097UnJTEB/7PWUJFWIEAUQLPoaNSRS22C1HBmKljNC1yYfsiILiUWFUQFT?=
- =?us-ascii?Q?4opXdgi0HCRJpr2CU05xp3crlNYWtx4gizjnu7XtmVV6sKH02arNdUJavj21?=
- =?us-ascii?Q?2a76IwBlC3CTc6z+yNqZuB9q/nUoGcEUO2m683HZXMSKP9BIUCyJYCmZr69y?=
- =?us-ascii?Q?B+32Iny+QDRizH8w0mVk9D0tPaUT3Rh8BBgI6GQFwzih2f7UUSploSez8sr9?=
- =?us-ascii?Q?Kj/lN7uJZ0fK4naGua65QdlwLFv4GjwH6ik4jeSSPAEmXolHUy2yux3JUaCy?=
- =?us-ascii?Q?kr1pSh37IlCeLOYRDSn19nClmeZRorsf09WDhNrGkoBK8ygY78BzF6mQMfNm?=
- =?us-ascii?Q?ET5JHa356NZhov8bdfA8RPYTQmN80zEey/AaYl/MPT4O7NjoKPLp/en8OnBt?=
- =?us-ascii?Q?c9RF1uEg32XBr4tPjZDMf/1twwF8rSWiqAFOrBxbxIQT06wKg2OQ2YluvTkC?=
- =?us-ascii?Q?5D21mIA5i5OFZD1/OmBlp2U4SMZJmNmFOYyBAok/1l4DVS8LFjkAEO5bNw4t?=
- =?us-ascii?Q?Vtsvdlbnw8nidHpeJDEXsV2XsDt0siuiBNBKtLTLO5MrZEnq/q7JWyudtET+?=
- =?us-ascii?Q?XTUjue0QGH5EmbgTRV1U8gaGmR6ayfPKYHCOmy+zpXYzbfr7+2xoB2BS1Tzp?=
- =?us-ascii?Q?Vy/pzg0tThS6OtZeUSIYk4aXODKUGHf6H/HfEU7q870kagiF5J0OHdaOj7PF?=
- =?us-ascii?Q?IF9nf2W9sTfk1Aasm6ZTFicZNYTTf0mkaICjpA+mKQ7XTFEAeaKz0eLIERBp?=
- =?us-ascii?Q?pp+KpghWao7d/eUlTCbJ/QJOT1aTW3kpYSP1KtDVBMaNk1chJV2u/8bnOeR0?=
- =?us-ascii?Q?a5hcmVxM97B2vmzd7WODdOOkir4/ulz7wyBiSuKfGvCGDCm1n/iKnZrnHMdu?=
- =?us-ascii?Q?GAFErFjIiGEYWfR81Gt/N5tQ1mK1gZKhFNusjm0y7A48y02nzCQfvcyA9djN?=
- =?us-ascii?Q?tQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0a22797-3807-44ab-1f9f-08de321346e2
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sUaKrshXjRmKsP3a7ct+m0aPnHTLbU2PBFKjNSrXOZy24Ff7R/sg3xlVR9sv?=
+ =?us-ascii?Q?C5wkCfw9/6XMgIMNKfsSRwMwepxhjOpz5Du1QZAqqI9FS8aRZkQ7OItyy8dW?=
+ =?us-ascii?Q?PI1f8FDEFNvXFTCzFAI0xM4IYuJyQPA3v1+H7H91w37Wl3qhmxtW1Wkg2sLK?=
+ =?us-ascii?Q?Pc+Heg8SAPmmSwUQwXUFMb+9UitYV767yGxS9fESPh44xwLNPs7LnxSp1M/T?=
+ =?us-ascii?Q?DtqWwDKFUx98PBLXUwS7RVeojG+B4lXHASncchV16cQ26nYAvMe/Kww7oFpr?=
+ =?us-ascii?Q?Fzp7GFCuUwYCUZvcznW+4DyR7BhDZlF8a4hoYfcCFajB8M8I3+9MD1E2/7s1?=
+ =?us-ascii?Q?EulJuvEhJkqdagtgPZbvf3RdrWtj2Kf0gecsWMiOLHQydc5Z0ao+Yceo1eO1?=
+ =?us-ascii?Q?WRga4Sl3qFw6yFLW36NzJmN46IZeIKFlWtHKNrPJpiIdy4udU3oSOx2JnEnK?=
+ =?us-ascii?Q?cqbJiMLHN/H6a47j/0amPBJGLgybWJVoVxBh7oAYF9fOLgNLefkOdiyLpULR?=
+ =?us-ascii?Q?wYP+2zgivt/+PDiNXcH3yyHAVkrDR/+O8E2DYCYiL/GClzd6L2+BAflGh3jn?=
+ =?us-ascii?Q?Z7caS766nfO1wqWjyqTtXscuxsOw8adl/Gvy3oXywZwstrcXyehlPjPSCntL?=
+ =?us-ascii?Q?uLXDmax7y9gznj34/9Z+CsrolTcYDmuxfQX2vJCGBbw3VvY1KH+iBOtWPT9L?=
+ =?us-ascii?Q?XBXTfLYb6Z3Z8C0tc3jmP2OBQ74BWQhjfYoS9T6CDH3jNSiQ+SfUATvmOvzK?=
+ =?us-ascii?Q?bSF9gZuw2hDMFklQMOQZSrP7f+gy6wFi7S7BlL1Sgywb4uiL9YNuMbUK7pXY?=
+ =?us-ascii?Q?D7Ha2L/dzzsz/dHeeDkqu38gkDJfEg9hV9UA+FqhIIaEd9P/yFi/NYs46x2i?=
+ =?us-ascii?Q?vQpENN/ku+rySB7OAmRmvugbkKYzB2dkspt0X/LGZtVGgPo9QQJVgNVHdMoh?=
+ =?us-ascii?Q?+8soMJFZaJWqtJYLc2vjTfR1LqTix8wRqRLP1x2zgDYIXgOZBTj5UzZlO2Iq?=
+ =?us-ascii?Q?kTVAZH4fOlwtQ731rbC0OngaxM2eXw6fT188oGKMg8yeWPvYDyB6paW4ydNa?=
+ =?us-ascii?Q?GKmFPreqmBSRK5uAsRqhM+A5xlkQ/GBYx8AcUP1MK4dJDQDG9lbv2go0i/D1?=
+ =?us-ascii?Q?kAiHFmluU7El14inOgS/r9pzfGkKq67STFPKvVjdMdikw/5GfU0uaqBqkzLI?=
+ =?us-ascii?Q?1iEFaaKUcfoomMbqIDxtvZXgV3tI6UTpvUAgkrP+7FYoppeEj1V3bAEXlB73?=
+ =?us-ascii?Q?ZfTgH0MM4fDsXn+M8L8hQcINK/883+cCVf+WUwFn/A4kg9drAs+m9iYsOCdS?=
+ =?us-ascii?Q?GhjExfVYZQqxRCUKqqDkTCStaSdG3Aoa5vTmDNAlRlsuFaq5cmsTGxLquW6K?=
+ =?us-ascii?Q?IE23VhZbLUTc9Kt8wiSCwBp/FY+X24xhlHRUjirGUUqkx1p5fFhh6y1BcpWR?=
+ =?us-ascii?Q?DHFzJPcTHtvsB5YnzHG1ssXtEk1aRJFiY4keZyXev5fNCLeWULylrpFPZgCO?=
+ =?us-ascii?Q?AZyFxEpTcThhLUWbOnRICcVLmcpk4iNERJY3znSWgLHyz/SdPnEd0417NPmd?=
+ =?us-ascii?Q?4KcXr+s4+MwJxKYCr1rk60KvcPlLogL3veOsePJoBduA+OkpkjqFmYV7naxq?=
+ =?us-ascii?Q?pQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21f9a1c8-11dc-47b4-ce88-08de32135f78
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 02:25:51.1206
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 02:26:32.2513
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yES8p6vM7VhU7Xv9IA/B9GAe7OGB7cZupoCrv6MhhdR4AXQ0Qst/raK5DaKoeF5hBrwBWI6hhoI56KxR+kWQjg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: qny1y/J1hUB9lBXKUscPH8Y5HYe/NZrFP884jjzpfvBl7fgbBjdcLQoRMgudKnzsRLcYiCYP3FWJZYVu65kI+w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF1CEB6B7EF
 X-OriginatorOrg: intel.com
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   81ab94df653806720116e45346cbfcbf5e63df44
-commit: 5dd8a05ba11a36d91c244d3e482a18a275e5d8ad [36/36] ANDROID: Don't use current pointer for per-process dmabuf accounting
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251202/202512021648.up3mSDhg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021648.up3mSDhg-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
+head:   a475844eaf5f5246fea92d8289f2c8555f2c0c7e
+commit: 40b8c00fae913da914fa3fed50bb61c62bcd2705 drm/i915/color: Create a transfer function color pipeline
+date:   30 hours ago
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251202/202512021416.Me56fJgJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021416.Me56fJgJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202512021648.up3mSDhg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512021416.Me56fJgJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/dma-buf/dma-buf.c:413: warning: Function parameter or member 'dmabuf_info' not described in 'dma_buf_account_task'
-   drivers/dma-buf/dma-buf.c:413: warning: Excess function parameter 'task' description in 'dma_buf_account_task'
->> drivers/dma-buf/dma-buf.c:452: warning: Function parameter or member 'dmabuf_info' not described in 'dma_buf_unaccount_task'
-   drivers/dma-buf/dma-buf.c:452: warning: Excess function parameter 'task' description in 'dma_buf_unaccount_task'
-   drivers/dma-buf/dma-buf.c:932: warning: Function parameter or member 'name' not described in 'dma_buf_set_name'
-   drivers/dma-buf/dma-buf.c:932: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+   In file included from drivers/gpu/drm/i915/display/intel_colorop.h:9,
+                    from drivers/gpu/drm/i915/display/intel_color_pipeline.c:5:
+   drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error: field 'base' has incomplete type
+    1989 |         struct drm_colorop base;
+         |                            ^~~~
+   drivers/gpu/drm/i915/display/intel_color_pipeline.c: In function '_intel_color_pipeline_plane_init':
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:25:15: error: implicit declaration of function 'drm_plane_colorop_curve_1d_lut_init' [-Wimplicit-function-declaration]
+      25 |         ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:27:51: error: 'DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR' undeclared (first use in this function)
+      27 |                                                   DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_color_pipeline.c:27:51: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:28:51: error: 'DRM_COLOROP_FLAG_ALLOW_BYPASS' undeclared (first use in this function)
+      28 |                                                   DRM_COLOROP_FLAG_ALLOW_BYPASS);
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:40:15: error: implicit declaration of function 'drm_plane_colorop_ctm_3x4_init' [-Wimplicit-function-declaration]
+      40 |         ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:45:9: error: implicit declaration of function 'drm_colorop_set_next_property'; did you mean 'drm_connector_set_tile_property'? [-Wimplicit-function-declaration]
+      45 |         drm_colorop_set_next_property(prev_op, &colorop->base);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         drm_connector_set_tile_property
+   drivers/gpu/drm/i915/display/intel_color_pipeline.c: In function 'intel_color_pipeline_plane_init':
+>> drivers/gpu/drm/i915/display/intel_color_pipeline.c:92:16: error: 'struct drm_plane' has no member named 'color_pipeline_property'; did you mean 'color_encoding_property'?
+      92 |         plane->color_pipeline_property = prop;
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                color_encoding_property
 
 
-vim +413 drivers/dma-buf/dma-buf.c
+vim +/drm_plane_colorop_curve_1d_lut_init +25 drivers/gpu/drm/i915/display/intel_color_pipeline.c
 
-060742b3d06d5d T.J. Mercier       2025-07-22  398  
-060742b3d06d5d T.J. Mercier       2025-07-22  399  /**
-060742b3d06d5d T.J. Mercier       2025-07-22  400   * dma_buf_account_task - Account a dmabuf to a task
-060742b3d06d5d T.J. Mercier       2025-07-22  401   * @dmabuf:	[in]	pointer to dma_buf
-060742b3d06d5d T.J. Mercier       2025-07-22  402   * @task:	[in]	pointer to task_struct
-060742b3d06d5d T.J. Mercier       2025-07-22  403   *
-060742b3d06d5d T.J. Mercier       2025-07-22  404   * When a process obtains a dmabuf file descriptor, or maps a dmabuf, this
-060742b3d06d5d T.J. Mercier       2025-07-22  405   * function attributes the provided @dmabuf to the @task. The first time @dmabuf
-060742b3d06d5d T.J. Mercier       2025-07-22  406   * is attributed to @task, the buffer's size is added to the @task's dmabuf RSS.
-060742b3d06d5d T.J. Mercier       2025-07-22  407   *
-060742b3d06d5d T.J. Mercier       2025-07-22  408   * Return:
-060742b3d06d5d T.J. Mercier       2025-07-22  409   * * 0 on success
-060742b3d06d5d T.J. Mercier       2025-07-22  410   * * A negative error code upon error
-060742b3d06d5d T.J. Mercier       2025-07-22  411   */
-5dd8a05ba11a36 T.J. Mercier       2025-11-12  412  int dma_buf_account_task(struct dma_buf *dmabuf, struct task_dma_buf_info *dmabuf_info)
-060742b3d06d5d T.J. Mercier       2025-07-22 @413  {
-060742b3d06d5d T.J. Mercier       2025-07-22  414  	struct task_dma_buf_record *rec;
-060742b3d06d5d T.J. Mercier       2025-07-22  415  
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  416  	if (!static_key_enabled(&dmabuf_accounting_key))
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  417  		return 0;
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  418  
-060742b3d06d5d T.J. Mercier       2025-07-22  419  	if (!dmabuf_info)
-060742b3d06d5d T.J. Mercier       2025-07-22  420  		return 0;
-060742b3d06d5d T.J. Mercier       2025-07-22  421  
-060742b3d06d5d T.J. Mercier       2025-07-22  422  	if (!task_dmabuf_records_preload(1))
-060742b3d06d5d T.J. Mercier       2025-07-22  423  		return -ENOMEM;
-060742b3d06d5d T.J. Mercier       2025-07-22  424  
-060742b3d06d5d T.J. Mercier       2025-07-22  425  	spin_lock(&dmabuf_info->lock);
-060742b3d06d5d T.J. Mercier       2025-07-22  426  	rec = find_task_dmabuf_record(dmabuf_info, dmabuf);
-060742b3d06d5d T.J. Mercier       2025-07-22  427  	if (rec) {
-060742b3d06d5d T.J. Mercier       2025-07-22  428  		++rec->refcnt;
-060742b3d06d5d T.J. Mercier       2025-07-22  429  		trim_task_dmabuf_records_locked();
-060742b3d06d5d T.J. Mercier       2025-07-22  430  	} else {
-060742b3d06d5d T.J. Mercier       2025-07-22  431  		rec = alloc_task_dmabuf_record();
-060742b3d06d5d T.J. Mercier       2025-07-22  432  		WARN_ON(!rec);
-060742b3d06d5d T.J. Mercier       2025-07-22  433  		add_task_dmabuf_record(dmabuf_info, dmabuf, rec);
-060742b3d06d5d T.J. Mercier       2025-07-22  434  	}
-060742b3d06d5d T.J. Mercier       2025-07-22  435  	spin_unlock(&dmabuf_info->lock);
-060742b3d06d5d T.J. Mercier       2025-07-22  436  	task_dmabuf_records_preload_end();
-060742b3d06d5d T.J. Mercier       2025-07-22  437  
-060742b3d06d5d T.J. Mercier       2025-07-22  438  	return 0;
-060742b3d06d5d T.J. Mercier       2025-07-22  439  }
-060742b3d06d5d T.J. Mercier       2025-07-22  440  
-060742b3d06d5d T.J. Mercier       2025-07-22  441  /**
-060742b3d06d5d T.J. Mercier       2025-07-22  442   * dma_buf_unaccount_task - Unaccount a dmabuf from a task
-060742b3d06d5d T.J. Mercier       2025-07-22  443   * @dmabuf:	[in]	pointer to dma_buf
-060742b3d06d5d T.J. Mercier       2025-07-22  444   * @task:	[in]	pointer to task_struct
-060742b3d06d5d T.J. Mercier       2025-07-22  445   *
-060742b3d06d5d T.J. Mercier       2025-07-22  446   * When a process closes a dmabuf file descriptor, or unmaps a dmabuf, this
-060742b3d06d5d T.J. Mercier       2025-07-22  447   * function removes the provided @dmabuf attribution from the @task. When all
-060742b3d06d5d T.J. Mercier       2025-07-22  448   * references to @dmabuf are removed from @task, the buffer's size is removed
-060742b3d06d5d T.J. Mercier       2025-07-22  449   * from the task's dmabuf RSS.
-060742b3d06d5d T.J. Mercier       2025-07-22  450   */
-5dd8a05ba11a36 T.J. Mercier       2025-11-12  451  void dma_buf_unaccount_task(struct dma_buf *dmabuf, struct task_dma_buf_info *dmabuf_info)
-060742b3d06d5d T.J. Mercier       2025-07-22 @452  {
-060742b3d06d5d T.J. Mercier       2025-07-22  453  	struct task_dma_buf_record *rec;
-060742b3d06d5d T.J. Mercier       2025-07-22  454  
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  455  	if (!static_key_enabled(&dmabuf_accounting_key))
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  456  		return;
-baa7a3655a17c8 Suren Baghdasaryan 2025-08-01  457  
-060742b3d06d5d T.J. Mercier       2025-07-22  458  	if (!dmabuf_info)
-060742b3d06d5d T.J. Mercier       2025-07-22  459  		return;
-060742b3d06d5d T.J. Mercier       2025-07-22  460  
-060742b3d06d5d T.J. Mercier       2025-07-22  461  	spin_lock(&dmabuf_info->lock);
-060742b3d06d5d T.J. Mercier       2025-07-22  462  	rec = find_task_dmabuf_record(dmabuf_info, dmabuf);
-060742b3d06d5d T.J. Mercier       2025-07-22  463  	if (rec) {
-060742b3d06d5d T.J. Mercier       2025-07-22  464  		if (--rec->refcnt == 0) {
-060742b3d06d5d T.J. Mercier       2025-07-22  465  			list_del(&rec->node);
-060742b3d06d5d T.J. Mercier       2025-07-22  466  			dmabuf_info->dmabuf_count--;
-060742b3d06d5d T.J. Mercier       2025-07-22  467  			dmabuf_info->rss -= dmabuf->size;
-c8372adc56a99a T.J. Mercier       2025-07-01  468  			trace_dmabuf_rss_stat(dmabuf_info->rss, -dmabuf->size, dmabuf);
-1b269f8eb12649 T.J. Mercier       2025-07-08  469  			atomic64_dec(&dmabuf->nr_task_refs);
-060742b3d06d5d T.J. Mercier       2025-07-22  470  		} else {
-060742b3d06d5d T.J. Mercier       2025-07-22  471  			rec = NULL;
-060742b3d06d5d T.J. Mercier       2025-07-22  472  		}
-060742b3d06d5d T.J. Mercier       2025-07-22  473  	} else {
-5dd8a05ba11a36 T.J. Mercier       2025-11-12  474  		pr_err("Could not find dmabuf %lu in unaccount\n",
-5dd8a05ba11a36 T.J. Mercier       2025-11-12  475  		       file_inode(dmabuf->file)->i_ino);
-060742b3d06d5d T.J. Mercier       2025-07-22  476  	}
-060742b3d06d5d T.J. Mercier       2025-07-22  477  	spin_unlock(&dmabuf_info->lock);
-060742b3d06d5d T.J. Mercier       2025-07-22  478  	if (rec)
-060742b3d06d5d T.J. Mercier       2025-07-22  479  		free_task_dmabuf_record(rec);
-060742b3d06d5d T.J. Mercier       2025-07-22  480  }
-060742b3d06d5d T.J. Mercier       2025-07-22  481  
-
-:::::: The code at line 413 was first introduced by commit
-:::::: 060742b3d06d5de7b692b6e7340e90bb950769e4 ANDROID: Track per-process dmabuf RSS
-
-:::::: TO: T.J. Mercier <tjmercier@google.com>
-:::::: CC: T.J. Mercier <tjmercier@google.com>
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  14  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  15  static
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  16  int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  17  {
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  18  	struct intel_colorop *colorop;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  19  	struct drm_device *dev = plane->dev;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  20  	int ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  21  	struct drm_colorop *prev_op;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  22  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  23  	colorop = intel_colorop_create(INTEL_PLANE_CB_PRE_CSC_LUT);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  24  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @25  	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  26  						  PLANE_DEGAMMA_SIZE,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @27  						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @28  						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  29  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  30  	if (ret)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  31  		return ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  32  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  33  	list->type = colorop->base.base.id;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  34  	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  35  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  36  	/* TODO: handle failures and clean up */
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  37  	prev_op = &colorop->base;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  38  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  39  	colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @40  	ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  41  					     DRM_COLOROP_FLAG_ALLOW_BYPASS);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  42  	if (ret)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  43  		return ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  44  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @45  	drm_colorop_set_next_property(prev_op, &colorop->base);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  46  	prev_op = &colorop->base;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  47  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  48  	colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  49  	ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  50  						  PLANE_GAMMA_SIZE,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  51  						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  52  						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  53  	if (ret)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  54  		return ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  55  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  56  	drm_colorop_set_next_property(prev_op, &colorop->base);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  57  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  58  	return 0;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  59  }
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  60  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  61  int intel_color_pipeline_plane_init(struct drm_plane *plane)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  62  {
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  63  	struct drm_device *dev = plane->dev;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  64  	struct intel_display *display = to_intel_display(dev);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  65  	struct drm_property *prop;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  66  	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  67  	int len = 0;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  68  	int ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  69  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  70  	/* Currently expose pipeline only for HDR planes */
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  71  	if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  72  		return 0;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  73  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  74  	/* Add "Bypass" (i.e. NULL) pipeline */
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  75  	pipelines[len].type = 0;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  76  	pipelines[len].name = "Bypass";
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  77  	len++;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  78  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  79  	/* Add pipeline consisting of transfer functions */
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  80  	ret = _intel_color_pipeline_plane_init(plane, &pipelines[len]);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  81  	if (ret)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  82  		return ret;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  83  	len++;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  84  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  85  	/* Create COLOR_PIPELINE property and attach */
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  86  	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  87  					"COLOR_PIPELINE",
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  88  					pipelines, len);
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  89  	if (!prop)
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  90  		return -ENOMEM;
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01  91  
+40b8c00fae913d Chaitanya Kumar Borah 2025-12-01 @92  	plane->color_pipeline_property = prop;
 
 -- 
 0-DAY CI Kernel Test Service
