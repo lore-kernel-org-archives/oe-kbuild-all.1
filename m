@@ -1,86 +1,131 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD27299AA3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 08:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88442C2ABF
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 08:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764749225; cv=none; b=mi2GYZA576kPET3gGK+WdGAh/M1Sk4ZoA5sK2IMlq91xJYIBiXDQsG+NAbGB16cARvqDjhYW/w14Aib4qrT6COrRI/nIWfxPowMfo9mx4+7JmuNbhbzUcVhIPvsWN4CR5e7eO+NMt+NodiY7jb0M2PNoFCMB0kkhCcckDZeMu/I=
+	t=1764750267; cv=none; b=uwvJpP1qgxXxoaLJ2ZwOHoY2MTpbC+EJemUjT3KCP8FnhmqGT9qpuKZMlrr4OjxQE59msc7s5i7WnsLiJwPSAjs453s+GVURr+C71AWWK1+UdE3Ucj44KU5OkxyfLo1i7zQ9sqqiHbi4M0EMuDLpjqE7gGE3z7ygGRs7Wf/EiH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764749225; c=relaxed/simple;
-	bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=to9+k2fNRoLj1kA/Xks9dhtUJOR1iCyJgvSqWNLt0DoDqnjZtQFkCBqjKgmg3Dg/Bqp5fHiUJBpD4bLkfiEFF+Hsa76sl5y86Ezy2RDTad1OVD0+Xt4YfdMgjG8pwy/8Ei6K5rUhIfecatvp0YCKXbIW0Yu2eef+mvE4uRfpiFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=VJl5CPyF; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	s=arc-20240116; t=1764750267; c=relaxed/simple;
+	bh=YYHSXdZFI6iwXN8a65rdwL8LYD2q7OuYUHUkV+80Q1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u5S+l+yuPwiNaibDf1vIom7ah4Xg8o7lpZyMlSMPyJv6/rJBguEMGuIg1DEERYhqe9P4+A4aN2L2FQ10FTaBV4d8TtjiMJSh1vOwAK1E48H4olAo1akMGImfKDegnxvgvzlViRVedU+WZSkMu5jUBaNxeDbvnId+eMOEb+0SJ2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XV6qCQic; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="VJl5CPyF"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3437af8444cso7512548a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 Dec 2025 00:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1764749223; x=1765354023; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
-        b=VJl5CPyF1/RHefQW/5UMoVlX0nwFI2oT/v9aagJ3uPzqNA/K0dcDDoIdaCmYJu8IEb
-         2SeNf8KdXgdDoWY9ZG2Izyq/o2kVREDfAwmNaDOPFh99aLWqChLZQmlCkgnAQPrTsURF
-         y32DemKaUrr74lsoBa47VRZWjgbe3d2ZgQIYU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764749223; x=1765354023;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XmJumtI+ZX1fKQfNtehDcFq+vRT9lsWZ957G0wow+s0=;
-        b=TLRxBCGI7Op4SDF4BR7k4XiURz7J4s+tOCouh5epn/Ha+7v91GDjKTBRliM1vMg1OG
-         kTQxx4AIfR1qWG+bFEqIjiRyuOVKiPHhoTNcEk5RhfNh+YxU7ARnElJxJQTDgOoOn5lD
-         d8bP0GNMKzas8yJUrMZnLu9QtTEKpdtF/abbeoASnyFyYsiJCtaCTas6hbQzs+EEhUS/
-         JpHa5gwvVchLfZLMYp7UddzVI1N9Bo2NFLgazrJ1LVgh5gd1vwNj1UsL7Ks61BZdj6Rz
-         TTycsLHGlOu+poBJrgHItHYFmeCR/mVRC7oBVk/IIoTjfskxwUMxqYtmS6r1O6Ik9dJ8
-         2LDg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5HNLCeV/rd3XO4ixE95iBwp7Yuzamzgq7r72xOzJViMBfBH7VSGKae0z5Iubwz+weK6PSmWs3tjEdV3yW@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+bW50CJOt4SqHVvVfxg9ZKMZtgXafUaMc0yCgqfW3+OJURtVD
-	TjhvNmlFq27UrbrmyPOvwMFiljAHiLgvSIUSfa1DSft4JKrBvjpqrdgM3HyHVaYWwJLgqr/Pl5Y
-	cZZRLt4PNcTeYjnZ2u9qKODZYp8qlLKgV2jmA9wYd3A==
-X-Gm-Gg: ASbGncujKjSlbEQoWviAaprW1z5bzaoEadTg9vpTCNs3eWIOT5t2YOMaDcd/SI6XrTq
-	UBsFeeAGRRDIXeY+Bb+k9fVEamc54drWd0dBfEDHIBC2wfgTyBFNAR3ZsA5E0b1ulehjf3wu2JI
-	rfOY19lEi56pwIAGT2JWNoVu5sZO3joGOac/qEqASNE8fmkUWzIv1c1mpkg7Y2ttUp1YBlj/vKK
-	zu0hbAf7QgWjigZS91zz+LSJ2Zjcz88y1AmtqBFcZsFd9bn+nKVRC5QYik077kkyXGlp6y1
-X-Google-Smtp-Source: AGHT+IEkhPS/1t5aWn66HdrhuKIufecStZBHy4HAaA+gH5GymYQAa2QcZdly0X0LFCKmADzkkz/N+CfyjLmyH6GwNyQ=
-X-Received: by 2002:a17:90b:534e:b0:32b:9750:10e4 with SMTP id
- 98e67ed59e1d1-349126f0736mr1811981a91.27.1764749223337; Wed, 03 Dec 2025
- 00:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XV6qCQic"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764750265; x=1796286265;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YYHSXdZFI6iwXN8a65rdwL8LYD2q7OuYUHUkV+80Q1g=;
+  b=XV6qCQiclsxGlq3/BK7Beg4w4NItml/bt7bfeULP/K2EuDbVsmMtk/6k
+   v1HQROoOJrT1SVd+6+Odswj1GIfF7qvBohkiGwZrzavfKyhD1kfrGtPCG
+   Bs/pCV9W7H0q8zsOytZdnpiyF/SxD3/0H1MrHpGQx6WP0E9eONWr372Ue
+   oeLUqYFafimFh0LELg/s77PguYsOOQkN7hdEzbpJaeCJ2GYHdRsmAtQ4i
+   +qm3eIMNq8r5wvzGYTkQ7jj6mxebkOZ/lAwXd8bZSNy8LyFwlIRfGHdlE
+   VE7L5OzQFzrNvv/tQ8K5eqwd+7VV1To/5uE69J4U8S703qZkqgQZSDX8F
+   w==;
+X-CSE-ConnectionGUID: JFiu2IegTB6+NqbP6qEWFQ==
+X-CSE-MsgGUID: xtOvvXhjQdS/ylyuypgNEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84332427"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="84332427"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 00:24:25 -0800
+X-CSE-ConnectionGUID: hBaHeMKaRSOHP172H57xVA==
+X-CSE-MsgGUID: STYUNi/zRfyRk5Sbxd6bzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="194434494"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 03 Dec 2025 00:24:23 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vQi9t-00000000Akf-16OV;
+	Wed, 03 Dec 2025 08:24:21 +0000
+Date: Wed, 3 Dec 2025 16:23:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 2/2] mm/khugepaged.c:109: warning:
+ Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+Message-ID: <202512031617.aalPV9fs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251127000505.2117956-1-daniel@thingy.jp> <202511270956.hzGiPzdZ-lkp@intel.com>
- <CAFr9PXngrVvcQ2yO0JUj6ve1T39rWftwECnKfUcV3PcKUCPPmg@mail.gmail.com> <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
-In-Reply-To: <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Wed, 3 Dec 2025 17:06:52 +0900
-X-Gm-Features: AWmQ_bnS9BDxaDFZorffwfoU6u2xuAk1McRav0PjgsGRdFzJ_fhtggnUthokDX8
-Message-ID: <CAFr9PXm_8Lyk5rPMWw+mAzu97RRfjLj8NLqz5K0Po4p9PM6FOw@mail.gmail.com>
-Subject: Re: [PATCH] m68k: implement runtime consts
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, kas@kernel.org, 
-	mingo@kernel.org, seanjc@google.com, bp@alien8.de, 
-	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Geert,
+Hi Xu,
 
-On Thu, 27 Nov 2025 at 19:22, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+FYI, the error/warning still remains.
 
->
-> Replacing the macros by static inline functions should fix that.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   495c6b49736046cad5a06a343ca0be2750aed6fe
+commit: 5c3c3afed0fd68c32fca885daf7c6fbf46007a25 [2/2] anolis: mm, thp: hugetext: accelerate khugepaged for hugetext vma
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251203/202512031617.aalPV9fs-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031617.aalPV9fs-lkp@intel.com/reproduce)
 
-Thanks. I've done that now. Any comments on the rest of this?
-I have a few things like implementing jump labels, a vDSO to get
-around the sys_get_thread_area() bottleneck to come after this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512031617.aalPV9fs-lkp@intel.com/
 
-Cheers,
+All warnings (new ones prefixed by >>):
 
-Daniel
+   mm/khugepaged.c:109: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:109: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'node' not described in 'collapse_file'
+
+
+vim +109 mm/khugepaged.c
+
+27e1f8273113ad Song Liu           2019-09-23   87  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   88  /**
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   89   * struct mm_slot - hash lookup from mm to mm_slot
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   90   * @hash: hash collision list
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   91   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   92   * @mm: the mm that this information is valid for
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   93   */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   94  struct mm_slot {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   95  	struct hlist_node hash;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   96  	struct list_head mm_node;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   97  	struct mm_struct *mm;
+27e1f8273113ad Song Liu           2019-09-23   98  
+27e1f8273113ad Song Liu           2019-09-23   99  	/* pte-mapped THP in this mm */
+27e1f8273113ad Song Liu           2019-09-23  100  	int nr_pte_mapped_thp;
+27e1f8273113ad Song Liu           2019-09-23  101  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
+5c3c3afed0fd68 Xu Yu              2021-08-19  102  
+5c3c3afed0fd68 Xu Yu              2021-08-19  103  #ifdef CONFIG_HUGETEXT
+5c3c3afed0fd68 Xu Yu              2021-08-19  104  #define MAX_EXEC_VMA       8
+5c3c3afed0fd68 Xu Yu              2021-08-19  105  	/* exec vma vm_start in this mm */
+5c3c3afed0fd68 Xu Yu              2021-08-19  106  	int nr_exec_vma;
+5c3c3afed0fd68 Xu Yu              2021-08-19  107  	unsigned long exec_vma[MAX_EXEC_VMA];
+5c3c3afed0fd68 Xu Yu              2021-08-19  108  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @109  };
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  110  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
