@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371DC24E4A1
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 11:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB732F5339
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 11:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764762397; cv=none; b=NFcmTaSVPikfohVfQ+sWShUtSQpXBRbjMArIkH8oJo8wT2GnjPhRpsWvLD2UTF1F0wxMmdbHmEtDFNAGBUkvmantaQapEX+0CKsDNAd9r3IL0dmZI1jirsf4Ce0cdGQyWhxKJoQhCtQWYnLKWvYMtTPSL7cRv38l7Z2lR91k72Y=
+	t=1764762998; cv=none; b=VPzBWNsAg7F8SO8A1TqZ99tKJ95dPUuxbV0dkEMUOXvm4lX/s5IyICjFrxC6QquHTdAyfebMOZhGZo7bdMbtvKjtzyUClaK9Lu9jxJMaH5QotlAyI+WnmrKXVOvuA0Co4O7M0bwgUeJUMb9wGeT2XEe8xCjQ7vB7arnn4rDrODw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764762397; c=relaxed/simple;
-	bh=e5JYU1j6USDbalStsBvERLr9VkSReItuXBHVVnGDxBY=;
+	s=arc-20240116; t=1764762998; c=relaxed/simple;
+	bh=1jnNOIelLTBMT35oGxh2LO9dcJSxIwjdzyac9LgPYuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a0HfrhYS+Y5JrErlluofRui2sypATFV5YwA5daGRqAcHfISX9zC+o0A7GtCQ450wYqSsklETGZUjfDJWKrMxPKmeZ6A2OX054B3S8QVhugtOmnZC8wV67aGaiQhocTd287zj1Tb10IlcQ4qImNZnPPZbPiRBv4GKyc7vA2kbr8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFG5mkP5; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=moXbyY3riLDacSQxpZKJl/wHvFxeecemjvGSOyX+V1kBfbpOd6HYxNFPJla0q5iT6GSJmvsO9crlX348xwlKhby9gPj1yaMtJSLbigDdrjP+cXnNca9Yifm1HASdwe3HsP5bmbTH2lREJdHaq7sWdrHglw5VYG8FFVP7Gr8ABWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CprwRBtW; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFG5mkP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CprwRBtW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764762396; x=1796298396;
+  t=1764762996; x=1796298996;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5JYU1j6USDbalStsBvERLr9VkSReItuXBHVVnGDxBY=;
-  b=KFG5mkP5XXlQsDlTmZ9ewJk6HU1p/u8sxBn9dT+JI267X1288Wd5v6Dx
-   ZKvHICnv/nEMcBN4VeVg1d7Z8rfYjAdrdG3ooqGw7qpdn465Nipp7cyeQ
-   vaKnZQh9ZCPHpa787TDD6f6F0+6MAfw99UoZYSaMsp0e0U4YxtJ6JBAxP
-   yl2Hdm701jAGtV7u34RYjWx2647KV1QucBK21ANpUkBKYIhIfLIAN69IN
-   hZYKp4I+RqoVHTHOrgqqODDm8YI7pBvfLNbhAXGHL6VNKCk1KxE6aNRXJ
-   uGe02KWxgwUm8QNk5aZwHwlCAq8NFvZayxPfVY77Qg5SQHf39BioH2ZA8
-   g==;
-X-CSE-ConnectionGUID: w6myZLj3S+6BeH1/sF6zNQ==
-X-CSE-MsgGUID: 6ei0ER0NST2woQb1KNTkGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77071399"
+  bh=1jnNOIelLTBMT35oGxh2LO9dcJSxIwjdzyac9LgPYuM=;
+  b=CprwRBtWU57jaYfHJ+ZZIcA9sZnRjVmMDvaCw/PFilWTPAJDtaQLlRtI
+   L2DqrrjqpdHuV86F4cWfUor1P0rEipcfzNi7bivc/nNbMsnHsh4ewKotz
+   i4VxE/Qb2ukT9YrhvAuyITpIt1wWjsT4AL6HOEYbgSREMJ8DwsS8aun1Q
+   lyB6YyRwyXd0YSoc6ewQYUc5Whg9uoaMPxQTnKkN+41C8jt0qJRQWi4tS
+   nfR81559CWOjzpWQCtQZiWm0XiKbgTX5T2parRlLbt6S9xXmh6yfGVYcX
+   HS6J2TqS3ek0TJnV1N7HeoYG7KwxG2Kg1HJjChfRGtmPBxLPzmnF5uJaK
+   w==;
+X-CSE-ConnectionGUID: fz34hmmcRlidHquaN7msYg==
+X-CSE-MsgGUID: ZF0aYsLhSSKkZfGza5GxkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70610590"
 X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="77071399"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 03:46:35 -0800
-X-CSE-ConnectionGUID: g4JaWAA4Snu3aixpKHKtYA==
-X-CSE-MsgGUID: UF9puWq0RCurO5V3K1QKgA==
+   d="scan'208";a="70610590"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 03:56:35 -0800
+X-CSE-ConnectionGUID: Y8mOq644TYmUtxbvW1sQTA==
+X-CSE-MsgGUID: OTkyk/MaTBCrCCj1PAeGPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
-   d="scan'208";a="217993868"
+   d="scan'208";a="199068371"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Dec 2025 03:46:33 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 03 Dec 2025 03:56:33 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vQlJW-00000000AvJ-3NNE;
-	Wed, 03 Dec 2025 11:46:30 +0000
-Date: Wed, 3 Dec 2025 19:45:37 +0800
+	id 1vQlTD-00000000Avx-0y3O;
+	Wed, 03 Dec 2025 11:56:31 +0000
+Date: Wed, 3 Dec 2025 19:56:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/flat 22/22] kernel/sched/fair.c:1210:38: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202512031909.3BCBnzfn-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 1/1] mm/slab_common.c:1214:7: warning:
+ no previous prototype for 'oot___kmalloc_node_0'
+Message-ID: <202512031913.mDKeLjqy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,90 +62,258 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
-head:   eaad49852269b521e02cff73adc8b8a432fda88e
-commit: eaad49852269b521e02cff73adc8b8a432fda88e [22/22] sched/eevdf: Move to a single runqueue
-config: loongarch-randconfig-r133-20251130 (https://download.01.org/0day-ci/archive/20251203/202512031909.3BCBnzfn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031909.3BCBnzfn-lkp@intel.com/reproduce)
+Hi Yi,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   6e491b9f54ea3245a5c167b19e48c0502cf7169b
+commit: 81be03af48c826a24b8088f8d4705153c556d0d2 [1/1] anolis: mm: introduce per module slab for oot memory isolation
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251203/202512031913.mDKeLjqy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031913.mDKeLjqy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512031909.3BCBnzfn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512031913.mDKeLjqy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:1117:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:1117:49: sparse:     expected struct task_struct *running
-   kernel/sched/fair.c:1117:49: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:1151:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1151:33: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:1151:33: sparse:     got struct sched_entity [noderef] __rcu *
->> kernel/sched/fair.c:1210:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1210:38: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:1210:38: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:12722:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12722:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12722:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8225:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8225:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:8225:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8429:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8429:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8429:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8604:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:8604:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:8604:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:8637:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8637:37: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:8637:37: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8843:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:8843:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8843:38: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:9878:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:9878:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:9878:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10506:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10506:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10506:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:11978:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11978:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:11978:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11616:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11616:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11616:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12091:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12091:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12091:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6536:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2292:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2292:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2292:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
 
-vim +1210 kernel/sched/fair.c
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_0' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1220:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1220 | DEFINE_OOT_FUNC___kmalloc_node(0);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_1' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1221:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1221 | DEFINE_OOT_FUNC___kmalloc_node(1);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_2' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1222:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1222 | DEFINE_OOT_FUNC___kmalloc_node(2);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_3' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1223:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1223 | DEFINE_OOT_FUNC___kmalloc_node(3);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_4' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1224:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1224 | DEFINE_OOT_FUNC___kmalloc_node(4);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_5' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1225:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1225 | DEFINE_OOT_FUNC___kmalloc_node(5);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_6' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1226:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1226 | DEFINE_OOT_FUNC___kmalloc_node(6);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_7' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1227:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1227 | DEFINE_OOT_FUNC___kmalloc_node(7);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_8' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1228:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1228 | DEFINE_OOT_FUNC___kmalloc_node(8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_9' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1229:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1229 | DEFINE_OOT_FUNC___kmalloc_node(9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_10' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1230:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1230 | DEFINE_OOT_FUNC___kmalloc_node(10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_11' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1231:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1231 | DEFINE_OOT_FUNC___kmalloc_node(11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_12' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1232:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1232 | DEFINE_OOT_FUNC___kmalloc_node(12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_13' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1233:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1233 | DEFINE_OOT_FUNC___kmalloc_node(13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_14' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1234:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1234 | DEFINE_OOT_FUNC___kmalloc_node(14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_15' [-Wmissing-prototypes]
+    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
+         |       ^~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1235:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
+    1235 | DEFINE_OOT_FUNC___kmalloc_node(15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1250:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1250 | DEFINE_OOT_FUNC___kmalloc(0);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1251:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1251 | DEFINE_OOT_FUNC___kmalloc(1);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1252:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1252 | DEFINE_OOT_FUNC___kmalloc(2);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1253:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1253 | DEFINE_OOT_FUNC___kmalloc(3);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1254:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1254 | DEFINE_OOT_FUNC___kmalloc(4);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1255:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1255 | DEFINE_OOT_FUNC___kmalloc(5);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1256:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1256 | DEFINE_OOT_FUNC___kmalloc(6);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1257:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1257 | DEFINE_OOT_FUNC___kmalloc(7);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1258:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1258 | DEFINE_OOT_FUNC___kmalloc(8);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1259:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1259 | DEFINE_OOT_FUNC___kmalloc(9);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1260:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1260 | DEFINE_OOT_FUNC___kmalloc(10);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1261:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1261 | DEFINE_OOT_FUNC___kmalloc(11);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1262:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1262 | DEFINE_OOT_FUNC___kmalloc(12);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1263:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1263 | DEFINE_OOT_FUNC___kmalloc(13);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1264:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1264 | DEFINE_OOT_FUNC___kmalloc(14);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
+    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
+         |       ^~~~~~~~~~~~~~
+   mm/slab_common.c:1265:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
+    1265 | DEFINE_OOT_FUNC___kmalloc(15);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-  1207	
-  1208	static void update_curr_fair(struct rq *rq)
-  1209	{
-> 1210		struct sched_entity *se = &rq->donor->se;
-  1211	
-  1212		for_each_sched_entity(se)
-  1213			update_curr(cfs_rq_of(se));
-  1214	}
-  1215	
+
+vim +/oot___kmalloc_node_0 +1214 mm/slab_common.c
+
+  1212	
+  1213	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
+> 1214	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
+  1215	{									\
+  1216		return oot__do_kmalloc_node(index, size, flags, node, _RET_IP_);;	\
+  1217	}									\
+  1218	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
+  1219	
+  1220	DEFINE_OOT_FUNC___kmalloc_node(0);
+  1221	DEFINE_OOT_FUNC___kmalloc_node(1);
+  1222	DEFINE_OOT_FUNC___kmalloc_node(2);
+  1223	DEFINE_OOT_FUNC___kmalloc_node(3);
+  1224	DEFINE_OOT_FUNC___kmalloc_node(4);
+  1225	DEFINE_OOT_FUNC___kmalloc_node(5);
+  1226	DEFINE_OOT_FUNC___kmalloc_node(6);
+  1227	DEFINE_OOT_FUNC___kmalloc_node(7);
+  1228	DEFINE_OOT_FUNC___kmalloc_node(8);
+  1229	DEFINE_OOT_FUNC___kmalloc_node(9);
+  1230	DEFINE_OOT_FUNC___kmalloc_node(10);
+  1231	DEFINE_OOT_FUNC___kmalloc_node(11);
+  1232	DEFINE_OOT_FUNC___kmalloc_node(12);
+  1233	DEFINE_OOT_FUNC___kmalloc_node(13);
+  1234	DEFINE_OOT_FUNC___kmalloc_node(14);
+  1235	DEFINE_OOT_FUNC___kmalloc_node(15);
+  1236	
+  1237	void *__kmalloc(size_t size, gfp_t flags)
+  1238	{
+  1239		return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
+  1240	}
+  1241	EXPORT_SYMBOL(__kmalloc);
+  1242	
+  1243	#define DEFINE_OOT_FUNC___kmalloc(index)				\
+> 1244	void *oot___kmalloc_ ## index(size_t size, gfp_t flags)			\
+  1245	{									\
+  1246		return oot__do_kmalloc_node(index, size, flags, NUMA_NO_NODE, _RET_IP_);  \
+  1247	}									\
+  1248	EXPORT_SYMBOL(oot___kmalloc_ ## index)
+  1249	
 
 -- 
 0-DAY CI Kernel Test Service
