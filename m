@@ -1,97 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCE32DF147
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 22:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91972E8B78;
+	Wed,  3 Dec 2025 22:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764799372; cv=none; b=XpvSFSv6U8hr/WX/QE75ruZhBVUoMyO+GFB3dGn7s13YWNEVXX+w6f0nVvj8OJlxSjSq/rfQMr56uv5/baPyk+nD5G/JTvHKaez+pQ85Lejk5Tuq/FltPpS1QBAFPnuaY2v5kmwsvf4s9gKwAMvvhJ7nRJljgbqiGjA4HIVMhww=
+	t=1764801895; cv=none; b=jp9KM4W168hxkNmmnx4CMw6qKCZNZuAArsNLeTX34TxywuVu8pX6nrV9t329Gxugsm6rZyEmyT86bYSCyCpXYRdXwouU67Ry+FLv0c6SJVw7uqEoUYwQyz00vo4h81cfONJVdQ3LjeKGpYdKqO0BuqJhP5Ghx8xu5ayJQNq+9Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764799372; c=relaxed/simple;
-	bh=akbpkqUunDR2bW1tKQLF5s9MY5KKKFj78wDO98/9ec0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qr1A9nYLg1NROdzCok039Xo2PjB9gmGpx5jgBYRBrPEXEPgrjwG+2BD5tKovRcjzog0bwhd/e8NSuNEOlQgyTSfdb7bFnEQqMvgMDr47PeeXwhxo1LAxssQAUkkEOxoR3PBh8mgtCIlZAvN35h4BBLqM2tgLg4VQ96WierzwmWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0epfgyO; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764801895; c=relaxed/simple;
+	bh=4Uj9vmf5W51Hq1VXIv7uGJ3HGRMZgiH69aSNHXLBM/A=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=n9DUVADVslJ3ddEwf8LJXOy7yRIJSGASL+mh9KAmgyS8q2L6w6uUO7pyojdQa8KrzLdzGdhYIbIa1xYK8GRuRaq/qzlAWRpGIVmLmdmXo0KG9LvjTIETl0GEhwfMLXMmItzn2BJOtoY91FgKIt6u87nfZIs3QL+d3cqCc0yjXUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=teBeR5Jm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0epfgyO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764799369; x=1796335369;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=akbpkqUunDR2bW1tKQLF5s9MY5KKKFj78wDO98/9ec0=;
-  b=n0epfgyOzp3qqME1d1FUJ/FmKdCu/D2df8QTqZXx4zf0wc8LWseRQ+fi
-   N3oQceT1nOvVO5twoSdO0xgKXZXB/i5WC318O1cAF9dz8MYHI470ltinc
-   FycXktKmFbOyQqcNePUtMASCv7w/zXqSARLBwY3nPOYj7EhqcdbIwgydS
-   aXiaqYlakAHn+XkmTD+Rc2cUqqOqGof/WZuwTJ3gx6QyomVqMawMzlIDD
-   /XsTj5sxeGE0bjeqlC8XENolVFBixyAYxCyA97vSqlLP5SCupzyutqDrF
-   tU8DrCbZZxtV0MXklv9TVUDzWQZc3/nPacw5uEgzqKwPDhjHQruaYYb3w
-   Q==;
-X-CSE-ConnectionGUID: 2netr7crT5SG8Bfka9jKpQ==
-X-CSE-MsgGUID: oLezuGQMTg+3dM6I7lr+9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66701739"
-X-IronPort-AV: E=Sophos;i="6.20,247,1758610800"; 
-   d="scan'208";a="66701739"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 14:02:39 -0800
-X-CSE-ConnectionGUID: D2ieUZHSR2KQzV/D2CdvaA==
-X-CSE-MsgGUID: BuDATEfUQ9WBwT1cgEEZqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,247,1758610800"; 
-   d="scan'208";a="194090039"
-Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 03 Dec 2025 14:02:37 -0800
-Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vQuvh-000000000Yt-2qZ6;
-	Wed, 03 Dec 2025 22:02:33 +0000
-Date: Wed, 3 Dec 2025 23:02:28 +0100
-From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>
-Subject: iommufd_utils.h:804:37: warning: array subscript 'struct
- iommu_test_hw_info[0]' is partly outside array bounds of 'struct
- iommu_test_hw_info_buffer_smaller[1]'
-Message-ID: <202512032344.kaAcKFIM-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="teBeR5Jm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 415DAC4CEF5;
+	Wed,  3 Dec 2025 22:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1764801894;
+	bh=4Uj9vmf5W51Hq1VXIv7uGJ3HGRMZgiH69aSNHXLBM/A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=teBeR5JmucF/aVSYNvWbrQMxjrj1aDFVSGSjka5MJN9DX0cUY+g95fXVemCkWQs4J
+	 WZX7YA1tTnhHEeqTo0FPPHuBnn9BsXt1fON1Xmf/qYeRu98AVU3ZazEGFtzaW39WX2
+	 1lw6h+xbEkpLRCsPYdKxugGHQ9rVC3K+9b9NQOW8=
+Date: Wed, 3 Dec 2025 14:44:53 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Feng Tang <feng.tang@linux.alibaba.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Petr Mladek <pmladek@suse.com>
+Subject: Re: [linux-next:master 9966/13055] kernel/watchdog.c:74:22:
+ warning: unused variable 'hardlockup_si_mask'
+Message-Id: <20251203144453.be34d189c5e6668ce2da06b3@linux-foundation.org>
+In-Reply-To: <202512030920.NFKtekA7-lkp@intel.com>
+References: <202512030920.NFKtekA7-lkp@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
-commit: 6d9500bb1ff8c7f9c3ce199521c41aa41e8fd994 iommufd/selftest: Add coverage for reporting max_pasid_log2 via IOMMU_HW_INFO
-date:   8 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251203/202512032344.kaAcKFIM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512032344.kaAcKFIM-lkp@intel.com/reproduce)
+On Wed, 3 Dec 2025 09:05:30 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512032344.kaAcKFIM-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   47b7b5e32bb7264b51b89186043e1ada4090b558
+> commit: a9af76a78760717361cccc884dc649e30db61c8b [9966/13055] watchdog: add sys_info sysctls to dump sys info on system lockup
+> config: powerpc64-randconfig-002-20251203 (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512030920.NFKtekA7-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/watchdog.c:74:22: warning: unused variable 'hardlockup_si_mask' [-Wunused-variable]
+>       74 | static unsigned long hardlockup_si_mask;
+>          |                      ^~~~~~~~~~~~~~~~~~
+>    1 warning generated.
 
-All warnings (new ones prefixed by >>):
+I'm testing the appended patch but it needs checking please.
 
-   In file included from iommufd_utils.h:11,
-                    from iommufd.c:12:
-   In function '_test_cmd_get_hw_info',
-       inlined from 'iommufd_ioas_get_hw_info' at iommufd.c:779:3,
-       inlined from 'wrapper_iommufd_ioas_get_hw_info' at iommufd.c:752:1:
->> iommufd_utils.h:804:37: warning: array subscript 'struct iommu_test_hw_info[0]' is partly outside array bounds of 'struct iommu_test_hw_info_buffer_smaller[1]' [-Warray-bounds=]
-     804 |                         assert(!info->flags);
-         |                                 ~~~~^~~~~~~
-   iommufd.c: In function 'wrapper_iommufd_ioas_get_hw_info':
-   iommufd.c:761:11: note: object 'buffer_smaller' of size 4
-     761 |         } buffer_smaller;
-         |           ^~~~~~~~~~~~~~
+The comment for hardlockup_si_mask says
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ * bitmask to control what kinds of system info to be printed when
+ * hard lockup is detected, it could be task, memory, lock etc.
+ * Refer include/linux/sys_info.h for detailed bit definition.
+
+but the variable depends on "COUNTS_HRTIMER".  The comment doesn't
+mention hrtimers and I don't see why it should.  Not sure what's going
+on here.
+
+
+
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: kernel/watchdog.c: fix unused var warning
+Date: Wed Dec  3 02:34:40 PM PST 2025
+
+>> kernel/watchdog.c:74:22: warning: unused variable 'hardlockup_si_mask' [-Wunused-variable]
+      74 | static unsigned long hardlockup_si_mask;
+         |                      ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+Fixes: a9af76a78760 ("watchdog: add sys_info sysctls to dump sys info on system lockup")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512030920.NFKtekA7-lkp@intel.com/
+Link: https://lkml.kernel.org/r/202512030920.NFKtekA7-lkp@intel.com
+Cc: Feng Tang <feng.tang@linux.alibaba.com>
+Cc: Petr Mladek <pmladek@suse.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ kernel/watchdog.c |   16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+--- a/kernel/watchdog.c~kernel-watchdogc-fix-unused-var-warning
++++ a/kernel/watchdog.c
+@@ -66,13 +66,6 @@ int __read_mostly sysctl_hardlockup_all_
+ unsigned int __read_mostly hardlockup_panic =
+ 			IS_ENABLED(CONFIG_BOOTPARAM_HARDLOCKUP_PANIC);
+ 
+-/*
+- * bitmasks to control what kinds of system info to be printed when
+- * hard lockup is detected, it could be task, memory, lock etc.
+- * Refer include/linux/sys_info.h for detailed bit definition.
+- */
+-static unsigned long hardlockup_si_mask;
+-
+ #ifdef CONFIG_SYSFS
+ 
+ static unsigned int hardlockup_count;
+@@ -135,6 +128,13 @@ __setup("nmi_watchdog=", hardlockup_pani
+ 
+ #if defined(CONFIG_HARDLOCKUP_DETECTOR_COUNTS_HRTIMER)
+ 
++/*
++ * bitmask to control what kinds of system info to be printed when
++ * hard lockup is detected, it could be task, memory, lock etc.
++ * Refer include/linux/sys_info.h for detailed bit definition.
++ */
++static unsigned long hardlockup_si_mask;
++
+ static DEFINE_PER_CPU(atomic_t, hrtimer_interrupts);
+ static DEFINE_PER_CPU(int, hrtimer_interrupts_saved);
+ static DEFINE_PER_CPU(bool, watchdog_hardlockup_warned);
+@@ -1250,6 +1250,7 @@ static const struct ctl_table watchdog_s
+ 		.extra1		= SYSCTL_ZERO,
+ 		.extra2		= SYSCTL_ONE,
+ 	},
++#if defined(CONFIG_HARDLOCKUP_DETECTOR_COUNTS_HRTIMER)
+ 	{
+ 		.procname	= "hardlockup_sys_info",
+ 		.data		= &hardlockup_si_mask,
+@@ -1257,6 +1258,7 @@ static const struct ctl_table watchdog_s
+ 		.mode		= 0644,
+ 		.proc_handler	= sysctl_sys_info_handler,
+ 	},
++#endif
+ #ifdef CONFIG_SMP
+ 	{
+ 		.procname	= "hardlockup_all_cpu_backtrace",
+_
+
