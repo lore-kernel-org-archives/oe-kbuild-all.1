@@ -1,37 +1,63 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8323F2E8DF3
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 10:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD88D2F066D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 Dec 2025 10:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764757705; cv=none; b=qO7XoDulMo0h9Rf5KcL++jDCz/rGpQ9vz6+JmmQMIeNwbuYyMFt1GeHqk6Q9dIAZX/FQEJs/Gm0dI/KRh0oy0Am5h2onKjNpOxcA+9yt6eVIVGVsDVcR2vreBuSORDD8PsJQckqYPzI4SuDHQ/45xrRBixs/TXbv6z7tJv+FPIY=
+	t=1764759218; cv=none; b=rhZTVij+ToUeRGPOIw1Ij3WEaVIDBEK0xycW7jZrankrUmgisOz6010YZ+IS6pZ8IO0sxzKLtP54oNx87y+jMvuufY/EDhKVmfAU0LZj53DRgf9BLxQNm8ZXaRvzcPX4SWEMMwBmNnEAOLn7urGqKTDUg+qxf0K7Gr4DMTHC0L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764757705; c=relaxed/simple;
-	bh=ouMwDWIU2e55dKyO0lyyYC7S+CYHcBZToAGEUlg4BL0=;
+	s=arc-20240116; t=1764759218; c=relaxed/simple;
+	bh=/lMt6d6wt5EpklsqUXRg85Drw1rS3QE+lNt8vHdf2Do=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LW0Lv5w2I6LCNmoMfTxIw2DJt5BW+8hm1QSVC53D3ZiK/k5nDxrgQwlICcBuJBAgxT1qoZMyF4qVMZ7TAPSx8uvPwXuoJHGCKa2VQIIU2Ty/0rduxsEVREvj2bYvtwxMBPPwxJLJ5UBeJeiPr06Q7wRVpKJy82TOCwX1FcQuCpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 530DF339;
-	Wed,  3 Dec 2025 02:28:15 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9407A3F73B;
-	Wed,  3 Dec 2025 02:28:20 -0800 (PST)
-Date: Wed, 3 Dec 2025 10:28:17 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-Cc: <jassisinghbrar@gmail.com>, <lenb@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>, <linux-acpi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <olivier.dautricourt@sipearl.com>,
-	<olivierdautricourt@gmail.com>, <rafael@kernel.org>,
-	<thibault.cantori@sipearl.com>
-Subject: Re: [PATCH v3 1/2] mailbox: pcc: support polling mode when there is
- no platform IRQ
-Message-ID: <20251203-persimmon-condor-of-essence-9fc43d@sudeepholla>
-References: <20251127-lovely-real-wrasse-b1fbcd@sudeepholla>
- <20251202101215.2240024-1-andrea.tomassetti@sipearl.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cWqNKoQWzNRVmTr1bccwqrqbrMOQuZTRpFV/rclvb2ec44Ad7xnCxmINSpPma9EvPwhljlQdKM54xeqG4kd8ALQPD0DjBoK+oDoF5kMrfNcemNpMZllq0FSaWgJ5da+A+m+oNR74RQQlRytg+F0++VNVwNVlxScnFIxauOTTg84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEmvj3q9; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEmvj3q9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764759217; x=1796295217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/lMt6d6wt5EpklsqUXRg85Drw1rS3QE+lNt8vHdf2Do=;
+  b=BEmvj3q9bUmzhyPByUsFq3w+hisfYjIAGV7R/AIDpetdq9bkCQ2iS/7J
+   /kxASGB9hh8hxS2R949QGeyTz9S+Mb72a29bWMpsSUfEpQLjAbA+0SLvK
+   u/KzofIlrwHF/ZMhcwitzkHGUTfZ0zl/1Ek1Wu/u8zrkb3DVopooAWebX
+   N6bu2nQ3VZW4hxdFa7wVeaQPX0LsY2a//FB7cQQL6RyzuVsdff2MmegiP
+   muNVa35DMcXsqpknxiZUpBeYx0GZT/v+HUBJvO5qMKYeN8MaGJELf0Hr8
+   ErLvnS2rLM2wo69w7oSjN3m/1Z9YRWAgzN1/ssJ2NI5Y0ZECQPEAUL3Nl
+   g==;
+X-CSE-ConnectionGUID: YiXe47U1Sie9fVcklhUKUw==
+X-CSE-MsgGUID: 4uI5ovnkQVisbUoY3WCjGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77428994"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="77428994"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 02:53:35 -0800
+X-CSE-ConnectionGUID: m/uL1YpIQeaVmK5xAQXRYg==
+X-CSE-MsgGUID: D0vFuoSVTtCTr+d7xR1F3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; 
+   d="scan'208";a="231989776"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 03 Dec 2025 02:53:31 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vQkUC-00000000AtZ-3diz;
+	Wed, 03 Dec 2025 10:53:28 +0000
+Date: Wed, 3 Dec 2025 18:52:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: zhouquan@iscas.ac.cn, anup@brainfault.org, ajones@ventanamicro.com,
+	atishp@atishpatra.org, paul.walmsley@sifive.com, palmer@dabbelt.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, Quan Zhou <zhouquan@iscas.ac.cn>
+Subject: Re: [PATCH 3/4] RISC-V: KVM: Add suuport for zicfiss/zicfilp/svadu
+ FWFT features
+Message-ID: <202512031835.rfeAWiCJ-lkp@intel.com>
+References: <1793aa636969da0a09d27c9c12f6d5f8f0d1cd21.1764509485.git.zhouquan@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -40,31 +66,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251202101215.2240024-1-andrea.tomassetti@sipearl.com>
+In-Reply-To: <1793aa636969da0a09d27c9c12f6d5f8f0d1cd21.1764509485.git.zhouquan@iscas.ac.cn>
 
-On Tue, Dec 02, 2025 at 11:12:14AM +0100, Andrea Tomassetti wrote:
-> The goal is to allow clients to submit a message in both irq and polling
-> mode of the pcc mailbox. The ACPI specification does not require a
-> platform irq for pcc channels. Let's implement the case where it is not
-> available.
->
+Hi,
 
-Just curious if you have a real use case for this polling mode on your
-platforms or ...
+kernel test robot noticed the following build errors:
 
-> Tested-by: Thibault Cantori <thibault.cantori@sipearl.com>
-> Co-developed-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-> Signed-off-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-> Signed-off-by: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202511120243.soxAFpqQ-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202511120558.Cln7LF6M-lkp@intel.com/
-> Closes: https://lore.kernel.org/oe-kbuild-all/202511120729.R3XQNSnx-lkp@intel.com/
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master v6.18 next-20251203]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-You are just trying to fix these warnings. If it is latter, we don't have to
-add support for polling mode especially if it can't be tested on real
-platforms.
+url:    https://github.com/intel-lab-lkp/linux/commits/zhouquan-iscas-ac-cn/RISC-V-KVM-Allow-zicfiss-zicfilp-exts-for-Guest-VM/20251201-094857
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/1793aa636969da0a09d27c9c12f6d5f8f0d1cd21.1764509485.git.zhouquan%40iscas.ac.cn
+patch subject: [PATCH 3/4] RISC-V: KVM: Add suuport for zicfiss/zicfilp/svadu FWFT features
+config: riscv-randconfig-001-20251203 (https://download.01.org/0day-ci/archive/20251203/202512031835.rfeAWiCJ-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512031835.rfeAWiCJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512031835.rfeAWiCJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:345:30: error: 'kvm_sbi_fwft_landing_pad_supported' undeclared here (not in a function)
+     345 |                 .supported = kvm_sbi_fwft_landing_pad_supported,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:346:26: error: 'kvm_sbi_fwft_reset_landing_pad' undeclared here (not in a function)
+     346 |                 .reset = kvm_sbi_fwft_reset_landing_pad,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:347:24: error: 'kvm_sbi_fwft_set_landing_pad' undeclared here (not in a function)
+     347 |                 .set = kvm_sbi_fwft_set_landing_pad,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:348:24: error: 'kvm_sbi_fwft_get_landing_pad' undeclared here (not in a function)
+     348 |                 .get = kvm_sbi_fwft_get_landing_pad,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:354:30: error: 'kvm_sbi_fwft_shadow_stack_supported' undeclared here (not in a function)
+     354 |                 .supported = kvm_sbi_fwft_shadow_stack_supported,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:355:26: error: 'kvm_sbi_fwft_reset_shadow_stack' undeclared here (not in a function)
+     355 |                 .reset = kvm_sbi_fwft_reset_shadow_stack,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:356:24: error: 'kvm_sbi_fwft_set_shadow_stack' undeclared here (not in a function)
+     356 |                 .set = kvm_sbi_fwft_set_shadow_stack,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:357:24: error: 'kvm_sbi_fwft_get_shadow_stack' undeclared here (not in a function)
+     357 |                 .get = kvm_sbi_fwft_get_shadow_stack,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:363:30: error: 'kvm_sbi_fwft_pte_ad_hw_updating_supported' undeclared here (not in a function)
+     363 |                 .supported = kvm_sbi_fwft_pte_ad_hw_updating_supported,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:364:26: error: 'kvm_sbi_fwft_reset_pte_ad_hw_updating' undeclared here (not in a function)
+     364 |                 .reset = kvm_sbi_fwft_reset_pte_ad_hw_updating,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:365:24: error: 'kvm_sbi_fwft_set_pte_ad_hw_updating' undeclared here (not in a function)
+     365 |                 .set = kvm_sbi_fwft_set_pte_ad_hw_updating,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/riscv/kvm/vcpu_sbi_fwft.c:366:24: error: 'kvm_sbi_fwft_get_pte_ad_hw_updating' undeclared here (not in a function)
+     366 |                 .get = kvm_sbi_fwft_get_pte_ad_hw_updating,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/kvm_sbi_fwft_landing_pad_supported +345 arch/riscv/kvm/vcpu_sbi_fwft.c
+
+   319	
+   320	static const struct kvm_sbi_fwft_feature features[] = {
+   321		{
+   322			.id = SBI_FWFT_MISALIGNED_EXC_DELEG,
+   323			.first_reg_num = offsetof(struct kvm_riscv_sbi_fwft, misaligned_deleg.enable) /
+   324					 sizeof(unsigned long),
+   325			.supported = kvm_sbi_fwft_misaligned_delegation_supported,
+   326			.reset = kvm_sbi_fwft_reset_misaligned_delegation,
+   327			.set = kvm_sbi_fwft_set_misaligned_delegation,
+   328			.get = kvm_sbi_fwft_get_misaligned_delegation,
+   329		},
+   330	#ifndef CONFIG_32BIT
+   331		{
+   332			.id = SBI_FWFT_POINTER_MASKING_PMLEN,
+   333			.first_reg_num = offsetof(struct kvm_riscv_sbi_fwft, pointer_masking.enable) /
+   334					 sizeof(unsigned long),
+   335			.supported = kvm_sbi_fwft_pointer_masking_pmlen_supported,
+   336			.reset = kvm_sbi_fwft_reset_pointer_masking_pmlen,
+   337			.set = kvm_sbi_fwft_set_pointer_masking_pmlen,
+   338			.get = kvm_sbi_fwft_get_pointer_masking_pmlen,
+   339		},
+   340	#endif
+   341		{
+   342			.id = SBI_FWFT_LANDING_PAD,
+   343			.first_reg_num = offsetof(struct kvm_riscv_sbi_fwft, landing_pad.enable) /
+   344					 sizeof(unsigned long),
+ > 345			.supported = kvm_sbi_fwft_landing_pad_supported,
+ > 346			.reset = kvm_sbi_fwft_reset_landing_pad,
+ > 347			.set = kvm_sbi_fwft_set_landing_pad,
+ > 348			.get = kvm_sbi_fwft_get_landing_pad,
+   349		},
+   350		{
+   351			.id = SBI_FWFT_SHADOW_STACK,
+   352			.first_reg_num = offsetof(struct kvm_riscv_sbi_fwft, shadow_stack.enable) /
+   353					 sizeof(unsigned long),
+ > 354			.supported = kvm_sbi_fwft_shadow_stack_supported,
+ > 355			.reset = kvm_sbi_fwft_reset_shadow_stack,
+ > 356			.set = kvm_sbi_fwft_set_shadow_stack,
+ > 357			.get = kvm_sbi_fwft_get_shadow_stack,
+   358		},
+   359		{
+   360			.id = SBI_FWFT_PTE_AD_HW_UPDATING,
+   361			.first_reg_num = offsetof(struct kvm_riscv_sbi_fwft, pte_ad_hw_updating.enable) /
+   362					 sizeof(unsigned long),
+ > 363			.supported = kvm_sbi_fwft_pte_ad_hw_updating_supported,
+ > 364			.reset = kvm_sbi_fwft_reset_pte_ad_hw_updating,
+ > 365			.set = kvm_sbi_fwft_set_pte_ad_hw_updating,
+ > 366			.get = kvm_sbi_fwft_get_pte_ad_hw_updating,
+   367		},
+   368	};
+   369	
 
 -- 
-Regards,
-Sudeep
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
