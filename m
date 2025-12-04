@@ -1,46 +1,58 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610A031A06F;
-	Thu,  4 Dec 2025 11:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C2E2D3A70
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 11:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764846311; cv=none; b=qc40EA+U8Qmns/F2nKkm88P3msInkJB0/BcJmM+UGb/eRmSQmEvwuvolU0KOd2DxLeVrdta7DToe5oiFWsYr/6TA+pXlfgA8V3DsHmDeE5ZkYrI7cURK/pw4Hr9f5WPVExwPQ0berVbTLDQmft+yEF+k54p7Eac/LFZNGDZEzwE=
+	t=1764848347; cv=none; b=gyfdF+x0lwx6nxYshi8Ti887sfhAFHPxTiHXJdN1pbDYFFa58g10SPp8bcuvf/kTC7mgUkpOMehnZkjJ+p7ZFZtb8ph6weRLevBowHggRFuXbHPJReZy0EOcjOe6aGj5jDMlkqlD3kbMNWZBnYfmIOyFxB5tz44ffek8sMcmw/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764846311; c=relaxed/simple;
-	bh=sNy/AJ9so1emRuuQfmd0cbIwhSV+BgyEvnkq9tI6xcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CZOZwcKQqbwLT9GZXgkR2mwHp0YXXJtgD8flwo9ATn9koHYZfUDQd7JXgyhXVEqAvi6Jrv/GnqGruEhNni3WLP5opWyiBijmIqniIc8QLXiCFUi+09Je6Sdwatlo94SstFFBNF1ezVvL2GgbCcn2veDWzlxu81TSQO5jwFEO+1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AV4xk33V; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764848347; c=relaxed/simple;
+	bh=YpXvwbmqNJSWlhV1/qs20g9tj9HlmYTXN0vqrLL9tZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aCuBbWNiQGJRKMgtYmBF2EMaex98uIQj668cIEiDTVzZU5Ixt56a6FjxwgYGi4f/HqNTQHCyGRC7/kf0kx9GuFSzQxe+4D409XMZQcwqEsCSDgJK3IRUi1v5RjnpDtVLhBPLZ33B5S0ATKoQNg9lQFVgpxiNnKw8FqpM743Ric0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WXepf+z1; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AV4xk33V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Sxb0x9Zv/eScZNohDY7zCYZvzfVIlcPVJ6w589Oub2I=; b=AV4xk33Vi4vdSKsYd7rxlq92ma
-	q4Cy0IKq4pbWWtbQDvC0+CF6DOwfoOc3tHoPrZ7wx9Vsv4xU1UXYapJpJSdcU/HpKMvJ1hvcjYneM
-	An0XVh1CrllGgkxKSggWP1ySW17BgLnyTZtlrTdhKWElby9fZjq/aHs4eam9J6e8OPQTv7WpuPya8
-	Uxzf5csIft+ApXZpsZs0XAQWVpJSiRJWmlpDzI7cR/j00SUDAt27Vm5TwK59MONrq55upoCncsRRG
-	mMcp1+8wrm4ezHLOVsG7dr2F1ldzw+IiCF9HPRxnPGCK8chmAJQIHnLzaB68hgTmNQyMg2K4HnkR/
-	WgGGyc0g==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR6HS-00000003stb-07yt;
-	Thu, 04 Dec 2025 10:09:46 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 87C7D300566; Thu, 04 Dec 2025 12:05:04 +0100 (CET)
-Date: Thu, 4 Dec 2025 12:05:04 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Oleg Nesterov <oleg@redhat.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: include/linux/seqlock.h:1257:undefined reference to
- `__scoped_seqlock_bug'
-Message-ID: <20251204110504.GI2528459@noisy.programming.kicks-ass.net>
-References: <202512032230.5pqkcg8x-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXepf+z1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764848346; x=1796384346;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YpXvwbmqNJSWlhV1/qs20g9tj9HlmYTXN0vqrLL9tZA=;
+  b=WXepf+z1nbBUjeczZocsbL1cYdkFDEXur8hqLadBFmxam5USuJ2Uqxo/
+   EsLlm4TWHT1NVcqX18M/kocbnGonsdtwKLL/jb4ibuecEHoFHejWrR+Lx
+   bDfF4DKIVMNLVvSMaLB1xYJEBXdRddhkQ3qpgjlfp9mZHggsNWutkiOvX
+   dU/L2zxgkZ4GvlM60f7MQzxcADBh8XqGtpIphdQ/+epySIlRoUe3CcXUf
+   WngPh0eEeOq4lpZuUQuq1zwa4xnWmtXBM6yzxzK28AXDNhDguIc+8yGK6
+   oGUnqk5iZ1cV+G2R7hXSEj3hcluF2VVjhwB4I7p9qqan9RpLRA76F2jLv
+   g==;
+X-CSE-ConnectionGUID: QebKq8/yS6CIsanqzgR1nQ==
+X-CSE-MsgGUID: qlk+NJNoQcephMEEQs78rQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66750260"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="66750260"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 03:39:06 -0800
+X-CSE-ConnectionGUID: ptQBn+uDS2Ku4GyYiDVO4g==
+X-CSE-MsgGUID: 8BjkRc32QymrzXLNdNiJ4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="225917726"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2025 03:39:04 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vR7fq-00000000Dkr-01zw;
+	Thu, 04 Dec 2025 11:39:02 +0000
+Date: Thu, 4 Dec 2025 19:38:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [joel-granados:jag/no-macro-conv 22/23] Warning: kernel/sysctl.c:370
+ function parameter 'u_ptr' not described in 'proc_uint_u2k_conv_uop'
+Message-ID: <202512041919.82FGS2oX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,31 +61,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512032230.5pqkcg8x-lkp@intel.com>
 
-On Wed, Dec 03, 2025 at 10:22:28PM +0800, kernel test robot wrote:
-> Hi Oleg,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
-> commit: 488f48b32654dc6be04d9cc12f75ce030c9cb21b seqlock: Change thread_group_cputime() to use scoped_seqlock_read()
-> date:   6 weeks ago
-> config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/no-macro-conv
+head:   dba3c8237954a60d0245367f9110dbe6bb264531
+commit: 4531cacd0cd2a8f46181e4aa6f8fa4964ee4953b [22/23] sysctl: Replace macros with UINT converter functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251204/202512041919.82FGS2oX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041919.82FGS2oX-lkp@intel.com/reproduce)
 
->    arm-linux-gnueabi-ld: kernel/sched/build_policy.o: in function `__scoped_seqlock_next':
-> >> include/linux/seqlock.h:1257:(.text+0x96a0): undefined reference to `__scoped_seqlock_bug'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512041919.82FGS2oX-lkp@intel.com/
 
-I cannot reproduce using the gcc-15.1 toolchain from kernel.org
+All warnings (new ones prefixed by >>):
 
-$ make O=tmp-build/ ARCH=arm CROSS_COMPILE=/opt/cross-15.1/bin/arm-linux-gnueabi- -j64
+>> Warning: kernel/sysctl.c:370 function parameter 'u_ptr' not described in 'proc_uint_u2k_conv_uop'
+>> Warning: kernel/sysctl.c:370 function parameter 'k_ptr' not described in 'proc_uint_u2k_conv_uop'
+>> Warning: kernel/sysctl.c:370 function parameter 'u_ptr_op' not described in 'proc_uint_u2k_conv_uop'
+>> Warning: kernel/sysctl.c:388 function parameter 'u_ptr' not described in 'proc_uint_k2u_conv'
+>> Warning: kernel/sysctl.c:388 function parameter 'k_ptr' not described in 'proc_uint_k2u_conv'
 
-completes using your .config. I've tried twice now. In any case, if this
-reliably fails for you, could you try:
-
-  https://lkml.kernel.org/r/20251204104332.GG2528459@noisy.programming.kicks-ass.net
-
-perhaps it is that same problem. If not, could you perhaps hand me the
-kernel/sched/build_policy.s file?
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
