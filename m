@@ -1,140 +1,98 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout.sipearl.com (smtpout.sipearl.com [178.170.11.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775D730597F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 12:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB54296BDB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 13:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.170.11.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764851848; cv=none; b=YW7g77Ud5KnrmoGIyhdS5+wiS3zo8tDJKdqbc76qbgaCL1UQdUiqOIRZTBMKgqaD9T47TfkcqY4CaMpZan1h8502atnDI0eNR6a8UsumJZIORWteJvRy+2blcJMiw3BAFJqRcPneNVlQ/9WIhxSVH0S1Z4gDe6bGJdhSsIwcvas=
+	t=1764853274; cv=none; b=cBAX+1YuvXW0EjeoC1Y79mI3jkYbKWYlLM/WfwGTk+twSMGTLKcITnSa3Ti6qKMaMW6IJlgiEYXslVGEs4VU2j6imE5IRnwcIWBvITdJnesMAFPyNVp86MsHpP0grz1B1tVjdz3Se5EqDZrT7WJOQvdfPyrrBBqa5Qqa7yDfq7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764851848; c=relaxed/simple;
-	bh=I+x50kw7eD/yFvO/RXyr3WRAFE/OaL8Au1f1VOnxJ0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IsCGa9g9MQqFGf3S44hQ+uIUaDe6/1FJpK4C+/wUTRAc1be5k4JnQQRqfTbdw4D8biKV+l67AiMfBsnpHTmEylpckGkAPIJKubVJoZqzhu3CFwegGaVpTNrTaXaJQLGFUAxfH9wUgdY/wT9cAYJ7/BbX3wVMrFHO4dg5moW3TNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cnfvh1If; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764853274; c=relaxed/simple;
+	bh=CF9gyM8B15HnPxWwvuWug7hV2IYVEinzxWbNzLaiRZ8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ghnBOIjLV4BD4xzIOxfHzemX8dc2cNx+IgVGEZ6h7LH17fUojdv/W96vcUWMSt1Lz1dXKtS95/8C3Ac2MKvwI5/zH3zoercgICCiWhahnlxVLUSSrI0lczOiLTdd4khGMZ61UCd+TOOxgXfOLC1iAwt7FVWkFL22RpU4OiObuMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com; spf=pass smtp.mailfrom=sipearl.com; dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b=cVOKkp+u; arc=none smtp.client-ip=178.170.11.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipearl.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipearl.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cnfvh1If"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so6207055e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 04:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764851845; x=1765456645; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ia1NqmdvWfkLXAzH0MNKGnJbJSAy5z/VpGTUT9Z+iC8=;
-        b=Cnfvh1If5BWWh1X8g1XPmeY/QzXo7WY5QyePURBk3EELqx4z7Vy4uIUN8qRUMASAb4
-         hmO5qOBB4G4ot55GCpXG5ASUFc19DGyhGc8j0uu1Adxcdp43TCpva8P+k5VqmpSgbd5N
-         nssGiP+Eyhba4l2VEjR9kS5OXMDAI/8nONzeNj81yY0jhWVVvX0qytgQIjkcvenqxfKV
-         uEn3r6rTkKg8eiLxRLHGqkwgBlcyeUOvYDbjtb6xU/65viZuBZYuc4dC8l84elj3JoGx
-         zh4rGhmVkHzgv4P9+Z+VJt1N5NuSiqQRjsfvRwih2+5qrdbNefGIvFGwlYwTxEHl4E8S
-         PIKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764851845; x=1765456645;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ia1NqmdvWfkLXAzH0MNKGnJbJSAy5z/VpGTUT9Z+iC8=;
-        b=dFHiZpGo7JfDBsK9HLfCnth1bz5wVcI2W0MiKllGNECSP/PHhqee10+QIcMSlUphR+
-         XHBylVWA/H7ZbN/gc46ahf+Y0Jd7eqyPlhXYcX5jxreXFqy5bue0J9uKm5S7aUMz1g7D
-         V/mihuzbp9c1Yhj5E1D1iWBw1LtFNjKmjpLmvr5SVNUPx0UvwBrCUVHs2YPHHrJHggRY
-         whATAgJ896rqI7K5GzESBKFc1vbQZJEzFLxN6gr8oqaiCfO0VMCQgJjtl2qaKSMBS8NL
-         qPk+35mpTBaNTTPgNuSf0G+kUj0uXVgOwgI14ubBM8eXU4xxi6+30rXPMov9bA061iqd
-         3rcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5R5iOy/0GUTEtE4+3ENf9MaDoC57HdQ6fXy9rC1L+zBDsZ0zCmsFJEhpJl6DKrGQmcqNUxPY9IW7ml1YG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxn6VFDcmID9aLq6uqYscjEpWQb9tWMG5DpZ4VQVxv4g1OP7Y5V
-	GFMMKx8ireWN0jlMrg/8FAoil3k3QrEqD1O/v+4WOlxOiYjw4eUxDZwB2R6zx6qXTjI=
-X-Gm-Gg: ASbGnctz+/jN0JjqKnddWdaX1c8NRp8U1bAdyWNGpRECMpfVEDK8kguqFKrDGitplbe
-	0O8Uoo9xB23UtrnI6hKoR2E44EAsQWaR5ut2ytiZdutN/Qc0Sh5QrY9cb1v3UFLwPNEbsw1ArHC
-	kp3sGBdwe0hCjhcYy5gS54qFVtLah1kFQUPRUGs1sBAAntkNCkXk39KGP/WNDqCG+jJxscbkmdE
-	esI/jcVz+ITPaiGR+JkcubwUnPpb2e6+qYyl79Vuy6Izu4Wed+oXj1Rln52az225c/8bm46LO8i
-	tIYNLj/40iRL9pG12fp3zY6BtxRtXynJuZcKVNX66aVxCV2hfa9PKBuX2/Jf8e3QlU/JbNpdGoN
-	GWq+P35ng/Hfq2vNCY7Y/h54rXz8eT+0BWUOO/Ok6oGwekLG2ko+ReRADgY+kLI0QscKzUtnKOH
-	CxM1ZB8NxBMjDPTPlWrMdsIm1zQx/hIQWgp+Vb
-X-Google-Smtp-Source: AGHT+IHqn2BhHzF5lqBtfDobXTknqzY//sbRwRYp4UNor2Id91FE3wWAPEWWaSzWUXUDQX+NOcTnmA==
-X-Received: by 2002:a05:600c:1d1d:b0:477:abea:9028 with SMTP id 5b1f17b1804b1-4792f24418bmr28417785e9.6.1764851844520;
-        Thu, 04 Dec 2025 04:37:24 -0800 (PST)
-Received: from localhost (h1f65.n1.ips.mtn.co.ug. [41.210.159.101])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4792b140cf4sm47488925e9.5.2025.12.04.04.37.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 04:37:24 -0800 (PST)
-Date: Thu, 4 Dec 2025 15:37:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@kernel.org>
-Subject: [mingo-tip:WIP.sched/flat 31/31] kernel/sched/fair.c:13541
- unregister_fair_sched_group() warn: variable dereferenced before check 'se'
- (see line 13538)
-Message-ID: <202512042010.Kvt9IxPC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=sipearl.com header.i=@sipearl.com header.b="cVOKkp+u"
+Received: from smtpout.sipearl.com ([172.31.29.1])
+	by smtpin.sipearl.com  with ESMTPS id 5B4D0hc5016603-5B4D0hc7016603
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 4 Dec 2025 14:00:43 +0100
+Received: from dc2pvlnosz001.pub.int.sipearl.com (172.31.65.18) by
+ dc2pvwexcz001.sipearl.corp (172.31.29.1) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.36; Thu, 4 Dec 2025 14:00:43 +0100
+From: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
+To: <sudeep.holla@arm.com>
+CC: <andrea.tomassetti@sipearl.com>, <jassisinghbrar@gmail.com>,
+	<lenb@kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <olivier.dautricourt@sipearl.com>,
+	<olivierdautricourt@gmail.com>, <rafael@kernel.org>,
+	<thibault.cantori@sipearl.com>
+Subject: Re: Re: [PATCH v3 1/2] mailbox: pcc: support polling mode when there is no platform IRQ
+Date: Thu, 4 Dec 2025 13:59:38 +0100
+Message-ID: <20251204125938.3025022-1-andrea.tomassetti@sipearl.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251203-persimmon-condor-of-essence-9fc43d@sudeepholla>
+References: <20251203-persimmon-condor-of-essence-9fc43d@sudeepholla>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dc2pvwexcz001.sipearl.corp (172.31.29.1) To
+ dc2pvwexcz001.sipearl.corp (172.31.29.1)
+X-FEAS-Client-IP: 172.31.29.1
+X-FE-Policy-ID: 2:2:2:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=sipearl.com; s=sipearl2024; c=relaxed/relaxed;
+ h=from:to:cc:subject:date:message-id:references:mime-version:content-type;
+ bh=jkRGH+WC/Hs6lKqWmqDZ/0XMwhjbFXbvZN3peUEPMaE=;
+ b=cVOKkp+u8dJ3rCn7MA/Dr/B69Lp4bPxBIRy2SiNnNyhtEl3882+lm4a7j11ISS0/RM4lduYS/cw3
+	LYWWdbX7D/QulpLBaQOt4BhB0xdL6lX9NldkNx5neaCxqFwoDPGvqQiN+POORFvyrpCWWpoCUjhw
+	c5HTjHWfvCJuO/HAzVhlSTC/d2dA6YkCq/6qISWgkYFcEaKttzVkmoUYP2nGrEtzslIhbtFVFIKD
+	4FiL2WNg1icPfeXWvoi9k3HSO/937jP927XUMOs1rfinhnGkUy0N7DGdcStwtRfoLUp0CXbPpvE+
+	JKQG7UWssDePpJ/nIO2NO1iri1cP+XTd9r7dkg==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.sched/flat
-head:   d8048abc1303ce09d2ed220c03377f633bd106e4
-commit: d8048abc1303ce09d2ed220c03377f633bd106e4 [31/31] sched/eevdf: Move to a single runqueue
-config: mips-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512042010.Kvt9IxPC-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 11.5.0
+On 25/12/03 10:28AM, Sudeep Holla wrote:
+> On Tue, Dec 02, 2025 at 11:12:14AM +0100, Andrea Tomassetti wrote:
+> > The goal is to allow clients to submit a message in both irq and polling
+> > mode of the pcc mailbox. The ACPI specification does not require a
+> > platform irq for pcc channels. Let's implement the case where it is not
+> > available.
+> >
+> 
+> Just curious if you have a real use case for this polling mode on your
+> platforms or ...
+> 
+> > Tested-by: Thibault Cantori <thibault.cantori@sipearl.com>
+> > Co-developed-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
+> > Signed-off-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
+> > Signed-off-by: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202511120243.soxAFpqQ-lkp@intel.com/
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202511120558.Cln7LF6M-lkp@intel.com/
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202511120729.R3XQNSnx-lkp@intel.com/
+> 
+> You are just trying to fix these warnings. If it is latter, we don't have to
+> add support for polling mode especially if it can't be tested on real
+> platforms.
+>
+In our target product, we're still investigating if PCC-based SCMI communication will
+rely on interrupts or polling. When we started looking into it we realized that polling
+wasn't supported and that's why we decided to work on and send this patch. We thought it
+could have been beneficial to other members of the community and it brings the driver a
+bit closer to the ACPI specifications.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512042010.Kvt9IxPC-lkp@intel.com/
+We're using ARM Fast Models for prototyping and that's how we validated and tested this patch.
 
-smatch warnings:
-kernel/sched/fair.c:13541 unregister_fair_sched_group() warn: variable dereferenced before check 'se' (see line 13538)
-
-vim +/se +13541 kernel/sched/fair.c
-
-6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13528  void unregister_fair_sched_group(struct task_group *tg)
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13529  {
-6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13530  	int cpu;
-6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13531  
-b027789e5e5049 kernel/sched/fair.c Mathias Krause         2021-11-03  13532  	destroy_cfs_bandwidth(tg_cfs_bandwidth(tg));
-b027789e5e5049 kernel/sched/fair.c Mathias Krause         2021-11-03  13533  
-6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13534  	for_each_possible_cpu(cpu) {
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13535  		struct cfs_rq *cfs_rq = tg->cfs_rq[cpu];
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13536  		struct sched_entity *se = tg->se[cpu];
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13537  		struct rq *rq = cpu_rq(cpu);
-f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24 @13538  		struct cfs_rq *parent_cfs_rq = cfs_rq_of(se);
-                                                                                                                                 ^^
-Dereferenced here
-
-f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24  13539  
-f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24  13540  
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03 @13541) 		if (se)
-                                                                                            ^^
-But this code assumed it can be NULL.
-
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13542) 			remove_entity_load_avg(se);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13543  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13544  		/*
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13545  		 * Only empty task groups can be destroyed; so we can speculatively
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13546  		 * check on_list without danger of it being re-added.
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13547  		 */
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13548  		if (cfs_rq->on_list) {
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13549  			guard(rq_lock_irqsave)(rq);
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13550  			list_del_leaf_cfs_rq(cfs_rq);
-2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13551  		}
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13552) 
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13553) 		/*
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13554) 		 * Clear parent's h_load_next if it points to the
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13555) 		 * sched_entity being freed, to avoid stale pointer.
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13556) 		 */
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13557) 		if (READ_ONCE(parent_cfs_rq->h_load_next) == se)
-d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13558) 			WRITE_ONCE(parent_cfs_rq->h_load_next, NULL);
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13559  	}
-6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13560  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Best regards,
+Andrea
+> -- 
+> Regards,
+> Sudeep
