@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B8421CFE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 14:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272B32F12DD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 17:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764858375; cv=none; b=Vw5vul3sfyLA/l9EWXkWHHD6VX6L/Erwei+TfFBN7KZTaL7ODIgPmlvkf2e1x+Tpg38iB/GtOR1HC87MPVml2JxJo8VSPTppE6rKFTAx9kt3wo4Pr1zNE/rXQInuxnCFzfa4jCsFZRyKtvitEb13vT1TJ9LOIeXiWdTdj5tTQ3I=
+	t=1764870747; cv=none; b=OfYofQ+u/3+D6H7ytMhH1bY7oD4HaKMhWyLW2pNPb+92LYsT4LvFlbBzxBfnX/qlMwO7YkSKSM5wo3594WR5Rx5eqEZpBJJOQQosuQRUeZZj4FBAIQ90PaN7NpDybcNPtbnt3uh1zbrQBouk7yloGip1K7k9iDv9W/vPiR5sWKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764858375; c=relaxed/simple;
-	bh=waUGSfd2GhXUvl2mpQhOpHJTQRCiJIG4/glzWRHgn2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lw4CaJ2IiUfvNqTo3QdbnfMEeDrKBE88QBHt8FQFcAUziYLqQyrCfokFEnXSZVE93aomnj/xJ4OrOUnq03UA9kq+D9rH/THrVlKZqhNXy9dCbCexwVYKlUOCHFFA2URcODUtpuVvw397/IPpf0EFHRwN7PgHZRYkBVOBBUTsWfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czo381oX; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1764870747; c=relaxed/simple;
+	bh=6lmtiDiHnMDkUM6O3aXnVhPqUlALfj8AUlgyY9SQ0L0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aOeKAraE2KvJ0fT1iablVRDhfFOPMSBn7O9srBuIlVoou4PC/A0aqSS1CstckSot8HctwZBFzljpWjrlVFngJzDtQQLfkLsru7ZcvQo6l4OaeBcSG6z9XZ8ZQbBu1LhWaSLYJFmmtzdwTWU0wtYl00ybDy8dbv/Zs8PWGo1Zb4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdbKvOaA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czo381oX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdbKvOaA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764858373; x=1796394373;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=waUGSfd2GhXUvl2mpQhOpHJTQRCiJIG4/glzWRHgn2g=;
-  b=czo381oXeamR65ZVL1LMdiKRAsYpyfTHq80SPhAHrBojaWxbRC53P2cz
-   TB6qdhZ0txWxjch0esjFOhzjY1XJu62oUBeptgBk8ScLPfk/Vp+sRilsO
-   4u/4lwX0EAu8e/1bbS4m+9TfR7S+hypPltzOYwee62ws9euRG72sqqGtn
-   ZakuqBotjDyWoYzfuMHhqN6Q2fYBAYFuHpXGyjngnxP9p7T5shw+3EAqn
-   Qq60gBhXZ5uNiMG0YQuvHHI9aNkV45GiyR5Im1ylJABlWG6uWplk9U7J7
-   otmEJqY43sCWaY2oE9jpI6+eXdJpegn/T2wVOkF00etUuZzleeoJKtKMN
-   A==;
-X-CSE-ConnectionGUID: k8/UazQVTYKrLm936wbqjw==
-X-CSE-MsgGUID: KTmcQBd4SlKxk9Bcv6HIpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77558254"
+  t=1764870745; x=1796406745;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6lmtiDiHnMDkUM6O3aXnVhPqUlALfj8AUlgyY9SQ0L0=;
+  b=gdbKvOaAdkvfUut9zTgvcz+pjACgj3yOEL+lG3s0jCfNNNRknEhe9Gi0
+   YUdjfWKABKbq5lNW3rGNHNycbC+U3aUCFkGJI3imCMxF+U5Zgg2F0w82H
+   NUGxby9RZBHyjPH4y8e53O1U48BHERDPpCV6Utdx7tMEPMBscNB2E9sS6
+   SSaQ+/isnUkvzVUIiTJxUoJmixLmQl++ESJIkZ5g3wRXu9byek/XtJZEX
+   4soircQNRP0WyQ4+RtuTcwrzmuKfm18JoE23VR/KvuU4ErhXWGAr+b2Zj
+   z5Ocxxp6oaJi11rSxK++KUhTLS+y0NCJS9zEt1TfFYFJvz6taazWOZCvP
+   Q==;
+X-CSE-ConnectionGUID: WzKEgtV4QwK893QPIc8k7Q==
+X-CSE-MsgGUID: koWyh29qT9CyNRT+E/rgJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77581325"
 X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; 
-   d="scan'208";a="77558254"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 06:26:13 -0800
-X-CSE-ConnectionGUID: HnQtEMdmS2yc29RCnRJjSg==
-X-CSE-MsgGUID: hrU6657JSx+8+Obd1zJSkA==
+   d="scan'208";a="77581325"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 09:52:25 -0800
+X-CSE-ConnectionGUID: ULcRDboDQMiRk9rrInJV5Q==
+X-CSE-MsgGUID: G1tIRMJ9Q6Or0OAQmaHFtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; 
-   d="scan'208";a="225665772"
+   d="scan'208";a="200174894"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Dec 2025 06:26:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Dec 2025 09:52:23 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRAHZ-00000000DrR-1FsL;
-	Thu, 04 Dec 2025 14:26:09 +0000
-Date: Thu, 4 Dec 2025 22:26:05 +0800
+	id 1vRDV7-00000000E2f-1BBJ;
+	Thu, 04 Dec 2025 17:52:21 +0000
+Date: Fri, 5 Dec 2025 01:52:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in
- name_size
-Message-ID: <202512042217.poWaYyYq-lkp@intel.com>
-References: <20251202202643.107108-2-jarkko@kernel.org>
+Subject: [anolis-intel-cloud:devel-5.10 2/2] mm/khugepaged.c:152: warning:
+ Function parameter or member 'evict_timestamp' not described in 'mm_slot'
+Message-ID: <202512050107.Ucd8kwbZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +61,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251202202643.107108-2-jarkko@kernel.org>
 
-Hi Jarkko,
+Hi Rongwei,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on next-20251202]
-[also build test WARNING on v6.18]
-[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18 v6.18-rc7 v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm2-sessions-fix-out-of-range-indexing-in-name_size/20251203-042945
-base:   next-20251202
-patch link:    https://lore.kernel.org/r/20251202202643.107108-2-jarkko%40kernel.org
-patch subject: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in name_size
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512042217.poWaYyYq-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512042217.poWaYyYq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   495c6b49736046cad5a06a343ca0be2750aed6fe
+commit: bf2c1d13d55c0fdac556938a3cde016341d985ec [2/2] anolis: mm: hugetext: Update adaptive entries
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251205/202512050107.Ucd8kwbZ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050107.Ucd8kwbZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512042217.poWaYyYq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512050107.Ucd8kwbZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from drivers/char/tpm/tpm.h:21,
-                    from drivers/char/tpm/tpm2-sessions.c:66:
-   drivers/char/tpm/tpm2-sessions.c: In function 'name_size':
->> include/linux/kern_levels.h:5:25: warning: unknown conversion type character '\x0a' in format [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
-     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:565:16: note: in expansion of macro 'KERN_WARNING'
-     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/char/tpm/tpm2-sessions.c:161:17: note: in expansion of macro 'pr_warn'
-     161 |                 pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
-         |                 ^~~~~~~
->> include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
-     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
-      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:565:16: note: in expansion of macro 'KERN_WARNING'
-     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~~~~
-   drivers/char/tpm/tpm2-sessions.c:161:17: note: in expansion of macro 'pr_warn'
-     161 |                 pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
-         |                 ^~~~~~~
+   mm/khugepaged.c:152: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'work' not described in 'mm_slot'
+>> mm/khugepaged.c:152: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'state' not described in 'mm_slot'
+   mm/khugepaged.c:152: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
+   mm/khugepaged.c:1855: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1855: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:2057: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:2057: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:2057: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:2057: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:2057: warning: Function parameter or member 'node' not described in 'collapse_file'
 
 
-vim +5 include/linux/kern_levels.h
+vim +152 mm/khugepaged.c
 
-314ba3520e513a7 Joe Perches 2012-07-30  4  
-04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
+b188234c53aafe Rongwei Wang       2022-11-26  122  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  123  /**
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  124   * struct mm_slot - hash lookup from mm to mm_slot
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  125   * @hash: hash collision list
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  126   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  127   * @mm: the mm that this information is valid for
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  128   */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  129  struct mm_slot {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  130  	struct hlist_node hash;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  131  	struct list_head mm_node;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  132  	struct mm_struct *mm;
+27e1f8273113ad Song Liu           2019-09-23  133  
+27e1f8273113ad Song Liu           2019-09-23  134  	/* pte-mapped THP in this mm */
+27e1f8273113ad Song Liu           2019-09-23  135  	int nr_pte_mapped_thp;
+27e1f8273113ad Song Liu           2019-09-23  136  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
+5c3c3afed0fd68 Xu Yu              2021-08-19  137  
+5c3c3afed0fd68 Xu Yu              2021-08-19  138  #ifdef CONFIG_HUGETEXT
+5c3c3afed0fd68 Xu Yu              2021-08-19  139  #define MAX_EXEC_VMA       8
+5c3c3afed0fd68 Xu Yu              2021-08-19  140  	/* exec vma vm_start in this mm */
+5c3c3afed0fd68 Xu Yu              2021-08-19  141  	int nr_exec_vma;
+5c3c3afed0fd68 Xu Yu              2021-08-19  142  	unsigned long exec_vma[MAX_EXEC_VMA];
+b188234c53aafe Rongwei Wang       2022-11-26  143  	int nr_adapt_vma;
+b188234c53aafe Rongwei Wang       2022-11-26  144  	struct adapt_vma_t adapt_vmas[MAX_EXEC_VMA];
+b188234c53aafe Rongwei Wang       2022-11-26  145  	struct xarray adaptive_regions;
+b188234c53aafe Rongwei Wang       2022-11-26  146  	struct delayed_work work;
+bf2c1d13d55c0f Rongwei Wang       2022-11-26  147  	unsigned long evict_timestamp;
+b188234c53aafe Rongwei Wang       2022-11-26  148  	/* Current state of adapt vma */
+b188234c53aafe Rongwei Wang       2022-11-26  149  	atomic_t state;
+b188234c53aafe Rongwei Wang       2022-11-26  150  	int nr_hugetext;
+5c3c3afed0fd68 Xu Yu              2021-08-19  151  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @152  };
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  153  
+
+:::::: The code at line 152 was first introduced by commit
+:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
