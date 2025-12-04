@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830A629B8DD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 21:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0AF398FBF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 21:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764883422; cv=none; b=jKDBR+/WFqXQoqAn/e4W2aYD2HOeCNoJi5ey6kwog+20x0ihsSb92T8L5usnh/1lpEqvvI8M1lhWQjRca+V4G8Iour9CPgeRRecv2i7mlXZln0jCM5Qf4FtfQMmJWqSil8cdejYx/nk8fnAYgcQioumf7fFLvCh6+1A6FvpRwZQ=
+	t=1764884929; cv=none; b=eGA8BDkyB4qyc5PL7QEF+KQ3asc9W+tWjf1XtrggcnByxQF4wvlx114b0lO7bcjiIgs8uqRp10cETlSih7dAuk/+pauw58I3HmLc43CS8h6vzujcdZH++57mel5jVNhbj1PmxXhXn5XazjT5ym8rSDsPk+sLEwCk9/kLsDATxXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764883422; c=relaxed/simple;
-	bh=f8zykM/Rnt7oC2pBaaK6ZmJG2g3hu+6GYv5id9tdyZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPeSEV6o/op0YJlMksJTUzstqEobTRh1gS5599ckmgPBm3yiQD1WP/2yuzLlzFXcnn8y9p1r1S5d2JGZtx0qwx+Z+c3QaqdiXmD7QejvH6ZUEe5Ly+F5sKUkJ+gxOpVyNfre1iJdv+U3Nea4I/rKPc9bkRi/CdrtwHHvaDOMMU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFgkzPaL; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1764884929; c=relaxed/simple;
+	bh=TmIENnqmM6+s5qyGKlUpnATHJNRlH73E/P7flAlLcUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z8lEqxFdlx97ee93yTC9ACg6hUt94df8o9TFd8QH8f/Ijm6tN4Jl7aBkD4UTtKRwRxyFNmpkcQwW7TtbPA/yQ69kTbKDFLPAc3WkeogkQFDXXxZjtTXSP2qHdQL6WyVy/Viv1wjufcJC9nsgzTx4M+rbYVTgEzp5tcbxkwq7xnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QspTF4Lv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFgkzPaL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QspTF4Lv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764883421; x=1796419421;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f8zykM/Rnt7oC2pBaaK6ZmJG2g3hu+6GYv5id9tdyZw=;
-  b=dFgkzPaLAuT+R+55xMdstLgLs9lU/d4GtX3WGNsU2EySaC6z8rhaFQx3
-   FmK5h4zfweNMP4KZnHXqop73NGkpVjKVWADGYy+61/CctZuiXM92GQSM4
-   VZgCL50v5Wqi50dpNgDkU4AA4eHQivzFj6q8iFvLigWQSUPX+JJ9luEwC
-   NMMQDd3MmJp41hqWTD71RqrFVYOIfmRgxG1leMXcCRMLf2sw3+shkQMnn
-   QOi4EHN+z0dtSX2i0eXYWhgOf9vp4qNzTE767mwLvFLzASwAAotoHy7ZS
-   n69+yVekds1awcb8B705OpnXty6TfpZ6w+tpeq6t0JWfgCZK+i9fxwQ6z
+  t=1764884928; x=1796420928;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TmIENnqmM6+s5qyGKlUpnATHJNRlH73E/P7flAlLcUU=;
+  b=QspTF4Lvy3KO8+uxhTa86Z3W+zDUkwfF7ASubqx1/n18nUKjeW8H7NG5
+   my6wS8tgcegYFcsUp/QLer7cdSWDGYdWHLJw6Fx1wgGk/gJhOtdsr0zxZ
+   ++tvfOBSHLtGTDQidtETavJJI+RABrBJo52tjFUDyYAhDfbk13yVxJVGk
+   JEdo1vF0A/zHtAPnOHCATlmH0DGF845p4D1K9fei7rrRvh6a/LiMkw9Qg
+   zM7SBAumr/Hgk34MO+zDgMR3XeqRc4iq3hS/ahJnW0cs/hTsOiyNcYIh9
+   AJKjORHBCeMgZJ2qki2dOV8CUyqvqWUi+RdUqgfl2JrXKuOasL+Th+VwV
    w==;
-X-CSE-ConnectionGUID: mxMEHZBdQXWQcpu8liWRbg==
-X-CSE-MsgGUID: stylCJ/sSByYla+djopa+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="84321236"
+X-CSE-ConnectionGUID: qeZBs/QMQL68q6DnceYY0A==
+X-CSE-MsgGUID: scLR1ZsATgy/wpHzixCTgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66959492"
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="84321236"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 13:23:40 -0800
-X-CSE-ConnectionGUID: ST9W6LWcQlS5c84SBrxJ6w==
-X-CSE-MsgGUID: jOxocdD6QjKJyvMUsHJx0w==
+   d="scan'208";a="66959492"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 13:48:48 -0800
+X-CSE-ConnectionGUID: sOv895pmQGKFx9j6chhezw==
+X-CSE-MsgGUID: swasv7naQearNKoOL9m5AA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="195515697"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Dec 2025 13:23:35 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="199269548"
+Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 04 Dec 2025 13:48:48 -0800
+Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRGnU-00000000EEz-2BZK;
-	Thu, 04 Dec 2025 21:23:32 +0000
-Date: Fri, 5 Dec 2025 05:23:29 +0800
+	id 1vRHBs-000000000ov-3UD4;
+	Thu, 04 Dec 2025 21:48:44 +0000
+Date: Thu, 4 Dec 2025 22:47:52 +0100
 From: kernel test robot <lkp@intel.com>
-To: Samuel Wu <wusamuel@google.com>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, rafael.j.wysocki@intel.com,
-	Samuel Wu <wusamuel@google.com>, kernel-team@android.com,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v1 1/4] bpf: Add wakeup_source iterator
-Message-ID: <202512050548.YLgRm659-lkp@intel.com>
-References: <20251204025003.3162056-2-wusamuel@google.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [joel-granados:jag/no-macro-conv 23/25] htmldocs:
+ Documentation/filesystems/api-summary:107: ./kernel/sysctl.c:794: WARNING:
+ Block quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202512042225.QcSwy0wi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,89 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204025003.3162056-2-wusamuel@google.com>
 
-Hi Samuel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master shuah-kselftest/next shuah-kselftest/fixes linus/master v6.18 next-20251204]
-[cannot apply to bpf-next/net]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Wu/bpf-Add-wakeup_source-iterator/20251204-111108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251204025003.3162056-2-wusamuel%40google.com
-patch subject: [PATCH v1 1/4] bpf: Add wakeup_source iterator
-config: um-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512050548.YLgRm659-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050548.YLgRm659-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/no-macro-conv
+head:   60075afc9fabecdb5b1015df21a05df3b2d50562
+commit: bedd3b4197fd211e1ea0dd90f17b72524d205e9c [23/25] sysctl: clarify proc_douintvec_minmax doc
+reproduce: (https://download.01.org/0day-ci/archive/20251204/202512042225.QcSwy0wi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512050548.YLgRm659-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512042225.QcSwy0wi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/bpf/wakeup_source_iter.c: In function 'wakeup_source_iter_seq_start':
-   kernel/bpf/wakeup_source_iter.c:20:20: error: implicit declaration of function 'wakeup_sources_read_lock'; did you mean 'wakeup_source_register'? [-Wimplicit-function-declaration]
-      20 |         *srcuidx = wakeup_sources_read_lock();
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                    wakeup_source_register
-   kernel/bpf/wakeup_source_iter.c:22:14: error: implicit declaration of function 'wakeup_sources_walk_start'; did you mean 'wakeup_source_register'? [-Wimplicit-function-declaration]
-      22 |         ws = wakeup_sources_walk_start();
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |              wakeup_source_register
->> kernel/bpf/wakeup_source_iter.c:22:12: error: assignment to 'struct wakeup_source *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      22 |         ws = wakeup_sources_walk_start();
-         |            ^
-   kernel/bpf/wakeup_source_iter.c:24:22: error: implicit declaration of function 'wakeup_sources_walk_next' [-Wimplicit-function-declaration]
-      24 |                 ws = wakeup_sources_walk_next(ws);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/wakeup_source_iter.c:24:20: error: assignment to 'struct wakeup_source *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      24 |                 ws = wakeup_sources_walk_next(ws);
-         |                    ^
-   kernel/bpf/wakeup_source_iter.c: In function 'wakeup_source_iter_seq_next':
->> kernel/bpf/wakeup_source_iter.c:35:16: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-      35 |         return wakeup_sources_walk_next(ws);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/wakeup_source_iter.c: In function 'wakeup_source_iter_seq_stop':
-   kernel/bpf/wakeup_source_iter.c:43:17: error: implicit declaration of function 'wakeup_sources_read_unlock' [-Wimplicit-function-declaration]
-      43 |                 wakeup_sources_read_unlock(*srcuidx);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +22 kernel/bpf/wakeup_source_iter.c
-
-    13	
-    14	static void *wakeup_source_iter_seq_start(struct seq_file *seq, loff_t *pos)
-    15	{
-    16		int *srcuidx = seq->private;
-    17		struct wakeup_source *ws;
-    18		loff_t i;
-    19	
-    20		*srcuidx = wakeup_sources_read_lock();
-    21	
-  > 22		ws = wakeup_sources_walk_start();
-    23		for (i = 0; ws && i < *pos; i++)
-    24			ws = wakeup_sources_walk_next(ws);
-    25	
-    26		return ws;
-    27	}
-    28	
-    29	static void *wakeup_source_iter_seq_next(struct seq_file *seq, void *v, loff_t *pos)
-    30	{
-    31		struct wakeup_source *ws = v;
-    32	
-    33		++*pos;
-    34	
-  > 35		return wakeup_sources_walk_next(ws);
-    36	}
-    37	
+   WARNING: No kernel-doc for file ./include/linux/fs.h
+   ERROR: Cannot find file ./include/linux/dcache.h
+   ERROR: Cannot find file ./include/linux/dcache.h
+   WARNING: No kernel-doc for file ./include/linux/dcache.h
+   Documentation/filesystems/api-summary:107: ./kernel/sysctl.c:793: ERROR: Unexpected indentation. [docutils]
+>> Documentation/filesystems/api-summary:107: ./kernel/sysctl.c:794: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/buffer_head.h
+   WARNING: No kernel-doc for file ./include/linux/buffer_head.h
+   ERROR: Cannot find file ./include/linux/fscache-cache.h
+   WARNING: No kernel-doc for file ./include/linux/fscache-cache.h
+   ERROR: Cannot find file ./include/linux/fscache.h
 
 -- 
 0-DAY CI Kernel Test Service
