@@ -1,60 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A4B1E376C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 01:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1937B1684B4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 01:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764897050; cv=none; b=tmhWtB3STcy4rs93KrnyK/5Jbb8Xfb8eqOw21NrIG3Tlba0Giob7uUhfcvkFP94Xqs+1jYfuF4T1xEkBX72bgBQjFucvHc1zuENhvVAHu9bh1/229/RWg8VuBObVXShllvXIQyECIcqBSGzqHvNUBhm6V/gA20YOMQWEbfabbDE=
+	t=1764898586; cv=none; b=fDDIQ04dr5dGbw1faF5FDp5pzeWNwt+3sIu8EzvAZOW/Zjzo6H608KUdaK3kDoRJUWbuUAKW/IPTG5+WNa4DC8zWKwAv+35M+8EUwkJGKniOs6wnigOjVCDBj79c508glJegiWwhLEi4Ku7UcFL1kAvIvhnbmVV72C3q+bpXAUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764897050; c=relaxed/simple;
-	bh=V/pZ0+5j8GI1XB73UqPXU5q8OD7ftU6yoPkvSqd0YPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=StvIVaB/2gPEU6Sprye1znuXaXIhVvLkYFr24prqtjd7lQv+6nDkA7wqN4u7FcAtWwpdrdVNsJdLGolS6UbsxyZQGKQLrCa6y03pEgCQ6ofW4bclTOhe30FxbW+UAzP8pDTomeSmptiH3ce1Abw6sGmcxFbSHRbXKhjAOVOIu9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQGdicrM; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764898586; c=relaxed/simple;
+	bh=NkjZyJNs9wpAMrcbs4u78XLH89pbMyHFAAOxoGOBVC4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gUmKiFGHjZJ8C/YovObuE6FrrVYyXsB4EukU09rpoZv3N1/2qCe1dS48u8o0EC3Tg1z79xYMgI8K2aMU/Moy5KdVqrRBWdsSZzGbDmqsJw+V/iiO1vB3cvy2PS7k17vyIMGMBNVI+JkVokoy5CKiA04ciNrPUdlKSVgsdHorMrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org; spf=pass smtp.mailfrom=yoseli.org; dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b=HqPyZEBC; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yoseli.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yoseli.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQGdicrM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764897048; x=1796433048;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=V/pZ0+5j8GI1XB73UqPXU5q8OD7ftU6yoPkvSqd0YPM=;
-  b=KQGdicrMqIoxhcaOkLz0TlVX7c+FxjIs6M+GBOQrZ+pCvJRLplbGBM5H
-   Vq3HtLcgIJrfzgh9A/lJkyVUjhuh2Ukt52fpdKxnX+/C+KI79GL4W0/LE
-   +gwLVEg2e7vTIshuqpGxCw7dA8SQU9CPYUMSs5Jr+tkCwirO222UP/Scg
-   NvnRPf2L/bYbXStSnVpJL6EjcckkX5yuYhirgj/X1d2zwdckK0nOUIfFA
-   DxDH5nDsNv5o4F2FxIpVwCc0M1KrnEx4zflQ71z0T3Kcp5CqUE+RbFljD
-   KmZqHbsgOKKpu8mRp/xCIbssEGFAIeklZy7R9Hv4oEWGNVMMBA9LhSDyw
-   w==;
-X-CSE-ConnectionGUID: +IizzRj+TIO1pIYz2pjZsA==
-X-CSE-MsgGUID: 3ah00OLsRW6HhJEiMrNb3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="54480057"
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="54480057"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 17:10:48 -0800
-X-CSE-ConnectionGUID: jsbnRCBHRNOaJ5XhO1U9BA==
-X-CSE-MsgGUID: Q1xHz3WrSxKuQUniWsylBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="199317573"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Dec 2025 17:10:46 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRKLM-00000000EQn-1XVh;
-	Fri, 05 Dec 2025 01:10:44 +0000
-Date: Fri, 5 Dec 2025 09:09:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [6.19 PATCH] nfs/localio: fix regression due to out-of-order
- __put_cred [was: Re: linux-next: manual merge of the nfs tree with Linus'
- tree]
-Message-ID: <aTIw2nOEhZa6YF-w@0bc2809ec63a>
+	dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b="HqPyZEBC"
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 570ED589964
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 09:58:04 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9C00F43292;
+	Thu,  4 Dec 2025 09:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yoseli.org; s=gm1;
+	t=1764842277;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j0JfA9qeZWT32I3zxoCJgKu5UVGNhTPQk772t2ZnUNU=;
+	b=HqPyZEBCaEqU1FPt2tgP0xr8uAEEqIjeBw0Z+4e0HaDQNLEDshPQ52wukmcG02Pb84m/pV
+	HzMIwb4KyLcjoxpoLE/wMW3EXJfLZMU+GM+nBv80L18pRK+GQy+xfK7PecOhraWmrSBu3+
+	DV46x5XkQAF8aqQiqHWejsUkTk3DXvi2+/KpBaEXd3+XGYcXax2a1cF1WXHePMDIGn+H2S
+	K3R/0FAToR8g+maMq7IdM6Qn2HoJMFpIerCDcTL0tbjLNG/hgjnxj6jiTqgeYBXvF7fHHT
+	hl8sa4kuFxWPwiKb9m00czh6MHJq/4reUiBg1y9yNN7vB8HnjIumShsv88OTdA==
+Date: Thu, 4 Dec 2025 10:57:55 +0100
+From: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+To: Daniel Palmer <daniel@thingy.jp>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	kas@kernel.org, mingo@kernel.org, seanjc@google.com, bp@alien8.de,
+	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] m68k: implement runtime consts
+Message-ID: <aTFbI1RKsbEdR2Ph@yoseli-yocto.yoseli.org>
+References: <20251127000505.2117956-1-daniel@thingy.jp>
+ <202511270956.hzGiPzdZ-lkp@intel.com>
+ <CAFr9PXngrVvcQ2yO0JUj6ve1T39rWftwECnKfUcV3PcKUCPPmg@mail.gmail.com>
+ <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
+ <CAFr9PXm_8Lyk5rPMWw+mAzu97RRfjLj8NLqz5K0Po4p9PM6FOw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +54,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTIwhhOF847CcQGl@kernel.org>
+In-Reply-To: <CAFr9PXm_8Lyk5rPMWw+mAzu97RRfjLj8NLqz5K0Po4p9PM6FOw@mail.gmail.com>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeflvggrnhdqofhitghhvghlucfjrghuthgsohhishcuoehjvggrnhhmihgthhgvlhdrhhgruhhtsghoihhsseihohhsvghlihdrohhrgheqnecuggftrfgrthhtvghrnhephefggefgtdduheelkeeuleejjeeijeeihfetieevueeftdeigeeuueefudevjeefnecukfhppedvrgdtudemvgdtrgemudeileemjedugedtmehflehfheemfegrrgegmeeljeeljeemfeehvgeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegvtdgrmeduieelmeejudegtdemfhelfhehmeefrggrgeemleejleejmeefhegvkedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepjhgvrghnmhhitghhvghlrdhhrghuthgsohhisheshihoshgvlhhirdhorhhgpdhnsggprhgtphhtthhopedutddprhgtphhtthhopegurghnihgvlhesthhhihhnghihrdhjphdprhgtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepohgvqdhksghui
+ hhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehkrghssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhnghhosehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsvggrnhhjtgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepsghpsegrlhhivghnkedruggv
+X-GND-Sasl: jeanmichel.hautbois@yoseli.org
 
-Hi,
+On Wed, Dec 03, 2025 at 05:06:52PM +0900, Daniel Palmer wrote:
+> Hi Geert,
+> 
+> On Thu, 27 Nov 2025 at 19:22, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> 
+> >
+> > Replacing the macros by static inline functions should fix that.
+> 
+> Thanks. I've done that now. Any comments on the rest of this?
+> I have a few things like implementing jump labels, a vDSO to get
+> around the sys_get_thread_area() bottleneck to come after this.
 
-Thanks for your patch.
+Hi Daniel,
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+It would be great to have vDSO at least for sys_get_thread_area() ! I
+implemented something, but if you already have it, please, submit a RFC
+I will test on coldfire !
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+Thanks,
+JM
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [6.19 PATCH] nfs/localio: fix regression due to out-of-order __put_cred [was: Re: linux-next: manual merge of the nfs tree with Linus' tree]
-Link: https://lore.kernel.org/stable/aTIwhhOF847CcQGl%40kernel.org
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+> Cheers,
+> 
+> Daniel
