@@ -1,56 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8283090D2;
-	Thu,  4 Dec 2025 06:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CE1DE4E1;
+	Thu,  4 Dec 2025 08:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764831538; cv=none; b=CI/xh8Wkr0KVXS5GeA21hiGfz9p+PsK8xxWVRnJOHKwbE3js1wfUHoyqLHaoa9HVXhrRbeC7FtI1pi7jvFVEVkP2ijX5zw70WxdBoqULUsiT8Xuwjd/Pmp+Obd8Zhzt/9zNdJ8hN8PYN41xKJlSQ4hfEkrHVMUIvlQjsyWUJjeQ=
+	t=1764836374; cv=none; b=qTCPpekMV733Kh5aHbPbGkAdhVUzpB8wtT239sOKNG6nOS9E71Y9dVnQcITaA6b58BzoSRJPcP9QVOybMjjdr28twglOfwN+O8KHfzVoLPpSVD3qovMX26i3IS5IYkVPg90BS6PCGWM5EllndRyuZErcSpCl8+fznSa1gLX3jRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764831538; c=relaxed/simple;
-	bh=CwkJdgz50qSuUgZU5wgKBfmfG4Q3PN/e8pN3Tb7C8is=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OCBnhJ1urBNUZBkuH+nrZL0DD6owGRHIHbTtngjHGACyGRabwxzkwAT5IJqm5az6swG46HFte0f+DUcO3Rvwfm3EjguuhoS3WhoPscq+28Ztt+tjS6CmDXTW4dEQgmIUIxDieHpskxi1+A8NFSeARb7Q8mm06EE7om9S9ewktSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdYtOK7E; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1764836374; c=relaxed/simple;
+	bh=F4MOGEBbJx/awVa2QOmQ8xIPGzE0XjtbB1nvvmmyLd8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LLSTy7AbTO49SKeRDu3MX7/5E1yEc7JHkrC96cU1djnnS4qe90m1gFctSCx+pzM4C7O01Yw3qw5UnmxlWtva5hNLEMpbd8q3uJTMMvzyl98VQ+tjS54l/4Q3Le8eYBUCnCSSKsfbGBcurjmXton1x/7gQZaRH3/hUfV/7YX5IlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B9oNiX6p; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdYtOK7E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764831537; x=1796367537;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CwkJdgz50qSuUgZU5wgKBfmfG4Q3PN/e8pN3Tb7C8is=;
-  b=TdYtOK7EKgzBvCfUkhCuA5sRc40QZNaUdRhOzTXiYpJSJrkQy671iBgf
-   qennxJOjOLwsQqiHLdRy1c++6e9ZF23F1aeJfYcs+vfqODGReKqro5j7u
-   n37AAl1OCA63EynS6J2K6e0mEnWEXNPLp1rFBPA81OIqS6CYHbsGRN2EJ
-   aXyvY0prNrliQDP5D/+q90Vgcagzy1i2WK+tihLoq6oAUUs6mbb9irW2/
-   r3VZ76TJFco9yaXRxvxRoTpBoFbsDu18Ozgm8nMowryD0BhhaNnMJRv0p
-   u5TFlD80vAGHLw4C31L+3wcMRztxvzsP140n13dK9FsiKycSf44MyCo5g
-   A==;
-X-CSE-ConnectionGUID: pruDVej8TdWS9GRk7I/gYQ==
-X-CSE-MsgGUID: k/pkYzCmQ1e7QbMUMPD2WA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84442928"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="84442928"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 22:58:54 -0800
-X-CSE-ConnectionGUID: gr/QgrVHQXyv/1SjRaCe2Q==
-X-CSE-MsgGUID: OcEjOCZ7QiadSSXYA4AF2w==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Dec 2025 22:58:53 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vR3Ig-00000000DX5-3rho;
-	Thu, 04 Dec 2025 06:58:50 +0000
-Date: Thu, 4 Dec 2025 14:58:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2025-12-03 15/16]
- sound/soc/img/img-i2s-in.c:388:31: error: expected ';' at end of declaration
-Message-ID: <202512041440.gykRQDyW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B9oNiX6p"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=TrffoYNSG+1mpO4I719udc0KZUrd2KhSrNvEZFdxZ4M=; b=B9oNiX6paT3xv8r39g1qQNvoV5
+	c4Pdvx9NcvYdAiGlRv2MOMu61zrMLFbCtXrq2dTeewuvs6+mZwfUuXnX3hvcoe2yBHx1Mo0jRJz2f
+	ysWA8siVxI3BOMHLmEpbIr3EDoTdLPeRoq8TQItKnWymlRtp83v1gucseF3GNlxmiDJTM9imy7p1z
+	GTqe9s/QXXV4vw3mE6jeW4dsZksCu0pbG/gf4+uWrCHME837ouoXqbEPEQqi/0n6gnVjSsEng53Xi
+	UGdPPXW62cdPF58oFGVazmBf40c6uV/+qNtQ+9QYy1k03hoOCiVxnq9JdbBEjdXrYgyjrZH38c9/D
+	zayHCbSg==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vR4Yf-00000003ut4-3jM1;
+	Thu, 04 Dec 2025 08:19:26 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 63D0430027B; Thu, 04 Dec 2025 09:19:14 +0100 (CET)
+Date: Thu, 4 Dec 2025 09:19:14 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Oleg Nesterov <oleg@redhat.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: include/linux/seqlock.h:1257:undefined reference to
+ `__scoped_seqlock_bug'
+Message-ID: <20251204081914.GA2528459@noisy.programming.kicks-ass.net>
+References: <202512032230.5pqkcg8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,100 +49,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202512032230.5pqkcg8x-lkp@intel.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2025-12-03
-head:   48371bd5c0566cfc8e9d81b48b39c9e355eafdc1
-commit: bc3f6d1fbadd3a9fc48804d41967912f6a0e35f3 [15/16] hoge
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512041440.gykRQDyW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041440.gykRQDyW-lkp@intel.com/reproduce)
+On Wed, Dec 03, 2025 at 10:22:28PM +0800, kernel test robot wrote:
+> Hi Oleg,
+> 
+> FYI, the error/warning still remains.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512041440.gykRQDyW-lkp@intel.com/
+I don't have this report in my inbox. I had some for other builds, which
+I fixed, but not this one.
 
-All errors (new ones prefixed by >>):
+Anyway, let me go stare at it. This is the optimizer failing in some
+way.
 
->> sound/soc/img/img-i2s-in.c:388:31: error: expected ';' at end of declaration
-     388 |         SND_SOC_POSSIBLE_DAIFMT_IB_IF,
-         |                                      ^
-         |                                      ;
->> sound/soc/img/img-i2s-in.c:395:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
-     394 |         .set_fmt        = img_i2s_in_set_fmt
-         |                           ~~~~~~~~~~~~~~~~~~
-     395 |         .auto_selectable_formats        = &img_i2s_in_selectable_formats,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> sound/soc/img/img-i2s-out.c:406:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
-     405 |         .set_fmt        = img_i2s_out_set_fmt
-         |                           ~~~~~~~~~~~~~~~~~~~
-     406 |         .auto_selectable_formats        = &img_i2s_out_selectable_formats,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> sound/soc/img/img-parallel-out.c:199:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
-     198 |         .set_fmt        = img_prl_out_set_fmt
-         |                           ~~~~~~~~~~~~~~~~~~~
-     199 |         .auto_selectable_formats        = &img_prl_selectable_formats,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> sound/soc/mediatek/mt8186/mt8186-dai-pcm.c:353:30: error: use of undeclared identifier 't9015_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
-     353 |         .auto_selectable_formats        = &t9015_dai_selectable_formats,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                            ssi_dai_selectable_formats
-   sound/soc/mediatek/mt8186/mt8186-dai-pcm.c:340:18: note: 'ssi_dai_selectable_formats' declared here
-     340 | static const u64 ssi_dai_selectable_formats =
-         |                  ^
-   1 error generated.
---
->> sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2511:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
-    2511 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                            ssi_dai_selectable_formats
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
-    2493 | static const u64 ssi_dai_selectable_formats =
-         |                  ^
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2523:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
-    2523 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                            ssi_dai_selectable_formats
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
-    2493 | static const u64 ssi_dai_selectable_formats =
-         |                  ^
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2536:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
-    2536 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                            ssi_dai_selectable_formats
-   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
-    2493 | static const u64 ssi_dai_selectable_formats =
-         |                  ^
-   3 errors generated.
-
-
-vim +388 sound/soc/img/img-i2s-in.c
-
-   381	
-   382	static const u64 img_i2s_in_selectable_formats =
-   383		SND_SOC_POSSIBLE_DAIFMT_I2S	|
-   384		SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-   385		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-   386		SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-   387		SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
- > 388		SND_SOC_POSSIBLE_DAIFMT_IB_IF,
-   389	
-   390	static const struct snd_soc_dai_ops img_i2s_in_dai_ops = {
-   391		.probe		= img_i2s_in_dai_probe,
-   392		.trigger	= img_i2s_in_trigger,
-   393		.hw_params	= img_i2s_in_hw_params,
-   394		.set_fmt	= img_i2s_in_set_fmt
- > 395		.auto_selectable_formats	= &img_i2s_in_selectable_formats,
-   396		.num_auto_selectable_formats	= 1,
-   397	};
-   398	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
+> commit: 488f48b32654dc6be04d9cc12f75ce030c9cb21b seqlock: Change thread_group_cputime() to use scoped_seqlock_read()
+> date:   6 weeks ago
+> config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512032230.5pqkcg8x-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arm-linux-gnueabi-ld: kernel/sched/build_policy.o: in function `__scoped_seqlock_next':
+> >> include/linux/seqlock.h:1257:(.text+0x96a0): undefined reference to `__scoped_seqlock_bug'
+> 
+> 
+> vim +1257 include/linux/seqlock.h
+> 
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1251  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1252  static inline void
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1253  __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1254  {
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1255  	switch (sst->state) {
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1256  	case ss_done:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09 @1257  		__scoped_seqlock_bug();
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1258  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1259  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1260  	case ss_lock:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1261  	case ss_lock_irqsave:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1262  		sst->state = ss_done;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1263  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1264  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1265  	case ss_lockless:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1266  		if (!read_seqretry(lock, sst->data)) {
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1267  			sst->state = ss_done;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1268  			return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1269  		}
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1270  		break;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1271  	}
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1272  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1273  	switch (target) {
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1274  	case ss_done:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1275  		__scoped_seqlock_invalid_target();
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1276  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1277  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1278  	case ss_lock:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1279  		sst->lock = &lock->lock;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1280  		spin_lock(sst->lock);
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1281  		sst->state = ss_lock;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1282  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1283  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1284  	case ss_lock_irqsave:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1285  		sst->lock_irqsave = &lock->lock;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1286  		spin_lock_irqsave(sst->lock_irqsave, sst->data);
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1287  		sst->state = ss_lock_irqsave;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1288  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1289  
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1290  	case ss_lockless:
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1291  		sst->data = read_seqbegin(lock);
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1292  		return;
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1293  	}
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1294  }
+> cc39f3872c0865 Peter Zijlstra 2025-10-09  1295  
+> 
+> :::::: The code at line 1257 was first introduced by commit
+> :::::: cc39f3872c0865bef992b713338df369554fa9e0 seqlock: Introduce scoped_seqlock_read()
+> 
+> :::::: TO: Peter Zijlstra <peterz@infradead.org>
+> :::::: CC: Peter Zijlstra <peterz@infradead.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
