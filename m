@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A23033A6E8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 10:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC0633A013
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 10:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764845229; cv=none; b=Go32MWkL1tEKp6XSz6w4qf+Ng8b4YPHlDeF3d++Hql0qiUlI/FVPZdE3h8WI8BoQayth1oAsZESrWGh9juenKBL4XUB7TGkVxPbrORpo9vmL4ZFomhVxIIu26TIJyN15l7eNn3bRVb1P4jB/qoaRkFlqhVWwd2D9f+lsPie8BDM=
+	t=1764845268; cv=none; b=MrckGaZ8YPyI00C4YRMwHkHrE9xA7x2XCm5aBnYfHZnKrNuZIJJriFCXaKgUIC3MCumsp4JyD13wUGIc8gzWJOIGSihUSJreaxikZ1ZQpovG1WN1DZohTM3++ogl1AdD6p0ulKFK6c84BSTq1FGSc3vfC2sci48sulshUV7MyJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764845229; c=relaxed/simple;
-	bh=MREolQwMG3jKWKEzwqTaI+0vQ/GZEc5WwqHQGNmOUso=;
+	s=arc-20240116; t=1764845268; c=relaxed/simple;
+	bh=qei3l6IxWC3a7I4Zv7O9KzOBqyo6dURA6OIvHnUx7TQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CpPmyjOYjZOEUZLi+02Q/1STVLH+s9q//xAom830TjDazX2AAwkQguAINLHa0nr/veer4UmqN33cwt4CTPrOPTEeTlk/El3XSJq/Qb0e8uOQdmJ/MAwmP9To51vBFrW2LiU+9WhQxCTYTEcCoRLQTZCe6gpVRI2n4RRSuHszTf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je0g/bXA; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=pKxdB1ihfy+ItkUdpgF+EpyVkyiT0NyDPM55c/AAXinY0y4N7P9m9CvTmdesChE4ZYH2XdorZ1ts30FVp8B0N+5NzGkc+nx1CvoMYnY9ezuY9AGqIf40bDDwPsfV3+WmogqoKrbtjFU+oGG0iwWuNLbBrz69tisykTN26GaZNXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TN/XtQMZ; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je0g/bXA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TN/XtQMZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764845226; x=1796381226;
+  t=1764845266; x=1796381266;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MREolQwMG3jKWKEzwqTaI+0vQ/GZEc5WwqHQGNmOUso=;
-  b=je0g/bXAlat+ACrXFd4OqY+rYsuwg6NtqLy+IedEO/5MiS8nOZQkPb1k
-   MXBcyy1/f5M9kKpWCeIF+B8G56L2acXwEGh/SfE/ZZ5VL/2OweimbiCzj
-   7kYpGu09hUmpii7a+2a+lRE1iJq/BIwg3HdUUnKUua9euE2Uv9+tK5E14
-   cyIHwACzzl+RjcMiQ0GHrEPG5wMiTHTdYvovpr/1tXXnBci7fQldoW+Zj
-   R3TOg5S4tdLOi9LjCTCXFA2zOV2rdqsNOYZChAULkUtkX6uRacBraVPJ4
-   MDHQ2KJglW2pEZm/UlyS1ovlIbgjkOn0ZMmTa5PhsD6kT+18C7piZBWCQ
-   A==;
-X-CSE-ConnectionGUID: j76gM9giR8KOYpUSBCWJsg==
-X-CSE-MsgGUID: RK33ZN58SRC7ykZC0Zw+aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89507993"
+  bh=qei3l6IxWC3a7I4Zv7O9KzOBqyo6dURA6OIvHnUx7TQ=;
+  b=TN/XtQMZzPqPRtlYNxMfuxEscYVp3oPmYd75Bk6vXvmWjcHGvBHKuR2l
+   t1UajejvtTlpJpU4PVfZoAKB0bbDHxerdZjLuzrLX4oDh9fBE6i7JAu+y
+   P9hnSiyCDlsAAki0zd5TFQJ+C4skq4YcpbH1iYnyeGJgKkh+ANrmYBJpI
+   99r7NF67rkap7LSpm+WpmRVcjB9iwLmlqbXCgpo3UpNAfgtJhu/i8Rn75
+   xeUyvmyc1Vn3NadvSnV/WYkVpZhmkcLUAg56i56e9/3NcGdeyJ50xE25b
+   JlnG0g9HOgYd5KKkzICwhl5hd4GRmdgalTz+bVssxQqRsr4VAUvx/eVdj
+   w==;
+X-CSE-ConnectionGUID: 5ZKDkpxVStCn/m9Q1XT+ng==
+X-CSE-MsgGUID: tPaxKMheRaet3rlcpA3GYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="54408809"
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="89507993"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 02:47:05 -0800
-X-CSE-ConnectionGUID: mxnLqcHwS5eBXo/b2pw6Hg==
-X-CSE-MsgGUID: yocxMr2BQ8q3QNnx9B/yDg==
+   d="scan'208";a="54408809"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 02:47:44 -0800
+X-CSE-ConnectionGUID: 81slK0zbSyuIFpj3HoAfAQ==
+X-CSE-MsgGUID: 1Qf9ueKiR8KvPvRjjpkA8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="218306984"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2025 02:47:02 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="195364383"
+Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Dec 2025 02:47:43 -0800
+Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vR6rU-00000000Dif-1Kl3;
-	Thu, 04 Dec 2025 10:47:00 +0000
-Date: Thu, 4 Dec 2025 18:46:22 +0800
+	id 1vR6s8-000000000if-1zLi;
+	Thu, 04 Dec 2025 10:47:40 +0000
+Date: Thu, 4 Dec 2025 11:47:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.18/zen-sauce 5/29] mm/memcontrol.c:1675:2: warning: 'locked'
- is used uninitialized in this function
-Message-ID: <202512041816.LluJkn6J-lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: [tip:locking/futex 4/5] robust_list.c:522:24: warning: storing the
+ address of local variable 'a' in 'head.list.next'
+Message-ID: <202512041141.cPM7Ow4I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +63,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.18/zen-sauce
-head:   669f0096c96eda5618f4e42766c665f3ed341e92
-commit: cd32ade31c0d6aa492e3af6249fa039521129a0d [5/29] ZEN: Restore CONFIG_OPTIMIZE_FOR_PERFORMANCE_O3
-config: s390-randconfig-r133-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041816.LluJkn6J-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041816.LluJkn6J-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/futex
+head:   c42ba5a87bdccbca11403b7ca8bad1a57b833732
+commit: cd91b502f1b4bb81e82fbae38678c698ee5ac026 [4/5] selftests/futex: Create test for robust list
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251204/202512041141.cPM7Ow4I-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041141.cPM7Ow4I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512041816.LluJkn6J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512041141.cPM7Ow4I-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/memcontrol.c: In function 'try_charge_memcg':
->> mm/memcontrol.c:1675:2: warning: 'locked' is used uninitialized in this function [-Wuninitialized]
-     memcg1_oom_finish(memcg, locked);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memcontrol.c:1663:7: note: 'locked' was declared here
-     bool locked, ret;
-          ^~~~~~
---
-   In file included from include/linux/string.h:65,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/gpu/drm/amd/amdgpu/atom.c:25:
-   drivers/gpu/drm/amd/amdgpu/atom.c: In function 'amdgpu_atom_parse':
->> arch/s390/include/asm/string.h:176:14: warning: array subscript 64 is above array bounds of 'char[9]' [-Warray-bounds]
-     const char *end = s + n;
-                 ^~~
-   arch/s390/include/asm/string.h:176:14: warning: array subscript 64 is above array bounds of 'char[15]' [-Warray-bounds]
-     const char *end = s + n;
-                 ^~~
-
-
-vim +/locked +1675 mm/memcontrol.c
-
-9cbb78bb314360 David Rientjes    2012-07-31  1656  
-becdf89d776c8f Shakeel Butt      2022-03-22  1657  /*
-becdf89d776c8f Shakeel Butt      2022-03-22  1658   * Returns true if successfully killed one or more processes. Though in some
-becdf89d776c8f Shakeel Butt      2022-03-22  1659   * corner cases it can return true even without killing any process.
-becdf89d776c8f Shakeel Butt      2022-03-22  1660   */
-becdf89d776c8f Shakeel Butt      2022-03-22  1661  static bool mem_cgroup_oom(struct mem_cgroup *memcg, gfp_t mask, int order)
-867578cbccb089 KAMEZAWA Hiroyuki 2010-03-10  1662  {
-becdf89d776c8f Shakeel Butt      2022-03-22  1663  	bool locked, ret;
-7056d3a37d2c6a Michal Hocko      2018-12-28  1664  
-29ef680ae7c211 Michal Hocko      2018-08-17  1665  	if (order > PAGE_ALLOC_COSTLY_ORDER)
-becdf89d776c8f Shakeel Butt      2022-03-22  1666  		return false;
-29ef680ae7c211 Michal Hocko      2018-08-17  1667  
-7a1adfddaf0d11 Roman Gushchin    2018-10-26  1668  	memcg_memory_event(memcg, MEMCG_OOM);
-7a1adfddaf0d11 Roman Gushchin    2018-10-26  1669  
-292fc2e0204aa0 Roman Gushchin    2024-06-24  1670  	if (!memcg1_oom_prepare(memcg, &locked))
-becdf89d776c8f Shakeel Butt      2022-03-22  1671  		return false;
-29ef680ae7c211 Michal Hocko      2018-08-17  1672  
-becdf89d776c8f Shakeel Butt      2022-03-22  1673  	ret = mem_cgroup_out_of_memory(memcg, mask, order);
-7056d3a37d2c6a Michal Hocko      2018-12-28  1674  
-292fc2e0204aa0 Roman Gushchin    2024-06-24 @1675  	memcg1_oom_finish(memcg, locked);
-29ef680ae7c211 Michal Hocko      2018-08-17  1676  
-7056d3a37d2c6a Michal Hocko      2018-12-28  1677  	return ret;
-3812c8c8f39539 Johannes Weiner   2013-09-12  1678  }
-3812c8c8f39539 Johannes Weiner   2013-09-12  1679  
-
-:::::: The code at line 1675 was first introduced by commit
-:::::: 292fc2e0204aa02a24f6d2684d71801068fec803 mm: memcg: move cgroup v1 oom handling code into memcontrol-v1.c
-
-:::::: TO: Roman Gushchin <roman.gushchin@linux.dev>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   robust_list.c: In function 'child_circular_list':
+>> robust_list.c:522:24: warning: storing the address of local variable 'a' in 'head.list.next' [-Wdangling-pointer=]
+     522 |         head.list.next = &a.list;
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~
+   robust_list.c:513:28: note: 'a' declared here
+     513 |         struct lock_struct a, b, c;
+         |                            ^
+   robust_list.c:512:40: note: 'head' declared here
+     512 |         static struct robust_list_head head;
+         |                                        ^~~~
 
 -- 
 0-DAY CI Kernel Test Service
