@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B432DEA9E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 05:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5043A2FD1CF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 05:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764825113; cv=none; b=IO3pFBDOFu0e0+EhrFHe2KZw2BA5TNJLG0tXXssOC0EKbtvsFujTnaofmYuXYkTb0oD+w5q9G+8KPIpKsm4D777U9DRVitq/Cwlx5x18uyg6UV7Fta7FrmZDiCXrk0avrPNXLgy+1Ghb5MbiFbzhUqIFi4KWUQotaYWjbCxZG14=
+	t=1764825115; cv=none; b=D++4xb/AW7sfXWqYe8S0fm9rv4iqbyUJH+axV8gQJCvqT0zSbOUU7SxXuUr6DOuq3wuv0bcNvJKi4kG/spLkn9Hoo+k8KvNSNdAuc7PC4LY/7lNE2bKUf7RJ1SE0Gkl09wer7dKDC/xIm044R5fMDQUfb4eRTO9fg/I0T0gjxFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764825113; c=relaxed/simple;
-	bh=CPhN+P3+1bg2aYgAkxS8rEy4jTgD7fUM36k+XkJzzNQ=;
+	s=arc-20240116; t=1764825115; c=relaxed/simple;
+	bh=oJ12pto2zgYpCp6k5x1RPVuW+2eLFzZGGbZB1FbR63A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hGQfUJ7ZuLAba9AUmuldcz1awnnTZX0xwBa5gy5tpR5ZLPNuk1zvMcl0dCg7skoVIE3tKhvnP/DWO5UeiKI8KGT2OQP+DoLwXx2qZ2l1d0cjgjfL2HyKBLMi9gZJoFXg+iZsGuN4Bnb8L9mVKDqHsRSNa9ouDiotEmv3OZn3CNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Azmaj0Op; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=W6qGMVPjVDiMsp25NLcI31YcJgbedDMbCAtZh81N22VSaC/vMPeFxT67hd7SkHlIY8wHfjPSXmwruoV7UiX1FokjKrazqOiMjKtxC3XcZgbve6QJfUbH719uJYPey8ip4Y+zmFMCIBCo+SdBXCoM9xVpj3Sil2TF0y+rxhrL1jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSY1TE+i; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Azmaj0Op"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSY1TE+i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764825112; x=1796361112;
+  t=1764825113; x=1796361113;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CPhN+P3+1bg2aYgAkxS8rEy4jTgD7fUM36k+XkJzzNQ=;
-  b=Azmaj0OpF/viysHHBzhlYz/nzeBCyO8Tfo3Awl1rnjCejmX5ws9MRhX/
-   AIXnB9LmugmvgoQp65sp6AzhtUZ5InW2i73B7wkYr/jJdDnRGKwI276/W
-   zYpp0YdCv4mVI5NRcV+8eHQ1EPiQ0Chfblf4HBMwHj2pzbsnRhtFWRVak
-   9OLsoI6/xPwZKw2qyUN6jlsuFra0kvFipaSpwmm7urVLHt4Ycr2CTBKH/
-   uPHicTAX9HVsvvdEiGJkgXdFbAR/kwKul77O5TTXQkZBmaunZZq6jvHvg
-   AGp40KiGd3IjoA/OjqWOGMD+iu1cmBhzdeMz4BWxSfE0PRdZME99aZ0Zp
-   A==;
-X-CSE-ConnectionGUID: 3/dspGxVQYCQgDt605eA3A==
-X-CSE-MsgGUID: GqLPH6UpSoCglkPzA7dwwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66998311"
+  bh=oJ12pto2zgYpCp6k5x1RPVuW+2eLFzZGGbZB1FbR63A=;
+  b=hSY1TE+ioDbhsaIFYGtm0xOBQRYOBLcPrXsWnIV4z9l4umtfJjLHYELa
+   TnXOV9aO+h4Z/gb2xx8M1+3oYzwtYxV1STWybkVgk2fuKEPQ3VR3ulXHL
+   DNUGx6FrZ1y1T5y9B7nHmVD1qW8tJhgYxbI+XkNCGvzjm0fqeJe3H64ND
+   wMCaKp//G1L0QEtsxuvZLGnWUHGT3wfupFoNM7AzVGXCIRF7IqJqFq/5+
+   1eKA8QRnU/CoQSgWElzasr+8ljRo2UtRXiBzYyZosLLFkhsdlQBBmVNYz
+   uJG+WPVbyOQWXMHiYCOD445Xg5FFPSSXsgE4sFeAFtqzcwL62jlJi4OkI
+   g==;
+X-CSE-ConnectionGUID: l3KGqe9ER82iGeqqSomvkA==
+X-CSE-MsgGUID: okecRa+dS9C0ZqcSTEOlxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77517410"
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="66998311"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 21:11:52 -0800
-X-CSE-ConnectionGUID: CNhZmaDSSny9BQKiB9xA2A==
-X-CSE-MsgGUID: a5e6m/JYSuG+MXkHP4cGAw==
+   d="scan'208";a="77517410"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 21:11:51 -0800
+X-CSE-ConnectionGUID: 80V/ixVsRjKF+gOCWyhc6g==
+X-CSE-MsgGUID: my3RBpI5Tqut9mL4MHsOSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="194921212"
+   d="scan'208";a="199058976"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Dec 2025 21:11:50 -0800
+  by orviesa003.jf.intel.com with ESMTP; 03 Dec 2025 21:11:50 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vR1d5-00000000DT5-2Kvn;
+	id 1vR1d5-00000000DT8-2W6y;
 	Thu, 04 Dec 2025 05:11:47 +0000
-Date: Thu, 4 Dec 2025 13:11:18 +0800
+Date: Thu, 4 Dec 2025 13:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: pengdonglin <pengdonglin@xiaomi.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: [linux-next:master 11689/13147] kernel/trace/trace.h:1130
- ftrace_graph_ignore_func() warn: unsigned 'trace->depth' is never less than
- zero.
-Message-ID: <202512041327.GVZ26aRY-lkp@intel.com>
+To: "Isaac J. Manjarres" <isaacmanjarres@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:renesas-android/v6.18-rc6-2025-12-01 1/1]
+ include/asm-generic/mm_hooks.h:20:15: error: unknown type name 'bool'
+Message-ID: <202512041310.3d4IBgFM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,44 +62,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b2c27842ba853508b0da00187a7508eb3a96c8f7
-commit: f83ac7544fbf7ba3f77c122e16ab5319f75bbdfd [11689/13147] function_graph: Enable funcgraph-args and funcgraph-retaddr to work simultaneously
-config: i386-randconfig-141-20251203 (https://download.01.org/0day-ci/archive/20251204/202512041327.GVZ26aRY-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://github.com/morimoto/linux renesas-android/v6.18-rc6-2025-12-01
+head:   9df6f95899e762009eb03fba18a18054a299ec34
+commit: 06f8e52b34f38555bb820ac1cb1d9547a3c9c50a [1/1] ANDROID: GKI: Introduce GKI_HIDDEN_IOMMU_CONFIGS
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512041310.3d4IBgFM-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041310.3d4IBgFM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512041327.GVZ26aRY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512041310.3d4IBgFM-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/trace.h:1130 ftrace_graph_ignore_func() warn: unsigned 'trace->depth' is never less than zero.
-kernel/trace/trace.h:1130 ftrace_graph_ignore_func() warn: unsigned 'trace->depth' is never less than zero.
-kernel/trace/trace_functions_graph.c:978 print_graph_entry_leaf() warn: unsigned 'call->depth' is never less than zero.
-kernel/trace/trace_functions_graph.c:1036 print_graph_entry_nested() warn: unsigned 'call->depth' is never less than zero.
+All error/warnings (new ones prefixed by >>):
 
-vim +1130 kernel/trace/trace.h
+   In file included from arch/openrisc/include/asm/mmu_context.h:18,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+>> include/asm-generic/mm_hooks.h:10:40: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      10 | static inline int arch_dup_mmap(struct mm_struct *oldmm,
+         |                                        ^~~~~~~~~
+   include/asm-generic/mm_hooks.h:16:42: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      16 | static inline void arch_exit_mmap(struct mm_struct *mm)
+         |                                          ^~~~~~~~~
+>> include/asm-generic/mm_hooks.h:20:15: error: unknown type name 'bool'
+      20 | static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
+         |               ^~~~
+   include/asm-generic/mm_hooks.h:1:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+     +++ |+#include <stdbool.h>
+       1 | /* SPDX-License-Identifier: GPL-2.0 */
+   include/asm-generic/mm_hooks.h:21:17: error: unknown type name 'bool'
+      21 |                 bool write, bool execute, bool foreign)
+         |                 ^~~~
+   include/asm-generic/mm_hooks.h:21:17: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+   include/asm-generic/mm_hooks.h:21:29: error: unknown type name 'bool'
+      21 |                 bool write, bool execute, bool foreign)
+         |                             ^~~~
+   include/asm-generic/mm_hooks.h:21:29: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+   include/asm-generic/mm_hooks.h:21:43: error: unknown type name 'bool'
+      21 |                 bool write, bool execute, bool foreign)
+         |                                           ^~~~
+   include/asm-generic/mm_hooks.h:21:43: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+>> arch/openrisc/include/asm/mmu_context.h:21:61: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
+         |                                                             ^~~~~~~~~
+>> arch/openrisc/include/asm/mmu_context.h:21:36: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      21 | extern int init_new_context(struct task_struct *tsk, struct mm_struct *mm);
+         |                                    ^~~~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:23:36: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      23 | extern void destroy_context(struct mm_struct *mm);
+         |                                    ^~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:25:30: warning: 'struct task_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      25 |                       struct task_struct *tsk);
+         |                              ^~~~~~~~~~~
+   arch/openrisc/include/asm/mmu_context.h:24:30: warning: 'struct mm_struct' declared inside parameter list will not be visible outside of this definition or declaration
+      24 | extern void switch_mm(struct mm_struct *prev, struct mm_struct *next,
+         |                              ^~~~~~~~~
+>> arch/openrisc/include/asm/mmu_context.h:33:17: error: unknown type name 'pgd_t'
+      33 | extern volatile pgd_t *current_pgd[]; /* defined in arch/openrisc/mm/fault.c */
+         |                 ^~~~~
+>> include/linux/mmu_context.h:40:15: error: unknown type name 'bool'
+      40 | static inline bool arch_pgtable_dma_compat(struct mm_struct *mm)
+         |               ^~~~
+   include/linux/mmu_context.h:7:1: note: 'bool' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+       6 | #include <asm/mmu.h>
+     +++ |+#include <stdbool.h>
+       7 | 
+   include/linux/mmu_context.h: In function 'arch_pgtable_dma_compat':
+>> include/linux/mmu_context.h:42:16: error: 'true' undeclared (first use in this function)
+      42 |         return true;
+         |                ^~~~
+   include/linux/mmu_context.h:42:16: note: 'true' is defined in header '<stdbool.h>'; this is probably fixable by adding '#include <stdbool.h>'
+   include/linux/mmu_context.h:42:16: note: each undeclared identifier is reported only once for each function it appears in
 
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1121) 
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1122) static inline bool
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1123) ftrace_graph_ignore_func(struct fgraph_ops *gops, struct ftrace_graph_ent *trace)
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1124) {
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1125) 	unsigned long *task_var = fgraph_get_task_var(gops);
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1126) 
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1127) 	/* trace it when it is-nested-in or is a function enabled. */
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1128) 	return !((*task_var & TRACE_GRAPH_FL) ||
-12117f3307b63f Steven Rostedt (VMware   2024-06-03  1129) 		 ftrace_graph_addr(task_var, trace)) ||
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08 @1130) 		(trace->depth < 0) ||
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1131) 		(fgraph_max_depth && trace->depth >= fgraph_max_depth);
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1132) }
-1a41442864e35b Steven Rostedt (Red Hat  2016-12-08  1133) 
 
-:::::: The code at line 1130 was first introduced by commit
-:::::: 1a41442864e35bff859582fe9c5d051d0b1040ba tracing/fgraph: Have wakeup and irqsoff tracers ignore graph functions too
+vim +/bool +20 include/asm-generic/mm_hooks.h
 
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02   9  
+c10e83f598d080 Thomas Gleixner     2017-12-14 @10  static inline int arch_dup_mmap(struct mm_struct *oldmm,
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  11  				struct mm_struct *mm)
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  12  {
+c10e83f598d080 Thomas Gleixner     2017-12-14  13  	return 0;
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  14  }
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  15  
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  16  static inline void arch_exit_mmap(struct mm_struct *mm)
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  17  {
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  18  }
+d6dd61c831226f Jeremy Fitzhardinge 2007-05-02  19  
+1b2ee1266ea647 Dave Hansen         2016-02-12 @20  static inline bool arch_vma_access_permitted(struct vm_area_struct *vma,
+
+:::::: The code at line 20 was first introduced by commit
+:::::: 1b2ee1266ea647713dbaf44825967c180dfc8d76 mm/core: Do not enforce PKEY permissions on remote mm access
+
+:::::: TO: Dave Hansen <dave.hansen@linux.intel.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
