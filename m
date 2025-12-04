@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5ED1A9FAF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 09:45:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A23033A6E8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 10:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764841502; cv=none; b=FPDGkP0rEelrbCU/0Ca3GrWkNFtK2qmWI03M9MrT2e3mbAdzeInazG2NG0MZ4V5n6otDlNMbmaLUYCK9lVfUetxPyy6iIwVCUkTfDGLPzadWDt8SgenEjH3VlP/P+dhoqAB1qZNs2EV6DeFmSwuvTG/QAA+eu3DtDNQBl7+NMVM=
+	t=1764845229; cv=none; b=Go32MWkL1tEKp6XSz6w4qf+Ng8b4YPHlDeF3d++Hql0qiUlI/FVPZdE3h8WI8BoQayth1oAsZESrWGh9juenKBL4XUB7TGkVxPbrORpo9vmL4ZFomhVxIIu26TIJyN15l7eNn3bRVb1P4jB/qoaRkFlqhVWwd2D9f+lsPie8BDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764841502; c=relaxed/simple;
-	bh=Yj6W+kQaaE0ejzE7+ALcPLtE6ci4OBI7kvV/WpgaU/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oM+QOe7LRzXjIFQ196vqDSGWB1XzjxP8+eMTS+oAQ+YtxfU7uklApTdRdXVeCu6pOEuYaHFdbVWXas3axqmOW4iJuhQ6IjC2MsuqjlOXju9uuDEaWpa7vwN1SLA3aY5GbmFyw7fsr7LmHkfyyftjRXnDMbnR+CJUJROQfN1uDRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BuJlnqnX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764845229; c=relaxed/simple;
+	bh=MREolQwMG3jKWKEzwqTaI+0vQ/GZEc5WwqHQGNmOUso=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CpPmyjOYjZOEUZLi+02Q/1STVLH+s9q//xAom830TjDazX2AAwkQguAINLHa0nr/veer4UmqN33cwt4CTPrOPTEeTlk/El3XSJq/Qb0e8uOQdmJ/MAwmP9To51vBFrW2LiU+9WhQxCTYTEcCoRLQTZCe6gpVRI2n4RRSuHszTf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=je0g/bXA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuJlnqnX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="je0g/bXA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764841501; x=1796377501;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Yj6W+kQaaE0ejzE7+ALcPLtE6ci4OBI7kvV/WpgaU/w=;
-  b=BuJlnqnXfX572TFncUOeNEvxA2CwaJbovGGfLIVlrX/90CZtNIiJZiwn
-   dKuMhWBTpq5qR5t4WHV3D/xoaNfzXOXQe8xqs17OJAVFvpjQuyIcj897o
-   +cAYuQsD4rV7jplG61oXosWd33QTWObUBxa4+F29mMEEp4yZZYo7ZPiaz
-   4tB3sWCIyQmRqfZzIZZY0H19Bq3knfsosQjFTY9qiWC880OGQWukT3GMM
-   O+D1FqOzDzmOCyV1RbJRTvMDzrB1I4rU4LUMPiK1SUcoQErnvEx8We3VC
-   RVEdc45oQB33kq34bcSYx26lS8KD71g/qIKHk6cMeGJC0XqGLkwubKRe7
-   w==;
-X-CSE-ConnectionGUID: OwjUT8ETQyaCCIferiiVOw==
-X-CSE-MsgGUID: CNvLm2sYSGKSCdg+7oPksg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89502270"
+  t=1764845226; x=1796381226;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MREolQwMG3jKWKEzwqTaI+0vQ/GZEc5WwqHQGNmOUso=;
+  b=je0g/bXAlat+ACrXFd4OqY+rYsuwg6NtqLy+IedEO/5MiS8nOZQkPb1k
+   MXBcyy1/f5M9kKpWCeIF+B8G56L2acXwEGh/SfE/ZZ5VL/2OweimbiCzj
+   7kYpGu09hUmpii7a+2a+lRE1iJq/BIwg3HdUUnKUua9euE2Uv9+tK5E14
+   cyIHwACzzl+RjcMiQ0GHrEPG5wMiTHTdYvovpr/1tXXnBci7fQldoW+Zj
+   R3TOg5S4tdLOi9LjCTCXFA2zOV2rdqsNOYZChAULkUtkX6uRacBraVPJ4
+   MDHQ2KJglW2pEZm/UlyS1ovlIbgjkOn0ZMmTa5PhsD6kT+18C7piZBWCQ
+   A==;
+X-CSE-ConnectionGUID: j76gM9giR8KOYpUSBCWJsg==
+X-CSE-MsgGUID: RK33ZN58SRC7ykZC0Zw+aQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="89507993"
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="89502270"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 01:45:00 -0800
-X-CSE-ConnectionGUID: 7p1e6zoeQLObl5B91agWVA==
-X-CSE-MsgGUID: ndHARpwsQK2IVjbN68e0zw==
+   d="scan'208";a="89507993"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 02:47:05 -0800
+X-CSE-ConnectionGUID: mxnLqcHwS5eBXo/b2pw6Hg==
+X-CSE-MsgGUID: yocxMr2BQ8q3QNnx9B/yDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="194971989"
+   d="scan'208";a="218306984"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Dec 2025 01:44:59 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2025 02:47:02 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vR5tQ-00000000Ddl-3OMH;
-	Thu, 04 Dec 2025 09:44:56 +0000
-Date: Thu, 4 Dec 2025 17:44:04 +0800
+	id 1vR6rU-00000000Dif-1Kl3;
+	Thu, 04 Dec 2025 10:47:00 +0000
+Date: Thu, 4 Dec 2025 18:46:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lyude Paul <lyude@redhat.com>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v15 04/16] irq & spin_lock: Add counted interrupt
- disabling/enabling
-Message-ID: <202512041719.l1lUvQ7n-lkp@intel.com>
-References: <20251202182720.125884-5-lyude@redhat.com>
+Subject: [zen:6.18/zen-sauce 5/29] mm/memcontrol.c:1675:2: warning: 'locked'
+ is used uninitialized in this function
+Message-ID: <202512041816.LluJkn6J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +61,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251202182720.125884-5-lyude@redhat.com>
 
-Hi Lyude,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 54e3eae855629702c566bd2e130d9f40e7f35bde]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/preempt-Introduce-HARDIRQ_DISABLE_BITS/20251203-023616
-base:   54e3eae855629702c566bd2e130d9f40e7f35bde
-patch link:    https://lore.kernel.org/r/20251202182720.125884-5-lyude%40redhat.com
-patch subject: [PATCH v15 04/16] irq & spin_lock: Add counted interrupt disabling/enabling
-config: openrisc-randconfig-r052-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041719.l1lUvQ7n-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041719.l1lUvQ7n-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.18/zen-sauce
+head:   669f0096c96eda5618f4e42766c665f3ed341e92
+commit: cd32ade31c0d6aa492e3af6249fa039521129a0d [5/29] ZEN: Restore CONFIG_OPTIMIZE_FOR_PERFORMANCE_O3
+config: s390-randconfig-r133-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041816.LluJkn6J-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041816.LluJkn6J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512041719.l1lUvQ7n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512041816.LluJkn6J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/interrupt_rc.h:17,
-                    from include/linux/spinlock.h:60,
+   mm/memcontrol.c: In function 'try_charge_memcg':
+>> mm/memcontrol.c:1675:2: warning: 'locked' is used uninitialized in this function [-Wuninitialized]
+     memcg1_oom_finish(memcg, locked);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:1663:7: note: 'locked' was declared here
+     bool locked, ret;
+          ^~~~~~
+--
+   In file included from include/linux/string.h:65,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
                     from include/linux/mmzone.h:8,
                     from include/linux/gfp.h:7,
                     from include/linux/umh.h:4,
                     from include/linux/kmod.h:9,
                     from include/linux/module.h:18,
-                    from lib/test_bitops.c:10:
->> arch/openrisc/include/asm/smp.h:21:59: error: 'struct cpumask' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-      21 | extern void arch_send_call_function_ipi_mask(const struct cpumask *mask);
-         |                                                           ^~~~~~~
-   arch/openrisc/include/asm/smp.h:23:54: error: 'struct cpumask' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-      23 | extern void set_smp_cross_call(void (*)(const struct cpumask *, unsigned int));
-         |                                                      ^~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from include/linux/interrupt_rc.h:17,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/openrisc/include/asm/pgalloc.h:20,
-                    from arch/openrisc/include/asm/io.h:18,
-                    from include/linux/io.h:12,
-                    from drivers/irqchip/irq-ompic.c:61:
-   arch/openrisc/include/asm/smp.h:21:59: warning: 'struct cpumask' declared inside parameter list will not be visible outside of this definition or declaration
-      21 | extern void arch_send_call_function_ipi_mask(const struct cpumask *mask);
-         |                                                           ^~~~~~~
-   arch/openrisc/include/asm/smp.h:23:54: warning: 'struct cpumask' declared inside parameter list will not be visible outside of this definition or declaration
-      23 | extern void set_smp_cross_call(void (*)(const struct cpumask *, unsigned int));
-         |                                                      ^~~~~~~
-   drivers/irqchip/irq-ompic.c: In function 'ompic_of_init':
->> drivers/irqchip/irq-ompic.c:191:28: error: passing argument 1 of 'set_smp_cross_call' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     191 |         set_smp_cross_call(ompic_raise_softirq);
-         |                            ^~~~~~~~~~~~~~~~~~~
-         |                            |
-         |                            void (*)(const struct cpumask *, unsigned int)
-   arch/openrisc/include/asm/smp.h:23:32: note: expected 'void (*)(const struct cpumask *, unsigned int)' but argument is of type 'void (*)(const struct cpumask *, unsigned int)'
-      23 | extern void set_smp_cross_call(void (*)(const struct cpumask *, unsigned int));
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+                    from drivers/gpu/drm/amd/amdgpu/atom.c:25:
+   drivers/gpu/drm/amd/amdgpu/atom.c: In function 'amdgpu_atom_parse':
+>> arch/s390/include/asm/string.h:176:14: warning: array subscript 64 is above array bounds of 'char[9]' [-Warray-bounds]
+     const char *end = s + n;
+                 ^~~
+   arch/s390/include/asm/string.h:176:14: warning: array subscript 64 is above array bounds of 'char[15]' [-Warray-bounds]
+     const char *end = s + n;
+                 ^~~
 
 
-vim +21 arch/openrisc/include/asm/smp.h
+vim +/locked +1675 mm/memcontrol.c
 
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  19  
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  20  extern void arch_send_call_function_single_ipi(int cpu);
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11 @21  extern void arch_send_call_function_ipi_mask(const struct cpumask *mask);
-8e6d08e0a15e7d4 Stefan Kristiansson 2014-05-11  22  
+9cbb78bb314360 David Rientjes    2012-07-31  1656  
+becdf89d776c8f Shakeel Butt      2022-03-22  1657  /*
+becdf89d776c8f Shakeel Butt      2022-03-22  1658   * Returns true if successfully killed one or more processes. Though in some
+becdf89d776c8f Shakeel Butt      2022-03-22  1659   * corner cases it can return true even without killing any process.
+becdf89d776c8f Shakeel Butt      2022-03-22  1660   */
+becdf89d776c8f Shakeel Butt      2022-03-22  1661  static bool mem_cgroup_oom(struct mem_cgroup *memcg, gfp_t mask, int order)
+867578cbccb089 KAMEZAWA Hiroyuki 2010-03-10  1662  {
+becdf89d776c8f Shakeel Butt      2022-03-22  1663  	bool locked, ret;
+7056d3a37d2c6a Michal Hocko      2018-12-28  1664  
+29ef680ae7c211 Michal Hocko      2018-08-17  1665  	if (order > PAGE_ALLOC_COSTLY_ORDER)
+becdf89d776c8f Shakeel Butt      2022-03-22  1666  		return false;
+29ef680ae7c211 Michal Hocko      2018-08-17  1667  
+7a1adfddaf0d11 Roman Gushchin    2018-10-26  1668  	memcg_memory_event(memcg, MEMCG_OOM);
+7a1adfddaf0d11 Roman Gushchin    2018-10-26  1669  
+292fc2e0204aa0 Roman Gushchin    2024-06-24  1670  	if (!memcg1_oom_prepare(memcg, &locked))
+becdf89d776c8f Shakeel Butt      2022-03-22  1671  		return false;
+29ef680ae7c211 Michal Hocko      2018-08-17  1672  
+becdf89d776c8f Shakeel Butt      2022-03-22  1673  	ret = mem_cgroup_out_of_memory(memcg, mask, order);
+7056d3a37d2c6a Michal Hocko      2018-12-28  1674  
+292fc2e0204aa0 Roman Gushchin    2024-06-24 @1675  	memcg1_oom_finish(memcg, locked);
+29ef680ae7c211 Michal Hocko      2018-08-17  1676  
+7056d3a37d2c6a Michal Hocko      2018-12-28  1677  	return ret;
+3812c8c8f39539 Johannes Weiner   2013-09-12  1678  }
+3812c8c8f39539 Johannes Weiner   2013-09-12  1679  
+
+:::::: The code at line 1675 was first introduced by commit
+:::::: 292fc2e0204aa02a24f6d2684d71801068fec803 mm: memcg: move cgroup v1 oom handling code into memcontrol-v1.c
+
+:::::: TO: Roman Gushchin <roman.gushchin@linux.dev>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
