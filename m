@@ -1,142 +1,150 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D16922541C;
-	Thu,  4 Dec 2025 14:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B8421CFE0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 14:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764857568; cv=none; b=SuSKvSwpjQEzCX01yPRoHtr49Fo5zg1e4cUrMW6cwv813Uqc6ASbECqYO4MFNoQ2nKTjQT6Pskvq+gYQrDg11bO/C/zN09zBsorCW/vf3dBeVANLo/ujPtTxp9Rz+xIdY3Xrd1YgAiZep41LRAMDRQdgayXYW8oP38I6meukXZU=
+	t=1764858375; cv=none; b=Vw5vul3sfyLA/l9EWXkWHHD6VX6L/Erwei+TfFBN7KZTaL7ODIgPmlvkf2e1x+Tpg38iB/GtOR1HC87MPVml2JxJo8VSPTppE6rKFTAx9kt3wo4Pr1zNE/rXQInuxnCFzfa4jCsFZRyKtvitEb13vT1TJ9LOIeXiWdTdj5tTQ3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764857568; c=relaxed/simple;
-	bh=evS1YQU839e9PihuX9HEldpEh1kHUGEMPFd7XrGgOHg=;
+	s=arc-20240116; t=1764858375; c=relaxed/simple;
+	bh=waUGSfd2GhXUvl2mpQhOpHJTQRCiJIG4/glzWRHgn2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nbgZfBilftdcPX7gW7/X+B4JN5u3M7jBE6pquxnnEVFcD2aXF1qVrOVRdezEEKB1LF60Cl4EKVFw7ntuxxqvGMAojCj3JevDEfNS47wogfnmAccowjZPpi0R/8gNY/AOLu809HX7bjy68OHVEIt6mcq+vT9vtAoyn4EhOI26/cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=c3eRuugH; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lw4CaJ2IiUfvNqTo3QdbnfMEeDrKBE88QBHt8FQFcAUziYLqQyrCfokFEnXSZVE93aomnj/xJ4OrOUnq03UA9kq+D9rH/THrVlKZqhNXy9dCbCexwVYKlUOCHFFA2URcODUtpuVvw397/IPpf0EFHRwN7PgHZRYkBVOBBUTsWfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czo381oX; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="c3eRuugH"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1764857556; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
-	bh=dkYSy/gbe5jT4GPBC3gX5tdFW8sy5n6ioyBwECgSNdo=;
-	b=c3eRuugHgBxaK8JmyAk36M6Y4GPQ3D+2QCA2SzUG7h/xt+YNCrHZE8ECTIaT7p3NEGN/QjYfXtX6LxWzgCD13U98ea7V1ZSZ54jS7EejzBpVncp1jWG9OIxY8e5ZvBTmByIaI/L6ZgMdlhOpT2a2p+m87n2S934mLzLSLdt0FFo=
-Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0Wu4cLfq_1764857555 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 04 Dec 2025 22:12:35 +0800
-Date: Thu, 4 Dec 2025 22:12:32 +0800
-From: Feng Tang <feng.tang@linux.alibaba.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 9966/13055] kernel/watchdog.c:74:22: warning:
- unused variable 'hardlockup_si_mask'
-Message-ID: <aTGW0AQJfQPKe0ao@U-2FWC9VHC-2323.local>
-References: <202512030920.NFKtekA7-lkp@intel.com>
- <20251203144453.be34d189c5e6668ce2da06b3@linux-foundation.org>
- <aTGO4iLrQnd4l6fO@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czo381oX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764858373; x=1796394373;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=waUGSfd2GhXUvl2mpQhOpHJTQRCiJIG4/glzWRHgn2g=;
+  b=czo381oXeamR65ZVL1LMdiKRAsYpyfTHq80SPhAHrBojaWxbRC53P2cz
+   TB6qdhZ0txWxjch0esjFOhzjY1XJu62oUBeptgBk8ScLPfk/Vp+sRilsO
+   4u/4lwX0EAu8e/1bbS4m+9TfR7S+hypPltzOYwee62ws9euRG72sqqGtn
+   ZakuqBotjDyWoYzfuMHhqN6Q2fYBAYFuHpXGyjngnxP9p7T5shw+3EAqn
+   Qq60gBhXZ5uNiMG0YQuvHHI9aNkV45GiyR5Im1ylJABlWG6uWplk9U7J7
+   otmEJqY43sCWaY2oE9jpI6+eXdJpegn/T2wVOkF00etUuZzleeoJKtKMN
+   A==;
+X-CSE-ConnectionGUID: k8/UazQVTYKrLm936wbqjw==
+X-CSE-MsgGUID: KTmcQBd4SlKxk9Bcv6HIpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77558254"
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; 
+   d="scan'208";a="77558254"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 06:26:13 -0800
+X-CSE-ConnectionGUID: HnQtEMdmS2yc29RCnRJjSg==
+X-CSE-MsgGUID: hrU6657JSx+8+Obd1zJSkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; 
+   d="scan'208";a="225665772"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 04 Dec 2025 06:26:12 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRAHZ-00000000DrR-1FsL;
+	Thu, 04 Dec 2025 14:26:09 +0000
+Date: Thu, 4 Dec 2025 22:26:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in
+ name_size
+Message-ID: <202512042217.poWaYyYq-lkp@intel.com>
+References: <20251202202643.107108-2-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTGO4iLrQnd4l6fO@pathway.suse.cz>
+In-Reply-To: <20251202202643.107108-2-jarkko@kernel.org>
 
-On Thu, Dec 04, 2025 at 02:38:42PM +0100, Petr Mladek wrote:
-> On Wed 2025-12-03 14:44:53, Andrew Morton wrote:
-> > On Wed, 3 Dec 2025 09:05:30 +0800 kernel test robot <lkp@intel.com> wrote:
-> > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > head:   47b7b5e32bb7264b51b89186043e1ada4090b558
-> > > commit: a9af76a78760717361cccc884dc649e30db61c8b [9966/13055] watchdog: add sys_info sysctls to dump sys info on system lockup
-> > > config: powerpc64-randconfig-002-20251203 (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/config)
-> > > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202512030920.NFKtekA7-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > > >> kernel/watchdog.c:74:22: warning: unused variable 'hardlockup_si_mask' [-Wunused-variable]
-> > >       74 | static unsigned long hardlockup_si_mask;
-> > >          |                      ^~~~~~~~~~~~~~~~~~
-> > >    1 warning generated.
-> > 
-> > I'm testing the appended patch but it needs checking please.
-> > 
-> > The comment for hardlockup_si_mask says
-> > 
-> >  * bitmask to control what kinds of system info to be printed when
-> >  * hard lockup is detected, it could be task, memory, lock etc.
-> >  * Refer include/linux/sys_info.h for detailed bit definition.
-> > 
-> > but the variable depends on "COUNTS_HRTIMER".  The comment doesn't
-> > mention hrtimers and I don't see why it should.  Not sure what's going
-> > on here.
-> 
-> Good point! It took me some time to understand it.
-> 
-> So, powerpc implements its own watchog, see arch/powerpc/kernel/watchdog.c.
-> The watchdog is supported only by some powerpc platforms, see the
->    following line in arch/powerpc/Kconfig:
-> 
-> 	select HAVE_HARDLOCKUP_DETECTOR_ARCH	if PPC_BOOK3S_64 && SMP
-> 
-> As a result, the test system could have the following in the config,
-> see https://download.01.org/0day-ci/archive/20251203/202512030920.NFKtekA7-lkp@intel.com/config
-> 
-> 	CONFIG_HARDLOCKUP_DETECTOR=y
-> 	# CONFIG_HARDLOCKUP_DETECTOR_PERF is not set
-> 	# CONFIG_HARDLOCKUP_DETECTOR_BUDDY is not set
-> 	CONFIG_HARDLOCKUP_DETECTOR_ARCH=y
-> 
-> And "COUNTS_HRTIMER" is not defined.
+Hi Jarkko,
 
-Thanks for the check!
+kernel test robot noticed the following build warnings:
 
-Was working on a reply at the same time :)
+[auto build test WARNING on next-20251202]
+[also build test WARNING on v6.18]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18 v6.18-rc7 v6.18-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > @@ -1250,6 +1250,7 @@ static const struct ctl_table watchdog_s
-> >  		.extra1		= SYSCTL_ZERO,
-> >  		.extra2		= SYSCTL_ONE,
-> >  	},
-> > +#if defined(CONFIG_HARDLOCKUP_DETECTOR_COUNTS_HRTIMER)
-> >  	{
-> >  		.procname	= "hardlockup_sys_info",
-> >  		.data		= &hardlockup_si_mask,
-> > @@ -1257,6 +1258,7 @@ static const struct ctl_table watchdog_s
-> >  		.mode		= 0644,
-> >  		.proc_handler	= sysctl_sys_info_handler,
-> >  	},
-> > +#endif
-> >  #ifdef CONFIG_SMP
-> >  	{
-> >  		.procname	= "hardlockup_all_cpu_backtrace",
-> > _
-> 
-> This patch makes some sense because the arch-specific watchdog does
-> not support the sys_info interface. And it is better than nothing.
-> definitely.
-> 
-> A better solution would be export the variable and handle it
-> in arch/powerpc/kernel/watchdog.c.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm2-sessions-fix-out-of-range-indexing-in-name_size/20251203-042945
+base:   next-20251202
+patch link:    https://lore.kernel.org/r/20251202202643.107108-2-jarkko%40kernel.org
+patch subject: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in name_size
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512042217.poWaYyYq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512042217.poWaYyYq-lkp@intel.com/reproduce)
 
-Yep!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512042217.poWaYyYq-lkp@intel.com/
 
-> It seems that powerpc is the only architecture which could define
-> HAVE_HARDLOCKUP_DETECTOR_ARCH.
-> 
-> Feng, would you have time to look at it?
+All warnings (new ones prefixed by >>):
 
-Sure.
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/module.h:12,
+                    from drivers/char/tpm/tpm.h:21,
+                    from drivers/char/tpm/tpm2-sessions.c:66:
+   drivers/char/tpm/tpm2-sessions.c: In function 'name_size':
+>> include/linux/kern_levels.h:5:25: warning: unknown conversion type character '\x0a' in format [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:565:16: note: in expansion of macro 'KERN_WARNING'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/char/tpm/tpm2-sessions.c:161:17: note: in expansion of macro 'pr_warn'
+     161 |                 pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
+         |                 ^~~~~~~
+>> include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:565:16: note: in expansion of macro 'KERN_WARNING'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/char/tpm/tpm2-sessions.c:161:17: note: in expansion of macro 'pr_warn'
+     161 |                 pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
+         |                 ^~~~~~~
 
-Thanks,
-Feng
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a7 Joe Perches 2012-07-30  4  
+04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
