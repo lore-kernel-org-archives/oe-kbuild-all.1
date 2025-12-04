@@ -1,123 +1,140 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AB32E6CC6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 12:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775D730597F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 12:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764851061; cv=none; b=YMFDd1Mq6TL/uxlI2AaSJePyt+7MK0qfWdWr/3JNE1FZmQo21ZoStc1n4eWkx/U6ekZPJSgYHc5Kc4ViMopv9K+XGaN0WMQttp1fsHJSNySlCBsM1TfVr9IjLMr5IVIAsIp+v18rzw6PImvxa3K/CdXMIyudyIj1aT2RqO4Qnkg=
+	t=1764851848; cv=none; b=YW7g77Ud5KnrmoGIyhdS5+wiS3zo8tDJKdqbc76qbgaCL1UQdUiqOIRZTBMKgqaD9T47TfkcqY4CaMpZan1h8502atnDI0eNR6a8UsumJZIORWteJvRy+2blcJMiw3BAFJqRcPneNVlQ/9WIhxSVH0S1Z4gDe6bGJdhSsIwcvas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764851061; c=relaxed/simple;
-	bh=wx7YOTQm1+6xH4GoEtrFQixMVUNTd1Is2awGZzzUXxU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZcrQucPG6VqZRqerPje+vQe28kdsSmono5xUX8AwyMA/T4/xL0ndQajgycMUWWLivngFAN/py0TmpNmmWA/GldBqpuEo6n99+cbzgXf+MN4w6Jb7qmWtZFLrmCrcb9oF5/TfY8oiMJOhEFUuJacT9yfdEZHYkSIxqQ9lWLHw+V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTBtzOlr; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764851848; c=relaxed/simple;
+	bh=I+x50kw7eD/yFvO/RXyr3WRAFE/OaL8Au1f1VOnxJ0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IsCGa9g9MQqFGf3S44hQ+uIUaDe6/1FJpK4C+/wUTRAc1be5k4JnQQRqfTbdw4D8biKV+l67AiMfBsnpHTmEylpckGkAPIJKubVJoZqzhu3CFwegGaVpTNrTaXaJQLGFUAxfH9wUgdY/wT9cAYJ7/BbX3wVMrFHO4dg5moW3TNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cnfvh1If; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTBtzOlr"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-299e43c1adbso1050545ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 04:24:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cnfvh1If"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so6207055e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 04:37:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764851059; x=1765455859; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wx7YOTQm1+6xH4GoEtrFQixMVUNTd1Is2awGZzzUXxU=;
-        b=QTBtzOlryJmEOdz4giyluY9Ox9VdasURRpWgcaYmp7dixhT309Mi9b7BZq5iDJaKkz
-         /zR0/UakFKu/84+BAlqz1g40YLiAvo1yis44pzxULw511l2rEoEyLzCrlFLfSWh2dYUy
-         GKUsQRU833aFfunjq8Qsy4ZXdUnftw5AuC7M1Vo2aAQ2iD1SxYdCeWTIBAi0cjnP6IOe
-         AohTaOxsm4x1M7MyauPz5+FRexxEL0DSx+W2TdTjDZqIavX3HA/AYOaNLrqAKv51NoGq
-         Pn0c6P8jCCPpMCWR7b2XF7wIbmYVGEMnLswoZHWdS60ZfRX09TtJ8tDsGPvgxOUyBZSf
-         jqYQ==
+        d=linaro.org; s=google; t=1764851845; x=1765456645; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ia1NqmdvWfkLXAzH0MNKGnJbJSAy5z/VpGTUT9Z+iC8=;
+        b=Cnfvh1If5BWWh1X8g1XPmeY/QzXo7WY5QyePURBk3EELqx4z7Vy4uIUN8qRUMASAb4
+         hmO5qOBB4G4ot55GCpXG5ASUFc19DGyhGc8j0uu1Adxcdp43TCpva8P+k5VqmpSgbd5N
+         nssGiP+Eyhba4l2VEjR9kS5OXMDAI/8nONzeNj81yY0jhWVVvX0qytgQIjkcvenqxfKV
+         uEn3r6rTkKg8eiLxRLHGqkwgBlcyeUOvYDbjtb6xU/65viZuBZYuc4dC8l84elj3JoGx
+         zh4rGhmVkHzgv4P9+Z+VJt1N5NuSiqQRjsfvRwih2+5qrdbNefGIvFGwlYwTxEHl4E8S
+         PIKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764851059; x=1765455859;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wx7YOTQm1+6xH4GoEtrFQixMVUNTd1Is2awGZzzUXxU=;
-        b=J7gX0g/GCUb59vqD5ZaAKDmzwpKoNHRIgq2RHmT8FUyRN2IXR/OF8MJIx4Y2DfgVEp
-         TcMipuems5mHFIBEA1xc3CZsGolsuAEK4AOEmqQxDEtH+LYuVtG5W00Kl3oyCPPoWMub
-         CaMkPfTUrJbbHN8oZzZKyREVc7IBIxj7RhbF0yliTBQrFLtT0Cjvz14FJ0dTm+rTdioy
-         bZKi9HT6xRZiLZZz3gGLOD+99IZ6mdNEYqX0DwLllD5j5Z0COHw2qFqGaTjgSRD/nVHa
-         nKY6gDW9+s9NRVbyRZbR1sIls20vqPpEulX63pjosRj+z5mqsKlPhE7WksgqfCYieNUy
-         YWHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfx29loc0hxcXyRfpWC1SBdKsOb5/uxcqUcwa6yZJaMxA62qTTJY1teGhAPUVVjBfwUkrnOTJKN7Yajg9R@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAev0WWRlujc1rKNCMlTEikGLM0jsS/jRcBrunwQGNEzNm8+6i
-	jCZY9H4zRcSN+ahFeqL8tBk8f3ne0+LHUJKKoYijPgdLnLtp2SpbXK7fnr/RE4i+bCLe4ko0I2T
-	g63Fj4tHZ/5z2HudVkQi3KO1OG4Pi6Bw=
-X-Gm-Gg: ASbGncusRRqw0ZTS/QMobRFO57U8xL8QG2DvuWGikHPMh0Vvorf9bRr2O8UvVaKMB4a
-	FROmVFqI8O5YvWKnbmak8R0Ut4w+oQ719YHNZbmcyqQMRRn3DG+bJuxR/wUsXvtz7kCC5FdvUxj
-	/oH0aWK24V+0z/2w0eLFRhoPxC0249brs08wQ0Ld2un209wLiuu4Q64Ji07XFUtBHl2gFurykln
-	oK+AezocrjAnxwK88Jlbb3+Ic+VT66oxh6cAjshNwf/wx01OFuA5+v/ku/f/FBx/D19KqSCaXDe
-	nPg1Z2kefnuCaKo5BrijQwubi5WbScTaZe4TWaQFqqT5M/U/HFFXeVAoX4akjf0etgRiNzxnr8D
-	CB51ObVgOj6m6Vw==
-X-Google-Smtp-Source: AGHT+IEGCFDBt2eoPSljCNpANqr750UNfLEzTSVY3v8vro8CTu0dsedRZV8/m4AnguLNbvon7weD3EE/mhrcNnr6gGM=
-X-Received: by 2002:a05:693c:2d91:b0:2a4:3593:5fc7 with SMTP id
- 5a478bee46e88-2ab97b11c4fmr3497869eec.1.1764851058645; Thu, 04 Dec 2025
- 04:24:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764851845; x=1765456645;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ia1NqmdvWfkLXAzH0MNKGnJbJSAy5z/VpGTUT9Z+iC8=;
+        b=dFHiZpGo7JfDBsK9HLfCnth1bz5wVcI2W0MiKllGNECSP/PHhqee10+QIcMSlUphR+
+         XHBylVWA/H7ZbN/gc46ahf+Y0Jd7eqyPlhXYcX5jxreXFqy5bue0J9uKm5S7aUMz1g7D
+         V/mihuzbp9c1Yhj5E1D1iWBw1LtFNjKmjpLmvr5SVNUPx0UvwBrCUVHs2YPHHrJHggRY
+         whATAgJ896rqI7K5GzESBKFc1vbQZJEzFLxN6gr8oqaiCfO0VMCQgJjtl2qaKSMBS8NL
+         qPk+35mpTBaNTTPgNuSf0G+kUj0uXVgOwgI14ubBM8eXU4xxi6+30rXPMov9bA061iqd
+         3rcA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5R5iOy/0GUTEtE4+3ENf9MaDoC57HdQ6fXy9rC1L+zBDsZ0zCmsFJEhpJl6DKrGQmcqNUxPY9IW7ml1YG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxn6VFDcmID9aLq6uqYscjEpWQb9tWMG5DpZ4VQVxv4g1OP7Y5V
+	GFMMKx8ireWN0jlMrg/8FAoil3k3QrEqD1O/v+4WOlxOiYjw4eUxDZwB2R6zx6qXTjI=
+X-Gm-Gg: ASbGnctz+/jN0JjqKnddWdaX1c8NRp8U1bAdyWNGpRECMpfVEDK8kguqFKrDGitplbe
+	0O8Uoo9xB23UtrnI6hKoR2E44EAsQWaR5ut2ytiZdutN/Qc0Sh5QrY9cb1v3UFLwPNEbsw1ArHC
+	kp3sGBdwe0hCjhcYy5gS54qFVtLah1kFQUPRUGs1sBAAntkNCkXk39KGP/WNDqCG+jJxscbkmdE
+	esI/jcVz+ITPaiGR+JkcubwUnPpb2e6+qYyl79Vuy6Izu4Wed+oXj1Rln52az225c/8bm46LO8i
+	tIYNLj/40iRL9pG12fp3zY6BtxRtXynJuZcKVNX66aVxCV2hfa9PKBuX2/Jf8e3QlU/JbNpdGoN
+	GWq+P35ng/Hfq2vNCY7Y/h54rXz8eT+0BWUOO/Ok6oGwekLG2ko+ReRADgY+kLI0QscKzUtnKOH
+	CxM1ZB8NxBMjDPTPlWrMdsIm1zQx/hIQWgp+Vb
+X-Google-Smtp-Source: AGHT+IHqn2BhHzF5lqBtfDobXTknqzY//sbRwRYp4UNor2Id91FE3wWAPEWWaSzWUXUDQX+NOcTnmA==
+X-Received: by 2002:a05:600c:1d1d:b0:477:abea:9028 with SMTP id 5b1f17b1804b1-4792f24418bmr28417785e9.6.1764851844520;
+        Thu, 04 Dec 2025 04:37:24 -0800 (PST)
+Received: from localhost (h1f65.n1.ips.mtn.co.ug. [41.210.159.101])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4792b140cf4sm47488925e9.5.2025.12.04.04.37.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 04:37:24 -0800 (PST)
+Date: Thu, 4 Dec 2025 15:37:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ingo Molnar <mingo@kernel.org>
+Subject: [mingo-tip:WIP.sched/flat 31/31] kernel/sched/fair.c:13541
+ unregister_fair_sched_group() warn: variable dereferenced before check 'se'
+ (see line 13538)
+Message-ID: <202512042010.Kvt9IxPC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202512020454.Tf36WHw5-lkp@intel.com> <3447801b-95f7-4368-a433-e79669b5d22e@kernel.org>
- <lBhfqvej6RgECA1JyZ0zOpPTpcVF5ALMyOHAKGmHvM8HTxdqgCqEFn1xpvUGcCTJ31qM1Fptxl0DLLHcHZJo4g==@protonmail.internalid>
- <aTEi3KUUkPVGS3ix@xsang-OptiPlex-9020> <87fr9qwjt2.fsf@t14s.mail-host-address-is-not-set>
- <f2320396-4509-4591-983c-6eb96db85663@kernel.org>
-In-Reply-To: <f2320396-4509-4591-983c-6eb96db85663@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 4 Dec 2025 13:24:03 +0100
-X-Gm-Features: AWmQ_bm22o0HmIVipMvKSSbI8f__DLAk-7_3xkoLhOObPhxc2fM3rpD9hD8rtmY
-Message-ID: <CANiq72mNQDN5cAi9XEo5X48ZNMjDoe3xkAeskFPcSjuhBCXwvg@mail.gmail.com>
-Subject: Re: [linux-next:master 4752/13171] error[E0609]: no field
- `__bindgen_anon_1` on type `bindings::kernel_param`
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, Oliver Sang <oliver.sang@intel.com>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Benno Lossin <lossin@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Dec 4, 2025 at 12:59=E2=80=AFPM Daniel Gomez <da.gomez@kernel.org> =
-wrote:
->
-> + Any reason to use an unreleased clang version for this reports? Since c=
-lang-22
-> is not officially released yet, issues seen with it seem lower priority t=
-han
-> those reproduced with stable, released versions. Does it make sense to ac=
-t
-> on these kind of "bleeding edge" reports, or should we wait until they're
-> confirmed on a stable release? Does 0day test both?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.sched/flat
+head:   d8048abc1303ce09d2ed220c03377f633bd106e4
+commit: d8048abc1303ce09d2ed220c03377f633bd106e4 [31/31] sched/eevdf: Move to a single runqueue
+config: mips-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512042010.Kvt9IxPC-lkp@intel.com/config)
+compiler: mips64-linux-gcc (GCC) 11.5.0
 
-Some people in the kernel regularly test with unreleased compilers
-(all GCC, Clang and Rust) in order to fix issues before those
-compilers get actually released, e.g. ClangBuiltLinux for LLVM, I do
-it for `rustc`, several people for GCC, etc.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512042010.Kvt9IxPC-lkp@intel.com/
 
-So I guess the idea is similar for kernel test robot? There is value
-on doing that, and whether one should act depends -- if it is close to
-the release of the compiler, then it makes sense to try to figure out
-what is breaking so that the compiler has a chance to fix it.
-Otherwise, if nobody tries, we would get quite broken compilers (for
-the kernel use case at least).
+smatch warnings:
+kernel/sched/fair.c:13541 unregister_fair_sched_group() warn: variable dereferenced before check 'se' (see line 13538)
 
-It is also why I think having at least a basic kernel build on the
-upstream CIs of the compilers is a good idea (it already showed value
-in upstream Rust and perhaps we should talk about it again in LPC for
-Clang).
+vim +/se +13541 kernel/sched/fair.c
 
-But, yeah, the reports can be confusing and reacting to them properly
-does take time and effort (e.g. I need sometimes to bisect the
-compiler etc.).
+6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13528  void unregister_fair_sched_group(struct task_group *tg)
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13529  {
+6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13530  	int cpu;
+6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13531  
+b027789e5e5049 kernel/sched/fair.c Mathias Krause         2021-11-03  13532  	destroy_cfs_bandwidth(tg_cfs_bandwidth(tg));
+b027789e5e5049 kernel/sched/fair.c Mathias Krause         2021-11-03  13533  
+6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13534  	for_each_possible_cpu(cpu) {
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13535  		struct cfs_rq *cfs_rq = tg->cfs_rq[cpu];
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13536  		struct sched_entity *se = tg->se[cpu];
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13537  		struct rq *rq = cpu_rq(cpu);
+f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24 @13538  		struct cfs_rq *parent_cfs_rq = cfs_rq_of(se);
+                                                                                                                                 ^^
+Dereferenced here
 
-Does LKP try the bleeding edge versions only if a stable compiler
-built successfully? That could perhaps help.
+f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24  13539  
+f85fd15b0da76f kernel/sched/fair.c Peng Wang              2025-10-24  13540  
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03 @13541) 		if (se)
+                                                                                            ^^
+But this code assumed it can be NULL.
 
-Andreas also suggested yesterday in our meeting to have such bleeding
-edge reports perhaps more clearly marked or similar.
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13542) 			remove_entity_load_avg(se);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13543  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13544  		/*
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13545  		 * Only empty task groups can be destroyed; so we can speculatively
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13546  		 * check on_list without danger of it being re-added.
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13547  		 */
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13548  		if (cfs_rq->on_list) {
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13549  			guard(rq_lock_irqsave)(rq);
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13550  			list_del_leaf_cfs_rq(cfs_rq);
+2e0199df252a53 kernel/sched/fair.c Peter Zijlstra         2024-05-23  13551  		}
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13552) 
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13553) 		/*
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13554) 		 * Clear parent's h_load_next if it points to the
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13555) 		 * sched_entity being freed, to avoid stale pointer.
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13556) 		 */
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13557) 		if (READ_ONCE(parent_cfs_rq->h_load_next) == se)
+d8048abc1303ce kernel/sched/fair.c Peter Zijlstra (Intel  2025-12-03  13558) 			WRITE_ONCE(parent_cfs_rq->h_load_next, NULL);
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra         2011-10-25  13559  	}
+6fe1f348b3dd1f kernel/sched/fair.c Peter Zijlstra         2016-01-21  13560  }
 
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
