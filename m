@@ -1,156 +1,83 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D7B32572B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 08:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072411E0083
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 08:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764836754; cv=none; b=RmRLfXWVUSAwkT3HADpCyCg9Hn5O7Q072o7qfT0kO/t9ISCY6FMhyw2HBzFNiwxJbG5nEUmPTBWsgleW1U6nkMmy7M0wtPawxOFZCJEJiaIi9uE+bL+RGFtECl7LUw+7BsqBowXQX7cewMguqhMcAqEEjKHR0dv66UXCO8JIBKI=
+	t=1764838320; cv=none; b=Her7Wz5uVVS7bP/lYulivVeXkJpEFBDmzX/JP2caLGbpHVVKQu52uBUVD35MoronuaEoPQadxsdot+hl4JrnCykExc3a8SudDzEnWl3GkqgmyS1XA/Uc46uY7wt2dTLAN9UrwiFB0eQ0HJJF1XZfhtCc2hdSa1vgDHy9NfwuNkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764836754; c=relaxed/simple;
-	bh=OtdK3gQ1XN6eX93J0iKVYJw5PHEEjT6iMc8Dc0XV9Z0=;
+	s=arc-20240116; t=1764838320; c=relaxed/simple;
+	bh=wbZo8yUw+KRyBH2RUKhBF7b6YFwCGxKXnqAnxg9mJ0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=LzDEniGNEpGJ41C2TCaQvgLXOmJODGvxnHwzy2mzOs//eFDJSscoBj5mQCVPW9uEmnzNQJF1oqXS/SIFTtp2moNDEONs6oXKqoGJ9fQ9VVbDYZQmqV66XXTcyAADERNjk7xaWmnVWYsEbYm2hFDRnb2aORUZImU4bowEhwMRG0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tP6UQImN; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition:In-Reply-To; b=YvJYOCyuJJvXvXWCAOlyMY++iMyqQ17cTKVVC9L7baoMXs4YbVjGjGlqvLSBIPVs3GKhl9Su7URuTRaaF2a09U11wzFRKqvgdG1LPSd5ab2jX7TibY+AGDflHxh+e3A4C4t6olf8NIw0EpvfRN/z3tdR+fVqsY2FNQlwx/x7akU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PzfLNTa2; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tP6UQImN"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42e2e08b27eso284587f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 00:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764836751; x=1765441551; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
-        b=tP6UQImN2cfHKbex3fk1IDVrVi1naS/kAdjDjgwFattxGxqjONU3u7qRI43kFV7JDH
-         bPWmhgRmYQMCAFZdk1ASsi4YNnjytq9E8ct0BWBHdGO1eWbi3gvkizjYBSkjw+FBG7fW
-         EJq4JMiUYg0g+OR7nmS/CzFNOn0IJsuE2oXmhgDtFoyha+swLhy4geZG4Vw1wClgR6Fi
-         +eCLSG4B9v+DkOYeSjQiI8U7ccH9mV8LEYnDbcukTqxCvdbMfwfOlbOlAFucurTuutzp
-         t7vA2qrH2FgmXhOJt1U41m/AZ3IagTGcTDUfLNBH21HCA67/Lx/pHxn6EOf22gEFCLP9
-         vYeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764836751; x=1765441551;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
-        b=H2r8NI7UOKrUvL8Q84oAc8WbDoImrRfZaJRfGrGXVYALbc7guPwN+Nr/y7uywlIpF0
-         TzLGc6QsQJC8zyqieFtbCV8yPWGWBsch+fBbKfzoupaDpEIBpU3ped6ovssNd3UP7a9W
-         EaF3xfanJ19ortamGzsdKUOeB5wAq0L+zUMzB2a2gM7Z1N7duiglcSDA2BI9JCzZYQ9B
-         w3tbPy14FPtqC+GhjmhdQj/xCwrvoKeJCV2PkdDXeg1F8yCc8BLkUZY6BdDAlT1ZdCu4
-         0YBetxpdSfAlkpU40z2aFY8MkDiQvJtY1MyKhlgUb55FG6r8WtM3ZAKgS8djRXuyPRpa
-         CKuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXl5HfbTj4OPrDk1SGg8yDkce/aLQrrwYFfY0xtXddYXNrnSWd5P0IQ7mIOn+FjPbvF9m+JzhJVfxStd5u@lists.linux.dev
-X-Gm-Message-State: AOJu0YySEzkh6nxbvLuG3arMAaTxK0/x4qmmws2hXg+kHbOLc/Zlcbjl
-	03PLGxuStOK9Wj3+M6XbCXm2c24sjxxN6Bq8AMPATiaDJeAqB6VKfZByw8cji6C55PU=
-X-Gm-Gg: ASbGncvowIMLIR3r6huSfjK/1B3t946T7bezykxCE8Q34lc5TbsHzSVrqfXvDuhoeUi
-	NY6WAtnb/MZA1z5TnMQpD+IhnMzCRxFB7TVNPrZ9Sg3aj5vz0LjP+L4Od6/2ctOp1iFniMT+PDT
-	6anMWH340N8LnoAf/yqhVr1Z/CRZgTuwuqkoOgMS7uZJpXUo9ZLAVSyBq7Bwocen7D8v+05FC0e
-	q92UK6N8YVPgs/Ru6CYsZlgtIcjaxW7mlzFJw6WlyvUBCcXhKEJsewFbcf+8YuVaHXCyS+A8QEB
-	kbclDePksAyZNMptwk3llZ1/ybv5l75m0/0Yqmnrt718g+cbG8kbkJqd0cwvDEDyDQK+0ySCtiZ
-	lJuTUzITflTjYSh/Uwl8V77HT7P/YJm70v6vbeUGRcRGtnZnFceGiMCoE02qyOnOliTrcwquDOT
-	guzi/ZdBxe/Yk/0MYd
-X-Google-Smtp-Source: AGHT+IFqPjsWxMKuAwr/tYTZtrbROcoydreYmSrR+FokvUIODLoD32s0/Ejyc9FIKKndz+AO6vzyDQ==
-X-Received: by 2002:a05:6000:1889:b0:42b:41dc:1b5d with SMTP id ffacd0b85a97d-42f73187286mr5177890f8f.25.1764836750665;
-        Thu, 04 Dec 2025 00:25:50 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42f7d2231dfsm1807493f8f.26.2025.12.04.00.25.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 00:25:49 -0800 (PST)
-Date: Thu, 4 Dec 2025 11:25:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, sunpeng.li@amd.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com,
-	Nicholas.Kazlauskas@amd.com, simona@ffwll.ch, airlied@gmail.com,
-	Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
-Message-ID: <202512041153.nYks4oYu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzfLNTa2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764838318; x=1796374318;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=wbZo8yUw+KRyBH2RUKhBF7b6YFwCGxKXnqAnxg9mJ0c=;
+  b=PzfLNTa2o5Vfg9rcvGpXd3SrUCYzYJJwCInGQ4bgAVGI0/jfDgQp1hg1
+   5sRpraLoI0bR2oz25IrbVwMcbAE3Y9nL8piBvWuZu//LY2tkBfINQNwk3
+   a7drl11M1FeQ22vuHuj0xRfl7zZd0taREU7AaGTG6XTmnq2f3b9QGEI3Y
+   X4E2yEUZIiLcVQo5EOhgYVwO4XQgyuz9ZXyBWyX+HWWz2V3kvv8nNs7S7
+   jRkYRvCmoHnkI7J4YD4wtifeg7q8jfOCrdHvFVsrZs5O4XGY8gSt4rEAk
+   97CSswGUKdWz5bPu/oOFejajZxQR8su/15P/GVlqqaCtYphUrCza5e5jD
+   A==;
+X-CSE-ConnectionGUID: NELcEIQ1S4yYCT2Vf1qqbw==
+X-CSE-MsgGUID: c6ZGqLbuSCKvGULTiziLOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77469719"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="77469719"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 00:51:57 -0800
+X-CSE-ConnectionGUID: F5L9AeIQQIijt2A8pLGaqQ==
+X-CSE-MsgGUID: YXBf+9rsRAa5lXcjdkSh/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="199350866"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 04 Dec 2025 00:51:56 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vR546-00000000DbR-1tFl;
+	Thu, 04 Dec 2025 08:51:54 +0000
+Date: Thu, 4 Dec 2025 16:51:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: caoping <caoping@cmss.chinamobile.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] net/handshake: restore destructor on submit failure
+Message-ID: <aTFLeMIeYcIif13W@0bc2809ec63a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251201231807.287414-1-sunpeng.li@amd.com>
+In-Reply-To: <20251204084757.1536523-1-caoping@cmss.chinamobile.com>
 
 Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20251202-072501
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20251201231807.287414-1-sunpeng.li%40amd.com
-patch subject: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
-config: nios2-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041153.nYks4oYu-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512041153.nYks4oYu-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/drm_vblank.c:1527 drm_crtc_vblank_on_config() warn: variable dereferenced before check 'crtc' (see line 1519)
-
-vim +/crtc +1527 drivers/gpu/drm/drm_vblank.c
-
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1516  void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1517  			       const struct drm_vblank_crtc_config *config)
-3ed4351a83ca05d Simona Vetter 2017-05-31  1518  {
-3ed4351a83ca05d Simona Vetter 2017-05-31 @1519  	struct drm_device *dev = crtc->dev;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1520  	unsigned int pipe = drm_crtc_index(crtc);
-                                                                                           ^^^^
-Unchecked dereference.  I'm pretty certain crtc can't be NULL.
-
-d12e36494dc2bf2 Ville Syrjälä 2024-04-08  1521  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-38bd1e412d0aa4b Leo Li        2025-12-01  1522  	int ret;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1523  
-5a4784f49b2dcff Sam Ravnborg  2020-05-23  1524  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
-3ed4351a83ca05d Simona Vetter 2017-05-31  1525  		return;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1526  
-38bd1e412d0aa4b Leo Li        2025-12-01 @1527  	if (crtc) {
-                                                        ^^^^^^^^^^^
-So this NULL check is too late, and can be removed.
-
-38bd1e412d0aa4b Leo Li        2025-12-01  1528  		ret = drm_crtc_vblank_prepare(crtc);
-38bd1e412d0aa4b Leo Li        2025-12-01  1529  		drm_WARN_ON(dev, ret);
-38bd1e412d0aa4b Leo Li        2025-12-01  1530  		if (ret)
-38bd1e412d0aa4b Leo Li        2025-12-01  1531  			return;
-38bd1e412d0aa4b Leo Li        2025-12-01  1532  	}
-38bd1e412d0aa4b Leo Li        2025-12-01  1533  
-92cc68e35863c1c Lyude Paul    2020-07-20  1534  	spin_lock_irq(&dev->vbl_lock);
-02149a76d32bd8f Sam Ravnborg  2020-05-23  1535  	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
-3ed4351a83ca05d Simona Vetter 2017-05-31  1536  		    pipe, vblank->enabled, vblank->inmodeset);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1537  
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1538  	vblank->config = *config;
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1539  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1540  	/* Drop our private "prevent drm_vblank_get" refcount */
-3ed4351a83ca05d Simona Vetter 2017-05-31  1541  	if (vblank->inmodeset) {
-3ed4351a83ca05d Simona Vetter 2017-05-31  1542  		atomic_dec(&vblank->refcount);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1543  		vblank->inmodeset = 0;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1544  	}
-3ed4351a83ca05d Simona Vetter 2017-05-31  1545  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1546  	drm_reset_vblank_timestamp(dev, pipe);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1547  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1548  	/*
-3ed4351a83ca05d Simona Vetter 2017-05-31  1549  	 * re-enable interrupts if there are users left, or the
-3ed4351a83ca05d Simona Vetter 2017-05-31  1550  	 * user wishes vblank interrupts to be enabled all the time.
-3ed4351a83ca05d Simona Vetter 2017-05-31  1551  	 */
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1552  	if (atomic_read(&vblank->refcount) != 0 || !vblank->config.offdelay_ms)
-5a4784f49b2dcff Sam Ravnborg  2020-05-23  1553  		drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
-92cc68e35863c1c Lyude Paul    2020-07-20  1554  	spin_unlock_irq(&dev->vbl_lock);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1555  }
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] net/handshake: restore destructor on submit failure
+Link: https://lore.kernel.org/stable/20251204084757.1536523-1-caoping%40cmss.chinamobile.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
 
