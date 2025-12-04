@@ -1,37 +1,60 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE842FC86C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 13:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B65341670;
+	Thu,  4 Dec 2025 13:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764854075; cv=none; b=OmGPRBnoEEmeE4jU7zkgz7e94J/+9APydJgnIiXeeK9j652dIEEzOUfIOrjh9ox23NIybFcycF6+P60hqGRbq4gXhIF4SSbwLslIi9wmv4of1s2PdtGHbGqExlYP5xs2077vOd4DghgXIZyjgosi8LuIhMKaZNcUrner1zApBwU=
+	t=1764855253; cv=none; b=k3HN4s0keAcbfdWQDbiPjO2G37c9ruTbfL5mcJRCbywdZgSW9SH+9FVjBDGNaXsA2//dUi2iAl9THiYK37uznh6R9Xp2rhxXdOdguAYlyX93n45hznYm1lhSNd8eEGyarpauFQlY0Wk8huk0RKCgJMeA09cBpb69dNgC6NF4U7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764854075; c=relaxed/simple;
-	bh=zBWKn0P2O+rLsRZ/F2EWDzprh9B9QbAOe3NY8MQ01iU=;
+	s=arc-20240116; t=1764855253; c=relaxed/simple;
+	bh=WZgJsV+lw5jopvOOKh1sLomId2siFWRmsj1voPvhdLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fcfGse2WvDJSBj4wk1m0Hw7Z/d5JZ7JYjMYD4zmL78tHVtBn5EgrRPL+okHsdIilzvS6lJ4gBDfCbRLipYLCxyMQ5A0+R4EHyNuGWT3KsC55TdJBk4lfsRtoJMX4uLVbweaNaFwe4Z1ANs1jPfns0Rz5rWBjXyiUcDPM/4YToQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5FFEA339;
-	Thu,  4 Dec 2025 05:14:26 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4E4C3F59E;
-	Thu,  4 Dec 2025 05:14:31 -0800 (PST)
-Date: Thu, 4 Dec 2025 13:14:28 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-Cc: <jassisinghbrar@gmail.com>, <lenb@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>, <linux-acpi@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>, <olivier.dautricourt@sipearl.com>,
-	<olivierdautricourt@gmail.com>, <rafael@kernel.org>,
-	<thibault.cantori@sipearl.com>
-Subject: Re: Re: [PATCH v3 1/2] mailbox: pcc: support polling mode when there
- is no platform IRQ
-Message-ID: <20251204-mauve-bear-of-wholeness-e13a4b@sudeepholla>
-References: <20251203-persimmon-condor-of-essence-9fc43d@sudeepholla>
- <20251204125938.3025022-1-andrea.tomassetti@sipearl.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IAYlczACQeGA9I057XDVb+7Du8Sw+Xfd0o3IOohsKa02mC8WPCcLk3PfmpwTGDf+NKLJXE7ybVnMEzFyPj2W0XmbugA8xLnrcDjva8d/5YJJ2EqHfZ0vOoGOOE/gEjCok3PTD9RXjyKrdvN73AwdH2DHnGtrDhl5HCzMUemyVqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7KhuI1x; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7KhuI1x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764855251; x=1796391251;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WZgJsV+lw5jopvOOKh1sLomId2siFWRmsj1voPvhdLA=;
+  b=N7KhuI1xRDLMfIfAVu0oSZw0j0wCB7h/aZIII7laEB3uJBKoMH13U8xe
+   fufPN5GEziHlZgSINMTbQXv4591Lq1cMg1rXzWUJHyE7+L2qCBgmjw8nJ
+   jNrDYHIxNq8IaK1fV3h5Uq1w6yGdCCgAGTuSwOZWio3R6ogAa225Il+Xe
+   GJXUXLWC7WyyrBUHpyltAgCo7w8FKSrGJubohKKZURIdofCxEOJecLbVR
+   nJ5Db2E5CTHX04cyEEZVzhZ9k2++BzwHFDFAWYL9Fk2JvfJkLes4QZ/Zx
+   cuqf1X9MQ51ozfDHYU8GLNEeciuGxL02aDZXJy69hc/6mS9lt++X3CYsB
+   Q==;
+X-CSE-ConnectionGUID: GbYeYRIuSR6ES/mlOx2Wvw==
+X-CSE-MsgGUID: EtOxiKQKSfa2NPY8XrPj6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77493557"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="77493557"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 05:34:10 -0800
+X-CSE-ConnectionGUID: vxhhKezUSb+FonzoazLFoA==
+X-CSE-MsgGUID: nrUnOA8IS32t9lXiklycCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
+   d="scan'208";a="195409599"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Dec 2025 05:34:09 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vR9TD-00000000DpF-14PH;
+	Thu, 04 Dec 2025 13:34:07 +0000
+Date: Thu, 4 Dec 2025 21:33:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in
+ name_size
+Message-ID: <202512042132.PC26URPL-lkp@intel.com>
+References: <20251202202643.107108-2-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -40,51 +63,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204125938.3025022-1-andrea.tomassetti@sipearl.com>
+In-Reply-To: <20251202202643.107108-2-jarkko@kernel.org>
 
-On Thu, Dec 04, 2025 at 01:59:38PM +0100, Andrea Tomassetti wrote:
-> On 25/12/03 10:28AM, Sudeep Holla wrote:
-> > On Tue, Dec 02, 2025 at 11:12:14AM +0100, Andrea Tomassetti wrote:
-> > > The goal is to allow clients to submit a message in both irq and polling
-> > > mode of the pcc mailbox. The ACPI specification does not require a
-> > > platform irq for pcc channels. Let's implement the case where it is not
-> > > available.
-> > >
-> > 
-> > Just curious if you have a real use case for this polling mode on your
-> > platforms or ...
-> > 
-> > > Tested-by: Thibault Cantori <thibault.cantori@sipearl.com>
-> > > Co-developed-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-> > > Signed-off-by: Olivier Dautricourt <olivier.dautricourt@sipearl.com>
-> > > Signed-off-by: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202511120243.soxAFpqQ-lkp@intel.com/
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202511120558.Cln7LF6M-lkp@intel.com/
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202511120729.R3XQNSnx-lkp@intel.com/
-> > 
-> > You are just trying to fix these warnings. If it is latter, we don't have to
-> > add support for polling mode especially if it can't be tested on real
-> > platforms.
-> >
-> In our target product, we're still investigating if PCC-based SCMI communication will
-> rely on interrupts or polling. When we started looking into it we realized that polling
-> wasn't supported and that's why we decided to work on and send this patch. We thought it
-> could have been beneficial to other members of the community and it brings the driver a
-> bit closer to the ACPI specifications.
-> 
-> We're using ARM Fast Models for prototyping and that's how we validated and tested this patch.
-> 
+Hi Jarkko,
 
-I wouldn't consider that as real platform especially if it is not std. AEM
-models that are well maintained. Many Fast models are short lived and never
-maintained long term, so I don't want to push any feature based on that alone
-unless you have a real platform with missing or broken interrupt that needs
-this polling feature.
+kernel test robot noticed the following build warnings:
 
-It is burden for long term maintenance if there is no regular way to test this
-polling mode feature.
+[auto build test WARNING on next-20251202]
+[also build test WARNING on v6.18]
+[cannot apply to char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18 v6.18-rc7 v6.18-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm2-sessions-fix-out-of-range-indexing-in-name_size/20251203-042945
+base:   next-20251202
+patch link:    https://lore.kernel.org/r/20251202202643.107108-2-jarkko%40kernel.org
+patch subject: [PATCH v2 1/4] tpm2-sessions: fix out of range indexing in name_size
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251204/202512042132.PC26URPL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512042132.PC26URPL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512042132.PC26URPL-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/char/tpm/tpm2-sessions.c:66:
+   In file included from drivers/char/tpm/tpm.h:28:
+   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+     167 |         int mapping_size;
+         |             ^
+>> drivers/char/tpm/tpm2-sessions.c:161:46: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     161 |                 pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
+         |                                                         ~~~^
+   include/linux/printk.h:565:29: note: expanded from macro 'pr_warn'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                                    ^~~
+   include/linux/printk.h:402:21: note: expanded from macro 'pr_fmt'
+     402 | #define pr_fmt(fmt) fmt
+         |                     ^~~
+   include/linux/printk.h:512:53: note: expanded from macro 'printk'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ^~~
+   include/linux/printk.h:484:11: note: expanded from macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   2 warnings generated.
+
+
+vim +/x0a +161 drivers/char/tpm/tpm2-sessions.c
+
+   142	
+   143	#ifdef CONFIG_TCG_TPM2_HMAC
+   144	/*
+   145	 * Name Size based on TPM algorithm (assumes no hash bigger than 255)
+   146	 */
+   147	static int name_size(const u8 *name)
+   148	{
+   149		u16 hash_alg = get_unaligned_be16(name);
+   150	
+   151		switch (hash_alg) {
+   152		case TPM_ALG_SHA1:
+   153			return SHA1_DIGEST_SIZE + 2;
+   154		case TPM_ALG_SHA256:
+   155			return SHA256_DIGEST_SIZE + 2;
+   156		case TPM_ALG_SHA384:
+   157			return SHA384_DIGEST_SIZE + 2;
+   158		case TPM_ALG_SHA512:
+   159			return SHA512_DIGEST_SIZE + 2;
+   160		default:
+ > 161			pr_warn("tpm: invalid name algorithm: 0x%04\n", hash_alg);
+   162			return -EINVAL;
+   163		}
+   164	}
+   165	
 
 -- 
-Regards,
-Sudeep
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
