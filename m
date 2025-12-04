@@ -1,57 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76A7308F1E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 06:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8283090D2;
+	Thu,  4 Dec 2025 06:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764831536; cv=none; b=MePoDYi6zrQ7yPROlL+AQLagGp9psng2UiQWWgMXrMKbyK45U0WDWciv/67T703fRJTlBLwdAaDwp0+H6ZlyF6JMBVwFwvmvxQp7Oa/i/AVAM3r3b2JyKcRsVwp6AhafHli9QF885/qQSRVMvsAnq749R4Zfrr+jZGZKeo7pu84=
+	t=1764831538; cv=none; b=CI/xh8Wkr0KVXS5GeA21hiGfz9p+PsK8xxWVRnJOHKwbE3js1wfUHoyqLHaoa9HVXhrRbeC7FtI1pi7jvFVEVkP2ijX5zw70WxdBoqULUsiT8Xuwjd/Pmp+Obd8Zhzt/9zNdJ8hN8PYN41xKJlSQ4hfEkrHVMUIvlQjsyWUJjeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764831536; c=relaxed/simple;
-	bh=FraxE3IRm0OnaH0dhSQEiUQxHs0RB9uscNKevmdusuc=;
+	s=arc-20240116; t=1764831538; c=relaxed/simple;
+	bh=CwkJdgz50qSuUgZU5wgKBfmfG4Q3PN/e8pN3Tb7C8is=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gAM1tk7X4D1YhYl6QL67mz7X+bxfo6wxveMAG3U2tAXZHDqsvJvze1o2L/ZAgjZSV/jrOm5Dkgv0Rt6BW0xFwnpyQcWzo1lnbnr7lxnzBIiqa/3ZSGT+6jOIYcrFF9f+sdQn/M6IJGmZzxg8WO9YpP4We8uCbQ0CZBX3oFIXIZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFjNi4Sy; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=OCBnhJ1urBNUZBkuH+nrZL0DD6owGRHIHbTtngjHGACyGRabwxzkwAT5IJqm5az6swG46HFte0f+DUcO3Rvwfm3EjguuhoS3WhoPscq+28Ztt+tjS6CmDXTW4dEQgmIUIxDieHpskxi1+A8NFSeARb7Q8mm06EE7om9S9ewktSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdYtOK7E; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFjNi4Sy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdYtOK7E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764831535; x=1796367535;
+  t=1764831537; x=1796367537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FraxE3IRm0OnaH0dhSQEiUQxHs0RB9uscNKevmdusuc=;
-  b=oFjNi4Sy5kC7hmUIPhvFS2Zi1q8OVAc+2BMF38K0hqOQf3k4lGqjxDaj
-   vPOiwwU/x2EL1dL6MPRExv8n8tgSHivxO0kipHi33/tXWybfaBp75eFVJ
-   D7Zik5LjD2NcFD2NAPOzPMY3wEG/q46p/PcyHbJqTcdh5wjMAOMqpHg1i
-   RWRXbj2MlYmTquw4eFlhKfWheIUm5isaOCAK+v9S1ytcgbq/488Zu73Vw
-   N+ivnUqtPMX+LclvPAamhk55SySUcjOc9/NhZQTgWMtJuO8wmN90RMM5j
-   tQssEUhs1o+aGsXdsSsx0SpQnOiiZNMjyAhEH1ck1/Uvm9R4uYJYjDIHE
+  bh=CwkJdgz50qSuUgZU5wgKBfmfG4Q3PN/e8pN3Tb7C8is=;
+  b=TdYtOK7EKgzBvCfUkhCuA5sRc40QZNaUdRhOzTXiYpJSJrkQy671iBgf
+   qennxJOjOLwsQqiHLdRy1c++6e9ZF23F1aeJfYcs+vfqODGReKqro5j7u
+   n37AAl1OCA63EynS6J2K6e0mEnWEXNPLp1rFBPA81OIqS6CYHbsGRN2EJ
+   aXyvY0prNrliQDP5D/+q90Vgcagzy1i2WK+tihLoq6oAUUs6mbb9irW2/
+   r3VZ76TJFco9yaXRxvxRoTpBoFbsDu18Ozgm8nMowryD0BhhaNnMJRv0p
+   u5TFlD80vAGHLw4C31L+3wcMRztxvzsP140n13dK9FsiKycSf44MyCo5g
    A==;
-X-CSE-ConnectionGUID: 8oXq6xg8T0iGkdmDAcPuGw==
-X-CSE-MsgGUID: 0dvFay7XSqK3Fp7AGluSng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84442929"
+X-CSE-ConnectionGUID: pruDVej8TdWS9GRk7I/gYQ==
+X-CSE-MsgGUID: k/pkYzCmQ1e7QbMUMPD2WA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84442928"
 X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; 
-   d="scan'208";a="84442929"
+   d="scan'208";a="84442928"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2025 22:58:54 -0800
-X-CSE-ConnectionGUID: UEw4k2oKRFCdMFKjmVPLJQ==
-X-CSE-MsgGUID: nsBVNqnbQCWqPCnHGDZ+lA==
+X-CSE-ConnectionGUID: gr/QgrVHQXyv/1SjRaCe2Q==
+X-CSE-MsgGUID: OcEjOCZ7QiadSSXYA4AF2w==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 03 Dec 2025 22:58:53 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vR3Ig-00000000DX3-3k0N;
+	id 1vR3Ig-00000000DX5-3rho;
 	Thu, 04 Dec 2025 06:58:50 +0000
-Date: Thu, 4 Dec 2025 14:58:46 +0800
+Date: Thu, 4 Dec 2025 14:58:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 10/10]
- include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_365' undeclared; did
- you mean '__UNIQUE_ID_x_364'?
-Message-ID: <202512041428.oLX9h0ym-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2025-12-03 15/16]
+ sound/soc/img/img-i2s-in.c:388:31: error: expected ';' at end of declaration
+Message-ID: <202512041440.gykRQDyW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,185 +60,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   38f2cb9d176b776bf3d4604e62d27987d5e7cc59
-commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [10/10] ANDROID: Update proxy-exec logic from v14 to v18
-config: arm-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041428.oLX9h0ym-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041428.oLX9h0ym-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2025-12-03
+head:   48371bd5c0566cfc8e9d81b48b39c9e355eafdc1
+commit: bc3f6d1fbadd3a9fc48804d41967912f6a0e35f3 [15/16] hoge
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251204/202512041440.gykRQDyW-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251204/202512041440.gykRQDyW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512041428.oLX9h0ym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512041440.gykRQDyW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/blk-crypto.h:127,
-                    from include/linux/blk-crypto-profile.h:10,
-                    from include/linux/mmc/host.h:19,
-                    from drivers/mmc/host/mmci.c:23:
-   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
-    1776 |         struct rq_list req_list;
-         |                        ^~~~~~~~
-   In file included from <command-line>:
-   drivers/mmc/host/mmci.c: In function 'mmci_probe':
->> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_365' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_364'?
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
-     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
-      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
-         |                           ^~~~~~~~~~~~~~
-   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
-      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
-         |                             ^~~~~~~~~~
-   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
-     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
-     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
-     129 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
-      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
-     516 |                 if (!(condition))                                       \
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> sound/soc/img/img-i2s-in.c:388:31: error: expected ';' at end of declaration
+     388 |         SND_SOC_POSSIBLE_DAIFMT_IB_IF,
+         |                                      ^
+         |                                      ;
+>> sound/soc/img/img-i2s-in.c:395:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
+     394 |         .set_fmt        = img_i2s_in_set_fmt
+         |                           ~~~~~~~~~~~~~~~~~~
+     395 |         .auto_selectable_formats        = &img_i2s_in_selectable_formats,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> sound/soc/img/img-i2s-out.c:406:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
+     405 |         .set_fmt        = img_i2s_out_set_fmt
+         |                           ~~~~~~~~~~~~~~~~~~~
+     406 |         .auto_selectable_formats        = &img_i2s_out_selectable_formats,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> sound/soc/img/img-parallel-out.c:199:2: error: member reference base type 'int (struct snd_soc_dai *, unsigned int)' is not a structure or union
+     198 |         .set_fmt        = img_prl_out_set_fmt
+         |                           ~~~~~~~~~~~~~~~~~~~
+     199 |         .auto_selectable_formats        = &img_prl_selectable_formats,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> sound/soc/mediatek/mt8186/mt8186-dai-pcm.c:353:30: error: use of undeclared identifier 't9015_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
+     353 |         .auto_selectable_formats        = &t9015_dai_selectable_formats,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            ssi_dai_selectable_formats
+   sound/soc/mediatek/mt8186/mt8186-dai-pcm.c:340:18: note: 'ssi_dai_selectable_formats' declared here
+     340 | static const u64 ssi_dai_selectable_formats =
+         |                  ^
+   1 error generated.
+--
+>> sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2511:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
+    2511 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            ssi_dai_selectable_formats
+   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
+    2493 | static const u64 ssi_dai_selectable_formats =
+         |                  ^
+   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2523:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
+    2523 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            ssi_dai_selectable_formats
+   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
+    2493 | static const u64 ssi_dai_selectable_formats =
+         |                  ^
+   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2536:30: error: use of undeclared identifier 'mtk_dai_selectable_formats'; did you mean 'ssi_dai_selectable_formats'?
+    2536 |         .auto_selectable_formats        = &mtk_dai_selectable_formats,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            ssi_dai_selectable_formats
+   sound/soc/mediatek/mt8195/mt8195-dai-etdm.c:2493:18: note: 'ssi_dai_selectable_formats' declared here
+    2493 | static const u64 ssi_dai_selectable_formats =
+         |                  ^
+   3 errors generated.
 
 
-vim +166 include/linux/compiler.h
+vim +388 sound/soc/img/img-i2s-in.c
 
-fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
-a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-6f33d58794ef4c Rusty Russell        2012-11-22  167  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
-
-:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   381	
+   382	static const u64 img_i2s_in_selectable_formats =
+   383		SND_SOC_POSSIBLE_DAIFMT_I2S	|
+   384		SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+   385		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
+   386		SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
+   387		SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
+ > 388		SND_SOC_POSSIBLE_DAIFMT_IB_IF,
+   389	
+   390	static const struct snd_soc_dai_ops img_i2s_in_dai_ops = {
+   391		.probe		= img_i2s_in_dai_probe,
+   392		.trigger	= img_i2s_in_trigger,
+   393		.hw_params	= img_i2s_in_hw_params,
+   394		.set_fmt	= img_i2s_in_set_fmt
+ > 395		.auto_selectable_formats	= &img_i2s_in_selectable_formats,
+   396		.num_auto_selectable_formats	= 1,
+   397	};
+   398	
 
 -- 
 0-DAY CI Kernel Test Service
