@@ -1,137 +1,138 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BAB2FF66D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 11:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25332DEA68;
+	Thu,  4 Dec 2025 11:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764848519; cv=none; b=F0P2Yz8lJrlGNlMPXddNeasYh6mVZMFwXWrpZCH4Pp5LHEZP2yBSoI/Rp55OXKn6ekh9/1MryJzjL2aVILg126xGIva0fl7wJrycvS1tuNkrbEr/iNuId3AVhfKXBusvdLqy8lWjInE8r26QERITF3uHkZbDFLfxUyGDch/1hwo=
+	t=1764848837; cv=none; b=fkS+dlYtVSO0UIlqt2VfOtqhT7bFWihe3zd9EhH+/SE6AoqsPNdc4H0cw0BAlTbIvXT01hP9EWfrE/811htY0hcZVsbqsBSW3sLlMrbftYnq94r+TYSvE6iDIv/HOpTZZws51OCpsskSkHxR5wl/imPy8zjvqWUB+yXrhIP5WOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764848519; c=relaxed/simple;
-	bh=5RK6tht8FvsF1cAX1TgQDpbJNcrpK+NgBtfzZGZoOvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gCl8oEnuByvtgsx91sFyzP8yvuAz0qEhfX3RdzhakJfprqVNwPH1WuZMWBlBh+/HiWl5iBcKUYBVPt9lbtEahcNLXxrDOuQdOmp7Ku9DS+4zNTrrSNYXzMy9wXvrLZSG0uJPmD/bljPPw5wYfWdEBERcnsKSDOvVv31juo3iLIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ps6eb7VT; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764848837; c=relaxed/simple;
+	bh=RU/WFzv9G/hmGUffdDyIy3D1oRokOdlnN0/YJZWY0Lc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PKPUnlE1KdK6g56qSLjREeI5kkIVdkk7fFl+B+rN9e0GNmrtjxbZ1xbHIFLEFQ6Df78vaUsTpiI+80CWA5/OGzVC86qQWxUwZ+nvCr1ninln+46ioM+oKpd/Fg5I1WCPyUdmCPs7iwzp0CYZgtpx/SAnsg/R1u7xc9yjZqpGj3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cW6S/WPI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ps6eb7VT"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42e2b90ad22so380924f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 03:41:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764848515; x=1765453315; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kjFhVVOEQY6uhoEI6giKaJgk6vc37uTqDkTp4AaJoWE=;
-        b=ps6eb7VTZNHqTQ6gW+f0f9R9E9AS2OwnVs3CgeBsuEujawFQGAsya5cn+iz1sss5/v
-         hbfyt4MvB+xmrv7bY1DQPZjsFGOsnfmtKLlehEpU67zqv/mNSI/pLftdCypXGjG2sm7w
-         d+mzl244Y6UkwCEaD4km0stSsoPUUQPHCqHPjH8pgDwFKM1KH//RnJYOELoKPM8VoM6b
-         x0GGz3PdAn5wtV9Unpiy+8lg2N//iQ4qgHt185GKi/NnVhvCbS1175td1QaN5wfk87BJ
-         WprJZWXCRMiVGwAomvD9W2GDmNljSI2hF3+CcpWNHf4cHrXCvum5MK8E8rWKymRC4MUt
-         okWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764848515; x=1765453315;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kjFhVVOEQY6uhoEI6giKaJgk6vc37uTqDkTp4AaJoWE=;
-        b=vuR/uqzoAts0ziW9OHt7wcFgVWN4K0+Jx14YnIt5wM0wJxpqVSDWbqpfehGTm/5Wa4
-         DTUBbw/KsBIBWUziGzVJNNR9ufOm5HlgFgtR4dVsWa80v+RBYZVRQzbbnkvhe2xQEmk9
-         kL3YoISJgndjyhLItKQAZ1HD4tVDOQDD2rR6bwmiKRG/OjesOnif5agq+uOyY5CVsLCw
-         LcqE6+7fiKc08lAdT8Glw6xwi+gjzBqeQaH0vsyKK2gLf+1+6CL9vd7kc7lxEqEGPiQR
-         cKAP9L1xXJ/6c/jnpI4FVbdy3ZJ0HORdrUNqgEtSy+pVjZx8qBYalyzIG9Aa9O9TfB2C
-         GGdA==
-X-Forwarded-Encrypted: i=1; AJvYcCVn7jNBeQ88ZXxUJfjwFxgt78wh7NFcrmdnniffRRrFqQ2FPCTHm2LGq8P3Ecu9XNz+it5nI1fol6L98WcQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK4XvgU/L719dVuPa8FnsbF52V1xRbZ4acpRaAtiW4OLRQS8P/
-	LcbMOtVskXY/oX0SAT/cTt7C6/Pq+H1jI0P4M24PqiQDlcF5+LsgxccxUr8AZhxEhXo=
-X-Gm-Gg: ASbGnct5u7YDbXTw5xmbnZtzsTKCydcaguf8O6ZGF+zhh897e2UMTkiTYb4ZI3ngsm0
-	6NrXh6WQF+4lyXZM5EzeyXR2Je9cDjO9VpUaidPK2vRDnjoDackhxAd9VVphT52GS6Lr+IKR0Br
-	wKEL6xPdtJ+DFyKZh7VWGO5ptf4ZNbTBlxWJ5tABdjJOoGY1mu69XH5AP9ApK0sv6KY/g++BpNz
-	gvI9L9SztiHS1wEk49d4wasFDh935QUn5EyIRp0j2UTvb/G/qstEwGjBDVK3SuHYwxJPRMUCtnl
-	pGWDJJnlVtRHfszja5jl4htFBdePm2zE+kcMX83KENc0h4dof/RatQD5sgQkdNEIezqUHbB9Awk
-	w40RE4nS4kbys618gVmSIGW/N6/1lpCFvykWd5OJ/9Uh4Sr1dvwbft6s+ZR4Q/NBV45J3JXa7Un
-	voZkdM8Gst1POYlQAp6cfvdzO7RWObaL+HFIp5ny2lw5Tud2s=
-X-Google-Smtp-Source: AGHT+IEOaAmw28t0tTl5hVeX2Mum9jtXSSUj4P5msGdFfKzt/vfxMyF8KUN/tmW3mGxNhYt7HmFFGQ==
-X-Received: by 2002:a05:6000:3112:b0:427:854:770 with SMTP id ffacd0b85a97d-42f731c2baamr5972162f8f.43.1764848515445;
-        Thu, 04 Dec 2025 03:41:55 -0800 (PST)
-Received: from localhost (h1f65.n1.ips.mtn.co.ug. [41.210.159.101])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42f7d331a4fsm2856951f8f.33.2025.12.04.03.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 03:41:54 -0800 (PST)
-Date: Thu, 4 Dec 2025 14:41:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 5/5] fs/f2fs/super.c:412
- f2fs_printk() error: we previously assumed 'sbi' could be null (see line
- 405)
-Message-ID: <202512041824.Rr334IOp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cW6S/WPI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02CEC4CEFB;
+	Thu,  4 Dec 2025 11:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764848836;
+	bh=RU/WFzv9G/hmGUffdDyIy3D1oRokOdlnN0/YJZWY0Lc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cW6S/WPIlZTF4qxRNQl5qWXtKIO8nYmhD6pjw6lyyPOTXWOECt1q1zZXKK2ncANCo
+	 3YMJ5ciA0xASVWigP0NDgbR34kTVZe5oy66SxzRba5X0+OA4XOY/NAdLSA7hz8+7Tl
+	 FMcsxDdr+5qsyGeRq9oTEtMlL72i9/J3JW/2MLCbyRFpxEKtn27ttEPOorhrYRIuc+
+	 cggSFWx1L3zG8GY0rOPETLrZiRemuCSxBAC4T/siIPxUSNxBZAOaecJTstyg2r3zjE
+	 lC9d1ifWaMOrznCRRAZplGk+iHD0TCZAlODKp2pBZWj3rY+lvZuwMuohx0Ek+tGpIP
+	 8uVcpspfcAAsg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Oliver Sang <oliver.sang@intel.com>, Daniel Gomez <da.gomez@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Benno Lossin <lossin@kernel.org>,
+ oliver.sang@intel.com
+Subject: Re: [linux-next:master 4752/13171] error[E0609]: no field
+ `__bindgen_anon_1` on type `bindings::kernel_param`
+In-Reply-To: <aTEi3KUUkPVGS3ix@xsang-OptiPlex-9020>
+References: <202512020454.Tf36WHw5-lkp@intel.com>
+ <3447801b-95f7-4368-a433-e79669b5d22e@kernel.org>
+ <lBhfqvej6RgECA1JyZ0zOpPTpcVF5ALMyOHAKGmHvM8HTxdqgCqEFn1xpvUGcCTJ31qM1Fptxl0DLLHcHZJo4g==@protonmail.internalid>
+ <aTEi3KUUkPVGS3ix@xsang-OptiPlex-9020>
+Date: Thu, 04 Dec 2025 12:47:05 +0100
+Message-ID: <87fr9qwjt2.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   ef2f661f7812939553f0ae21dbc880750b09a1c8
-commit: 1444d806aafbff95eed142f5fdfe178c3541c889 [5/5] ANDROID: vendor_hooks: add hooks for f2fs_printk
-config: i386-randconfig-141-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041824.Rr334IOp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi Oliver,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512041824.Rr334IOp-lkp@intel.com/
+"Oliver Sang" <oliver.sang@intel.com> writes:
 
-smatch warnings:
-fs/f2fs/super.c:412 f2fs_printk() error: we previously assumed 'sbi' could be null (see line 405)
+> hi, Daniel Gomez,
+>
+> On Tue, Dec 02, 2025 at 10:02:02PM +0100, Daniel Gomez wrote:
+>>
+>>
+>> On 01/12/2025 21.20, kernel test robot wrote:
+>> > Hi Andreas,
+>> >
+>> > FYI, the error/warning still remains.
+>> >
+>> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> > head:   95cb2fd6ce0ad61af54191fe5ef271d7177f9c3a
+>> > commit: 0b08fc292842a13aa496413b48c1efb83573b8c6 [4752/13171] rust: introduce module_param module
+>> > config: arm64-randconfig-001-20251202 (https://download.01.org/0day-ci/archive/20251202/202512020454.Tf36WHw5-lkp@intel.com/config)
+>> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+>> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+>> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020454.Tf36WHw5-lkp@intel.com/reproduce)
+>> >
+>> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> > the same patch/commit), kindly add following tags
+>> > | Reported-by: kernel test robot <lkp@intel.com>
+>> > | Closes: https://lore.kernel.org/oe-kbuild-all/202512020454.Tf36WHw5-lkp@intel.com/
+>> >
+>> > All errors (new ones prefixed by >>):
+>> >
+>> >>> error[E0609]: no field `__bindgen_anon_1` on type `bindings::kernel_param`
+>> >    --> rust/kernel/module_param.rs:78:46
+>> >    |
+>> >    78 |         let container = unsafe { &*((*param).__bindgen_anon_1.arg.cast::<SetOnce<T>>()) };
+>> >    |                                              ^^^^^^^^^^^^^^^^ unknown field
+>> >    |
+>> >    = note: available field is: `_address`
+>> >
+>>
+>> I can't replicate this issue either.
+>>
+>> I've added these patches to fix other unrelated build issues, so, I'm not sure
+>> how 0day ended up skipping them? Perhaps it uses head 95cb2fd6c? + bisect?
+>>
+>> a74b6c0e53a6d um: Don't rename vmap to kernel_vmap
+>> f74cf399e02e2 rust: debugfs: Replace the usage of Rust native atomics
+>> 013f912eb5fa7 rust: sync: atomic: Implement Debug for Atomic<Debug>
+>> 14e9a18b07ec4 rust: sync: atomic: Make Atomic*Ops pub(crate)
+>>
+>> My testing branch:
+>> https://git.kernel.org/pub/scm/linux/kernel/git/da.gomez/linux.git/log/?h=20251202-0day-test-0b08fc292842-with-fixes
+>>
+>> FWIW, this is what I've tried:
+>>
+>> rustc --version --verbose
+>> rustc 1.88.0 (6b00bc388 2025-06-23)
+>> binary: rustc
+>> commit-hash: 6b00bc3880198600130e1cf62b8f8a93494488cc
+>> commit-date: 2025-06-23
+>> host: x86_64-unknown-linux-gnu
+>> release: 1.88.0
+>> LLVM version: 20.1.5
+>>
+>> bindgen --version --verbose
+>> bindgen 0.72.1
+>
+> sorry for false positive. we confirmed this is an issue caused by a bug in
+> bindgen - https://github.com/rust-lang/rust-bindgen/issues/3264
+>
+> we used 0.72.0 when saw the issues. now we upgraded to 0.72.1 as you used, now
+> issue disappears.
 
-vim +/sbi +412 fs/f2fs/super.c
+Thanks for confirming!
 
-b1c9d3f833ba60 Chao Yu     2024-01-26  385  void f2fs_printk(struct f2fs_sb_info *sbi, bool limit_rate,
-b1c9d3f833ba60 Chao Yu     2024-01-26  386  					const char *fmt, ...)
-a07ef784356cf9 Namjae Jeon 2012-12-30  387  {
-a07ef784356cf9 Namjae Jeon 2012-12-30  388  	struct va_format vaf;
-a07ef784356cf9 Namjae Jeon 2012-12-30  389  	va_list args;
-dcbb4c10e6d969 Joe Perches 2019-06-18  390  	int level;
-a07ef784356cf9 Namjae Jeon 2012-12-30  391  
-a07ef784356cf9 Namjae Jeon 2012-12-30  392  	va_start(args, fmt);
-dcbb4c10e6d969 Joe Perches 2019-06-18  393  
-dcbb4c10e6d969 Joe Perches 2019-06-18  394  	level = printk_get_level(fmt);
-dcbb4c10e6d969 Joe Perches 2019-06-18  395  	vaf.fmt = printk_skip_level(fmt);
-a07ef784356cf9 Namjae Jeon 2012-12-30  396  	vaf.va = &args;
-b1c9d3f833ba60 Chao Yu     2024-01-26  397  	if (limit_rate)
-19c4b380f23e5a Hongbo Li   2025-07-10  398  		if (sbi)
-                                                            ^^^
+While we could see from the config that you were using bindgen 0.72.0,
+it was not clear to us where you get this bindgen from. Obtaining
+bindgen does not seem to be part of the reproducer instructions (or
+maybe I am not looking in the right place?).
 
-b1c9d3f833ba60 Chao Yu     2024-01-26  399  			printk_ratelimited("%c%cF2FS-fs (%s): %pV\n",
-b1c9d3f833ba60 Chao Yu     2024-01-26  400  				KERN_SOH_ASCII, level, sbi->sb->s_id, &vaf);
-b1c9d3f833ba60 Chao Yu     2024-01-26  401  		else
-19c4b380f23e5a Hongbo Li   2025-07-10  402  			printk_ratelimited("%c%cF2FS-fs: %pV\n",
-19c4b380f23e5a Hongbo Li   2025-07-10  403  				KERN_SOH_ASCII, level, &vaf);
-19c4b380f23e5a Hongbo Li   2025-07-10  404  	else
-19c4b380f23e5a Hongbo Li   2025-07-10 @405  		if (sbi)
-                                                            ^^^
-The existing code assumes sbi can be NULL
+If I understand correctly, this issue manifested only when building
+bindgen 0.72.0 with clang-22-git. Building this was next on our list in
+trying to reproduce, but getting to that conclusion took a while.
 
-dcbb4c10e6d969 Joe Perches 2019-06-18  406  			printk("%c%cF2FS-fs (%s): %pV\n",
-dcbb4c10e6d969 Joe Perches 2019-06-18  407  				KERN_SOH_ASCII, level, sbi->sb->s_id, &vaf);
-19c4b380f23e5a Hongbo Li   2025-07-10  408  		else
-19c4b380f23e5a Hongbo Li   2025-07-10  409  			printk("%c%cF2FS-fs: %pV\n",
-19c4b380f23e5a Hongbo Li   2025-07-10  410  				KERN_SOH_ASCII, level, &vaf);
-dcbb4c10e6d969 Joe Perches 2019-06-18  411  
-1444d806aafbff Rui Chen    2025-02-10 @412  	trace_android_vh_f2fs_printk(sbi->s_flag, &vaf, level, limit_rate);
-                                                                             ^^^^^^^^^^^
-But this code dereferences it without checking.
+Anyway, I want to ask if you can include directions for obtaining or
+building bindgen in your reproducer instructions?
 
-a07ef784356cf9 Namjae Jeon 2012-12-30  413  	va_end(args);
-a07ef784356cf9 Namjae Jeon 2012-12-30  414  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Andreas Hindborg
 
