@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A90E33BBA0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 22:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9AC2FB987;
+	Thu,  4 Dec 2025 23:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764889186; cv=none; b=A6vhiS42ft62powg1b/h99GSVh4ByWayOWS2z1nXVNxZTy/mO3fJW+HsAkIDNlsL0GDWcFZbXTBAkfZgFpyAZ7i7/kb/9bCEe7Ed0ZawQLa9wlAYehJvKuL9gGMjx4WdpW0tu4vOhlyCjnCaX+5S0+sv1zZHYbnz/iq2ZXLP050=
+	t=1764889843; cv=none; b=DkME7M4WCuwA7ujRJiIDtAa4PyICd1YwG3KHGG2jnisKcEIPU65uZkWPaL1opMTCYKmylqnig7JxpnE4KoZUxLOYYfgKVYydJojW+LHUrD/2XV4VWCyry/fe0PKUIYenJiF4W+PqFOBeoCP+w51JtNGSMVgdi+Y25QM0atrI0Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764889186; c=relaxed/simple;
-	bh=bX/q26f0A4kZyq06GQpJqJvy+TWCz0En8n2ZIw5PvqA=;
+	s=arc-20240116; t=1764889843; c=relaxed/simple;
+	bh=l6BJNjL0b3LJV5mLRw76/rQzyPwGMkQVTUX2LbpAOR8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g3CgJSUJAQZaOezptyeJ+aBceD6R11BJiryVsHfEM2ScMA9cp2bB+ZJEJDHCeioRqxgvFqoc1VCy61xyzUg204/v58H/h7LQdOMMbNUfUzQzpAnLb36maj/NNmBr9bcktb+h0hxO0lv5ZUYb+XSnG5Ag+/k1EXNxKhZvrTOyr/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmlJPhA/; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=bTBCTV4VQgYiNab3MJTfWtB4sDAG7M+axk6GWtmjJQhSPGoFwSZ/IMaqghMeQnI0x53mHWk+m7UHta2YjGLqidPe2hk6bEufNZv52aB1y0QUTE34CQ1zGAI9Z9eswzMtkdSjG2xYrPooR7nwZY7drWwjbsRnWTUIjRjl4e78fMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wz3cM1IW; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmlJPhA/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wz3cM1IW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764889183; x=1796425183;
+  t=1764889842; x=1796425842;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bX/q26f0A4kZyq06GQpJqJvy+TWCz0En8n2ZIw5PvqA=;
-  b=UmlJPhA/CWtMlaThyI8D6PO4F+dhhB6yiC8XRKeAFIAcR0PY2lqoDRVH
-   SaXe8IXlezbfWtyEvoImsDQsxObjIXaOxCo8WDDVPRa+8vuGfiBMzzUHI
-   tBtG9PZeDJ8THfbxgt5/1BlA/a/ONSl5vs9WZ748TvGcSyPHyEH4Ebs/j
-   lbR1KRO6JuyzcqKbmisQ2OPEafZT9JaWmmh4jBsG/D7JZ4b7Ui11nQSrk
-   TS+wPvp+OxEpyp6jiZemNbj75ds6FYLGKznPKw/Na4AzccU7imSa8sC8V
-   g8ZHy4M7XUXX4FCNI15SOji1Fgp/LgyD2YpcJhTztstbyHVZuOFliFfcZ
-   g==;
-X-CSE-ConnectionGUID: uv+rzcQbStS765yMXnaPEg==
-X-CSE-MsgGUID: T7zGpYfsS8yawPdA6fS9Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66815924"
+  bh=l6BJNjL0b3LJV5mLRw76/rQzyPwGMkQVTUX2LbpAOR8=;
+  b=Wz3cM1IWZcJe2nJHf3SYPjJsBMuCD7tyI/MLI33YjC3f0c/LXQmp7vFA
+   dRsBmYfIm09OOL5AlpuksJ3Cc97tVebJkJfX4p3rDnHBtoXAJiQvbJCaE
+   75e+ScBFhz6zbQsokVOMeBoAhk0o7mq6EFgNqCt3Xi7ChZbQj9vWnJER2
+   GmGlmcmkMEpKW1VuippV2NuifDDeYeYjt4PMXYsndM/1xoQ+zuaOm3LEC
+   fOEsUm/nr4gIePla/zswd3hwUS+xGhOsoMDQW3kvBpQEoKzLk8vlvB7GP
+   41vAcf5EX1qOy2z21c89E0Kd0kCmZfrDY4AETL9/bS+eEhLz6UTjY2TG1
+   w==;
+X-CSE-ConnectionGUID: A7Fsq5bcSKur6D1gHjrIxQ==
+X-CSE-MsgGUID: 8SFPfcdGSUqdBbK5VMbC9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66965807"
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="66815924"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 14:59:41 -0800
-X-CSE-ConnectionGUID: vj2+xdEQRf2HIIaweu/DRg==
-X-CSE-MsgGUID: aLD2zaT/QTOvzqCcAZTTfQ==
+   d="scan'208";a="66965807"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 15:10:41 -0800
+X-CSE-ConnectionGUID: Cx9i6rjITBalqoJltoRBxA==
+X-CSE-MsgGUID: m7du5gSPSUeKf35m9lmhaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="225775586"
+   d="scan'208";a="200075960"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Dec 2025 14:59:40 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 04 Dec 2025 15:10:40 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRIIU-00000000EKl-0lkS;
-	Thu, 04 Dec 2025 22:59:38 +0000
-Date: Fri, 5 Dec 2025 06:59:07 +0800
+	id 1vRIT8-00000000EL3-1eDv;
+	Thu, 04 Dec 2025 23:10:38 +0000
+Date: Fri, 5 Dec 2025 07:09:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 45/45] mm/vmalloc.c:2490:14: warning:
- no previous prototype for 'get_vm_area_page_order'
-Message-ID: <202512050655.POu34LmP-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2025-12-04 17/18]
+ sound/soc/codecs/wm8804.c:522:2: error: member reference base type 'int
+ (struct snd_soc_dai *, int, int, unsigned int, unsigned int)' is not a
+ structure or union
+Message-ID: <202512050753.jzKkAX1U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +64,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   01971ee6f581b7711da045de9e6d85ce8e0638a4
-commit: c331f3e9d0bb0872f05c4e55269bac3b27418062 [45/45] kho: add support for preserving vmalloc allocations
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251205/202512050655.POu34LmP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050655.POu34LmP-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2025-12-04
+head:   fb4e3e737845904b992450d498c56ca30359bb87
+commit: 262df0b88156ac882137cf936a09df668c275f0a [17/18] hoge
+config: x86_64-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512050753.jzKkAX1U-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050753.jzKkAX1U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512050655.POu34LmP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512050753.jzKkAX1U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/vmalloc.c:2490:14: warning: no previous prototype for 'get_vm_area_page_order' [-Wmissing-prototypes]
-    2490 | unsigned int get_vm_area_page_order(struct vm_struct *vm)
-         |              ^~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/wm8804.c:522:2: error: member reference base type 'int (struct snd_soc_dai *, int, int, unsigned int, unsigned int)' is not a structure or union
+     521 |         .set_pll = wm8804_set_pll
+         |                    ~~~~~~~~~~~~~~
+     522 |         .auto_selectable_formats = &wm8804_selectable_formats,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/get_vm_area_page_order +2490 mm/vmalloc.c
+vim +522 sound/soc/codecs/wm8804.c
 
-  2489	
-> 2490	unsigned int get_vm_area_page_order(struct vm_struct *vm)
-  2491	{
-  2492		return vm_area_page_order(vm);
-  2493	}
-  2494	
+   504	
+   505	static const u64 wm8804_selectable_formats =
+   506		SND_SOC_POSSIBLE_DAIFMT_I2S	|
+   507		SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
+   508		SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+   509		SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
+   510		SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
+   511		SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
+   512		SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
+   513		SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
+   514		SND_SOC_POSSIBLE_DAIFMT_IB_IF;
+   515	
+   516	static const struct snd_soc_dai_ops wm8804_dai_ops = {
+   517		.hw_params = wm8804_hw_params,
+   518		.set_fmt = wm8804_set_fmt,
+   519		.set_sysclk = wm8804_set_sysclk,
+   520		.set_clkdiv = wm8804_set_clkdiv,
+   521		.set_pll = wm8804_set_pll
+ > 522		.auto_selectable_formats = &wm8804_selectable_formats,
+   523		.num_auto_selectable_formats = 1,
+   524	};
+   525	
 
 -- 
 0-DAY CI Kernel Test Service
