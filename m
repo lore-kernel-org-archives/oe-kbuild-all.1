@@ -1,140 +1,156 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CE1DE4E1;
-	Thu,  4 Dec 2025 08:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D7B32572B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 08:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764836374; cv=none; b=qTCPpekMV733Kh5aHbPbGkAdhVUzpB8wtT239sOKNG6nOS9E71Y9dVnQcITaA6b58BzoSRJPcP9QVOybMjjdr28twglOfwN+O8KHfzVoLPpSVD3qovMX26i3IS5IYkVPg90BS6PCGWM5EllndRyuZErcSpCl8+fznSa1gLX3jRI=
+	t=1764836754; cv=none; b=RmRLfXWVUSAwkT3HADpCyCg9Hn5O7Q072o7qfT0kO/t9ISCY6FMhyw2HBzFNiwxJbG5nEUmPTBWsgleW1U6nkMmy7M0wtPawxOFZCJEJiaIi9uE+bL+RGFtECl7LUw+7BsqBowXQX7cewMguqhMcAqEEjKHR0dv66UXCO8JIBKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764836374; c=relaxed/simple;
-	bh=F4MOGEBbJx/awVa2QOmQ8xIPGzE0XjtbB1nvvmmyLd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLSTy7AbTO49SKeRDu3MX7/5E1yEc7JHkrC96cU1djnnS4qe90m1gFctSCx+pzM4C7O01Yw3qw5UnmxlWtva5hNLEMpbd8q3uJTMMvzyl98VQ+tjS54l/4Q3Le8eYBUCnCSSKsfbGBcurjmXton1x/7gQZaRH3/hUfV/7YX5IlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B9oNiX6p; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1764836754; c=relaxed/simple;
+	bh=OtdK3gQ1XN6eX93J0iKVYJw5PHEEjT6iMc8Dc0XV9Z0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=LzDEniGNEpGJ41C2TCaQvgLXOmJODGvxnHwzy2mzOs//eFDJSscoBj5mQCVPW9uEmnzNQJF1oqXS/SIFTtp2moNDEONs6oXKqoGJ9fQ9VVbDYZQmqV66XXTcyAADERNjk7xaWmnVWYsEbYm2hFDRnb2aORUZImU4bowEhwMRG0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tP6UQImN; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B9oNiX6p"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=TrffoYNSG+1mpO4I719udc0KZUrd2KhSrNvEZFdxZ4M=; b=B9oNiX6paT3xv8r39g1qQNvoV5
-	c4Pdvx9NcvYdAiGlRv2MOMu61zrMLFbCtXrq2dTeewuvs6+mZwfUuXnX3hvcoe2yBHx1Mo0jRJz2f
-	ysWA8siVxI3BOMHLmEpbIr3EDoTdLPeRoq8TQItKnWymlRtp83v1gucseF3GNlxmiDJTM9imy7p1z
-	GTqe9s/QXXV4vw3mE6jeW4dsZksCu0pbG/gf4+uWrCHME837ouoXqbEPEQqi/0n6gnVjSsEng53Xi
-	UGdPPXW62cdPF58oFGVazmBf40c6uV/+qNtQ+9QYy1k03hoOCiVxnq9JdbBEjdXrYgyjrZH38c9/D
-	zayHCbSg==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vR4Yf-00000003ut4-3jM1;
-	Thu, 04 Dec 2025 08:19:26 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 63D0430027B; Thu, 04 Dec 2025 09:19:14 +0100 (CET)
-Date: Thu, 4 Dec 2025 09:19:14 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Oleg Nesterov <oleg@redhat.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: include/linux/seqlock.h:1257:undefined reference to
- `__scoped_seqlock_bug'
-Message-ID: <20251204081914.GA2528459@noisy.programming.kicks-ass.net>
-References: <202512032230.5pqkcg8x-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tP6UQImN"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42e2e08b27eso284587f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 00:25:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764836751; x=1765441551; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
+        b=tP6UQImN2cfHKbex3fk1IDVrVi1naS/kAdjDjgwFattxGxqjONU3u7qRI43kFV7JDH
+         bPWmhgRmYQMCAFZdk1ASsi4YNnjytq9E8ct0BWBHdGO1eWbi3gvkizjYBSkjw+FBG7fW
+         EJq4JMiUYg0g+OR7nmS/CzFNOn0IJsuE2oXmhgDtFoyha+swLhy4geZG4Vw1wClgR6Fi
+         +eCLSG4B9v+DkOYeSjQiI8U7ccH9mV8LEYnDbcukTqxCvdbMfwfOlbOlAFucurTuutzp
+         t7vA2qrH2FgmXhOJt1U41m/AZ3IagTGcTDUfLNBH21HCA67/Lx/pHxn6EOf22gEFCLP9
+         vYeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764836751; x=1765441551;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
+        b=H2r8NI7UOKrUvL8Q84oAc8WbDoImrRfZaJRfGrGXVYALbc7guPwN+Nr/y7uywlIpF0
+         TzLGc6QsQJC8zyqieFtbCV8yPWGWBsch+fBbKfzoupaDpEIBpU3ped6ovssNd3UP7a9W
+         EaF3xfanJ19ortamGzsdKUOeB5wAq0L+zUMzB2a2gM7Z1N7duiglcSDA2BI9JCzZYQ9B
+         w3tbPy14FPtqC+GhjmhdQj/xCwrvoKeJCV2PkdDXeg1F8yCc8BLkUZY6BdDAlT1ZdCu4
+         0YBetxpdSfAlkpU40z2aFY8MkDiQvJtY1MyKhlgUb55FG6r8WtM3ZAKgS8djRXuyPRpa
+         CKuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXl5HfbTj4OPrDk1SGg8yDkce/aLQrrwYFfY0xtXddYXNrnSWd5P0IQ7mIOn+FjPbvF9m+JzhJVfxStd5u@lists.linux.dev
+X-Gm-Message-State: AOJu0YySEzkh6nxbvLuG3arMAaTxK0/x4qmmws2hXg+kHbOLc/Zlcbjl
+	03PLGxuStOK9Wj3+M6XbCXm2c24sjxxN6Bq8AMPATiaDJeAqB6VKfZByw8cji6C55PU=
+X-Gm-Gg: ASbGncvowIMLIR3r6huSfjK/1B3t946T7bezykxCE8Q34lc5TbsHzSVrqfXvDuhoeUi
+	NY6WAtnb/MZA1z5TnMQpD+IhnMzCRxFB7TVNPrZ9Sg3aj5vz0LjP+L4Od6/2ctOp1iFniMT+PDT
+	6anMWH340N8LnoAf/yqhVr1Z/CRZgTuwuqkoOgMS7uZJpXUo9ZLAVSyBq7Bwocen7D8v+05FC0e
+	q92UK6N8YVPgs/Ru6CYsZlgtIcjaxW7mlzFJw6WlyvUBCcXhKEJsewFbcf+8YuVaHXCyS+A8QEB
+	kbclDePksAyZNMptwk3llZ1/ybv5l75m0/0Yqmnrt718g+cbG8kbkJqd0cwvDEDyDQK+0ySCtiZ
+	lJuTUzITflTjYSh/Uwl8V77HT7P/YJm70v6vbeUGRcRGtnZnFceGiMCoE02qyOnOliTrcwquDOT
+	guzi/ZdBxe/Yk/0MYd
+X-Google-Smtp-Source: AGHT+IFqPjsWxMKuAwr/tYTZtrbROcoydreYmSrR+FokvUIODLoD32s0/Ejyc9FIKKndz+AO6vzyDQ==
+X-Received: by 2002:a05:6000:1889:b0:42b:41dc:1b5d with SMTP id ffacd0b85a97d-42f73187286mr5177890f8f.25.1764836750665;
+        Thu, 04 Dec 2025 00:25:50 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42f7d2231dfsm1807493f8f.26.2025.12.04.00.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 00:25:49 -0800 (PST)
+Date: Thu, 4 Dec 2025 11:25:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, sunpeng.li@amd.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com,
+	Nicholas.Kazlauskas@amd.com, simona@ffwll.ch, airlied@gmail.com,
+	Leo Li <sunpeng.li@amd.com>
+Subject: Re: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
+Message-ID: <202512041153.nYks4oYu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202512032230.5pqkcg8x-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251201231807.287414-1-sunpeng.li@amd.com>
 
-On Wed, Dec 03, 2025 at 10:22:28PM +0800, kernel test robot wrote:
-> Hi Oleg,
-> 
-> FYI, the error/warning still remains.
+Hi,
 
-I don't have this report in my inbox. I had some for other builds, which
-I fixed, but not this one.
+kernel test robot noticed the following build warnings:
 
-Anyway, let me go stare at it. This is the optimizer failing in some
-way.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   3f9f0252130e7dd60d41be0802bf58f6471c691d
-> commit: 488f48b32654dc6be04d9cc12f75ce030c9cb21b seqlock: Change thread_group_cputime() to use scoped_seqlock_read()
-> date:   6 weeks ago
-> config: arm-mvebu_v5_defconfig (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251203/202512032230.5pqkcg8x-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512032230.5pqkcg8x-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    arm-linux-gnueabi-ld: kernel/sched/build_policy.o: in function `__scoped_seqlock_next':
-> >> include/linux/seqlock.h:1257:(.text+0x96a0): undefined reference to `__scoped_seqlock_bug'
-> 
-> 
-> vim +1257 include/linux/seqlock.h
-> 
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1251  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1252  static inline void
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1253  __scoped_seqlock_next(struct ss_tmp *sst, seqlock_t *lock, enum ss_state target)
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1254  {
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1255  	switch (sst->state) {
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1256  	case ss_done:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09 @1257  		__scoped_seqlock_bug();
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1258  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1259  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1260  	case ss_lock:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1261  	case ss_lock_irqsave:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1262  		sst->state = ss_done;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1263  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1264  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1265  	case ss_lockless:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1266  		if (!read_seqretry(lock, sst->data)) {
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1267  			sst->state = ss_done;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1268  			return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1269  		}
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1270  		break;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1271  	}
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1272  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1273  	switch (target) {
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1274  	case ss_done:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1275  		__scoped_seqlock_invalid_target();
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1276  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1277  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1278  	case ss_lock:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1279  		sst->lock = &lock->lock;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1280  		spin_lock(sst->lock);
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1281  		sst->state = ss_lock;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1282  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1283  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1284  	case ss_lock_irqsave:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1285  		sst->lock_irqsave = &lock->lock;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1286  		spin_lock_irqsave(sst->lock_irqsave, sst->data);
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1287  		sst->state = ss_lock_irqsave;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1288  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1289  
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1290  	case ss_lockless:
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1291  		sst->data = read_seqbegin(lock);
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1292  		return;
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1293  	}
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1294  }
-> cc39f3872c0865 Peter Zijlstra 2025-10-09  1295  
-> 
-> :::::: The code at line 1257 was first introduced by commit
-> :::::: cc39f3872c0865bef992b713338df369554fa9e0 seqlock: Introduce scoped_seqlock_read()
-> 
-> :::::: TO: Peter Zijlstra <peterz@infradead.org>
-> :::::: CC: Peter Zijlstra <peterz@infradead.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20251202-072501
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20251201231807.287414-1-sunpeng.li%40amd.com
+patch subject: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
+config: nios2-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041153.nYks4oYu-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512041153.nYks4oYu-lkp@intel.com/
+
+smatch warnings:
+drivers/gpu/drm/drm_vblank.c:1527 drm_crtc_vblank_on_config() warn: variable dereferenced before check 'crtc' (see line 1519)
+
+vim +/crtc +1527 drivers/gpu/drm/drm_vblank.c
+
+0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1516  void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
+0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1517  			       const struct drm_vblank_crtc_config *config)
+3ed4351a83ca05d Simona Vetter 2017-05-31  1518  {
+3ed4351a83ca05d Simona Vetter 2017-05-31 @1519  	struct drm_device *dev = crtc->dev;
+3ed4351a83ca05d Simona Vetter 2017-05-31  1520  	unsigned int pipe = drm_crtc_index(crtc);
+                                                                                           ^^^^
+Unchecked dereference.  I'm pretty certain crtc can't be NULL.
+
+d12e36494dc2bf2 Ville Syrjälä 2024-04-08  1521  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+38bd1e412d0aa4b Leo Li        2025-12-01  1522  	int ret;
+3ed4351a83ca05d Simona Vetter 2017-05-31  1523  
+5a4784f49b2dcff Sam Ravnborg  2020-05-23  1524  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+3ed4351a83ca05d Simona Vetter 2017-05-31  1525  		return;
+3ed4351a83ca05d Simona Vetter 2017-05-31  1526  
+38bd1e412d0aa4b Leo Li        2025-12-01 @1527  	if (crtc) {
+                                                        ^^^^^^^^^^^
+So this NULL check is too late, and can be removed.
+
+38bd1e412d0aa4b Leo Li        2025-12-01  1528  		ret = drm_crtc_vblank_prepare(crtc);
+38bd1e412d0aa4b Leo Li        2025-12-01  1529  		drm_WARN_ON(dev, ret);
+38bd1e412d0aa4b Leo Li        2025-12-01  1530  		if (ret)
+38bd1e412d0aa4b Leo Li        2025-12-01  1531  			return;
+38bd1e412d0aa4b Leo Li        2025-12-01  1532  	}
+38bd1e412d0aa4b Leo Li        2025-12-01  1533  
+92cc68e35863c1c Lyude Paul    2020-07-20  1534  	spin_lock_irq(&dev->vbl_lock);
+02149a76d32bd8f Sam Ravnborg  2020-05-23  1535  	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
+3ed4351a83ca05d Simona Vetter 2017-05-31  1536  		    pipe, vblank->enabled, vblank->inmodeset);
+3ed4351a83ca05d Simona Vetter 2017-05-31  1537  
+0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1538  	vblank->config = *config;
+0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1539  
+3ed4351a83ca05d Simona Vetter 2017-05-31  1540  	/* Drop our private "prevent drm_vblank_get" refcount */
+3ed4351a83ca05d Simona Vetter 2017-05-31  1541  	if (vblank->inmodeset) {
+3ed4351a83ca05d Simona Vetter 2017-05-31  1542  		atomic_dec(&vblank->refcount);
+3ed4351a83ca05d Simona Vetter 2017-05-31  1543  		vblank->inmodeset = 0;
+3ed4351a83ca05d Simona Vetter 2017-05-31  1544  	}
+3ed4351a83ca05d Simona Vetter 2017-05-31  1545  
+3ed4351a83ca05d Simona Vetter 2017-05-31  1546  	drm_reset_vblank_timestamp(dev, pipe);
+3ed4351a83ca05d Simona Vetter 2017-05-31  1547  
+3ed4351a83ca05d Simona Vetter 2017-05-31  1548  	/*
+3ed4351a83ca05d Simona Vetter 2017-05-31  1549  	 * re-enable interrupts if there are users left, or the
+3ed4351a83ca05d Simona Vetter 2017-05-31  1550  	 * user wishes vblank interrupts to be enabled all the time.
+3ed4351a83ca05d Simona Vetter 2017-05-31  1551  	 */
+0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1552  	if (atomic_read(&vblank->refcount) != 0 || !vblank->config.offdelay_ms)
+5a4784f49b2dcff Sam Ravnborg  2020-05-23  1553  		drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
+92cc68e35863c1c Lyude Paul    2020-07-20  1554  	spin_unlock_irq(&dev->vbl_lock);
+3ed4351a83ca05d Simona Vetter 2017-05-31  1555  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
