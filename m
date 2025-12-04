@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C555274FE9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 21:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D7532C931
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 Dec 2025 22:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764885280; cv=none; b=HEsAgDWDxf0fnRlHP735zay5XS1itV90ArY/88HRPwTKrG64h1ExxsX32895Tn74hPBu6qwUZxc5CJsw5Y2SJ32IC3dsT4s8RN962FLyY1gJOJIfBCDasZbT8QYhgQfTIJw/Zl3y4qIhsAktAG7jOjfLVc2ibNth4ZHo7qlLC6w=
+	t=1764886549; cv=none; b=dEn0QhC0sggiqVvqT9xPmCARGFYtIhqtjOW7YvG+hfb07B9Gm2A/HeaIM8dWbRlJiTSy323nX9N9jaIpTMG0JXlwyvrK2FNDPmTtEVocItAX2j0UdJdxizoj2EePChjS8xnXUhwrpVBAl+sSKIl59oKHVLNJSYPcz57CXSla0KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764885280; c=relaxed/simple;
-	bh=58kqj7+fF8LHzy28qrcI4+NudBnXtoXFbO+zcJiK7x8=;
+	s=arc-20240116; t=1764886549; c=relaxed/simple;
+	bh=QdSRcY8BrPno/xUfa4B3Hwt+7kmeX+p7ZlhyIB/M558=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fHE9RIMpYqbR2GBHsvlgmKktaIeBeaBxq+dmkouLjNyJnVOjnJW/xPlXGKZTnNEK5S7XxNTwsUM8q7mR/Wz4qo07PCXyFyh5va3IdDJnhfiZUAQpqhwayLSTo0og64wz3SxP5zGf/CG+Map+Q6ToC5GuGCm8e5nVkNcYaspRoXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CX68EWgU; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=WCJYDq9LAaYv5ZmYHPjFWg0C3+UQgsQDkmO+YpvLzb3ApyWWxT8vC8cLq4CvMch9WXk3mFHjaIXp5O2L/9uUEwTh2IDF/5IcHG+1dM66S6KPcAuZRNU/O8jcPsuIzKfMMqVXeiE+lrpaofwtbXJP7HqNfz77oc8Ye0BSx9v7Ngs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWVfggmR; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CX68EWgU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWVfggmR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764885278; x=1796421278;
+  t=1764886545; x=1796422545;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=58kqj7+fF8LHzy28qrcI4+NudBnXtoXFbO+zcJiK7x8=;
-  b=CX68EWgUqGi+NvDxKeCy/5QJMCsI6Be8V0bV2xqlSTzvkdx0AXa4+z7y
-   d6GXkxNs5nho9xjv3Z8AO78KbcYWP1VpNYTTO+6TfNCnsCBxmjD79Lbmu
-   nBz3FcVF4ceqxYeOOfKmxZMBcEONBt4TfOgQAye4CJK/IJ1m7z22HWygS
-   /s2RL2QWLsynk6763TQ9cdWafleOW7xWOSlHNSPYsN4uYCakWqxxh2Z5t
-   XTvpZevMpxvhziuNyYEMdhn05Hq3KyqzE72QXNxgrv/jdPReRZ78YMK21
-   rtRRO+lITh/Qugwtk6oU7ttagSDB2xK2d2NHdJ2ea5czJf9N2tebrGYuO
-   Q==;
-X-CSE-ConnectionGUID: 6a+sH5BtRqKukimNM5s44g==
-X-CSE-MsgGUID: tOZx+c2+SVSUWd9b2t63vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="54467170"
+  bh=QdSRcY8BrPno/xUfa4B3Hwt+7kmeX+p7ZlhyIB/M558=;
+  b=gWVfggmRm15A5pEC2+acxMDpAeBfQhRKoBpojIeEUPYa4I7asEugZP4J
+   PsvByI3YkRwwoX0+2PkIBgyFonpTnYLfTRCANln9qtI3ThATQMExyABb2
+   Tup9vUT0E1JEuTTVjYpsTBpyngOzSBcVX91sHV4Ltpa0nfTOeUa7D2y9H
+   vTIgsiw4xxb48wCAq41ac+S1hIMIfsLA3aSJolCFojLce8lNVia8B2Jct
+   nQgd6uipf/bEcR18VMWMO1WgAI47qNI5dXcKKyohU7rCStE8ibDQQ2F8g
+   f2QPPbamz9an7VQgwdXvXJJyeYtKvtQA/KcBzG8u+gD8OxehLqhtatqSi
+   A==;
+X-CSE-ConnectionGUID: LbbfMp9fQn2FkCqS5MsF/Q==
+X-CSE-MsgGUID: 67wxUhXwSNeCj0n3Ozvwew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70769243"
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="54467170"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 13:54:38 -0800
-X-CSE-ConnectionGUID: lQisO1plRgG5rznboshbYQ==
-X-CSE-MsgGUID: QR96z4UWQR6t+dqvRMlSQg==
+   d="scan'208";a="70769243"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 14:15:38 -0800
+X-CSE-ConnectionGUID: Nu8AJmVSQq2njjpOCgvyFw==
+X-CSE-MsgGUID: 7grg76YIQ7CnIHltKA0ewA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="218458821"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2025 13:54:36 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2025 14:15:37 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRHHW-00000000EHN-1k4f;
-	Thu, 04 Dec 2025 21:54:34 +0000
-Date: Fri, 5 Dec 2025 05:54:25 +0800
+	id 1vRHbr-00000000EIb-2KXW;
+	Thu, 04 Dec 2025 22:15:35 +0000
+Date: Fri, 5 Dec 2025 06:14:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 0/5]
- kernel/trace/power-traces.c:20:1: error: use of undeclared identifier
- '__tracepoint_device_pm_callback_start'
-Message-ID: <202512050528.xyfBhmAV-lkp@intel.com>
+Subject: [peterz-queue:sched/flat 22/22] kernel/sched/fair.c:1210:38: sparse:
+ sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202512050605.KqhW1pE5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +60,193 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Carlos,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   f0e39411b4d330805aba371a8c2218550d01fb9d
-commit: 380603d5f29a2265cb058a9ce5f2171f096ccca1 [0/5] Merge 2be6a7503d32 ("Merge tag 'trace-unused-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace") into android-mainline
-config: x86_64-randconfig-103-20251204 (https://download.01.org/0day-ci/archive/20251205/202512050528.xyfBhmAV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050528.xyfBhmAV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/flat
+head:   eaad49852269b521e02cff73adc8b8a432fda88e
+commit: eaad49852269b521e02cff73adc8b8a432fda88e [22/22] sched/eevdf: Move to a single runqueue
+config: loongarch-randconfig-r133-20251130 (https://download.01.org/0day-ci/archive/20251205/202512050605.KqhW1pE5-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512050605.KqhW1pE5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512050528.xyfBhmAV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512050605.KqhW1pE5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:1117:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:1117:49: sparse:     expected struct task_struct *running
+   kernel/sched/fair.c:1117:49: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:1151:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1151:33: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:1151:33: sparse:     got struct sched_entity [noderef] __rcu *
+>> kernel/sched/fair.c:1210:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1210:38: sparse:     expected struct sched_entity *se
+   kernel/sched/fair.c:1210:38: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:12722:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12722:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12722:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8225:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8225:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:8225:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8429:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:8429:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:8429:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8604:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8604:39: sparse:     expected struct task_struct *donor
+   kernel/sched/fair.c:8604:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:8637:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8637:37: sparse:     expected struct task_struct *tsk
+   kernel/sched/fair.c:8637:37: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8843:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/fair.c:8843:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8843:38: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/fair.c:9878:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:9878:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair.c:9878:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair.c:10506:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:10506:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:10506:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:11978:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11978:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:11978:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11616:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11616:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:11616:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:12091:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12091:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12091:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:6536:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2292:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2292:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2292:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2303:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2303:26: sparse:    struct task_struct *
 
->> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__tracepoint_device_pm_callback_start'
-      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
-         | ^
-   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^
-   <scratch space>:39:1: note: expanded from here
-      39 | __tracepoint_device_pm_callback_start
-         | ^
->> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__traceiter_device_pm_callback_start'
-   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
-         |                           ^
-   <scratch space>:46:1: note: expanded from here
-      46 | __traceiter_device_pm_callback_start
-         | ^
->> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__SCK__tp_func_device_pm_callback_start'
-   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:54:1: note: expanded from here
-      54 | __SCK__tp_func_device_pm_callback_start
-         | ^
->> kernel/trace/power-traces.c:20:1: error: use of undeclared identifier '__SCT__tp_func_device_pm_callback_start'
-   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-         |                           ^
-   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
-      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:61:1: note: expanded from here
-      61 | __SCT__tp_func_device_pm_callback_start
-         | ^
->> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__tracepoint_device_pm_callback_end'
-      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
-         | ^
-   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^
-   <scratch space>:4:1: note: expanded from here
-       4 | __tracepoint_device_pm_callback_end
-         | ^
->> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__traceiter_device_pm_callback_end'
-   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
-         |                           ^
-   <scratch space>:11:1: note: expanded from here
-      11 | __traceiter_device_pm_callback_end
-         | ^
->> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__SCK__tp_func_device_pm_callback_end'
-   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:19:1: note: expanded from here
-      19 | __SCK__tp_func_device_pm_callback_end
-         | ^
->> kernel/trace/power-traces.c:21:1: error: use of undeclared identifier '__SCT__tp_func_device_pm_callback_end'
-   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-         |                           ^
-   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
-      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:26:1: note: expanded from here
-      26 | __SCT__tp_func_device_pm_callback_end
-         | ^
-   8 errors generated.
+vim +1210 kernel/sched/fair.c
 
-
-vim +/__tracepoint_device_pm_callback_start +20 kernel/trace/power-traces.c
-
-6161352142d5fe Arjan van de Ven  2009-09-17  16  
-c9257f78b4f785 Todd E Brandt     2014-12-12  17  EXPORT_TRACEPOINT_SYMBOL_GPL(suspend_resume);
-25e41933b58777 Thomas Renninger  2011-01-03  18  EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_idle);
-9bdcb44e391da5 Rafael J. Wysocki 2016-04-02  19  EXPORT_TRACEPOINT_SYMBOL_GPL(cpu_frequency);
-c1e2c674005c75 Changki Kim       2020-07-02 @20  EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
-c1e2c674005c75 Changki Kim       2020-07-02 @21  EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
-
-:::::: The code at line 20 was first introduced by commit
-:::::: c1e2c674005c758817710ba1714d35185f6fa8b6 ANDROID: PM: sleep: export device_pm_callback_start/end trace event
-
-:::::: TO: Changki Kim <changki.kim@samsung.com>
-:::::: CC: Jonglin Lee <jonglin@google.com>
+  1104	
+  1105	static s64 update_se(struct rq *rq, struct sched_entity *se)
+  1106	{
+  1107		u64 now = rq_clock_task(rq);
+  1108		s64 delta_exec;
+  1109	
+  1110		delta_exec = now - se->exec_start;
+  1111		if (unlikely(delta_exec <= 0))
+  1112			return delta_exec;
+  1113	
+  1114		se->exec_start = now;
+  1115		if (entity_is_task(se)) {
+  1116			struct task_struct *donor = task_of(se);
+> 1117			struct task_struct *running = rq->curr;
+  1118			/*
+  1119			 * If se is a task, we account the time against the running
+  1120			 * task, as w/ proxy-exec they may not be the same.
+  1121			 */
+  1122			running->se.exec_start = now;
+  1123			running->se.sum_exec_runtime += delta_exec;
+  1124	
+  1125			trace_sched_stat_runtime(running, delta_exec);
+  1126			account_group_exec_runtime(running, delta_exec);
+  1127	
+  1128			/* cgroup time is always accounted against the donor */
+  1129			cgroup_account_cputime(donor, delta_exec);
+  1130		} else {
+  1131			/* If not task, account the time against donor se  */
+  1132			se->sum_exec_runtime += delta_exec;
+  1133		}
+  1134	
+  1135		if (schedstat_enabled()) {
+  1136			struct sched_statistics *stats;
+  1137	
+  1138			stats = __schedstats_from_se(se);
+  1139			__schedstat_set(stats->exec_max,
+  1140					max(delta_exec, stats->exec_max));
+  1141		}
+  1142	
+  1143		return delta_exec;
+  1144	}
+  1145	
+  1146	/*
+  1147	 * Used by other classes to account runtime.
+  1148	 */
+  1149	s64 update_curr_common(struct rq *rq)
+  1150	{
+  1151		return update_se(rq, &rq->donor->se);
+  1152	}
+  1153	
+  1154	/*
+  1155	 * Update the current task's runtime statistics.
+  1156	 */
+  1157	static void update_curr(struct cfs_rq *cfs_rq)
+  1158	{
+  1159		/*
+  1160		 * Note: cfs_rq->curr corresponds to the task picked to
+  1161		 * run (ie: rq->donor.se) which due to proxy-exec may
+  1162		 * not necessarily be the actual task running
+  1163		 * (rq->curr.se). This is easy to confuse!
+  1164		 */
+  1165		struct sched_entity *curr = cfs_rq->h_curr;
+  1166		struct rq *rq = rq_of(cfs_rq);
+  1167		s64 delta_exec;
+  1168		bool resched;
+  1169	
+  1170		if (unlikely(!curr))
+  1171			return;
+  1172	
+  1173		delta_exec = update_se(rq, curr);
+  1174		if (unlikely(delta_exec <= 0))
+  1175			return;
+  1176	
+  1177		account_cfs_rq_runtime(cfs_rq, delta_exec);
+  1178	
+  1179		if (!entity_is_task(curr))
+  1180			return;
+  1181	
+  1182		cfs_rq = &rq->cfs;
+  1183	
+  1184		curr->vruntime += calc_delta_fair(delta_exec, curr);
+  1185		resched = update_deadline(cfs_rq, curr);
+  1186	
+  1187		/*
+  1188		 * If the fair_server is active, we need to account for the
+  1189		 * fair_server time whether or not the task is running on
+  1190		 * behalf of fair_server or not:
+  1191		 *  - If the task is running on behalf of fair_server, we need
+  1192		 *    to limit its time based on the assigned runtime.
+  1193		 *  - Fair task that runs outside of fair_server should account
+  1194		 *    against fair_server such that it can account for this time
+  1195		 *    and possibly avoid running this period.
+  1196		 */
+  1197		dl_server_update(&rq->fair_server, delta_exec);
+  1198	
+  1199		if (cfs_rq->h_nr_queued == 1)
+  1200			return;
+  1201	
+  1202		if (resched || !protect_slice(curr)) {
+  1203			resched_curr_lazy(rq);
+  1204			clear_buddies(cfs_rq, curr);
+  1205		}
+  1206	}
+  1207	
+  1208	static void update_curr_fair(struct rq *rq)
+  1209	{
+> 1210		struct sched_entity *se = &rq->donor->se;
+  1211	
+  1212		for_each_sched_entity(se)
+  1213			update_curr(cfs_rq_of(se));
+  1214	}
+  1215	
 
 -- 
 0-DAY CI Kernel Test Service
