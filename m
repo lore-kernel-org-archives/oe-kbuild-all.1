@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6288F1C8611
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 04:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0EF73FFD;
+	Fri,  5 Dec 2025 05:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764910563; cv=none; b=JXFia7nxiCYPRbrjbUtB1e9qXK2CNQ2opppaI1glxTmNlNq7bsUuHPxY47U6W2INK4d6NM12Vcg6vVhdjrYdeY/Dk7swVECAL57xapgJWFpjbtalMRrHvJG+6XzJfstuhQUvsFuFAybsyDynIfptQXf03xgVVuZeTfGnRKxKq5c=
+	t=1764911943; cv=none; b=Ivu6tJDfRt+wcLekOX2pDTRQg4kIs8Gtk/M9QUreK2dJ29xjR+eE9Q8riVM3BoWNBD0FN5VmrRsXc4r4JgVTo3yX7EY2nz0+MmrhXCq0f5exW3AHpnRB2aJW1uvEKJV4l/k8GP5S37bCHzSwoOlf1tnhtc6szuzBuURJJ1CB0sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764910563; c=relaxed/simple;
-	bh=yPZVPVdMlN9gGwGOC78fcfSb7vHD0bptmFKIZdPd11M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B9eqpvO3/REt0HENbrm+FrrCXb3pIFv8LT5FlKtXV65GnUR10UYzPzuoB/3vliAuwY2ZQemtyj4NV5SAnMiSA1ptN0g+ELIZsCamlO/WhGBgUoi8gHst8KYe8zNJ/ODI8Tdg5KBN2fuZxNlQx9juJuzTEreGurold7/11TviBsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0ov6bh1; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1764911943; c=relaxed/simple;
+	bh=+Cd+8pVYVsP79D8v2dIbSAcD5y4RsPXkPEGmi3y+wiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dEZFhcePGPkLDnB3ReRS6O+ZEQDxvLg442zg/QRfM1yjn5Q01mZcsmZJx855NkpLnIy10ilTk6RAPjfh6bncP039BQYEfgz7zQT2RUKM+hOesTuFRKF2Yz9tx8eOQZ9TVNIdrC/NOtbam5eD7H708u3mbZOSQoeHkM61efGHjiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3TxryQk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0ov6bh1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3TxryQk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764910560; x=1796446560;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yPZVPVdMlN9gGwGOC78fcfSb7vHD0bptmFKIZdPd11M=;
-  b=d0ov6bh1DXixkNRDlzkarXODJ2R18sAH0WrNJJMSwUTB4CpyUdTdBEGG
-   GOoApk++K5ZjeH1923k76t/xxkiJ2XVOugQ4BlbP6JVh4WSYVadVecfI0
-   xbVOlCnek/f7LwEbQuFeb8nWgWJ5UqSgJRl7u5WWcqHbrxwItiyseQ00u
-   qKd/lvVbn/TyusN2dx2+Oix0HVOkK7tEgw+Vx2Ze8shrubvjyXXZrkPzc
-   FRP3q5RR2gnvMl/WUdbIzcFo9RmQAemR7AAZ92DVosuoRbSR5wB4W8y2v
-   NbzeM+LWwM7zbvRFEJ+QqT8UzQIMfEZXEgmJ50sSQ6cJqHZfdIvfGI2at
-   w==;
-X-CSE-ConnectionGUID: 4CZpgzAXSUqlzJb2GbI2tQ==
-X-CSE-MsgGUID: SlFn2VHoT+6qWtYqiXtvMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66978531"
+  t=1764911942; x=1796447942;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+Cd+8pVYVsP79D8v2dIbSAcD5y4RsPXkPEGmi3y+wiw=;
+  b=A3TxryQk/NubG77XUiI2hlB3poO9xRTxTEY5AHyrbaiVCiaCdT+7nag4
+   +uLoeG9YFTnsMvpDvUb6cwY+j+ncJXeQo/oy8xQgY9E4Ot7OyiWVrXbIP
+   ngXwe1vXYdHScXc2lc/faadvtdPJAwh2/9b/l3/a7P+3WAVIznhPSN6qe
+   3SGwJv/kJbSA5TCVhccysa676+35+IgkprimTNctZQL78ANOnszm3jWdD
+   F7nJPgHEYHHHUqMX444XSz9xtkabfvhKgbxSaYMhYWOVVVKgRXDHT1vhn
+   Xwnygtm3IwiA+ITKLQ5tzQvZSMsKm8rh1qlXlp9+w/TVwXK6YWcdmGAT3
+   Q==;
+X-CSE-ConnectionGUID: 7TYquzScTjWkVX2mIlRnDw==
+X-CSE-MsgGUID: k8nJkc2jQACB7t36yLBHKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70792838"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="66978531"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 20:55:59 -0800
-X-CSE-ConnectionGUID: QYI7ft1qQnqNcpNb3viz/g==
-X-CSE-MsgGUID: JKzfunjaT6qTADb+VhhOlw==
+   d="scan'208";a="70792838"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 21:19:01 -0800
+X-CSE-ConnectionGUID: HeNA/ZQbRjm2iBoQF06plQ==
+X-CSE-MsgGUID: Tx2GMpVjQcmn10YdevZWKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="199628357"
+   d="scan'208";a="232557545"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Dec 2025 20:55:58 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Dec 2025 21:19:00 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRNrH-00000000Ecb-3dpj;
-	Fri, 05 Dec 2025 04:55:55 +0000
-Date: Fri, 5 Dec 2025 12:55:39 +0800
+	id 1vRODZ-00000000Ee1-0W6u;
+	Fri, 05 Dec 2025 05:18:57 +0000
+Date: Fri, 5 Dec 2025 13:18:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3479/3479] include/linux/mmzone.h:1788:2: error:
- Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202512051233.eoZixxMi-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tzimmermann@suse.de, ville.syrjala@linux.intel.com,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 14/25] drm/vblank: pass vblank to
+ drm_vblank_count_and_time()
+Message-ID: <202512051216.oxayTqRt-lkp@intel.com>
+References: <2d2d9b12117be566ac63b9e67b79e50de4924ecc.1764845757.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,143 +66,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <2d2d9b12117be566ac63b9e67b79e50de4924ecc.1764845757.git.jani.nikula@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f9a278cf61499e631038cf7d7847bb990cf89d7e
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [3479/3479] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051233.eoZixxMi-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d8b43edf552840e59a22a7f3cc332697bd434782)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051233.eoZixxMi-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-i915/for-linux-next drm-tip/drm-tip linus/master next-20251204]
+[cannot apply to drm-i915/for-linux-next-fixes v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-vblank-Unexport-drm_wait_one_vblank/20251204-195701
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/2d2d9b12117be566ac63b9e67b79e50de4924ecc.1764845757.git.jani.nikula%40intel.com
+patch subject: [PATCH v2 14/25] drm/vblank: pass vblank to drm_vblank_count_and_time()
+config: i386-buildonly-randconfig-002-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051216.oxayTqRt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051216.oxayTqRt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051233.eoZixxMi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051216.oxayTqRt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:7:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1788:2: error: Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     100 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/loongarch/kernel/asm-offsets.c:9:
-   In file included from include/linux/mm.h:1100:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-
-
-vim +1788 include/linux/mmzone.h
-
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> Warning: drivers/gpu/drm/drm_vblank.c:956 function parameter 'vblank' not described in 'drm_vblank_crtc_count_and_time'
 
 -- 
 0-DAY CI Kernel Test Service
