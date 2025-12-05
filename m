@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B95818DB1E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 03:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAB6286881
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 03:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764905997; cv=none; b=LfQtBcN3j1iZbRGD7h7mHq99BsUT3meWpNIAlxwrJp1MQ+T6sCC/U24diolWAItwvdGZpaJNcUWKKfGxDYGuW2JHSgAgcjyxyxgs1UFY6xRnYZaAOWM/xnp0ciyMuQZ04aivXLY3KMUE50pU69COqjzbgLIvUjRdEWdnjDegl1k=
+	t=1764906719; cv=none; b=Q3zl9B2ASWn9YrTDfV6W8W9Jgc82IJ2UZ0HAxeUOpYS+2QX9OtrUOSbMlpEtYj2DyPQ93ChA/2pOD+elRlPPEMYp1CbnhLPFde2A8AA4NNylqQS2roknG0sdACKzzRWTjWHeAanbNJ9XeNcq4ey90DKNT9q1hzhw8KfO6npShbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764905997; c=relaxed/simple;
-	bh=GdYFQ1Kw3Ku03k+tqmwZwvPN0g1ppZF3tRrr6dPiFew=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BEpH+oDmjtZ5BzigiGLjiZcFll64G5xBZjBEpHQKUZ3TT3QyGAATUgXOTdtItLhrr+abmd5JfboIIqLc3f6khOuhQ2yIJfkM247JEoRuSXThs6Z9JmCtsXAXMiIMaPZkQNOhB5YVmkG8gmlSDi9CBTbSBgPQ1aUi4GCgBNAu9wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyZt7pny; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1764906719; c=relaxed/simple;
+	bh=d6Egk7OgFcUoOnILINix8GJYnjMxYTxMhL9kXIYWTi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SHxuGGVCN4eN3dEhRO6BSZ7BpqJeNIqShjJuWGLyYzyWMbDl8yk2j0gyqWXvRgfbYWjCt9awcoHs0uk3w3kLAz0CqPrELQHne/AGasA1PFm8dIKfacNFOe3+aA2A24PqdA765CulKobpuaXxS3nZclMd56nNwCOsqg8V/PGVQJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBegZFTQ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyZt7pny"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBegZFTQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764905996; x=1796441996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GdYFQ1Kw3Ku03k+tqmwZwvPN0g1ppZF3tRrr6dPiFew=;
-  b=HyZt7pnypF/ro5IrS9hsx8qS1Vdqu17kpC5niAN8rAJotaVaDg6tZBD8
-   zv26+z6bUtiveynMKRI4KbYMKX19mlQjiEIqn8+Tf7zrZ9HvcjmiymCfg
-   eE/+A4LWp0slTvwQmSqmj2Nozd0Ps9zw//yTt83MLPaMCBqVU+ClqDBv+
-   UcPbNtQuMKs72X+uLzw9F13FtiQltUggALXLjZQmiUFhmr2QrfmWstLLX
-   0PVv6kkxtiRI3EcMxfn3hPrWGixJj0ZOHlH74flOj6sGmc0ed6Pg2zS1u
-   6vF4fIcSP7lV/DCwNIJPeo3SjbVPpI7OYrp/WLPeOQ+E9mEh9o+XmGkiE
-   w==;
-X-CSE-ConnectionGUID: JkVF2omzTN2UUQPd87muQg==
-X-CSE-MsgGUID: /G9xyApNTESZDgFVS8btlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="54487819"
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="54487819"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 19:39:55 -0800
-X-CSE-ConnectionGUID: ZYN2YvVPRwi19KfCe5KfEA==
-X-CSE-MsgGUID: kqMvJbBjTNG4+lITMVuclA==
+  t=1764906717; x=1796442717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d6Egk7OgFcUoOnILINix8GJYnjMxYTxMhL9kXIYWTi8=;
+  b=ZBegZFTQm+mD//RY5YCORFoNN8CpdwfJMwdaYQ7KX4MccVo2x/ZT8rO8
+   62LROyWG5RgwM8yBLgAW2Oh88HH5oNUBuaZsiyuzASqEZXok8Cev1Bry+
+   J0H0XD5ng3CKnYgGqm3xhNtCS23hpgvyzccDxhaOrHJFdpKbiuAUKEryL
+   A7M+XkhENbznihvXRj2rcIakIS6pYeJZrrTId7qWXmCMkQeUJle3HhwCG
+   MHK3hwhwYOv3M7o2XBh8LuB3cqqnHwVApC6Il+G+sJ21/M8EKtHmrB2uu
+   R2HkxVbPKYdwAvyxFPOzUQSPfXH2YOaUpmXepC8NnSJ8RPU1eZL0MOVBH
+   g==;
+X-CSE-ConnectionGUID: 7iRg/6zfTuyjbbny+pg5Ww==
+X-CSE-MsgGUID: ONxYv84SRjet0ejvwSBcDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70787986"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="70787986"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 19:51:56 -0800
+X-CSE-ConnectionGUID: UoMEGpqkRLGcnBQ6P6gViw==
+X-CSE-MsgGUID: ZXphhHdAQSaeHhhG6YTC+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="225838582"
+   d="scan'208";a="218537257"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Dec 2025 19:39:54 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2025 19:51:54 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRMfg-00000000EYT-0JUF;
-	Fri, 05 Dec 2025 03:39:52 +0000
-Date: Fri, 5 Dec 2025 11:38:58 +0800
+	id 1vRMrI-00000000EYb-0bWP;
+	Fri, 05 Dec 2025 03:51:52 +0000
+Date: Fri, 5 Dec 2025 11:51:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3479/3479] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202512051112.JRlvwQmR-lkp@intel.com>
+To: Brian Masney <bmasney@redhat.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
+Subject: Re: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <202512051151.N3iZUKEG-lkp@intel.com>
+References: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,93 +68,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
 
-Hi zhangtianyang,
+Hi Brian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f9a278cf61499e631038cf7d7847bb990cf89d7e
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [3479/3479] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-002-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051112.JRlvwQmR-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051112.JRlvwQmR-lkp@intel.com/reproduce)
+[auto build test ERROR on 92fd6e84175befa1775e5c0ab682938eca27c0b2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-microchip-core-remove-duplicate-determine_rate-on-pic32_sclk_ops/20251202-060924
+base:   92fd6e84175befa1775e5c0ab682938eca27c0b2
+patch link:    https://lore.kernel.org/r/20251201-clk-microchip-fixes-v2-3-9d5a0daadd98%40redhat.com
+patch subject: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20251205/202512051151.N3iZUKEG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051151.N3iZUKEG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051112.JRlvwQmR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051151.N3iZUKEG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:283:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     283 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=3414368292
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=3414368292
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=3414368292
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=3414368292
-   make: Target 'prepare' not remade because of errors.
+   drivers/clk/microchip/clk-core.c: Assembler messages:
+>> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
+>> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
+>> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
+>> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
+>> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
+   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
 
 
-vim +1788 include/linux/mmzone.h
+vim +721 drivers/clk/microchip/clk-core.c
 
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  682  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  683  static int spll_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  684  			     unsigned long parent_rate)
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  685  {
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  686  	struct pic32_sys_pll *pll = clkhw_to_spll(hw);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  687  	unsigned long ret, flags;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  688  	u32 mult, odiv, v;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  689  	int err;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  690  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  691  	ret = spll_calc_mult_div(pll, rate, parent_rate, &mult, &odiv);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  692  	if (!ret)
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  693  		return -EINVAL;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  694  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  695  	/*
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  696  	 * We can't change SPLL counters when it is in-active use
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  697  	 * by SYSCLK. So check before applying new counters/rate.
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  698  	 */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  699  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  700  	/* Is spll_clk active parent of sys_clk ? */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  701  	if (unlikely(clk_hw_get_parent(pic32_sclk_hw) == hw)) {
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  702  		pr_err("%s: failed, clk in-use\n", __func__);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  703  		return -EBUSY;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  704  	}
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  705  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  706  	spin_lock_irqsave(&pll->core->reg_lock, flags);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  707  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  708  	/* apply new multiplier & divisor */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  709  	v = readl(pll->ctrl_reg);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  710  	v &= ~(PLL_MULT_MASK << PLL_MULT_SHIFT);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  711  	v &= ~(PLL_ODIV_MASK << PLL_ODIV_SHIFT);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  712  	v |= (mult << PLL_MULT_SHIFT) | (odiv << PLL_ODIV_SHIFT);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  713  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  714  	/* sys unlock before write */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  715  	pic32_syskey_unlock();
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  716  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  717  	writel(v, pll->ctrl_reg);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  718  	cpu_relax();
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  719  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  720  	/* insert few nops (5-stage) to ensure CPU does not hang */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13 @721  	cpu_nop5();
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  722  	cpu_nop5();
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  723  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  724  	/* Wait until PLL is locked (maximum 100 usecs). */
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  725  	err = readl_poll_timeout_atomic(pll->status_reg, v,
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  726  					v & pll->lock_mask, 1, 100);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  727  	spin_unlock_irqrestore(&pll->core->reg_lock, flags);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  728  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  729  	return err;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  730  }
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  731  
 
 -- 
 0-DAY CI Kernel Test Service
