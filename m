@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AB12DE200
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 02:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFD27E0E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 02:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764902217; cv=none; b=G5rx/DPfxo/tB230/4jLvbQ2kGE3XKqeiiGa/VWHU5PrGORwthAltJ9zf8Qrzt+pkLMADTuxmF4LSIsvk0FFH8EjQS5MW+19MFJZGXbqrTH42ahfYwFQoosn1ZGumb6b+HY5gVCqiVqcjGgaJVxJ4jagQtWVzg1ESET504ALO0g=
+	t=1764903415; cv=none; b=QvlENPOrUZYbias/qOCSDbOWyD27XOhhfPgI0lMnv9o+NI6vvJES3s+/8bRT3ZyLL/7s05TATZ3m+rrrfpkbhqBi0+v6NGW0hv0Ypv9neBpj1sB5Q/dKqSp3JgtjlC1HLW/3ntQlgucmOqPXTbjUnUPwEpPuxD6UHBgHP0oA0Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764902217; c=relaxed/simple;
-	bh=TJw26I1TDQ2HwfpPYV01mmqi31HyIzZpvW01ZcONxdU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZrlY3DITCDVs/LamHtI8TTU6bH/88sXP2t19NcIAxZKWtZ134K6OEc2lSUca9ttpZp3k85xpa3MpFNA2bka1pEobopp9QFw0g0CCAYnSKPi1f+kl7B2TwZqqk5Ef0rq2w1IqSMXYJtrcRB9ePR4zP593u5sHMktDQ0RSQxzUilg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPsUzEbA; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1764903415; c=relaxed/simple;
+	bh=snBYhu4BwvI+H/3z4Qzu3dXgJfcltV9f4kZVOyAqzDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pPL79GDcQFR4bEQcTMe5Mzbn2c6bTAMy5SNg457tz7nflnNt4SRbbEFn1hOeaw2JkWaZ/RxqpJ1vLp4rk3Dd3EyJZfPmQsKzxVU3DxwYbC5ojrGdqLepXWoOEVUC6cHoiIvh1+NnnUBj6NSdMhZSMYcpvmgXX6UZkljEjWposak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuG/Gikf; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPsUzEbA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuG/Gikf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764902214; x=1796438214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TJw26I1TDQ2HwfpPYV01mmqi31HyIzZpvW01ZcONxdU=;
-  b=CPsUzEbA+5Fwhyvb4vpTD4O4cwOUgXuU93NhZ5OWL+xtBiWGi0yrJ/2r
-   xROHpxLtCNOrU0ItuwL3rFm04jn+2p/wvtnmecFJ7MnvbyoywQbdMPpcc
-   yArAmgaeJxKA5O7Yt7DAB2y6gPSHEmNg5/XMZD+Q2Nm6GOvRuEjY33oIZ
-   Syg6I3yZnfx/iR9RKtZa0LSsvDK3tC4w7OQ9NL+FeO797YKyKizNTYSdV
-   oGvugL0ETXRpt1aFthuXLlpi79gIxej1Y122ds3fdZ/QmEgD4nsGsveFw
-   rlg8AKiiGkgonA2HSfiygjMCApaBsm/ZA+Nj85CkAc50qKwlgQNkBBigw
-   Q==;
-X-CSE-ConnectionGUID: mXH0he4CQ2umdmsfGTmH5A==
-X-CSE-MsgGUID: SOcMsueUQl+1w9U9hBjQeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="67010126"
+  t=1764903413; x=1796439413;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=snBYhu4BwvI+H/3z4Qzu3dXgJfcltV9f4kZVOyAqzDw=;
+  b=kuG/GikfIP0fZg8cT6LgICRotGk12fdtfmim7R2XX4JbMT/gFvk4dSuM
+   /+aCIhXwHppWl6cd+RHegR/Pz1SzKyKPmbMyWiMT56mUUKQZLWzV1Or6B
+   zpI8jPcw5WWOr6U5RQPeKR7EogQkTSSi471vrALYPzSnB2YsN/vpaKNOV
+   0DESdaBdtY1twNOfq/z+9s+B6YRTXDMWiJlx/2obexHVZ6M/mAQ1jNXqc
+   uyoUtUPEqWkH+12H+Fzh4f/6233ATTf3/GWClUk4MxH4x/vNACtybfcOS
+   ++XqcWaoYMClS811k09ER94zhzDPlxJiRQHQSgjm57jBsP4PPYEo3txCZ
+   w==;
+X-CSE-ConnectionGUID: Avsfn3h9QVqFi5ARjGHn8g==
+X-CSE-MsgGUID: SWz6vR15Rn+icIAOeEo2GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="67097043"
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="67010126"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 18:36:54 -0800
-X-CSE-ConnectionGUID: thqaZtd8TDSbBtPsk2hRFg==
-X-CSE-MsgGUID: MAe4tz/yS96VvArJMXkEUg==
+   d="scan'208";a="67097043"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 18:56:52 -0800
+X-CSE-ConnectionGUID: d7f+/2YPTouBGxwrKiTxKA==
+X-CSE-MsgGUID: BglyPM6dRYuur/YoywdQew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="194968442"
+   d="scan'208";a="195054735"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Dec 2025 18:36:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Dec 2025 18:56:51 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRLge-00000000EUj-2l8Q;
-	Fri, 05 Dec 2025 02:36:48 +0000
-Date: Fri, 5 Dec 2025 10:35:52 +0800
+	id 1vRM01-00000000EVd-0cZr;
+	Fri, 05 Dec 2025 02:56:49 +0000
+Date: Fri, 5 Dec 2025 10:56:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: chenxiaosong.chenxiaosong@linux.dev, sfrench@samba.org,
-	smfrench@gmail.com, linkinjeon@kernel.org, linkinjeon@samba.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chenxiaosong@chenxiaosong.com,
-	ChenXiaoSong <chenxiaosong@kylinos.cn>
-Subject: Re: [PATCH 10/10] smb: move client/smb2maperror.c to common/
-Message-ID: <202512051006.j5kB1bVW-lkp@intel.com>
-References: <20251204045818.2590727-11-chenxiaosong.chenxiaosong@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 1/1] init/main.c:251:6: sparse:
+ sparse: symbol 'xbc_namebuf' was not declared. Should it be static?
+Message-ID: <202512051004.ZlP0OIq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,54 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204045818.2590727-11-chenxiaosong.chenxiaosong@linux.dev>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[cannot apply to cifs/for-next brauner-vfs/vfs.all v6.18 v6.18-rc7 v6.18-rc6 next-20251203 v6.18 next-20251204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/chenxiaosong-chenxiaosong-linux-dev/smb-client-reduce-loop-count-in-map_smb2_to_linux_error-by-half/20251204-130530
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251204045818.2590727-11-chenxiaosong.chenxiaosong%40linux.dev
-patch subject: [PATCH 10/10] smb: move client/smb2maperror.c to common/
-config: i386-randconfig-063-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051006.j5kB1bVW-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051006.j5kB1bVW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   7055541caeda53d6275f23b878618d609132e955
+commit: dca811b6c4342bf1b98b67e199b9b01d3b3c2166 [1/1] UPSTREAM: bootconfig: init: Allow admin to use bootconfig for kernel command line
+config: arm64-randconfig-r113-20250923 (https://download.01.org/0day-ci/archive/20251205/202512051004.ZlP0OIq1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051004.ZlP0OIq1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051006.j5kB1bVW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051004.ZlP0OIq1-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/smb/common/smb2maperror.c:2419:14: sparse: sparse: restricted __le32 degrades to integer
-   fs/smb/common/smb2maperror.c:2419:31: sparse: sparse: restricted __le32 degrades to integer
-   fs/smb/common/smb2maperror.c:2421:14: sparse: sparse: restricted __le32 degrades to integer
-   fs/smb/common/smb2maperror.c:2421:31: sparse: sparse: restricted __le32 degrades to integer
+>> init/main.c:251:6: sparse: sparse: symbol 'xbc_namebuf' was not declared. Should it be static?
+   init/main.c:327:5: sparse: sparse: symbol 'boot_config_checksum' was not declared. Should it be static?
 
-vim +2419 fs/smb/common/smb2maperror.c
+vim +/xbc_namebuf +251 init/main.c
 
-ddfbefbd393fb1 fs/cifs/smb2maperror.c       Steve French 2011-03-15  2411  
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2412  static unsigned int err_map_num = sizeof(smb2_error_map_table) /
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2413  				     sizeof(struct status_to_posix_error);
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2414  
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2415  static int cmp_smb2_status(const void *_a, const void *_b)
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2416  {
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2417  	const struct status_to_posix_error *a = _a, *b = _b;
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2418  
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04 @2419  	if (a->smb2_status < b->smb2_status)
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2420  		return -1;
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2421  	if (a->smb2_status > b->smb2_status)
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2422  		return 1;
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2423  	return 0;
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2424  }
-99d0698b9bf5cf fs/smb/client/smb2maperror.c ChenXiaoSong 2025-12-04  2425  
+   250	
+ > 251	char xbc_namebuf[XBC_KEYLEN_MAX] __initdata;
+   252	
 
 -- 
 0-DAY CI Kernel Test Service
