@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6668431B11E;
-	Fri,  5 Dec 2025 09:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2837831C584
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 09:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764928550; cv=none; b=O4fl742nDNGr6VQZJ6TjgBqbv+Mhpr0IvhtJtxBLr/2CrQTseihUWZ3nqMrlFMvSaAOuBnUYBqaaqJzftAAXPZQezRUNn2P05f8hLUn5zuxahhn+gjl+xHGmglkrwYV0ouYnLSoq4QmE1g40DBrKm06zog87q9XbZj3ByCnMoWE=
+	t=1764928563; cv=none; b=iJf1m4HtZ52Ie9I6xzkApt9oDar0Ymzl1uffolF2j7zVUhzSGqNJz57KsUliJtQRO0KoztUrHXboskEKJE0vZY34CfOhhXA+zd9iUAnoccHiWyvxnCv6GZeYYsNGAJu1u15l6+t2L3263nN66AkuCPyH4bOwPpI3Ag0lDei+4/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764928550; c=relaxed/simple;
-	bh=eQcvofA5/i6F3yeN81r21V15GmbWxJ3Ch+IAs5hJX/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fU+jd/3FQgKp2hxgmsSrq6xSIT3H8p3IvvijOwYUAGAx3ej3wdsay6/vEKXPdbJDilyrZmfC1du0J61p1dpM1YTeDiIncp63kdkbV1TRZ1GSlQTGeLnYtW3p29dIo2PRZUMurvyjj/XUrgTRP70VQ9R0MiHeEQfKg/a1urkM8JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZChswqrB; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1764928563; c=relaxed/simple;
+	bh=eMQkRDda0CTJz9d4NU/3B++tHCVu2jPNHFAlBjFXVW4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b3/h2HbcOShX0ZKwMUx0+Q++AmkX6guYyTduumyTGQMUFrFtLdNvy5OltDiruvpBA+arn8Sy/Ho2aqsQbwhefoTmwV+Pnlr77rrBgbSgczwoZ7IUT0LajZeCUZr7qdt9OLnJZQ06MLvXhQReXNh7PVhL7NozFycI3g/VpgyW6vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ajv46Pm7; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZChswqrB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ajv46Pm7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764928546; x=1796464546;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eQcvofA5/i6F3yeN81r21V15GmbWxJ3Ch+IAs5hJX/c=;
-  b=ZChswqrBY60OD2mD0+vm6Lub2u6UKVqnLzfR5VGbSl5mpEqB43fAXTuN
-   bXaS4xFjnGfhBSN92V5CFD1AzSxxaQgM+EeSv7cT+lciNq3fyySIqysA9
-   wkZnhHrQIU8K5XYiFl26oJOWPAUCQvEoBLypBGUw0cUOiAzqk3WouEscq
-   dTAfjTL8j3YjVSNFmQB+wrmayc0u3a3BhVREIn2u1cILUVt4aEyex9laH
-   VMKim4ld3FiruW8pXofyApUc2o1e/c/4vTYRF/y8csdDBEnwF3Ya+RWLK
-   pdsuIlu9q6uzNe0XKdjMdZUQU5cscqJ/nbjve3jiD0m3p20agGEdAfSru
-   g==;
-X-CSE-ConnectionGUID: d4q6olR2T56Zf2Cw9BtKqw==
-X-CSE-MsgGUID: MtrfQ6sjQTC4j9czpyPvcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70811103"
+  t=1764928555; x=1796464555;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eMQkRDda0CTJz9d4NU/3B++tHCVu2jPNHFAlBjFXVW4=;
+  b=Ajv46Pm7B0odvZhV/+RecoOCwdi4NpE9bRnwRZuTPcD/P1huBTSZ5orL
+   rc+gjLW3yocDR/Re3VC45SXsXPQS51ahWgeMbHFzONYAsmJQI3Ge9wdx9
+   Eto+RukGzZZ6oVTLG4V7kSbC0DAzaMrvLcI4c0NZrJm823kqhWfA8jO05
+   yw0UZpGnjaUbnId4Nk5/ct20TjBkDjQK4Ss/6rMwIP1HiNAFCPOZkrdhE
+   OUI+fvO68UW1VgfwTbEemh7E9I++4y3imUY4m2cgV+4VvonuhcbzSJ4GS
+   VL0U8FRGx909uxxN1Yc4edW2S8CTMXJy4VXrV/h1n1kPa8SG/NYlkXD2x
+   A==;
+X-CSE-ConnectionGUID: huw7fTmTSxqr03LAGgpfKg==
+X-CSE-MsgGUID: z28qauzERX2wIst6QC43kQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66998729"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="70811103"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:55:40 -0800
-X-CSE-ConnectionGUID: pusVzaMERzeoiK+G+tUCgQ==
-X-CSE-MsgGUID: ZIkYCspeRxubYpnKrr9OWg==
+   d="scan'208";a="66998729"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:55:52 -0800
+X-CSE-ConnectionGUID: +6KdWMbeSzyDiQKsF075og==
+X-CSE-MsgGUID: dKXMO0MPS0ia7hxtFnuTew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="194907167"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Dec 2025 01:55:38 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="200382606"
+Received: from igk-lkp-server01.igk.intel.com (HELO 314ca7b3cca8) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 05 Dec 2025 01:55:50 -0800
+Received: from kbuild by 314ca7b3cca8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRSXI-00000000Eqr-1zy7;
-	Fri, 05 Dec 2025 09:55:36 +0000
-Date: Fri, 5 Dec 2025 17:55:10 +0800
+	id 1vRSXU-000000000sv-07Ck;
+	Fri, 05 Dec 2025 09:55:48 +0000
+Date: Fri, 5 Dec 2025 10:55:17 +0100
 From: kernel test robot <lkp@intel.com>
-To: Takahiro Itazuri <itazur@amazon.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] KVM: pfncache: Use vmap() for guest_memfd pages
- without direct map
-Message-ID: <202512051702.JVgyDZnV-lkp@intel.com>
-References: <20251203144159.6131-3-itazur@amazon.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 9345/13567]
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: panel@0
+ (samsung,sofef00): compatible:0: 'samsung,sofef00' is not one of
+ ['samsung,sofef00-ams601nt22', 'samsung,sofef00-ams628nw01']
+Message-ID: <202512051050.IHaYWy0f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,52 +65,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251203144159.6131-3-itazur@amazon.com>
 
-Hi Takahiro,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvm/next mst-vhost/linux-next linus/master v6.18 next-20251205]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Takahiro-Itazuri/KVM-pfncache-Use-kvm_gmem_get_pfn-for-guest_memfd-backed-memslots/20251203-224344
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20251203144159.6131-3-itazur%40amazon.com
-patch subject: [RFC PATCH 2/2] KVM: pfncache: Use vmap() for guest_memfd pages without direct map
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251205/202512051702.JVgyDZnV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051702.JVgyDZnV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6987d58a9cbc5bd57c983baa514474a86c945d56
+commit: 1388c08c84a2b1f37abae656c1f88d18ecb1364e [9345/13567] dt-bindings: panel: Convert Samsung SOFEF00 DDIC into standalone yaml
+config: arm64-randconfig-2051-20251204 (https://download.01.org/0day-ci/archive/20251205/202512051050.IHaYWy0f-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.9.dev21+gaa859412c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051050.IHaYWy0f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051702.JVgyDZnV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051050.IHaYWy0f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/events/intel/core.c:17:
->> include/linux/kvm_host.h:634:9: error: call to undeclared function 'mapping_no_direct_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     634 |                mapping_no_direct_map(slot->gmem.file->f_mapping);
-         |                ^
-   1 error generated.
-
-
-vim +/mapping_no_direct_map +634 include/linux/kvm_host.h
-
-   630	
-   631	static inline bool kvm_slot_no_direct_map(const struct kvm_memory_slot *slot)
-   632	{
-   633		return slot && kvm_slot_has_gmem(slot) &&
- > 634		       mapping_no_direct_map(slot->gmem.file->f_mapping);
-   635	}
-   636	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:4796.27-4849.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/pmi8998.dtsi:71.20-79.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sdm845.dtsi:1222.44-1225.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@784000/hstx-trim-primary@1eb: duplicate unit-address (also used in node /soc@0/qfprom@784000/hstx-trim-secondary@1eb)
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: panel@0 (samsung,sofef00): compatible:0: 'samsung,sofef00' is not one of ['samsung,sofef00-ams601nt22', 'samsung,sofef00-ams628nw01']
+   	from schema $id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml
+>> arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: panel@0 (samsung,sofef00): compatible: ['samsung,sofef00'] is too short
+   	from schema $id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml
+   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: panel@0 (samsung,sofef00): 'poc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml
+   arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb: panel@0 (samsung,sofef00): 'vci-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/samsung,sofef00.yaml
 
 -- 
 0-DAY CI Kernel Test Service
