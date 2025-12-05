@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAB6286881
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 03:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2AA158535;
+	Fri,  5 Dec 2025 04:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764906719; cv=none; b=Q3zl9B2ASWn9YrTDfV6W8W9Jgc82IJ2UZ0HAxeUOpYS+2QX9OtrUOSbMlpEtYj2DyPQ93ChA/2pOD+elRlPPEMYp1CbnhLPFde2A8AA4NNylqQS2roknG0sdACKzzRWTjWHeAanbNJ9XeNcq4ey90DKNT9q1hzhw8KfO6npShbw=
+	t=1764907320; cv=none; b=CcvtXaNXcbwEgVdwZmZFtukhExlX/sr5bM9xV/xJYY51UzU0HE23nUuPWyWmxViNTZhH5LP6DHLnKz2OKaFpkv9JNMyq0xz2R2H8Julwckq9DNUnyZJ5osN9bLN4riXlD6jqa4Fb3hGgrDKtpsuBIe9vokhZNIHXTIVDRIAi6f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764906719; c=relaxed/simple;
-	bh=d6Egk7OgFcUoOnILINix8GJYnjMxYTxMhL9kXIYWTi8=;
+	s=arc-20240116; t=1764907320; c=relaxed/simple;
+	bh=/HYSq2q8FIz1wnGGNePYMUnGmk31R61gQ3VbZFQprkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SHxuGGVCN4eN3dEhRO6BSZ7BpqJeNIqShjJuWGLyYzyWMbDl8yk2j0gyqWXvRgfbYWjCt9awcoHs0uk3w3kLAz0CqPrELQHne/AGasA1PFm8dIKfacNFOe3+aA2A24PqdA765CulKobpuaXxS3nZclMd56nNwCOsqg8V/PGVQJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBegZFTQ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=CNihyfoooJ56XjDUo1Wytu6JdGLxGrJo9qIwoL7Ur0F0dHpuAyBqti5yq4MICEGnGVYM42kLv159ZhUIXPLoox/dgn16KDTclt2E3RzKFWgYKbrp625/z/glfSkJma4EPnK6gR1Xn0aqVPr2tAPpZrJI0NluGCsXeU35MqnrzYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+XpWqi8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBegZFTQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+XpWqi8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764906717; x=1796442717;
+  t=1764907319; x=1796443319;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=d6Egk7OgFcUoOnILINix8GJYnjMxYTxMhL9kXIYWTi8=;
-  b=ZBegZFTQm+mD//RY5YCORFoNN8CpdwfJMwdaYQ7KX4MccVo2x/ZT8rO8
-   62LROyWG5RgwM8yBLgAW2Oh88HH5oNUBuaZsiyuzASqEZXok8Cev1Bry+
-   J0H0XD5ng3CKnYgGqm3xhNtCS23hpgvyzccDxhaOrHJFdpKbiuAUKEryL
-   A7M+XkhENbznihvXRj2rcIakIS6pYeJZrrTId7qWXmCMkQeUJle3HhwCG
-   MHK3hwhwYOv3M7o2XBh8LuB3cqqnHwVApC6Il+G+sJ21/M8EKtHmrB2uu
-   R2HkxVbPKYdwAvyxFPOzUQSPfXH2YOaUpmXepC8NnSJ8RPU1eZL0MOVBH
-   g==;
-X-CSE-ConnectionGUID: 7iRg/6zfTuyjbbny+pg5Ww==
-X-CSE-MsgGUID: ONxYv84SRjet0ejvwSBcDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70787986"
+  bh=/HYSq2q8FIz1wnGGNePYMUnGmk31R61gQ3VbZFQprkI=;
+  b=k+XpWqi85RsnonlwhUXarwL7/M0flJhi4o+V3VEAeFOkUTJwDat/lXel
+   +i2bUsoEvyxUpo40N2BNjPnTRhLUpn7B+8NU4enrsFlchH5bKc2aUPZEQ
+   gSSLT5HK97OEiPtZ/0MzbefatdVTyhLfs29nwSZdB6Urma9SSoU78eTCo
+   6CIGmzGPPC0F389JDZ4625Zra6rI7jm9gVW152DTPH9E9mvr6hD2jez88
+   THTYQjA7uyyXBuRPvq46bkQrw4daQ2+UN4dEY4RkMyEtAJRcxIQyftWcW
+   wXSmuM66L3yHWT9vFphAFWXueGDst3+WXg3vzao4c6kQAgJjXVnozZhvK
+   A==;
+X-CSE-ConnectionGUID: sHF8qDHwQzuaeydlJdfi2A==
+X-CSE-MsgGUID: cVEJMAzsSWC9ywGkPWz60g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77558372"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="70787986"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 19:51:56 -0800
-X-CSE-ConnectionGUID: UoMEGpqkRLGcnBQ6P6gViw==
-X-CSE-MsgGUID: ZXphhHdAQSaeHhhG6YTC+g==
+   d="scan'208";a="77558372"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 20:01:59 -0800
+X-CSE-ConnectionGUID: VM1ts6KRROOxQ4VmbQSegw==
+X-CSE-MsgGUID: epgX+wDHRP6/T/3YhI2TCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; 
-   d="scan'208";a="218537257"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="199663552"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Dec 2025 19:51:54 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Dec 2025 20:01:54 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRMrI-00000000EYb-0bWP;
-	Fri, 05 Dec 2025 03:51:52 +0000
-Date: Fri, 5 Dec 2025 11:51:12 +0800
+	id 1vRN0y-00000000EZJ-2Fku;
+	Fri, 05 Dec 2025 04:01:52 +0000
+Date: Fri, 5 Dec 2025 12:01:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
-Subject: Re: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled
- with COMPILE_TEST
-Message-ID: <202512051151.N3iZUKEG-lkp@intel.com>
-References: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
+To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	robh@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, bjorn.andersson@oss.qualcomm.com,
+	bod@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
+	charan.kalla@oss.qualcomm.com, prakash.gupta@oss.qualcomm.com,
+	vikash.garodia@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	vijayanand.jitta@oss.qualcomm.com
+Subject: Re: [PATCH v2 3/3] of: Respect #{iommu,msi}-cells in maps
+Message-ID: <202512051121.ivp77JHU-lkp@intel.com>
+References: <20251204095530.8627-4-vijayanand.jitta@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,99 +70,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
+In-Reply-To: <20251204095530.8627-4-vijayanand.jitta@oss.qualcomm.com>
 
-Hi Brian,
+Hi Vijayanand,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 92fd6e84175befa1775e5c0ab682938eca27c0b2]
+[auto build test ERROR on xen-tip/linux-next]
+[also build test ERROR on v6.18]
+[cannot apply to robh/for-next pci/next pci/for-linus linus/master next-20251204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-microchip-core-remove-duplicate-determine_rate-on-pic32_sclk_ops/20251202-060924
-base:   92fd6e84175befa1775e5c0ab682938eca27c0b2
-patch link:    https://lore.kernel.org/r/20251201-clk-microchip-fixes-v2-3-9d5a0daadd98%40redhat.com
-patch subject: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20251205/202512051151.N3iZUKEG-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051151.N3iZUKEG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20251204-180719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
+patch link:    https://lore.kernel.org/r/20251204095530.8627-4-vijayanand.jitta%40oss.qualcomm.com
+patch subject: [PATCH v2 3/3] of: Respect #{iommu,msi}-cells in maps
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251205/202512051121.ivp77JHU-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051121.ivp77JHU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051151.N3iZUKEG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051121.ivp77JHU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/clk/microchip/clk-core.c: Assembler messages:
->> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
->> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
->> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
->> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
->> drivers/clk/microchip/clk-core.c:721: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:722: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
-   drivers/clk/microchip/clk-core.c:862: Error: unrecognized instruction `nop'
+   In file included from include/linux/cpufreq.h:17,
+                    from kernel/sched/sched.h:31,
+                    from kernel/sched/rq-offsets.c:5:
+>> include/linux/of.h:918:1: error: expected identifier or '(' before '{' token
+     918 | {
+         | ^
+>> include/linux/of.h:915:19: warning: 'of_map_id' used but never defined
+     915 | static inline int of_map_id(const struct device_node *np, u32 id, const char *map_name,
+         |                   ^~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +721 drivers/clk/microchip/clk-core.c
+vim +918 include/linux/of.h
 
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  682  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  683  static int spll_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  684  			     unsigned long parent_rate)
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  685  {
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  686  	struct pic32_sys_pll *pll = clkhw_to_spll(hw);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  687  	unsigned long ret, flags;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  688  	u32 mult, odiv, v;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  689  	int err;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  690  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  691  	ret = spll_calc_mult_div(pll, rate, parent_rate, &mult, &odiv);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  692  	if (!ret)
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  693  		return -EINVAL;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  694  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  695  	/*
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  696  	 * We can't change SPLL counters when it is in-active use
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  697  	 * by SYSCLK. So check before applying new counters/rate.
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  698  	 */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  699  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  700  	/* Is spll_clk active parent of sys_clk ? */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  701  	if (unlikely(clk_hw_get_parent(pic32_sclk_hw) == hw)) {
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  702  		pr_err("%s: failed, clk in-use\n", __func__);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  703  		return -EBUSY;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  704  	}
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  705  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  706  	spin_lock_irqsave(&pll->core->reg_lock, flags);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  707  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  708  	/* apply new multiplier & divisor */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  709  	v = readl(pll->ctrl_reg);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  710  	v &= ~(PLL_MULT_MASK << PLL_MULT_SHIFT);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  711  	v &= ~(PLL_ODIV_MASK << PLL_ODIV_SHIFT);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  712  	v |= (mult << PLL_MULT_SHIFT) | (odiv << PLL_ODIV_SHIFT);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  713  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  714  	/* sys unlock before write */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  715  	pic32_syskey_unlock();
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  716  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  717  	writel(v, pll->ctrl_reg);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  718  	cpu_relax();
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  719  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  720  	/* insert few nops (5-stage) to ensure CPU does not hang */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13 @721  	cpu_nop5();
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  722  	cpu_nop5();
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  723  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  724  	/* Wait until PLL is locked (maximum 100 usecs). */
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  725  	err = readl_poll_timeout_atomic(pll->status_reg, v,
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  726  					v & pll->lock_mask, 1, 100);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  727  	spin_unlock_irqrestore(&pll->core->reg_lock, flags);
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  728  
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  729  	return err;
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  730  }
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  731  
+0384e8c6c6fa49d Pantelis Antoniou 2015-01-21  914  
+c56888c32d643b3 Robin Murphy      2025-12-04 @915  static inline int of_map_id(const struct device_node *np, u32 id, const char *map_name,
+c56888c32d643b3 Robin Murphy      2025-12-04  916  			    const char *cells_name, const char *map_mask_name,
+c56888c32d643b3 Robin Murphy      2025-12-04  917  			    struct of_map_id_arg *arg);
+2a6db719c92dbfe Nipun Gupta       2018-09-10 @918  {
+2a6db719c92dbfe Nipun Gupta       2018-09-10  919  	return -EINVAL;
+2a6db719c92dbfe Nipun Gupta       2018-09-10  920  }
+2a6db719c92dbfe Nipun Gupta       2018-09-10  921  
 
 -- 
 0-DAY CI Kernel Test Service
