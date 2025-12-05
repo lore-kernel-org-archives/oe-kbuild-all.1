@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35428355819;
-	Fri,  5 Dec 2025 15:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8372E1E5207
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 15:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764947820; cv=none; b=cSuHM875YX3q45PRpgGTUvrHZ9Y6KoqpeSgp3xh5WEVfLP5yHYigSMrIqISbPM8KEEKmFY6W9jvF8I2ZZhpwxbmbIjzUsSWYbKpWfplS5vleY8zZ+Wj6aFdLmYtGrGL8zCI5fakQ7kTNj6L75vCElEA4SUdGzMCDm77xU5Gt+ds=
+	t=1764948547; cv=none; b=kqBxWq4SnCiqUZfk1zSN23sZlvhzeNdpjf4u25yAaH4VNF4IfkCDzHFMXNF/1MKpkPZgAssffbQgxIh85eQNzR4Pgn8gaz9HUxzcH0JYBgSP0IRP1u9r43J40NtyHFrNsaNyaqfMQKNA8S07Z0CDNZB0UZvITCn0jUGAeRo7jAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764947820; c=relaxed/simple;
-	bh=/0pxwljYE52fbEeH0J8mXoQ8htkOtzQ1bNaVYct7iBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GnZIl3q9GMBRB6BeBOeVmq+JqC9nNxlKA5TsHowKu5m1xWBJcO1Xv4GCe897NSV2HDYYZ78wDhf+B7JYOuz97NUGu/wr/mzAUboRKdrnd2/m/K6hph9l/i5IZ/qv1W+QMU+Iv+QtFqCkPxamYUfGSX9+sZVMusHIDkGLSVrUyzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D9u6bxDU; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1764948547; c=relaxed/simple;
+	bh=wUlzFCcnmgHKHGjskqoYhBs36UQY95mlKRoUth8qWxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jnVWg0SIHyByTrfyBEcV0bC62mf672LAvWWpo2Fn7teZH+Kh0xj1AEXQye2kpZZMUf4vt87vciHL0invCLZGiJhNtmhaLwYnBIl8LJ6RSk8cOPltUhnFEkiBLMHeI0/cibH/x8EUZx29V3TAUSMZTgMluNIxqZ4K7k70FPKzYyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=buQYkEKA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D9u6bxDU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="buQYkEKA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764947817; x=1796483817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/0pxwljYE52fbEeH0J8mXoQ8htkOtzQ1bNaVYct7iBE=;
-  b=D9u6bxDU9loJBcIwUeabItM0PGRSa/h7TOMCy8wwyWZfQ3JXc6SgP2HC
-   FM4KRgmLJeGEXaQe2eztE9yvxRBua9xqUSI+NrDSkyg3rhrSpX80qVK85
-   MEyQU/fWbU96QJnfVU0lg6vJL83jC11sNsXYb0uuo8AITV9GXNzF1wUMF
-   6pEM/iumEUu7mbZKzu/NVMY01GgbH2AVel4aIrei0sMa1M5muFQn+3cYZ
-   qTux4XN1J/QLacsC9f3URquWDRpGa8Y5UBOAMrd4n93tiSj+6aUUa3K77
-   Hx+KWurlpCWb+/CkkcjaGyf09IWTa99TEuzoEpYoXWdkIHQW8ZUv7YcdK
-   A==;
-X-CSE-ConnectionGUID: ZpCG5ZK8S7qAGceS1K3WzQ==
-X-CSE-MsgGUID: T17vUxpoSEKlgQBC72syVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="66876345"
+  t=1764948538; x=1796484538;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wUlzFCcnmgHKHGjskqoYhBs36UQY95mlKRoUth8qWxQ=;
+  b=buQYkEKARdUDJx7O5PcdYE2I4NflCIhvl9i76iTXOe9rVL8MKyJx+/i2
+   7f+sFSYLOmFABfN2WYwOPFnGJnnV0vE8c663GVXHd6t48iQlC7SDrWUDt
+   ajBpxYozV0AGn4eLWxgScQLIgOokNVoEKTtzuBRQyOKWr+1tXUzT6E8IE
+   5/7vXVquVYAzEEMHyRWVJ01occby7KwAMFDBp8u0CC4fteuDhc2cExebw
+   Txec+K4xcxwBSHz1NwVE7Re23qI30+iLc8a+00oLtyIr0W3eo8VcaH+xW
+   ucoZybKV49TZrED3uvhA/ju6pT4baqiuf++ki/nnmwGGt6PVqT2A++xED
+   g==;
+X-CSE-ConnectionGUID: kowdyOX1S+mZlUECucfxUQ==
+X-CSE-MsgGUID: G+Y/oA7nQfaRxW0UXEQIOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="70833324"
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="66876345"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 07:16:56 -0800
-X-CSE-ConnectionGUID: zpOsOMIUS5qvMUsJ6/FmbQ==
-X-CSE-MsgGUID: 3eCM89lgQLSFZ1phwu8Nog==
+   d="scan'208";a="70833324"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 07:28:55 -0800
+X-CSE-ConnectionGUID: MSaMdDg9SvuzMUEHCFbxvQ==
+X-CSE-MsgGUID: 5yqjAznCQsWO0Qc8ZlwIBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="194970746"
+   d="scan'208";a="196108929"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Dec 2025 07:16:52 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Dec 2025 07:28:53 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRXYA-00000000F81-1MYM;
-	Fri, 05 Dec 2025 15:16:50 +0000
-Date: Fri, 5 Dec 2025 23:16:36 +0800
+	id 1vRXjm-00000000F8T-3OYF;
+	Fri, 05 Dec 2025 15:28:50 +0000
+Date: Fri, 5 Dec 2025 23:28:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre Gondois <pierre.gondois@arm.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Loehle <christian.loehle@arm.com>,
-	Ionela Voinescu <ionela.voinescu@arm.com>, zhenglifeng1@huawei.com,
-	Jie Zhan <zhanjie9@hisilicon.com>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v1 4/4] cpufreq: Update set_boost callbacks to rely on
- boost_freq_req
-Message-ID: <202512052257.WliHSJi6-lkp@intel.com>
-References: <20251204101344.192678-5-pierre.gondois@arm.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [joel-granados:jag/no-macro-conv 24/25] jiffies.c:undefined
+ reference to `proc_int_k2u_conv_kop'
+Message-ID: <202512052351.bANmia87-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,56 +61,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204101344.192678-5-pierre.gondois@arm.com>
 
-Hi Pierre,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.18 next-20251205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Gondois/Revert-cpufreq-Fix-re-boost-issue-after-hotplugging-a-CPU/20251204-182201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251204101344.192678-5-pierre.gondois%40arm.com
-patch subject: [PATCH v1 4/4] cpufreq: Update set_boost callbacks to rely on boost_freq_req
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20251205/202512052257.WliHSJi6-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512052257.WliHSJi6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/no-macro-conv
+head:   60075afc9fabecdb5b1015df21a05df3b2d50562
+commit: 71c0b361117fe4d62c3c9ebe9a0893d137af3aea [24/25] sysctl: Remove INT converter macros and add explicit functions
+config: sparc64-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512052351.bANmia87-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512052351.bANmia87-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512052257.WliHSJi6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512052351.bANmia87-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/cpufreq/cppc_cpufreq.c:771:6: warning: unused variable 'ret' [-Wunused-variable]
-     771 |         int ret;
-         |             ^~~
-   1 warning generated.
-
-
-vim +/ret +771 drivers/cpufreq/cppc_cpufreq.c
-
-33477d84c26bbf George Cherian  2018-07-11  766  
-54e74df5d76dea Xiongfeng Wang  2020-05-30  767  static int cppc_cpufreq_set_boost(struct cpufreq_policy *policy, int state)
-54e74df5d76dea Xiongfeng Wang  2020-05-30  768  {
-a28b2bfc099c6b Ionela Voinescu 2020-12-14  769  	struct cppc_cpudata *cpu_data = policy->driver_data;
-bb025fb6c276ac Ionela Voinescu 2020-11-05  770  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
-54e74df5d76dea Xiongfeng Wang  2020-05-30 @771  	int ret;
-54e74df5d76dea Xiongfeng Wang  2020-05-30  772  
-54e74df5d76dea Xiongfeng Wang  2020-05-30  773  	if (state)
-75f25e3bda7140 Pierre Gondois  2025-12-04  774  		policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->highest_perf);
-54e74df5d76dea Xiongfeng Wang  2020-05-30  775  	else
-75f25e3bda7140 Pierre Gondois  2025-12-04  776  		policy->cpuinfo.max_freq = cppc_perf_to_khz(caps, caps->nominal_perf);
-54e74df5d76dea Xiongfeng Wang  2020-05-30  777  
-54e74df5d76dea Xiongfeng Wang  2020-05-30  778  	return 0;
-54e74df5d76dea Xiongfeng Wang  2020-05-30  779  }
-54e74df5d76dea Xiongfeng Wang  2020-05-30  780  
+   sparc64-linux-ld: kernel/time/jiffies.o: in function `do_proc_int_conv_jiffies':
+>> jiffies.c:(.text+0xe0): undefined reference to `proc_int_k2u_conv_kop'
+   sparc64-linux-ld: jiffies.c:(.text+0xf8): undefined reference to `proc_int_u2k_conv_uop'
+   sparc64-linux-ld: kernel/time/jiffies.o: in function `do_proc_int_conv_userhz_jiffies':
+   jiffies.c:(.text+0x120): undefined reference to `proc_int_k2u_conv_kop'
+   sparc64-linux-ld: jiffies.c:(.text+0x138): undefined reference to `proc_int_u2k_conv_uop'
+   sparc64-linux-ld: kernel/time/jiffies.o: in function `do_proc_int_conv_ms_jiffies':
+   jiffies.c:(.text+0x160): undefined reference to `proc_int_k2u_conv_kop'
+   sparc64-linux-ld: jiffies.c:(.text+0x178): undefined reference to `proc_int_u2k_conv_uop'
+   sparc64-linux-ld: kernel/time/jiffies.o: in function `do_proc_int_conv_ms_jiffies_minmax':
+   jiffies.c:(.text+0x198): undefined reference to `proc_int_k2u_conv_kop'
+   sparc64-linux-ld: jiffies.c:(.text+0x1c0): undefined reference to `proc_int_u2k_conv_uop'
 
 -- 
 0-DAY CI Kernel Test Service
