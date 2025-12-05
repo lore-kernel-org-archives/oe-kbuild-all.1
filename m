@@ -1,365 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB9B18DB1E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 11:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764933167; cv=none; b=dxPMO6hzTo4Xm6mrjFplEgbviWmfKvZUhwXbWQEjQjBlrmLXBZLYBrOHKj0jaiFyqjgPiLqZaZq5kJr0g81Vy8FZ8dzlc35pU2x7wTmDeUf3e8SBMz8+tgEyaJsibSDiH+GyGStADFTqJwzpApgHnIuV2GaT3mX31JdKoPglybk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764933167; c=relaxed/simple;
-	bh=EZfWHrN/L9KuL0UdPR79cZSglSHestMFGpIqy2Ncl3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qFHDGaK8hzHlbdDlcn5TBfCBBTZFVUU9UqPLKRFql7URcr3VPxY8jmPxmrkS03cnlrerzw9eiZmOLfq1QGVj/erftZCMMpXxaayKLY76K8sJD70mEVmV78eThSod35IzAU478E0mkBc1XRixEFIV3YWcq3KJnWb6UtRqnrU4b+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G1wVGQ5B; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFE62FFF91;
+	Fri,  5 Dec 2025 11:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764933299; cv=fail; b=nX0G7J0cxP8deT61KR84Ubcj7vwFYtnmofo672Bi9+CvOJGk9CI3rGOFA9VwDqA/CkEJZofoRWahcGPKBQDW6w7KERp2bDnAxpxhoQYPLwH0Kr/t9+BCIKPNg1sb/xg8o8fo3K3pqDSPI6ImcnsXilFvGtftHIZMXfeOPXf04WY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764933299; c=relaxed/simple;
+	bh=fxeRRgNXsKzkm6k29I8PiynTjLe5jleYZQbMvB+pVNY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qTgJef5D2B4Sf1YpVP+TgpmNoJI1NHzWPSWHGOEbUWBUMhhdY/6Kuq98fbDhrZDraVB9t9JctKjCe8yjoG8OaCmNP+1hSR1yMEU4S+camQJVKx92CROry6mRralofA5rhMHt3Eo9t00By7z8M8N9hNxVgIv7tz8WsabZmoNYT7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnm9U2+I; arc=fail smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G1wVGQ5B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnm9U2+I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764933164; x=1796469164;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EZfWHrN/L9KuL0UdPR79cZSglSHestMFGpIqy2Ncl3I=;
-  b=G1wVGQ5BKtdhSXm3UPW38MOpABw61frdTy5yOnk6yrL222/sYxTwlItj
-   pR3cCeiXbkmNNWl9/YPT9eq66dNpxBX1cucok0/d8YfIv3qR6iCAJ8C6F
-   whMPS/6J9KpzKpM7GBmOjYquLZ1/UEQ1m16IEcjyTwieW3x+TlDdB2Wz9
-   fAUOH0HwnjTCqm08r62/Nw58iybqxDrYKAoEC1V3pLGB2FcmmZU1nOdUE
-   KOBCw1I707mkxbd80oQwsHg0zhGQ/2ZwPzqTj6hHhnY8uPhraUpmtArWy
-   w6/6nS/yBQEjBUotp5Pin59stSCfUFyGuUnvdhZcbKbJTwVoaX5rZ+Rwv
-   w==;
-X-CSE-ConnectionGUID: SPpZM/HWRl+Jws5QmcPEKQ==
-X-CSE-MsgGUID: IW3xXwXUSWWEUuTgj3Ap8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66860283"
+  t=1764933296; x=1796469296;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=fxeRRgNXsKzkm6k29I8PiynTjLe5jleYZQbMvB+pVNY=;
+  b=lnm9U2+I4LT+g7y8TVFqe+KyT7RYbD6O8bvyLuXXnzFCncJIUuiQ1vSd
+   g+s08pqyJ9qIFHEPwZHkbabHLG+AiDPyXEqqHHZ5KNY17TD5n532wTDbQ
+   NpJKQyME/om9zVv3ASNyCI7FrOUkegiIunspibDnpo1OW3nIPWnCDRRad
+   uslfy2Sqa3GJw8ckPqWr6QbkPhKrwDCp7KLwYjfWL9a3ojkKjAeY4GiJP
+   ysKehotUlQ1YMgc420J5rief4M5jufOpBwAK8kFjoaQIJE0BoAFOjMUMm
+   n7KpoAosjiyfydd3wZzuatew8gTn/MtthoJRvpTP9Wh98tRlqm9sScFVQ
+   Q==;
+X-CSE-ConnectionGUID: XDoIh1+BS5+iOukIGeFADg==
+X-CSE-MsgGUID: EQyxo460ReeuusPbSkXK9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65967262"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="66860283"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:12:43 -0800
-X-CSE-ConnectionGUID: pA4ewmxHS66QvxVQDz3EWw==
-X-CSE-MsgGUID: irlfK72TRNya7N16m8xHwg==
+   d="scan'208";a="65967262"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:14:55 -0800
+X-CSE-ConnectionGUID: fhPtwNQOTNOiE3z6zvLPRA==
+X-CSE-MsgGUID: 56C639jZRJuxLRsvVu5ccw==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Dec 2025 03:12:41 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRTjr-00000000Euj-1pAn;
-	Fri, 05 Dec 2025 11:12:39 +0000
-Date: Fri, 5 Dec 2025 19:12:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Guo <guoyongqiang12@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3479/3479]
- drivers/ub/urma/ubcore/ubcore_device.c:1101:6: warning: no previous
- prototype for 'ubcore_stop_requests'
-Message-ID: <202512051906.P1qE1lcs-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="232648251"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:14:55 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 5 Dec 2025 03:14:54 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Fri, 5 Dec 2025 03:14:54 -0800
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.14) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 5 Dec 2025 03:14:54 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ChaLU4xHt2sxhJ60EBprkyzmt8jzTJB30pcp3Pio8R/jZXP5f3/sDTWsBTFxFaIMclMgtosk/wDBkayofzji6eAm1moYZuM9Rbd1Ym/7ShxbBJSdLZ3P25nExJV+EUjkkUswqtoFHpEeP2zr7w+aw3DjA8kB8zHeaBoUY8DRyp2vwta5Ov4aEJ78Gqqoq+o5zYwc63Ld2ld0qv2d5As+DbLF3mTbjjDGuo0613Q4J7IjWc6Tat/yGmfo6PSLL9dpTGxwaY+hsn5vs1pj15Qy90LF08bW1R2KPo11Zld8Mk1v0Y6QJpvY6h0TrPKYuIzWZDKqyHu7Ocg5HE6jTy9ZxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sCOGwVz1ukwJ4CNhHXfphM3f1TtDhKQ+BaYbLgbXWmY=;
+ b=XiLIADKExsseHarZcMUcS1y5t8J3K/k73q9v2wZa8sj7GaqgTFYQI1U4LAoAHR4uQIbEqzxN9yWz28dbyAC7E8sdmZ1HFt7oiHub++SrthRxFuXRYvwseWfJy65MVk0daUMXYnnPtaGXdeKIGC7pdm9BwVJ+RBgw4H+ImlbgEQMeSvd++kkTwZFezAKpL7K0eRtaa9hBDo018AVN+1stEB/2x88UrNRNlb5jNBnF98BsPfBQRjxJ2OGn3ggITw5FMdZcSlzK4vSLPiB3eoN322jA8SvUMKCu1Otn1ZogFQ/M94vtSWwmDCZNaBbVQiKgPguTlQsWCSNrfz8eqhrA5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
+ by CY8PR11MB6916.namprd11.prod.outlook.com (2603:10b6:930:58::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Fri, 5 Dec
+ 2025 11:14:46 +0000
+Received: from MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9]) by MN0PR11MB5963.namprd11.prod.outlook.com
+ ([fe80::edb2:a242:e0b8:5ac9%5]) with mapi id 15.20.9388.003; Fri, 5 Dec 2025
+ 11:14:46 +0000
+Date: Fri, 5 Dec 2025 19:14:35 +0800
+From: Philip Li <philip.li@intel.com>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Daniel Gomez
+	<da.gomez@kernel.org>, Oliver Sang <oliver.sang@intel.com>, kernel test robot
+	<lkp@intel.com>, <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	Benno Lossin <lossin@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [linux-next:master 4752/13171] error[E0609]: no field
+ `__bindgen_anon_1` on type `bindings::kernel_param`
+Message-ID: <aTK+m/oHeIDa7UZJ@rli9-mobl>
+References: <202512020454.Tf36WHw5-lkp@intel.com>
+ <3447801b-95f7-4368-a433-e79669b5d22e@kernel.org>
+ <lBhfqvej6RgECA1JyZ0zOpPTpcVF5ALMyOHAKGmHvM8HTxdqgCqEFn1xpvUGcCTJ31qM1Fptxl0DLLHcHZJo4g==@protonmail.internalid>
+ <aTEi3KUUkPVGS3ix@xsang-OptiPlex-9020>
+ <87fr9qwjt2.fsf@t14s.mail-host-address-is-not-set>
+ <f2320396-4509-4591-983c-6eb96db85663@kernel.org>
+ <CANiq72mNQDN5cAi9XEo5X48ZNMjDoe3xkAeskFPcSjuhBCXwvg@mail.gmail.com>
+ <pSndtrQS0CVdjpKHPwropf0h0SLk9DiwQwWu6pGGj7MEQZpbLkBctjfbcbmdn7tk4IyZWZUE1UgrktBDmJrPHQ==@protonmail.internalid>
+ <aTIuMwbnGHRWrS9X@rli9-mobl>
+ <87cy4tw6nq.fsf@t14s.mail-host-address-is-not-set>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cy4tw6nq.fsf@t14s.mail-host-address-is-not-set>
+X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+ To MN0PR11MB5963.namprd11.prod.outlook.com (2603:10b6:208:372::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB5963:EE_|CY8PR11MB6916:EE_
+X-MS-Office365-Filtering-Correlation-Id: f46f8d87-e90d-466b-9a64-08de33ef7f37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VnZFaHp0cENpY3N3bmN5V0IrQy9URWRJK05POG5MZDlKMzFBZy85Y0N1SWVl?=
+ =?utf-8?B?UWV1MTVDNzNwblpkQlBzemlaS0tnV3RhZHBWTE9uMk5iajdWeXZTZjllS1dQ?=
+ =?utf-8?B?SkNRRFQ4MHdodU5EV054Mis4d1kwVTB5UUZlRndkTmMydlN5SXFDUXc1dGhF?=
+ =?utf-8?B?RklHdGtJZjBOS1hmbE5LVm9lWlNJaUxQV1ZqRmtpNXp2Q0didGN1MFNPTitk?=
+ =?utf-8?B?SEpYaTEvUkp1Tm9lbm55ZWRLanZBaTdIT3duYWwxWlBhMWl0VnpLTGpmc09R?=
+ =?utf-8?B?b1lBUnNKZ1YrRUY5OUY0NGR0MG1ybFFVL2dFQzd5Z1NtSVNjRFpjcWxiSHJO?=
+ =?utf-8?B?TkgzdlQvc1hVMC9tMnVkKytEL1hSTnY4TE1yd3ZMZnhZa3AxT3BablJtRVVz?=
+ =?utf-8?B?TTFhUmZLVTVQQlJVaUIrVDkwN0ZsdHlKYTRYaTVwNTlQQzZ5aENkc1BqalRs?=
+ =?utf-8?B?a0phbFhTUm1lSWUzS0RBTTBQS3l2d0JCNVoyUzFJbExicHpMeU41Mi9OSjVn?=
+ =?utf-8?B?T1hUV1MwSWYzQm5LeGNoaEVLVFNOMXhvNFZBVnB6Z0lrZTh5UzZSTHZlMUtW?=
+ =?utf-8?B?RzkxN0twK2J0Q25MK3IwUkF4bHFTMnZCdVlCbUQwV2tlNXRJekIrSHVzenVz?=
+ =?utf-8?B?aHUrOWp6b0R4a0VubG05ODVnaEg0Q2lGZm16ODJNUzUzT1VZRXcydExQY0Qy?=
+ =?utf-8?B?WENHQ0t6Ykt4YnNSVEs0NERENy8vZS9NUVB3U04yaWFLVFV1TTI2VVlJaHpn?=
+ =?utf-8?B?aHFLY25yOGM2ZjZXVENoRFowUmtvQUU5T0lseHN5NWdsM2pWYXNGZWNkclph?=
+ =?utf-8?B?QUhUYTVTWjJ4WXpaNEp1R3hXc0dwRHZHREpQNFhaN081SUk5Qk1PM1ZlQmJQ?=
+ =?utf-8?B?bmVkb2s5ZXMzUHU1RTRoUFVqT1pISjlEVU1ZeEV4dkZXeStzRFhTTTRGemxj?=
+ =?utf-8?B?bTRwRlhLZmVMMEVTSDZ1U1NFSStCQ3Y3QUcya1NhM0xBb0s3dFZpNkQ5Y2tS?=
+ =?utf-8?B?SkNCMXp6aXlQVVBFeGsycUFoZng4Nm0xOHpISUFMczQ3SkNhVDN1VDNjSmhm?=
+ =?utf-8?B?RWZvaEFuYkNLMVJuVHljQlFsem9JZVVjRkt4UStPaGJpbmxwR0FWYzlyMnFS?=
+ =?utf-8?B?OWVIZXRpQXg0MFR1WGpFcGpoYmx4WmhHTHlrTlhlRVREQzFZbmxvUDhUSnZx?=
+ =?utf-8?B?NE5nejZvZWt6L1dWLzBhbTNOcUNMbFlMemlwbHpqRHEzYXc3NTlybVg0VXY4?=
+ =?utf-8?B?UmM4RDZMdTlTckFsaDRpWHhSV1pwWk9vTjlubUtNV05CMEhOK1N1UU8xeXJj?=
+ =?utf-8?B?QU1QVnYyUnRqOXVGWHVjbU5jMTIrWlU0WnN4UjY2aUNON0gvOEFCRHVRWXBP?=
+ =?utf-8?B?c2N1QmZSbUcySytaUk95elo3YWt5ZHFpN2RTaWw1QjUxQVBxUUtTL3JKZlVR?=
+ =?utf-8?B?UnNtMCtyR0lVdnkwOEgwdmF1bTdzWTY5NE1Tckl5ZW5sbGZaOVlTS1lMeTFT?=
+ =?utf-8?B?cG5YYkdTVHBCL2NsVDJza2Nsd25yK1haUndUVlNkckkvSmVlcFI3Wk0zck04?=
+ =?utf-8?B?eXF3L3RQK1pBZ291LzJwZVFsWEYrU3g4UmxmRkc5M2hzcHJJVzR6SlAwdzdk?=
+ =?utf-8?B?aldvNHBqRjczM2ZycHN2RDB4QWxGNzNFUWRNYWVsMERKVEFFNXJiOHBkVnBG?=
+ =?utf-8?B?ckdDMkEreXIyS1NDZlRWamoxaTZUSDRIOWRFa3c3NGNGZkl1cWF4a1AzaUFr?=
+ =?utf-8?B?RzZ5bkduSlJVY2ZQM3NsVy85SitoNmxMMS9iV0pkVjBmamJEUzJEa2V0YkRZ?=
+ =?utf-8?B?TUpuZzBnZXNXQmxlM25wKzJwOXNaWWZlTENqTkJLaTRIc1p3TUljN3htNC9E?=
+ =?utf-8?B?ZmVKOE5qVlVsMVdQY2xiZ3diY0pnVU0vS2dHNDhtVmJkWTdLYXhPTUplYTFD?=
+ =?utf-8?Q?qxHI9/Dp5ouAVKzoKNLZa61qAfs7evx2?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB5963.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDVEQ0NwdkdIWGRBWEVoSlBkYUFxdEJkUUhRa2tFcWJDR1JSL0V2alNKbXRR?=
+ =?utf-8?B?KzRPM3doN0JpRlpKY2E1T20wYWdIbExvTW92VnZzZnBGVmpQWVVZZk40WDlY?=
+ =?utf-8?B?VlRsNWFsN3VVVEpHS0E1VXJENFlXa3A0d2xSNVVsWnh4NGxWNlVLZzkxbm5J?=
+ =?utf-8?B?elVzQThlLzBVTnZqbUU1Wm1LS2tlTEtKL3FwZDhwR2REWU11QVVFcGZjVzhR?=
+ =?utf-8?B?ZWxVZjU2UVdydy95ek9VTFpjN1RIVjh3dzA1K0U1TG1wTlpYMTRTbkhZM1Jr?=
+ =?utf-8?B?dXJiMld1d2ZxTWZIME9TWTZoRllMczBnblpobUZXR1crVzFFNDhIK3B1c1V4?=
+ =?utf-8?B?cDVMaWFaWlpCS0g5L2l5WnAyUSt4QWRDekVKUUY2M0JVMGVvU2ZGOUgyL3B6?=
+ =?utf-8?B?YmpjVU9QdkhsTEY5Zlh1TlJnZTNaRmtubXdCN0RBajZZQnlDb09BV1pnWk94?=
+ =?utf-8?B?a1A0amovdEhXTE84Yy9HNHA5dTM4VzY3K3AzSTB6cEFVWHkxUGp2eGNRenMz?=
+ =?utf-8?B?MWhWTGl1WlBBeVpjVHdGN09sTUkrYTBnZHNNSUlyVmdSU3FuOUJmT25FVk1x?=
+ =?utf-8?B?SUE1UUI2OGtPb09venRRekdOQXdjdCszdktveXNTM083U1dUdVRVT1BQV1Fi?=
+ =?utf-8?B?WkZra1ZrbWppalFNeVNnRGxqMFBYQTQ4eXVTaTE0OGdmK3MrSXUwTE91dGVY?=
+ =?utf-8?B?eS9tb1VoaVBpYWlxcVQxd1dDblJ5Qm9hcERTWEFGc0RwZU1pWUw0Y2pGVDZN?=
+ =?utf-8?B?a2FyMW40T1k0UU9xVVZvRUlxWmUrWXl4K0NiUjdkd25wS1JERDMzelNRTGZ2?=
+ =?utf-8?B?RHRKbTkwOUREa2lTbHdjc1cvcGxWeGtBdXdJY1Z5NzBpWTRKek9QT1VzcjNt?=
+ =?utf-8?B?d0p6UUR2Y0M2ZWZNelRsUjdtMHh1b1AzYkVYOStDWUM4bnBhMXBiQk84YS9t?=
+ =?utf-8?B?TXkrbU16MHVabmxVRGlxbVZ0dUZNc3lBV2NFdGRiRVdSdVVRK2tDYjdsa3ZD?=
+ =?utf-8?B?VmtWbE4wN0JVVEJ2S3ZST3pHWG5KcFlMUndtWWkrVHZGTUQyTVU5d2RtUGxU?=
+ =?utf-8?B?SkNVV2djVlVPeU9jOUl5UE1xSjFEZExXNlVMOTM3QUxJVmIzaUtrVjcrQTdS?=
+ =?utf-8?B?UFlWM3pocE9IbTMwTkFka0M1blViSjZCTmJEMnpkc0oxZmNMMmZmRnJiWllq?=
+ =?utf-8?B?c2RlRzBkbk02eWZsY0psZno0NnNmdlcwOWF5aDdTYjg5cUNwSVNwaGR1SlV0?=
+ =?utf-8?B?VmNWcUliV3p0NTVHcW1vMUFSdUhpVE1WUmgvMkRKQVBCOXlEdzFaQXpzNXFk?=
+ =?utf-8?B?WDBvZHpaM2pMTVZqeHRJYUZJTHBReGoxQXoyNGthZURMY2hLckV0ekg1UDZZ?=
+ =?utf-8?B?aGhLYW1USDVHakRZYXJkUzQrREplcFVJc2FPd1BPendibEUvUWV1NEY0dWhZ?=
+ =?utf-8?B?b0RybTVOenAzdndmeEoxS0RZYWkrZXRMRVB5czVuM2tRbHAzcmFlaHpFaFdn?=
+ =?utf-8?B?Vitib2JzeURZaFB2ZUFXUldjQU9ZV1hMalU0dEhGZHRhOTBWby9vZGx2djBN?=
+ =?utf-8?B?RkNXKzl2M0RubldzWUs1Ui8yb2Z2MU9vWUhUa1V5MGw2aDF0eVFWRXdwcHJp?=
+ =?utf-8?B?eEhNdjVlc1pMNitRRi9tLzJWTDlzV051SHVVRUZYdENtWmcxNi9vMEdRQWRs?=
+ =?utf-8?B?V1JtUEppZTR5Q0xWYW5KdnQvalRwQjUxWk1MT0VzeXZVMHlTbmlBVGhLVUty?=
+ =?utf-8?B?MTBaejhTVEJLVkNsYnovKzlEOTZ6emEwZ2hMVDZ5K0g1L0hpdnBkODF2bGZC?=
+ =?utf-8?B?NFAzY2drYkp6Yk93Vk1lZStCTkgveGZKNTBmalVpT1grZ1RoaTQ2dmpTb3Jh?=
+ =?utf-8?B?VmtieUE3a0s3Wm12L0RTQU42YzJHMmZ4ZHozdlNROHBjR2JwRWhVNGhMZXJu?=
+ =?utf-8?B?cUZxNHVUZFdkejZveWdyRjhleFRSUkZNN1oxSEhZZ0lMVlo3aWZjRHNRN0Nr?=
+ =?utf-8?B?QUN3a1UrV1lBcmtxcTQ5ekFicFNyWCtwS3Bhbk0wSytEY1NsampWZjNBUjdh?=
+ =?utf-8?B?ajZuRGd4UHpDOFVjTWhCcDJzcnA1a0xOVytQTXdrdE5xZktXN1VtQnV2OGxr?=
+ =?utf-8?Q?QOdLVn1WjGIRtp2GSyUMG9OWA?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f46f8d87-e90d-466b-9a64-08de33ef7f37
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB5963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 11:14:46.0780
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P3C43V8tUkedapJy4MA6yC6tSGjfWUcAtBPInzzn+g9eFH9o4Bqjxpo+Sczrg0INeTB7TggNy1ELGEfJWQve9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6916
+X-OriginatorOrg: intel.com
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
-commit: 4023540b983eda09c4397401ac6a5a037d17a9c0 [3479/3479] ubcore: implement support for UVS commands
-config: arm64-randconfig-r061-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051906.P1qE1lcs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051906.P1qE1lcs-lkp@intel.com/reproduce)
+On Fri, Dec 05, 2025 at 11:43:21AM +0100, Andreas Hindborg wrote:
+> "Philip Li" <philip.li@intel.com> writes:
+> 
+> > On Thu, Dec 04, 2025 at 01:24:03PM +0100, Miguel Ojeda wrote:
+> >> On Thu, Dec 4, 2025 at 12:59 PM Daniel Gomez <da.gomez@kernel.org> wrote:
+> >> >
+> >> > + Any reason to use an unreleased clang version for this reports? Since clang-22
+> >> > is not officially released yet, issues seen with it seem lower priority than
+> >> > those reproduced with stable, released versions. Does it make sense to act
+> >> > on these kind of "bleeding edge" reports, or should we wait until they're
+> >> > confirmed on a stable release? Does 0day test both?
+> >>
+> >> Some people in the kernel regularly test with unreleased compilers
+> >> (all GCC, Clang and Rust) in order to fix issues before those
+> >> compilers get actually released, e.g. ClangBuiltLinux for LLVM, I do
+> >> it for `rustc`, several people for GCC, etc.
+> >>
+> >> So I guess the idea is similar for kernel test robot? There is value
+> >> on doing that, and whether one should act depends -- if it is close to
+> >> the release of the compiler, then it makes sense to try to figure out
+> >> what is breaking so that the compiler has a chance to fix it.
+> >> Otherwise, if nobody tries, we would get quite broken compilers (for
+> >> the kernel use case at least).
+> >
+> > thanks, the bot tests multiple versions of compiler for both gcc and clang.
+> > For clang, low confidence ones will only be sent to llvm mailing list for
+> > check firstly, and for other issues, we will cc llvm mailing list who also
+> > monitor this closely and help check in case there's issue in latest compiler.
+> >
+> >>
+> >> It is also why I think having at least a basic kernel build on the
+> >> upstream CIs of the compilers is a good idea (it already showed value
+> >> in upstream Rust and perhaps we should talk about it again in LPC for
+> >> Clang).
+> >>
+> >> But, yeah, the reports can be confusing and reacting to them properly
+> >> does take time and effort (e.g. I need sometimes to bisect the
+> >> compiler etc.).
+> >>
+> >> Does LKP try the bleeding edge versions only if a stable compiler
+> >> built successfully? That could perhaps help.
+> >
+> > For bleeding edge, the bot regularly builds and use latest code now.
+> >
+> >>
+> >> Andreas also suggested yesterday in our meeting to have such bleeding
+> >> edge reports perhaps more clearly marked or similar.
+> >
+> > Probably we can mark rust issue as low confidence when it occurs on non
+> > released compiler, so it will not be directly sent to developer before it
+> > is further checked?
+> 
+> Would it be possible to still send the report, but to inject a line to
+> the report stating it is marked as low confidence due to X and Y
+> (unreleased compiler etc.)?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051906.P1qE1lcs-lkp@intel.com/
+Got it, i can add a new line or update the reproduce line from
 
-All warnings (new ones prefixed by >>):
+	reproduce (this is a W=1 build):
 
-   drivers/ub/urma/ubcore/ubcore_device.c:994:5: warning: no previous prototype for 'ubcore_register_device' [-Wmissing-prototypes]
-     994 | int ubcore_register_device(struct ubcore_device *dev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1061:6: warning: no previous prototype for 'ubcore_unregister_device' [-Wmissing-prototypes]
-    1061 | void ubcore_unregister_device(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_device.c:1101:6: warning: no previous prototype for 'ubcore_stop_requests' [-Wmissing-prototypes]
-    1101 | void ubcore_stop_requests(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1154:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
-    1154 | int ubcore_dispatch_event(struct ubcore_event *event)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_device.c:1228:6: warning: no previous prototype for 'ubcore_dispatch_async_event' [-Wmissing-prototypes]
-    1228 | void ubcore_dispatch_async_event(struct ubcore_event *event)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_device.c:1663:25: warning: no previous prototype for 'ubcore_get_eid_list' [-Wmissing-prototypes]
-    1663 | struct ubcore_eid_info *ubcore_get_eid_list(struct ubcore_device *dev,
-         |                         ^~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_device.c:1715:6: warning: no previous prototype for 'ubcore_free_eid_list' [-Wmissing-prototypes]
-    1715 | void ubcore_free_eid_list(struct ubcore_eid_info *eid_list)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1853:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
-    1853 | void ubcore_net_exit(struct net *net)
-         |      ^~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_device.c:1954:6: warning: no previous prototype for 'ubcore_dispatch_mgmt_event' [-Wmissing-prototypes]
-    1954 | void ubcore_dispatch_mgmt_event(struct ubcore_mgmt_event *event)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'init_ubcore_device':
-   drivers/ub/urma/ubcore/ubcore_device.c:375:35: warning: array subscript 4 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     375 |      cap->max_tp_cnt < g_ht_params[UBCORE_HT_TP].size)
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:376:14: warning: array subscript 4 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     376 |   g_ht_params[UBCORE_HT_TP].size = cap->max_tp_cnt;
-         |   ~~~~~~~~~~~^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:378:36: warning: array subscript 5 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     378 |      cap->max_tpg_cnt < g_ht_params[UBCORE_HT_TPG].size)
-         |                         ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:379:14: warning: array subscript 5 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     379 |   g_ht_params[UBCORE_HT_TPG].size = cap->max_tpg_cnt;
-         |   ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:347:13: warning: array subscript 6 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     347 |  g_ht_params[UBCORE_HT_RM_VTP].size = vtp_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:348:13: warning: array subscript 7 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     348 |  g_ht_params[UBCORE_HT_RC_VTP].size = vtp_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:349:13: warning: array subscript 8 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     349 |  g_ht_params[UBCORE_HT_UM_VTP].size = vtp_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:356:13: warning: array subscript 9 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     356 |  g_ht_params[UBCORE_HT_RM_VTPN].size = vtpn_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:357:13: warning: array subscript 10 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     357 |  g_ht_params[UBCORE_HT_RC_VTPN].size = vtpn_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:358:13: warning: array subscript 11 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     358 |  g_ht_params[UBCORE_HT_UM_VTPN].size = vtpn_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:359:13: warning: array subscript 12 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     359 |  g_ht_params[UBCORE_HT_CP_VTPN].size = vtpn_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:360:13: warning: array subscript 14 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     360 |  g_ht_params[UBCORE_HT_VTPN].size = vtpn_size;
-         |  ~~~~~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:387:36: warning: array subscript 13 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     387 |      cap->max_utp_cnt < g_ht_params[UBCORE_HT_UTP].size)
-         |                         ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:388:14: warning: array subscript 13 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     388 |   g_ht_params[UBCORE_HT_UTP].size = cap->max_utp_cnt;
-         |   ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:391:35: warning: array subscript 15 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     391 |      cap->max_tp_cnt < g_ht_params[UBCORE_HT_CTP].size)
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:392:14: warning: array subscript 15 is above array bounds of 'struct ubcore_ht_param[4]' [-Warray-bounds]
-     392 |   g_ht_params[UBCORE_HT_CTP].size = cap->max_tp_cnt;
-         |   ~~~~~~~~~~~^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:316:31: note: while referencing 'g_ht_params'
-     316 | static struct ubcore_ht_param g_ht_params[] = {
-         |                               ^~~~~~~~~~~
---
->> drivers/ub/urma/ubcore/ubcore_cmd_tlv.c:228:5: warning: no previous prototype for 'ubcore_tlv_parse' [-Wmissing-prototypes]
-     228 | int ubcore_tlv_parse(ubcore_fill_spec_func fill_spec, size_t spec_size,
-         |     ^~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_cmd_tlv.c:262:5: warning: no previous prototype for 'ubcore_tlv_append' [-Wmissing-prototypes]
-     262 | int ubcore_tlv_append(ubcore_fill_spec_func fill_spec, size_t spec_size,
-         |     ^~~~~~~~~~~~~~~~~
+To
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+	reproduce (this is a W=1 build on unreleased compiler):
 
+I can wait for a while to see any other comments regarding this. And
+of course, this can be refined at any time in the future to make the
+report clear.
 
-vim +/ubcore_stop_requests +1101 drivers/ub/urma/ubcore/ubcore_device.c
+> 
+> I think it is still valuable to get the reports, but it would be nice to
+> know we don't need to scramble all hands on deck immediately.
 
-  1100	
-> 1101	void ubcore_stop_requests(struct ubcore_device *dev)
-  1102	{
-  1103		struct ubcore_client_ctx *ctx, *tmp;
-  1104	
-  1105		if (dev == NULL || strnlen(dev->dev_name, UBCORE_MAX_DEV_NAME) >=
-  1106					   UBCORE_MAX_DEV_NAME) {
-  1107			ubcore_log_err("Invalid parameter");
-  1108			return;
-  1109		}
-  1110		down_read(&dev->client_ctx_rwsem);
-  1111		list_for_each_entry_safe(ctx, tmp, &dev->client_ctx_list, list_node) {
-  1112			if (ctx->client && ctx->client->stop)
-  1113				ctx->client->stop(dev, ctx->data);
-  1114		}
-  1115		up_read(&dev->client_ctx_rwsem);
-  1116		ubcore_log_info("ubcore device: %s stop success.\n", dev->dev_name);
-  1117	}
-  1118	EXPORT_SYMBOL(ubcore_stop_requests);
-  1119	
-  1120	void ubcore_register_event_handler(struct ubcore_device *dev,
-  1121					   struct ubcore_event_handler *handler)
-  1122	{
-  1123		if (dev == NULL || handler == NULL) {
-  1124			ubcore_log_err("Invalid argument.\n");
-  1125			return;
-  1126		}
-  1127	
-  1128		down_write(&dev->event_handler_rwsem);
-  1129		list_add_tail(&handler->node, &dev->event_handler_list);
-  1130		up_write(&dev->event_handler_rwsem);
-  1131	}
-  1132	EXPORT_SYMBOL(ubcore_register_event_handler);
-  1133	
-  1134	static void ubcore_dispatch_event_clients(struct ubcore_event *event)
-  1135	{
-  1136		struct ubcore_event_handler *handler;
-  1137		struct ubcore_device *dev = event->ub_dev;
-  1138	
-  1139		down_read(&dev->event_handler_rwsem);
-  1140		list_for_each_entry(handler, &dev->event_handler_list, node)
-  1141			handler->event_callback(event, handler);
-  1142		up_read(&dev->event_handler_rwsem);
-  1143	}
-  1144	
-  1145	static void ubcore_dispatch_event_task(struct work_struct *work)
-  1146	{
-  1147		struct ubcore_event_work *l_ubcore_event =
-  1148			container_of(work, struct ubcore_event_work, work);
-  1149	
-  1150		ubcore_dispatch_event_clients(&l_ubcore_event->event);
-  1151		kfree(l_ubcore_event);
-  1152	}
-  1153	
-  1154	int ubcore_dispatch_event(struct ubcore_event *event)
-  1155	{
-  1156		struct ubcore_event_work *l_ubcore_event;
-  1157	
-  1158		l_ubcore_event = kzalloc(sizeof(*l_ubcore_event), GFP_ATOMIC);
-  1159		if (!l_ubcore_event)
-  1160			return -ENOMEM;
-  1161	
-  1162		INIT_WORK(&l_ubcore_event->work, ubcore_dispatch_event_task);
-  1163		l_ubcore_event->event = *event;
-  1164	
-  1165		if (ubcore_queue_work((int)UBCORE_DISPATCH_EVENT_WQ,
-  1166				      &l_ubcore_event->work) != 0) {
-  1167			kfree(l_ubcore_event);
-  1168			ubcore_log_err("Queue work failed");
-  1169		}
-  1170	
-  1171		return 0;
-  1172	}
-  1173	
-  1174	void ubcore_unregister_event_handler(struct ubcore_device *dev,
-  1175					     struct ubcore_event_handler *handler)
-  1176	{
-  1177		if (dev == NULL || handler == NULL) {
-  1178			ubcore_log_err("Invalid argument.\n");
-  1179			return;
-  1180		}
-  1181	
-  1182		down_write(&dev->event_handler_rwsem);
-  1183		list_del(&handler->node);
-  1184		up_write(&dev->event_handler_rwsem);
-  1185	}
-  1186	EXPORT_SYMBOL(ubcore_unregister_event_handler);
-  1187	
-  1188	static bool ubcore_preprocess_event(struct ubcore_event *event)
-  1189	{
-  1190		if (event->event_type == UBCORE_EVENT_TP_ERR &&
-  1191		    event->element.tp != NULL) {
-  1192			ubcore_log_info("ubcore detect tp error event with tpn %u",
-  1193					event->element.tp->tpn);
-  1194			if (event->ub_dev->transport_type == UBCORE_TRANSPORT_UB) {
-  1195				if (event->element.tp->state == UBCORE_TP_STATE_ERR ||
-  1196				    event->element.tp->state == UBCORE_TP_STATE_RESET) {
-  1197					ubcore_log_warn(
-  1198						"Tp %u already in state %d, ignore err event",
-  1199						event->element.tp->tpn,
-  1200						(int32_t)event->element.tp->state);
-  1201					return true;
-  1202				}
-  1203			}
-  1204			return true;
-  1205		} else if (event->event_type == UBCORE_EVENT_TP_FLUSH_DONE &&
-  1206			   event->element.tp != NULL) {
-  1207			/* Scenarios of flush done
-  1208			 * 1. tp err: ubcore informs lower layer change tp to ERR when tp err.
-  1209			 * It triggers udma to flush after udma change tp to ERR.
-  1210			 * udma reports flush done event after flush done.
-  1211			 * 2. qpc err: udma senses qpc err, flushes and reports flush done event.
-  1212			 * tp has not been changed to ERR in this case.
-  1213			 * ubcore needs to change tp to ERR before change it to RESET.
-  1214			 */
-  1215			ubcore_log_info("ubcore detect tp %u flush done event",
-  1216					event->element.tp->tpn);
-  1217			if (event->element.tp->state == UBCORE_TP_STATE_RESET) {
-  1218				ubcore_log_warn(
-  1219					"Tp %u already in state %d, ignore flush done event",
-  1220					event->element.tp->tpn,
-  1221					(int32_t)event->element.tp->state);
-  1222				return true;
-  1223			}
-  1224		}
-  1225		return false;
-  1226	}
-  1227	
-> 1228	void ubcore_dispatch_async_event(struct ubcore_event *event)
-  1229	{
-  1230		if (event == NULL || event->ub_dev == NULL) {
-  1231			ubcore_log_err("Invalid argument.\n");
-  1232			return;
-  1233		}
-  1234	
-  1235		if (ubcore_preprocess_event(event))
-  1236			return;
-  1237	
-  1238		if (ubcore_dispatch_event(event) != 0)
-  1239			ubcore_log_err("ubcore_dispatch_event failed");
-  1240	}
-  1241	EXPORT_SYMBOL(ubcore_dispatch_async_event);
-  1242	
+Got it, sorry for this time's unclear info.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> I guess one could also just read the report more carefully to learn
+> that an unreleased compiler was used. But seeing this at a glance would
+> be great.
+> 
+> 
+> Best regards,
+> Andreas Hindborg
+> 
+> 
