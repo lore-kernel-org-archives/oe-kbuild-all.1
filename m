@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A7F3B8D7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 22:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A9D28B7EA;
+	Fri,  5 Dec 2025 22:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764973527; cv=none; b=PHpDNgV4Zn0RUEStUZRr3eDQEaoDWZ1SVbq4wNr1SCYX5WwEyqFj8wwDTMphRXXiN/DKqdZp2tSyPmH9qww7+n9UEyhy/SGT79d2IO4vffohBCO23smI2vQNh9EqGh/9ycUDP6dTfqutX6pTf5TFrVxZwhtc31rSdviCC9tDXd8=
+	t=1764975390; cv=none; b=AO/Q0FOIRTNdgmeeQyhI0VuXJAOWFj4qgMk3fktvxdRizBEdy/fsp41BW6m8oPDoZnoG8P89D3Z1TPzggB24If/a6f5XoEQK/dqiUwnoEgOr4kxJITFai+R4MleDnOl6ogZ9lzu+uqD6z5og425hT/nsWOquHhxApdsr8i1StWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764973527; c=relaxed/simple;
-	bh=4MajvzBWnu4RjqxRaCiEJeD+ULQO67C1cwJw79wjiwI=;
+	s=arc-20240116; t=1764975390; c=relaxed/simple;
+	bh=z2jIlg145utpQZXeiBtOBhh3JCKFhu/OxhLedPhRX0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XqeOYIOXwy9II1AyGG0okfMImPcMQSjJnA8SF9bkr6fqoKWHoTYxKfUVVtDGbAp17dH/IYllgUon0lFx/X0oonxakbUF2n7DgkrBGkD9NlJaJEEIj/Smafj62yZFR9LXlwZ2naG/vVW6L81N6syc0WmjcjNbWiipL+W7eu1a5MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYyrR+eM; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=OSW10mnGXDnOU4YXoZzVGM8vEVwg9tKbVY1T/lMmIC76lmXRaiH8hup8n6uOotMRlTRv5d6x7YPlyMEazQcFNJuL2DoShMBoRsQ8ApV19+AMYFbqXOTRqOgUwqgA7DqxnQel3zhFG8UZcu4PXE8HvzGlQ1yePZ6aSzP2u/sCyDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQ3AGxHY; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYyrR+eM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQ3AGxHY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764973525; x=1796509525;
+  t=1764975389; x=1796511389;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4MajvzBWnu4RjqxRaCiEJeD+ULQO67C1cwJw79wjiwI=;
-  b=eYyrR+eM7FRQMf67jJI+BU9N8ShcR6FUt/luXyxgNS0RGCYn62iwfNHB
-   EAaduCGxYE5tx/m+1bZDQ89ZUHL7RZK7GxLRf9otSGFI7WDAeF8iOYyBw
-   w7nxAF644Ucjd2CHiFgMBIM1P6ugS3aoiMPYNZt1u2IyLGJi02tXb/cKh
-   CLwEXJK0tmUZXC7YaaSMDGBTKU2KmIpiiMehaUqyM9kqtU0dqLg6PdjUM
-   C4TvZ3gbQ/wnomj89a8Th7PT09Tgte2j1mafKUbeG5dlwm53NOSLa3a9l
-   Q6v0ERea/gE+qaIoV7gEVqXdgYuUEafFtriBXtvG13E2OUS44P87JIz+J
-   Q==;
-X-CSE-ConnectionGUID: jUvzT+rETKKRbAL2Y8tvMw==
-X-CSE-MsgGUID: 5oHwO9mpTrCR5W0oUobKvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="69606021"
+  bh=z2jIlg145utpQZXeiBtOBhh3JCKFhu/OxhLedPhRX0k=;
+  b=YQ3AGxHYyz+wrXdDG7Hf1Lhu+DRoPPYCFQXFkiafeiRxbsgca3Lh5/vo
+   l+Ys3USWtH6e2c2FHvzW9HhO6f5Ly8Uj3yv1hfSyxr5p3Cz1Uu94hYDRL
+   Zy4aWzHlEJ3xMKwKhAMIC7ETi1QOV93t6DFZEUkStYCTSFmkFXaPCA2Te
+   MqqYiA0TDsXiPuEWHry2DefvfasZ8ZK7/8RHOQPZg+GptqMm+h8lqXU3F
+   0JAhFW6T0UWH1eUNgv/eL92YjgU+LECt44DCWDlPCMj7OtPe/aLe1vV5i
+   YyUCciFoSAPsH0ndXhKHJCLJMrbbLF3ZBVESJLEphVlydUX+zCjGnthTg
+   A==;
+X-CSE-ConnectionGUID: owHSOfNDREaVQlqx9SIAZw==
+X-CSE-MsgGUID: udDDXtQZSV2YOhp/uwaOug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="66909094"
 X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
-   d="scan'208";a="69606021"
+   d="scan'208";a="66909094"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 14:25:24 -0800
-X-CSE-ConnectionGUID: 9zPZXT6eSbKumg6sGAUY3w==
-X-CSE-MsgGUID: t+A5ae4rSgS4OZIQ8ckYHw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 14:56:27 -0800
+X-CSE-ConnectionGUID: eU1kQ3nFR32Ft90bzKF/kA==
+X-CSE-MsgGUID: szpbSbajQaiqF6dDVywQsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
-   d="scan'208";a="196177282"
+   d="scan'208";a="196183494"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Dec 2025 14:25:23 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Dec 2025 14:56:26 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vReEr-00000000Fb3-1axT;
-	Fri, 05 Dec 2025 22:25:21 +0000
-Date: Sat, 6 Dec 2025 06:24:49 +0800
+	id 1vReiu-00000000FdR-1h1d;
+	Fri, 05 Dec 2025 22:56:24 +0000
+Date: Sat, 6 Dec 2025 06:55:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wen Chen <chenwen54@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3479/3479]
- drivers/ub/urma/ubcore/ubcore_tp.c:42:5: warning: no previous prototype for
- 'ubcore_set_tp_attr'
-Message-ID: <202512060607.MyfYJLh0-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:simplify-kallsyms 1/1] kallsyms failure: relative symbol value
+ 0xffff1004 out of range
+Message-ID: <202512060650.TnfRk8Dv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,64 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
-commit: 48c0dc7e6efc81a43d09cc96efcd43f68c0ed145 [3479/3479] urma: added functions for getting and setting TP attribute fields.
-config: arm64-randconfig-r061-20251205 (https://download.01.org/0day-ci/archive/20251206/202512060607.MyfYJLh0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512060607.MyfYJLh0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git simplify-kallsyms
+head:   1a0f4c7b0dd78403c70cf09ff6b4c0bb3813f52a
+commit: 1a0f4c7b0dd78403c70cf09ff6b4c0bb3813f52a [1/1] kallsyms: Simplify handling of the relative base
+config: arm-randconfig-002-20251206 (https://download.01.org/0day-ci/archive/20251206/202512060650.TnfRk8Dv-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512060650.TnfRk8Dv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512060607.MyfYJLh0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512060650.TnfRk8Dv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/ub/urma/ubcore/ubcore_tp.c:16:5: warning: no previous prototype for 'ubcore_get_tp_list' [-Wmissing-prototypes]
-      16 | int ubcore_get_tp_list(struct ubcore_device *dev, struct ubcore_get_tp_cfg *cfg,
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_tp.c:42:5: warning: no previous prototype for 'ubcore_set_tp_attr' [-Wmissing-prototypes]
-      42 | int ubcore_set_tp_attr(struct ubcore_device *dev, const uint64_t tp_handle,
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_tp.c:65:5: warning: no previous prototype for 'ubcore_get_tp_attr' [-Wmissing-prototypes]
-      65 | int ubcore_get_tp_attr(struct ubcore_device *dev, const uint64_t tp_handle,
-         |     ^~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
-
-
-vim +/ubcore_set_tp_attr +42 drivers/ub/urma/ubcore/ubcore_tp.c
-
-    41	
-  > 42	int ubcore_set_tp_attr(struct ubcore_device *dev, const uint64_t tp_handle,
-    43			       const uint8_t tp_attr_cnt, const uint32_t tp_attr_bitmap,
-    44			       const struct ubcore_tp_attr_value *tp_attr,
-    45			       struct ubcore_udata *udata)
-    46	{
-    47		int ret;
-    48	
-    49		if (dev == NULL || dev->ops == NULL || dev->ops->set_tp_attr == NULL ||
-    50		    tp_attr == NULL) {
-    51			ubcore_log_err("Invalid parameter.\n");
-    52			return -EINVAL;
-    53		}
-    54	
-    55		ret = dev->ops->set_tp_attr(dev, tp_handle, tp_attr_cnt, tp_attr_bitmap,
-    56					    tp_attr, udata);
-    57		if (ret != 0)
-    58			ubcore_log_err("Failed to set tp attributions, ret: %d.\n",
-    59				       ret);
-    60	
-    61		return ret;
-    62	}
-    63	EXPORT_SYMBOL(ubcore_set_tp_attr);
-    64	
-  > 65	int ubcore_get_tp_attr(struct ubcore_device *dev, const uint64_t tp_handle,
+>> kallsyms failure: relative symbol value 0xffff1004 out of range
 
 -- 
 0-DAY CI Kernel Test Service
