@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBFE354AF6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 15:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9949233D9E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 15:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764947756; cv=none; b=jN84TXo5PN203WQAj8Xwbi6NDC70yBbSxK3gA9PTiQ4PNFVfuXoRMdvt3gkKWT0Z7flq644IKt3Z70r44T8LxWlJvkK+g0OePlqeJETUZ8Ixf71+3a4d/yis05kZm8CuESQV+2t+d0xsPM83CZ/ulSBfjx1sIuGHXwQuq8pLDT0=
+	t=1764947760; cv=none; b=Sp//I8bhjRhCIG6DhmcYhyKB1hmkXmYUUX3hrls4YmkXBQ9HvW0DMkewMTw/fTYbPmPvclm2Xx8H5OjOYgmiyOS9CipJl0hzf1c94aY2fYT3TlL6GdwCHc0yQakfnLXBn91DjHFx/PV02x6liu5Z/7HwFJ9GGf/p68EjPAFxngs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764947756; c=relaxed/simple;
-	bh=308x9t9lk7qD4/Hv4icjZUMekAYnnA9eeUzw5OpfVOw=;
+	s=arc-20240116; t=1764947760; c=relaxed/simple;
+	bh=mHLXG7+ArsoJOUmmxYzJyJFgby6N8Ny3BjsUa6UQhdg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lrqk5mZuACIxb9CxEGgwwuLvtIUx3VKFrgK0Ergq2scxYr9cp6uUxmNEnXjDYKDinIUWq/oLb08/sgy+5JRifEOzCjlBNFFYUWvbze/SRq+mirWGKRO6PsicLz1FPO46cV9qXDPmS4Ztkff5xeEprPETz7gXiTQ925Puz198bFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQGWFISt; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=dyjYm7xMyqK8UgaegAAXsdfDq4drFOU6AtLwSedouLEVQqElEFIfOLJKf7mNQoj7jflogDw93G8f1i40QBW5LrvZLhqMWl8ReYH2Sz43XNW3AX8b4AmjRpMzlHsyerLWNwkIl79lJVxQzMhrBjpaCooZX3YopYxMJaHlXNSallU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxC7DLTo; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQGWFISt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxC7DLTo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764947754; x=1796483754;
+  t=1764947757; x=1796483757;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=308x9t9lk7qD4/Hv4icjZUMekAYnnA9eeUzw5OpfVOw=;
-  b=MQGWFIStoxAw8y4Y6eTKYC07tnL7eenXYX+WAOxFmXqrBsNIcdrR4uZn
-   uoJ6pbxGZ2kRGF98PGZWgig8YprtMJ1m0Ny+RJi4NXsiyoWmsc6pJDmW2
-   /OgigvamgfX271EOECS8zDnHy4Gtn4ooMhDi15hcEXtc29/knUFn8tzRP
-   DIQygYZ5ae74hBZosEDJV0CxPXXAmiJZFRnhKzloOUMhS9NIxMJ/gMvdW
-   xtcRF7Tar0hK22bFk/IUw5U1NTPml9NTqMYFoVXl/eqB1yUrWsU5E7ZBU
-   lNRXJ6nyI1gTm8U/8gJnxjgoDiZuMZrkYreGd4TbppmsT7Z/IrfRUnrwJ
-   Q==;
-X-CSE-ConnectionGUID: 3pxyY3j/T2S4WqwjjTP5tA==
-X-CSE-MsgGUID: 6UCtT52vQxKzInegiSlbNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="89633804"
+  bh=mHLXG7+ArsoJOUmmxYzJyJFgby6N8Ny3BjsUa6UQhdg=;
+  b=RxC7DLToDMlvGQXYtWMio3xACv5FlM4MjOJLaqZPhQTyx9nA3k9L4w8u
+   Gc+yrQ9KYz3g/0UjnqgaEPGa+di4u4OVcOAautUalUyLPssn+TCaa7Cpc
+   8/YDZ/Wx3kh8N4d1YSSV20pF/wazeRtt3wd+JNxv+euRPIejFN0oQjyi7
+   dSOT9ELRUSI0mJNv26Da/8FYdFDiOmEpgydBgaDCI29+eMbU42mTR107g
+   vrq9Nudp+3LziRzMt2CeiQp5O2W925F4UqAaK7brSIhXjCfg2gxO3NTlX
+   aCZpZHsHzpplfpuywYxGhLtyzz7XDbc5ZL6D7RkdrERLJPgJmC2SC4gOa
+   A==;
+X-CSE-ConnectionGUID: 6JJ3gly0TLK4Y4fuZSO+Tg==
+X-CSE-MsgGUID: bP6adFBMS/ePI6TI3VUC6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="84388712"
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="89633804"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 07:15:54 -0800
-X-CSE-ConnectionGUID: 16MXqLxeTVei8biD4POjkQ==
-X-CSE-MsgGUID: fbxO3HR0Q9CjEy5rNfO0Hw==
+   d="scan'208";a="84388712"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 07:15:53 -0800
+X-CSE-ConnectionGUID: 8lkwmZGkRd6MORU3kwv8mQ==
+X-CSE-MsgGUID: DRWbdqdySvCX68wD6Crv/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
-   d="scan'208";a="226310300"
+   d="scan'208";a="199746868"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Dec 2025 07:15:52 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 05 Dec 2025 07:15:52 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRXXC-00000000F7l-117t;
+	id 1vRXXC-00000000F7i-0uUp;
 	Fri, 05 Dec 2025 15:15:50 +0000
-Date: Fri, 5 Dec 2025 23:15:09 +0800
+Date: Fri, 5 Dec 2025 23:15:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+To: Conor Dooley <conor+lkp@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2-session 13/18] Warning:
- security/keys/trusted-keys/trusted_tpm2.c:386 function parameter
- 'parent_name_size' not described in 'tpm2_load_cmd'
-Message-ID: <202512052335.vFDlR5do-lkp@intel.com>
+Subject: [conor:pinctrl 23/25] drivers/pinctrl/pinctrl-generic.c:111:5:
+ error: redefinition of 'pinctrl_generic_pins_function_dt_node_to_map'
+Message-ID: <202512052354.PovDnBVS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,22 +62,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2-session
-head:   f0dd70917ecd9d3ab6f1a69b11659c62509f8b52
-commit: c779b2a64b9d34cf93dc39b022330262e947369b [13/18] KEYS: trusted: Re-orchestrate tpm2_read_public() calls
-config: i386-randconfig-141-20251205 (https://download.01.org/0day-ci/archive/20251205/202512052335.vFDlR5do-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
+head:   e11fef5b36b10c68e2c153802a3750bd2fba8468
+commit: 7d9d9c209c495466776a212b70b5bb4c9fc58188 [23/25] pinctrl: add polarfire soc mssio pinctrl driver
+config: x86_64-buildonly-randconfig-002-20251205 (https://download.01.org/0day-ci/archive/20251205/202512052354.PovDnBVS-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512052335.vFDlR5do-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512052354.PovDnBVS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512052335.vFDlR5do-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512052354.PovDnBVS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: security/keys/trusted-keys/trusted_tpm2.c:386 function parameter 'parent_name_size' not described in 'tpm2_load_cmd'
->> Warning: security/keys/trusted-keys/trusted_tpm2.c:485 function parameter 'parent_name_size' not described in 'tpm2_unseal_cmd'
+>> drivers/pinctrl/pinctrl-generic.c:111:5: error: redefinition of 'pinctrl_generic_pins_function_dt_node_to_map'
+     111 | int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pinctrl/pinctrl-generic.c:16:
+   drivers/pinctrl/pinconf.h:171:1: note: previous definition of 'pinctrl_generic_pins_function_dt_node_to_map' with type 'int(struct pinctrl_dev *, struct device_node *, struct pinctrl_map **, unsigned int *)'
+     171 | pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pinctrl_generic_pins_function_dt_node_to_map +111 drivers/pinctrl/pinctrl-generic.c
+
+cfaf4498889f9e Conor Dooley 2025-11-26  103  
+cfaf4498889f9e Conor Dooley 2025-11-26  104  /*
+cfaf4498889f9e Conor Dooley 2025-11-26  105   * For platforms that do not define groups or functions in the driver, but
+cfaf4498889f9e Conor Dooley 2025-11-26  106   * instead use the devicetree to describe them. This function will, unlike
+cfaf4498889f9e Conor Dooley 2025-11-26  107   * pinconf_generic_dt_node_to_map() etc which rely on driver defined groups
+cfaf4498889f9e Conor Dooley 2025-11-26  108   * and functions, create them in addition to parsing pinconf properties and
+cfaf4498889f9e Conor Dooley 2025-11-26  109   * adding mappings.
+cfaf4498889f9e Conor Dooley 2025-11-26  110   */
+cfaf4498889f9e Conor Dooley 2025-11-26 @111  int pinctrl_generic_pins_function_dt_node_to_map(struct pinctrl_dev *pctldev,
+
+:::::: The code at line 111 was first introduced by commit
+:::::: cfaf4498889f9e3b633f9126deb0042f0076418b pinctrl: add generic functions + pins mapper
+
+:::::: TO: Conor Dooley <conor.dooley@microchip.com>
+:::::: CC: Conor Dooley <conor.dooley@microchip.com>
 
 -- 
 0-DAY CI Kernel Test Service
