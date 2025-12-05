@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3088D2BE639;
-	Fri,  5 Dec 2025 06:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91E42EA16A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 06:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764916898; cv=none; b=OGeXBc6mPdGRnvFp4kHFJVmGOaUzPCsdNKkw3ooHGIrb7UBl4BfYhARlCP7rRSL+hk06uoM/QlAlbQyBNxeCcr0O+figoHZs12MS6uQSs/Ep4ZQd+y9GKcSDwjGiOk89xNXRALnu9Jg4ofAFEGmBQZOWLNpvxWVwIQM2mTuGB20=
+	t=1764917555; cv=none; b=rq/7yvuCBLeJotojZ5lQ4VN8RFe5f3qJsbYCqOg0f6yHq48nSOpYognUX5TeBnNlH1pi2WxlSorVEaX/IsyPPj6TZxtl/nUQJ0dpvLzPYzan2darkDoUXwWag00fhQKurjrjWUWTiFsNpEkbcDxTZ1LdAN6nLWHlo8josfFivn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764916898; c=relaxed/simple;
-	bh=vCoiyUxHknsdU+eYFVhpaE/wez0uZFeZPaGXRKxBAFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iexfUPqM11ymY/TawBxuKeolL1c0kGktZzm8w+HaRPB1Eo2WbAAO/mfiHkOeKemSsD327VtCmWESPzLV/vVlBSulFBsSY6DG2JtD99sLVtjMfxgKjo77EV478yh8Bt1EPFd0VEIFFbGIyH2TxV57uyCdFTjvuQctlkDGiPepf/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z3N6fD8D; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1764917555; c=relaxed/simple;
+	bh=pISwRvMNWCIyPP7VfX6mCY7OT182bTxWHcDHEqYQ5Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g7iF8X2vP+f82Foaqz9BZOloHRqcYbZszDpLhYPyNHh5RsR88cdm8Svm59aNbbCrsvPf2U3P1JOpVl0lHMS++Q2/hm6Lm8krDND0Cu3bZndwIxyubvTxZbxxgryDJ6oaASKlqbamVN8iJOSVeURJ4ldSKfkYJWZxpogkXOwvvdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvzsAfEC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z3N6fD8D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvzsAfEC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764916896; x=1796452896;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vCoiyUxHknsdU+eYFVhpaE/wez0uZFeZPaGXRKxBAFc=;
-  b=Z3N6fD8DEpBDo8PpMD8Z9DTnLqaNJMTrZXCu/dfr2zo3Xy0ALh20xEBK
-   AFWDW8m5BxV+iBurVNv3UPViR9bITfBCBjnlukM+WmmuqBchHaYOblzIL
-   V4Vj0MkdK5WhMi6qe2lVtgkGaGDTkK3nJiOPgmYNXT3h0fpAnuS5dZA5P
-   yP8L8+VwHStdf5F7qChePcuh0KwK5WbLVrvHRqorXGOeb01NZRwu0L8Se
-   hvTLKUbWydD6tF14hsavKI7oswxI9N+WBPVcKXrZff9KQ84cNm+GeEJru
-   F/Rm0HPi8jEx+FOzQ293ZGVk2fdcgj1DWt76XY0/AN8bgkOSDf/mivpSf
+  t=1764917553; x=1796453553;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pISwRvMNWCIyPP7VfX6mCY7OT182bTxWHcDHEqYQ5Y4=;
+  b=EvzsAfEC+Kjn+mP2iLDC328WG/TlXnd8QGtn5KxxvSxS50X62d3l5A0k
+   Ai587v+ir3DPoRReGdjFF5WDdm2Gf3T0YZU7aWI04jY1B3F4pNJKSn6UW
+   KZ3WhaUB+8cJuk+h4GgxtvYmzrYBgt7Q9z/lCIPW/5dIYtj1jAqMi1enQ
+   5hak9MBzipZ5O6sMjkkODx5rel5W+dEwy4mZ9GRcwnlsGWFOsEbL+oNVx
+   W1BAB6xYgpqqsy7elyCh8pULx7ZxSPy4/P8UQIjm+EZlc2F7F0SqnWxfI
+   EhWgsCuynCiwIo72zbJ2WVcZgtD9CVieNIbf+JyyOKwC8PVsZfTZqW8Gx
    A==;
-X-CSE-ConnectionGUID: TPJsJI29Rq+29kpKfcFruw==
-X-CSE-MsgGUID: HK792TJfRf2fKcTTfJW70A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="78301754"
+X-CSE-ConnectionGUID: hzEihC+uQISyPbUOUAgBAw==
+X-CSE-MsgGUID: wNfyqva0Qtiz839rwNvbDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="89599337"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="78301754"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 22:41:35 -0800
-X-CSE-ConnectionGUID: tFfphGEvTfW+D6OHEriHLg==
-X-CSE-MsgGUID: QDhFh3VMRWi0FNNkcDaheA==
+   d="scan'208";a="89599337"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 22:52:32 -0800
+X-CSE-ConnectionGUID: bUQhRnJ+RiqPQvpLq9OLSA==
+X-CSE-MsgGUID: egPL5zcYQ+mPcINr1sbtOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="199409856"
+   d="scan'208";a="195041494"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Dec 2025 22:41:31 -0800
+  by orviesa009.jf.intel.com with ESMTP; 04 Dec 2025 22:52:31 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRPVQ-00000000Egv-0eth;
-	Fri, 05 Dec 2025 06:41:28 +0000
-Date: Fri, 5 Dec 2025 14:41:15 +0800
+	id 1vRPg5-00000000Eht-0OvW;
+	Fri, 05 Dec 2025 06:52:29 +0000
+Date: Fri, 5 Dec 2025 14:52:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, geert+renesas@glider.be
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	biju.das.jz@bp.renesas.com, claudiu.beznea@tuxon.dev,
-	linux@armlinux.org.uk, magnus.damm@gmail.com,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	John Madieu <john.madieu.xa@bp.renesas.com>
-Subject: Re: [PATCH net-next 1/3] net: stmmac: add physical port
- identification support
-Message-ID: <202512051431.9gYpDLdA-lkp@intel.com>
-References: <20251204163729.3036329-2-john.madieu.xa@bp.renesas.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/1] kernel/sched/core.c:9595:2:
+ error: implicit declaration of function 'tg_burst_change'
+Message-ID: <202512051426.fhkdP4DY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,129 +61,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204163729.3036329-2-john.madieu.xa@bp.renesas.com>
 
-Hi John,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on net/main linus/master v6.18 next-20251204]
-[cannot apply to net-next/main]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Madieu/dt-bindings-net-renesas-gbeth-Add-port-id-property/20251205-013825
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251204163729.3036329-2-john.madieu.xa%40bp.renesas.com
-patch subject: [PATCH net-next 1/3] net: stmmac: add physical port identification support
-config: hexagon-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051431.9gYpDLdA-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d8b43edf552840e59a22a7f3cc332697bd434782)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051431.9gYpDLdA-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   31b356d59497695e1135b4c6ea07b6d0bd148e07
+commit: 9c074b9ff2a8a4bcaaf0b74aeac66822eb7cbd93 [0/1] anolis: sched: support Group Balancer to be aware of cpu burst
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251205/202512051426.fhkdP4DY-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b3428bb966f1de8aa48375ffee0eba04ede133b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051426.fhkdP4DY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051431.9gYpDLdA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051426.fhkdP4DY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/stmicro/stmmac/dwmac4_descs.c:11:
->> include/linux/stmmac.h:273:12: warning: declaration of 'struct netdev_phys_item_id' will not be visible outside of this function [-Wvisibility]
-     273 |                                 struct netdev_phys_item_id *ppid);
-         |                                        ^
-   1 warning generated.
+   kernel/sched/core.c:2861:6: warning: no previous prototype for function 'sched_set_stop_task' [-Wmissing-prototypes]
+    2861 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^
+   kernel/sched/core.c:2861:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2861 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         | ^
+         | static 
+   kernel/sched/core.c:5639:16: warning: unknown attribute 'optimize' ignored [-Wunknown-attributes]
+    5639 | __attribute__((optimize("no-omit-frame-pointer")))
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5880:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
+    5880 | asmlinkage __visible void __sched schedule_user(void)
+         |                                   ^
+   kernel/sched/core.c:5880:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    5880 | asmlinkage __visible void __sched schedule_user(void)
+         |                      ^
+         |                      static 
+>> kernel/sched/core.c:9595:2: error: implicit declaration of function 'tg_burst_change' [-Werror,-Wimplicit-function-declaration]
+    9595 |         tg_burst_change(tg, burst);
+         |         ^
+   kernel/sched/core.c:9595:2: note: did you mean 'tg_specs_change'?
+   include/linux/sched.h:2445:20: note: 'tg_specs_change' declared here
+    2445 | static inline void tg_specs_change(struct task_group *tg) { }
+         |                    ^
+   3 warnings and 1 error generated.
 
 
-vim +273 include/linux/stmmac.h
+vim +/tg_burst_change +9595 kernel/sched/core.c
 
-   188	
-   189	struct plat_stmmacenet_data {
-   190		int bus_id;
-   191		int phy_addr;
-   192		/* MAC ----- optional PCS ----- SerDes ----- optional PHY ----- Media
-   193		 *                                       ^
-   194		 *                                  phy_interface
-   195		 *
-   196		 * The Synopsys dwmac core only covers the MAC and an optional
-   197		 * integrated PCS. Where the integrated PCS is used with a SerDes,
-   198		 * e.g. for 1000base-X or Cisco SGMII, the connection between the
-   199		 * PCS and SerDes will be TBI.
-   200		 *
-   201		 * Where the Synopsys dwmac core has been instantiated with multiple
-   202		 * interface modes, these are selected via core-external configuration
-   203		 * which is sampled when the dwmac core is reset. How this is done is
-   204		 * platform glue specific, but this defines the interface used from
-   205		 * the Synopsys dwmac core to the rest of the SoC.
-   206		 *
-   207		 * Where PCS other than the optional integrated Synopsys dwmac PCS
-   208		 * is used, this counts as "the rest of the SoC" in the above
-   209		 * paragraph.
-   210		 *
-   211		 * phy_interface is the PHY-side interface - the interface used by
-   212		 * an attached PHY or SFP etc. This is equivalent to the interface
-   213		 * that phylink uses.
-   214		 */
-   215		phy_interface_t phy_interface;
-   216		struct stmmac_mdio_bus_data *mdio_bus_data;
-   217		struct device_node *phy_node;
-   218		struct fwnode_handle *port_node;
-   219		struct device_node *mdio_node;
-   220		struct stmmac_dma_cfg *dma_cfg;
-   221		struct stmmac_safety_feature_cfg *safety_feat_cfg;
-   222		int clk_csr;
-   223		int has_gmac;
-   224		int enh_desc;
-   225		int tx_coe;
-   226		int rx_coe;
-   227		int bugged_jumbo;
-   228		int pmt;
-   229		int force_sf_dma_mode;
-   230		int force_thresh_dma_mode;
-   231		int riwt_off;
-   232		int max_speed;
-   233		int maxmtu;
-   234		int multicast_filter_bins;
-   235		int unicast_filter_entries;
-   236		int tx_fifo_size;
-   237		int rx_fifo_size;
-   238		u32 host_dma_width;
-   239		u32 rx_queues_to_use;
-   240		u32 tx_queues_to_use;
-   241		u8 rx_sched_algorithm;
-   242		u8 tx_sched_algorithm;
-   243		struct stmmac_rxq_cfg rx_queues_cfg[MTL_MAX_RX_QUEUES];
-   244		struct stmmac_txq_cfg tx_queues_cfg[MTL_MAX_TX_QUEUES];
-   245		void (*get_interfaces)(struct stmmac_priv *priv, void *bsp_priv,
-   246				       unsigned long *interfaces);
-   247		int (*set_clk_tx_rate)(void *priv, struct clk *clk_tx_i,
-   248				       phy_interface_t interface, int speed);
-   249		void (*fix_mac_speed)(void *priv, int speed, unsigned int mode);
-   250		int (*fix_soc_reset)(struct stmmac_priv *priv, void __iomem *ioaddr);
-   251		int (*serdes_powerup)(struct net_device *ndev, void *priv);
-   252		void (*serdes_powerdown)(struct net_device *ndev, void *priv);
-   253		int (*mac_finish)(struct net_device *ndev,
-   254				  void *priv,
-   255				  unsigned int mode,
-   256				  phy_interface_t interface);
-   257		void (*ptp_clk_freq_config)(struct stmmac_priv *priv);
-   258		int (*init)(struct platform_device *pdev, void *priv);
-   259		void (*exit)(struct platform_device *pdev, void *priv);
-   260		int (*suspend)(struct device *dev, void *priv);
-   261		int (*resume)(struct device *dev, void *priv);
-   262		struct mac_device_info *(*setup)(void *priv);
-   263		int (*clks_config)(void *priv, bool enabled);
-   264		int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
-   265				   void *ctx);
-   266		void (*dump_debug_regs)(void *priv);
-   267		int (*pcs_init)(struct stmmac_priv *priv);
-   268		void (*pcs_exit)(struct stmmac_priv *priv);
-   269		struct phylink_pcs *(*select_pcs)(struct stmmac_priv *priv,
-   270						  phy_interface_t interface);
-   271		/* Physical port identification callbacks (optional, for glue driver override) */
-   272		int (*get_phys_port_id)(struct net_device *ndev,
- > 273					struct netdev_phys_item_id *ppid);
+  9533	
+  9534	static int tg_set_cfs_bandwidth(struct task_group *tg, u64 period, u64 quota,
+  9535							u64 burst, u64 init_buffer)
+  9536	{
+  9537		int i, ret = 0, runtime_enabled, runtime_was_enabled;
+  9538		struct cfs_bandwidth *cfs_b = &tg->cfs_bandwidth;
+  9539		u64 buffer, burst_onset;
+  9540	
+  9541		if (tg == &root_task_group)
+  9542			return -EINVAL;
+  9543	
+  9544		/*
+  9545		 * Ensure we have at some amount of bandwidth every period.  This is
+  9546		 * to prevent reaching a state of large arrears when throttled via
+  9547		 * entity_tick() resulting in prolonged exit starvation.
+  9548		 */
+  9549		if (quota < min_cfs_quota_period || period < min_cfs_quota_period)
+  9550			return -EINVAL;
+  9551	
+  9552		/*
+  9553		 * Likewise, bound things on the otherside by preventing insane quota
+  9554		 * periods.  This also allows us to normalize in computing quota
+  9555		 * feasibility.
+  9556		 */
+  9557		if (period > max_cfs_quota_period)
+  9558			return -EINVAL;
+  9559	
+  9560		/*
+  9561		 * Bound quota to defend quota against overflow during bandwidth shift.
+  9562		 */
+  9563		if (quota != RUNTIME_INF && quota > max_cfs_runtime)
+  9564			return -EINVAL;
+  9565	
+  9566		/*
+  9567		 * Bound burst to defend burst against overflow during bandwidth shift.
+  9568		 */
+  9569		if (burst > max_cfs_runtime || init_buffer > max_cfs_runtime)
+  9570			return -EINVAL;
+  9571	
+  9572		if (quota == RUNTIME_INF)
+  9573			buffer = RUNTIME_INF;
+  9574		else
+  9575			buffer = min(max_cfs_runtime, quota + burst);
+  9576		/*
+  9577		 * Prevent race between setting of cfs_rq->runtime_enabled and
+  9578		 * unthrottle_offline_cfs_rqs().
+  9579		 */
+  9580		get_online_cpus();
+  9581		mutex_lock(&cfs_constraints_mutex);
+  9582		ret = __cfs_schedulable(tg, period, quota);
+  9583		if (ret)
+  9584			goto out_unlock;
+  9585	
+  9586		runtime_enabled = quota != RUNTIME_INF;
+  9587		runtime_was_enabled = cfs_b->quota != RUNTIME_INF;
+  9588		/*
+  9589		 * If we need to toggle cfs_bandwidth_used, off->on must occur
+  9590		 * before making related changes, and on->off must occur afterwards
+  9591		 */
+  9592		if (runtime_enabled && !runtime_was_enabled)
+  9593			cfs_bandwidth_usage_inc();
+  9594		raw_spin_lock_irq(&cfs_b->lock);
+> 9595		tg_burst_change(tg, burst);
+  9596		cfs_b->period = ns_to_ktime(period);
+  9597		cfs_b->quota = quota;
+  9598		cfs_b->burst = burst;
+  9599		cfs_b->buffer = buffer;
+  9600		cfs_b->init_buffer = init_buffer;
+  9601	
+  9602		cfs_b->max_overrun = DIV_ROUND_UP_ULL(max_cfs_runtime, quota);
+  9603		cfs_b->runtime = cfs_b->quota;
+  9604	
+  9605		/* burst_onset needed */
+  9606		if (cfs_b->quota != RUNTIME_INF &&
+  9607				sysctl_sched_cfs_bw_burst_enabled &&
+  9608				sysctl_sched_cfs_bw_burst_onset_percent > 0) {
+  9609	
+  9610			burst_onset = div_u64(burst, 100) *
+  9611				sysctl_sched_cfs_bw_burst_onset_percent;
+  9612	
+  9613			cfs_b->runtime += burst_onset;
+  9614			cfs_b->runtime = min(max_cfs_runtime, cfs_b->runtime);
+  9615		}
+  9616	
+  9617		cfs_b->runtime = max(cfs_b->runtime, init_buffer);
+  9618		cfs_b->current_buffer = max(cfs_b->buffer, init_buffer);
+  9619		cfs_b->previous_runtime = cfs_b->runtime;
+  9620	
+  9621		/* Restart the period timer (if active) to handle new period expiry: */
+  9622		if (runtime_enabled)
+  9623			start_cfs_bandwidth(cfs_b, 1);
+  9624	
+  9625		raw_spin_unlock_irq(&cfs_b->lock);
+  9626	
+  9627		for_each_online_cpu(i) {
+  9628			struct cfs_rq *cfs_rq = tg->cfs_rq[i];
+  9629			struct rq *rq = cfs_rq->rq;
+  9630			struct rq_flags rf;
+  9631	
+  9632			rq_lock_irq(rq, &rf);
+  9633			cfs_rq->runtime_enabled = runtime_enabled;
+  9634			cfs_rq->runtime_remaining = 0;
+  9635	
+  9636			if (cfs_rq->throttled)
+  9637				unthrottle_cfs_rq(cfs_rq);
+  9638			rq_unlock_irq(rq, &rf);
+  9639		}
+  9640		if (runtime_was_enabled && !runtime_enabled)
+  9641			cfs_bandwidth_usage_dec();
+  9642	out_unlock:
+  9643		mutex_unlock(&cfs_constraints_mutex);
+  9644		put_online_cpus();
+  9645	
+  9646		return ret;
+  9647	}
+  9648	
 
 -- 
 0-DAY CI Kernel Test Service
