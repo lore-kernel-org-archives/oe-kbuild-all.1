@@ -1,58 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF5033EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 07:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1896B328600
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 07:22:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764918838; cv=none; b=AGRAkoD0nM9aC5F1yqcMpmKRIGuHyDfnrrt1662fsDE1nbQBXsBOGdmhh2AlB9CVYuSgeFpVE3PcOkwaKyEKkhg4vGz0aItqJyngnL+IkkTrPA+PGe5BxxtTpT4bRA4JrrXX1v8bW3qGcX3Z2iNwc9F27oGiTjD3+J00RS0VgyI=
+	t=1764919343; cv=none; b=jNaPzlURZ4HpOMJ473bVOS4adSVLitiG2dhggcx4SJ1bhWbI0YEfTgCuyhWBK60+p2vcXbxv9LP3e4YZEW3eWcGnTAwFbAjbzxQ3iOHoAjPU5dG/5tfoAJwXjwO7ux/bKmxL3ZE1O0wu2aZmZZHKWQJtCFlBluFFkWqBd/hjFtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764918838; c=relaxed/simple;
-	bh=YyV97tXQ1KbLdfVVpCzVqZPsz+xO/DpQy6trbLhzBKs=;
+	s=arc-20240116; t=1764919343; c=relaxed/simple;
+	bh=zO4HfYHyG77lligX58GcpeUsXfmoKe4bOSQJtnv2qnw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OhMy8Imu7EtdVI+d0jyeu2Y9HqaWfB6upGNkQvq1CFaPTRombd7IvEWYx2r2svfAuKeyiYK3b9EYOpNsmIg//zdiEr6R+dOqgQcINLADBM+w/WbPPpO++UMwCwPTw3yFQ1CQ+by9JNzscfTKGd7KZsMmDXPCUufcfLP9Wv2A13Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6bEDZuu; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=OQ8rfXmZrEwr4J9260BVjnqdLKN38g5tST3cjQLaeN3q3smviPqUQf9IKUtKgW9TyzDhpZ1Ph58z2hyvVMPBw4GB8KRSOZGNix0o5Hyhdn5BgeypCV6q/ffFVGN3KtbpbRbg29I/xAIJx8lJduwDQVGDVM3jtqmwR7Fp00xr8z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YB3O3Lrd; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6bEDZuu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764918836; x=1796454836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YyV97tXQ1KbLdfVVpCzVqZPsz+xO/DpQy6trbLhzBKs=;
-  b=h6bEDZuultNGCI1c70ZXAk6g6LNwlwZu8KbMoLcziLaYsHhYNkhz0Dx+
-   CEsNcNuGuzQa6eAID0KSBv6imRVeY6V2M1vWxGNDckiZ1T9tUQZPM5Nck
-   iI09kj0phDN0WK+M6aDhjoVJmNuB+4RxlKulxy/UnBSNCWCQXk9FpSVLG
-   +gmt3v4PAjGYANgTzzn3iHMflTc8JUFhwysxrF5sNAhqTnXzUUb961vj4
-   8CxVhmmSUYWgtuOcOsK/cGFmBD2pgqmIL7TPpXIwmjjKbatc16gv2NVkY
-   XmNd4i+xaoW3xbBTLgNTzqXSFkIbvkGQEJl2aJXzo3KnUdOaVphxiJz8o
-   Q==;
-X-CSE-ConnectionGUID: 8LEmO5HhRxaD6rHKYanLYQ==
-X-CSE-MsgGUID: 5GOrQ0EeRHypQy5LANnysg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="77567505"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="77567505"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 23:13:33 -0800
-X-CSE-ConnectionGUID: LzESY7pmS4i10XmDgs6cYA==
-X-CSE-MsgGUID: owCWujKTTbq+tael3oB1qw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="226200732"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2025 23:13:32 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRQ0P-00000000Eiv-3Vmv;
-	Fri, 05 Dec 2025 07:13:29 +0000
-Date: Fri, 5 Dec 2025 15:13:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 2/2] mm/vmalloc.c:2805: warning:
- Function parameter or member 'flag' not described in '__vmap_area_range'
-Message-ID: <202512051537.6pokkNV3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YB3O3Lrd"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47774d3536dso16515145e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 23:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764919320; x=1765524120; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FzxFs8LzMrONfI1Cn6UlkRiahNYd5MhF609UmLpQAXo=;
+        b=YB3O3Lrd0Ajn34FUZE8slDe6Bssm4I+cBGuTOOTtp/kEaXtBhUc+85zwEDfpDlvePT
+         4o2Z4VmXupUsYkuSPImwZlqDrfI20aiEXu1HrnU97r0k1wL28iMpNk3R6TJnd+ZX9dMB
+         wemQ4uCx3awts82n4PzsFcOjz6lLNZFjJhQiSYps3Dp9xbAZZmZq1+dOms5ADO1MR7Cx
+         rrn/PRu784nLZDA2F5SriqAiiqZyZSRtVeraQmFedrH1BHtWlRNL3PbVPIhUyoU07qwi
+         LKR2kwljl1XdgdbJO5xZhpCTx4+pSdY/+tLIlMp+JZ9g3JD0crwXFHRhZcjNmQpKVmRc
+         oInQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764919320; x=1765524120;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FzxFs8LzMrONfI1Cn6UlkRiahNYd5MhF609UmLpQAXo=;
+        b=IQAcDcZtSL8FyUvoiSz+QM75gHdqOt9hPFWojaXfBh4EokiLVYeawMniIoRYEVItHw
+         PIUdwR47q7cUPitBVLl8+QHb6THQ+jjf3WSX/vg7NKA8AMHXPyG0ijXI5lq2gesYl4aU
+         QOiB4YsKNtt0166gjFAfQr18r14jo1RZuEEvH16209OeixfMk7u9ttJRf7/wy1O/JZZI
+         xrkuocdMFCWWpd2kVBF8WSSveBCcu6Tc+nPSfgZ4z1fjA2RhsIptk/0rGbRZexerYhFt
+         N8dWrt+ZmM2D93GIq+0Y2zBZ9tF/TGQCD/u2sEuY2QHSqA179xX2Fxa9d+iA+HutI6ih
+         Ccew==
+X-Forwarded-Encrypted: i=1; AJvYcCUm3COQiyBkh6evnzYztLonvHfJ9SzSJuF93gj3q759qCzylNtcdc43djV6cicSpZYFSzpHTVEkmgn6pLBW@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeWQjf/8mmihjOYjC5cH1UV0strMcKZwlkMzT9K2QvzdQdLGy1
+	DEVlBusJ/B7oBGxDHpilnwdfBxDZv1R25DoYAg+/WZoBq3NGxXiqoTEfJsDgh2VFLns=
+X-Gm-Gg: ASbGncsIKf4uOdUtEWsvTFUEq7az+SGE4peB+nGrQ12ksGFAkbjckZ5DeLaQq0QVn9c
+	IAR8ScqfitNNAjGHDVLOQSI+FxbUB3IoqNA0vckaaR9YOXK58SjBZCjoSGHD7DPWNDJxm2DhodG
+	6DPUnvAqdiTtfOAfCetWDlpm1ztmVzd7TBUx2PMSS3dbKhUH2tH7IKiyySUeG2EsQqyZpVRIAMt
+	TEh6chzDBTvvO/ql27YJTqyRT7T940YESbWXhCpSWa2Nv7HV2DgdAknVZkSfqJpgxQIKZqWXYU5
+	gnvG4LUTkxcd2QFqgFsC7xLBE80ResRPaPDiSQrfkTMlmt3Nt1Lk/jQKA5H0etMdXd/QTbSc8QF
+	728OS4SsyI7QYeByd1Yj1Ehz2d0eXYg5NTNrtEov9Vma8r4eBHkgRh0QajJ41cJiLHrxY3j+7sN
+	cAz1JoUncxPyTE90Xi
+X-Google-Smtp-Source: AGHT+IGY46mYanaDcTERQwYze8S9vgpM9dAzNgia/FegejO4LmlZHO08fLRhzsVOYwX0bqvVtCm5lQ==
+X-Received: by 2002:a05:600c:1f90:b0:477:9e0c:f59 with SMTP id 5b1f17b1804b1-4792eb12478mr66048795e9.2.1764919319970;
+        Thu, 04 Dec 2025 23:21:59 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4792b12411fsm65146265e9.3.2025.12.04.23.21.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 23:21:59 -0800 (PST)
+Date: Fri, 5 Dec 2025 10:21:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Brian Masney <bmasney@redhat.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
+Subject: Re: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <202512050233.R9hAWsJN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,105 +78,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251201-clk-microchip-fixes-v2-3-9d5a0daadd98@redhat.com>
 
-Hi Rongwei,
+Hi Brian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   31b356d59497695e1135b4c6ea07b6d0bd148e07
-commit: c39d9864ef4b6fafbed9a4d35cf4f6686aab9ca6 [2/2] anolis: mm/vmalloc: add two couples of vmalloc operations for virtio-ism
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251205/202512051537.6pokkNV3-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 734a912d0f025559fcf76bde9aaaeb0383c1625a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051537.6pokkNV3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/clk-microchip-core-remove-duplicate-determine_rate-on-pic32_sclk_ops/20251202-060924
+base:   92fd6e84175befa1775e5c0ab682938eca27c0b2
+patch link:    https://lore.kernel.org/r/20251201-clk-microchip-fixes-v2-3-9d5a0daadd98%40redhat.com
+patch subject: [PATCH v2 3/3] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
+config: arm-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251205/202512050233.R9hAWsJN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051537.6pokkNV3-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512050233.R9hAWsJN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/clk/microchip/clk-core.c:300 roclk_get_parent() warn: signedness bug returning '(-22)'
+drivers/clk/microchip/clk-core.c:833 sclk_get_parent() warn: signedness bug returning '(-22)'
 
->> mm/vmalloc.c:2805: warning: Function parameter or member 'flag' not described in '__vmap_area_range'
->> mm/vmalloc.c:2805: warning: Excess function parameter 'flags' description in '__vmap_area_range'
-   mm/vmalloc.c:3734: warning: Function parameter or member 'align' not described in 'pvm_determine_end_from_reverse'
+vim +300 drivers/clk/microchip/clk-core.c
 
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  286  static u8 roclk_get_parent(struct clk_hw *hw)
+                                                             ^^
+returns a u8.
 
-vim +2805 mm/vmalloc.c
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  287  {
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  288  	struct pic32_ref_osc *refo = clkhw_to_refosc(hw);
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  289  	u32 v, i;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  290  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  291  	v = (readl(refo->ctrl_reg) >> REFO_SEL_SHIFT) & REFO_SEL_MASK;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  292  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  293  	if (!refo->parent_map)
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  294  		return v;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  295  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  296  	for (i = 0; i < clk_hw_get_num_parents(hw); i++)
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  297  		if (refo->parent_map[i] == v)
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  298  			return i;
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  299  
+ce6e11884659988 Purna Chandra Mandal 2016-05-13 @300  	return -EINVAL;
+                                                        ^^^^^^^^^^^^^^^
+So it can't return negative error codes.
 
-  2789	
-  2790	/**
-  2791	 * vmap_area_range - map an array of pages into specified and virtually contiguous space
-  2792	 * @pages: array of page pointers
-  2793	 * @count: number of pages to map
-  2794	 * @flags: vm_area->flags
-  2795	 * @prot: page protection for the mapping
-  2796	 * @addr: specified virtual address
-  2797	 * @check: whether to check this area has already mapped or not
-  2798	 *
-  2799	 * Return: true or false on failure
-  2800	 *
-  2801	 * THIS IS A CUSTOM INTERFACE FOR SPECIAL DRIVERS.
-  2802	 */
-  2803	bool __vmap_area_range(struct page **pages, unsigned int count,
-  2804			     unsigned long flag, pgprot_t prot, const void *addr, bool check)
-> 2805	{
-  2806		struct vmap_area *va;
-  2807		struct vm_struct *area;
-  2808		unsigned long vaddr = (unsigned long)addr;
-  2809		unsigned long size;
-  2810	
-  2811		va = find_vmap_area(vaddr);
-  2812		if (unlikely(!va)) {
-  2813			WARN(1, "Trying to map nonexistent vm area (%p)\n", addr);
-  2814			return false;
-  2815		}
-  2816	
-  2817		size = (unsigned long)count << PAGE_SHIFT;
-  2818		/* make sure map with valid parameters */
-  2819		if (!size || (vaddr + size) > va->va_end) {
-  2820			WARN(1, "Trying to map vm area with invalid values\n");
-  2821			return false;
-  2822		}
-  2823		area = va->vm;
-  2824		if (!(area->flags & VM_ALLOC_DECOUPLE_MAP)) {
-  2825			WARN(1, "Trying to call vmap_area_range() on standard area (%lx)\n",
-  2826			     vaddr);
-  2827			return false;
-  2828		}
-  2829	
-  2830		/* Make sure no pages mapped at this address */
-  2831		if (check) {
-  2832			struct page *p;
-  2833			unsigned long kaddr;
-  2834	
-  2835			for (kaddr = vaddr; kaddr < vaddr + size; kaddr += PAGE_SIZE) {
-  2836				p = vmalloc_to_page((void *)kaddr);
-  2837				if (p) {
-  2838					WARN(1, "Trying to remap vm area (%lx)\n", kaddr);
-  2839					return false;
-  2840				}
-  2841			}
-  2842		}
-  2843	
-  2844		if (vmap_pages_range(vaddr, vaddr + size, pgprot_nx(prot),
-  2845				     pages, PAGE_SHIFT) < 0) {
-  2846			pr_warn("vmap_area_range error: addr %lu, size %lu", vaddr, size);
-  2847			return false;
-  2848		}
-  2849		/*
-  2850		 * Here VM_MAP_PUT_PAGES is ignored, that's because of the callers
-  2851		 * will use {vmap, vunmap}_area_range() on sub area, and overlapping
-  2852		 * area->pages if VM_MAP_PUT_PAGES is aware. It's different with
-  2853		 * standard vmap() and vunmap().
-  2854		 */
-  2855		area->nr_pages += count;
-  2856	
-  2857		return true;
-  2858	}
-  2859	EXPORT_SYMBOL(__vmap_area_range);
-  2860	
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  301  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
