@@ -1,75 +1,69 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8637C34DB47
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 07:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3E633CEAA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 07:35:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764919427; cv=none; b=pDKgkMZeShe9FJFCjhXZIQfYsusnLUDgALTsZ8Gl4RTxc5smrof8xhEHlJ5U/p254MyQHX09nsSRmkyoBKwxqRuYuPvpXTFzk5xCCJqwzmpdL4Minx5T5mPr3Ls+bWJQJ6k/YWJgOD34/uHIK5GqZii7+7OgYKLLWaI+YkU+4pA=
+	t=1764920167; cv=none; b=aQiRBILaC7t3TU5A/HPn8ReA+1XWoclMyVEtGDpqhxOnFF/qS3ZxoPrDMQ7N+fmHmqzHUYSSg/tzEP6lX1CWX2+knVQe/xok4T5ocjNs8vB8VvGWca5/D1f3/LpqAf1MPIwAFQcvKuZrK4Ya6RqNwCguImO+dQkExMkfMbD7qGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764919427; c=relaxed/simple;
-	bh=a5w8XstsKjuodEkD8h5eva/LR/9DG4mYKG1tOEooSms=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TXzdPXjo9k8EpWinry+M0zlHmWAeW+zSOQxOUSb9+d0d8g8fhbsWOseARrqGOvKFx6ElwrYD2mQGo3plOz6mTPqywF83OgjWyU42lUGWHmLHX05hLKIRJUMOSclRC0v5A050x8ujH00j6xKddhAI/E5FAHMo1ZP1r/hTOAkBc8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MSBYnlvp; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764920167; c=relaxed/simple;
+	bh=B9QRLerKUZuioET/eoNvwh5XUQQ87E4QpHl1AODiIe0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h4JBQ5nDtsX7WXAqUPz8Ot0aFPM8h0aTASfjYIcMjiU9XpFWd/cyI34y1KUwxqKmTCJtVmTCjsSjeI/uVZg+V7563UKtdhUmkZD/ZLR1nZoht2Ir4zqOmPVwACO7QyiTVjEIcdrnrppZNZrGS2eVT+74A5v7DhlcJ2zUTn8jAwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YN4U+8QL; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MSBYnlvp"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47755de027eso13299975e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 Dec 2025 23:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764919415; x=1765524215; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k4/fcNS8kky3Rm+i8WdInM413rzLMh5Uvxb+5uYpuyo=;
-        b=MSBYnlvpXvujUMoBUSMjDHcrSTHi2myU/BvwWqX1jTy1iHHltsGXcZUMzlAzqapwAO
-         1KhzXcxS2EE4uwVF5x37mtv65q6Xx6CVJaOsmstFzXg7GXtwea6hVjT491PrsCCUSNJr
-         meQyfhGJQzLfi6sv4I2c1lgN3Si7B2NFANpnZjxdtT0lrO6Xa8ku5dVhdk7XbLAXWUg/
-         QEScESgtLEN1tFuZTvOW1FHce4OmsLomkdrJQzaO0XeDc5R7PmPaNDIYAB1HG5bhSmMk
-         Yn+RHzdRrqyXD7GhKIm5+qdmd4wM1JZ8p8VM+j6vVa1ZCsmx7WU6buJ2VQMPZgoow0QI
-         V8ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764919415; x=1765524215;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k4/fcNS8kky3Rm+i8WdInM413rzLMh5Uvxb+5uYpuyo=;
-        b=j/RMqooZ2ZGJc7PTnURzAooU3Kvhxu70KdzRcFny2uJwz09pize2y+Dv1W0/xPOjqr
-         0gOqTW/auUZOvAVvIldixsvJQg63tlGPbdSu4qOvM3xgg9Qu5J/MQHnaSCFNoVHpLQpV
-         2YAMAQZZ+MmK4UU4ahKRawfPUonEaFsQ2D2eaXjV1qVderx0a9EuwFuBQut8jbRUhH8G
-         BWG8cnjvI06JrF3IZybTiXdO7JD0R2baPFOXnK3i7fdVh8Fk5H/K8IT3++O70a+EBU25
-         cqlC6HbPfp3KhXEX0ewXy/gBsUOWEy6pzCjuUDpl8jXqpziRY9RciJOs3q5LDPgM8eU6
-         uiKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPdfsKV3X8OFYHDh7M62t+E8f4smJN849+cgwJJi6+sYwqk6WB00KdatJuPo8zHOmM5QvnxNidM8qY035m@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxaop+/BTlIKNllhJ2lXZ6NfCAVx4m11J4LbgQM6I5qHhJgXQwW
-	LwzjWk60qzYwPOlnNePMztDfGJXen17j3wGDCuVFLXr+NBJxJagqr3hW13A2Toe1QU4=
-X-Gm-Gg: ASbGncu0dqn7GIlTtXXvcHmz0pCp2L86wYqLVKqB2vl5SY+NtzQnCRka5Jv6zMcCnps
-	43Envxu8GmuqwzOE47yzuxu6jJqepx90Wv1eiLsnNLOza703V7XZ//ATj5KjEYHkiZ4anRNsFVM
-	HuheKw7BRRTyZmeYhdGIvwgbJARMyF/+bnzBk/8MTHfmAKBdzSvpzgOYZ30zBEfpjJlUcaxzoLt
-	9qRwOX+Tlbbx5RiJnTqJKWONbj3ROVi6PIDsMAjnn8bP6kBD0gLja77WuqjvZnTU1L7POOu+i76
-	G9XHfIo0my6x2WdrL4ppYkQz6IdEN6wG6yGvZw1gJiS7yzUlGTucZ3IsI+jRzFFF7Bskn4veaY0
-	/J9BItbA8hhXmQzF6yEdMBmKCwm9dnt2EicXNFjyhs+Bd1B9UPfYSI0fhz5ZY2G7vx6LKU0rE+u
-	VHSrNSsbPtsEBkcYIf
-X-Google-Smtp-Source: AGHT+IHqi1QpVSllbMiRHNcv1AbXpU4AuCeDaedHZwtKEH/lvnzqXTU1voWQvbkLB812wn0n/39E2w==
-X-Received: by 2002:a05:600c:a49:b0:477:7991:5d1e with SMTP id 5b1f17b1804b1-4792f38d372mr43114255e9.25.1764919415444;
-        Thu, 04 Dec 2025 23:23:35 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4792b157783sm60515375e9.5.2025.12.04.23.23.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 23:23:34 -0800 (PST)
-Date: Fri, 5 Dec 2025 10:23:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Larysa Zaremba <larysa.zaremba@intel.com>
-Subject: [tnguy-next-queue:dev-queue 41/61]
- drivers/net/ethernet/intel/idpf/idpf_ethtool.c:252 idpf_add_flow_steer()
- warn: missing error code 'err'
-Message-ID: <202512050309.Jd0nVLZj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YN4U+8QL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764920146; x=1796456146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B9QRLerKUZuioET/eoNvwh5XUQQ87E4QpHl1AODiIe0=;
+  b=YN4U+8QLrx8LPZzvTXWQP/cQ5hLvS9vuzKzPGGpPsMQgW5SZk1J/vkW0
+   //X1Wqv0KsqmgQrH/AecjkSmWzn42KaIdSppXltwr4WANmmBOk4pTnGeN
+   D2/jMyRIpkiz8NOmBg3wh6cIs3ne7r7FfdYFaK9JDDgfTHYlayShuabJt
+   S0Imp3yUxpoLP2e+x7KUP44EF5YMIgFKx1kH5OCOukWDfLlKB9ah/TcFq
+   lertyFsxxjwN46iOPpbQezI3FwwzPYtgAPc2KZVavqp9Rg/WoKUPqmrQX
+   mLD6DXPCC/z6vxQ3EQXJz1dkFFZCr7GAnDvOHgBOPrzn0AWgDTU2PAfyR
+   g==;
+X-CSE-ConnectionGUID: bosq5HRnThmlQ7WGJn8k/Q==
+X-CSE-MsgGUID: WXp0W6gEQt+bQ5DLey7xyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="67115977"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="67115977"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 23:35:38 -0800
+X-CSE-ConnectionGUID: 36lLXBZ8Sle57DGmoYz7cA==
+X-CSE-MsgGUID: xBDUVo0SSMaMwUFy8sQe8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="199707840"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 04 Dec 2025 23:35:33 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRQLi-00000000EkP-2ss7;
+	Fri, 05 Dec 2025 07:35:30 +0000
+Date: Fri, 5 Dec 2025 15:34:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, geert+renesas@glider.be
+Cc: oe-kbuild-all@lists.linux.dev, biju.das.jz@bp.renesas.com,
+	claudiu.beznea@tuxon.dev, linux@armlinux.org.uk,
+	magnus.damm@gmail.com, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH net-next 1/3] net: stmmac: add physical port
+ identification support
+Message-ID: <202512051514.VMlIccSV-lkp@intel.com>
+References: <20251204163729.3036329-2-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,151 +72,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251204163729.3036329-2-john.madieu.xa@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   b8ceeacaba537294e383161a87e09b939ecd7d1d
-commit: f017eeeb027274f63af4d541a315235abf2bc5e9 [41/61] idpf: refactor idpf to use libie control queues
-config: s390-randconfig-r072-20251204 (https://download.01.org/0day-ci/archive/20251205/202512050309.Jd0nVLZj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on net/main linus/master v6.18 next-20251204]
+[cannot apply to net-next/main]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Madieu/dt-bindings-net-renesas-gbeth-Add-port-id-property/20251205-013825
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251204163729.3036329-2-john.madieu.xa%40bp.renesas.com
+patch subject: [PATCH net-next 1/3] net: stmmac: add physical port identification support
+config: parisc-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051514.VMlIccSV-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051514.VMlIccSV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512050309.Jd0nVLZj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051514.VMlIccSV-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/intel/idpf/idpf_ethtool.c:252 idpf_add_flow_steer() warn: missing error code 'err'
+All warnings (new ones prefixed by >>):
 
-vim +/err +252 drivers/net/ethernet/intel/idpf/idpf_ethtool.c
+   In file included from drivers/net/ethernet/stmicro/stmmac/norm_desc.c:11:
+>> include/linux/stmmac.h:273:12: warning: 'struct netdev_phys_item_id' declared inside parameter list will not be visible outside of this definition or declaration
+        struct netdev_phys_item_id *ppid);
+               ^~~~~~~~~~~~~~~~~~~
 
-ada3e24b84a097 Ahmed Zaki            2025-04-23  164  static int idpf_add_flow_steer(struct net_device *netdev,
-ada3e24b84a097 Ahmed Zaki            2025-04-23  165  			       struct ethtool_rxnfc *cmd)
-ada3e24b84a097 Ahmed Zaki            2025-04-23  166  {
-ada3e24b84a097 Ahmed Zaki            2025-04-23  167  	struct idpf_fsteer_fltr *fltr, *parent = NULL, *f;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  168  	struct idpf_netdev_priv *np = netdev_priv(netdev);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  169  	struct idpf_vport_user_config_data *user_config;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  170  	struct ethtool_rx_flow_spec *fsp = &cmd->fs;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  171  	struct virtchnl2_flow_rule_add_del *rule;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  172  	struct idpf_vport_config *vport_config;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  173  	struct virtchnl2_rule_action_set *acts;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  174  	struct virtchnl2_flow_rule_info *info;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  175  	struct virtchnl2_proto_hdrs *hdrs;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  176  	struct idpf_vport *vport;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  177  	u32 flow_type, q_index;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  178  	u16 num_rxq;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  179  	int err = 0;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  180  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  181  	vport = idpf_netdev_to_vport(netdev);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  182  	vport_config = vport->adapter->vport_config[np->vport_idx];
-ada3e24b84a097 Ahmed Zaki            2025-04-23  183  	user_config = &vport_config->user_config;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  184  	num_rxq = user_config->num_req_rx_qs;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  185  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  186  	flow_type = fsp->flow_type & ~(FLOW_EXT | FLOW_MAC_EXT | FLOW_RSS);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  187  	if (flow_type != fsp->flow_type)
-ada3e24b84a097 Ahmed Zaki            2025-04-23  188  		return -EINVAL;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  189  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  190  	if (!idpf_sideband_action_ena(vport, fsp) ||
-ada3e24b84a097 Ahmed Zaki            2025-04-23  191  	    !idpf_sideband_flow_type_ena(vport, flow_type))
-ada3e24b84a097 Ahmed Zaki            2025-04-23  192  		return -EOPNOTSUPP;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  193  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  194  	if (user_config->num_fsteer_fltrs > idpf_fsteer_max_rules(vport))
-ada3e24b84a097 Ahmed Zaki            2025-04-23  195  		return -ENOSPC;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  196  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  197  	q_index = fsp->ring_cookie;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  198  	if (q_index >= num_rxq)
-ada3e24b84a097 Ahmed Zaki            2025-04-23  199  		return -EINVAL;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  200  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  201  	rule = kzalloc(struct_size(rule, rule_info, 1), GFP_KERNEL);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  202  	if (!rule)
-ada3e24b84a097 Ahmed Zaki            2025-04-23  203  		return -ENOMEM;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  204  
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  205  	fltr = kzalloc(sizeof(*fltr), GFP_KERNEL);
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  206  	if (!fltr) {
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  207  		err = -ENOMEM;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  208  		goto out_free_rule;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  209  	}
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  210  
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  211  	/* detect duplicate entry and reject before adding rules */
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  212  	spin_lock_bh(&vport_config->flow_steer_list_lock);
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  213  	list_for_each_entry(f, &user_config->flow_steer_list, list) {
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  214  		if (f->fs.location == fsp->location) {
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  215  			err = -EEXIST;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  216  			break;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  217  		}
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  218  
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  219  		if (f->fs.location > fsp->location)
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  220  			break;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  221  		parent = f;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  222  	}
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  223  	spin_unlock_bh(&vport_config->flow_steer_list_lock);
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  224  
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  225  	if (err)
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  226  		goto out_free_fltr;
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  227  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  228  	rule->vport_id = cpu_to_le32(vport->vport_id);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  229  	rule->count = cpu_to_le32(1);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  230  	info = &rule->rule_info[0];
-ada3e24b84a097 Ahmed Zaki            2025-04-23  231  	info->rule_id = cpu_to_le32(fsp->location);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  232  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  233  	hdrs = &info->rule_cfg.proto_hdrs;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  234  	hdrs->tunnel_level = 0;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  235  	hdrs->count = cpu_to_le32(2);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  236  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  237  	acts = &info->rule_cfg.action_set;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  238  	acts->count = cpu_to_le32(1);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  239  	acts->actions[0].action_type = cpu_to_le32(VIRTCHNL2_ACTION_QUEUE);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  240  	acts->actions[0].act_conf.q_id = cpu_to_le32(q_index);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  241  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  242  	switch (flow_type) {
-ada3e24b84a097 Ahmed Zaki            2025-04-23  243  	case UDP_V4_FLOW:
-ada3e24b84a097 Ahmed Zaki            2025-04-23  244  		idpf_fsteer_fill_ipv4(hdrs, fsp);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  245  		idpf_fsteer_fill_udp(hdrs, fsp, true);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  246  		break;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  247  	case TCP_V4_FLOW:
-ada3e24b84a097 Ahmed Zaki            2025-04-23  248  		idpf_fsteer_fill_ipv4(hdrs, fsp);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  249  		idpf_fsteer_fill_tcp(hdrs, fsp, true);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  250  		break;
-02cbfba1add5bd Alan Brady            2023-08-07  251  	default:
-f017eeeb027274 Pavan Kumar Linga     2025-11-17 @252  		goto out_free_fltr;
 
-err = -EINVAL, plz.
+vim +273 include/linux/stmmac.h
 
-ada3e24b84a097 Ahmed Zaki            2025-04-23  253  	}
-ada3e24b84a097 Ahmed Zaki            2025-04-23  254  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  255  	err = idpf_add_del_fsteer_filters(vport->adapter, rule,
-ada3e24b84a097 Ahmed Zaki            2025-04-23  256  					  VIRTCHNL2_OP_ADD_FLOW_RULE);
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  257  	if (err || info->status != cpu_to_le32(VIRTCHNL2_FLOW_RULE_SUCCESS)) {
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  258  		/* virtchnl2 rule is already consumed */
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  259  		kfree(fltr);
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  260  		return err;
-
-Should this be:
-
-	return err ?: -EINVAL;
-
-ada3e24b84a097 Ahmed Zaki            2025-04-23  261  	}
-ada3e24b84a097 Ahmed Zaki            2025-04-23  262  
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  263  	/* Save a copy of the user's flow spec so ethtool can later retrieve it */
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  264  	fltr->fs = *fsp;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  265  
-61022f50353bc8 Sreedevi Joshi        2025-09-30  266  	spin_lock_bh(&vport_config->flow_steer_list_lock);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  267  	parent ? list_add(&fltr->list, &parent->list) :
-ada3e24b84a097 Ahmed Zaki            2025-04-23  268  		 list_add(&fltr->list, &user_config->flow_steer_list);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  269  
-ada3e24b84a097 Ahmed Zaki            2025-04-23  270  	user_config->num_fsteer_fltrs++;
-61022f50353bc8 Sreedevi Joshi        2025-09-30  271  	spin_unlock_bh(&vport_config->flow_steer_list_lock);
-02cbfba1add5bd Alan Brady            2023-08-07  272  
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  273  	return 0;
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  274  
-f017eeeb027274 Pavan Kumar Linga     2025-11-17  275  out_free_fltr:
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  276  	kfree(fltr);
-f19069e5da487f Erik Gabriel Carrillo 2025-09-30  277  out_free_rule:
-ada3e24b84a097 Ahmed Zaki            2025-04-23  278  	kfree(rule);
-ada3e24b84a097 Ahmed Zaki            2025-04-23  279  	return err;
-ada3e24b84a097 Ahmed Zaki            2025-04-23  280  }
+   188	
+   189	struct plat_stmmacenet_data {
+   190		int bus_id;
+   191		int phy_addr;
+   192		/* MAC ----- optional PCS ----- SerDes ----- optional PHY ----- Media
+   193		 *                                       ^
+   194		 *                                  phy_interface
+   195		 *
+   196		 * The Synopsys dwmac core only covers the MAC and an optional
+   197		 * integrated PCS. Where the integrated PCS is used with a SerDes,
+   198		 * e.g. for 1000base-X or Cisco SGMII, the connection between the
+   199		 * PCS and SerDes will be TBI.
+   200		 *
+   201		 * Where the Synopsys dwmac core has been instantiated with multiple
+   202		 * interface modes, these are selected via core-external configuration
+   203		 * which is sampled when the dwmac core is reset. How this is done is
+   204		 * platform glue specific, but this defines the interface used from
+   205		 * the Synopsys dwmac core to the rest of the SoC.
+   206		 *
+   207		 * Where PCS other than the optional integrated Synopsys dwmac PCS
+   208		 * is used, this counts as "the rest of the SoC" in the above
+   209		 * paragraph.
+   210		 *
+   211		 * phy_interface is the PHY-side interface - the interface used by
+   212		 * an attached PHY or SFP etc. This is equivalent to the interface
+   213		 * that phylink uses.
+   214		 */
+   215		phy_interface_t phy_interface;
+   216		struct stmmac_mdio_bus_data *mdio_bus_data;
+   217		struct device_node *phy_node;
+   218		struct fwnode_handle *port_node;
+   219		struct device_node *mdio_node;
+   220		struct stmmac_dma_cfg *dma_cfg;
+   221		struct stmmac_safety_feature_cfg *safety_feat_cfg;
+   222		int clk_csr;
+   223		int has_gmac;
+   224		int enh_desc;
+   225		int tx_coe;
+   226		int rx_coe;
+   227		int bugged_jumbo;
+   228		int pmt;
+   229		int force_sf_dma_mode;
+   230		int force_thresh_dma_mode;
+   231		int riwt_off;
+   232		int max_speed;
+   233		int maxmtu;
+   234		int multicast_filter_bins;
+   235		int unicast_filter_entries;
+   236		int tx_fifo_size;
+   237		int rx_fifo_size;
+   238		u32 host_dma_width;
+   239		u32 rx_queues_to_use;
+   240		u32 tx_queues_to_use;
+   241		u8 rx_sched_algorithm;
+   242		u8 tx_sched_algorithm;
+   243		struct stmmac_rxq_cfg rx_queues_cfg[MTL_MAX_RX_QUEUES];
+   244		struct stmmac_txq_cfg tx_queues_cfg[MTL_MAX_TX_QUEUES];
+   245		void (*get_interfaces)(struct stmmac_priv *priv, void *bsp_priv,
+   246				       unsigned long *interfaces);
+   247		int (*set_clk_tx_rate)(void *priv, struct clk *clk_tx_i,
+   248				       phy_interface_t interface, int speed);
+   249		void (*fix_mac_speed)(void *priv, int speed, unsigned int mode);
+   250		int (*fix_soc_reset)(struct stmmac_priv *priv, void __iomem *ioaddr);
+   251		int (*serdes_powerup)(struct net_device *ndev, void *priv);
+   252		void (*serdes_powerdown)(struct net_device *ndev, void *priv);
+   253		int (*mac_finish)(struct net_device *ndev,
+   254				  void *priv,
+   255				  unsigned int mode,
+   256				  phy_interface_t interface);
+   257		void (*ptp_clk_freq_config)(struct stmmac_priv *priv);
+   258		int (*init)(struct platform_device *pdev, void *priv);
+   259		void (*exit)(struct platform_device *pdev, void *priv);
+   260		int (*suspend)(struct device *dev, void *priv);
+   261		int (*resume)(struct device *dev, void *priv);
+   262		struct mac_device_info *(*setup)(void *priv);
+   263		int (*clks_config)(void *priv, bool enabled);
+   264		int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
+   265				   void *ctx);
+   266		void (*dump_debug_regs)(void *priv);
+   267		int (*pcs_init)(struct stmmac_priv *priv);
+   268		void (*pcs_exit)(struct stmmac_priv *priv);
+   269		struct phylink_pcs *(*select_pcs)(struct stmmac_priv *priv,
+   270						  phy_interface_t interface);
+   271		/* Physical port identification callbacks (optional, for glue driver override) */
+   272		int (*get_phys_port_id)(struct net_device *ndev,
+ > 273					struct netdev_phys_item_id *ppid);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
