@@ -1,59 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A672FB0A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 23:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADE42BFC60;
+	Fri,  5 Dec 2025 23:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764976056; cv=none; b=kefZhFkTYCtb+Fwp1o+RQQvKHpSufZq9zIbky1FCv0u6YRjxED2UaJ85MClKpJincgy7zP7znEi9bZSunzHVgJIgjSY8VCz5N99cwIw+Z2bzy7wvdzsnJyxOhqTWsBVfR00/v6ucVgP3fPY7ANppyE+nfetgq99FiWYirn7MOnM=
+	t=1764977317; cv=none; b=PePU29+DS1PTUFT6JeoY2wGL4cl4Iv2NKojvSHpoXGIbmtXad4xLtKEyLx63RCJnB8InX8WJVkdnqDsFECR2HvijRNCaZiedANRQeD66LInpYSEHnaPpolsUQKAW/h8ISLNpR9L2b1PQr0YmDIan9KAKpcFlm7f7DPNZQIiYARM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764976056; c=relaxed/simple;
-	bh=QcdQOXqE4eHQoSEU3tIIUnJ3JoPha88JMhWj4dw+o/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kVGcjlDzww/Z8hwBG/58gGe6dq5NpTd3PiprRUEEA5L9Xc1mzQttgkYBSLGUtNQ134EY5hQ1JLTSk11jsnkpWKzkvdpct1CaBTY8wfvlJJs7zbPmrN1M4rxd5xiXqdtHADowiibezWo42E5T6zguokmERaYQubvHuvxutpm18cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUDYZOyC; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1764977317; c=relaxed/simple;
+	bh=06GVYZhezTLwymxE0BBOOw8R+VWOzdpCWMmOUljCHSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ndBH8HfitLQE9frkodyrr5zHajOrc3zsPbTifXZQASy0FH+CLMpnBWg6XCnRl4txAaXymTxI5bb1rXgZ0dxpObv6YYMB1T3LWDaXGAIIQZJ1Hp5r641R9uuhcyur7Bxc61/wN6phreHf5NJNHkqrARmj9O4SYHjKX7q0/aJfBms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiCww/5j; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUDYZOyC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiCww/5j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764976051; x=1796512051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QcdQOXqE4eHQoSEU3tIIUnJ3JoPha88JMhWj4dw+o/w=;
-  b=cUDYZOyCTSKJ48668OaHsF00+mhQA1gP7RAUHNdeODHlylBROSW14aAV
-   PwCjMyHAR7PTkxM8lcRvKn4gfEgagxTmZqwkmMgRFdtxD27+mFLtE/Wdb
-   fW1jEnRfzBBBcy1wJ5wEdxLTCWK7G5/PCSII1/6GDy/cDBSW5zBHG9LXw
-   06cZ9TGA80u1WaGY8jigr/WdQgW6h+8PHTdEEpSCRsCOKAR2UjACIWpGq
-   NOyfRsEzvBmlKADDVNwVNwhMtZcMkwZ7nUEvAv1f/1mBRrFNYBzGZkTlp
-   nJVFBuuA9hsE/cR+2JLOLO/hKJGolQhdWF5OxeAvsAGslCg6nzGIyf26l
-   A==;
-X-CSE-ConnectionGUID: /UgVWD9KTZ+WCaMNMOnwlQ==
-X-CSE-MsgGUID: JOYN5BTpR1S0V4ewseYg+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="89668518"
+  t=1764977315; x=1796513315;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=06GVYZhezTLwymxE0BBOOw8R+VWOzdpCWMmOUljCHSE=;
+  b=ZiCww/5jj42Is8I0d0ZeKByrFkPFueZT2JAtRYLCKQFptEvFZxeOJlUA
+   7eSRZC+Xuu4OLsvuhR5kMertnXQOm7Hy7RmXQIGcK2pK2azvSqrdK0QDo
+   AOm5ZSdRdMxlPxv9/cyrG2v7S6Km4FCgnIW9urQ9HdKiwXFOLbYlJDZ3/
+   2EvjXJyEOANcIUt4/nPeRGsKG95qh75L36qjt97u9n8awRz6/wa05J7TO
+   rSuMur9xUQKFIKPFpwGcLsML1YGOvpo9r7XnNUZXgKJNS8h18DyfsG/k3
+   Pz5td6UkNJo3tiYZ5sxTsaKOb4iskVbIRCeK4s7CzC1AIGIz2yWWSZHsO
+   g==;
+X-CSE-ConnectionGUID: 3sJhhyIxSGK7T00KFRrsdg==
+X-CSE-MsgGUID: 9T02LNvKQlyTa60ewZMHgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="70633841"
 X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
-   d="scan'208";a="89668518"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 15:07:28 -0800
-X-CSE-ConnectionGUID: cqKaiW5LR2ulbonbj+Szzw==
-X-CSE-MsgGUID: vV3+oR1gRz2j66EYjJ5Z7Q==
+   d="scan'208";a="70633841"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 15:28:33 -0800
+X-CSE-ConnectionGUID: VRBZGpVlTEKrNLGb2AjDVQ==
+X-CSE-MsgGUID: jdVY+2RWT8y8YlhD9KahRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,253,1758610800"; 
-   d="scan'208";a="226065045"
+   d="scan'208";a="195857387"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Dec 2025 15:07:27 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 05 Dec 2025 15:28:28 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRetY-00000000Fe1-3jtA;
-	Fri, 05 Dec 2025 23:07:24 +0000
-Date: Sat, 6 Dec 2025 07:06:54 +0800
+	id 1vRfDt-00000000Feb-3xD7;
+	Fri, 05 Dec 2025 23:28:25 +0000
+Date: Sat, 6 Dec 2025 07:27:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 435/435] Warning:
- kernel/trace/ring_buffer.c:2674 function parameter 'writer' not described in
- '__ring_buffer_alloc'
-Message-ID: <202512060745.whBSw5lX-lkp@intel.com>
+To: Will McVicker <willmcvicker@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Will McVicker <willmcvicker@google.com>,
+	Donghoon Yu <hoony.yu@samsung.com>, Rob Herring <robh@kernel.org>,
+	John Stultz <jstultz@google.com>,
+	Youngmin Nam <youngmin.nam@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	"Russell King (Oracle)" <linux@armlinux.org.uk>,
+	linux-samsung-soc@vger.kernel.org, kernel-team@android.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 5/6] clocksource/drivers/exynos_mct: Add module
+ support for ARM64
+Message-ID: <202512060730.wBnpCnQv-lkp@intel.com>
+References: <20251205011027.720512-6-willmcvicker@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +81,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251205011027.720512-6-willmcvicker@google.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   029c3b29942fa7c9965736a5ab9030f41c9c02d3
-commit: 98810c472d88f4a8fd352ad1549f2e9f34d827e3 [435/435] FROMLIST: ring-buffer: Introducing ring-buffer writer
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251206/202512060745.whBSw5lX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512060745.whBSw5lX-lkp@intel.com/reproduce)
+Hi Will,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bca42080637ce3a21092fc0f7d5411e853b0c3b3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Will-McVicker/clocksource-drivers-exynos_mct-Don-t-register-as-a-sched_clock-on-arm64/20251205-091403
+base:   bca42080637ce3a21092fc0f7d5411e853b0c3b3
+patch link:    https://lore.kernel.org/r/20251205011027.720512-6-willmcvicker%40google.com
+patch subject: [PATCH v7 5/6] clocksource/drivers/exynos_mct: Add module support for ARM64
+config: arm64-randconfig-004-20251205 (https://download.01.org/0day-ci/archive/20251206/202512060730.wBnpCnQv-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512060730.wBnpCnQv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512060745.whBSw5lX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512060730.wBnpCnQv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: kernel/trace/ring_buffer.c:2674 function parameter 'writer' not described in '__ring_buffer_alloc'
+>> WARNING: modpost: vmlinux: section mismatch in reference: exynos4_mct_probe+0x70 (section: .text.exynos4_mct_probe) -> mct_init_dt (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
