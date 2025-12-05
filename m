@@ -1,69 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62642261B8C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 04:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB503225760;
+	Fri,  5 Dec 2025 04:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764909242; cv=none; b=O4SiiMZjUT+Glur9KCboYBmWP4oACpvbUiUtxF98Z2napwJ259hMeWB2CHUPeAlXpw+vB3upNpJBo0hHgB7QPQWHYGNxxLO0hHEVTvoeqyZ8S+4KTu36JJeJPYpuhy1uFU+Zc/b2ErSzAQLK+9B4jyflDH9N8wHKa1b+QAO2sr0=
+	t=1764909243; cv=none; b=dB8kZ0mCTT4GPSq54TxLLyRSIhasVxFACj/hfXBKhKgvCTuTCLYwTQPAJKGrwyURYuVYtzj+VYwuUcc1EtsYf6er9y29EbS/6r4xmy+IIhiZtQMMA7vfkqmVgMzEXHABn4lCPWTCY+eSp9qq7V4Mgu64NCD/P8s2/AFCoN7KVBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764909242; c=relaxed/simple;
-	bh=aIXWLsK16waG7MXWO7e8zEfJ8XBA/lm6NJ3ih7dA7wY=;
+	s=arc-20240116; t=1764909243; c=relaxed/simple;
+	bh=uvNop/61wZWb1qbOjf2+BxB4b3V7SWP+mpy4JmXFPk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLDFaArhhfkenzb4shbVIPQmfKPMVQ0sCuL8VJIkAoOwAJtkASWPc7vm+ZHCjuKgU313VVCJfRC1ZKHH8fTAvBJ+UQrWEG5nIaI92c4EplgrpMUnbhiJ7jgqrwpI4Z59EhjVgP0O1i5fpQsgQ2imGBVCEX/fKsaLR//ceefM6cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PUU/u+oC; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mbh6LWmtSQ6oz2eXW5AOIOTZZpNJ8X6zqqZYsUcLreRexDHL7l+9JemEc2v2bfBc5UeYWVKSXPoUtjFY91BH9D3Q6zxpok8SjD20+iziRf80r3DrEOyNcMeTudIViuD8BwGWvRhTIStcTwqwlOSPD5CYjvceVXP25vjgBUSx1l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCyvCkxH; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PUU/u+oC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCyvCkxH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764909240; x=1796445240;
+  t=1764909242; x=1796445242;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aIXWLsK16waG7MXWO7e8zEfJ8XBA/lm6NJ3ih7dA7wY=;
-  b=PUU/u+oCrP2A3wqIpO9T4oeRp528avjiXkHX/8HWFZJsu5X5h3mfEyJs
-   8GCWxO1LrRdQg7BveEgYOIz4BW80ezsNkqFkznSMhqvGhxPQUBhnzYUU8
-   oY5yHFP2Ip8Y3o2/eGJDwPSUCZJgG7Bhxh7PFgKCCummvymANcUN7eJw7
-   5h6mq/hPJtJdPtFPkCMj4IlRY0IwvwjR2XzXB0zlnndGUXjMM6X6jyNL2
-   BQF4DURXzOQVej/V/uCJa0Iwxj//IkMsoEX2kSsLhRVLGhoS4lplY2wlI
-   X/3RXeL/W+ZXLH2osmZzgH9feC8utA9gOxuw4ioGt1j1spFe7mFvfu531
+  bh=uvNop/61wZWb1qbOjf2+BxB4b3V7SWP+mpy4JmXFPk4=;
+  b=SCyvCkxHZNd4O/0oQbpk4URzBiFMx3sdLOD1Tc/iOjSFmsY6932/1LVK
+   cITOFrMvHdTLTk/s803eiBr7TRJVqf00RZQsLvo+nH2lsRRMLqvIEh+JK
+   aNHVHlYn+7Lq0r7ZXnA9htLIw5UDSZYfdFuSrmdOuF40AnimnubNNwWRo
+   kAtufJUYTJPQoKI2ZbpEM1w4bOSEOLckorD9+g4n1ZDTCMZr6KF+pdKFq
+   2FMh1B1OIhMo5W4bx8GNeaTtkZ4NS+Vz5I7lSH2IL5/TfNTuwiMlBNgvl
+   QwlmQMEIrwHXv+bnAHHVHqbkQc3228+Fc3bGLiW21J7P1yDkvIzxND106
    A==;
-X-CSE-ConnectionGUID: dhgElr81StGuLqxucVx0vw==
-X-CSE-MsgGUID: czxvMi6RQzuGc/xAQPwc7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70790462"
+X-CSE-ConnectionGUID: YmhcZjM/R1K97W/YsVo9dw==
+X-CSE-MsgGUID: STP3KT2wS+aXbXY/jjACSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70790468"
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="70790462"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 20:34:00 -0800
-X-CSE-ConnectionGUID: KFDHs5pbRk6nNvnHN+SREw==
-X-CSE-MsgGUID: Ml7yRMGORvitt4XmZ/muEw==
+   d="scan'208";a="70790468"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2025 20:34:01 -0800
+X-CSE-ConnectionGUID: J+DagLs/RICSWdPP1WrjAQ==
+X-CSE-MsgGUID: QnRLQlv0TZOBWolRgBDNiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="195221686"
+   d="scan'208";a="200318239"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Dec 2025 20:33:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Dec 2025 20:33:56 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRNVx-00000000Eao-3R11;
+	id 1vRNVx-00000000Eal-3Le1;
 	Fri, 05 Dec 2025 04:33:53 +0000
-Date: Fri, 5 Dec 2025 12:33:44 +0800
+Date: Fri, 5 Dec 2025 12:33:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Xu <peterx@redhat.com>, kvm@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
-	Nico Pache <npache@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Alex Mastro <amastro@fb.com>, David Hildenbrand <david@redhat.com>,
-	Alex Williamson <alex@shazbot.org>, Zhi Wang <zhiw@nvidia.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Yi Liu <yi.l.liu@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-	peterx@redhat.com, Kevin Tian <kevin.tian@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v2 4/4] vfio-pci: Best-effort huge pfnmaps with
- !MAP_FIXED mappings
-Message-ID: <202512051241.QtfYgqkx-lkp@intel.com>
-References: <20251204151003.171039-5-peterx@redhat.com>
+To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
+	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
+	robh@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+	konrad.dybcio@oss.qualcomm.com, bjorn.andersson@oss.qualcomm.com,
+	bod@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
+	charan.kalla@oss.qualcomm.com, prakash.gupta@oss.qualcomm.com,
+	vikash.garodia@oss.qualcomm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, vijayanand.jitta@oss.qualcomm.com
+Subject: Re: [PATCH v2 3/3] of: Respect #{iommu,msi}-cells in maps
+Message-ID: <202512051124.ot03fX1c-lkp@intel.com>
+References: <20251204095530.8627-4-vijayanand.jitta@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,92 +70,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204151003.171039-5-peterx@redhat.com>
+In-Reply-To: <20251204095530.8627-4-vijayanand.jitta@oss.qualcomm.com>
 
-Hi Peter,
+Hi Vijayanand,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on awilliam-vfio/for-linus]
-[also build test WARNING on linus/master v6.18]
-[cannot apply to akpm-mm/mm-everything awilliam-vfio/next brauner-vfs/vfs.all next-20251204]
+[auto build test ERROR on xen-tip/linux-next]
+[also build test ERROR on v6.18]
+[cannot apply to robh/for-next pci/next pci/for-linus linus/master next-20251204]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Xu/mm-thp-Allow-thp_get_unmapped_area_vmflags-to-take-alignment/20251204-231258
-base:   https://github.com/awilliam/linux-vfio.git for-linus
-patch link:    https://lore.kernel.org/r/20251204151003.171039-5-peterx%40redhat.com
-patch subject: [PATCH v2 4/4] vfio-pci: Best-effort huge pfnmaps with !MAP_FIXED mappings
-config: i386-buildonly-randconfig-004-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051241.QtfYgqkx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051241.QtfYgqkx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20251204-180719
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
+patch link:    https://lore.kernel.org/r/20251204095530.8627-4-vijayanand.jitta%40oss.qualcomm.com
+patch subject: [PATCH v2 3/3] of: Respect #{iommu,msi}-cells in maps
+config: i386-buildonly-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051124.ot03fX1c-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051124.ot03fX1c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512051241.QtfYgqkx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051124.ot03fX1c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/vfio/pci/vfio_pci_core.c: In function 'vfio_pci_core_get_mapping_order':
->> drivers/vfio/pci/vfio_pci_core.c:1670:51: warning: left shift count >= width of type [-Wshift-count-overflow]
-    1670 |         req_start = (pgoff << PAGE_SHIFT) & ((1UL << VFIO_PCI_OFFSET_SHIFT) - 1);
-         |                                                   ^~
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:31:
+   In file included from include/linux/cpufreq.h:17:
+>> include/linux/of.h:918:1: error: expected identifier or '('
+     918 | {
+         | ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=4056561518
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2 shuffle=4056561518
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=4056561518
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=4056561518
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1670 drivers/vfio/pci/vfio_pci_core.c
+vim +918 include/linux/of.h
 
-  1642	
-  1643	/*
-  1644	 * Hint function for mmap() about the size of mapping to be carried out.
-  1645	 * This helps to enable huge pfnmaps as much as possible on BAR mappings.
-  1646	 *
-  1647	 * This function does the minimum check on mmap() parameters to make the
-  1648	 * hint valid only. The majority of mmap() sanity check will be done later
-  1649	 * in mmap().
-  1650	 */
-  1651	int vfio_pci_core_get_mapping_order(struct vfio_device *device,
-  1652					    unsigned long pgoff, size_t len)
-  1653	{
-  1654		struct vfio_pci_core_device *vdev =
-  1655		    container_of(device, struct vfio_pci_core_device, vdev);
-  1656		struct pci_dev *pdev = vdev->pdev;
-  1657		unsigned int index = pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
-  1658		unsigned long req_start;
-  1659		size_t phys_len;
-  1660	
-  1661		/* Currently, only bars 0-5 supports huge pfnmap */
-  1662		if (index >= VFIO_PCI_ROM_REGION_INDEX)
-  1663			return 0;
-  1664	
-  1665		/*
-  1666		 * NOTE: we're keeping things simple as of now, assuming the
-  1667		 * physical address of BARs (aka, pci_resource_start(pdev, index))
-  1668		 * should always be aligned with pgoff in vfio-pci's address space.
-  1669		 */
-> 1670		req_start = (pgoff << PAGE_SHIFT) & ((1UL << VFIO_PCI_OFFSET_SHIFT) - 1);
-  1671		phys_len = PAGE_ALIGN(pci_resource_len(pdev, index));
-  1672	
-  1673		/*
-  1674		 * If this happens, it will probably fail mmap() later.. mapping
-  1675		 * hint isn't important anymore.
-  1676		 */
-  1677		if (req_start >= phys_len)
-  1678			return 0;
-  1679	
-  1680		phys_len = MIN(phys_len - req_start, len);
-  1681	
-  1682		if (IS_ENABLED(CONFIG_ARCH_SUPPORTS_PUD_PFNMAP) && phys_len >= PUD_SIZE)
-  1683			return PUD_ORDER;
-  1684	
-  1685		if (IS_ENABLED(CONFIG_ARCH_SUPPORTS_PMD_PFNMAP) && phys_len >= PMD_SIZE)
-  1686			return PMD_ORDER;
-  1687	
-  1688		return 0;
-  1689	}
-  1690	EXPORT_SYMBOL_GPL(vfio_pci_core_get_mapping_order);
-  1691	
+0384e8c6c6fa49 Pantelis Antoniou 2015-01-21  914  
+c56888c32d643b Robin Murphy      2025-12-04  915  static inline int of_map_id(const struct device_node *np, u32 id, const char *map_name,
+c56888c32d643b Robin Murphy      2025-12-04  916  			    const char *cells_name, const char *map_mask_name,
+c56888c32d643b Robin Murphy      2025-12-04  917  			    struct of_map_id_arg *arg);
+2a6db719c92dbf Nipun Gupta       2018-09-10 @918  {
+2a6db719c92dbf Nipun Gupta       2018-09-10  919  	return -EINVAL;
+2a6db719c92dbf Nipun Gupta       2018-09-10  920  }
+2a6db719c92dbf Nipun Gupta       2018-09-10  921  
 
 -- 
 0-DAY CI Kernel Test Service
