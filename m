@@ -1,97 +1,115 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855733043CF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 Dec 2025 09:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6668431B11E;
+	Fri,  5 Dec 2025 09:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764926648; cv=none; b=BSM+UTkSAxU9xrEXjoi7i1Z3JIQEufla0YSBZiGusGnDaA+ikXGEv/DY5OSgLsoQgZbaSvEzq8pGGu/jOmSrydm9MJIrkQp7ZSz44rR1drHD0CnZ6LyJ+B/QmIJH71Dg9R5y12Gzj5WiXmIDAd9rglySdQvOBkxtRopxJaGIKt0=
+	t=1764928550; cv=none; b=O4fl742nDNGr6VQZJ6TjgBqbv+Mhpr0IvhtJtxBLr/2CrQTseihUWZ3nqMrlFMvSaAOuBnUYBqaaqJzftAAXPZQezRUNn2P05f8hLUn5zuxahhn+gjl+xHGmglkrwYV0ouYnLSoq4QmE1g40DBrKm06zog87q9XbZj3ByCnMoWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764926648; c=relaxed/simple;
-	bh=Agnrt+zlXfqAyBkX1umXQhxb4bDtHR8MlYVZIicHX50=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Aop0nDC6V49XEa2Jdubhmc5S69L2CXcFOWAVAS09P29eIQgrDxQUMzMcIR7G/zvmuZDg4pxI1EVZhJDBny9DXVMls2juNc119kymm+9lIizDhTkccB4SgDWFBa8vEinN1IgSknDV8GyVBuBADaqAduCvBONWYUnEJpGSj/uklMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=feaLzurC; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	s=arc-20240116; t=1764928550; c=relaxed/simple;
+	bh=eQcvofA5/i6F3yeN81r21V15GmbWxJ3Ch+IAs5hJX/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fU+jd/3FQgKp2hxgmsSrq6xSIT3H8p3IvvijOwYUAGAx3ej3wdsay6/vEKXPdbJDilyrZmfC1du0J61p1dpM1YTeDiIncp63kdkbV1TRZ1GSlQTGeLnYtW3p29dIo2PRZUMurvyjj/XUrgTRP70VQ9R0MiHeEQfKg/a1urkM8JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZChswqrB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="feaLzurC"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3414de5b27eso1364916a91.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 Dec 2025 01:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1764926635; x=1765531435; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Agnrt+zlXfqAyBkX1umXQhxb4bDtHR8MlYVZIicHX50=;
-        b=feaLzurCHIWMq4Em7DHmZjl6c83OjVyaJcnaNOqZYNDus3/L3Bg0jqQrMDCJs0hI5p
-         7+LChbB1ARkITfJsx75hFKGsGWUdASk6qn55hgx00xelyhGNaS904QqOMoknojtYfPuf
-         PzeTny6amv7j7J44MUhu1SXscDVlTI28LeEp4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764926635; x=1765531435;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Agnrt+zlXfqAyBkX1umXQhxb4bDtHR8MlYVZIicHX50=;
-        b=XuCt00shyc4z70jgZS2Tzwu0OM482kWjHh2jLePEnmNzaBnGyjbGqcfxGaAV45OAAz
-         7Pe2czTJKrB1rFGDN8T8ivFbuX+2lK+sSwoTSWTrzlje63oboPkTrB5TYyS7Wa96QB3C
-         TiPaF8zhtUTClIB74Tl/K1sWOH418JxfzLkHk80I8BOkL/6LtrR3GInTzfab0O3Tw7JE
-         fxTzv6YzQ8i2OecZOuDu+IvQEPAQATtNvDsLiRiiUYZkgOmOuMhFAWo69aOXudZs8ULz
-         wI9oYWJ62+K1BXOUhJJqHkhWK3ooPLThUbWwS+D8rTzYtRbHvkr/b1jPOavLatj/w8Sp
-         OvZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMJYeJtagC+dc676guaRdHQYRuFqxzH1M2nK71sLPgMIR1QFEeOtlfjZwtnaPKrcX/W+s3DygX1rU2hlsP@lists.linux.dev
-X-Gm-Message-State: AOJu0YzuDgHXvHgRc42+/ZFZaTdRMxCY26v83BLHegH5MAmJ3C0kLJvT
-	dqagK4PiLjd24FgR5BAQddwhseiN93x/LyiU7S8o4PhJfrNOrSi5N1hZKGZFN9IPk/2W//K9M+k
-	d/aV2hfJbLLAicDZUeADc3jXFBHFJ5XLclSvrw1OyOg==
-X-Gm-Gg: ASbGnct0oneWq15KCJY+4ce24362+VjxMh7ZUhPljbVIo0zz945VODmrrIXBSn27ZuF
-	etaupjSV3ZMSVRYYjXt0l/NqiuVMejXaAMT2Sezq3phnyDI+tTxhWzQulqCxqCeicpVutbd2mDP
-	ikfs1FDgotaz196/FqUhcZHYakw/OogL/xktG14+iRSrHkiGLkjt0/ErZDeq87oN74rRp5sO6ro
-	POWtrXTpPCaGrClDactGL5puxobuMArlf/CK7X019NtG3bko+Cq1CxqSrm4VV8e8TftVlvy
-X-Google-Smtp-Source: AGHT+IEOw548MdKMTZftyNVZPELqp1JrFaodVAmVB/fkgKWTaXcotXK1RdiGGFYAXIcc8rN7D2IA8hJ4dWve1WZENI0=
-X-Received: by 2002:a17:90b:17c9:b0:33b:ba50:fccc with SMTP id
- 98e67ed59e1d1-349126c8597mr9590835a91.18.1764926635516; Fri, 05 Dec 2025
- 01:23:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZChswqrB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764928546; x=1796464546;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eQcvofA5/i6F3yeN81r21V15GmbWxJ3Ch+IAs5hJX/c=;
+  b=ZChswqrBY60OD2mD0+vm6Lub2u6UKVqnLzfR5VGbSl5mpEqB43fAXTuN
+   bXaS4xFjnGfhBSN92V5CFD1AzSxxaQgM+EeSv7cT+lciNq3fyySIqysA9
+   wkZnhHrQIU8K5XYiFl26oJOWPAUCQvEoBLypBGUw0cUOiAzqk3WouEscq
+   dTAfjTL8j3YjVSNFmQB+wrmayc0u3a3BhVREIn2u1cILUVt4aEyex9laH
+   VMKim4ld3FiruW8pXofyApUc2o1e/c/4vTYRF/y8csdDBEnwF3Ya+RWLK
+   pdsuIlu9q6uzNe0XKdjMdZUQU5cscqJ/nbjve3jiD0m3p20agGEdAfSru
+   g==;
+X-CSE-ConnectionGUID: d4q6olR2T56Zf2Cw9BtKqw==
+X-CSE-MsgGUID: MtrfQ6sjQTC4j9czpyPvcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70811103"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="70811103"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 01:55:40 -0800
+X-CSE-ConnectionGUID: pusVzaMERzeoiK+G+tUCgQ==
+X-CSE-MsgGUID: ZIkYCspeRxubYpnKrr9OWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="194907167"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Dec 2025 01:55:38 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRSXI-00000000Eqr-1zy7;
+	Fri, 05 Dec 2025 09:55:36 +0000
+Date: Fri, 5 Dec 2025 17:55:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Takahiro Itazuri <itazur@amazon.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] KVM: pfncache: Use vmap() for guest_memfd pages
+ without direct map
+Message-ID: <202512051702.JVgyDZnV-lkp@intel.com>
+References: <20251203144159.6131-3-itazur@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251127000505.2117956-1-daniel@thingy.jp> <202511270956.hzGiPzdZ-lkp@intel.com>
- <CAFr9PXngrVvcQ2yO0JUj6ve1T39rWftwECnKfUcV3PcKUCPPmg@mail.gmail.com>
- <CAMuHMdXMA4seUXqJsoVpuYNVS8wEFWYJKRBSWOZ=vS2Js6Bh3g@mail.gmail.com>
- <CAFr9PXm_8Lyk5rPMWw+mAzu97RRfjLj8NLqz5K0Po4p9PM6FOw@mail.gmail.com> <aTFbI1RKsbEdR2Ph@yoseli-yocto.yoseli.org>
-In-Reply-To: <aTFbI1RKsbEdR2Ph@yoseli-yocto.yoseli.org>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Fri, 5 Dec 2025 18:23:42 +0900
-X-Gm-Features: AWmQ_bm95y55GKRm-h806Gi4jrC-4zbAV_U9EVI2cghncO4ejB7hseaz_ZWKUyk
-Message-ID: <CAFr9PXksr=JaO+0gXRoD2zBH4YCGwm=sDqaVb9v0_b7u9=+2eA@mail.gmail.com>
-Subject: Re: [PATCH] m68k: implement runtime consts
-To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	kas@kernel.org, mingo@kernel.org, seanjc@google.com, bp@alien8.de, 
-	linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251203144159.6131-3-itazur@amazon.com>
 
-Hi Jean-Michel,
+Hi Takahiro,
 
-On Thu, 4 Dec 2025 at 18:57, Jean-Michel Hautbois
-<jeanmichel.hautbois@yoseli.org> wrote:
-> It would be great to have vDSO at least for sys_get_thread_area() ! I
-> implemented something, but if you already have it, please, submit a RFC
-> I will test on coldfire !
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-I will try to clean it up and send it. A very untidy version along
-with other stuff I'm messing with is on github[0].
-You will also need a patch for your libc to use it. So far I have
-worked out how to get glibc[1] and uclibng[2] to work but I haven't
-managed to get musl to work yet[3].
-Note that I have no idea if it's safe to do what it's doing. ;)
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next mst-vhost/linux-next linus/master v6.18 next-20251205]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-0 - https://github.com/fifteenhex/linux/tree/m68kvdso-20251201
-1 - https://github.com/fifteenhex/glibc/tree/m68kgetthreadarea-20251203
-2 - https://github.com/fifteenhex/uclibc-ng/tree/m68k-vdsogetthreadarea
-3 - https://github.com/fifteenhex/musl/tree/m68kgetthreadarea-20251203
+url:    https://github.com/intel-lab-lkp/linux/commits/Takahiro-Itazuri/KVM-pfncache-Use-kvm_gmem_get_pfn-for-guest_memfd-backed-memslots/20251203-224344
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20251203144159.6131-3-itazur%40amazon.com
+patch subject: [RFC PATCH 2/2] KVM: pfncache: Use vmap() for guest_memfd pages without direct map
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251205/202512051702.JVgyDZnV-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051702.JVgyDZnV-lkp@intel.com/reproduce)
 
-Cheers,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512051702.JVgyDZnV-lkp@intel.com/
 
-Daniel
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/events/intel/core.c:17:
+>> include/linux/kvm_host.h:634:9: error: call to undeclared function 'mapping_no_direct_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     634 |                mapping_no_direct_map(slot->gmem.file->f_mapping);
+         |                ^
+   1 error generated.
+
+
+vim +/mapping_no_direct_map +634 include/linux/kvm_host.h
+
+   630	
+   631	static inline bool kvm_slot_no_direct_map(const struct kvm_memory_slot *slot)
+   632	{
+   633		return slot && kvm_slot_has_gmem(slot) &&
+ > 634		       mapping_no_direct_map(slot->gmem.file->f_mapping);
+   635	}
+   636	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
