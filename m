@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536052DECC2;
-	Sat,  6 Dec 2025 07:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAF52459D1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 07:40:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765006853; cv=none; b=ZxnCawlOKD7KAwCSQUPEwXcXdEVKj2pPb0ojPZTmmWJC5TTkP5QQgEmn7BMIrGqLjJC134jk7ROAh0nyzEzO2Bz1efS50s/oGkgSsWru6+kOCB/bzuxpY3KJglqEBzcpWmzs0oNg3sMWytnyYcoXCBr7bskXjd+3WaMKUxCOl58=
+	t=1765006853; cv=none; b=UoT3BF4ptqDLlxGOGj/LjZw2ODxjUtb7++126BJ6lMUDX7+VtlYHU5gkINGwXAnfEROJM74FmynrwldAQeueELNqvLCSmN+moS1ts2lW/yqfIrhX98EWoR7U99iDGDU7MQaBbFjjJRQ2KDUKVO3L4WX6q2rOeGU/jcGjQtnYciU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765006853; c=relaxed/simple;
-	bh=vuJcU/QDZy21Pw7e9vdX7d3CPQfyDtrzRf05uOUFEH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZAEMOSkJ4R/8SSDxi6J5gYhgVQELqOcs4QfFTr0RoB7iSpl+MryHrtTJL4Zi6teHZlBWIPaABKTHEG9DUdS1V0x23Bs9LQmsFl/kBBPpGD2f9iOfQgmaNHL8eOzHQat1xMAjGabh12mlqqMu7q6tSoq4/Q7ng6mIhA+XZmGTmyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWrSsA1S; arc=none smtp.client-ip=198.175.65.16
+	bh=W11PkRS7/cmcn53Hn8D8OZ+JVw05D0WMxb+YMKhe8aE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=axLUy/LWZv453chdBuye5ag9sURdMimMfoDu2Jx0o8wiUKHHaRwgYiFkBjX/yLyurgAG6CCBCbJ4a2Eg8GTJHGI9aRqJbJhCK13QGdSsObtTK5c7AjPINwxN+BIfM4zod0TsBj9FW/foqi+fyaeEKJprlPPg9y1kxOFuieKr95w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ia3O+YJv; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWrSsA1S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ia3O+YJv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765006852; x=1796542852;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vuJcU/QDZy21Pw7e9vdX7d3CPQfyDtrzRf05uOUFEH8=;
-  b=eWrSsA1S8DzUkjmXQpRxyONfM1160gCPZdEzG/Us+Y5zDegmZ4Q48DQg
-   TtkhQzltkLIRxT+spzcfo1xRoW13JVEzwaQ4Dq/pqcc7+Z6xUJD2i0Tf6
-   wrXfMEBLHPevrEH6rNCsAl4M0RnZ/QCUexrwppIWaUWsV3A9AD1Hyqulk
-   0fFZpgWQChZjcqnLi/ejYolWotwqBp2FGuS2FgV6eaPiyScTbND89ki+4
-   MjVxuvwNseBWwmUlhKX5qBniF8VVf7kPAXUAnvFU+d6xKFeQ2QzkhsJ5j
-   kwbzXYhwbZm+qylW7xaQDVzMJKZbXncIDkPg7HE0QpzUsPWeFGnJhUICJ
+  t=1765006851; x=1796542851;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W11PkRS7/cmcn53Hn8D8OZ+JVw05D0WMxb+YMKhe8aE=;
+  b=ia3O+YJv2xITMNfqi/FIUb7b32uT6/FCu28TtHsszMNLeKr2Ixjns/c6
+   kHjwhKQUMPrBvVuyx3tEGcfF75RXS0TK4kBuG0iIkNaPKhiyOsJFzXitl
+   ve3KQBCEnHhd8APEIa53KX//bloW7FufkSK7dYocvYyhfNv49Yln/mRzt
+   ba3XVh2AP42FsfQsuPeCfahXH/g2Bt2x+7hcyLoVqgEpt8wgFtuDTSRCP
+   lK5ibE7UmPJF/HdXzgYWdHbjW3jIdNi3QBbu0/QZzdtvInRbZDkiCFW6A
+   wdXntq9IVOoUwSb4+WK5cF32/iYHoY3qHriF+2l64m9S8aV7CCd9PAeMO
    Q==;
-X-CSE-ConnectionGUID: i3CAUPFPQbixZP4aHminDg==
-X-CSE-MsgGUID: Dc2Kbg8nTVWRe89fng2c+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="67195260"
+X-CSE-ConnectionGUID: hB0Mg52rR9yTZ9pMWwTVpw==
+X-CSE-MsgGUID: uN+VpZ8PRp6vJ51212hxpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="67111697"
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="67195260"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 23:40:51 -0800
-X-CSE-ConnectionGUID: Dq/jTVuBRPCL7q2Q+Ozx+g==
-X-CSE-MsgGUID: EXXUmSxHS1OyX0zkHwb0fA==
+   d="scan'208";a="67111697"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 23:40:49 -0800
+X-CSE-ConnectionGUID: pMs3XL5UR2e39T6Xlvf+0A==
+X-CSE-MsgGUID: EZNrBcUnQxSDWUfkCVjoww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="199928735"
+   d="scan'208";a="200624753"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Dec 2025 23:40:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Dec 2025 23:40:48 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRmuM-00000000Fzt-06pu;
+	id 1vRmuM-00000000Fzv-0HBn;
 	Sat, 06 Dec 2025 07:40:46 +0000
-Date: Sat, 6 Dec 2025 15:39:59 +0800
+Date: Sat, 6 Dec 2025 15:40:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaohai Chen <wdhh6@aliyun.com>, john.g.garry@oracle.com,
-	yanaijie@huawei.com, James.Bottomley@hansenpartnership.com,
-	martin.petersen@oracle.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, dlemoal@kernel.org,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scsi: libsas: Add error handling in the
- sas_register_phys()
-Message-ID: <202512061547.zszMg0HR-lkp@intel.com>
-References: <20251205080252.1020028-1-wdhh6@aliyun.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 7/7]
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c:120:10: error: call to undeclared
+ function 'get_acp63_cpu_pin_id'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202512061507.xiYfiOV3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,99 +63,178 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205080252.1020028-1-wdhh6@aliyun.com>
 
-Hi Chaohai,
+Hi Vijendar,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.18 next-20251205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaohai-Chen/scsi-libsas-Add-error-handling-in-the-sas_register_phys/20251205-174712
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20251205080252.1020028-1-wdhh6%40aliyun.com
-patch subject: [PATCH] scsi: libsas: Add error handling in the sas_register_phys()
-config: hexagon-randconfig-001-20251206 (https://download.01.org/0day-ci/archive/20251206/202512061547.zszMg0HR-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061547.zszMg0HR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   893a821faadd92557e35d840ace1d648fe0a50e6
+commit: c3b26788593464218c7aa581133f5070a36f2378 [7/7] FROMGIT: ASoC: amd: acp: add soundwire machine driver for legacy stack
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512061507.xiYfiOV3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061507.xiYfiOV3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061547.zszMg0HR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512061507.xiYfiOV3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/scsi/libsas/sas_phy.c:165:16: error: incompatible pointer types passing 'struct asd_sas_phy *' to parameter of type 'struct sas_phy *' [-Werror,-Wincompatible-pointer-types]
-                   sas_phy_free(phy);
-                                ^~~
-   include/scsi/scsi_transport_sas.h:192:42: note: passing argument to parameter here
-   extern void sas_phy_free(struct sas_phy *);
-                                            ^
+>> sound/soc/amd/acp/acp-sdw-legacy-mach.c:120:10: error: call to undeclared function 'get_acp63_cpu_pin_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     120 |                         ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask - 1),
+         |                               ^
    1 error generated.
 
 
-vim +165 drivers/scsi/libsas/sas_phy.c
+vim +/get_acp63_cpu_pin_id +120 sound/soc/amd/acp/acp-sdw-legacy-mach.c
 
-   115	
-   116	int sas_register_phys(struct sas_ha_struct *sas_ha)
-   117	{
-   118		int i;
-   119		int ret = 0;
-   120	
-   121		/* Now register the phys. */
-   122		for (i = 0; i < sas_ha->num_phys; i++) {
-   123			struct asd_sas_phy *phy = sas_ha->sas_phy[i];
-   124	
-   125			phy->error = 0;
-   126			atomic_set(&phy->event_nr, 0);
-   127			INIT_LIST_HEAD(&phy->port_phy_el);
-   128	
-   129			phy->port = NULL;
-   130			phy->ha = sas_ha;
-   131			spin_lock_init(&phy->frame_rcvd_lock);
-   132			spin_lock_init(&phy->sas_prim_lock);
-   133			phy->frame_rcvd_size = 0;
-   134	
-   135			phy->phy = sas_phy_alloc(&sas_ha->shost->shost_gendev, i);
-   136			if (!phy->phy) {
-   137				ret = -ENOMEM;
-   138				goto fail;
-   139			}
-   140	
-   141			phy->phy->identify.initiator_port_protocols =
-   142				phy->iproto;
-   143			phy->phy->identify.target_port_protocols = phy->tproto;
-   144			phy->phy->identify.sas_address = SAS_ADDR(sas_ha->sas_addr);
-   145			phy->phy->identify.phy_identifier = i;
-   146			phy->phy->minimum_linkrate_hw = SAS_LINK_RATE_UNKNOWN;
-   147			phy->phy->maximum_linkrate_hw = SAS_LINK_RATE_UNKNOWN;
-   148			phy->phy->minimum_linkrate = SAS_LINK_RATE_UNKNOWN;
-   149			phy->phy->maximum_linkrate = SAS_LINK_RATE_UNKNOWN;
-   150			phy->phy->negotiated_linkrate = SAS_LINK_RATE_UNKNOWN;
+    61	
+    62	static int create_sdw_dailink(struct snd_soc_card *card,
+    63				      struct asoc_sdw_dailink *soc_dai,
+    64				      struct snd_soc_dai_link **dai_links,
+    65				      int *be_id, struct snd_soc_codec_conf **codec_conf,
+    66				      struct snd_soc_dai_link_component *sdw_platform_component)
+    67	{
+    68		struct device *dev = card->dev;
+    69		struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+    70		struct amd_mc_ctx *amd_ctx = (struct amd_mc_ctx *)ctx->private;
+    71		struct asoc_sdw_endpoint *soc_end;
+    72		int cpu_pin_id;
+    73		int stream;
+    74		int ret;
+    75	
+    76		list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+    77			if (soc_end->name_prefix) {
+    78				(*codec_conf)->dlc.name = soc_end->codec_name;
+    79				(*codec_conf)->name_prefix = soc_end->name_prefix;
+    80				(*codec_conf)++;
+    81			}
+    82	
+    83			if (soc_end->include_sidecar) {
+    84				ret = soc_end->codec_info->add_sidecar(card, dai_links, codec_conf);
+    85				if (ret)
+    86					return ret;
+    87			}
+    88		}
+    89	
+    90		for_each_pcm_streams(stream) {
+    91			static const char * const sdw_stream_name[] = {
+    92				"SDW%d-PIN%d-PLAYBACK",
+    93				"SDW%d-PIN%d-CAPTURE",
+    94				"SDW%d-PIN%d-PLAYBACK-%s",
+    95				"SDW%d-PIN%d-CAPTURE-%s",
+    96			};
+    97			struct snd_soc_dai_link_ch_map *codec_maps;
+    98			struct snd_soc_dai_link_component *codecs;
+    99			struct snd_soc_dai_link_component *cpus;
+   100			int num_cpus = hweight32(soc_dai->link_mask[stream]);
+   101			int num_codecs = soc_dai->num_devs[stream];
+   102			int playback, capture;
+   103			int j = 0;
+   104			char *name;
+   105	
+   106			if (!soc_dai->num_devs[stream])
+   107				continue;
+   108	
+   109			soc_end = list_first_entry(&soc_dai->endpoints,
+   110						   struct asoc_sdw_endpoint, list);
+   111	
+   112			*be_id = soc_end->dai_info->dailink[stream];
+   113			if (*be_id < 0) {
+   114				dev_err(dev, "Invalid dailink id %d\n", *be_id);
+   115				return -EINVAL;
+   116			}
+   117	
+   118			switch (amd_ctx->acp_rev) {
+   119			case ACP63_PCI_REV:
+ > 120				ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask - 1),
+   121							   *be_id, &cpu_pin_id, dev);
+   122				if (ret)
+   123					return ret;
+   124				break;
+   125			default:
+   126				return -EINVAL;
+   127			}
+   128			/* create stream name according to first link id */
+   129			if (ctx->append_dai_type) {
+   130				name = devm_kasprintf(dev, GFP_KERNEL,
+   131						      sdw_stream_name[stream + 2],
+   132						      ffs(soc_end->link_mask) - 1,
+   133						      cpu_pin_id,
+   134						      type_strings[soc_end->dai_info->dai_type]);
+   135			} else {
+   136				name = devm_kasprintf(dev, GFP_KERNEL,
+   137						      sdw_stream_name[stream],
+   138						      ffs(soc_end->link_mask) - 1,
+   139						      cpu_pin_id);
+   140			}
+   141			if (!name)
+   142				return -ENOMEM;
+   143	
+   144			cpus = devm_kcalloc(dev, num_cpus, sizeof(*cpus), GFP_KERNEL);
+   145			if (!cpus)
+   146				return -ENOMEM;
+   147	
+   148			codecs = devm_kcalloc(dev, num_codecs, sizeof(*codecs), GFP_KERNEL);
+   149			if (!codecs)
+   150				return -ENOMEM;
    151	
-   152			ret = sas_phy_add(phy->phy);
-   153			if (ret) {
-   154				sas_phy_free(phy->phy);
-   155				goto fail;
-   156			}
-   157		}
-   158	
-   159		return 0;
-   160	fail:
-   161		for (i--; i >= 0; i--) {
-   162			struct asd_sas_phy *phy = sas_ha->sas_phy[i];
-   163	
-   164			sas_phy_delete(phy->phy);
- > 165			sas_phy_free(phy);
-   166		}
-   167		return ret;
-   168	}
-   169	
+   152			codec_maps = devm_kcalloc(dev, num_codecs, sizeof(*codec_maps), GFP_KERNEL);
+   153			if (!codec_maps)
+   154				return -ENOMEM;
+   155	
+   156			list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+   157				if (!soc_end->dai_info->direction[stream])
+   158					continue;
+   159	
+   160				int link_num = ffs(soc_end->link_mask) - 1;
+   161	
+   162				cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+   163								"SDW%d Pin%d",
+   164								link_num, cpu_pin_id);
+   165				dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
+   166				if (!cpus->dai_name)
+   167					return -ENOMEM;
+   168	
+   169				codec_maps[j].cpu = 0;
+   170				codec_maps[j].codec = j;
+   171	
+   172				codecs[j].name = soc_end->codec_name;
+   173				codecs[j].dai_name = soc_end->dai_info->dai_name;
+   174				j++;
+   175			}
+   176	
+   177			WARN_ON(j != num_codecs);
+   178	
+   179			playback = (stream == SNDRV_PCM_STREAM_PLAYBACK);
+   180			capture = (stream == SNDRV_PCM_STREAM_CAPTURE);
+   181	
+   182			asoc_sdw_init_dai_link(dev, *dai_links, be_id, name, playback, capture,
+   183					       cpus, num_cpus, sdw_platform_component,
+   184					       1, codecs, num_codecs,
+   185					       0, asoc_sdw_rtd_init, &sdw_ops);
+   186			/*
+   187			 * SoundWire DAILINKs use 'stream' functions and Bank Switch operations
+   188			 * based on wait_for_completion(), tag them as 'nonatomic'.
+   189			 */
+   190			(*dai_links)->nonatomic = true;
+   191			(*dai_links)->ch_maps = codec_maps;
+   192	
+   193			list_for_each_entry(soc_end, &soc_dai->endpoints, list) {
+   194				if (soc_end->dai_info->init)
+   195					soc_end->dai_info->init(card, *dai_links,
+   196								soc_end->codec_info,
+   197								playback);
+   198			}
+   199	
+   200			(*dai_links)++;
+   201		}
+   202	
+   203		return 0;
+   204	}
+   205	
 
 -- 
 0-DAY CI Kernel Test Service
