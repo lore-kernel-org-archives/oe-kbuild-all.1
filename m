@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5654C154BF5;
-	Sat,  6 Dec 2025 07:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4372C190
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 07:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765005533; cv=none; b=YZghTy0VndYrod++S+WWSMrYm2Hr5tNZDMh31oYlcx/Fb7zcffdqOsxIoevf0ZvYB14if1ymYsZ4LUo598ZpyageJW9LxFllODMHsIQ/B9waZHV+igxl2qBaegn8oHvlvq71VITIhpx5O1JGQPumw5diksyLkjwwWHtLSKNzMT4=
+	t=1765006193; cv=none; b=dYHSe4G+tbe9WugmY5sjFPEKZifHvlq6H2Ju/24ksgDs+xWSfFEKZDEoJ4AHFjcZzqfZq0LLvzkzFF3W/qsMpBY3+BBmYALM35+1H5uBpSQ+Oa9rJWRky8yUMOGQCCidj+b0EVeQvGC3OdU6gvy+S3TjQAIhYm/s3WH5CuBatZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765005533; c=relaxed/simple;
-	bh=oQCyKfe48rYH5RAg2kQmpAmcDXxICCIuye7g2EDqWtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=am4volx32s1Ss/wjoEZxBn9L8kVyoZzCSCYskK8SZoA/J5dGVXQAWAY+HqgR0qLQLQwq8C4nmOF3m2E3Sad+J8okEvpEsdQ4+PW0jt4KoH1i44KZDAlZ+4AJveCR04hXOivTjmO8wmutEhg6ygrDJo6czDPKoNam1jYX+VMs6IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLN/Em5S; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1765006193; c=relaxed/simple;
+	bh=2fI+8Kzi9wRBsaFcRFHLFl+9Own2LFGseyhAO83Sa9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nV8a4CYLpKGZYgRf1mGzJreA5hDL5wO8C4IBuYfhqMqGn9lXV9XAsQdiWcUwteA05/809sfEXL4ehnIOc5+T2KU/Db8aN368Ka+z1Q33C6ZkAs0kht2Tzjtgzn7QcFMRkG7x/9XEThzrmb4yMy6cZFaCk6owj4JkRTyDdu3+Ttg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NSkVY1dw; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLN/Em5S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSkVY1dw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765005531; x=1796541531;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oQCyKfe48rYH5RAg2kQmpAmcDXxICCIuye7g2EDqWtw=;
-  b=JLN/Em5S9GN7qN1GxZdqZhu+eJp2TfNv05BTDXraaGae8tO4FcdSanEO
-   obAgmkvJ0EICJF9Hp8+kVlPR3/jpixuIBBNhjVdzYeg2fkGPL6Upf3zt4
-   3tbjTkF+7pq0oZhrhKPR0yX3BjxrH9TG/Jnnzxdys2I3DOGt7sZnGap0E
-   M4PMZiQfC+7qjHvs72J6oxlnOjkYubgH//48HaXGzK5odAyEJ65QlHb3R
-   QEzSVLw976WOO0aaG9J8enW95lHvaVlfIcz9ZZ3OS2A4KISZ1+gs+8+jf
-   9WS8yd1XPTuvSi1cg5FoXwGByc+GI9MnJgVvdON7Abl25WDtcZjrgp8lV
+  t=1765006191; x=1796542191;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2fI+8Kzi9wRBsaFcRFHLFl+9Own2LFGseyhAO83Sa9M=;
+  b=NSkVY1dwuplMZDlROFospZ2rnedlENJ0L16QhnzponQnqjSIk4d587/Q
+   MHmGYobb04eBu9UYnVfgeCoi1etJCcNa5C62eR7T1rD+KXOu/lxjejzxw
+   xMWwNf6pETiEEhOhIwgta/myXSb0Tb6MjlHImQf8njXTQ3ghziIC7z/eA
+   z4c6zXDS8pDW7/CcSFtYHDfvJz/BBsPXbWlPZj30ZCnGRYNQsNm822d8K
+   5qsFiqfX3hieTHpJmIqioiW6FSXHF1FFzi01Bv+Epn5e/HDGm76aEI4c5
+   YM76R/HdrBQ/nyzi75tgME3bwO4JCU/l9NOrbWz/Yr+/PaqnXKe6R7LRC
    w==;
-X-CSE-ConnectionGUID: q6k20T10QkuDtQubznEwng==
-X-CSE-MsgGUID: J1IHLUDdTHSswGRKQ5ATzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="84636825"
+X-CSE-ConnectionGUID: /uYFXhjhTuagOIllz1cNpQ==
+X-CSE-MsgGUID: GfPT5PC+R6G+ZmfK0FblzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="54577271"
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="84636825"
+   d="scan'208";a="54577271"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 23:18:50 -0800
-X-CSE-ConnectionGUID: jeOhal7kQjOEIQ4xIheCkw==
-X-CSE-MsgGUID: 2BcrPTSDTMyAGkOdxvTlyA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 23:29:49 -0800
+X-CSE-ConnectionGUID: zz/wV92PS2q1a8Z2oPt9MQ==
+X-CSE-MsgGUID: EleW0NX9QWaKBEsHiSfK0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="194778838"
+   d="scan'208";a="194780082"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Dec 2025 23:18:47 -0800
+  by orviesa010.jf.intel.com with ESMTP; 05 Dec 2025 23:29:48 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRmZ3-00000000Fyf-0Vbv;
-	Sat, 06 Dec 2025 07:18:45 +0000
-Date: Sat, 6 Dec 2025 15:18:20 +0800
+	id 1vRmjh-00000000Fz7-2EIk;
+	Sat, 06 Dec 2025 07:29:45 +0000
+Date: Sat, 6 Dec 2025 15:28:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrice Chotard <patrice.chotard@foss.st.com>,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Patrice Chotard <patrice.chotard@foss.st.com>
-Subject: Re: [PATCH 3/8] spi: stm32-ospi: Remove CR_TCIE and CR_TEIE irq usage
-Message-ID: <202512061458.1wp2IbOG-lkp@intel.com>
-References: <20251205-upstream_qspi_ospi_updates-v1-3-7e6c8b9f5141@foss.st.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [glemco:staging_rv_hybrid_automata 20/21]
+ kernel/trace/rv/monitors/nomiss/nomiss.c:200:13: error: conflicting types
+ for 'handle_syscall'
+Message-ID: <202512061540.QbBlzfiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,90 +62,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205-upstream_qspi_ospi_updates-v1-3-7e6c8b9f5141@foss.st.com>
 
-Hi Patrice,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Patrice-Chotard/spi-stm32-ospi-Set-DMA-maxburst-dynamically/20251205-174931
-base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-patch link:    https://lore.kernel.org/r/20251205-upstream_qspi_ospi_updates-v1-3-7e6c8b9f5141%40foss.st.com
-patch subject: [PATCH 3/8] spi: stm32-ospi: Remove CR_TCIE and CR_TEIE irq usage
-config: riscv-randconfig-002-20251206 (https://download.01.org/0day-ci/archive/20251206/202512061458.1wp2IbOG-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_hybrid_automata
+head:   b0f3d844e192c90aac9dc773e82b8ee2b00e431b
+commit: ae02391b17cdb838b0b2c99e53eac09e7b941e8a [20/21] rv: Add deadline monitors
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512061540.QbBlzfiC-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061458.1wp2IbOG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061540.QbBlzfiC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061458.1wp2IbOG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512061540.QbBlzfiC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-stm32-ospi.c:246:48: error: no member named 'io_base' in 'struct stm32_ospi'; did you mean 'mm_base'?
-     246 |         err = readl_relaxed_poll_timeout_atomic(ospi->io_base + OSPI_SR, sr,
-         |                                                       ^~~~~~~
-         |                                                       mm_base
-   include/linux/iopoll.h:255:43: note: expanded from macro 'readl_relaxed_poll_timeout_atomic'
-     255 |         readx_poll_timeout_atomic(readl_relaxed, addr, val, cond, delay_us, timeout_us)
-         |                                                  ^
-   include/linux/iopoll.h:213:71: note: expanded from macro 'readx_poll_timeout_atomic'
-     213 |         read_poll_timeout_atomic(op, val, cond, delay_us, timeout_us, false, addr)
-         |                                                                              ^
-   include/linux/iopoll.h:172:36: note: expanded from macro 'read_poll_timeout_atomic'
-     172 |         poll_timeout_us_atomic((val) = op(args), cond, sleep_us, timeout_us, sleep_before_read)
-         |                                           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/riscv/include/asm/mmio.h:90:76: note: expanded from macro 'readl_cpu'
-      90 | #define readl_cpu(c)            ({ u32 __r = le32_to_cpu((__force __le32)__raw_readl(c)); __r; })
-         |                                                                                      ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   include/linux/iopoll.h:102:3: note: expanded from macro 'poll_timeout_us_atomic'
-     102 |                 op; \
-         |                 ^
-   drivers/spi/spi-stm32-ospi.c:124:16: note: 'mm_base' declared here
-     124 |         void __iomem *mm_base;
-         |                       ^
-   1 error generated.
+   In file included from kernel/trace/rv/monitors/nomiss/nomiss.c:2:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> kernel/trace/rv/monitors/nomiss/nomiss.c:200:13: error: conflicting types for 'handle_syscall'
+     200 | static void handle_syscall(void *data, struct pt_regs *regs, long id)
+         |             ^
+   arch/um/include/shared/skas/skas.h:14:13: note: previous declaration is here
+      14 | extern void handle_syscall(struct uml_pt_regs *regs);
+         |             ^
+   kernel/trace/rv/monitors/nomiss/nomiss.c:238:46: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     238 |                 rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
+         |                                                            ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:18:34: note: expanded from macro 'rv_attach_trace_probe'
+      18 |                 check_trace_callback_type_##tp(rv_handler);                             \
+         |                                                ^~~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'cb' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:269:42: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     269 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
+         |                                                 ^
+   kernel/trace/rv/monitors/nomiss/nomiss.c:238:46: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     238 |                 rv_attach_trace_probe("nomiss", sys_enter, handle_syscall);
+         |                                                            ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:19:33: note: expanded from macro 'rv_attach_trace_probe'
+      19 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
+         |                                               ^~~~~~~~~~
+   include/asm-generic/bug.h:185:18: note: expanded from macro 'WARN_ONCE'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |                         ^~~~~~~~~
+   include/linux/once_lite.h:28:27: note: expanded from macro 'DO_ONCE_LITE_IF'
+      28 |                 bool __ret_do_once = !!(condition);                     \
+         |                                         ^~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'probe' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:250:31: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     250 |         register_trace_##name(void (*probe)(data_proto), void *data)    \
+         |                                      ^
+   kernel/trace/rv/monitors/nomiss/nomiss.c:253:46: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     253 |                 rv_detach_trace_probe("nomiss", sys_enter, handle_syscall);
+         |                                                            ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:28:25: note: expanded from macro 'rv_detach_trace_probe'
+      28 |                 unregister_trace_##tp(rv_handler, NULL);                                \
+         |                                       ^~~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'probe' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:263:33: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     263 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
+         |                                        ^
+   1 warning and 4 errors generated.
+--
+   In file included from kernel/trace/rv/monitors/throttle/throttle.c:2:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> kernel/trace/rv/monitors/throttle/throttle.c:157:13: error: conflicting types for 'handle_syscall'
+     157 | static void handle_syscall(void *data, struct pt_regs *regs, long id)
+         |             ^
+   arch/um/include/shared/skas/skas.h:14:13: note: previous declaration is here
+      14 | extern void handle_syscall(struct uml_pt_regs *regs);
+         |             ^
+   kernel/trace/rv/monitors/throttle/throttle.c:198:48: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     198 |                 rv_attach_trace_probe("throttle", sys_enter, handle_syscall);
+         |                                                              ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:18:34: note: expanded from macro 'rv_attach_trace_probe'
+      18 |                 check_trace_callback_type_##tp(rv_handler);                             \
+         |                                                ^~~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'cb' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:269:42: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     269 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
+         |                                                 ^
+   kernel/trace/rv/monitors/throttle/throttle.c:198:48: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     198 |                 rv_attach_trace_probe("throttle", sys_enter, handle_syscall);
+         |                                                              ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:19:33: note: expanded from macro 'rv_attach_trace_probe'
+      19 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
+         |                                               ^~~~~~~~~~
+   include/asm-generic/bug.h:185:18: note: expanded from macro 'WARN_ONCE'
+     185 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |                         ^~~~~~~~~
+   include/linux/once_lite.h:28:27: note: expanded from macro 'DO_ONCE_LITE_IF'
+      28 |                 bool __ret_do_once = !!(condition);                     \
+         |                                         ^~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'probe' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:250:31: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     250 |         register_trace_##name(void (*probe)(data_proto), void *data)    \
+         |                                      ^
+   kernel/trace/rv/monitors/throttle/throttle.c:214:48: error: incompatible function pointer types passing 'void (struct uml_pt_regs *)' to parameter of type 'void (*)(void *, struct pt_regs *, long)' [-Wincompatible-function-pointer-types]
+     214 |                 rv_detach_trace_probe("throttle", sys_enter, handle_syscall);
+         |                                                              ^~~~~~~~~~~~~~
+   include/rv/instrumentation.h:28:25: note: expanded from macro 'rv_detach_trace_probe'
+      28 |                 unregister_trace_##tp(rv_handler, NULL);                                \
+         |                                       ^~~~~~~~~~
+   include/trace/events/syscalls.h:18:1: note: passing argument to parameter 'probe' here
+      18 | TRACE_EVENT_SYSCALL(sys_enter,
+         | ^
+   include/linux/tracepoint.h:646:2: note: expanded from macro 'TRACE_EVENT_SYSCALL'
+     646 |         DECLARE_TRACE_EVENT_SYSCALL(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:504:2: note: expanded from macro 'DECLARE_TRACE_EVENT_SYSCALL'
+     504 |         __DECLARE_TRACE_SYSCALL(name, PARAMS(proto), PARAMS(args),      \
+         |         ^
+   include/linux/tracepoint.h:299:2: note: expanded from macro '__DECLARE_TRACE_SYSCALL'
+     299 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+         |         ^
+   include/linux/tracepoint.h:263:33: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     263 |         unregister_trace_##name(void (*probe)(data_proto), void *data)  \
+         |                                        ^
+   1 warning and 4 errors generated.
 
 
-vim +246 drivers/spi/spi-stm32-ospi.c
+vim +/handle_syscall +200 kernel/trace/rv/monitors/nomiss/nomiss.c
 
-   236	
-   237	static int stm32_ospi_wait_cmd(struct stm32_ospi *ospi)
-   238	{
-   239		void __iomem *regs_base = ospi->regs_base;
-   240		u32 sr;
-   241		int err = 0;
-   242	
-   243		if (ospi->fmode == CR_FMODE_APM)
-   244			goto out;
-   245	
- > 246		err = readl_relaxed_poll_timeout_atomic(ospi->io_base + OSPI_SR, sr,
-   247							(sr & (SR_TEF | SR_TCF)), 1,
-   248							STM32_WAIT_CMD_TIMEOUT_US);
-   249	
-   250		if (sr & SR_TCF)
-   251			/* avoid false timeout */
-   252			err = 0;
-   253		if (sr & SR_TEF)
-   254			err = -EIO;
-   255	
-   256	out:
-   257		/* clear flags */
-   258		writel_relaxed(FCR_CTCF | FCR_CTEF, regs_base + OSPI_FCR);
-   259	
-   260		if (!err)
-   261			err = stm32_ospi_wait_nobusy(ospi);
-   262	
-   263		return err;
-   264	}
-   265	
+   199	
+ > 200	static void handle_syscall(void *data, struct pt_regs *regs, long id)
+   201	{
+   202		struct task_struct *p;
+   203		int new_policy = -1;
+   204	
+   205		new_policy = extract_params(regs, id, &p);
+   206		if (new_policy < 0 || new_policy == p->policy)
+   207			return;
+   208		if (p->policy == SCHED_DEADLINE)
+   209			da_reset(EXPAND_ID(&p->dl, DL_TASK));
+   210		else if (new_policy == SCHED_DEADLINE)
+   211			da_create_or_get(EXPAND_ID(&p->dl, DL_TASK));
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
