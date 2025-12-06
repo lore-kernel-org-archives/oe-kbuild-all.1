@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9348EAE7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9C018D658
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 05:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765000424; cv=none; b=fOQXaphpkqZl1rAUTfEPhs47mBFd10rs7/4pBzSnrUtpC6Qd2dnE8H+s/MNqQQuMm81x01e9eSFuN/UPmFufOXJh2g02/nO+PG86tl2q0twdHLaMBM0my6KH/jNDrkaRMZCPDDTwHbE70lxySqkwX8iVlj2Pq5WNbrG8CIwc5DQ=
+	t=1765000424; cv=none; b=ZO7z9YvHioUzU1+3S+mSi4WX/SfBpUTolj+cBjZkUtFpDXhxE0WhaFznHiGWKuk/KcZIoLutcrkmruN2Ls9SIrt09q8O8mVwTvWs4kcmVab0oiVM0wOhfN5/yzRBwcMFaMYDdNn7OhUF+GiihRxCblMkybCs5UPh1mnFChuXIf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765000424; c=relaxed/simple;
-	bh=e63aDAxvciBgVnbkjmKEq4Dcfe2+H6DVO1rVifSuF9E=;
+	bh=KX0O2OmD7y7jeJx3tuf+rrdlb025PuovZyv8uyukNvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rsQ7JN/j/rBJ2Ir6c9dC9qxTMnV45XouLJ8b5Sp6RZQccdnGH4eUHm7AMKrphKSZjnRYZYVk0rtfMlleQ3RlN8CK1j5nYl5bgF2QqW5Upbq/eEcy2aDJKmq/mxHyxzJNRIvN6CxC02lVjFI2LQsfbFNVT4ZYFMuvau5AGM/g8vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpLPSFqN; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=s1nGuGmyU97yO5bfo9ukIN8RxnH89RfxCTyCQYhvcJxHoMWNkJPTipjwGQMi4+rWQw+I5bB5XNeLoVexGnv7Xjg0h9r4rNENEukeJ7JMENXMwFKHR0P1PwRKirz4MbfFg0k83DoVqaTHF2i3B3N0SoD0KIu4bYHbHw5E7Bmla/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnJ2MpMe; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpLPSFqN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnJ2MpMe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765000423; x=1796536423;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e63aDAxvciBgVnbkjmKEq4Dcfe2+H6DVO1rVifSuF9E=;
-  b=DpLPSFqNsvP2uK1UZjsvmHiGX+fBRqkLp4pA3LEerg9AonScUiddzEFX
-   vereaHYk/EuVH8HXb8gN8KoqMkZcznrCtX4uNS/i46HqaIf7OfJc/cNGG
-   QRIJLayTduukrtyVqyKogAIHFiBVNP98KWdPmXqJr8PmwZ2I9f7A/TkDi
-   wO6BiLl65wHX3u2xrOBGRWzxIT4N3o2VWQkYHWqK4oJMAY2E/1QBub/WX
-   bWc7Lcf9wU4I2bV3ULbOHV0W3PFEwq8yZ7xqhsU06RPp9dr2HPtFACwIl
-   t5p7fHuCr6rZ4iaKYGSTDuiDElgVdaGt4Z0rInlIjAAUwtBIk2yQtVgzd
-   w==;
-X-CSE-ConnectionGUID: eCheGMEcQFu5AaZOnDo2nA==
-X-CSE-MsgGUID: y7uOW/9TQN29xbWC7jHA8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="67069736"
+  bh=KX0O2OmD7y7jeJx3tuf+rrdlb025PuovZyv8uyukNvU=;
+  b=VnJ2MpMegIR+edEcjZCYnEeKw0zjLZn9bLQEZ1BvgWswCU6m4DM5iHSe
+   YCggUsydAH9byy3hiwNVs7zhgl3jg77Z74jT2Y6gpaA7V7tLFpvUSbjbK
+   TAWN58K6M2MEWcwwA/VnZSfgPk9kY7tnvboeMOVzxnOq61K1+Q+wEU4cc
+   p2n6iriyGUuRqB6p9YY4XVABIJpMUjZNkoKCo4QKkoPalkkVXN/qjHQzw
+   2io0+GWuBsKy6xlWa3wW97fdBj1jdA8UhfAAIXqeXQv7NfSPrXSB+EFVc
+   8k12B04z/ridA3PmVcW8QY5AW7WmMJPTrhp474qFM25EWhdT4JdZzdf8e
+   g==;
+X-CSE-ConnectionGUID: UxW5EHTFRvKpKN1XBqTKmQ==
+X-CSE-MsgGUID: brThSRwcSnqjoP9TKVIecQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="70649794"
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="67069736"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 21:53:42 -0800
-X-CSE-ConnectionGUID: DBp3VHqkSZm5M2+Xa3FNqg==
-X-CSE-MsgGUID: XTPZqAuoRWacYFR6oo/daA==
+   d="scan'208";a="70649794"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 21:53:43 -0800
+X-CSE-ConnectionGUID: xt5x+wCLQHGq4lY+aISY3w==
+X-CSE-MsgGUID: VdNAwuGcQya2uOhTn0MNlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="232842249"
+   d="scan'208";a="199949434"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2025 21:53:41 -0800
+  by orviesa004.jf.intel.com with ESMTP; 05 Dec 2025 21:53:42 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRlEg-00000000Fu9-2ydw;
+	id 1vRlEg-00000000FuB-39XC;
 	Sat, 06 Dec 2025 05:53:38 +0000
-Date: Sat, 6 Dec 2025 13:53:04 +0800
+Date: Sat, 6 Dec 2025 13:53:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
+To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_hybrid_automata 21/21]
- kernel/trace/rv/monitors/boost/boost.c:232:3: error: call to undeclared
- function 'check_trace_callback_type_sys_enter'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202512061325.5tVu2Kql-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3482/3482] mm/memcontrol.c:3147:6: sparse:
+ sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
+Message-ID: <202512061350.XW1D64dE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,94 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_hybrid_automata
-head:   b0f3d844e192c90aac9dc773e82b8ee2b00e431b
-commit: b0f3d844e192c90aac9dc773e82b8ee2b00e431b [21/21] rv: Add dl_server specific monitors
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512061325.5tVu2Kql-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061325.5tVu2Kql-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
+commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [3482/3482] arm64/ascend: Add new enable_oom_killer interface for oom contrl
+config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251206/202512061350.XW1D64dE-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061350.XW1D64dE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061325.5tVu2Kql-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512061350.XW1D64dE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/memcontrol.c:3147:6: sparse: sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
+   mm/memcontrol.c:4228:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4230:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4386:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:4480:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
+   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary *
+   mm/memcontrol.c:6198:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:6198:23: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:6198:23: sparse:    struct task_struct *
+   mm/memcontrol.c:6415:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/memcontrol.c:6415:52: sparse:    struct task_struct [noderef] __rcu *
+   mm/memcontrol.c:6415:52: sparse:    struct task_struct *
+   mm/memcontrol.c: note: in included file:
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
+   include/linux/memcontrol.h:751:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
+   mm/memcontrol.c:2111:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
+   mm/memcontrol.c:2158:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
+   mm/memcontrol.c:6048:28: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
+   mm/memcontrol.c:6243:36: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
->> kernel/trace/rv/monitors/boost/boost.c:232:3: error: call to undeclared function 'check_trace_callback_type_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     232 |                 rv_attach_trace_probe("boost", sys_enter, handle_syscall);
-         |                 ^
-   include/rv/instrumentation.h:18:3: note: expanded from macro 'rv_attach_trace_probe'
-      18 |                 check_trace_callback_type_##tp(rv_handler);                             \
-         |                 ^
-   <scratch space>:65:1: note: expanded from here
-      65 | check_trace_callback_type_sys_enter
-         | ^
->> kernel/trace/rv/monitors/boost/boost.c:232:3: error: call to undeclared function 'register_trace_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/rv/instrumentation.h:19:13: note: expanded from macro 'rv_attach_trace_probe'
-      19 |                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
-         |                           ^
-   <scratch space>:66:1: note: expanded from here
-      66 | register_trace_sys_enter
-         | ^
->> kernel/trace/rv/monitors/boost/boost.c:250:3: error: call to undeclared function 'unregister_trace_sys_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     250 |                 rv_detach_trace_probe("boost", sys_enter, handle_syscall);
-         |                 ^
-   include/rv/instrumentation.h:28:3: note: expanded from macro 'rv_detach_trace_probe'
-      28 |                 unregister_trace_##tp(rv_handler, NULL);                                \
-         |                 ^
-   <scratch space>:77:1: note: expanded from here
-      77 | unregister_trace_sys_enter
-         | ^
-   3 errors generated.
+vim +/hisi_oom_recover +3147 mm/memcontrol.c
 
-
-vim +/check_trace_callback_type_sys_enter +232 kernel/trace/rv/monitors/boost/boost.c
-
-   211	
-   212	static int enable_boost(void)
-   213	{
-   214		int retval;
-   215	
-   216		retval = da_monitor_init();
-   217		if (retval)
-   218			return retval;
-   219	
-   220		retval = init_storage(true);
-   221		if (retval)
-   222			return retval;
-   223		rv_attach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-   224		rv_attach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-   225		rv_attach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-   226		rv_attach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-   227		rv_attach_trace_probe("boost", sched_wakeup, handle_sched_wakeup);
-   228		rv_attach_trace_probe("boost", sched_wakeup_new, handle_sched_wakeup);
-   229		rv_attach_trace_probe("boost", sched_migrate_task, handle_sched_migrate);
-   230		rv_attach_trace_probe("boost", sched_switch, handle_sched_switch);
-   231		if (!should_skip_syscall_handle())
- > 232			rv_attach_trace_probe("boost", sys_enter, handle_syscall);
-   233	
-   234		return 0;
-   235	}
-   236	
-   237	static void disable_boost(void)
-   238	{
-   239		rv_this.enabled = 0;
-   240	
-   241		rv_detach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-   242		rv_detach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-   243		rv_detach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-   244		rv_detach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-   245		rv_detach_trace_probe("boost", sched_wakeup, handle_sched_wakeup);
-   246		rv_detach_trace_probe("boost", sched_wakeup_new, handle_sched_wakeup);
-   247		rv_detach_trace_probe("boost", sched_migrate_task, handle_sched_migrate);
-   248		rv_detach_trace_probe("boost", sched_switch, handle_sched_switch);
-   249		if (!should_skip_syscall_handle())
- > 250			rv_detach_trace_probe("boost", sys_enter, handle_syscall);
-   251	
-   252		da_monitor_destroy();
-   253	}
-   254	
+  3145	
+  3146	#ifdef CONFIG_ASCEND_OOM
+> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
+  3148	{
+  3149		struct mem_cgroup *memcg;
+  3150	
+  3151		memcg = get_mem_cgroup_from_objcg(objcg);
+  3152		if (!mem_cgroup_is_root(memcg))
+  3153			memcg_oom_recover(memcg);
+  3154		css_put(&memcg->css);
+  3155	}
+  3156	#else
+  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
+  3158	#endif
+  3159	
 
 -- 
 0-DAY CI Kernel Test Service
