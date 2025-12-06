@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9223321FF2A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 14:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792C7199FBA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765030441; cv=none; b=ksvoOnSUIhsr2fuZneAH6/oeF0VYgKw8uviI/Q3Tar8t3shiRn8lQG/Y/b2Ili89HUe3ZzA+PvfkqEWn4zsPrDiNpHo7pSGn/jTkCKiszBcJD4RsW7RbjqqDGMa7DC+sDVPy/BW/RIOkssrB7ZyJofYMr5a5m45+xCd2Amjesp4=
+	t=1765031101; cv=none; b=Vu0BELrJJ0q9zZuIF9M91cjVfp8Hnm9teV45NvfiGyreub9tdcqlekvTH4Cq0tH25VAB1TljaXU0FQJlNxQKJMfOCFBt1r34+QYN1XEsRAGVdG1GzkqccKMxFz+y5QwGNvmOFGE0v8Vgai6h0bH/XhOtRqvYS5U8Npf4QhijJFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765030441; c=relaxed/simple;
-	bh=mxVcuw1bjJYc/td4nvDb/pLjItyY3N0iHXN/KN0XPU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uk2gRp2T8RqkJxtdbGB4pOmKR61UgTEj4l3LhgF8l6MtJ02pVhMKwhu4tJ3CSizInL0LoKv5bDpbnKuI5IvHFLvDSkPhad7II0qkLSFfoU1VyenzwGPZLZ48HdsMZsbXntBBg1+ui/CRHv/Wv7ZoejJeN2J8KrtRQdUZbq6jvM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cN4zvBZg; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1765031101; c=relaxed/simple;
+	bh=30QQWFnTelswhxwHSvVALLBL3rujFRnszepacxQRCSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r04xRni6KgC2YlpYZBSDmA0SOE90tPdwbbKSgj56JgkOnC2bMbK9VA3T6QrkOfzS75ZC6Ft5Pg5UwP8PWbfyAUSk9TOsFBNq7r3ywsLqTVL5KSPboHyCZ7zQ9C9U0AmGM3vp/gD68BCNmCnH0nv9M9pOCa6blMR7zz5zZr1nHQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GocrGyqU; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cN4zvBZg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GocrGyqU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765030439; x=1796566439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mxVcuw1bjJYc/td4nvDb/pLjItyY3N0iHXN/KN0XPU0=;
-  b=cN4zvBZgm96yVp26K1XNviqvc3fuEM8XB3hH+LVkYO7761MarPv6+wOL
-   Thrg4qz1vGNtGelbdDbzr1zxUelStH7JyzO/wYBYWkL5yjufealHbqDIf
-   CIbhqMU/dFxHBIeKUkAXV3RMNQgKia3Tgb28bbkDzx0P2yOKDWqcVhhY4
-   yf8MmgSBtVnQFapsLIi6gBnzkbOdPGk0ysJaG/tLoLmoWlYAlbJn+wp+W
-   lwv1dC3QIj4g/M0Aj31H2bpiDtfSmZ9ZlonBcTD899poolj6K9vIqVr2Y
-   KwyPh1Z2bfYM1a+j36KV8alDt5CkyQVpQRk7JFsXDQ4bLJiiB/LLrTt/G
+  t=1765031099; x=1796567099;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=30QQWFnTelswhxwHSvVALLBL3rujFRnszepacxQRCSg=;
+  b=GocrGyqUgMIU2r+fhKSCHrGqywQGbbJ/omUP+T7mG0DshpCrXg3g97FU
+   kM8BAOpPuAcl+JtVwrtoqcdZfUhoPxh3awjOXX7qGUSLtRleZ63ee8Iri
+   xVA5j7DrApn5eBukaJiJaIvX9BoShGW6WD9lweBsVrBM51gb09l0ClFYC
+   m5aTSdAfxybI91tpGkWN24utxa6FK7rrf3NRbzosd2Et2LPZ8ZH1oui+k
+   yTV1RqGJc2Wnv0anErtKmQANG73lGQji2x2P2Id27VE61cP3tq7lN08Ql
+   ecprCMg1VkUAT7rq9TWynTRgnGu/pSBBAAFSgAAcKqCvCpdRE2aeKaOD7
    Q==;
-X-CSE-ConnectionGUID: o7gIGw4VQImysF4WcfIHAg==
-X-CSE-MsgGUID: uabnbHbPQWKkVvO7tLURsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="78396554"
+X-CSE-ConnectionGUID: 91gqbiSZQ+KGaWaCh/fqRw==
+X-CSE-MsgGUID: YsS+qqimSDWk3tR3YmfPRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="66041579"
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="78396554"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 06:13:59 -0800
-X-CSE-ConnectionGUID: EggLI+vJRHOHsmhuYbBMKg==
-X-CSE-MsgGUID: gysgDXFvTrmZym5QvO9iPw==
+   d="scan'208";a="66041579"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 06:24:59 -0800
+X-CSE-ConnectionGUID: m9XgfnISQhKu8q5dDZohdA==
+X-CSE-MsgGUID: +QGqPWJOTVKgYTtsL24BLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="195353126"
+   d="scan'208";a="199982690"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Dec 2025 06:13:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2025 06:24:58 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRt2p-00000000IEb-0ujB;
-	Sat, 06 Dec 2025 14:13:55 +0000
-Date: Sat, 6 Dec 2025 22:13:45 +0800
+	id 1vRtDU-00000000IF4-0lpj;
+	Sat, 06 Dec 2025 14:24:56 +0000
+Date: Sat, 6 Dec 2025 22:24:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h
- to a dedicated header
-Message-ID: <202512062100.BA1lJcqZ-lkp@intel.com>
-References: <20251205175237.242022-5-yury.norov@gmail.com>
+Subject: [rgushchin:bpfoom.3.2 20/32] mm/oom_kill.c:252:27: warning: unused
+ variable 'oom_constraint_names'
+Message-ID: <202512062257.f25aoTAe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +61,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205175237.242022-5-yury.norov@gmail.com>
 
-Hi Yury,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-i915/for-linux-next]
-[also build test ERROR on drm-i915/for-linux-next-fixes driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.18 next-20251205]
-[cannot apply to mcgrof/modules-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov-NVIDIA/kernel-h-drop-STACK_MAGIC-macro/20251206-015505
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20251205175237.242022-5-yury.norov%40gmail.com
-patch subject: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h to a dedicated header
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251206/202512062100.BA1lJcqZ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062100.BA1lJcqZ-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.3.2
+head:   757d46bae762bfc65cab977e0365e3f110f4e300
+commit: 87f4eb904747c1edafa64353f98883c560d750cc [20/32] mm: allow specifying custom oom constraint for BPF triggers
+config: i386-randconfig-011-20251206 (https://download.01.org/0day-ci/archive/20251206/202512062257.f25aoTAe-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062257.f25aoTAe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512062100.BA1lJcqZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512062257.f25aoTAe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:382,
-                    from include/linux/trace_printk.h:9,
-                    from include/linux/kernel.h:35,
-                    from arch/x86/purgatory/purgatory.c:12:
->> include/linux/fortify-string.h:626:63: error: expected identifier or '(' before '{' token
-     626 |                              p_size_field, q_size_field, op) ({         \
-         |                                                               ^
-   include/linux/fortify-string.h:694:27: note: in expansion of macro '__fortify_memcpy_chk'
-     694 | #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+>> mm/oom_kill.c:252:27: warning: unused variable 'oom_constraint_names' [-Wunused-const-variable]
+     252 | static const char * const oom_constraint_names[] = {
          |                           ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/purgatory/../boot/string.h:11:7: note: in expansion of macro 'memmove'
-      11 | void *memmove(void *dst, const void *src, size_t len);
-         |       ^~~~~~~
->> include/linux/fortify-string.h:258:9: error: expected identifier or '(' before '__builtin_choose_expr'
-     258 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/purgatory/../boot/string.h:23:15: note: in expansion of macro 'strlen'
-      23 | extern size_t strlen(const char *s);
-         |               ^~~~~~
+   1 warning generated.
 
 
-vim +626 include/linux/fortify-string.h
+vim +/oom_constraint_names +252 mm/oom_kill.c
 
-a28a6e860c6cf23 Francis Laniel  2021-02-25  618  
-239d87327dcd361 Kees Cook       2024-12-12  619  /*
-239d87327dcd361 Kees Cook       2024-12-12  620   * To work around what seems to be an optimizer bug, the macro arguments
-239d87327dcd361 Kees Cook       2024-12-12  621   * need to have const copies or the values end up changed by the time they
-239d87327dcd361 Kees Cook       2024-12-12  622   * reach fortify_warn_once(). See commit 6f7630b1b5bc ("fortify: Capture
-239d87327dcd361 Kees Cook       2024-12-12  623   * __bos() results in const temp vars") for more details.
-239d87327dcd361 Kees Cook       2024-12-12  624   */
-f68f2ff91512c19 Kees Cook       2021-04-20  625  #define __fortify_memcpy_chk(p, q, size, p_size, q_size,		\
-f68f2ff91512c19 Kees Cook       2021-04-20 @626  			     p_size_field, q_size_field, op) ({		\
-6f7630b1b5bc672 Kees Cook       2022-10-28  627  	const size_t __fortify_size = (size_t)(size);			\
-6f7630b1b5bc672 Kees Cook       2022-10-28  628  	const size_t __p_size = (p_size);				\
-6f7630b1b5bc672 Kees Cook       2022-10-28  629  	const size_t __q_size = (q_size);				\
-6f7630b1b5bc672 Kees Cook       2022-10-28  630  	const size_t __p_size_field = (p_size_field);			\
-6f7630b1b5bc672 Kees Cook       2022-10-28  631  	const size_t __q_size_field = (q_size_field);			\
-239d87327dcd361 Kees Cook       2024-12-12  632  	/* Keep a mutable version of the size for the final copy. */	\
-239d87327dcd361 Kees Cook       2024-12-12  633  	size_t __copy_size = __fortify_size;				\
-26f812ba75890c4 Kees Cook       2024-04-29  634  	fortify_warn_once(fortify_memcpy_chk(__fortify_size, __p_size,	\
-6f7630b1b5bc672 Kees Cook       2022-10-28  635  				     __q_size, __p_size_field,		\
-475ddf1fce1ec48 Kees Cook       2023-04-07  636  				     __q_size_field, FORTIFY_FUNC_ ##op), \
-54d9469bc515dc5 Kees Cook       2021-06-24  637  		  #op ": detected field-spanning write (size %zu) of single %s (size %zu)\n", \
-54d9469bc515dc5 Kees Cook       2021-06-24  638  		  __fortify_size,					\
-5097a69d676f7e5 Alexey Dobriyan 2023-09-16  639  		  "field \"" #p "\" at " FILE_LINE,			\
-6f7630b1b5bc672 Kees Cook       2022-10-28  640  		  __p_size_field);					\
-239d87327dcd361 Kees Cook       2024-12-12  641  	/* Hide only the run-time size from value range tracking to */	\
-239d87327dcd361 Kees Cook       2024-12-12  642  	/* silence compile-time false positive bounds warnings. */	\
-239d87327dcd361 Kees Cook       2024-12-12  643  	if (!__builtin_constant_p(__copy_size))				\
-239d87327dcd361 Kees Cook       2024-12-12  644  		OPTIMIZER_HIDE_VAR(__copy_size);			\
-239d87327dcd361 Kees Cook       2024-12-12  645  	__underlying_##op(p, q, __copy_size);				\
-f68f2ff91512c19 Kees Cook       2021-04-20  646  })
-f68f2ff91512c19 Kees Cook       2021-04-20  647  
+   251	
+ > 252	static const char * const oom_constraint_names[] = {
+   253		[CONSTRAINT_NONE] = "CONSTRAINT_NONE",
+   254		[CONSTRAINT_CPUSET] = "CONSTRAINT_CPUSET",
+   255		[CONSTRAINT_MEMORY_POLICY] = "CONSTRAINT_MEMORY_POLICY",
+   256		[CONSTRAINT_MEMCG] = "CONSTRAINT_MEMCG",
+   257	};
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
