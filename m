@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC44C2D9492;
-	Sat,  6 Dec 2025 14:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71A12F39D6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 15:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765031103; cv=none; b=QTNpnhJl/kF7rCewc1gvLng080Lu9pg+yccBSGknKyLxB4/jTcwwbY+ZxuqcYx9jTzCbkJIr3dLFZGVWOVS4T/OCZuQV1d9lfUe5R5xRu9EAk92GQ2NcXPOepI6vrCWflED3xu1bWZWyK9BJSb6QKX1pEYYkt0Wt4PTazd9sXXQ=
+	t=1765036087; cv=none; b=QdYR1m0nmdXiFEhtAEYt6ORWNFYXRMKqxPB+hCieRWjyKa+ZEQ0SJxatKNqvTaLPFjenPTFPP6KkPq/Db+wrUqvDP+n/ck8OSfAOwkxs7eqRdEz4xflXWXOgcuOpgIoSwDBa1fjcCGAUmDMvqhuTD/eagxf/3UCk2ZVAfUe6FuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765031103; c=relaxed/simple;
-	bh=rhJy0MuZoX1IN0c3VNkXR9OgQWBNKyzexnJsWC4tqmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jW+vcjcqtAXIMbEqMMPkzXkp/ycr5Gyvu1pCbQg3YmcK9BjoFQ8EKBfGQqc5+bVX5L67FI17Fy+yhtpJBnrl+qoBgERN8JGq6myKZa4/0qNd17TOsrk0ycC/blQTtcNGeQmC1i7NRp0/2kHmjSn3Z5w95JqfDWDV2l3L9ZgMaf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MG0KP76J; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1765036087; c=relaxed/simple;
+	bh=a1p96pIPVOOSo69kiqDsMIooxv+GG43BVpWFcOK8YfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mfwJG1Ax1xP6hi/CNzbvutfCV9dnuoFCE1G1Lr3miNoZmoC6h+K9IQCXbBASA6eb/WZvTZvZ7cTBvGOBiSMvovZRtUeB1pwDez/VU2nO7NvD+U5Ls7+ads0s/vMoqKQ43904VyOn+aXTW7PAPvS9MZSpXQxx42R38IqBHLW4WAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/w0V5YB; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MG0KP76J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/w0V5YB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765031102; x=1796567102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rhJy0MuZoX1IN0c3VNkXR9OgQWBNKyzexnJsWC4tqmk=;
-  b=MG0KP76JFA0fi4G+ZjZ9VYFvMTG2TsPPLJhpdavNfiUzHhPKDmz2y4UA
-   8pvk1eF46Nazr482y9pWioqxFJiiENSQaPfI9eJYjqrBJG01wvLgE6zg+
-   XmLy4RSFW5ONp3dNre1centzm2WoPdTxYT121/w9lK29ttITAM43XSF8R
-   62lvaYbZUSW24F/K33omMbF2MRLwHgXXGM9pmEsPn9BBQ0124VZloWetQ
-   Xhfh3NrQkaqpCxzpHd6I0dA9d21IeSl1h085gfau0dyAwatT1iC/req3n
-   jJ2NldcW5YPwEqyCz4sk4fjyQZszEm0rRqBsg+0SCAQIKz8j5NIzdzJgC
-   g==;
-X-CSE-ConnectionGUID: k+eUFdIHT/2kpZJoqoIPYw==
-X-CSE-MsgGUID: QXRxSZrKQZu3mPVzb0Q97Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="66041580"
+  t=1765036085; x=1796572085;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a1p96pIPVOOSo69kiqDsMIooxv+GG43BVpWFcOK8YfM=;
+  b=B/w0V5YBTivCjFrNlqcgM4wcC5awl8pD8yzT2NKZ325c5vogfPQKg4Gt
+   eMPghFPD1ocsKeWuWx86wJOBemyWFDiEN+sTkW4HlBfnjo/uLT5jOQ3px
+   Ummqlp7/oEYBmezihIhLcfL9bvi/1/Zuq44MPFz7GdEXRpcyyZ1rrj5Py
+   EwVatzOqV+ETEVnWMf3O3TDmLt+9PeY5GkKzfvaYOnB07fUOXJr3aM5jR
+   ncugWwApnDoeoOkA+UQDIlMmk6MPs59SXei0cBF6r29Q+I2PRyPq2kl1X
+   yKE7XPbGcjjdV+Q6GpPeKK07clHtvlJ+7r/JutFYYUIKXAOoefGtG4Re7
+   A==;
+X-CSE-ConnectionGUID: 7OX8eqPGTQOK2dGr9rIAbw==
+X-CSE-MsgGUID: dCM6QYn4Ru6KmPH+g66NMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="84453691"
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="66041580"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 06:25:01 -0800
-X-CSE-ConnectionGUID: fBohExo1RaaxqdrSlmEprQ==
-X-CSE-MsgGUID: leGyjN9HS1KwkpMGCoe/dA==
+   d="scan'208";a="84453691"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 07:48:05 -0800
+X-CSE-ConnectionGUID: VpYeeAevQgCGHrKB01Gggg==
+X-CSE-MsgGUID: L3FmWL84R2e3B9mB+uGQkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="199982689"
+   d="scan'208";a="226560833"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2025 06:24:58 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Dec 2025 07:48:03 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRtDT-00000000IEv-25PT;
-	Sat, 06 Dec 2025 14:24:55 +0000
-Date: Sat, 6 Dec 2025 22:24:34 +0800
+	id 1vRuVs-00000000IIT-3A11;
+	Sat, 06 Dec 2025 15:48:00 +0000
+Date: Sat, 6 Dec 2025 23:47:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Genoud <richard.genoud@bootlin.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Genoud <richard.genoud@bootlin.com>
-Subject: Re: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
-Message-ID: <202512062245.KFjCln1y-lkp@intel.com>
-References: <20251205100239.1563353-3-richard.genoud@bootlin.com>
+To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3482/3482] mm/page_alloc.c:4110:9: error: call to
+ undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202512062342.w7DAW6VJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,76 +62,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205100239.1563353-3-richard.genoud@bootlin.com>
 
-Hi Richard,
+Hi Liu,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 6987d58a9cbc5bd57c983baa514474a86c945d56]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Genoud/dt-bindings-pwm-sunxi-add-PWM-controller-for-Allwinner-H616/20251205-214804
-base:   6987d58a9cbc5bd57c983baa514474a86c945d56
-patch link:    https://lore.kernel.org/r/20251205100239.1563353-3-richard.genoud%40bootlin.com
-patch subject: [PATCH 2/4] pwm: sun50i: Add H616 PWM support
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251206/202512062245.KFjCln1y-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062245.KFjCln1y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
+commit: fd855715f24e3eeadaa56de5fde21c55a14aeea0 [3482/3482] mm/mem_reliable: Fallback to dpool if reliable memory is not enough
+config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251206/202512062342.w7DAW6VJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062342.w7DAW6VJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512062245.KFjCln1y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512062342.w7DAW6VJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_get_state':
->> drivers/pwm/pwm-sun50i-h616.c:76:41: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      76 | #define PWM_REG_DUTY(reg)               FIELD_GET(PWM_DUTY_MASK, reg)
-         |                                         ^~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:452:30: note: in expansion of macro 'PWM_REG_DUTY'
-     452 |         tmp = NSEC_PER_SEC * PWM_REG_DUTY(val);
-         |                              ^~~~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_calc':
->> drivers/pwm/pwm-sun50i-h616.c:79:41: error: implicit declaration of function 'FIELD_MAX' [-Wimplicit-function-declaration]
-      79 | #define PWM_PERIOD_MAX                  FIELD_MAX(PWM_PERIOD_MASK)
-         |                                         ^~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:493:54: note: in expansion of macro 'PWM_PERIOD_MAX'
-     493 |                 freq = div64_u64(NSEC_PER_SEC * (u64)PWM_PERIOD_MAX, period);
-         |                                                      ^~~~~~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_pwm_apply':
->> drivers/pwm/pwm-sun50i-h616.c:78:41: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      78 | #define PWM_DUTY(dty)                   FIELD_PREP(PWM_DUTY_MASK, dty)
-         |                                         ^~~~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c:577:23: note: in expansion of macro 'PWM_DUTY'
-     577 |                 val = PWM_DUTY(chan->active_cycles);
-         |                       ^~~~~~~~
-   drivers/pwm/pwm-sun50i-h616.c: In function 'h616_add_composite_clk':
-   drivers/pwm/pwm-sun50i-h616.c:666:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     666 |                 mux->reg = (u64)mux->reg + reg;
-         |                            ^
-   drivers/pwm/pwm-sun50i-h616.c:676:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     676 |                 gate->reg = (u64)gate->reg + reg;
-         |                             ^
-   drivers/pwm/pwm-sun50i-h616.c:686:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     686 |                 rate->reg = (u64)rate->reg + reg;
-         |                             ^
+   In file included from mm/page_alloc.c:19:
+   In file included from include/linux/mm.h:2204:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/page_alloc.c:43:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/page_alloc.c:2769:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2769 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:2886:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2886 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+>> mm/page_alloc.c:4110:9: error: call to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4110 |         return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
+         |                ^
+   mm/page_alloc.c:4596:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    4596 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   10 warnings and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +/FIELD_GET +76 drivers/pwm/pwm-sun50i-h616.c
+vim +/dynamic_pool_should_alloc +4110 mm/page_alloc.c
 
-    70	
-    71	/* PWM Period Register */
-    72	#define PWM_PERIOD_REG(ch)		(0x64 + (ch) * 0x20)
-    73	#define PWM_PERIOD_MASK			GENMASK(31, 16)
-    74	#define PWM_DUTY_MASK			GENMASK(15, 0)
-    75	#define PWM_REG_PERIOD(reg)		(FIELD_GET(PWM_PERIOD_MASK, reg) + 1)
-  > 76	#define PWM_REG_DUTY(reg)		FIELD_GET(PWM_DUTY_MASK, reg)
-    77	#define PWM_PERIOD(prd)			FIELD_PREP(PWM_PERIOD_MASK, (prd) - 1)
-  > 78	#define PWM_DUTY(dty)			FIELD_PREP(PWM_DUTY_MASK, dty)
-  > 79	#define PWM_PERIOD_MAX			FIELD_MAX(PWM_PERIOD_MASK)
-    80	
-    81	
+  4101	
+  4102	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
+  4103	{
+  4104		if (!reliable_allow_fb_enabled())
+  4105			return false;
+  4106	
+  4107		if (!(gfp_mask & GFP_RELIABLE))
+  4108			return false;
+  4109	
+> 4110		return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
+  4111	}
+  4112	#else
+  4113	static inline struct zone *mem_reliable_fallback_zone(gfp_t gfp_mask,
+  4114							      struct alloc_context *ac)
+  4115	{
+  4116		return NULL;
+  4117	}
+  4118	static inline void mem_reliable_fallback_slowpath(gfp_t gfp_mask,
+  4119							  struct alloc_context *ac) {}
+  4120	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
+  4121	{
+  4122		return false;
+  4123	}
+  4124	#endif
+  4125	
 
 -- 
 0-DAY CI Kernel Test Service
