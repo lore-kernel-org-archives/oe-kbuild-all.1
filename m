@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAA414A60C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 06:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5481E199230;
+	Sat,  6 Dec 2025 06:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765003486; cv=none; b=qbUoZ7YZezx6QLk/8SmwcgDbfOfLKkG1wu8is4ZKD7K2m+SRA//1csxelB3bkwE49yvJP2yvJJz6VTga0RnxBbVxt39UGSWVLMj6mNSKzp2s3CIbuxqjVoOwGHmyo/lDfOPqDalDta2lIidKvklP8s91gn3mr8seYpBaSPSqApg=
+	t=1765003487; cv=none; b=mwMkOocJBTyjxFVej+zZ/sXPOJ7sG8xVTBNScKcPuzBBgByX9NTayexAt2OKJ4/fvRBtNXvCS01OpbzDGE+03wXnA8Y+k4NnvsLAJ358KUK03G7eS61PqdCeb8fq46LxxCyNRx7gBcLpln7+NzLzrEc+WZXb7BCypQW2xoEXFok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765003486; c=relaxed/simple;
-	bh=0IKVO9HgxpscAw10BhqjH4GolS9OaDWY4H+2DaTm+Hc=;
+	s=arc-20240116; t=1765003487; c=relaxed/simple;
+	bh=a2dqGkWGyL4FC1bL0CDuUmiCMrT1OE0ADiDLW/2YVn4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZuZFNLs+UhHW64aUjPd1QK+nrp1Htnyg3j1NIJfRarksE48exk6UoNXgLpLhAeSaRz1/EP0G8pLZXsXV7H4HscuHL6nlfRM/5x76zPXTye1TNXG7IjqYFpdbmYVFA1hr95KzQ5bVlgH6276pfUyDVyPeS6yCyzxRoRmx8H/sXcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9jGr6IE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Mm4RMBfwyqvKuP48kOwDRpUvpr3bQ9ue9sMftiF89h/+rj5o74U0nHfKjb91AB39xotV9QsmUjNSA/Mb34PZwU/8X28BSV+kcRqMUrIysGGnmESveQ8CX7H0NpmOJvgf7nesCGDWw0J1kX5hcADdESFzREX/Soun+nyWT45Mnu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbQkOVyx; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9jGr6IE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbQkOVyx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765003485; x=1796539485;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0IKVO9HgxpscAw10BhqjH4GolS9OaDWY4H+2DaTm+Hc=;
-  b=O9jGr6IEv7dE2jbev8d1fwZfLtykDHSXReoey/dY9p9W/dr+8oP31cXA
-   MA+wjxXBeP9zp4x4m/zdkJhmMVlCAeqilnXZURIKuVQK/idfWc9rtBHzn
-   J4vxHjMVYnrs4NLJmuCEEI1BOryglGYvXOC/IRV33FWPPEk4cZh7pc5Of
-   M2zVW0hm1nCMqZ3wDjhjJLAqqPR1YIZQyk+Q5EQeYysskzxwv7XJohB1k
-   9q2H+dMAc12iqTfOYIREnT8efR2Sd/eAecgd76OnD6AE9VeixU0q9cX97
-   M5mJInLUMYQ+FiFENRhKyER75O8WfWT0Jvvb8Z5dRZojlGWvkptx+e38a
-   g==;
-X-CSE-ConnectionGUID: IYV+IPKYSw+LjXplWQGaUw==
-X-CSE-MsgGUID: 91jt5SXDS4CngaQTVnSvqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="66993159"
+  bh=a2dqGkWGyL4FC1bL0CDuUmiCMrT1OE0ADiDLW/2YVn4=;
+  b=fbQkOVyx1NfQmZuAbDLv4mWkM+Cqt95BfZU2K5SY0zTZ+vyQfJSOdjjt
+   8cQ49nhd0Q9xgz48/VCeP0krw6ICcLjMYYZ+ucQhe8eJf5TZuNlWFFlal
+   gemkzE1MjJRbnljVAtYcc/o0Trhj8tU1j1uifSBZBN3xC2Wm1VkDzpyQd
+   VHXdz29XlvgwyDzfT+vocKuYugLHhumyK2VhdjJQDDA/xrj9w5wSInKlu
+   fGdW6qrFhPJkdYbu1/3blu4NemN1MoezHInYpGLaoAGfsoAQddRjxnzLV
+   gR1M7XOQuOY57K9iLV+oZLIB8xzxkRO2nRyBNeDDZbNDzHVL08W0//yny
+   Q==;
+X-CSE-ConnectionGUID: pa6ARu0ARNeAKjOweF1WOg==
+X-CSE-MsgGUID: iClYHeRRTBmPaNhiDfJulw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="78498639"
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="66993159"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 22:44:44 -0800
-X-CSE-ConnectionGUID: oklaumcZR5eJ1R6RZmRKKg==
-X-CSE-MsgGUID: Z8Zr/e4rRT2ACVjF7/AsGA==
+   d="scan'208";a="78498639"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 22:44:45 -0800
+X-CSE-ConnectionGUID: gDd0UWynSfmHWc1Raf0dnQ==
+X-CSE-MsgGUID: yLPZTwk0TOaV4QSOEYEjrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="195721514"
+   d="scan'208";a="195108321"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Dec 2025 22:44:42 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 05 Dec 2025 22:44:43 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRm24-00000000Fwf-2niA;
+	id 1vRm24-00000000Fwh-2vLh;
 	Sat, 06 Dec 2025 06:44:40 +0000
-Date: Sat, 6 Dec 2025 14:44:22 +0800
+Date: Sat, 6 Dec 2025 14:44:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_hybrid_automata 21/21]
- kernel/trace/rv/monitors/boost/boost.c:143:13: error: conflicting types for
- 'handle_syscall'; have 'void(void *, struct pt_regs *, long int)'
-Message-ID: <202512061442.QCS58bku-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+	Kees Cook <kees@kernel.org>
+Subject: kernel/trace/bpf_trace.c:475:35: warning: diagnostic behavior may be
+ improved by adding the 'format(printf, 2, 0)' attribute to the declaration
+ of '____bpf_seq_printf'
+Message-ID: <202512061425.x0qTt9ww-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +65,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_hybrid_automata
-head:   b0f3d844e192c90aac9dc773e82b8ee2b00e431b
-commit: b0f3d844e192c90aac9dc773e82b8ee2b00e431b [21/21] rv: Add dl_server specific monitors
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251206/202512061442.QCS58bku-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061442.QCS58bku-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f19b84186d297063a1006ca9e1c8597f77a75581
+commit: 6b2c1e30ad6846624d935a7ea98dae60458126b8 seq_file: Mark binary printing functions with __printf() attribute
+date:   8 months ago
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20251206/202512061425.x0qTt9ww-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061425.x0qTt9ww-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061442.QCS58bku-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512061425.x0qTt9ww-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/trace/rv/monitors/boost/boost.c:143:13: error: conflicting types for 'handle_syscall'; have 'void(void *, struct pt_regs *, long int)'
-     143 | static void handle_syscall(void *data, struct pt_regs *regs, long id)
-         |             ^~~~~~~~~~~~~~
-   In file included from arch/x86/um/asm/elf.h:9,
-                    from arch/um/include/asm/uaccess.h:10,
-                    from include/linux/uaccess.h:13,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/mm.h:36,
-                    from include/linux/kallsyms.h:13,
-                    from include/linux/ftrace.h:13,
-                    from kernel/trace/rv/monitors/boost/boost.c:2:
-   arch/um/include/shared/skas/skas.h:14:13: note: previous declaration of 'handle_syscall' with type 'void(struct uml_pt_regs *)'
-      14 | extern void handle_syscall(struct uml_pt_regs *regs);
-         |             ^~~~~~~~~~~~~~
+>> kernel/trace/bpf_trace.c:475:35: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of '____bpf_seq_printf' [-Wmissing-format-attribute]
+     458 |         seq_bprintf(m, fmt, data.bin_args);
+         |                                          ^
+   kernel/trace/bpf_trace.c:458:1: note: '____bpf_seq_printf' declared here
+     458 | BPF_CALL_5(bpf_seq_printf, struct seq_file *, m, char *, fmt, u32, fmt_size,
+         | ^
+   include/linux/filter.h:613:31: note: expanded from macro 'BPF_CALL_5'
+     613 | #define BPF_CALL_5(name, ...)   BPF_CALL_x(5, __NOATTR, name, __VA_ARGS__)
+         |                                 ^
+   include/linux/filter.h:597:6: note: expanded from macro 'BPF_CALL_x'
+     597 |         u64 ____##name(__BPF_MAP(x, __BPF_DECL_ARGS, __BPF_V, __VA_ARGS__));   \
+         |             ^
+   <scratch space>:169:1: note: expanded from here
+     169 | ____bpf_seq_printf
+         | ^
+   kernel/trace/bpf_trace.c:3382:10: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.path))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3382 |         upath = u64_to_user_ptr(attr->link_create.uprobe_multi.path);
+         |                 ^
+   include/linux/kernel.h:52:2: note: expanded from macro 'u64_to_user_ptr'
+      52 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   kernel/trace/bpf_trace.c:3383:13: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.offsets))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3383 |         uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
+         |                    ^
+   include/linux/kernel.h:52:2: note: expanded from macro 'u64_to_user_ptr'
+      52 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   kernel/trace/bpf_trace.c:3392:21: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.ref_ctr_offsets))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3392 |         uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
+         |                            ^
+   include/linux/kernel.h:52:2: note: expanded from macro 'u64_to_user_ptr'
+      52 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   kernel/trace/bpf_trace.c:3393:13: warning: default initialization of an object of type 'typeof ((attr->link_create.uprobe_multi.cookies))' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    3393 |         ucookies = u64_to_user_ptr(attr->link_create.uprobe_multi.cookies);
+         |                    ^
+   include/linux/kernel.h:52:2: note: expanded from macro 'u64_to_user_ptr'
+      52 |         typecheck(u64, (x));            \
+         |         ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   5 warnings generated.
 
 
-vim +143 kernel/trace/rv/monitors/boost/boost.c
+vim +475 kernel/trace/bpf_trace.c
 
-   142	
- > 143	static void handle_syscall(void *data, struct pt_regs *regs, long id)
-   144	{
-   145		struct sched_dl_entity *dl_se;
-   146		struct task_struct *p;
-   147		int new_policy = -1;
-   148	
-   149		new_policy = extract_params(regs, id, &p);
-   150		if (new_policy < 0 || new_policy == p->policy)
-   151			return;
-   152		dl_se = get_fair_server(p);
-   153		if (!dl_se || !p->on_rq)
-   154			return;
-   155		/*
-   156		 * Note: this attaches to the syscall entry and is unstable:
-   157		 * - the syscall may fail
-   158		 * - the task may be preempted before changing the policy
-   159		 * A more robust solution can be written using enqueue/dequeue events.
-   160		 */
-   161		if (p->policy == SCHED_NORMAL)
-   162			da_handle_event(EXPAND_ID(dl_se, task_cpu(p)), sched_switch_out_boost);
-   163		else if (new_policy == SCHED_NORMAL)
-   164			da_handle_event(EXPAND_ID(dl_se, task_cpu(p)), dl_server_resume_boost);
-   165	}
-   166	
+10aceb629e1984 Dave Marchevsky 2021-09-17  457  
+492e639f0c2227 Yonghong Song   2020-05-09  458  BPF_CALL_5(bpf_seq_printf, struct seq_file *, m, char *, fmt, u32, fmt_size,
+78aa1cc9404399 Jiri Olsa       2022-12-15  459  	   const void *, args, u32, data_len)
+492e639f0c2227 Yonghong Song   2020-05-09  460  {
+78aa1cc9404399 Jiri Olsa       2022-12-15  461  	struct bpf_bprintf_data data = {
+78aa1cc9404399 Jiri Olsa       2022-12-15  462  		.get_bin_args	= true,
+78aa1cc9404399 Jiri Olsa       2022-12-15  463  	};
+d9c9e4db186ab4 Florent Revest  2021-04-19  464  	int err, num_args;
+492e639f0c2227 Yonghong Song   2020-05-09  465  
+335ff4990cf3bf Dave Marchevsky 2021-09-17  466  	if (data_len & 7 || data_len > MAX_BPRINTF_VARARGS * 8 ||
+78aa1cc9404399 Jiri Olsa       2022-12-15  467  	    (data_len && !args))
+d9c9e4db186ab4 Florent Revest  2021-04-19  468  		return -EINVAL;
+492e639f0c2227 Yonghong Song   2020-05-09  469  	num_args = data_len / 8;
+492e639f0c2227 Yonghong Song   2020-05-09  470  
+78aa1cc9404399 Jiri Olsa       2022-12-15  471  	err = bpf_bprintf_prepare(fmt, fmt_size, args, num_args, &data);
+492e639f0c2227 Yonghong Song   2020-05-09  472  	if (err < 0)
+d9c9e4db186ab4 Florent Revest  2021-04-19  473  		return err;
+492e639f0c2227 Yonghong Song   2020-05-09  474  
+78aa1cc9404399 Jiri Olsa       2022-12-15 @475  	seq_bprintf(m, fmt, data.bin_args);
+48cac3f4a96ddf Florent Revest  2021-04-27  476  
+f19a4050455aad Jiri Olsa       2022-12-15  477  	bpf_bprintf_cleanup(&data);
+d9c9e4db186ab4 Florent Revest  2021-04-19  478  
+d9c9e4db186ab4 Florent Revest  2021-04-19  479  	return seq_has_overflowed(m) ? -EOVERFLOW : 0;
+492e639f0c2227 Yonghong Song   2020-05-09  480  }
+492e639f0c2227 Yonghong Song   2020-05-09  481  
+
+:::::: The code at line 475 was first introduced by commit
+:::::: 78aa1cc9404399a15d2a1205329c6a06236f5378 bpf: Add struct for bin_args arg in bpf_bprintf_prepare
+
+:::::: TO: Jiri Olsa <jolsa@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- 
 0-DAY CI Kernel Test Service
