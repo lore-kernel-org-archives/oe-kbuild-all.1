@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78002DC76D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 10:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5CF1F1313
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 10:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765015857; cv=none; b=tp6jz2I1K0z39TVDOHN+Uda3pJGYaDjTmjGmojWQlq+ZBsEOYAnn4BIUW43nsDuhYs3ujegMzsOpZZJ4QAR+p6DVCbxv8D8LnkiTUmCYUV614cw8BtBFL6MjRrQwQbcZqqF2gfjTOeqk4WdhNxJSu5gGFm+1KsBRuoAvyXOTMC8=
+	t=1765016515; cv=none; b=j3AI9FaqRtyInWmMSBgULCllncfNgqRAjnEfES97i14/yogEEyKL7vlKtxGFBAJerP3xqyGYNAoRwuKlM3oxGaCjZPlbXCDtN/UHD5VRKYiePQy1kNzOQi2+PQwVNJNRPVU4JB9nVE7LKPO+WQ4Q3Xpq/sRZzD0dX5A7VwBqyzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765015857; c=relaxed/simple;
-	bh=x4LBu0tYO48O/Tw5dS2uZU4NXYDWzRICUMcCqyYY+Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oszalntYYZF/mdw9ztN5YLjIiKFXFpOIygmjGQkhcJ4hHun5OJnRr+ysfk/9PcxxvuEW3Wc2sUmdtLpHXsJ7zNOsh2dBw9KbTDukDAVCCze4jMm3MwsBonGVig+24KLL5Pg9mtId0IbWfnBf22cWprXwi7+7t3V1z6nmvTPbfao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLVUDwaa; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1765016515; c=relaxed/simple;
+	bh=4eB0O8kHwzycmsro92zvrubhaPpRTMu70MFuipQr6I4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YBDxcp1+Rfdo/zz/oGcn2yXwCVDMgZ1VJzDINhF4v0V19ClpR6tq00rrS2UcJa0yKz+3yCNrIhMCMG1iVnQNTmIRNqBRrQTmdkDFXuDDJwqriTtoKfBEVSMobJsepcVCdMvyUqxwjhAX0lKcaRcxMtFLqUosjSOMOAnortKw/5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mdL1Rfvr; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLVUDwaa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mdL1Rfvr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765015856; x=1796551856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x4LBu0tYO48O/Tw5dS2uZU4NXYDWzRICUMcCqyYY+Dk=;
-  b=LLVUDwaamvWwonIn+O4mbOsCA9QPPrT2ukskcwpw49tTnY6VntXQENJy
-   WN5dmybh+vddoM+iORQsKJkAT+YC2ch8v02uCrndqKpbZhgynezS+Kz6F
-   80yslJsKV1xuasxrRLkNQuqgHIJMS/1IvnmXCf3ZWBZs7Hw9q3TT+Zec+
-   hZpyV4gew2O7FNJ1cdssNgv8vSdKMOV1qFb6qiDTAqpNtMg8atYZD6Eul
-   gt1T2GCnKnGyBg0+CaXH9bf4JJGOm/mEd3ED95Zac/J6+5XKYF+YOi4Oa
-   j/e4j1e+4J3WyW4tSHejVPD7BZrCjniUrMQfyKDIqCuwyeFu1sAbEKAyX
-   Q==;
-X-CSE-ConnectionGUID: 3tLdqO06Qlu4YCD7WTGcyw==
-X-CSE-MsgGUID: 1bf+DN6tSZyEWRzLt6Zd6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="89690821"
+  t=1765016514; x=1796552514;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4eB0O8kHwzycmsro92zvrubhaPpRTMu70MFuipQr6I4=;
+  b=mdL1Rfvr6YzLRaDKX2i1cCJR2HtdlRUvhXSJDyKwxnhZZb9oT71MpBnK
+   1RUQSFeLCQRMF7ynGiKKwD/oosSWoyHHVr6BG7SgUELfQuwHhgwxQ8WGM
+   mvFaiMTumK7dScoovLJ3cozCtPuPUUPwhAEgZ8srHiv/mIr13akYlO5cE
+   QJ55NGa3MuZIkgHMXMSsDFR3J45VvbqQUISVpetIMSagjsbr7OoDkdB9C
+   /IWzHwDFsFVaA9dndLKx+Qt2WTpOd+heMG5QWjXZPcd/UktiH+tUdMzAi
+   euFn0LEOEGAFMlGPEdlC0L+njvoXfseNTfCvP00DGhDt14NqjZAvhmx0E
+   A==;
+X-CSE-ConnectionGUID: S6a+UlpcS4SBJEZXmV9DUw==
+X-CSE-MsgGUID: OWi2MVS3TgeBdwzBplsXOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="66998549"
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="89690821"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 02:10:55 -0800
-X-CSE-ConnectionGUID: woOwQDNxSwu5yms1MbLiDQ==
-X-CSE-MsgGUID: LdZ8STCOT5qh+3sZ5KA2RA==
+   d="scan'208";a="66998549"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 02:21:54 -0800
+X-CSE-ConnectionGUID: z0iDF/TgQS+Ow2amz0Dk2g==
+X-CSE-MsgGUID: 9BTxp+fPSM6sfcouLrCLpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="199947346"
+   d="scan'208";a="195415190"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Dec 2025 02:10:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Dec 2025 02:21:52 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vRpFZ-00000000G49-0VtD;
-	Sat, 06 Dec 2025 10:10:49 +0000
-Date: Sat, 6 Dec 2025 18:09:52 +0800
+	id 1vRpQD-00000000G4z-2clV;
+	Sat, 06 Dec 2025 10:21:49 +0000
+Date: Sat, 6 Dec 2025 18:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: dongxuyang@eswincomputing.com, ukleinek@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ningyu@eswincomputing.com,
-	linmin@eswincomputing.com, xuxiang@eswincomputing.com,
-	wangguosheng@eswincomputing.com, pinkesh.vaghela@einfochips.com,
-	Xuyang Dong <dongxuyang@eswincomputing.com>
-Subject: Re: [PATCH 2/2] pwm: eswin: Add EIC7700 pwm driver
-Message-ID: <202512061720.j31AsgM7-lkp@intel.com>
-References: <20251205090509.1501-1-dongxuyang@eswincomputing.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 12/12] mm/madvise.c:2016:45: error:
+ no member named 'owner' in 'struct mm_struct'
+Message-ID: <202512061853.4w1llafs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,135 +61,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205090509.1501-1-dongxuyang@eswincomputing.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.18 next-20251205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/dongxuyang-eswincomputing-com/dt-bindings-pwm-eswin-Add-EIC7700-pwm-controller/20251205-171328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251205090509.1501-1-dongxuyang%40eswincomputing.com
-patch subject: [PATCH 2/2] pwm: eswin: Add EIC7700 pwm driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512061720.j31AsgM7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061720.j31AsgM7-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   029c3b29942fa7c9965736a5ab9030f41c9c02d3
+commit: 8eb091b59da95aa21fed882e17e939e416c132e0 [12/12] ANDROID: vendor_hooks: add hook to optimize the madvise processing flow
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251206/202512061853.4w1llafs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061853.4w1llafs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061720.j31AsgM7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512061853.4w1llafs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pwm/pwm-dwc-core.c: In function '__dwc_pwm_configure_timer':
->> drivers/pwm/pwm-dwc-core.c:54:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      54 |                 if (tmp < 0 || tmp > (1UL << 32))
-         |                                           ^~
-   drivers/pwm/pwm-dwc-core.c:64:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-      64 |                 if (tmp < 0 || tmp > (1UL << 32))
-         |                                           ^~
+>> mm/madvise.c:2016:45: error: no member named 'owner' in 'struct mm_struct'
+    2016 |                 trace_android_vh_process_madvise_iter(mm->owner, behavior, &ret);
+         |                                                       ~~  ^
+   1 error generated.
 
 
-vim +54 drivers/pwm/pwm-dwc-core.c
+vim +2016 mm/madvise.c
 
-    37	
-    38	static int __dwc_pwm_configure_timer(struct dwc_pwm *dwc,
-    39					     struct pwm_device *pwm,
-    40					     const struct pwm_state *state)
-    41	{
-    42		u64 tmp;
-    43		u32 ctrl;
-    44		u32 high;
-    45		u32 low;
-    46	
-    47		if (dwc->pwm_0n100_enable) {
-    48			/*
-    49			 * Calculate width of low and high period in terms of input
-    50			 * clock periods and check are the result within HW limits
-    51			 * between 0 and 2^32 periods.
-    52			 */
-    53			tmp = DIV_ROUND_CLOSEST_ULL(state->duty_cycle, dwc->clk_ns);
-  > 54			if (tmp < 0 || tmp > (1UL << 32))
-    55				return -ERANGE;
-    56	
-    57			if (pwm->args.polarity == PWM_POLARITY_INVERSED)
-    58				high = tmp;
-    59			else
-    60				low = tmp;
-    61	
-    62			tmp = DIV_ROUND_CLOSEST_ULL(state->period - state->duty_cycle,
-    63						    dwc->clk_ns);
-    64			if (tmp < 0 || tmp > (1UL << 32))
-    65				return -ERANGE;
-    66	
-    67			if (pwm->args.polarity == PWM_POLARITY_INVERSED)
-    68				low = tmp;
-    69			else
-    70				high = tmp;
-    71		} else {
-    72			/*
-    73			 * Calculate width of low and high period in terms of input
-    74			 * clock periods and check are the result within HW limits
-    75			 * between 1 and 2^32 periods.
-    76			 */
-    77			tmp = DIV_ROUND_CLOSEST_ULL(state->duty_cycle, dwc->clk_ns);
-    78			if (tmp < 1 || tmp > (1ULL << 32))
-    79				return -ERANGE;
-    80			low = tmp - 1;
-    81	
-    82			tmp = DIV_ROUND_CLOSEST_ULL(state->period - state->duty_cycle,
-    83						    dwc->clk_ns);
-    84			if (tmp < 1 || tmp > (1ULL << 32))
-    85				return -ERANGE;
-    86			high = tmp - 1;
-    87		}
-    88	
-    89		/*
-    90		 * Specification says timer usage flow is to disable timer, then
-    91		 * program it followed by enable. It also says Load Count is loaded
-    92		 * into timer after it is enabled - either after a disable or
-    93		 * a reset. Based on measurements it happens also without disable
-    94		 * whenever Load Count is updated. But follow the specification.
-    95		 */
-    96		__dwc_pwm_set_enable(dwc, pwm->hwpwm, false);
-    97	
-    98		/*
-    99		 * Write Load Count and Load Count 2 registers. Former defines the
-   100		 * width of low period and latter the width of high period in terms
-   101		 * multiple of input clock periods:
-   102		 * Width = ((Count + 1) * input clock period) or
-   103		 * Width = (Count * input clock period) : supported 0% and 100%).
-   104		 */
-   105		dwc_pwm_writel(dwc, low, DWC_TIM_LD_CNT(pwm->hwpwm));
-   106		dwc_pwm_writel(dwc, high, DWC_TIM_LD_CNT2(pwm->hwpwm));
-   107	
-   108		/*
-   109		 * Set user-defined mode, timer reloads from Load Count registers
-   110		 * when it counts down to 0.
-   111		 * Set PWM mode, it makes output to toggle and width of low and high
-   112		 * periods are set by Load Count registers.
-   113		 */
-   114		ctrl = DWC_TIM_CTRL_MODE_USER | DWC_TIM_CTRL_PWM;
-   115		if (dwc->pwm_0n100_enable)
-   116			ctrl |= DWC_TIM_CTRL_0N100PWM_EN;
-   117	
-   118		dwc_pwm_writel(dwc, ctrl, DWC_TIM_CTRL(pwm->hwpwm));
-   119	
-   120		/*
-   121		 * Enable timer. Output starts from low period.
-   122		 */
-   123		__dwc_pwm_set_enable(dwc, pwm->hwpwm, state->enabled);
-   124	
-   125		return 0;
-   126	}
-   127	
+  1990	
+  1991	/* Perform an madvise operation over a vector of addresses and lengths. */
+  1992	static ssize_t vector_madvise(struct mm_struct *mm, struct iov_iter *iter,
+  1993				      int behavior)
+  1994	{
+  1995		ssize_t ret = 0;
+  1996		size_t total_len;
+  1997		struct mmu_gather tlb;
+  1998		struct madvise_behavior madv_behavior = {
+  1999			.mm = mm,
+  2000			.behavior = behavior,
+  2001			.tlb = &tlb,
+  2002		};
+  2003	
+  2004		total_len = iov_iter_count(iter);
+  2005	
+  2006		ret = madvise_lock(&madv_behavior);
+  2007		if (ret)
+  2008			return ret;
+  2009		madvise_init_tlb(&madv_behavior);
+  2010	
+  2011		while (iov_iter_count(iter)) {
+  2012			unsigned long start = (unsigned long)iter_iov_addr(iter);
+  2013			size_t len_in = iter_iov_len(iter);
+  2014			int error;
+  2015	
+> 2016			trace_android_vh_process_madvise_iter(mm->owner, behavior, &ret);
+  2017			if (ret < 0)
+  2018				break;
+  2019	
+  2020			if (madvise_should_skip(start, len_in, behavior, &error))
+  2021				ret = error;
+  2022			else
+  2023				ret = madvise_do_behavior(start, len_in, &madv_behavior);
+  2024			/*
+  2025			 * An madvise operation is attempting to restart the syscall,
+  2026			 * but we cannot proceed as it would not be correct to repeat
+  2027			 * the operation in aggregate, and would be surprising to the
+  2028			 * user.
+  2029			 *
+  2030			 * We drop and reacquire locks so it is safe to just loop and
+  2031			 * try again. We check for fatal signals in case we need exit
+  2032			 * early anyway.
+  2033			 */
+  2034			if (ret == -ERESTARTNOINTR) {
+  2035				if (fatal_signal_pending(current)) {
+  2036					ret = -EINTR;
+  2037					break;
+  2038				}
+  2039	
+  2040				/* Drop and reacquire lock to unwind race. */
+  2041				madvise_finish_tlb(&madv_behavior);
+  2042				madvise_unlock(&madv_behavior);
+  2043				ret = madvise_lock(&madv_behavior);
+  2044				if (ret)
+  2045					goto out;
+  2046				madvise_init_tlb(&madv_behavior);
+  2047				continue;
+  2048			}
+  2049			if (ret < 0)
+  2050				break;
+  2051			iov_iter_advance(iter, iter_iov_len(iter));
+  2052		}
+  2053		madvise_finish_tlb(&madv_behavior);
+  2054		madvise_unlock(&madv_behavior);
+  2055	
+  2056	out:
+  2057		ret = (total_len - iov_iter_count(iter)) ? : ret;
+  2058	
+  2059		return ret;
+  2060	}
+  2061	
 
 -- 
 0-DAY CI Kernel Test Service
