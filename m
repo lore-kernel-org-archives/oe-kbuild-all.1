@@ -1,94 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39A31662E7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 17:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699D6C13B;
+	Sat,  6 Dec 2025 17:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765041252; cv=none; b=AhELDnTAomKCtsGyGlJVZOt0ZhCujAzX2XKCBLDsdeUAcJPACtlQ0viZy4rg8HNSp3CtZQFe6KqN34qqQZN7cVs6FDMOt/lN7z7bdweqayIT1nZ+WL3Y2rQZYooG3+t+DZ3jqcwx6w8oPj6PzV3mP8mQNPYzBrw7ieg4R6b1W2A=
+	t=1765042253; cv=none; b=LazTfST41Oq6D3CPPpwJD6MihaU3wOZ02zv4POEesFOO0n7nUPZAVPF43wTL4XdJWF7DZEO5f6fC7v/W4sdk6NwKVPYWk4lWZmaNoDqQ2Gv28oerEY67ErHQzuaRnt9FRlKr7zGcz0AB2i1GnFsSHT/SRF/3J7Gim1Y4fkSziVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765041252; c=relaxed/simple;
-	bh=F7e1SoTEN0lL3jWyWbkqfDlbdPW5WyzAW1dy7Z2lvxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cmJyOPxppjQZwRA8dgOZydYi0sc/HN8FJcus8is70+0p1agH/gJ0Gvrr7+XUUmiwmT6OyO/EUmGOFIM8D8CpI+AvutTIu0G97fwCVTPG93f3J3IPFuDTFqcTeGMJ8mQRlsq2j0VzNw3xUw1ECxS84H0wIKyiXsXwVMLbn8s1Bkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbHCr7lN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765042253; c=relaxed/simple;
+	bh=KWrxeDOwwj41iBJhalYfFy+HHh0hTCdnw4qgjnxOr9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FyFe7EJsfSuuv3O/rG15RnSoZNYwh5A7hSteI39vuAHe05Ps1SAxepvPqqliejArvyJ/yTtb9cTRG4vOV3GcGyLLdBt4Q0UBGgmz30N6DUnuRz2CAoXF35vh3bGn4m5+oK7BcM92464QEXifbo8YpIxw4WjPUnaOxX3pu22EJro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/vkHNII; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbHCr7lN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5305C4AF09
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 17:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765041251;
-	bh=F7e1SoTEN0lL3jWyWbkqfDlbdPW5WyzAW1dy7Z2lvxk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fbHCr7lNKRbTKvl1mY+5slme4OY0az2H6gzLvql7Mf8DvnftrIbPI5SGcWkYqByRL
-	 4Ygby5rQzn8Z1TJyHJ8DA8Z0QwZRv3MKm8Cg5jFX89IyuInIQTGo10y6C7emS/g6kX
-	 HyFTbkSEMdl0Qv2VTUOSR8UcBHgf09j4JFlc5vbRa2D6hYs75uZa8XpOxDP5SMCxOJ
-	 UPm0sZBc/K/hZ2LfMxVItS/iU9UPt6wAYumaxCbtEb7S9OOOj5oZjKek2/lo1DPN8m
-	 j95jyCveMgVhEkDyRpQEvH3X+A3XBlcu989OhTZfISACF3Z9V/PhzKENp3I13kRTJT
-	 Fmsv7hHDQVDtw==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37b9d8122fdso27453241fa.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Dec 2025 09:14:11 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3qk0a7C+KpANEBEC9Ua1GyfxIvFYUUmPuSoOMUwoutxWMLviV+TNMbjC16E/PMMxSNxUKF/ayBxBnmPhK@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyLBvSMji7GTeBd2b8VgEMfLUn2HhOiANHy1AtQ2JK9M2zmJvf
-	0s1Axm9xnXyQe8O5DlwX0ky88mcmuxUAYHgaUH6kc+Wxh+MaVHvm5nvQ3So9FW0H+Yw5BboI/7i
-	IRx9BWAbRZZwZ3S1LOWjyPFBITBdSFpk=
-X-Google-Smtp-Source: AGHT+IGRVey+tYaM8AMZwesLpwMgi1TelcomflGsyk2qFL4nNDht73NsFJAZX8O8Z9yrLihOAihpgSAsIYprBLK2nws=
-X-Received: by 2002:a2e:a986:0:b0:37a:2dca:cfc1 with SMTP id
- 38308e7fff4ca-37ed2059d52mr7733441fa.20.1765041250500; Sat, 06 Dec 2025
- 09:14:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/vkHNII"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765042251; x=1796578251;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KWrxeDOwwj41iBJhalYfFy+HHh0hTCdnw4qgjnxOr9g=;
+  b=P/vkHNIIBeL1K7IGBDH4H/B2grfdYhknKys4Q93tFKmPhWZS8y5ChfGN
+   DveLAojSle2EuJJ34wvoLseBhFAevuXjS6fAO61KOC7M38PG2r+HBFFIc
+   HsN2DG4oT5ORl4dGXY0Mbx+vAvtUeUfcyiA+E9D8PFvJ5nwxUtxDVuc7g
+   x2oj2YNL0ANE07pfn2PRHwl/HBkKdz9nRJZfyqfjsoj5jpqo1JrzQhcxh
+   O2edE6tJAoX337xKsQCMCcnPFj9PIXL85DihPGyhUcq+x2TOYPOID9Jjb
+   Dt8k+ISoA1kmdG5hbH8W9fz5QkTbLZo5Akinqs5Wa0+s24sbwIMAzkH1l
+   w==;
+X-CSE-ConnectionGUID: xjWQc8JXS2uY2Y2OdiywxA==
+X-CSE-MsgGUID: Z8R2ffgoRo+gGFPqwdSFfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="67086272"
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="67086272"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 09:30:50 -0800
+X-CSE-ConnectionGUID: ZaNEfTKCTueNvQhKd9lcgQ==
+X-CSE-MsgGUID: JKU7PG9SSnyTMnswmKQmpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="194616259"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 06 Dec 2025 09:30:49 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRw7L-00000000IbV-0463;
+	Sat, 06 Dec 2025 17:30:47 +0000
+Date: Sun, 7 Dec 2025 01:30:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h
+ to a dedicated header
+Message-ID: <202512070100.XPSKmmIG-lkp@intel.com>
+References: <20251205175237.242022-5-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com> <aTRVusbSqh5ZBY-o@smile.fi.intel.com>
-In-Reply-To: <aTRVusbSqh5ZBY-o@smile.fi.intel.com>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 6 Dec 2025 12:13:34 -0500
-X-Gmail-Original-Message-ID: <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
-X-Gm-Features: AQt7F2oYPU0UXY-9DhJyOOFZP05rZ1ESY47CWDNW6FdihCsrTCLmDOkn4V2FUmA
-Message-ID: <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
-Subject: Re: [PATCH] printf: add __printf attribute
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251205175237.242022-5-yury.norov@gmail.com>
 
-On Sat, Dec 6, 2025 at 11:11=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir Duberstein wrote:
->
-> > This produces better diagnostics when incorrect inputs are passed.
->
-> ...
->
-> > -static void
-> > +static void __printf(2, 3)
->
-> 3?!
->
-> I think it should be (2, 0). Yes, the both users call it with "%p..." in =
-format
-> string, but the second parameter tells compiler to check the variadic
-> arguments, which are absent here. Changing 'const void *p' to '...' will =
-align
-> it with the given __printf() attribute, but I don't know if this what we =
-want.
+Hi Yury,
 
-The second parameter is the first-to-check, it is not specific to
-variadic arguments. Using 0 means that no arguments are checkable, so
-the compiler only validates the format string itself and won=E2=80=99t
-diagnose mismatches with `p`. This works whether or not we later
-change `const void *p` to `...`.
+kernel test robot noticed the following build errors:
 
-Cheers.
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-i915/for-linux-next-fixes driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.18 next-20251205]
+[cannot apply to mcgrof/modules-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov-NVIDIA/kernel-h-drop-STACK_MAGIC-macro/20251206-015505
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20251205175237.242022-5-yury.norov%40gmail.com
+patch subject: [PATCH v3 4/4] tracing: move tracing declarations from kernel.h to a dedicated header
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251207/202512070100.XPSKmmIG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070100.XPSKmmIG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512070100.XPSKmmIG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/purgatory/purgatory.c:18:
+>> arch/x86/purgatory/../boot/string.h:11:7: error: expected identifier or '('
+      11 | void *memmove(void *dst, const void *src, size_t len);
+         |       ^
+   include/linux/fortify-string.h:694:27: note: expanded from macro 'memmove'
+     694 | #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+         |                           ^
+   include/linux/fortify-string.h:626:42: note: expanded from macro '__fortify_memcpy_chk'
+     626 |                              p_size_field, q_size_field, op) ({         \
+         |                                                               ^
+   In file included from arch/x86/purgatory/purgatory.c:18:
+>> arch/x86/purgatory/../boot/string.h:11:7: error: expected ')'
+   include/linux/fortify-string.h:694:27: note: expanded from macro 'memmove'
+     694 | #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+         |                           ^
+   include/linux/fortify-string.h:626:42: note: expanded from macro '__fortify_memcpy_chk'
+     626 |                              p_size_field, q_size_field, op) ({         \
+         |                                                               ^
+   arch/x86/purgatory/../boot/string.h:11:7: note: to match this '('
+   include/linux/fortify-string.h:694:27: note: expanded from macro 'memmove'
+     694 | #define memmove(p, q, s)  __fortify_memcpy_chk(p, q, s,                 \
+         |                           ^
+   include/linux/fortify-string.h:626:41: note: expanded from macro '__fortify_memcpy_chk'
+     626 |                              p_size_field, q_size_field, op) ({         \
+         |                                                              ^
+   In file included from arch/x86/purgatory/purgatory.c:18:
+   arch/x86/purgatory/../boot/string.h:23:15: error: expected identifier or '('
+      23 | extern size_t strlen(const char *s);
+         |               ^
+   include/linux/fortify-string.h:258:2: note: expanded from macro 'strlen'
+     258 |         __builtin_choose_expr(__is_constexpr(__builtin_strlen(p)),      \
+         |         ^
+   3 errors generated.
 
 
+vim +11 arch/x86/purgatory/../boot/string.h
 
+c041b5ad8640dd Vivek Goyal 2014-03-18   9  
+c041b5ad8640dd Vivek Goyal 2014-03-18  10  void *memcpy(void *dst, const void *src, size_t len);
+bc7aaf52f96367 Kees Cook   2021-11-19 @11  void *memmove(void *dst, const void *src, size_t len);
+c041b5ad8640dd Vivek Goyal 2014-03-18  12  void *memset(void *dst, int c, size_t len);
+fb4cac573ef6dc Vivek Goyal 2014-03-18  13  int memcmp(const void *s1, const void *s2, size_t len);
+bc7aaf52f96367 Kees Cook   2021-11-19  14  int bcmp(const void *s1, const void *s2, size_t len);
+c041b5ad8640dd Vivek Goyal 2014-03-18  15  
 
-Tamir
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
