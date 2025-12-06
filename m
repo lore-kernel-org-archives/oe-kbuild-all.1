@@ -1,94 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D041B199FBA;
-	Sat,  6 Dec 2025 13:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783982FE582
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 14:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765027171; cv=none; b=aucCXIEXPZ/EqFnnhibkgDJcfwDJEKOBnWuSxi0m3zfqXw/GH2URL36q22fRnZw158PWMrK+5bJp6S/FWjn74aqvk5JpwyARUHiaNFVe9gwlVyV4aw25NFQ9FGjm/lDOeJ7LxCHVYG5tEdoUronwzU2mfMY7v1fA0spjrmJoymM=
+	t=1765029841; cv=none; b=hTMQaNgDsaZpbef8PY5AX+KK109yxgP4PPujDPbjMK2zBfQdY4vZGIBjOZvibRjTtEB50SifidTCPXRGt8Rwutl23vl3gq002fvorATpmGTB+DmfiVEPoEZBa6iyuz/U/jfHFA/2L4ftYiKUtvLXwdpVGf1+Fh96N3Rbs0W/4nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765027171; c=relaxed/simple;
-	bh=18yUxHpOkie+CTnEIKGVhIe9m9RepnZZoFKEVsFqjjA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VRjL5G8Nq/Peu6PpQ4fnL3BwdaudIm9T/EiEeGegBBnVgzv9bqBF4F8h9k+G7z0noY83mm2dU9r7FyDKLVzZw/C5/V1rN1AYnD2+y6RdR7FORTzX++ueA033GDcC5hVbmulYbj6Oy2SHCoB41Phc6ZjucML+2WNvSdH6Fv1Fn5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+JySupA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765029841; c=relaxed/simple;
+	bh=R9Ln+zUEUkfth8hp8Ge2ck3Lb0wr1w0+vuU8ijGtBqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kJq9OVljUYy6ZWlKxxXW7/vk7oh6ONFnDXvioFqeZLPQ3TcqAKKSi6gif22eq18X0/qdUmyi0+814mO0O4ZkQLy/0dP+4cmDUN2E53zSZymxMLZxD5QrwlMX/BI4Lhb4e8EV1AIzSVfAaZkuS+Xv/rWJeJOcmsYsf75FwN5NsmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PleTWS6P; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+JySupA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE1AC4CEF5;
-	Sat,  6 Dec 2025 13:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765027171;
-	bh=18yUxHpOkie+CTnEIKGVhIe9m9RepnZZoFKEVsFqjjA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=Q+JySupAZ4A9OptHDm0jDDi/431EK/3K3pBIZfUrWD8k0mhc2MKVjggoxUtcByhlk
-	 JNygebB/yFetXq3epTzIVAwuMvhc/8AXAFnBya72XY4gMQ74g8sJjE5Pnup5w1oU80
-	 2st/aYNTueNBjIKnKGsIiPjhxBEghNZkjev4QUqQXNm+fDLo8xNg0p2feEbhoBCehk
-	 IdO9Daezu7d+a8ozfQfq7Lsouz4vzY1+XNs6bltPkr0XrGbc2jAGT4xfznVWv+B004
-	 wUcuO/2Dn+Nyhl8uNhmW07d0ij3IkSy35vfgJjbN6vwRsMarsGWwOxP3EZeqoUlSNp
-	 zJJ2gZCz/qsgQ==
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 06 Dec 2025 08:19:09 -0500
-Subject: [PATCH] printf: add __printf attribute
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PleTWS6P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765029839; x=1796565839;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R9Ln+zUEUkfth8hp8Ge2ck3Lb0wr1w0+vuU8ijGtBqI=;
+  b=PleTWS6PkIJG+IqwTSVOG9QxbejgooG5aS9jq20DSE/0mZ97AdFLW2+B
+   NWT3LiOBt4bhvdkpe8uSgbIC/f9RebkDHbPa9LMFX9Km0rg4w4IfLJ6mN
+   yfDkW+96mnFem74qmKbxbBaQDk+ukk3kFqJXZOAtLCwxT5ruDl5CR8oPA
+   U+bJ4YIFFy6KGERNYKAvsmt7wAPB31YviLfKQyqnLmHfAXVzc7yi8IMV9
+   Ewh0unnGKNb4C4bf7fS7Gejl0+nHEU7RfY0jSRgxlGZF2QqPQ3+5JZaJn
+   g1YgpnVP4rvCpiJ2UJFdXQlwVw9QSz3Pnu9aJfqUf3EXN1vaJaDqDWK76
+   Q==;
+X-CSE-ConnectionGUID: RIosPlbtRluCQSaRPyEtPA==
+X-CSE-MsgGUID: rI1qwDvkQCmTk6yRdJ0LoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="69639705"
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="69639705"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 06:03:59 -0800
+X-CSE-ConnectionGUID: dlDu6VqBTJWNJTQEe4V0Zw==
+X-CSE-MsgGUID: 8D0Xy3GcSeW9sZCeYlSNPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="226189278"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 06 Dec 2025 06:03:57 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRst8-00000000IE7-392C;
+	Sat, 06 Dec 2025 14:03:54 +0000
+Date: Sat, 6 Dec 2025 22:02:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1939/1939]
+ include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized
+Message-ID: <202512062131.Gw3xo6cX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zXMQQqDMBBA0avIrBtIIir2KtKFxomOhSiTUQTx7
- sYWl2/x/wERmTDCOzuAcaNIc0gwrwzc2IYBFfXJYLUtjNWlWpiCePVdA8mDVoSVqfOy9q6oOq8
- h5Qujp/23bj5/x7Wb0Mn9g/O8AMkLmTZ8AAAA
-X-Change-ID: 20251206-printf-kunit-printf-attr-19369fc57bf0
-To: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>, 
- kernel test robot <lkp@intel.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1765027170; l=968;
- i=tamird@gmail.com; h=from:subject:message-id;
- bh=e5F37dr2wfaldpekfqUwZx+AF4xxA3CEjbLAHNs7ppo=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
- MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QHPjzcTvXazbI7Hl8aCqniNXVOdp72RN+z+TTnXuPBSuGzRyc+2YxWQApTCcV3kSH4gM0jnGoXY
- m4VNzjdRM6QE=
-X-Developer-Key: i=tamird@gmail.com; a=openssh;
- fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Tamir Duberstein <tamird@gmail.com>
+Hi Yu,
 
-This produces better diagnostics when incorrect inputs are passed.
+FYI, the error/warning still remains.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512061600.89CKQ3ag-lkp@intel.com/
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
- lib/tests/printf_kunit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5bd996476c86f9b6d2039f9ab662f38d64fa6c70
+commit: b9f356e64a7eda411ba8b63df9d4c5e204f16025 [1939/1939] block-io-hierarchy: core hierarchy iodump implementation
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512062131.Gw3xo6cX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512062131.Gw3xo6cX-lkp@intel.com/reproduce)
 
-diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
-index 7617e5b8b02c..13e2e9afae3b 100644
---- a/lib/tests/printf_kunit.c
-+++ b/lib/tests/printf_kunit.c
-@@ -266,7 +266,7 @@ hash_pointer(struct kunit *kunittest)
- 	KUNIT_EXPECT_MEMNEQ(kunittest, buf, PTR_STR, PTR_WIDTH);
- }
- 
--static void
-+static void __printf(2, 3)
- test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
- {
- 	char buf[PLAIN_BUF_SIZE];
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512062131.Gw3xo6cX-lkp@intel.com/
 
----
-base-commit: 559e608c46553c107dbba19dae0854af7b219400
-change-id: 20251206-printf-kunit-printf-attr-19369fc57bf0
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
-Best regards,
---  
-Tamir Duberstein <tamird@gmail.com>
+All warnings (new ones prefixed by >>):
 
+   In file included from include/asm-generic/preempt.h:5,
+                    from ./arch/arm64/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:81,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:7,
+                    from include/linux/seq_file.h:11,
+                    from block/blk-io-hierarchy/iodump.c:14:
+   In function 'check_object_size',
+       inlined from 'check_copy_size' at include/linux/thread_info.h:90:2,
+       inlined from 'copy_from_user' at include/linux/uaccess.h:143:6,
+       inlined from 'threshold_store' at block/blk-io-hierarchy/iodump.c:240:6:
+>> include/linux/thread_info.h:59:17: warning: 'b' may be used uninitialized [-Wmaybe-uninitialized]
+      59 |                 __check_object_size(ptr, n, to_user);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/thread_info.h: In function 'threshold_store':
+   include/linux/thread_info.h:52:13: note: by argument 1 of type 'const void *' to '__check_object_size' declared here
+      52 | extern void __check_object_size(const void *ptr, unsigned long n,
+         |             ^~~~~~~~~~~~~~~~~~~
+   block/blk-io-hierarchy/iodump.c:234:14: note: 'b' declared here
+     234 |         char b[MAX_BUF_LEN + 1];
+         |              ^
+
+
+vim +/b +59 include/linux/thread_info.h
+
+0f60a8efe4005a Kees Cook 2016-07-12  50  
+f5509cc18daa7f Kees Cook 2016-06-07  51  #ifdef CONFIG_HARDENED_USERCOPY
+f5509cc18daa7f Kees Cook 2016-06-07  52  extern void __check_object_size(const void *ptr, unsigned long n,
+f5509cc18daa7f Kees Cook 2016-06-07  53  					bool to_user);
+f5509cc18daa7f Kees Cook 2016-06-07  54  
+a85d6b8242dc78 Kees Cook 2016-09-07  55  static __always_inline void check_object_size(const void *ptr, unsigned long n,
+f5509cc18daa7f Kees Cook 2016-06-07  56  					      bool to_user)
+f5509cc18daa7f Kees Cook 2016-06-07  57  {
+81409e9e280588 Kees Cook 2016-08-31  58  	if (!__builtin_constant_p(n))
+f5509cc18daa7f Kees Cook 2016-06-07 @59  		__check_object_size(ptr, n, to_user);
+f5509cc18daa7f Kees Cook 2016-06-07  60  }
+f5509cc18daa7f Kees Cook 2016-06-07  61  #else
+f5509cc18daa7f Kees Cook 2016-06-07  62  static inline void check_object_size(const void *ptr, unsigned long n,
+f5509cc18daa7f Kees Cook 2016-06-07  63  				     bool to_user)
+f5509cc18daa7f Kees Cook 2016-06-07  64  { }
+f5509cc18daa7f Kees Cook 2016-06-07  65  #endif /* CONFIG_HARDENED_USERCOPY */
+f5509cc18daa7f Kees Cook 2016-06-07  66  
+
+:::::: The code at line 59 was first introduced by commit
+:::::: f5509cc18daa7f82bcc553be70df2117c8eedc16 mm: Hardened usercopy
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
