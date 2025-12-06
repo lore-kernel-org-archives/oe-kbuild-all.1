@@ -1,136 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628F81A4F3C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 19:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08B4195FE8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 20:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765051106; cv=none; b=XhqWJSvkn2KWx89a7xImmunCjm5QgqE1vjlIlyTA+RmPpsHjl6GB+18zjim0nFUGTjDY/mhGefsmjdzTpKWkYWnEu+g/e1TxFjsfIiSXrPwjCE2Nl30x2urukAU3m1SdSOaNJANtJf/V6Um+Wx0EKLPB8HXQGhM7RoHIFDziJ04=
+	t=1765052282; cv=none; b=SCDDiZXNjTdh2STw7mtChBkkEVLYSHPSGtR4xV7BJmSzGNrXo93WhR2I2AiLpuEMjdbKnsXmXUnV99CeAcQN9bu267PmzH2UVn7S8RVuJjmPva0bzw2ohiXkkRJ63eNUKbKQVh3hZJaaujDcgMq3SKoPw2GlD01JVAzUmbq0eJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765051106; c=relaxed/simple;
-	bh=3kNCcGd7MzWbI9ZI4kAc2h6ZyRZ4Kwh4/wUNLUHdnc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NkgYh2nQzxmHMBXVhXggrsAwP3QH3Tukt7IYp3491N6A/N8j44hRtFYumuQQbBryETCVisdsWpnTd20zQmY/kSMguFYHrFY0k4Q370OxLgjJupRXfcIf1G3P9tO1Q/ZbCkoad6e/DRJScHTVdD2jMpPw3Gl3l1ksIkYVKU7lHc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kXe0IJ+M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765052282; c=relaxed/simple;
+	bh=uiazsSI1fClrTeqFjfFNs3Qs0H50/57+MkcD0gOuJV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Wp5/xU+tOt3BOGmn1ehGUXOuIfOovDifOi6zzsKRb6CLLFFm92ju3A0ZhwZLW79/lylQbLSGI2uZyltyifqtseJtU/xX5GfvmfegYMQtsFWq3/nNPqNJYULBuB+jYpuvZrld9w0X0AoIbcidcl2cFpwsuB7bWWHvddP8LG+v4pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9G++y8z; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kXe0IJ+M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438B6C19421
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 Dec 2025 19:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765051106;
-	bh=3kNCcGd7MzWbI9ZI4kAc2h6ZyRZ4Kwh4/wUNLUHdnc0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kXe0IJ+MJkCA9ou4gVYmAZF6H0+Jdbz9cAxNGpxURYV3e/Op6UyeeYcrDu4c2ZBTP
-	 uQTt+fwoxiCbC44hgg57uFJqzDQe8+2q3an445UbIfPVEP02pSw2ZryEMCm/ts52Dj
-	 XAOKPAAPB615cP5UF0Hsfjl8I3rAfumsWRmuCLa8V7T+kA624dWgPb0u9U6bJ6om3A
-	 WXSd+uO0+XIkwoBM0/T078GU42dguoPBVOrKRfvCsO1tdgmHZYG0obCEQMXkj1WOJg
-	 UbFEqZf+0P2ulLiYHHwq4Agq8I6OZZWpoeQQaUFicl/XabsgL0KVQOmj/zhVfJShiF
-	 yQeM3oDUBLSNw==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso25987311fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 06 Dec 2025 11:58:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW8sEZPSAo2B96hlRUSj4+/HuGklJWcAJkLL9mfPji/qnmFnQGY8gHjsD+pzjEkxG+Ul34PvOy/Mkwr9znH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwbaX7KHCwuQ577ywCROiB68gJf2+IPdAjMSB04Krbe3Vsko3Cg
-	YTi2dgrmGuySwZN4hOhvqOQcETbp718R/rU/EhbcHHHheywuODQXYqn/9cB9EAQFFSOGLP0X1Vo
-	sHHpXYzyaVQG+EJrC42OjPgaIlADhJH8=
-X-Google-Smtp-Source: AGHT+IEin7bVCV8oJvap8Q9t/hdgNdt3AQNsjPg1a3kRIJ+uDjUhb15sOdq9PKn2Aq3L9HnMjf4PKWGQ9rX+zmoaNbU=
-X-Received: by 2002:a05:651c:f1c:b0:37a:5990:2ba8 with SMTP id
- 38308e7fff4ca-37ed2064c0dmr7979171fa.23.1765051104967; Sat, 06 Dec 2025
- 11:58:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9G++y8z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765052281; x=1796588281;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uiazsSI1fClrTeqFjfFNs3Qs0H50/57+MkcD0gOuJV4=;
+  b=F9G++y8zawMt6ub6yIqXDOvJu1yYoGpR3WLzqc6gO3yfiRU9dnmLjFVT
+   4wFLtW92HTU3yFc9JFPx+MYCxd+KWt+8YHswqp8JzMD5VzcPkb2z72ihL
+   pX3sAaTTnswrzlWIEPtxlcXXpVSKFtyUnAyV24ydBO6pDpRLKB0RufE1R
+   vdRfbzljctpZ6/86+ugVQWLcr826DTlxxENGRnjKg4CEh7Xri78VDWVV9
+   01Xi4EzJ8GWAN36oJwG6fQ4Ka/z76YGfnFE1mq2KQBRzZFqXtzAeggz2C
+   wnnda1OrZAz1s03xqcvXU1EBT6LgZPIB1gNf0d1oNAP1hI5iIxIPLWjR9
+   Q==;
+X-CSE-ConnectionGUID: xmJSV5WdTIiHGsNGTVLnwQ==
+X-CSE-MsgGUID: KEstyFawR1qaq1i5bnKNqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="67017252"
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="67017252"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 12:18:00 -0800
+X-CSE-ConnectionGUID: Gh5/lQISR2iZXwrDum8H9g==
+X-CSE-MsgGUID: m+AMLHJXT2G36sQRHMSzwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
+   d="scan'208";a="195595998"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 06 Dec 2025 12:17:59 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vRyj5-00000000IiX-3ejd;
+	Sat, 06 Dec 2025 20:17:55 +0000
+Date: Sun, 7 Dec 2025 04:16:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, y00878127 <yangxiangkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3482/3482]
+ drivers/infiniband/core/ib_core_cq_poll.c:92:6: sparse: sparse: symbol
+ 'cq_polling' was not declared. Should it be static?
+Message-ID: <202512070445.EtOKa4Nl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
- <aTRVusbSqh5ZBY-o@smile.fi.intel.com> <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
- <aTRss_EHjqH21NEV@smile.fi.intel.com> <CAJ-ks9nCsWij6FxF8T51CNsHn4Wg0wNd5mXQyJqc6Y6XJXnLDw@mail.gmail.com>
- <aTSHb6rHLQqopTNU@smile.fi.intel.com>
-In-Reply-To: <aTSHb6rHLQqopTNU@smile.fi.intel.com>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 6 Dec 2025 14:57:48 -0500
-X-Gmail-Original-Message-ID: <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
-X-Gm-Features: AQt7F2qQxJicHouTG6gKzVR0roaAZ9FLYm5WH3eWu_8iQdGb6EaYMDwWPPwZVI4
-Message-ID: <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
-Subject: Re: [PATCH] printf: add __printf attribute
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Dec 6, 2025 at 2:43=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Sat, Dec 06, 2025 at 12:52:53PM -0500, Tamir Duberstein wrote:
-> > On Sat, Dec 6, 2025 at 12:49=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Sat, Dec 06, 2025 at 12:13:34PM -0500, Tamir Duberstein wrote:
-> > > > On Sat, Dec 6, 2025 at 11:11=E2=80=AFAM Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir Duberstein wrote:
->
-> ...
->
-> > > > > > -static void
-> > > > > > +static void __printf(2, 3)
-> > > > >
-> > > > > 3?!
-> > > > >
-> > > > > I think it should be (2, 0). Yes, the both users call it with "%p=
-..." in format
-> > > > > string, but the second parameter tells compiler to check the vari=
-adic
-> > > > > arguments, which are absent here. Changing 'const void *p' to '..=
-.' will align
-> > > > > it with the given __printf() attribute, but I don't know if this =
-what we want.
-> > > >
-> > > > The second parameter is the first-to-check, it is not specific to
-> > > > variadic arguments. Using 0 means that no arguments are checkable, =
-so
-> > > > the compiler only validates the format string itself and won=E2=80=
-=99t
-> > > > diagnose mismatches with `p`. This works whether or not we later
-> > > > change `const void *p` to `...`.
-> > >
-> > > Yes, but this is fragile. As I explained it works only because we sup=
-ply
-> > > the format string stuck to "%p", anything else will require reconside=
-ring
-> > > the function prototypes. So, strictly speaking this should be (2, 0) =
-if
-> > > we leave const void *p as is.
-> > >
-> > I believe this is not correct. As I said, 0 means "do not check
-> > arguments" so only the format string will be checked. See the existing
-> > uses of this annotation in this file:
-> >
-> > static void __printf(7, 0)
-> > do_test(struct kunit *kunittest, const char *file, const int line, int
-> > bufsize, const char *expect,
-> > int elen, const char *fmt, va_list ap)
-> >
-> > and
-> >
-> > static void __printf(6, 7)
-> > __test(struct kunit *kunittest, const char *file, const int line,
-> > const char *expect, int elen,
-> > const char *fmt, ...)
-> >
-> > as you can see, 0 is used only when the arguments are not in the
-> > function prototype at all. When variadic arguments are present, N+1 is
-> > used.
->
-> Yes to all what you said. And how does it object what I said? In the case
-> you are trying to add __print(2, 3) the 3rd one is *not* a variadic argum=
-ent.
-> If you make it to be variadic, I will agree with __print(2, 3). Before th=
-at
-> it doesn't look right to me even if it works.
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
+commit: 11fa263277520b886a650fadf4f719a2878229d0 [3482/3482] Add poll method for nfs for virtCCA CVM.
+config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251207/202512070445.EtOKa4Nl-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070445.EtOKa4Nl-lkp@intel.com/reproduce)
 
-I addressed this in my first reply; the second parameter to `__print`
-is *not* specific to variadic functions. It can just as well be used
-for functions with a fixed number of arguments.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512070445.EtOKa4Nl-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/core/ib_core_cq_poll.c:92:6: sparse: sparse: symbol 'cq_polling' was not declared. Should it be static?
+>> drivers/infiniband/core/ib_core_cq_poll.c:123:6: sparse: sparse: symbol 'wakeup_and_poll' was not declared. Should it be static?
+>> drivers/infiniband/core/ib_core_cq_poll.c:147:5: sparse: sparse: symbol 'polling_awaken_thread' was not declared. Should it be static?
+
+vim +/cq_polling +92 drivers/infiniband/core/ib_core_cq_poll.c
+
+    91	
+  > 92	void cq_polling(void *data)
+    93	{
+    94		void *cq;
+    95		int completed = 0;
+    96		unsigned long flags;
+    97		u64 time_interval;
+    98		ktime_t start_time_stamp, end_time_stamp;
+    99		struct cq_poll_node *poll_node_entry, *poll_node_next;
+   100	
+   101		spin_lock_irqsave(&cq_list_lock, flags);
+   102		list_for_each_entry_safe(poll_node_entry, poll_node_next,
+   103						&ib_cq_poll_list, list) {
+   104			cq = poll_node_entry->cq;
+   105			if (!cq) {
+   106				WARN_ONCE(1, "got NULL CQ 0x%p in poll list\n", cq);
+   107				continue;
+   108			}
+   109			start_time_stamp = ktime_get();
+   110			completed = ib_poll_cq_thread(cq);
+   111			end_time_stamp = ktime_get();
+   112			if (ib_cq_polling_kthread.debug_cq_poll_stat && completed) {
+   113				time_interval = ktime_to_ns(ktime_sub(end_time_stamp, start_time_stamp));
+   114				poll_node_entry->time_used_ns += time_interval;
+   115				poll_node_entry->poll_cq_cnt++;
+   116				if (poll_node_entry->max_time_ns < time_interval)
+   117					poll_node_entry->max_time_ns = time_interval;
+   118			}
+   119		}
+   120		spin_unlock_irqrestore(&cq_list_lock, flags);
+   121	}
+   122	
+ > 123	void wakeup_and_poll(struct task_struct *awakened_thread)
+   124	{
+   125		wake_up_process(awakened_thread);
+   126	
+   127		cq_polling(NULL);
+   128	}
+   129	
+   130	int polling_thread(void *data)
+   131	{
+   132		while (true) {
+   133			if (ib_cq_polling_kthread.use_polling_kthread)
+   134				wakeup_and_poll(waker_polling_thread);
+   135	
+   136			set_current_state(TASK_INTERRUPTIBLE);
+   137			if (unlikely(kthread_should_stop())) {
+   138				set_current_state(TASK_RUNNING);
+   139				break;
+   140			}
+   141			schedule();
+   142		}
+   143	
+   144		return 0;
+   145	}
+   146	
+ > 147	int polling_awaken_thread(void *data)
+   148	{
+   149		while (true) {
+   150			if (ib_cq_polling_kthread.use_polling_kthread)
+   151				wakeup_and_poll(poll_cq_thread);
+   152	
+   153			set_current_state(TASK_INTERRUPTIBLE);
+   154			if (unlikely(kthread_should_stop())) {
+   155				set_current_state(TASK_RUNNING);
+   156				break;
+   157			}
+   158			schedule();
+   159		}
+   160	
+   161		return 0;
+   162	}
+   163	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
