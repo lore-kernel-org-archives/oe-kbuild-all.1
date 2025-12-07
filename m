@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CF02C11CD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 20:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F9C8C1F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 21:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765138233; cv=none; b=Ew8aiYRDclDi+nBf4uxbwAKR57BqBm6VCwbULlnBX50x5Boo6lQIBOCFhHTiT6vbEWNbyPs9BAEhga7IIbbgEjIF57oZOQ8rTtCiofGBWMYJRC1x0sFCFYus2az9zWoOhUAer6TiJEHNBsbwgDCdkVrFwHRJTnznE60BqHBjv+Q=
+	t=1765141353; cv=none; b=UL4RYsI+xR0tNcGIYYzNe400V6zjvfjOeBeeg0r9LwGoCPI+Y/W+yFe/lcp9le5XIsJju6wvBhcTGOdoKT/Hxh9HCSYg5lbIw0ZouQYqAeUSBWRpCIA8Me90Z5im3rSwqE949NZNJ1DQMoKjixhel1AiCgz0dYhXriSIIGMafXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765138233; c=relaxed/simple;
-	bh=35W/F/8VbdXLH7Az+KezY2EH8Ryxi2hMJrREwti5yPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/Ha1BmG/SpgXGGLHtO/xz7iyMk7l/5pslEG8xDibkAdWfhmU/j+5PJk1rJMruA/pXawz/2jF+LW0r9JvNn80FW7dUbe1oqomkDPTUH6V8nLGFSytAbc+tP7dhf4VY4hMomHHMCqAGZoWpjUPDPjYQRQB5sdzXk5lbnq1H/5a+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxb5ea8H; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1765141353; c=relaxed/simple;
+	bh=uTB1O/84ZyLOpOvWGJhuYBhgvZ+y87y5pDh+Lo8TNxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gOS5wZOP9HFcTM3CAB6Xnc8z/IcA0jolAneFKSMWV0RTXXbU2mLfV/4Z0grm0lq+tXnEvg4Lys6NRMw96PTposxcPETGElCtPFPsABelpjTqWYWTHXwksh0dnKaMqDkDt5TrD+MWPCVZSyl3ILQqf/W2Ai9IguC+bg9r35EW3KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CvMZRck7; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxb5ea8H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvMZRck7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765138232; x=1796674232;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=35W/F/8VbdXLH7Az+KezY2EH8Ryxi2hMJrREwti5yPw=;
-  b=cxb5ea8H1xJJePdMrq4d45MbW7gDWynLQZBBpHeei1zZ8uy+QJwzcpSp
-   U5BpJKBK8MXKlBLYjsZ5Sqy0U8OPl/KJD3XRb8CSy4UZYZpYjySurWzju
-   ARZZn76xiI+woLA9nTDPGYr+yD+uoGXEqdCNkeVZdxc6qXF3E1L18pXNR
-   DePb3RoeVcVbKz4nxz3sJFlJ5gjiZfoU2JYiR1Iy//TOnZ5eY0ErJrFHz
-   CeFMCFcLT5UEjLOSFOeiGf+fA76wnKKOcDGYY3JORSAFCl+Qhl4o+v1DJ
-   vdr+sOqx5fufzTmavM1guuJBs5XFIcMAeccJKDAbIq02Z2AAvZgamaIJr
+  t=1765141352; x=1796677352;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uTB1O/84ZyLOpOvWGJhuYBhgvZ+y87y5pDh+Lo8TNxw=;
+  b=CvMZRck76jcedeydNZ4TO5toLInwuT1t+W9K6AKSAcC//Wd7/cK+wUGD
+   JMDEhealZwwxspEj9ndV2YXIWUboc3jkic5Zqss+SIjXYVYc4Zok9+4Lw
+   OLmnCgCtesYoEafSiw58vg+iWi92NSooi6siqMydAnAw7CE7DWhTKPNI7
+   3kDtXthrk61YsLeqdj/q7e0/UvmdlRrAAFYWoxgdBzQ+T2zLOS+AeWwq6
+   5W0dqDernp60VrJc8d+WJLlF5mychYe0XOPoMn9b/f4t1Gs2uv/WJfar7
+   VYjrH/5SdasyKB93dabo6v7WYsFc2MLOIDuwya9amgm9JVULOA9uK4+zV
    A==;
-X-CSE-ConnectionGUID: 4zn1cQMNRF+Wj0jm0vCY5w==
-X-CSE-MsgGUID: iniUcqVIR+qeN4WwNKRGvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77412374"
+X-CSE-ConnectionGUID: lTVaKMtbRpGFoWscNe4mJw==
+X-CSE-MsgGUID: BbZAHPskTRC+x6aOO6nYfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67139076"
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="77412374"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 12:10:32 -0800
-X-CSE-ConnectionGUID: cl3n6xIRQ86sk6zfVr991A==
-X-CSE-MsgGUID: 5pnB7i6NTSmZgl3mLe+ALQ==
+   d="scan'208";a="67139076"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 13:02:31 -0800
+X-CSE-ConnectionGUID: Drre6Ui3TlelohvGn7lgCQ==
+X-CSE-MsgGUID: LzXqxREPT+OK4l4AQoAYzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="195040968"
+   d="scan'208";a="195394556"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Dec 2025 12:10:29 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 07 Dec 2025 13:02:29 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSL5O-00000000Jc9-0jJw;
-	Sun, 07 Dec 2025 20:10:26 +0000
-Date: Mon, 8 Dec 2025 04:09:39 +0800
+	id 1vSLtj-00000000Jdd-2s63;
+	Sun, 07 Dec 2025 21:02:27 +0000
+Date: Mon, 8 Dec 2025 05:02:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Golle <daniel@makrotopia.org>, Hauke Mehrtens <hauke@hauke-m.de>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Rasmus Villemoes <ravi@prevas.dk>,
-	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
-	John Crispin <john@phrozen.org>
-Subject: Re: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
-Message-ID: <202512080341.Vpa2e40b-lkp@intel.com>
-References: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 1097/1100] include/linux/dcache.h:59:24:
+ error: initializer element is not constant
+Message-ID: <202512080422.MzH5TxUy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +62,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
 
-Hi Daniel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-dsa-mxl-gsw1xx-manually-clear-RANEG-bit/20251207-063852
-base:   net/main
-patch link:    https://lore.kernel.org/r/a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel%40makrotopia.org
-patch subject: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251208/202512080341.Vpa2e40b-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080341.Vpa2e40b-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   0b07bb15ac367a76fb63295e637b104506f34747
+commit: 7df2fb43bb8830f27b55ca1820e397a7258e6141 [1097/1100] bcachefs: split out create_lostfound()
+config: nios2-randconfig-001-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080422.MzH5TxUy-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080422.MzH5TxUy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080341.Vpa2e40b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080422.MzH5TxUy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/dsa/lantiq/mxl-gsw1xx.c: In function 'gsw1xx_pcs_an_restart':
->> drivers/net/dsa/lantiq/mxl-gsw1xx.c:449:35: error: 'gsw1xx_priv' undeclared (first use in this function)
-     449 |         cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
-         |                                   ^~~~~~~~~~~
-   drivers/net/dsa/lantiq/mxl-gsw1xx.c:449:35: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/fs.h:9,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/bio.h:10,
+                    from fs/bcachefs/bcachefs.h:202,
+                    from fs/bcachefs/fs/check.c:2:
+>> include/linux/dcache.h:59:24: error: initializer element is not constant
+    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
+                           ^
+   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                                       ^~~~~~~~~
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
+   include/linux/dcache.h:59:24: note: (near initialization for 'lostfound_str')
+    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
+                           ^
+   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                                       ^~~~~~~~~
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
+   include/linux/dcache.h:60:23: error: initializer element is not constant
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                          ^
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
+--
+   In file included from include/linux/fs.h:9,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/bio.h:10,
+                    from ././bcachefs.h:202,
+                    from fs/check.c:2:
+>> include/linux/dcache.h:59:24: error: initializer element is not constant
+    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
+                           ^
+   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                                       ^~~~~~~~~
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
+   include/linux/dcache.h:59:24: note: (near initialization for 'lostfound_str')
+    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
+                           ^
+   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                                       ^~~~~~~~~
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
+   include/linux/dcache.h:60:23: error: initializer element is not constant
+    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+                          ^
+   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
+    #define QSTR(n) QSTR_LEN(n, strlen(n))
+                    ^~~~~~~~
+   fs/check.c:113:36: note: in expansion of macro 'QSTR'
+    static struct qstr lostfound_str = QSTR("lost+found");
+                                       ^~~~
 
 
-vim +/gsw1xx_priv +449 drivers/net/dsa/lantiq/mxl-gsw1xx.c
+vim +59 include/linux/dcache.h
 
-   444	
-   445	static void gsw1xx_pcs_an_restart(struct phylink_pcs *pcs)
-   446	{
-   447		struct gsw1xx_priv *priv = pcs_to_gsw1xx(pcs);
-   448	
- > 449		cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
-   450	
-   451		regmap_set_bits(priv->sgmii, GSW1XX_SGMII_TBI_ANEGCTL,
-   452				GSW1XX_SGMII_TBI_ANEGCTL_RANEG);
-   453	
-   454		/* despite being documented as self-clearing, the RANEG bit
-   455		 * sometimes remains set, preventing auto-negotiation from happening.
-   456		 * MaxLinear advises to manually clear the bit after 10ms.
-   457		 */
-   458		schedule_delayed_work(&priv->clear_raneg, msecs_to_jiffies(10));
-   459	}
-   460	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  58  
+26fe5750287039 Linus Torvalds 2012-05-10 @59  #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
+5741909697a31c NeilBrown      2025-03-19  60  #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
+5741909697a31c NeilBrown      2025-03-19  61  #define QSTR(n) QSTR_LEN(n, strlen(n))
+26fe5750287039 Linus Torvalds 2012-05-10  62  
+
+:::::: The code at line 59 was first introduced by commit
+:::::: 26fe575028703948880fce4355a210c76bb0536e vfs: make it possible to access the dentry hash/len as one 64-bit entry
+
+:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
