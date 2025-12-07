@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F9C8C1F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 21:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3432224891
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 21:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765141353; cv=none; b=UL4RYsI+xR0tNcGIYYzNe400V6zjvfjOeBeeg0r9LwGoCPI+Y/W+yFe/lcp9le5XIsJju6wvBhcTGOdoKT/Hxh9HCSYg5lbIw0ZouQYqAeUSBWRpCIA8Me90Z5im3rSwqE949NZNJ1DQMoKjixhel1AiCgz0dYhXriSIIGMafXQ=
+	t=1765143214; cv=none; b=NYl0Hf/5cExfYbHdDNk4eBgw+KZD7+viE/8woAFL42Gp2BRWeCKc875HsGFshS0uy95Gkll9+298TopzrvIp3z9+/5tP+kVUDFpdSQWu80/QcxL0i3EzWoeSbzgrlF12gSo6ZL6qkd3udGZEcivn1f1S5jR0w+kQjQuPRbBHV4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765141353; c=relaxed/simple;
-	bh=uTB1O/84ZyLOpOvWGJhuYBhgvZ+y87y5pDh+Lo8TNxw=;
+	s=arc-20240116; t=1765143214; c=relaxed/simple;
+	bh=bVTXwtkLM7qsCh7YyXjIeZP3HQop8wHvddFutwJJTQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gOS5wZOP9HFcTM3CAB6Xnc8z/IcA0jolAneFKSMWV0RTXXbU2mLfV/4Z0grm0lq+tXnEvg4Lys6NRMw96PTposxcPETGElCtPFPsABelpjTqWYWTHXwksh0dnKaMqDkDt5TrD+MWPCVZSyl3ILQqf/W2Ai9IguC+bg9r35EW3KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CvMZRck7; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Xd7Ke8GXQpyn4fMvmDnUpe3PqVe65K/Pu3fhvQdJeJeo2h1pJtZcpbmpFxTslmsjE0n2e53BbHlEGYtcPV8vfrsKMLvxuFhBbfg1JbA4JK/IjbiJUYHx7/R5oCwprxJIDHePigu5dqCbcYu2sXtueZHI1qc/GGLpb7GRi1pXTkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNm81M5W; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvMZRck7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNm81M5W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765141352; x=1796677352;
+  t=1765143212; x=1796679212;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uTB1O/84ZyLOpOvWGJhuYBhgvZ+y87y5pDh+Lo8TNxw=;
-  b=CvMZRck76jcedeydNZ4TO5toLInwuT1t+W9K6AKSAcC//Wd7/cK+wUGD
-   JMDEhealZwwxspEj9ndV2YXIWUboc3jkic5Zqss+SIjXYVYc4Zok9+4Lw
-   OLmnCgCtesYoEafSiw58vg+iWi92NSooi6siqMydAnAw7CE7DWhTKPNI7
-   3kDtXthrk61YsLeqdj/q7e0/UvmdlRrAAFYWoxgdBzQ+T2zLOS+AeWwq6
-   5W0dqDernp60VrJc8d+WJLlF5mychYe0XOPoMn9b/f4t1Gs2uv/WJfar7
-   VYjrH/5SdasyKB93dabo6v7WYsFc2MLOIDuwya9amgm9JVULOA9uK4+zV
-   A==;
-X-CSE-ConnectionGUID: lTVaKMtbRpGFoWscNe4mJw==
-X-CSE-MsgGUID: BbZAHPskTRC+x6aOO6nYfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67139076"
+  bh=bVTXwtkLM7qsCh7YyXjIeZP3HQop8wHvddFutwJJTQ4=;
+  b=XNm81M5WdfxbXveA6DEz4KLEc8uwxbmuObhQZOihyy73bzdnIL9jvzxH
+   EzwoVJiLJLIFF51jDnVGwlWSg0Px2o5EfJqixI+c4UfT/NOEjBxLj09Bg
+   Ccp+C/CXLS0XJf/RLILVzsiuOAzfyoeoW9PwFZFQi2ZXrTkgU0UvFgzty
+   /7Lkt2knqP4kHRxZx8XqvTy9RipV4L8ljTzTkYQMTAmN7euUIHrjZC9C5
+   ba06z/grVZYyW6B07XZiIRvn1X+i4CfUVFpQOEOq2Xd5hoaPwXFx0KJ8y
+   a3kQSpua2JhJb3X9FG3lbJKx9STU2YgBSP/qMqUmzEsGYzr83VbOycBJ6
+   w==;
+X-CSE-ConnectionGUID: je8hcdLVQ3uK1HSWezo5zg==
+X-CSE-MsgGUID: bEp1bI50SDShZ7cfc/98GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="66987199"
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="67139076"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 13:02:31 -0800
-X-CSE-ConnectionGUID: Drre6Ui3TlelohvGn7lgCQ==
-X-CSE-MsgGUID: LzXqxREPT+OK4l4AQoAYzg==
+   d="scan'208";a="66987199"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 13:33:32 -0800
+X-CSE-ConnectionGUID: b6RkDtweR/2KtVKfOA5ATw==
+X-CSE-MsgGUID: h4fQ/eKDSiec6CGuu7vX+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="195394556"
+   d="scan'208";a="195681365"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Dec 2025 13:02:29 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 07 Dec 2025 13:33:31 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSLtj-00000000Jdd-2s63;
-	Sun, 07 Dec 2025 21:02:27 +0000
-Date: Mon, 8 Dec 2025 05:02:01 +0800
+	id 1vSMNk-00000000Jen-3Skg;
+	Sun, 07 Dec 2025 21:33:28 +0000
+Date: Mon, 8 Dec 2025 05:33:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 1097/1100] include/linux/dcache.h:59:24:
- error: initializer element is not constant
-Message-ID: <202512080422.MzH5TxUy-lkp@intel.com>
+To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3482/3482] kernel/xsched/vstream.c:94:18: sparse:
+ sparse: symbol 'xcu_find' was not declared. Should it be static?
+Message-ID: <202512080518.RsQU37Pq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   0b07bb15ac367a76fb63295e637b104506f34747
-commit: 7df2fb43bb8830f27b55ca1820e397a7258e6141 [1097/1100] bcachefs: split out create_lostfound()
-config: nios2-randconfig-001-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080422.MzH5TxUy-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080422.MzH5TxUy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
+commit: 8dde1f2e6bf6049bf69c9f510349c698e0aba49d [3482/3482] xsched: Introduce vstream management
+config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251208/202512080518.RsQU37Pq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080518.RsQU37Pq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080422.MzH5TxUy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080518.RsQU37Pq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/xsched/vstream.c:94:18: sparse: sparse: symbol 'xcu_find' was not declared. Should it be static?
 
-   In file included from include/linux/fs.h:9,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/bio.h:10,
-                    from fs/bcachefs/bcachefs.h:202,
-                    from fs/bcachefs/fs/check.c:2:
->> include/linux/dcache.h:59:24: error: initializer element is not constant
-    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-                           ^
-   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                                       ^~~~~~~~~
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
-   include/linux/dcache.h:59:24: note: (near initialization for 'lostfound_str')
-    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-                           ^
-   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                                       ^~~~~~~~~
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
-   include/linux/dcache.h:60:23: error: initializer element is not constant
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                          ^
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/bcachefs/fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
---
-   In file included from include/linux/fs.h:9,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/bio.h:10,
-                    from ././bcachefs.h:202,
-                    from fs/check.c:2:
->> include/linux/dcache.h:59:24: error: initializer element is not constant
-    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-                           ^
-   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                                       ^~~~~~~~~
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
-   include/linux/dcache.h:59:24: note: (near initialization for 'lostfound_str')
-    #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-                           ^
-   include/linux/dcache.h:60:36: note: in expansion of macro 'QSTR_INIT'
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                                       ^~~~~~~~~
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
-   include/linux/dcache.h:60:23: error: initializer element is not constant
-    #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-                          ^
-   include/linux/dcache.h:61:17: note: in expansion of macro 'QSTR_LEN'
-    #define QSTR(n) QSTR_LEN(n, strlen(n))
-                    ^~~~~~~~
-   fs/check.c:113:36: note: in expansion of macro 'QSTR'
-    static struct qstr lostfound_str = QSTR("lost+found");
-                                       ^~~~
+vim +/xcu_find +94 kernel/xsched/vstream.c
 
-
-vim +59 include/linux/dcache.h
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  58  
-26fe5750287039 Linus Torvalds 2012-05-10 @59  #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-5741909697a31c NeilBrown      2025-03-19  60  #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-5741909697a31c NeilBrown      2025-03-19  61  #define QSTR(n) QSTR_LEN(n, strlen(n))
-26fe5750287039 Linus Torvalds 2012-05-10  62  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: 26fe575028703948880fce4355a210c76bb0536e vfs: make it possible to access the dentry hash/len as one 64-bit entry
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    93	
+  > 94	struct xsched_cu *xcu_find(uint32_t type,
+    95					uint32_t dev_id, uint32_t channel_id)
+    96	{
+    97		struct xcu_group *group = NULL;
+    98	
+    99		/* Find xcu by type. */
+   100		group = xcu_group_find(xcu_group_root, type);
+   101		if (group == NULL) {
+   102			XSCHED_ERR("Fail to find type group.\n");
+   103			return NULL;
+   104		}
+   105	
+   106		/* Find device id group. */
+   107		group = xcu_group_find(group, dev_id);
+   108		if (group == NULL) {
+   109			XSCHED_ERR("Fail to find device group.\n");
+   110			return NULL;
+   111		}
+   112		/* Find channel id group. */
+   113		group = xcu_group_find(group, channel_id);
+   114		if (group == NULL) {
+   115			XSCHED_ERR("Fail to find channel group.\n");
+   116			return NULL;
+   117		}
+   118	
+   119		XSCHED_DEBUG("XCU found: type=%u, dev_id=%u, chan_id=%u.\n",
+   120			type, dev_id, channel_id);
+   121	
+   122		return group->xcu;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
