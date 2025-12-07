@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992062DC782
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 18:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502C026ED29
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 20:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765133423; cv=none; b=p9R6BBXWOZy3MUkkCkLN2Z6klWig2G/ZjqqabSF1Ze2zhbWeCzyEnni3dicZG0OuYZRujakaZYEDb0vK3Mx0kzx/LIDcwjq0+I4U1gScsivVgAI1vNY7Oxfi2vdr/2+mF3JzyJVE9pCNaCPJSwydDjWbpIufSYmmwH3u64xdg+A=
+	t=1765138232; cv=none; b=iGDH5vvWuL/Anez/PJ06J4dWWKokDi6opszkSKyiTzCSChqZ3MMlxwsxlvpklY1VoX+rQhHoi5PuhijZVbtyjp1jEnUcvc0HeTbrFhaBr4iWH040uxF/OA9nZCcfad886XVc41yoNgipqNMORjct7PqBkyHrXgoZ7GscXv3v8Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765133423; c=relaxed/simple;
-	bh=1iHiBl9eOiZ8GiUvxg8PW8iI/NkGhlRX20XfLu37T0k=;
+	s=arc-20240116; t=1765138232; c=relaxed/simple;
+	bh=6rPh9kgjEhOq53m8A5KECJhcAKDyXN2tevis4LvaGj8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=cK5Vcid77Hogy2tMpVMIF3FplEA7vPNeoJciqK0BKNbRUJB4ndhMwoHwiYt6R2wvIGbB7249rXXHYC5kMJJebuV7YGT+JgWDyji1rPnkvw7zrqTNr0QSVTgK3bZxmtaBRrUa9+S1OYx572V/Ug5X1ykSX8P29B+cwQjsQF6zcqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dKqKfqN0; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=u3bJ4K+FpUcJXCmUNX5MpbEIHYMUggMJZpJdcaU6s9ouOwpcRMQaUu8+vKrRntWHD81u+BYWRmBKGae+mJy/tLvcyDyuA4kwqxDjJ+qtv8c7olUz6slJqiIG2ehwwQwgOrAPKG9msoafj/4294iRuOqbqdvCERev9Z+flProQCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWvl/9jQ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dKqKfqN0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWvl/9jQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765133420; x=1796669420;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=1iHiBl9eOiZ8GiUvxg8PW8iI/NkGhlRX20XfLu37T0k=;
-  b=dKqKfqN063NN3ETY1tpAwqUDp2WZRk52BxJ6H8hbp8r+VdbUkNhWROnr
-   xyMTT2ibaJixLj4wDcJSeyUoVmUYUcoU89hL+NqBiFhcFhraCCq8ylk51
-   RWTF7vy1WzHL2u0+UDUtPVvVAP4b/kMoUSi+8J9KcQaC9mvaSLwVcPeoa
-   H6AL9O3CPHU/Mm5s6hlAZm1ZymPONvazvd1+U4oPdaUdp/NI7TYl61URv
-   QUhBHH9EXVMUjVZhQGTBb+3hLjAFLGb5Ee0AgL1Xu2SNZgQZzsU9HlvqU
-   THYRn+C0bH8QhqtOCo6+s00Wm+83woukuenV52jpaRIpXoEpCbf+sxKvE
-   g==;
-X-CSE-ConnectionGUID: QRsD8wkiQZOgVTUZQdqx3Q==
-X-CSE-MsgGUID: LUUPfy5uS729vfCVO8t6qA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="66091499"
+  t=1765138230; x=1796674230;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6rPh9kgjEhOq53m8A5KECJhcAKDyXN2tevis4LvaGj8=;
+  b=OWvl/9jQoqoIrgQQsqG5Txoo0fpHNu7yCcSkvKhyS4TP7SARJwMjmCVA
+   Epk69Zbn0LtgG/eIItBzsQlEzBjoUlKb2FhVnyVqgYRL6UbXxiGnXsnkd
+   dYG8kLSlk/1ZS2d6op+3X+FXd6qe0N1dBKoUXFJZP3WH2juLelw+utxEy
+   Y/+tH5Qvysi7QqdNTNzicUBej1hBYX+VmaePStwfTQIg198tk70LnZp09
+   g/UsjLY0i/rKUSTHzTskbDoQBT86FKnpFDdot0RHTpG1kmFn4exYyQ0y+
+   7oSnQ16FVurvzleddeuOuudker62xqeQqOMw0hd07Gy4EsWva+2mRnavD
+   w==;
+X-CSE-ConnectionGUID: xIR2HTisT3O7linSBSkJYA==
+X-CSE-MsgGUID: VYU2e9agSdOdsJuQL/rxtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77412371"
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="66091499"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 10:50:19 -0800
-X-CSE-ConnectionGUID: 9g3z/UH4Q1qiJa0bctWybw==
-X-CSE-MsgGUID: /01aw75JRImn+8VFrd0wzA==
+   d="scan'208";a="77412371"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 12:10:29 -0800
+X-CSE-ConnectionGUID: Sjcs/J5GTWSlKPl4OBIhew==
+X-CSE-MsgGUID: amJniU6KTtC5bksonRMPKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="196524426"
+   d="scan'208";a="195040967"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Dec 2025 10:50:18 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Dec 2025 12:10:29 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSJpn-00000000JWv-1irE;
-	Sun, 07 Dec 2025 18:50:15 +0000
-Date: Mon, 8 Dec 2025 02:50:00 +0800
+	id 1vSL5O-00000000JcB-0pjn;
+	Sun, 07 Dec 2025 20:10:26 +0000
+Date: Mon, 8 Dec 2025 04:09:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.18 regression fix] dma-mapping: Fix DMA_BIT_MASK()
- macro being broken
-Message-ID: <aTXMWMPHO7Unju2J@407caa6f7dd2>
+To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3482/3482] drivers/xcu/xcu_group.c:41:5: sparse:
+ sparse: symbol '__xcu_group_attach' was not declared. Should it be static?
+Message-ID: <202512080408.Kma3SOA7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +61,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251207184756.97904-1-johannes.goede@oss.qualcomm.com>
 
-Hi,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
+commit: b7261a251299bfdababe53a848084af2ecfcc1ae [3482/3482] xcu: Add base NPU driver support
+config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251208/202512080408.Kma3SOA7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080408.Kma3SOA7-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080408.Kma3SOA7-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+   drivers/xcu/xcu_group.c:25:18: sparse: sparse: symbol 'xsched_cu_mgr' was not declared. Should it be static?
+>> drivers/xcu/xcu_group.c:41:5: sparse: sparse: symbol '__xcu_group_attach' was not declared. Should it be static?
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+vim +/__xcu_group_attach +41 drivers/xcu/xcu_group.c
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.18 regression fix] dma-mapping: Fix DMA_BIT_MASK() macro being broken
-Link: https://lore.kernel.org/stable/20251207184756.97904-1-johannes.goede%40oss.qualcomm.com
-
-Please ignore this mail if the patch is not relevant for upstream.
+    40	
+  > 41	int __xcu_group_attach(struct xcu_group *new_group,
+    42							struct xcu_group *previous_group)
+    43	{
+    44		int id = new_group->id;
+    45	
+    46		if (id == -1)
+    47			id = idr_alloc(&previous_group->next_layer, new_group, 0,
+    48						INT_MAX, GFP_KERNEL);
+    49		else
+    50			id = idr_alloc(&previous_group->next_layer, new_group, id,
+    51						id + 1, GFP_KERNEL);
+    52	
+    53		if (id < 0) {
+    54			XSCHED_ERR("Fail to attach xcu_group: id conflict @ %s\n",
+    55					__func__);
+    56			return -EEXIST;
+    57		}
+    58		new_group->id = id;
+    59		new_group->previous_layer = previous_group;
+    60	
+    61		return 0;
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
