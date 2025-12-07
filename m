@@ -1,58 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502C026ED29
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 20:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CF02C11CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 20:10:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765138232; cv=none; b=iGDH5vvWuL/Anez/PJ06J4dWWKokDi6opszkSKyiTzCSChqZ3MMlxwsxlvpklY1VoX+rQhHoi5PuhijZVbtyjp1jEnUcvc0HeTbrFhaBr4iWH040uxF/OA9nZCcfad886XVc41yoNgipqNMORjct7PqBkyHrXgoZ7GscXv3v8Lg=
+	t=1765138233; cv=none; b=Ew8aiYRDclDi+nBf4uxbwAKR57BqBm6VCwbULlnBX50x5Boo6lQIBOCFhHTiT6vbEWNbyPs9BAEhga7IIbbgEjIF57oZOQ8rTtCiofGBWMYJRC1x0sFCFYus2az9zWoOhUAer6TiJEHNBsbwgDCdkVrFwHRJTnznE60BqHBjv+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765138232; c=relaxed/simple;
-	bh=6rPh9kgjEhOq53m8A5KECJhcAKDyXN2tevis4LvaGj8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u3bJ4K+FpUcJXCmUNX5MpbEIHYMUggMJZpJdcaU6s9ouOwpcRMQaUu8+vKrRntWHD81u+BYWRmBKGae+mJy/tLvcyDyuA4kwqxDjJ+qtv8c7olUz6slJqiIG2ehwwQwgOrAPKG9msoafj/4294iRuOqbqdvCERev9Z+flProQCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWvl/9jQ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1765138233; c=relaxed/simple;
+	bh=35W/F/8VbdXLH7Az+KezY2EH8Ryxi2hMJrREwti5yPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/Ha1BmG/SpgXGGLHtO/xz7iyMk7l/5pslEG8xDibkAdWfhmU/j+5PJk1rJMruA/pXawz/2jF+LW0r9JvNn80FW7dUbe1oqomkDPTUH6V8nLGFSytAbc+tP7dhf4VY4hMomHHMCqAGZoWpjUPDPjYQRQB5sdzXk5lbnq1H/5a+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxb5ea8H; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWvl/9jQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxb5ea8H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765138230; x=1796674230;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6rPh9kgjEhOq53m8A5KECJhcAKDyXN2tevis4LvaGj8=;
-  b=OWvl/9jQoqoIrgQQsqG5Txoo0fpHNu7yCcSkvKhyS4TP7SARJwMjmCVA
-   Epk69Zbn0LtgG/eIItBzsQlEzBjoUlKb2FhVnyVqgYRL6UbXxiGnXsnkd
-   dYG8kLSlk/1ZS2d6op+3X+FXd6qe0N1dBKoUXFJZP3WH2juLelw+utxEy
-   Y/+tH5Qvysi7QqdNTNzicUBej1hBYX+VmaePStwfTQIg198tk70LnZp09
-   g/UsjLY0i/rKUSTHzTskbDoQBT86FKnpFDdot0RHTpG1kmFn4exYyQ0y+
-   7oSnQ16FVurvzleddeuOuudker62xqeQqOMw0hd07Gy4EsWva+2mRnavD
-   w==;
-X-CSE-ConnectionGUID: xIR2HTisT3O7linSBSkJYA==
-X-CSE-MsgGUID: VYU2e9agSdOdsJuQL/rxtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77412371"
+  t=1765138232; x=1796674232;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=35W/F/8VbdXLH7Az+KezY2EH8Ryxi2hMJrREwti5yPw=;
+  b=cxb5ea8H1xJJePdMrq4d45MbW7gDWynLQZBBpHeei1zZ8uy+QJwzcpSp
+   U5BpJKBK8MXKlBLYjsZ5Sqy0U8OPl/KJD3XRb8CSy4UZYZpYjySurWzju
+   ARZZn76xiI+woLA9nTDPGYr+yD+uoGXEqdCNkeVZdxc6qXF3E1L18pXNR
+   DePb3RoeVcVbKz4nxz3sJFlJ5gjiZfoU2JYiR1Iy//TOnZ5eY0ErJrFHz
+   CeFMCFcLT5UEjLOSFOeiGf+fA76wnKKOcDGYY3JORSAFCl+Qhl4o+v1DJ
+   vdr+sOqx5fufzTmavM1guuJBs5XFIcMAeccJKDAbIq02Z2AAvZgamaIJr
+   A==;
+X-CSE-ConnectionGUID: 4zn1cQMNRF+Wj0jm0vCY5w==
+X-CSE-MsgGUID: iniUcqVIR+qeN4WwNKRGvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77412374"
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="77412371"
+   d="scan'208";a="77412374"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 12:10:29 -0800
-X-CSE-ConnectionGUID: Sjcs/J5GTWSlKPl4OBIhew==
-X-CSE-MsgGUID: amJniU6KTtC5bksonRMPKw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 12:10:32 -0800
+X-CSE-ConnectionGUID: cl3n6xIRQ86sk6zfVr991A==
+X-CSE-MsgGUID: 5pnB7i6NTSmZgl3mLe+ALQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="195040967"
+   d="scan'208";a="195040968"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 07 Dec 2025 12:10:29 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSL5O-00000000JcB-0pjn;
+	id 1vSL5O-00000000Jc9-0jJw;
 	Sun, 07 Dec 2025 20:10:26 +0000
-Date: Mon, 8 Dec 2025 04:09:40 +0800
+Date: Mon, 8 Dec 2025 04:09:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zicheng Qu <quzicheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3482/3482] drivers/xcu/xcu_group.c:41:5: sparse:
- sparse: symbol '__xcu_group_attach' was not declared. Should it be static?
-Message-ID: <202512080408.Kma3SOA7-lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>, Hauke Mehrtens <hauke@hauke-m.de>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Rasmus Villemoes <ravi@prevas.dk>,
+	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
+	John Crispin <john@phrozen.org>
+Subject: Re: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
+Message-ID: <202512080341.Vpa2e40b-lkp@intel.com>
+References: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,49 +70,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
-commit: b7261a251299bfdababe53a848084af2ecfcc1ae [3482/3482] xcu: Add base NPU driver support
-config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251208/202512080408.Kma3SOA7-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080408.Kma3SOA7-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-dsa-mxl-gsw1xx-manually-clear-RANEG-bit/20251207-063852
+base:   net/main
+patch link:    https://lore.kernel.org/r/a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel%40makrotopia.org
+patch subject: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251208/202512080341.Vpa2e40b-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080341.Vpa2e40b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080408.Kma3SOA7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080341.Vpa2e40b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/xcu/xcu_group.c:25:18: sparse: sparse: symbol 'xsched_cu_mgr' was not declared. Should it be static?
->> drivers/xcu/xcu_group.c:41:5: sparse: sparse: symbol '__xcu_group_attach' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/__xcu_group_attach +41 drivers/xcu/xcu_group.c
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c: In function 'gsw1xx_pcs_an_restart':
+>> drivers/net/dsa/lantiq/mxl-gsw1xx.c:449:35: error: 'gsw1xx_priv' undeclared (first use in this function)
+     449 |         cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
+         |                                   ^~~~~~~~~~~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:449:35: note: each undeclared identifier is reported only once for each function it appears in
 
-    40	
-  > 41	int __xcu_group_attach(struct xcu_group *new_group,
-    42							struct xcu_group *previous_group)
-    43	{
-    44		int id = new_group->id;
-    45	
-    46		if (id == -1)
-    47			id = idr_alloc(&previous_group->next_layer, new_group, 0,
-    48						INT_MAX, GFP_KERNEL);
-    49		else
-    50			id = idr_alloc(&previous_group->next_layer, new_group, id,
-    51						id + 1, GFP_KERNEL);
-    52	
-    53		if (id < 0) {
-    54			XSCHED_ERR("Fail to attach xcu_group: id conflict @ %s\n",
-    55					__func__);
-    56			return -EEXIST;
-    57		}
-    58		new_group->id = id;
-    59		new_group->previous_layer = previous_group;
-    60	
-    61		return 0;
-    62	}
-    63	
+
+vim +/gsw1xx_priv +449 drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+   444	
+   445	static void gsw1xx_pcs_an_restart(struct phylink_pcs *pcs)
+   446	{
+   447		struct gsw1xx_priv *priv = pcs_to_gsw1xx(pcs);
+   448	
+ > 449		cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
+   450	
+   451		regmap_set_bits(priv->sgmii, GSW1XX_SGMII_TBI_ANEGCTL,
+   452				GSW1XX_SGMII_TBI_ANEGCTL_RANEG);
+   453	
+   454		/* despite being documented as self-clearing, the RANEG bit
+   455		 * sometimes remains set, preventing auto-negotiation from happening.
+   456		 * MaxLinear advises to manually clear the bit after 10ms.
+   457		 */
+   458		schedule_delayed_work(&priv->clear_raneg, msecs_to_jiffies(10));
+   459	}
+   460	
 
 -- 
 0-DAY CI Kernel Test Service
