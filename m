@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6014716A395
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 12:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF96817C9E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 13:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765108904; cv=none; b=EtuvJd8+ajP73M9ULhraraRfmCSD5W5AEzbb9JgjpNQ8YQCUzKBCrWAiFbJHFOJ6vwTyUqntuIpwJHDj+V+bxzNQWyxago5W2x59TBOUoDRDe8opUaKcgQjxb8OS+yNGJtPIIfVGwe5U5NAIOj/UHsVMcKZNy0z5b1CmYd1egEo=
+	t=1765112626; cv=none; b=R1Bun8lx+RzaZEDaV0WMau0w2gWVJkEBT5uelaUmIPc3qWztT0JOeZBJiQ3qWkSfvPYctUBuQWyhlWXnSdk43hJKSZofqtKQR2ewWdU6RPuOTvhUZxkQBKO5lmUStlHR91bcYJRT5o1wv/TtoojAOB47KYE0aNw0C2cP6/Bpo8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765108904; c=relaxed/simple;
-	bh=C6cUCZO/y/QTLKM7gUEKc02TG9Ypg5braEV0bWqYRJM=;
+	s=arc-20240116; t=1765112626; c=relaxed/simple;
+	bh=X8nKL70f3jMihVVpYhKMK8sBdbM0AYPP10a0KY8ikzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MaCqa1Z309rBisGgo2nCUUh+R+JnVIB+ThKyfG/BZiOKn0KLEPPmOEucGr01i1+b4cawUM5BDf/j3LMGaj0P1jXWA2N8WBUzpcoNkNWvUxEiVkY4oqcRu3edlh6ia6LrLo45oKcQsgDPVUBovedCPVkzceYOslhW0SAzYfBI8SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DrKvJZOC; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=WvOXiMjSsxxNAwefg649OK+6UnR9ZBXijo6Ws0Cn/d8gxijaTPjwzuJbcQ6iGs3eg8ii2vKGd5bxXWfW3uUlnR2uLIbuOoI6UnqMnAO8n6YbNIOChl3aJfx44G8oihE9BItnF7BgAPwcV+7S9bvAnKdgQwPt9V1mYrBNrCmLAvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHE4Xika; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrKvJZOC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHE4Xika"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765108902; x=1796644902;
+  t=1765112625; x=1796648625;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C6cUCZO/y/QTLKM7gUEKc02TG9Ypg5braEV0bWqYRJM=;
-  b=DrKvJZOCL8sOc6hxwfkF3sPHIr8l3rV+BhntLitLSFKRxzWFO1PWohsz
-   kfN5lQisPVZczesNLrfIzK1+WQehaZLug91Uu7EAYEJZeMueVPl55T7Ji
-   6BQVy5j6fQKo8caDf21XjZByWDm6pEGTq2YmLLTqYMw8BWgR8Hk5pcNvO
-   t3OlgDl/7v28/paRY6YE2uGsZUd6wruaSFVAqFjthskDJtCQH2akZxEiz
-   OhQULpke/yii0bNHxj6gbJoN9/45mVU8iRZPr6p8dh/q85gmqNlUDOqii
-   aaRJ6lMWA0wEWrgrdUncBG/z8NODMOu+Bzer6QYngst7bhSfCc6g8M/Wx
+  bh=X8nKL70f3jMihVVpYhKMK8sBdbM0AYPP10a0KY8ikzk=;
+  b=JHE4XikayrUAy2ZlmW4MvyWPCVXe/5rd8Fesgvbe9jSj0dSVNgB7l21L
+   bRWk/kA8/GJVGRKApdOusldgTM2hk0APKNvMRuAIEg6WqgPrvXh94Rp8V
+   GikOROgqBkCUb1QVvpMKhllC+R4DxiIg38otBGjAiWiYaEWbDm0e6hVhA
+   pY0hHJrmC0bTHFW1PAJNRkrTx9j9DCy8qazKKwimpjtAh8cwxh0+LL9mz
+   MgBICDSMj3fYLCT9D/2CdXEv8nfBDgs84CJjMtKCuxRVgNm4z6IJ7SZa0
+   cyJc6Sq3I+4O8D0lUf9nxrgHHAzZU1r/SK/23e3jS4Ua+ZaXGvkwfIZb5
    Q==;
-X-CSE-ConnectionGUID: LdKNC3YfS6O2631/2TDqpg==
-X-CSE-MsgGUID: 0tO1Yss3Tg2Pnha86u75tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="70926655"
+X-CSE-ConnectionGUID: 6PO9BKdBSW2vC7a4Jxw/GQ==
+X-CSE-MsgGUID: E2IfJ8MfQdeTntGigFqRmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="92553566"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="70926655"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 04:01:41 -0800
-X-CSE-ConnectionGUID: slQhEb5bRQ+VtH1UjJ+oiQ==
-X-CSE-MsgGUID: QKWRnXIdQaGam6k+ooWjiQ==
+   d="scan'208";a="92553566"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 05:03:44 -0800
+X-CSE-ConnectionGUID: 3PG0XE2hS2ilds4aWPjnYw==
+X-CSE-MsgGUID: iPwlDsZfTHacg5qHCME4rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="233062184"
+   d="scan'208";a="195525383"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Dec 2025 04:01:40 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Dec 2025 05:03:43 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSDSL-00000000JDV-2Hxc;
-	Sun, 07 Dec 2025 12:01:37 +0000
-Date: Sun, 7 Dec 2025 20:01:10 +0800
+	id 1vSEQO-00000000JEp-2X3Y;
+	Sun, 07 Dec 2025 13:03:40 +0000
+Date: Sun, 7 Dec 2025 21:03:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:alternative-macro 5/8] include/linux/annotate.h:32:1:
- warning: parameter names (without types) in function declaration
-Message-ID: <202512071920.e9ofl8WK-lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Jon Hunter <jonathanh@nvidia.com>
+Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register
+ 'atomctl' for 'wsr' instruction
+Message-ID: <202512072036.TF3TU1wf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,75 +64,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git alternative-macro
-head:   051df5c21cbf6d9ac396c22b3ab3c51d73c0def7
-commit: 28e63e2c890661dc9bcdbe172eba06b26220d455 [5/8] objtool: Convert annotations to assembler macros
-config: powerpc-randconfig-002-20251207 (https://download.01.org/0day-ci/archive/20251207/202512071920.e9ofl8WK-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512071920.e9ofl8WK-lkp@intel.com/reproduce)
+Hi Guenter,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   37bb2e7217b01404e2abf9d90d8e5705a5603b52
+commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
+date:   3 months ago
+config: xtensa-randconfig-r054-20251207 (https://download.01.org/0day-ci/archive/20251207/202512072036.TF3TU1wf-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512072036.TF3TU1wf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512071920.e9ofl8WK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512072036.TF3TU1wf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/objtool.h:6,
-                    from kernel/bpf/core.c:28:
-   include/linux/annotate.h:32:1: warning: data definition has no type or storage class
-      32 | DEFINE_MACRO(__ANNOTATE);
-         | ^~~~~~~~~~~~
-   include/linux/annotate.h:32:1: error: type defaults to 'int' in declaration of 'DEFINE_MACRO' [-Werror=implicit-int]
->> include/linux/annotate.h:32:1: warning: parameter names (without types) in function declaration
-   include/linux/annotate.h:33:14: error: unknown type name 'ANNOTATE'
-      33 | DEFINE_MACRO(ANNOTATE(NOENDBR));
-         |              ^~~~~~~~
-   include/linux/annotate.h:34:14: error: unknown type name 'ANNOTATE'
-      34 | DEFINE_MACRO(ANNOTATE(RETPOLINE_SAFE));
-         |              ^~~~~~~~
-   include/linux/annotate.h:35:14: error: unknown type name 'ANNOTATE'
-      35 | DEFINE_MACRO(ANNOTATE(INSTR_BEGIN));
-         |              ^~~~~~~~
-   include/linux/annotate.h:36:14: error: unknown type name 'ANNOTATE'
-      36 | DEFINE_MACRO(ANNOTATE(INSTR_END));
-         |              ^~~~~~~~
-   include/linux/annotate.h:37:14: error: unknown type name 'ANNOTATE'
-      37 | DEFINE_MACRO(ANNOTATE(IGNORE_ALTERNATIVE));
-         |              ^~~~~~~~
-   include/linux/annotate.h:38:14: error: unknown type name 'ANNOTATE'
-      38 | DEFINE_MACRO(ANNOTATE(INTRA_FUNCTION_CALL));
-         |              ^~~~~~~~
-   include/linux/annotate.h:39:14: error: unknown type name 'ANNOTATE'
-      39 | DEFINE_MACRO(ANNOTATE(UNRET_BEGIN));
-         |              ^~~~~~~~
-   include/linux/annotate.h:40:14: error: unknown type name 'ANNOTATE'
-      40 | DEFINE_MACRO(ANNOTATE(REACHABLE));
-         |              ^~~~~~~~
-   include/linux/annotate.h:41:14: error: unknown type name 'ANNOTATE'
-      41 | DEFINE_MACRO(ANNOTATE(NOCFI));
-         |              ^~~~~~~~
-   include/linux/annotate.h:42:14: error: unknown type name 'ANNOTATE_DATA'
-      42 | DEFINE_MACRO(ANNOTATE_DATA(DATA_SPECIAL));
-         |              ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
+>> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
+   arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x1a0003000 truncated to 0xa0003000
 
 
-vim +32 include/linux/annotate.h
+vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
 
-    31	
-  > 32	DEFINE_MACRO(__ANNOTATE);
-    33	DEFINE_MACRO(ANNOTATE(NOENDBR));
-    34	DEFINE_MACRO(ANNOTATE(RETPOLINE_SAFE));
-    35	DEFINE_MACRO(ANNOTATE(INSTR_BEGIN));
-    36	DEFINE_MACRO(ANNOTATE(INSTR_END));
-    37	DEFINE_MACRO(ANNOTATE(IGNORE_ALTERNATIVE));
-    38	DEFINE_MACRO(ANNOTATE(INTRA_FUNCTION_CALL));
-    39	DEFINE_MACRO(ANNOTATE(UNRET_BEGIN));
-    40	DEFINE_MACRO(ANNOTATE(REACHABLE));
-    41	DEFINE_MACRO(ANNOTATE(NOCFI));
-    42	DEFINE_MACRO(ANNOTATE_DATA(DATA_SPECIAL));
-    43	
+e85e335f8ff615 Max Filippov 2012-12-03  42  
+e85e335f8ff615 Max Filippov 2012-12-03  43  	.align  4
+e85e335f8ff615 Max Filippov 2012-12-03  44  _SetupMMU:
+09af39f649dac6 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
+e85e335f8ff615 Max Filippov 2012-12-03  46  	movi	a0, 0
+e85e335f8ff615 Max Filippov 2012-12-03  47  	wsr	a0, windowbase
+e85e335f8ff615 Max Filippov 2012-12-03  48  	rsync
+e85e335f8ff615 Max Filippov 2012-12-03  49  	movi	a0, 1
+e85e335f8ff615 Max Filippov 2012-12-03  50  	wsr	a0, windowstart
+e85e335f8ff615 Max Filippov 2012-12-03  51  	rsync
+09af39f649dac6 Max Filippov 2021-07-26  52  #endif
+e85e335f8ff615 Max Filippov 2012-12-03  53  	movi	a0, 0x1F
+e85e335f8ff615 Max Filippov 2012-12-03  54  	wsr	a0, ps
+e85e335f8ff615 Max Filippov 2012-12-03  55  	rsync
+e85e335f8ff615 Max Filippov 2012-12-03  56  
+e85e335f8ff615 Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
+e85e335f8ff615 Max Filippov 2012-12-03 @58  	initialize_mmu
+
+:::::: The code at line 58 was first introduced by commit
+:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Chris Zankel <chris@zankel.net>
 
 -- 
 0-DAY CI Kernel Test Service
