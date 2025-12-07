@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C251FC8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 00:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13191FC8;
+	Sun,  7 Dec 2025 01:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765065852; cv=none; b=GOfiIuPo0uPDbYB9JxOO2RAXCkc41vBV9It825O8Lzx786fJe0TofIA6fpWg2ASlx/0YGbpfCl+4/mzky6fjmWidR8fYgXoA6EY8lKYxsELpBT0Z78Pklh4IPUmb60Gbhz05rDmn96s8WFuPyHYGbwM3rTlNl4a/eRKhONyQXK0=
+	t=1765070235; cv=none; b=GO/ICAWPkFmlIXqidSNGNflMJAjd4jCOzEpLrXg1CiySEsUI2K5mP6xtbkUmkeofnGH+bXCgn7TDz4EK9OpE0tVmUXRXlJnpMAkJo1nTYOtleNktwWotTTsmXX2jn8AL5FH5PZPPtPzU6+5z42f+t1nBsil8+y04gr4ie9tYB80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765065852; c=relaxed/simple;
-	bh=LvIA3kTvxWWwSfFC1PQVTDISe1mHFyP+IPsL+wK7h5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eVjyVydyoRaVkgXiSrqo8bbnEkMGCZNBbnjzoKSq+3ChphHg4p6ylnVJlhYpEB9pO5lKRURQug7cL1Qsf4d+p+b329Gmi6rCpMQ3cICxbS60ZbYRYwA8woLozXEbjPbOJF/7BKoPeNz+S0ffwLCAywrZWFZJYHh+R5G0Pmhsa0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx8yPLKt; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1765070235; c=relaxed/simple;
+	bh=SvD+v94iQoOG/LO0ET2QDVI1LlATn7aOjsB5xVSeOBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ko0tM1GPT0IKa+LWDQFfFNSsdwIyBh0xwTjkYzvV0pIBNHVeqWg6geLelnJekYmqx7irEuK9dwmCqw0roAt5sxA1XCIOGkqT78ubicBmgffsNKB/YcUo9mSF31zNINAZtJTUeUErXZSQx3L/f7MqcaE1c+IO90VdRmruardSTvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SaIN79tF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx8yPLKt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SaIN79tF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765065851; x=1796601851;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LvIA3kTvxWWwSfFC1PQVTDISe1mHFyP+IPsL+wK7h5g=;
-  b=Sx8yPLKtcCSQYuLj0yjey9aftBu6WR+ZLnxbLrOCWlYMbfQNKs5DFe6V
-   Kz6zioqKlEBp19q/5cgvjEpn0IyE4wIBCXIbIMY4wGGaMHa9YeSNHCRbR
-   yRv2uDgFlU1LKNiKPd4wlnOooKrD++W7uV8hGWVXjfO7gehJU4pyQjSJn
-   jyJcpdq7j/jpaQoG2govpksAaLKHJHK0HAh5A42B1iFW0p3rnj8+C3992
-   nBxpqSj6O3BQ74QX6zuTIQzQ7zBwosRyq10s8s9Tts/f/o5pQeBGL8+KT
-   23qm4sIH3O/EhwAkap8673oYcWvsxJUt7AEVUe7f+j4tAqCwi9oF/I+SM
-   g==;
-X-CSE-ConnectionGUID: eiaQG10eRDO7DHlrSPxvlQ==
-X-CSE-MsgGUID: jCGEf2RwRrSzhpDOncwbrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="66944694"
+  t=1765070233; x=1796606233;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SvD+v94iQoOG/LO0ET2QDVI1LlATn7aOjsB5xVSeOBY=;
+  b=SaIN79tFWA0+0sRYICle1ukbeKypALA+QnQGnRIAHn0kdjgtoZv1oHi1
+   9Iadb118AHohEN637zXvCSo1MYYjsBZKjqg7NgJ68GbZxNz47nblq+eMI
+   ECHK4iF/84u3xdE6zSGt3nn26uGZM/Xj5SsmAJL0vbxjAZu1VrIRUDxsI
+   F7Q0i1Dal/A6+3jkfkJp9wxNf/GjjT0tiN4z6c4Ji4Z/taksJ0OkY0QxO
+   VyDPQRSuAvABz+DKi4sxZxj1CU+567+/bW4j85SuQKbH6UGztlpegW4MF
+   DMSSd5L8tOHsWO5OWUa1dbwlj7xWT7GahZb1rZZl5g+OhqAflejk4NH3s
+   w==;
+X-CSE-ConnectionGUID: dpluJ1jZTYKpA74EOBaYZQ==
+X-CSE-MsgGUID: LBRVI1h5QbWA8ZxTxSdQbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11634"; a="66783405"
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="66944694"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 16:04:10 -0800
-X-CSE-ConnectionGUID: Uign+NePTyKRZxSVGWyGDA==
-X-CSE-MsgGUID: p9aX8CRPQ2i2knG0gmpxrQ==
+   d="scan'208";a="66783405"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2025 17:17:13 -0800
+X-CSE-ConnectionGUID: b5j8wqoTSuyNXKNCfimUrA==
+X-CSE-MsgGUID: MY7ADiU0TQ+jAhmoz/9uew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,255,1758610800"; 
-   d="scan'208";a="226261227"
+   d="scan'208";a="218968732"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Dec 2025 16:04:09 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 06 Dec 2025 17:17:10 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vS2Fy-00000000Ipx-0vWD;
-	Sun, 07 Dec 2025 00:04:06 +0000
-Date: Sun, 7 Dec 2025 08:03:08 +0800
+	id 1vS3Od-00000000Irl-3dPl;
+	Sun, 07 Dec 2025 01:17:07 +0000
+Date: Sun, 7 Dec 2025 09:16:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, y00878127 <yangxiangkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3482/3482]
- arch/arm64/kernel/virtcca_cvm_guest.c:77:16: sparse: sparse: symbol
- 'cvm_spin_cpumask' was not declared. Should it be static?
-Message-ID: <202512070750.e8G4R9UF-lkp@intel.com>
+To: Tamir Duberstein <tamird@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	Tamir Duberstein <tamird@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] printf: add __printf attribute
+Message-ID: <202512070856.1syRb0ZL-lkp@intel.com>
+References: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,32 +69,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4b48fa45408a2757255bdd0c640c1f693b424fe4
-commit: da1164d1b52edbba7cf637423e626b0647388b23 [3482/3482] Add IPI direct inject method for virtCCA CVM.
-config: arm64-randconfig-r111-20251206 (https://download.01.org/0day-ci/archive/20251207/202512070750.e8G4R9UF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070750.e8G4R9UF-lkp@intel.com/reproduce)
+Hi Tamir,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 559e608c46553c107dbba19dae0854af7b219400]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/printf-add-__printf-attribute/20251206-212115
+base:   559e608c46553c107dbba19dae0854af7b219400
+patch link:    https://lore.kernel.org/r/20251206-printf-kunit-printf-attr-v1-1-1682808b51d0%40gmail.com
+patch subject: [PATCH] printf: add __printf attribute
+config: um-randconfig-001-20251207 (https://download.01.org/0day-ci/archive/20251207/202512070856.1syRb0ZL-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251207/202512070856.1syRb0ZL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512070750.e8G4R9UF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512070856.1syRb0ZL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kernel/virtcca_cvm_guest.c:23:1: sparse: sparse: symbol 'cvm_tsi_present' was not declared. Should it be static?
->> arch/arm64/kernel/virtcca_cvm_guest.c:77:16: sparse: sparse: symbol 'cvm_spin_cpumask' was not declared. Should it be static?
-   arch/arm64/kernel/virtcca_cvm_guest.c:87:16: sparse: sparse: context imbalance in 'soft_ipi_passthrough_store' - wrong count at exit
+All warnings (new ones prefixed by >>):
 
-vim +/cvm_spin_cpumask +77 arch/arm64/kernel/virtcca_cvm_guest.c
+>> lib/tests/printf_kunit.c:270:1: warning: GCC requires a function with the '__format__' attribute to be variadic [-Wgcc-compat]
+     270 | test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
+         | ^
+   1 warning generated.
 
-    76	
-  > 77	struct cpumask cvm_spin_cpumask;
-    78	static DEFINE_SPINLOCK(ipi_passthrough_lock);
-    79	DEFINE_PER_CPU(unsigned int, virtcca_unpark_idle_notify);
-    80	DEFINE_PER_CPU(unsigned int, virtcca_park_idle_state);
-    81	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=y] && HAS_IOMEM [=n]
+   Selected by [m]:
+   - REGULATOR_RT5133 [=m] && REGULATOR [=y] && I2C [=m] && GPIOLIB [=y] && OF [=y]
+
+
+vim +/__format__ +270 lib/tests/printf_kunit.c
+
+707cc7280f452a lib/test_printf.c        Rasmus Villemoes 2015-11-06  268  
+c23bf7282349cc lib/tests/printf_kunit.c Tamir Duberstein 2025-12-06  269  static void __printf(2, 3)
+81a03aa9b88c5d lib/tests/printf_kunit.c Tamir Duberstein 2025-03-07 @270  test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  271  {
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  272  	char buf[PLAIN_BUF_SIZE];
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  273  
+81a03aa9b88c5d lib/tests/printf_kunit.c Tamir Duberstein 2025-03-07  274  	plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  275  
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  276  	test(buf, fmt, p);
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  277  }
+4d42c44727a062 lib/test_printf.c        Andy Shevchenko  2018-12-04  278  
 
 -- 
 0-DAY CI Kernel Test Service
