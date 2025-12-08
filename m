@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F2E2EB5C6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 Dec 2025 23:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB32A92E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 00:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765150059; cv=none; b=eGiKyygYUgky9HkxJ4oOKm8lWZjLxZDPgsUxPMKPItQ9kVuiL4ZI+5oF4j1ixCezg9Uz5hG+NIn/0cLveuvqJY0IOmdi9I9oceL4CahiM8eWyRTYzmV4uTr9J6wZZLvjJSACp6ppdxRaH35mP26IzgElhNuCrx4pV1kTK84kh3Q=
+	t=1765154320; cv=none; b=pNxrS2j+FlZLCSziU95vBNx+VDIbPJoXRzLsUwzaa10f0sh0B0f1jRzwUopKrWWtaj+A9cdMq7QRaWUHxa/e+AEOjHGgNXlNCitF01UNjUwUK3NEsXuL5s2FlJr9Uunx02MrDOW0HV3p6URF1R7OBYCVz5qEgmrYgAXn1FXWAzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765150059; c=relaxed/simple;
-	bh=JIckfr7Dfv3c1jBIvKkhisZI5D3tK0OfOLVgFDVrmzU=;
+	s=arc-20240116; t=1765154320; c=relaxed/simple;
+	bh=vCwLHVK9o3SHWrXrUbzoX6LD36v1LALl7OJrtE3NRNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lEzRBYDNSvnUPo0XYcDMy/hm/99Mphsai5uWTNOGoEt0WX/Jr8kmTlWizg6CjOLxbTdvIYH/JXy0DbnJ5S25MkTYe36O15yoFtiq2mVajk7WPA/xn4eVYS8QNzDjDjsXALpe7iSGKy6m3V4kEhIzpjJwq9wkirh1/8Rw3YgOyWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXtEzyXm; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=cojv96oyZYIJn9QQ1nJSjpShbI4Z4eyrPxLxdtKrGPhNdcVu0xI2q2MDYXZC+h3jM/jdg0UfnPzVeiEQJ9l8iKcd0RBKh0nNmCoBq5yb8MmXYO9XMIDpt9UYoGCsF3rdS2cX0EfS7JKfb4rwwgDqxzbwNEVK/RuN2n9RrwVFejI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ir/yAPNF; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXtEzyXm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ir/yAPNF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765150057; x=1796686057;
+  t=1765154318; x=1796690318;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JIckfr7Dfv3c1jBIvKkhisZI5D3tK0OfOLVgFDVrmzU=;
-  b=SXtEzyXmQ1M1j/ptFsK4tOSKN2ryRtgaL42QGUPNOVmj4FzgpIbnHSRm
-   XN7bXv3Y+L6MjuyTct4GC+BehZSJxbvU5VbVeFwr+ZbIFk3OT0Bwvrzya
-   rqwJHTHLmJZ9BjQ2tvlVNQVuH2XZ64rcoJjTWv72jVmxDOKPuVMZ1gTPA
-   rGRudz+ALsk+IknjtB9F21LY+MEGnRZz/ft6oWYPAY+rl8B8G5XZf4oC9
-   qwvqdfca3fb2P4mVXg57gg7vZd3FhP7Klv5Tt1v9XMG7qdPObMHLDuBBk
-   0m2OPMvBPu5XHo8IQSdpPQ+GpNMflWB1OJri6ZCC+2PZ8w1wtGWoIuKPS
-   Q==;
-X-CSE-ConnectionGUID: HKFbK3tdR1m41Lh1DW4elg==
-X-CSE-MsgGUID: yqALdUyQRw2CP4XSdcZjKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="66097680"
+  bh=vCwLHVK9o3SHWrXrUbzoX6LD36v1LALl7OJrtE3NRNA=;
+  b=Ir/yAPNF6HWucKNDUOW3y5Ai1KXJa3at9XVem04Fxes+Mw9N7ooZI6Xv
+   0qH9LmKKCALMRSs4HHQDOL2tnYRze/1uYNtPm0DQJWhRs5Zuh9U2FP+RX
+   vE0IiSY8sBP1tcGAUQcWq9fmHbV0F4MXfjXpSXFbM1th3X+KzWgkK2U1n
+   JJd6clMWmhbKjfRI6SF5O0hwauXo/R4Dv5AshqVnzzWkzeKgLRnYwjfvV
+   FOZw6NGvuf+ennwcD5o/LPUuLOdA0anTdo2xfojLP3oIyxPAhyE/7J46c
+   yxM0hVHA/DejJlcr44l+mxZ4uOQYBftArYSTBlUQ8ZX8bBLfZfuVg/fza
+   A==;
+X-CSE-ConnectionGUID: 3DNS/3J5SNmcY9uVVh9Taw==
+X-CSE-MsgGUID: 6XFNZDPrTCi023c8Hx18rA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="66992007"
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="66097680"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 15:27:37 -0800
-X-CSE-ConnectionGUID: +oWT6GIvSyuP005yMk4AdQ==
-X-CSE-MsgGUID: DXoOD5XYStS8xp9kENFCkw==
+   d="scan'208";a="66992007"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 16:38:38 -0800
+X-CSE-ConnectionGUID: eSqWVkwCS3WoAL8HhMXWvw==
+X-CSE-MsgGUID: Pw2zzrtfSqeJs8obdzNzmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,257,1758610800"; 
-   d="scan'208";a="226796017"
+   d="scan'208";a="196569328"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Dec 2025 15:27:35 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Dec 2025 16:38:37 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSOA9-00000000Jhx-2cOY;
-	Sun, 07 Dec 2025 23:27:33 +0000
-Date: Mon, 8 Dec 2025 07:26:42 +0800
+	id 1vSPGs-00000000Jjp-3eIT;
+	Mon, 08 Dec 2025 00:38:34 +0000
+Date: Mon, 8 Dec 2025 08:37:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android16-6.12-desktop 7/7]
- arch/arm64/kvm/hyp_events.c:139:1: sparse: sparse: symbol
- 'hyp_ftrace_funcs_lock' was not declared. Should it be static?
-Message-ID: <202512080740.Vp1ySejR-lkp@intel.com>
+ drivers/gpu/drm/xe/tests/xe_bo.c:461:17: sparse: sparse: cast truncates bits
+ from constant value (800000000 becomes 0)
+Message-ID: <202512080855.nVuw3IOc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,190 +63,186 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vincent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
 tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
 head:   d0bf55e49c08c429d48fa782a0bb545804ffacb6
-commit: 58ca789e21bb4fc0af3eaeacd88252a5564a816b [7/7] ANDROID: KVM: arm64: PROTECTED_NVHE_FTRACE to PKVM_FTRACE
-config: arm64-randconfig-r111-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080740.Vp1ySejR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080740.Vp1ySejR-lkp@intel.com/reproduce)
+commit: a0a3f0a41c8789060f0ed28f79066d97bfc47a8b [7/7] UPSTREAM: drm/xe: Add a xe_bo subtest for shrinking / swapping
+config: arm-randconfig-r121-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080855.nVuw3IOc-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080855.nVuw3IOc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080740.Vp1ySejR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080855.nVuw3IOc-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp_events.c: note: in included file (through arch/arm64/include/asm/kvm_define_hypevents.h):
-   arch/arm64/include/asm/kvm_hypevents.h:15:1: sparse: sparse: symbol 'hyp_event_func' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:28:1: sparse: sparse: symbol 'hyp_event_func_ret' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:40:1: sparse: sparse: symbol 'hyp_event_hyp_enter' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:49:1: sparse: sparse: symbol 'hyp_event_hyp_exit' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:58:1: sparse: sparse: symbol 'hyp_event_host_hcall' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:72:1: sparse: sparse: symbol 'hyp_event_host_smc' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:87:1: sparse: sparse: symbol 'hyp_event_host_mem_abort' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:101:1: sparse: sparse: symbol 'hyp_event___hyp_printk' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:121:1: sparse: sparse: symbol 'hyp_event_psci_mem_protect' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:134:1: sparse: sparse: symbol 'hyp_event_vcpu_illegal_trap' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:154:1: sparse: sparse: symbol 'hyp_event_iommu_idmap' was not declared. Should it be static?
-   arch/arm64/include/asm/kvm_hypevents.h:169:1: sparse: sparse: symbol 'hyp_event_iommu_idmap_complete' was not declared. Should it be static?
-   arch/arm64/kvm/hyp_events.c:51:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/hyp_events.c:51:15: sparse:    struct hyp_table [noderef] __rcu *
-   arch/arm64/kvm/hyp_events.c:51:15: sparse:    struct hyp_table *
-   arch/arm64/kvm/hyp_events.c:51:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/hyp_events.c:51:15: sparse:    struct hyp_table [noderef] __rcu *
-   arch/arm64/kvm/hyp_events.c:51:15: sparse:    struct hyp_table *
-   arch/arm64/kvm/hyp_events.c:66:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/hyp_events.c:66:17: sparse:    struct hyp_table [noderef] __rcu *
-   arch/arm64/kvm/hyp_events.c:66:17: sparse:    struct hyp_table *
->> arch/arm64/kvm/hyp_events.c:139:1: sparse: sparse: symbol 'hyp_ftrace_funcs_lock' was not declared. Should it be static?
->> arch/arm64/kvm/hyp_events.c:417:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp_events.c:417:23: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp_events.c:417:23: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kvm/hyp_events.c:428:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp_events.c:428:15: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp_events.c:428:15: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kvm/hyp_events.c:693:18: sparse: sparse: symbol '__hyp_trace_find_event_name' was not declared. Should it be static?
-   arch/arm64/kvm/hyp_events.c:716:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/hyp_events.c:716:17: sparse:    struct hyp_table [noderef] __rcu *
-   arch/arm64/kvm/hyp_events.c:716:17: sparse:    struct hyp_table *
-   arch/arm64/kvm/hyp_events.c:705:18: sparse: sparse: symbol 'hyp_trace_find_event_name' was not declared. Should it be static?
---
->> arch/arm64/kvm/hyp/nvhe/ftrace.c:142:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:142:15: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:142:15: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:155:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:155:15: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:155:15: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:175:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:175:15: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:175:15: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:245:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:245:23: sparse:     expected unsigned int [usertype]
-   arch/arm64/kvm/hyp/nvhe/ftrace.c:245:23: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/xe/xe_bo.c: note: in included file:
+>> drivers/gpu/drm/xe/tests/xe_bo.c:461:17: sparse: sparse: cast truncates bits from constant value (800000000 becomes 0)
+   drivers/gpu/drm/xe/tests/xe_bo.c:464:25: sparse: sparse: cast truncates bits from constant value (400000000 becomes 0)
 
-vim +/hyp_ftrace_funcs_lock +139 arch/arm64/kvm/hyp_events.c
+vim +461 drivers/gpu/drm/xe/tests/xe_bo.c
 
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   30  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   31  #define nr_entries(__start, __stop) \
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   32  	(((unsigned long)__stop - (unsigned long)__start) / sizeof(*__start))
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   33  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   34  static int hyp_table_add(struct hyp_mod_tables *mod_tables, void *start,
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   35  			 unsigned long nr_entries)
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   36  {
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   37  	struct hyp_table *new, *old;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   38  	int i;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   39  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   40  	new = kmalloc_array(mod_tables->nr_tables + 1, sizeof(*new), GFP_KERNEL);
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   41  	if (!new)
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   42  		return -ENOMEM;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   43  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   44  	for (i = 0; i < mod_tables->nr_tables; i++) {
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   45  		new[i].start = mod_tables->tables[i].start;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   46  		new[i].nr_entries = mod_tables->tables[i].nr_entries;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   47  	}
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   48  	new[i].start = start;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   49  	new[i].nr_entries = nr_entries;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   50  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12  @51  	old = rcu_replace_pointer(mod_tables->tables, new, true);
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   52  	synchronize_rcu();
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   53  	mod_tables->nr_tables++;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   54  	kfree(old);
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   55  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   56  	return 0;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   57  }
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   58  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   59  static void *hyp_table_entry(struct hyp_mod_tables *mod_tables,
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   60  			     size_t entry_size, unsigned long id)
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   61  {
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   62  	struct hyp_table *table;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   63  	void *entry = NULL;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   64  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   65  	rcu_read_lock();
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   66  	table = rcu_dereference(mod_tables->tables);
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   67  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   68  	for (int i = 0; i < mod_tables->nr_tables; i++) {
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   69  		if (table->nr_entries <= id) {
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   70  			id -= table->nr_entries;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   71  			table++;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   72  			continue;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   73  		}
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   74  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   75  		entry = (void *)((char *)table->start + (id * entry_size));
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   76  		break;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   77  	}
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   78  	rcu_read_unlock();
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   79  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   80  	return entry;
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   81  }
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   82  
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   83  extern struct hyp_printk_fmt __hyp_printk_fmts_start[];
-3d1cb21f1918aa Vincent Donnefort 2024-08-12   84  extern struct hyp_printk_fmt __hyp_printk_fmts_end[];
-1235f3457b1143 Vincent Donnefort 2023-08-07   85  
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   86  static struct hyp_mod_tables mod_printk_fmt_tables;
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   87  static unsigned long total_printk_fmts;
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   88  
-1235f3457b1143 Vincent Donnefort 2023-08-07   89  static const char *hyp_printk_fmt_from_id(u8 fmt_id)
-1235f3457b1143 Vincent Donnefort 2023-08-07   90  {
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   91  	u8 nr_fmts = nr_entries(__hyp_printk_fmts_start, __hyp_printk_fmts_end);
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   92  	struct hyp_printk_fmt *fmt = NULL;
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   93  
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   94  	if (fmt_id < nr_fmts)
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   95  		return (__hyp_printk_fmts_start + fmt_id)->fmt;
-1235f3457b1143 Vincent Donnefort 2023-08-07   96  
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   97  	fmt_id -= nr_fmts;
-1235f3457b1143 Vincent Donnefort 2023-08-07   98  
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11   99  	fmt = hyp_table_entry(&mod_printk_fmt_tables, sizeof(*fmt), fmt_id);
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11  100  
-c7a85f5f4ce786 Vincent Donnefort 2024-07-11  101  	return fmt ? fmt->fmt : "Unknown Format";
-1235f3457b1143 Vincent Donnefort 2023-08-07  102  }
-1235f3457b1143 Vincent Donnefort 2023-08-07  103  
-58ca789e21bb4f Vincent Donnefort 2025-02-21  104  #ifdef CONFIG_PKVM_FTRACE
-e5a5778f97569e Vincent Donnefort 2024-10-01  105  extern unsigned long __hyp_patchable_function_entries_start[];
-e5a5778f97569e Vincent Donnefort 2024-10-01  106  extern unsigned long __hyp_patchable_function_entries_end[];
-e5a5778f97569e Vincent Donnefort 2024-10-01  107  extern unsigned long kvm_nvhe_sym(__hyp_text_start_kern);
-e5a5778f97569e Vincent Donnefort 2024-10-01  108  
-e5a5778f97569e Vincent Donnefort 2024-10-01  109  static int hyp_ftrace_init_lr_ins(unsigned long addr)
-e5a5778f97569e Vincent Donnefort 2024-10-01  110  {
-e5a5778f97569e Vincent Donnefort 2024-10-01  111  	u32 old, new;
-e5a5778f97569e Vincent Donnefort 2024-10-01  112  
-e5a5778f97569e Vincent Donnefort 2024-10-01  113  	if (aarch64_insn_read((void *)addr, &old))
-e5a5778f97569e Vincent Donnefort 2024-10-01  114  		return -EFAULT;
-e5a5778f97569e Vincent Donnefort 2024-10-01  115  
-e5a5778f97569e Vincent Donnefort 2024-10-01  116  	if (old != aarch64_insn_gen_nop())
-e5a5778f97569e Vincent Donnefort 2024-10-01  117  		return -EINVAL;
-e5a5778f97569e Vincent Donnefort 2024-10-01  118  
-e5a5778f97569e Vincent Donnefort 2024-10-01  119  	new = aarch64_insn_gen_move_reg(AARCH64_INSN_REG_9,
-e5a5778f97569e Vincent Donnefort 2024-10-01  120  					AARCH64_INSN_REG_LR,
-e5a5778f97569e Vincent Donnefort 2024-10-01  121  					AARCH64_INSN_VARIANT_64BIT);
-e5a5778f97569e Vincent Donnefort 2024-10-01  122  	if (aarch64_insn_patch_text_nosync((void *)addr, new))
-e5a5778f97569e Vincent Donnefort 2024-10-01  123  		return -EPERM;
-e5a5778f97569e Vincent Donnefort 2024-10-01  124  
-e5a5778f97569e Vincent Donnefort 2024-10-01  125  	return 0;
-e5a5778f97569e Vincent Donnefort 2024-10-01  126  }
-e5a5778f97569e Vincent Donnefort 2024-10-01  127  
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  128  static unsigned long *hyp_ftrace_funcs_pg;
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  129  static char hyp_ftrace_filter_early[128];
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  130  
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  131  static __init int setup_hyp_ftrace_filter_early_early(char *str)
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  132  {
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  133  	strscpy(hyp_ftrace_filter_early, str, sizeof(hyp_ftrace_filter_early));
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  134  
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  135  	return 1;
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  136  }
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  137  __setup("hyp_ftrace_filter=", setup_hyp_ftrace_filter_early_early);
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  138  
-5740e8b1a01c70 Vincent Donnefort 2024-10-01 @139  DEFINE_MUTEX(hyp_ftrace_funcs_lock);
-5740e8b1a01c70 Vincent Donnefort 2024-10-01  140  
-
-:::::: The code at line 139 was first introduced by commit
-:::::: 5740e8b1a01c70c309080c128db78af4433005a1 ANDROID: KVM: arm64: Add set_ftrace_filter for pKVM hyp
-
-:::::: TO: Vincent Donnefort <vdonnefort@google.com>
-:::::: CC: Vincent Donnefort <vdonnefort@google.com>
+   435	
+   436	/*
+   437	 * Try to create system bos corresponding to twice the amount
+   438	 * of available system memory to test shrinker functionality.
+   439	 * If no swap space is available to accommodate the
+   440	 * memory overcommit, mark bos purgeable.
+   441	 */
+   442	static int shrink_test_run_device(struct xe_device *xe)
+   443	{
+   444		struct kunit *test = kunit_get_current_test();
+   445		LIST_HEAD(bos);
+   446		struct xe_bo_link *link, *next;
+   447		struct sysinfo si;
+   448		size_t ram, ram_and_swap, purgeable, alloced, to_alloc, limit;
+   449		unsigned int interrupted = 0, successful = 0, count = 0;
+   450		struct rnd_state prng;
+   451		u64 rand_seed;
+   452		bool failed = false;
+   453	
+   454		rand_seed = get_random_u64();
+   455		prandom_seed_state(&prng, rand_seed);
+   456		kunit_info(test, "Random seed is 0x%016llx.\n",
+   457			   (unsigned long long)rand_seed);
+   458	
+   459		/* Skip if execution time is expected to be too long. */
+   460	
+ > 461		limit = SZ_32G;
+   462		/* IGFX with flat CCS needs to copy when swapping / shrinking */
+   463		if (!IS_DGFX(xe) && xe_device_has_flat_ccs(xe))
+   464			limit = SZ_16G;
+   465	
+   466		si_meminfo(&si);
+   467		ram = (size_t)si.freeram * si.mem_unit;
+   468		if (ram > limit) {
+   469			kunit_skip(test, "Too long expected execution time.\n");
+   470			return 0;
+   471		}
+   472		to_alloc = ram * 2;
+   473	
+   474		ram_and_swap = ram + get_nr_swap_pages() * PAGE_SIZE;
+   475		if (to_alloc > ram_and_swap)
+   476			purgeable = to_alloc - ram_and_swap;
+   477		purgeable += purgeable / 5;
+   478	
+   479		kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
+   480			   (unsigned long)ram);
+   481		for (alloced = 0; alloced < to_alloc; alloced += XE_BO_SHRINK_SIZE) {
+   482			struct xe_bo *bo;
+   483			unsigned int mem_type;
+   484			struct xe_ttm_tt *xe_tt;
+   485	
+   486			link = kzalloc(sizeof(*link), GFP_KERNEL);
+   487			if (!link) {
+   488				KUNIT_FAIL(test, "Unexpected link allocation failure\n");
+   489				failed = true;
+   490				break;
+   491			}
+   492	
+   493			INIT_LIST_HEAD(&link->link);
+   494	
+   495			/* We can create bos using WC caching here. But it is slower. */
+   496			bo = xe_bo_create_user(xe, NULL, NULL, XE_BO_SHRINK_SIZE,
+   497					       DRM_XE_GEM_CPU_CACHING_WB,
+   498					       XE_BO_FLAG_SYSTEM);
+   499			if (IS_ERR(bo)) {
+   500				if (bo != ERR_PTR(-ENOMEM) && bo != ERR_PTR(-ENOSPC) &&
+   501				    bo != ERR_PTR(-EINTR) && bo != ERR_PTR(-ERESTARTSYS))
+   502					KUNIT_FAIL(test, "Error creating bo: %pe\n", bo);
+   503				kfree(link);
+   504				failed = true;
+   505				break;
+   506			}
+   507			xe_bo_lock(bo, false);
+   508			xe_tt = container_of(bo->ttm.ttm, typeof(*xe_tt), ttm);
+   509	
+   510			/*
+   511			 * Allocate purgeable bos first, because if we do it the
+   512			 * other way around, they may not be subject to swapping...
+   513			 */
+   514			if (alloced < purgeable) {
+   515				xe_tt->purgeable = true;
+   516				bo->ttm.priority = 0;
+   517			} else {
+   518				int ret = shrink_test_fill_random(bo, &prng, link);
+   519	
+   520				if (ret) {
+   521					xe_bo_unlock(bo);
+   522					xe_bo_put(bo);
+   523					KUNIT_FAIL(test, "Error filling bo with random data: %pe\n",
+   524						   ERR_PTR(ret));
+   525					kfree(link);
+   526					failed = true;
+   527					break;
+   528				}
+   529			}
+   530	
+   531			mem_type = bo->ttm.resource->mem_type;
+   532			xe_bo_unlock(bo);
+   533			link->bo = bo;
+   534			list_add_tail(&link->link, &bos);
+   535	
+   536			if (mem_type != XE_PL_TT) {
+   537				KUNIT_FAIL(test, "Bo in incorrect memory type: %u\n",
+   538					   bo->ttm.resource->mem_type);
+   539				failed = true;
+   540			}
+   541			cond_resched();
+   542			if (signal_pending(current))
+   543				break;
+   544		}
+   545	
+   546		/*
+   547		 * Read back and destroy bos. Reset the pseudo-random seed to get an
+   548		 * identical pseudo-random number sequence for readback.
+   549		 */
+   550		prandom_seed_state(&prng, rand_seed);
+   551		list_for_each_entry_safe(link, next, &bos, link) {
+   552			static struct ttm_operation_ctx ctx = {.interruptible = true};
+   553			struct xe_bo *bo = link->bo;
+   554			struct xe_ttm_tt *xe_tt;
+   555			int ret;
+   556	
+   557			count++;
+   558			if (!signal_pending(current) && !failed) {
+   559				bool purgeable, intr = false;
+   560	
+   561				xe_bo_lock(bo, NULL);
+   562	
+   563				/* xe_tt->purgeable is cleared on validate. */
+   564				xe_tt = container_of(bo->ttm.ttm, typeof(*xe_tt), ttm);
+   565				purgeable = xe_tt->purgeable;
+   566				do {
+   567					ret = ttm_bo_validate(&bo->ttm, &tt_placement, &ctx);
+   568					if (ret == -EINTR)
+   569						intr = true;
+   570				} while (ret == -EINTR && !signal_pending(current));
+   571	
+   572				if (!ret && !purgeable)
+   573					failed = shrink_test_verify(test, bo, count, &prng, link);
+   574	
+   575				xe_bo_unlock(bo);
+   576				if (ret) {
+   577					KUNIT_FAIL(test, "Validation failed: %pe\n",
+   578						   ERR_PTR(ret));
+   579					failed = true;
+   580				} else if (intr) {
+   581					interrupted++;
+   582				} else {
+   583					successful++;
+   584				}
+   585			}
+   586			xe_bo_put(link->bo);
+   587			list_del(&link->link);
+   588			kfree(link);
+   589		}
+   590		kunit_info(test, "Readbacks interrupted: %u successful: %u\n",
+   591			   interrupted, successful);
+   592	
+   593		return 0;
+   594	}
+   595	
 
 -- 
 0-DAY CI Kernel Test Service
