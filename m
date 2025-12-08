@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079053191A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 06:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AFC2BE657
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 08:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765175646; cv=none; b=uVeBRW+Lign7GmMWT/gDsCYzjLCZKFdYid4GlVImV/KIC81Gp6fXpxjJQw5ggkv2jxxB3ESEmVCd3jNV2aisIvkGp/FsJiUf4IG3WlpCxjnCx/lt8jfg3Oz7uA+uomrXd8IgP0b5ZqlcRLUHl3SFCZeGLo8ZVtI1+b5/wF8wqnc=
+	t=1765183807; cv=none; b=g+g9SkuJc7wFz1hvT5vzo8O7BiCPqZ2QCGJjBFE96Hq4S0B96NjWpPq//9opLn+zISKBn/+xB+3A6ci3QSeIvxwN9Md9L5mhCbi/MMjwn3OKK2fG4sGgX44VaHnG++NVkynr3EeS4LQAYpU7xjiaiuHVx9WoVNoJl3eDcg8hdLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765175646; c=relaxed/simple;
-	bh=HRQwd4wavpEJpScIdgMPxPSKHlEuZ7qve81vRYRYNGM=;
+	s=arc-20240116; t=1765183807; c=relaxed/simple;
+	bh=+93XGelh+Hv6ROQ2UnVcaqODBpQb41rrSVyU3W8u+FY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h2a97wMqdvQJ4s+zFC974WzROYrkiZu/mDjRDtzdLXGCymzz7shfao9f/ygYhkPH9XQ4sQD1QC6TSTB5QvKCigylio422sqJACtRaERz/ybI6fdaysbqZ0KMOA/sIa2JIMKv9Ze4YM+niWwopXt441CXU3Wm+ys+yHRiNILNyAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZX2hsiQu; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=uQooOxPMJIj82/Urn3bF4v7brxLeNC9HDm31y6g7COqxwBGNf7TapKK2zN4dWukjiY5WcEByZ7BayikO6rHgUejvKzfFPKZk78WFEG4VjjqoHskkPZE4ZWiEbeEQ/pOwlIm07o5+aBS22c2c9/mKuCDIqmU9XKuzXGN+38GSrb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dIWDI/XA; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZX2hsiQu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dIWDI/XA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765175644; x=1796711644;
+  t=1765183803; x=1796719803;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HRQwd4wavpEJpScIdgMPxPSKHlEuZ7qve81vRYRYNGM=;
-  b=ZX2hsiQu+f+Wx2AYoiSj3YjacaU9WAUB2zXysW4nQtwBugjmQGow7EY/
-   yuFzvkrO4yD8ezyi01IfVHqypGyWCYdQE3KwRjXPJlC+sQk64EUxORlSh
-   sjVEB8gq8W4CsTIiD3IV4yo/hukxEVMCJgcplAGI9o2pYS0ttpfC3fQqu
-   WU17g/CZfd39K6utg/E+W83wLzZtaBY55z/VWfsqFaGCtzccgYF3ld2Gu
-   iZP24g0IytRHDMp5UGJCB2FcDIFr0tpezyNGyyOe/AEP9m2oWiW5iKXCY
-   frfM7rDiOIPJQPw19C7BShxAp4ZsLUwsLSvJzdSUJLQVFjHBj8jPruxwb
-   A==;
-X-CSE-ConnectionGUID: LAwAMDKCRBuKwHMRbvj/Yw==
-X-CSE-MsgGUID: mJiAKWKnSiKnkf3tnKcYrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="54655690"
+  bh=+93XGelh+Hv6ROQ2UnVcaqODBpQb41rrSVyU3W8u+FY=;
+  b=dIWDI/XAaEJje2ZIWUXagH80SV1zXc6NQdadXYAUexPssmRBLYBtlmeq
+   INxjiHIOfCVPndlZH5q/2P6G1Qb+g7fYCqlvyAtmAP3pVkA+SnXKnEJ6m
+   K98yARtdlNmW5NbiG8g622OFHnmHO6mByO9q6CHhNkMl/+JYn5KKk78/N
+   75+OsPerAg3GGKgx+ZNZlvmNo4j9GXtu9efpfTnR3tNkv6Azp0xhpnyDI
+   t6N5amFCGWlxDyCRov7WkCiN0+r0Y62DxUzqZJzJOQIq8FuB0DRn94FEc
+   EqU5eJgJnWYrHOGFV+XQJBwyR/ncJI9RIx9ujwm6W787/BIuCx/Wriw39
+   w==;
+X-CSE-ConnectionGUID: ZbTXQINHTmes/MkVeX+hSg==
+X-CSE-MsgGUID: 8FLA6AezRI+ujr1Nl3sZfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67285514"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="54655690"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 22:34:01 -0800
-X-CSE-ConnectionGUID: Q0/LEYFzTxaceqJ8DwxBEw==
-X-CSE-MsgGUID: nb46mcNdQ8uZAUVSIPmvfQ==
+   d="scan'208";a="67285514"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 00:50:03 -0800
+X-CSE-ConnectionGUID: 517D4rNyTdqu7pwB2/jU/w==
+X-CSE-MsgGUID: XRokE3A2QJ26lXajr0xO7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="200985515"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Dec 2025 22:34:00 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+   d="scan'208";a="196344315"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Dec 2025 00:50:00 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSUon-00000000K2P-3iRp;
-	Mon, 08 Dec 2025 06:33:57 +0000
-Date: Mon, 8 Dec 2025 14:33:30 +0800
+	id 1vSWwQ-0000000001e-21vp;
+	Mon, 08 Dec 2025 08:49:58 +0000
+Date: Mon, 8 Dec 2025 16:49:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 459/1104]
- fs/bcachefs/alloc/backpointers.c:986:25: error: implicit declaration of
- function '__WARN'; did you mean '__warn'?
-Message-ID: <202512081449.ARd9tuUF-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3485/3485] mm/internal.h:1522:55: warning:
+ diagnostic behavior may be improved by adding the 'format(printf, 2, 0)'
+ attribute to the declaration of 'shrinker_debugfs_name_alloc'
+Message-ID: <202512081644.0Feaab8s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,186 +63,234 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kent,
-
-First bad commit (maybe != root cause):
-
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   2f94f2e080a961cd6401d4bea5c31ff03516d30e
-commit: 3fdc7b4035515f784e1d442bcca383f5c0267e53 [459/1104] bcachefs: move alloc files to subdir
-config: alpha-randconfig-r133-20251206 (https://download.01.org/0day-ci/archive/20251208/202512081449.ARd9tuUF-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081449.ARd9tuUF-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b3214ddbe58a44bd3829617668a8d301c8f1994e
+commit: 5d638f251ef64f68766caaeaf41fbe159807b392 [3485/3485] mm: shrinker: add infrastructure for dynamically allocating shrinker
+config: arm64-randconfig-004-20251208 (https://download.01.org/0day-ci/archive/20251208/202512081644.0Feaab8s-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 000e46219ba1ee53fc42d35e00c314c2807e8b14)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081644.0Feaab8s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512081449.ARd9tuUF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512081644.0Feaab8s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/bcachefs/alloc/backpointers.c: In function 'check_bucket_backpointer_mismatch':
->> fs/bcachefs/alloc/backpointers.c:986:25: error: implicit declaration of function '__WARN'; did you mean '__warn'? [-Wimplicit-function-declaration]
-     986 |                         __WARN();
-         |                         ^~~~~~
-         |                         __warn
+   In file included from mm/secretmem.c:26:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   1 warning generated.
+--
+   In file included from mm/page_alloc.c:59:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/page_alloc.c:7210:20: warning: unused function 'has_unaccepted_memory' [-Wunused-function]
+    7210 | static inline bool has_unaccepted_memory(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+--
+   In file included from mm/shrinker.c:7:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+>> mm/shrinker.c:565:53: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'shrinker_alloc' [-Wmissing-format-attribute]
+     565 |         err = shrinker_debugfs_name_alloc(shrinker, fmt, ap);
+         |                                                            ^
+   include/linux/shrinker.h:111:18: note: 'shrinker_alloc' declared here
+     111 | struct shrinker *shrinker_alloc(unsigned int flags, const char *fmt, ...);
+         |                  ^
+   2 warnings generated.
+--
+   In file included from mm/list_lru.c:16:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/list_lru.c:98:20: warning: unused function 'list_lru_memcg_aware' [-Wunused-function]
+      98 | static inline bool list_lru_memcg_aware(struct list_lru *lru)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+--
+   In file included from mm/madvise.c:37:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/madvise.c:285:6: warning: no previous prototype for function 'force_swapin_vma' [-Wmissing-prototypes]
+     285 | void force_swapin_vma(struct vm_area_struct *vma)
+         |      ^
+   mm/madvise.c:285:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     285 | void force_swapin_vma(struct vm_area_struct *vma)
+         | ^
+         | static 
+   2 warnings generated.
+--
+   In file included from mm/memblock.c:23:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/memblock.c:1444:20: warning: no previous prototype for function 'memblock_alloc_range_nid_flags' [-Wmissing-prototypes]
+    1444 | phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+         |                    ^
+   mm/memblock.c:1444:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1444 | phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+         | ^
+         | static 
+   2 warnings generated.
+--
+   In file included from mm/mempolicy.c:111:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/mempolicy.c:1123:25: warning: variable 'vma' set but not used [-Wunused-but-set-variable]
+    1123 |         struct vm_area_struct *vma;
+         |                                ^
+   mm/mempolicy.c:2959:25: warning: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
+    2959 |                 struct vm_area_struct pvma;
+         |                                       ^
+   include/linux/mm_types.h:659:20: note: member 'vm_flags' declared 'const' here
+     659 |                 const vm_flags_t vm_flags;
+         |                                  ^
+   3 warnings generated.
+--
+   In file included from mm/memory.c:93:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/memory.c:5512:17: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
+    5512 |         int flags = 0, nr_pages;
+         |                        ^
+   2 warnings generated.
+--
+   In file included from mm/shmem.c:43:
+   mm/swap.h:66:19: error: call to undeclared function 'swp_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      66 |         pgoff_t offset = swp_offset(entry);
+         |                          ^
+   In file included from mm/shmem.c:58:
+   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     158 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     159 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+     136 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   In file included from mm/shmem.c:68:
+   include/linux/swapops.h:107:23: error: static declaration of 'swp_offset' follows non-static declaration
+     107 | static inline pgoff_t swp_offset(swp_entry_t entry)
+         |                       ^
+   mm/swap.h:66:19: note: previous implicit declaration is here
+      66 |         pgoff_t offset = swp_offset(entry);
+         |                          ^
+   In file included from mm/shmem.c:86:
+>> mm/internal.h:1522:55: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'shrinker_debugfs_name_alloc' [-Wmissing-format-attribute]
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         | __attribute__((format(printf, 2, 0))) 
+    1520 |                                               const char *fmt, va_list ap)
+    1521 | {
+    1522 |         shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                                                              ^
+   mm/internal.h:1519:19: note: 'shrinker_debugfs_name_alloc' declared here
+    1519 | static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+         |                   ^
+   mm/shmem.c:1747:24: warning: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
+    1747 |         struct vm_area_struct pvma;
+         |                               ^
+   include/linux/mm_types.h:659:20: note: member 'vm_flags' declared 'const' here
+     659 |                 const vm_flags_t vm_flags;
+         |                                  ^
+   mm/shmem.c:1877:24: warning: default initialization of an object of type 'struct vm_area_struct' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
+    1877 |         struct vm_area_struct pvma;
+         |                               ^
+   include/linux/mm_types.h:659:20: note: member 'vm_flags' declared 'const' here
+     659 |                 const vm_flags_t vm_flags;
+         |                                  ^
+   5 warnings and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_SUPPORTS_SCHED_SOFT_QUOTA
+   Depends on [n]: CGROUPS [=n]
+   Selected by [y]:
+   - ARM64 [=y]
 
 
-vim +986 fs/bcachefs/alloc/backpointers.c
+vim +1522 mm/internal.h
 
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   883  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   884  static int check_bucket_backpointers_to_extents(struct btree_trans *, struct bch_dev *, struct bpos,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   885  						struct bkey_buf *last_flushed);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   886  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   887  static int check_bucket_backpointer_mismatch(struct btree_trans *trans, struct bkey_s_c alloc_k,
-39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   888  					     bool *had_mismatch,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   889  					     struct bkey_buf *last_flushed,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   890  					     struct bpos *last_pos,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   891  					     unsigned *nr_iters)
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   892  {
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   893  	struct bch_fs *c = trans->c;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   894  	struct bch_alloc_v4 a_convert;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   895  	const struct bch_alloc_v4 *a = bch2_alloc_to_v4(alloc_k, &a_convert);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   896  	bool need_commit = false;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   897  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   898  	if (!bpos_eq(*last_pos, alloc_k.k->p))
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   899  		*nr_iters = 0;
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   900  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   901  	*last_pos = alloc_k.k->p;
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   902  
-39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   903  	*had_mismatch = false;
-39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   904  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   905  	if (a->data_type == BCH_DATA_sb ||
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   906  	    a->data_type == BCH_DATA_journal ||
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   907  	    a->data_type == BCH_DATA_parity)
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   908  		return 0;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   909  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   910  	u32 sectors[ALLOC_SECTORS_NR];
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   911  	memset(sectors, 0, sizeof(sectors));
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   912  
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   913  	CLASS(bch2_dev_bucket_tryget_noerror, ca)(trans->c, alloc_k.k->p);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   914  	if (!ca)
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   915  		return 0;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   916  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   917  	struct bkey_s_c bp_k;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   918  	int ret = 0;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   919  	for_each_btree_key_max_norestart(trans, iter, BTREE_ID_backpointers,
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   920  				bucket_pos_to_bp_start(ca, alloc_k.k->p),
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   921  				bucket_pos_to_bp_end(ca, alloc_k.k->p), 0, bp_k, ret) {
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   922  		if (bp_k.k->type != KEY_TYPE_backpointer)
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   923  			continue;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   924  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   925  		struct bkey_s_c_backpointer bp = bkey_s_c_to_backpointer(bp_k);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   926  
-2b67b72da5a034 fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08   927  		if (c->sb.version_upgrade_complete < bcachefs_metadata_version_backpointer_bucket_gen &&
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   928  		    (bp.v->bucket_gen != a->gen ||
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   929  		     bp.v->pad)) {
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   930  			ret = bch2_backpointer_del(trans, bp_k.k->p);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   931  			if (ret)
-f6ecd9850b5e0b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-30   932  				return ret;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   933  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   934  			need_commit = true;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   935  			continue;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   936  		}
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   937  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   938  		if (bp.v->bucket_gen != a->gen)
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   939  			continue;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   940  
-962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   941  		int alloc_counter = data_type_to_alloc_counter(bp.v->data_type);
-962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   942  		if (alloc_counter < 0)
-962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   943  			continue;
-962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   944  
-962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   945  		sectors[alloc_counter] += bp.v->bucket_len;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   946  	};
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   947  	if (ret)
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   948  		return ret;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   949  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   950  	if (need_commit) {
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   951  		ret = bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   952  		if (ret)
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   953  			return ret;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   954  	}
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   955  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   956  	if (sectors[ALLOC_dirty]  > a->dirty_sectors ||
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   957  	    sectors[ALLOC_cached] > a->cached_sectors ||
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   958  	    sectors[ALLOC_stripe] > a->stripe_sectors) {
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   959  		if (*nr_iters) {
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   960  			CLASS(printbuf, buf)();
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   961  			bch2_log_msg_start(c, &buf);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   962  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   963  			prt_printf(&buf, "backpointer sectors > bucket sectors, but found no bad backpointers\n"
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   964  				   "bucket %llu:%llu data type %s, counters\n",
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   965  				   alloc_k.k->p.inode,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   966  				   alloc_k.k->p.offset,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   967  				   __bch2_data_types[a->data_type]);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   968  			if (sectors[ALLOC_dirty]  > a->dirty_sectors)
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   969  				prt_printf(&buf, "dirty: %u > %u\n",
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   970  					   sectors[ALLOC_dirty], a->dirty_sectors);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   971  			if (sectors[ALLOC_cached] > a->cached_sectors)
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   972  				prt_printf(&buf, "cached: %u > %u\n",
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   973  					   sectors[ALLOC_cached], a->cached_sectors);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   974  			if (sectors[ALLOC_stripe] > a->stripe_sectors)
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   975  				prt_printf(&buf, "stripe: %u > %u\n",
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   976  					   sectors[ALLOC_stripe], a->stripe_sectors);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   977  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   978  			for_each_btree_key_max_norestart(trans, iter, BTREE_ID_backpointers,
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   979  						bucket_pos_to_bp_start(ca, alloc_k.k->p),
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   980  						bucket_pos_to_bp_end(ca, alloc_k.k->p), 0, bp_k, ret) {
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   981  				bch2_bkey_val_to_text(&buf, c, bp_k);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   982  				prt_newline(&buf);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   983  			}
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   984  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   985  			bch2_print_str(c, KERN_ERR, buf.buf);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04  @986  			__WARN();
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   987  			return ret;
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   988  		}
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   989  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   990  		*nr_iters += 1;
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   991  
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   992  		return check_bucket_backpointers_to_extents(trans, ca, alloc_k.k->p, last_flushed) ?:
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   993  			bch_err_throw(c, transaction_restart_nested);
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   994  	}
-8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   995  
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   996  	if (sectors[ALLOC_dirty]  != a->dirty_sectors ||
-15800f3d4b0134 fs/bcachefs/backpointers.c Kent Overstreet 2025-02-07   997  	    sectors[ALLOC_cached] != a->cached_sectors ||
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   998  	    sectors[ALLOC_stripe] != a->stripe_sectors) {
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08   999  		/*
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1000  		 * Post 1.14 upgrade, we assume that backpointers are mostly
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1001  		 * correct and a sector count mismatch is probably due to a
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1002  		 * write buffer race
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1003  		 *
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1004  		 * Pre upgrade, we expect all the buckets to be wrong, a write
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1005  		 * buffer flush is pointless:
-0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1006  		 */
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1007  		if (c->sb.version_upgrade_complete >= bcachefs_metadata_version_backpointer_bucket_gen) {
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1008  			ret = bch2_backpointers_maybe_flush(trans, alloc_k, last_flushed);
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1009  			if (ret)
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1010  				return ret;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1011  		}
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1012  
-13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1013  		bool empty = (sectors[ALLOC_dirty] +
-13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1014  			      sectors[ALLOC_stripe] +
-13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1015  			      sectors[ALLOC_cached]) == 0;
-13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1016  
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1017  		ret = bch2_bucket_bitmap_set(ca, &ca->bucket_backpointer_mismatch,
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1018  					     alloc_k.k->p.offset) ?:
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1019  			(empty
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1020  			 ? bch2_bucket_bitmap_set(ca, &ca->bucket_backpointer_empty,
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1021  						  alloc_k.k->p.offset)
-15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1022  			 : 0);
-39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1023  
-39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1024  		*had_mismatch = true;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1025  	}
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1026  
-6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1027  	return 0;
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1028  }
-c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1029  
-
-:::::: The code at line 986 was first introduced by commit
-:::::: 8317017fbfa0824392813fddcf136bc764c16d66 bcachefs: Fix infinite loop in backpointers fsck on upgrade
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+  1513	
+  1514	/* shrinker related functions */
+  1515	unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
+  1516				  int priority);
+  1517	
+  1518	#ifdef CONFIG_SHRINKER_DEBUG
+  1519	static inline int shrinker_debugfs_name_alloc(struct shrinker *shrinker,
+  1520						      const char *fmt, va_list ap)
+  1521	{
+> 1522		shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+  1523	
+  1524		return shrinker->name ? 0 : -ENOMEM;
+  1525	}
+  1526	
 
 -- 
 0-DAY CI Kernel Test Service
