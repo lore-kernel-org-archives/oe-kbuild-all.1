@@ -1,132 +1,161 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E22121770A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 21:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E6A21E0AF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 22:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765229472; cv=none; b=XFlNliqq8hdRDtYFB67qa9Ypwk4uF5YWgUd85i9GCe1iJpNXv88vX+Y+p7OcEb/G7yvb5fvp4bcdYBuRw0ebLRumMfZLBnlzLmYCg9jUmp3JbZELZSxXmFTRGuGl08vpqhSVStbuwKPb+xIwbdo4T/zu0nIaxJwbxJ1yxWXb7Jc=
+	t=1765231450; cv=none; b=GuAT4ZFLK+LJf49BfBLampuWEEZQtuj4S5APpaEKlGidQ2joor09F7tqXX5RySybllUcbI+Sjjxruu9HE7dsub78Jn0PEJV2msZ+zpduzzGXiJXYRR0+na2y7PMjsErQkjQfPUqSzfn4SLqiNpr3M82H8LhMBum2Nn57qlEZP+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765229472; c=relaxed/simple;
-	bh=HBUj1gkSo0Qyg6wTWfJbBSGVkMz49DiNNY7ezhs7MQQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dfo6mH58il1iuI4U7vQ5CuR0KWDQOIT+/FbUXrP9BiWlaomesCSZGsKSwjTTEpK3DDLI0nLgpRKDQcypVNDimOe5RfvIhmJ8YhZFD1WM+XKV9zhXzQ6GEs2sl7mUys9DAA0kxjdMeQKsDlf252CrgrHiweUjGcrt537TvPpwaYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kSx0X+Wr; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1765231450; c=relaxed/simple;
+	bh=y0dVtYgpBHW2zNQce4z7D4f7MlfdBKbveTKiyVO5kuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SiyWAJ5LygZ5f5LQoyvjFMRFZbgbcmjNzhJ3ePcYtoyjSznxs0wW53ysEnrToDlJn2TikjUr9Joy12ioPsirX419CYg9so9jxNHUa59og2sPuTcaRm8dZMfWl1874RZV3S02jYCTYndR7Kuws7caE94DaEBldH5nSy2HOsJO3Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4tFUqep; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kSx0X+Wr"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4ee147baf7bso46321cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Dec 2025 13:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765229470; x=1765834270; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GbkMTjdP41ZWpVnOfAvx7UHNDJQrnVEwvaxDiEcsLhk=;
-        b=kSx0X+Wr/hGsQr2PPuw0rK4EHtPHQtGW1lAZNkkmTi4TX9zykWwg4pd6x7r/x7Sb1m
-         5RVY6RLQlhCYXhKm7Xi9yecQaxNI4Bz/BzXoYznTqi0oGpxj2qH207kLDI0M6BQ7nlcX
-         9mkWV5WYDa2JZIKMsFPgz8CfjT5nm5m/IivrcqMqTOHtFIHsy5YKhTgWQyoL5exN+cAn
-         qTqP9TCAPNw0LZLHfZMZOOQRNEcP6kGDtrsChOJ/h+9+jiVYwtNX42RKPmKI4bnUoTRh
-         9ntM+oQgpVU57gM9AMYrySrFEkTYZVfurWmQdix1C3ZLrf8GTq3MVe3QG7tbPGvVs44i
-         L4Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765229470; x=1765834270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GbkMTjdP41ZWpVnOfAvx7UHNDJQrnVEwvaxDiEcsLhk=;
-        b=eUdRkndbvePTH2KwWQr21hHfHhmhzNsvqhfA65FA+N6ax0lzsjp36oCjhGvcCB+1Eg
-         Q+prQh80Ne2iDbVddFLEB75FZ/qiZ7j8awihaaxx2sXgLXl9C1NM7uwPZczczQ6KWW8s
-         Tn8NL/6n4J0RUzdSsZjSTYqMlMdaA0QUO5ajIQnfPLNl/8hBCwW7SM4Yd2ncYqF9vtMC
-         Qk7jZSid58wwEJIWiZHnffN+EiyQRc735BEqzpB4Cx/fn1Bi/pLPAHM5zEn2VA/9XPS9
-         fPXaVKdVhvn3ZXDVrXT7sncKCIZ7HXW+5YCB+cj6l5e57M3Cpe84n/u6QeHI0jjD8rqd
-         iXVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXnY8PwiibeFTiJNktpFXfyz3PZqwAYbal9M8pKagDZFk+HylVx6EbT8VLtiCmdXUqD7VIhvQqk3my8DpQH@lists.linux.dev
-X-Gm-Message-State: AOJu0YzX3eAhzHctxChTzpIK906XInMiZrRpqOC914451m+3qr7Ec5YV
-	XknZ74U2hgabDYjcdVjKOKN3E2K/VjIeEBQTT1Pp7CIHxTmbIKP/n3YuFf25L2FDYsIrlLrHxst
-	lD0h4i6sMdRQTW5rqbxogW/fbkEot812OHJsJE1aL
-X-Gm-Gg: ASbGncucXId47kUDhyLTKGNz1TgEgo+rFhroKbHKV4NHFDZxB9eXzJiD1GRzGf8c/BB
-	p8fYI/uzaO0vOGTxkI/G7aVDQ8bkL6qTxapfjOjkhCk56MEoHEZDe8mAjcKBJ+NDBa0lEaJA5DJ
-	XAz1sISw6eqHNkwquCzsjZqb+uKM6DxBZRCn+styXg8e9dCH4wG1lfRTeq7On8tMHArsVpzHCGp
-	ur/A57H3QcA+tIlPdrzRocOBsFHgJg9Hvh2Ve6TJyZC1hwX69+wBI8RWFCeozFyYUn2hD7+WA==
-X-Google-Smtp-Source: AGHT+IG29GaBxwHWZQc2LB9NRpX+zT3/jUbD+9n9oxYqOMrPzqlyPGzUr1sjF/e6u05Vs4J0g5cc6rgCzdD1pfVFPDU=
-X-Received: by 2002:ac8:5914:0:b0:4b2:ecb6:e6dd with SMTP id
- d75a77b69052e-4f1a5e7b540mr854641cf.1.1765229469904; Mon, 08 Dec 2025
- 13:31:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4tFUqep"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765231449; x=1796767449;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y0dVtYgpBHW2zNQce4z7D4f7MlfdBKbveTKiyVO5kuw=;
+  b=m4tFUqepKDnWFZd88KoIwgLo7j4MXmHp12ThnPA3sKqrhg6ypMDx3a/3
+   QIKh4KKMWy+iu2cJzzbzsoiRTRrtw79t8ANXYKoJ9eQQziP3Hwdkr1n3j
+   pwgufvuWNJ0W8o1vr/xHauqvqZUJwNt+223bR6pdSXxMnHVSb79FPUevZ
+   L0F5W8E7hwWnwCUuC8b4YkC9USc3nnAkS2fTYEpqreSBlQe7kFB9xdCqD
+   2Z2kdzjCDKn8HzoBDNtlTj9auz+EsCmHLQGrzRkjzRnx+X78FQA0EIqDR
+   SaNtxOSvx+40mMZAj7r9/XSPxfXwoSIXFM0w8MZwydKP79Ydjxax2twUl
+   A==;
+X-CSE-ConnectionGUID: 1mKseDAdQZup/IRE2s8OFg==
+X-CSE-MsgGUID: tKqpYcjfQbGar0GOlwtdlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="66906256"
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="66906256"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 14:04:09 -0800
+X-CSE-ConnectionGUID: vn28ompwTmSVjIfnArVVbw==
+X-CSE-MsgGUID: wDhsa4LXR6ORAznbDErmeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="195332165"
+Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2025 14:04:07 -0800
+Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vSjKu-000000002GL-0eFT;
+	Mon, 08 Dec 2025 22:04:04 +0000
+Date: Mon, 8 Dec 2025 23:03:40 +0100
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, heppen <hepeng68@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3386/3386] drivers/acpi/cppc_acpi.c:1530:
+ warning: Function parameter or member 'auto_act_window' not described in
+ 'cppc_set_auto_act_window'
+Message-ID: <202512082313.2Za1o7Qf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251204220957.360838-1-surenb@google.com> <202512061207.7zufoIcC-lkp@intel.com>
-In-Reply-To: <202512061207.7zufoIcC-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 9 Dec 2025 06:30:58 +0900
-X-Gm-Features: AQt7F2pnkHbec3VF5ekmZv-cl7lVMbNag4cTqBp9jjapgjBroeJ40ilDtAS4xhQ
-Message-ID: <CAJuCfpGkdz7QhOGuS2SSTw09FrQkQLPFpQuLtMkmFAbJhGGbKQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] alloc_tag: skip rcu barrier on module unload if
- profiling was not enabled
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
-	kent.overstreet@linux.dev, vbabka@suse.cz, harry.yoo@oracle.com, 
-	da.gomez@kernel.org, jonathanh@nvidia.com, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Dec 6, 2025 at 2:08=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Suren,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on 3f43be96f919cc611dcb2a4e38dd464831f4513e]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
-/alloc_tag-skip-rcu-barrier-on-module-unload-if-profiling-was-not-enabled/2=
-0251205-061310
-> base:   3f43be96f919cc611dcb2a4e38dd464831f4513e
-> patch link:    https://lore.kernel.org/r/20251204220957.360838-1-surenb%4=
-0google.com
-> patch subject: [PATCH 1/1] alloc_tag: skip rcu barrier on module unload i=
-f profiling was not enabled
-> config: parisc-randconfig-002-20251206 (https://download.01.org/0day-ci/a=
-rchive/20251206/202512061207.7zufoIcC-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251206/202512061207.7zufoIcC-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512061207.7zufoIcC-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> lib/codetag.c:37:13: warning: 'flush_rcu_on_module_unload' defined but=
- not used [-Wunused-variable]
->       37 | static bool flush_rcu_on_module_unload;
->          |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+Hi heppen,
 
-Thanks! I'll fix it and repost after Plumbers as the original issue
-seems to be resolved by Harry's patches and this optimization is not
-urgent anymore.
+FYI, the error/warning still remains.
 
->
->
-> vim +/flush_rcu_on_module_unload +37 lib/codetag.c
->
->     34
->     35  static DEFINE_MUTEX(codetag_lock);
->     36  static LIST_HEAD(codetag_types);
->   > 37  static bool flush_rcu_on_module_unload;
->     38
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   69d9543977fd7abe8b555406c7a3e5d64d8292f8
+commit: 6d474065f368e21b77526a5c30f5a1aed017142a [3386/3386] ACPI: CPPC: Add three register ABIs
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251208/202512082313.2Za1o7Qf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082313.2Za1o7Qf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512082313.2Za1o7Qf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/acpi/cppc_acpi.c:450: warning: Function parameter or member 'cpc_pptr' not described in '__acpi_get_psd_map'
+   drivers/acpi/cppc_acpi.c:700: warning: Function parameter or member 'pcc_ss_id' not described in 'pcc_data_alloc'
+>> drivers/acpi/cppc_acpi.c:1530: warning: Function parameter or member 'auto_act_window' not described in 'cppc_set_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1530: warning: Excess function parameter 'enable' description in 'cppc_set_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'cpunum' not described in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'auto_act_window' not described in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'cpu' description in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'enable' description in 'cppc_get_auto_act_window'
+>> drivers/acpi/cppc_acpi.c:1552: warning: Function parameter or member 'auto_sel' not described in 'cppc_get_auto_sel'
+>> drivers/acpi/cppc_acpi.c:1552: warning: Excess function parameter 'enable' description in 'cppc_get_auto_sel'
+>> drivers/acpi/cppc_acpi.c:1575: warning: Function parameter or member 'epp_val' not described in 'cppc_set_epp'
+>> drivers/acpi/cppc_acpi.c:1575: warning: Excess function parameter 'enable' description in 'cppc_set_epp'
+   drivers/acpi/cppc_acpi.c:1716: warning: Function parameter or member 'cpu_num' not described in 'cppc_get_transition_latency'
+
+
+vim +1530 drivers/acpi/cppc_acpi.c
+
+  1523	
+  1524	/**
+  1525	 * cppc_set_auto_act_window - Write autonomous act window register.
+  1526	 * @cpu    : CPU to which to write register.
+  1527	 * @enable : the desired value of autonomous act window register to be updated.
+  1528	 */
+  1529	int cppc_set_auto_act_window(int cpu, u64 auto_act_window)
+> 1530	{
+  1531		return cppc_set_reg(cpu, AUTO_ACT_WINDOW, auto_act_window);
+  1532	}
+  1533	EXPORT_SYMBOL_GPL(cppc_set_auto_act_window);
+  1534	
+  1535	/**
+  1536	 * cppc_get_auto_act_window - Read autonomous act window register.
+  1537	 * @cpu    : CPU to which to write register.
+  1538	 * @enable : the desired value of autonomous act window register to be updated.
+  1539	 */
+  1540	int cppc_get_auto_act_window(int cpunum, u64 *auto_act_window)
+> 1541	{
+  1542		return cppc_get_reg(cpunum, AUTO_ACT_WINDOW, auto_act_window);
+  1543	}
+  1544	EXPORT_SYMBOL_GPL(cppc_get_auto_act_window);
+  1545	
+  1546	/**
+  1547	 * cppc_get_auto_sel - Read autonomous selection register.
+  1548	 * @cpunum : CPU to which to write register.
+  1549	 * @enable : the desired value of autonomous selection resiter to be updated.
+  1550	 */
+  1551	int cppc_get_auto_sel(int cpunum, u64 *auto_sel)
+> 1552	{
+  1553		return cppc_get_reg(cpunum, AUTO_SEL_ENABLE, auto_sel);
+  1554	}
+  1555	EXPORT_SYMBOL_GPL(cppc_get_auto_sel);
+  1556	
+  1557	
+  1558	/**
+  1559	 * cppc_set_auto_sel - Write autonomous selection register.
+  1560	 * @cpu    : CPU to which to write register.
+  1561	 * @enable : the desired value of autonomous selection resiter to be updated.
+  1562	 */
+  1563	int cppc_set_auto_sel(int cpu, bool enable)
+  1564	{
+  1565		return cppc_set_reg(cpu, AUTO_SEL_ENABLE, enable);
+  1566	}
+  1567	EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
+  1568	
+  1569	/**
+  1570	 * cppc_set_epp - Write energe perf register.
+  1571	 * @cpu    : CPU to which to write register.
+  1572	 * @enable : the desired value of energe perf register to be updated.
+  1573	 */
+  1574	int cppc_set_epp(int cpu, u64 epp_val)
+> 1575	{
+  1576		return cppc_set_reg(cpu, ENERGY_PERF, epp_val);
+  1577	}
+  1578	EXPORT_SYMBOL_GPL(cppc_set_epp);
+  1579	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
